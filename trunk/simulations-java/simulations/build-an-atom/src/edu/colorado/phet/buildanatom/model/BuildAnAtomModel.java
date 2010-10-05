@@ -78,18 +78,16 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
-            electron.addUserControlListener( new SimpleObserver() {
-                public void update() {
-                    if ( !electron.isUserControlled() ) {
-                        // The user just released this electron.  If it is close
-                        // enough to the nucleus, send it there, otherwise
-                        // send it to its bucket.
-                        if ( electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
-                            atom.addElectron( electron );
-                        }
-                        else {
-                            electronBucket.addParticle( electron, false );
-                        }
+            electron.addListener( new SubatomicParticle.Adapter(){
+                public void droppedByUser( SubatomicParticle particle ) {
+                    // The user just released this electron.  If it is close
+                    // enough to the nucleus, send it there, otherwise
+                    // send it to its bucket.
+                    if ( electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
+                        atom.addElectron( electron );
+                    }
+                    else {
+                        electronBucket.addParticle( electron, false );
                     }
                 }
             } );
@@ -98,20 +96,18 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_PROTONS; i++ ) {
             final Proton proton = new Proton( clock );
             protons.add( proton );
-            proton.addUserControlListener( new SimpleObserver() {
-                public void update() {
-                    if ( !proton.isUserControlled() ) {
-                        // The user just released this proton.  If it is close
-                        // enough to the nucleus, send it there, otherwise
-                        // send it to its bucket.
-                        if ( proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
-                            atom.addProton( proton );
-                        }
-                        else {
-                            protonBucket.addParticle( proton, false );
-                        }
+            proton.addListener( new SubatomicParticle.Adapter(){
+                @Override
+                public void droppedByUser( SubatomicParticle particle ) {
+                    // The user just released this proton.  If it is close
+                    // enough to the nucleus, send it there, otherwise
+                    // send it to its bucket.
+                    if ( proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                        atom.addProton( proton );
                     }
-
+                    else {
+                        protonBucket.addParticle( proton, false );
+                    }
                 }
             } );
         }
@@ -119,20 +115,18 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
-            neutron.addUserControlListener( new SimpleObserver() {
-                public void update() {
-                    if ( !neutron.isUserControlled() ) {
-                        // The user just released this neutron.  If it is close
-                        // enough to the nucleus, send it there, otherwise
-                        // send it to its bucket.
-                        if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
-                            atom.addNeutron( neutron );
-                        }
-                        else {
-                            neutronBucket.addParticle( neutron, false );
-                        }
+            neutron.addListener( new SubatomicParticle.Adapter(){
+                @Override
+                public void droppedByUser( SubatomicParticle particle ) {
+                    // The user just released this neutron.  If it is close
+                    // enough to the nucleus, send it there, otherwise
+                    // send it to its bucket.
+                    if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                        atom.addNeutron( neutron );
                     }
-
+                    else {
+                        neutronBucket.addParticle( neutron, false );
+                    }
                 }
             } );
         }

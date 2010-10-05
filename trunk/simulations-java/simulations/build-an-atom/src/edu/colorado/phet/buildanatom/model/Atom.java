@@ -153,14 +153,13 @@ public class Atom {
             assert false;
         }
 
-        electron.addUserControlListener( new SimpleObserver() {
-            public void update() {
-                if ( electron.isUserControlled() ) {
-                    // This electron is being removed.  Do we need to reconfigure?
-                    if ( !electronShell1.isFull() && !electronShell2.isEmpty() ) {
-                        // Yes we do.  Move an electron from the shell 2 to
-                        // shell 1.
-                    }
+        electron.addListener( new SubatomicParticle.Adapter(){
+            @Override
+            public void grabbedByUser( SubatomicParticle particle ) {
+                // This electron is being removed.  Do we need to reconfigure?
+                if ( !electronShell1.isFull() && !electronShell2.isEmpty() ) {
+                    // Yes we do.  Move an electron from the shell 2 to
+                    // shell 1.
                 }
             }
         } );
@@ -234,19 +233,17 @@ public class Atom {
             electronToAdd.setDestination( shellLocation );
             openShellLocations.remove( shellLocation );
             occupiedShellLocations.put( electronToAdd, shellLocation );
-            electronToAdd.addUserControlListener( new SimpleObserver() {
-                public void update() {
-                    if ( electronToAdd.isUserControlled() ) {
-                        // The user has picked up this electron, so consider
-                        // it to be removed from the shell.
-                        removeElectron( electronToAdd );
-                        electronToAdd.removeUserControlListener( this );
-                        notifyObservers();
-                    }
+            electronToAdd.addListener( new SubatomicParticle.Adapter(){
+                @Override
+                public void grabbedByUser( SubatomicParticle particle ) {
+                    // The user has picked up this electron, so consider
+                    // it to be removed from the shell.
+                    removeElectron( electronToAdd );
+                    electronToAdd.removeListener( this );
+                    notifyObservers();
                 }
             } );
             notifyObservers();
-
         }
 
         private void removeElectron( Electron electronToRemove ) {
