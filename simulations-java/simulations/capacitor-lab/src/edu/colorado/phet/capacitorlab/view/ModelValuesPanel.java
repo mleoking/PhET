@@ -21,6 +21,7 @@ import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
@@ -38,7 +39,7 @@ public class ModelValuesPanel extends JPanel {
     
     private static final Font VALUE_DISPLAY_FONT = new PhetFont( 10 );
     
-    private final CLModel model;
+    private final DielectricModel model;
     
     // user settings
     private final ValueDisplay V_battery;
@@ -61,7 +62,7 @@ public class ModelValuesPanel extends JPanel {
     private CustomDielectricChangeListener customDielectricChangeListener;
     private BatteryCapacitorCircuitChangeListener circuitChangeListener;
 
-    public ModelValuesPanel( CLModel model ) {
+    public ModelValuesPanel( DielectricModel model ) {
         
         this.model = model;
         circuitChangeListener = new BatteryCapacitorCircuitChangeListener() {

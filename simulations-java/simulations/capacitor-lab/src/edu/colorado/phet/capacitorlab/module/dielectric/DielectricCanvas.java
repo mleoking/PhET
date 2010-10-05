@@ -16,7 +16,6 @@ import edu.colorado.phet.capacitorlab.control.RemoveWiresButtonNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
-import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
@@ -37,7 +36,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class DielectricCanvas extends CLCanvas {
     
-    private final CLModel model;
+    private final DielectricModel model;
     private final ModelViewTransform mvt;
     
     // circuit
@@ -69,7 +68,7 @@ public class DielectricCanvas extends CLCanvas {
     // bounds of the play area, for constraining dragging to within the play area
     private final PPath playAreaBoundsNode;
     
-    public DielectricCanvas( final CLModel model, boolean dev ) {
+    public DielectricCanvas( final DielectricModel model, boolean dev ) {
         
         this.model = model;
         model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -221,6 +220,11 @@ public class DielectricCanvas extends CLCanvas {
     
     public EFieldDetectorNode getEFieldDetectorNode() {
         return eFieldDetectorNode;
+    }
+    
+    public void setDielectricVisible( boolean visible ) {
+        capacitorNode.setDielectricVisible( visible );
+        dielectricOffsetDragHandleNode.setVisible( visible );
     }
     
     private void updateBatteryConnectivity() {

@@ -9,11 +9,11 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
@@ -33,7 +33,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     private final DielectricConstantControl constantControl;
     private final DielectricChargesControl chargesControl;
 
-    public DielectricPropertiesControlPanel( CLModel model, CapacitorNode capacitorNode ) {
+    public DielectricPropertiesControlPanel( DielectricModel model, CapacitorNode capacitorNode ) {
         super( CLStrings.TITLE_DIELECTRIC );
         
         this.capacitor = model.getCapacitor();

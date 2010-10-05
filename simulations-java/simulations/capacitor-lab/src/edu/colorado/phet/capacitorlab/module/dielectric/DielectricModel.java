@@ -1,8 +1,9 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.model;
+package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Polystyrene;
@@ -10,11 +11,11 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 
 
 /**
- * Model for the "Capacitor Lab" simulation.
+ * Model for the "Dielectric" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CLModel {
+public class DielectricModel {
     
     private final DielectricMaterial[] dielectricMaterials;
     private final CustomDielectricMaterial customDielectricMaterial;
@@ -22,7 +23,7 @@ public class CLModel {
     private final BatteryCapacitorCircuit circuit;
     private final Wire topWire, bottomWire;
 
-    public CLModel( CLClock clock ) {
+    public DielectricModel( CLClock clock ) {
         
         customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         DielectricMaterial teflon = new Teflon();

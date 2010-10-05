@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
@@ -28,7 +28,7 @@ public class MetersControlPanel extends PhetTitledPanel {
     
     private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, eFieldDetectorCheckBox;
     
-    public MetersControlPanel( CLModel model, final DielectricCanvas canvas ) {
+    public MetersControlPanel( DielectricModel model, final DielectricCanvas canvas ) {
         super( CLStrings.TITLE_METERS );
         
         // Capacitance meter
