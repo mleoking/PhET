@@ -10,7 +10,6 @@ DESIGN ISSUES
 - range of field is too large to make Field Detector vector length vary proportionally
 
 HIGH PRIORITY
-- make battery voltage slider and Plate Charge slider snap to zero
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
 - field lines (with fake curvature?)
 - Reset All feature
