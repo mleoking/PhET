@@ -1,3 +1,4 @@
+10/5/10 when E_effective is zero, use zero spacing between +- pairs on dielectric
 # 0.00.25 (44692) Oct 4, 2010
 10/4/10 first version of dielectric "all charges" view
 10/4/10 add convenience method for getting dielectric width, use in views
