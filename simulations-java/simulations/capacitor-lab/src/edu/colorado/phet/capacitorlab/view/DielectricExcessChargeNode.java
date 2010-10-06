@@ -107,11 +107,9 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 double x = ( -dielectricWidth / 2 ) +  xOffset + ( i * dx );
                 double y = yMargin;
                 double z = -( dielectricDepth / 2 );
-                Point2D topOffset = mvt.modelToView( x, y, z );
-                topChargeNode.setOffset( topOffset );
+                topChargeNode.setOffset( mvt.modelToView( x, y, z ) );
                 y = capacitor.getDielectricHeight() - yMargin;
-                Point2D bottomOffset = mvt.modelToView( x, y, z );
-                bottomChargeNode.setOffset( bottomOffset );
+                bottomChargeNode.setOffset( mvt.modelToView( x, y, z ) );
             }
 
             // side face, charges only shown with dielectric fully inserted
