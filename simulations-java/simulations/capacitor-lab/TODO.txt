@@ -10,7 +10,7 @@ DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
-- fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
+- fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete/incorrect/inefficient
 - increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
 - tweak dielectric material colors
 
@@ -24,7 +24,7 @@ LOW PRIORITY
 - refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy
 - only update meters when they are visible
-- don't allow bar meters to be dragged by buttons, this prevents ability to roll off buttons
+- don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
