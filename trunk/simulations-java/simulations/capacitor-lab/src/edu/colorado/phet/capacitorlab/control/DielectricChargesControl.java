@@ -15,7 +15,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeListener;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 
 /**
@@ -31,7 +31,8 @@ public class DielectricChargesControl extends JPanel {
     public DielectricChargesControl( final CapacitorNode capacitorNode ) {
         
         this.capacitorNode = capacitorNode;
-        capacitorNode.addCapacitorNodeChangeListener( new CapacitorNodeChangeListener() {
+        capacitorNode.addCapacitorNodeChangeListener( new CapacitorNodeChangeAdapter() {
+            @Override
             public void dielectricChargeViewChanged() {
                 update();
             }

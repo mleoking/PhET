@@ -93,8 +93,11 @@ public class CapacitorNode extends PhetPNode {
     }
     
     public void setPlateChargeVisible( boolean visible ) {
-        topPlateNode.setChargeVisible( visible );
-        bottomPlateNode.setChargeVisible( visible );
+        if ( visible != topPlateNode.isChargeVisible() ) {
+            topPlateNode.setChargeVisible( visible );
+            bottomPlateNode.setChargeVisible( visible );
+            firePlateChargeVisibleChanged();
+        }
     }
     
     public boolean isPlateChargeVisible() {
@@ -113,7 +116,10 @@ public class CapacitorNode extends PhetPNode {
     }
     
     public void setEFieldVisible( boolean visible ) {
-        eFieldNode.setVisible( visible );
+        if ( visible != eFieldNode.isVisible() ) {
+            eFieldNode.setVisible( visible );
+            fireEFieldVisibleChanged();
+        }
     }
     
     public boolean isEFieldVisible() {
@@ -166,7 +172,15 @@ public class CapacitorNode extends PhetPNode {
     }
     
     public interface CapacitorNodeChangeListener extends EventListener {
+        public void plateChargeVisibleChanged();
+        public void eFieldVisibleChanged();
         public void dielectricChargeViewChanged();
+    }
+    
+    public static class CapacitorNodeChangeAdapter implements CapacitorNodeChangeListener {
+        public void plateChargeVisibleChanged() {}
+        public void eFieldVisibleChanged() {}
+        public void dielectricChargeViewChanged() {}
     }
     
     public void addCapacitorNodeChangeListener( CapacitorNodeChangeListener listener ) {
@@ -175,6 +189,18 @@ public class CapacitorNode extends PhetPNode {
     
     public void removeCapacitorNodeChangeListener( CapacitorNodeChangeListener listener ) {
         listeners.remove( CapacitorNodeChangeListener.class, listener );
+    }
+    
+    private void firePlateChargeVisibleChanged() {
+        for ( CapacitorNodeChangeListener listener : listeners.getListeners( CapacitorNodeChangeListener.class ) ) {
+            listener.plateChargeVisibleChanged();
+        }
+    }
+    
+    private void fireEFieldVisibleChanged() {
+        for ( CapacitorNodeChangeListener listener : listeners.getListeners( CapacitorNodeChangeListener.class ) ) {
+            listener.eFieldVisibleChanged();
+        }
     }
     
     private void fireDielectricChargeViewChanged() {

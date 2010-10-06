@@ -9,9 +9,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 
 /**
@@ -21,20 +22,35 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
  */
 public class ViewControlPanel extends PhetTitledPanel {
     
-    public ViewControlPanel( final DielectricCanvas canvas ) {
+    private final CapacitorNode capacitorNode;
+    private final JCheckBox plateChargesCheckBox, electricFieldLinesCheckBox;
+    
+    public ViewControlPanel( final CapacitorNode capacitorNode ) {
         super( CLStrings.TITLE_VIEW );
         
-        final JCheckBox plateChargesCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE_CHARGES );
-        plateChargesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                canvas.getCapacitorNode().setPlateChargeVisible( plateChargesCheckBox.isSelected() );
+        this.capacitorNode = capacitorNode;
+        capacitorNode.addCapacitorNodeChangeListener( new CapacitorNodeChangeAdapter() {
+            @Override
+            public void plateChargeVisibleChanged() {
+                update();
+            }
+            @Override
+            public void eFieldVisibleChanged() {
+                update();
             }
         });
         
-        final JCheckBox electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_EFIELD_LINES );
+        plateChargesCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE_CHARGES );
+        plateChargesCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                capacitorNode.setPlateChargeVisible( plateChargesCheckBox.isSelected() );
+            }
+        });
+        
+        electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_EFIELD_LINES );
         electricFieldLinesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                canvas.getCapacitorNode().setEFieldVisible( electricFieldLinesCheckBox.isSelected() );
+                capacitorNode.setEFieldVisible( electricFieldLinesCheckBox.isSelected() );
             }
         });
         
@@ -48,9 +64,13 @@ public class ViewControlPanel extends PhetTitledPanel {
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
-        
+
         // default state
-        plateChargesCheckBox.setSelected( canvas.getCapacitorNode().isPlateChargeVisible() );
-        electricFieldLinesCheckBox.setSelected( canvas.getCapacitorNode().isEFieldVisible() );
+        update();
+    }
+    
+    private void update() {
+        plateChargesCheckBox.setSelected( capacitorNode.isPlateChargeVisible() );
+        electricFieldLinesCheckBox.setSelected( capacitorNode.isEFieldVisible() );
     }
 }
