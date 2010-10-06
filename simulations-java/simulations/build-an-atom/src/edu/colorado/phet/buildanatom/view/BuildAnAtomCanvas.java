@@ -171,13 +171,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         });
 
         // Add the symbol indicator contained within a min/max node.
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 50, 50 );
-        PDimension windowSize = new PDimension( 300, 100 );
-        PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
-        double insetX = 20;
-        symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
-        symbolWindow.setOffset( 700, 200 );
-        rootNode.addChild( symbolWindow );
+//        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 50, 50 );
+//        PDimension windowSize = new PDimension( 300, 100 );
+//        PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
+//        double insetX = 20;
+//        symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
+//        symbolWindow.setOffset( 700, 200 );
+//        rootNode.addChild( symbolWindow );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
