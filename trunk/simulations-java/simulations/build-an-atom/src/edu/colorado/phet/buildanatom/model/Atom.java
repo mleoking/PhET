@@ -29,6 +29,7 @@ public class Atom {
     // Map of proton numbers to element symbols.
     private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
         // TODO: i18n for all element names.
+        put(0, new AtomName("--", "--"));//for an unbuilt or empty atom
         put(1, new AtomName("H", "Hydrogen"));
         put(2, new AtomName("He", "Helium"));
         put(3, new AtomName("Li", "Lithium"));
@@ -149,11 +150,13 @@ public class Atom {
     }
 
     public String getName(){
-        return mapNumProtonsToName.get( protons.size() ).name;
+        assert mapNumProtonsToName.containsKey( getNumProtons() );
+        return mapNumProtonsToName.get( getNumProtons() ).name;
     }
 
     public String getSymbol(){
-        return mapNumProtonsToName.get( protons.size() ).symbol;
+        assert mapNumProtonsToName.containsKey( getNumProtons() );
+        return mapNumProtonsToName.get( getNumProtons() ).symbol;
     }
 
     public void addProton( final Proton proton ) {
