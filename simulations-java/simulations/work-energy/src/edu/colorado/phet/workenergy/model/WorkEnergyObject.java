@@ -40,6 +40,7 @@ public class WorkEnergyObject {
         gravityForce.addObserver( updateNetForce );
         updateNetForce.update();
 
+        //Velocity changing should trigger KE changing
         final SimpleObserver updateKineticEnergy = new SimpleObserver() {
             public void update() {
                 kineticEnergy.setValue( 1 / 2.0 * mass.getValue() * velocity.getValue().getMagnitudeSq() );
@@ -48,6 +49,13 @@ public class WorkEnergyObject {
         mass.addObserver( updateKineticEnergy );
         velocity.addObserver( updateKineticEnergy );
         updateKineticEnergy.update();
+
+        //Position changing should possibly trigger PE changing
+        final SimpleObserver updatePotentialEnergy = new SimpleObserver() {
+            public void update() {
+                potentialEnergy.setValue( mass.getValue() );
+            }
+        };
     }
 
     public void stepInTime( double dt ) {
@@ -56,9 +64,6 @@ public class WorkEnergyObject {
         velocity.setValue( acceleration.times( dt ).getAddedInstance( velocity.getValue() ) );
         position.setValue( velocity.times( dt ).getAddedInstance( position.getValue() ) );
 //        System.out.println("position = " + position);
-
-        //Velocity changing should trigger KE changing
-        //Position changing should possibly trigger PE changing
     }
 
     public void setAppliedForce( double fx, double fy ) {
