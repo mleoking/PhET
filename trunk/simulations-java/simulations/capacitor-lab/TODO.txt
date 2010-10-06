@@ -11,7 +11,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete/incorrect/inefficient
-- increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
+- increase plate charge (and E-field?) grid size in +2 increments (2x2, 4x4,... or 3x3, 5x5,...) so that grid doesn't jerk around
 - tweak dielectric material colors
 
 MEDUIUM PRIORITY
@@ -24,11 +24,13 @@ LOW PRIORITY
 - refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy
 - only update meters when they are visible
-- don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
+
+LOWEST PRIORITY
+- don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - #2521, dragging HTMLNode leaves artifacts
 
 MIGRATE TO PHETCOMMON
