@@ -190,6 +190,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Sets the value used for plate charge when the battery is disconnected.
+     * (design doc symbol: Q_total)
      * 
      * @param disconnectedPlateCharge Coulombs
      */
@@ -207,6 +208,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the value used for plate charge when the battery is disconnected.
+     * (design doc symbol: Q_total)
      * 
      * @return charge, in Coulombs
      */
