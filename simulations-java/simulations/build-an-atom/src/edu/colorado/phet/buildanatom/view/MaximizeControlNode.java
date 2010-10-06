@@ -50,7 +50,7 @@ public class MaximizeControlNode extends PhetPNode {
     private final ArrayList<ChangeListener> listeners;
     private boolean isMaximized;
 
-    public MaximizeControlNode( String label, PDimension maximizedSize, PNode managedNode ) {
+    public MaximizeControlNode( String label, PDimension maximizedSize, PNode managedNode,boolean isMaximized ) {
         super();
 
         this.managedNode = managedNode;
@@ -65,14 +65,14 @@ public class MaximizeControlNode extends PhetPNode {
         addChild( backgroundNode );
 
         // button
-        isMaximized = false;
+        this.isMaximized = isMaximized;
         buttonNode = new PImage( AABSImages.MAXIMIZE_BUTTON );
         buttonNode.scale( 1.5 );//XXX
         buttonNode.addInputEventListener( new CursorHandler() );
         buttonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                setMaximized( !isMaximized ); // toggle the button state
+                setMaximized( !MaximizeControlNode.this.isMaximized ); // toggle the button state
             }
         } );
         addChild( buttonNode );
@@ -95,27 +95,21 @@ public class MaximizeControlNode extends PhetPNode {
 //        addChild( tearOffNode );
 
         // layout
-        double xOffset = X_MARGIN;
+        double xOffset = X_MARGIN;//these variables get reassigned and reused
         double yOffset = Y_MARGIN;
         buttonNode.setOffset( xOffset, yOffset );
         xOffset = buttonNode.getFullBoundsReference().getMaxX() + X_SPACING;
         yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
         labelNode.setOffset( xOffset, yOffset );
-//        xOffset = maximizedSize.getWidth() - tearOffNode.getFullBoundsReference().getWidth() - X_MARGIN;
-//        yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( tearOffNode.getFullBoundsReference().getHeight() / 2 );
-//        tearOffNode.setOffset( xOffset, yOffset );
-        xOffset = X_MARGIN - PNodeLayoutUtils.getOriginXOffset( managedNode );
-        yOffset = buttonNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( managedNode ) + Y_MARGIN;
-        managedNode.setOffset( xOffset, yOffset );
-
+        
         // sizes
         this.maximizedSize = new PDimension( maximizedSize.getWidth(), maximizedSize.getHeight() );
         double minimizedHeight = Math.max( buttonNode.getFullBoundsReference().getHeight(), labelNode.getFullBoundsReference().getHeight() ) + ( 2 * Y_MARGIN );
         this.minimizedSize = new PDimension( maximizedSize.getWidth(), minimizedHeight );
 
         // default state
-        isMaximized = true; // force an update
-        setMaximized( false );
+        this.isMaximized = !isMaximized; // force an update
+        setMaximized( isMaximized );
     }
 
     public boolean isMaximized() {

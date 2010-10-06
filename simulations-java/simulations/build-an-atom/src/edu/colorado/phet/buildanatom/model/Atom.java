@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -14,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * information such as the position of the atom, as well as dynamic
  * information such as the number of protons present.
  */
-public class Atom {
+public class Atom extends SimpleObservable{
 
     private static final Random RAND = new Random();
 
@@ -170,6 +171,7 @@ public class Atom {
         reconfigureNucleus();
 
         proton.addListener( particleRemovalListener );
+        notifyObservers();
     }
 
     public void addNeutron( final Neutron neutron ) {
