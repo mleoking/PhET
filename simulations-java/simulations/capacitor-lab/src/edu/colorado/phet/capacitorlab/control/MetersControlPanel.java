@@ -11,7 +11,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
@@ -139,5 +138,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
+        
+        //XXX disable unimplemented features
+        voltmeterCheckBox.setEnabled( false );
+        eFieldDetectorCheckBox.setEnabled( false );
     }
 }
