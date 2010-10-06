@@ -28,7 +28,7 @@ public class MetersControlPanel extends PhetTitledPanel {
     
     private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, eFieldDetectorCheckBox;
     
-    public MetersControlPanel( DielectricModel model, final DielectricCanvas canvas ) {
+    public MetersControlPanel( final DielectricCanvas canvas ) {
         super( CLStrings.TITLE_METERS );
         
         // Capacitance meter
