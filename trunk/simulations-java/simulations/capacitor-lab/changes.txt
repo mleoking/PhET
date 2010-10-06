@@ -1,3 +1,4 @@
+# 0.00.26 (44729) Oct 5, 2010
 10/5/10 remove stubs for Save/Load feature, not necessary per Noah P
 10/5/10 start up with Introduction tab selected
 10/5/10 fix: make View controls reset properly
