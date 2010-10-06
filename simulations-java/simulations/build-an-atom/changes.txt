@@ -1,3 +1,5 @@
+# 0.00.04 (44793) Oct 6, 2010
+10/6/10 Publishing to dev with changes based on first round of feedback.
 # 0.00.03 (44790) Oct 6, 2010
 10/6/10 Publishing to dev after incorporating first round of feedback.
 10/6/10 Adjusted buckets and electron position so that electrons in the bottom row are easier to grab.
