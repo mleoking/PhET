@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab;
 
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -89,6 +90,13 @@ public class CLConstants {
     public static final boolean ENERGY_METER_VISIBLE = false;
     public static final boolean VOLTMETER_VISIBLE = false;
     public static final boolean EFIELD_DETECTOR_VISIBLE = false;
+    
+    // default meter locations, view coordinates
+    public static final Point2D CAPACITANCE_METER_LOCATION = new Point2D.Double( 600, 25 );
+    public static final Point2D CHARGE_METER_LOCATION = new Point2D.Double( 750, 25 );
+    public static final Point2D ENERGY_METER_LOCATION = new Point2D.Double( 900, 25 );
+    public static final Point2D VOLTMETER_LOCATION = new Point2D.Double( 750, 325 );
+    public static final Point2D EFIELD_DETECTOR_LOCATION = new Point2D.Double( 750, 600 );
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = false; 
