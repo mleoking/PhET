@@ -1,3 +1,6 @@
+> Added "water" label to the density slider
+> Improved the colors of the density slider readouts
+Vector arrows and block text readouts are now shown in front
 Made scales mobile in buoyancy
 Added liquid density control to buoyancy
 Fixed: you can drag the mass slider all the way to the right for styrofoam & wood, even though the mass maxes out before the end of the slider.
