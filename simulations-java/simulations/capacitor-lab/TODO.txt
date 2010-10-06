@@ -10,7 +10,7 @@ DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
-- fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete/incorrect/inefficient
+- BatteryCapacitorCircuitChangeListeners is incomplete/incorrect/inefficient
 - tweak dielectric material colors (IBoxColorStrategy)
 
 MEDUIUM PRIORITY
@@ -27,6 +27,8 @@ LOW PRIORITY
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
 - use a gradient paint for wires to give them a 3D look
+- use of Polarity enum is a little incorrect, it's not really polarity
+- some model code is unused, remove it?
 
 LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
