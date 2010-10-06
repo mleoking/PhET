@@ -49,7 +49,7 @@ public class IndexPanel extends PhetPanel {
             <!--src="../../../../../../../root/images/icons/social/facebook.png" alt="Facebook icon"-->
             <!--style="vertical-align: middle; border: none;"/>-->
             <!--</a> &nbsp;|&nbsp;-->
-            <!--<a href="http://www.twitter.com">-->
+            <!--<a href="http://twitter.com/PhETSims">-->
             <!--Follow us on <img wicket:id="twitter-image"-->
             <!--src="../../../../../../../root/images/icons/social/twitter.png" alt="Twitter icon"-->
             <!--style="vertical-align: middle; border: none;"/>-->
