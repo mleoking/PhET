@@ -30,8 +30,8 @@ public class AbstractDensityModule extends UIComponent {
     //model
     protected var _model: DensityModel;
 
-    private var mainViewport: Away3DViewport = new Away3DViewport();
-    private var overlayViewport: Away3DViewport = new Away3DViewport();
+    protected var mainViewport: Away3DViewport = new Away3DViewport();
+    protected var overlayViewport: Away3DViewport = new Away3DViewport();
 
     //navigation variables
     private var moving: Boolean = false;

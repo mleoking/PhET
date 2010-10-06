@@ -44,14 +44,14 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         return _view;
     }
 
-    public function addArrowNode( arrowNode: ArrowNode ): void {
+    public function addArrowNode( arrowNode: ArrowNode, overlayViewport: Away3DViewport ): void {
         var listener: Function = function(): void {
-            arrowNode.z = frontZProperty.value - 1E-6 * arrowNode.offset;//Offset so they don't overlap in z
+            arrowNode.z = frontZProperty.value - 1E-6 * arrowNode.offset + z;//Offset so they don't overlap in z
             trace( frontZProperty.value );
         };
         frontZProperty.addListener( listener );
         listener();
-        addChild( arrowNode );
+        overlayViewport.scene.addChild( arrowNode );
     }
 
     public function getDensityObject(): DensityObject {

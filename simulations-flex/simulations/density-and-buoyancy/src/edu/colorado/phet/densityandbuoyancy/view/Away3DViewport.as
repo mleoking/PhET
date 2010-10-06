@@ -19,11 +19,11 @@ public class Away3DViewport {
     public function Away3DViewport() {
     }
 
-    function get view(): View3D {
+    public function get view(): View3D {
         return _view;
     }
 
-    function get scene(): Scene3D {
+    public function get scene(): Scene3D {
         return _scene;
     }
 
