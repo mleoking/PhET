@@ -1,3 +1,5 @@
+# 0.00.02 (44765) Oct 6, 2010
+10/6/10 First version with basic atom-building functionality.
 # 0.00.01 (44266) Sep 21, 2010
 9/21/10 Initial deployment of this sim, no actual functionality yet.
 09-21-2010 Original creation of this simulation project.
