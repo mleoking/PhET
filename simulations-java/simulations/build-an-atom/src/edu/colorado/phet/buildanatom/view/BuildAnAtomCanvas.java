@@ -142,6 +142,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         backLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
 
+        // Add the subatomic particles.
         for ( int i = 0; i < model.numElectrons(); i++ ) {
             particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
         }
@@ -163,7 +164,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         resetButtonNode.setOffset(750, 570);
         rootNode.addChild(resetButtonNode);
         resetButtonNode.addActionListener( new ActionListener() {
-
             public void actionPerformed( ActionEvent e ) {
                 BuildAnAtomCanvas.this.model.reset();
             }
