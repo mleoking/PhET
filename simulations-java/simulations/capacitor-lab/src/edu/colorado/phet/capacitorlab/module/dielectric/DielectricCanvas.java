@@ -78,7 +78,7 @@ public class DielectricCanvas extends CLCanvas {
             }
         } );
         
-        mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.PITCH_VIEWING_ANGLE, CLConstants.YAW_VIEWING_ANGLE );
+        mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
         
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );

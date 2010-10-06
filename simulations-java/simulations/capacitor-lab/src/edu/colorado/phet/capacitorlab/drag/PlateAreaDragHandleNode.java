@@ -21,8 +21,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 public class PlateAreaDragHandleNode extends PhetPNode {
     
-    private static final double DRAG_HANDLE_ANGLE = ( ( Math.PI / 2) + CLConstants.YAW_VIEWING_ANGLE ) - ( CLConstants.YAW_VIEWING_ANGLE / 2 ); // aligned with diagonal of plate surface
-
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
     
@@ -77,12 +75,13 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         // layout
         double x = 0;
         double y = 0;
+        double angle = ( ( Math.PI / 2 ) + mvt.getYaw() ) - ( mvt.getYaw() / 2 ); // aligned with diagonal of plate surface
         lineNode.setOffset( x, y );
-        lineNode.setRotation( DRAG_HANDLE_ANGLE );
+        lineNode.setRotation( angle );
         x = lineNode.getFullBoundsReference().getMinX();
         y = lineNode.getFullBoundsReference().getMaxY() + 2;
         arrowNode.setOffset( x, y );
-        arrowNode.setRotation( DRAG_HANDLE_ANGLE );
+        arrowNode.setRotation( angle );
         x = lineNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth();
         y = lineNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );

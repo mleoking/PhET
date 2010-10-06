@@ -1,3 +1,4 @@
+10/6/10 clean up encapsulation of pitch and yaw properties for 3D mvt
 10/6/10 move dielectric colors to CLPaints
 10/6/10 move dielectric constants to CLConstants
 10/6/10 use bold font for Plate Charge control title, to be consistent with bar meters
