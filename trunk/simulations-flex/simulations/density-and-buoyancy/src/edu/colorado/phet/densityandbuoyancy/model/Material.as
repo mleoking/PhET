@@ -42,7 +42,7 @@ public class Material {
     //NOTE: If other materials less dense than Wood are added, then a volume-bounding solution will need to be applied, like
     //the workaround in PropertyEditor.createSlider
     public static var SELECTABLE_MATERIALS: Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
-    public static const LABELED_DENSITY_MATERIALS: Array = [STYROFOAM, WOOD, ICE, WATER, BRICK, ALUMINUM];
+    public static const LABELED_DENSITY_MATERIALS: Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];
 
     public static var AIR: Material = new Material( FlexSimStrings.get( "material.air", "Air" ), 1.2, false, 0x666666 );
     public static var LEAD: Material = new Material( FlexSimStrings.get( "material.lead", "Lead" ), 11340, false );
