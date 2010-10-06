@@ -65,31 +65,32 @@ public class EFieldNode extends PhetPNode {
     
     private void update() {
         
+        // clear existing field lines
+        parentNode.removeAllChildren();
+        
         // compute density (spacing) of field lines
         double effectiveEField = circuit.getEffectiveEfield();
         double lineSpacing = getLineSpacing( effectiveEField );
         
-        // clear existing field lines
-        parentNode.removeAllChildren();
-        
         if ( lineSpacing > 0 ) {
             
+            // relevant model values
             final double plateWidth = circuit.getCapacitor().getPlateSideLength();
             final double plateDepth = plateWidth;
             final double plateSeparation = circuit.getCapacitor().getPlateSeparation();
             
             /*
-             * Populate the grid, working from the center outwards so that 
+             * Create field lines, working from the center outwards so that 
              * lines appear/disappear at edges of plate as E_effective changes.
              */
+            double length = mvt.modelToView( plateSeparation );
+            Direction direction = ( effectiveEField >= 0 ) ? Direction.DOWN : Direction.UP;
             double x = lineSpacing / 2;
             while ( x <= plateWidth / 2 ) {
                 double z = lineSpacing / 2;
                 while ( z <= plateDepth / 2 ) {
                     
                     // add 4 lines, one for each quadrant
-                    Direction direction = ( effectiveEField >= 0 ) ? Direction.DOWN : Direction.UP;
-                    double length = mvt.modelToView( plateSeparation );
                     PNode lineNode0 = new EFieldLineNode( length, direction );
                     PNode lineNode1 = new EFieldLineNode( length, direction );
                     PNode lineNode2 = new EFieldLineNode( length, direction );
