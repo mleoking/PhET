@@ -53,6 +53,11 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         for ( Module module : getModules() ) {
             module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
         }
+        
+        //XXX start with Dielectric module for development
+        if ( dev ) {
+            setStartModule( getModule( 1 ) );
+        }
     }
 
     //----------------------------------------------------------------------------
