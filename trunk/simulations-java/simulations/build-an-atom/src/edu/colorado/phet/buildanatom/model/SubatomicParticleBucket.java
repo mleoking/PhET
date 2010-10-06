@@ -29,7 +29,7 @@ public class SubatomicParticleBucket {
     // Proportion of the total height which the ellipse that represents
     // the hole occupies.  It is assumed that the width of the hole
     // is the same as the width specified at construction.
-    private static final double HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.3;
+    private static final double HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
 
     // The position is defined to be where the center of the hole is.
     private final Point2D position = new Point2D.Double();
