@@ -40,6 +40,8 @@ public class TroubleshootingMainEntity extends TranslationEntity {
         addString( "troubleshooting.main.q12.answer" );
         addString( "troubleshooting.main.q13.title" );
         addString( "troubleshooting.main.q13.answer" );
+        addString( "troubleshooting.main.q14.title" );
+        addString( "troubleshooting.main.q14.answer" );
         addString( "troubleshooting.main.licensingRequirements" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
