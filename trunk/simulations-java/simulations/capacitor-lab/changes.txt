@@ -1,3 +1,4 @@
+10/5/10 start up with Introduction tab selected
 10/5/10 fix: make View controls reset properly
 10/5/10 implemented Introduction tab (subclass of Dielectric tab)
 10/5/10 implemented Reset All feature
