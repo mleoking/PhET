@@ -30,7 +30,7 @@ public class Atom extends SimpleObservable{
     // Map of proton numbers to element symbols.
     private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
         // TODO: i18n for all element names.
-        put(0, new AtomName("--", "--"));//for an unbuilt or empty atom
+        put(0, new AtomName("-", "--"));//for an unbuilt or empty atom
         put(1, new AtomName("H", "Hydrogen"));
         put(2, new AtomName("He", "Helium"));
         put(3, new AtomName("Li", "Lithium"));
@@ -73,6 +73,7 @@ public class Atom extends SimpleObservable{
             neutrons.remove( particle );
             particle.removeListener( this );
             reconfigureNucleus();
+            notifyObservers();
         }
     };
     private final Random random = new Random();
@@ -121,6 +122,7 @@ public class Atom extends SimpleObservable{
         neutrons.clear();
         electronShell1.reset();
         electronShell2.reset();
+        notifyObservers();
     }
 
     public ArrayList<Double> getElectronShellRadii() {
