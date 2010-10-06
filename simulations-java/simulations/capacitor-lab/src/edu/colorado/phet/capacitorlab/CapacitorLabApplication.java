@@ -8,12 +8,9 @@ import javax.swing.Box;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
-import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -24,13 +21,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class CapacitorLabApplication extends PiccoloPhetApplication {
 
-    // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager persistenceManager;
-
-    private IntroductionModule introductionModule;
-    private DielectricModule dielectricModule;
-    private MultipleCapacitorsModule multipleCapacitorsModule;
-    
     /**
      * Sole constructor.
      *
@@ -40,7 +30,6 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
     {
         super( config );
         initModules();
-        initMenubar( config.getCommandLineArgs() );
     }
 
     /*
@@ -52,12 +41,9 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         boolean dev = isDeveloperControlsEnabled();
         
         // add modules
-        introductionModule = new IntroductionModule( parentFrame, dev );
-        addModule( introductionModule );
-        dielectricModule = new DielectricModule( parentFrame, dev );
-        addModule( dielectricModule );
-        multipleCapacitorsModule = new MultipleCapacitorsModule( parentFrame, dev );
-//        addModule( multipleCapacitorsModule );
+        addModule( new IntroductionModule( parentFrame, dev ) );
+        addModule( new DielectricModule( parentFrame, dev ) );
+//        addModule( new MultipleCapacitorsModule( parentFrame, dev ) );
         
         // make all control panels the same width
         int maxWidth = 0;
@@ -67,39 +53,6 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         for ( Module module : getModules() ) {
             module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
         }
-    }
-
-    /*
-     * Initializes the menubar.
-     */
-    private void initMenubar( String[] args ) {
-
-        // File->Save/Load
-        final PhetFrame frame = getPhetFrame();
-        frame.addFileSaveLoadMenuItems();
-        if ( persistenceManager == null ) {
-            persistenceManager = new XMLPersistenceManager( frame );
-        }
-    }
-
-    //----------------------------------------------------------------------------
-    // Persistence
-    //----------------------------------------------------------------------------
-
-    /**
-     * Saves the simulation's configuration.
-     */
-    @Override
-    public void save() {
-       //TODO implement
-    }
-
-    /**
-     * Loads the simulation's configuration.
-     */
-    @Override
-    public void load() {
-        //TODO implement
     }
 
     //----------------------------------------------------------------------------
