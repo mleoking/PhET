@@ -65,7 +65,7 @@ public class MaximizeControlNode extends PhetPNode {
 
         // button
         this.isMaximized = isMaximized;
-        buttonNode = new PImage(  );
+        buttonNode = new PImage( BuildAnAtomResources.getImage( "maximizeButton.png" ) );
         buttonNode.scale( 1.5 );//XXX
         buttonNode.addInputEventListener( new CursorHandler() );
         buttonNode.addInputEventListener( new PBasicInputEventHandler() {
