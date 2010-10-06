@@ -11,7 +11,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete/incorrect/inefficient
-- tweak dielectric material colors
+- tweak dielectric material colors (IBoxColorStrategy)
 
 MEDUIUM PRIORITY
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
