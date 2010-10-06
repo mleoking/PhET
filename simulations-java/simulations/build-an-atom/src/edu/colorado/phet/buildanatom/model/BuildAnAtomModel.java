@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -57,11 +56,14 @@ public class BuildAnAtomModel {
 
     // The buckets which can hold the subatomic particles.
     // TODO: i18n
-    private final SubatomicParticleBucket electronBucket = new SubatomicParticleBucket( ELECTRON_BUCKET_POSITION, BUCKET_SIZE, Color.blue, "Electrons", Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
+    private final SubatomicParticleBucket electronBucket = new SubatomicParticleBucket( ELECTRON_BUCKET_POSITION,
+            BUCKET_SIZE, Color.blue, "Electrons", Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
     // TODO: i18n
-    private final SubatomicParticleBucket protonBucket = new SubatomicParticleBucket( PROTON_BUCKET_POSITION, BUCKET_SIZE, Color.red, "Protons", Proton.RADIUS );
+    private final SubatomicParticleBucket protonBucket = new SubatomicParticleBucket( PROTON_BUCKET_POSITION,
+            BUCKET_SIZE, Color.red, "Protons", Proton.RADIUS );
     // TODO: i18n
-    private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION, BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
+    private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION,
+            BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
     // Constructor(s)
