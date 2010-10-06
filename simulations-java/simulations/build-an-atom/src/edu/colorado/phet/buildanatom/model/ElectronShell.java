@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 public class ElectronShell extends SimpleObservable {
 
     private final double radius;
-    private final HashMap<Point2D, Electron> occupiedShellLocations = new HashMap<Point2D, Electron>();
+    private final HashMap<Point2D, Electron> shellLocations = new HashMap<Point2D, Electron>();
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
@@ -33,8 +33,8 @@ public class ElectronShell extends SimpleObservable {
      */
     private Point2D getKey( SubatomicParticle particle ) {
         assert particle != null;
-        for ( Point2D point2D : occupiedShellLocations.keySet() ) {
-            if ( occupiedShellLocations.get( point2D ) == particle ) {
+        for ( Point2D point2D : shellLocations.keySet() ) {
+            if ( shellLocations.get( point2D ) == particle ) {
                 return point2D;
             }
         }
@@ -47,7 +47,7 @@ public class ElectronShell extends SimpleObservable {
         double angleBetweenElectrons = 2 * Math.PI / electronCapacity;
         for ( int i = 0; i < electronCapacity; i++ ) {
             double angle = i * angleBetweenElectrons;
-            occupiedShellLocations.put( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ), null );
+            shellLocations.put( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ), null );
         }
     }
 
@@ -57,7 +57,7 @@ public class ElectronShell extends SimpleObservable {
      */
     public Electron getClosestElectron( Point2D point2d ) {//TODO: Consider sorting a list to attain closest electron
         Electron closestElectron = null;
-        for ( Electron candidateElectron : occupiedShellLocations.values() ) {
+        for ( Electron candidateElectron : shellLocations.values() ) {
             if ( candidateElectron != null ) {
                 if ( closestElectron == null ) {
                     closestElectron = candidateElectron;
@@ -76,12 +76,16 @@ public class ElectronShell extends SimpleObservable {
      */
     public ArrayList<Point2D> getOpenShellLocations() {
         ArrayList<Point2D> list = new ArrayList<Point2D>();
-        for ( Point2D point2D : occupiedShellLocations.keySet() ) {
-            if ( occupiedShellLocations.get( point2D ) == null ) {
+        for ( Point2D point2D : shellLocations.keySet() ) {
+            if ( shellLocations.get( point2D ) == null ) {
                 list.add( point2D );
             }
         }
         return list;
+    }
+
+    public int getNumElectrons(){
+        return shellLocations.size() - getOpenShellLocations().size();
     }
 
     protected double getRadius() {
@@ -93,17 +97,17 @@ public class ElectronShell extends SimpleObservable {
     }
 
     protected boolean isEmpty() {
-        return getOpenShellLocations().size() == occupiedShellLocations.size();
+        return getOpenShellLocations().size() == shellLocations.size();
     }
 
     protected void reset() {
-        for ( Electron electron : occupiedShellLocations.values() ) {
+        for ( Electron electron : shellLocations.values() ) {
             if ( electron != null ) {
                 electron.removeListener( particleRemovalListener );
             }
         }
-        for ( Point2D point2D : occupiedShellLocations.keySet() ) {
-            occupiedShellLocations.put( point2D, null );
+        for ( Point2D point2D : shellLocations.keySet() ) {
+            shellLocations.put( point2D, null );
         }
     }
 
@@ -114,14 +118,14 @@ public class ElectronShell extends SimpleObservable {
         }
         assert shellLocation != null;
         electronToAdd.setDestination( shellLocation );
-        occupiedShellLocations.put( shellLocation, electronToAdd );
+        shellLocations.put( shellLocation, electronToAdd );
         electronToAdd.addListener( particleRemovalListener );
         notifyObservers();
     }
 
     public void removeElectron( Electron electronToRemove ) {
-        assert occupiedShellLocations.containsValue( electronToRemove );
-        occupiedShellLocations.put( getKey( electronToRemove ), null );
+        assert shellLocations.containsValue( electronToRemove );
+        shellLocations.put( getKey( electronToRemove ), null );
         electronToRemove.removeListener( particleRemovalListener );
         notifyObservers();
     }
