@@ -112,18 +112,19 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
             add( HeaderContributor.forCss( CSS.PHET_PAGE ) );
 
-            if ( getPhetCycle().isOfflineInstaller() ) {
-                //add( new InvisibleComponent( "search-panel" ) );
-                //String installURL = FullInstallPanel.getLinker().getHref( getPageContext(), getPhetCycle() );
-                //String linkToMainSite = "<a " + installURL + " onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
-                //String linkToMainSite = "<a href=\"http://phet.colorado.edu\" onclick=\"document.location='http://phet.colorado.edu'; return false;\">http://phet.colorado.edu</a>";
-                add( new LocalizedText( "search-panel", "installer.mostUpToDate", new Object[]{
-                        new Date(),
-                        FullInstallPanel.getLinker().getHref( getPageContext(), getPhetCycle() )
-                } ) );
-            }
-            else {
-                add( new SearchPanel( "search-panel", getPageContext() ) );
+            switch( DistributionHandler.getSearchBoxVisibility( getPhetCycle() ) ) {
+                case NONE:
+                    add( new InvisibleComponent( "search-panel" ) );
+                    break;
+                case OFFLINE_INSTALLER:
+                    add( new LocalizedText( "search-panel", "installer.mostUpToDate", new Object[] {
+                            new Date(),
+                            FullInstallPanel.getLinker().getHref( getPageContext(), getPhetCycle() )
+                    } ) );
+                    break;
+                case NORMAL:
+                    add( new SearchPanel( "search-panel", getPageContext() ) );
+                    break;
             }
 
             if ( prefix.startsWith( "/translation" ) && getVariation() != null ) {
