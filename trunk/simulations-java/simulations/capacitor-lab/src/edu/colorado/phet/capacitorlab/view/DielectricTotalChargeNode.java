@@ -14,7 +14,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Shows the total dielectric charge.
  * Spacing of positive and negative charges remains constant, and they appear in positive/negative pairs.
- * The spacing between the positive/negative pairs changes proportional to Q_excess_dielectric.
+ * The spacing between the positive/negative pairs changes proportional to E_dielectric.
  * Outside the capacitor, the spacing between the pairs is at a minimum to reprsent no charge.
  * <p>
  * All model coordinates are relative to the dielectric's local coordinate frame,
@@ -52,6 +52,12 @@ public class DielectricTotalChargeNode extends PhetPNode {
                     update();
                 }
             }
+            @Override
+            public void efieldChanged() {
+                if ( isVisible() ) {
+                    update();
+                }
+            }
         } );
         
         update();
@@ -76,8 +82,8 @@ public class DielectricTotalChargeNode extends PhetPNode {
         parentNode.removeAllChildren();
         
         // spacing between charges
-        final double excessCharge = circuit.getExcessDielectricPlateCharge();
-        final double spacingBetweenCharges = getSpacingBetweenCharges( excessCharge );
+        final double eField = circuit.getDielectricEField();
+        final double spacingBetweenCharges = getSpacingBetweenCharges( eField );
         
         // spacing between pairs
         final double spacingBetweenPairs = mvt.viewToModel( SPACING_BETWEEN_PAIRS );
@@ -96,7 +102,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
         final double offset = spacingBetweenPairs / 2;
         
         // polarity
-        final Polarity polarity = ( excessCharge >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
+        final Polarity polarity = ( eField >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
         
         // front face
         double xPlateEdge = -( dielectricWidth / 2 ) + ( dielectricWidth - circuit.getCapacitor().getDielectricOffset() );
@@ -149,12 +155,12 @@ public class DielectricTotalChargeNode extends PhetPNode {
     }
     
     /*
-     * Spacing between charges is proportion to the charge.
+     * Spacing between charges is proportion to the E-field.
      */
-    private double getSpacingBetweenCharges( double charge ) {
-        double absCharge = Math.abs( charge );
-        double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge();
-        double percent = absCharge / maxCharge;
+    private double getSpacingBetweenCharges( double eField ) {
+        double absEField = Math.abs( eField );
+        double maxEField = BatteryCapacitorCircuit.getMaxDielectricEField();
+        double percent = absEField / maxEField;
         return SPACING_BETWEEN_CHARGES.getMin() + ( percent * SPACING_BETWEEN_CHARGES.getLength() );
     }
     

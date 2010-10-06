@@ -317,6 +317,19 @@ public class BatteryCapacitorCircuit {
         return circuit.getExcessDielectricPlateCharge();
     }
     
+    /**
+     * Gets the maximum field due to dielectric polarization (E_dielectric).
+     * @return
+     */
+    public static double getMaxDielectricEField() {
+        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
+        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
+        return circuit.getDielectricEField();
+    }
+    
     //----------------------------------------------------------------------------------
     //
     // Surface Charge Density (sigma)
