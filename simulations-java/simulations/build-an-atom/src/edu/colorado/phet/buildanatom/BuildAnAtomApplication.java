@@ -49,19 +49,19 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        
+
         Frame parentFrame = getPhetFrame();
 
         Module firstModule = new BuildAnAtomModule( parentFrame );
         addModule( firstModule );
 
-        Module secondModule = new GameModule( parentFrame );
-        secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
-        addModule( secondModule );
+//        Module secondModule = new GameModule( parentFrame );
+//        secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
+//        addModule( secondModule );
 
-        Module thirdModule = new TestingModule( parentFrame );
-        thirdModule.setName( "Fuzz Test" );
-        addModule( thirdModule );
+//        Module thirdModule = new TestingModule( parentFrame );
+//        thirdModule.setName( "Fuzz Test" );
+//        addModule( thirdModule );
     }
 
     /*
@@ -88,8 +88,8 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        /* 
-         * If you want to customize your application (look-&-feel, window size, etc) 
+        /*
+         * If you want to customize your application (look-&-feel, window size, etc)
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAnAtomConstants.PROJECT_NAME, BuildAnAtomApplication.class );
