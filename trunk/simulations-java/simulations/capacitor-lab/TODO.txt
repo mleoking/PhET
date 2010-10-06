@@ -12,7 +12,6 @@ DESIGN ISSUES
 HIGH PRIORITY
 - fix the physics for dielectric "Show All Charges", model specification is apparently wrong
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete/incorrect/inefficient
-- increase E-field grid size in +2 increments (2x2, 4x4,... or 3x3, 5x5,...) so that grid doesn't jump around
 - tweak dielectric material colors
 
 MEDUIUM PRIORITY

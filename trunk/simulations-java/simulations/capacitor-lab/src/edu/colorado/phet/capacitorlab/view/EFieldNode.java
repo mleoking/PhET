@@ -3,11 +3,9 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.BasicStroke;
-import java.awt.Dimension;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
@@ -80,40 +78,37 @@ public class EFieldNode extends PhetPNode {
             final double plateDepth = plateWidth;
             final double plateSeparation = circuit.getCapacitor().getPlateSeparation();
             
-            // grid dimensions
-            Dimension gridSize = getGridSize( lineSpacing, plateWidth, plateDepth );
-            final int rows = gridSize.height;
-            final int columns = gridSize.width;
-            
-            // margin
-            double xMargin = ( plateWidth - ( columns * lineSpacing ) ) / 2;
-            double zMargin = ( plateDepth - ( rows * lineSpacing ) ) / 2;
-            
-            // distance between cells
-            final double dx = lineSpacing;
-            final double dz = lineSpacing;
-            
-            // offset to move us to the center of cells
-            final double xOffset = dx / 2;
-            final double zOffset = dz / 2;
-            
-            // populate the grid
-            for ( int row = 0; row < rows; row++ ) {
-                for ( int column = 0; column < columns; column++ ) {
+            /*
+             * Populate the grid, working from the center outwards so that 
+             * lines appear/disappear at edges of plate as E_effective changes.
+             */
+            double x = lineSpacing / 2;
+            while ( x <= plateWidth / 2 ) {
+                double z = lineSpacing / 2;
+                while ( z <= plateDepth / 2 ) {
                     
-                    // add a line
+                    // add 4 lines, one for each quadrant
                     Direction direction = ( effectiveEField >= 0 ) ? Direction.DOWN : Direction.UP;
                     double length = mvt.modelToView( plateSeparation );
-                    PNode lineNode = new EFieldLineNode( length, direction );
-                    parentNode.addChild( lineNode );
+                    PNode lineNode0 = new EFieldLineNode( length, direction );
+                    PNode lineNode1 = new EFieldLineNode( length, direction );
+                    PNode lineNode2 = new EFieldLineNode( length, direction );
+                    PNode lineNode3 = new EFieldLineNode( length, direction );
+                    parentNode.addChild( lineNode0 );
+                    parentNode.addChild( lineNode1 );
+                    parentNode.addChild( lineNode2 );
+                    parentNode.addChild( lineNode3 );
 
-                    // position the line in the grid cell
-                    double x = -( plateWidth /2 ) + xMargin + xOffset + ( column * dx );
+                    // position the lines
                     double y = 0;
-                    double z = -( plateDepth / 2 ) + zMargin + zOffset + ( row * dz );
-                    Point2D offset = mvt.modelToView( x, y, z );
-                    lineNode.setOffset( offset );
+                    lineNode0.setOffset( mvt.modelToView( x, y, z ) );
+                    lineNode1.setOffset( mvt.modelToView( -x, y, z ) );
+                    lineNode2.setOffset( mvt.modelToView( x, y, -z ) );
+                    lineNode3.setOffset( mvt.modelToView( -x, y, -z ) );
+                    
+                    z += lineSpacing;
                 }
+                x += lineSpacing;
             }
         }
     }
@@ -144,13 +139,6 @@ public class EFieldNode extends PhetPNode {
             numberOfLines = CLConstants.NUMBER_OF_EFIELD_LINES.getMin();
         }
         return numberOfLines;
-    }
-    
-    private Dimension getGridSize( double cellSpacing, double width, double height ) {
-        // casting here may result in some lines being thrown out, but that's OK
-        int columns = (int)( width / cellSpacing );
-        int rows = (int)( height / cellSpacing );
-        return new Dimension( columns, rows );
     }
     
     /**
