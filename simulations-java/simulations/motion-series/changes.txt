@@ -1,3 +1,4 @@
+Fixed: If the springs are turned on and the wall is closed, the springs are still visible.  
 # 1.03.79 (44248) Sep 21, 2010
 Fixed: Arrow key press that dismisses the instructions should not also start the object moving in the game modes
 Fixed: the play/pause button to the left of the applied force slider should only be shown after the slider is moved or the text box is edited
