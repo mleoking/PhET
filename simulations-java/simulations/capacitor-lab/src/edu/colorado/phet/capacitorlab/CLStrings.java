@@ -24,6 +24,7 @@ public class CLStrings {
     public static final String CHECKBOX_METER_ENERGY = getString( "checkBox.meter.energy" );
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
     public static final String CHECKBOX_METER_EFIELD_DETECTOR = getString( "checkBox.meter.eFieldDetector" );
+    public static final String CHECKBOX_SHOW_VALUES = getString( "checkBox.showValues" );
 
     public static final String LABEL_SEPARATION = getString( "label.separation" );
     public static final String LABEL_PLATE_AREA = getString( "label.plateArea" );
@@ -35,6 +36,7 @@ public class CLStrings {
     public static final String LABEL_LOTS_POSITIVE = getString( "label.lotsPositive" );
     public static final String LABEL_LOTS_NEGATIVE = getString( "label.lotsNegative" );
     public static final String LABEL_PLATE_CHARGE = getString( "label.plateCharge" );
+    public static final String LABEL_SHOW_VECTORS = getString( "label.showVectors" );
     
     public static final String MATERIAL_CUSTOM = getString( "material.custom" );
     public static final String MATERIAL_TEFLON = getString( "material.teflon" );
@@ -64,6 +66,7 @@ public class CLStrings {
     public static final String TITLE_DIELECTRIC = getString( "title.dielectric" );
     public static final String TITLE_VIEW = getString( "title.view" );
     public static final String TITLE_METERS = getString( "title.meters" );
+    public static final String TITLE_ELECTRIC_FIELD = getString( "title.electricField" );
     
     public static final String UNITS_VOLTS = getString( "units.volts" );
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );
@@ -71,6 +74,10 @@ public class CLStrings {
     public static final String UNITS_COULOMBS = getString( "units.coulombs" );
     public static final String UNITS_FARADS = getString( "units.farads" );
     public static final String UNITS_JOULES = getString( "units.joules" );
+    
+    public static final String VECTOR_SUM = getString( "vector.sum" );
+    public static final String VECTOR_PLATE = getString( "vector.plate" );
+    public static final String VECTOR_DIELECTRIC = getString( "vector.dielectric" );
     
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";
