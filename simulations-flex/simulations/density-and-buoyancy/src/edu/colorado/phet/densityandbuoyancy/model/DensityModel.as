@@ -52,6 +52,13 @@ public class DensityModel {
         createDragBounds();
     }
 
+    public function reset(): void {
+        fluidDensity.reset();
+        for each ( var densityObject: DensityObject in densityObjects ) {
+            densityObject.reset();
+        }
+    }
+
     public function addDensityObject( densityObject: DensityObject ): void {
         densityObjects.push( densityObject );
         for each ( var listener: Function in densityObjectCreationListeners ) {
