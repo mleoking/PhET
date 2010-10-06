@@ -19,6 +19,13 @@ public class CLPaints {
     // capacitor plates
     public static final Color PLATE =  new Color( 245, 245, 245 );
     
+    // dielectric materials
+    public static final Color AIR = new Color( 0, 0, 0, 0 ); // invisible
+    public static final Color CUSTOM_DIELECTRIC = new Color( 255, 161, 23 ); // orange
+    public static final Color PAPER = new Color( 226, 255, 155 ); // light yellow
+    public static final Color POLYSTYRENE = new Color( 189, 132, 141 ); // pink
+    public static final Color TEFLON = Color.GREEN;
+    
     // charges
     public static final Color POSITIVE_CHARGE = Color.RED;
     public static final Color NEGATIVE_CHARGE = Color.BLUE;
@@ -35,6 +42,4 @@ public class CLPaints {
     // draggable things
     public static final Color DRAGGABLE_NORMAL = Color.GREEN;
     public static final Color DRAGGABLE_HIGHLIGHT = Color.YELLOW;
-    
-    public static final Color INVISIBLE = new Color( 0, 0, 0, 0 );
 }
