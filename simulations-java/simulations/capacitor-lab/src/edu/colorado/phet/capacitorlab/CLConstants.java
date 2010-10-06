@@ -57,8 +57,13 @@ public class CLConstants {
     public static final double BOTTOM_WIRE_EXTENT = TOP_WIRE_EXTENT; // how far the bottom wire extends below the capactor's origin, absolute value (meters)
     
     public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
+    
+    // dielectric constants
     public static final double EPSILON_VACUUM = 1; // dielectric constant of a vacuum, dimensionless
     public static final double EPSILON_AIR = 1.0005896; // dielectric constant of air, dimensionless
+    public static final double EPSILON_PAPER = 3.5;
+    public static final double EPSILON_POLYSTYRENE = 2.5;
+    public static final double EPSILON_TEFLON = 2.1;
     
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     public static final double PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
