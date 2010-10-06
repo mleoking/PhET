@@ -1,7 +1,11 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -21,6 +25,21 @@ public class Atom {
     // Electron shell radii.
     public static final double ELECTRON_SHELL_1_RADIUS = 34;
     public static final double ELECTRON_SHELL_2_RADIUS = 102;
+
+    // Map of proton numbers to element symbols.
+    private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
+        // TODO: i18n for all element names.
+        put(1, new AtomName("H", "Hydrogen"));
+        put(2, new AtomName("He", "Helium"));
+        put(3, new AtomName("Li", "Lithium"));
+        put(4, new AtomName("Be", "Beryllium"));
+        put(5, new AtomName("B", "Boron"));
+        put(6, new AtomName("C", "Carbon"));
+        put(7, new AtomName("N", "Nitrogen"));
+        put(8, new AtomName("O", "Oxygen"));
+        put(9, new AtomName("F", "Fluorine"));
+        put(10, new AtomName("Ne", "Neon"));
+    }};
 
     // Position in model space.
     private final Point2D position = new Point2D.Double();
@@ -115,6 +134,26 @@ public class Atom {
 
     public Point2D getPosition() {
         return position;
+    }
+
+    public int getNumProtons(){
+        return protons.size();
+    }
+
+    public int getAtomicMassNumber(){
+        return protons.size() + neutrons.size();
+    }
+
+    public int getCharge() {
+        return protons.size() - ( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+    }
+
+    public String getName(){
+        return mapNumProtonsToName.get( protons.size() ).name;
+    }
+
+    public String getSymbol(){
+        return mapNumProtonsToName.get( protons.size() ).symbol;
     }
 
     public void addProton( final Proton proton ) {
@@ -370,5 +409,20 @@ public class Atom {
         Point2D point1 = nucleons.get( particle1 ).getDestination();
         nucleons.get( particle1 ).setDestination( nucleons.get( particle2 ).getDestination() );
         nucleons.get( particle2 ).setDestination( point1 );
+    }
+
+    /**
+     * Structure that contains both the chemical symbol and textual name for
+     * an atom.
+     *
+     * @author John Blanco
+     */
+    private static class AtomName{
+        public final String symbol;
+        public final String name;
+        public AtomName( String symbol, String name ) {
+            this.symbol = symbol;
+            this.name = name;
+        }
     }
 }
