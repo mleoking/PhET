@@ -29,6 +29,12 @@ public class Battery {
         return location;
     }
     
+    /**
+     * Gets the battery voltage.
+     * (design doc symbol: V_battery)
+     * 
+     * @param voltage
+     */
     public void setVoltage( double voltage ) {
         if ( voltage != this.voltage ) {
             double oldVoltage = this.voltage;
