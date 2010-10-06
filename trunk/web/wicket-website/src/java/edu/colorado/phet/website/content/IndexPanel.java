@@ -128,7 +128,7 @@ public class IndexPanel extends PhetPanel {
         //add( miniLink );
         //miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
 
-        if ( getPhetCycle().isOfflineInstaller() ) {
+        if ( DistributionHandler.showRotatorFallback( getPhetCycle() ) ) {
             add( new RotatorFallbackPanel( "rotator-panel", context ) );
         }
         else {

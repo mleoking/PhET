@@ -1,7 +1,11 @@
 package edu.colorado.phet.website;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
+import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.about.*;
@@ -12,6 +16,7 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascri
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.LocalizedSimulation;
+import edu.colorado.phet.website.panels.SearchPanel;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 /**
@@ -45,6 +50,13 @@ public class DistributionHandler {
         }
         return false; // we are now going to show translations
         //return cycle.isForProductionServer();
+    }
+
+    /**
+     * @return Whether to skip straight to the rotator fallback (on the front page) instead of the SWF content
+     */
+    public static boolean showRotatorFallback( PhetRequestCycle cycle ) {
+        return cycle.isOfflineInstaller() || cycle.isKsuRipperRequest();
     }
 
     /**
@@ -226,6 +238,23 @@ public class DistributionHandler {
         }
         else {
             return "regular";
+        }
+    }
+
+    public static enum SearchBoxVisibility {
+        NONE, OFFLINE_INSTALLER, NORMAL
+    }
+
+    public static SearchBoxVisibility getSearchBoxVisibility( PhetRequestCycle cycle ) {
+        if ( cycle.isKsuRipperRequest() ) {
+            // just flat-out hide the search box for the KSU mirror
+            return SearchBoxVisibility.NONE;
+        }
+        else if ( cycle.isOfflineInstaller() ) {
+            return SearchBoxVisibility.OFFLINE_INSTALLER;
+        }
+        else {
+            return SearchBoxVisibility.NORMAL;
         }
     }
 
