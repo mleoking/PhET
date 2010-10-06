@@ -312,7 +312,7 @@ public class AbstractDensityModule extends UIComponent {
     }
 
     public function resetAll(): void {
-        model.fluidDensity.reset(); // TODO: better reset functionality!
+        model.reset();
         running = true;
         if ( moving ) {
             moving = false;
