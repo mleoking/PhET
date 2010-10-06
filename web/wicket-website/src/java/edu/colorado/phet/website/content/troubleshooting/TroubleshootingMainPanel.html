@@ -120,6 +120,12 @@
                     </wicket:message>
                 </a></li>
 
+                <li class="faq"><a href="#q14">
+                    <wicket:message key="troubleshooting.main.q14.title">
+                        Why can’t I completely uninstall the PhET sims that I downloaded from my Windows computer?
+                    </wicket:message>
+                </a></li>
+
                 <li class="faq"><a href="#" wicket:id="licensing-link">
                     <wicket:message key="troubleshooting.main.licensingRequirements">
                         What are Licensing requirements?
@@ -526,6 +532,28 @@
                 3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
                 4. Quit all applications<br/>
                 5. Run the update installer
+            </p>
+        </div>
+
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top
+            </wicket:message></span><span class="to-top-arrow">&#9650;</span></a>
+        </p>
+
+        <h3 id="q14">
+            <wicket:message key="troubleshooting.main.q14.title">
+                Why can’t I completely uninstall the PhET sims that I downloaded from my Windows computer?
+            </wicket:message>
+        </h3>
+        <div wicket:id="troubleshooting-main-q14-answer">
+            <p>
+                When a Java Web Start simulation is run in Windows, it is added to the list of programs in Control Panel
+                -> Add or Remove Programs. Due to a problem in Java Web Start, sometimes the item may remain in the list
+                even after the simulation has been removed, and Windows may report "Unable to completely uninstall
+                application". More information about this issue can be found at
+                <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6946221">http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6946221</a>,
+                and the producers of Java have acknowledged
+                the problem and reported that they plan to fix it in an upcoming version of Java.
             </p>
         </div>
 
