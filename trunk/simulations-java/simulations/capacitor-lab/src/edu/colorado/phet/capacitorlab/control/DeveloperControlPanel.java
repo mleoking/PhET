@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
@@ -41,11 +40,7 @@ public class DeveloperControlPanel extends PhetTitledPanel {
         setTitleColor( Color.RED );
         
         this.parentFrame = parentFrame;
-        
         this.model = model;
-        this.model.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            //XXX override whatever is needed
-        });
         
         // Model Values dialog
         {
