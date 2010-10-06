@@ -88,6 +88,10 @@ public class ElectronShell extends SimpleObservable {
         return shellLocations.size() - getOpenShellLocations().size();
     }
 
+    public int getNumOpenLocations(){
+        return getOpenShellLocations().size();
+    }
+
     protected double getRadius() {
         return radius;
     }
