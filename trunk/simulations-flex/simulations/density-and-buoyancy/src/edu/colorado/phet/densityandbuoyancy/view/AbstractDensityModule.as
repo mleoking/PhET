@@ -1,14 +1,11 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import Box2D.Common.Math.b2Vec2;
 
-import away3d.cameras.*;
 import away3d.containers.*;
 import away3d.core.base.*;
 import away3d.core.draw.*;
 import away3d.core.geom.*;
 import away3d.core.math.*;
-import away3d.core.render.*;
-import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
@@ -28,17 +25,13 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.core.UIComponent;
-import mx.events.SliderEvent;
 
 public class AbstractDensityModule extends UIComponent {
     //model
     protected var _model: DensityModel;
 
-    //engine variables
-    private var scene: Scene3D;
-    private var camera: HoverCamera3D;
-    private var renderer: IRenderer;
-    private var view: View3D;
+    private var mainViewport: Away3DViewport = new Away3DViewport();
+    private var overlayViewport: Away3DViewport = new Away3DViewport();
 
     //navigation variables
     private var moving: Boolean = false;
@@ -78,7 +71,8 @@ public class AbstractDensityModule extends UIComponent {
         initObjects();
         initListeners();
 
-        addChild( view );
+        addChild( mainViewport.view );
+        addChild( overlayViewport.view );
         tickMarkSet = new TickMarkSet( _model );
         addChild( tickMarkSet );
 
@@ -89,32 +83,18 @@ public class AbstractDensityModule extends UIComponent {
         bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
         bottle.y = -bottle.height * 1.5;
         bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
-        scene.addChild( bottle );
+        mainViewport.scene.addChild( bottle );
     }
 
     override protected function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
         super.updateDisplayList( unscaledWidth, unscaledHeight );
-        if ( view != null ) {
-            view.x = unscaledWidth / 2;
-            view.y = unscaledHeight / 2;
-        }
+        mainViewport.updateDisplayList( unscaledWidth, unscaledHeight );
+        overlayViewport.updateDisplayList( unscaledWidth, unscaledHeight );
     }
 
     public function initEngine(): void {
-        scene = new Scene3D();
-
-        camera = new HoverCamera3D( { distance: 1600, mintiltangle: 0, maxtitlangle: 90 } );
-        camera.targetpanangle = camera.panangle = 180;
-        camera.targettiltangle = camera.tiltangle = 8;
-        camera.hover();
-
-        // alternative renderers
-        //        renderer = Renderer.BASIC;
-        //        renderer = Renderer.CORRECT_Z_ORDER;
-        //        renderer = new QuadrantRenderer();
-        renderer = Renderer.INTERSECTING_OBJECTS;
-
-        view = new View3D( {scene:scene, camera:camera, renderer:renderer} );
+        mainViewport.initEngine();
+        overlayViewport.initEngine();
     }
 
     public function initObjects(): void {
@@ -125,10 +105,10 @@ public class AbstractDensityModule extends UIComponent {
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
         waterFront = new Plane( { y: -poolHeight + waterHeight / 2 + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
-        scene.addChild( waterFront );
+        mainViewport.scene.addChild( waterFront );
         waterFront.mouseEnabled = false;
         waterTop = new Plane( { y: -poolHeight + waterHeight + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
-        scene.addChild( waterTop );
+        mainViewport.scene.addChild( waterTop );
         waterTop.mouseEnabled = false;
 
         // when the fluid density changes, let's change the water color.
@@ -151,13 +131,10 @@ public class AbstractDensityModule extends UIComponent {
 
         // add grass, earth and pool inside
         groundNode = new GroundNode( _model );
-        scene.addChild( groundNode );
+        mainViewport.scene.addChild( groundNode );
 
-        var light: DirectionalLight3D = new DirectionalLight3D( {color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1} );
-        light.x = 10000;
-        light.z = -35000;
-        light.y = 50000;
-        scene.addChild( light );
+        mainViewport.addLight();
+        overlayViewport.addLight();
 
         marker = new ObjectContainer3D();
         marker.addChild( new Cube( { z: 50, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0x9999CC ) } ) );
@@ -168,7 +145,7 @@ public class AbstractDensityModule extends UIComponent {
 
     private function addDensityObject( densityObject: DensityObject ): void {
         const densityObjectNode: DensityObjectNode = createDensityObjectNode( densityObject );
-        scene.addChild( densityObjectNode );
+        mainViewport.scene.addChild( densityObjectNode );
         densityObjectNodeList.push( densityObjectNode );
     }
 
@@ -203,7 +180,7 @@ public class AbstractDensityModule extends UIComponent {
                 continue;
             }
             num += 1.0;
-            var sv: ScreenVertex = camera.screen( m, v );
+            var sv: ScreenVertex = mainViewport.camera.screen( m, v );
             kx += sv.x;
             ky += sv.y;
             kz += sv.z;
@@ -226,23 +203,24 @@ public class AbstractDensityModule extends UIComponent {
         waterFront.height = _model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
         waterTop.y = (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
 
-        updateWaterHeightIndicator();
+        updateWaterVolumeIndicater();
 
-        view.render();
+        mainViewport.view.render();
+        overlayViewport.view.render();
         renderedOnce = true;
     }
 
     //Away3d must render at least once before we can obtain screen coordinates for vertices.
     private var renderedOnce: Boolean = false;
 
-    private function updateWaterHeightIndicator(): void {
+    private function updateWaterVolumeIndicater(): void {
         if ( renderedOnce ) {
-            var screenVertex: ScreenVertex = camera.screen( groundNode, new Vertex( _model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, 0 ) );
-            waterVolumeIndicator.x = screenVertex.x + view.x;
-            waterVolumeIndicator.y = screenVertex.y + view.y;
+            var screenVertex: ScreenVertex = mainViewport.camera.screen( groundNode, new Vertex( _model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, 0 ) );
+            waterVolumeIndicator.x = screenVertex.x + mainViewport.view.x;
+            waterVolumeIndicator.y = screenVertex.y + mainViewport.view.y;
             waterVolumeIndicator.visible = true;//Now can show the water volume indicator after it is at the right location
 
-            tickMarkSet.updateCoordinates( camera, groundNode, view );
+            tickMarkSet.updateCoordinates( mainViewport.camera, groundNode, mainViewport.view );
         }
         waterVolumeIndicator.setWaterHeight( _model.getWaterHeight() );
         //        water
@@ -256,12 +234,12 @@ public class AbstractDensityModule extends UIComponent {
     }
 
     public function onMouseDown( event: MouseEvent ): void {
-        startMouseX = stage.mouseX - view.x;
-        startMouseY = stage.mouseY - view.y;
-        if ( canCurrentlyMoveObject( view.mouseObject ) ) {
+        startMouseX = stage.mouseX - mainViewport.view.x;
+        startMouseY = stage.mouseY - mainViewport.view.y;
+        if ( canCurrentlyMoveObject( mainViewport.view.mouseObject ) ) {
             moving = true;
-            startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
-            selectedObject = view.mouseObject as AbstractPrimitive;
+            startMiddle = medianFrontScreenPoint( mainViewport.view.mouseObject as AbstractPrimitive );
+            selectedObject = mainViewport.view.mouseObject as AbstractPrimitive;
             if ( selectedObject is Pickable ) {
                 cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
             }
@@ -273,13 +251,13 @@ public class AbstractDensityModule extends UIComponent {
         if ( moving ) {
             var offsetX: Number = startMiddle.x - startMouseX;
             var offsetY: Number = startMiddle.y - startMouseY;
-            var mX: Number = stage.mouseX - view.x;
-            var mY: Number = stage.mouseY - view.y;
+            var mX: Number = stage.mouseX - mainViewport.view.x;
+            var mY: Number = stage.mouseY - mainViewport.view.y;
             var screenCubeCenterX: Number = mX + offsetX;
             var screenCubeCenterY: Number = mY + offsetY;
-            var projected: Number3D = camera.unproject( screenCubeCenterX, screenCubeCenterY );
-            projected.add( projected, new Number3D( camera.x, camera.y, camera.z ) );
-            var cameraVertex: Vertex = new Vertex( camera.x, camera.y, camera.z );
+            var projected: Number3D = mainViewport.camera.unproject( screenCubeCenterX, screenCubeCenterY );
+            projected.add( projected, new Number3D( mainViewport.camera.x, mainViewport.camera.y, mainViewport.camera.z ) );
+            var cameraVertex: Vertex = new Vertex( mainViewport.camera.x, mainViewport.camera.y, mainViewport.camera.z );
             var rayVertex: Vertex = new Vertex( projected.x, projected.y, projected.z );
             var cubePlane: Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint( new Number3D( 0, 0, -1 ), new Number3D( 0, 0, -100 ) );
@@ -311,16 +289,14 @@ public class AbstractDensityModule extends UIComponent {
 
     public function onResize( event: Event = null ): void {
         //Centers the view
-        view.x = stage.stageWidth / 2;
-        view.y = stage.stageHeight / 2;
+        mainViewport.onResize( stage );
+        overlayViewport.onResize( stage );
 
-        camera.zoom = Math.min( stage.stageWidth / 100, stage.stageHeight / 65 );
-
-        updateWaterHeightIndicator();
+        updateWaterVolumeIndicater();
     }
 
     public function removeObject( ob: DensityObjectNode ): void {
-        scene.removeChild( ob );
+        mainViewport.scene.removeChild( ob );
     }
 
     public function pause(): void {
@@ -338,12 +314,6 @@ public class AbstractDensityModule extends UIComponent {
             moving = false;
             stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
         }
-    }
-
-    public function testSliderChange( event: SliderEvent ): void {
-        //        camera.distance = event.value;
-        camera.zoom = event.value;
-        //        camera.moveCamera();
     }
 
     public function get model(): DensityModel {
