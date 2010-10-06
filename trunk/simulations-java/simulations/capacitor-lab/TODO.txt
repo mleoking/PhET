@@ -7,33 +7,24 @@ Oct 9 - complete "as much as possible" per Kathy P. for Hisham
 QUESTIONS FOR NOAH
 
 DESIGN ISSUES
-- range of field is too large to make Field Detector vector length vary proportionally
+- is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
 - increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
 - tweak dielectric material colors
-
-MEDUIUM PRIORITY
-- get voltmeter and field detector working without 3D perspective, then work on 3D
-- TestPlateChargeLayout & PlateChargesNode: tall narrow plate results in too many charges, alpha too large?
-- PlateChargeNode: no charges sometimes shown when air contact area is small
-- how to handle look for probes being inside, outside, or partially inside the dielectric
-- collision detection of probes with battery and plates (OK to pass through wires and dielectric)
-- Field Detector
-- add cables and drag behavior to voltmeter, see CCK's VoltmeterNode
-- voltmeter notifiers for moving probes or meter body
-- subclass of voltmeter that is specific to this sim, knows about model
-- all features in Multiple Capacitors tab
-- refactor duplicate code in *DragHandleNode
-- should Reset All reset default locations for meters?
 - specify default locations for meters in model coordinates
 
+MEDUIUM PRIORITY
+- get voltmeter and E-field detector working without 3D perspective, then work on 3D
+- dynamic clipping planes for meter probes
+- collision detection of probes with battery and plates (OK to pass through wires and dielectric)
+- all features in Multiple Capacitors tab
+
 LOW PRIORITY
+- refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy
-- Save/Load feature?
 - only update meters when they are visible
-- use phetcommon mvt
 - don't allow bar meters to be dragged by buttons, this prevents ability to roll off buttons
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
