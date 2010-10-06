@@ -3,6 +3,8 @@ import away3d.materials.ColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
 public class ArrowNode extends MyMesh {
     private var arrowModel: ArrowModel;
@@ -11,10 +13,13 @@ public class ArrowNode extends MyMesh {
     private var visibilityProperty: BooleanProperty;
     private static var numArrowNodes: Number = 0;
     public var offset: Number;
+    private var densityObject: DensityObject;
 
-    public function ArrowNode( arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, init: Object = null ) {
+    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, init: Object = null ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, init ) );
-
+        this.densityObject = densityObject;
+        densityObject.getXProperty().addListener( updateLocation );
+        densityObject.getYProperty().addListener( updateLocation );
         offset = numArrowNodes + 1;
         numArrowNodes += 1;
 
@@ -34,6 +39,12 @@ public class ArrowNode extends MyMesh {
 
         visibilityProperty.addListener( updateVisibility );
         updateVisibility();
+    }
+
+    private function updateLocation(): void {
+        this.x = densityObject.getX() * DensityModel.DISPLAY_SCALE;
+        this.y = densityObject.getY() * DensityModel.DISPLAY_SCALE;
+        //        this.z = densityObject.getZ() * DensityModel.DISPLAY_SCALE;
     }
 
     public function doUpdate(): void {
