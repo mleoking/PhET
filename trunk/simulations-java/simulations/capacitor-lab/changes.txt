@@ -1,8 +1,8 @@
+10/5/10 remove stubs for Save/Load feature, not necessary per Noah P
 10/5/10 start up with Introduction tab selected
 10/5/10 fix: make View controls reset properly
 10/5/10 implemented Introduction tab (subclass of Dielectric tab)
 10/5/10 implemented Reset All feature
-10/5/10 Save/Load feature not necessary per Noah P
 10/5/10 fix: knob on voltage slider and Plate Charge slider jumps to center when you mouseDown on it
 10/5/10 decided not to add curvature to field lines on perimeter of plates
 10/5/10 make battery voltage slider and Plate Charge slider snap to zero
