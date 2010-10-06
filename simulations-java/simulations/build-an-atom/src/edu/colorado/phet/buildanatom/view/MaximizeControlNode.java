@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.advancedacidbasesolutions.AABSImages;
+import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -66,7 +65,7 @@ public class MaximizeControlNode extends PhetPNode {
 
         // button
         this.isMaximized = isMaximized;
-        buttonNode = new PImage( AABSImages.MAXIMIZE_BUTTON );
+        buttonNode = new PImage(  );
         buttonNode.scale( 1.5 );//XXX
         buttonNode.addInputEventListener( new CursorHandler() );
         buttonNode.addInputEventListener( new PBasicInputEventHandler() {
@@ -101,7 +100,7 @@ public class MaximizeControlNode extends PhetPNode {
         xOffset = buttonNode.getFullBoundsReference().getMaxX() + X_SPACING;
         yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
         labelNode.setOffset( xOffset, yOffset );
-        
+
         // sizes
         this.maximizedSize = new PDimension( maximizedSize.getWidth(), maximizedSize.getHeight() );
         double minimizedHeight = Math.max( buttonNode.getFullBoundsReference().getHeight(), labelNode.getFullBoundsReference().getHeight() ) + ( 2 * Y_MARGIN );
@@ -120,12 +119,12 @@ public class MaximizeControlNode extends PhetPNode {
         if ( b != isMaximized ) {
             isMaximized = b;
             if ( isMaximized ) {
-                buttonNode.setImage( AABSImages.MINIMIZE_BUTTON );
+                buttonNode.setImage( BuildAnAtomResources.getImage( "minimizeButton.png" ) );
                 backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, maximizedSize.getWidth(), maximizedSize.getHeight() ) );
                 addChild( managedNode );
             }
             else {
-                buttonNode.setImage( AABSImages.MAXIMIZE_BUTTON );
+                buttonNode.setImage( BuildAnAtomResources.getImage( "maximizeButton.png" ) );
                 backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, minimizedSize.getWidth(), minimizedSize.getHeight() ) );
                 removeChild( managedNode );
             }
