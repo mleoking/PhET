@@ -241,8 +241,8 @@ public class Atom {
                 }
             }
 
-            // TODO: Comment this.
-            System.out.println("----------- Entering swapping loop -------------");
+            // Shuffle the location of some of the nucleons in order to
+            // minimize the appearance of "clumpiness".
             for ( int i = 0; i < nucleons.size() / 2; i++ ) {
                 Proton mostClumpedProton = null;
                 for ( Proton proton : protons ) {
@@ -260,10 +260,13 @@ public class Atom {
                 }
                 if (mostClumpedProton != null && mostClumpedNeutron != null){
                     // Swap the two most clumped.
-                    System.out.println("Swapping proton & neutron, clump factors are: " + getClumpFactor( mostClumpedProton, nucleons ) + " and " + getClumpFactor( mostClumpedNeutron, nucleons ));
                     swap(nucleons, nucleons.indexOf( mostClumpedProton ), nucleons.indexOf( mostClumpedNeutron ) );
                 }
             }
+
+            // TODO: There are several different attempts at reducing the
+            // clumpiness that are commented out below.  This should be
+            // cleaned up once the nucleus appearance is deemed acceptable.
 
             //            if (nucleons.size() > 10){
             //                // Swap some particles in order to create a more random and
