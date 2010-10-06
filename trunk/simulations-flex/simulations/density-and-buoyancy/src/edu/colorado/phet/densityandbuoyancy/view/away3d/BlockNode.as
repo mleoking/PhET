@@ -79,9 +79,9 @@ public class BlockNode extends CubeNode implements Pickable {
 
     public override function updateGeometry(): void {
         super.updateGeometry();
-        textReadout.x = getCube().x - getCube().width / 2;
-        textReadout.y = getCube().y - getCube().height / 2;
-        textReadout.z = getCube().z - getCube().depth / 2 - DensityConstants.FUDGE_FACTOR_DZ;
+        densityObjectReadoutNode.x = getCube().x - getCube().width / 2 + x;
+        densityObjectReadoutNode.y = getCube().y - getCube().height / 2 + y;
+        densityObjectReadoutNode.z = getCube().z - getCube().depth / 2 - DensityConstants.FUDGE_FACTOR_DZ + z;
     }
 
     override protected function getFontReadoutSize(): Number {

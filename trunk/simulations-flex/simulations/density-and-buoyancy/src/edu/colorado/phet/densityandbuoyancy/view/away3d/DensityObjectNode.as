@@ -8,8 +8,6 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
-import flash.text.TextFormat;
-
 public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var densityObject: DensityObject;
 
@@ -19,39 +17,40 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
      */
     protected var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
 
-    private var _view: AbstractDensityModule;
+    private var _module: AbstractDensityModule;
 
-    protected var textReadout: TextFieldMesh;
+    protected var densityObjectReadoutNode: DensityObjectReadoutNode;
 
     /**
      * Whether this object is currently movable (and thus pickable), or not
      */
     private var pickable: BooleanProperty = new BooleanProperty( true );
+    private var arrowNodes: Array = new Array();
 
-    public function DensityObjectNode( densityObject: DensityObject, view: AbstractDensityModule ) {
+    public function DensityObjectNode( densityObject: DensityObject, module: AbstractDensityModule ) {
         super();
         this.densityObject = densityObject;
-        this._view = view;
+        this._module = module;
         densityObject.getYProperty().addListener( updateGeometry );
         densityObject.getXProperty().addListener( updateGeometry );
         densityObject.addRemovalListener( remove );
 
-        this.textReadout = new TextFieldMesh( "hello", createLabelTextFormat() );
-        addChild( textReadout );
+        densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
     }
 
-    public function get view(): AbstractDensityModule {
-        return _view;
+    public function get module(): AbstractDensityModule {
+        return _module;
     }
 
-    public function addArrowNode( arrowNode: ArrowNode, overlayViewport: Away3DViewport ): void {
+    public function addArrowNode( arrowNode: ArrowNode ): void {
         var listener: Function = function(): void {
             arrowNode.z = frontZProperty.value - 1E-6 * arrowNode.offset + z;//Offset so they don't overlap in z
             trace( frontZProperty.value );
         };
         frontZProperty.addListener( listener );
         listener();
-        overlayViewport.scene.addChild( arrowNode );
+        arrowNodes.push( arrowNode );
+        module.overlayViewport.scene.addChild( arrowNode );
     }
 
     public function getDensityObject(): DensityObject {
@@ -59,7 +58,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     }
 
     public function remove(): void {
-        view.removeObject( this );
+        module.removeDensityObject( this );
     }
 
     public function setPosition( x: Number, y: Number ): void {
@@ -75,15 +74,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     }
 
     protected function setReadoutText( str: String ): void {
-        textReadout.text = str;
-    }
-
-    protected function createLabelTextFormat(): TextFormat {
-        var format: TextFormat = new TextFormat();
-        format.size = getFontReadoutSize();
-        format.bold = true;
-        format.font = "Arial";
-        return format;
+        densityObjectReadoutNode.setReadoutText( str );
     }
 
     protected function getFontReadoutSize(): Number {
@@ -92,6 +83,18 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
 
     public function isPickableProperty(): BooleanProperty {
         return pickable;
+    }
+
+    public function addOverlayObjects(): void {
+        module.overlayViewport.scene.addChild( densityObjectReadoutNode.textReadout );
+    }
+
+    public function removeOverlayObjects(): void {
+        module.overlayViewport.scene.removeChild( densityObjectReadoutNode.textReadout );
+        for each ( var arrowNode: ArrowNode in arrowNodes ) {
+            module.overlayViewport.scene.removeChild( arrowNode );
+        }
+        arrowNodes = new Array();
     }
 }
 }

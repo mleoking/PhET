@@ -30,8 +30,8 @@ public class AbstractDensityModule extends UIComponent {
     //model
     protected var _model: DensityModel;
 
-    protected var mainViewport: Away3DViewport = new Away3DViewport();
-    protected var overlayViewport: Away3DViewport = new Away3DViewport();
+    public const mainViewport: Away3DViewport = new Away3DViewport();
+    public const overlayViewport: Away3DViewport = new Away3DViewport();
 
     //navigation variables
     private var moving: Boolean = false;
@@ -49,8 +49,6 @@ public class AbstractDensityModule extends UIComponent {
     private var invalid: Boolean = true;
     private var marker: ObjectContainer3D;
     private var groundNode: GroundNode;
-
-    protected var densityObjectNodeList: Array = new Array();
 
     private var waterVolumeIndicator: WaterVolumeIndicator;
     private var tickMarkSet: TickMarkSet;
@@ -151,7 +149,12 @@ public class AbstractDensityModule extends UIComponent {
     private function addDensityObject( densityObject: DensityObject ): void {
         const densityObjectNode: DensityObjectNode = createDensityObjectNode( densityObject );
         mainViewport.scene.addChild( densityObjectNode );
-        densityObjectNodeList.push( densityObjectNode );
+        densityObjectNode.addOverlayObjects();
+    }
+
+    public function removeDensityObject( densityObjectNode: DensityObjectNode ): void {
+        mainViewport.scene.removeChild( densityObjectNode );
+        densityObjectNode.removeOverlayObjects();
     }
 
     protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
@@ -298,10 +301,6 @@ public class AbstractDensityModule extends UIComponent {
         overlayViewport.onResize( stage );
 
         updateWaterVolumeIndicater();
-    }
-
-    public function removeObject( ob: DensityObjectNode ): void {
-        mainViewport.scene.removeChild( ob );
     }
 
     public function pause(): void {

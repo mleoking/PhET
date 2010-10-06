@@ -78,9 +78,9 @@ public class ScaleNode extends CuboidNode {
 
     override public function updateGeometry(): void {
         super.updateGeometry();
-        textReadout.x = base.x - base.width / 2;
-        textReadout.y = base.y - base.height / 2;
-        textReadout.z = base.z - base.depth / 2 - DensityConstants.FUDGE_FACTOR_DZ;
+        densityObjectReadoutNode.x = base.x - base.width / 2 + x;
+        densityObjectReadoutNode.y = base.y - base.height / 2 + y;
+        densityObjectReadoutNode.z = base.z - base.depth / 2 - DensityConstants.FUDGE_FACTOR_DZ + z;
         updateText();
     }
 
