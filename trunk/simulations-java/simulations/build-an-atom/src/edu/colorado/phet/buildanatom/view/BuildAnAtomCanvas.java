@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
@@ -23,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -145,7 +147,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
         }
 
-
         for ( int i = 0; i < Math.max( model.numProtons(), model.numNeutrons() ); i++ ) {
             if ( i < model.numProtons() ) {
                 particleLayer.addChild( new ProtonNode( mvt, model.getProton( i ) ) );
@@ -168,6 +169,12 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 BuildAnAtomCanvas.this.model.reset();
             }
         });
+
+        // Add the symbol indicator contained within a min/max node.
+        PNode symbolIndicator = new MaximizeControlNode( "Symbol", new PDimension(300, 100), new PhetPPath(new Rectangle2D.Double( 0, 0, 50, 50 ), Color.PINK) );
+        symbolIndicator.setOffset( 700, 200 );
+
+        rootNode.addChild( symbolIndicator );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
