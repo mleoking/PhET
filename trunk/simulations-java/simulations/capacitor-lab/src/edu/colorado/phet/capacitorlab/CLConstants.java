@@ -44,23 +44,23 @@ public class CLConstants {
     public static final boolean BATTERY_CONNECTED = true;
     
     public static final Point3D CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
-    public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( .01, .02 ); // meters
-    public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( .005, .01, .01 ); // meters
-    public static final double PLATE_THICKNESS = .0005; // meters
+    public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( 0.01, 0.02 ); // meters
+    public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 0.005, 0.01, 0.01 ); // meters
+    public static final double PLATE_THICKNESS = 0.0005; // meters
     
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax() ); // meters
     public static final double DIELECTRIC_GAP = 0.0002; // gap between dielectric and plates, meters
     
-    public static final double WIRE_THICKNESS = .0005; // meters
+    public static final double WIRE_THICKNESS = 0.0005; // meters
     public static final double TOP_WIRE_EXTENT = Math.abs( .016 ); // how far the top wire extends above the capactor's origin, absolute value (meters)
     public static final double BOTTOM_WIRE_EXTENT = TOP_WIRE_EXTENT; // how far the bottom wire extends below the capactor's origin, absolute value (meters)
     
     public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
     
-    // dielectric constants
-    public static final double EPSILON_VACUUM = 1; // dielectric constant of a vacuum, dimensionless
-    public static final double EPSILON_AIR = 1.0005896; // dielectric constant of air, dimensionless
+    // dielectric constants (dimensionless)
+    public static final double EPSILON_VACUUM = 1;
+    public static final double EPSILON_AIR = 1.0005896;
     public static final double EPSILON_PAPER = 3.5;
     public static final double EPSILON_POLYSTYRENE = 2.5;
     public static final double EPSILON_TEFLON = 2.1;
@@ -77,8 +77,8 @@ public class CLConstants {
     
     // model-view transform
     public static final double MVT_SCALE = 15000; // scale factor when going from model to view
-    public static final double YAW_VIEWING_ANGLE = Math.toRadians( -45 ); // rotation about the vertical axis, right-hand rule determines sign
-    public static final double PITCH_VIEWING_ANGLE = Math.toRadians( 30 ); // rotation about the horizontal axis, right-hand rule determines sign
+    public static final double MVT_YAW = Math.toRadians( -45 ); // rotation about the vertical axis, right-hand rule determines sign
+    public static final double MVT_PITCH = Math.toRadians( 30 ); // rotation about the horizontal axis, right-hand rule determines sign
     
     public static final double PSWING_SCALE = 1.5;
     

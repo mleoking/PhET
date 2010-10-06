@@ -49,6 +49,10 @@ public class ModelViewTransform {
         this.yaw = yaw;
     }
     
+    public double getYaw() {
+        return yaw;
+    }
+    
     //----------------------------------------------------------------------------
     // Model-to-view transforms
     //----------------------------------------------------------------------------
