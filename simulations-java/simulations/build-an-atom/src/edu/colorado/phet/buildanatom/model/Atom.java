@@ -130,6 +130,10 @@ public class Atom extends SimpleObservable{
         return electronShellRadii;
     }
 
+    public int getRemainingElectronCapacity(){
+        return electronShell1.getNumOpenLocations() + electronShell2.getNumOpenLocations();
+    }
+
     public double getNucleusRadius() {
         return NUCLEUS_RADIUS;
     }

@@ -28,9 +28,9 @@ public class BuildAnAtomModel {
 
     // Constants that define the number of sub-atomic particles that exist
     // within the sim.
-    private static final int NUM_ELECTRONS = 10;
+    private static final int NUM_ELECTRONS = 11;
     private static final int NUM_PROTONS = 10;
-    private static final int NUM_NEUTRONS = 11;
+    private static final int NUM_NEUTRONS = 13;
 
     // Constants that define the size, position, and appearance of the buckets.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
@@ -78,13 +78,13 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
-            electron.addListener( new SubatomicParticle.Adapter(){
+            electron.addListener( new SubatomicParticle.Adapter() {
                 @Override
                 public void droppedByUser( SubatomicParticle particle ) {
                     // The user just released this electron.  If it is close
-                    // enough to the nucleus, send it there, otherwise
-                    // send it to its bucket.
-                    if ( electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
+                    // enough to the shell, and there is room, send it there.
+                    // Otherwise send it to its bucket.
+                    if ( atom.getRemainingElectronCapacity() > 0 && electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
                         atom.addElectron( electron );
                     }
                     else {
@@ -97,7 +97,7 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_PROTONS; i++ ) {
             final Proton proton = new Proton( clock );
             protons.add( proton );
-            proton.addListener( new SubatomicParticle.Adapter(){
+            proton.addListener( new SubatomicParticle.Adapter() {
                 @Override
                 public void droppedByUser( SubatomicParticle particle ) {
                     // The user just released this proton.  If it is close
@@ -116,7 +116,7 @@ public class BuildAnAtomModel {
         for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
-            neutron.addListener( new SubatomicParticle.Adapter(){
+            neutron.addListener( new SubatomicParticle.Adapter() {
                 @Override
                 public void droppedByUser( SubatomicParticle particle ) {
                     // The user just released this neutron.  If it is close
@@ -175,17 +175,17 @@ public class BuildAnAtomModel {
         // Put all the particles back in the bucket.
         for ( Electron electron : electrons ) {
             // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
-//            atom.addElectron( electron);
+            //            atom.addElectron( electron);
             electronBucket.addParticle( electron, true );
         }
         for ( Proton proton : protons ) {
             // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
-//            atom.addProton( proton );
+            //            atom.addProton( proton );
             protonBucket.addParticle( proton, true );
         }
         for ( Neutron neutron : neutrons ) {
             // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
-//            atom.addNeutron( neutron );
+            //            atom.addNeutron( neutron );
             neutronBucket.addParticle( neutron, true );
         }
 
