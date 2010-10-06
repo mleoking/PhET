@@ -1,3 +1,4 @@
+10/6/10 change dielectric "Show All Charges" to be proportional to E_dielectric
 10/6/10 clean up encapsulation of pitch and yaw properties for 3D mvt
 10/6/10 move dielectric colors to CLPaints
 10/6/10 move dielectric constants to CLConstants
