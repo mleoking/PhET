@@ -72,6 +72,11 @@ public class AbstractDensityModule extends UIComponent {
         initListeners();
 
         addChild( mainViewport.view );
+
+        //Don't intercept mouse events in the overlay scene, though we're not sure why this was happening in the first place
+        overlayViewport.view.mouseEnabled = false;
+        overlayViewport.view.mouseChildren = false;
+
         addChild( overlayViewport.view );
         tickMarkSet = new TickMarkSet( _model );
         addChild( tickMarkSet );
