@@ -1,0 +1,43 @@
+package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+
+import flash.text.TextFormat;
+
+public class DensityObjectReadoutNode {
+    private var _textReadout: TextFieldMesh;
+    private var fontSize: Number;
+
+    public function DensityObjectReadoutNode( densityObject: DensityObject, fontSize: Number ) {
+        this.fontSize = fontSize;
+        _textReadout = new TextFieldMesh( "hello", createLabelTextFormat() );
+    }
+
+    public function get textReadout(): TextFieldMesh {
+        return _textReadout;
+    }
+
+    protected function createLabelTextFormat(): TextFormat {
+        var format: TextFormat = new TextFormat();
+        format.size = fontSize;
+        format.bold = true;
+        format.font = "Arial";
+        return format;
+    }
+
+    public function setReadoutText( str: String ): void {
+        textReadout.text = str;
+    }
+
+    function set x( x: Number ): void {
+        textReadout.x = x;
+    }
+
+    function set y( y: Number ): void {
+        textReadout.y = y;
+    }
+
+    function set z( z: Number ): void {
+        textReadout.z = z;
+    }
+}
+}

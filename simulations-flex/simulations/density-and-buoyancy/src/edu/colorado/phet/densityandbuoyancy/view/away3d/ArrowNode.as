@@ -39,6 +39,7 @@ public class ArrowNode extends MyMesh {
 
         visibilityProperty.addListener( updateVisibility );
         updateVisibility();
+        updateLocation();
     }
 
     private function updateLocation(): void {
