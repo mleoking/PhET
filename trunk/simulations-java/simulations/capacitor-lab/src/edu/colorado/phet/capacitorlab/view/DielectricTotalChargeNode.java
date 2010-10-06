@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Polarity;
@@ -105,47 +103,54 @@ public class DielectricTotalChargeNode extends PhetPNode {
         for ( int row = 0; row < rows; row++ ) {
             for ( int column = 0; column < columns; column++ ) {
                 
-                ChargePairNode pairNode = new ChargePairNode();
-                parentNode.addChild( pairNode );
-                
-                double x = -( dielectricWidth / 2 ) + offset + xMargin + ( column * spacingBetweenPairs );
-                double y = yMargin + offset + ( row * spacingBetweenPairs );
-                double z = ( -dielectricDepth / 2 );
-                Point2D p = mvt.modelToView( x, y, z );
-                pairNode.setOffset( p );
-                
-                if ( x <= xPlateEdge ) {
-                    pairNode.setSpacing( spacingBetweenCharges, polarity );
+                // front face
+                {
+                    // charge pair
+                    ChargePairNode pairNode = new ChargePairNode();
+                    parentNode.addChild( pairNode );
+
+                    // location
+                    double x = -( dielectricWidth / 2 ) + offset + xMargin + ( column * spacingBetweenPairs );
+                    double y = yMargin + offset + ( row * spacingBetweenPairs );
+                    double z = ( -dielectricDepth / 2 );
+                    pairNode.setOffset( mvt.modelToView( x, y, z ) );
+
+                    // spacing between charges
+                    if ( x <= xPlateEdge ) {
+                        pairNode.setSpacing( spacingBetweenCharges, polarity );
+                    }
+                    else {
+                        pairNode.setSpacing( SPACING_BETWEEN_CHARGES.getMin(), polarity );
+                    }
                 }
-                else {
-                    pairNode.setSpacing( SPACING_BETWEEN_CHARGES.getMin(), polarity );
-                }
-            }
-        }
-        
-        // side face
-        for ( int row = 0; row < rows; row++ ) {
-            for ( int column = 0; column < columns; column++ ) {
                 
-                ChargePairNode pairNode = new ChargePairNode();
-                parentNode.addChild( pairNode );
-                
-                double x = ( dielectricWidth / 2 );
-                double y = yMargin + offset + ( row * spacingBetweenPairs );
-                double z = ( -dielectricDepth / 2 ) + offset + zMargin + ( column * spacingBetweenPairs );
-                Point2D p = mvt.modelToView( x, y, z );
-                pairNode.setOffset( p );
-                
-                if ( circuit.getCapacitor().getDielectricOffset() == 0 ) {
-                    pairNode.setSpacing( spacingBetweenCharges, polarity );
-                }
-                else {
-                    pairNode.setSpacing( SPACING_BETWEEN_CHARGES.getMin(), polarity );
+                // side face
+                {
+                    // charge pair
+                    ChargePairNode pairNode = new ChargePairNode();
+                    parentNode.addChild( pairNode );
+                    
+                    // location
+                    double x = ( dielectricWidth / 2 );
+                    double y = yMargin + offset + ( row * spacingBetweenPairs );
+                    double z = ( -dielectricDepth / 2 ) + offset + zMargin + ( column * spacingBetweenPairs );
+                    pairNode.setOffset( mvt.modelToView( x, y, z ) );
+                    
+                    // spacing between charges
+                    if ( circuit.getCapacitor().getDielectricOffset() == 0 ) {
+                        pairNode.setSpacing( spacingBetweenCharges, polarity );
+                    }
+                    else {
+                        pairNode.setSpacing( SPACING_BETWEEN_CHARGES.getMin(), polarity );
+                    } 
                 }
             }
         }
     }
     
+    /*
+     * Spacing between charges is proportion to the charge.
+     */
     private double getSpacingBetweenCharges( double charge ) {
         double absCharge = Math.abs( charge );
         double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge();
@@ -153,6 +158,11 @@ public class DielectricTotalChargeNode extends PhetPNode {
         return SPACING_BETWEEN_CHARGES.getMin() + ( percent * SPACING_BETWEEN_CHARGES.getLength() );
     }
     
+    /*
+     * A positive and negative charge pair.
+     * The vertical spacing is variable.
+     * Origin is at the geometric center when vertical spacing is zero.
+     */
     private static class ChargePairNode extends PComposite {
         
         private final PNode positiveNode, negativeNode;

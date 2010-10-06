@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
@@ -139,8 +138,7 @@ public abstract class PlateChargeNode extends PhetPNode {
                     double x = getContactXOrigin() + xOffset + ( column * dx );
                     double y = 0;
                     double z = -( plateDepth / 2 ) + ( zMargin / 2 ) + zOffset + ( row * dz );
-                    Point2D offset = mvt.modelToView( x, y, z );
-                    chargeNode.setOffset( offset );
+                    chargeNode.setOffset( mvt.modelToView( x, y, z ) );
                 }
             }
             
