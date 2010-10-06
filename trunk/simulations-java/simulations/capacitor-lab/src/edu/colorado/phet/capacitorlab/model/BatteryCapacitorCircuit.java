@@ -119,6 +119,14 @@ public class BatteryCapacitorCircuit {
         return capacitor;
     }
     
+    /**
+     * Gets the minimum plate size (L), used for computing E-field density.
+     * @return
+     */
+    public static double getMinPlateSideLength() {
+        return CLConstants.PLATE_SIZE_RANGE.getMin();
+    }
+    
     //----------------------------------------------------------------------------------
     //
     // Plate Voltage (V)
@@ -159,6 +167,7 @@ public class BatteryCapacitorCircuit {
      * If the battery is connected, then the battery voltage is used.
      * If the battery is not connected, then the plate charge is set directly
      * by the user, and voltage is computed.
+     * (design doc symbol: V_plates)
      * 
      * @return voltage, in volts (V)
      */
@@ -208,6 +217,7 @@ public class BatteryCapacitorCircuit {
     /**
      * Gets the charge for the portion of the top plate contacting the air.
      * @return charge, in Coulombs
+     * (design doc symbol: Q_air)
      */
     public double getAirPlateCharge() {
         return capacitor.getAirCapacitance() * getPlatesVoltage();
@@ -215,6 +225,8 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the charge for the portion of the top plate contacting the dielectric.
+     * (design doc symbol: Q_dielectric)
+     * 
      * @return charge, in Coulombs
      */
     public double getDielectricPlateCharge() {
@@ -223,6 +235,8 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the total charge on the top plate.
+     * (design doc symbol: Q_total)
+     * 
      * @return charge, in Coulombs
      */
     public double getTotalPlateCharge() {
@@ -231,6 +245,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the excess plate charge due to plates contacting air.
+     * (design doc symbol: Q_exess_air)
      * 
      * @return excess charge, in Coulombs
      */
@@ -240,6 +255,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the excess plate charge due to plates contacting the dielectric.
+     * (design doc symbol: Q_excess_dielectric)
      * 
      * @return excess charge, in Coulombs
      */
@@ -282,30 +298,6 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the maximum effective E-field between the plates (E_effective).
-     * The maximum occurs when the battery is disconnected, the Plate Charge control is set to its maximum,
-     * the plate area is set to its minimum, and the dielectric constant is min, and the dielectric is fully inserted. 
-     * And in this situation, plate separation is irrelevant.
-     * @return
-     */
-    public static double getMaxEffectiveEfield() {
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
-        Battery battery = new Battery( new Point3D.Double(), 0 );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
-        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return circuit.getEffectiveEfield();
-    }
-    
-    /**
-     * Gets the minimum plate size (L), used for computing E-field density.
-     * @return
-     */
-    public static double getMinPlateSideLength() {
-        return CLConstants.PLATE_SIZE_RANGE.getMin();
-    }
-    
-    /**
      * Gets the maximum excess charge for the dielectric area (Q_exess_dielectric).
      * @return
      */
@@ -317,19 +309,6 @@ public class BatteryCapacitorCircuit {
         return circuit.getExcessDielectricPlateCharge();
     }
     
-    /**
-     * Gets the maximum field due to dielectric polarization (E_dielectric).
-     * @return
-     */
-    public static double getMaxDielectricEField() {
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
-        Battery battery = new Battery( new Point3D.Double(), 0 );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
-        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return circuit.getDielectricEField();
-    }
-    
     //----------------------------------------------------------------------------------
     //
     // Surface Charge Density (sigma)
@@ -338,6 +317,8 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the surface density charge between the plates and air.
+     * (design doc symbol: sigma_air)
+     * 
      * @return Coulombs/meters^2
      */
     public double getAirSurfaceChargeDensity() {
@@ -346,6 +327,8 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the surface density charge between the plates and the dielectric.
+     * (design doc symbol: sigma_dielectric)
+     * 
      * @return Coulombs/meters^2
      */
     public double getDielectricSurfaceChargeDensity() {
@@ -376,6 +359,7 @@ public class BatteryCapacitorCircuit {
     /**
      * Gets the effective (net) field between the plates.
      * This is uniform everywhere between the plates.
+     * (design doc symbol: E_effective)
      * 
      * @return volts/meter
      */
@@ -385,6 +369,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the field due to the plates in the capacitor volume that contains air.
+     * (design doc symbol: E_plates_air)
      * 
      * @return E-field, in Volts/meter
      */
@@ -394,6 +379,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the field due to the plates in the capacitor volume that contains the dielectric.
+     * (design doc symbol: E_plates_dielectric)
      * 
      * @return E-field, in Volts/meter
      */
@@ -419,6 +405,8 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the field due to air polarization.
+     * (design doc symbol: E_air)
+     * 
      * @return E-field, in Volts/meter
      */
     public double getAirEField() {
@@ -427,10 +415,41 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the field due to dielectric polarization.
+     * (design doc symbol: E_dielectric)
+     * 
      * @return E-field, in Volts/meter
      */
     public double getDielectricEField() {
         return getPlatesDielectricEField() - getEffectiveEfield();
+    }
+    
+    /**
+     * Gets the maximum effective E-field between the plates (E_effective).
+     * The maximum occurs when the battery is disconnected, the Plate Charge control is set to its maximum,
+     * the plate area is set to its minimum, and the dielectric constant is min, and the dielectric is fully inserted. 
+     * And in this situation, plate separation is irrelevant.
+     * @return
+     */
+    public static double getMaxEffectiveEfield() {
+        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
+        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
+        return circuit.getEffectiveEfield();
+    }
+    
+    /**
+     * Gets the maximum field due to dielectric polarization (E_dielectric).
+     * @return
+     */
+    public static double getMaxDielectricEField() {
+        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
+        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
+        return circuit.getDielectricEField();
     }
     
     //----------------------------------------------------------------------------------
@@ -441,6 +460,8 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the energy stored in the capacitor.
+     * (design doc symbol: U)
+     * 
      * @return energy, in joules (J)
      */
     public double getStoredEnergy() {

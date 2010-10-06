@@ -71,6 +71,8 @@ public class Capacitor {
     
     /**
      * Sets the length of a plate's side. Plates are square, so all sides have equal length.
+     * (design doc symbol: L)
+     * 
      * @param plateSideLength meters
      */
     public void setPlateSideLength( double plateSideLength ) {
@@ -86,6 +88,8 @@ public class Capacitor {
     
     /**
      * Gets the length of a plate's side. Plates are square, so all sides have equal length.
+     * (design doc symbol: L)
+     * 
      * @param return length, in meters
      */
     public double getPlateSideLength() {
@@ -95,6 +99,8 @@ public class Capacitor {
     /**
      * Sets the distance between the 2 parallel plates.
      * NOTE: The model for this sim requires that the plate separation be > 0.
+     * (design doc symbol: d)
+     * 
      * @param plateSeparation distance, in meters.
      */
     public void setPlateSeparation( double plateSeparation ) {
@@ -110,6 +116,8 @@ public class Capacitor {
     
     /**
      * Gets the distance between the 2 parallel plates.
+     * (design doc symbol: d)
+     * 
      * return distance, in meters.
      */
     public double getPlateSeparation() {
@@ -141,6 +149,7 @@ public class Capacitor {
     
     /**
      * Convenience method for getting the dielectric constant of the current dielectric material.
+     * (design doc symbol: epsilon_r)
      * 
      * @return dielectric constant, dimensionless
      */
@@ -176,6 +185,8 @@ public class Capacitor {
     /**
      * Sets the offset of the dielectric.
      * When the dielectric is fully inserted between the plates, its offset is zero.
+     * (design doc symbol: offset)
+     * 
      * @param dielectricOffset offset, in meters.
      */
     public void setDielectricOffset( double dielectricOffset ) {
@@ -197,6 +208,8 @@ public class Capacitor {
     
     /**
      * Gets the area of one plate's inside surface.
+     * (design doc symbol: A)
+     * 
      * @return area in meters^2
      */
     public double getPlateArea() {
@@ -205,6 +218,8 @@ public class Capacitor {
     
     /**
      * Gets the area of the contact between one of the plates and air.
+     * (design doc symbol: A_air)
+     * 
      * @return area, in meters^2
      */
     public double getAirContactArea() {
@@ -213,6 +228,8 @@ public class Capacitor {
     
     /**
      * Gets the area of the contact between one of the plates and the dielectric material.
+     * (design doc symbol: A_dielectric)
+     * 
      * @return area, in meters^2
      */
     public double getDielectricContactArea() {
@@ -228,6 +245,7 @@ public class Capacitor {
      * Gets the total capacitance.
      * For the general case of a moveable dielectric, the capacitor is treated as 2 capacitors in parallel.
      * One of the capacitors has the dielectric between its plates, the other has air.
+     * (design doc symbol: C_total)
      * 
      * @return capacitance, in Farads
      */
@@ -237,6 +255,7 @@ public class Capacitor {
     
     /**
      * Gets the capacitance due to the part of the capacitor that is contacting air.
+     * (design doc symbol: C_air)
      * 
      * @return capacitance, in Farads
      */
@@ -246,6 +265,7 @@ public class Capacitor {
     
     /**
      * Gets the capacitance due to the part of the capacitor that is contacting the dielectric.
+     * (design doc symbol: C_dielectric)
      * 
      * @return capacitance, in Farads
      */
