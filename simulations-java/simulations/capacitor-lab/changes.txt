@@ -1,3 +1,4 @@
+10/6/10 use bold font for Plate Charge control title, to be consistent with bar meters
 10/6/10 cleanup and doc grid-based views (plate charge, field lines, dielectric charge)
 # 0.00.27 (44751) Oct 6, 2010
 10/6/10 change E-field display algorithm so that lines smoothly appear/disappear at edges of plate
