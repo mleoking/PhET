@@ -13,7 +13,6 @@ HIGH PRIORITY
 - fix listeners for Capacitor and BatteryCapacitorCircuit, notification is incomplete and incorrect
 - increase plate charge grid size in even-sized increments (2x2, 4x4,...) so that grid doesn't jerk around
 - tweak dielectric material colors
-- specify default locations for meters in model coordinates
 
 MEDUIUM PRIORITY
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D

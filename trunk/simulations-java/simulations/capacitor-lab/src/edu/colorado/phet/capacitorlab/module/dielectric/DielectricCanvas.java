@@ -190,12 +190,11 @@ public class DielectricCanvas extends CLCanvas {
         // dielectric charge view
         capacitorNode.setDielectricChargeView( CLConstants.DIELECTRIC_CHARGE_VIEW );
         // meter locations
-        //XXX specify default meter locations in CLConstants, in model coordinates
-        capacitanceMeterNode.setOffset( 600, 25 );
-        chargeMeterNode.setOffset( 750, 25 );
-        energyMeterNode.setOffset( 900, 25 );
-        voltmeterNode.setOffset( 750, 325 );
-        eFieldDetectorNode.setOffset( 750, 600 );
+        capacitanceMeterNode.setOffset( CLConstants.CAPACITANCE_METER_LOCATION );
+        chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
+        energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
+        voltmeterNode.setOffset( CLConstants.VOLTMETER_LOCATION );
+        eFieldDetectorNode.setOffset( CLConstants.EFIELD_DETECTOR_LOCATION );
     }
     
     public CapacitorNode getCapacitorNode() {
