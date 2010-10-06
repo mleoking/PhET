@@ -6,12 +6,11 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
-import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Canvas for the game tab.
@@ -36,17 +35,24 @@ public class GameCanvas extends PhetPCanvas {
 
         this.model = model;
 
-        setBackground( Color.BLACK );
+        setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // TODO: Temp - Put a "TBD" indicator on the canvas.
+        PText tbdIndicator = new PText( "TBD" );
+        tbdIndicator.setFont( new PhetFont( 100, true ) );
+        tbdIndicator.setTextPaint( new Color(0, 0, 0, 100) );
+        tbdIndicator.setOffset( 380, 50 );
+        rootNode.addChild( tbdIndicator );
+
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
-        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
-        image.scale( 0.75 );
-        image.setOffset( 50, 0 );
-        rootNode.addChild(image);
+        //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
+        //        image.scale( 0.75 );
+        //        image.setOffset( 50, 0 );
+        //        rootNode.addChild(image);
     }
 
 
