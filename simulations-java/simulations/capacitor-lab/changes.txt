@@ -1,3 +1,4 @@
+# 0.00.27 (44751) Oct 6, 2010
 10/6/10 change E-field display algorithm so that lines smoothly appear/disappear at edges of plate
 10/6/10 default to Dieletric tab for dev version
 10/6/10 gray out Voltmeter and Electric Field Detector check boxes until they are implemented
