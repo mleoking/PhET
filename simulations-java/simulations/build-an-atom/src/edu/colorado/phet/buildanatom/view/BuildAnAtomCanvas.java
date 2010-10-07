@@ -190,7 +190,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         double insetX = 20;
-        symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
+        symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( WINDOW_X, 250 );
         rootNode.addChild( symbolWindow );
 
@@ -198,7 +198,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         MassIndicatorNode massIndicatorNode = new MassIndicatorNode( model.getAtom() );
         // TODO: i18n
         PNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
-        massIndicatorNode.setOffset( windowSize.width - massIndicatorNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 );//todo: the layout centers the scale node since the scale's origin is its top left
+        massIndicatorNode.setOffset( insetX, windowSize.height / 2 );//todo: the layout centers the scale node since the scale's origin is its top left
         massWindow.setOffset( WINDOW_X, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( massWindow );
 
@@ -206,7 +206,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
         // TODO: i18n
         PNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
-        chargeIndicatorNode.setOffset( windowSize.width - chargeIndicatorNode.getBoxWidth() - insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
+        chargeIndicatorNode.setOffset( insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( WINDOW_X, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
 
