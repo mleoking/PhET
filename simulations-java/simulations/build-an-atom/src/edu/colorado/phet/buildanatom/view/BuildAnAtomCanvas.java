@@ -186,6 +186,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
         rootNode.addChild( stabilityIndicator );
 
+        ParticleCountLegend particleCountLegend= new ParticleCountLegend(model.getAtom());
+        particleCountLegend.setOffset(20,20);//top right corner, but with some padding
+        rootNode.addChild( particleCountLegend );
+
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
         //        image.scale( 2.05 );
