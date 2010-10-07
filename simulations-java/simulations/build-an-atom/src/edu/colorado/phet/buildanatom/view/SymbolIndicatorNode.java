@@ -25,6 +25,8 @@ public class SymbolIndicatorNode extends PNode {
     private final PText symbol;
     private final PText protonCount;
     private final PNode boundingBox;
+    private final PText massNumberNode;
+    private final PText chargeNode;
 
     public SymbolIndicatorNode( final Atom atom, double width, double height ) {
         this.atom = atom;
@@ -49,6 +51,15 @@ public class SymbolIndicatorNode extends PNode {
         protonCount.setTextPaint( Color.RED );
         addChild( protonCount );
 
+        massNumberNode = new PText();
+        massNumberNode.setFont( NUMBER_FONT );
+        massNumberNode.setTextPaint( Color.RED );
+        addChild( massNumberNode );
+
+        chargeNode = new PText();
+        chargeNode.setFont(NUMBER_FONT);
+        addChild( chargeNode );
+
         updateSymbol();
     }
 
@@ -56,8 +67,16 @@ public class SymbolIndicatorNode extends PNode {
         symbol.setText( atom.getSymbol() );
         symbol.setOffset( boundingBox.getFullBoundsReference().getCenterX() - symbol.getFullBoundsReference().width / 2,
                 boundingBox.getFullBoundsReference().getCenterY() - symbol.getFullBoundsReference().height / 2 );
-        protonCount.setText( "" + atom.getNumProtons() );
+        protonCount.setText( atom.getNumProtons()==0?"":"" + atom.getNumProtons() );
         protonCount.setOffset( symbol.getFullBoundsReference().getMinX() - protonCount.getFullBoundsReference().width,
-                symbol.getFullBoundsReference().getMaxY() );
+                symbol.getFullBoundsReference().getMaxY()-protonCount.getFullBounds().getHeight()/2 );
+
+        massNumberNode.setText( atom.getAtomicMassNumber()==0?"":"" + atom.getAtomicMassNumber());
+        massNumberNode.setOffset( symbol.getFullBoundsReference().getMinX() - massNumberNode.getFullBoundsReference().width,
+                symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()/2 );
+
+        chargeNode.setText( atom.getAtomicMassNumber()==0?"":""+atom.getCharge() );
+        chargeNode.setOffset( symbol.getFullBoundsReference().getMaxX(),
+                symbol.getFullBoundsReference().getMinY()-chargeNode.getFullBounds().getHeight()/2 );
     }
 }
