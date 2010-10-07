@@ -142,14 +142,18 @@ public class ElementIndicatorNode extends PNode {
             final PText text = new PText( abbreviation );
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
-
+            final Color blue = new Color( 129, 143, 224 );
             atom.addObserver( new SimpleObserver() {
                 public void update() {
                     boolean match = atom.getNumProtons() == atomicNumber;
                     text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     Color paint = null;
-                    if (match) paint =Color.white;
-                    else if (atomicNumber<=10) paint = new Color( 129,143,224);
+                    if ( match ) {
+                        paint = Color.white;
+                    }
+                    else if ( atomicNumber <= 10 ) {
+                        paint = blue;
+                    }
                     box.setPaint( paint );
                 }
             } );
