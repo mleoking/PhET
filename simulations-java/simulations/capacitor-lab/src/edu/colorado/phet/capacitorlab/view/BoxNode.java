@@ -10,7 +10,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.view.IBoxColorStrategy.ThreeColorStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -30,7 +29,6 @@ public abstract class BoxNode extends PhetPNode {
     private final TopNode topNode;
     private final FrontNode frontNode;
     private final SideNode sideNode;
-    private final IBoxColorStrategy colorStrategy;
     
     private double width, depth, height;
     
@@ -40,11 +38,9 @@ public abstract class BoxNode extends PhetPNode {
     
     public BoxNode( ModelViewTransform mvt, Color color, double width, double height, double depth ) {
         
-        colorStrategy = new ThreeColorStrategy();
-        
-        topNode = new TopNode( mvt, colorStrategy.getTopColor( color ) );
-        frontNode = new FrontNode( mvt, colorStrategy.getFrontColor( color ) );
-        sideNode = new SideNode( mvt, colorStrategy.getSideColor( color ) );
+        topNode = new TopNode( mvt, getTopColor( color ) );
+        frontNode = new FrontNode( mvt, getFrontColor( color ) );
+        sideNode = new SideNode( mvt, getSideColor( color ) );
         
         addChild( topNode );
         addChild( frontNode );
@@ -67,9 +63,9 @@ public abstract class BoxNode extends PhetPNode {
     }
     
     public void setColor( Color color ) {
-        topNode.setPaint( colorStrategy.getTopColor( color ) );
-        frontNode.setPaint( colorStrategy.getFrontColor( color ) );
-        sideNode.setPaint( colorStrategy.getSideColor( color ) );
+        topNode.setPaint( getTopColor( color ) );
+        frontNode.setPaint( getFrontColor( color ) );
+        sideNode.setPaint( getSideColor( color ) );
     }
     
     private void update() {
@@ -194,5 +190,27 @@ public abstract class BoxNode extends PhetPNode {
             // path
             setPath( p0, p1, p2, p3 );
         }
+    }
+    
+    private Color getTopColor( Color baseColor ) {
+        return baseColor;
+    }
+
+    private Color getFrontColor( Color baseColor ) {
+        return getDarkerColor( getTopColor( baseColor ) );
+    }
+
+    private Color getSideColor( Color baseColor ) {
+        return getDarkerColor( getFrontColor( baseColor ) );
+    }
+    
+    /*
+     * Color.darker doesn't preserve alpha, so we need our own method.
+     * Notes that this results in the allocation of 2 Colors,
+     * but that's not an issue for this sim.
+     */
+    private Color getDarkerColor( Color color ) {
+        Color c = color.darker();
+        return new Color( c.getRed(), c.getGreen(), c.getBlue(), color.getAlpha() );
     }
 }
