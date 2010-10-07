@@ -172,7 +172,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         PDimension windowSize = new PDimension( 300, 100 );//for the 3 lower windows
         double verticalSpacingBetweenWindows = 20;
-        int WINDOW_X = 700;
+        int indicatorWindowPosX = 600;
 
         // Element indicator
         PDimension elementIndicatorNodeWindowSize = new PDimension( 400, 250 - verticalSpacingBetweenWindows * 2 );
@@ -180,7 +180,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // TODO: i18n
         PNode elementIndicatorWindow = new MaximizeControlNode( "Element", elementIndicatorNodeWindowSize, elementIndicatorNode, true );
         elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width / 2 - elementIndicatorNode.getFullBounds().getWidth() / 2, elementIndicatorNodeWindowSize.getHeight() / 2 - elementIndicatorNode.getFullBounds().getHeight() / 2 );
-        elementIndicatorWindow.setOffset( WINDOW_X - 100, verticalSpacingBetweenWindows );
+        elementIndicatorWindow.setOffset( indicatorWindowPosX, verticalSpacingBetweenWindows );
         elementIndicatorNode.translate( 0, 10 );//fudge factor since centering wasn't quite right
         rootNode.addChild( elementIndicatorWindow );
 
@@ -191,7 +191,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         double insetX = 20;
         symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
-        symbolWindow.setOffset( WINDOW_X, 250 );
+        symbolWindow.setOffset( indicatorWindowPosX, 250 );
         rootNode.addChild( symbolWindow );
 
         // Mass indicator
@@ -199,7 +199,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // TODO: i18n
         PNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
         massIndicatorNode.setOffset( insetX, windowSize.height / 2 );//todo: the layout centers the scale node since the scale's origin is its top left
-        massWindow.setOffset( WINDOW_X, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
+        massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( massWindow );
 
         // Charge indicator
@@ -207,10 +207,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // TODO: i18n
         PNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
         chargeIndicatorNode.setOffset( insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
-        chargeWindow.setOffset( WINDOW_X, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
+        chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
 
-        // Add the "Reset All" button.
+        // "Reset All" button.
         resetButtonNode = new GradientButtonNode( "Reset All", 16, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
@@ -224,7 +224,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 chargeWindow.getFullBounds().getCenterX() - resetButtonNode.getFullBounds().getWidth() / 2,
                 chargeWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
     }
-
 
     //----------------------------------------------------------------------------
     // Accessors
