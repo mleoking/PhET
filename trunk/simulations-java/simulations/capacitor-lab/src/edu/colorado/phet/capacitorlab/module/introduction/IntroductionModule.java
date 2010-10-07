@@ -16,6 +16,7 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
  * <li>the dielectric is air
  * <li>the dielectric is not visible
  * <li>the dielectric controls are not visible
+ * <li>dielectric offset must be zero
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -27,8 +28,10 @@ public class IntroductionModule extends DielectricModule {
         getDielectricCanvas().setDielectricVisible( false ); // dielectric and its drag handle are not visible
     }
     
+    @Override
     public void reset() {
         super.reset();
         getDielectricModel().getCapacitor().setDielectricMaterial( new Air() );  // dielectric is air
+        getDielectricModel().getCapacitor().setDielectricOffset( 0 );
     }
 }
