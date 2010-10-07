@@ -9,3 +9,7 @@ div.rtl #sponsors-people ul li {
 .nml-link {
     cursor: default;
 }
+
+div.practices {
+    padding-top: 15px !important;
+}

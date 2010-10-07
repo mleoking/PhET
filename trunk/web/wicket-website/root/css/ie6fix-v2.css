@@ -9,3 +9,7 @@ div.rtl #sponsors-people ul li {
 .ie6-social-div {
     margin-right: -12px !important;
 }
+
+div.practices {
+    padding-top: 15px !important;
+}
