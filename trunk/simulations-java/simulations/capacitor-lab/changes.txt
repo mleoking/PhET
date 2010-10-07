@@ -1,3 +1,4 @@
+10/7/10 don't change the transparency of transparent dielectrics when field view (etc) is selected
 10/7/10 change dielectric colors, per Noah P
 10/7/10 change box color strategy to preserve alpha channel
 10/7/10 replace polystyrene with glass

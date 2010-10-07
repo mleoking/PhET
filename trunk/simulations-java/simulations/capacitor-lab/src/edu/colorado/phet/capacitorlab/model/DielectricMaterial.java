@@ -42,6 +42,10 @@ public abstract class DielectricMaterial {
         return color;
     }
     
+    public boolean isOpaque() {
+        return color.getAlpha() == 255;
+    }
+    
     public static class Air extends DielectricMaterial {
         public Air() {
             super( CLStrings.DIELECTRIC_AIR, CLConstants.EPSILON_AIR, CLPaints.AIR );
