@@ -25,14 +25,20 @@ public class ElementIndicatorNode extends PNode {
         }};
         //See http://www.ptable.com/
         final PNode table = new PNode();
-        for ( int i = 1; i <= 112; i++ ) {
-            PNode elementCell = new ElementCell( atom, i );
-            final Point gridPoint = getGridPoint( i );
-            double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
-            double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
-            elementCell.setOffset( x, y );
-            table.addChild( elementCell );
+        for ( int i = 1; i <= 56; i++ ) {
+            addElement( atom, table, i );
         }
+        // Add in a single entry to represent the lanthanide series.
+        addElement( atom, table, 57 );
+        for ( int i = 71; i <= 88; i++ ) {
+            addElement( atom, table, i );
+        }
+        // Add in a single entry to represent the actinide series.
+        addElement( atom, table, 89 );
+        for ( int i = 103; i <= 112; i++ ) {
+            addElement( atom, table, i );
+        }
+
         final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
                 elementNameTextNode.setText( atom.getName() );
@@ -43,6 +49,15 @@ public class ElementIndicatorNode extends PNode {
         updateText.update();
         addChild( table );
         addChild( elementNameTextNode );
+    }
+
+    private void addElement( final Atom atom, final PNode table, int i ) {
+        PNode elementCell = new ElementCell( atom, i );
+        final Point gridPoint = getGridPoint( i );
+        double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
+        double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
+        elementCell.setOffset( x, y );
+        table.addChild( elementCell );
     }
 
     //Reports (row,column) on the grid, with a 1-index
@@ -134,10 +149,10 @@ public class ElementIndicatorNode extends PNode {
             String abbreviation = stringTokenizer.nextToken();//abbreviation
 
             if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
-                abbreviation = "...";
+                abbreviation = "La";
             }
             if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
-                abbreviation = "...";
+                abbreviation = "Ac";
             }
             final PText text = new PText( abbreviation );
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
@@ -177,7 +192,7 @@ public class ElementIndicatorNode extends PNode {
                    "15 \tPHOSPHORUS \tP \t30.974\n" +
                    "16 \tSULPHUR \tS \t32.064\n" +
                    "17 \tCHLORINE \tCl \t35.453\n" +
-                   "18 \tARGON \tA \t39.948\n" +
+                   "18 \tARGON \tAr \t39.948\n" +
                    "19 \tPOTASSIUM \tK \t39.102\n" +
                    "20 \tCALCIUM \tCa \t40.08\n" +
                    "21 \tSCANDIUM \tSc \t44.956\n" +
