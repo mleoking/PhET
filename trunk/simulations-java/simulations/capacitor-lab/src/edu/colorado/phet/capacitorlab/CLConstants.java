@@ -48,7 +48,7 @@ public class CLConstants {
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 0.005, 0.01, 0.01 ); // meters
     public static final double PLATE_THICKNESS = 0.0005; // meters
     
-    public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5 ); // dimensionless
+    public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5, 5 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax() ); // meters
     public static final double DIELECTRIC_GAP = 0.0002; // gap between dielectric and plates, meters
     
@@ -109,7 +109,7 @@ public class CLConstants {
     public static final Dimension MINUS_CHARGE_SIZE = new Dimension( 7, 1 );
     
     // dielectric charges
-    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.NONE;
+    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.ALL;
     
     // E-field
     public static final boolean EFIELD_VISIBLE = false;
