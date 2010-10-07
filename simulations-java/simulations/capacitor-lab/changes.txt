@@ -1,9 +1,10 @@
+10/7/10 enable Electric Field Detector check box (again) for feature development
 # 0.00.32 (44871) Oct 7, 2010
 10/7/10 development version to share with KSU
 10/7/10 instead of using dielectric=air in Introduction tab, use custom dielectric with a huge offset 
-10/7/10 disable Electric Field Detector check box again
+10/7/10 disable Electric Field Detector check box (again)
 10/7/10 rotate field probe
-10/7/10 enable Electric Field Detector check box for feature development
+10/7/10 enable Electric Field Detector check box (again) for feature development
 # 0.00.31 (44860) Oct 7, 2010
 10/7/10 development version to share with KSU
 10/7/10 fix: custom dielectric constant not reset by Reset All
@@ -15,6 +16,7 @@
 10/7/10 fix: reverse polarity of charges on the dielectric
 10/7/10 create body of field detector
 10/7/10 adjust origin of field detector probe to be at center of crosshairs
+10/7/10 enable Electric Field Detector check box for feature development
 # 0.00.30 (44840) Oct 7, 2010
 10/7/10 development version to share with KSU
 # 0.00.29 (44839) Oct 7, 2010

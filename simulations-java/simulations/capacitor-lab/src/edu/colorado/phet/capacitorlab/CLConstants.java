@@ -94,7 +94,7 @@ public class CLConstants {
     public static final boolean CHARGE_METER_VISIBLE = false;
     public static final boolean ENERGY_METER_VISIBLE = false;
     public static final boolean VOLTMETER_VISIBLE = false;
-    public static final boolean EFIELD_DETECTOR_VISIBLE = false;//XXX should be false by default
+    public static final boolean EFIELD_DETECTOR_VISIBLE = true;//XXX should be false by default
     
     // default meter locations, view coordinates
     public static final Point2D CAPACITANCE_METER_LOCATION = new Point2D.Double( 600, 25 );
