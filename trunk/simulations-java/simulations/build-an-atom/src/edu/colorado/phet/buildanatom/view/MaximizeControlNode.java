@@ -41,7 +41,7 @@ public class MaximizeControlNode extends PhetPNode {
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Color BACKGROUND_FILL_COLOR = Color.WHITE;
     private static final Color LABEL_PAINT = Color.BLACK;
-    private static final Font LABEL_FONT = new PhetFont( 16 );
+    private static final Font LABEL_FONT = new PhetFont( 18, true );
 
     private final PDimension maximizedSize, minimizedSize;
     private final PNode managedNode;
