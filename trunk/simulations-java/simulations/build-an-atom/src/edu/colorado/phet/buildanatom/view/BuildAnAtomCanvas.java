@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -170,9 +171,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         });
 
         // Add the symbol indicator contained within a min/max node.
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 50, 50 );
+        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 70,70);
         PDimension windowSize = new PDimension( 300, 100 );
         PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
+        //PDebug.debugBounds = true;//helps get the layout and bounds correct
         double insetX = 20;
         symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( 700, 200 );
