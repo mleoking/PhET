@@ -54,6 +54,7 @@ public class MaximizeControlNode extends PhetPNode {
         super();
 
         this.managedNode = managedNode;
+        this.isMaximized = isMaximized;
 
         listeners = new ArrayList<ChangeListener>();
 
@@ -65,7 +66,6 @@ public class MaximizeControlNode extends PhetPNode {
         addChild( backgroundNode );
 
         // button
-        this.isMaximized = isMaximized;
         buttonNode = new PImage( BuildAnAtomResources.getImage( "maximizeButton.png" ) );
         buttonNode.scale( 1.5 );//XXX
         buttonNode.addInputEventListener( new CursorHandler() );
