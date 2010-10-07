@@ -19,6 +19,7 @@ MEDUIUM PRIORITY
 - all features in Multiple Capacitors tab
 
 LOW PRIORITY
+- clean up CCKStrategyWithRounding
 - refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy
 - only update meters when they are visible
