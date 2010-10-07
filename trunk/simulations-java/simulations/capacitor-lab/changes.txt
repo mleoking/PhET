@@ -1,3 +1,5 @@
+# 0.00.31 (44860) Oct 7, 2010
+10/7/10 development version to share with KSU
 10/7/10 fix: custom dielectric constant not reset by Reset All
 10/7/10 gray out Voltmeter and Electric Field Detector check boxes, since they are not yet implemented
 10/7/10 default custom dielectric constant to 5
