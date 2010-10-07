@@ -104,7 +104,7 @@ public class CLConstants {
     public static final Point2D EFIELD_DETECTOR_LOCATION = new Point2D.Double( 650, 600 );
     
     // plate charges
-    public static final boolean PLATE_CHARGES_VISIBLE = false; 
+    public static final boolean PLATE_CHARGES_VISIBLE = true; 
     public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
     public static final Dimension MINUS_CHARGE_SIZE = new Dimension( 7, 1 );
     

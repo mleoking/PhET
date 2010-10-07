@@ -1,3 +1,5 @@
+10/7/10 default Plate Charge view to "on", as specified in the design doc
+10/7/10 default dielectric offset to just outside the capacitor, as specified in the design doc
 10/7/10 fix: reverse polarity of charges on the dielectric
 10/7/10 create body of field detector
 10/7/10 adjust origin of field detector probe to be at center of crosshairs

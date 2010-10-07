@@ -31,7 +31,7 @@ public class DielectricModel {
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
         Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_SIZE_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
-                defaultDielectricMaterial, CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
+                defaultDielectricMaterial, CLConstants.PLATE_SIZE_RANGE.getDefault() /* dielectricOffset */ );
         circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED );
         
         topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
@@ -73,7 +73,7 @@ public class DielectricModel {
         getCapacitor().setPlateSeparation( CLConstants.PLATE_SEPARATION_RANGE.getDefault() );
         customDielectricMaterial.setDielectricConstant( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
-        getCapacitor().setDielectricOffset( CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
+        getCapacitor().setDielectricOffset( CLConstants.PLATE_SIZE_RANGE.getDefault() ); // just outside the capacitor
         // circuit
         getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
     }
