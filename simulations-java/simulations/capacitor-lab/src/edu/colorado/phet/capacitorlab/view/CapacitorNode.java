@@ -84,8 +84,14 @@ public class CapacitorNode extends PhetPNode {
     public void setOpaque( boolean opaque ) {
         float transparency = ( opaque ) ? 1f : TRANSPARENCY;
         topPlateNode.setTransparency( transparency );
-        dielectricNode.setTransparency( transparency );
         bottomPlateNode.setTransparency( transparency );
+        /*
+         * Some dielectric materials are naturally transparent.
+         * Modify dielectric transparency only if its not already transparent. 
+         */
+        if ( circuit.getCapacitor().getDielectricMaterial().isOpaque() ) {
+            dielectricNode.setTransparency( transparency );
+        }
     }
     
     public void setDielectricVisible( boolean visible ) {

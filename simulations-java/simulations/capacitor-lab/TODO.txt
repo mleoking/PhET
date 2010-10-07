@@ -10,9 +10,7 @@ DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
-- tweak dielectric material colors (IBoxColorStrategy)
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect
-- should transparent dielectric get more transparent when field view is selected?
 
 MEDUIUM PRIORITY
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
