@@ -202,7 +202,9 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         massWindow.setOffset( WINDOW_X, symbolWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
         rootNode.addChild( massWindow);
 
-        PNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, new PText("charge"), true );
+        ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
+        PNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
+        chargeIndicatorNode.setOffset( windowSize.width - chargeIndicatorNode.getBoxWidth() - insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( WINDOW_X, massWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
         rootNode.addChild( chargeWindow );
     }

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * If you change something here, it will change *everywhere* in this simulation.
  */
 public class BuildAnAtomConstants {
+    public static final Font READOUT_FONT = new PhetFont( 20, true );
 
     /* Not intended for instantiation. */
     private BuildAnAtomConstants() {}
@@ -65,6 +66,7 @@ public class BuildAnAtomConstants {
 
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
+    public static final Color READOUT_BACKGROUND_COLOR = new Color( 222, 222, 222 );//color for the scale and charge-o-meter
 
     //----------------------------------------------------------------------------
     // Images

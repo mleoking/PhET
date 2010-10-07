@@ -125,6 +125,15 @@ public class Atom extends SimpleObservable{
         //Only need to listen for 'removal' notifications on the inner shell
         //to decide when an outer electron should fall
         electronShell1.addObserver( electronShellChangeObserver );
+
+        //Need to notify our observers when the number of electrons changes
+        final SimpleObserver electronChangeAdapter = new SimpleObserver() {
+            public void update() {
+                notifyObservers();
+            }
+        };
+        electronShell1.addObserver( electronChangeAdapter );
+        electronShell2.addObserver( electronChangeAdapter );
         notifyObservers();
     }
 

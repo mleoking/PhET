@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 
 /**
  * Shows a scale with a numeric readout of the atom weight.  Origin is the top left of the scale body (not the platform).
@@ -24,20 +25,20 @@ public class MassIndicatorNode extends PNode {
         double stemWidth = 4;
         double stemHeight = 7;
         double platformHeight = 3;
-        Color color = new Color( 222, 222, 222 );//color for the scale
-        final PhetPPath base = new PhetPPath( baseShape, color, new BasicStroke( 1 ), Color.black );
+        
+        final PhetPPath base = new PhetPPath( baseShape, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( base );
 
         Rectangle2D.Double stemShape = new Rectangle2D.Double( baseShape.getCenterX() - stemWidth / 2, baseShape.getMinY() - stemHeight, stemWidth, stemHeight );
-        PhetPPath stem = new PhetPPath( stemShape, color, new BasicStroke( 1 ), Color.black );
+        PhetPPath stem = new PhetPPath( stemShape, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( stem );
 
         Rectangle.Double platform = new Rectangle2D.Double( baseShape.getX(), stemShape.getY() - platformHeight, baseShape.getWidth(), platformHeight );
-        PhetPPath platformNode = new PhetPPath( platform, color, new BasicStroke( 1 ), Color.black );
+        PhetPPath platformNode = new PhetPPath( platform, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( platformNode );
 
         final PText readoutPText = new PText() {{
-            setFont( new PhetFont( 20, true ) );
+            setFont( BuildAnAtomConstants.READOUT_FONT );
             setTextPaint( Color.red );
         }};
         addChild( readoutPText );
