@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -23,11 +24,11 @@ public class ElementIndicatorNode extends PNode {
             setTextPaint( Color.red );
         }};
         //See http://www.ptable.com/
-        final PNode table = new PNode( );
-        for ( int i = 1; i <=112; i++ ) {
-            PNode elementCell = new ElementCell( i );
+        final PNode table = new PNode();
+        for ( int i = 1; i <= 112; i++ ) {
+            PNode elementCell = new ElementCell( atom, i );
             final Point gridPoint = getGridPoint( i );
-            double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;
+            double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
             double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
             elementCell.setOffset( x, y );
             table.addChild( elementCell );
@@ -35,7 +36,7 @@ public class ElementIndicatorNode extends PNode {
         final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
                 elementNameTextNode.setText( atom.getName() );
-                elementNameTextNode.setOffset( table.getFullBounds().getWidth()/2-elementNameTextNode.getFullBounds().getWidth()/2,0 );
+                elementNameTextNode.setOffset( table.getFullBounds().getWidth() / 2 - elementNameTextNode.getFullBounds().getWidth() / 2, 0 );
             }
         };
         atom.addObserver( updateText );
@@ -122,19 +123,36 @@ public class ElementIndicatorNode extends PNode {
     }
 
     private class ElementCell extends PNode {
-        public ElementCell( int atomicNumber ) {
+        public ElementCell( final Atom atom, final int atomicNumber ) {
             final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), new BasicStroke( 1 ), Color.black );
             addChild( box );
 
-                    String line = getLine( atomicNumber );
-            StringTokenizer stringTokenizer=new StringTokenizer( line,"\t ");
+            String line = getLine( atomicNumber );
+            StringTokenizer stringTokenizer = new StringTokenizer( line, "\t " );
             stringTokenizer.nextToken();//number
             stringTokenizer.nextToken();//name
-            String abbreviation=stringTokenizer.nextToken();//abbreviation
+            String abbreviation = stringTokenizer.nextToken();//abbreviation
 
-            PText text = new PText( abbreviation );
+            if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
+                abbreviation = "...";
+            }
+            if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
+                abbreviation = "...";
+            }
+            final PText text = new PText( abbreviation );
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
+
+            atom.addObserver( new SimpleObserver() {
+                public void update() {
+                    boolean match = atom.getNumProtons() == atomicNumber;
+                    text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
+                    Color paint = null;
+                    if (match) paint =Color.white;
+                    else if (atomicNumber<=10) paint = new Color( 129,143,224);
+                    box.setPaint( paint );
+                }
+            } );
         }
     }
 //Copied table from http://www.zyra.org.uk/elements.htm
@@ -269,5 +287,5 @@ public class ElementIndicatorNode extends PNode {
                    "129 \tUNBIENNIUM\tUbe\n" +
                    "130 \tUNTRINILIUM\tUtn\n" +
                    "131 \tUNTRINIUM\tUtu";
-    
+
 }
