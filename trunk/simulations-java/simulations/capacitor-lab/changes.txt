@@ -1,3 +1,6 @@
+10/7/10 increase max spacing between positive and negative charges in dielectric charge pairs
+10/7/10 increase spacing between dielectric charge pairs so that we have 3 rows when plate separation is 10mm
+10/7/10 fix BatteryCapacitorCircuit.getMaxDielectricEField, it wasn't the max, and this was affecting dielectric "all charges" view
 10/7/10 don't change the transparency of transparent dielectrics when field view (etc) is selected
 10/7/10 change dielectric colors, per Noah P
 10/7/10 change box color strategy to preserve alpha channel
