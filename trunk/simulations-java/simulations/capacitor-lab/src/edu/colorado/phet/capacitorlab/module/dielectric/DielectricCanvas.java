@@ -100,7 +100,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeterNode = new VoltmeterNode();//XXX
-        eFieldDetectorNode = new EFieldDetectorNode( model.getCircuit(), mvt, playAreaBoundsNode, dev );//XXX
+        eFieldDetectorNode = new EFieldDetectorNode( model.getCircuit(), mvt, playAreaBoundsNode, dev );
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
@@ -257,7 +257,8 @@ public class DielectricCanvas extends CLCanvas {
         keepInsideCanvas( capacitanceMeterNode );
         keepInsideCanvas( chargeMeterNode );
         keepInsideCanvas( energyMeterNode );
-        keepInsideCanvas( voltmeterNode );  //XXX does this work? or do we need to do this for separate draggable parts of voltmeter?
+        keepInsideCanvas( voltmeterNode );  //XXX does this work? it's 3 separate draggable pieces
+        keepInsideCanvas( eFieldDetectorNode ); //XXX does this work? it's 2 separate draggable pieces
     }
     
     /*
