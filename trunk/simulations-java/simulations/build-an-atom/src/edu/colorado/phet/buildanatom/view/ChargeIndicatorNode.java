@@ -37,7 +37,7 @@ public class ChargeIndicatorNode extends PNode {
             public void update() {
                 textNode.setOffset( pieNode.getFullBounds().getCenterX() - textNode.getFullBounds().getWidth() / 2, ( pieNode.getFullBounds().getMaxY() + boxNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
                 textNode.setTextPaint( getTextPaint( atom ) );
-                textNode.setText( atom.getCharge() + "" );
+                textNode.setText( atom.getFormattedCharge() );
             }
         };
         atom.addObserver( updateText );
