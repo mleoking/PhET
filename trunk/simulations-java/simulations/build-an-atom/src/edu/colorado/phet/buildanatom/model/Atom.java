@@ -49,7 +49,6 @@ public class Atom extends SimpleObservable{
         //H
         add( new Isotope( 1, 0 ) );
         add( new Isotope( 2, 1 ) );
-        add( new Isotope( 3, 2 ) );
         //He
         add( new Isotope( 3, 1 ) );
         add( new Isotope( 4, 2 ) );
@@ -57,16 +56,13 @@ public class Atom extends SimpleObservable{
         add( new Isotope( 6, 3 ) );
         add( new Isotope( 7, 4 ) );
         //Be
-        add( new Isotope( 7, 3 ) );
         add( new Isotope( 9, 5 ) );
-        add( new Isotope( 10, 6 ) );
         //B
         add( new Isotope( 10, 5 ) );
         add( new Isotope( 11, 6 ) );
         //C
         add( new Isotope( 12, 6 ) );
         add( new Isotope( 13, 7 ) );
-        add( new Isotope( 14, 8 ) );
         //N
         add( new Isotope( 14, 7 ) );
         add( new Isotope( 15, 8 ) );
