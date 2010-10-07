@@ -32,6 +32,8 @@ public class DielectricModule extends CLModule {
         
         controlPanel = new DielectricControlPanel( parentFrame, this, model, canvas, hasDielectricPropertiesControl, dev );
         setControlPanel( controlPanel );
+        
+        reset();
     }
     
     @Override

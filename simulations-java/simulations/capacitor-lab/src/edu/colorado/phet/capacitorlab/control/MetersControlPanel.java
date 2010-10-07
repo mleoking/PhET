@@ -141,5 +141,6 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         //XXX disabled while under development
         voltmeterCheckBox.setEnabled( false );
+        eFieldDetectorCheckBox.setEnabled( false );
     }
 }
