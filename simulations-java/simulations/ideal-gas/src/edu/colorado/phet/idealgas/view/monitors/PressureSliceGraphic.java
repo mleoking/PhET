@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
 import edu.colorado.phet.idealgas.model.PressureSlice;
@@ -219,7 +220,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
 
             // y location must be converted to units compatible with the graphic ruler
             double h = ( boxLowerEdge - y ) / IdealGasConfig.PIXELS_PER_NANOMETER;
-            String heightStr = "height = " + heightFormatter.format( h ) + "nm";
+            String heightStr = IdealGasResources.getString( "PressureSlideGraphic.height") + " = " + heightFormatter.format( h ) + "nm";
 //            String heightStr = "height = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
