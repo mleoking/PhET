@@ -1,3 +1,4 @@
+10/7/10 create body of field detector
 10/7/10 adjust origin of field detector probe to be at center of crosshairs
 # 0.00.30 (44840) Oct 7, 2010
 10/7/10 development version to share with KSU
