@@ -4,14 +4,14 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 
 /**
  * Shows a scale with a numeric readout of the atom weight.  Origin is the top left of the scale body (not the platform).
@@ -19,22 +19,21 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
  * @author Sam Reid
  */
 public class MassIndicatorNode extends PNode {
+    private Atom atom;
 
     public MassIndicatorNode( final Atom atom ) {
-        Rectangle2D.Double baseShape = new Rectangle2D.Double( 0, 0, 100, 30 );
-        double stemWidth = 4;
-        double stemHeight = 7;
-        double platformHeight = 3;
-        
+        this.atom=atom;
+        final Rectangle2D.Double baseShape = new Rectangle2D.Double( 0, 0, 100, 30 );
+        final double stemWidth = 4;
+        final double platformHeight = 3;
+
         final PhetPPath base = new PhetPPath( baseShape, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( base );
 
-        Rectangle2D.Double stemShape = new Rectangle2D.Double( baseShape.getCenterX() - stemWidth / 2, baseShape.getMinY() - stemHeight, stemWidth, stemHeight );
-        PhetPPath stem = new PhetPPath( stemShape, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
+        final PhetPPath stem = new PhetPPath( BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( stem );
 
-        Rectangle.Double platform = new Rectangle2D.Double( baseShape.getX(), stemShape.getY() - platformHeight, baseShape.getWidth(), platformHeight );
-        PhetPPath platformNode = new PhetPPath( platform, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
+        final PhetPPath platformNode = new PhetPPath( BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( platformNode );
 
         final PText readoutPText = new PText() {{
@@ -57,7 +56,7 @@ public class MassIndicatorNode extends PNode {
         //use small icon of orbits/cloud instead of cloud
 
         //TODO: copied from BuildAnAtomCanvas, should be factored out into something like ElectronShellNode
-        PNode atomNode = new PNode();
+        final PNode atomNode = new PNode();
         //Make it small enough so it looks to scale, but also so we don't have to indicate atomic substructure
         Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 1.5f, 1.5f }, 0 );
         ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle2D.Double( 0, 0, 1, 1 ), false );
@@ -70,8 +69,28 @@ public class MassIndicatorNode extends PNode {
             PNode electronShellNode = new PhetPPath( electronShellShape, stroke, Color.BLUE );
             atomNode.addChild( electronShellNode );
         }
-        atomNode.setOffset( platform.getCenterX(), -atomNode.getFullBounds().getHeight() //set the atom on the scale
-                                                   - 1 );//looks weird if shell sits on the scale, so have it float a little
         addChild( atomNode );
+
+        //have the scale compress with increased weight
+        final SimpleObserver updateCompression = new SimpleObserver() {
+            public void update() {
+                Rectangle2D.Double stemShape = new Rectangle2D.Double( baseShape.getCenterX() - stemWidth / 2, baseShape.getMinY() - getStemHeight(), stemWidth, getStemHeight() );
+                stem.setPathTo( stemShape );
+                Rectangle.Double platform = new Rectangle2D.Double( baseShape.getX(), stemShape.getY() - platformHeight, baseShape.getWidth(), platformHeight );
+                platformNode.setPathTo( platform );
+                atomNode.setOffset( platform.getCenterX(), platform.getCenterY()-atomNode.getFullBounds().getHeight()/2 //set the atom on the scale
+                                                   - 4 );//looks weird if shell sits on the scale, so have it float a little
+            }
+        };
+        atom.addObserver( updateCompression );
+        updateCompression.update();
+    }
+
+    public double getStemHeight(){
+        Function.LinearFunction linearFunction=new Function.LinearFunction( 0,23,//23 max atomic weight based on allowed number protons and neutrons
+                                                                            8,//tallest stem
+                                                                            2);//shortest stem
+        double stemHeight = linearFunction.evaluate( atom.getAtomicMassNumber() );
+        return stemHeight;
     }
 }
