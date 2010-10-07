@@ -20,7 +20,6 @@ public class CLPaints {
     public static final Color PLATE =  new Color( 245, 245, 245 );
     
     // dielectric materials
-    public static final Color AIR = new Color( 0, 0, 0, 0 ); // invisible
     public static final Color CUSTOM_DIELECTRIC = new Color( 255, 255, 125 ); // pale yellow
     public static final Color GLASS = new Color( 100, 100, 100, 64 ); // transparent gray
     public static final Color PAPER = new Color( 255, 255, 225 ); // off white

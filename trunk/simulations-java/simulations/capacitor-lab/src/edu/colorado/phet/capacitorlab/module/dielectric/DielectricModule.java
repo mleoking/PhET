@@ -19,10 +19,10 @@ public class DielectricModule extends CLModule {
     private final DielectricControlPanel controlPanel;
     
     public DielectricModule( Frame parentFrame, boolean dev ) {
-        this( CLStrings.TAB_DIELECTRIC, parentFrame, true /* hasDielectricPropertiesControl */, dev );
+        this( CLStrings.TITLE_DIELECTRIC, parentFrame, dev );
     }
-
-    protected DielectricModule( String title, Frame parentFrame, boolean hasDielectricPropertiesControl, boolean dev ) {
+    
+    protected DielectricModule( String title, Frame parentFrame, boolean dev ) {
         super( title );
         
         model = new DielectricModel( getCLClock() );
@@ -30,7 +30,7 @@ public class DielectricModule extends CLModule {
         canvas = new DielectricCanvas( model, dev );
         setSimulationPanel( canvas );
         
-        controlPanel = new DielectricControlPanel( parentFrame, this, model, canvas, hasDielectricPropertiesControl, dev );
+        controlPanel = new DielectricControlPanel( parentFrame, this, model, canvas, dev );
         setControlPanel( controlPanel );
         
         reset();
