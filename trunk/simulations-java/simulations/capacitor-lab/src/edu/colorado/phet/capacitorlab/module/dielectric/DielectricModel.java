@@ -26,10 +26,7 @@ public class DielectricModel {
     public DielectricModel( CLClock clock ) {
         
         customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
-        DielectricMaterial teflon = new Teflon();
-        DielectricMaterial glass = new Glass();
-        DielectricMaterial paper = new Paper();
-        dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, teflon, glass, paper };
+        dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, new Teflon(), new Paper(), new Glass() };
         defaultDielectricMaterial = customDielectricMaterial;
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
