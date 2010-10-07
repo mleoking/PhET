@@ -1,7 +1,6 @@
 package edu.colorado.phet.website.authentication;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.ChangePasswordPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
@@ -17,7 +16,7 @@ public class ChangePasswordPage extends PhetMenuPage {
     public ChangePasswordPage( PageParameters parameters ) {
         super( parameters );
         AuthenticatedPage.checkSignedIn(); // require that a user is signed in here. this isn't for passwords that are forgotten
-        addTitle( new ResourceModel( "changePassword.title" ) );
+        setTitle( getLocalizer().getString( "changePassword.title", this ) );
         add( new ChangePasswordPanel( "set-password-panel", getPageContext(), PhetSession.get().getUser(), true ) );
     }
 
@@ -25,7 +24,7 @@ public class ChangePasswordPage extends PhetMenuPage {
         mapper.addMap( "^change-password$", ChangePasswordPage.class );
     }
 
-    public static RawLinkable getLinker( ) {
+    public static RawLinkable getLinker() {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
                 return "change-password";

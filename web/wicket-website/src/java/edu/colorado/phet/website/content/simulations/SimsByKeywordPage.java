@@ -46,7 +46,7 @@ public class SimsByKeywordPage extends PhetRegularPage {
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
 
-        addTitle( getLocalizer().getString( key, this ) );
+        setTitle( getLocalizer().getString( key, this ) );
 
     }
 

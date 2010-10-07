@@ -1,7 +1,5 @@
 package edu.colorado.phet.website.content;
 
-import java.util.HashSet;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -9,7 +7,6 @@ import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.Linkers;
-import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
@@ -20,7 +17,7 @@ public class NotFoundPage extends PhetMenuPage {
     public NotFoundPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
+        setTitle( getLocalizer().getString( "error.pageNotFound", this ) );
 
         add( new LocalizedText( "errorMessage", "error.pageNotFound.message", new Object[]{
                 Linkers.getHelpLink( "PhET Website Page Not Found", getPageContext(), getPhetCycle() )

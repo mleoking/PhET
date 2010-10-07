@@ -50,7 +50,7 @@ public class ContributionPage extends PhetRegularPage {
 
         ContributionMainPanel contributionPanel = new ContributionMainPanel( "contribution-main-panel", contribution, getPageContext() );
         add( contributionPanel );
-        addTitle( contributionPanel.getTitle() );
+        setTitle( contributionPanel.getTitle() );
 
     }
 

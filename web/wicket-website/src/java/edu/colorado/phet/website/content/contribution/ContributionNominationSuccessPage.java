@@ -6,7 +6,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.components.LocalizedText;
@@ -62,7 +61,7 @@ public class ContributionNominationSuccessPage extends PhetMenuPage {
         redirector.add( new AttributeModifier( "content", true, new Model<String>( REDIRECTION_DELAY_SECONDS + ";url=" + ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) ) );
         add( redirector );
 
-        addTitle( StringUtils.messageFormat( PhetLocalizer.get().getString( "contribution.nomination.success", this ), new Object[]{
+        setTitle( StringUtils.messageFormat( PhetLocalizer.get().getString( "contribution.nomination.success", this ), new Object[]{
                 HtmlUtils.encode( contribution.getTitle() )
         } ) );
 

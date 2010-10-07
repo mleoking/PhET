@@ -9,6 +9,6 @@ public class BlankPage extends PhetPage {
     public BlankPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( "" );
+        setTitle( "" );
     }
 }

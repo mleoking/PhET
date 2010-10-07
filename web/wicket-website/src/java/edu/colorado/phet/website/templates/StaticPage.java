@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -42,7 +41,7 @@ public class StaticPage extends PhetRegularPage {
                 }
             }
 
-            if( cacheable ) {
+            if ( cacheable ) {
                 // we don't want to have caching enabled on the installer ripper or other things of that nature
                 cacheable = DistributionHandler.allowCaching( getPhetCycle() );
             }
@@ -59,16 +58,16 @@ public class StaticPage extends PhetRegularPage {
                             PhetPanel panel = (PhetPanel) ctor.newInstance( "panel", getPageContext() );
                             return panel;
                         }
-                        catch( InvocationTargetException e ) {
+                        catch ( InvocationTargetException e ) {
                             e.printStackTrace();
                         }
-                        catch( NoSuchMethodException e ) {
+                        catch ( NoSuchMethodException e ) {
                             e.printStackTrace();
                         }
-                        catch( IllegalAccessException e ) {
+                        catch ( IllegalAccessException e ) {
                             e.printStackTrace();
                         }
-                        catch( InstantiationException e ) {
+                        catch ( InstantiationException e ) {
                             e.printStackTrace();
                         }
                         throw new RuntimeException( "failed to construct panel!" );
@@ -81,7 +80,7 @@ public class StaticPage extends PhetRegularPage {
                 add( panel );
             }
 
-            addTitle( new ResourceModel( key + ".title" ) );
+            setTitle( getLocalizer().getString( key + ".title", this ) );
             NavLocation navLocation = getNavMenu().getLocationByKey( key );
             if ( navLocation == null ) {
                 logger.warn( "nav location == null for " + panelClass.getCanonicalName() );
@@ -96,19 +95,19 @@ public class StaticPage extends PhetRegularPage {
             }
 
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             e.printStackTrace();
         }
-        catch( NoSuchMethodException e ) {
+        catch ( NoSuchMethodException e ) {
             e.printStackTrace();
         }
-        catch( InvocationTargetException e ) {
+        catch ( InvocationTargetException e ) {
             e.printStackTrace();
         }
-        catch( IllegalAccessException e ) {
+        catch ( IllegalAccessException e ) {
             e.printStackTrace();
         }
-        catch( InstantiationException e ) {
+        catch ( InstantiationException e ) {
             e.printStackTrace();
         }
 
@@ -128,13 +127,13 @@ public class StaticPage extends PhetRegularPage {
             String url = (String) meth.invoke( null );
             panelMap.put( url, panelClass );
         }
-        catch( NoSuchMethodException e ) {
+        catch ( NoSuchMethodException e ) {
             e.printStackTrace();
         }
-        catch( InvocationTargetException e ) {
+        catch ( InvocationTargetException e ) {
             e.printStackTrace();
         }
-        catch( IllegalAccessException e ) {
+        catch ( IllegalAccessException e ) {
             e.printStackTrace();
         }
     }

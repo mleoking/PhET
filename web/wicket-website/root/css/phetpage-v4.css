@@ -73,12 +73,11 @@ div.rtl #page-header-title {
     height: 127px;
     margin: 0 auto;
     width: 765px;
+    /* width: 820px; */
     position: relative;
 }
 
 #page-content {
-/*width: 765px;*/
-/*margin: 0 auto;*/
 }
 
 .log-in-out {
@@ -98,6 +97,10 @@ body.rtl .log-in-out {
 
 .log-in-out a {
     color: white;
+}
+
+#main-content {
+    position: relative; 
 }
 
 #main-content a {

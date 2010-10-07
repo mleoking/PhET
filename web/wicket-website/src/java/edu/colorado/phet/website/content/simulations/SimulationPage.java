@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
+import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -27,6 +28,11 @@ import edu.colorado.phet.website.util.links.AbstractLinker;
 public class SimulationPage extends PhetMenuPage {
 
     private static final Logger logger = Logger.getLogger( SimulationPage.class.getName() );
+
+    // facebook and other meta-data related things for bookmarking
+    private String ogTitle; // the title
+    private String ogDescription; // the description
+    private String ogImage; // the thumbnail (absolute URI)
 
     public SimulationPage( PageParameters parameters ) {
         super( parameters );
@@ -49,13 +55,13 @@ public class SimulationPage extends PhetMenuPage {
             }
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -65,6 +71,10 @@ public class SimulationPage extends PhetMenuPage {
         if ( simulation == null ) {
             throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
         }
+
+        ogTitle = simulation.getTitle();
+        ogDescription = getLocalizer().getString( simulation.getSimulation().getDescriptionKey(), this );
+        ogImage = "http://" + WebsiteConstants.WEB_SERVER + simulation.getSimulation().getThumbnailUrl();
 
         final LocalizedSimulation finalSim = simulation;
         PhetPanel simPanel = new SimplePanelCacheEntry( SimulationMainPanel.class, null, getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
@@ -76,14 +86,14 @@ public class SimulationPage extends PhetMenuPage {
         //SimulationMainPanel simPanel = new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() );
         add( simPanel );
         //addTitle( simPanel.getTitle() );
-        addTitle( (String) simPanel.getCacheParameter( "title" ) );
+        setTitle( (String) simPanel.getCacheParameter( "title" ) );
 
         initializeLocationWithSet( locations );
 
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^simulation/([^/]+)$", SimulationPage.class, new String[]{"simulation"} );
+        mapper.addMap( "^simulation/([^/]+)$", SimulationPage.class, new String[] { "simulation" } );
     }
 
     public static AbstractLinker getLinker( final String projectName, final String simulationName ) {
@@ -104,4 +114,17 @@ public class SimulationPage extends PhetMenuPage {
         return getLinker( localizedSimulation.getSimulation() );
     }
 
+    @Override
+    public String getStyle( String key ) {
+        if ( key.equals( "style.ogTitle" ) ) {
+            return ogTitle;
+        }
+        if ( key.equals( "style.ogDescription" ) ) {
+            return ogDescription;
+        }
+        if ( key.equals( "style.ogImage" ) ) {
+            return ogImage;
+        }
+        return super.getStyle( key );
+    }
 }

@@ -13,7 +13,6 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.DistributionHandler;
@@ -24,7 +23,6 @@ import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.content.getphet.FullInstallPanel;
-import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.panels.LogInOutPanel;
@@ -47,6 +45,8 @@ public abstract class PhetPage extends WebPage implements Stylable {
     private String prefix;
     private String path;
     private String variation;
+    private String title = null; // initialize as null
+    private RawLabel titleLabel;
 
     private Long initStart;
 
@@ -171,15 +171,34 @@ public abstract class PhetPage extends WebPage implements Stylable {
         return myLocale;
     }
 
+    /**
+     * @return The prefix of the URL, which generally represents /XX/ where XX is the locale.
+     */
     public String getMyPrefix() {
         return prefix;
     }
 
+    /**
+     * @return The relative path underneath the prefix. Thus for a URL of http://phet.colorado.edu/en/simulations/new,
+     *         this would return 'simulations/new' (the prefix would be /en/)
+     */
     public String getMyPath() {
         if ( path == null ) {
             return "";
         }
         return path;
+    }
+
+    /**
+     * @return Everything past 'http://phet.colorado.edu' in the URI.
+     */
+    public String getFullPath() {
+        String p = prefix + path;
+        String queryString = getPhetCycle().getQueryString();
+        if ( queryString != null ) {
+            p += "?" + queryString;
+        }
+        return p;
     }
 
     public PageContext getPageContext() {
@@ -191,12 +210,24 @@ public abstract class PhetPage extends WebPage implements Stylable {
         return myLocale;
     }
 
-    public void addTitle( String title ) {
-        add( new RawLabel( "page-title", title ) );
+    /**
+     * @param title The string passed in should be properly escaped!
+     */
+    public void setTitle( String title ) {
+        if ( hasTitle() ) {
+            remove( titleLabel );
+        }
+        this.title = title;
+        titleLabel = new RawLabel( "page-title", title );
+        add( titleLabel );
     }
 
-    public void addTitle( IModel titleModel ) {
-        add( new RawLabel( "page-title", titleModel ) );
+    public Boolean hasTitle() {
+        return this.title != null && titleLabel != null;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public org.hibernate.Session getHibernateSession() {

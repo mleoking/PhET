@@ -2,7 +2,6 @@ package edu.colorado.phet.website.content;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.templates.PhetPage;
@@ -15,7 +14,7 @@ public class IndexPage extends PhetPage {
     public IndexPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( new ResourceModel( "home.title" ) );
+        setTitle( getLocalizer().getString( "home.title", this ) );
 
         add( new IndexPanel( "index-panel", getPageContext() ) );
 

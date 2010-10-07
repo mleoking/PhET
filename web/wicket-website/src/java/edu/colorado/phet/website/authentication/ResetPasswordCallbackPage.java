@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.panels.ChangePasswordPanel;
@@ -31,7 +30,7 @@ public class ResetPasswordCallbackPage extends PhetMenuPage {
 
     public ResetPasswordCallbackPage( PageParameters parameters ) {
         super( parameters );
-        addTitle( new ResourceModel( "resetPasswordCallback.title" ) );
+        setTitle( getLocalizer().getString( "resetPasswordCallback.title", this ) );
 
         // for now, if a step here fails we will just go to the error page
         PhetUser user = lookupUserForResetPasswordKey( parameters.getString( "key" ) );
@@ -43,7 +42,7 @@ public class ResetPasswordCallbackPage extends PhetMenuPage {
     }
 
     private PhetUser lookupUserForResetPasswordKey( final String key ) {
-        final PhetUser[] savedUser = {null};
+        final PhetUser[] savedUser = { null };
         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
                 List matches = session.createQuery( "select ts from ResetPasswordRequest as ts where ts.key = :key" ).setString( "key", key ).list();

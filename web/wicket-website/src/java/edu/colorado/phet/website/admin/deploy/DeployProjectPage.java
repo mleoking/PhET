@@ -45,7 +45,7 @@ public class DeployProjectPage extends PhetPage {
                 deploy( parameters );
             }
 
-            addTitle( " deployment" );
+            setTitle( " deployment" );
 
             // TODO: return information to PBG?
 

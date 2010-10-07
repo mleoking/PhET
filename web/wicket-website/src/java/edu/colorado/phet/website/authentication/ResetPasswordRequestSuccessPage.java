@@ -2,7 +2,6 @@ package edu.colorado.phet.website.authentication;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.ResetPasswordRequestSuccessPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
@@ -20,7 +19,7 @@ public class ResetPasswordRequestSuccessPage extends PhetMenuPage {
     public ResetPasswordRequestSuccessPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( new ResourceModel( "resetPasswordRequestSuccess.title" ) );
+        setTitle( getLocalizer().getString( "resetPasswordRequestSuccess.title", this ) );
         add( new ResetPasswordRequestSuccessPanel( "reset-password-request-success", getPageContext() ) );
     }
 

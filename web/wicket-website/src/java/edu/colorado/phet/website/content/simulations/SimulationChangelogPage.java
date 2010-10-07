@@ -76,7 +76,7 @@ public class SimulationChangelogPage extends PhetMenuPage {
         boolean displayDev = PhetSession.get().isSignedIn() && PhetSession.get().getUser().isTeamMember();
         add( new SimulationChangelogPanel( "simulation-changelog-panel", simulation, getPageContext(), displayDev ) );
 
-        addTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.title", this ), new Object[]{
+        setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.title", this ), new Object[]{
                 HtmlUtils.encode( simulation.getTitle() )
         } ) );
 
