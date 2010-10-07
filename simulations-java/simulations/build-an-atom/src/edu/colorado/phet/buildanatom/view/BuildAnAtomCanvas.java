@@ -160,6 +160,12 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             }
         }
 
+        // Show the name of the element.
+        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom() );
+        // Position the name indicator above the nucleus
+        elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
+        rootNode.addChild( elementNameIndicator );
+
         // Show whether the nucleus is stable.
         StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom() );
         // Position the stability indicator under the nucleus
