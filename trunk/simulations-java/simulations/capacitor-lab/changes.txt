@@ -1,3 +1,4 @@
+10/7/10 change dielectric colors, per Noah P
 # 0.00.28 (44772) Oct 6, 2010
 10/6/10 document model symbols used in design doc
 10/6/10 change dielectric "Show All Charges" to be proportional to E_dielectric

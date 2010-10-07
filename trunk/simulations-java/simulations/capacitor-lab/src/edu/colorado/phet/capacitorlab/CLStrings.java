@@ -26,6 +26,12 @@ public class CLStrings {
     public static final String CHECKBOX_METER_EFIELD_DETECTOR = getString( "checkBox.meter.eFieldDetector" );
     public static final String CHECKBOX_SHOW_VALUES = getString( "checkBox.showValues" );
 
+    public static final String DIELECTRIC_AIR = getString( "dielectric.air" );
+    public static final String DIELECTRIC_CUSTOM = getString( "dielectric.custom" );
+    public static final String DIELECTRIC_GLASS = getString( "dielectric.glass" );
+    public static final String DIELECTRIC_PAPER = getString( "dielectric.paper" );
+    public static final String DIELECTRIC_TEFLON = getString( "dielectric.teflon" );
+
     public static final String LABEL_SEPARATION = getString( "label.separation" );
     public static final String LABEL_PLATE_AREA = getString( "label.plateArea" );
     public static final String LABEL_OFFSET = getString( "label.offset" );
@@ -37,12 +43,6 @@ public class CLStrings {
     public static final String LABEL_LOTS_NEGATIVE = getString( "label.lotsNegative" );
     public static final String LABEL_PLATE_CHARGE = getString( "label.plateCharge" );
     public static final String LABEL_SHOW_VECTORS = getString( "label.showVectors" );
-    
-    public static final String MATERIAL_CUSTOM = getString( "material.custom" );
-    public static final String MATERIAL_TEFLON = getString( "material.teflon" );
-    public static final String MATERIAL_POLYSTYRENE = getString( "material.polystyrene" );
-    public static final String MATERIAL_PAPER = getString( "material.paper" );
-    public static final String MATERIAL_AIR = getString( "material.air" );
     
     public static final String METER_PLATE_CHARGE = getString( "meter.plateCharge" );
     public static final String METER_STORED_ENERGY = getString( "meter.storedEnergy" );

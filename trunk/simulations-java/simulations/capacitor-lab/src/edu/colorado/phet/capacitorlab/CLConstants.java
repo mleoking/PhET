@@ -61,8 +61,8 @@ public class CLConstants {
     // dielectric constants (dimensionless)
     public static final double EPSILON_VACUUM = 1;
     public static final double EPSILON_AIR = 1.0005896;
+    public static final double EPSILON_GLASS = 4.7;
     public static final double EPSILON_PAPER = 3.5;
-    public static final double EPSILON_POLYSTYRENE = 2.5;
     public static final double EPSILON_TEFLON = 2.1;
     
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );

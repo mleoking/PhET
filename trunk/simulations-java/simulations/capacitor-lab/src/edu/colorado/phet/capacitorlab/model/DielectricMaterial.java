@@ -44,25 +44,25 @@ public abstract class DielectricMaterial {
     
     public static class Air extends DielectricMaterial {
         public Air() {
-            super( CLStrings.MATERIAL_AIR, CLConstants.EPSILON_AIR, CLPaints.AIR );
+            super( CLStrings.DIELECTRIC_AIR, CLConstants.EPSILON_AIR, CLPaints.AIR );
         }
     }
     
     public static class Teflon extends DielectricMaterial {
         public Teflon() {
-            super( CLStrings.MATERIAL_TEFLON, CLConstants.EPSILON_TEFLON, CLPaints.TEFLON );
+            super( CLStrings.DIELECTRIC_TEFLON, CLConstants.EPSILON_TEFLON, CLPaints.TEFLON );
         }
     }
     
-    public static class Polystyrene extends DielectricMaterial {
-        public Polystyrene() {
-            super( CLStrings.MATERIAL_POLYSTYRENE, CLConstants.EPSILON_POLYSTYRENE, CLPaints.POLYSTYRENE );
+    public static class Glass extends DielectricMaterial {
+        public Glass() {
+            super( CLStrings.DIELECTRIC_GLASS, CLConstants.EPSILON_GLASS, CLPaints.GLASS );
         }
     }
     
     public static class Paper extends DielectricMaterial {
         public Paper() {
-            super( CLStrings.MATERIAL_PAPER, CLConstants.EPSILON_PAPER, CLPaints.PAPER );
+            super( CLStrings.DIELECTRIC_PAPER, CLConstants.EPSILON_PAPER, CLPaints.PAPER );
         }
     }
     
@@ -75,7 +75,7 @@ public abstract class DielectricMaterial {
         private final EventListenerList listeners;
         
         public CustomDielectricMaterial( double dielectricConstant ) {
-            super( CLStrings.MATERIAL_CUSTOM, dielectricConstant, CLPaints.CUSTOM_DIELECTRIC );
+            super( CLStrings.DIELECTRIC_CUSTOM, dielectricConstant, CLPaints.CUSTOM_DIELECTRIC );
             listeners = new EventListenerList();
         }
         
