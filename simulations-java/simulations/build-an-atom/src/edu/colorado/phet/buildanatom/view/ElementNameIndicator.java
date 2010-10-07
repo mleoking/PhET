@@ -31,13 +31,13 @@ public class ElementNameIndicator extends PNode {
             public void update() {
                 ElementNameIndicator.this.update();
             }
-        });
+        } );
 
         update();
     }
 
     public void update() {
-        elementName.setText( atom.getName() );
-        elementName.setOffset(-elementName.getFullBoundsReference().width / 2, -elementName.getFullBoundsReference().height / 2);
+        elementName.setText( atom.getNumProtons() > 0 ? atom.getName() : " " );  // Can't set to a 0-length string or it can mess up layout in canvas.
+        elementName.setOffset( -elementName.getFullBoundsReference().width / 2, -elementName.getFullBoundsReference().height / 2 );
     }
 }
