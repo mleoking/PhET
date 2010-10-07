@@ -43,7 +43,7 @@ public class Atom extends SimpleObservable{
         put(10, new AtomName("Ne", "Neon"));
     }};
 
-    // List of stable isotopes for the first 2 rows of the periodic table 
+    // List of stable isotopes for the first 2 rows of the periodic table
     // See the table and notes at https://docs.google.com/document/edit?id=1VGGhLUetiwijbDneU-U6BPrjRlkI0rt939zk8Y4AuA4&authkey=CMLM4ZUC&hl=en#
     private static final ArrayList<Isotope> stableIsotopes = new ArrayList<Isotope>() {{
         //H
@@ -476,7 +476,7 @@ public class Atom extends SimpleObservable{
 
     public boolean isStable() {
         //taken from the table at https://docs.google.com/document/edit?id=1VGGhLUetiwijbDneU-U6BPrjRlkI0rt939zk8Y4AuA4&authkey=CMLM4ZUC&hl=en#
-        return getNumProtons() == 0 || stableIsotopes.contains( new Isotope( getAtomicMassNumber(), neutrons.size() ) );
+        return getAtomicMassNumber() == 0 || stableIsotopes.contains( new Isotope( getAtomicMassNumber(), neutrons.size() ) );
     }
 
     public int getNumNeutrons() {
