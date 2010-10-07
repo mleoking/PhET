@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -51,7 +52,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final PNode frontLayer = new PNode();
 
     // Stroke for drawing the electron shells.
-    private final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+    public static final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
             new float[] {3,3}, 0 );
 
     // Reset button.
@@ -171,33 +172,39 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             }
         });
 
-        // Add the symbol indicator contained within a min/max node.
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83,83);//has to be big enough to hold Ne with 2 digit numbers on both sides
-        PDimension windowSize = new PDimension( 300, 100 );
-        PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
-        //PDebug.debugBounds = true;//helps get the layout and bounds correct
-        double insetX = 20;
-        symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
-        symbolWindow.setOffset( 700, 200 );
-        rootNode.addChild( symbolWindow );
-
+        //Show whether the nucleus is stable
         StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom() );
         //Position the stability indicator under the nucleus
         stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
         rootNode.addChild( stabilityIndicator );
 
+        //Show the legend / particle count indicater in the top left
         ParticleCountLegend particleCountLegend= new ParticleCountLegend(model.getAtom());
-        particleCountLegend.setOffset(20,20);//top right corner, but with some padding
+        particleCountLegend.setOffset(20,20);//top left corner, but with some padding
         rootNode.addChild( particleCountLegend );
 
-        // TODO: Temp - put a sketch of the tab up as a very early prototype.
-        //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
-        //        image.scale( 2.05 );
-        //        PImage image = new PImage( BuildAnAtomResources.getImage( "first-tab-of-build-an-atom-sim-with-color.png" ));
-        //        image.scale( 1.2 );
-        //        image.setOffset( 50, 0 );
-        //        rootNode.addChild(image);
+        PDimension windowSize = new PDimension( 300, 100 );
+        double verticalSpacingBetweenWindows = 20;
+        int WINDOW_X = 700;
 
+        // Add the symbol indicator contained within a min/max node.
+        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83,83);//has to be big enough to hold Ne with 2 digit numbers on both sides
+        PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
+        //PDebug.debugBounds = true;//helps get the layout and bounds correct
+        double insetX = 20;
+        symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
+        symbolWindow.setOffset( WINDOW_X, 200 );
+        rootNode.addChild( symbolWindow );
+
+        MassIndicatorNode massIndicatorNode = new MassIndicatorNode(model.getAtom() );
+        PNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
+        massIndicatorNode.setOffset( windowSize.width-massIndicatorNode.getFullBounds().getWidth()-insetX,windowSize.height/2 );//todo: the layout centers the scale node since the scale's origin is it's top left
+        massWindow.setOffset( WINDOW_X, symbolWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
+        rootNode.addChild( massWindow);
+
+        PNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, new PText("charge"), true );
+        chargeWindow.setOffset( WINDOW_X, massWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
+        rootNode.addChild( chargeWindow );
     }
 
 
