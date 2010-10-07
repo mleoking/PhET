@@ -182,7 +182,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( symbolWindow );
 
         StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom() );
-        stabilityIndicator.setOffset( mvt.modelToViewX( 0 )-stabilityIndicator.getFullBounds().getWidth()/2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS*3.0/4.0 )-stabilityIndicator.getFullBounds().getHeight() );
+        //Position the stability indicator under the nucleus
+        stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
         rootNode.addChild( stabilityIndicator );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
