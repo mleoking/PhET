@@ -14,6 +14,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
@@ -171,7 +172,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         });
 
         // Add the symbol indicator contained within a min/max node.
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 70,70);
+        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83,83);//has to be big enough to hold Ne with 2 digit numbers on both sides
         PDimension windowSize = new PDimension( 300, 100 );
         PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
@@ -179,6 +180,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( 700, 200 );
         rootNode.addChild( symbolWindow );
+
+        StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom() );
+        stabilityIndicator.setOffset( mvt.modelToViewX( 0 )-stabilityIndicator.getFullBounds().getWidth()/2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS*3.0/4.0 )-stabilityIndicator.getFullBounds().getHeight() );
+        rootNode.addChild( stabilityIndicator );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-1-sketch-01.png" ));
