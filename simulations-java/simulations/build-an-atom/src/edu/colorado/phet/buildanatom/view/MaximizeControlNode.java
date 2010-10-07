@@ -28,6 +28,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * hide/show the PNodes contained within it.
  *
  * @author Chris Malley
+ * @author John Blanco
+ * @author Sam Reid
  */
 public class MaximizeControlNode extends PhetPNode {
 
@@ -45,7 +47,6 @@ public class MaximizeControlNode extends PhetPNode {
     private final PNode managedNode;
     private final PPath backgroundNode;
     private final PImage buttonNode;
-//    private final PImage tearOffNode;
     private final ArrayList<ChangeListener> listeners;
     private boolean isMaximized;
 
@@ -81,17 +82,6 @@ public class MaximizeControlNode extends PhetPNode {
         labelNode.setTextPaint( LABEL_PAINT );
         labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
-
-        // tear-off icon
-//        tearOffNode = new PImage( AABSImages.TEAR_OFF_BUTTON );
-//        tearOffNode.addInputEventListener( new CursorHandler() );
-//        tearOffNode.addInputEventListener( new PBasicInputEventHandler() {
-//            @Override
-//            public void mouseReleased( PInputEvent event ) {
-//                handleTearOff();
-//            }
-//        } );
-//        addChild( tearOffNode );
 
         // layout
         double xOffset = X_MARGIN;//these variables get reassigned and reused
@@ -141,9 +131,5 @@ public class MaximizeControlNode extends PhetPNode {
         for ( ChangeListener listener : listeners ) {
             listener.stateChanged( event );
         }
-    }
-
-    private void handleTearOff() {
-        //XXX
     }
 }
