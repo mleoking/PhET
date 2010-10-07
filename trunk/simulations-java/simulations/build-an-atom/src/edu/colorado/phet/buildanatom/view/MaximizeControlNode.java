@@ -60,7 +60,7 @@ public class MaximizeControlNode extends PhetPNode {
         backgroundNode = new PPath();
         backgroundNode.setStroke( BACKGROUND_STROKE );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
+//        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
         addChild( backgroundNode );
 
         // button
