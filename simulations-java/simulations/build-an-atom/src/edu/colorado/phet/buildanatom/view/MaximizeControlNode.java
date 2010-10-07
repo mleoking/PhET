@@ -86,8 +86,8 @@ public class MaximizeControlNode extends PhetPNode {
         // layout
         double xOffset = X_MARGIN;//these variables get reassigned and reused
         double yOffset = Y_MARGIN;
-        buttonNode.setOffset( xOffset, yOffset );
-        xOffset = buttonNode.getFullBoundsReference().getMaxX() + X_SPACING;
+        buttonNode.setOffset( maximizedSize.getWidth() - buttonNode.getFullBoundsReference().width - xOffset, yOffset );
+        xOffset = buttonNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().width - X_SPACING;
         yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
         labelNode.setOffset( xOffset, yOffset );
 
