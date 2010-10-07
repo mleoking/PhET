@@ -1,3 +1,9 @@
+Aligned readout windows
+Made the electron orbitals more transparent
+Capitalized window names
+Improved font for window names
+Moved the window name and button to the right, and content to the left
+Improved the fonts for the Atom and Ion labels
 # 0.00.05 (44820) Oct 6, 2010
 10/6/10 Added indicators and readouts
 # 0.00.04 (44793) Oct 6, 2010
