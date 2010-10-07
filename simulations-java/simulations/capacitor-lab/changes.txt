@@ -1,3 +1,4 @@
+10/7/10 gray out Voltmeter and Electric Field Detector check boxes, since they are not yet implemented
 10/7/10 default custom dielectric constant to 5
 10/7/10 default dielectric charge view to "all"
 10/7/10 default Plate Charge view to "on", as specified in the design doc

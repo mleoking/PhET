@@ -138,5 +138,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
+        
+        //XXX disabled for KSU dev version
+        voltmeterCheckBox.setEnabled( false );
+        eFieldDetectorCheckBox.setEnabled( false );
     }
 }
