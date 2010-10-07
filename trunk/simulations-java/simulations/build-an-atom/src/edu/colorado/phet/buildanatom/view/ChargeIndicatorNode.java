@@ -70,13 +70,13 @@ public class ChargeIndicatorNode extends PNode {
         updateArrow.update();
         addChild( arrowNode );
 
-        final PText atomText = new PText( "Atom" ) {{setFont( new PhetFont( 14, true ) );}};
-        final PText ionText = new PText( "Ion" ) {{setFont( new PhetFont( 14, true ) );}};
+        // TODO: i18n
+        final PText atomText = new PText( "Atom" ) {{setFont( new PhetFont( 18, true ) );}};
+        // TODO: i18n
+        final PText ionText = new PText( "Ion" ) {{setFont( new PhetFont( 18, true ) );}};
 
-        final double w1 = ionText.getFullBounds().getWidth();
-        final double w2 = atomText.getFullBounds().getWidth();
-        double offsetDX = Math.max( w1, w2 );//align texts
-        ionText.translate( -offsetDX - 20, boxNode.getFullBounds().getHeight() - ionText.getFullBounds().getHeight() );
+        double xSpacing = 30;
+        ionText.translate( boxNode.getFullBounds().getWidth() + xSpacing, boxNode.getFullBounds().getHeight() - ionText.getFullBounds().getHeight() );
         atomText.setOffset( ionText.getOffset().getX(), ionText.getOffset().getY() - atomText.getFullBounds().getHeight() );
 
         addChild( atomText );
