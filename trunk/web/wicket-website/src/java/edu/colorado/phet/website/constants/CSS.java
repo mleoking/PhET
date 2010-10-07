@@ -13,7 +13,7 @@ public class CSS {
     public static final String CONTRIBUTION_BROWSE = "/css/contribution-browse-v1.css";
     public static final String CONTRIBUTION_MAIN = "/css/contribution-main-v2.css";
     public static final String HOME = "/css/home-v3.css";
-    public static final String MENU_PAGE = "/css/menu-page-v1.css";
+    public static final String MENU_PAGE = "/css/menu-page-v2.css";
     public static final String NAV_BREADCRUMBS = "/css/nav-breadcrumbs-v1.css";
     public static final String NAV_MENU = "/css/navmenu-v3.css";
     public static final String PHET_PAGE = "/css/phetpage-v4.css";

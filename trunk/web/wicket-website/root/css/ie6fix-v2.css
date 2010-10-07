@@ -6,8 +6,14 @@ div.rtl #sponsors-people ul li {
     margin-top: 10px;
 }
 
-.ie6-social-div {
+div.ltr .social-div {
+/* don't feel like dealing with a double-margin bug here. */
     margin-right: -12px !important;
+}
+
+div.rtl .social-div {
+/* don't feel like dealing with a double-margin bug here. */
+    margin-left: -12px !important;
 }
 
 div.practices {
