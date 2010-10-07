@@ -5,8 +5,8 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Polystyrene;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 
 
@@ -27,9 +27,9 @@ public class DielectricModel {
         
         customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         DielectricMaterial teflon = new Teflon();
-        DielectricMaterial polystyrene = new Polystyrene();
+        DielectricMaterial glass = new Glass();
         DielectricMaterial paper = new Paper();
-        dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, teflon, polystyrene, paper };
+        dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, teflon, glass, paper };
         defaultDielectricMaterial = customDielectricMaterial;
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );

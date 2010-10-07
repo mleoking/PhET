@@ -12,6 +12,7 @@ DESIGN ISSUES
 HIGH PRIORITY
 - tweak dielectric material colors (IBoxColorStrategy)
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect
+- should transparent dielectric get more transparent when field view is selected?
 
 MEDUIUM PRIORITY
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
@@ -22,6 +23,7 @@ MEDUIUM PRIORITY
 LOW PRIORITY
 - refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy
+- delete IBoxColorStrategy when we settle on a strategy
 - only update meters when they are visible
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)

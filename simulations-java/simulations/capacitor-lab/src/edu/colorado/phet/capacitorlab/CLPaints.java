@@ -21,10 +21,10 @@ public class CLPaints {
     
     // dielectric materials
     public static final Color AIR = new Color( 0, 0, 0, 0 ); // invisible
-    public static final Color CUSTOM_DIELECTRIC = new Color( 255, 161, 23 ); // orange
-    public static final Color PAPER = new Color( 226, 255, 155 ); // light yellow
-    public static final Color POLYSTYRENE = new Color( 189, 132, 141 ); // pink
-    public static final Color TEFLON = Color.GREEN;
+    public static final Color CUSTOM_DIELECTRIC = new Color( 255, 255, 125 ); // pale yellow
+    public static final Color GLASS = new Color( 100, 100, 100, 64 ); // transparent gray
+    public static final Color PAPER = new Color( 255, 255, 225 ); // off white
+    public static final Color TEFLON = new Color( 0, 225, 255 ); // light blue
     
     // charges
     public static final Color POSITIVE_CHARGE = Color.RED;
