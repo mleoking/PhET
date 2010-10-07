@@ -86,6 +86,7 @@ public class Atom extends SimpleObservable{
         //Only need to listen for 'removal' notifications on the inner shell
         //to decide when an outer electron should fall
         electronShell1.addObserver( electronShellChangeObserver );
+        notifyObservers();
     }
 
     /**
@@ -191,14 +192,17 @@ public class Atom extends SimpleObservable{
         reconfigureNucleus();
 
         neutron.addListener( particleRemovalListener );
+        notifyObservers();
     }
 
     public void addElectron( final Electron electron ) {
         if ( !electronShell1.isFull() ) {
             electronShell1.addElectron( electron );
+            notifyObservers();
         }
         else if ( !electronShell2.isFull() ) {
             electronShell2.addElectron( electron );
+            notifyObservers();
         }
         else {
             // Too many electrons.  The sim should be designed such that this
