@@ -211,9 +211,10 @@ public class EFieldDetectorNode extends PhetPNode {
     
     /*
      * Probe.
-     * Origin is in the center of the probe's crosshairs.
-     * Alignment of the image is dependent on the specific image file.
-     * Running with -dev will add an additional node that allows you to visually check alignment.
+     * Origin is in the center of the probe's crosshairs, and the location of the crosshairs 
+     * is dependent on the image file.  The only way to align the crosshairs and the origin
+     * is via visual inspection. Running with -dev will add an additional node that allows 
+     * you to visually check alignment.
      */
     private static class ProbeNode extends PhetPNode {
         
