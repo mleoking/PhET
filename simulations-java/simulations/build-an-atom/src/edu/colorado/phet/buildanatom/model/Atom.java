@@ -205,6 +205,15 @@ public class Atom extends SimpleObservable{
         return protons.size() - getNumElectrons() ;
     }
 
+    public String getFormattedCharge(){
+        if (getCharge() <= 0){
+            return "" + getCharge();
+        }
+        else{
+            return "+" + getCharge();
+        }
+    }
+
     public String getName(){
         assert mapNumProtonsToName.containsKey( getNumProtons() );
         return mapNumProtonsToName.get( getNumProtons() ).name;

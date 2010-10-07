@@ -75,7 +75,7 @@ public class SymbolIndicatorNode extends PNode {
         massNumberNode.setOffset( symbol.getFullBoundsReference().getMinX() - massNumberNode.getFullBoundsReference().width,
                 symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()/2 );
 
-        chargeNode.setText( atom.getAtomicMassNumber()==0?"":""+atom.getCharge() );
+        chargeNode.setText( atom.getAtomicMassNumber()==0?"":atom.getFormattedCharge() );
         chargeNode.setOffset( symbol.getFullBoundsReference().getMaxX(),
                 symbol.getFullBoundsReference().getMinY()-chargeNode.getFullBounds().getHeight()/2 );
     }
