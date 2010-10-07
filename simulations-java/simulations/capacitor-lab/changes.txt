@@ -1,3 +1,5 @@
+# 0.00.30 (44840) Oct 7, 2010
+10/7/10 development version to share with KSU
 # 0.00.29 (44839) Oct 7, 2010
 10/7/10 absorb color strategy into BoxNode, delete IBoxColorStrategy
 10/7/10 delete unused box coloring strategies, since we seem to have settled on this
