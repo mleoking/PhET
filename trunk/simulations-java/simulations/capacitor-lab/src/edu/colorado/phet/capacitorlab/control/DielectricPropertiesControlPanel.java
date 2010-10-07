@@ -13,6 +13,7 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
@@ -29,9 +30,12 @@ import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     
     private final Capacitor capacitor;
+    private final CustomDielectricChangeListener customDielectricChangeListener;
     private final DielectricMaterialControl materialControl;
     private final DielectricConstantControl constantControl;
     private final DielectricChargesControl chargesControl;
+    
+    private DielectricMaterial previousMaterial;
 
     public DielectricPropertiesControlPanel( DielectricModel model, CapacitorNode capacitorNode ) {
         super( CLStrings.TITLE_DIELECTRIC );
@@ -40,9 +44,19 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
             @Override
             public void dielectricMaterialChanged() {
-                updateControls();
+                handleDielectricMaterialChanged();
             }
         });
+        
+        previousMaterial = capacitor.getDielectricMaterial();
+        customDielectricChangeListener = new CustomDielectricChangeListener() {
+            public void dielectricConstantChanged() {
+                handleDielectricConstantChanged();
+            }
+        };
+        if ( capacitor.getDielectricMaterial() instanceof CustomDielectricMaterial ) {
+            ((CustomDielectricMaterial) capacitor.getDielectricMaterial() ).addCustomDielectricChangeListener( customDielectricChangeListener );
+        }
         
         materialControl = new DielectricMaterialControl( model.getDielectricMaterials(), model.getCapacitor().getDielectricMaterial() );
         materialControl.addChangeListener( new ChangeListener() {
@@ -78,14 +92,29 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // default state
-        updateControls();
-        //XXX chargesControl?
+        handleDielectricMaterialChanged();
     }
     
-    private void updateControls() {
+    private void handleDielectricMaterialChanged() {
+        
         DielectricMaterial material = capacitor.getDielectricMaterial();
+        
+        // update controls
         materialControl.setMaterial( material );
-        constantControl.setValue( material.getDielectricConstant() );
         constantControl.setEnabled( material instanceof CustomDielectricMaterial );
+        constantControl.setValue( material.getDielectricConstant() );
+        
+        // rewire listener for custom material
+        if ( previousMaterial instanceof CustomDielectricMaterial ) {
+            ( (CustomDielectricMaterial) previousMaterial ).addCustomDielectricChangeListener( customDielectricChangeListener );
+        }
+        if ( material instanceof CustomDielectricMaterial ) {
+            ( (CustomDielectricMaterial) capacitor.getDielectricMaterial() ).addCustomDielectricChangeListener( customDielectricChangeListener );
+        }
+        previousMaterial = material;
+    }
+    
+    private void handleDielectricConstantChanged() {
+        constantControl.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );
     }
 }
