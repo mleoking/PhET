@@ -21,7 +21,6 @@ MEDUIUM PRIORITY
 LOW PRIORITY
 - refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy
-- delete IBoxColorStrategy when we settle on a strategy
 - only update meters when they are visible
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
