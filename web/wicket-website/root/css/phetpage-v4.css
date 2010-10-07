@@ -38,7 +38,7 @@ div.rtl #page-header-logo {
 }
 
 #page-header-search a {
-    /* for the current version link */
+/* for the current version link */
     color: white;
 }
 
@@ -72,8 +72,7 @@ div.rtl #page-header-title {
 #page-header-container {
     height: 127px;
     margin: 0 auto;
-    width: 765px;
-    /* width: 820px; */
+    width: 765px; /* width: 820px; */
     position: relative;
 }
 
@@ -100,7 +99,15 @@ body.rtl .log-in-out {
 }
 
 #main-content {
-    position: relative; 
+    position: relative;
+}
+
+div.ltr #main-content {
+    margin-right: 55px;
+}
+
+div.rtl #main-content {
+    margin-left: 55px;
 }
 
 #main-content a {
@@ -192,8 +199,8 @@ div.rtl .text-right-classic {
 }
 
 .donate-box1 a {
-    /*text-decoration: none;*/
-    /*color: black;*/
+/*text-decoration: none;*/
+/*color: black;*/
 }
 
 .donate-box2 {
