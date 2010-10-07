@@ -1,3 +1,4 @@
+10/7/10 delete unused box coloring strategies, since we seem to have settled on this
 10/7/10 order dielectrics in combo box by increasing dielectric constant
 10/7/10 increase max spacing between positive and negative charges in dielectric charge pairs
 10/7/10 increase spacing between dielectric charge pairs so that we have 3 rows when plate separation is 10mm
