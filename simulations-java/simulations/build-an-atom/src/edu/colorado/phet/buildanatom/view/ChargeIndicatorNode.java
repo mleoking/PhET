@@ -92,6 +92,13 @@ public class ChargeIndicatorNode extends PNode {
                     atomText.setTextPaint( Color.darkGray );
                     ionText.setTextPaint( getTextPaint( atom ) );
                 }
+                //Overwrite if there are no particles in the atom
+                //So as to not identify a nonexistent atom as "atom"
+                //TODO: instead of overwriting these values, the logic above should be changed
+                if (atom.getNumParticles()==0){
+                    atomText.setTextPaint( Color.darkGray );
+                    ionText.setTextPaint( Color.darkGray );
+                }
             }
         };
         atom.addObserver( updateIconText );
@@ -115,7 +122,8 @@ public class ChargeIndicatorNode extends PNode {
 
         final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
             public void update() {
-                atomCheckMark.setVisible( atom.getCharge() == 0 );
+                atomCheckMark.setVisible( atom.getCharge() == 0 &&
+                                          atom.getNumParticles()>0);//Don't show the check mark if the atom has nothing in it.
             }
         };
         atom.addObserver( updateCheckMarkVisible );
