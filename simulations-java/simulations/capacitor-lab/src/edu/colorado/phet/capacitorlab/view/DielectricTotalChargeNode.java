@@ -102,7 +102,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
         final double offset = spacingBetweenPairs / 2;
         
         // polarity
-        final Polarity polarity = ( eField >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
+        final Polarity polarity = ( eField >= 0 ) ? Polarity.NEGATIVE : Polarity.POSITIVE;
         
         // front face
         double xPlateEdge = -( dielectricWidth / 2 ) + ( dielectricWidth - circuit.getCapacitor().getDielectricOffset() );
