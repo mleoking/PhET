@@ -11,6 +11,9 @@ public class IndexEntity extends TranslationEntity {
         addString( "home.header" );
         addString( "home.subheader" );
         addString( "home.playWithSims" );
+        addString( "home.facebookText", "{0} will be replaced with a small Facebook icon" );
+        addString( "home.twitterText", "{0} will be replaced with a small Twitter icon" );
+        addString( "home.blogText" );
         addString( "home.runOurSims" );
         addString( "home.onLine" );
         addString( "home.fullInstallation" );
