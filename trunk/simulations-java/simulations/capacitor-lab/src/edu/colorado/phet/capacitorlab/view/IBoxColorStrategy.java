@@ -30,11 +30,11 @@ public interface IBoxColorStrategy {
         }
 
         public Color getFrontColor( Color baseColor ) {
-            return darker( getTopColor( baseColor ) );
+            return getDarkerColor( getTopColor( baseColor ) );
         }
 
         public Color getSideColor( Color baseColor ) {
-            return darker( getFrontColor( baseColor ) );
+            return getDarkerColor( getFrontColor( baseColor ) );
         }
         
         /*
@@ -42,7 +42,7 @@ public interface IBoxColorStrategy {
          * Notes that this results in the allocation of 2 Colors,
          * but that's not an issue for this sim.
          */
-        protected Color darker( Color color ) {
+        protected Color getDarkerColor( Color color ) {
             Color c = color.darker();
             return new Color( c.getRed(), c.getGreen(), c.getBlue(), color.getAlpha() );
         }
