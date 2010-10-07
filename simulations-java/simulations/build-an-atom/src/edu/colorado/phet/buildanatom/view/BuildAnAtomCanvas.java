@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Stroke;
@@ -24,8 +25,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -52,8 +51,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final PNode frontLayer = new PNode();
 
     // Stroke for drawing the electron shells.
-    public static final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+    private static final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
             new float[] { 3, 3 }, 0 );
+    private static final Paint ELECTRON_SHELL_STROKE_PAINT = new Color(0, 0, 255, 100);
+
 
     // Reset button.
     private final GradientButtonNode resetButtonNode;
@@ -126,7 +127,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     -shellRadius,
                     shellRadius * 2,
                     shellRadius * 2 ) );
-            PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, Color.BLUE );
+            PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, ELECTRON_SHELL_STROKE_PAINT );
             electronShellNode.setOffset( model.getAtom().getPosition() );
             backLayer.addChild( electronShellNode );
         }
