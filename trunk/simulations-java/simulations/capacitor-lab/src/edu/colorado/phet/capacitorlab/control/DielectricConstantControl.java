@@ -6,7 +6,11 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 
-
+/**
+ * Control for the dielectric constant.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DielectricConstantControl extends LinearValueControl {
 
     private static final double min = CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin();
