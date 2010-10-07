@@ -164,7 +164,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         resetButtonNode = new GradientButtonNode("Reset All", 16, new Color(255, 153, 0));
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale(desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width);
-        resetButtonNode.setOffset(750, 570);
         rootNode.addChild(resetButtonNode);
         resetButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -183,30 +182,43 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         particleCountLegend.setOffset(20,20);//top left corner, but with some padding
         rootNode.addChild( particleCountLegend );
 
-        PDimension windowSize = new PDimension( 300, 100 );
+        PDimension windowSize = new PDimension( 300, 100 );//for the 3 lower windows
         double verticalSpacingBetweenWindows = 20;
         int WINDOW_X = 700;
 
+        //Element indicator
+        PDimension elementIndicatorNodeWindowSize = new PDimension( 400,250-verticalSpacingBetweenWindows*2);
+        ElementIndicatorNode elementIndicatorNode= new ElementIndicatorNode( model.getAtom() );
+        PNode elementIndicatorWindow = new MaximizeControlNode( "element", elementIndicatorNodeWindowSize, elementIndicatorNode, true );
+        elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width/2 - elementIndicatorNode.getFullBounds().getWidth()/2, elementIndicatorNodeWindowSize.getHeight()/2-elementIndicatorNode.getFullBounds().getHeight()/2);
+        elementIndicatorWindow.setOffset( WINDOW_X-100, verticalSpacingBetweenWindows);
+        elementIndicatorNode.translate( 0,10 );//fudge factor since centering wasn't quite right
+        rootNode.addChild( elementIndicatorWindow );
+
         // Add the symbol indicator contained within a min/max node.
         SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83,83);//has to be big enough to hold Ne with 2 digit numbers on both sides
-        PNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
+        PNode symbolWindow = new MaximizeControlNode( "symbol", windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         double insetX = 20;
         symbolNode.setOffset( windowSize.width - symbolNode.getFullBounds().getWidth() - insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
-        symbolWindow.setOffset( WINDOW_X, 200 );
+        symbolWindow.setOffset( WINDOW_X, 250);
         rootNode.addChild( symbolWindow );
 
+        //Mass indicator
         MassIndicatorNode massIndicatorNode = new MassIndicatorNode(model.getAtom() );
-        PNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
+        PNode massWindow = new MaximizeControlNode( "mass", windowSize, massIndicatorNode, true );
         massIndicatorNode.setOffset( windowSize.width-massIndicatorNode.getFullBounds().getWidth()-insetX,windowSize.height/2 );//todo: the layout centers the scale node since the scale's origin is it's top left
         massWindow.setOffset( WINDOW_X, symbolWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
         rootNode.addChild( massWindow);
 
+        //Charge indicator
         ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
-        PNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
+        PNode chargeWindow = new MaximizeControlNode( "charge", windowSize, chargeIndicatorNode, true );
         chargeIndicatorNode.setOffset( windowSize.width - chargeIndicatorNode.getBoxWidth() - insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( WINDOW_X, massWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
         rootNode.addChild( chargeWindow );
+
+        resetButtonNode.setOffset(chargeWindow.getFullBounds().getCenterX()-resetButtonNode.getFullBounds().getWidth()/2,chargeWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
     }
 
 
