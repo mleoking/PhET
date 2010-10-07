@@ -193,7 +193,7 @@ public class Atom extends SimpleObservable{
     }
 
     public int getCharge() {
-        return protons.size() - ( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+        return protons.size() - getNumElectrons() ;
     }
 
     public String getName(){
@@ -468,6 +468,14 @@ public class Atom extends SimpleObservable{
     public boolean isStable() {
         //taken from the table at https://docs.google.com/document/edit?id=1VGGhLUetiwijbDneU-U6BPrjRlkI0rt939zk8Y4AuA4&authkey=CMLM4ZUC&hl=en#
         return getNumProtons() == 0 || stableIsotopes.contains( new Isotope( getAtomicMassNumber(), neutrons.size() ) );
+    }
+
+    public int getNumNeutrons() {
+        return neutrons.size();
+    }
+
+    public int getNumElectrons() {
+        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
     }
 
     /**
