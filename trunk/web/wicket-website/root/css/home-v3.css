@@ -182,11 +182,11 @@ div.practices dl.last {
 }
 
 div.practices dl.last dd {
-    /*text-align: right;*/
+/*text-align: right;*/
 }
 
 div.rtl div.practices dl.last dd {
-    /*text-align: inherit;*/
+/*text-align: inherit;*/
 }
 
 div.practices dl dt {
@@ -294,4 +294,9 @@ body#offline-installer-body div.rtl div.practices dl {
 
 body#offline-installer-body div.practices dl.last {
     width: 248px;
+}
+
+.index-social-image {
+    vertical-align: middle;
+    border: none;
 }
