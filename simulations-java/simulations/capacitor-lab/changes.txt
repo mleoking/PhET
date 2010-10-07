@@ -1,4 +1,4 @@
-10/7/10 fix: for Introduction tab, default dielectric offset must be 0
+10/7/10 instead of using dielectric=air in Introduction tab, use custom dielectric with a huge offset 
 10/7/10 disable Electric Field Detector check box again
 10/7/10 rotate field probe
 10/7/10 enable Electric Field Detector check box for feature development

@@ -29,7 +29,6 @@ public class CLStrings {
     public static final String CHECKBOX_PLATE = getString( "checkBox.plate" );
     public static final String CHECKBOX_DIELECTRIC = getString( "checkBox.dielectric" );
 
-    public static final String DIELECTRIC_AIR = getString( "dielectric.air" );
     public static final String DIELECTRIC_CUSTOM = getString( "dielectric.custom" );
     public static final String DIELECTRIC_GLASS = getString( "dielectric.glass" );
     public static final String DIELECTRIC_PAPER = getString( "dielectric.paper" );
