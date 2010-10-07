@@ -77,6 +77,7 @@ public class EFieldDetectorNode extends PhetPNode {
         x = bodyNode.getFullBoundsReference().getMinX() - probeNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( probeNode ) - 20;
         y = bodyNode.getFullBoundsReference().getMinY();
         probeNode.setOffset( x, y );
+        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         
         // interactivity
         bodyNode.addInputEventListener( new CursorHandler() );
