@@ -25,10 +25,10 @@ public class SearchResultsPage extends PhetRegularPage {
         initializeLocation( getNavMenu().getLocationByKey( "search.results" ) );
 
         if ( query != null ) {
-            addTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "search.title", this ), query ) );
+            setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "search.title", this ), query ) );
         }
         else {
-            addTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "search.title", this ), "-" ) );
+            setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "search.title", this ), "-" ) );
         }
 
         add( new SearchResultsPanel( "search-results-panel", getPageContext(), query ) );

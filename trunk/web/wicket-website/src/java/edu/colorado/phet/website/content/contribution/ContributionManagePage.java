@@ -2,9 +2,7 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
-import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.panels.contribution.ContributionManagePanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
@@ -22,7 +20,7 @@ public class ContributionManagePage extends PhetRegularPage {
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas.manage" ) );
         verifySignedIn();
 
-        addTitle( new ResourceModel( "contribution.manage.pageTitle" ) );
+        setTitle( getLocalizer().getString( "contribution.manage.pageTitle", this ) );
 
         add( new ContributionManagePanel( "contribution-manage-panel", getPageContext() ) );
     }

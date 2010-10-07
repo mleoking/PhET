@@ -5,15 +5,12 @@ import java.net.URLEncoder;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.EditProfilePanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
-import edu.colorado.phet.website.util.links.Linkable;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
 public class EditProfilePage extends PhetMenuPage {
@@ -31,7 +28,7 @@ public class EditProfilePage extends PhetMenuPage {
             destination = parameters.getString( "dest" );
         }
 
-        addTitle( new ResourceModel( "editProfile.title" ) );
+        setTitle( getLocalizer().getString( "editProfile.title", this ) );
 
         add( new EditProfilePanel( "edit-profile-panel", getPageContext(), destination ) );
 
@@ -62,7 +59,7 @@ public class EditProfilePage extends PhetMenuPage {
                     }
                     return "edit-profile?dest=" + URLEncoder.encode( finalDestination, "UTF-8" );
                 }
-                catch( UnsupportedEncodingException e ) {
+                catch ( UnsupportedEncodingException e ) {
                     e.printStackTrace();
                     throw new RuntimeException( e );
                 }

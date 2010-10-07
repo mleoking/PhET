@@ -2,7 +2,6 @@ package edu.colorado.phet.website.authentication;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
 import edu.colorado.phet.website.templates.PhetPage;
@@ -18,7 +17,7 @@ public class SignOutPage extends PhetPage {
     public SignOutPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( new ResourceModel( "signOut.title" ) );
+        setTitle( getLocalizer().getString( "signOut.title", this ) );
 
         verifySignedIn();
 

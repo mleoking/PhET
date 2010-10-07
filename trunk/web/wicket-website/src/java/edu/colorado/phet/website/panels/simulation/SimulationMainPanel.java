@@ -361,7 +361,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
         else {
             try {
-                title = StringUtils.messageFormat( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
+                title = StringUtils.messageFormat( localizer.getString( "simulationPage.title", this ), titleParams.toArray() );
             }
             catch( RuntimeException e ) {
                 e.printStackTrace();

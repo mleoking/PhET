@@ -2,10 +2,8 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
@@ -31,7 +29,7 @@ public class ContributionEditPage extends PhetRegularPage {
         String contributionIdString = parameters.getString( "contributionId" );
         final int contributionId = Integer.parseInt( contributionIdString );
 
-        addTitle( new ResourceModel( "contribution.edit.pageTitle" ) );
+        setTitle( getLocalizer().getString( "contribution.edit.pageTitle", this ) );
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
@@ -44,7 +42,7 @@ public class ContributionEditPage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/edit/([^/]+)$", ContributionEditPage.class, new String[]{"contributionId"} );
+        mapper.addMap( "^contributions/edit/([^/]+)$", ContributionEditPage.class, new String[] { "contributionId" } );
     }
 
     public static RawLinkable getLinker( final int contributionId ) {

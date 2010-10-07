@@ -2,9 +2,7 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
-import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.Linkers;
 import edu.colorado.phet.website.data.contribution.Contribution;
@@ -26,11 +24,11 @@ public class ContributionCreatePage extends PhetRegularPage {
 
         verifySignedIn();
 
-        addTitle( new ResourceModel( "contribution.create.pageTitle" ) );
+        setTitle( getLocalizer().getString( "contribution.create.pageTitle", this ) );
 
         add( new ContributionEditPanel( "contribution-edit-panel", getPageContext(), new Contribution() ) );
 
-        add( new LocalizedText( "check-guidelines", "contribution.create.checkGuidelines", new Object[]{
+        add( new LocalizedText( "check-guidelines", "contribution.create.checkGuidelines", new Object[] {
                 ContributionGuidelinesPanel.getLinker().getHref( getPageContext(), getPhetCycle() ),
                 Linkers.CONTRIBUTION_GUIDELINES_PDF.getHref( getPageContext(), getPhetCycle() )
         } ) );

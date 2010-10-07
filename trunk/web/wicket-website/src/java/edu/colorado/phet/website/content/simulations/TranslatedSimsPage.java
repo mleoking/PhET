@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
@@ -42,8 +41,8 @@ public class TranslatedSimsPage extends PhetRegularPage {
             String localeKey = "language.names." + localeName;
             initializeLocation( getNavMenu().getLocationByKey( localeKey ) );
 
-            String title = StringUtils.messageFormat( getPhetLocalizer().getString( "simulations.translated.language.title", this ), new Object[]{getPhetLocalizer().getString( localeKey, this )} );
-            addTitle( title );
+            String title = StringUtils.messageFormat( getPhetLocalizer().getString( "simulations.translated.language.title", this ), new Object[] { getPhetLocalizer().getString( localeKey, this ) } );
+            setTitle( title );
 
             PhetPanel panel = new SimplePanelCacheEntry( TranslationListPanel.class, null, getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
                 public PhetPanel constructPanel( String id, PageContext context ) {
@@ -55,7 +54,7 @@ public class TranslatedSimsPage extends PhetRegularPage {
         else {
             initializeLocation( getNavMenu().getLocationByKey( "simulations.translated" ) );
 
-            addTitle( new ResourceModel( "simulations.translated.title" ) );
+            setTitle( getLocalizer().getString( "simulations.translated.title", this ) );
 
             //add( new TranslationLocaleListPanel( "panel", getPageContext() ) );
             PhetPanel panel = new SimplePanelCacheEntry( TranslationLocaleListPanel.class, null, getPageContext().getLocale(), getMyPath(), getPhetCycle() ) {
@@ -69,8 +68,8 @@ public class TranslatedSimsPage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^simulations/translated$", TranslatedSimsPage.class, new String[]{} );
-        mapper.addMap( "^simulations/translated/([^/]+)$", TranslatedSimsPage.class, new String[]{"translationlocale"} );
+        mapper.addMap( "^simulations/translated$", TranslatedSimsPage.class, new String[] { } );
+        mapper.addMap( "^simulations/translated/([^/]+)$", TranslatedSimsPage.class, new String[] { "translationlocale" } );
     }
 
     public static AbstractLinker getLinker() {

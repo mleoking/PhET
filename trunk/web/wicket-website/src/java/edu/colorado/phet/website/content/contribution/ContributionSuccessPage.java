@@ -2,18 +2,9 @@ package edu.colorado.phet.website.content.contribution;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.model.ResourceModel;
-import org.hibernate.Session;
 
-import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
-import edu.colorado.phet.website.menu.NavLocation;
-import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -50,12 +41,12 @@ public class ContributionSuccessPage extends PhetMenuPage {
 
         add( ContributionPage.getLinker( contributionId ).getLink( "contribution-link", getPageContext(), getPhetCycle() ) );
 
-        addTitle( new ResourceModel( "contribution.edit.success" ) );
+        setTitle( getLocalizer().getString( "contribution.edit.success", this ) );
 
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/update-success/([^/]+)$", ContributionSuccessPage.class, new String[]{"contribution"} );
+        mapper.addMap( "^contributions/update-success/([^/]+)$", ContributionSuccessPage.class, new String[] { "contribution" } );
     }
 
     public static RawLinkable getLinker( final int contributionId ) {

@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -35,7 +34,7 @@ public class ContributionBrowsePage extends PhetRegularPage {
 
         setContentWidth( 906 );
 
-        addTitle( new ResourceModel( "contribution.search.title" ) );
+        setTitle( getLocalizer().getString( "contribution.search.title", this ) );
 
         add( new ContributionSearchPanel( "contribution-search-panel", getPageContext(), parameters ) );
 

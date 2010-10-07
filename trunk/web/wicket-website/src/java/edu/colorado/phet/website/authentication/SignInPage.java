@@ -5,15 +5,9 @@ import java.net.URLEncoder;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.SignInPanel;
-import edu.colorado.phet.website.menu.NavLocation;
-import edu.colorado.phet.website.panels.NavBreadCrumbs;
-import edu.colorado.phet.website.panels.TranslationLinksPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.templates.PhetPage;
-import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -36,7 +30,7 @@ public class SignInPage extends PhetMenuPage {
             destination = parameters.getString( "dest" );
         }
 
-        addTitle( new ResourceModel( "signIn.title" ) );
+        setTitle( getLocalizer().getString( "signIn.title", this ) );
 
         add( new SignInPanel( "sign-in-panel", getPageContext(), destination ) );
 
@@ -55,7 +49,7 @@ public class SignInPage extends PhetMenuPage {
                     }
                     return "sign-in?dest=" + URLEncoder.encode( finalDestination, "UTF-8" );
                 }
-                catch( UnsupportedEncodingException e ) {
+                catch ( UnsupportedEncodingException e ) {
                     e.printStackTrace();
                     throw new RuntimeException( e );
                 }

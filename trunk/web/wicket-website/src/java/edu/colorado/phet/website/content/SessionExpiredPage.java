@@ -4,14 +4,13 @@ import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class SessionExpiredPage extends PhetMenuPage {
     public SessionExpiredPage( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( getLocalizer().getString( "error.sessionExpired", this ) );
+        setTitle( getLocalizer().getString( "error.sessionExpired", this ) );
 
         add( new LocalizedText( "message", "error.sessionExpired.message" ) );
     }

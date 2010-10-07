@@ -8,6 +8,7 @@ import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -23,8 +24,10 @@ public class ByGradeLevelPage extends PhetRegularPage {
         NavLocation location = getNavMenu().getLocationByKey( "by-level" );
 
         initializeLocation( location );
-
-        addTitle( new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) );
+        setTitle( StringUtils.messageFormat( getLocalizer().getString( "simulationDisplay.title", this ), new Object[] {
+                new StringResourceModel( location.getLocalizationKey(), this, null )
+        } ) );
+//        addTitle( new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) );
 
     }
 

@@ -62,7 +62,7 @@ public class CategoryPage extends PhetRegularPage {
         NavLocation location = (NavLocation) viewPanel.getCacheParameter( "location" );
         initializeLocation( location );
 
-        addTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "simulationDisplay.title", this ), new Object[]{
+        setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "simulationDisplay.title", this ), new Object[]{
                 getPhetLocalizer().getString( location.getLocalizationKey(), this )
         } ) );
 

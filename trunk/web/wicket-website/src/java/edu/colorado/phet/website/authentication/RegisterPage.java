@@ -2,11 +2,9 @@ package edu.colorado.phet.website.authentication;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.authentication.panels.RegisterPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.templates.PhetPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -26,7 +24,7 @@ public class RegisterPage extends PhetMenuPage {
 
         add( new RegisterPanel( "register-panel", getPageContext(), destination ) );
 
-        addTitle( new ResourceModel( "register.title" ) );
+        setTitle( getLocalizer().getString( "register.title", this ) );
     }
 
     public static AbstractLinker getLinker( final String destination ) {

@@ -16,7 +16,7 @@ public class AdminPage extends AuthenticatedPage {
             setResponsePage( getApplication().getApplicationSettings().getAccessDeniedPage() );
         }
 
-        addTitle( "PhET Basic Administration" );
+        setTitle( "PhET Basic Administration" );
     }
 
 }

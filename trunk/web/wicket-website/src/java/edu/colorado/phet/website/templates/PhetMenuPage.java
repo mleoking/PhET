@@ -2,18 +2,21 @@ package edu.colorado.phet.website.templates;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
 import edu.colorado.phet.website.cache.SimplePanelCacheEntry;
 import edu.colorado.phet.website.components.InvisibleComponent;
+import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.constants.CSS;
+import edu.colorado.phet.website.constants.SocialBookmarkService;
 import edu.colorado.phet.website.content.about.AboutLicensingPanel;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -54,6 +57,8 @@ public abstract class PhetMenuPage extends PhetPage {
         add( AboutLicensingPanel.getLinker().getLink( "some-rights-link", getPageContext(), getPhetCycle() ) );
 
         checkNavLocationParameters( parameters );
+
+        // we initialize the links in the onBeforeRender so we can grab the title
 
     }
 
@@ -96,7 +101,7 @@ public abstract class PhetMenuPage extends PhetPage {
     public String getStyle( String key ) {
         // be able to override the width so we can increase it for specific pages
         if ( key.equals( "style.menu-page-content" ) ) {
-            return "width: " + getContentWidth() + "px;";
+            return "width: " + ( getContentWidth() + 55 ) + "px;"; // adding 55 for size of right column
         }
 
         return super.getStyle( key );
@@ -126,11 +131,32 @@ public abstract class PhetMenuPage extends PhetPage {
         initializeLocationWithSet( new HashSet<NavLocation>() );
     }
 
+    /**
+     * @return The title string to be passed into social bookmarking tools. Added so we can strip out excess keywords or
+     *         other parts of regular titles that wouldn't be proper there.
+     */
+    protected String getSocialBookmarkTitle() {
+        return getTitle();
+    }
+
     @Override
     protected void onBeforeRender() {
         super.onBeforeRender();
         if ( !initializedLocations ) {
             initializeDefaultLocations();
         }
+        if ( !hasTitle() && getSocialBookmarkTitle() == null ) { // also check social bookmark override, in case we do funky magic later
+            throw new RuntimeException( "title was not set before onBeforeRender for " + this.getClass().getCanonicalName() );
+        }
+        add( new ListView<SocialBookmarkService>( "social-list", SocialBookmarkService.SERVICES ) {
+            @Override
+            protected void populateItem( ListItem<SocialBookmarkService> item ) {
+                SocialBookmarkService mark = item.getModelObject();
+                Link link = mark.getLinker( getFullPath(), getSocialBookmarkTitle() ).getLink( "link", getPageContext(), getPhetCycle() );
+                item.add( link );
+                link.add( new StaticImage( "icon", mark.getIconPath(), null ) ); // for now, don't replace the alt attribute
+            }
+        } );
+
     }
 }
