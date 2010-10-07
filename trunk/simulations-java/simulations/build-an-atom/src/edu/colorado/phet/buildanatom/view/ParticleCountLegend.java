@@ -97,11 +97,11 @@ public class ParticleCountLegend extends PNode {
     }
 
     private static class ReadoutLegendItem extends PNode {
-        private PNode iconChildNode = new PNode();//Shows the images of the particle
-        private PText textNode;
+        private final PNode iconChildNode = new PNode();//Shows the images of the particle
+        private final PText textNode;
         private double iconX;
-        private Getter getter;
-        private PNodeFactory nodeFactory;
+        private final Getter getter;
+        private final PNodeFactory nodeFactory;
 
         public ReadoutLegendItem( final String label, Atom atom, final Getter getter, final PNodeFactory nodeFactory ) {
             this.getter = getter;
@@ -122,6 +122,8 @@ public class ParticleCountLegend extends PNode {
             iconChildNode.removeAllChildren();
             for ( int i = 0; i < getter.get(); i++ ) {
                 PNode newicon = nodeFactory.createNode();
+                newicon.setPickable( false );
+                newicon.setChildrenPickable( false );
                 newicon.scale( 1.3 );//Make it look a bit bigger
                 iconChildNode.addChild( newicon );
                 //put next to the previous one
