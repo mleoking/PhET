@@ -100,7 +100,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeterNode = new VoltmeterNode();//XXX
-        eFieldDetectorNode = new EFieldDetectorNode( model.getCircuit(), mvt, playAreaBoundsNode );//XXX
+        eFieldDetectorNode = new EFieldDetectorNode( model.getCircuit(), mvt, playAreaBoundsNode, dev );//XXX
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
