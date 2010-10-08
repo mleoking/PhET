@@ -43,7 +43,7 @@ public abstract class SocialBookmarkService {
     public static final SocialBookmarkService FACEBOOK = new SocialBookmarkService() {
         @Override
         public String getIconPath() {
-            return "/images/icons/social/32/facebook.png";
+            return "/images/icons/social/16/facebook.png";
         }
 
         @Override
@@ -55,7 +55,7 @@ public abstract class SocialBookmarkService {
     public static final SocialBookmarkService TWITTER = new SocialBookmarkService() {
         @Override
         public String getIconPath() {
-            return "/images/icons/social/32/twitter.png";
+            return "/images/icons/social/16/twitter.png";
         }
 
         @Override
@@ -67,7 +67,7 @@ public abstract class SocialBookmarkService {
     public static final SocialBookmarkService STUMBLE_UPON = new SocialBookmarkService() {
         @Override
         public String getIconPath() {
-            return "/images/icons/social/32/stumbleupon.png";
+            return "/images/icons/social/16/stumbleupon.png";
         }
 
         @Override
@@ -79,7 +79,7 @@ public abstract class SocialBookmarkService {
     public static final SocialBookmarkService DIGG = new SocialBookmarkService() {
         @Override
         public String getIconPath() {
-            return "/images/icons/social/32/digg.png";
+            return "/images/icons/social/16/digg.png";
         }
 
         @Override
@@ -91,7 +91,7 @@ public abstract class SocialBookmarkService {
     public static final SocialBookmarkService REDDIT = new SocialBookmarkService() {
         @Override
         public String getIconPath() {
-            return "/images/icons/social/32/reddit.png";
+            return "/images/icons/social/16/reddit.png";
         }
 
         @Override
@@ -103,7 +103,7 @@ public abstract class SocialBookmarkService {
     public static final SocialBookmarkService DELICIOUS = new SocialBookmarkService() {
         @Override
         public String getIconPath() {
-            return "/images/icons/social/32/delicious.png";
+            return "/images/icons/social/16/delicious.png";
         }
 
         @Override
