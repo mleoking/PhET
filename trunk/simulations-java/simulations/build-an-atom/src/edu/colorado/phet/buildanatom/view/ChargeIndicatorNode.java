@@ -22,7 +22,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class ChargeIndicatorNode extends PNode {
-    final int BOX_DIMENSION = 80;
+    private static final int BOX_DIMENSION = 80;
+    private static final Font ATOM_ION_FONT = new PhetFont(24, true);
+
     private static final Color purple = new Color( 112, 48, 160 );
 
     public ChargeIndicatorNode( final Atom atom ) {
@@ -88,13 +90,13 @@ public class ChargeIndicatorNode extends PNode {
         }} );
 
         // TODO: i18n
-        final PText atomText = new PText( "Atom" ) {{setFont( new PhetFont( 18, true ) );}};
+        final PText atomText = new PText( "Atom" ) {{setFont( ATOM_ION_FONT );}};
         // TODO: i18n
-        final PText ionText = new PText( "Ion" ) {{setFont( new PhetFont( 18, true ) );}};
+        final PText ionText = new PText( "Ion" ) {{setFont( ATOM_ION_FONT );}};
 
-        double xSpacing = 30;
-        ionText.translate( boxNode.getFullBounds().getWidth() + xSpacing, boxNode.getFullBounds().getHeight() - ionText.getFullBounds().getHeight() );
-        atomText.setOffset( ionText.getOffset().getX(), ionText.getOffset().getY() - atomText.getFullBounds().getHeight() );
+        double xSpacing = 50;
+        atomText.setOffset( boxNode.getFullBoundsReference().getMaxX() + xSpacing, boxNode.getFullBoundsReference().getCenterY() - ionText.getFullBoundsReference().height );
+        ionText.setOffset( atomText.getOffset().getX(), atomText.getFullBoundsReference().getMaxY() );
 
         addChild( atomText );
         addChild( ionText );
@@ -121,7 +123,7 @@ public class ChargeIndicatorNode extends PNode {
         atom.addObserver( updateIconText );
         updateIconText.update();
 
-        //Add the check mark for "atom"
+        // Add the check mark for "atom"
         addChild( new CheckMark() {{
             final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
                 public void update() {
