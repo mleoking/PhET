@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -39,7 +40,7 @@ public class MaximizeControlNode extends PhetPNode {
 
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
-    private static final Color BACKGROUND_FILL_COLOR = Color.WHITE;
+    private static final Color BACKGROUND_FILL_COLOR = null;
     private static final Color LABEL_PAINT = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( 18, true );
 
@@ -62,12 +63,12 @@ public class MaximizeControlNode extends PhetPNode {
         backgroundNode = new PPath();
         backgroundNode.setStroke( BACKGROUND_STROKE );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-//        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
+        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
         addChild( backgroundNode );
 
         // button
-        buttonNode = new PImage( BuildAnAtomResources.getImage( "maximizeButton.png" ) );
-        buttonNode.scale( 1.5 );//XXX
+        buttonNode = new PImage( PhetCommonResources.getImage( "buttons/maximizeButton.png" ) );
+        buttonNode.scale( 1.25 );
         buttonNode.addInputEventListener( new CursorHandler() );
         buttonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
@@ -109,12 +110,12 @@ public class MaximizeControlNode extends PhetPNode {
         if ( b != isMaximized ) {
             isMaximized = b;
             if ( isMaximized ) {
-                buttonNode.setImage( BuildAnAtomResources.getImage( "minimizeButton.png" ) );
+                buttonNode.setImage( PhetCommonResources.getImage( "buttons/minimizeButton.png" ) );
                 backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, maximizedSize.getWidth(), maximizedSize.getHeight() ) );
                 addChild( managedNode );
             }
             else {
-                buttonNode.setImage( BuildAnAtomResources.getImage( "maximizeButton.png" ) );
+                buttonNode.setImage( PhetCommonResources.getImage( "buttons/maximizeButton.png" ) );
                 backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, minimizedSize.getWidth(), minimizedSize.getHeight() ) );
                 removeChild( managedNode );
             }
