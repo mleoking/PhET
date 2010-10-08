@@ -19,10 +19,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ElementIndicatorNode extends PNode {
     public ElementIndicatorNode( final Atom atom ) {
-        final PText elementNameTextNode = new PText( atom.getName() ) {{
-            setFont( BuildAnAtomConstants.READOUT_FONT );
-            setTextPaint( Color.red );
-        }};
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
@@ -39,16 +35,21 @@ public class ElementIndicatorNode extends PNode {
             addElement( atom, table, i );
         }
 
-        final SimpleObserver updateText = new SimpleObserver() {
-            public void update() {
-                elementNameTextNode.setText( atom.getName() );
-                elementNameTextNode.setOffset( table.getFullBounds().getWidth() / 2 - elementNameTextNode.getFullBounds().getWidth() / 2, 0 );
-            }
-        };
-        atom.addObserver( updateText );
-        updateText.update();
         addChild( table );
-        addChild( elementNameTextNode );
+
+        //Show the name readout
+//        addChild( new PText( atom.getName() ) {{
+//            setFont( BuildAnAtomConstants.READOUT_FONT );
+//            setTextPaint( Color.red );
+//            final SimpleObserver updateText = new SimpleObserver() {
+//                public void update() {
+//                    setText( atom.getName() );
+//                    setOffset( table.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, 0 );
+//                }
+//            };
+//            atom.addObserver( updateText );
+//            updateText.update();
+//        }} );
     }
 
     private void addElement( final Atom atom, final PNode table, int i ) {
@@ -157,7 +158,6 @@ public class ElementIndicatorNode extends PNode {
             final PText text = new PText( abbreviation );
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
-            final Color blue = new Color( 129, 143, 224 );
             atom.addObserver( new SimpleObserver() {
                 public void update() {
                     boolean match = atom.getNumProtons() == atomicNumber;
@@ -165,9 +165,6 @@ public class ElementIndicatorNode extends PNode {
                     Color paint = null;
                     if ( match ) {
                         paint = Color.white;
-                    }
-                    else if ( atomicNumber <= 10 ) {
-                        paint = blue;
                     }
                     box.setPaint( paint );
                 }
