@@ -206,10 +206,6 @@ class RampControlPanelBody(model: MotionSeriesModel,
       setPosition()
     }
 
-    override def mouseDragged(e: MouseEvent) = {
-      setPosition()
-    }
-
     override def mouseReleased(e: MouseEvent) = {
       model.motionSeriesObject.userSpecifiedPosition = false
     }
