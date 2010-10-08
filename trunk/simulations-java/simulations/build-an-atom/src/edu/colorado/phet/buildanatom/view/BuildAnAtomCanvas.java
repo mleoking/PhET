@@ -207,7 +207,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         MassIndicatorNode massIndicatorNode = new MassIndicatorNode( model.getAtom() );
         // TODO: i18n
         MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
-        massIndicatorNode.setOffset( insetX, massIndicatorNode.getFullBoundsReference().height * 0.4 );
+        massIndicatorNode.setOffset( insetX, windowSize.height / 2 - massIndicatorNode.getFullBounds().getHeight() / 2 );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( massWindow );
 
