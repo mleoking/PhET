@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -57,7 +58,8 @@ public class MassIndicatorNode extends PNode {
         Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 1.5f, 1.5f }, 0 );
         double scale = 1.0/5;
         ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale,scale), false );
-        for ( Double shellRadius : atom.getElectronShellRadii() ) {
+        for ( ElectronShell electronShell : atom.getElectronShells() ) {
+            double shellRadius = electronShell.getRadius();
             Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
                     -shellRadius,
                     -shellRadius,

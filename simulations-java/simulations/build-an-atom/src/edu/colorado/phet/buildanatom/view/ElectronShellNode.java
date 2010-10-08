@@ -1,10 +1,15 @@
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -21,11 +26,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ElectronShellNode extends PNode {
 
-    // Color Test Set 03 - Blue background with gray atoms
-//    private static final Color CENTER_COLOR = Color.DARK_GRAY;
-//    private static final Color OUTER_COLOR = new Color( 185, 205, 100 );
-    private static final Color CENTER_COLOR = new Color(0, 0, 255, 100);
-    private static final Color OUTER_COLOR = new Color(0, 0, 255, 0);
+    // Base color to use when drawing clouds.
+    private static final Color CLOUD_BASE_COLOR = Color.BLUE;
 
     // Stroke for drawing the electron orbits.
     private static final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT,
@@ -34,16 +36,24 @@ public class ElectronShellNode extends PNode {
     // Paint for the electron orbitals.
     private static final Paint ELECTRON_SHELL_STROKE_PAINT = new Color( 0, 0, 255, 100 );
 
+    // Reference to the electron shell that we represent.
+    private final ElectronShell electronShell;
+
+    // Cloud version of the representation.
+    private final PhetPPath electronCloudNode;
+
     /**
      * Constructor.
      */
-    public ElectronShellNode( final ModelViewTransform2D mvt, final MutableBoolean viewOrbitals, final Atom atom, Double shellRadius ) {
+    public ElectronShellNode( final ModelViewTransform2D mvt, final MutableBoolean viewOrbitals, final Atom atom, final ElectronShell electronShell ) {
 
-        Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
-                -shellRadius,
-                -shellRadius,
-                shellRadius * 2,
-                shellRadius * 2 ) );
+        this.electronShell = electronShell;
+
+        final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
+                -electronShell.getRadius(),
+                -electronShell.getRadius(),
+                electronShell.getRadius() * 2,
+                electronShell.getRadius() * 2 ) );
 
         // Create and add the node that will depict the shell as a circular
         // orbit.
@@ -60,21 +70,27 @@ public class ElectronShellNode extends PNode {
 
         // Create and add the nodes that will be used when depicting the
         // electrons as a fuzzy cloud.
-        Paint outerShell4ElectronsPaint = new RoundGradientPaint(
-                electronShellShape.getBounds2D().getCenterX(),
-                electronShellShape.getBounds2D().getCenterY(),
-                CENTER_COLOR,
-//                new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 2, electronShellShape.getBounds2D().getHeight() / 2 ),
-                new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
-                OUTER_COLOR );
-        PhetPPath electronCloudNode = new PhetPPath( electronShellShape, outerShell4ElectronsPaint ) {
-            {
+        Paint initialPaint = new Color(0, 0, 0, 0);
+        electronCloudNode = new PhetPPath( electronShellShape, initialPaint ) { {
                 final SimpleObserver updateVisibility = new SimpleObserver() {
                     public void update() {
                         setVisible( !viewOrbitals.getValue() );
                     }
                 };
                 viewOrbitals.addObserver( updateVisibility );
+                final SimpleObserver updateFuzziness = new SimpleObserver() {
+                    public void update() {
+                        double electronFullnessProportion = (double)electronShell.getNumElectrons() / (double)electronShell.getElectronCapacity();
+                        Paint shellGradientPaint = new RoundGradientPaint(
+                                electronShellShape.getBounds2D().getCenterX(),
+                                electronShellShape.getBounds2D().getCenterY(),
+                                new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), (int) Math.round( electronFullnessProportion * 200 ) ),
+                                new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
+                                new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
+                        setPaint( shellGradientPaint );
+                    }
+                };
+                electronShell.addObserver( updateFuzziness );
             }
         };
         viewOrbitals.setValue( false );//XXX

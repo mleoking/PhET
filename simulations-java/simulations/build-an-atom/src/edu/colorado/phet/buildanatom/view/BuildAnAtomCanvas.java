@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
@@ -61,6 +62,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //Automatically calls back to observers when they are added
         //so clients do not need to call myObserver.update() each time
         //they use this pattern.
+        @Override
         public void addObserver( SimpleObserver so ) {
             super.addObserver( so );
             so.update();
@@ -129,8 +131,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         backLayer.addChild( nucleusXMarkerNode );
 
         // Add the atom's electron shells to the canvas.
-        for ( Double shellRadius : model.getAtom().getElectronShellRadii() ) {
-            backLayer.addChild( new ElectronShellNode(mvt, viewOrbitals,model.getAtom(),shellRadius) );
+        for ( ElectronShell electronShell : model.getAtom().getElectronShells() ) {
+            backLayer.addChild( new ElectronShellNode( mvt, viewOrbitals, model.getAtom(), electronShell ) );
         }
 
         // Add the buckets that hold the sub-atomic particles.
