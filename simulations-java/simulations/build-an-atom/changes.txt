@@ -1,3 +1,4 @@
+Added a circular gradient paint to the charge indicator meter background 
 Added a check mark for "Ion" text in the charge indicator, and made it red for positive and blue for negative
 Moved the element name from the periodic table to above the nucleus
 Made all non-selected elements in the periodic table the same color, instead of indicating the "buildable elements" in blue 
