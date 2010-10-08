@@ -53,17 +53,19 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final PNode particleLayer = new PNode();
     private final PNode frontLayer = new PNode();
 
-    // Stroke for drawing the electron shells.
-    private static final Stroke ELECTRON_SHELL_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-            new float[] { 3, 3 }, 0 );
-    private static final Paint ELECTRON_SHELL_STROKE_PAINT = new Color(0, 0, 255, 100);
-
-
     // Reset button.
     private final GradientButtonNode resetButtonNode;
     private final ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
 
-    final MutableBoolean viewOrbitals = new MutableBoolean( true );
+    final MutableBoolean viewOrbitals = new MutableBoolean( true ){
+        //Automatically calls back to observers when they are added
+        //so clients do not need to call myObserver.update() each time
+        //they use this pattern.
+        public void addObserver( SimpleObserver so ) {
+            super.addObserver( so );
+            so.update();
+        }
+    };
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -128,20 +130,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Add the atom's electron shells to the canvas.
         for ( Double shellRadius : model.getAtom().getElectronShellRadii() ) {
-            Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
-                    -shellRadius,
-                    -shellRadius,
-                    shellRadius * 2,
-                    shellRadius * 2 ) );
-            final PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, ELECTRON_SHELL_STROKE_PAINT ) {{
-                setOffset( model.getAtom().getPosition() );
-                viewOrbitals.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setVisible( viewOrbitals.getValue() );
-                    }
-                } );
-            }};
-            backLayer.addChild( electronShellNode );
+            backLayer.addChild( new ElectronShellNode(mvt, viewOrbitals,model.getAtom(),shellRadius) );
         }
 
         // Add the buckets that hold the sub-atomic particles.
