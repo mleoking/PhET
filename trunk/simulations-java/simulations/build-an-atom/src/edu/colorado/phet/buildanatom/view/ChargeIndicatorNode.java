@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -28,8 +29,18 @@ public class ChargeIndicatorNode extends PNode {
         final PhetPPath boxNode = new PhetPPath( new Rectangle2D.Double( 0, 0, BOX_DIMENSION, BOX_DIMENSION ), BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( boxNode );
         int arcOffsetY = 10;
-        int arcInsetDX = 2;
-        final PhetPPath pieNode = new PhetPPath( new Arc2D.Double( arcInsetDX, arcOffsetY, BOX_DIMENSION - arcInsetDX * 2, BOX_DIMENSION, 0, 180, Arc2D.PIE ), Color.black );
+        final int arcInsetDX = 2;
+        final PNode pieNode = new PNode() {{
+            //See definitation and sample usage in CircularGradientPaint.main
+            CircularGradientPaint rgp2 = new CircularGradientPaint( new Point2D.Double( ( BOX_DIMENSION - arcInsetDX * 2 ) / 2, ( BOX_DIMENSION ) / 2 ), Color.red, Color.white );
+            final PhetPPath redSide = new PhetPPath( new Arc2D.Double( 0, 0, BOX_DIMENSION - arcInsetDX * 2, BOX_DIMENSION, 0, 90, Arc2D.PIE ), rgp2 );
+            addChild( redSide );
+
+            CircularGradientPaint rgp1 = new CircularGradientPaint( new Point2D.Double( ( BOX_DIMENSION - arcInsetDX * 2 ) / 2, ( BOX_DIMENSION ) / 2 ), Color.white, Color.blue);
+            final PhetPPath blueSide= new PhetPPath( new Arc2D.Double( 0, 0, BOX_DIMENSION - arcInsetDX * 2, BOX_DIMENSION, 90, 90, Arc2D.PIE ), rgp1 );
+            addChild( blueSide );
+        }};
+
         addChild( pieNode );
         final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.READOUT_FONT );}};
         //center text below pie
@@ -44,20 +55,7 @@ public class ChargeIndicatorNode extends PNode {
         updateText.update();
         addChild( textNode );
 
-        //+ and - labels on the pie part of the indicator
-        addChild( new PText( "+" ) {{
-            setFont( BuildAnAtomConstants.READOUT_FONT );
-            setOffset( pieNode.getFullBounds().getWidth() * 3.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-            setTextPaint( Color.red );
-        }} );
-
-        addChild( new PText( "-" ) {{
-            setFont( BuildAnAtomConstants.READOUT_FONT );
-            setOffset( pieNode.getFullBounds().getWidth() * 1.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-            setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
-        }} );
-
-        final PhetPPath arrowNode = new PhetPPath( BuildAnAtomConstants.READOUT_BACKGROUND_COLOR );
+        final PhetPPath arrowNode = new PhetPPath( Color.black);
         final SimpleObserver updateArrow = new SimpleObserver() {
             public void update() {
                 Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 12, -Math.PI / 2, 0 );//can only have 11 electrons, but map 12 to theta=0 so 11 looks maxed out
@@ -69,6 +67,19 @@ public class ChargeIndicatorNode extends PNode {
         atom.addObserver( updateArrow );
         updateArrow.update();
         addChild( arrowNode );
+
+        //+ and - labels on the pie part of the indicator
+        addChild( new ShadowPText( "+" ) {{
+            setFont( BuildAnAtomConstants.READOUT_FONT );
+            setOffset( pieNode.getFullBounds().getWidth() * 3.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setTextPaint( Color.red );
+        }} );
+
+        addChild( new ShadowPText( "-" ) {{
+            setFont( BuildAnAtomConstants.READOUT_FONT );
+            setOffset( pieNode.getFullBounds().getWidth() * 1.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
+        }} );
 
         // TODO: i18n
         final PText atomText = new PText( "Atom" ) {{setFont( new PhetFont( 18, true ) );}};
@@ -124,7 +135,7 @@ public class ChargeIndicatorNode extends PNode {
                 public void update() {
                     setVisible( atom.getCharge() != 0 &&
                                 atom.getNumParticles() > 0 );//Don't show the check mark if the atom has nothing in it.
-                    setPaint(atom.getCharge()>0?Color.red : Color.blue );
+                    setPaint( atom.getCharge() > 0 ? Color.red : Color.blue );
                 }
             };
             atom.addObserver( updateCheckMarkVisible );
