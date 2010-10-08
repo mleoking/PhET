@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ChargeIndicatorNode extends PNode {
     final int BOX_DIMENSION = 80;
-    private final Color purple = new Color( 112, 48, 160 );
+    private static final Color purple = new Color( 112, 48, 160 );
 
     public ChargeIndicatorNode( final Atom atom ) {
         final PhetPPath boxNode = new PhetPPath( new Rectangle2D.Double( 0, 0, BOX_DIMENSION, BOX_DIMENSION ), BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
@@ -95,7 +95,7 @@ public class ChargeIndicatorNode extends PNode {
                 //Overwrite if there are no particles in the atom
                 //So as to not identify a nonexistent atom as "atom"
                 //TODO: instead of overwriting these values, the logic above should be changed
-                if (atom.getNumParticles()==0){
+                if ( atom.getNumParticles() == 0 ) {
                     atomText.setTextPaint( Color.darkGray );
                     ionText.setTextPaint( Color.darkGray );
                 }
@@ -104,32 +104,62 @@ public class ChargeIndicatorNode extends PNode {
         atom.addObserver( updateIconText );
         updateIconText.update();
 
-        //Add the check mark
-        int width=5;
-        int tailLength=20;
-        int headLength=10;
-        DoubleGeneralPath path = new DoubleGeneralPath( 0,0);
-        path.lineToRelative( headLength,headLength);
-        path.lineToRelative( tailLength,-tailLength);
-        path.lineToRelative( -width,-width );
-        path.lineToRelative( -(tailLength-width),tailLength-width );
-        path.lineToRelative( -(headLength-width),-(headLength-width) );
-        path.lineTo( 0,0 );
-        path.closePath();
-        final PhetPPath atomCheckMark = new PhetPPath( path.getGeneralPath(),purple, new BasicStroke( 2),Color.black );
-        atomCheckMark.scale( 0.7 );
-        addChild( atomCheckMark );
+        //Add the check mark for "atom"
+        addChild( new CheckMark() {{
+            final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
+                public void update() {
+                    setVisible( atom.getCharge() == 0 &&
+                                atom.getNumParticles() > 0 );//Don't show the check mark if the atom has nothing in it.
+                }
+            };
+            atom.addObserver( updateCheckMarkVisible );
+            updateCheckMarkVisible.update();
 
-        final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
-            public void update() {
-                atomCheckMark.setVisible( atom.getCharge() == 0 &&
-                                          atom.getNumParticles()>0);//Don't show the check mark if the atom has nothing in it.
-            }
-        };
-        atom.addObserver( updateCheckMarkVisible );
-        updateCheckMarkVisible.update();
+            setOffset( atomText.getFullBounds().getX() - getFullBounds().getWidth(), atomText.getFullBounds().getCenterY() );
+        }} );
 
-        atomCheckMark.setOffset( atomText.getFullBounds().getX()-atomCheckMark.getFullBounds().getWidth(),atomText.getFullBounds().getCenterY() );
+        // Add the check mark for "ion"
+        addChild( new CheckMark() {{
+            final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
+                public void update() {
+                    setVisible( atom.getCharge() != 0 &&
+                                atom.getNumParticles() > 0 );//Don't show the check mark if the atom has nothing in it.
+                    setPaint(atom.getCharge()>0?Color.red : Color.blue );
+                }
+            };
+            atom.addObserver( updateCheckMarkVisible );
+            updateCheckMarkVisible.update();
+
+            setOffset( ionText.getFullBounds().getX() - getFullBounds().getWidth(), ionText.getFullBounds().getCenterY() );
+        }} );
+    }
+
+    private static class CheckMark extends PNode {
+        private final PhetPPath atomCheckMark;
+
+        private CheckMark() {
+            int width = 5;
+            int tailLength = 20;
+            int headLength = 10;
+            DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 );
+            path.lineToRelative( headLength, headLength );
+            path.lineToRelative( tailLength, -tailLength );
+            path.lineToRelative( -width, -width );
+            path.lineToRelative( -( tailLength - width ), tailLength - width );
+            path.lineToRelative( -( headLength - width ), -( headLength - width ) );
+            path.lineTo( 0, 0 );
+            path.closePath();
+            atomCheckMark = new PhetPPath( path.getGeneralPath(), purple, new BasicStroke( 2 ), Color.black );
+            atomCheckMark.scale( 0.7 );
+
+            addChild( atomCheckMark );
+        }
+
+        @Override
+        public void setPaint( Paint newPaint ) {
+            super.setPaint( newPaint );
+            atomCheckMark.setPaint( newPaint );
+        }
     }
 
     private Paint getTextPaint( Atom atom ) {
