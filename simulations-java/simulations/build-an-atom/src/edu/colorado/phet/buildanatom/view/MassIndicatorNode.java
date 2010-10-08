@@ -55,7 +55,7 @@ public class MassIndicatorNode extends PNode {
         final PNode atomNode = new PNode();
         //Make it small enough so it looks to scale, but also so we don't have to indicate atomic substructure
         Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 1.5f, 1.5f }, 0 );
-        double scale = 1.0/7;
+        double scale = 1.0/5;
         ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale,scale), false );
         for ( Double shellRadius : atom.getElectronShellRadii() ) {
             Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
@@ -85,9 +85,12 @@ public class MassIndicatorNode extends PNode {
         }} );
         addChild( atomNode );
 
-        // Position the atom.  This has a "tweak factor" in it for adjusting
-        // the vertical position.
+        // Position the atom and the scale such that the (0,0) position is the
+        // upper left corner of the whole assembly.
         atomNode.setOffset( weighScaleImageNode.getFullBoundsReference().getCenterX(),
-                weighScaleImageNode.getFullBoundsReference().getMinY() - 5);
+                atomNode.getFullBoundsReference().height / 2);
+        // There is a tweak factor here to set the vertical relationship between
+        // the atom and scale.
+        weighScaleImageNode.setOffset( 0, atomNode.getFullBoundsReference().height * 0.75 );
     }
 }
