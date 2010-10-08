@@ -1,3 +1,4 @@
+Fixed: Applied force text field is broken on graph tabs
 # 1.03.80 (44767) Oct 6, 2010
 Fixed: If the springs are turned on and the wall is closed, the springs are still visible.  
 # 1.03.79 (44248) Sep 21, 2010
