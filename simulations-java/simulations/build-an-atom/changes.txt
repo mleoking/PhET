@@ -1,3 +1,4 @@
+Moved the element name from the periodic table to above the nucleus
 Added a red/gray nucleus dot in the mass indicator atom icon
 Increased the size of the atom icon on the mass-indicator scale
 Aligned readout windows
