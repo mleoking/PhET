@@ -1,0 +1,9 @@
+atom_builder_charge_meter.png source=PhET
+
+atom_builder_scale.png source=PhET
+
+maximizeButton.png source=PhET
+
+
+minimizeButton.png source=PhET
+
