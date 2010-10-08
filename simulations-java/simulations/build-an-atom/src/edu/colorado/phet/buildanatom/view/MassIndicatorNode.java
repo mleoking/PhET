@@ -1,13 +1,15 @@
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -23,22 +25,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class MassIndicatorNode extends PNode {
     private static final double WIDTH = 90; // The image will define the aspect ratio and therefore the height.
-    private final Atom atom;
 
     public MassIndicatorNode( final Atom atom ) {
-        this.atom=atom;
-        final Rectangle2D.Double baseShape = new Rectangle2D.Double( 0, 0, 100, 30 );
-        final double stemWidth = 4;
-        final double platformHeight = 3;
-
-//        final PhetPPath base = new PhetPPath( baseShape, BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
-//        addChild( base );
-//
-//        final PhetPPath stem = new PhetPPath( BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
-//        addChild( stem );
-//
-//        final PhetPPath platformNode = new PhetPPath( BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
-//        addChild( platformNode );
 
         final PImage weighScaleImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_scale.png" ) );
         weighScaleImageNode.setScale( WIDTH / weighScaleImageNode.getFullBoundsReference().width );
@@ -53,9 +41,7 @@ public class MassIndicatorNode extends PNode {
         SimpleObserver updateText = new SimpleObserver() {
             public void update() {
                 readoutPText.setText( atom.getAtomicMassNumber() + "" );
-//                readoutPText.setOffset( base.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, base.getFullBounds().getCenterY() - readoutPText.getFullBounds().getHeight() / 2 );
                 readoutPText.setOffset( weighScaleImageNode.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, weighScaleImageNode.getFullBounds().getMaxY() - readoutPText.getFullBounds().getHeight() );
-//                readoutPText.setOffset( weighScaleImageNode.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, weighScaleImageNode.getFullBounds().getMaxY() );
             }
         };
         atom.addObserver( updateText );
@@ -103,27 +89,5 @@ public class MassIndicatorNode extends PNode {
         // the vertical position.
         atomNode.setOffset( weighScaleImageNode.getFullBoundsReference().getCenterX(),
                 weighScaleImageNode.getFullBoundsReference().getMinY() - 5);
-
-        //have the scale compress with increased weight
-//        final SimpleObserver updateCompression = new SimpleObserver() {
-//            public void update() {
-//                Rectangle2D.Double stemShape = new Rectangle2D.Double( baseShape.getCenterX() - stemWidth / 2, baseShape.getMinY() - getStemHeight(), stemWidth, getStemHeight() );
-//                stem.setPathTo( stemShape );
-//                Rectangle.Double platform = new Rectangle2D.Double( baseShape.getX(), stemShape.getY() - platformHeight, baseShape.getWidth(), platformHeight );
-//                platformNode.setPathTo( platform );
-//                atomNode.setOffset( platform.getCenterX(), platform.getCenterY()-atomNode.getFullBounds().getHeight()/2 //set the atom on the scale
-//                                                   - 4 );//looks weird if shell sits on the scale, so have it float a little
-//            }
-//        };
-//        atom.addObserver( updateCompression );
-//        updateCompression.update();
-    }
-
-    public double getStemHeight(){
-        Function.LinearFunction linearFunction=new Function.LinearFunction( 0,23,//23 max atomic weight based on allowed number protons and neutrons
-                                                                            8,//tallest stem
-                                                                            2);//shortest stem
-        double stemHeight = linearFunction.evaluate( atom.getAtomicMassNumber() );
-        return stemHeight;
     }
 }
