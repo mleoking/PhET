@@ -238,20 +238,20 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 
   val sliderNode = createSliderNode(temporalChart)
   val controlPanel = new PNode {
-    val visible = new MutableBoolean(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
+    val goButtonVisible = new MutableBoolean(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
       val editableLabel = new EditableLabel(appliedForceSeries) {
-        override def setValueFromText() = visible.setValue(true) //show the go button
+        override def setValueFromText() = goButtonVisible.setValue(true) //show the go button
       }
       addToGrid(appliedForceSeries, editableLabel)
       for (s <- additionalSerieses) addToGrid(s)
     }))
     sliderNode.addInputEventListener(new PBasicInputEventHandler() {
       override def mouseDragged(event: PInputEvent) = {
-        visible.setValue(true)
+        goButtonVisible.setValue(true)
       }
     })
-    val goButton = new GoButton(motionSeriesModel, visible)
+    val goButton = new GoButton(motionSeriesModel, goButtonVisible)
     goButton.setOffset(getFullBounds.getMaxX - goButton.getFullBounds.getWidth * 2, getFullBounds.getMaxY)
     addChild(goButton)
   }
