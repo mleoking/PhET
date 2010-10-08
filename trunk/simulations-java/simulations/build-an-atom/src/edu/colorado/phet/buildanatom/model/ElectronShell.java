@@ -114,13 +114,16 @@ public class ElectronShell extends SimpleObservable {
     }
 
     protected void reset() {
-        for ( Electron electron : shellLocations.values() ) {
-            if ( electron != null ) {
-                electron.removeListener( particleRemovalListener );
+        if (getNumElectrons() > 0){
+            for ( Electron electron : shellLocations.values() ) {
+                if ( electron != null ) {
+                    electron.removeListener( particleRemovalListener );
+                }
             }
-        }
-        for ( Point2D point2D : shellLocations.keySet() ) {
-            shellLocations.put( point2D, null );
+            for ( Point2D point2D : shellLocations.keySet() ) {
+                shellLocations.put( point2D, null );
+            }
+            notifyObservers();
         }
     }
 
