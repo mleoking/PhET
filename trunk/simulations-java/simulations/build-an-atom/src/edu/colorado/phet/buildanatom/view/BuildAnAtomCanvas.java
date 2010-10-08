@@ -179,7 +179,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         particleCountLegend.setOffset( 20, 20 );//top left corner, but with some padding
         rootNode.addChild( particleCountLegend );
 
-        PDimension windowSize = new PDimension( 300, 100 );//for the 3 lower windows
+        PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
         double verticalSpacingBetweenWindows = 20;
         int indicatorWindowPosX = 600;
 
