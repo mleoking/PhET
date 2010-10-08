@@ -15,7 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * If you change something here, it will change *everywhere* in this simulation.
  */
 public class BuildAnAtomConstants {
-    public static final Font READOUT_FONT = new PhetFont( 20, true );
+    public static final Font WINDOW_TITLE_FONT = new PhetFont( 20, true );
+    public static final Font ITEM_FONT = new PhetFont( 16, true );
 
     /* Not intended for instantiation. */
     private BuildAnAtomConstants() {}
