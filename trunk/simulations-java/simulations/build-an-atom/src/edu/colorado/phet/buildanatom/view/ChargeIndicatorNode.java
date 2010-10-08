@@ -31,8 +31,11 @@ public class ChargeIndicatorNode extends PNode {
     private static final double WIDTH = 90;
 
     public ChargeIndicatorNode( final Atom atom ) {
-        final PhetPPath boxNode = new PhetPPath( new Rectangle2D.Double( 0, 0, BOX_DIMENSION, BOX_DIMENSION ), BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
-        addChild( boxNode );
+        final PImage chargeMeterImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_charge_meter_no_window.png" ) );
+        chargeMeterImageNode.setScale( WIDTH / chargeMeterImageNode.getFullBoundsReference().width );
+        addChild ( chargeMeterImageNode );
+
+        // Add the pie node now so it is on top of the image.
         int arcOffsetY = 10;
         final int arcInsetDX = 2;
         final PNode pieNode = new PNode() {{
@@ -50,14 +53,23 @@ public class ChargeIndicatorNode extends PNode {
             double seamPaintWidth=2;
             Rectangle2D.Double fixPaint = new Rectangle2D.Double( pieHalfWidth / 2 - seamPaintWidth/2, 0, seamPaintWidth, BOX_DIMENSION/2 );
             addChild( new PhetPPath( fixPaint, Color.white) );//Paint over the seam, couldn't get it fixed in CircularGradientPaint yet, only problematic on large window sizes and/or under 1.6
+            final PhetPPath pieBorder = new PhetPPath( new Arc2D.Double( 0, 0, pieHalfWidth, BOX_DIMENSION, 0, 180, Arc2D.PIE ), new BasicStroke(2f), Color.GRAY );
+            addChild( pieBorder );
         }};
 
+        // Position the "pie" (which is the charge indicator) over the
+        // background of the meter.  There is a "tweak factor" in here, so
+        // tweak as needed.
+        pieNode.setOffset( chargeMeterImageNode.getFullBoundsReference().width / 2 - pieNode.getFullBoundsReference().width / 2, 7 );
         addChild( pieNode );
+
+
         final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.READOUT_FONT );}};
         //center text below pie
         SimpleObserver updateText = new SimpleObserver() {
             public void update() {
-                textNode.setOffset( pieNode.getFullBounds().getCenterX() - textNode.getFullBounds().getWidth() / 2, ( pieNode.getFullBounds().getMaxY() + boxNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
+                textNode.setOffset( pieNode.getFullBounds().getCenterX() - textNode.getFullBounds().getWidth() / 2,
+                        ( pieNode.getFullBounds().getMaxY() + chargeMeterImageNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
                 textNode.setTextPaint( getTextPaint( atom ) );
                 textNode.setText( atom.getFormattedCharge() );
             }
@@ -92,17 +104,14 @@ public class ChargeIndicatorNode extends PNode {
             setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
         }} );
 
-        final PImage chargeMeterImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_charge_meter_transparent.png" ) );
-        chargeMeterImageNode.setScale( WIDTH / chargeMeterImageNode.getFullBoundsReference().width );
-        addChild ( chargeMeterImageNode );
-
         // TODO: i18n
         final PText atomText = new PText( "Atom" ) {{setFont( ATOM_ION_FONT );}};
         // TODO: i18n
         final PText ionText = new PText( "Ion" ) {{setFont( ATOM_ION_FONT );}};
 
         double xSpacing = 50;
-        atomText.setOffset( boxNode.getFullBoundsReference().getMaxX() + xSpacing, boxNode.getFullBoundsReference().getCenterY() - ionText.getFullBoundsReference().height );
+        atomText.setOffset( chargeMeterImageNode.getFullBoundsReference().getMaxX() + xSpacing,
+                chargeMeterImageNode.getFullBoundsReference().getCenterY() - ionText.getFullBoundsReference().height );
         ionText.setOffset( atomText.getOffset().getX(), atomText.getFullBoundsReference().getMaxY() );
 
         addChild( atomText );
