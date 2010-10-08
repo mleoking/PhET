@@ -165,8 +165,11 @@ public class Atom extends SimpleObservable{
         }
         protons.clear();
         neutrons.clear();
-        electronShell1.reset();
+        // It is important to reset the electron shells from the outside in so
+        // that we don't end up with electrons trying to migrate from outer to
+        // inner shells during reset.
         electronShell2.reset();
+        electronShell1.reset();
         notifyObservers();
     }
 
