@@ -1,3 +1,4 @@
+# 0.00.07 (44886) Oct 7, 2010
 Aligned the right sides of the readout windows
 Made "Unstable" text color black instead of red
 # 0.00.06 (44883) Oct 7, 2010
