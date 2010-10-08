@@ -59,7 +59,8 @@ public class MassIndicatorNode extends PNode {
         final PNode atomNode = new PNode();
         //Make it small enough so it looks to scale, but also so we don't have to indicate atomic substructure
         Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 1.5f, 1.5f }, 0 );
-        ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle2D.Double( 0, 0, 1, 1 ), false );
+        double scale = 1.0/7;
+        ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale,scale), false );
         for ( Double shellRadius : atom.getElectronShellRadii() ) {
             Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
                     -shellRadius,
@@ -69,6 +70,23 @@ public class MassIndicatorNode extends PNode {
             PNode electronShellNode = new PhetPPath( electronShellShape, stroke, Color.BLUE );
             atomNode.addChild( electronShellNode );
         }
+        double nucleusWidth=1;
+        atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
+            setOffset( atomNode.getFullBounds().getCenter2D() );
+            final SimpleObserver updateNucleusNode = new SimpleObserver() {
+                public void update() {
+                    setVisible( atom.getNumProtons() + atom.getNumNeutrons() > 0 );
+                    if ( atom.getNumProtons() > 0 ) {
+                        setPaint( Color.red );//if any protons, it should look red
+                    }
+                    else {
+                        setPaint( Color.gray );
+                    } //if no protons, but some neutrons, should look neutron colored
+                }
+            };
+            atom.addObserver( updateNucleusNode );
+            updateNucleusNode.update();
+        }} );
         addChild( atomNode );
 
         //have the scale compress with increased weight
