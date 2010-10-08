@@ -170,11 +170,11 @@ public class Atom extends SimpleObservable{
         notifyObservers();
     }
 
-    public ArrayList<Double> getElectronShellRadii() {
-        ArrayList<Double> electronShellRadii = new ArrayList<Double>();
-        electronShellRadii.add( new Double( electronShell1.getRadius() ) );
-        electronShellRadii.add( new Double( electronShell2.getRadius() ) );
-        return electronShellRadii;
+    public ArrayList<ElectronShell> getElectronShells() {
+        ArrayList<ElectronShell> electronShells = new ArrayList<ElectronShell>();
+        electronShells.add( electronShell1 );
+        electronShells.add( electronShell2 );
+        return electronShells;
     }
 
     public int getRemainingElectronCapacity(){

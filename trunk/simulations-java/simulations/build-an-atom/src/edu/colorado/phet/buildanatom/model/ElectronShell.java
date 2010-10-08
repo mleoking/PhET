@@ -13,6 +13,7 @@ public class ElectronShell extends SimpleObservable {
 
     private final double radius;
     private final HashMap<Point2D, Electron> shellLocations = new HashMap<Point2D, Electron>();
+    private final int electronCapacity;
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
@@ -24,6 +25,20 @@ public class ElectronShell extends SimpleObservable {
             removeElectron( (Electron)particle );
         }
     };
+
+    /**
+     * Constructor.
+     */
+    ElectronShell( double radius, int electronCapacity ) {
+        this.radius = radius;
+        this.electronCapacity = electronCapacity;
+        // Initialize the open shell locations.
+        double angleBetweenElectrons = 2 * Math.PI / electronCapacity;
+        for ( int i = 0; i < electronCapacity; i++ ) {
+            double angle = i * angleBetweenElectrons;
+            shellLocations.put( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ), null );
+        }
+    }
 
     /**
      * Return the first Point2D key associated with the specified particle.
@@ -39,16 +54,6 @@ public class ElectronShell extends SimpleObservable {
             }
         }
         return null;
-    }
-
-    ElectronShell( double radius, int electronCapacity ) {
-        this.radius = radius;
-        // Initialize the open shell locations.
-        double angleBetweenElectrons = 2 * Math.PI / electronCapacity;
-        for ( int i = 0; i < electronCapacity; i++ ) {
-            double angle = i * angleBetweenElectrons;
-            shellLocations.put( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ), null );
-        }
     }
 
     /**
@@ -92,7 +97,11 @@ public class ElectronShell extends SimpleObservable {
         return getOpenShellLocations().size();
     }
 
-    protected double getRadius() {
+    public int getElectronCapacity(){
+        return electronCapacity;
+    }
+
+    public double getRadius() {
         return radius;
     }
 
