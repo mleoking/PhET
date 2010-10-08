@@ -1,3 +1,4 @@
+Made "Unstable" text color black instead of red
 # 0.00.06 (44883) Oct 7, 2010
 Fixed: Window readouts do not re-maximize on reset all
 Added a circular gradient paint to the charge indicator meter background

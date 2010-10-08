@@ -18,7 +18,7 @@ public class StabilityIndicator extends PNode {
         this.atom = atom;
         addChild( new PText( "Unstable" ) {{
             setFont( new PhetFont( 18, true ) );
-            setTextPaint( Color.red );
+            setTextPaint( Color.black );
         }} );
         SimpleObserver updateVisibility = new SimpleObserver() {
             public void update() {
