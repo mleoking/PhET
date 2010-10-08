@@ -160,7 +160,16 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Add the subatomic particles.
         for ( int i = 0; i < model.numElectrons(); i++ ) {
-            particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ) );
+            final int finalI = i;
+            particleLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ){{
+                final SimpleObserver updateVisibility = new SimpleObserver() {
+                    public void update() {
+                        setVisible( viewOrbitals.getValue() || !model.getAtom().containsElectron( model.getElectron( finalI ) ) );
+                    }
+                };
+                viewOrbitals.addObserver( updateVisibility );
+                model.getAtom().addObserver( updateVisibility );
+            }} );
         }
 
         for ( int i = 0; i < Math.max( model.numProtons(), model.numNeutrons() ); i++ ) {
