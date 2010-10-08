@@ -59,7 +59,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
     // Reset button.
     private final GradientButtonNode resetButtonNode;
-    private ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
+    private final ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -207,7 +207,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         MassIndicatorNode massIndicatorNode = new MassIndicatorNode( model.getAtom() );
         // TODO: i18n
         MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
-        massIndicatorNode.setOffset( insetX, windowSize.height / 2 );//todo: the layout centers the scale node since the scale's origin is its top left
+        massIndicatorNode.setOffset( insetX, massIndicatorNode.getFullBoundsReference().height * 0.4 );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( massWindow );
 
