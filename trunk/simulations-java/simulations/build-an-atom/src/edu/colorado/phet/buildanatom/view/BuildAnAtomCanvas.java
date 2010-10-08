@@ -20,6 +20,8 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
+import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -61,11 +63,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final GradientButtonNode resetButtonNode;
     private final ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
 
+    final MutableBoolean viewOrbitals = new MutableBoolean( true );
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAnAtomCanvas( BuildAnAtomModel model ) {
+    public BuildAnAtomCanvas( final BuildAnAtomModel model ) {
 
         this.model = model;
 
@@ -129,8 +133,14 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     -shellRadius,
                     shellRadius * 2,
                     shellRadius * 2 ) );
-            PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, ELECTRON_SHELL_STROKE_PAINT );
-            electronShellNode.setOffset( model.getAtom().getPosition() );
+            final PNode electronShellNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, ELECTRON_SHELL_STROKE_PAINT ) {{
+                setOffset( model.getAtom().getPosition() );
+                viewOrbitals.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setVisible( viewOrbitals.getValue() );
+                    }
+                } );
+            }};
             backLayer.addChild( electronShellNode );
         }
 
@@ -179,8 +189,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         particleCountLegend.setOffset( 20, 20 );//top left corner, but with some padding
         rootNode.addChild( particleCountLegend );
 
-        PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
-        double verticalSpacingBetweenWindows = 20;
+        final PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
+        final double verticalSpacingBetweenWindows = 20;
         int indicatorWindowPosX = 600;
 
         // Element indicator
@@ -198,23 +208,23 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // TODO: i18n
         MaximizeControlNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
-        double insetX = 20;
+        final double insetX = 20;
         symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( indicatorWindowPosX, 250 );
         rootNode.addChild( symbolWindow );
 
         // Mass indicator
-        MassIndicatorNode massIndicatorNode = new MassIndicatorNode( model.getAtom() );
         // TODO: i18n
-        MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, massIndicatorNode, true );
-        massIndicatorNode.setOffset( insetX, windowSize.height / 2 - massIndicatorNode.getFullBounds().getHeight() / 2 );
+        final MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, new MassIndicatorNode( model.getAtom() ){{
+            setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
+        }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( massWindow );
 
         // Charge indicator
-        ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
+        final ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
         // TODO: i18n
-        MaximizeControlNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
+        final MaximizeControlNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
         chargeIndicatorNode.setOffset( insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
@@ -238,6 +248,15 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         maximizeControlNodeArrayList.add( elementIndicatorWindow );
         maximizeControlNodeArrayList.add( massWindow );
         maximizeControlNodeArrayList.add( symbolWindow );
+
+        //Add the Selection control for how to view the orbitals
+        rootNode.addChild( new OrbitalViewControl( viewOrbitals ){{
+            setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20,chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
+        }} );
+
+        //Make the "orbits" button not focused by default, by focusing the canvas
+        setFocusable( true );
+        requestFocus();
     }
     //----------------------------------------------------------------------------
     // Accessors

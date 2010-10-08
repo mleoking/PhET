@@ -33,7 +33,7 @@ public class MassIndicatorNode extends PNode {
         addChild ( weighScaleImageNode );
 
         final PText readoutPText = new PText() {{
-            setFont( BuildAnAtomConstants.READOUT_FONT );
+            setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
             setTextPaint( Color.red );
         }};
         addChild( readoutPText );

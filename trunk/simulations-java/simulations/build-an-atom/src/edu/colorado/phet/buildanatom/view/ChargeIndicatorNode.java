@@ -64,7 +64,7 @@ public class ChargeIndicatorNode extends PNode {
         addChild( pieNode );
 
 
-        final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.READOUT_FONT );}};
+        final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};
         //center text below pie
         SimpleObserver updateText = new SimpleObserver() {
             public void update() {
@@ -93,13 +93,13 @@ public class ChargeIndicatorNode extends PNode {
 
         //+ and - labels on the pie part of the indicator
         addChild( new ShadowPText( "+" ) {{
-            setFont( BuildAnAtomConstants.READOUT_FONT );
+            setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
             setOffset( pieNode.getFullBounds().getWidth() * 3.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             setTextPaint( Color.red );
         }} );
 
         addChild( new ShadowPText( "-" ) {{
-            setFont( BuildAnAtomConstants.READOUT_FONT );
+            setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
             setOffset( pieNode.getFullBounds().getWidth() * 1.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
         }} );

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -39,7 +38,7 @@ public class ElementIndicatorNode extends PNode {
 
         //Show the name readout
 //        addChild( new PText( atom.getName() ) {{
-//            setFont( BuildAnAtomConstants.READOUT_FONT );
+//            setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
 //            setTextPaint( Color.red );
 //            final SimpleObserver updateText = new SimpleObserver() {
 //                public void update() {

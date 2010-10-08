@@ -6,6 +6,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
@@ -106,7 +107,7 @@ public class ParticleCountLegend extends PNode {
         public ReadoutLegendItem( final String label, Atom atom, final Getter getter, final PNodeFactory nodeFactory ) {
             this.getter = getter;
             this.nodeFactory = nodeFactory;
-            textNode = new PText( label ) {{setFont( new PhetFont( 16, true ) );}};
+            textNode = new PText( label ) {{setFont( BuildAnAtomConstants.ITEM_FONT );}};
             addChild( iconChildNode );
             addChild( textNode );
             SimpleObserver updateReadout = new SimpleObserver() {
