@@ -32,13 +32,19 @@ public class ChargeIndicatorNode extends PNode {
         final int arcInsetDX = 2;
         final PNode pieNode = new PNode() {{
             //See definitation and sample usage in CircularGradientPaint.main
-            CircularGradientPaint rgp2 = new CircularGradientPaint( new Point2D.Double( ( BOX_DIMENSION - arcInsetDX * 2 ) / 2, ( BOX_DIMENSION ) / 2 ), Color.red, Color.white );
-            final PhetPPath redSide = new PhetPPath( new Arc2D.Double( 0, 0, BOX_DIMENSION - arcInsetDX * 2, BOX_DIMENSION, 0, 90, Arc2D.PIE ), rgp2 );
+            final int pieHalfWidth = BOX_DIMENSION - arcInsetDX * 2;
+            CircularGradientPaint rgp2 = new CircularGradientPaint( new Point2D.Double( pieHalfWidth / 2, ( BOX_DIMENSION ) / 2 ), Color.red, Color.white );
+            final PhetPPath redSide = new PhetPPath( new Arc2D.Double( 0, 0, pieHalfWidth, BOX_DIMENSION, 0, 90, Arc2D.PIE ), rgp2 );
             addChild( redSide );
 
-            CircularGradientPaint rgp1 = new CircularGradientPaint( new Point2D.Double( ( BOX_DIMENSION - arcInsetDX * 2 ) / 2, ( BOX_DIMENSION ) / 2 ), Color.white, Color.blue);
-            final PhetPPath blueSide= new PhetPPath( new Arc2D.Double( 0, 0, BOX_DIMENSION - arcInsetDX * 2, BOX_DIMENSION, 90, 90, Arc2D.PIE ), rgp1 );
+            CircularGradientPaint rgp1 = new CircularGradientPaint( new Point2D.Double( pieHalfWidth / 2, ( BOX_DIMENSION ) / 2 ), Color.white, Color.blue );
+            final PhetPPath blueSide = new PhetPPath( new Arc2D.Double( 0, 0, pieHalfWidth, BOX_DIMENSION, 90, 90, Arc2D.PIE ), rgp1 );
             addChild( blueSide );
+
+            //Workaround because CircularGradientPaint (or our usage of it) seems to be off by a pixel or so
+            double seamPaintWidth=2;
+            Rectangle2D.Double fixPaint = new Rectangle2D.Double( pieHalfWidth / 2 - seamPaintWidth/2, 0, seamPaintWidth, BOX_DIMENSION/2 );
+            addChild( new PhetPPath( fixPaint, Color.white) );//Paint over the seam, couldn't get it fixed in CircularGradientPaint yet, only problematic on large window sizes and/or under 1.6
         }};
 
         addChild( pieNode );
@@ -55,7 +61,7 @@ public class ChargeIndicatorNode extends PNode {
         updateText.update();
         addChild( textNode );
 
-        final PhetPPath arrowNode = new PhetPPath( Color.black);
+        final PhetPPath arrowNode = new PhetPPath( Color.black );
         final SimpleObserver updateArrow = new SimpleObserver() {
             public void update() {
                 Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 12, -Math.PI / 2, 0 );//can only have 11 electrons, but map 12 to theta=0 so 11 looks maxed out

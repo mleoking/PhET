@@ -98,17 +98,7 @@ public class CircularGradientPaint implements Paint {
                 for ( int i = 0; i < w; i++ ) {
                     double angle = new Vector2D( _point, new Point2D.Double( x + i, y + j ) ).getAngle();
                     double ratio = angle;
-                    ratio = Math.abs( ratio / Math.PI )*2-1E-4;
-//                    System.out.println( "ratio = " + ratio );
-//                    if (ratio>Math.PI){
-//                        ratio=Math.PI;
-//                    }
-//                    if (ratio>1){
-//                        ratio=1;
-//                    }
-//                    if (ratio<-1){
-//                        ratio=-1;
-//                    }
+                    ratio = Math.abs( ratio / Math.PI )*2;
 
                     int base = ( j * w + i ) * 4;
                     data[base + 0] = (int) ( _color1.getRed() + ratio * ( _color2.getRed() - _color1.getRed() ) );
