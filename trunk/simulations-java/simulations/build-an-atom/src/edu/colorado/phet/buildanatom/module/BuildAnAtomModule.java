@@ -52,7 +52,7 @@ public class BuildAnAtomModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     /**
-     * Resets the module.
+     * Resets the module.//TODO: this looks unused
      */
     @Override
     public void reset() {
