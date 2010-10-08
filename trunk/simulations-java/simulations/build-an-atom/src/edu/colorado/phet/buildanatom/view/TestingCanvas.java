@@ -131,7 +131,9 @@ public class TestingCanvas extends PhetPCanvas {
         setBackground( BACKGROUND_COLOR );
         
         // Root of our scene graph
-        rootNode = new PNode();
+        rootNode = new PNode(){{
+            setScale( 0.4 );
+        }};
         addWorldChild( rootNode );
         
         // Create the gradients.  Note that making the radius a bit smaller

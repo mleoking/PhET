@@ -59,9 +59,9 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
         addModule( secondModule );
 
-//        Module thirdModule = new TestingModule( parentFrame );
-//        thirdModule.setName( "Fuzz Test" );
-//        addModule( thirdModule );
+        Module thirdModule = new TestingModule( parentFrame );
+        thirdModule.setName( "Fuzz Test" );
+        addModule( thirdModule );
     }
 
     /*
