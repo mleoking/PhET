@@ -1,3 +1,4 @@
+Removed duplicate copy of max/min buttons 
 Increased the size of the atom icon on the scale
 Integrated the graphics NP provided for the scale and for the charge indicator
 Increased the font of "Atom" and "Ion" in the charge indicator
