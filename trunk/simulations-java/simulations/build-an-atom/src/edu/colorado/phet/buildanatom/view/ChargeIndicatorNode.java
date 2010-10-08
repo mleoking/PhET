@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -26,6 +28,7 @@ public class ChargeIndicatorNode extends PNode {
     private static final Font ATOM_ION_FONT = new PhetFont(24, true);
 
     private static final Color purple = new Color( 112, 48, 160 );
+    private static final double WIDTH = 90;
 
     public ChargeIndicatorNode( final Atom atom ) {
         final PhetPPath boxNode = new PhetPPath( new Rectangle2D.Double( 0, 0, BOX_DIMENSION, BOX_DIMENSION ), BuildAnAtomConstants.READOUT_BACKGROUND_COLOR, new BasicStroke( 1 ), Color.black );
@@ -88,6 +91,10 @@ public class ChargeIndicatorNode extends PNode {
             setOffset( pieNode.getFullBounds().getWidth() * 1.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
         }} );
+
+        final PImage chargeMeterImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_charge_meter_transparent.png" ) );
+        chargeMeterImageNode.setScale( WIDTH / chargeMeterImageNode.getFullBoundsReference().width );
+        addChild ( chargeMeterImageNode );
 
         // TODO: i18n
         final PText atomText = new PText( "Atom" ) {{setFont( ATOM_ION_FONT );}};
