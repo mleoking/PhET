@@ -1,3 +1,6 @@
+Increased the size of the atom icon on the scale
+Integrated the graphics NP provided for the scale and for the charge indicator
+Increased the font of "Atom" and "Ion" in the charge indicator
 # 0.00.07 (44886) Oct 7, 2010
 Aligned the right sides of the readout windows
 Made "Unstable" text color black instead of red
