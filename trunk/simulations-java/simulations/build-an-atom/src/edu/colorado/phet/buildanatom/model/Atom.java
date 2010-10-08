@@ -496,6 +496,10 @@ public class Atom extends SimpleObservable{
         return getAtomicMassNumber()+getNumElectrons();
     }
 
+    public boolean containsElectron( Electron electron ) {
+        return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron);
+    }
+
     /**
      * Structure that contains both the chemical symbol and textual name for
      * an atom.

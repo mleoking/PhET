@@ -149,4 +149,8 @@ public class ElectronShell extends SimpleObservable {
         }
         return closestPoint;
     }
+
+    public boolean containsElectron( Electron electron ) {
+        return shellLocations.containsValue( electron );
+    }
 }
