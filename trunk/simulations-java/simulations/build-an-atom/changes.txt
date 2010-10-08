@@ -1,3 +1,4 @@
+# 0.00.06 (44883) Oct 7, 2010
 Fixed: Window readouts do not re-maximize on reset all
 Added a circular gradient paint to the charge indicator meter background
 Added a check mark for "Ion" text in the charge indicator, and made it red for positive and blue for negative
