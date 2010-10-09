@@ -84,8 +84,8 @@ public class ElectronShellNode extends PNode {
                 } );
                 electronShell.addObserver( new SimpleObserver() {
                     public void update() {
-                        Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0,electronShell.getElectronCapacity(),0,200);
-                        int alpha = electronShell.getNumElectrons()==0?0:(int) electronCountToAlphaMapping.evaluate( electronShell.getNumElectrons() );
+                        Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0,electronShell.getElectronCapacity(),50,200);//Map to alpha values between 50 and 200
+                        int alpha = electronShell.getNumElectrons()==0?0:(int) electronCountToAlphaMapping.evaluate( electronShell.getNumElectrons() );//But if there are no electrons, be transparent
                         Paint shellGradientPaint = new RoundGradientPaint(
                                 electronShellShape.getBounds2D().getCenterX(),
                                 electronShellShape.getBounds2D().getCenterY(),
