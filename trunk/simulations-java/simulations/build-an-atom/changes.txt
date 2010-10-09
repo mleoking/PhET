@@ -1,5 +1,6 @@
 Changed the number of electrons in the bucket from 11 to 10
 Made fuzzy electron shell graphic pickable if visible and if it contains any electrons
+Added cloud view for electron shells
 # 0.00.08 (44901) Oct 8, 2010
 10/8/10 Publishing new version for review by team.
 Removed duplicate copy of max/min buttons 
