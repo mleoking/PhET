@@ -1,3 +1,4 @@
+# 0.00.09 (44920) Oct 9, 2010
 Made it so that the first electron in the outer shell is more visible
 Changed the number of electrons in the bucket from 11 to 10
 Made fuzzy electron shell graphic pickable if visible and if it contains any electrons
