@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -72,13 +73,12 @@ public class ElectronShellNode extends PNode {
         // electrons as a fuzzy cloud.
         Paint initialPaint = new Color(0, 0, 0, 0);
         electronCloudNode = new PhetPPath( electronShellShape, initialPaint ) { {
-                final SimpleObserver updateVisibility = new SimpleObserver() {
+                viewOrbitals.addObserver( new SimpleObserver() {
                     public void update() {
                         setVisible( !viewOrbitals.getValue() );
                     }
-                };
-                viewOrbitals.addObserver( updateVisibility );
-                final SimpleObserver updateFuzziness = new SimpleObserver() {
+                } );
+                electronShell.addObserver( new SimpleObserver() {
                     public void update() {
                         double electronFullnessProportion = (double)electronShell.getNumElectrons() / (double)electronShell.getElectronCapacity();
                         Paint shellGradientPaint = new RoundGradientPaint(
@@ -88,9 +88,14 @@ public class ElectronShellNode extends PNode {
                                 new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                                 new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
                         setPaint( shellGradientPaint );
+
+                        //Make fuzzy electron shell graphic pickable if visible and if it contains any electrons
+                        final boolean pickable = electronShell.getNumElectrons() > 0 && !viewOrbitals.getValue();
+                        setPickable( pickable );
+                        setChildrenPickable( pickable );
                     }
-                };
-                electronShell.addObserver( updateFuzziness );
+                } );
+                addInputEventListener( new CursorHandler() );
             }
         };
         viewOrbitals.setValue( false );//XXX

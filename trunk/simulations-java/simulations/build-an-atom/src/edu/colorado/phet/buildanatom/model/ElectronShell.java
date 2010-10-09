@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * @author John Blanco
@@ -164,5 +165,14 @@ public class ElectronShell extends SimpleObservable {
 
     public boolean containsElectron( Electron electron ) {
         return shellLocations.containsValue( electron );
+    }
+
+    /**
+     * Automatically synchronize added observers with our state.
+     * @param observer
+     */
+    public void addObserver( SimpleObserver observer ) {
+        super.addObserver( observer );
+        observer.update();
     }
 }
