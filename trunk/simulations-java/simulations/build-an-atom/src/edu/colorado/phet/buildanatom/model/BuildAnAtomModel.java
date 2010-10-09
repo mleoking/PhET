@@ -27,7 +27,7 @@ public class BuildAnAtomModel {
 
     // Constants that define the number of sub-atomic particles that exist
     // within the sim.
-    private static final int NUM_ELECTRONS = 11;
+    private static final int NUM_ELECTRONS = 10;
     private static final int NUM_PROTONS = 10;
     private static final int NUM_NEUTRONS = 13;
 
