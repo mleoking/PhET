@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -83,11 +84,12 @@ public class ElectronShellNode extends PNode {
                 } );
                 electronShell.addObserver( new SimpleObserver() {
                     public void update() {
-                        double electronFullnessProportion = (double)electronShell.getNumElectrons() / (double)electronShell.getElectronCapacity();
+                        Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0,electronShell.getElectronCapacity(),0,200);
+                        int alpha = electronShell.getNumElectrons()==0?0:(int) electronCountToAlphaMapping.evaluate( electronShell.getNumElectrons() );
                         Paint shellGradientPaint = new RoundGradientPaint(
                                 electronShellShape.getBounds2D().getCenterX(),
                                 electronShellShape.getBounds2D().getCenterY(),
-                                new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), (int) Math.round( electronFullnessProportion * 200 ) ),
+                                new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), alpha ),
                                 new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                                 new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
                         setPaint( shellGradientPaint );
@@ -131,7 +133,7 @@ public class ElectronShellNode extends PNode {
                 } );
         }
         };
-        viewOrbitals.setValue( false );//XXX
+//        viewOrbitals.setValue( false );//Uncomment this line to set the default view to cloud
         addChild( electronCloudNode );
     }
 }
