@@ -149,6 +149,10 @@ public abstract class SubatomicParticle {
         setPosition( position.getValue().getX() + dx, position.getValue().getY() + dy );
     }
 
+    public void translate( Point2D point2D ) {
+        translate( point2D.getX(), point2D.getY() );
+    }
+
     public void reset() {
         position.reset();
         destination.setLocation( position.getValue() );

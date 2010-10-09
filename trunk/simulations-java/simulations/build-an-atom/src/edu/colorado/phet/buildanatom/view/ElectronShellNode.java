@@ -9,6 +9,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -17,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Node that represents an electron shell, aka "orbit", in the view.  This
@@ -88,15 +91,45 @@ public class ElectronShellNode extends PNode {
                                 new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                                 new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
                         setPaint( shellGradientPaint );
-
-                        //Make fuzzy electron shell graphic pickable if visible and if it contains any electrons
+                    }
+                } );
+                //Make fuzzy electron shell graphic pickable if visible and if it contains any electrons
+                final SimpleObserver updatePickable = new SimpleObserver() {
+                    public void update() {
                         final boolean pickable = electronShell.getNumElectrons() > 0 && !viewOrbitals.getValue();
                         setPickable( pickable );
                         setChildrenPickable( pickable );
                     }
-                } );
+                };
+                electronShell.addObserver( updatePickable );
+                viewOrbitals.addObserver( updatePickable );
                 addInputEventListener( new CursorHandler() );
-            }
+
+                //Make it possible to grab and manipulate electrons from the cloud representation, see related handling code in SubatomicParticleNode
+                addInputEventListener( new PBasicInputEventHandler() {
+                    Electron grabbedElectron = null;
+                    @Override
+                    public void mousePressed( PInputEvent event ) {
+                        //Grab an electron out from the shell
+                        final Point2D position = mvt.viewToModel( event.getCanvasPosition() );
+                        grabbedElectron=electronShell.getClosestElectron( position );
+                        grabbedElectron.setUserControlled( true );
+                        grabbedElectron.setPositionAndDestination( position );
+                    }
+
+                    @Override
+                    public void mouseDragged( PInputEvent event ) {
+                        grabbedElectron.translate( mvt.viewToModelDifferential(event.getCanvasDelta().width,event.getCanvasDelta().height ));
+                        grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
+                    }
+
+                    @Override
+                    public void mouseReleased( PInputEvent event ) {
+                        grabbedElectron.setUserControlled( false );
+                        grabbedElectron=null;
+                    }
+                } );
+        }
         };
         viewOrbitals.setValue( false );//XXX
         addChild( electronCloudNode );
