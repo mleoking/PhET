@@ -73,7 +73,7 @@ public class DielectricModel {
         getCapacitor().setPlateSeparation( CLConstants.PLATE_SEPARATION_RANGE.getDefault() );
         customDielectricMaterial.setDielectricConstant( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
-        getCapacitor().setDielectricOffset( CLConstants.PLATE_SIZE_RANGE.getDefault() ); // just outside the capacitor
+        getCapacitor().setDielectricOffset( CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
         // circuit
         getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
     }

@@ -44,12 +44,12 @@ public class CLConstants {
     public static final boolean BATTERY_CONNECTED = true;
     
     public static final Point3D CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
-    public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( 0.01, 0.02 ); // meters
+    public static final DoubleRange PLATE_SIZE_RANGE = new DoubleRange( 0.01, 0.02, 0.01 ); // meters
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 0.005, 0.01, 0.01 ); // meters
     public static final double PLATE_THICKNESS = 0.0005; // meters
     
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5, 5 ); // dimensionless
-    public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax() ); // meters
+    public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax(), PLATE_SIZE_RANGE.getDefault() ); // meters
     public static final double DIELECTRIC_GAP = 0.0002; // gap between dielectric and plates, meters
     
     public static final double WIRE_THICKNESS = 0.0005; // meters

@@ -43,15 +43,15 @@ public class DielectricModule extends CLModule {
         canvas.reset();
     }
     
-    protected DielectricModel getDielectricModel() {
-        return model;
+    protected void setDielectricVisible( boolean visible ) {
+        canvas.setDielectricVisible( false ); // hide dielectric and offset drag handle
     }
     
-    protected DielectricCanvas getDielectricCanvas() {
-        return canvas;
+    protected void setDielectricPropertiesControlPanelVisible( boolean visible ) {
+        controlPanel.setDielectricPropertiesControlPanelVisible( false ); // hide dielectric controls
     }
     
-    protected DielectricControlPanel getDielectricControlPanel() {
-        return controlPanel;
+    protected void setDielectricOffset( double offset ) {
+        model.getCapacitor().setDielectricOffset( offset );
     }
 }
