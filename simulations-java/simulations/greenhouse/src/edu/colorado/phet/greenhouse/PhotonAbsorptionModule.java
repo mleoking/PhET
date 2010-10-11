@@ -25,11 +25,11 @@ import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
  * @author John Blanco
  */
 public class PhotonAbsorptionModule extends PiccoloModule {
-    
+
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-    
+
     // Constants that control the clock.  Note that since the true time scale
     // is unreasonable (since we are working with flying photons and
     // oscillating atoms) that we just use real time for the clock time and
@@ -37,16 +37,16 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     // users.
     private static final int CLOCK_DELAY = 1000 / GreenhouseDefaults.CLOCK_FRAME_RATE;
     private static final double CLOCK_DT = 1000 / GreenhouseDefaults.CLOCK_FRAME_RATE;
-    
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private PhotonAbsorptionModel model;
-    private PhetPCanvas canvas;
-    private PhotonAbsorptionControlPanel controlPanel;
+    private final PhotonAbsorptionModel model;
+    private final PhetPCanvas canvas;
+    private final PhotonAbsorptionControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
-    
+
     // Developer controls
     private PhotonAbsorptionParamsDlg photonAbsorptionParamsDlg;
     private boolean photonAbsorptionParamsDlgVisible;
@@ -56,25 +56,25 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public PhotonAbsorptionModule( Frame parentFrame ) {
-    	// TODO: i18n
-        super( "Photon Absorption", new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ));
-        
+        super( GreenhouseResources.getString( "ModuleTitle.PhotonAbsorptionModule" ),
+                new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ));
+
         // Physical model
         model = new PhotonAbsorptionModel( (ConstantDtClock)getClock());
 
         // Canvas
         canvas = new PhotonAbsorptionCanvas(model);
         setSimulationPanel( canvas );
-        
+
         // Control panel.
         controlPanel = new PhotonAbsorptionControlPanel(this, model);
         setControlPanel(controlPanel);
-        
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
         }
-        
+
         // Developer controls.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             photonAbsorptionParamsDlg = new PhotonAbsorptionParamsDlg( parentFrame, model );
@@ -88,7 +88,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-    
+
 	@Override
     protected JComponent createClockControlPanel( IClock clock ) {
 		clockControlPanel = new PiccoloClockControlPanel( clock );
@@ -107,7 +107,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
             photonAbsorptionParamsDlg.setVisible( true );
         }
     }
-    
+
     @Override
     public void deactivate() {
         if ( photonAbsorptionParamsDlg != null ) {
