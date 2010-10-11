@@ -107,7 +107,6 @@ public abstract class AbstractValueControl extends JPanel {
 
         _slider = slider;
 
-        _value = slider.getModelValue();
         _majorTickSpacing = _slider.getModelRange(); // default is major tick marks at min and max
         _minorTickSpacing = 0;
         _upDownArrowDelta = _slider.getModelRange() / 100;
@@ -149,7 +148,7 @@ public abstract class AbstractValueControl extends JPanel {
         updateTickLabels();
 
         _value = _slider.getModelMin() - 1; // force setValue to initalize the components
-        setValue(_value);
+        setValue( slider.getModelValue() );
 
         _initialized = true;
     }
@@ -754,6 +753,7 @@ public abstract class AbstractValueControl extends JPanel {
         public void keyPressed(KeyEvent e) {
             if (e.getSource() == _textField) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    System.out.println( "keyPressed value=" + getValue() + " delta=" + _upDownArrowDelta );//XXX
                     final double value = getValue() + _upDownArrowDelta;
                     if (value <= getMaximum()) {
                         setValue(value);
