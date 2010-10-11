@@ -63,7 +63,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           coordinateFrameModel: CoordinateFrameModel,
                           adjustableCoordinateModel: AdjustableCoordinateModel,
                           toggleWindowedButton: Image,
-                          rampAngle: () => Double)
+                          rampAngle: () => Double,
+                          modelResumeFunction: () => Unit)
         extends PNode with VectorDisplay {
   private val cursorHandler = new CursorHandler
   addInputEventListener(cursorHandler)
@@ -121,6 +122,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
       val viewPt = event.getPositionRelativeTo(FreeBodyDiagramNode.this)
       val modelPt = transform.viewToModel(viewPt)
       listeners.foreach(_(modelPt))
+      modelResumeFunction()
     }
 
     override def mouseDragged(event: PInputEvent) = sendEvent(event)
@@ -212,7 +214,7 @@ object TestFBD extends Application {
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, new Vector2DModel(5, 5), (a, b) => b, PI / 2)
   val fbdNode = new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(10, 10))), new AdjustableCoordinateModel,
-    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4)
+    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => PI / 4,()=>{})
   fbdNode.addVector(vector, new Vector2DModel, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, 10)
   canvas.addScreenChild(fbdNode)
 

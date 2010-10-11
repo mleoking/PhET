@@ -19,13 +19,15 @@ class FreeBodyDiagramDialog(frame: JFrame,
                             adjustable: Boolean,
                             adjustableCoordinateModel: AdjustableCoordinateModel,
                             fbdListener: Point2D => Unit,
-                            rampAngle: () => Double) extends VectorDisplay {
+                            rampAngle: () => Double,
+                            modelResumeFunction: () => Unit) extends VectorDisplay {
   def addVector(vector: Vector, tailLocation: Vector2DModel, maxLabelDist: Int, offsetPlayArea: Double) = freeBodyDiagramNode.addVector(vector, tailLocation, maxLabelDist, offsetPlayArea)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(FREE_BODY_DIAGRAM_DIALOG_WIDTH, FREE_BODY_DIAGRAM_DIALOG_HEIGHT)
 
-  val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, FBD_DIALOG_NODE_WIDTH, FBD_DIALOG_NODE_HEIGHT, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal), rampAngle)
+  val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, FBD_DIALOG_NODE_WIDTH, FBD_DIALOG_NODE_HEIGHT,
+    fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal), rampAngle, modelResumeFunction)
   freeBodyDiagramNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {

@@ -123,7 +123,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener)
   playAreaNode.addChild(tickMarkSet)
 
-  val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, freeBodyDiagramWidth, freeBodyDiagramWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => model.rampAngle)
+  val freeBodyDiagramNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, freeBodyDiagramWidth, freeBodyDiagramWidth,
+    model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal), () => model.rampAngle, () => model.resume())
 
   def updateFreeBodyDiagramLocation() = freeBodyDiagramNode.setOffset(50, 10)
 
@@ -134,7 +135,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     freeBodyDiagramNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val freeBodyDiagramDialog = new FreeBodyDiagramDialog(frame, freeBodyDiagramModel, freeBodyDiagramWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, freeBodyDiagramListener, () => model.rampAngle)
+  val freeBodyDiagramDialog = new FreeBodyDiagramDialog(frame, freeBodyDiagramModel, freeBodyDiagramWidth, model.coordinateFrameModel,
+    adjustableCoordinateModel.adjustable, adjustableCoordinateModel, freeBodyDiagramListener, () => model.rampAngle, () => model.resume())
 
   addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
   updateLayout()
@@ -185,7 +187,7 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
     val appliedForceSliderNode = new AppliedForceSliderNode(model.motionSeriesObject, () => model.resume())
     addBehindVectorNodes(appliedForceSliderNode)
 
-    var relayout: ComponentAdapter = new ComponentAdapter {
+    val relayout: ComponentAdapter = new ComponentAdapter {
       override def componentResized(e: ComponentEvent) = {
         appliedForceSliderNode.setOffset(stage.getWidth / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY + 10)
       }
