@@ -142,11 +142,18 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           itemLost(sel)
         }
         //if pushing for 1 sec and still have energy, then should be NotEnoughEnergyToPush
-        if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 1000) {
+        if (lastPushTime != 0 && System.currentTimeMillis - lastPushTime >= 1000 && objectStuck) {
           removeSelf()
           itemStuck(sel)
         }
       }
+    }
+
+    def objectStuck:Boolean = {
+      //only stuck if it is the fridge and it's on the ground and not moving (not on the ramp)
+      //doing this computation in general was difficult since the code for force computation in MotionSeriesObject's MotionStrategy wasn't sufficiently general-purpose
+      //The problem is that the friction force depends on the applied force
+      motionSeriesObject.mass == MotionSeriesDefaults.fridge.mass && motionSeriesObject.rampUnitVector.angle == 0
     }
 
     motionSeriesObject.stepListeners += listener
