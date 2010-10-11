@@ -41,13 +41,9 @@ class ChartComponentListener(canvas: PhetPCanvas, chartProportionY: Double, node
 
 class MotionSeriesMultiControlChart(canvas: PhetPCanvas, model: MotionSeriesModel, charts: Array[MinimizableControlChart], sizeFraction: Double) extends MultiControlChart(charts) {
   val labelNode = new PNode {
-    val arrowNode = new PhetPPath(new Arrow(new java.awt.geom.Point2D.Double(0, 0), new java.awt.geom.Point2D.Double(100, 0), 10, 10, 2).getShape, Color.black, new BasicStroke(), Color.gray)
-    val textNode = new PText("chart.time-axis-label".translate) {
+    addChild(new PText("chart.time-axis-label".translate) {
       setFont(new PhetFont(14, true))
-    }
-    addChild(arrowNode)
-    addChild(textNode)
-    textNode.setOffset(arrowNode.getFullBounds.getWidth / 2 - textNode.getFullBounds.getWidth / 2, 0)
+    })
   }
   addChild(labelNode)
 
