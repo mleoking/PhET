@@ -64,14 +64,14 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     String[] preIndRevConcentrations = new String[]{
             "70% " + GreenhouseResources.getString( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
             "280 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
-            "730 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" ),
-            "270 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" )};
+            "0.730 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "0.270 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" )};
 
     String[] todayConcentrations = new String[]{
             "70% " + GreenhouseResources.getString( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
-            "370 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
-            "1843 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" ),
-            "317 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPBAbreviation" )};
+            "388 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "1.843 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "0.317 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" )};
 
     String[] venusConcentrations = new String[]{
             "",

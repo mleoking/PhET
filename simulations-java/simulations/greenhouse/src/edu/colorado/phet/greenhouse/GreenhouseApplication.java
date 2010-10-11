@@ -35,9 +35,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * it is in the background image (in the view) and use that.
  */
 public class GreenhouseApplication extends PiccoloPhetApplication {
-    
-    private PhotonAbsorptionModule photonAbsorptionModule;
-    
+
+    private final PhotonAbsorptionModule photonAbsorptionModule;
+
     public GreenhouseApplication( PhetApplicationConfig config ) {
         super( config );
 
@@ -45,9 +45,9 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
         PhetFrame parentFrame = getPhetFrame();
         addModule( new GreenhouseModule() );
         addModule( new GlassPaneModule() );
-        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame); 
+        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame);
         addModule( photonAbsorptionModule );
-        
+
         // Developer controls.
         JMenu developerMenu = parentFrame.getDeveloperMenu();
         final JCheckBoxMenuItem photonAbsorptionParamCheckBox = new JCheckBoxMenuItem( "Photon Absorption Controls" );
@@ -90,7 +90,7 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
                 return new GreenhouseApplication( config );
             }
         };
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, GreenhouseConfig.PROJECT_NAME );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, GreenhouseConfig.PROJECT_NAME, GreenhouseConfig.FLAVOR_NAME_GREENHOUSE );
         appConfig.setLookAndFeel( new GreenhouseLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
