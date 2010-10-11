@@ -83,7 +83,7 @@ class MotionSeriesModel(defaultPosition: Double,
       selectedObject.state, motionSeriesObject.state, manMotionSeriesObject.state, motionSeriesObject.parallelAppliedForce, walls.booleanValue, mode, getTime, frictionless)
   }
 
-  //Resume activity in the sim, starting it up when the user drags the object or the position slider
+  //Resume activity in the sim, starting it up when the user drags the object or the position slider or the FBD
   def resume() = {
     if (isPlayback) {
       clearHistoryRemainder()
