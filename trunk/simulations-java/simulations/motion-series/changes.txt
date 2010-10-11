@@ -1,4 +1,5 @@
-Fixed: If you start the sim and immediately open the FBD, then use FBD to apply a force the sim stays paused. The sim should unpause when you do this, just like if you were dragging the object. 
+Removed the arrow above the time axis
+Fixed: If you start the sim and immediately open the FBD, then use FBD to apply a force the sim stays paused. The sim should unpause when you do this, just like if you were dragging the object.
 # 1.03.81 (44908) Oct 8, 2010
 Fixed: Applied force text field is broken on graph tabs
 # 1.03.80 (44767) Oct 6, 2010
