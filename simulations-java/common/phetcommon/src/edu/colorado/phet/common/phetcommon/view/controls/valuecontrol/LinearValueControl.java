@@ -76,7 +76,8 @@ public class LinearValueControl extends AbstractValueControl {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame( "Test: " + LinearValueControl.class.getName() ) {{
-                    setContentPane( new LinearValueControl( 0, 10, "test", "0.0", "units" ) );
+                    LinearValueControl control = new LinearValueControl( 0, 10, "test", "0.0", "units" );
+                    setContentPane( control );
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                     pack();
                     SwingUtils.centerWindowOnScreen( this );

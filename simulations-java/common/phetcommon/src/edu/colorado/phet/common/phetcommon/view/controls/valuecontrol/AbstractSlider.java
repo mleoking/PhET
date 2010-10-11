@@ -2,7 +2,12 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JSlider;
+import javax.swing.KeyStroke;
 
 /**
  * AbstractSlider is the base class for all extensions of JSlider that provide
@@ -11,16 +16,45 @@ import javax.swing.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractSlider extends JSlider {
+    
+    private static final String INCREMENT_ACTION_MAP_KEY = "INCREMENT_ACTION";
+    private static final String DECREMENT_ACTION_MAP_KEY = "DECREMENT_ACTION";
 
     private AbstractMappingStrategy _strategy;
+    private double _upDownArrowDelta;
 
     protected AbstractSlider( AbstractMappingStrategy strategy ) {
         super();
         _strategy = strategy;
         setMinimum( _strategy.getSliderMin() );
         setMaximum( _strategy.getSliderMax() );
-    }
+        _upDownArrowDelta = getModelRange() / 100;
+        
+        // Up and Right arrows increment
+        getInputMap().put( KeyStroke.getKeyStroke( KeyEvent.VK_RIGHT, 0, false ), INCREMENT_ACTION_MAP_KEY );
+        getInputMap().put( KeyStroke.getKeyStroke( KeyEvent.VK_UP, 0, false ), INCREMENT_ACTION_MAP_KEY );
+        AbstractAction incrementAction = new AbstractAction() {
+            public void actionPerformed( ActionEvent e ) {
+                setValue( AbstractSlider.this.getValue() + _strategy.modelToSliderDelta( _upDownArrowDelta ) );
+            }
+        };
+        getActionMap().put( INCREMENT_ACTION_MAP_KEY, incrementAction );
 
+        // Down and Left arrows decrement
+        getInputMap().put( KeyStroke.getKeyStroke( KeyEvent.VK_LEFT, 0, false ), DECREMENT_ACTION_MAP_KEY );
+        getInputMap().put( KeyStroke.getKeyStroke( KeyEvent.VK_DOWN, 0, false ), DECREMENT_ACTION_MAP_KEY );
+        AbstractAction decrementAction = new AbstractAction() {
+            public void actionPerformed( ActionEvent e ) {
+                setValue( AbstractSlider.this.getValue() - _strategy.modelToSliderDelta( _upDownArrowDelta ) );
+            }
+        };
+        getActionMap().put( DECREMENT_ACTION_MAP_KEY, decrementAction );
+    }
+    
+    public void setUpDownArrowDelta( double upDownArrowDelta ) {
+        _upDownArrowDelta = upDownArrowDelta;
+    }
+    
     public void setModelRange( double min, double max ) {
         _strategy.setModelRange( min, max );
         setMinimum( _strategy.getSliderMin() );
