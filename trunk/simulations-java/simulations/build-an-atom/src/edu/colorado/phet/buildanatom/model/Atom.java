@@ -111,7 +111,6 @@ public class Atom extends SimpleObservable{
             notifyObservers();
         }
     };
-    private final Random random = new Random();
 
     /**
      * Constructor.

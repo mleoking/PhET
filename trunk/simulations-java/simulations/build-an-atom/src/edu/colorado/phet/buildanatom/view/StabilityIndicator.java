@@ -12,10 +12,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class StabilityIndicator extends PNode {
-    private Atom atom;
 
     public StabilityIndicator( final Atom atom ) {
-        this.atom = atom;
         addChild( new PText( "Unstable" ) {{
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.black );
