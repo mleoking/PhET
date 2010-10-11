@@ -5,12 +5,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -18,11 +13,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.swing.Icon;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -110,6 +101,7 @@ public abstract class AbstractValueControl extends JPanel {
         _majorTickSpacing = _slider.getModelRange(); // default is major tick marks at min and max
         _minorTickSpacing = 0;
         _upDownArrowDelta = _slider.getModelRange() / 100;
+        _slider.setUpDownArrowDelta( _upDownArrowDelta );
 
         _textFieldFormat = new DecimalFormat( textFieldPattern );
         _tickFormat = new DecimalFormat( textFieldPattern ); // use same format for ticks and textfield
@@ -323,6 +315,7 @@ public abstract class AbstractValueControl extends JPanel {
      */
     public void setUpDownArrowDelta( double delta ) {
         _upDownArrowDelta = delta;
+        _slider.setUpDownArrowDelta( delta );
     }
 
     /**
@@ -746,7 +739,6 @@ public abstract class AbstractValueControl extends JPanel {
         public void keyPressed( KeyEvent e ) {
             if ( e.getSource() == _textField ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    System.out.println( "keyPressed value=" + getValue() + " delta=" + _upDownArrowDelta );//XXX
                     final double value = getValue() + _upDownArrowDelta;
                     if ( value <= getMaximum() ) {
                         setValue( value );
