@@ -41,9 +41,6 @@ public class ElectronShellNode extends PNode {
     // Paint for the electron orbitals.
     private static final Paint ELECTRON_SHELL_STROKE_PAINT = new Color( 0, 0, 255, 100 );
 
-    // Reference to the electron shell that we represent.
-    private final ElectronShell electronShell;
-
     // Cloud version of the representation.
     private final PhetPPath electronCloudNode;
 
@@ -51,8 +48,6 @@ public class ElectronShellNode extends PNode {
      * Constructor.
      */
     public ElectronShellNode( final ModelViewTransform2D mvt, final MutableBoolean viewOrbitals, final Atom atom, final ElectronShell electronShell ) {
-
-        this.electronShell = electronShell;
 
         final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
                 -electronShell.getRadius(),

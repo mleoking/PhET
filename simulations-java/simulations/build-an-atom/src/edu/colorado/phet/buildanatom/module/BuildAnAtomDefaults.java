@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.buildanatom.module;
 
-import java.awt.Dimension;
-
 import edu.umd.cs.piccolo.util.PDimension;
-
 
 /**
  * Default settings that are common to 2 or more modules.
