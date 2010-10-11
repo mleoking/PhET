@@ -36,10 +36,9 @@ public class ChargeIndicatorNode extends PNode {
         addChild ( chargeMeterImageNode );
 
         // Add the pie node now so it is on top of the image.
-        int arcOffsetY = 10;
         final int arcInsetDX = 2;
         final PNode pieNode = new PNode() {{
-            //See definitation and sample usage in CircularGradientPaint.main
+            // See definition and sample usage in CircularGradientPaint.main
             final int pieHalfWidth = BOX_DIMENSION - arcInsetDX * 2;
             CircularGradientPaint rgp2 = new CircularGradientPaint( new Point2D.Double( pieHalfWidth / 2, ( BOX_DIMENSION ) / 2 ), Color.red, Color.white );
             final PhetPPath redSide = new PhetPPath( new Arc2D.Double( 0, 0, pieHalfWidth, BOX_DIMENSION, 0, 90, Arc2D.PIE ), rgp2 );
@@ -63,15 +62,14 @@ public class ChargeIndicatorNode extends PNode {
         pieNode.setOffset( chargeMeterImageNode.getFullBoundsReference().width / 2 - pieNode.getFullBoundsReference().width / 2, 7 );
         addChild( pieNode );
 
-
         final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};
         //center text below pie
         SimpleObserver updateText = new SimpleObserver() {
             public void update() {
+                textNode.setText( atom.getFormattedCharge() );
                 textNode.setOffset( pieNode.getFullBounds().getCenterX() - textNode.getFullBounds().getWidth() / 2,
                         ( pieNode.getFullBounds().getMaxY() + chargeMeterImageNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
                 textNode.setTextPaint( getTextPaint( atom ) );
-                textNode.setText( atom.getFormattedCharge() );
             }
         };
         atom.addObserver( updateText );
