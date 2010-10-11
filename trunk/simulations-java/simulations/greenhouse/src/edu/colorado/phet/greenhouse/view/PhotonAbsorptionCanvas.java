@@ -28,80 +28,79 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-	
+
 	private static final double FLASHLIGHT_WIDTH = 300;
-	
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-	
-	// Model that is being viewed by this canvas.
-	private PhotonAbsorptionModel photonAbsorptionModel;
 
     // Model-view transform.
-    private ModelViewTransform2D mvt;
-    
+    private final ModelViewTransform2D mvt;
+
     // Local root node for world children.
     PNode myWorldNode;
-    
+
     // Layers for the canvas.
-    private PNode moleculeLayer;
-    private PNode photonLayer;
-    private PNode photonEmitterLayer;
-    
+    private final PNode moleculeLayer;
+    private final PNode photonLayer;
+    private final PNode photonEmitterLayer;
+
     // Data structures that match model objects to their representations in
     // the view.
-    private HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
-    private HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
-    
+    private final HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
+    private final HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
+
     // Node that depicts the largest open rectangle, used for debugging.
-    private PhetPPath largestOpenRect = new PhetPPath(new BasicStroke(3), Color.YELLOW);
-    
+    private final PhetPPath largestOpenRect = new PhetPPath(new BasicStroke(3), Color.YELLOW);
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public PhotonAbsorptionCanvas(PhotonAbsorptionModel photonAbsorptionModel  ) {
-        
-        this.photonAbsorptionModel = photonAbsorptionModel;
 
     	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(
     	        new PhetPCanvas.CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
-    	
+
     	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
-        		new Point2D.Double(0, 0), 
-        		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65), 
+        		new Point2D.Double(0, 0),
+        		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65),
         				(int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
         				0.23,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
 
         setBackground( Color.BLACK );
-        
+
         // Listen to the model for notifications that we care about.
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
-            
+
+            @Override
             public void photonRemoved( Photon photon ) {
                 if (photonLayer.removeChild( photonMap.get( photon ) ) == null){
                     System.out.println( getClass().getName() + " - Error: PhotonNode not found for photon." );
                 }
                 photonMap.remove( photon );
             }
-            
+
+            @Override
             public void photonAdded( Photon photon ) {
-                PhotonNode photonNode = new PhotonNode(photon, mvt); 
+                PhotonNode photonNode = new PhotonNode(photon, mvt);
                 photonLayer.addChild( photonNode );
                 photonMap.put( photon, photonNode );
             }
-            
+
+            @Override
             public void moleculeRemoved( Molecule molecule ) {
                 if (moleculeLayer.removeChild( moleculeMap.get( molecule ) ) == null){
                     System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
                 }
                 moleculeMap.remove( molecule );
             }
-            
+
+            @Override
             public void moleculeAdded( Molecule molecule ) {
                 addMolecule( molecule );
             }
@@ -112,7 +111,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         // the world without affecting screen children.
         myWorldNode = new PNode();
         addWorldChild(myWorldNode);
-        
+
         // Add the layers.
         moleculeLayer = new PNode();
         myWorldNode.addChild( moleculeLayer );
@@ -120,41 +119,39 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         myWorldNode.addChild( photonLayer );
         photonEmitterLayer = new PNode();
         myWorldNode.addChild( photonEmitterLayer );
-        
+
         // Add the chamber.
         PhetPPath chamberNode = new PhetPPath(
                 mvt.createTransformedShape( photonAbsorptionModel.getContainmentAreaRect() ),
                 new BasicStroke(6),
                 Color.LIGHT_GRAY);
         moleculeLayer.addChild(chamberNode);
-        
+
         // Add the flashlight.
         PNode flashlightNode = new PhotonEmitterNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
         flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
         photonEmitterLayer.addChild(flashlightNode);
-        
+
         // Add the largest open rectangle.
         moleculeLayer.addChild( largestOpenRect );
-        
+
         // Add in the initial molecule(s).
         for (Molecule molecule : photonAbsorptionModel.getMolecules()){
             addMolecule( molecule );
         }
-        
+
         // Update the layout.
         updateLayout();
-        
-        // Update other initial state.
-        // TODO: TBD
     }
-    
+
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Updates the layout of stuff on the canvas.
      */
+    @Override
     protected void updateLayout() {
 
         Dimension2D worldSize = getWorldSize();
@@ -167,9 +164,9 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
         	// TODO: TBD
         }
     }
-    
+
     private void addMolecule(Molecule molecule){
-        MoleculeNode moleculeNode = new MoleculeNode(molecule, mvt); 
+        MoleculeNode moleculeNode = new MoleculeNode(molecule, mvt);
         moleculeLayer.addChild( moleculeNode );
         moleculeMap.put( molecule, moleculeNode );
     }

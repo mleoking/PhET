@@ -14,6 +14,8 @@ import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 public class GreenhouseConfig {
 
     public static final String PROJECT_NAME = "greenhouse";
+    public static final String FLAVOR_NAME_GREENHOUSE = "greenhouse";
+    public static final String FLAVOR_NAME_MOLECULES_AND_LIGHT = "molecules-and-light";
 
     //
     // Static fields and methods
