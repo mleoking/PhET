@@ -1,3 +1,4 @@
+Fixed: "Reset All" does not remove the small play/pause button to the left of graph.
 Removed the units label from the right hand side of the chart
 Removed the arrow above the time axis
 Fixed: If you start the sim and immediately open the FBD, then use FBD to apply a force the sim stays paused. The sim should unpause when you do this, just like if you were dragging the object.
