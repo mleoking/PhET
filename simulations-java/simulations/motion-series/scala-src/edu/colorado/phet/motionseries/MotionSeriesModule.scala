@@ -18,7 +18,7 @@ class MotionSeriesModule(frame: PhetFrame,
                          fbdPopupOnly: Boolean)
         extends Module(name, clock) {
   val audioEnabled = new ScalaMutableBoolean(true)
-  TemporalChart.SEC_TEXT = "units.sec".translate; //see doc in SEC_TEXT
+  TemporalChart.SEC_TEXT = ""; //remove this label since this sim has its own time axis label under the chart, also see doc in SEC_TEXT
   def createMotionSeriesModel(defaultObjectPosition: Double, initialAngle: Double) =
     new MotionSeriesModel(defaultObjectPosition, initialAngle)
 
