@@ -288,5 +288,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         for ( MaximizeControlNode maximizeControlNode : maximizeControlNodeArrayList ) {
             maximizeControlNode.setMaximized( true );
         }
+        viewOrbitals.reset();
     }
 }
