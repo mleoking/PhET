@@ -53,7 +53,7 @@ public class MonthlyReportFilter {
         }
 
         sims = new ArrayList<String>();
-        File[] simRoots = new File[]{new File("C:\\workingcopy\\phet-svn\\trunk\\simulations-java\\simulations"), new File("C:\\workingcopy\\phet-svn\\trunk\\simulations-flash\\simulations")};
+        File[] simRoots = new File[]{new File("C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations"), new File("C:\\workingcopy\\phet\\trunk\\simulations-flash\\simulations"),new File( "C:\\workingcopy\\phet\\trunk\\simulations-flex\\simulations")};
         for (File simRoot : simRoots) {
             for (File dir : simRoot.listFiles()) {
                 sims.add(dir.getName());
@@ -115,6 +115,12 @@ public class MonthlyReportFilter {
         if (category.equals("sbt")) return mapCategory("build process");
         if (category.equals("newsletter")) return mapCategory("website");
         if (category.equals("conference")) return mapCategory("meetings");
+        if (category.equals("flashcommon")) return mapCategory("Flash_Flash Common");
+        if (category.equals("flash-common")) return mapCategory("Flash_Flash Common");
+        if (category.equals("mobile")) return mapCategory("Miscellaneous");
+        if (category.equals("build-tools")) return mapCategory("Build Process");
+        if (category.equals("meeting")) return mapCategory("meetings");
+        if (category.equals("buoyancy")) return mapCategory("density-and-buoyancy");
 
         System.out.println("No match found for category: " + category);
         return "unknown: "+category;
