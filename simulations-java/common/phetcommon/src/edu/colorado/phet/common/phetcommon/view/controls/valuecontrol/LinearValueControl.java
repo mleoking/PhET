@@ -2,6 +2,10 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
 /**
  * LinearValueControl is for controlling values that have a linear scale.
  *
@@ -63,4 +67,23 @@ public class LinearValueControl extends AbstractValueControl {
         this( min, max, label, textFieldPattern, units, layoutStrategy );
         setValue( value );
     }
+
+    /**
+     * Added sample usage and test
+     * @param args application args
+     */
+    public static void main( String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new JFrame( "Test: " + LinearValueControl.class.getName() ) {{
+                    setContentPane( new LinearValueControl( 0, 10, "test", "0.0", "units" ) );
+                    setDefaultCloseOperation( EXIT_ON_CLOSE );
+                    pack();
+                    SwingUtils.centerWindowOnScreen( this );
+                    setVisible( true );
+                }};
+            }
+        } );
+    }
+
 }
