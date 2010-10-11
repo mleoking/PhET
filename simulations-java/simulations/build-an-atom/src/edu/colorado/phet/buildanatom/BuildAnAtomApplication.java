@@ -8,7 +8,6 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.buildanatom.module.BuildAnAtomModule;
 import edu.colorado.phet.buildanatom.module.GameModule;
-import edu.colorado.phet.buildanatom.module.TestingModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -58,10 +57,6 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         Module secondModule = new GameModule( parentFrame );
         secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
         addModule( secondModule );
-
-        Module thirdModule = new TestingModule( parentFrame );
-        thirdModule.setName( "Fuzz Test" );
-        addModule( thirdModule );
     }
 
     /*
