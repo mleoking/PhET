@@ -51,12 +51,15 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        Module firstModule = new BuildAnAtomModule( parentFrame );
+        Module firstModule = new BuildAnAtomModule( parentFrame ){{
+            getModulePanel().setLogoPanel( null );
+        }};
         addModule( firstModule );
 
-        Module secondModule = new GameModule( parentFrame );
-        secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
-        addModule( secondModule );
+        //TODO: Enable game module later
+//        Module secondModule = new GameModule( parentFrame );
+//        secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
+//        addModule( secondModule );
     }
 
     /*
