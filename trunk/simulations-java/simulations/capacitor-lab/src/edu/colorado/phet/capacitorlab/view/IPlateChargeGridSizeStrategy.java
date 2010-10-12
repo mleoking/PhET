@@ -5,8 +5,12 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.Dimension;
 
 /**
- * Interface for all strategies used to determine the size of the grid
- * used to represent plate charge.
+ * Interface for all strategies used to determine the size of the grid used to represent plate charge.
+ * <p>
+ * Only one of these strategies is used. The others are kept for historical purposes,
+ * so that we know what we tried, why it didn't work, and how we arrived at the final solution. 
+ * <p>
+ * See TestPlateChargeLayout for a test application.
  */
 public interface IPlateChargeGridSizeStrategy {
     
@@ -22,9 +26,10 @@ public interface IPlateChargeGridSizeStrategy {
     }
     
     /**
-     * Strategy borrowed from CCK's CapacitorNode.
-     * When the plate's aspect ration gets large, this strategy creates grid sizes 
-     * where one of the dimensions is zero (eg, 8x0, 0x14).
+     * Strategy borrowed from CCK's view.piccolo.lifelike.CapacitorNode (r40140, line 207).
+     * Problem:  This strategy works well when the plate is square, but falls apart
+     * as the plate becomes narrow. When the plate is narrow, this strategy creates
+     * grid sizes where one of the dimensions is zero (eg, 8x0, 0x14).
      */
     public static class CCKStrategy implements IPlateChargeGridSizeStrategy {
         
@@ -40,7 +45,7 @@ public interface IPlateChargeGridSizeStrategy {
     /**
      * Workaround for one of the known issues with CCKGridSizeStrategy.
      * Ensures that we don't have a grid size where exactly one of the dimensions is zero.
-     * This introduces a new problem: If numberOfCharges is kept constant, a plate with smaller
+     * Problem: If numberOfCharges is kept constant, a plate with smaller
      * area but larger aspect ratio will display more charges.
      * For example, if charges=7, a 5x200mm plate will display 7 charges,
      * while a 200x200mm plate will only display 4 charges.
