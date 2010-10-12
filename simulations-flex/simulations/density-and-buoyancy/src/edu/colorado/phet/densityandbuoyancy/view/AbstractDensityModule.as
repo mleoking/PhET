@@ -249,7 +249,9 @@ public class AbstractDensityModule extends UIComponent {
             startMiddle = medianFrontScreenPoint( mainViewport.view.mouseObject as AbstractPrimitive );
             selectedObject = mainViewport.view.mouseObject as AbstractPrimitive;
             if ( selectedObject is Pickable ) {
-                cachedY = (selectedObject as Pickable).getBody().GetPosition().y;
+                const pickable: Pickable = (selectedObject as Pickable);
+                cachedY = pickable.getBody().GetPosition().y;
+                pickable.densityObjectNode.mousePressed = true;
             }
         }
         stage.addEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
@@ -288,6 +290,9 @@ public class AbstractDensityModule extends UIComponent {
     public function onMouseUp( event: MouseEvent ): void {
         moving = false;
         stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
+        if ( selectedObject is Pickable ) {
+            (selectedObject as Pickable).densityObjectNode.mousePressed = false;
+        }
     }
 
     public function onStageMouseLeave( event: Event ): void {

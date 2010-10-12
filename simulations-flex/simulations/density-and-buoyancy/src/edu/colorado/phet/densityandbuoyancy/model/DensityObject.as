@@ -32,6 +32,7 @@ public class DensityObject {
     private var contactImpulseMap: Object = new Object();
     private var labelProperty: StringProperty;
     private const removalListeners: Array = new Array();
+    private var _userControlled: Boolean = false;
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, density: Number, mass: Number, volume: Number, __material: Material ) {
         this._material = __material;
@@ -283,9 +284,14 @@ public class DensityObject {
     }
 
     public function getDragForce(): b2Vec2 {
-        var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
-        dragForce.Multiply( -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
-        return dragForce;
+        if ( _userControlled ) {
+            return new b2Vec2();
+        }
+        else {
+            var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
+            dragForce.Multiply( -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
+            return dragForce;
+        }
     }
 
     public function getContactForceArrowModel(): ArrowModel {
@@ -347,6 +353,10 @@ public class DensityObject {
 
     //Abstract
     public function box2DStepped(): void {
+    }
+
+    public function set userControlled( userControlled: Boolean ): void {
+        _userControlled = userControlled;
     }
 }
 }

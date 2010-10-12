@@ -19,5 +19,7 @@ public interface Pickable {
      * @return A boolean property which holds true if the object can currently be picked and moved, or false if it cannot be.
      */
     function isPickableProperty(): BooleanProperty;
+
+    function get densityObjectNode(): DensityObjectNode;
 }
 }

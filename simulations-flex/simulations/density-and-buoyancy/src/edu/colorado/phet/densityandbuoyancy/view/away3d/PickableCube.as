@@ -10,11 +10,11 @@ import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
  */
 public class PickableCube extends Cube implements Pickable {
 
-    private var picker: Pickable;
+    private var _densityObjectNode: DensityObjectNode;
 
-    public function PickableCube( picker: Pickable ) {
+    public function PickableCube( densityObjectNode: DensityObjectNode ) {
         super();
-        this.picker = picker;
+        this._densityObjectNode = densityObjectNode;
         isPickableProperty().addListener( updateHandCursor );
         updateHandCursor();
     }
@@ -24,19 +24,23 @@ public class PickableCube extends Cube implements Pickable {
     }
 
     public function setPosition( x: Number, y: Number ): void {
-        picker.setPosition( x, y );
+        _densityObjectNode.setPosition( x, y );
     }
 
     public function getBody(): b2Body {
-        return picker.getBody();
+        return _densityObjectNode.getBody();
     }
 
     public function updateGeometry(): void {
-        picker.updateGeometry();
+        _densityObjectNode.updateGeometry();
     }
 
     public function isPickableProperty(): BooleanProperty {
-        return picker.isPickableProperty();
+        return _densityObjectNode.isPickableProperty();
+    }
+
+    public function get densityObjectNode(): DensityObjectNode {
+        return _densityObjectNode;
     }
 }
 }
