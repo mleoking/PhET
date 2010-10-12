@@ -1,3 +1,4 @@
+# 1.03.82 (44954) Oct 11, 2010
 Fixed: Keypresses broken in sliders in the control panel, see #2540
 Fixed: Can get a false "stuck" condition by pressing the object to the left against the truck continuously. Object should only be stuck if robot cannot overcome friction force (only applies to refrigerator).
 Fixed: "Reset All" does not remove the small play/pause button to the left of graph.
