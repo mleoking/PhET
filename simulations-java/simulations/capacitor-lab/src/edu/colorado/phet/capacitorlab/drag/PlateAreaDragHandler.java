@@ -37,7 +37,7 @@ import edu.umd.cs.piccolo.util.PDimension;
     protected void startDrag(PInputEvent event) {
         super.startDrag( event );
         double xMouse = event.getPositionRelativeTo( dragNode.getParent() ).getX();
-        double xOrigin = mvt.modelToView( -( capacitor.getPlateSideLength() / 2 ) );
+        double xOrigin = mvt.modelToViewDelta( -( capacitor.getPlateSideLength() / 2 ), 0, 0 ).getX();
         clickXOffset = xMouse - xOrigin;
     }
     
@@ -51,7 +51,7 @@ import edu.umd.cs.piccolo.util.PDimension;
         if ( ( dx < 0 && dy > 0 ) || ( dx > 0 && dy < 0 ) ) {
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             double xView = pMouse.getX() - clickXOffset;
-            double xModel = 2 * mvt.viewToModel( -xView ); // use x only, y dimension is foreshortened for pseudo-3D perspective
+            double xModel = 2 * mvt.viewToModelDelta( -xView, 0 ).getX(); // use x only, y dimension is foreshortened for pseudo-3D perspective
             if ( xModel > valueRange.getMax() ) {
                 xModel = valueRange.getMax();
             }

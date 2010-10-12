@@ -36,7 +36,7 @@ public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         double xMouse = event.getPositionRelativeTo( dragNode.getParent() ).getX();
-        double xOrigin = mvt.modelToView( capacitor.getDielectricOffset() );
+        double xOrigin = mvt.modelToViewDelta( capacitor.getDielectricOffset(), 0, 0 ).getX();
         clickXOffset = xMouse - xOrigin;
     }
 
@@ -45,7 +45,7 @@ public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double xView = pMouse.getX() - clickXOffset;
-        double xModel = mvt.viewToModel( xView );
+        double xModel = mvt.viewToModelDelta( xView, 0 ).getX();
         if ( xModel > valueRange.getMax() ) {
             xModel = valueRange.getMax();
         }

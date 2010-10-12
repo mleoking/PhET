@@ -84,7 +84,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
 
             final int numberOfCharges = getNumberOfCharges( excessCharge );
             
-            final double yMargin = mvt.viewToModel( new PositiveChargeNode().getFullBoundsReference().getHeight() );
+            final double yMargin = mvt.viewToModelDelta( 0, new PositiveChargeNode().getFullBoundsReference().getHeight() ).getY();
 
             // distance between charges
             final double dx = contactWidth / numberOfCharges;

@@ -83,7 +83,7 @@ public class EFieldNode extends PhetPNode {
              * Create field lines, working from the center outwards so that 
              * lines appear/disappear at edges of plate as E_effective changes.
              */
-            double length = mvt.modelToView( plateSeparation );
+            double length = mvt.modelToViewDelta( 0, plateSeparation, 0 ).getY();
             Direction direction = ( effectiveEField >= 0 ) ? Direction.DOWN : Direction.UP;
             double x = lineSpacing / 2;
             while ( x <= plateWidth / 2 ) {

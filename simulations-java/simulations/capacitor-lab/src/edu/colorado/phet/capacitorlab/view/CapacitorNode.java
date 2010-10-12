@@ -156,21 +156,23 @@ public class CapacitorNode extends PhetPNode {
         
         // layout nodes with zero dielectric offset
         double x = 0;
-        double y = mvt.modelToView( -( plateSeparation / 2 ) - plateThickness );
-        topPlateNode.setOffset( x, y );
-        y = mvt.modelToView( -dielectricHeight / 2 );
-        dielectricNode.setOffset( x, y );
-        y = mvt.modelToView( plateSeparation / 2 );
-        bottomPlateNode.setOffset( x, y );
+        double y = -( plateSeparation / 2 ) - plateThickness;
+        double z = 0;
+        topPlateNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
+        y = -dielectricHeight / 2;
+        dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
+        y = plateSeparation / 2;
+        bottomPlateNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
 
         // adjust the dielectric offset
         updateDielectricOffset();
     }
     
     private void updateDielectricOffset() {
-        double x = mvt.modelToView( circuit.getCapacitor().getDielectricOffset() );
-        double y = dielectricNode.getYOffset();
-        dielectricNode.setOffset( x, y );
+        double x = circuit.getCapacitor().getDielectricOffset();
+        double y = -circuit.getCapacitor().getDielectricHeight() / 2;
+        double z = 0;
+        dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
     }
     
     private void updateDielectricColor() {
