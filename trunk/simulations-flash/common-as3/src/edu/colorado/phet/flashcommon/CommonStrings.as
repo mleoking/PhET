@@ -16,7 +16,8 @@ public class CommonStrings {
 
     public static function get( key: String, defaultString: String, formatArray: Array = null ): String {
         if ( !alreadyDebugged ) {
-            FlashCommon.getInstance().debug( "CommonStrings.initDocument:\n" + document.toString() );
+            var docString: String = document == null ? "null" : document.toString();
+            FlashCommon.getInstance().debug( "CommonStrings.initDocument:\n" + docString );
             alreadyDebugged = true;
         }
         var value: String = defaultString;
