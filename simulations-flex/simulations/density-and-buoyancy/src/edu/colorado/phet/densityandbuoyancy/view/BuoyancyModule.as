@@ -10,8 +10,6 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
-import mx.containers.Canvas;
-
 public class BuoyancyModule extends AbstractDensityModule {
 
     private var _densityCanvas: BuoyancyCanvas;
@@ -79,10 +77,6 @@ public class BuoyancyModule extends AbstractDensityModule {
 
     public function switchToCustomObject(): void {
         setMode( customObjectMode );
-    }
-
-    public function getDensityCanvas(): Canvas {
-        return _densityCanvas;
     }
 
     override public function get canvas(): AbstractDensityAndBuoyancyCanvas {
