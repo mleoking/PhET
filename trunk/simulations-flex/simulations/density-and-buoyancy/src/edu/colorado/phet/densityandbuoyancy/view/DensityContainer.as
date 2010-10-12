@@ -11,14 +11,14 @@ import mx.controls.RadioButton;
 /**
  * Main canvas for the density sim. Contains all of the sim-related UI
  */
-public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
+public class DensityContainer extends AbstractDBContainer {
 
     private var densityModule: DensityModule;
     private var customButton: RadioButton;
 
     public var modeControlPanel: DensityVBox;
 
-    public function DensityCanvas() {
+    public function DensityContainer() {
         super();
 
         addBackground();

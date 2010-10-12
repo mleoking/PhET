@@ -14,7 +14,7 @@ public class ScaleNode extends CuboidNode {
     private var top: PickableCube;
     private var stand: PickableCube;
 
-    public function ScaleNode( scale: Scale, view: AbstractDensityModule ): void {
+    public function ScaleNode( scale: Scale, view: AbstractDBCanvas ): void {
         super( scale, view );
         this._scale = scale;
 

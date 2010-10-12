@@ -26,7 +26,7 @@ import flash.events.MouseEvent;
 
 import mx.core.UIComponent;
 
-public class AbstractDensityModule extends UIComponent {
+public class AbstractDBCanvas extends UIComponent {
     //model
     protected var _model: DensityModel;
 
@@ -55,7 +55,7 @@ public class AbstractDensityModule extends UIComponent {
 
     private var _units: Units = new Units( "kg/L", new LinearUnit( "kg", 1.0 ), new LinearUnit( "L", 1000.0 ), new LinearUnit( "kg/L", 1.0 / 1000.0 ) );
 
-    public function AbstractDensityModule() {
+    public function AbstractDBCanvas() {
         super();
         _model = new DensityModel();
 
@@ -332,7 +332,7 @@ public class AbstractDensityModule extends UIComponent {
         return _model;
     }
 
-    public function get canvas(): AbstractDensityAndBuoyancyCanvas {
+    public function get canvas(): AbstractDBContainer {
         throw new Error( "called canvas() on abstract module" );
     }
 

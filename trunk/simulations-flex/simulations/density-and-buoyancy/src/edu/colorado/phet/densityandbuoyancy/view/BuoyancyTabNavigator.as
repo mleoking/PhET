@@ -3,20 +3,20 @@ import edu.colorado.phet.densityandbuoyancy.common.PhetTabNavigator;
 
 public class BuoyancyTabNavigator extends PhetTabNavigator {
     public function BuoyancyTabNavigator() {
-        super( new Array( new BuoyancyModule( "Intro", new BuoyancyCanvas() )
-                , new BuoyancyModule( "Buoyancy Playground", new BuoyancyCanvas() )
+        super( new Array( new BuoyancyModule( "Intro", new BuoyancyContainer() )
+                , new BuoyancyModule( "Buoyancy Playground", new BuoyancyContainer() )
                 ) );
     }
 }
 }
 
 import edu.colorado.phet.densityandbuoyancy.common.Module;
-import edu.colorado.phet.densityandbuoyancy.view.BuoyancyCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.BuoyancyContainer;
 
 class BuoyancyModule extends Module {
-    private var canvas: BuoyancyCanvas;
+    private var canvas: BuoyancyContainer;
 
-    function BuoyancyModule( title: String, canvas: BuoyancyCanvas ) {
+    function BuoyancyModule( title: String, canvas: BuoyancyContainer ) {
         super( title, canvas );
         this.canvas = canvas;
     }

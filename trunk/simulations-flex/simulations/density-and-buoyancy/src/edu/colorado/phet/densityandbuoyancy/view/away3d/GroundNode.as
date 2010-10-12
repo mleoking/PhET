@@ -15,7 +15,7 @@ public class GroundNode extends MyMesh {
         var poolHeight: Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
         var poolDepth: Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
-        var far: Number = AbstractDensityModule.far;
+        var far: Number = AbstractDBCanvas.far;
 
         // pool vertices
         var POOL_LEFT_FRONT: Number = v( -poolWidth / 2, 0, 0 );

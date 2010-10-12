@@ -17,7 +17,7 @@ import mx.core.UIComponent;
 /**
  * Base class for the main UI of the density and buoyancy sims.
  */
-public class AbstractDensityAndBuoyancyCanvas extends Canvas {
+public class AbstractDBContainer extends Canvas {
     protected var background: Canvas;
 
     protected var phetLogoButton: PhetLogoButton;
@@ -34,7 +34,7 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     public function init(): void {
     }
 
-    public function AbstractDensityAndBuoyancyCanvas() {
+    public function AbstractDBContainer() {
         super();
         percentWidth = 100;
         percentHeight = 100;
