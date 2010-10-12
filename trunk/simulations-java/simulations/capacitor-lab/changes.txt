@@ -1,3 +1,5 @@
+10/12/10 put components of field detector directly on the canvas, so that their locations can be adjusted independently as the canvas size changes
+10/12/10 provide PNode interface to meters control panel, specific type of meter doesn't need to be known
 10/12/10 enable voltmeter check box for development
 10/12/10 decided not to update bar meters only when they are visible, not worth it (insignificant performance gain, significant code complication)
 10/12/10 will not be using phetcommon's ModelViewTransform2D because it doesn't handle 3D needed for this sim
