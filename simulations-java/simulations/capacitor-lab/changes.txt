@@ -1,3 +1,4 @@
+10/12/10 revert length of dashed lines for drag handles, they were correct to begin with for max plate size
 10/12/10 revised ModelViewTransform to handle deltas in 2D-view and 3D-model coordinate frames
 10/12/10 removed unused code from ModelViewTransform
 10/12/10 migrate GridPanel to phetcommon, deprecate EasyGridBagLayout
