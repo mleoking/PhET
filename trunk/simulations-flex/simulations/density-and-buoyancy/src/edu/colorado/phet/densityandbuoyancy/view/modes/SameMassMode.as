@@ -7,13 +7,13 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 public class SameMassMode extends Mode {
 
-    public function SameMassMode( module: AbstractDBCanvas ) {
-        super( module );
+    public function SameMassMode( canvas: AbstractDBCanvas ) {
+        super( canvas );
     }
 
     override public function init(): void {
         super.init();
-        const model: DensityModel = module.model;
+        const model: DensityModel = canvas.model;
 
         var block1: Block = Block.newBlockVolumeMass( DensityConstants.litersToMetersCubed( 10 ), 5, 0, 0, DensityConstants.YELLOW, model, Material.CUSTOM );
         block1.setPosition( -DensityConstants.POOL_WIDTH_X / 2, block1.getHeight() / 2 );
