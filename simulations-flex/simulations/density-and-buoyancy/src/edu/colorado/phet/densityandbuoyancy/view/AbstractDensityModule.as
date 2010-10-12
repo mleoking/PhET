@@ -62,6 +62,9 @@ public class AbstractDensityModule extends UIComponent {
         _model.addDensityObjectCreationListener( addDensityObject );
         waterVolumeIndicator = new WaterVolumeIndicator( _model );
         waterVolumeIndicator.visible = false;//only show it after its location is correct
+
+        percentWidth = 100;
+        percentHeight = 100;
     }
 
     public function init(): void {

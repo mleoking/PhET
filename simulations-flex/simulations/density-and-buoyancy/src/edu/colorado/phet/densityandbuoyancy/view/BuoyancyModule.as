@@ -29,9 +29,6 @@ public class BuoyancyModule extends AbstractDensityModule {
         super();
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
-
-        percentWidth = 100;
-        percentHeight = 100;
     }
 
     public function doInit( densityCanvas: BuoyancyCanvas ): void {

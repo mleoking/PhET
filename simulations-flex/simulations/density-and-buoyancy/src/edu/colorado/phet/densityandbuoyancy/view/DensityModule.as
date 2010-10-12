@@ -21,8 +21,6 @@ public class DensityModule extends AbstractDensityModule {
 
     public function DensityModule() {
         super();
-        percentWidth = 100;
-        percentHeight = 100;
     }
 
     public function doInit( densityCanvas: DensityCanvas ): void {
