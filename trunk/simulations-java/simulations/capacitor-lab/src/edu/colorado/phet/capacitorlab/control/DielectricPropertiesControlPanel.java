@@ -15,12 +15,12 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 
 /**
  * Controls related to the capacitor's dielectric.

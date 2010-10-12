@@ -14,11 +14,11 @@ import java.awt.event.WindowEvent;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.ModelValuesDialog;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
 
 /**

@@ -12,11 +12,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.capacitorlab.util.GridPanel;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;

@@ -1,14 +1,5 @@
 /* Copyright 2005, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.phetcommon.view.util;
 
 // JDK
@@ -22,7 +13,7 @@ import javax.swing.*;
  * EasyGridBagLayout provides an improved interface to GridBagLayout.
  *
  * @author Chris Malley
- * @version $Revision$ $Date$
+ * @deprecated use GridPanel
  */
 public class EasyGridBagLayout extends GridBagLayout {
 

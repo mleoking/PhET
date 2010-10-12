@@ -12,10 +12,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.umd.cs.piccolo.PNode;
 
 /**

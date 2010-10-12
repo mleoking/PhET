@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
 /**
  * Controls related to the dielectric's charges.

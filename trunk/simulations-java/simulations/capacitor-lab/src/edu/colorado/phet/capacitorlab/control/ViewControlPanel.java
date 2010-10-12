@@ -9,11 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
 /**
  * Control panel for various "View" settings.

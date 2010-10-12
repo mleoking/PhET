@@ -17,9 +17,9 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
