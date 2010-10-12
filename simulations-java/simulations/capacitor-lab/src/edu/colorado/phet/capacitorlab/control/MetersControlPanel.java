@@ -12,7 +12,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
-import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -32,9 +31,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // Capacitance meter
         {
-            final CapacitanceMeterNode meter = canvas.getCapacitanceMeterNode();
+            final PNode meter = canvas.getCapacitanceMeterNode();
             capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
-            capacitanceCheckBox.setSelected( meter.isVisible() );
+            capacitanceCheckBox.setSelected( meter.getVisible() );
             capacitanceCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     meter.setVisible( capacitanceCheckBox.isSelected() );
@@ -43,7 +42,7 @@ public class MetersControlPanel extends PhetTitledPanel {
             meter.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        capacitanceCheckBox.setSelected( meter.isVisible() );
+                        capacitanceCheckBox.setSelected( meter.getVisible() );
                     }
                 }
             } );
@@ -51,9 +50,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // Plate Charge meter
         {
-            final PlateChargeMeterNode meter = canvas.getChargeMeterNode();
+            final PNode meter = canvas.getChargeMeterNode();
             chargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CHARGE );
-            chargeCheckBox.setSelected( meter.isVisible() );
+            chargeCheckBox.setSelected( meter.getVisible() );
             chargeCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     meter.setVisible( chargeCheckBox.isSelected() );
@@ -62,7 +61,7 @@ public class MetersControlPanel extends PhetTitledPanel {
             meter.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        chargeCheckBox.setSelected( meter.isVisible() );
+                        chargeCheckBox.setSelected( meter.getVisible() );
                     }
                 }
             } );
@@ -70,9 +69,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // Energy meter
         {
-            final StoredEnergyMeterNode meter = canvas.getEnergyMeterNode();
+            final PNode meter = canvas.getEnergyMeterNode();
             energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
-            energyCheckBox.setSelected( meter.isVisible() );
+            energyCheckBox.setSelected( meter.getVisible() );
             energyCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     meter.setVisible( energyCheckBox.isSelected() );
@@ -81,7 +80,7 @@ public class MetersControlPanel extends PhetTitledPanel {
             meter.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        energyCheckBox.setSelected( meter.isVisible() );
+                        energyCheckBox.setSelected( meter.getVisible() );
                     }
                 }
             } );
@@ -89,9 +88,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // Voltmeter
         {
-            final VoltmeterNode meter = canvas.getVoltMeterNode();
+            final PNode meter = canvas.getVoltMeterNode();
             voltmeterCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_VOLTMETER );
-            voltmeterCheckBox.setSelected( meter.isVisible() );
+            voltmeterCheckBox.setSelected( meter.getVisible() );
             voltmeterCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     meter.setVisible( voltmeterCheckBox.isSelected() );
@@ -100,7 +99,7 @@ public class MetersControlPanel extends PhetTitledPanel {
             meter.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        voltmeterCheckBox.setSelected( meter.isVisible() );
+                        voltmeterCheckBox.setSelected( meter.getVisible() );
                     }
                 }
             } );
@@ -108,9 +107,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // E-field Detector
         {
-            final EFieldDetectorNode meter = canvas.getEFieldDetectorNode();
+            final PNode meter = canvas.getEFieldDetectorNode();
             eFieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_EFIELD_DETECTOR );
-            eFieldDetectorCheckBox.setSelected( meter.isVisible() );
+            eFieldDetectorCheckBox.setSelected( meter.getVisible() );
             eFieldDetectorCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     meter.setVisible( eFieldDetectorCheckBox.isSelected() );
@@ -119,7 +118,7 @@ public class MetersControlPanel extends PhetTitledPanel {
             meter.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        eFieldDetectorCheckBox.setSelected( meter.isVisible() );
+                        eFieldDetectorCheckBox.setSelected( meter.getVisible() );
                     }
                 }
             } );

@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
@@ -22,7 +24,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -33,10 +34,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Electric-field (E-field) detector.
+ * This is not a node, but it manages the connections and interactivity of a set of related nodes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EFieldDetectorNode extends PhetPNode {
+public class EFieldDetectorView {
     
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Color TITLE_COLOR = Color.WHITE;
@@ -59,31 +61,36 @@ public class EFieldDetectorNode extends PhetPNode {
     private final BodyNode bodyNode;
     private final ProbeNode probeNode;
     
-    public EFieldDetectorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
+    public EFieldDetectorView( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
         
-        bodyNode = new BodyNode( this );
-        addChild( bodyNode );
+        bodyNode = new BodyNode();
+        bodyNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+                    probeNode.setVisible( bodyNode.getVisible() );
+                }
+            }
+        });
         
         probeNode = new ProbeNode( dev );
-        addChild( probeNode );
-        
-        // layout
-        double x = 0;
-        double y = 0;
-        bodyNode.setOffset( x, y );
-        x = bodyNode.getFullBoundsReference().getMinX() - probeNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( probeNode ) - 20;
-        y = bodyNode.getFullBoundsReference().getMinY();
-        probeNode.setOffset( x, y );
         probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         
         // interactivity
         bodyNode.addInputEventListener( new CursorHandler() );
         probeNode.addInputEventListener( new CursorHandler() );
-//        bodyNode.addInputEventListener( new BoundedDragHandler( bodyNode, dragBoundsNode ) );//XXX doesn't work correctly
+        bodyNode.addInputEventListener( new BoundedDragHandler( bodyNode, dragBoundsNode ) );//XXX doesn't work correctly
         probeNode.addInputEventListener( new BoundedDragHandler( probeNode, dragBoundsNode ) );//XXX doesn't work correctly
+    }
+    
+    public PNode getBodyNode() {
+        return bodyNode;
+    }
+    
+    public PNode getProbeNode() {
+        return probeNode;
     }
     
     /*
@@ -91,7 +98,7 @@ public class EFieldDetectorNode extends PhetPNode {
      */
     private static class BodyNode extends PhetPNode {
         
-        public BodyNode( final PNode parentNode ) {
+        public BodyNode() {
             
             PText titleNode = new PText( CLStrings.TITLE_ELECTRIC_FIELD );
             titleNode.setTextPaint( TITLE_COLOR );
@@ -141,7 +148,7 @@ public class EFieldDetectorNode extends PhetPNode {
             closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
                 @Override
                 public void mouseReleased( PInputEvent event ) {
-                    parentNode.setVisible( false );
+                    BodyNode.this.setVisible( false );
                 }
             });
         }
