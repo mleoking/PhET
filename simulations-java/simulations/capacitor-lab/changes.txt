@@ -1,3 +1,4 @@
+10/12/10 decided not to update bar meters only when they are visible, not worth it (insignificant performance gain, significant code complication)
 10/12/10 will not be using phetcommon's ModelViewTransform2D because it doesn't handle 3D needed for this sim
 10/12/10 revised ModelViewTransform to handle deltas in 2D-view and 3D-model coordinate frames
 10/12/10 removed unused code from ModelViewTransform

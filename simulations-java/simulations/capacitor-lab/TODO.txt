@@ -21,7 +21,6 @@ MEDUIUM PRIORITY
 
 LOW PRIORITY
 - clean up CCKStrategyWithRounding
-- only update meters when they are visible
 - edges where dielectric and bottom plate meet don't match up perfectly
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
