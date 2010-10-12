@@ -13,7 +13,7 @@ import mx.controls.RadioButton;
  */
 public class DensityContainer extends AbstractDBContainer {
 
-    private var densityModule: DensityModule;
+    private var densityModule: DensityCanvas;
     private var customButton: RadioButton;
 
     public var modeControlPanel: DensityVBox;
@@ -23,7 +23,7 @@ public class DensityContainer extends AbstractDBContainer {
 
         addBackground();
 
-        densityModule = new DensityModule();
+        densityModule = new DensityCanvas();
         addChild( densityModule );
 
         modeControlPanel = new DensityVBox();

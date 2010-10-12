@@ -10,7 +10,7 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
-public class BuoyancyModule extends AbstractDBCanvas {
+public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private var _densityCanvas: BuoyancyContainer;
 
@@ -25,7 +25,7 @@ public class BuoyancyModule extends AbstractDBCanvas {
     private var contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
     private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
 
-    public function BuoyancyModule() {
+    public function BuoyancyCanvas() {
         super();
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly

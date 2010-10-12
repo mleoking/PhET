@@ -16,7 +16,7 @@ import mx.events.FlexEvent;
  */
 public class BuoyancyContainer extends AbstractDBContainer {
 
-    private var buoyancyModule: BuoyancyModule;
+    private var buoyancyModule: BuoyancyCanvas;
     private var customButton: RadioButton;
 
     public function BuoyancyContainer() {
@@ -24,7 +24,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         addBackground();
 
-        buoyancyModule = new BuoyancyModule();
+        buoyancyModule = new BuoyancyCanvas();
         addChild( buoyancyModule );
 
         var modeControlPanel: DensityVBox = new DensityVBox();
