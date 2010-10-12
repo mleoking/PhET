@@ -333,7 +333,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     public function get canvas(): AbstractDBContainer {
-        throw new Error( "called canvas() on abstract module" );
+        throw new Error( "abstract method error" );
     }
 
     public function get units(): Units {

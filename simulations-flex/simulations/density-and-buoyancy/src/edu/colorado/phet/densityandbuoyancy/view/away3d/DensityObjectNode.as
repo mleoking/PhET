@@ -17,7 +17,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
      */
     protected var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
 
-    private var _module: AbstractDBCanvas;
+    private var _canvas: AbstractDBCanvas;
 
     protected var densityObjectReadoutNode: DensityObjectReadoutNode;
 
@@ -28,10 +28,10 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
 
-    public function DensityObjectNode( densityObject: DensityObject, module: AbstractDBCanvas ) {
+    public function DensityObjectNode( densityObject: DensityObject, canvas: AbstractDBCanvas ) {
         super();
         this.densityObject = densityObject;
-        this._module = module;
+        this._canvas = canvas;
         densityObject.getYProperty().addListener( updateGeometry );
         densityObject.getXProperty().addListener( updateGeometry );
         densityObject.addRemovalListener( remove );
@@ -39,8 +39,8 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
     }
 
-    public function get module(): AbstractDBCanvas {
-        return _module;
+    public function get canvas(): AbstractDBCanvas {
+        return _canvas;
     }
 
     public function addArrowNode( arrowNode: ArrowNode ): void {
@@ -51,7 +51,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         frontZProperty.addListener( listener );
         listener();
         arrowNodes.push( arrowNode );
-        module.overlayViewport.scene.addChild( arrowNode );
+        canvas.overlayViewport.scene.addChild( arrowNode );
     }
 
     public function getDensityObject(): DensityObject {
@@ -59,7 +59,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     }
 
     public function remove(): void {
-        module.removeDensityObject( this );
+        canvas.removeDensityObject( this );
     }
 
     public function setPosition( x: Number, y: Number ): void {
@@ -87,13 +87,13 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     }
 
     public function addOverlayObjects(): void {
-        module.overlayViewport.scene.addChild( densityObjectReadoutNode.textReadout );
+        canvas.overlayViewport.scene.addChild( densityObjectReadoutNode.textReadout );
     }
 
     public function removeOverlayObjects(): void {
-        module.overlayViewport.scene.removeChild( densityObjectReadoutNode.textReadout );
+        canvas.overlayViewport.scene.removeChild( densityObjectReadoutNode.textReadout );
         for each ( var arrowNode: ArrowNode in arrowNodes ) {
-            module.overlayViewport.scene.removeChild( arrowNode );
+            canvas.overlayViewport.scene.removeChild( arrowNode );
         }
         arrowNodes = new Array();
     }

@@ -16,7 +16,7 @@ import mx.events.FlexEvent;
  */
 public class BuoyancyContainer extends AbstractDBContainer {
 
-    private var buoyancyModule: BuoyancyCanvas;
+    private var buoyancyCanvas: BuoyancyCanvas;
     private var customButton: RadioButton;
 
     public function BuoyancyContainer() {
@@ -24,8 +24,8 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         addBackground();
 
-        buoyancyModule = new BuoyancyCanvas();
-        addChild( buoyancyModule );
+        buoyancyCanvas = new BuoyancyCanvas();
+        addChild( buoyancyCanvas );
 
         var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
@@ -40,7 +40,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         customButton.groupName = "modes";
         customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
         customButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.switchToCustomObject()
+            buoyancyCanvas.switchToCustomObject()
         } );
         customButton.selected = true;
         modeControlPanel.addChild( customButton );
@@ -49,7 +49,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         sameMassButton.groupName = "modes";
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
         sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.switchToSameMass()
+            buoyancyCanvas.switchToSameMass()
         } );
         modeControlPanel.addChild( sameMassButton );
 
@@ -57,7 +57,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         sameVolumeButton.groupName = "modes";
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
         sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.switchToSameVolume()
+            buoyancyCanvas.switchToSameVolume()
         } );
         modeControlPanel.addChild( sameVolumeButton );
 
@@ -65,7 +65,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         sameDensityButton.groupName = "modes";
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
         sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.switchToSameDensity()
+            buoyancyCanvas.switchToSameDensity()
         } );
         modeControlPanel.addChild( sameDensityButton );
 
@@ -87,28 +87,28 @@ public class BuoyancyContainer extends AbstractDBContainer {
         var gravityCheckbox: CheckBox = new CheckBox();
         gravityCheckbox.label = FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' );
         gravityCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.setGravityForceVisible( gravityCheckbox.selected );
+            buoyancyCanvas.setGravityForceVisible( gravityCheckbox.selected );
         } );
         arrowControlPanel.addChild( gravityCheckbox );
 
         var buoyancyCheckbox: CheckBox = new CheckBox();
         buoyancyCheckbox.label = FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' );
         buoyancyCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.setBuoyancyForceVisible( buoyancyCheckbox.selected );
+            buoyancyCanvas.setBuoyancyForceVisible( buoyancyCheckbox.selected );
         } );
         arrowControlPanel.addChild( buoyancyCheckbox );
 
         var contactCheckbox: CheckBox = new CheckBox();
         contactCheckbox.label = FlexSimStrings.get( 'forceArrows.contact', 'Contact' );
         contactCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.setContactForceVisible( contactCheckbox.selected );
+            buoyancyCanvas.setContactForceVisible( contactCheckbox.selected );
         } );
         arrowControlPanel.addChild( contactCheckbox );
 
         var fluidDragCheckbox: CheckBox = new CheckBox();
         fluidDragCheckbox.label = FlexSimStrings.get( 'forceArrows.fluidDrag', 'Fluid Drag' );
         fluidDragCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyModule.setFluidDragForceVisible( fluidDragCheckbox.selected );
+            buoyancyCanvas.setFluidDragForceVisible( fluidDragCheckbox.selected );
         } );
         arrowControlPanel.addChild( fluidDragCheckbox );
 
@@ -119,7 +119,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
     override public function init(): void {
         super.init();
 
-        const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyModule.model.fluidDensity, buoyancyModule.units );
+        const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
         fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
         const updateFluidDensityControlLocation: Function = function(): void {
@@ -132,27 +132,27 @@ public class BuoyancyContainer extends AbstractDBContainer {
         addChild( fluidDensityControl );
 
         // TODO: why multiple initialization functions? - JO
-        buoyancyModule.init();
-        buoyancyModule.doInit( this );
-        buoyancyModule.switchToCustomObject();
+        buoyancyCanvas.init();
+        buoyancyCanvas.doInit( this );
+        buoyancyCanvas.switchToCustomObject();
 
-        buoyancyModule.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
+        buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
-        buoyancyModule.start();
+        buoyancyCanvas.start();
     }
 
     public function get running(): Boolean {
-        return buoyancyModule.running;
+        return buoyancyCanvas.running;
     }
 
     public function set running( b: Boolean ): void {
-        buoyancyModule.running = b;
+        buoyancyCanvas.running = b;
     }
 
     override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;
-        buoyancyModule.resetAll();
+        buoyancyCanvas.resetAll();
     }
 }
 }

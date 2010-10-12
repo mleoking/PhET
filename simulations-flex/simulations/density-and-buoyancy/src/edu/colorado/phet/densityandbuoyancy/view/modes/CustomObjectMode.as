@@ -15,14 +15,14 @@ public class CustomObjectMode extends Mode {
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;
 
-    public function CustomObjectMode( module: AbstractDBCanvas ) {
-        super( module );
+    public function CustomObjectMode( canvas: AbstractDBCanvas ) {
+        super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = DEFAULT_MATERIAL;
         const volume: Number = DensityConstants.DEFAULT_BLOCK_MASS / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
-        customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), module.model, material );
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( customizableObject, module.units );
+        customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( customizableObject, canvas.units );
         customObjectPropertiesPanel.x = DensityConstants.CONTROL_INSET;
         customObjectPropertiesPanel.y = DensityConstants.CONTROL_INSET;
     }
@@ -30,7 +30,7 @@ public class CustomObjectMode extends Mode {
     override public function teardown(): void {
         super.teardown();
         if ( customObjectPropertiesPanelShowing ) {
-            module.canvas.removeChild( customObjectPropertiesPanel );
+            canvas.canvas.removeChild( customObjectPropertiesPanel );
             customObjectPropertiesPanelShowing = false;
         }
     }
@@ -40,12 +40,10 @@ public class CustomObjectMode extends Mode {
         customizableObject.updateBox2DModel();
 
         if ( !customObjectPropertiesPanelShowing ) {
-            module.canvas.addChild( customObjectPropertiesPanel );
+            canvas.canvas.addChild( customObjectPropertiesPanel );
             customObjectPropertiesPanelShowing = true;
         }
-        module.model.addDensityObject( customizableObject );
-
-        //        module.getModel().addDensityObject(new Scale(-DensityConstants.POOL_WIDTH_X/2-Scale.SCALE_WIDTH/2, 0.05, module.getModel(), 100));//For debugging the scale
+        canvas.model.addDensityObject( customizableObject );
     }
 
     public function reset(): void {

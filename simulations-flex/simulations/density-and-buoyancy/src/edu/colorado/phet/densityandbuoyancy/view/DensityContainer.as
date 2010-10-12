@@ -13,7 +13,7 @@ import mx.controls.RadioButton;
  */
 public class DensityContainer extends AbstractDBContainer {
 
-    private var densityModule: DensityCanvas;
+    private var densityCanvas: DensityCanvas;
     private var customButton: RadioButton;
 
     public var modeControlPanel: DensityVBox;
@@ -23,8 +23,8 @@ public class DensityContainer extends AbstractDBContainer {
 
         addBackground();
 
-        densityModule = new DensityCanvas();
-        addChild( densityModule );
+        densityCanvas = new DensityCanvas();
+        addChild( densityCanvas );
 
         modeControlPanel = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
@@ -39,7 +39,7 @@ public class DensityContainer extends AbstractDBContainer {
         customButton.groupName = "modes";
         customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
         customButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityModule.switchToCustomObject()
+            densityCanvas.switchToCustomObject()
         } );
         customButton.selected = true;
         modeControlPanel.addChild( customButton );
@@ -48,7 +48,7 @@ public class DensityContainer extends AbstractDBContainer {
         sameMassButton.groupName = "modes";
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
         sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityModule.switchToSameMass()
+            densityCanvas.switchToSameMass()
         } );
         modeControlPanel.addChild( sameMassButton );
 
@@ -56,7 +56,7 @@ public class DensityContainer extends AbstractDBContainer {
         sameVolumeButton.groupName = "modes";
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
         sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityModule.switchToSameVolume()
+            densityCanvas.switchToSameVolume()
         } );
         modeControlPanel.addChild( sameVolumeButton );
 
@@ -64,7 +64,7 @@ public class DensityContainer extends AbstractDBContainer {
         sameDensityButton.groupName = "modes";
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
         sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityModule.switchToSameDensity()
+            densityCanvas.switchToSameDensity()
         } );
         modeControlPanel.addChild( sameDensityButton );
 
@@ -72,7 +72,7 @@ public class DensityContainer extends AbstractDBContainer {
         mysteryObjectsButton.groupName = "modes";
         mysteryObjectsButton.label = FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' );
         mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityModule.switchToMysteryObjects()
+            densityCanvas.switchToMysteryObjects()
         } );
         modeControlPanel.addChild( mysteryObjectsButton );
 
@@ -88,23 +88,23 @@ public class DensityContainer extends AbstractDBContainer {
         super.init();
 
         // TODO: why multiple initialization functions? - JO
-        densityModule.init();
-        densityModule.doInit( this );
-        densityModule.switchToCustomObject();
+        densityCanvas.init();
+        densityCanvas.doInit( this );
+        densityCanvas.switchToCustomObject();
 
-        densityModule.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
+        densityCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
-        densityModule.start();
+        densityCanvas.start();
     }
 
     override public function pause(): void {
-        densityModule.pause();
+        densityCanvas.pause();
     }
 
     override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;
-        densityModule.resetAll();
+        densityCanvas.resetAll();
     }
 }
 }
