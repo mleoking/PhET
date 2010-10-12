@@ -8,7 +8,7 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
 import mx.containers.Canvas;
 
-public class DensityModule extends AbstractDBCanvas {
+public class DensityCanvas extends AbstractDBCanvas {
 
     private var _densityCanvas: DensityContainer;
 
@@ -19,7 +19,7 @@ public class DensityModule extends AbstractDBCanvas {
     private var mysteryObjectsMode: MysteryObjectsMode;
     private var mode: Mode;
 
-    public function DensityModule() {
+    public function DensityCanvas() {
         super();
     }
 
