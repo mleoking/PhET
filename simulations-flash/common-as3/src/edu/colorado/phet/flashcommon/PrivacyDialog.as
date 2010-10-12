@@ -3,7 +3,6 @@ package edu.colorado.phet.flashcommon {
 //
 // Author: Jonathan Olson
 
-import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.events.TextEvent;
 import flash.text.StyleSheet;
@@ -66,10 +65,12 @@ public class PrivacyDialog extends JFrame {
         str += CommonStrings.get( "PrivacyMessage1", defaultString, ["event:infoClicked"] );
         str += "\n\n";
         defaultString = "By clicking \"Agree and Continue\", you agree to PhET's Software Agreement, ";
-        defaultString = "including our privacy policy, for this and every PhET simulation you run. ";
-        defaultString = "(For details, <a href='{0}'>click here</a>).";
+        defaultString += "including our privacy policy, for this and every PhET simulation you run. ";
+        defaultString += "(For details, <a href='{0}'>click here</a>).";
         str += CommonStrings.get( "PrivacyMessage2", defaultString, ["event:detailsClicked"] );
-        //str += "\n";
+        if ( common.aswingPadding ) { //Need to add a <br> in order to make sure the last line gets rendered even when aswing is scaled under flash cs4
+            str += "<br> \n";
+        }
 
         // create CSS to make links blue
         var css: StyleSheet = new StyleSheet();
@@ -113,11 +114,11 @@ public class PrivacyDialog extends JFrame {
 
         getContentPane().append( panel );
 
-        getContentPane().append( new JSpacer( new IntDimension( 5, 5 ) ) );
+        getContentPane().append( new JSpacer( new IntDimension( 5, common.aswingPadding ? 15 : 5 ) ) );
 
         pack();
         // center the window
-        setLocationXY( common.getPlayAreaWidth()/2-getWidth()/2, common.getPlayAreaHeight()/2-getHeight()/2 );
+        setLocationXY( common.getPlayAreaWidth() / 2 - getWidth() / 2, common.getPlayAreaHeight() / 2 - getHeight() / 2 );
         show();
 
         //        Key.addListener( this );

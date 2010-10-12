@@ -63,7 +63,7 @@ public class FlashCommon {
     public var highContrast: Boolean = false;
 
     // invoked when high contrast is changed. this can be set by a sim wishing to have a better high contrast function
-    public var highContrastFunction: Function = defaultHighContrastFunction; 
+    public var highContrastFunction: Function = defaultHighContrastFunction;
 
     private var loadListeners: Array = new Array();
 
@@ -79,6 +79,7 @@ public class FlashCommon {
     // TODO: improvement of the stylesheets
     public static var LINK_STYLE_SHEET: StyleSheet;
     public static var CENTERED_LINK_STYLE_SHEET: StyleSheet;
+    private var _aswingPadding: Boolean = true;
 
     public static function getInstance(): FlashCommon {
         if ( instance == null ) {
@@ -497,14 +498,14 @@ public class FlashCommon {
         // the agreement text must be stripped of newlines because Flash's HTML rendering incorrectly
         // considers newlines to be "<br>".
         //var strippedText = stripNewlines(_level0.agreementText);
-        var strippedText:String = stripNewlines( SoftwareAgreement.agreementText );
+        var strippedText: String = stripNewlines( SoftwareAgreement.agreementText );
 
         // this replacement will make clicks call _level0.common.openExternalLink(<url>) instead of
         // just opening the url
-        var replacedHrefs:String = stringReplace( strippedText, "href=\"", "target=\"_blank\" href=\"" );
-        
+        var replacedHrefs: String = stringReplace( strippedText, "href=\"", "target=\"_blank\" href=\"" );
+
         //Image refs break in AS3, so omit them
-        return replacedHrefs.replace(/<img.*<\/img>/g,"");
+        return replacedHrefs.replace( /<img.*<\/img>/g, "" );
     }
 
     public function getCreditsText(): String {
@@ -617,13 +618,13 @@ public class FlashCommon {
         getURL( str, "_self" );
     }
 
-    public function setHighContrast( contrast: Boolean ):void {
+    public function setHighContrast( contrast: Boolean ): void {
         highContrast = contrast;
         debug( "Contrast changing to: " + contrast + "\n" );
         highContrastFunction( contrast );
     }
 
-    public function defaultHighContrastFunction( contrast: Boolean ):void {
+    public function defaultHighContrastFunction( contrast: Boolean ): void {
         if ( contrast ) {
             var stretch: Number = 3.0;
             var newCenter: Number = 64;
@@ -698,13 +699,21 @@ public class FlashCommon {
         barrierSprite.graphics.clear();
         root.removeChild( barrierSprite );
     }
-    
-    public function getPlayAreaWidth():Number {
-        throw new Error("abstract method error");
+
+    public function getPlayAreaWidth(): Number {
+        throw new Error( "abstract method error" );
     }
-    
-    public function getPlayAreaHeight():Number{
-        throw new Error("abstract method error");
+
+    public function getPlayAreaHeight(): Number {
+        throw new Error( "abstract method error" );
+    }
+
+    public function set aswingPadding( b: Boolean ): void {
+        this._aswingPadding = b;
+    }
+
+    public function get aswingPadding(): Boolean {
+        return _aswingPadding;
     }
 }
 }

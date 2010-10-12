@@ -7,16 +7,17 @@ import mx.core.Application;
 public class FlexCommon extends FlashCommon {
     public function FlexCommon() {
         trace( "FlexCommon starting up" );
-        
+
         var commonStrings: * = Application.application.parameters.commonStrings;
         if ( commonStrings != null && commonStrings != undefined ) {
             edu.colorado.phet.flashcommon.CommonStrings.initDocument( new XML( commonStrings ) );
         }
+        aswingPadding = false;
     }
 
-    private static var flexInstance:FlexCommon = null;
+    private static var flexInstance: FlexCommon = null;
 
-    public static function getInstance():FlexCommon {
+    public static function getInstance(): FlexCommon {
         if ( flexInstance == null ) {
             flexInstance = new FlexCommon();
             instance = flexInstance;
@@ -24,15 +25,15 @@ public class FlexCommon extends FlashCommon {
         return flexInstance;
     }
 
-    override public function getFlashArg( key:String ):String {
+    override public function getFlashArg( key: String ): String {
         return Application.application.parameters[key];
     }
 
-    override public function getPlayAreaWidth():Number {
+    override public function getPlayAreaWidth(): Number {
         return root.stage.stageWidth;
     }
 
-    override public function getPlayAreaHeight():Number {
+    override public function getPlayAreaHeight(): Number {
         return root.stage.stageHeight;
     }
 }
