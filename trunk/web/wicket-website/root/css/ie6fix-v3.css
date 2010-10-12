@@ -19,3 +19,13 @@ div.rtl .social-div {
 div.practices {
     padding-top: 15px !important;
 }
+
+#page-content .contribution-browse-table {
+/* changes table width so the float clear works */
+    width: auto;
+}
+
+#simulation-main-panel-content-header-clear {
+/* clear when tips for teachers are available. see SimulationMainPanel */
+    clear: right;
+}

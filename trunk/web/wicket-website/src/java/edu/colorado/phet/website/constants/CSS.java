@@ -10,7 +10,7 @@ package edu.colorado.phet.website.constants;
 public class CSS {
     public static final String BUTTONS = "/css/buttons-v1.css";
     public static final String CATEGORY_PAGE = "/css/category-page-v1.css";
-    public static final String CONTRIBUTION_BROWSE = "/css/contribution-browse-v1.css";
+    public static final String CONTRIBUTION_BROWSE = "/css/contribution-browse-v2.css";
     public static final String CONTRIBUTION_MAIN = "/css/contribution-main-v2.css";
     public static final String HOME = "/css/home-v3.css";
     public static final String MENU_PAGE = "/css/menu-page-v3.css";
