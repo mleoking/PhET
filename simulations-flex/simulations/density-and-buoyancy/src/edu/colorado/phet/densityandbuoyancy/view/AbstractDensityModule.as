@@ -45,7 +45,7 @@ public class AbstractDensityModule extends UIComponent {
 
     private var waterTop: Plane;
     private var waterFront: Plane;
-    private var running: Boolean = true;
+    private var _running: Boolean = true;
     private var invalid: Boolean = true;
     private var marker: ObjectContainer3D;
     private var groundNode: GroundNode;
@@ -197,7 +197,7 @@ public class AbstractDensityModule extends UIComponent {
     }
 
     public function onEnterFrame( event: Event ): void {
-        if ( !running ) {
+        if ( !_running ) {
             return;
         }
         _model.step();
@@ -309,16 +309,16 @@ public class AbstractDensityModule extends UIComponent {
     }
 
     public function pause(): void {
-        running = false;
+        _running = false;
     }
 
     public function start(): void {
-        running = true;
+        _running = true;
     }
 
     public function resetAll(): void {
         model.reset();
-        running = true;
+        _running = true;
         if ( moving ) {
             moving = false;
             stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
@@ -339,6 +339,14 @@ public class AbstractDensityModule extends UIComponent {
 
     public function showScales(): Boolean {
         return false;
+    }
+
+    public function get running(): Boolean {
+        return _running;
+    }
+
+    public function set running( b: Boolean ): void {
+        _running = b;
     }
 }
 }

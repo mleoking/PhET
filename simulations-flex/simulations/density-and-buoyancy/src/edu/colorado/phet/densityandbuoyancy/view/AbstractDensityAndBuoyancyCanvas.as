@@ -118,5 +118,8 @@ public class AbstractDensityAndBuoyancyCanvas extends Canvas {
         positionButtons();
     }
 
+    public function pause(): void {
+        throw new Error( "abstract method error" );
+    }
 }
 }

@@ -164,6 +164,14 @@ public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
         buoyancyModule.start();
     }
 
+    public function get running(): Boolean {
+        return buoyancyModule.running;
+    }
+
+    public function set running( b: Boolean ): void {
+        buoyancyModule.running = b;
+    }
+
     override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;

@@ -97,6 +97,10 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
         densityModule.start();
     }
 
+    override public function pause(): void {
+        densityModule.pause();
+    }
+
     override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;
