@@ -49,17 +49,17 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     private static Color iceAgeColor = new Color( 0, 28, 229 );
     private static Color preIndRevColor = new Color( 176, 0, 219 );
     private static Color todayColor = new Color( 11, 142, 0 );
-    
+
     // This font is used for the titled borders on this control panel.  It
     // is needed because the titles are long, so the default font made the
     // control panel too wide.
     private static Font BORDER_TITLE_FONT = new PhetFont(12, true);
 
-    private ModelSlider greenhouseGasConcentrationControl;
+    private final ModelSlider greenhouseGasConcentrationControl;
     String[] iceAgeConcentrations = new String[]{" ?",
-            "200 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
-            " ?",
-            " ?"};
+            "180 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "0.380 ",
+            "0.215 "};
 
     String[] preIndRevConcentrations = new String[]{
             "70% " + GreenhouseResources.getString( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
@@ -78,18 +78,18 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             "96.5% ",
             "",
             ""};
-    private GreenhouseCompositionPane iceAgeCompositionPane = new GreenhouseCompositionPane( iceAgeConcentrations, iceAgeColor );
-    private GreenhouseCompositionPane seventeenFiftyCompositionPane = new GreenhouseCompositionPane( preIndRevConcentrations, preIndRevColor );
-    private GreenhouseCompositionPane todayCompositionPane = new GreenhouseCompositionPane( todayConcentrations, todayColor );
-    private GreenhouseCompositionPane venusCompositionPane = new GreenhouseCompositionPane( venusConcentrations, Color.black );
-    private JPanel adjustableCompositionPane = new JPanel();
-    private GreenhouseModule module;
-    private JSpinner cloudsSpinner;
-    private AtmosphereSelectionPanel atmosphereSelectionPane;
-    private JCheckBox allPhotonsCB;
-    private JCheckBox thermometerCB;
-    private JRadioButton fahrenheitRB;
-    private JRadioButton celsiusRB;
+    private final GreenhouseCompositionPane iceAgeCompositionPane = new GreenhouseCompositionPane( iceAgeConcentrations, iceAgeColor );
+    private final GreenhouseCompositionPane seventeenFiftyCompositionPane = new GreenhouseCompositionPane( preIndRevConcentrations, preIndRevColor );
+    private final GreenhouseCompositionPane todayCompositionPane = new GreenhouseCompositionPane( todayConcentrations, todayColor );
+    private final GreenhouseCompositionPane venusCompositionPane = new GreenhouseCompositionPane( venusConcentrations, Color.black );
+    private final JPanel adjustableCompositionPane = new JPanel();
+    private final GreenhouseModule module;
+    private final JSpinner cloudsSpinner;
+    private final AtmosphereSelectionPanel atmosphereSelectionPane;
+    private final JCheckBox allPhotonsCB;
+    private final JCheckBox thermometerCB;
+    private final JRadioButton fahrenheitRB;
+    private final JRadioButton celsiusRB;
 
 
     /**
@@ -139,6 +139,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             }
         } );
         greenhouseGasConcentrationControl.addSliderListener( new MouseAdapter() {
+            @Override
             public void mousePressed( MouseEvent e ) {
                 atmosphereSelectionPane.setAdjustableAtmosphere();
             }
@@ -221,7 +222,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 
         // Greenhouse gas concentrations
         {
-            JPanel panel = new PhetTitledPanel( 
+            JPanel panel = new PhetTitledPanel(
                     GreenhouseResources.getString( "GreenhouseControlPanel.GasConcentrationSlider" ),
                     BORDER_TITLE_FONT );
             panel.add( greenhouseGasConcentrationControl );
@@ -303,8 +304,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     //----------------------------------------------------------------
 
     private class AtmosphereSelectionPanel extends PhetTitledPanel {
-        private JRadioButton todayGGRB;
-        private JRadioButton adjustableGGRB;
+        private final JRadioButton todayGGRB;
+        private final JRadioButton adjustableGGRB;
 
         AtmosphereSelectionPanel() {
             super( GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ), BORDER_TITLE_FONT );
@@ -410,7 +411,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             }
         };
 
-        private AbstractAction pickIceAgeGG = new AbstractAction() {
+        private final AbstractAction pickIceAgeGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationIceAge );
 //                greenhouseGasConcentrationControl.setEnabled( false );
@@ -421,7 +422,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             }
         };
 
-        private AbstractAction pickPreIndRevGG = new AbstractAction() {
+        private final AbstractAction pickPreIndRevGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentration1750 );
 //                greenhouseGasConcentrationControl.setEnabled( false );
@@ -432,7 +433,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             }
         };
 
-        private AbstractAction pickTodayGG = new AbstractAction() {
+        private final AbstractAction pickTodayGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
 //                greenhouseGasConcentrationControl.setEnabled( false );
@@ -449,7 +450,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
      * Pane that shows concentration of various greenhouse gas components
      */
     private class GreenhouseCompositionPane extends PhetTitledPanel {
-        
+
         JTextField h2oTF = new GreenhouseTextField();
         JTextField co2TF = new GreenhouseTextField();
         JTextField ch4TF = new GreenhouseTextField();
@@ -465,7 +466,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             super( GreenhouseResources.getString( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ),
                     BORDER_TITLE_FONT );
             setFont( new PhetFont(8) );
-            
+
             String[] labels = new String[]{
                     GreenhouseResources.getString( "GreenhouseControlPanel.H2OLabel" ),
                     GreenhouseResources.getString( "GreenhouseControlPanel.CO2Label" ),
@@ -500,7 +501,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             ch4TF.setText( concentrations[2] );
             n2oTF.setText( concentrations[3] );
         }
-        
+
+        @Override
         public void setTitleColor(Color color){
             if (getBorder() instanceof TitledBorder){
                 ((TitledBorder)getBorder()).setTitleColor( color );
@@ -515,8 +517,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
      *
      */
     class ModelSlider extends JPanel {
-        private JSlider slider;
-        private ModelViewTx1D tx;
+        private final JSlider slider;
+        private final ModelViewTx1D tx;
 
         ModelSlider( String title, double minModelValue, double maxModelValue, double defaultModelValue ) {
             this.setLayout( new GridBagLayout() );
@@ -588,6 +590,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             putClientProperty( "JSlider.isFilled", Boolean.TRUE );
         }
 
+        @Override
         public void setEnabled( boolean enabled ) {
             super.setEnabled( enabled );
             slider.setEnabled( enabled );
@@ -615,10 +618,10 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
 
 
     class SliderWithReadout extends JPanel {
-        private JTextField modelValueTF;
-        private JSlider slider;
-        private ModelViewTx1D tx;
-        private String units;
+        private final JTextField modelValueTF;
+        private final JSlider slider;
+        private final ModelViewTx1D tx;
+        private final String units;
 
         SliderWithReadout( String title, String units, double minModelValue, double maxModelValue, double defaultModelValue ) {
             this.units = units;
@@ -663,6 +666,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             slider.addChangeListener( changeListener );
         }
 
+        @Override
         public void setEnabled( boolean enabled ) {
             super.setEnabled( enabled );
             slider.setEnabled( enabled );
@@ -683,7 +687,7 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
             GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.CELSIUS;
         }
     }
-    
+
     /**
      *
      * @author John Blanco
