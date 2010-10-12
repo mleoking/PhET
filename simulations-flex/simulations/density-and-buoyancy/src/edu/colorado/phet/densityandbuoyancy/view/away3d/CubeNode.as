@@ -6,8 +6,8 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 public class CubeNode extends CuboidNode {
     private var cube: PickableCube;
 
-    public function CubeNode( cuboid: Cuboid, view: AbstractDBCanvas ) {
-        super( cuboid, view );
+    public function CubeNode( cuboid: Cuboid, canvas: AbstractDBCanvas ) {
+        super( cuboid, canvas );
         cube = new PickableCube( this );
         cube.segmentsH = 2;
         cube.segmentsW = 2;
