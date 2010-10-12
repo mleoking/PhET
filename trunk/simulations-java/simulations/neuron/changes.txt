@@ -1,3 +1,5 @@
+# 1.00.00 (44970) Oct 12, 2010
+10/12/10 > Initial publication to the production server.
 # 0.00.42 (44652) Oct 4, 2010
 10/4/10 Added caption to speed control and "grip dots" to the cursor on the membrane potential chart.
 # 0.00.41 (43037) Aug 12, 2010
