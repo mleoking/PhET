@@ -23,12 +23,12 @@ public class BlockNode extends CubeNode implements Pickable {
     private var label: StringProperty;
     private var readoutFontScale: Number;
 
-    public function BlockNode( block: Block, view: AbstractDBCanvas, label: StringProperty, readoutFontScale: Number = 1 ): void {
+    public function BlockNode( block: Block, canvas: AbstractDBCanvas, label: StringProperty, readoutFontScale: Number = 1 ): void {
         this.label = label;
         this.block = block;
         this.readoutFontScale = readoutFontScale;
 
-        super( block, view );
+        super( block, canvas );
 
         var cube: PickableCube = getCube();
         cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
