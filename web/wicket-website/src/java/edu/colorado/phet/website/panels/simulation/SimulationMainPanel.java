@@ -50,6 +50,8 @@ public class SimulationMainPanel extends PhetPanel {
 
     private String title;
 
+    private boolean hasTeacherTips;
+
     private static final Logger logger = Logger.getLogger( SimulationMainPanel.class.getName() );
 
     public SimulationMainPanel( String id, final LocalizedSimulation simulation, final PageContext context ) {
@@ -70,16 +72,16 @@ public class SimulationMainPanel extends PhetPanel {
 
         RawLink link = new RawLink( "simulation-main-link-run-main", simulation.getRunUrl() );
         // TODO: localize
-        link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), null, new StringResourceModel( "simulationMainPanel.screenshot.alt", this, null, new String[]{encode( simulation.getTitle() )} ) ) );
+        link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), null, new StringResourceModel( "simulationMainPanel.screenshot.alt", this, null, new String[] { encode( simulation.getTitle() ) } ) ) );
         add( link );
 
         //add( new Label( "simulation-main-description", simulation.getDescription() ) );
         add( new LocalizedText( "simulation-main-description", simulation.getSimulation().getDescriptionKey() ) );
-        add( new LocalizedText( "simulationMainPanel.version", "simulationMainPanel.version", new Object[]{
+        add( new LocalizedText( "simulationMainPanel.version", "simulationMainPanel.version", new Object[] {
                 HtmlUtils.encode( simulationVersionString ),
                 SimulationChangelogPage.getLinker( simulation ).getHref( context, getPhetCycle() )
         } ) );
-        add( new LocalizedText( "simulationMainPanel.kilobytes", "simulationMainPanel.kilobytes", new Object[]{
+        add( new LocalizedText( "simulationMainPanel.kilobytes", "simulationMainPanel.kilobytes", new Object[] {
                 simulation.getSimulation().getKilobytes()
         } ) );
 
@@ -134,13 +136,17 @@ public class SimulationMainPanel extends PhetPanel {
             }
         } );
         if ( !guides.isEmpty() ) {
-            add( new LocalizedText( "guide-text", "simulationMainPanel.teachersGuide", new Object[]{
+            add( new LocalizedText( "guide-text", "simulationMainPanel.teachersGuide", new Object[] {
                     guides.get( 0 ).getLinker().getHref( context, getPhetCycle() )
             } ) );
+
+            hasTeacherTips = true;
         }
         else {
             // make the teachers guide text (and whole section) invisible
             add( new InvisibleComponent( "guide-text" ) );
+
+            hasTeacherTips = false;
         }
 
         /*---------------------------------------------------------------------------*
@@ -275,13 +281,13 @@ public class SimulationMainPanel extends PhetPanel {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -363,7 +369,7 @@ public class SimulationMainPanel extends PhetPanel {
             try {
                 title = StringUtils.messageFormat( localizer.getString( "simulationPage.title", this ), titleParams.toArray() );
             }
-            catch( RuntimeException e ) {
+            catch ( RuntimeException e ) {
                 e.printStackTrace();
                 title = simulation.getEncodedTitle();
             }
@@ -524,7 +530,7 @@ public class SimulationMainPanel extends PhetPanel {
             add( new InvisibleComponent( "pearson-sponsor" ) );
         }
 
-        add( new LocalizedText( "submit-a", "simulationMainPanel.submitActivities", new Object[]{
+        add( new LocalizedText( "submit-a", "simulationMainPanel.submitActivities", new Object[] {
                 ContributionCreatePage.getLinker().getHref( context, getPhetCycle() )
         } ) );
     }
@@ -533,4 +539,17 @@ public class SimulationMainPanel extends PhetPanel {
         return title;
     }
 
+    @Override
+    public String getStyle( String key ) {
+        if ( key.equals( "style.simulation-main-panel-content-header-clear" ) ) {
+            // IE6 fix so we can clear only when the tips are available
+            if ( hasTeacherTips ) {
+                return "simulation-main-panel-content-header-clear";
+            }
+            else {
+                return "simulation-main-panel-content-header";
+            }
+        }
+        return super.getStyle( key );
+    }
 }

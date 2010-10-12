@@ -37,3 +37,8 @@ div.rtl .contribution-search-header {
 div.rtl .contribution-text-submit-row {
     text-align: left;
 }
+
+.contribution-browse-table {
+/* overridden in ie6 fixes */
+    width: 100%;
+}
