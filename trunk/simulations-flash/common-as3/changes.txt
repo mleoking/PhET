@@ -1,0 +1,2 @@
+Added extra padding for aswing text on CS4 sims
+Fixed a bug that caused common strings to not be loaded
