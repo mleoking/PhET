@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.util;
+package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.*;
 import java.util.HashMap;

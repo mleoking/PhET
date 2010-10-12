@@ -22,10 +22,10 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapac
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
-import edu.colorado.phet.capacitorlab.util.GridPanel;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Anchor;
-import edu.colorado.phet.capacitorlab.util.GridPanel.Fill;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 
 /**
  * Panel that displays all "raw" model values.
