@@ -14,12 +14,12 @@ import mx.events.FlexEvent;
 /**
  * Main canvas for the buoyancy sim. Contains all of the sim-related UI
  */
-public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
+public class BuoyancyContainer extends AbstractDBContainer {
 
     private var buoyancyModule: BuoyancyModule;
     private var customButton: RadioButton;
 
-    public function BuoyancyCanvas() {
+    public function BuoyancyContainer() {
         super();
 
         addBackground();

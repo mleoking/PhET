@@ -10,9 +10,9 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
-public class BuoyancyModule extends AbstractDensityModule {
+public class BuoyancyModule extends AbstractDBCanvas {
 
-    private var _densityCanvas: BuoyancyCanvas;
+    private var _densityCanvas: BuoyancyContainer;
 
     private var customObjectMode: CustomObjectMode;
     private var sameMassMode: SameMassMode;
@@ -31,7 +31,7 @@ public class BuoyancyModule extends AbstractDensityModule {
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
     }
 
-    public function doInit( densityCanvas: BuoyancyCanvas ): void {
+    public function doInit( densityCanvas: BuoyancyContainer ): void {
         this._densityCanvas = densityCanvas;
         customObjectMode = new CustomObjectMode( this );
         sameMassMode = new SameMassMode( this );
@@ -76,7 +76,7 @@ public class BuoyancyModule extends AbstractDensityModule {
         setMode( customObjectMode );
     }
 
-    override public function get canvas(): AbstractDensityAndBuoyancyCanvas {
+    override public function get canvas(): AbstractDBContainer {
         return _densityCanvas;
     }
 

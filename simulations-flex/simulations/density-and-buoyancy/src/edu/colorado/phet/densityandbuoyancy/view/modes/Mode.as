@@ -1,12 +1,12 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.model.BuoyancyScale;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 public class Mode {
-    protected var module: AbstractDensityModule;
+    protected var module: AbstractDBCanvas;
 
-    public function Mode( module: AbstractDensityModule ) {
+    public function Mode( module: AbstractDBCanvas ) {
         this.module = module;
     }
 

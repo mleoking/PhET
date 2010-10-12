@@ -8,9 +8,9 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
 import mx.containers.Canvas;
 
-public class DensityModule extends AbstractDensityModule {
+public class DensityModule extends AbstractDBCanvas {
 
-    private var _densityCanvas: DensityCanvas;
+    private var _densityCanvas: DensityContainer;
 
     private var customObjectMode: CustomObjectMode;
     private var sameMassMode: SameMassMode;
@@ -23,7 +23,7 @@ public class DensityModule extends AbstractDensityModule {
         super();
     }
 
-    public function doInit( densityCanvas: DensityCanvas ): void {
+    public function doInit( densityCanvas: DensityContainer ): void {
         this._densityCanvas = densityCanvas;
         customObjectMode = new CustomObjectMode( this );
         sameMassMode = new SameMassMode( this );
@@ -77,7 +77,7 @@ public class DensityModule extends AbstractDensityModule {
         return _densityCanvas;
     }
 
-    override public function get canvas(): AbstractDensityAndBuoyancyCanvas {
+    override public function get canvas(): AbstractDBContainer {
         return _densityCanvas;
     }
 }

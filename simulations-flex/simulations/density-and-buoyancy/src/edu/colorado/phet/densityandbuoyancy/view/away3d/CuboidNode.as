@@ -9,7 +9,7 @@ public class CuboidNode extends DensityObjectNode implements Pickable {
 
     private var cuboid: Cuboid;
 
-    public function CuboidNode( cuboid: Cuboid, view: AbstractDensityModule ): void {
+    public function CuboidNode( cuboid: Cuboid, view: AbstractDBCanvas ): void {
         super( cuboid, view );
         this.cuboid = cuboid;
         this.x = cuboid.getX() * DensityModel.DISPLAY_SCALE;

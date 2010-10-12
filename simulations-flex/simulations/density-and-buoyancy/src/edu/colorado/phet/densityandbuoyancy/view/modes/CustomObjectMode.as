@@ -4,7 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPan
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
@@ -15,7 +15,7 @@ public class CustomObjectMode extends Mode {
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;
 
-    public function CustomObjectMode( module: AbstractDensityModule ) {
+    public function CustomObjectMode( module: AbstractDBCanvas ) {
         super( module );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = DEFAULT_MATERIAL;

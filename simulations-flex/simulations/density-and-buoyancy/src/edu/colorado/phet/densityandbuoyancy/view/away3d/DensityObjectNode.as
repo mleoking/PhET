@@ -17,7 +17,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
      */
     protected var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
 
-    private var _module: AbstractDensityModule;
+    private var _module: AbstractDBCanvas;
 
     protected var densityObjectReadoutNode: DensityObjectReadoutNode;
 
@@ -28,7 +28,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
 
-    public function DensityObjectNode( densityObject: DensityObject, module: AbstractDensityModule ) {
+    public function DensityObjectNode( densityObject: DensityObject, module: AbstractDBCanvas ) {
         super();
         this.densityObject = densityObject;
         this._module = module;
@@ -39,7 +39,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
     }
 
-    public function get module(): AbstractDensityModule {
+    public function get module(): AbstractDBCanvas {
         return _module;
     }
 

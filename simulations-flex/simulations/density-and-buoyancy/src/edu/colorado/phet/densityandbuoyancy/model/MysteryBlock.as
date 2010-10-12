@@ -1,5 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.model {
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 
@@ -13,7 +13,7 @@ public class MysteryBlock extends Block {
         this.label = label;
     }
 
-    override public function createNode( view: AbstractDensityModule ): DensityObjectNode {
+    override public function createNode( view: AbstractDBCanvas ): DensityObjectNode {
         return new BlockNode( this, view, new StringProperty( label ), 2 );
     }
 

@@ -3,11 +3,11 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityModule;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 public class SameDensityMode extends Mode {
 
-    public function SameDensityMode( module: AbstractDensityModule ) {
+    public function SameDensityMode( module: AbstractDBCanvas ) {
         super( module );
     }
 
