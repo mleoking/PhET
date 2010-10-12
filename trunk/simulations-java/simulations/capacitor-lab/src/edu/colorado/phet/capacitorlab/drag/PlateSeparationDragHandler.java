@@ -22,7 +22,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
     private final Capacitor capacitor;
     private final ModelViewTransform mvt;
     private final DoubleRange valueRange;
-    private double clickYOffset; // y-offset of mouse click from node's origin, in parent node's coordinate frame
+    
+    private double clickYOffset; // y-offset of mouse click from dragNode's origin, in parent node's coordinate frame
     
     public PlateSeparationDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
@@ -34,9 +35,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
-        Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        double yView = mvt.modelToView( -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness() );
-        clickYOffset = pMouse.getY() - yView;
+        double yMouse = event.getPositionRelativeTo( dragNode.getParent() ).getY();
+        double yOrigin = mvt.modelToView( -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness() );
+        clickYOffset = yMouse - yOrigin;
     }
 
     @Override

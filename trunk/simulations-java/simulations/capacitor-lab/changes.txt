@@ -1,5 +1,7 @@
-10/7/10 refine how IntroductionModule subclasses DieletricModule 
-10/7/10 specify explicit default values for ranges in CLConstants
+10/12/10 tweak drag handle nodes to use less space
+10/12/10 clean up drag handlers, doc and clearer variable names
+10/11/10 refine how IntroductionModule subclasses DieletricModule 
+10/11/10 specify explicit default values for ranges in CLConstants
 10/7/10 enable Electric Field Detector check box (again) for feature development
 # 0.00.32 (44871) Oct 7, 2010
 10/7/10 development version to share with KSU

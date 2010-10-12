@@ -22,21 +22,22 @@ public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
     private final Capacitor capacitor;
     private final ModelViewTransform mvt;
     private final DoubleRange valueRange;
-    private double clickXOffset; // x-offset of mouse click from node's origin, in parent node's coordinate frame
+    
+    private double clickXOffset; // x-offset of mouse click from dragNode's origin, in parent node's coordinate frame
     
     public DielectricOffsetDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
         this.capacitor = capacitor;
         this.mvt = mvt;
-        this.valueRange = valueRange;
+        this.valueRange = new DoubleRange( valueRange );
     }
     
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
-        Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        double xView = mvt.modelToView( capacitor.getDielectricOffset() );
-        clickXOffset = pMouse.getX() - xView;
+        double xMouse = event.getPositionRelativeTo( dragNode.getParent() ).getX();
+        double xOrigin = mvt.modelToView( capacitor.getDielectricOffset() );
+        clickXOffset = xMouse - xOrigin;
     }
 
     @Override
