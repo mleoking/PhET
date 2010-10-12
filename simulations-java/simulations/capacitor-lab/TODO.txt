@@ -21,7 +21,6 @@ MEDUIUM PRIORITY
 
 LOW PRIORITY
 - clean up CCKStrategyWithRounding
-- refactor duplicate code in *DragHandleNode
 - delete IPlateChargeGridSizeStrategy when we settle on a strategy, or keep for historical purposes?
 - only update meters when they are visible
 - edges where dielectric and bottom plate meet don't match up perfectly
