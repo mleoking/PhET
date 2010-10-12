@@ -30,7 +30,7 @@ public class CustomObjectMode extends Mode {
     override public function teardown(): void {
         super.teardown();
         if ( customObjectPropertiesPanelShowing ) {
-            canvas.canvas.removeChild( customObjectPropertiesPanel );
+            canvas.container.removeChild( customObjectPropertiesPanel );
             customObjectPropertiesPanelShowing = false;
         }
     }
@@ -40,7 +40,7 @@ public class CustomObjectMode extends Mode {
         customizableObject.updateBox2DModel();
 
         if ( !customObjectPropertiesPanelShowing ) {
-            canvas.canvas.addChild( customObjectPropertiesPanel );
+            canvas.container.addChild( customObjectPropertiesPanel );
             customObjectPropertiesPanelShowing = true;
         }
         canvas.model.addDensityObject( customizableObject );

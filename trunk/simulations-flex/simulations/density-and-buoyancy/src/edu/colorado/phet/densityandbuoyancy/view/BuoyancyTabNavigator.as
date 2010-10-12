@@ -14,23 +14,23 @@ import edu.colorado.phet.densityandbuoyancy.view.BuoyancyContainer;
 import edu.colorado.phet.flexcommon.Module;
 
 class BuoyancyModule extends Module {
-    private var canvas: BuoyancyContainer;
+    private var container: BuoyancyContainer;
 
     function BuoyancyModule( title: String, canvas: BuoyancyContainer ) {
         super( title, canvas );
-        this.canvas = canvas;
+        this.container = canvas;
     }
 
     override public function init(): void {
         super.init();
-        canvas.init();
+        container.init();
     }
 
     override public function get running(): Boolean {
-        return canvas.running;
+        return container.running;
     }
 
     override public function set running( r: Boolean ): void {
-        canvas.running = r;
+        container.running = r;
     }
 }
