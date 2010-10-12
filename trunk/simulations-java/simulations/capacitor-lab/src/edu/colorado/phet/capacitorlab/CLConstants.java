@@ -115,4 +115,10 @@ public class CLConstants {
     public static final boolean EFIELD_VISIBLE = false;
     public static final DoubleRange EFIELD_SPACING_RANGE = new DoubleRange( PLATE_SIZE_RANGE.getMin() / 15, PLATE_SIZE_RANGE.getMin() / 2 ); // meters
     public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 900 ); // number of lines on smallest plate
+    
+    // E-field detector
+    public static final boolean PLATE_FIELD_VISIBLE = true;
+    public static final boolean DIELECTRIC_FIELD_VISIBLE = true;
+    public static final boolean SUM_FIELD_VISIBLE = true;
+    public static final boolean SHOW_FIELD_VALUES = true;
 }

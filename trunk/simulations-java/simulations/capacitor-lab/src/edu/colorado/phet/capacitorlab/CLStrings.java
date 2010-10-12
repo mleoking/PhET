@@ -71,6 +71,7 @@ public class CLStrings {
     public static final String TITLE_ELECTRIC_FIELD = getString( "title.electricField" );
     
     public static final String UNITS_VOLTS = getString( "units.volts" );
+    public static final String UNITS_VOLTS_PER_METER = getString( "units.voltsPerMeter" );
     public static final String UNITS_MILLIMETERS = getString( "units.millimeters" );
     public static final String UNITS_MILLIMETERS_SQUARED = getString( "units.millimetersSquared" );
     public static final String UNITS_COULOMBS = getString( "units.coulombs" );
