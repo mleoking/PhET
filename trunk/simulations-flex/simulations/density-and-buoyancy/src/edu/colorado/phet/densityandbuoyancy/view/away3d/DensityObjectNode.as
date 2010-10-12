@@ -26,6 +26,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
      */
     private var pickable: BooleanProperty = new BooleanProperty( true );
     private var arrowNodes: Array = new Array();
+    private var _mousePressed: Boolean = false;
 
     public function DensityObjectNode( densityObject: DensityObject, module: AbstractDensityModule ) {
         super();
@@ -95,6 +96,15 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
             module.overlayViewport.scene.removeChild( arrowNode );
         }
         arrowNodes = new Array();
+    }
+
+    public function get densityObjectNode(): DensityObjectNode {
+        return this;
+    }
+
+    public function set mousePressed( b: Boolean ): void {
+        this._mousePressed = b;
+        densityObject.userControlled = b;
     }
 }
 }
