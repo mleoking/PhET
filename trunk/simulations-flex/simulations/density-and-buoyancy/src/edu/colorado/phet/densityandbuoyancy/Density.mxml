@@ -8,7 +8,7 @@
     <view:DensityContainer id="myDensityCanvas"/>
     <mx:Script><![CDATA[
         private function onApplicationComplete(): void {
-            myDensityCanvas.onApplicationComplete();
+            myDensityCanvas.init();
         }
         ]]></mx:Script>
 </mx:Application>

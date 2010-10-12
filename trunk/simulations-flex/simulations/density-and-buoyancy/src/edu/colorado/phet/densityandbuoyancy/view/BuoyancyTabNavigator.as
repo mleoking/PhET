@@ -23,7 +23,7 @@ class BuoyancyModule extends Module {
 
     override public function init(): void {
         super.init();
-        canvas.onApplicationComplete();
+        canvas.init();
     }
 
     override public function get running(): Boolean {

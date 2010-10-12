@@ -138,6 +138,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
+        addFlashCommon();
         buoyancyCanvas.start();
     }
 
