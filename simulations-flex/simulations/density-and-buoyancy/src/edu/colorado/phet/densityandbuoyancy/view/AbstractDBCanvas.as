@@ -332,7 +332,7 @@ public class AbstractDBCanvas extends UIComponent {
         return _model;
     }
 
-    public function get canvas(): AbstractDBContainer {
+    public function get container(): AbstractDBContainer {
         throw new Error( "abstract method error" );
     }
 

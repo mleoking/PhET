@@ -10,7 +10,7 @@ import mx.containers.Canvas;
 
 public class DensityCanvas extends AbstractDBCanvas {
 
-    private var _densityCanvas: DensityContainer;
+    private var _container: DensityContainer;
 
     private var customObjectMode: CustomObjectMode;
     private var sameMassMode: SameMassMode;
@@ -24,7 +24,7 @@ public class DensityCanvas extends AbstractDBCanvas {
     }
 
     public function doInit( densityCanvas: DensityContainer ): void {
-        this._densityCanvas = densityCanvas;
+        this._container = densityCanvas;
         customObjectMode = new CustomObjectMode( this );
         sameMassMode = new SameMassMode( this );
         sameVolumeMode = new SameVolumeMode( this );
@@ -74,11 +74,11 @@ public class DensityCanvas extends AbstractDBCanvas {
     }
 
     public function getDensityCanvas(): Canvas {
-        return _densityCanvas;
+        return _container;
     }
 
-    override public function get canvas(): AbstractDBContainer {
-        return _densityCanvas;
+    override public function get container(): AbstractDBContainer {
+        return _container;
     }
 }
 }

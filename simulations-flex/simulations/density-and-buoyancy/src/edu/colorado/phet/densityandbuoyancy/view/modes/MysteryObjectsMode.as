@@ -6,7 +6,6 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
-import edu.colorado.phet.densityandbuoyancy.view.DensityCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.DensityContainer;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -23,7 +22,7 @@ public class MysteryObjectsMode extends Mode {
         mysteryObjectsControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
 
         // grab the panel above this panel
-        var modeControlPanel: UIComponent = ((canvas as DensityCanvas).canvas as DensityContainer).modeControlPanel;
+        var modeControlPanel: UIComponent = (canvas.container as DensityContainer).modeControlPanel;
 
         // set its initial value
         mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityConstants.CONTROL_INSET );
@@ -40,7 +39,7 @@ public class MysteryObjectsMode extends Mode {
     override public function teardown(): void {
         super.teardown();
         if ( mysteryObjectsControlPanelShowing ) {
-            canvas.canvas.removeChild( mysteryObjectsControlPanel );
+            canvas.container.removeChild( mysteryObjectsControlPanel );
             mysteryObjectsControlPanelShowing = false;
 
             mysteryObjectsControlPanel.teardown();
@@ -61,7 +60,7 @@ public class MysteryObjectsMode extends Mode {
         canvas.model.addDensityObject( block5 );
 
         if ( !mysteryObjectsControlPanelShowing ) {
-            canvas.canvas.addChild( mysteryObjectsControlPanel );
+            canvas.container.addChild( mysteryObjectsControlPanel );
             mysteryObjectsControlPanelShowing = true;
         }
     }
