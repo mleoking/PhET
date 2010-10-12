@@ -128,6 +128,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( energyMeterNode );
         addChild( voltmeterNode );
         addChild( eFieldDetectorBodyNode );
+        addChild( eFieldDetector.getWireNode() );
         addChild( eFieldDetectorProbeNode );
         
         // nodes whose visibility causes the capacitor to become transparent
@@ -200,7 +201,7 @@ public class DielectricCanvas extends CLCanvas {
         energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
         voltmeterNode.setOffset( CLConstants.VOLTMETER_LOCATION );
         eFieldDetectorBodyNode.setOffset( CLConstants.EFIELD_DETECTOR_LOCATION );
-        double x = eFieldDetectorBodyNode.getFullBoundsReference().getMinX() - eFieldDetectorProbeNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( eFieldDetectorProbeNode ) - 20;
+        double x = eFieldDetectorBodyNode.getFullBoundsReference().getMinX() - eFieldDetectorProbeNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( eFieldDetectorProbeNode ) - 50;
         double y = eFieldDetectorBodyNode.getFullBoundsReference().getMinY();
         eFieldDetectorProbeNode.setOffset( x, y );
     }
