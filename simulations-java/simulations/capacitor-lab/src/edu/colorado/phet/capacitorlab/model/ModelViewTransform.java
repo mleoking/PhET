@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
@@ -12,6 +11,15 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * ModelViewTransform provides the transforms between model and view coordinate systems.
  * In both coordinate systems, +x is to the right, +y is down, +z is away from the viewer.
  * Sign of rotation angles is specified using the right-hand rule.
+ * <p>
+ * <code>
+ *   +y
+ *    ^    +z
+ *    |   /
+ *    |  /
+ *    | /
+ *    +-------> +x
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -34,8 +42,8 @@ public class ModelViewTransform {
      * 
      * @param scale scale for mapping from model to view (x and y scale are identical)
      * @param offset translation for mapping from model to view, in model coordinates
-     * @param pitch rotation about the horizontal (x) axis, sign determined using the right-hand rule
-     * @param yaw rotation about the vertical (y) axis, sign determined using the right-hand rule
+     * @param pitch rotation about the horizontal (x) axis, sign determined using the right-hand rule (radians)
+     * @param yaw rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)
      */
     public ModelViewTransform( double scale, double pitch, double yaw ) {
         
@@ -59,6 +67,8 @@ public class ModelViewTransform {
     
     /**
      * Maps a distance from model to view coordinates.
+     * Causes no allocation.
+     * 
      * @param distance
      */
     public double modelToView( double distance ) {
@@ -66,31 +76,9 @@ public class ModelViewTransform {
     }
     
     /**
-     * Maps a 2D point from model to view coordinates.
-     * If pView is not null, the result is returned in pView.
-     * 
-     * @param pModel point in model coordinates
-     * @param pView point in view coordinates, possibly null
-     * @return point in view coordinates
-     */
-    public Point2D modelToView( Point2D pModel, Point2D pView ) {
-        return modelToViewTransform2D.transform( pModel, pView );
-    }
-    
-    public Point2D modelToView( Point2D pModel ) {
-        return modelToView( pModel, null );
-    }
-    
-    public Point2D modelToView( double xModel, double yModel, Point2D pView ) {
-        return modelToView( new Point2D.Double( xModel, yModel ), pView );
-    }
-    
-    public Point2D modelToView( double xModel, double yModel ) {
-        return modelToView( xModel, yModel, null );
-    }
-    
-    /**
      * Maps a 3D model point to a 2D view point.
+     * Allocates 2 Point2D objects.
+     * 
      * @param pModel
      * @param pView
      * @return
@@ -98,21 +86,20 @@ public class ModelViewTransform {
     public Point2D modelToView( Point3D pModel ) {
         double xModel = pModel.getX() + ( pModel.getZ() * Math.sin( pitch ) * Math.cos( yaw ) );
         double yModel = pModel.getY() + ( pModel.getZ() * Math.sin( pitch ) * Math.sin( yaw ) );
-        return modelToView( xModel, yModel );
-    }
-    
-    public Point2D modelToView( double x, double y, double z ) {
-        return modelToView( new Point3D.Double( x, y, z ) );
+        return modelToViewTransform2D.transform( new Point2D.Double( xModel, yModel ), null );
     }
     
     /**
-     * Maps a rectangle from model to view coordinates.
+     * Maps a 3D model point to a 2D view point.
+     * Allocates 3 Point2D objects.
      * 
-     * @param rModel
-     * @return Rectangle2D in view coordinates
+     * @param x
+     * @param y
+     * @param z
+     * @return
      */
-    public Rectangle2D modelToView( Rectangle2D rModel ) {
-        return modelToViewTransform2D.createTransformedShape( rModel ).getBounds2D();
+    public Point2D modelToView( double x, double y, double z ) {
+        return modelToView( new Point3D.Double( x, y, z ) );
     }
     
     //----------------------------------------------------------------------------
@@ -121,6 +108,8 @@ public class ModelViewTransform {
     
     /**
      * Maps a distance from view to model coordinates.
+     * Causes no allocation.
+     * 
      * @param distance
      */
     public double viewToModel( double distance ) {
@@ -130,6 +119,7 @@ public class ModelViewTransform {
     /**
      * Maps a point from view to model coordinates.
      * If pModel is not null, the result is returned in pModel.
+     * Otherwise a Point2D is allocated and returned.
      * 
      * @param pView point in view coordinates
      * @param pModel point in model coordinates, possibly null
@@ -139,25 +129,14 @@ public class ModelViewTransform {
         return viewToModelTransform2D.transform( pView, pModel );
     }
     
+    /**
+     * Maps a point from view to model coordinates.
+     * Allocates 1 Point2D.
+     * 
+     * @param pView
+     * @return
+     */
     public Point2D viewToModel( Point2D pView ) {
         return viewToModel( pView, null );
-    }
-    
-    public Point2D viewToModel( double xView, double yView, Point2D pModel ) {
-        return viewToModel( new Point2D.Double( xView, yView ), pModel );
-    }
-    
-    public Point2D viewToModel( double xView, double yView ) {
-        return viewToModel( new Point2D.Double( xView, yView ) );
-    }
-    
-    /**
-     * Maps a rectangle from view to model to coordinates.
-     * 
-     * @param rView
-     * @param Rectangle2D in model coordinates
-     */
-    public Rectangle2D viewToModel( Rectangle2D rView ) {
-        return viewToModelTransform2D.createTransformedShape( rView ).getBounds2D();
     }
 }
