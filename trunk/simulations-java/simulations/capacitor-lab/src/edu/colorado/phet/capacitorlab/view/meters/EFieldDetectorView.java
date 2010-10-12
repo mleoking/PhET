@@ -2,8 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Stroke;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -49,6 +53,9 @@ public class EFieldDetectorView {
     private static final int BODY_Y_MARGIN = 5;
     private static final int BODY_X_SPACING = 2;
     private static final int BODY_Y_SPACING = 4;
+    
+    private static final Color WIRE_COLOR = Color.BLACK;
+    private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
         
     private static final double VECTOR_DISPLAY_WIDTH = 200;
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
@@ -60,6 +67,7 @@ public class EFieldDetectorView {
     private final ModelViewTransform mvt;
     private final BodyNode bodyNode;
     private final ProbeNode probeNode;
+    private final CubicWireNode wireNode;
     
     public EFieldDetectorView( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
         
@@ -68,21 +76,47 @@ public class EFieldDetectorView {
         
         bodyNode = new BodyNode();
         bodyNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
                     probeNode.setVisible( bodyNode.getVisible() );
+                }
+                else if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                    updateWire();
                 }
             }
         });
         
         probeNode = new ProbeNode( dev );
-        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
+//        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
+        probeNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                    updateWire();
+                }
+            }
+        });
+        
+        wireNode = new CubicWireNode( WIRE_COLOR, -25, 100 ); //XXX constants
         
         // interactivity
         bodyNode.addInputEventListener( new CursorHandler() );
         probeNode.addInputEventListener( new CursorHandler() );
-        bodyNode.addInputEventListener( new BoundedDragHandler( bodyNode, dragBoundsNode ) );//XXX doesn't work correctly
-        probeNode.addInputEventListener( new BoundedDragHandler( probeNode, dragBoundsNode ) );//XXX doesn't work correctly
+        bodyNode.addInputEventListener( new BoundedDragHandler( bodyNode, dragBoundsNode ) );
+        probeNode.addInputEventListener( new BoundedDragHandler( probeNode, dragBoundsNode ) );
+        
+        updateWire();
+    }
+    
+    private void updateWire() {
+        // connect to left center of body
+        double x = bodyNode.getFullBoundsReference().getMinX();
+        double y = bodyNode.getFullBoundsReference().getCenterY();
+        Point2D bodyConnectionPoint = new Point2D.Double( x, y );
+        // connect to bottom center of probe
+        x = probeNode.getFullBoundsReference().getCenterX();
+        y = probeNode.getFullBoundsReference().getMaxY();
+        Point2D probeConnectionPoint = new Point2D.Double( x, y );
+        wireNode.setEndPoints( bodyConnectionPoint, probeConnectionPoint );
     }
     
     public PNode getBodyNode() {
@@ -91,6 +125,10 @@ public class EFieldDetectorView {
     
     public PNode getProbeNode() {
         return probeNode;
+    }
+    
+    public PNode getWireNode() {
+        return wireNode;
     }
     
     /*
@@ -198,7 +236,6 @@ public class EFieldDetectorView {
         }
     }
     
-    
     /*
      * Rectangular area where the vectors are displayed.
      * Vectors are clipped to this area.
@@ -240,6 +277,27 @@ public class EFieldDetectorView {
                 PlusNode plusNode = new PlusNode( 12, 2, Color.GRAY );
                 addChild( plusNode );
             }
+        }
+    }
+    
+    /*
+     * Wire that connects the probe to the body.
+     */
+    private static class CubicWireNode extends PPath {
+
+        private final double controlPointDx, controlPointDy;
+
+        public CubicWireNode( Color color, double controlPointDx, double controlPointDy ) {
+            this.controlPointDx = controlPointDx;
+            this.controlPointDy = controlPointDy;
+            setStroke( WIRE_STROKE );
+            setStrokePaint( color );
+        }
+
+        public void setEndPoints( Point2D startPoint, Point2D endPoint ) {
+            Point2D ctrl1 = new Point2D.Double( startPoint.getX() + controlPointDx, startPoint.getY() );
+            Point2D ctrl2 = new Point2D.Double( endPoint.getX(), endPoint.getY() + controlPointDy );
+            setPathTo( new CubicCurve2D.Double( startPoint.getX(), startPoint.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), endPoint.getX(), endPoint.getY() ) );
         }
     }
 }
