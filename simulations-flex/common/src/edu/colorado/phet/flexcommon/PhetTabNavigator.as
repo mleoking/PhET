@@ -1,10 +1,18 @@
-package edu.colorado.phet.densityandbuoyancy.common {
+package edu.colorado.phet.flexcommon {
+
 import mx.containers.TabNavigator;
 import mx.events.IndexChangedEvent;
 
+/**
+ * Displays tabs for a flex application
+ */
 public class PhetTabNavigator extends TabNavigator {
     private var modules: Array;
 
+    /**
+     * Construction
+     * @param modules components must be type Module
+     */
     public function PhetTabNavigator( modules: Array ) {
         super();
         this.modules = modules;

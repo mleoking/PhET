@@ -1,5 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.common.PhetTabNavigator;
+import edu.colorado.phet.flexcommon.PhetTabNavigator;
 
 public class BuoyancyTabNavigator extends PhetTabNavigator {
     public function BuoyancyTabNavigator() {
@@ -10,8 +10,8 @@ public class BuoyancyTabNavigator extends PhetTabNavigator {
 }
 }
 
-import edu.colorado.phet.densityandbuoyancy.common.Module;
 import edu.colorado.phet.densityandbuoyancy.view.BuoyancyContainer;
+import edu.colorado.phet.flexcommon.Module;
 
 class BuoyancyModule extends Module {
     private var canvas: BuoyancyContainer;

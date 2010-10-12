@@ -1,6 +1,9 @@
-package edu.colorado.phet.densityandbuoyancy.common {
+package edu.colorado.phet.flexcommon {
 import mx.core.UIComponent;
 
+/**
+ * Component to be used with PhetTabNavigator
+ */
 public class Module {
     private var _title: String;
     private var _component: UIComponent;
@@ -19,7 +22,6 @@ public class Module {
     }
 
     public function init(): void {
-
     }
 
     public function get running(): Boolean {

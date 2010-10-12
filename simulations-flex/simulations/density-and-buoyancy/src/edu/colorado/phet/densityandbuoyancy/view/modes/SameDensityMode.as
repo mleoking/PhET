@@ -7,13 +7,13 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 public class SameDensityMode extends Mode {
 
-    public function SameDensityMode( module: AbstractDBCanvas ) {
-        super( module );
+    public function SameDensityMode( canvas: AbstractDBCanvas ) {
+        super( canvas );
     }
 
     override public function init(): void {
         super.init();
-        const model: DensityModel = module.model;
+        const model: DensityModel = canvas.model;
         var density: Number = 800; //Showing the blocks as partially floating allows easier visualization of densities
 
         //The masses below were selected so that calculations with 2 decimal points come up exactly equal
