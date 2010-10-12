@@ -1,3 +1,4 @@
+10/12/10 decided not to factor out duplicate code in drag handles, doing so would obfuscate
 10/12/10 tweak drag handle nodes to use less space
 10/12/10 clean up drag handlers, doc and clearer variable names
 10/11/10 refine how IntroductionModule subclasses DieletricModule 
