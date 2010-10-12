@@ -23,7 +23,8 @@ import edu.umd.cs.piccolo.util.PDimension;
     private final Capacitor capacitor;
     private final ModelViewTransform mvt;
     private final DoubleRange valueRange;
-    private double clickXOffset; // x-offset of mouse click from node's origin, in parent node's coordinate frame
+    
+    private double clickXOffset; // x-offset of mouse click from dragNode's origin, in parent node's coordinate frame
     
     public PlateAreaDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
@@ -35,9 +36,9 @@ import edu.umd.cs.piccolo.util.PDimension;
     @Override
     protected void startDrag(PInputEvent event) {
         super.startDrag( event );
-        Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        double xView = mvt.modelToView( -( capacitor.getPlateSideLength() / 2 ) );
-        clickXOffset = pMouse.getX() - xView;
+        double xMouse = event.getPositionRelativeTo( dragNode.getParent() ).getX();
+        double xOrigin = mvt.modelToView( -( capacitor.getPlateSideLength() / 2 ) );
+        clickXOffset = xMouse - xOrigin;
     }
     
     @Override

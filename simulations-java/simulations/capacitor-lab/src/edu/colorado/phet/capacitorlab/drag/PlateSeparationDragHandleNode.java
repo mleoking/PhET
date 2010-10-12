@@ -24,7 +24,7 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, -CLConstants.DRAG_HANDLE_ARROW_LENGTH );
     
-    private static final double LINE_LENGTH = 60;
+    private static final double LINE_LENGTH = 40;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, -LINE_LENGTH );
     
