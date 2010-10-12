@@ -46,6 +46,7 @@ public class AbstractDBContainer extends Canvas {
         background.percentWidth = 100;
         background.percentHeight = 100;
         background.setStyle( "backgroundColor", 0x5dc0ff );
+        background.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
         addChild( background );
     }
 
@@ -78,15 +79,7 @@ public class AbstractDBContainer extends Canvas {
         }
     }
 
-    public function onApplicationComplete(): void {
-        init();
-
-        background.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
-
-        addFlashCommon();
-    }
-
-    private function addFlashCommon(): void {
+    protected function addFlashCommon(): void {
         var ui: UIComponent = new UIComponent(); // used for FlashCommon UI
         addChild( ui );
 
