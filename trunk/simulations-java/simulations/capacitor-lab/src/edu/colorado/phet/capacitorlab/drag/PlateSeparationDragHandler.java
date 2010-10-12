@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         double yMouse = event.getPositionRelativeTo( dragNode.getParent() ).getY();
-        double yOrigin = mvt.modelToView( -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness() );
+        double yOrigin = mvt.modelToView( 0, -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness(), 0 ).getY();
         clickYOffset = yMouse - yOrigin;
     }
 
@@ -45,7 +45,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double yView = pMouse.getY() - clickYOffset;
-        double yModel = 2 * mvt.viewToModel( -yView );
+        double yModel = 2 * mvt.viewToModelDelta( 0, -yView ).getY();
         if ( yModel > valueRange.getMax() ) {
             yModel = valueRange.getMax();
         }

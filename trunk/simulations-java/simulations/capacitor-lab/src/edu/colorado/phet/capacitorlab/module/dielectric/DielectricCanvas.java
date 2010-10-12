@@ -146,13 +146,13 @@ public class DielectricCanvas extends CLCanvas {
             capacitorNode.setOffset( pView );
             
             // top current indicator
-            double topWireThickness = mvt.modelToView( model.getTopWire().getThickness() );
+            double topWireThickness = mvt.modelToViewDelta( model.getTopWire().getThickness(), 0, 0 ).getX();
             x = topWireNode.getFullBoundsReference().getCenterX();
             y = topWireNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
             topCurrentIndicatorNode.setOffset( x, y );
             
             // bottom current indicator
-            double bottomWireThickness = mvt.modelToView( model.getBottomWire().getThickness() );
+            double bottomWireThickness = mvt.modelToViewDelta( model.getBottomWire().getThickness(), 0, 0 ).getX();
             x = bottomWireNode.getFullBoundsReference().getCenterX();
             y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             bottomCurrentIndicatorNode.setOffset( x, y );

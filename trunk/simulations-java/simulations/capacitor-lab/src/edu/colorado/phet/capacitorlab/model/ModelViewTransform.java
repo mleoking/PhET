@@ -66,18 +66,7 @@ public class ModelViewTransform {
     //----------------------------------------------------------------------------
     
     /**
-     * Maps a distance from model to view coordinates.
-     * Causes no allocation.
-     * 
-     * @param distance
-     */
-    public double modelToView( double distance ) {
-        return distance * modelToViewTransform2D.getScaleX();
-    }
-    
-    /**
-     * Maps a 3D model point to a 2D view point.
-     * Allocates 2 Point2D objects.
+     * Maps a point from 3D model coordinates to 2D view coordinates.
      * 
      * @param pModel
      * @param pView
@@ -90,8 +79,7 @@ public class ModelViewTransform {
     }
     
     /**
-     * Maps a 3D model point to a 2D view point.
-     * Allocates 3 Point2D objects.
+     * Maps a point from 3D model coordinates to 2D view coordinates.
      * 
      * @param x
      * @param y
@@ -102,41 +90,81 @@ public class ModelViewTransform {
         return modelToView( new Point3D.Double( x, y, z ) );
     }
     
+    /**
+     * Maps a delta from 3D model coordinates to 2D view coordinates.
+     * 
+     * @param delta
+     * @return
+     */
+    public Point2D modelToViewDelta( Point3D delta ) {
+        Point2D origin = modelToView( new Point3D.Double( 0, 0, 0 ) );
+        Point2D p = modelToView( delta );
+        return new Point2D.Double( p.getX() - origin.getX(), p.getY() - origin.getY() );
+    }
+    
+    /**
+     * Maps a delta from 3D model coordinates to 2D view coordinates.
+     * 
+     * @param xDelta
+     * @param yDelta
+     * @param zDelta
+     * @return
+     */
+    public Point2D modelToViewDelta( double xDelta, double yDelta, double zDelta ) {
+        return modelToViewDelta( new Point3D.Double( xDelta, yDelta, zDelta ) );
+    }
+    
     //----------------------------------------------------------------------------
     // View-to-model transforms
     //----------------------------------------------------------------------------
     
     /**
-     * Maps a distance from view to model coordinates.
-     * Causes no allocation.
-     * 
-     * @param distance
-     */
-    public double viewToModel( double distance ) {
-        return distance * viewToModelTransform2D.getScaleX();
-    }
-    
-    /**
-     * Maps a point from view to model coordinates.
-     * If pModel is not null, the result is returned in pModel.
-     * Otherwise a Point2D is allocated and returned.
-     * 
-     * @param pView point in view coordinates
-     * @param pModel point in model coordinates, possibly null
-     * @return point in model coordinates
-     */
-    public Point2D viewToModel( Point2D pView, Point2D pModel ) {
-        return viewToModelTransform2D.transform( pView, pModel );
-    }
-    
-    /**
-     * Maps a point from view to model coordinates.
-     * Allocates 1 Point2D.
+     * Maps a point from 2D view coordinates to 3D model coordinates.
+     * The z coordinate will be zero.
      * 
      * @param pView
      * @return
      */
-    public Point2D viewToModel( Point2D pView ) {
-        return viewToModel( pView, null );
+    public Point3D viewToModel( Point2D pView ) {
+        Point2D p = viewToModelTransform2D.transform( pView, null );
+        return new Point3D.Double( p.getX(), p.getY(), 0 );
+    }
+    
+    /**
+     * Maps a point from 2D view coordinates to 3D model coordinates.
+     * The z coordinate will be zero.
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
+    public Point3D viewToModel( double x, double y ) {
+        return viewToModel( new Point2D.Double( x, y ) );
+    }
+    
+    /**
+     * Maps a delta from 2D view coordinates to 3D model coordinates.
+     * The z coordinate will be zero.
+     * 
+     * @param delta
+     * @return
+     */
+    public Point3D viewToModelDelta( Point2D delta ) {
+        Point3D origin = viewToModel( new Point2D.Double( 0, 0 ) );
+        Point3D p = viewToModel( delta );
+        return new Point3D.Double( p.getX() - origin.getX(), p.getY() - origin.getY(), p.getZ() - origin.getZ() );
+    }
+    
+    /**
+     * Maps a delta from 2D view coordinates to 3D model coordinates.
+     * The z coordinate will be zero.
+     * 
+     * @param xDelta
+     * @param yDelta
+     * @param zDelta
+     * @return
+     */
+    public Point3D viewToModelDelta( double xDelta, double yDelta ) {
+        return viewToModelDelta( new Point2D.Double( xDelta, yDelta ) );
     }
 }

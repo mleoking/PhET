@@ -121,10 +121,10 @@ public abstract class WireNode extends PComposite {
             // model-to-view transforms
             Point2D pBattery = mvt.modelToView( battery.getLocationReference() );
             Point2D pCapacitor = mvt.modelToView( capacitor.getLocationReference() );
-            double wireHeight = -Math.abs( mvt.modelToView( wire.getExtent() ) );
-            double wireThickness = mvt.modelToView( wire.getThickness() );
-            double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
-            double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
+            double wireHeight = -Math.abs( mvt.modelToViewDelta( 0, wire.getExtent(), 0 ).getY() );
+            double wireThickness = mvt.modelToViewDelta( wire.getThickness(), 0, 0 ).getX();
+            double plateSeparation = mvt.modelToViewDelta( 0, capacitor.getPlateSeparation(), 0 ).getY();
+            double plateThickness = mvt.modelToViewDelta( 0, capacitor.getPlateThickness(), 0 ).getY();
             
             // HACK: alignment with plus and minus terminals of battery, values chosen by visual inspection
             double yOffsetToBatteryTerminal = ( battery.getVoltage() >= 0 ) ? 102 : 92;
@@ -165,10 +165,10 @@ public abstract class WireNode extends PComposite {
             // model-to-view transforms
             Point2D pBattery = mvt.modelToView( battery.getLocationReference() );
             Point2D pCapacitor = mvt.modelToView( capacitor.getLocationReference() );
-            double wireHeight = Math.abs( mvt.modelToView( wire.getExtent() ) );
-            double wireThickness = mvt.modelToView( wire.getThickness() );
-            double plateSeparation = mvt.modelToView( capacitor.getPlateSeparation() );
-            double plateThickness = mvt.modelToView( capacitor.getPlateThickness() );
+            double wireHeight = Math.abs( mvt.modelToViewDelta( 0, wire.getExtent(), 0 ).getY() );
+            double wireThickness = mvt.modelToViewDelta( wire.getThickness(), 0, 0 ).getX();
+            double plateSeparation = mvt.modelToViewDelta( 0, capacitor.getPlateSeparation(), 0 ).getY();
+            double plateThickness = mvt.modelToViewDelta( 0, capacitor.getPlateThickness(), 0 ).getY();
             
             // geometry
             wirePath.reset();
