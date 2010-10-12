@@ -16,19 +16,28 @@ import javax.swing.WindowConstants;
  * It uses GridBagLayout and GridBagConstraints internally, but hides their interfaces.
  * <p>
  * If you hate GridBagLayout, this is an alternative.
- * And it's less awkward and more object-oriented than EasyGridBagLayout, which was another alternative.
+ * And it's less awkward and more object-oriented than EasyGridBagLayout, which was another phetcommon alternative.
+ * <p>
+ * How this interface differs from GridBagConstraints:
+ * <ul>
+ * <li>GridBagConstraints uses ints to specify anchors and fill, GridPanel uses enums
+ * <li>GridBagConstraints has public members like gridwidth, GridPanel uses setters/getters with "camel case" names like setGridWidth
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GridPanel extends JPanel {
     
     /** @see setAnchor */
-    public static enum Anchor { CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+    public static enum Anchor { 
+        /* absolute anchors */ CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST,
+        /* relative anchors */ PAGE_START, PAGE_END, LINE_START, LINE_END, FIRST_LINE_START, FIRST_LINE_END, LAST_LINE_START, LAST_LINE_END,
+        /* TODO: add Java 1.6 baseline anchors here. See GridBagConstraints.*BASELINE* */ };
     
     /** @see setFill */
     public static enum Fill { HORIZONTAL, VERTICAL, BOTH, NONE };
     
-    // Define these constants to fully hide GridBagConstraints.
+    // Define these gridX and gridY constants to fully hide GridBagConstraints.
     public static final int RELATIVE = GridBagConstraints.RELATIVE;
     public static final int REMAINDER = GridBagConstraints.REMAINDER;
     
@@ -75,13 +84,13 @@ public class GridPanel extends JPanel {
         setInternalPaddingY( internalPaddingY );
     }
     
-    @Override
     /**
      * A GridPanel must have a GridLayout layout manager, or what's the point?
      */
+    @Override
     public void setLayout( LayoutManager manager ) {
-        if ( ! ( manager instanceof GridBagLayout ) ) {
-        throw new UnsupportedOperationException( "layout manager must be a GridBagLayout" );
+        if ( !( manager instanceof GridBagLayout ) ) {
+            throw new UnsupportedOperationException( "layout manager must be a GridBagLayout" );
         }
         else {
             super.setLayout( manager );
@@ -89,10 +98,19 @@ public class GridPanel extends JPanel {
     }
     
     /**
+     * Add a component using the default layout properties.
+     */
+    @Override
+    public Component add( Component component ) {
+        add( component, getGridX(), getGridY(), getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
+        return component;
+    }
+    
+    /**
      * Puts a component in a specific grid cell, and specifies a complete set of layout properties.
      * See setters for description of properties.
      */
-    public void addComponent( Component component, int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY, 
+    public void add( Component component, int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY, 
             Anchor anchor, Fill fill, Insets insets, int internalPaddingX, int internalPaddingY ) {
         
         // save constraints
@@ -118,32 +136,24 @@ public class GridPanel extends JPanel {
         setConstraints( savedConstraints, constraints );
     }
     
-    /**
-     * Add a component using the default layout properties.
-     */
-    public Component add( Component component ) {
-        addComponent( component, getGridX(), getGridY(), getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
-        return component;
-    }
-    
     // convenience method
     public void add( Component component, int row, int column ) {
-        addComponent( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
+        add( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
     
     // convenience method
-    public void addComponent( Component component, int row, int column, int widthInColumns, int heightInRows ) {
-        addComponent( component, column, row, widthInColumns, heightInRows, getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
+    public void add( Component component, int row, int column, int widthInColumns, int heightInRows ) {
+        add( component, column, row, widthInColumns, heightInRows, getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
     
     // convenience method
     public void add( Component component, int row, int column, Anchor anchor ) {
-        addComponent( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), anchor, getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
+        add( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), anchor, getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
     
     // convenience method
     public void add( Component component, int row, int column, Fill fill ) {
-        addComponent( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), fill, getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
+        add( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), fill, getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
     
     /*
@@ -385,24 +395,37 @@ public class GridPanel extends JPanel {
         
         public ConstraintMap() {
             
-            anchorMap = new HashMap<Anchor, Integer>();
-            anchorMap.put( Anchor.CENTER, new Integer( GridBagConstraints.CENTER ) );
-            anchorMap.put( Anchor.NORTH, new Integer( GridBagConstraints.NORTH ) );
-            anchorMap.put( Anchor.NORTHEAST, new Integer( GridBagConstraints.NORTHEAST ) );
-            anchorMap.put( Anchor.EAST, new Integer( GridBagConstraints.EAST ) );
-            anchorMap.put( Anchor.SOUTHEAST, new Integer( GridBagConstraints.SOUTHEAST ) );
-            anchorMap.put( Anchor.SOUTH, new Integer( GridBagConstraints.SOUTH ) );
-            anchorMap.put( Anchor.SOUTHWEST, new Integer( GridBagConstraints.SOUTHWEST ) );
-            anchorMap.put( Anchor.WEST, new Integer( GridBagConstraints.WEST ) );
-            anchorMap.put( Anchor.NORTHWEST, new Integer( GridBagConstraints.NORTHWEST ) );
+            anchorMap = new HashMap<Anchor, Integer>() {{
+                /* absolute anchors */
+                put( Anchor.CENTER, new Integer( GridBagConstraints.CENTER ) );
+                put( Anchor.NORTH, new Integer( GridBagConstraints.NORTH ) );
+                put( Anchor.NORTHEAST, new Integer( GridBagConstraints.NORTHEAST ) );
+                put( Anchor.EAST, new Integer( GridBagConstraints.EAST ) );
+                put( Anchor.SOUTHEAST, new Integer( GridBagConstraints.SOUTHEAST ) );
+                put( Anchor.SOUTH, new Integer( GridBagConstraints.SOUTH ) );
+                put( Anchor.SOUTHWEST, new Integer( GridBagConstraints.SOUTHWEST ) );
+                put( Anchor.WEST, new Integer( GridBagConstraints.WEST ) );
+                put( Anchor.NORTHWEST, new Integer( GridBagConstraints.NORTHWEST ) );
+                /* relative anchors */
+                put( Anchor.PAGE_START, new Integer( GridBagConstraints.PAGE_START ) );
+                put( Anchor.PAGE_END, new Integer( GridBagConstraints.PAGE_END ) );
+                put( Anchor.LINE_START, new Integer( GridBagConstraints.LINE_START ) );
+                put( Anchor.LINE_END, new Integer( GridBagConstraints.LINE_END ) );
+                put( Anchor.FIRST_LINE_START, new Integer( GridBagConstraints.FIRST_LINE_START ) );
+                put( Anchor.FIRST_LINE_END, new Integer( GridBagConstraints.FIRST_LINE_END ) );
+                put( Anchor.LAST_LINE_START, new Integer( GridBagConstraints.LAST_LINE_START ) );
+                put( Anchor.LAST_LINE_END, new Integer( GridBagConstraints.LAST_LINE_END ) );
+                /* TODO: add Java 1.6 baseline anchors here. See GridBagConstraints.*BASELINE* */
+            }};
             assert( anchorMap.size() == Anchor.values().length ); // is this map complete?
             
-            fillMap = new HashMap<Fill, Integer>();
-            fillMap.put( Fill.HORIZONTAL, new Integer( GridBagConstraints.HORIZONTAL ) );
-            fillMap.put( Fill.VERTICAL, new Integer( GridBagConstraints.VERTICAL ) );
-            fillMap.put( Fill.BOTH, new Integer( GridBagConstraints.BOTH ) );
-            fillMap.put( Fill.NONE, new Integer( GridBagConstraints.NONE ) );
-            assert( fillMap.size() == Fill.values().length );  // is this map complete?
+            fillMap = new HashMap<Fill, Integer>() {{
+                put( Fill.HORIZONTAL, new Integer( GridBagConstraints.HORIZONTAL ) );
+                put( Fill.VERTICAL, new Integer( GridBagConstraints.VERTICAL ) );
+                put( Fill.BOTH, new Integer( GridBagConstraints.BOTH ) );
+                put( Fill.NONE, new Integer( GridBagConstraints.NONE ) );
+            }};
+            assert( fillMap.size() == Fill.values().length ); // is this map complete?
         }
         
         /**
@@ -461,15 +484,16 @@ public class GridPanel extends JPanel {
     // incomplete test harness
     public static void main( String[] args ) {
         
-        GridPanel panel = new GridPanel();
-        panel.setGridX( 0 ); // one column
-        panel.add( new JLabel( "------------------------" ) );
-        panel.setAnchor( Anchor.WEST );
-        panel.add( new JLabel( "WEST" ) );
-        panel.setAnchor( Anchor.CENTER );
-        panel.add( new JLabel( "CENTER" ) );
-        panel.setAnchor( Anchor.EAST );
-        panel.add( new JLabel( "EAST" ) );
+        GridPanel panel = new GridPanel() {{
+            setGridX( 0 ); // one column
+            add( new JLabel( "------------------------" ) );
+            setAnchor( Anchor.WEST );
+            add( new JLabel( "WEST" ) );
+            setAnchor( Anchor.CENTER );
+            add( new JLabel( "CENTER" ) );
+            setAnchor( Anchor.EAST );
+            add( new JLabel( "EAST" ) );
+        }};
         
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
