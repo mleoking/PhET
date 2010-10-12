@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ChargeIndicatorNode extends PNode {
     private static final int BOX_DIMENSION = 80;
-    private static final Font ATOM_ION_FONT = new PhetFont(24, true);
+    private static final Font ATOM_ION_FONT = new PhetFont(20, true);
 
     private static final Color purple = new Color( 112, 48, 160 );
     private static final double WIDTH = 90;
@@ -107,10 +107,11 @@ public class ChargeIndicatorNode extends PNode {
         // TODO: i18n
         final PText ionText = new PText( "Ion" ) {{setFont( ATOM_ION_FONT );}};
 
-        double xSpacing = 50;
-        atomText.setOffset( chargeMeterImageNode.getFullBoundsReference().getMaxX() + xSpacing,
-                chargeMeterImageNode.getFullBoundsReference().getCenterY() - ionText.getFullBoundsReference().height );
-        ionText.setOffset( atomText.getOffset().getX(), atomText.getFullBoundsReference().getMaxY() );
+        double xSpacing = 30;
+        ionText.setOffset( chargeMeterImageNode.getFullBoundsReference().getMaxX() + xSpacing,
+                chargeMeterImageNode.getFullBoundsReference().getMaxY() - ionText.getFullBoundsReference().height );
+        atomText.setOffset( ionText.getFullBoundsReference().getMinX(),
+                ionText.getFullBoundsReference().getMinY() - atomText.getFullBoundsReference().height );
 
         addChild( atomText );
         addChild( ionText );
