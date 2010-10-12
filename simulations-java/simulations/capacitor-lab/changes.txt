@@ -1,3 +1,4 @@
+10/12/10 add vector values to field detector, wire up to controls
 10/12/10 add wire that connects field detector probe to meter
 10/12/10 put components of field detector directly on the canvas, so that their locations can be adjusted independently as the canvas size changes
 10/12/10 provide PNode interface to meters control panel, specific type of meter doesn't need to be known
