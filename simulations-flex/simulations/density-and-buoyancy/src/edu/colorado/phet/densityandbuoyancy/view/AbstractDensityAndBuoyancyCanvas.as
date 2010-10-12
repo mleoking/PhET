@@ -12,7 +12,6 @@ import flash.geom.ColorTransform;
 import mx.containers.Canvas;
 import mx.controls.Button;
 import mx.controls.TextInput;
-import mx.core.Application;
 import mx.core.UIComponent;
 
 /**
