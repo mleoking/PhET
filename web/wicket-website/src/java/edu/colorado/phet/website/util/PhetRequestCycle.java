@@ -33,7 +33,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     private boolean ksu;
     private boolean youngAndFreeman;
 
-    public static final String KSU_RIPPER_USER_AGENT = "httrack-web-mirror-ar";
+    public static final String KSU_RIPPER_USER_AGENT = "httrack-web-mirror-ar_SA";
     public static final String YOUNG_AND_FREEDMAN_USER_AGENT = "httrack-web-mirror-yf";
     public static final String RIPPER_USER_AGENT_SUBSTRING = "httrack-web";
     public static final String OFFLINE_USER_AGENT = "httrack-web-offline"; // example of full would be httrack-web-offline-en
