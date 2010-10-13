@@ -371,7 +371,7 @@ package{
 			}else if(this.colliding){
 				//frame-based animation for collision, for stability of algorithm
 				dt = 1.0*this.timeStep;
-				trace("Model collision occured at time = "+this.time);
+				//trace("Model collision occured at time = "+this.time);
 				this.colliding = false;
 			}else{
 				dt = this.timeStep;
@@ -389,7 +389,7 @@ package{
 				this.lastTime = this.time; //should this be here or at end of method?
 			}
 			this.time += dt;
-			//trace("dt_after: "+dt);
+			trace("Model.singleStep()  dt = "+dt+"   this.time = "+this.time);
 			for(var i:int = 0; i < this.nbrBalls; i++){
 				var x:Number = this.ball_arr[i].position.getX();
 				var y:Number = this.ball_arr[i].position.getY();
@@ -567,7 +567,7 @@ package{
 			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
 			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
 				
-				//trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
+				trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
 				//Balls have already overlapped, so currently have incorrect positions
 				var tC:Number = this.getContactTime(i,j);
 				var delTBefore = tC - this.lastTime;
