@@ -27,7 +27,7 @@ public class Capacitor {
     private final EventListenerList listeners;
     
     // immutable properties
-    private final Point3D location; // location of the capacitor's geometric center in the 2D plane of the camera (meters)
+    private final Point3D location; // location of the capacitor's geometric center (meters)
     private final double plateThickness; // thickness of the plates (meters)
     private final double dielectricGap; // gap between the dielectric and the plates (meters)
     
@@ -35,7 +35,7 @@ public class Capacitor {
     private double plateSideLength; // length of one side of a plate (meters)
     private double plateSeparation; // distance between the plates (meters)
     private DielectricMaterial dielectricMaterial; // insulator between the plates
-    private double dielectricOffset; // offset of dielectric's center from the axis that goes through the center of the 2 plates (meters)
+    private double dielectricOffset; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
 
     public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         
