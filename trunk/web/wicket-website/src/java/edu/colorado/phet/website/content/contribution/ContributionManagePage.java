@@ -23,6 +23,8 @@ public class ContributionManagePage extends PhetRegularPage {
         setTitle( getLocalizer().getString( "contribution.manage.pageTitle", this ) );
 
         add( new ContributionManagePanel( "contribution-manage-panel", getPageContext() ) );
+
+        hideSocialBookmarkButtons();
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

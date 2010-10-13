@@ -13,6 +13,8 @@ public class SessionExpiredPage extends PhetMenuPage {
         setTitle( getLocalizer().getString( "error.sessionExpired", this ) );
 
         add( new LocalizedText( "message", "error.sessionExpired.message" ) );
+
+        hideSocialBookmarkButtons();
     }
 
     @Override

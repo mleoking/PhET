@@ -39,6 +39,8 @@ public class ResetPasswordCallbackPage extends PhetMenuPage {
         }
 
         add( new ChangePasswordPanel( "reset-password-callback-panel", getPageContext(), user, false ) );
+
+        hideSocialBookmarkButtons();
     }
 
     private PhetUser lookupUserForResetPasswordKey( final String key ) {

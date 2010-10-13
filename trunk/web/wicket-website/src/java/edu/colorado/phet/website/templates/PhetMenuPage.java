@@ -33,6 +33,7 @@ public abstract class PhetMenuPage extends PhetPage {
 
     private int contentWidth = 765;
     private boolean initializedLocations = false;
+    private boolean showSocialBookmarkButtons = true;
     private Collection<NavLocation> navLocations;
 
     private static final Logger logger = Logger.getLogger( PhetMenuPage.class.getName() );
@@ -74,6 +75,10 @@ public abstract class PhetMenuPage extends PhetPage {
         }
     }
 
+    public void hideSocialBookmarkButtons() {
+        showSocialBookmarkButtons = false;
+    }
+
     public void initializeLocation( NavLocation currentLocation ) {
         HashSet<NavLocation> currentLocations = new HashSet<NavLocation>();
         currentLocations.add( currentLocation );
@@ -101,7 +106,8 @@ public abstract class PhetMenuPage extends PhetPage {
     public String getStyle( String key ) {
         // be able to override the width so we can increase it for specific pages
         if ( key.equals( "style.menu-page-content" ) ) {
-            return "width: " + ( getContentWidth() + 55 ) + "px;"; // adding 55 for size of right column
+            int extraSocialButtonPadding = showSocialBookmarkButtons ? 55 : 0;
+            return "width: " + ( getContentWidth() + extraSocialButtonPadding ) + "px;"; // adding 55 for size of right column
         }
 
         return super.getStyle( key );
@@ -148,15 +154,20 @@ public abstract class PhetMenuPage extends PhetPage {
         if ( !hasTitle() && getSocialBookmarkTitle() == null ) { // also check social bookmark override, in case we do funky magic later
             throw new RuntimeException( "title was not set before onBeforeRender for " + this.getClass().getCanonicalName() );
         }
-        add( new ListView<SocialBookmarkService>( "social-list", SocialBookmarkService.SERVICES ) {
-            @Override
-            protected void populateItem( ListItem<SocialBookmarkService> item ) {
-                SocialBookmarkService mark = item.getModelObject();
-                Link link = mark.getLinker( getFullPath(), getSocialBookmarkTitle() ).getLink( "link", getPageContext(), getPhetCycle() );
-                item.add( link );
-                link.add( new StaticImage( "icon", mark.getIconPath(), null ) ); // for now, don't replace the alt attribute
-            }
-        } );
+        if ( showSocialBookmarkButtons ) {
+            add( new ListView<SocialBookmarkService>( "social-list", SocialBookmarkService.SERVICES ) {
+                @Override
+                protected void populateItem( ListItem<SocialBookmarkService> item ) {
+                    SocialBookmarkService mark = item.getModelObject();
+                    Link link = mark.getLinker( getFullPath(), getSocialBookmarkTitle() ).getLink( "link", getPageContext(), getPhetCycle() );
+                    item.add( link );
+                    link.add( new StaticImage( "icon", mark.getIconPath(), null ) ); // for now, don't replace the alt attribute
+                }
+            } );
+        }
+        else {
+            add( new InvisibleComponent( "social-list" ) );
+        }
 
     }
 }

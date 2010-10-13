@@ -25,6 +25,8 @@ public class NotFoundPage extends PhetMenuPage {
 
         logger.info( "Not found: " + getWebRequestCycle().getWebRequest().getHttpServletRequest().getRequestURI() );
 
+        hideSocialBookmarkButtons();
+
     }
 
     @Override

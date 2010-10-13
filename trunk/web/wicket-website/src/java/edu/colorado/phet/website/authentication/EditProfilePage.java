@@ -32,6 +32,8 @@ public class EditProfilePage extends PhetMenuPage {
 
         add( new EditProfilePanel( "edit-profile-panel", getPageContext(), destination ) );
 
+        hideSocialBookmarkButtons();
+
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

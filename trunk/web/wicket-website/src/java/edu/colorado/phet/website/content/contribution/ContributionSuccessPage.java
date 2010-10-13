@@ -43,6 +43,8 @@ public class ContributionSuccessPage extends PhetMenuPage {
 
         setTitle( getLocalizer().getString( "contribution.edit.success", this ) );
 
+        hideSocialBookmarkButtons();
+
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

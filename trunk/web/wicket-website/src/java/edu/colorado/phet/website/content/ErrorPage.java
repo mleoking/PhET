@@ -16,6 +16,8 @@ public class ErrorPage extends PhetMenuPage {
         add( new LocalizedText( "errorMessage", "error.internalError.message", new Object[]{
                 Linkers.getHelpLink( "PhET Website Error", getPageContext(), getPhetCycle() )
         } ) );
+
+        hideSocialBookmarkButtons();
     }
 
     @Override
