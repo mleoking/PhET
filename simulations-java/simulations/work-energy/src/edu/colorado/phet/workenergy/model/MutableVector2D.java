@@ -1,12 +1,12 @@
 package edu.colorado.phet.workenergy.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.Observable;
+import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * @author Sam Reid
  */
-public class MutableVector2D extends Observable<ImmutableVector2D> {
+public class MutableVector2D extends Property<ImmutableVector2D> {
     public MutableVector2D(double x, double y) {
         this(new ImmutableVector2D(x, y));
     }

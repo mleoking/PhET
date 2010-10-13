@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  * @author Chris Malley
  */
-public class Observable<T> extends SimpleObservable {
+public class Property<T> extends SimpleObservable {
     private T value;
     private final T defaultValue;
 
-    public Observable( T value ) {
+    public Property( T value ) {
         this.defaultValue = value;
         this.value = value;
     }

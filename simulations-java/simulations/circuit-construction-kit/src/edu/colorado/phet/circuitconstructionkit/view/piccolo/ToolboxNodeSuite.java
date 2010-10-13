@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -20,13 +20,13 @@ public class ToolboxNodeSuite extends PhetPNode {
     private ToolboxNode schematicToolbox;
     private BranchNodeFactory branchNodeFactory;
 
-    public ToolboxNodeSuite(CCKModel model, CCKModule module, CCKSimulationPanel cckSimulationPanel, final BranchNodeFactory branchNodeFactory, final MutableBoolean lifelikeProperty) {
+    public ToolboxNodeSuite(CCKModel model, CCKModule module, CCKSimulationPanel cckSimulationPanel, final BranchNodeFactory branchNodeFactory, final BooleanProperty lifelikeProperty) {
         this.branchNodeFactory = branchNodeFactory;
-        lifelikeToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(true)), cckSimulationPanel, lifelikeProperty);
+        lifelikeToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new BooleanProperty(true)), cckSimulationPanel, lifelikeProperty);
         lifelikeToolbox.scale(1.0 / 80.0);
         addChild(lifelikeToolbox);
 
-        schematicToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new MutableBoolean(false)), cckSimulationPanel, lifelikeProperty);
+        schematicToolbox = new ToolboxNode(cckSimulationPanel, model, module, new BranchNodeFactory(model, cckSimulationPanel, module, new BooleanProperty(false)), cckSimulationPanel, lifelikeProperty);
         schematicToolbox.scale(1.0 / 80.0);
         addChild(schematicToolbox);
 

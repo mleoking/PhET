@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.motion.charts.*;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.model.MovingMan;
@@ -23,7 +23,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
     
     private final MinimizableControlChart positionMovingManChart, velocityMovingManChart, accelerationMovingManChart;
     
-    public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
+    public MovingManSimulationPanelWithCharts(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, BooleanProperty positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
 
         Rectangle2D.Double minZoomBounds = new Rectangle2D.Double(0, -5, 2, 10);

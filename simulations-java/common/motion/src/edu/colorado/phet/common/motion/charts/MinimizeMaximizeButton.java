@@ -3,7 +3,7 @@ package edu.colorado.phet.common.motion.charts;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MinimizeMaximizeButton extends PNode {
     private MinimizeMaximizeNode node;
-    private MutableBoolean maximized;
+    private BooleanProperty maximized;
     private final boolean defaultMaximizedValue;
 
     public MinimizeMaximizeButton(String title) {
@@ -30,7 +30,7 @@ public class MinimizeMaximizeButton extends PNode {
             }
         };
         
-        this.maximized = new MutableBoolean(maximizedValue);
+        this.maximized = new BooleanProperty(maximizedValue);
         this.maximized.addObserver( maximizedObserver );
 
         this.defaultMaximizedValue = maximizedValue;
@@ -41,7 +41,7 @@ public class MinimizeMaximizeButton extends PNode {
         });
     }
 
-    public MutableBoolean getMaximized() {
+    public BooleanProperty getMaximized() {
         return maximized;
     }
     

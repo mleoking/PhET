@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.charts;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel;
@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class GoButton extends PNode {
-    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, final MutableBoolean visible) {
+    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, final BooleanProperty visible) {
         final PlayPauseButton button = new PlayPauseButton(30);
         SimpleObserver updateButtonState = new SimpleObserver() {
             public void update() {

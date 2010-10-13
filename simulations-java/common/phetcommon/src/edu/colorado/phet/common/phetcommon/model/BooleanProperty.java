@@ -5,8 +5,8 @@ package edu.colorado.phet.common.phetcommon.model;
  *
  * @author Sam Reid
  */
-public class MutableBoolean extends Observable<Boolean> {
-    public MutableBoolean( Boolean value ) {
+public class BooleanProperty extends Property<Boolean> {
+    public BooleanProperty( Boolean value ) {
         super( value );
     }
 }

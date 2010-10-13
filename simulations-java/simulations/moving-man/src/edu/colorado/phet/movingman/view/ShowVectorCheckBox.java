@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * @author Sam Reid
  */
 public class ShowVectorCheckBox extends JCheckBox {
-    public ShowVectorCheckBox(String title, final MutableBoolean visibleProperty) {
+    public ShowVectorCheckBox(String title, final BooleanProperty visibleProperty) {
         super(title, visibleProperty.getValue());
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

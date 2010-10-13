@@ -18,7 +18,7 @@ import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -55,7 +55,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final GradientButtonNode resetButtonNode;
     private final ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
 
-    final MutableBoolean viewOrbitals = new MutableBoolean( true );
+    final BooleanProperty viewOrbitals = new BooleanProperty( true );
 
     //----------------------------------------------------------------------------
     // Constructors

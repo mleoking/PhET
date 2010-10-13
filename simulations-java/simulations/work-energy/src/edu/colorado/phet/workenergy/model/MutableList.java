@@ -2,12 +2,12 @@ package edu.colorado.phet.workenergy.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.Observable;
+import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * @author Sam Reid
  */
-public class MutableList<T> extends Observable<ArrayList<T>> {
+public class MutableList<T> extends Property<ArrayList<T>> {
     public MutableList() {
         super( new ArrayList<T>() );
     }

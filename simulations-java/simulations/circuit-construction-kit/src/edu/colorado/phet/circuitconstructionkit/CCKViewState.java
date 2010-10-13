@@ -1,6 +1,6 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,8 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
  * To change this template use File | Settings | File Templates.
  */
 public class CCKViewState {
-    private MutableBoolean readoutsVisible = new MutableBoolean(false);
-    private MutableBoolean lifelikeProperty = new MutableBoolean(true);
+    private BooleanProperty readoutsVisible = new BooleanProperty(false);
+    private BooleanProperty lifelikeProperty = new BooleanProperty(true);
 
     public void resetAll() {
         readoutsVisible.reset();
@@ -21,11 +21,11 @@ public class CCKViewState {
         readoutsVisible.setValue(r);
     }
 
-    public MutableBoolean getReadoutsVisibleProperty() {
+    public BooleanProperty getReadoutsVisibleProperty() {
         return readoutsVisible;
     }
 
-    public MutableBoolean getLifelikeProperty() {
+    public BooleanProperty getLifelikeProperty() {
         return lifelikeProperty;
     }
 

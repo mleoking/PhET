@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -17,11 +17,11 @@ import java.awt.image.BufferedImage;
  * @author Sam Reid
  */
 public class WallNode extends PlayAreaObjectNode {
-    private MutableBoolean walls;
+    private BooleanProperty walls;
     private final PImage minimizeButton;
     private final PImage maximizeButton;
 
-    public WallNode(BufferedImage image, LinearTransform transform, double x, final MutableBoolean walls, double offsetX, MutableBoolean positiveToTheRight) {
+    public WallNode(BufferedImage image, LinearTransform transform, double x, final BooleanProperty walls, double offsetX, BooleanProperty positiveToTheRight) {
         super(image, transform, x, offsetX, positiveToTheRight);//so that the edge of the man touches the edge of the wall when they collide instead of overlapping
         this.walls = walls;
 

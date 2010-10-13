@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class OrbitalViewControl extends PNode {
-    public OrbitalViewControl( final MutableBoolean viewOrbitals) {
+    public OrbitalViewControl( final BooleanProperty viewOrbitals) {
         final PText textTitle = new PText( "Model:" ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};//TODO: I18n
         addChild( textTitle );
         JPanel panel = new VerticalLayoutPanel() {{

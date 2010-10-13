@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.LinearTransform;
 import edu.umd.cs.piccolo.PNode;
@@ -18,7 +18,7 @@ public class PlayAreaObjectNode extends PNode {
     protected final double offsetX;
     protected PImage wallNode;
 
-    public PlayAreaObjectNode(BufferedImage image, final LinearTransform transform, final double x, final double offsetX, final MutableBoolean positiveToTheRight) {
+    public PlayAreaObjectNode(BufferedImage image, final LinearTransform transform, final double x, final double offsetX, final BooleanProperty positiveToTheRight) {
         this.offsetX = offsetX;
         wallNode = new PImage(image);
         this.x = x;
