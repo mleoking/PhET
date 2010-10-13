@@ -9,6 +9,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
+import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.view.CenteredStage;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -58,18 +60,31 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public PhotonAbsorptionCanvas(PhotonAbsorptionModel photonAbsorptionModel  ) {
+    /**
+     * Constructor.
+     *
+     * @param photonAbsorptionModel - Model that is being portrayed on this canvas.
+     * @param onTabbedSim - boolean that indicates whether the canvas should
+     * be sized assuming that it is in a sim with tabs, which reduces the
+     * initial size of the play area.
+     */
+    public PhotonAbsorptionCanvas(PhotonAbsorptionModel photonAbsorptionModel, boolean onTabbedSim  ) {
 
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy(
-    	        new PhetPCanvas.CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
+    	setWorldTransformStrategy( new CenteredStage(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
 
-    	// Set up the model-canvas transform.
+    	// Use a different zoom factor if this is on a non-tabbed sim, since
+    	// otherwise things will probably go off the left and right edges of
+    	// the play area.
+    	double mvtScaleFactor = onTabbedSim ? 0.23 : 0.18;
+    	// Set up the model-canvas transform.  The multiplier values below can
+    	// be used to shift the center of the play area right or left, and the
+    	// scale factor can be used to essentially zoom in or out.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0),
         		new Point((int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65),
         				(int)Math.round(GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 )),
-        				0.23,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
+        				mvtScaleFactor,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         				true);
 
         setBackground( Color.BLACK );
