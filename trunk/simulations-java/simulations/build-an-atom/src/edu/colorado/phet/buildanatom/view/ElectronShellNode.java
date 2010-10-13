@@ -12,7 +12,7 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -47,7 +47,7 @@ public class ElectronShellNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronShellNode( final ModelViewTransform2D mvt, final MutableBoolean viewOrbitals, final Atom atom, final ElectronShell electronShell ) {
+    public ElectronShellNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom, final ElectronShell electronShell ) {
 
         final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
                 -electronShell.getRadius(),

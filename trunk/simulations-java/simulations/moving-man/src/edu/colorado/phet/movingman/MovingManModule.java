@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -39,10 +39,10 @@ public abstract class MovingManModule extends Module {
             return recordAndPlaybackModel.isPaused();
         }
     });
-    private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive meters is to the right in the play area view
+    private BooleanProperty positiveToTheRight = new BooleanProperty(true);//True if positive meters is to the right in the play area view
     final ExpressionDialog expressionDialog;//one expression dialog per module
     final MovingManSimulationPanel simulationPanel;
-    private final MutableBoolean soundEnabled = new MutableBoolean(true);
+    private final BooleanProperty soundEnabled = new BooleanProperty(true);
 
     public MovingManModule(PhetFrame frame, String name) {
         super(name, new ConstantDtClock(MovingManModel.CLOCK_DELAY_MS, MovingManModel.DT));
@@ -148,7 +148,7 @@ public abstract class MovingManModule extends Module {
     }
 
     public static class SoundCheckBox extends JCheckBox {
-        public SoundCheckBox(final MutableBoolean mutableBoolean) {
+        public SoundCheckBox(final BooleanProperty mutableBoolean) {
             super(MovingManStrings.OPTIONS_SOUND, mutableBoolean.getValue());
             mutableBoolean.addObserver(new SimpleObserver() {
                 public void update() {
@@ -182,7 +182,7 @@ public abstract class MovingManModule extends Module {
         positiveToTheRight.setValue(value);
     }
 
-    public MutableBoolean getPositiveToTheRight() {
+    public BooleanProperty getPositiveToTheRight() {
         return positiveToTheRight;
     }
 

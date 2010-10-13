@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman.model;
 import bsh.EvalError;
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
 import edu.colorado.phet.common.motion.model.TimeData;
@@ -40,18 +40,18 @@ public class MovingManModel {
     private boolean VELOCITY_VECTOR_VISIBLE_BY_DEFAULT = false;
     private boolean ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT = false;
     private boolean WALLS_BY_DEFAULT = true;
-    private MutableBoolean velocityVectorVisible = new MutableBoolean(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
-    private MutableBoolean accelerationVectorVisible = new MutableBoolean(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
-    private MutableBoolean walls = new MutableBoolean(WALLS_BY_DEFAULT);
+    private BooleanProperty velocityVectorVisible = new BooleanProperty(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
+    private BooleanProperty accelerationVectorVisible = new BooleanProperty(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
+    private BooleanProperty walls = new BooleanProperty(WALLS_BY_DEFAULT);
     protected final Range modelRange = new Range(-10, 10);
 //    protected final Range modelRange = new Range(10, -10);
     private Range range = modelRange;
     private BooleanGetter isPaused;
-    private MutableBoolean positionMode;
-    private MutableBoolean accelerationMode;
+    private BooleanProperty positionMode;
+    private BooleanProperty accelerationMode;
     private ExpressionEvaluator expressionEvaluator;
     private ArrayList<EvalErrorListener> evalErrorListeners = new ArrayList<EvalErrorListener>();
-    private MutableBoolean velocityMode;
+    private BooleanProperty velocityMode;
     private MyObservableDouble timeProperty = new MyObservableDouble(0.0);
     private final ArrayList<Double> times = new ArrayList<Double>();//A list of times used in stepInTime() for purposes of identifying points in recorded history
     private static final int NUM_TIME_POINTS_TO_RECORD = 10;
@@ -71,7 +71,7 @@ public class MovingManModel {
         return modelRange;
     }
 
-    public MutableBoolean getPositionMode() {
+    public BooleanProperty getPositionMode() {
         return positionMode;
     }
 
@@ -79,11 +79,11 @@ public class MovingManModel {
         this.expressionEvaluator = expressionEvaluator;
     }
 
-    public MutableBoolean getAccelerationMode() {
+    public BooleanProperty getAccelerationMode() {
         return accelerationMode;
     }
 
-    public MutableBoolean getVelocityMode() {
+    public BooleanProperty getVelocityMode() {
         return velocityMode;
     }
 
@@ -100,7 +100,7 @@ public class MovingManModel {
         this.isPaused = isPaused;
 
         //Provide mutable properties so that clients can subscribe for mode changes easily
-        positionMode = new MutableBoolean(false);
+        positionMode = new BooleanProperty(false);
         {
             final MovingMan.Listener positonModeListener = new MovingMan.Listener() {
                 public void changed() {
@@ -111,7 +111,7 @@ public class MovingManModel {
             positonModeListener.changed();
         }
 
-        velocityMode = new MutableBoolean(false);
+        velocityMode = new BooleanProperty(false);
         {
             final MovingMan.Listener velocityModeListener = new MovingMan.Listener() {
                 public void changed() {
@@ -122,7 +122,7 @@ public class MovingManModel {
             velocityModeListener.changed();
         }
 
-        accelerationMode = new MutableBoolean(false);
+        accelerationMode = new BooleanProperty(false);
         {
             final MovingMan.Listener accelerationModeListener = new MovingMan.Listener() {
                 public void changed() {
@@ -440,7 +440,7 @@ public class MovingManModel {
         return range;
     }
 
-    public MutableBoolean getWalls() {
+    public BooleanProperty getWalls() {
         return walls;
     }
 
@@ -448,11 +448,11 @@ public class MovingManModel {
         void mousePositionChanged();
     }
 
-    public MutableBoolean getVelocityVectorVisible() {
+    public BooleanProperty getVelocityVectorVisible() {
         return velocityVectorVisible;
     }
 
-    public MutableBoolean getAccelerationVectorVisible() {
+    public BooleanProperty getAccelerationVectorVisible() {
         return accelerationVectorVisible;
     }
 

@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -35,11 +35,11 @@ public class MovingManSimulationPanel extends PhetPCanvas {
     private double earthOffset;
     private final Range viewRange;
     private final PlayAreaRulerNode playAreaRulerNode;
-    private MutableBoolean positiveToTheRight;
+    private BooleanProperty positiveToTheRight;
     private LinearTransform transform;
     protected TimeReadout timeReadout;
 
-    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset, final MutableBoolean positiveToTheRight) {
+    public MovingManSimulationPanel(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, int earthOffset, final BooleanProperty positiveToTheRight) {
         this.model = model;
         this.earthOffset = earthOffset;
         this.positiveToTheRight = positiveToTheRight;

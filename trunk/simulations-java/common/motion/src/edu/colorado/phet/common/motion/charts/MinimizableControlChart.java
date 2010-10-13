@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.charts;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 
@@ -37,7 +37,7 @@ public class MinimizableControlChart extends PNode {
         controlChart.reset();
     }
     
-    public MutableBoolean getMaximized() {
+    public BooleanProperty getMaximized() {
         return minimizeMaximizeButton.getMaximized();
     }
 

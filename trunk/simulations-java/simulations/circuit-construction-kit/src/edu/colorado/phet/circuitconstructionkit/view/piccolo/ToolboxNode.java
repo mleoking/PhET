@@ -9,7 +9,7 @@ import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -39,7 +39,7 @@ public class ToolboxNode extends PhetPNode {
     private CCKModel model;
     private BranchNodeFactory branchNodeFactory;
     private CCKSimulationPanel cckSimulationPanel;
-    private MutableBoolean lifelikeProperty;
+    private BooleanProperty lifelikeProperty;
     private ArrayList branchMakers = new ArrayList();
     private static final int TOP_INSET = 30;
     private double betweenInset = 6;
@@ -48,7 +48,7 @@ public class ToolboxNode extends PhetPNode {
     private AmmeterMaker ammeterMaker;
     private ToolboxNode.WireMaker wireMaker;
 
-    public ToolboxNode(PhetPCanvas canvas, CCKModel model, CCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel, MutableBoolean lifelikeProperty) {
+    public ToolboxNode(PhetPCanvas canvas, CCKModel model, CCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel, BooleanProperty lifelikeProperty) {
         this.module = module;
         this.canvas = canvas;
         this.model = model;

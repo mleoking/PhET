@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import edu.colorado.phet.common.phetcommon.model.Observable;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -41,14 +41,14 @@ public abstract class SubatomicParticle {
 
     private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
-    private final Observable<Point2D.Double> position;
-    private final Observable<Boolean> userControlled=new Observable<Boolean>( false );//Just used internally to send messages through the inner Listener interface
+    private final Property<Point2D.Double> position;
+    private final Property<Boolean> userControlled=new Property<Boolean>( false );//Just used internally to send messages through the inner Listener interface
     private final Point2D destination = new Point2D.Double();
     private final double radius;
 
     public SubatomicParticle( ConstantDtClock clock, double radius, double x, double y ) {
         this.radius = radius;
-        position = new Observable<Point2D.Double>( new Point2D.Double( x, y ) );
+        position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
         clock.addClockListener( new ClockAdapter() {
 

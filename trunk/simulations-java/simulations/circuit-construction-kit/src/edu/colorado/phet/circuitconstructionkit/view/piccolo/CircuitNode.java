@@ -8,7 +8,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -29,7 +29,7 @@ public class CircuitNode extends PhetPNode {
     private Circuit circuit;
     private Component component;
     private CCKModule module;
-    private MutableBoolean readoutsVisibleProperty;
+    private BooleanProperty readoutsVisibleProperty;
     private ReadoutSetNode readoutLayer;
     private PNode electronLayer;
     private PNode solderLayer;
@@ -40,7 +40,7 @@ public class CircuitNode extends PhetPNode {
     private boolean changingLifelike;
     private ReadoutSetNode editingReadoutLayer;
 
-    public CircuitNode(final CCKModel cckModel, final Circuit circuit, final JComponent component, CCKModule module, BranchNodeFactory branchNodeFactory, MutableBoolean readoutsVisibleProperty, final MutableBoolean lifelikeProperty) {
+    public CircuitNode(final CCKModel cckModel, final Circuit circuit, final JComponent component, CCKModule module, BranchNodeFactory branchNodeFactory, BooleanProperty readoutsVisibleProperty, final BooleanProperty lifelikeProperty) {
         this.branchNodeFactory = branchNodeFactory;
         this.cckModel = cckModel;
         this.circuit = circuit;

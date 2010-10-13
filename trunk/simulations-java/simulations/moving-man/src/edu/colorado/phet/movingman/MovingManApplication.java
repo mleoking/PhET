@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -27,7 +27,7 @@ import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_T
 public class MovingManApplication extends PiccoloPhetApplication {
     //This state is handled in the MovingManApplication since the SpecialFeaturesMenu is a singleton, but should
     //be able to handle all modules independently.  This value must get propagated to the menu and to the modules.
-    private MutableBoolean positiveToTheRight = new MutableBoolean(true);//True if positive coordinates are to the right.
+    private BooleanProperty positiveToTheRight = new BooleanProperty(true);//True if positive coordinates are to the right.
 
     public MovingManApplication(PhetApplicationConfig config) {
         super(config);
@@ -79,7 +79,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
         return (MovingManModule) getActiveModule();
     }
 
-    public MutableBoolean getPositiveToTheRight() {
+    public BooleanProperty getPositiveToTheRight() {
         return positiveToTheRight;
     }
 

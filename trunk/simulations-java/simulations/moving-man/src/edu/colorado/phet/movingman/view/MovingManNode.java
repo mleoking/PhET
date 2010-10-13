@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.view;
 
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.motion.charts.Range;
 import edu.colorado.phet.common.motion.charts.TemporalDataSeries;
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -25,14 +25,14 @@ public class MovingManNode extends PNode {
     private Function.LinearFunction modelToView = new Function.LinearFunction(-10, 10, 0, 975);
     private MovingManModel model;
     private final Range viewRange;
-    private final MutableBoolean positiveToTheRight;
+    private final BooleanProperty positiveToTheRight;
     private BufferedImage imageStanding;
     private BufferedImage imageLeft;
     private BufferedImage imageRight;
     private MovingMan man;
     private final PImage imageNode;
 
-    public MovingManNode(final MovingMan man, MovingManModel model, Range viewRange, MutableBoolean positiveToTheRight) {
+    public MovingManNode(final MovingMan man, MovingManModel model, Range viewRange, BooleanProperty positiveToTheRight) {
         this.man = man;
         this.model = model;
         this.viewRange = viewRange;

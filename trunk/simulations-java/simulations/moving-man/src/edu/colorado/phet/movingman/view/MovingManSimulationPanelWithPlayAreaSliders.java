@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.motion.charts.MotionSliderNode;
 import edu.colorado.phet.common.motion.charts.PlayAreaSliderControl;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.model.MovingMan;
@@ -30,7 +30,7 @@ public class MovingManSimulationPanelWithPlayAreaSliders extends MovingManSimula
         return -timeReadout.getFullBounds().getHeight();
     }
 
-    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, MutableBoolean positiveToTheRight) {
+    public MovingManSimulationPanelWithPlayAreaSliders(final MovingManModel model, final RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel, BooleanProperty positiveToTheRight) {
         super(model, recordAndPlaybackModel, 100, positiveToTheRight);
         {
             //TODO: factor out code with the sliders + text boxes used in the chart module

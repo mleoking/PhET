@@ -6,7 +6,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.*;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.*;
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import javax.swing.*;
@@ -22,10 +22,10 @@ public class BranchNodeFactory {
     private CCKModel cckModel;
     private JComponent component;
     private CCKModule module;
-    private MutableBoolean lifelikeProperty;
+    private BooleanProperty lifelikeProperty;
     private ArrayList listeners = new ArrayList();
 
-    public BranchNodeFactory(CCKModel cckModel, JComponent component, CCKModule module, MutableBoolean lifelikeProperty) {
+    public BranchNodeFactory(CCKModel cckModel, JComponent component, CCKModule module, BooleanProperty lifelikeProperty) {
         this.cckModel = cckModel;
         this.component = component;
         this.module = module;
