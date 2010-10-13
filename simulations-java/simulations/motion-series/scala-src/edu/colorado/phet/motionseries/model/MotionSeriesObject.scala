@@ -2,7 +2,7 @@ package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.Predef._
 import java.lang.Math.PI
@@ -20,7 +20,7 @@ class MotionSeriesObject(_position: MutableDouble,
                          val positionMapper: PositionMapper,
                          val rampSegmentAccessor: Double => RampSegment,
                          val wallsBounce: ScalaMutableBoolean,
-                         val _wallsExist: MutableBoolean,
+                         val _wallsExist: BooleanProperty,
                          val wallRange: MutableRange,
                          thermalEnergyStrategy: Double => Double,
                          val surfaceFriction: () => Boolean,
