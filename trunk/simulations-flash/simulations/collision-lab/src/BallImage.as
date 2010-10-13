@@ -442,7 +442,7 @@ package{
 		//update both velocity and momentum arrows on ball images
 		public function updateVelocityArrow():void{
 			var vel:TwoVector = this.myModel.ball_arr[this.ballIndex].velocity;
-			var mom:TwoVector = this.myModel.ball_arr[this.ballIndex].momentum;
+			var mom:TwoVector = this.myModel.ball_arr[this.ballIndex].getMomentum(); //momentum;
 			//if(this.ballIndex == 0){
 				//trace("ballImage.myModel.ball_arr[0].velocity.y = "+this.myModel.ball_arr[0].velocity.getY());
 			//}

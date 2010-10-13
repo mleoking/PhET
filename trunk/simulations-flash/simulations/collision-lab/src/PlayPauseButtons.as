@@ -100,7 +100,9 @@ import flash.display.*;
 			setPlayText();
 			this.myModel.stopMotion();
 			//this.myModel.detectCollision();
+			this.myModel.singleStepping = true;
 			this.myModel.singleFrame();
+			this.myModel.singleStepping = false;
 		}
 		
 		public function stepBack(evt:MouseEvent):void{
@@ -108,7 +110,9 @@ import flash.display.*;
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
 			setPlayText();
 			this.myModel.stopMotion();
+			this.myModel.singleStepping = true;
 			this.myModel.backupOneFrame();
+			this.myModel.singleStepping = false;
 		}
 		
 		
