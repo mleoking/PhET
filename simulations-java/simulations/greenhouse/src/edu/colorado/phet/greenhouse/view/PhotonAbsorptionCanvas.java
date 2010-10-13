@@ -9,8 +9,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.view.CenteredStage;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -71,7 +69,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     public PhotonAbsorptionCanvas(PhotonAbsorptionModel photonAbsorptionModel, boolean onTabbedSim  ) {
 
     	// Set up the canvas-screen transform.
-    	setWorldTransformStrategy( new CenteredStage(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
+    	setWorldTransformStrategy( new CenteringBoxStrategy(this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE));
 
     	// Use a different zoom factor if this is on a non-tabbed sim, since
     	// otherwise things will probably go off the left and right edges of
