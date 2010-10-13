@@ -55,16 +55,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final GradientButtonNode resetButtonNode;
     private final ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
 
-    final MutableBoolean viewOrbitals = new MutableBoolean( true ){
-        //Automatically calls back to observers when they are added
-        //so clients do not need to call myObserver.update() each time
-        //they use this pattern.
-        @Override
-        public void addObserver( SimpleObserver so ) {
-            super.addObserver( so );
-            so.update();
-        }
-    };
+    final MutableBoolean viewOrbitals = new MutableBoolean( true );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -156,6 +147,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     }
                 };
                 viewOrbitals.addObserver( updateVisibility );
+                updateVisibility.update();
+
                 model.getAtom().addObserver( updateVisibility );
             }} );
         }
