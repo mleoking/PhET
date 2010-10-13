@@ -78,6 +78,8 @@ public class NominateContributionPage extends PhetRegularPage {
         //setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
         setResponsePage( new RedirectPage( ContributionNominationSuccessPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
 
+        hideSocialBookmarkButtons();
+
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

@@ -83,6 +83,8 @@ public class AddContributionCommentPage extends PhetRegularPage {
         //setResponsePage( new RedirectPage( ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
         setResponsePage( new RedirectPage( ContributionCommentSuccessPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) );
 
+        hideSocialBookmarkButtons();
+
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

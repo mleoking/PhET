@@ -39,6 +39,8 @@ public class ContributionEditPage extends PhetRegularPage {
         } );
 
         add( new ContributionEditPanel( "contribution-edit-panel", getPageContext(), contribution ) );
+
+        hideSocialBookmarkButtons();
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

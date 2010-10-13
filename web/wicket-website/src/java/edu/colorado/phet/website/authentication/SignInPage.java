@@ -34,6 +34,8 @@ public class SignInPage extends PhetMenuPage {
 
         add( new SignInPanel( "sign-in-panel", getPageContext(), destination ) );
 
+        hideSocialBookmarkButtons();
+
     }
 
 

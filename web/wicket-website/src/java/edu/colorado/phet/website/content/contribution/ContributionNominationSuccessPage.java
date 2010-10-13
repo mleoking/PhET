@@ -65,6 +65,7 @@ public class ContributionNominationSuccessPage extends PhetMenuPage {
                 HtmlUtils.encode( contribution.getTitle() )
         } ) );
 
+        hideSocialBookmarkButtons();
 
     }
 

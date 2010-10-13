@@ -65,6 +65,8 @@ public class ContributionCommentSuccessPage extends PhetMenuPage {
                 HtmlUtils.encode( contribution.getTitle() )
         } ) );
 
+        hideSocialBookmarkButtons();
+
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

@@ -21,6 +21,8 @@ public class ResetPasswordRequestPage extends PhetMenuPage {
 
         setTitle( getLocalizer().getString( "resetPasswordRequest.title", this ) );
         add( new ResetPasswordRequestPanel( "reset-password-request", getPageContext() ) );
+
+        hideSocialBookmarkButtons();
     }
 
     public static RawLinkable getLinker() {
