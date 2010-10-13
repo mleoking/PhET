@@ -1,18 +1,14 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
-import edu.colorado.phet.flexcommon.FlexCommon;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
 
-import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.geom.ColorTransform;
 
 import mx.containers.Canvas;
 import mx.controls.Button;
 import mx.controls.TextInput;
-import mx.core.UIComponent;
 
 /**
  * Base class for the main UI of the density and buoyancy sims.
@@ -77,38 +73,6 @@ public class AbstractDBContainer extends Canvas {
         if ( focusManager.getFocus() is TextInput ) {
             focusManager.setFocus( focusManager.getNextFocusManagerComponent() )
         }
-    }
-
-    protected function addFlashCommon(): void {
-        var ui: UIComponent = new UIComponent(); // used for FlashCommon UI
-        addChild( ui );
-
-        var common: FlexCommon = FlexCommon.getInstance();
-        common.initialize( ui );
-
-        common.highContrastFunction = function ( contrast: Boolean ): void {
-            if ( contrast ) {
-                var stretch: Number = 2.0;
-                var newCenter: Number = 128;
-                var offset: Number = newCenter - 128 * stretch;
-                root.stage.transform.colorTransform = new ColorTransform( stretch, stretch, stretch, 1, offset, offset, offset, 1 );
-            }
-            else {
-                root.stage.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
-            }
-        }
-
-        function positionButtons(): void {
-            if ( common.commonButtons == null ) {
-                return;
-            }
-            var height: int = common.commonButtons.getPreferredHeight();
-            common.commonButtons.setLocationXY( DensityConstants.CONTROL_INSET, stage.stageHeight - height - 60 - DensityConstants.CONTROL_INSET );
-        }
-
-        common.addLoadListener( positionButtons );
-        stage.addEventListener( Event.RESIZE, positionButtons );
-        positionButtons();
     }
 
     public function pause(): void {
