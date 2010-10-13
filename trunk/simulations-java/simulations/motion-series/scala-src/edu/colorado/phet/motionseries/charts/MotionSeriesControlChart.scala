@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.phetcommon.model.MutableBoolean
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.{HistoryClearListener, HistoryRemainderClearListener}
 import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ShadowHTMLNode}
@@ -234,7 +234,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 
   val sliderNode = createSliderNode(temporalChart)
   val controlPanel = new PNode {
-    val goButtonVisible = new MutableBoolean(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
+    val goButtonVisible = new BooleanProperty(false) //go button should become visible when user specifies a force by dragging the slider or typing in the text field
     motionSeriesModel.addResetListener(()=>goButtonVisible.reset())
     addChild(new PSwing(new SeriesSelectionControl("forces.parallel-title-with-units".translate, gridSize) {
       val editableLabel = new EditableLabel(appliedForceSeries) {
