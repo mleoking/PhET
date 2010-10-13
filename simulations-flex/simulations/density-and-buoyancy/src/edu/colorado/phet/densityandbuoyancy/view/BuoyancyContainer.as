@@ -111,10 +111,8 @@ public class BuoyancyContainer extends AbstractDBContainer {
             buoyancyCanvas.setFluidDragForceVisible( fluidDragCheckbox.selected );
         } );
         arrowControlPanel.addChild( fluidDragCheckbox );
-
         addChild( arrowControlPanel );
     }
-
 
     override public function init(): void {
         super.init();
@@ -139,6 +137,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
         addFlashCommon();
+        customButton.selected = true;
         buoyancyCanvas.start();
     }
 
