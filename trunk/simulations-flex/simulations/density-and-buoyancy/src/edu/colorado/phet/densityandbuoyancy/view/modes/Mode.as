@@ -27,5 +27,8 @@ public class Mode {
             canvas.model.addDensityObject( new BuoyancyScale( Scale.POOL_SCALE_X, Scale.POOL_SCALE_Y, canvas.model ) );
         }
     }
+
+    public function reset(): void {
+    }
 }
 }

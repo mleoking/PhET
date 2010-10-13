@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.events.Event;
@@ -110,6 +111,10 @@ public class BuoyancyContainer extends AbstractDBContainer {
     override public function resetAll(): void {
         super.resetAll();
         buoyancyCanvas.resetAll();
+    }
+
+    public function createCustomObjectMode( canvas: AbstractDBCanvas ): Mode {
+        throw new Error( "Abstract method error" );
     }
 }
 }
