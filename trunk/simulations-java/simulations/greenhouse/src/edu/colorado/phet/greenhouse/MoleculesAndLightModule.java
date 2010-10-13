@@ -24,7 +24,7 @@ import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
  *
  * @author John Blanco
  */
-public class PhotonAbsorptionModule extends PiccoloModule {
+public class MoleculesAndLightModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -55,23 +55,23 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public PhotonAbsorptionModule( Frame parentFrame ) {
+    public MoleculesAndLightModule( Frame parentFrame ) {
         super( GreenhouseResources.getString( "ModuleTitle.PhotonAbsorptionModule" ),
-                new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ));
+                new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ) );
 
         // Explicitly turn off the logo panel.
         setLogoPanel( null );
 
         // Physical model
-        model = new PhotonAbsorptionModel( (ConstantDtClock)getClock());
+        model = new PhotonAbsorptionModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        canvas = new PhotonAbsorptionCanvas(model, true);
+        canvas = new PhotonAbsorptionCanvas( model, false );
         setSimulationPanel( canvas );
 
         // Control panel.
-        controlPanel = new PhotonAbsorptionControlPanel(this, model);
-        setControlPanel(controlPanel);
+        controlPanel = new PhotonAbsorptionControlPanel( this, model );
+        setControlPanel( controlPanel );
 
         // Help
         if ( hasHelp() ) {
@@ -92,9 +92,9 @@ public class PhotonAbsorptionModule extends PiccoloModule {
     // Methods
     //----------------------------------------------------------------------------
 
-	@Override
+    @Override
     protected JComponent createClockControlPanel( IClock clock ) {
-		clockControlPanel = new PiccoloClockControlPanel( clock );
+        clockControlPanel = new PiccoloClockControlPanel( clock );
         return clockControlPanel;
     }
 
@@ -119,7 +119,7 @@ public class PhotonAbsorptionModule extends PiccoloModule {
         super.deactivate();
     }
 
-    public void setPhotonAbsorptionParamsDlgVisible(boolean visible){
+    public void setPhotonAbsorptionParamsDlgVisible( boolean visible ) {
         photonAbsorptionParamsDlgVisible = visible;
         if ( isActive() && photonAbsorptionParamsDlg != null ) {
             photonAbsorptionParamsDlg.setVisible( visible );

@@ -33,7 +33,7 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private final PhotonAbsorptionModule photonAbsorptionModule;
+    private final MoleculesAndLightModule moleculesAndLightModule;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -44,8 +44,8 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
 
         // module(s)
         PhetFrame parentFrame = getPhetFrame();
-        photonAbsorptionModule = new PhotonAbsorptionModule(parentFrame);
-        addModule( photonAbsorptionModule );
+        moleculesAndLightModule = new MoleculesAndLightModule(parentFrame);
+        addModule( moleculesAndLightModule );
 
         // Developer controls.
         JMenu developerMenu = parentFrame.getDeveloperMenu();
@@ -53,7 +53,7 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
         developerMenu.add( photonAbsorptionParamCheckBox );
         photonAbsorptionParamCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                photonAbsorptionModule.setPhotonAbsorptionParamsDlgVisible( photonAbsorptionParamCheckBox.isSelected() );
+                moleculesAndLightModule.setPhotonAbsorptionParamsDlgVisible( photonAbsorptionParamCheckBox.isSelected() );
             }
         } );
     }
