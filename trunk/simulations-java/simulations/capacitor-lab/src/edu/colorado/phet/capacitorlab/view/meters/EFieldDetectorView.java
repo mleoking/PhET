@@ -253,6 +253,7 @@ public class EFieldDetectorView {
             showValuesCheckBox = new JCheckBox( CLStrings.CHECKBOX_SHOW_VALUES );
             showValuesCheckBox.setFont( CONTROL_FONT );
             showValuesCheckBox.setForeground( CONTROL_COLOR );
+            showValuesCheckBox.setSelected( vectorDisplayNode.isValuesVisible() );
             showValuesCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     vectorDisplayNode.setValuesVisible( showValuesCheckBox.isSelected() );
@@ -322,6 +323,9 @@ public class EFieldDetectorView {
             dielectricValueNode.setOffset( x, y );
             y = dielectricValueNode.getFullBoundsReference().getMaxY() + ySpacing;
             sumValueNode.setOffset( x, y );
+            
+            // default state
+            valuesVisible = true;
         }
         
         public void setPlateValue( double value ) {
