@@ -93,7 +93,11 @@ public class DensityContainer extends AbstractDBContainer {
         densityCanvas.switchToCustomObject();
 
         densityCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
-        addFlashCommon();
+
+        var densityAndBuoyancyFlashCommon: DensityAndBuoyancyFlashCommon = new DensityAndBuoyancyFlashCommon();
+        addChild( densityAndBuoyancyFlashCommon );
+        densityAndBuoyancyFlashCommon.init();
+
         densityCanvas.start();
     }
 
