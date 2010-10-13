@@ -3,8 +3,8 @@ import edu.colorado.phet.flexcommon.PhetTabNavigator;
 
 public class BuoyancyTabNavigator extends PhetTabNavigator {
     public function BuoyancyTabNavigator() {
-        super( new Array( new BuoyancyModule( "Intro", new BuoyancyContainer() )
-                , new BuoyancyModule( "Buoyancy Playground", new BuoyancyContainer() )
+        super( new Array( new BuoyancyModule( "Intro", new BuoyancyIntroContainer() )
+                , new BuoyancyModule( "Buoyancy Playground", new BuoyancyPlaygroundContainer() )
                 ) );
     }
 }
