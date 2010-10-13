@@ -1,5 +1,3 @@
-# 3.00.00 (45034) Oct 13, 2010
-10/13/10 >Added a new tab that allows users to learn about the interaction of photons with atmospheric gases.
 Added values for concentrations of gasses during the ice age.
 Broke out the "Photon Absorption" tab into a separate sim which will become "Molecules and Light".
 Updated the value of CO2 concentration in today's atmosphere (it has gone up since the sim was originally published).
