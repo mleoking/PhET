@@ -5,7 +5,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * This can be used to represent a value in a MVC style pattern.  It remembers its default value and can be reset.
- * When the value changes, notifications are sent to the observers.
+ * When the value changes, notifications are sent to the observers.  The wrapped type T should be immutable, or at
+ * least protected from external modification.
  *
  * @author Sam Reid
  * @author Chris Malley
