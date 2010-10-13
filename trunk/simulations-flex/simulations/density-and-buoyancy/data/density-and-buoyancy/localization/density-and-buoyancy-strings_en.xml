@@ -54,4 +54,5 @@
     <string key="properties.density" value="Density"/>
     <string key="properties.fluidDensity" value="Fluid Density"/>
     <string key="application.resetAll" value="Reset All"/>
+    <string key="forceArrowControlPanelTitle" value="Show Forces"/>
 </SimStrings>

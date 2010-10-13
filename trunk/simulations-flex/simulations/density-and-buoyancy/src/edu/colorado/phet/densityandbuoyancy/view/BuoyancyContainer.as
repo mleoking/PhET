@@ -87,6 +87,11 @@ public class BuoyancyContainer extends AbstractDBContainer {
             arrowControlPanel.visible = true;
         } );
 
+        var label: Label = new Label();
+        label.text = FlexSimStrings.get( 'forceArrowControlPanelTitle', 'Show Forces' );
+        label.setStyle( "fontWeight", "bold" );
+        arrowControlPanel.addChild( label );
+
         var gravityCheckbox: CheckBox = new CheckBox();
         gravityCheckbox.label = FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' );
         gravityCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
