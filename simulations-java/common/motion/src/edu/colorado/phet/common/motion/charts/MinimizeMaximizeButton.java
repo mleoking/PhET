@@ -32,8 +32,7 @@ public class MinimizeMaximizeButton extends PNode {
         
         this.maximized = new MutableBoolean(maximizedValue);
         this.maximized.addObserver( maximizedObserver );
-        maximizedObserver.update();
-        
+
         this.defaultMaximizedValue = maximizedValue;
         node.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
