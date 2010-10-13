@@ -42,7 +42,7 @@ div.ltr .social-div {
     margin-right: -55px;
     padding-left: 10px;
     width: 16px; /* was 32 */
-    border-left: 1px solid #d36a04;
+    /*border-left: 1px solid #d36a04;*/
     padding-top: 8px;
 }
 
@@ -52,7 +52,7 @@ div.rtl .social-div {
     margin-left: -55px;
     padding-right: 10px;
     width: 16px; /* was 32 */
-    border-right: 1px solid #d36a04;
+    /*border-right: 1px solid #d36a04;*/
     padding-top: 8px;
 }
 
