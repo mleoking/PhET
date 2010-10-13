@@ -1,6 +1,8 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.events.MouseEvent;
@@ -68,6 +70,10 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;
+    }
+
+    override public function createCustomObjectMode( canvas: AbstractDBCanvas ): Mode {
+        return new CustomObjectMode( canvas );
     }
 }
 }

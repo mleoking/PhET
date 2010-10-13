@@ -4,7 +4,6 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
@@ -14,7 +13,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private var _container: BuoyancyContainer;
 
-    private var customObjectMode: CustomObjectMode;
+    private var customObjectMode: Mode;
     private var sameMassMode: SameMassMode;
     private var sameVolumeMode: SameVolumeMode;
     private var sameDensityMode: SameDensityMode;
@@ -33,7 +32,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     public function doInit( container: BuoyancyContainer ): void {
         this._container = container;
-        customObjectMode = new CustomObjectMode( this );
+        customObjectMode = container.createCustomObjectMode( this );
         sameMassMode = new SameMassMode( this );
         sameVolumeMode = new SameVolumeMode( this );
         sameDensityMode = new SameDensityMode( this );

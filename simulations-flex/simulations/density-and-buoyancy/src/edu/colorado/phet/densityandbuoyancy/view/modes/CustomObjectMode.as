@@ -46,7 +46,7 @@ public class CustomObjectMode extends Mode {
         canvas.model.addDensityObject( customizableObject );
     }
 
-    public function reset(): void {
+    public override function reset(): void {
         customizableObject.reset();
         customizableObject.material = DEFAULT_MATERIAL;
     }
