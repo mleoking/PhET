@@ -469,7 +469,7 @@ package{
 					wallHit = true;
 				}
 				if(wallHit){
-					trace("wall hit at time t = " + this.time);
+					//trace("wall hit at time t = " + this.time);
 					this.nbrCollisionsInThisTimeStep += 1;
 					this.playClickSound();
 					this.colliding = true;
