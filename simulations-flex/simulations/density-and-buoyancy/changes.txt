@@ -1,3 +1,4 @@
+Removed the 'modes' panel from the intro tab
 Added an intro tab
 Fixed: Force checkbox should be labeled “Show Forces”
 # 1.02.00 (44977) Oct 12, 2010
