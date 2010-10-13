@@ -373,7 +373,7 @@ import flash.text.*;
 		
 		private function changeXListener(evt:Event):void{
 			this.manualUpdating = true;
-			var xPos = Number(evt.target.text);
+			var xPos:Number = this.evtTextToNumber(evt);
 			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setX(ballNbr - 1, xPos);
 			this.manualUpdating = false;
@@ -381,7 +381,7 @@ import flash.text.*;
 		
 		private function changeYListener(evt:Event):void{
 			this.manualUpdating = true;
-			var yPos = Number(evt.target.text);
+			var yPos:Number = this.evtTextToNumber(evt);
 			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setY(ballNbr - 1, yPos);
 			this.manualUpdating = false;
@@ -389,18 +389,43 @@ import flash.text.*;
 		
 		private function changeVXListener(evt:Event):void{
 			this.manualUpdating = true;
-			var xVel = Number(evt.target.text);
+			//var xVel = Number(evt.target.text);
+			var xVel:Number = this.evtTextToNumber(evt);
 			var ballNbr = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setVX(ballNbr - 1, xVel);
 			this.manualUpdating = false;
 		}
 		private function changeVYListener(evt:Event):void{
 			this.manualUpdating = true;
-			var yVel = Number(evt.target.text);
+			//var yVel = Number(evt.target.text);
+			var yVel:Number = this.evtTextToNumber(evt);
 			var ballNbr:int = Number(evt.target.name);  //first ball is ball 1, is Model.ball_arr[0]
 			this.myModel.setVY(ballNbr - 1, yVel);
 			this.manualUpdating = false;
 		}
+		
+		
+		private function evtTextToNumber(evt:Event):Number{
+			var inputText = evt.target.text;
+			var outputNumber:Number;
+			if(inputText == "."){
+				evt.target.text = "0.";
+				evt.target.setSelection(2,2); //sets cursor at end of line
+				outputNumber = 0;
+			}else if (inputText == "-"){
+				outputNumber = 0;
+			}else if(inputText == "-."){
+				evt.target.text = "-0.";
+				evt.target.setSelection(3,3); //sets cursor at end of line
+				outputNumber = 0;
+			}else if(isNaN(Number(inputText))){
+				evt.target.text = "0";
+				outputNumber = 0;
+			}else {
+				outputNumber = Number(inputText);
+			}
+			return outputNumber;
+		}//end textToNumber
 		
 		private function massSliderListener(evt:SliderEvent):void{
 			this.sliderUpdating = true;

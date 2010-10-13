@@ -35,7 +35,9 @@ public class MainView extends Sprite{
 			this.controlPanel = new ControlPanel(myModel, this);
 			this.momentumView = new MomentumView(myModel, this);
 			this.mySoundMaker = new SoundMaker(myModel, this);
-			this.myModel.updateViews();
+			//this.waitForGraphicsLoad();
+			this.myModel.resetAll();
+			//this.myModel.updateViews();
 			//this.myDataTable.x = 60;
 			this.myDataTable.y = 0.75*this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
 			this.myDataTable.x = this.myTableView.width/2;
@@ -50,6 +52,10 @@ public class MainView extends Sprite{
             addFlashCommon(); 
 			//trace("stageW: "+stageW+"   stageH: "+stageH);
 		}//end of initialize()
+		
+		private function waitForGraphicsLoad():void{
+			trace("MainView.momentumView.scale_slider.height = "+this.momentumView.scale_slider.height);
+		}
 
         private function addFlashCommon():void {
             var ui:Sprite = new Sprite(); // used for FlashCommon UI

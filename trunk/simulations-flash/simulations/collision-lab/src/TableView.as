@@ -279,9 +279,9 @@ import flash.display.*;
 		
 
 		public function update():void{
-			trace("TableView.update() called at time = "+this.myModel.time);
+			//trace("TableView.update() called at time = "+this.myModel.time);
 			//trace("TableView.showingPaths: "+this.showingPaths);
-			trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
+			//trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
 			var nbrBalls:int = this.myModel.nbrBalls;
 			//trace("TableView.update() called. nbrBalls = "+nbrBalls);
 			var maxBalls:int = this.myModel.maxNbrBalls;
