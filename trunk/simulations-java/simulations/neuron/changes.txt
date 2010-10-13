@@ -1,9 +1,3 @@
-# 1.00.00 (44987) Oct 12, 2010
-10/12/10 Redeployed in order to correct screen shot file name.
-# 1.00.00 (44985) Oct 12, 2010
-10/12/10 Redeply in order to correct name of screenshot file.
-# 1.00.00 (44980) Oct 12, 2010
-10/12/10 Redeployed with manually rolled back version number in order to add screen shot.
 # 1.00.00 (44970) Oct 12, 2010
 10/12/10 > Initial publication to the production server.
 # 0.00.42 (44652) Oct 4, 2010
