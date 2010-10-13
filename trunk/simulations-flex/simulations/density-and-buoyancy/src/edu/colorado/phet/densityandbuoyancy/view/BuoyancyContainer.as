@@ -18,9 +18,11 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
     private var buoyancyCanvas: BuoyancyCanvas;
     private var customButton: RadioButton;
+    private static var count: Number = 0;
 
     public function BuoyancyContainer() {
         super();
+        count = count + 1;
 
         addBackground();
 
@@ -36,8 +38,9 @@ public class BuoyancyContainer extends AbstractDBContainer {
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
 
+        var groupName: String = "modes" + count;
         customButton = new RadioButton();
-        customButton.groupName = "modes";
+        customButton.groupName = groupName;
         customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
         customButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.switchToCustomObject()
@@ -46,7 +49,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         modeControlPanel.addChild( customButton );
 
         var sameMassButton: RadioButton = new RadioButton();
-        sameMassButton.groupName = "modes";
+        sameMassButton.groupName = groupName;
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
         sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.switchToSameMass()
@@ -54,7 +57,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         modeControlPanel.addChild( sameMassButton );
 
         var sameVolumeButton: RadioButton = new RadioButton();
-        sameVolumeButton.groupName = "modes";
+        sameVolumeButton.groupName = groupName;
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
         sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.switchToSameVolume()
@@ -62,7 +65,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         modeControlPanel.addChild( sameVolumeButton );
 
         var sameDensityButton: RadioButton = new RadioButton();
-        sameDensityButton.groupName = "modes";
+        sameDensityButton.groupName = groupName;
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
         sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.switchToSameDensity()
