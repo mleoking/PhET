@@ -1,3 +1,4 @@
+Added values for concentrations of gasses during the ice age.
 Updated the value of CO2 concentration in today's atmosphere (it has gone up since the sim was originally published).
 Changed the concentration indications to all be in PPM rather than a combination of PPM and PPB.
 # 2.07.16 (44029) Sep 13, 2010
