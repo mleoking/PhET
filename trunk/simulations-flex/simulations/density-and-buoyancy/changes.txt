@@ -1,3 +1,4 @@
+Removed the fluid density control from the intro tab
 Removed the object customization panel from the intro tab
 For the intro tab, have 2 blocks, one floater and one sinker, sitting on the sides
 Removed the 'modes' panel from the intro tab
