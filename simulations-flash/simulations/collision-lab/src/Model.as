@@ -26,6 +26,7 @@ package{
 		var msTimer:Timer;		//millisecond timer
 		var colliding:Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
 		var playing:Boolean;	//true if motion is playing, false if paused
+		var singleStepping:Boolean; //true if singleStepping forward or backward
 		var soundOn:Boolean;	//true if sound enabled
 		var sounding:Boolean;	//true if click sound is to be played, click sound during collision
 		var nbrBallsChanged:Boolean;  //true if number of balls is changed
@@ -244,6 +245,7 @@ package{
 		public function startMotion():void{
 			this.starting = true;
 			this.playing = true;
+			this.singleStepping = false;
 			this.reversing = false;
 			//this.separateAllBalls();  //check if any balls overlapping before starting
 			msTimer.start();  
@@ -272,7 +274,7 @@ package{
 				trace("ERROR: ball number " + ballNbr + ": xPos is NaN.");
 				this.setX(indx, initPos[indx].getX());
 			}
-			if(!this.playing){
+			if(!this.playing && !this.singleStepping){
 				this.atInitialConfig = true;
 			}
 			this.ball_arr[indx].position.setX(xPos);
@@ -291,7 +293,7 @@ package{
 				trace("ERROR: ball number " + ballNbr + ": yPos is NaN.");
 				this.setX(indx, initPos[indx].getY());
 			}
-			if(!this.playing){
+			if(!this.playing && !this.singleStepping){
 				this.atInitialConfig = true;
 			}
 			this.ball_arr[indx].position.setY(yPos);
@@ -313,7 +315,7 @@ package{
 				var ballNbr:int = indx + 1;
 				trace("ERROR: ball number " + ballNbr + ": xVel is NaN.");
 			}
-			if(!this.playing){
+			if(!this.playing && !this.singleStepping){
 				this.atInitialConfig = true;
 			}
 			this.ball_arr[indx].velocity.setX(xVel);
@@ -325,7 +327,7 @@ package{
 		}
 		
 		public function setVY(indx:int, yVel:Number):void{
-			if(!this.playing){
+			if(!this.playing && !this.singleStepping){
 				this.atInitialConfig = true;
 			}
 			this.ball_arr[indx].velocity.setY(yVel);
@@ -333,8 +335,12 @@ package{
 				this.initVel[indx].setY(yVel);
 				this.setTimeToZero();
 			}
-			if(!playing){this.updateViews();}
-		}
+			//trace("Model.setVY() called. yVel = "+ yVel);
+			if(!playing){
+				//trace("Model.setVY updateViews() called.");
+				this.updateViews();
+				}
+		}//end setVY
 		
 		public function setVXVY(indx:int, xVel:Number, yVel:Number):void{
 			if(isNaN(xVel)){
@@ -389,7 +395,7 @@ package{
 				this.lastTime = this.time; //should this be here or at end of method?
 			}
 			this.time += dt;
-			trace("Model.singleStep()  dt = "+dt+"   this.time = "+this.time);
+			//trace("Model.singleStep()  dt = "+dt+"   this.time = "+this.time);
 			for(var i:int = 0; i < this.nbrBalls; i++){
 				var x:Number = this.ball_arr[i].position.getX();
 				var y:Number = this.ball_arr[i].position.getY();
