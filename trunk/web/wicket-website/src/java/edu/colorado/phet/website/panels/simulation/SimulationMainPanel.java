@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
@@ -251,7 +253,12 @@ public class SimulationMainPanel extends PhetPanel {
         *----------------------------------------------------------------------------*/
 
         // TODO: move from direct links to page redirections, so bookmarkables will be minimized
-        add( new RawLink( "run-online-link", simulation.getRunUrl() ) );
+        RawLink runOnlineLink = new RawLink( "run-online-link", simulation.getRunUrl() );
+        add( runOnlineLink );
+        if ( simulation.getSimulation().getProject().isFlash() ) {
+            // make Flash links open in a new window / tab
+            runOnlineLink.add( new AttributeModifier( "target", true, new Model<String>( "_blank" ) ) );
+        }
         add( new RawLink( "run-offline-link", simulation.getDownloadUrl() ) );
 
         /*---------------------------------------------------------------------------*
