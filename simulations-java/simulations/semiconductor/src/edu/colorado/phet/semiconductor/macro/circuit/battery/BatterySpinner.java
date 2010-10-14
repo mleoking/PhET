@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JSpinner;
@@ -27,7 +28,7 @@ public class BatterySpinner {
     public static final double min = -4;
     public static final double max = 4;
     DecimalFormat df = new DecimalFormat( "##.00#" );
-    private Battery battery;
+    private final Battery battery;
 
     public BatterySpinner( final Battery battery ) {
         this.battery = battery;
@@ -42,10 +43,12 @@ public class BatterySpinner {
         if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
             final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
             ed.getTextField().addKeyListener( new KeyAdapter() {
+                @Override
                 public void keyReleased( KeyEvent e ) {
                     String text = ed.getTextField().getText();
                     try {
-                        double volts = Double.parseDouble( text );
+//                        double volts = Double.parseDouble( text );
+                        double volts = parse( text );
                         if ( volts >= min && volts <= max ) {
                             setVoltage( volts );
                         }
@@ -59,6 +62,9 @@ public class BatterySpinner {
                         }
                     }
                     catch( NumberFormatException n ) {
+                        System.err.println( getClass().getName() + " - Error: Number format exception caught." );
+                        System.err.println( " Attempted to convert: " + text );
+                        n.printStackTrace();
                     }
                 }
             } );
@@ -75,7 +81,28 @@ public class BatterySpinner {
     }
 
     private void setVoltage( double volts ) {
-        battery.setVoltage( Double.parseDouble( df.format( volts ) ) );
+        battery.setVoltage( parse( df.format( volts )) );
+    }
+
+    /**
+     * This method is a locale-tolerant means for interpreting a string that
+     * describes a double.  This was needed to solve some issues with the use
+     * of this sim on machines where the number formatting was set up to use
+     * commas instead of decimal points.  See #2462.
+     *
+     * @param valueText
+     * @return
+     */
+    private double parse( String valueText ){
+        double value = 0;
+        try {
+            value = df.parse( valueText ).doubleValue();
+        }
+        catch ( ParseException e1 ) {
+            System.err.println( getClass().getName() + " - Error: caught parse exception." );
+            e1.printStackTrace();
+        }
+        return value;
     }
 
     public JSpinner getSpinner() {
