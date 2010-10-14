@@ -21,16 +21,29 @@ public class Property<T> extends SimpleObservable {
     }
 
     /**
-     * Adds a SimpleObserver to observe the value of this instance, also immediately updates the SimpleObserver,
+     * Adds a SimpleObserver to observe the value of this instance.
+     * If notifyOnAdd is true, also immediately notifies the SimpleObserver,
      * so that the client code is not responsible for doing so.
      * This helps the SimpleObserver to always be synchronized with this instance.
      *
      * @param simpleObserver
+     * @param notifyOnAdd
+     */
+    public void addObserver( SimpleObserver simpleObserver, boolean notifyOnAdd ) {
+        super.addObserver( simpleObserver );
+        if ( notifyOnAdd ) {
+            simpleObserver.update();
+        }
+    }
+    
+    /**
+     * Adds and immediately notifies a SimpleObserver.
+     * 
+     * @param simpleObserver
      */
     @Override
     public void addObserver( SimpleObserver simpleObserver ) {
-        super.addObserver( simpleObserver );
-        simpleObserver.update();
+        addObserver( simpleObserver, true /* notifyOnAdd */ );
     }
 
     public void reset() {
