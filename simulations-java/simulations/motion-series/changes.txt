@@ -1,3 +1,4 @@
+# 1.03.83 (45046) Oct 13, 2010
 Fixed: radio buttons (such as "brick") toggle on and off when pressing the same button repeatedly
 # 1.03.82 (44954) Oct 11, 2010
 Fixed: Keypresses broken in sliders in the control panel, see #2540
