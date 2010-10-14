@@ -1,3 +1,5 @@
+# 0.00.13 (45055) Oct 14, 2010
+10/14/10 Fixed issue with stage dimensions in different browsers.
 # 0.00.13 (45053) Oct 14, 2010
 # 0.00.12 (45008) Oct 12, 2010
 10/12/10 Several fixes including bug fixes in textfields and single stepping mode.
