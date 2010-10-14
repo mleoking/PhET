@@ -101,99 +101,6 @@ public class ChargeIndicatorNode extends PNode {
             setOffset( pieNode.getFullBounds().getWidth() * 1.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
         }} );
-
-        // TODO: i18n
-        final PText atomText = new PText( "Atom" ) {{setFont( ATOM_ION_FONT );}};
-        // TODO: i18n
-        final PText ionText = new PText( "Ion" ) {{setFont( ATOM_ION_FONT );}};
-
-        double xSpacing = 30;
-        ionText.setOffset( chargeMeterImageNode.getFullBoundsReference().getMaxX() + xSpacing,
-                chargeMeterImageNode.getFullBoundsReference().getMaxY() - ionText.getFullBoundsReference().height );
-        atomText.setOffset( ionText.getFullBoundsReference().getMinX(),
-                ionText.getFullBoundsReference().getMinY() - atomText.getFullBoundsReference().height );
-
-        addChild( atomText );
-        addChild( ionText );
-
-        final SimpleObserver updateIconText = new SimpleObserver() {
-            public void update() {
-                if ( atom.getCharge() == 0 ) {
-                    atomText.setTextPaint( getTextPaint( atom ) );
-                    ionText.setTextPaint( Color.darkGray );
-                }
-                else {
-                    atomText.setTextPaint( Color.darkGray );
-                    ionText.setTextPaint( getTextPaint( atom ) );
-                }
-                //Overwrite if there are no particles in the atom
-                //So as to not identify a nonexistent atom as "atom"
-                //TODO: instead of overwriting these values, the logic above should be changed
-                if ( atom.getNumParticles() == 0 ) {
-                    atomText.setTextPaint( Color.darkGray );
-                    ionText.setTextPaint( Color.darkGray );
-                }
-            }
-        };
-        atom.addObserver( updateIconText );
-        updateIconText.update();
-
-        // Add the check mark for "atom"
-        addChild( new CheckMark() {{
-            final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
-                public void update() {
-                    setVisible( atom.getCharge() == 0 &&
-                                atom.getNumParticles() > 0 );//Don't show the check mark if the atom has nothing in it.
-                }
-            };
-            atom.addObserver( updateCheckMarkVisible );
-            updateCheckMarkVisible.update();
-
-            setOffset( atomText.getFullBounds().getX() - getFullBounds().getWidth(), atomText.getFullBounds().getCenterY() );
-        }} );
-
-        // Add the check mark for "ion"
-        addChild( new CheckMark() {{
-            final SimpleObserver updateCheckMarkVisible = new SimpleObserver() {
-                public void update() {
-                    setVisible( atom.getCharge() != 0 &&
-                                atom.getNumParticles() > 0 );//Don't show the check mark if the atom has nothing in it.
-                    setPaint( atom.getCharge() > 0 ? Color.red : Color.blue );
-                }
-            };
-            atom.addObserver( updateCheckMarkVisible );
-            updateCheckMarkVisible.update();
-
-            setOffset( ionText.getFullBounds().getX() - getFullBounds().getWidth(), ionText.getFullBounds().getCenterY() );
-        }} );
-    }
-
-    private static class CheckMark extends PNode {
-        private final PhetPPath atomCheckMark;
-
-        private CheckMark() {
-            int width = 5;
-            int tailLength = 20;
-            int headLength = 10;
-            DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 );
-            path.lineToRelative( headLength, headLength );
-            path.lineToRelative( tailLength, -tailLength );
-            path.lineToRelative( -width, -width );
-            path.lineToRelative( -( tailLength - width ), tailLength - width );
-            path.lineToRelative( -( headLength - width ), -( headLength - width ) );
-            path.lineTo( 0, 0 );
-            path.closePath();
-            atomCheckMark = new PhetPPath( path.getGeneralPath(), purple, new BasicStroke( 2 ), Color.black );
-            atomCheckMark.scale( 0.7 );
-
-            addChild( atomCheckMark );
-        }
-
-        @Override
-        public void setPaint( Paint newPaint ) {
-            super.setPaint( newPaint );
-            atomCheckMark.setPaint( newPaint );
-        }
     }
 
     private Paint getTextPaint( Atom atom ) {
@@ -208,7 +115,4 @@ public class ChargeIndicatorNode extends PNode {
         }
     }
 
-    public double getBoxWidth() {
-        return BOX_DIMENSION;
-    }
 }
