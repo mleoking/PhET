@@ -124,7 +124,6 @@ public class GameSettingsPanel extends GridPanel {
             int column = 0;
             inputPanel.add( levelLabel, inputRow, column++, Anchor.EAST );
             inputPanel.add( levelPanel, inputRow++, column, Anchor.WEST );
-//            inputPanel.setInsets( new Insets( Y_SPACING, X_SPACING, 0, X_SPACING ) );
             column = 0;
             inputPanel.add( timerLabel, inputRow, column++, Anchor.EAST );
             inputPanel.add( timerPanel, inputRow++, column, Anchor.WEST );
