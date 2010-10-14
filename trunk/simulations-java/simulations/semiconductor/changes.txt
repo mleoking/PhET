@@ -1,3 +1,5 @@
+# 1.05.01 (45064) Oct 14, 2010
+10/14/10 > Fixed an issue where locales that used commas in numbers were not able to get current to flow.
 # 1.05.00 (38030) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.04.01 (37379) Dec 11, 2009
