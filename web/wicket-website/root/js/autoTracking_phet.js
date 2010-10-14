@@ -16,7 +16,7 @@ function listenToClicks() {
 
             DOMAIN:
             for (var j = 0; j < domains.length; j++) {
-                if (aTags[i].href.indexOf(domains[j]) != -1) {  //if the anchor tag we're checking matches a domain from our list
+                if (aTags[i].href.indexOf("http://" + domains[j]) == 0) {  //if the anchor tag we're checking matches a domain from our list
 
                     FILE:
                     // look for a file extension
