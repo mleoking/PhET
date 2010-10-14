@@ -1,3 +1,4 @@
+Changed the order of particles in the particle count legend to have electrons at the top
 Temporarily removed game tab
 Removed phet logo from single
 # 0.00.09 (44920) Oct 9, 2010
