@@ -78,12 +78,22 @@ package{
 			border.stage.addEventListener(MouseEvent.MOUSE_UP, stopTargetDrag);
 			border.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragTarget);
 			var clickOffset:Point;
-			var stageW:int = panel.stage.stageWidth;
-			var stageH:int = panel.stage.stageHeight;
+			//hardcoded because of unresolved issue with stage.stageWidth, stageHeight in various browsers
+			var stageW:int = 950;  //panel.stage.stageWidth;
+			var stageH:int = 700;  //panel.stage.stageHeight;
+			
+			//var tempSprite:Sprite = new Sprite();
+			//panel.stage.addChild(tempSprite);
+			
+			//var g:Object = tempSprite.graphics;
+			//g.clear();
+			//g.lineStyle(1,0x000000);
+			//g.drawRect(0,0,stageW, stageH);
 
 			function startTargetDrag(evt:MouseEvent):void{	
 				//problem with localX, localY if sprite is rotated.
 				clickOffset = new Point(evt.stageX - panel.x, evt.stageY - panel.y);
+
 				//trace("evt.stageX = " + evt.stageX + "   panel.x = " + panel.x);
 				//trace("evt.target.width = "+evt.target.width);
 			}
@@ -95,7 +105,7 @@ package{
 				if(clickOffset != null){  //if dragging
 					//trace("theStage.mouseX: "+theStage.mouseX);
 					//trace("theStage.mouseY: "+theStage.mouseY);
-					//trace("evt.stageX = "+evt.stageX);
+					//trace("evt.stageX = "+evt.stageX +"   stageW = "+stageW+"   stageH = "+stageH);
 					//minD prevents user from dragging panel completely off Stage
 					var minD = 50;
 					if(evt.stageX > minD && evt.stageX < stageW - minD){
