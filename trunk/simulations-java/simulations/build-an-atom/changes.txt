@@ -1,3 +1,4 @@
+Removed the "atom" and "ion" text readouts from the charge indicator
 Added an "ion" readout near to the atom.
 Changed the order of particles in the particle count legend to have electrons at the top
 Temporarily removed game tab
