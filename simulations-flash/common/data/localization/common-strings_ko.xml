@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_ko.xml created Sat Jul 10 15:59:37 KST 2010 using: flash-common-strings 2.02.00 (38663), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<!--common-strings_ko.xml created Tue Sep 21 15:59:56 KST 2010 using: flash-common-strings 2.02.00 (38663), translation-utility 2.09.00 (44031) 9월 14, 2010-->
 <SimStrings>
 <string key="About..." value="개관..."/>
 <string key="SoftwareDevelopment" value="소프트웨어 개발"/>
@@ -9,7 +9,7 @@
 <string key="Version" value="버전"/>
 <string key="NewVersionAvailable" value="새로운 버전 사용 가능"/>
 <string key="SoftwareAgreement" value="소프트웨어 동의서"/>
-<string key="PhETInstallation" value="최신 시뮬레이션이 포함된 설치 프로그램을 내려받으시려면 PhET 웹사이트 설치 페이지 &lt;a href='{0}'&gt;를 방문하십시오."/>
+<string key="PhETInstallation" value="최신 시뮬레이션이 포함된 설치 프로그램을 내려받으려면 PhET 웹사이트 설치 페이지 &lt;a href='{0}'&gt;를 방문하십시오."/>
 <string key="StatisticsField-sim_version_timestamp" value="시뮬레이션 버전 (타임 스탬프)"/>
 <string key="StatisticsField-sim_dev_version" value="시뮬레이션 버전(개발)"/>
 <string key="AskLater" value="나중에 질문"/>
@@ -20,7 +20,7 @@
 <string key="PhetSoftwareAgreement" value="PhET 소프트웨어 동의서"/>
 <string key="NoUpdatesAvailable" value="업데이트 할 수 없습니다"/>
 <string key="StatisticsField-message_type" value="메시지 형식"/>
-<string key="InstallationDated" value="당신의 PhET 오프라인 설치시기는 {0}입니다."/>
+<string key="InstallationDated" value="현 PhET 오프라인 웹사이트 설치시기는 {0}입니다."/>
 <string key="CheckUpdates" value="업데이트를 자동으로 체크"/>
 <string key="UpToDate" value="업투데이트"/>
 <string key="StatisticsField-sim_major_version" value="시뮬레이션 버전 (주 판)"/>
@@ -41,7 +41,7 @@
 <string key="StatisticsField-host_flash_time_offset" value="시간대"/>
 <string key="MostCurrentVersion" value=" {1}의 최신 버전 ({0})을 사용하고 계십니다."/>
 <string key="StatisticsField-sim_deployment" value="개발 형식"/>
-<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; 는 '최소한의 정보 수집 동의'를 통해서 자유롭게 사용할 수 있습니다. 이 정보는 PhET sims의 사용에 관한 것으로 사용자들의 업데이트 요구를 반영하는데 도움을 줄 것입니다. 전송되는 세부사항은 아래에서 확인할 수 있습니다."/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; 는 최소한의 정보 수집에 동의를 하시면 자유롭게 사용할 수 있습니다. 이 정보는 PhET sims의 사용에 관한 것으로 사용자들의 업데이트 요구를 반영하는데 도움을 줄 것입니다. 전송되는 세부사항은 아래에서 확인할 수 있습니다."/>
 <string key="StatisticsField-sim_type" value="시뮬레이션 형식"/>
 <string key="Close" value="닫기"/>
 <string key="StatisticsField-sim_dev" value="이것은 개발 버전입니까?"/>
@@ -51,10 +51,10 @@
 <string key="PrivacyMessage1" value="모든 PhET 시뮬레이션에서는 무작위로 최소한의&lt;a href='{0}'&gt; &lt;/a&gt;정보를 수집합니다 (예: 시뮬레이션 버전, 운영체제). 환경설정을 버튼을 이용하여 이 정보 발송이 불가능하게 하실 수 있습니다."/>
 <string key="StatisticsField-user_installation_timestamp" value="PhET 설치 타임 스탬프"/>
 <string key="StatisticsField-sim_name" value="시뮬레이션 이름"/>
-<string key="UpdateOptionsAvailable" value="업데이트 옵션을 &lt;i&gt;Preferences&lt;/i&gt;에서 사용가능 합니다."/>
+<string key="UpdateOptionsAvailable" value="업데이트 옵션을 &lt;i&gt;Preferences&lt;/i&gt;에서 사용할 수 있습니다."/>
 <string key="PhetDevelopmentTeam" value="PhET 개발팀"/>
-<string key="InstallerInfo2" value="최신 버전의 설치를 선택하시면 웹부라우저가  PhET웹사이트를 열 것이며, 그 곳에서 최신의 PhET 오프라인 웹사이트를 설치하실 수 있습니다.."/>
-<string key="InstallerInfo1" value="사용하고 계신 PhET 오프라인 웹사이트 및 보조 자료들이 최신 버전인지 확인하시고 계속 업데이트 하십시오."/>
+<string key="InstallerInfo2" value="최신 버전의 설치를 선택하시면 웹부라우저가  PhET웹사이트를 열며, 이 곳에서 최신의 PhET 오프라인 웹사이트를 설치하실 수 있습니다.."/>
+<string key="InstallerInfo1" value="사용중인 PhET 오프라인 웹사이트 및 보조 자료들이 최신 버전인지 확인하시고 계속 업데이트 하십시오."/>
 <string key="StatisticsField-sim_minor_version" value="시뮬레이션 버전 (부 판)"/>
 <string key="Credits" value="제작 참여자"/>
 <string key="StatisticsField-host_flash_version" value="플래시 플레이어 버전"/>
