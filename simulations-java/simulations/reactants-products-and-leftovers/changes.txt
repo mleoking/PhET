@@ -1,3 +1,4 @@
+10/14/10 #2547, generalized Game Settings panel (needs to be migrated to phetcommon, along with associated icons and strings)
 # 1.01.00 (44416) Sep 27, 2010
 > make Game Settings panel translatable
 9/27/10 #2527, incomplete localization of Game Settings panel
