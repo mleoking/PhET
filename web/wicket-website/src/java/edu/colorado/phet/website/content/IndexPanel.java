@@ -1,6 +1,9 @@
 package edu.colorado.phet.website.content;
 
+import java.util.Locale;
+
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.PhetWicketApplication;
@@ -37,19 +40,26 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "nsf-logo", "/images/support/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/support/hewlett-logo-small.jpg", null ) );
 
+        if ( getMyLocale().equals( new Locale( "en" ) ) ) {
+            add( new Label( "odf-and", "and" ) );
+        }
+        else {
+            add( new InvisibleComponent( "odf-and" ) );
+        }
+
 //        add( new StaticImage( "facebook-like", "/images/icons/social/facebook-like.gif", null));
 //        add( new StaticImage( "facebook-image", "/images/icons/social/facebook.png", null));
 //        add( new StaticImage( "twitter-image", "/images/icons/social/twitter.png", null));
 
-        add( new LocalizedText( "facebook-text", "home.facebookText", new Object[]{
+        add( new LocalizedText( "facebook-text", "home.facebookText", new Object[] {
                 "<img class=\"index-social-image\" src=\"/images/icons/social/facebook.png\" alt=\"Facebook icon\"/>"
-        }));
-        add( new LocalizedText( "twitter-text", "home.twitterText", new Object[]{
+        } ) );
+        add( new LocalizedText( "twitter-text", "home.twitterText", new Object[] {
                 "<img class=\"index-social-image\" src=\"/images/icons/social/twitter.png\" alt=\"Twitter icon\"/>"
-        }));
-        add( new LocalizedText( "blog-text", "home.blogText"));
+        } ) );
+        add( new LocalizedText( "blog-text", "home.blogText" ) );
 
-        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{
+        add( new LocalizedText( "index-main-text", "home.subheader", new Object[] {
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
