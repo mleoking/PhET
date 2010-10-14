@@ -41,7 +41,7 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "hewlett-logo", "/images/support/hewlett-logo-small.jpg", null ) );
 
         if ( getMyLocale().equals( new Locale( "en" ) ) ) {
-            add( new Label( "odf-and", "and" ) );
+            add( new Label( "odf-and", "and the" ) );
         }
         else {
             add( new InvisibleComponent( "odf-and" ) );
