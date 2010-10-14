@@ -187,7 +187,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         PDimension elementIndicatorNodeWindowSize = new PDimension( 400, 250 - verticalSpacingBetweenWindows * 2 );
         ElementIndicatorNode elementIndicatorNode = new ElementIndicatorNode( model.getAtom() );
         // TODO: i18n
-        MaximizeControlNode elementIndicatorWindow = new MaximizeControlNode( "Element", elementIndicatorNodeWindowSize, elementIndicatorNode, true );
+        final MaximizeControlNode elementIndicatorWindow = new MaximizeControlNode( "Element", elementIndicatorNodeWindowSize, elementIndicatorNode, true );
         elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width / 2 - elementIndicatorNode.getFullBounds().getWidth() / 2, elementIndicatorNodeWindowSize.getHeight() / 2 - elementIndicatorNode.getFullBounds().getHeight() / 2 );
         elementIndicatorWindow.setOffset( indicatorWindowPosX, verticalSpacingBetweenWindows );
         elementIndicatorNode.translate( 0, 10 );//fudge factor since centering wasn't quite right
@@ -243,6 +243,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( new OrbitalViewControl( viewOrbitals ){{
             setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20,chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
         }} );
+
+        rootNode.addChild( new IonIndicatorNode(model.getAtom()) {{
+            setOffset( elementIndicatorWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-80,elementIndicatorWindow.getFullBounds().getCenterY()-getFullBounds().getHeight()/2);
+        }});
 
         //Make the "orbits" button not focused by default, by focusing the canvas
         setFocusable( true );
