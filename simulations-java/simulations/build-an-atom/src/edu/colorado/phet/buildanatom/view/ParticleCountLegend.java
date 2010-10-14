@@ -47,7 +47,6 @@ public class ParticleCountLegend extends PNode {
                 return new ProtonNode( NO_TRANSFORM, new Proton( NO_CLOCK ) );//creates a dummy particle so we can reuse graphics code
             }
         } );
-        addChild( protonItem );
         final ReadoutLegendItem neutronItem = new ReadoutLegendItem( "neutrons:", atom, new Getter() {
             public int get() {
                 return atom.getNumNeutrons();
@@ -57,7 +56,6 @@ public class ParticleCountLegend extends PNode {
                 return new NeutronNode( NO_TRANSFORM, new Neutron( NO_CLOCK ) );
             }
         } );
-        addChild( neutronItem );
         final ReadoutLegendItem electronItem = new ReadoutLegendItem( "electrons:", atom, new Getter() {
             public int get() {
                 return atom.getNumElectrons();
@@ -67,11 +65,14 @@ public class ParticleCountLegend extends PNode {
                 return new ElectronNode( NO_TRANSFORM, new Electron( NO_CLOCK ) );
             }
         } );
+
         addChild( electronItem );
+        addChild( protonItem );
+        addChild( neutronItem );
 
         //Layout the components
+        protonItem.setOffset( 0, electronItem.getFullBounds().getMaxY() + OFFSET_Y );
         neutronItem.setOffset( 0, protonItem.getFullBounds().getMaxY() + OFFSET_Y );
-        electronItem.setOffset( 0, neutronItem.getFullBounds().getMaxY() + OFFSET_Y );
         double iconX = 20 + Math.max( protonItem.textNode.getFullBounds().getMaxX(), Math.max( neutronItem.textNode.getFullBounds().getMaxX(), electronItem.textNode.getFullBounds().getMaxX() ) );//leftmost x where the grid items start
         protonItem.setIconXOffset( iconX );
         neutronItem.setIconXOffset( iconX );
