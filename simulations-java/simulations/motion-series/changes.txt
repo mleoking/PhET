@@ -1,3 +1,4 @@
+Fixed: radio buttons (such as "brick") toggle on and off when pressing the same button repeatedly
 # 1.03.82 (44954) Oct 11, 2010
 Fixed: Keypresses broken in sliders in the control panel, see #2540
 Fixed: Can get a false "stuck" condition by pressing the object to the left against the truck continuously. Object should only be stuck if robot cannot overcome friction force (only applies to refrigerator).
