@@ -7,7 +7,10 @@ class MyRadioButton(text: String, actionListener: => Unit, getter: => Boolean, a
   addListener(update)
   update()
   peer.addActionListener(new ActionListener() {
-    def actionPerformed(ae: ActionEvent) = actionListener
+    def actionPerformed(ae: ActionEvent) = {
+      actionListener
+      update()//to handle when they press the same button twice in a row
+    }
   });
   def update() = peer.setSelected(getter)
 }
