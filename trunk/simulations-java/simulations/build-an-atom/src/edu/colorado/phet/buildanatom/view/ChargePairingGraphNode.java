@@ -26,8 +26,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ChargePairingGraphNode extends PNode {
 
-    private static final Dimension2D CHARGE_ICON_SIZE = new PDimension(20, 20);
-    private static final Font CHARGE_ICON_FONT = new PhetFont(20, true);
     private static final double VERTICAL_INTER_ICON_SPACING = 5;
     private static final double HORIZONTAL_INTER_ICON_SPACING = 5;
 
@@ -67,8 +65,8 @@ public class ChargePairingGraphNode extends PNode {
             PositiveChargeIconNode icon = new PositiveChargeIconNode();
             positiveChargeIconList.add( icon );
             icon.setOffset(
-                    positiveChargeIconList.size() * (CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING),
-                    CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
+                    positiveChargeIconList.size() * (ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING),
+                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
             addChild(icon);
         }
     }
@@ -79,7 +77,7 @@ public class ChargePairingGraphNode extends PNode {
             NegativeChargeIconNode icon = new NegativeChargeIconNode();
             negativeChargeIconList.add( icon );
             icon.setOffset(
-                    negativeChargeIconList.size() * (CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING),
+                    negativeChargeIconList.size() * (ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING),
                     0 );
             addChild(icon);
         }
@@ -105,49 +103,50 @@ public class ChargePairingGraphNode extends PNode {
         }
     }
 
-    static class PositiveChargeIconNode extends PNode {
+    static class ChargeIconNode extends PNode {
+        private static final Dimension2D CHARGE_ICON_SIZE = new PDimension(20, 20);
+        private static final Font CHARGE_ICON_FONT = new PhetFont(20, true);
+
+        /**
+         * Constructor.
+         */
+        public ChargeIconNode(String symbol, Color foregroundColor, Color backgroundColor) {
+            ShadowPText label = new ShadowPText(symbol);
+            label.setFont(CHARGE_ICON_FONT);
+            label.setTextPaint( foregroundColor );
+            label.setShadowColor( Color.BLACK );
+            label.setOffset(CHARGE_ICON_SIZE.getWidth() / 2 - label.getFullBoundsReference().getWidth() / 2,
+                    CHARGE_ICON_SIZE.getHeight() / 2 - label.getFullBoundsReference().getHeight() / 2 );
+            Rectangle2D backgroundRect = new Rectangle2D.Double(0, 0, CHARGE_ICON_SIZE.getWidth(),
+                    CHARGE_ICON_SIZE.getHeight());
+            addChild(new PhetPPath(backgroundRect, backgroundColor, new BasicStroke(1), Color.BLACK));
+            addChild( label );
+        }
+    }
+
+    static class PositiveChargeIconNode extends ChargeIconNode {
 
         private static Color BACKGROUND_COLOR = new Color( 228, 183, 183 );
-
-        private final ShadowPText label = new ShadowPText("+") {{
-            setFont(CHARGE_ICON_FONT);
-            setTextPaint( Color.RED );
-            setShadowColor( Color.BLACK );
-            setOffset(CHARGE_ICON_SIZE.getWidth() / 2 - getFullBoundsReference().getWidth() / 2,
-                    CHARGE_ICON_SIZE.getHeight() / 2 - getFullBoundsReference().getHeight() / 2 );
-        }};
+        private static Color SYMBOL_COLOR = Color.RED;
 
         /**
          * Constructor.
          */
         public PositiveChargeIconNode() {
-            Rectangle2D backgroundRect = new Rectangle2D.Double(0, 0, CHARGE_ICON_SIZE.getWidth(),
-                    CHARGE_ICON_SIZE.getHeight());
-            addChild(new PhetPPath(backgroundRect, BACKGROUND_COLOR, new BasicStroke(1), Color.BLACK));
-            addChild( label );
+            super("+", SYMBOL_COLOR, BACKGROUND_COLOR);
         }
     }
 
-    static class NegativeChargeIconNode extends PNode {
+    static class NegativeChargeIconNode extends ChargeIconNode {
 
         private static Color BACKGROUND_COLOR = new Color( 170, 187, 204 );
-
-        private final ShadowPText label = new ShadowPText("-") {{
-            setFont(CHARGE_ICON_FONT);
-            setTextPaint( Color.BLUE );
-            setShadowColor( Color.BLACK );
-            setOffset(CHARGE_ICON_SIZE.getWidth() / 2 - getFullBoundsReference().getWidth() / 2,
-                    CHARGE_ICON_SIZE.getHeight() / 2 - getFullBoundsReference().getHeight() / 2 );
-        }};
+        private static Color SYMBOL_COLOR = Color.BLUE;
 
         /**
          * Constructor.
          */
         public NegativeChargeIconNode() {
-            Rectangle2D backgroundRect = new Rectangle2D.Double(0, 0, CHARGE_ICON_SIZE.getWidth(),
-                    CHARGE_ICON_SIZE.getHeight());
-            addChild(new PhetPPath(backgroundRect, BACKGROUND_COLOR, new BasicStroke(1), Color.BLACK));
-            addChild( label );
+            super("-", SYMBOL_COLOR, BACKGROUND_COLOR);
         }
     }
 }
