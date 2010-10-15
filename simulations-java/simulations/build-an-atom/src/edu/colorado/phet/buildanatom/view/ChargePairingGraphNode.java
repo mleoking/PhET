@@ -34,7 +34,6 @@ public class ChargePairingGraphNode extends PNode {
     private final ArrayList<PositiveChargeIconNode> positiveChargeIconList = new ArrayList<PositiveChargeIconNode>();
     private final ArrayList<NegativeChargeIconNode> negativeChargeIconList = new ArrayList<NegativeChargeIconNode>();
 
-
     /**
      * Constructor.
      */
@@ -69,7 +68,7 @@ public class ChargePairingGraphNode extends PNode {
             positiveChargeIconList.add( icon );
             icon.setOffset(
                     positiveChargeIconList.size() * (CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING),
-                    0 );
+                    CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
             addChild(icon);
         }
     }
@@ -81,7 +80,7 @@ public class ChargePairingGraphNode extends PNode {
             negativeChargeIconList.add( icon );
             icon.setOffset(
                     negativeChargeIconList.size() * (CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING),
-                    CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
+                    0 );
             addChild(icon);
         }
     }
@@ -151,6 +150,4 @@ public class ChargePairingGraphNode extends PNode {
             addChild( label );
         }
     }
-
-
 }
