@@ -1,4 +1,5 @@
-Moved the reset all button to the right hand side of the canvas instead of centered under the indicator windows 
+Added a "Show Labels" checkbox
+Moved the reset all button to the right hand side of the canvas instead of centered under the indicator windows
 Fixed: Don't show the ion indicator when only electrons are present
 # 0.00.10 (45068) Oct 14, 2010
 10/14/10 Published to dev with changes requested in recent team meeting.
