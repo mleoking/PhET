@@ -33,17 +33,12 @@ public class Scale extends Cuboid {
         super( SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM );
 
         // set mass to make this mobile / immobile, and then listen to it
-        updateMobility();
-        getModel().scalesMovableProperty.addListener( updateMobility );
+        getModel().scalesMovableProperty.addListener( updateBox2DModel );
+        setMass( SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH * SCALE_DENSITY );
     }
 
-    protected override function updateMobility(): void {
-        if ( getModel().scalesMovableProperty.value && !userControlled ) {
-            setMass( SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH * SCALE_DENSITY );
-        }
-        else {
-            setMass( 0 );//Mass has to be zero so that it is immobile
-        }
+    override public function isMovable(): Boolean {
+        return super.isMovable() && getModel().scalesMovableProperty.value;
     }
 
     public function getScaleReadout(): String {

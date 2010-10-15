@@ -357,20 +357,15 @@ public class DensityObject {
 
     public function set userControlled( userControlled: Boolean ): void {
         _userControlled = userControlled;
-        updateMobility();
+        updateBox2DModel();
     }
 
     public function get userControlled(): Boolean {
         return _userControlled;
     }
 
-    protected function updateMobility(): void {
-        if ( !userControlled ) {
-            setMass( mass.value );
-        }
-        else {
-            setMass( 0 );//Mass has to be zero so that it is immobile
-        }
+    public function isMovable(): Boolean {
+        return !userControlled;
     }
 
 }
