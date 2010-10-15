@@ -231,7 +231,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
             }
         } );
         resetButtonNode.setOffset(
-                chargeWindow.getFullBounds().getCenterX() - resetButtonNode.getFullBounds().getWidth() / 2,
+                chargeWindow.getFullBounds().getMaxX() - resetButtonNode.getFullBounds().getWidth() ,
                 chargeWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
 
         maximizeControlNodeArrayList.add( chargeWindow );
