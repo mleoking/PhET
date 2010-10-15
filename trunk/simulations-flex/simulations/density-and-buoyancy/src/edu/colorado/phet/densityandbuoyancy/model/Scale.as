@@ -37,8 +37,8 @@ public class Scale extends Cuboid {
         getModel().scalesMovableProperty.addListener( updateMobility );
     }
 
-    private function updateMobility(): void {
-        if ( getModel().scalesMovableProperty.value ) {
+    protected override function updateMobility(): void {
+        if ( getModel().scalesMovableProperty.value && !userControlled ) {
             setMass( SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH * SCALE_DENSITY );
         }
         else {

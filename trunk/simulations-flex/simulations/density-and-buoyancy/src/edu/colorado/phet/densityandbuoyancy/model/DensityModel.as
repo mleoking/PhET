@@ -150,6 +150,7 @@ public class DensityModel {
             for each( var cuboid: Cuboid in getCuboids() ) {
                 var body: b2Body = cuboid.getBody();
 
+
                 var submergedVolume: Number;
                 if ( waterY > cuboid.getTopY() ) {
                     submergedVolume = cuboid.getVolume();

@@ -48,7 +48,12 @@ public class Cuboid extends DensityObject {
     private function updateBodyDef(): void {
         bodyDef.position.Set( getX() * DensityConstants.SCALE_BOX2D, getY() * DensityConstants.SCALE_BOX2D );
         bodyDef.fixedRotation = true;
-        bodyDef.massData.mass = getMass();
+        if ( isMovable ) {
+            bodyDef.massData.mass = 0;
+        }
+        else {
+            bodyDef.massData.mass = getMass();
+        }
         bodyDef.massData.center.SetZero();
         bodyDef.massData.I = 1.0; // rotational inertia shouldn't matter
     }
