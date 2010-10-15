@@ -48,7 +48,7 @@ public class Cuboid extends DensityObject {
     private function updateBodyDef(): void {
         bodyDef.position.Set( getX() * DensityConstants.SCALE_BOX2D, getY() * DensityConstants.SCALE_BOX2D );
         bodyDef.fixedRotation = true;
-        if ( isMovable ) {
+        if ( !isMovable() ) {
             bodyDef.massData.mass = 0;
         }
         else {
