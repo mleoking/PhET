@@ -20,7 +20,8 @@ public class IonIndicatorNode extends PNode {
             setTextPaint( Color.blue );
             atom.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( atom.getCharge() != 0 );
+                    setVisible( atom.getCharge() != 0 &&
+                                atom.getNumElectrons()!=atom.getNumParticles() );//don't show the ion indicator when only electrons are present
                     setText( atom.getCharge()>0?"+ Ion":"- Ion" );//todo: i18n
                     setTextPaint( atom.getCharge()>0?Color.red:Color.blue );
                 }
