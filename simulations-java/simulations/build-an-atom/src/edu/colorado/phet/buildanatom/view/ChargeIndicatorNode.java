@@ -1,6 +1,8 @@
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -12,8 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
@@ -25,7 +25,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ChargeIndicatorNode extends PNode {
     private static final int BOX_DIMENSION = 80;
-    private static final Font ATOM_ION_FONT = new PhetFont(20, true);
 
     private static final Color purple = new Color( 112, 48, 160 );
     private static final double WIDTH = 90;
@@ -101,6 +100,13 @@ public class ChargeIndicatorNode extends PNode {
             setOffset( pieNode.getFullBounds().getWidth() * 1.0 / 4.0 - getFullBounds().getWidth() / 2, pieNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             setTextPaint( new Color( 69, 94, 255 ) );//Blue that shows up against black
         }} );
+
+        // Add the node that stacks charge icons horizontally next to one
+        // another.
+        addChild( new ChargePairingGraphNode( atom ){{
+            setOffset(chargeMeterImageNode.getFullBoundsReference().getMaxX(),
+                    chargeMeterImageNode.getFullBoundsReference().getCenterY() - 5);
+        }});
     }
 
     private Paint getTextPaint( Atom atom ) {
@@ -113,6 +119,15 @@ public class ChargeIndicatorNode extends PNode {
         else {
             return Color.blue;
         }
+    }
+
+    /**
+     * Class used for indicating the
+     *
+     * @author John Blanco
+     */
+    static class ChargeSymbolNode {
+
     }
 
 }
