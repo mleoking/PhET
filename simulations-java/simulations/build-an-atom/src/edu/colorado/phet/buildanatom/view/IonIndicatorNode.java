@@ -23,7 +23,7 @@ public class IonIndicatorNode extends PNode {
                 public void update() {
                     setVisible( showLabels.getValue() &&
                                 atom.getCharge() != 0 &&
-                                atom.getNumElectrons() != atom.getNumParticles() );//don't show the ion indicator when only electrons are present
+                                atom.getNumProtons() > 0 );//don't show the ion indicator when only electrons are present
                     setText( atom.getCharge() > 0 ? "+ Ion" : "- Ion" );//todo: i18n
                     setTextPaint( atom.getCharge() > 0 ? Color.red : Color.blue );
                 }
