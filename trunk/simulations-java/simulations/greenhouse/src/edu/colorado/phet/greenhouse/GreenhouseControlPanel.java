@@ -58,8 +58,8 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     private final ModelSlider greenhouseGasConcentrationControl;
     String[] iceAgeConcentrations = new String[]{" ?",
             "180 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
-            "0.380 ",
-            "0.215 "};
+            "0.380 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" ),
+            "0.215 " + GreenhouseResources.getString( "GreenhouseControlPanel.PPMAbreviation" )};
 
     String[] preIndRevConcentrations = new String[]{
             "70% " + GreenhouseResources.getString( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
