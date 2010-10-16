@@ -206,7 +206,7 @@ public class DistributionHandler {
         return cycle.isYoungAndFreedmanRipperRequest();
     }
 
-    public static boolean showPearsonPreview( PhetRequestCycle cycle ) {
+    public static boolean showSimSponsor( PhetRequestCycle cycle ) {
         return !cycle.isForProductionServer();
     }
 

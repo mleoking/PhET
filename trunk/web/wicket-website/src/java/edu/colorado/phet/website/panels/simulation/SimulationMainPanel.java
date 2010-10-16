@@ -40,8 +40,8 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
-import edu.colorado.phet.website.panels.PearsonSponsorPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.panels.SimSponsorPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
@@ -530,8 +530,9 @@ public class SimulationMainPanel extends PhetPanel {
             }
         } );
 
-        if ( DistributionHandler.showPearsonPreview( getPhetCycle() ) && simulation.getSimulation().getName().equals( "mass-spring-lab" ) ) {
-            add( new PearsonSponsorPanel( "pearson-sponsor", context ) );
+        if ( DistributionHandler.showSimSponsor( getPhetCycle() ) ) {
+            // this gets cached, so it will stay the same for the sim (but will be different for different sims)
+            add( new SimSponsorPanel( "pearson-sponsor", context, SimSponsorPanel.chooseRandomActiveSponsor() ) );
         }
         else {
             add( new InvisibleComponent( "pearson-sponsor" ) );
