@@ -27,19 +27,20 @@ public class DensityAndBuoyancyFlashCommon extends UIComponent {
             }
         }
 
-        function positionButtons(): void {
-            if ( common.commonButtons == null ) {
-                return;
-            }
-            var height: int = common.commonButtons.getPreferredHeight();
-            const y: Number = stage.stageHeight - height - 60 - DensityConstants.CONTROL_INSET;
-            trace( "y=" + y );
-            common.commonButtons.setLocationXY( DensityConstants.CONTROL_INSET, y );
-        }
-
         common.addLoadListener( positionButtons );
         stage.addEventListener( Event.RESIZE, positionButtons );
-        positionButtons();
+        positionButtons( null );
+    }
+
+    protected function positionButtons( evt: Event ): void {
+        var common: FlexCommon = FlexCommon.getInstance();
+        if ( common.commonButtons == null ) {
+            return;
+        }
+        var height: int = common.commonButtons.getPreferredHeight();
+        const y: Number = stage.stageHeight - height - 60 - DensityConstants.CONTROL_INSET;
+        trace( "y=" + y );
+        common.commonButtons.setLocationXY( DensityConstants.CONTROL_INSET, y );
     }
 
 }
