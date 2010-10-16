@@ -1,5 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
@@ -28,6 +30,11 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         super();
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
+    }
+
+    override protected function createModel(): DensityModel {
+        //TODO: dynamically compute the volume of the submerged scale
+        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 - 2.46 ) );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
     }
 
     public function doInit( container: BuoyancyContainer ): void {

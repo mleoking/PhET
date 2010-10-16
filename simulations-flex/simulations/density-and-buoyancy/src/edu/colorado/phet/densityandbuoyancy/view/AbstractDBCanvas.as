@@ -57,7 +57,7 @@ public class AbstractDBCanvas extends UIComponent {
 
     public function AbstractDBCanvas() {
         super();
-        _model = new DensityModel();
+        _model = createModel();
 
         _model.addDensityObjectCreationListener( addDensityObject );
         waterVolumeIndicator = new WaterVolumeIndicator( _model );
@@ -65,6 +65,10 @@ public class AbstractDBCanvas extends UIComponent {
 
         percentWidth = 100;
         percentHeight = 100;
+    }
+
+    protected function createModel(): DensityModel {
+        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ) );
     }
 
     public function init(): void {

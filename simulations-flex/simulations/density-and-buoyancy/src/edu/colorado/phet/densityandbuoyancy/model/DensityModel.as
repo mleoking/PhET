@@ -16,14 +16,14 @@ public class DensityModel {
     private var poolWidth: Number = DensityConstants.POOL_WIDTH_X;
     private var poolHeight: Number = DensityConstants.POOL_HEIGHT_Y;
     private var poolDepth: Number = DensityConstants.POOL_DEPTH_Z;
-    private var waterHeight: Number = 5.0 / 6.0 * poolHeight;
+    private var waterHeight: Number;
 
     public var fluidDensity: NumericProperty = new NumericProperty( FlexSimStrings.get( "properties.fluidDensity", "Fluid Density" ), "kg/m\u00b3", Material.WATER.getDensity() );
 
     public static var DISPLAY_SCALE: Number = 1000.0;
 
     private static var BOUNDS: Number = 50;
-    private var volume: Number = poolWidth * poolDepth * waterHeight;
+    private var volume: Number;
 
     public static var STEPS_PER_FRAME: Number = 10;
 
@@ -44,7 +44,9 @@ public class DensityModel {
      */
     public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
 
-    public function DensityModel() {
+    public function DensityModel( volume: Number ) {
+        this.volume = volume;
+        this.waterHeight = volume / poolWidth / poolDepth;
         densityObjects = new Array();
 
         initWorld();
