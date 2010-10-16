@@ -14,7 +14,7 @@ public class BuoyancyApplication extends Canvas {
 
     public function onApplicationComplete(): void {
         buoyancyTabNavigator.onApplicationComplete();
-        var densityAndBuoyancyFlashCommon: DensityAndBuoyancyFlashCommon = new DensityAndBuoyancyFlashCommon();
+        var densityAndBuoyancyFlashCommon: BuoyancyFlashCommon = new BuoyancyFlashCommon();
         addChild( densityAndBuoyancyFlashCommon );
         densityAndBuoyancyFlashCommon.init();
     }
