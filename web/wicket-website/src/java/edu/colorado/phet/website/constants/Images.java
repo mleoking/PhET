@@ -30,4 +30,6 @@ public class Images {
     public static final String LOGO_HEWLETT = "/images/support/hewlett-logo.jpg";
     public static final String LOGO_NSF = "/images/support/nsf-logo.gif";
     public static final String LOGO_ECSME = "/images/support/ECSME-combined-logo-med.jpg";
+    public static final String LOGO_ODONNELL = "/images/support/odf-combined-130.png";
+    public static final String LOGO_ODONNELL_LARGE = "/images/support/odf-160.png";
 }
