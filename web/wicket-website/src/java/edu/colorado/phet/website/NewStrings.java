@@ -25,6 +25,7 @@ public class NewStrings {
         checkString( session, "home.facebookText", "Join us on {0}" );
         checkString( session, "home.twitterText", "Follow us on  {0}" );
         checkString( session, "home.blogText", "Read our blog" );
+        checkString( session, "sponsors.odonnell", "The O'Donnell Foundation is devoted to building model programs to enhance the quality of education." );
         session.close();
     }
 
