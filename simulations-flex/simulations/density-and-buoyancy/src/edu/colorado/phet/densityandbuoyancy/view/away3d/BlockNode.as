@@ -3,6 +3,7 @@ import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.StringProperty;
 import edu.colorado.phet.densityandbuoyancy.view.*;
@@ -23,7 +24,7 @@ public class BlockNode extends CubeNode implements Pickable {
     private var label: StringProperty;
     private var readoutFontScale: Number;
 
-    public function BlockNode( block: Block, canvas: AbstractDBCanvas, label: StringProperty, readoutFontScale: Number = 1 ): void {
+    public function BlockNode( block: Block, canvas: AbstractDBCanvas, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
         this.label = label;
         this.block = block;
         this.readoutFontScale = readoutFontScale;
@@ -40,6 +41,11 @@ public class BlockNode extends CubeNode implements Pickable {
 
         updateMaterial();
         updateGeometry();
+
+        massReadoutVisible.addListener( function (): void {
+            densityObjectReadoutNode.visible = massReadoutVisible.value;
+        } );
+        densityObjectReadoutNode.visible = massReadoutVisible.value;
     }
 
     public function getBlock(): Block {

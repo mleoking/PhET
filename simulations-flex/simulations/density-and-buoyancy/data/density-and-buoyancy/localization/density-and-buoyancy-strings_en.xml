@@ -55,4 +55,7 @@
     <string key="properties.fluidDensity" value="Fluid Density"/>
     <string key="application.resetAll" value="Reset All"/>
     <string key="forceArrowControlPanelTitle" value="Show Forces"/>
+    <string key="controlPanel.readouts" value="Readouts"/>
+    <string key="controlPanel.showMasses" value="Masses"/>
+    <string key="controlPanel.showVectorValues" value="Vector Values"/>
 </SimStrings>

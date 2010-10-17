@@ -253,7 +253,7 @@ public class DensityObject {
         contactImpulseMap = new Object();
     }
 
-    public function createNode( view: AbstractDBCanvas ): DensityObjectNode {
+    public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
         throw new Error();
     }
 

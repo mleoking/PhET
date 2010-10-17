@@ -34,10 +34,15 @@ public class BuoyancyContainer extends AbstractDBContainer {
         arrowControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
         arrowControlPanel.visible = true;
 
-        var label: Label = new Label();
-        label.text = FlexSimStrings.get( 'forceArrowControlPanelTitle', 'Show Forces' );
-        label.setStyle( "fontWeight", "bold" );
-        arrowControlPanel.addChild( label );
+        //        var readoutControlPanel:DensityVBox = new DensityVBox();
+        //        readoutControlPanel.setStyle("left")
+
+        {
+            var label: Label = new Label();
+            label.text = FlexSimStrings.get( 'forceArrowControlPanelTitle', 'Show Forces' );
+            label.setStyle( "fontWeight", "bold" );
+            arrowControlPanel.addChild( label );
+        }
 
         var gravityCheckbox: CheckBox = new CheckBox();
         gravityCheckbox.label = FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' );
@@ -67,6 +72,35 @@ public class BuoyancyContainer extends AbstractDBContainer {
         } );
         arrowControlPanel.addChild( fluidDragCheckbox );
         addChild( arrowControlPanel );
+
+        {
+            var label: Label = new Label();
+            label.text = FlexSimStrings.get( 'controlPanel.readouts', 'Readouts' );
+            label.setStyle( "fontWeight", "bold" );
+            arrowControlPanel.addChild( label );
+        }
+
+        {
+            var showMassReadoutsCheckBox: CheckBox = new CheckBox();
+            showMassReadoutsCheckBox.selected = buoyancyCanvas.massReadoutsVisible.value;
+            showMassReadoutsCheckBox.label = FlexSimStrings.get( 'controlPanel.showMasses', 'Masses' );
+            showMassReadoutsCheckBox.addEventListener( MouseEvent.CLICK, function(): void {//TODO: keyboard accessibilty
+                buoyancyCanvas.setMassReadoutsVisible( showMassReadoutsCheckBox.selected );
+            } );
+            arrowControlPanel.addChild( showMassReadoutsCheckBox );
+
+            buoyancyCanvas.massReadoutsVisible.addListener( function(): void {
+                showMassReadoutsCheckBox.selected = buoyancyCanvas.massReadoutsVisible.value;
+            } );
+        }
+        {
+            var valueCheckBox: CheckBox = new CheckBox();
+            valueCheckBox.label = FlexSimStrings.get( 'controlPanel.showVectorValues', 'Vector Values' );
+            valueCheckBox.addEventListener( MouseEvent.CLICK, function(): void {
+                //                buoyancyCanvas.setFluidDragForceVisible( showMassReadoutsCheckBox.selected );
+            } );
+            arrowControlPanel.addChild( valueCheckBox );
+        }
     }
 
     override public function init(): void {
