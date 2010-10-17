@@ -31,8 +31,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         var arrowControlPanel: DensityVBox = new DensityVBox();
         arrowControlPanel.setStyle( "left", DensityConstants.CONTROL_INSET );
-        arrowControlPanel.visible = false; // will be made visible once we know the height of the logo
-
         arrowControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
         arrowControlPanel.visible = true;
 
