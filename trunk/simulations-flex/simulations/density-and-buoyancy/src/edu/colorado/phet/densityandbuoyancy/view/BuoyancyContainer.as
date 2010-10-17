@@ -33,6 +33,9 @@ public class BuoyancyContainer extends AbstractDBContainer {
         arrowControlPanel.setStyle( "left", DensityConstants.CONTROL_INSET );
         arrowControlPanel.visible = false; // will be made visible once we know the height of the logo
 
+        arrowControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+        arrowControlPanel.visible = true;
+
         var label: Label = new Label();
         label.text = FlexSimStrings.get( 'forceArrowControlPanelTitle', 'Show Forces' );
         label.setStyle( "fontWeight", "bold" );
