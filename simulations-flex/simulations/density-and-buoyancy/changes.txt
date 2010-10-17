@@ -1,3 +1,4 @@
+Moved the phet logo button to the tab panel
 Removed some water volume from the Buoyancy tab so that the water displacement volume indicator shows 100.0 on startup
 Moved the about and preferences buttons to the tab navigator bar
 Fixed a bug where the scale would read out the wrong value if the user was controlling it, due to incorrect inclusion of fluid drag forces

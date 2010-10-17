@@ -62,10 +62,7 @@ public class AbstractDBContainer extends Canvas {
     }
 
     protected function addLogo(): void {
-        phetLogoButton = new PhetLogoButton();
-        phetLogoButton.setStyle( "left", DensityConstants.CONTROL_INSET );
-        phetLogoButton.setStyle( "bottom", DensityConstants.CONTROL_INSET );
-        addChild( phetLogoButton );
+        throw new Error( "abstract method error" );
     }
 
     protected function refocusCallback( event: MouseEvent ): void {
