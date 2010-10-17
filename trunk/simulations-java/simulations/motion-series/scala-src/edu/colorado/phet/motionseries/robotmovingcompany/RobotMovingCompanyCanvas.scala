@@ -20,6 +20,7 @@ import edu.colorado.phet.motionseries.javastage.stage.StageNode
 import edu.umd.cs.piccolox.pswing.PSwing
 import swing.Button
 import java.awt.{BasicStroke, GridLayout, Color, Rectangle}
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 
 /**
  * This class represents the play area for the Robot Moving Company games for Ramps II and Forces and Motion.
@@ -107,7 +108,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   addStageNode(energyMeter)
 
   addStageNode(new InstructionsNode {
-    val helpButton = new PSwing(Button("Help") {
+    val helpButton = new PSwing(Button(PhetCommonResources.getString("Common.HelpMenu.Help")) {
       val intro = new IntroDialog {
         centerWithin(RobotMovingCompanyCanvas.this.getWidth, RobotMovingCompanyCanvas.this.getHeight)
       }
