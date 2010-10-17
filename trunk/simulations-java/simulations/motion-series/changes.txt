@@ -233,7 +233,7 @@ forces-and-motion: Fixed: in Friction tab, object does not change size when you 
 Added internationalization for game modes
 Added internationalization for recently added features
 Made it so that static friction coefficient is always less than or equal to the kinetic friction coefficient for custom objects.
-> Major user interface redesign for the-ramp and forces-and-motion (which replaces forces-1d)
+Major user interface redesign for the-ramp and forces-and-motion (which replaces forces-1d)
 Bugfix in specifying bounds in PNode.toImage call, improves compatibility with Piccolo 1.3
 # 1.03.56 (36188) Oct 28, 2009
 Updated crate images based on submission from Noah
@@ -501,11 +501,11 @@ Graphing modules start paused, unpause when a force is applied
 Added stub for Work-Energy module
 Allow one chart to take entire available area
 # 1.03.20 (33360) Jul 15, 2009
-> force-graphs: Objects are in pull-down menu in control panel instead of the play area
-> force-graphs: Removed force control from play area
-> Fixed: Vectors should be in the topmost layer (over the applied force slider)
-> Centered the object selection panel
-> Fixed: Object falls off edge at wrong spot
+force-graphs: Objects are in pull-down menu in control panel instead of the play area
+force-graphs: Removed force control from play area
+Fixed: Vectors should be in the topmost layer (over the applied force slider)
+Centered the object selection panel
+Fixed: Object falls off edge at wrong spot
 # 1.03.19 (31397) May 6, 2009
 Performance improvements
 # 1.03.18 (31395) May 6, 2009
@@ -608,7 +608,7 @@ New in 0.22
 .	Bugfix: overheated button shows up in wrong spot (low resolution).
 .	Add subscripts: F<sub>gravity, F<sub>friction, W<sub>applied, not for Energies, though.
 .	Test 2 columns for in-plot readouts.
-		>>Looks good.
+		Looks good.
 .	Abbreviate the in-plot readouts (delete "parallel", delete units repetition, etc.)
 .	Line up control buttons to the left of the graphs.
 .	Bugfix: Dragging the playback cursor doesn't change values.
