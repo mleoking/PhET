@@ -121,15 +121,9 @@ public class GameSettingsPanel extends GridPanel {
             // layout
             inputPanel.setInsets( new Insets( Y_SPACING / 2, X_SPACING, Y_SPACING / 2, X_SPACING ) );
             inputRow = 0;
-            int column = 0;
-            inputPanel.add( levelLabel, inputRow, column++, Anchor.EAST );
-            inputPanel.add( levelPanel, inputRow++, column, Anchor.WEST );
-            column = 0;
-            inputPanel.add( timerLabel, inputRow, column++, Anchor.EAST );
-            inputPanel.add( timerPanel, inputRow++, column, Anchor.WEST );
-            column = 0;
-            inputPanel.add( soundLabel, inputRow, column++, Anchor.EAST );
-            inputPanel.add( soundPanel, inputRow++, column, Anchor.WEST );
+            addControl( levelLabel, levelPanel );
+            addControl( timerLabel, timerPanel );
+            addControl( soundLabel, soundPanel );
         }
         
         // panel separator
@@ -172,7 +166,6 @@ public class GameSettingsPanel extends GridPanel {
      * @param control
      */
     public void addControl( Component label, Component control ) {
-        inputPanel.setInsets( new Insets( Y_SPACING / 2, X_SPACING, Y_SPACING / 2, X_SPACING ) );
         inputPanel.add( label, inputRow, 0, Anchor.EAST );
         inputPanel.add( control, inputRow++, 1, Anchor.WEST );
     }
