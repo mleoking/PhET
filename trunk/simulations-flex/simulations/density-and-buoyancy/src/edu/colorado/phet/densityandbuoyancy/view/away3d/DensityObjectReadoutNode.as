@@ -39,5 +39,9 @@ public class DensityObjectReadoutNode {
     function set z( z: Number ): void {
         textReadout.z = z;
     }
+
+    public function set visible( b: Boolean ): void {
+        _textReadout.visible = b;
+    }
 }
 }

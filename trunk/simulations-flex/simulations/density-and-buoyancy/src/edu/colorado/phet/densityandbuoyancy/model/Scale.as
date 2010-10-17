@@ -103,7 +103,7 @@ public class Scale extends Cuboid {
         totalImpulse = 0;
     }
 
-    override public function createNode( view: AbstractDBCanvas ): DensityObjectNode {
+    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
         return new ScaleNode( this, view );
     }
 

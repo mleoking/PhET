@@ -13,8 +13,8 @@ public class MysteryBlock extends Block {
         this.label = label;
     }
 
-    override public function createNode( view: AbstractDBCanvas ): DensityObjectNode {
-        return new BlockNode( this, view, new StringProperty( label ), 2 );
+    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+        return new BlockNode( this, view, new StringProperty( label ), massReadoutsVisible, 2 );
     }
 
 }

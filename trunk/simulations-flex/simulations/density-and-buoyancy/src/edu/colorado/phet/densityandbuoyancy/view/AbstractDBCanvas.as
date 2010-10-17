@@ -10,6 +10,7 @@ import away3d.materials.*;
 import away3d.primitives.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
@@ -54,6 +55,7 @@ public class AbstractDBCanvas extends UIComponent {
     private var tickMarkSet: TickMarkSet;
 
     private var _units: Units = new Units( "kg/L", new LinearUnit( "kg", 1.0 ), new LinearUnit( "L", 1000.0 ), new LinearUnit( "kg/L", 1.0 / 1000.0 ) );
+    public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
 
     public function AbstractDBCanvas() {
         super();
@@ -165,7 +167,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
-        return densityObject.createNode( this );
+        return densityObject.createNode( this, massReadoutsVisible );
     }
 
     public function initListeners(): void {
@@ -330,6 +332,7 @@ public class AbstractDBCanvas extends UIComponent {
             moving = false;
             stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
         }
+        massReadoutsVisible.reset();
     }
 
     public function get model(): DensityModel {
@@ -354,6 +357,10 @@ public class AbstractDBCanvas extends UIComponent {
 
     public function set running( b: Boolean ): void {
         _running = b;
+    }
+
+    function setMassReadoutsVisible( selected: Boolean ): void {
+        massReadoutsVisible.value = selected;
     }
 }
 }

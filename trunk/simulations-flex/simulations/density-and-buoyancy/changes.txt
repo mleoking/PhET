@@ -1,3 +1,4 @@
+Added a "show masses" button
 Moved the phet logo button to the tab panel
 Removed some water volume from the Buoyancy tab so that the water displacement volume indicator shows 100.0 on startup
 Moved the about and preferences buttons to the tab navigator bar

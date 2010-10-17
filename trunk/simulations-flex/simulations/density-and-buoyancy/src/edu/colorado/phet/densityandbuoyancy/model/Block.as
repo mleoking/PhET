@@ -54,8 +54,8 @@ public class Block extends Cuboid {
         return _colorTransform;
     }
 
-    override public function createNode( view: AbstractDBCanvas ): DensityObjectNode {
-        return new BlockNode( this, view, getLabelProperty() );
+    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+        return new BlockNode( this, view, getLabelProperty(), massReadoutsVisible );
     }
 }
 }
