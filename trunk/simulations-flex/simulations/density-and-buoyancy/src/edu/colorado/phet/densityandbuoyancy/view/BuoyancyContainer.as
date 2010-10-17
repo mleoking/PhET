@@ -8,7 +8,6 @@ import flash.events.MouseEvent;
 
 import mx.controls.CheckBox;
 import mx.controls.Label;
-import mx.events.FlexEvent;
 
 /**
  * Main canvas for the buoyancy sim. Contains all of the sim-related UI
@@ -33,11 +32,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
         var arrowControlPanel: DensityVBox = new DensityVBox();
         arrowControlPanel.setStyle( "left", DensityConstants.CONTROL_INSET );
         arrowControlPanel.visible = false; // will be made visible once we know the height of the logo
-
-        phetLogoButton.addEventListener( FlexEvent.UPDATE_COMPLETE, function(): void {
-            arrowControlPanel.setStyle( "bottom", phetLogoButton.height + 2 * DensityConstants.CONTROL_INSET + 35 );
-            arrowControlPanel.visible = true;
-        } );
 
         var label: Label = new Label();
         label.text = FlexSimStrings.get( 'forceArrowControlPanelTitle', 'Show Forces' );
@@ -102,6 +96,9 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
     public function createCustomObjectMode( canvas: AbstractDBCanvas ): Mode {
         throw new Error( "Abstract method error" );
+    }
+
+    protected override function addLogo(): void {
     }
 }
 }

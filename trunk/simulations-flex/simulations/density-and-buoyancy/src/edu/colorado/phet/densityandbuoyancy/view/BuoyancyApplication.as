@@ -1,4 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.flexcommon.PhetLogoButton;
+
 import mx.containers.Canvas;
 
 public class BuoyancyApplication extends Canvas {
@@ -14,9 +16,17 @@ public class BuoyancyApplication extends Canvas {
 
     public function onApplicationComplete(): void {
         buoyancyTabNavigator.onApplicationComplete();
-        var densityAndBuoyancyFlashCommon: BuoyancyFlashCommon = new BuoyancyFlashCommon();
+        const tabHeight: Number = buoyancyTabNavigator.getTabAt( 0 ).height;
+        var phetLogoButton: PhetLogoButton = new PhetLogoButton( tabHeight );
+        var densityAndBuoyancyFlashCommon: BuoyancyFlashCommon = new BuoyancyFlashCommon( phetLogoButton.width, tabHeight );
         addChild( densityAndBuoyancyFlashCommon );
         densityAndBuoyancyFlashCommon.init();
+
+        //        trace("my height = "+buoyancyTabNavigator.getTabAt(0).height);
+
+        phetLogoButton.setStyle( "right", 0 );
+        phetLogoButton.setStyle( "top", 0 );
+        addChild( phetLogoButton );
     }
 }
 }

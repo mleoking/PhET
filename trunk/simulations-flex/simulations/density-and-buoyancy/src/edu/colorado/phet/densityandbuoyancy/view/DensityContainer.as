@@ -2,6 +2,7 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.PhetLogoButton;
 
 import flash.events.MouseEvent;
 
@@ -109,6 +110,13 @@ public class DensityContainer extends AbstractDBContainer {
         super.resetAll();
         customButton.selected = true;
         densityCanvas.resetAll();
+    }
+
+    protected override function addLogo(): void {
+        phetLogoButton = new PhetLogoButton();
+        phetLogoButton.setStyle( "left", DensityConstants.CONTROL_INSET );
+        phetLogoButton.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+        addChild( phetLogoButton );
     }
 }
 }
