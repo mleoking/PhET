@@ -46,7 +46,6 @@ public class MassIndicatorNode extends PNode {
             }
         };
         atom.addObserver( updateText );
-        updateText.update();
 
         //from 9/30/2010 meeting
         //will students think the atom on the scale is an electron?
