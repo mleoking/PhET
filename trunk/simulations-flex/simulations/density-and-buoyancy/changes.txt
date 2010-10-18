@@ -1,3 +1,4 @@
+Fixed: vector visibilities do not reset
 Updated grass color
 Added a gradient to the sky graphic
 Changed the sim startup defaults so that buoyant forces rather than masses are visible on startup
