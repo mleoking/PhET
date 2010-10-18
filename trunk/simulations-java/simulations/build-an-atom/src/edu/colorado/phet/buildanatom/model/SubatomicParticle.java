@@ -18,33 +18,25 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class SubatomicParticle {
 
-    public static interface Listener{
-        void grabbedByUser(SubatomicParticle particle);
-        void droppedByUser(SubatomicParticle particle);
-    }
-    public static class Adapter implements Listener{
-
-        public void grabbedByUser( SubatomicParticle particle ) {
-        }
-
-        public void droppedByUser( SubatomicParticle particle ) {
-        }
-    }
-
-    private final HashSet<Listener> listeners =new HashSet<Listener>( );
-    public void addListener(Listener listener) {
-        listeners.add( listener );
-    }
-    public void removeListener(Listener listener){
-        listeners.remove( listener );
-    }
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
 
     private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
+
+    private final double radius;
     private final Property<Point2D.Double> position;
     private final Property<Boolean> userControlled=new Property<Boolean>( false );//Just used internally to send messages through the inner Listener interface
+    private final HashSet<Listener> listeners =new HashSet<Listener>( );
     private final Point2D destination = new Point2D.Double();
-    private final double radius;
+
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
 
     public SubatomicParticle( ConstantDtClock clock, double radius, double x, double y ) {
         this.radius = radius;
@@ -72,6 +64,17 @@ public abstract class SubatomicParticle {
                 }
             }
         } );
+    }
+
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
+
+    public void addListener(Listener listener) {
+        listeners.add( listener );
+    }
+    public void removeListener(Listener listener){
+        listeners.remove( listener );
     }
 
     /**
@@ -164,5 +167,23 @@ public abstract class SubatomicParticle {
 
     public void removePositionListener( SimpleObserver listener ) {
         position.removeObserver( listener );
+    }
+
+    // -----------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    public static interface Listener{
+        void grabbedByUser(SubatomicParticle particle);
+        void droppedByUser(SubatomicParticle particle);
+    }
+
+    public static class Adapter implements Listener{
+
+        public void grabbedByUser( SubatomicParticle particle ) {
+        }
+
+        public void droppedByUser( SubatomicParticle particle ) {
+        }
     }
 }
