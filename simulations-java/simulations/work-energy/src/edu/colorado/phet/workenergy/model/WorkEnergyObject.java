@@ -73,9 +73,11 @@ public class WorkEnergyObject {
     public MutableVector2D getPositionProperty() {
         return position;
     }
+
     public MutableVector2D getVelocityProperty() {
         return velocity;
     }
+
     public DoubleProperty getKineticEnergyProperty() {
         return kineticEnergy;
     }

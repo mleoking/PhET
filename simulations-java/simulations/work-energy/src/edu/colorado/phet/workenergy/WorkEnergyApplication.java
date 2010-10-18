@@ -8,14 +8,14 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Sam Reid
  */
 public class WorkEnergyApplication extends PiccoloPhetApplication {
-    public WorkEnergyApplication(PhetApplicationConfig config) {
-        super(config);
+    public WorkEnergyApplication( PhetApplicationConfig config ) {
+        super( config );
 
-        final WorkModule introModule = new WorkModule(getPhetFrame());
-        addModule(introModule);
+        final WorkModule introModule = new WorkModule( getPhetFrame() );
+        addModule( introModule );
     }
 
-    public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(args, "work-energy", WorkEnergyApplication.class);
+    public static void main( String[] args ) {
+        new PhetApplicationLauncher().launchSim( args, "work-energy", WorkEnergyApplication.class );
     }
 }

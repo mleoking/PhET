@@ -5,6 +5,7 @@ package edu.colorado.phet.workenergy.model;
  */
 public class Snapshot {
     private WorkEnergyObject state;
+
     public Snapshot( WorkEnergyObject state ) {
         this.state = state;
     }

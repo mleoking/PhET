@@ -46,7 +46,7 @@ public class TestSmoothAnimation {
                                             velocity = Math.abs( velocity );
                                         }
                                         lastTick[0] = System.currentTimeMillis();
-                                        paintImmediately( );
+                                        paintImmediately();
                                     }
                                 } ).start();
                             }} );
