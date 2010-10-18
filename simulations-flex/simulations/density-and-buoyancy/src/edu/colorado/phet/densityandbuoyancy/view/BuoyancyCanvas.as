@@ -56,6 +56,11 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         customObjectMode.reset();
         switchToCustomObject();
         vectorValuesVisible.reset();
+
+        buoyancyArrowsVisible.reset();
+        gravityArrowsVisible.reset();
+        contactArrowsVisible.reset();
+        fluidDragArrowsVisible.reset();
     }
 
     public function setMode( mode: Mode ): void {
