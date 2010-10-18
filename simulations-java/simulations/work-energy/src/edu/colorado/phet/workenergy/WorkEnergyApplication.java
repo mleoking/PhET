@@ -11,7 +11,7 @@ public class WorkEnergyApplication extends PiccoloPhetApplication {
     public WorkEnergyApplication(PhetApplicationConfig config) {
         super(config);
 
-        final IntroModule introModule = new IntroModule(getPhetFrame());
+        final WorkModule introModule = new WorkModule(getPhetFrame());
         addModule(introModule);
     }
 
