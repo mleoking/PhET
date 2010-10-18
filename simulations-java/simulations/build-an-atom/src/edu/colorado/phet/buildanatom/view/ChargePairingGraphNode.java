@@ -4,7 +4,6 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -134,7 +132,7 @@ public class ChargePairingGraphNode extends PNode {
 
     static class NegativeChargeIconNode extends ChargeIconNode {
 
-        private static Color BACKGROUND_COLOR = new Color( 170, 187, 204 );
+        private static Color BACKGROUND_COLOR = new Color( 200, 217, 234 );
         private static Color SYMBOL_COLOR = Color.BLUE;
 
         /**
