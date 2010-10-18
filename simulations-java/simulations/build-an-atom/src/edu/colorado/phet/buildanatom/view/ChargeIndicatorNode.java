@@ -3,9 +3,11 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
@@ -61,6 +63,21 @@ public class ChargeIndicatorNode extends PNode {
         pieNode.setOffset( chargeMeterImageNode.getFullBoundsReference().width / 2 - pieNode.getFullBoundsReference().width / 2, 7 );
         addChild( pieNode );
 
+        // Add the numeric indicator, which consists of a background and some text.
+        addChild( new PhetPPath(Color.WHITE, new BasicStroke( 2f), Color.LIGHT_GRAY){{
+            Shape shape = new RoundRectangle2D.Double(
+                    0,
+                    0,
+                    pieNode.getFullBoundsReference().width * 0.6,
+                    (chargeMeterImageNode.getFullBoundsReference().getMaxY() - pieNode.getFullBoundsReference().getMaxY()) * 0.7,
+                    4,
+                    4);
+            setPathTo( shape );
+            setOffset(
+                    pieNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
+                    pieNode.getFullBoundsReference().getMaxY() + 5 );
+        }} );
+
         final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};
         //center text below pie
         SimpleObserver updateText = new SimpleObserver() {
@@ -72,7 +89,6 @@ public class ChargeIndicatorNode extends PNode {
             }
         };
         atom.addObserver( updateText );
-        updateText.update();
         addChild( textNode );
 
         final PhetPPath arrowNode = new PhetPPath( Color.black );
