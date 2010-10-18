@@ -105,14 +105,13 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
         if ( !(densityObjectNode is ScaleNode) ) {
-            const gravityNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible );
-            const buoyancyNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible );
-            const contactForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible );
-            const dragForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible );
+            const gravityNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
+            const buoyancyNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
+            const contactForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
+            const dragForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
 
             const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
             for each ( var arrowNode: ArrowNode in arrowList ) {
-                addChild( new VectorValueNode( mainCamera, arrowNode, mainViewport, vectorValuesVisible ) );
                 densityObjectNode.addArrowNode( arrowNode );
             }
         }

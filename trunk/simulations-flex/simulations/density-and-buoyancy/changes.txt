@@ -1,3 +1,4 @@
+Fixed: force vector readouts remain in the play area after changing modes
 Fixed: After doing Shift-F8 in the play area, the buoyancy playground fluid density control appears far to the right (so that a large horizontal scroll bar appears).
 Fixed: you can drag objects through the side of the pool and through each other
 Made mass readouts visible by default and vectors (and vector values) invisible by default.
