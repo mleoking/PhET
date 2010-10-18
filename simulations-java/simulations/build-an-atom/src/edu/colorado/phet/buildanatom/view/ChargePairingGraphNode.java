@@ -104,8 +104,15 @@ public class ChargePairingGraphNode extends PNode {
     }
 
     static class ChargeIconNode extends PNode {
+
         private static final Dimension2D CHARGE_ICON_SIZE = new PDimension(20, 20);
-        private static final Font CHARGE_ICON_FONT = new PhetFont(20, true);
+        private static final Font CHARGE_ICON_FONT = new PhetFont(24, true);
+
+        // Tweak factor for making the label appear a bit more centered.
+        // Value should be between -1 and 1.  This is needed because the
+        // charge characters are often not very centered within the font.
+        private static final double HORIZ_LABEL_POS_TWEAK_FACTOR = 0;    // Negative shift left, positive shifts right.
+        private static final double VERT_LABEL_POS_TWEAK_FACTOR = -0.1;  // Negative shifts up, positive shifts down.
 
         /**
          * Constructor.
@@ -115,8 +122,9 @@ public class ChargePairingGraphNode extends PNode {
             label.setFont(CHARGE_ICON_FONT);
             label.setTextPaint( foregroundColor );
             label.setShadowColor( Color.BLACK );
-            label.setOffset(CHARGE_ICON_SIZE.getWidth() / 2 - label.getFullBoundsReference().getWidth() / 2,
-                    CHARGE_ICON_SIZE.getHeight() / 2 - label.getFullBoundsReference().getHeight() / 2 );
+            label.setOffset(
+                    CHARGE_ICON_SIZE.getWidth() * (0.5 + HORIZ_LABEL_POS_TWEAK_FACTOR) - label.getFullBoundsReference().getWidth() / 2,
+                    CHARGE_ICON_SIZE.getHeight() * (0.5 + VERT_LABEL_POS_TWEAK_FACTOR) - label.getFullBoundsReference().getHeight() / 2 );
             Rectangle2D backgroundRect = new Rectangle2D.Double(0, 0, CHARGE_ICON_SIZE.getWidth(),
                     CHARGE_ICON_SIZE.getHeight());
             addChild(new PhetPPath(backgroundRect, backgroundColor, new BasicStroke(1), Color.BLACK));
