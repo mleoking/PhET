@@ -28,15 +28,15 @@ public class DensityObjectReadoutNode {
         textReadout.text = str;
     }
 
-    function set x( x: Number ): void {
+    public function set x( x: Number ): void {
         textReadout.x = x;
     }
 
-    function set y( y: Number ): void {
+    public function set y( y: Number ): void {
         textReadout.y = y;
     }
 
-    function set z( z: Number ): void {
+    public function set z( z: Number ): void {
         textReadout.z = z;
     }
 

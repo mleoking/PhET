@@ -15,7 +15,7 @@ public class ArrowNode extends MyMesh {
     private static var numArrowNodes: Number = 0;
     public var offset: Number;
     private var densityObject: DensityObject;
-    var tipVertex: Vertex;
+    private var tipVertex: Vertex;
 
     public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, init: Object = null ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, init ) );
@@ -71,7 +71,7 @@ public class ArrowNode extends MyMesh {
 
         v( -arrowHeadWidth / 2, bodyHeight, 0 );
         v( arrowHeadWidth / 2, bodyHeight, 0 );
-        var arrowTipIndex = v( 0, height, 0 );
+        var arrowTipIndex: Number = v( 0, height, 0 );
 
         tipVertex = getVertexArray()[arrowTipIndex];
         trace( "tv = " + tipVertex );

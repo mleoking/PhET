@@ -6,8 +6,8 @@ import edu.colorado.phet.flexcommon.FlexCommon;
  * Extends DensityAndBuoyancyFlashCommon to provide Buoyancy specific behavior.
  */
 public class BuoyancyFlashCommon extends DensityAndBuoyancyFlashCommon {
-    private var insetX;
-    private var availableHeight;
+    private var insetX: Number;
+    private var availableHeight: Number;
 
     public function BuoyancyFlashCommon( insetX: Number, availableHeight: Number ) {
         this.insetX = insetX;
@@ -17,7 +17,7 @@ public class BuoyancyFlashCommon extends DensityAndBuoyancyFlashCommon {
     protected override function positionButtons(): void {
         var buttons: CommonButtons = FlexCommon.getInstance().commonButtons
         if ( buttons != null ) {
-            var padding = (availableHeight - buttons.height) / 2;
+            var padding: Number = (availableHeight - buttons.height) / 2;
             buttons.setLocationXY( stage.stageWidth - buttons.getPreferredWidth() - insetX - padding, padding );
         }
     }

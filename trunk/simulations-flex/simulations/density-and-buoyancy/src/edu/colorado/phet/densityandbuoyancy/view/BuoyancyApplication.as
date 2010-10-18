@@ -4,7 +4,7 @@ import edu.colorado.phet.flexcommon.PhetLogoButton;
 import mx.containers.Canvas;
 
 public class BuoyancyApplication extends Canvas {
-    var buoyancyTabNavigator: BuoyancyTabNavigator;
+    private var buoyancyTabNavigator: BuoyancyTabNavigator;
 
     public function BuoyancyApplication() {
         super();
