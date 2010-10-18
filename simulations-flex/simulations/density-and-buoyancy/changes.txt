@@ -1,3 +1,4 @@
+Changed the sim startup defaults so that buoyant forces rather than masses are visible on startup
 Added vector arrow readouts
 Refactored function getDensity to function get density()
 Refactored function getVolume to function get volume()

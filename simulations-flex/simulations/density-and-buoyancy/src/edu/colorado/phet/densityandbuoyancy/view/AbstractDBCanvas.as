@@ -56,7 +56,7 @@ public class AbstractDBCanvas extends UIComponent {
     private var tickMarkSet: TickMarkSet;
 
     private var _units: Units = new Units( "kg/L", new LinearUnit( "kg", 1.0 ), new LinearUnit( "L", 1000.0 ), new LinearUnit( "kg/L", 1.0 / 1000.0 ) );
-    public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
+    public const massReadoutsVisible: BooleanProperty = new BooleanProperty( false );
 
     public function AbstractDBCanvas() {
         super();
