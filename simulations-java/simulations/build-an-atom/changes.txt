@@ -1,3 +1,4 @@
+Added a graph to the charge indicator node that allows side-by-side comparison of the charge balance.
 Added a "Show Labels" checkbox
 Moved the reset all button to the right hand side of the canvas instead of centered under the indicator windows
 Fixed: Don't show the ion indicator when only electrons are present
