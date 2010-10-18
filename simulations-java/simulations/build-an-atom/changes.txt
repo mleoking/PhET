@@ -1,3 +1,5 @@
+Added white backgrounds to the weigh scale and the charge meter.
+Changed the colors used to portray mass to be black, and for the charge to be red when positive, blue when negative, and black when neutral.
 Added a graph to the charge indicator node that allows side-by-side comparison of the charge balance.
 Added a "Show Labels" checkbox
 Moved the reset all button to the right hand side of the canvas instead of centered under the indicator windows
