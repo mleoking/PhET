@@ -18,23 +18,39 @@ public class TestSmoothAnimation {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame() {{
-                    setContentPane( new PhetPCanvas() {{
-                        addScreenChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 100, 100 ), Color.blue, new BasicStroke( 2 ), Color.black ) {{
-                            new Timer( 30, new ActionListener() {
-                                double velocity = 4;
+                    setContentPane( new PhetPCanvas() {
+                        long lastPaint = System.currentTimeMillis();
 
-                                public void actionPerformed( ActionEvent e ) {
-                                    translate( velocity, 0 );
-                                    if ( getFullBoundsReference().getCenterX() > 800 ) {
-                                        velocity = -Math.abs( velocity );
+
+                        public void paintImmediately( int x, int y, int w, int h ) {
+                            super.paintImmediately( x, y, w, h );
+//                            System.out.println( "elaspedPaint = \t" + ( System.currentTimeMillis() - lastPaint ) );
+                            lastPaint = System.currentTimeMillis();
+                        }
+
+                        {
+                            setDoubleBuffered( false );
+                            addScreenChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 100, 100 ), Color.blue, new BasicStroke( 2 ), Color.black ) {{
+                                final long[] lastTick = { System.currentTimeMillis() };
+                                new Timer( 23, new ActionListener() {
+                                    double velocity = 4;
+
+                                    public void actionPerformed( ActionEvent e ) {
+//                                    System.out.println("elapsed = "+(System.currentTimeMillis()- lastTick[0] ));
+                                        translate( velocity, 0 );
+
+                                        if ( getFullBoundsReference().getCenterX() > 800 ) {
+                                            velocity = -Math.abs( velocity );
+                                        }
+                                        else if ( getFullBoundsReference().getCenterX() < 0 ) {
+                                            velocity = Math.abs( velocity );
+                                        }
+                                        lastTick[0] = System.currentTimeMillis();
+                                        paintImmediately( );
                                     }
-                                    else if ( getFullBoundsReference().getCenterX() < 0 ) {
-                                        velocity = Math.abs( velocity );
-                                    }
-                                }
-                            } ).start();
+                                } ).start();
+                            }} );
                         }} );
-                    }} );
                     setSize( 800, 600 );
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                 }}.setVisible( true );
