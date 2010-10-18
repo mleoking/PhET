@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import away3d.cameras.Camera3D;
 import away3d.core.base.Vertex;
 import away3d.materials.ColorMaterial;
 
@@ -6,6 +7,8 @@ import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
+import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
 
 public class ArrowNode extends MyMesh {
     private var _arrowModel: ArrowModel;
@@ -16,8 +19,9 @@ public class ArrowNode extends MyMesh {
     public var offset: Number;
     private var densityObject: DensityObject;
     private var tipVertex: Vertex;
+    private var _vectorValueNode: VectorValueNode;
 
-    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, init: Object = null ) {
+    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, init: Object = null ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, init ) );
         this.densityObject = densityObject;
         densityObject.getXProperty().addListener( updateLocation );
@@ -42,6 +46,8 @@ public class ArrowNode extends MyMesh {
         visibilityProperty.addListener( updateVisibility );
         updateVisibility();
         updateLocation();
+
+        this._vectorValueNode = new VectorValueNode( mainCamera, this, mainViewport, valueVisibilityProperty );
     }
 
     private function updateLocation(): void {
@@ -110,6 +116,10 @@ public class ArrowNode extends MyMesh {
 
     public function get visibilityProperty(): BooleanProperty {
         return _visibilityProperty;
+    }
+
+    public function get vectorValueNode(): VectorValueNode {
+        return _vectorValueNode;
     }
 }
 }

@@ -88,12 +88,16 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
 
     public function addOverlayObjects(): void {
         canvas.overlayViewport.scene.addChild( densityObjectReadoutNode.textReadout );
+        for each ( var arrowNode: ArrowNode in arrowNodes ) {
+            canvas.addChild( arrowNode.vectorValueNode );
+        }
     }
 
     public function removeOverlayObjects(): void {
         canvas.overlayViewport.scene.removeChild( densityObjectReadoutNode.textReadout );
         for each ( var arrowNode: ArrowNode in arrowNodes ) {
             canvas.overlayViewport.scene.removeChild( arrowNode );
+            canvas.removeChild( arrowNode.vectorValueNode );
         }
         arrowNodes = new Array();
     }
