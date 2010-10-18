@@ -192,7 +192,7 @@ public class DensityModel {
         //            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
         //        }
         for each( densityObject in densityObjects ) {
-            densityObject.modelStepped();
+            densityObject.modelStepped( DT_PER_FRAME );
         }
     }
 

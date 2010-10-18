@@ -256,13 +256,24 @@ public class DensityObject {
         throw new Error();
     }
 
-    public function modelStepped(): void {
-        velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );
+    private var lastPosition: b2Vec2 = new b2Vec2();
+    private var velocity: b2Vec2 = new b2Vec2();
+
+    public function modelStepped( dt: Number ): void {
+        //Estimate velocity for purposes of fluid drag calculation since body.GetLinearVelocity reflects an internal value, not a good final state (i.e. objects in contact may be at rest but report a nonzero velocity)
+        velocity.x = (x.value - lastPosition.x) / dt;
+        velocity.y = (y.value - lastPosition.y) / dt;
+
+        velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         //        trace("Gravity y = " + getGravityForce().y);
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
         dragForceArrowModel.setValue( getDragForce().x, getDragForce().y );
         contactForceArrowModel.setValue( getNetContactForce().x, getNetContactForce().y );
+
+        //Keep track of positions for velocity estimation
+        lastPosition.x = x.value;
+        lastPosition.y = y.value;
     }
 
     public function getMass(): Number {
@@ -287,8 +298,10 @@ public class DensityObject {
             return new b2Vec2();
         }
         else {
-            var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
-            dragForce.Multiply( -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
+            //            var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();//TODO: here would be a good place to solve the incorrect drag force problem
+            var dragForce: b2Vec2 = velocity.Copy();
+            //            trace("GLV.y = "+body.GetLinearVelocity().y+", v.y="+velocity.y);
+            dragForce.Multiply( 10 * -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
             return dragForce;
         }
     }
@@ -364,7 +377,7 @@ public class DensityObject {
     }
 
     public function isMovable(): Boolean {
-        return !userControlled;
+        return true;
     }
 
 }
