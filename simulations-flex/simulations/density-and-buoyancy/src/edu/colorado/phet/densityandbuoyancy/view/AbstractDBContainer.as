@@ -4,7 +4,10 @@ import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
 
+import flash.display.GradientType;
+import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.geom.Matrix;
 
 import mx.containers.Canvas;
 import mx.controls.Button;
@@ -41,8 +44,19 @@ public class AbstractDBContainer extends Canvas {
         background = new Canvas();
         background.percentWidth = 100;
         background.percentHeight = 100;
-        background.setStyle( "backgroundColor", 0x5dc0ff );
         background.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
+
+        //Add a gradient sky like in projectile motion
+        const updateSize: Function = function(): void {
+            var matrix: Matrix = new Matrix();
+            matrix.createGradientBox( background.width, background.height / 2, Math.PI / 2, 0, 0 );
+            background.graphics.clear();
+            background.graphics.beginGradientFill( GradientType.LINEAR, [0x5dc0ff,0xFFFFFF], [1,1], [0x00,0xFF], matrix );
+            background.graphics.drawRect( 0, 0, background.width, background.height );
+        };
+        background.addEventListener( Event.RESIZE, updateSize );
+        updateSize();
+
         addChild( background );
     }
 
