@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -33,19 +35,26 @@ public class MassIndicatorNode extends PNode {
         weighScaleImageNode.setScale( WIDTH / weighScaleImageNode.getFullBoundsReference().width );
         addChild ( weighScaleImageNode );
 
+        final PPath readout = new PhetPPath(Color.WHITE, new BasicStroke(2f), Color.LIGHT_GRAY){{
+            Shape readoutBackgroundShape = new RoundRectangle2D.Double(0, 0,
+                    weighScaleImageNode.getFullBoundsReference().width * 0.4,
+                    weighScaleImageNode.getFullBoundsReference().height * 0.37, 4, 4);
+            setPathTo( readoutBackgroundShape );
+        }};
+        addChild( readout );
+
         final PText readoutPText = new PText() {{
             setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
             setTextPaint( Color.BLACK );
         }};
-        addChild( readoutPText );
+        readout.addChild( readoutPText );
 
-        SimpleObserver updateText = new SimpleObserver() {
+        atom.addObserver( new SimpleObserver() {
             public void update() {
                 readoutPText.setText( atom.getAtomicMassNumber() + "" );
-                readoutPText.setOffset( weighScaleImageNode.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, weighScaleImageNode.getFullBounds().getMaxY() - readoutPText.getFullBounds().getHeight() );
+                readoutPText.setOffset( readout.getFullBounds().getWidth() / 2 - readoutPText.getFullBounds().getWidth() / 2, 0 );
             }
-        };
-        atom.addObserver( updateText );
+        } );
 
         //from 9/30/2010 meeting
         //will students think the atom on the scale is an electron?
@@ -93,5 +102,11 @@ public class MassIndicatorNode extends PNode {
         // There is a tweak factor here to set the vertical relationship between
         // the atom and scale.
         weighScaleImageNode.setOffset( 0, atomNode.getFullBoundsReference().height * 0.75 );
+
+        // Now that the weigh scale is positioned we can set the offset of the
+        // readout.
+        readout.setOffset(
+                weighScaleImageNode.getFullBoundsReference().getCenterX() - readout.getFullBoundsReference().width / 2,
+                weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 1);
     }
 }
