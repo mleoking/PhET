@@ -35,7 +35,7 @@ public class MassIndicatorNode extends PNode {
 
         final PText readoutPText = new PText() {{
             setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
-            setTextPaint( Color.red );
+            setTextPaint( Color.BLACK );
         }};
         addChild( readoutPText );
 
