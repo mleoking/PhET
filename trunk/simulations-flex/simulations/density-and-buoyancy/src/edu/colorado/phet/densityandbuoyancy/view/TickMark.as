@@ -1,5 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
-import away3d.cameras.HoverCamera3D;
+import away3d.cameras.Camera3D;
 import away3d.containers.View3D;
 import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
@@ -60,7 +60,7 @@ public class TickMark extends Sprite {
     }
 
 
-    public function updateCoordinates( camera: HoverCamera3D, groundNode: GroundNode, view: View3D ): void {
+    public function updateCoordinates( camera: Camera3D, groundNode: GroundNode, view: View3D ): void {
         var height: Number = value / model.getPoolDepth() / model.getPoolWidth();
         var screenVertex: ScreenVertex = camera.screen( groundNode, new Vertex( model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-model.getPoolHeight() + height) * DensityModel.DISPLAY_SCALE, 0 ) );
         this.x = screenVertex.x + view.x;

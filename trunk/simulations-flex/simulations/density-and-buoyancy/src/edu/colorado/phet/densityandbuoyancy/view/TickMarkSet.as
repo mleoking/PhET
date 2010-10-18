@@ -1,5 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
-import away3d.cameras.HoverCamera3D;
+import away3d.cameras.Camera3D;
 import away3d.containers.View3D;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
@@ -25,7 +25,7 @@ public class TickMarkSet extends Sprite {
         tickMarks.push( tm );
     }
 
-    public function updateCoordinates( camera: HoverCamera3D, groundNode: GroundNode, view: View3D ): void {
+    public function updateCoordinates( camera: Camera3D, groundNode: GroundNode, view: View3D ): void {
         for each ( var tickMark: TickMark in tickMarks ) {
             tickMark.updateCoordinates( camera, groundNode, view );
         }

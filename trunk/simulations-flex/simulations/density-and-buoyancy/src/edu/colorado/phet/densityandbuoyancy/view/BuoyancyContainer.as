@@ -95,8 +95,13 @@ public class BuoyancyContainer extends AbstractDBContainer {
         }
         {
             var valueCheckBox: CheckBox = new CheckBox();
-            valueCheckBox.label = FlexSimStrings.get( 'controlPanel.showVectorValues', 'Vector Values' );
+            buoyancyCanvas.vectorValuesVisible.addListener( function(): void {
+                valueCheckBox.selected = buoyancyCanvas.vectorValuesVisible.value;
+            } );
+            valueCheckBox.selected = buoyancyCanvas.vectorValuesVisible.value;//TODO: autocallback from addListener
+            valueCheckBox.label = FlexSimStrings.get( 'controlPanel.showVectorValues', "Vector Values" );
             valueCheckBox.addEventListener( MouseEvent.CLICK, function(): void {
+                buoyancyCanvas.vectorValuesVisible.value = valueCheckBox.selected;
                 //                buoyancyCanvas.setFluidDragForceVisible( showMassReadoutsCheckBox.selected );
             } );
             arrowControlPanel.addChild( valueCheckBox );

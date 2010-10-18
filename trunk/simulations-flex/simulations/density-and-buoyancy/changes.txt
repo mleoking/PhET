@@ -1,3 +1,4 @@
+Added vector arrow readouts
 Refactored function getDensity to function get density()
 Refactored function getVolume to function get volume()
 Added a "show masses" button
