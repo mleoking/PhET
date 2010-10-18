@@ -228,6 +228,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/travoltage/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/wave-interference/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/wave-interference/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/work-energy/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/work-energy/data"/>
 	
 	<!-- utilities -->
 	<classpathentry kind="src" path="util/licensing/src"/>
