@@ -1,5 +1,9 @@
 package edu.colorado.phet.workenergy.view;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -10,10 +14,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.text.DecimalFormat;
 
 /**
  * @author Sam Reid
