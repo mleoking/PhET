@@ -21,7 +21,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         this.densityObject = densityObject;
 
         function volumeListener(): void {
-            densityObject.setVolume( densityObject.getVolume() );
+            densityObject.setVolume( densityObject.volume );
         }
 
         densityObject.getVolumeProperty().addListener( volumeListener );
