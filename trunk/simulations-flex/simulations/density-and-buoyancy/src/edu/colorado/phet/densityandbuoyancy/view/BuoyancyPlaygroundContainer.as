@@ -73,7 +73,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         const updateFluidDensityControlLocation: Function = function(): void {
             fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
         };
-        stage.addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
+        addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
         fluidDensityControl.addEventListener( FlexEvent.UPDATE_COMPLETE, updateFluidDensityControlLocation ); // listen to when our fluid control gets its size
         updateFluidDensityControlLocation();
 
