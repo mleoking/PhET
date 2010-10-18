@@ -34,6 +34,9 @@ public class DensityObject {
     private const removalListeners: Array = new Array();
     private var _userControlled: Boolean = false;
 
+    private var lastPosition: b2Vec2;
+    private var velocity: b2Vec2 = new b2Vec2();
+
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
@@ -92,6 +95,8 @@ public class DensityObject {
         this.x = new NumericProperty( "x", "m", x );
         this.y = new NumericProperty( "y", "m", y );
         this._z = new NumericProperty( "z", "m", z );
+
+        lastPosition = new b2Vec2( x, y );
 
         this.model = model;
     }
@@ -255,9 +260,6 @@ public class DensityObject {
     public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
         throw new Error();
     }
-
-    private var lastPosition: b2Vec2 = new b2Vec2();
-    private var velocity: b2Vec2 = new b2Vec2();
 
     public function modelStepped( dt: Number ): void {
         //Estimate velocity for purposes of fluid drag calculation since body.GetLinearVelocity reflects an internal value, not a good final state (i.e. objects in contact may be at rest but report a nonzero velocity)
