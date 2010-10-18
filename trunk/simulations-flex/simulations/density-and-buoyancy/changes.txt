@@ -1,3 +1,4 @@
+Fixed: "About" and "Preferences" buttons do not appear in the correct location when launching from HTML
 Fixed: vector visibilities do not reset
 Updated grass color
 Added a gradient to the sky graphic

@@ -28,11 +28,13 @@ public class DensityAndBuoyancyFlashCommon extends UIComponent {
         }
 
         common.addLoadListener( positionButtons );
-        stage.addEventListener( Event.RESIZE, positionButtons );
-        positionButtons( null );
+        stage.addEventListener( Event.RESIZE, function( evt: Event ): void {
+            positionButtons();
+        } );
+        positionButtons();
     }
 
-    protected function positionButtons( evt: Event ): void {
+    protected function positionButtons(): void {
         var common: FlexCommon = FlexCommon.getInstance();
         if ( common.commonButtons == null ) {
             return;
