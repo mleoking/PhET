@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_fa.xml created Thu Oct 14 22:00:50 IRST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="+z" value="+z"/>
+<string key="+x" value="+x"/>
+<string key="angle3" value="زاويه3 "/>
+<string key="angle2" value="زاويه2 "/>
+<string key="slow" value=" آهسته "/>
+<string key="randomXZ" value="تصادفي xz "/>
+<string key="simTitle" value="Gerlach  دنباله - آزمایش "/>
+<string key="sternGerlachExperiment" value="Gerlach سخت گير - آزمایش "/>
+<string key="spinOrientation" value="به هم بافتن/چرخ آبكش"/>
+<string key="on" value=" روشن"/>
+<string key="up" value="بالا "/>
+<string key="down" value="پايين "/>
+<string key="sound" value="صدا"/>
+<string key="fast" value="تند"/>
+<string key="numberOfMagnets" value="تعداد آهن ربا ها  "/>
+<string key="-z" value="-z"/>
+<string key="autoFire" value="آتش اتوماتیک"/>
+<string key="fireAtom" value="آتش اتم"/>
+<string key="angle" value="زاويه "/>
+<string key="reset" value="دوباره مرتب كردن "/>
+<string key="resetCount" value="دوباره مرتب كردن  فهرست"/>
+<string key="off" value="خاموش "/>
+</SimStrings>
