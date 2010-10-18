@@ -21,12 +21,12 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         this.densityObject = densityObject;
 
         function volumeListener(): void {
-            densityObject.setVolume( densityObject.volume );
+            densityObject.setVolume( densityObject.volume );//TODO: this code looks very suspicious
         }
 
         densityObject.getVolumeProperty().addListener( volumeListener );
         function densityListener(): void {
-            densityObject.setDensity( densityObject.density );
+            densityObject.setDensity( densityObject.density );//TODO: this code looks very suspicious
         }
 
         densityObject.getDensityProperty().addListener( densityListener );
