@@ -3,6 +3,7 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.Atom;
@@ -53,7 +54,7 @@ public class SymbolIndicatorNode extends PNode {
 
         massNumberNode = new PText();
         massNumberNode.setFont( NUMBER_FONT );
-        massNumberNode.setTextPaint( Color.RED );
+        massNumberNode.setTextPaint( Color.BLACK );
         addChild( massNumberNode );
 
         chargeNode = new PText();
@@ -76,6 +77,14 @@ public class SymbolIndicatorNode extends PNode {
                 symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()/2 );
 
         chargeNode.setText( atom.getAtomicMassNumber()==0?"":atom.getFormattedCharge() );
+        Paint chargePaint = Color.BLACK;
+        if (atom.getCharge() > 0){
+            chargePaint = Color.RED;
+        }
+        else if ( atom.getCharge() < 0){
+            chargePaint = Color.BLUE;
+        }
+        chargeNode.setTextPaint( chargePaint );
         chargeNode.setOffset( symbol.getFullBoundsReference().getMaxX(),
                 symbol.getFullBoundsReference().getMinY()-chargeNode.getFullBounds().getHeight()/2 );
     }
