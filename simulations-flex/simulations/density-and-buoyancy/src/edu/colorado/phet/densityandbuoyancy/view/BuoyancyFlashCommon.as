@@ -2,8 +2,6 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.flashcommon.CommonButtons;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
-import flash.events.Event;
-
 /**
  * Extends DensityAndBuoyancyFlashCommon to provide Buoyancy specific behavior.
  */
@@ -16,7 +14,7 @@ public class BuoyancyFlashCommon extends DensityAndBuoyancyFlashCommon {
         this.availableHeight = availableHeight;
     }
 
-    protected override function positionButtons( evt: Event ): void {
+    protected override function positionButtons(): void {
         var buttons: CommonButtons = FlexCommon.getInstance().commonButtons
         if ( buttons != null ) {
             var padding = (availableHeight - buttons.height) / 2;
