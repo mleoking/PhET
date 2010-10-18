@@ -61,7 +61,7 @@ public class Cuboid extends DensityObject {
     private function updateShapeDef(): void {
         shapeDef.friction = 0.3;
         shapeDef.restitution = 0;
-        shapeDef.density = getDensity();
+        shapeDef.density = density;
         setBody( getModel().getWorld().CreateBody( bodyDef ) );
         shapeDef.SetAsBox( width / 2 * DensityConstants.SCALE_BOX2D, height / 2 * DensityConstants.SCALE_BOX2D );
         getBody().CreateShape( shapeDef );
