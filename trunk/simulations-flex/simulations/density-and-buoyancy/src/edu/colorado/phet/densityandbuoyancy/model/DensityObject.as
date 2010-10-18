@@ -34,16 +34,16 @@ public class DensityObject {
     private const removalListeners: Array = new Array();
     private var _userControlled: Boolean = false;
 
-    public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, density: Number, mass: Number, __volume: Number, __material: Material ) {
+    public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
         this._mass = new NumericProperty( FlexSimStrings.get( "properties.mass", "Mass" ), "kg", mass );
-        this._density = new NumericProperty( FlexSimStrings.get( "properties.density", "Density" ), "kg/m\u00b3", density );
+        this._density = new NumericProperty( FlexSimStrings.get( "properties.density", "Density" ), "kg/m\u00b3", __density );
         this.labelProperty = new StringProperty( getLabelString() );//Showing one decimal point is a good tradeoff between readability and complexity);
 
         function massChanged(): void {
             if ( isDensityFixed() ) {
-                setVolume( getMass() / getDensity() );
+                setVolume( getMass() / density );
             }
             else {
                 //a change in mass or volume causes a change in density
@@ -56,7 +56,7 @@ public class DensityObject {
 
         function volumeChanged(): void {
             if ( isDensityFixed() ) {
-                setMass( volume * getDensity() );
+                setMass( volume * density );
             }
             else { //custom object
                 //a change in mass or volume causes a change in density
@@ -69,7 +69,7 @@ public class DensityObject {
         function densityChanged(): void {
             //this should change the mass
 
-            setMass( volume * getDensity() );
+            setMass( volume * density );
 
             //TODO: Switch into "custom object" mode
             //This could be confusing because it will switch the behavior of the other sliders
@@ -94,7 +94,6 @@ public class DensityObject {
         this._z = new NumericProperty( "z", "m", z );
 
         this.model = model;
-        this._density.value = density;
     }
 
     private function getLabelString(): String {
@@ -307,7 +306,7 @@ public class DensityObject {
         updateBox2DModel();
     }
 
-    public function getDensity(): Number {
+    public function get density(): Number {
         return _density.value;
     }
 

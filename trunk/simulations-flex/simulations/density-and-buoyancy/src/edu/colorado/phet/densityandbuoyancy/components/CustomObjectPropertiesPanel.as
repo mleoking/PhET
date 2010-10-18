@@ -26,7 +26,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
 
         densityObject.getVolumeProperty().addListener( volumeListener );
         function densityListener(): void {
-            densityObject.setDensity( densityObject.getDensity() );
+            densityObject.setDensity( densityObject.density );
         }
 
         densityObject.getDensityProperty().addListener( densityListener );
@@ -66,7 +66,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             if ( comboBox.selectedItem.isCustom() ) {
                 if ( !densityObject.material.isCustom() ) {
                     // TODO: is customObject.cusom currently used? there is material.custom!
-                    densityObject.material = new Material( FlexSimStrings.get( "customObject.custom", "My Object" ), densityObject.getDensity(), true );
+                    densityObject.material = new Material( FlexSimStrings.get( "customObject.custom", "My Object" ), densityObject.density, true );
                 }
             }
             else {

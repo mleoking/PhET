@@ -36,7 +36,6 @@ public class Block extends Cuboid {
     }
 
     public function updateColorTransform(): void {
-        var density: Number = getDensity();
         var maxDensity: Number = 3000;//this value corresponds to the maxColorDelta below
         var minDensity: Number = 100;//this value corresponds to the minColorDelta below
         var maxColorDelta: Number = -100;//at the most dense, colors from the custom.jpg offset by this value
