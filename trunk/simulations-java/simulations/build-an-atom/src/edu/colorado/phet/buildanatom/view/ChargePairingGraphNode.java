@@ -4,9 +4,11 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.Atom;
@@ -26,13 +28,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ChargePairingGraphNode extends PNode {
 
-    private static final double VERTICAL_INTER_ICON_SPACING = 5;
-    private static final double HORIZONTAL_INTER_ICON_SPACING = 5;
+    private static final double VERTICAL_INTER_ICON_SPACING = 3;
+    private static final double HORIZONTAL_INTER_ICON_SPACING = 3;
     private static final double THICKNESS_FACTOR = 0.3;
 
     // TODO: Take this out when it is decided whether or not we want this.
     private static final boolean SHOW_CHARGE_CANCELLING_ENCLOSING_BOX = true;
-    private static final PPath chargeCancellationEnclosingBox = new PhetPPath( Color.LIGHT_GRAY, null, null );
+    private static final PPath chargeCancellationEnclosingBox = new PhetPPath( (Paint)null, new BasicStroke(1f), Color.BLACK );
 
     private final ArrayList<PositiveChargeIconNode> positiveChargeIconList = new ArrayList<PositiveChargeIconNode>();
     private final ArrayList<NegativeChargeIconNode> negativeChargeIconList = new ArrayList<NegativeChargeIconNode>();
@@ -120,7 +122,11 @@ public class ChargePairingGraphNode extends PNode {
             symbolNode.setOffset( CHARGE_ICON_SIZE.getWidth() / 2, CHARGE_ICON_SIZE.getHeight() / 2 );
             Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, CHARGE_ICON_SIZE.getWidth(),
                     CHARGE_ICON_SIZE.getHeight() );
-            addChild( new PhetPPath( backgroundRect, backgroundColor, new BasicStroke( 1 ), Color.BLACK ) );
+            // TODO: Based on feedback from Kelly L, the bounding box around the charge
+            // icon was removed on 10/18/2010.  If this is accepted by the rest of the
+            // group, it should eventually be permanently removed.  For now, it is created
+            // but is invisible.
+            addChild( new PhetPPath( backgroundRect, new Color(0,0,0,0), new BasicStroke( 1 ), new Color(0,0,0,0) ) );
             addChild( symbolNode );
         }
     }
@@ -159,11 +165,13 @@ public class ChargePairingGraphNode extends PNode {
         if ( SHOW_CHARGE_CANCELLING_ENCLOSING_BOX && cancellingCharges > 0 ) {
             // There are charges to enclose, so show the box and enclose it.
             chargeCancellationEnclosingBox.setVisible( true );
-            Rectangle2D boxShape = new Rectangle2D.Double(
+            RoundRectangle2D boxShape = new RoundRectangle2D.Double(
                     -HORIZONTAL_INTER_ICON_SPACING / 2,
                     -VERTICAL_INTER_ICON_SPACING / 2,
                     cancellingCharges * ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + cancellingCharges * HORIZONTAL_INTER_ICON_SPACING,
-                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() * 2 + VERTICAL_INTER_ICON_SPACING * 2 );
+                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() * 2 + VERTICAL_INTER_ICON_SPACING * 2,
+                    4,
+                    4 );
             chargeCancellationEnclosingBox.setPathTo( boxShape );
         }
         else {
