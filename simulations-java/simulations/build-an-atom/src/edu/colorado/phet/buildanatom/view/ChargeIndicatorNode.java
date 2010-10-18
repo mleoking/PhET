@@ -120,14 +120,4 @@ public class ChargeIndicatorNode extends PNode {
             return Color.blue;
         }
     }
-
-    /**
-     * Class used for indicating the
-     *
-     * @author John Blanco
-     */
-    static class ChargeSymbolNode {
-
-    }
-
 }
