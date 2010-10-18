@@ -75,10 +75,10 @@ public class BuoyancyContainer extends AbstractDBContainer {
         addChild( arrowControlPanel );
 
         {
-            var label: Label = new Label();
-            label.text = FlexSimStrings.get( 'controlPanel.readouts', 'Readouts' );
-            label.setStyle( "fontWeight", "bold" );
-            arrowControlPanel.addChild( label );
+            var label2: Label = new Label();
+            label2.text = FlexSimStrings.get( 'controlPanel.readouts', 'Readouts' );
+            label2.setStyle( "fontWeight", "bold" );
+            arrowControlPanel.addChild( label2 );
         }
 
         {

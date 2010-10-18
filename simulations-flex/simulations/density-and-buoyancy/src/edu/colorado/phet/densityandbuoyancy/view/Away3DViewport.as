@@ -35,14 +35,14 @@ public class Away3DViewport {
         return _renderer;
     }
 
-    function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
+    public function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
         if ( view != null ) {
             view.x = unscaledWidth / 2;
             view.y = unscaledHeight / 2;
         }
     }
 
-    function initEngine(): void {
+    public function initEngine(): void {
         _scene = new Scene3D();
 
         _camera = new HoverCamera3D( { distance: 1600, mintiltangle: 0, maxtitlangle: 90 } );
@@ -59,7 +59,7 @@ public class Away3DViewport {
         _view = new View3D( {scene:scene, camera:camera, renderer:renderer} );
     }
 
-    function addLight(): void {
+    public function addLight(): void {
         var light: DirectionalLight3D = new DirectionalLight3D( {color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1} );
         light.x = 10000;
         light.z = -35000;
@@ -67,7 +67,7 @@ public class Away3DViewport {
         scene.addChild( light );
     }
 
-    function onResize( stage: Stage ): void {
+    public function onResize( stage: Stage ): void {
         view.x = stage.stageWidth / 2;
         view.y = stage.stageHeight / 2;
 

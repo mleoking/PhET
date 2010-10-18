@@ -110,7 +110,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
             const contactForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible );
             const dragForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible );
 
-            const arrowList = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
+            const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
             for each ( var arrowNode: ArrowNode in arrowList ) {
                 addChild( new VectorValueNode( mainCamera, arrowNode, mainViewport, vectorValuesVisible ) );
                 densityObjectNode.addArrowNode( arrowNode );

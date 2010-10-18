@@ -367,7 +367,7 @@ public class AbstractDBCanvas extends UIComponent {
         _running = b;
     }
 
-    function setMassReadoutsVisible( selected: Boolean ): void {
+    public function setMassReadoutsVisible( selected: Boolean ): void {
         massReadoutsVisible.value = selected;
     }
 }
