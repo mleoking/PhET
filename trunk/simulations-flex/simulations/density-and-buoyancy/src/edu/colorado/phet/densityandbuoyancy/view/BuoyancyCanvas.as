@@ -22,11 +22,10 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private var mode: Mode;
 
     private var gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
-    private var buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    private var buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( true );//show only buoyancy by default
     private var contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
     private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
-
-    public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
+    public const vectorValuesVisible: BooleanProperty = new BooleanProperty( true );
 
     public function BuoyancyCanvas() {
         super();
@@ -120,6 +119,10 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     public function setBuoyancyForceVisible( selected: Boolean ): void {
         buoyancyArrowsVisible.value = selected;
+    }
+
+    public function get buoyantForceVisible(): Boolean {
+        return buoyancyArrowsVisible.value;
     }
 
     public function setContactForceVisible( selected: Boolean ): void {

@@ -52,6 +52,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         arrowControlPanel.addChild( gravityCheckbox );
 
         var buoyancyCheckbox: CheckBox = new CheckBox();
+        buoyancyCheckbox.selected = buoyancyCanvas.buoyantForceVisible;
         buoyancyCheckbox.label = FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' );
         buoyancyCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.setBuoyancyForceVisible( buoyancyCheckbox.selected );

@@ -21,7 +21,7 @@ public class CustomObjectMode extends Mode {
         const material: Material = DEFAULT_MATERIAL;
         const volume: Number = DensityConstants.DEFAULT_BLOCK_MASS / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
-        customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 3, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel( customizableObject, canvas.units );
         customObjectPropertiesPanel.x = DensityConstants.CONTROL_INSET;
         customObjectPropertiesPanel.y = DensityConstants.CONTROL_INSET;
