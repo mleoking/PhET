@@ -104,7 +104,7 @@ public class ChargeIndicatorNode extends PNode {
         // Add the node that stacks charge icons horizontally next to one
         // another.
         addChild( new ChargePairingGraphNode( atom ){{
-            setOffset(chargeMeterImageNode.getFullBoundsReference().getMaxX(),
+            setOffset(chargeMeterImageNode.getFullBoundsReference().getMaxX() + 15,
                     chargeMeterImageNode.getFullBoundsReference().getCenterY() - 5);
         }});
     }
