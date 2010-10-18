@@ -58,7 +58,7 @@ public class GroundNode extends MyMesh {
             addUV( vertex2 );
         }
 
-        var grassMaterial: ITriangleMaterial = new ShadingColorMaterial( 0x00AA00 );
+        var grassMaterial: ITriangleMaterial = new ShadingColorMaterial( 0x47A42A );
         var earthMaterial: ITriangleMaterial = new ShadingColorMaterial( 0xAA7733 );
         var poolMaterial: ITriangleMaterial = new ShadingColorMaterial( 0xAAAAAA );
 
