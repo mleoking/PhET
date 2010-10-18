@@ -26,6 +26,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private var contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
     private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
 
+    public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
+
     public function BuoyancyCanvas() {
         super();
 
@@ -54,6 +56,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         super.resetAll();
         customObjectMode.reset();
         switchToCustomObject();
+        vectorValuesVisible.reset();
     }
 
     public function setMode( mode: Mode ): void {
@@ -98,10 +101,16 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
         if ( !(densityObjectNode is ScaleNode) ) {
-            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible ) );
-            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible ) );
-            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible ) );
-            densityObjectNode.addArrowNode( new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible ) );
+            const gravityNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getGravityForceArrowModel(), 0x0000FF, gravityArrowsVisible );
+            const buoyancyNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), 0xFF00FF, buoyancyArrowsVisible );
+            const contactForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getContactForceArrowModel(), 0xFF8800, contactArrowsVisible );
+            const dragForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getDragForceArrowModel(), 0xFF0000, fluidDragArrowsVisible );
+
+            const arrowList = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
+            for each ( var arrowNode: ArrowNode in arrowList ) {
+                addChild( new VectorValueNode( mainCamera, arrowNode, mainViewport, vectorValuesVisible ) );
+                densityObjectNode.addArrowNode( arrowNode );
+            }
         }
     }
 

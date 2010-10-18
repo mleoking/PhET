@@ -1,4 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import away3d.core.base.Vertex;
 import away3d.materials.ColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
@@ -7,13 +8,14 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
 public class ArrowNode extends MyMesh {
-    private var arrowModel: ArrowModel;
+    private var _arrowModel: ArrowModel;
     private const ARROW_HEIGHT: Number = 200;
     private const scaleFromModelToView: Number = 2;
-    private var visibilityProperty: BooleanProperty;
+    private var _visibilityProperty: BooleanProperty;
     private static var numArrowNodes: Number = 0;
     public var offset: Number;
     private var densityObject: DensityObject;
+    var tipVertex: Vertex;
 
     public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, init: Object = null ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, init ) );
@@ -24,8 +26,8 @@ public class ArrowNode extends MyMesh {
         numArrowNodes += 1;
 
         //        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
-        this.arrowModel = arrowModel;
-        this.visibilityProperty = visibilityProperty;
+        this._arrowModel = arrowModel;
+        this._visibilityProperty = visibilityProperty;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them
         arrowModel.addListener( doUpdate );
         doUpdate();
@@ -49,8 +51,8 @@ public class ArrowNode extends MyMesh {
     }
 
     public function doUpdate(): void {
-        this.scaleY = arrowModel.getMagnitude() / ARROW_HEIGHT * scaleFromModelToView;
-        this.rotationZ = -arrowModel.getAngle() * 180.0 / Math.PI;
+        this.scaleY = _arrowModel.getMagnitude() / ARROW_HEIGHT * scaleFromModelToView;
+        this.rotationZ = -_arrowModel.getAngle() * 180.0 / Math.PI;
     }
 
     override protected function build(): void {
@@ -69,7 +71,10 @@ public class ArrowNode extends MyMesh {
 
         v( -arrowHeadWidth / 2, bodyHeight, 0 );
         v( arrowHeadWidth / 2, bodyHeight, 0 );
-        v( 0, height, 0 );
+        var arrowTipIndex = v( 0, height, 0 );
+
+        tipVertex = getVertexArray()[arrowTipIndex];
+        trace( "tv = " + tipVertex );
 
         uv( 0, 0 );
         uv( 1, 1 - fractionUsedByArrowhead );
@@ -93,6 +98,18 @@ public class ArrowNode extends MyMesh {
 
         type = "edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode";
         url = "density";
+    }
+
+    public function get tip(): Vertex {
+        return tipVertex;
+    }
+
+    public function get arrowModel(): ArrowModel {
+        return _arrowModel;
+    }
+
+    public function get visibilityProperty(): BooleanProperty {
+        return _visibilityProperty;
     }
 }
 }

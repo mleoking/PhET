@@ -1,14 +1,14 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 public class ArrowModel {
-    private var x: Number;
-    private var y: Number;
+    private var _x: Number;
+    private var _y: Number;
     private const listeners: Array = new Array();
 
     // TODO: use observable pattern here?
 
     public function ArrowModel( x: Number, y: Number ) {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
     }
 
     public function addListener( listener: Function ): void {
@@ -16,19 +16,27 @@ public class ArrowModel {
     }
 
     public function getMagnitude(): Number {
-        return Math.sqrt( x * x + y * y );
+        return Math.sqrt( _x * _x + _y * _y );
     }
 
     public function getAngle(): Number {
-        return Math.atan2( x, y );
+        return Math.atan2( _x, _y );
     }
 
     public function setValue( x: Number, y: Number ): void {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
         for each ( var listener: Function in listeners ) {
             listener();
         }
+    }
+
+    public function get x(): Number {
+        return _x;
+    }
+
+    public function get y(): Number {
+        return _y;
     }
 }
 }

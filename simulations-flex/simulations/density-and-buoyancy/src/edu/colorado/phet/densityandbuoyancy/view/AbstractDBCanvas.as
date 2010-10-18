@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import Box2D.Common.Math.b2Vec2;
 
+import away3d.cameras.Camera3D;
 import away3d.containers.*;
 import away3d.core.base.*;
 import away3d.core.draw.*;
@@ -197,7 +198,7 @@ public class AbstractDBCanvas extends UIComponent {
                 continue;
             }
             num += 1.0;
-            var sv: ScreenVertex = mainViewport.camera.screen( m, v );
+            var sv: ScreenVertex = mainCamera.screen( m, v );
             kx += sv.x;
             ky += sv.y;
             kz += sv.z;
@@ -232,12 +233,15 @@ public class AbstractDBCanvas extends UIComponent {
 
     private function updateWaterVolumeIndicater(): void {
         if ( renderedOnce ) {
-            var screenVertex: ScreenVertex = mainViewport.camera.screen( groundNode, new Vertex( _model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2, (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE, 0 ) );
+            var screenVertex: ScreenVertex = mainCamera.screen( groundNode,
+                                                                new Vertex( _model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2,
+                                                                            (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE,
+                                                                            0 ) );
             waterVolumeIndicator.x = screenVertex.x + mainViewport.view.x;
             waterVolumeIndicator.y = screenVertex.y + mainViewport.view.y;
             waterVolumeIndicator.visible = true;//Now can show the water volume indicator after it is at the right location
 
-            tickMarkSet.updateCoordinates( mainViewport.camera, groundNode, mainViewport.view );
+            tickMarkSet.updateCoordinates( mainCamera, groundNode, mainViewport.view );
         }
         waterVolumeIndicator.setWaterHeight( _model.getWaterHeight() );
         //        water
@@ -266,6 +270,10 @@ public class AbstractDBCanvas extends UIComponent {
         stage.addEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
     }
 
+    public function get mainCamera(): Camera3D {
+        return mainViewport.camera;
+    }
+
     public function onMouseMove( event: MouseEvent ): void {
         if ( moving ) {
             var offsetX: Number = startMiddle.x - startMouseX;
@@ -274,9 +282,9 @@ public class AbstractDBCanvas extends UIComponent {
             var mY: Number = stage.mouseY - mainViewport.view.y;
             var screenCubeCenterX: Number = mX + offsetX;
             var screenCubeCenterY: Number = mY + offsetY;
-            var projected: Number3D = mainViewport.camera.unproject( screenCubeCenterX, screenCubeCenterY );
-            projected.add( projected, new Number3D( mainViewport.camera.x, mainViewport.camera.y, mainViewport.camera.z ) );
-            var cameraVertex: Vertex = new Vertex( mainViewport.camera.x, mainViewport.camera.y, mainViewport.camera.z );
+            var projected: Number3D = mainCamera.unproject( screenCubeCenterX, screenCubeCenterY );
+            projected.add( projected, new Number3D( mainCamera.x, mainCamera.y, mainCamera.z ) );
+            var cameraVertex: Vertex = new Vertex( mainCamera.x, mainCamera.y, mainCamera.z );
             var rayVertex: Vertex = new Vertex( projected.x, projected.y, projected.z );
             var cubePlane: Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint( new Number3D( 0, 0, -1 ), new Number3D( 0, 0, -100 ) );
