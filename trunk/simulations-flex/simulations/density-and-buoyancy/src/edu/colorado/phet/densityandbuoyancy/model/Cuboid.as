@@ -49,7 +49,7 @@ public class Cuboid extends DensityObject {
         bodyDef.position.Set( getX() * DensityConstants.SCALE_BOX2D, getY() * DensityConstants.SCALE_BOX2D );
         bodyDef.fixedRotation = true;
         if ( !isMovable() ) {
-            bodyDef.massData.mass = 0;
+            bodyDef.massData.mass = 0;//Fixes a bug where the scale would read out the wrong value if the user was controlling it, due to incorrect inclusion of fluid drag forces
         }
         else {
             bodyDef.massData.mass = getMass();
