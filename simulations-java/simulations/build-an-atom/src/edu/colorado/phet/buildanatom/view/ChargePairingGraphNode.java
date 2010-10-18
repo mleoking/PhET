@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -29,6 +30,10 @@ public class ChargePairingGraphNode extends PNode {
     private static final double HORIZONTAL_INTER_ICON_SPACING = 5;
     private static final double THICKNESS_FACTOR = 0.3;
 
+    // TODO: Take this out when it is decided whether or not we want this.
+    private static final boolean SHOW_CHARGE_CANCELLING_ENCLOSING_BOX = true;
+    private static final PPath chargeCancellationEnclosingBox = new PhetPPath( Color.LIGHT_GRAY, null, null );
+
     private final ArrayList<PositiveChargeIconNode> positiveChargeIconList = new ArrayList<PositiveChargeIconNode>();
     private final ArrayList<NegativeChargeIconNode> negativeChargeIconList = new ArrayList<NegativeChargeIconNode>();
 
@@ -37,8 +42,9 @@ public class ChargePairingGraphNode extends PNode {
      */
     public ChargePairingGraphNode( final Atom atom ) {
 
-        atom.addObserver( new SimpleObserver() {
+        addChild( chargeCancellationEnclosingBox );
 
+        atom.addObserver( new SimpleObserver() {
             public void update() {
                 int negChargeDiff = atom.getNumElectrons() - negativeChargeIconList.size();
                 if ( negChargeDiff > 0 ) {
@@ -55,6 +61,8 @@ public class ChargePairingGraphNode extends PNode {
                 else if ( posChargeDiff < 0 ) {
                     removePositiveIcons( -posChargeDiff );
                 }
+
+                updateBoundingBox();
             }
         } );
     }
@@ -65,7 +73,7 @@ public class ChargePairingGraphNode extends PNode {
             PositiveChargeIconNode icon = new PositiveChargeIconNode();
             positiveChargeIconList.add( icon );
             icon.setOffset(
-                    positiveChargeIconList.size() * ( ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING ),
+                    ( positiveChargeIconList.size() - 1 ) * ( ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING ),
                     ChargeIconNode.CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
             addChild( icon );
         }
@@ -77,7 +85,7 @@ public class ChargePairingGraphNode extends PNode {
             NegativeChargeIconNode icon = new NegativeChargeIconNode();
             negativeChargeIconList.add( icon );
             icon.setOffset(
-                    negativeChargeIconList.size() * ( ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING ),
+                    ( negativeChargeIconList.size() - 1 ) * ( ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING ),
                     0 );
             addChild( icon );
         }
@@ -126,7 +134,7 @@ public class ChargePairingGraphNode extends PNode {
          * Constructor.
          */
         public PositiveChargeIconNode() {
-            super( drawPlusSign(CHARGE_ICON_SIZE.getWidth() * 0.6), SYMBOL_COLOR, BACKGROUND_COLOR );
+            super( drawPlusSign( CHARGE_ICON_SIZE.getWidth() * 0.6 ), SYMBOL_COLOR, BACKGROUND_COLOR );
         }
     }
 
@@ -139,7 +147,28 @@ public class ChargePairingGraphNode extends PNode {
          * Constructor.
          */
         public NegativeChargeIconNode() {
-            super( drawMinusSign(CHARGE_ICON_SIZE.getWidth() * 0.5), SYMBOL_COLOR, BACKGROUND_COLOR );
+            super( drawMinusSign( CHARGE_ICON_SIZE.getWidth() * 0.5 ), SYMBOL_COLOR, BACKGROUND_COLOR );
+        }
+    }
+
+    private void updateBoundingBox() {
+        // TODO: For rapid prototyping purposes, this is NOT positioned a 0,0,
+        // but it should be if we end up keeping it.  This will require offsetting
+        // the icon positions.
+        int cancellingCharges = Math.min( positiveChargeIconList.size(), negativeChargeIconList.size() );
+        if ( SHOW_CHARGE_CANCELLING_ENCLOSING_BOX && cancellingCharges > 0 ) {
+            // There are charges to enclose, so show the box and enclose it.
+            chargeCancellationEnclosingBox.setVisible( true );
+            Rectangle2D boxShape = new Rectangle2D.Double(
+                    -HORIZONTAL_INTER_ICON_SPACING / 2,
+                    -VERTICAL_INTER_ICON_SPACING / 2,
+                    cancellingCharges * ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + cancellingCharges * HORIZONTAL_INTER_ICON_SPACING,
+                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() * 2 + VERTICAL_INTER_ICON_SPACING * 2 );
+            chargeCancellationEnclosingBox.setPathTo( boxShape );
+        }
+        else {
+            // No charges to enclose, so hide the box.
+            chargeCancellationEnclosingBox.setVisible( false );
         }
     }
 
