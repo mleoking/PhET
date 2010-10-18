@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.buildanatom.view;
 
 import java.awt.Color;
@@ -13,7 +15,13 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+/**
+ * Class that represents a subatomic particle in the view.
+ *
+ * @author John Blanco
+ */
 public class SubatomicParticleNode extends PNode {
+
     private final ModelViewTransform2D mvt;
     private final SphericalNode sphericalNode;
     private final SubatomicParticle subatomicParticle;
@@ -57,6 +65,7 @@ public class SubatomicParticleNode extends PNode {
             }
         } );
     }
+
     private void updatePosition() {
         Point2D location = mvt.modelToViewDouble( subatomicParticle.getPosition() );
         sphericalNode.setOffset( location );
