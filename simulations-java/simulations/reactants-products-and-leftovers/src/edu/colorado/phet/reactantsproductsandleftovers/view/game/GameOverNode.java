@@ -10,19 +10,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
+import java.util.EventListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.util.GameTimerFormat;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -30,6 +30,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.
+ * <p>
+ * This is a generalization of the "Game Over" node from reactants-products-and-leftovers.
  * <p>
  * Note that this was originally implemented using a JPanel, wrapped with PSwing.
  * But some problems with PSwing bounds (see #2219) forced a rewrite.
@@ -42,7 +44,6 @@ public class GameOverNode extends PhetPNode {
     
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Font LABEL_FONT = new PhetFont( 18 );
-    private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
@@ -51,8 +52,14 @@ public class GameOverNode extends PhetPNode {
     private static final double Y_MARGIN = 15;
     private static final double Y_SPACING = 15;
     
-    public GameOverNode( final GameModel model ) {
+    private final NumberFormat scoreFormat;
+    private final EventListenerList listeners;
+    
+    public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
         super();
+        
+        this.scoreFormat = scoreFormat;
+        this.listeners = new EventListenerList();
         
         // title
         PText titleNode = new PText( RPALStrings.TITLE_GAME_OVER ); 
@@ -60,31 +67,32 @@ public class GameOverNode extends PhetPNode {
         addChild( titleNode );
         
         // level
-        PText levelNode = new PText( getLevelString( model ) );
+        PText levelNode = new PText( getLevelString( level ) );
         levelNode.setFont( LABEL_FONT );
         addChild( levelNode );
         
         // score
-        PText scoreNode = new PText( getScoreString( model ) );
+        PText scoreNode = new PText( getScoreString( score, perfectScore ) );
         scoreNode.setFont( LABEL_FONT );
         addChild( scoreNode );
         
         // time
-        PText timeNode = new PText( getTimeString( model ) ); 
+        boolean isPerfectScore = ( score == perfectScore );
+        PText timeNode = new PText( getTimeString( time, bestTime, timerVisible, isPerfectScore, isNewBestTime ) ); 
         timeNode.setFont( LABEL_FONT );
         addChild( timeNode );
         
         // buttons
         JButton newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
         newGameButton.setOpaque( false );
+        newGameButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                fireNewGamePressed();
+            }
+        });
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque( false );
         buttonPanel.add( newGameButton );
-        newGameButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.newGame();
-            }
-        });
         PSwing newGameButtonWrapper = new PSwing( newGameButton );
         newGameButtonWrapper.addInputEventListener( new CursorHandler() );
         addChild( newGameButtonWrapper );
@@ -137,19 +145,19 @@ public class GameOverNode extends PhetPNode {
     /*
      * Gets the level string.
      */
-    private static String getLevelString( GameModel model ) {
-        return MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( model.getLevel() ) );
+    private static String getLevelString( int level ) {
+        return MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( level ) );
     }
     
     /*
      * Gets the score string.
      * If we had a perfect score, indicate that.
      */
-    private static String getScoreString( GameModel model ) {
-        String pointsString = POINTS_FORMAT.format( model.getPoints() );
-        String perfectScoreString = POINTS_FORMAT.format( GameModel.getPerfectScore() );
+    private String getScoreString( double score, double perfectScore ) {
+        String pointsString = scoreFormat.format( score );
+        String perfectScoreString = scoreFormat.format( perfectScore );
         String scoreString = null;
-        if ( model.isPerfectScore() ) {
+        if ( score == perfectScore ) {
             scoreString = MessageFormat.format( RPALStrings.LABEL_SCORE_PERFECT, pointsString, perfectScoreString );
         }
         else {
@@ -163,26 +171,44 @@ public class GameOverNode extends PhetPNode {
      * If we had an imperfect score, simply show the time.
      * If we had a perfect score, show the best time, and indicate if the time was a "new best".
      */
-    private static String getTimeString( GameModel model ) {
+    private static String getTimeString( long time, long bestTime, boolean timerVisible, boolean isPerfectScore, boolean isNewBestTime ) {
         String s = " ";
-        if ( model.isTimerVisible() ) {
+        if ( timerVisible ) {
             // Time: 0:29
-            String timeString = MessageFormat.format( RPALStrings.LABEL_TIME, GameTimerFormat.format( model.getTime() ) );
-            if ( !model.isPerfectScore() ) {
+            String timeString = MessageFormat.format( RPALStrings.LABEL_TIME, GameTimerFormat.format( time ) );
+            if ( !isPerfectScore ) {
                 // Time: 0:29
                 s = timeString;
             }
-            else if ( model.isNewBestTime() ) {
+            else if ( isNewBestTime ) {
                 // Time: 0:29 (NEW BEST!)
                 s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, RPALStrings.LABEL_NEW_BEST );
             }
             else {
                 // (Best: 0:20)
-                String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, GameTimerFormat.format( model.getBestTime() ) );
+                String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, GameTimerFormat.format( bestTime ) );
                 // Time: 0:29 (Best: 0:20)
                 s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, bestTimeString );
             }
         }
         return s;
+    }
+    
+    public interface GameOverListener extends EventListener {
+        public void newGamePressed();
+    }
+    
+    public void addGameOverListener( GameOverListener listener ) {
+        listeners.add( GameOverListener.class, listener );
+    }
+    
+    public void removeGameOverListener( GameOverListener listener ) {
+        listeners.remove( GameOverListener.class, listener );
+    }
+    
+    private void fireNewGamePressed() {
+        for ( GameOverListener listener : listeners.getListeners( GameOverListener.class ) ) {
+            listener.newGamePressed();
+        }
     }
 }
