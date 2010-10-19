@@ -48,7 +48,6 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         sameMassMode = new BuoyancySameMassMode( this );
         sameVolumeMode = new BuoyancySameVolumeMode( this );
         sameDensityMode = new BuoyancySameDensityMode( this );
-        //        oneObjectMode = new OneObjectMode( this );
         playgroundModes = new BuoyancyPlaygroundMode( this );
         defaultMode = _container.getDefaultMode( this );
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
