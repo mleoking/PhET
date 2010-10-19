@@ -225,11 +225,15 @@ public class AbstractDBCanvas extends UIComponent {
 
         mainViewport.view.render();
         overlayViewport.view.render();
+        for each ( var listener: Function in renderListeners ) {
+            listener();
+        }
         renderedOnce = true;
     }
 
     //Away3d must render at least once before we can obtain screen coordinates for vertices.
     private var renderedOnce: Boolean = false;
+    private var renderListeners: Array = new Array();
 
     private function updateWaterVolumeIndicater(): void {
         if ( renderedOnce ) {
@@ -369,6 +373,10 @@ public class AbstractDBCanvas extends UIComponent {
 
     public function setMassReadoutsVisible( selected: Boolean ): void {
         massReadoutsVisible.value = selected;
+    }
+
+    function addRenderListener( updateGraphics: Function ): void {
+        renderListeners.push( updateGraphics );
     }
 }
 }
