@@ -27,8 +27,9 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
 
-    public function BuoyancyCanvas() {
+    public function BuoyancyCanvas( container: BuoyancyContainer ) {
         super();
+        this._container = container;
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
     }
@@ -38,12 +39,12 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 - 2.46 ) );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
     }
 
-    public function doInit( container: BuoyancyContainer ): void {
-        this._container = container;
+    override public function init(): void {
+        super.init();
         sameMassMode = new BuoyancySameMassMode( this );
         sameVolumeMode = new BuoyancySameVolumeMode( this );
         sameDensityMode = new BuoyancySameDensityMode( this );
-        defaultMode = container.getDefaultMode( this );
+        defaultMode = _container.getDefaultMode( this );
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
         setMode( defaultMode );
 

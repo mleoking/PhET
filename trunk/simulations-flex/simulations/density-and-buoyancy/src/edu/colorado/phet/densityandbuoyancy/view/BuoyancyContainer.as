@@ -21,7 +21,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         addBackground();
 
-        buoyancyCanvas = new BuoyancyCanvas();
+        buoyancyCanvas = new BuoyancyCanvas( this );
         addChild( buoyancyCanvas );
 
 
@@ -114,7 +114,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         // TODO: why multiple initialization functions? - JO
         buoyancyCanvas.init();
-        buoyancyCanvas.doInit( this );
         buoyancyCanvas.switchToDefaultMode();
 
         buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
