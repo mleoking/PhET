@@ -22,6 +22,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
  * Control panel that provides settings for a game.
  * Provides settings for level, timer on/off, and sound on/off.
  * You can add additional controls via the addControl method.
+ * <p>
+ * This panel was generalized from the game in reactants-products-and-leftovers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

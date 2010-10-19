@@ -70,7 +70,7 @@ public class GameCanvas extends RPALCanvas {
     
     // static nodes, allocated once, always visible
     private final PhetPNode buttonsParentNode;
-    private final ScoreboardNode scoreboardNode;
+    private final RPALScoreboardNode scoreboardNode;
     private final RightArrowNode arrowNode;
     private final ReactionNumberLabelNode reactionNumberLabelNode;
     
@@ -127,7 +127,7 @@ public class GameCanvas extends RPALCanvas {
         parentNode.addChild( reactionNumberLabelNode );
 
         // scoreboard
-        scoreboardNode = new ScoreboardNode( model );
+        scoreboardNode = new RPALScoreboardNode( model );
         parentNode.addChild( scoreboardNode );
 
         // face, for indicating correct/incorrect guess
