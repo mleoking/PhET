@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import edu.colorado.phet.buildanatom.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
