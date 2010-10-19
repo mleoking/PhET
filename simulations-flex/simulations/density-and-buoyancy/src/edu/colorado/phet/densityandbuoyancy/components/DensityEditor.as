@@ -7,8 +7,8 @@ import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 public class DensityEditor extends PropertyEditor {
     private var densityObject: DensityObject;
 
-    public function DensityEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ) {
-        super( property, minimum, maximum, unit, dataTipClamp, bounds );
+    public function DensityEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number ) {
+        super( property, minimum, maximum, unit, dataTipClamp, bounds, sliderWidth );
         this.densityObject = densityObject;
 
         textField.enabled = false; // direct density changes are now disabled
