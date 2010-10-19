@@ -8,6 +8,8 @@
     <string key="mode.objectsOfSameMass" value="Same Mass"/>
     <string key="mode.objectsOfSameVolume" value="Same Volume"/>
     <string key="mode.objectsOfSameDensity" value="Same Density"/>
+    <string key="mode.one" value="One"/>
+    <string key="mode.two" value="Two"/>
     <string key="mode.mysteryObjects" value="Mystery"/>
     <string key="mode.mysteryObjects.A" value="A"/>
     <string key="mode.mysteryObjects.B" value="B"/>
