@@ -1,3 +1,4 @@
+Fixed: When switching tabs, vector value readouts flash on and off
 Fixed: Wood block floats in the air on startup
 Moved "Objects" mode control panel from playground to intro tab
 Fixed: Scale moves on startup

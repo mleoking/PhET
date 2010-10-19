@@ -37,6 +37,7 @@ public class VectorValueNode extends Sprite {
         arrowNode.visibilityProperty.addListener( updateVisibility );
         arrowNode.arrowModel.addListener( updateVisibility );
         visibilityProperty.addListener( updateVisibility );
+        updateVisibility();
     }
 
     private function updateGraphics(): void {
