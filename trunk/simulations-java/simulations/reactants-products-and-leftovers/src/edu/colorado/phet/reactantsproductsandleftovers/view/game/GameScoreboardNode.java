@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.util.TimeUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.util.GameTimerFormat;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -185,13 +185,13 @@ public class GameScoreboardNode extends PhetPNode {
         String valueString = null;
         if ( bestTime == 0 ) {
             // 0:29
-            valueString = TimeUtils.getTimeString( time );
+            valueString = GameTimerFormat.format( time );
         }
         else {
             // (Best: 0:34)
-            String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, TimeUtils.getTimeString( bestTime ) );
+            String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, GameTimerFormat.format( bestTime ) );
             // 0:29 (Best: 0:34)
-            valueString = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, TimeUtils.getTimeString( time ), bestTimeString );
+            valueString = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, GameTimerFormat.format( time ), bestTimeString );
         }
         timerValue.setText( valueString );
     }

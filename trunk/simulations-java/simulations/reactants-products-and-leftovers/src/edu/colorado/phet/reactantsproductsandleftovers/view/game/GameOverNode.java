@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
-import edu.colorado.phet.reactantsproductsandleftovers.util.TimeUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.util.GameTimerFormat;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -167,7 +167,7 @@ public class GameOverNode extends PhetPNode {
         String s = " ";
         if ( model.isTimerVisible() ) {
             // Time: 0:29
-            String timeString = MessageFormat.format( RPALStrings.LABEL_TIME, TimeUtils.getTimeString( model.getTime() ) );
+            String timeString = MessageFormat.format( RPALStrings.LABEL_TIME, GameTimerFormat.format( model.getTime() ) );
             if ( !model.isPerfectScore() ) {
                 // Time: 0:29
                 s = timeString;
@@ -178,7 +178,7 @@ public class GameOverNode extends PhetPNode {
             }
             else {
                 // (Best: 0:20)
-                String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, TimeUtils.getTimeString( model.getBestTime() ) );
+                String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, GameTimerFormat.format( model.getBestTime() ) );
                 // Time: 0:29 (Best: 0:20)
                 s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, bestTimeString );
             }
