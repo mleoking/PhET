@@ -18,7 +18,7 @@ public class BlockLabelNode extends Sprite {
     private var mainCamera: Camera3D;
     private var densityObjectNode: DensityObjectNode;
 
-    public function BlockLabelNode( name: String, densityObjectNode: DensityObjectNode, mainCamera: Camera3D, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty ) {
+    public function BlockLabelNode( canvas: AbstractDBCanvas, name: String, densityObjectNode: DensityObjectNode, mainCamera: Camera3D, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty ) {
         this.densityObjectNode = densityObjectNode;
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
@@ -34,6 +34,7 @@ public class BlockLabelNode extends Sprite {
         densityObjectNode.getDensityObject().getVolumeProperty().addListener( updateGraphics );
         densityObjectNode.frontZProperty.addListener( updateGraphics );
         visibilityProperty.addListener( updateGraphics );
+        canvas.addRenderListener( updateGraphics );//have to updateGraphics immediately after render, since that is when the screen function gets updated
         updateGraphics();
         const updateVisibility: Function = function(): void {
             visible = visibilityProperty.value;
@@ -58,7 +59,6 @@ public class BlockLabelNode extends Sprite {
             var cubeNode: CubeNode = CubeNode( densityObjectNode );
             var cube: PickableCube = cubeNode.getCube();
             var screenVertex: ScreenVertex = mainCamera.screen( cube, cube.vertices[4] );//top left of front face of cube, TODO: less brittle way to encode vertex?
-            //TODO: have to run updateGraphics immediately after render, since that is when the screen function gets updated
 
             this.x = screenVertex.x + mainViewport.view.x + 5;
             this.y = screenVertex.y + mainViewport.view.y + 5;
