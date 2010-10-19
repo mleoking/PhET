@@ -16,9 +16,8 @@ import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
     private var property: NumericProperty;
-    public static const SLIDER_WIDTH: Number = 280;
     private static const FONT_SIZE: Number = 12;
-
+    private var sliderWidth;
     protected const textField: TextInput = new TextInput();
 
     /**
@@ -29,8 +28,9 @@ public class PropertyEditor extends GridRow {
      * @param unit
      * @param densityObject
      */
-    public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ) {
+    public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280 ) {
         super();
+        this.sliderWidth = sliderWidth;
         this.property = property;
 
         var label: Label = new Label();
@@ -87,7 +87,7 @@ public class PropertyEditor extends GridRow {
     protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ): SliderDecorator {
         const slider: SliderDecorator = new SliderDecorator( dataTipClamp );
         slider.sliderThumbClass = MySliderThumb;
-        slider.sliderWidth = SLIDER_WIDTH;
+        slider.sliderWidth = sliderWidth;
         //        slider.sliderDataTipClass = InvisibleDataTip;//Hide the data tip since it can become disassociated from the model value
 
         slider.minimum = unit.fromSI( minimum );

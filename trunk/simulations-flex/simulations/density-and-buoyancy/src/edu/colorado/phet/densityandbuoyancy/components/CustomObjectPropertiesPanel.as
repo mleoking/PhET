@@ -16,7 +16,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
     private var densityObject: DensityObject;
     private var comboBox: ComboBox;
 
-    public function CustomObjectPropertiesPanel( densityObject: DensityObject, units: Units ) {
+    public function CustomObjectPropertiesPanel( densityObject: DensityObject, units: Units, sliderWidth: Number = 280 ) {
         super();
         this.densityObject = densityObject;
 
@@ -40,9 +40,9 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             }
         }
 
-        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ) ) );
-        grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded() ) );
-        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded() ) );
+        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ), sliderWidth ) );
+        grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
+        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
 
         comboBox = new ComboBox();
         const items: Array = Material.SELECTABLE_MATERIALS.concat( [Material.CUSTOM] );

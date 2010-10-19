@@ -4,13 +4,13 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 public class CustomObjectPropertiesPanelWrapper {
-    private var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
+    public var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing: Boolean = false;
     private var canvas: AbstractDBCanvas;
 
     public function CustomObjectPropertiesPanelWrapper( block: DensityObject, canvas: AbstractDBCanvas, x: Number, y: Number ) {
         this.canvas = canvas;
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( block, canvas.units );
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( block, canvas.units, 200 );
         customObjectPropertiesPanel.x = x;
         customObjectPropertiesPanel.y = y;
     }

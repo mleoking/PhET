@@ -5,6 +5,7 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
+import flash.events.Event;
 import flash.geom.ColorTransform;
 
 public class TwoObjectsMode extends Mode {
@@ -28,6 +29,9 @@ public class TwoObjectsMode extends Mode {
         brick = Block.newBlockDensityMass( material.getDensity(), mass2, DensityConstants.POOL_WIDTH_X / 2, h2, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
         customObjectPropertiesPanelWrapper1 = new CustomObjectPropertiesPanelWrapper( woodBlock, canvas, DensityConstants.CONTROL_INSET, DensityConstants.CONTROL_INSET );
         customObjectPropertiesPanelWrapper2 = new CustomObjectPropertiesPanelWrapper( brick, canvas, customObjectPropertiesPanelWrapper1.x + customObjectPropertiesPanelWrapper1.width, DensityConstants.CONTROL_INSET );
+        customObjectPropertiesPanelWrapper1.customObjectPropertiesPanel.addEventListener( Event.RESIZE, function(): void {
+            customObjectPropertiesPanelWrapper2.customObjectPropertiesPanel.x = customObjectPropertiesPanelWrapper1.x + customObjectPropertiesPanelWrapper1.width + DensityConstants.CONTROL_INSET;
+        } );
     }
 
     override public function init(): void {
