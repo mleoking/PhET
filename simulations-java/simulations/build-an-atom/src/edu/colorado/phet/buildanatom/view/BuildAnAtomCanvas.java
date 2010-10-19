@@ -276,6 +276,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //Make the "orbits" button not focused by default, by focusing the canvas
         setFocusable( true );
         requestFocus();
+
+        //Start with the symbol, mass and charge windows minimized.
+        //TODO: the reason we didn't put these values for maximized = false above is because the layout code depends on the maximized size for each component.
+        //TODO: it would be nice to rewrite so that we can initialize values properly and still get the layout correct
+        symbolWindow.setMaximized( false );
+        massWindow.setMaximized( false );
+        chargeWindow.setMaximized( false );
     }
     //----------------------------------------------------------------------------
     // Accessors
