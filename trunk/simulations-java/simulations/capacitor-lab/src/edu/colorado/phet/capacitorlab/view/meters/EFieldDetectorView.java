@@ -20,12 +20,14 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.buildanatom.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -34,6 +36,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -71,18 +74,13 @@ public class EFieldDetectorView {
     private static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color CONTROL_COLOR = Color.WHITE;
 
-    private final BatteryCapacitorCircuit circuit; 
-    private final ModelViewTransform mvt;
     private final BodyNode bodyNode;
     private final ProbeNode probeNode;
     private final CubicWireNode wireNode;
     
-    public EFieldDetectorView( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
+    public EFieldDetectorView( EFieldDetector detector, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
         
-        this.circuit = circuit;
-        this.mvt = mvt;
-        
-        bodyNode = new BodyNode();
+        bodyNode = new BodyNode( detector );
         bodyNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
@@ -95,8 +93,8 @@ public class EFieldDetectorView {
             }
         });
         
-        probeNode = new ProbeNode( dev );
-//        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
+        probeNode = new ProbeNode( detector, mvt, dev );
+//XXX        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         probeNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -148,7 +146,7 @@ public class EFieldDetectorView {
         
         private final VectorDisplayNode vectorDisplayNode;
         
-        public BodyNode() {
+        public BodyNode( EFieldDetector detector ) {
             
             // title that appears at the top
             PText titleNode = new PText( CLStrings.TITLE_ELECTRIC_FIELD );
@@ -166,10 +164,10 @@ public class EFieldDetectorView {
             });
             
             // display area for vectors and values
-            vectorDisplayNode = new VectorDisplayNode( VECTOR_DISPLAY_SIZE );
+            vectorDisplayNode = new VectorDisplayNode( detector, VECTOR_DISPLAY_SIZE );
 
             // controls
-            ControlPanel controlPanel = new ControlPanel( vectorDisplayNode );
+            ControlPanel controlPanel = new ControlPanel( detector );
             PSwing controlPanelNode = new PSwing( controlPanel );
             
             // background
@@ -212,7 +210,7 @@ public class EFieldDetectorView {
         
         private final JCheckBox plateCheckBox, dielectricCheckBox, sumCheckBox, showValuesCheckBox;
         
-        public ControlPanel( final VectorDisplayNode vectorDisplayNode ) {
+        public ControlPanel( final EFieldDetector detector ) {
             
             setBackground( BODY_COLOR );
             
@@ -223,40 +221,39 @@ public class EFieldDetectorView {
             plateCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE );
             plateCheckBox.setFont( CONTROL_FONT );
             plateCheckBox.setForeground( CLPaints.PLATE_EFIELD_VECTOR );
-            plateCheckBox.setSelected( vectorDisplayNode.isPlateVisible() );
             plateCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    vectorDisplayNode.setPlateVisible( plateCheckBox.isSelected() );
+                    detector.setPlateVectorVisible( plateCheckBox.isSelected() );
                 }
             });
-            
+           
             dielectricCheckBox = new JCheckBox( CLStrings.CHECKBOX_DIELECTRIC );
             dielectricCheckBox.setFont( CONTROL_FONT );
             dielectricCheckBox.setForeground( CLPaints.DIELECTRIC_EFIELD_VECTOR );
-            dielectricCheckBox.setSelected( vectorDisplayNode.isDielectricVisible() );
+            dielectricCheckBox.setSelected( detector.isDielectricVectorVisible() );
             dielectricCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    vectorDisplayNode.setDielectricVisible( dielectricCheckBox.isSelected() );
+                    detector.setDielectricVectorVisible( dielectricCheckBox.isSelected() );
                 }
             });
             
             sumCheckBox = new JCheckBox( CLStrings.CHECKBOX_SUM );
             sumCheckBox.setFont( CONTROL_FONT );
             sumCheckBox.setForeground( CLPaints.SUM_EFIELD_VECTOR );
-            sumCheckBox.setSelected( vectorDisplayNode.isSumVisible() );
+            sumCheckBox.setSelected( detector.isSumVectorVisible() );
             sumCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    vectorDisplayNode.setSumVisible( sumCheckBox.isSelected() );
+                    detector.setSumVectorVisible( sumCheckBox.isSelected() );
                 }
             });
             
             showValuesCheckBox = new JCheckBox( CLStrings.CHECKBOX_SHOW_VALUES );
             showValuesCheckBox.setFont( CONTROL_FONT );
             showValuesCheckBox.setForeground( CONTROL_COLOR );
-            showValuesCheckBox.setSelected( vectorDisplayNode.isValuesVisible() );
+            showValuesCheckBox.setSelected( detector.isValuesVisible() );
             showValuesCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
-                    vectorDisplayNode.setValuesVisible( showValuesCheckBox.isSelected() );
+                    detector.setValuesVisible( showValuesCheckBox.isSelected() );
                 }
             });
             
@@ -270,6 +267,28 @@ public class EFieldDetectorView {
             add( sumCheckBox, row++, column );
             add( Box.createVerticalStrut( 40 ), row++, column );
             add( showValuesCheckBox, row++, column );
+            
+            // listen to detector properties
+            detector.addPlateVectorVisibleListener( new SimpleObserver() {
+                public void update() {
+                    plateCheckBox.setSelected( detector.isPlateVectorVisible() );
+                }
+            });
+            detector.addDielectricVectorVisibleListener( new SimpleObserver() {
+                public void update() {
+                    dielectricCheckBox.setSelected( detector.isDielectricVectorVisible() );
+                }
+            });
+            detector.addSumVectorVisibleListener( new SimpleObserver() {
+                public void update() {
+                    sumCheckBox.setSelected( detector.isSumVectorVisible() );
+                }
+            });
+            detector.addValuesVisibleListener( new SimpleObserver() {
+                public void update() {
+                    showValuesCheckBox.setSelected( detector.isValuesVisible() );
+                }
+            });
         }
     }
     
@@ -281,9 +300,8 @@ public class EFieldDetectorView {
         
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
-        private boolean valuesVisible;
         
-        public VectorDisplayNode( PDimension size ) {
+        public VectorDisplayNode( final EFieldDetector detector, PDimension size ) {
             
             // background
             PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
@@ -324,60 +342,56 @@ public class EFieldDetectorView {
             y = dielectricValueNode.getFullBoundsReference().getMaxY() + ySpacing;
             sumValueNode.setOffset( x, y );
             
-            // default state
-            valuesVisible = true;
-        }
-        
-        public void setPlateValue( double value ) {
-            plateValueNode.setValue( value );
-        }
-        
-        public void setDielectricValue( double value ) {
-            dielectricValueNode.setValue( value );
-        }
-        
-        public void setSumValue( double value ) {
-            sumValueNode.setValue( value );
-        }
-        
-        public void setPlateVisible( boolean visible ) {
-            plateVectorNode.setVisible( visible );
-            plateValueNode.setVisible( visible && valuesVisible );
-        }
-        
-        public boolean isPlateVisible() {
-            return plateVectorNode.isVisible();
-        }
-        
-        public void setDielectricVisible( boolean visible ) {
-            dielectricVectorNode.setVisible( visible );
-            dielectricValueNode.setVisible( visible && valuesVisible );
-        }
-        
-        public boolean isDielectricVisible() {
-            return dielectricVectorNode.isVisible();
-        }
-        
-        public void setSumVisible( boolean visible ) {
-            sumVectorNode.setVisible( visible );
-            sumValueNode.setVisible( visible && valuesVisible );
-        }
-        
-        public boolean isSumVisible() {
-            return sumVectorNode.isVisible();
-        }
-        
-        public void setValuesVisible( boolean valuesVisible ) {
-            if ( valuesVisible != this.valuesVisible ) {
-                this.valuesVisible = valuesVisible;
-                plateValueNode.setVisible( valuesVisible && plateVectorNode.isVisible() );
-                dielectricValueNode.setVisible( valuesVisible && dielectricVectorNode.isVisible() );
-                sumValueNode.setVisible( valuesVisible && sumVectorNode.isVisible() );
-            }
-        }
-        
-        public boolean isValuesVisible() {
-            return valuesVisible;
+            // listen to detector properties
+            detector.addPlateVectorListener( new SimpleObserver() {
+                public void update() {
+                    // update vector
+                    //XXX
+                    // update value
+                    plateValueNode.setValue( detector.getPlateVector() );
+                }
+            });
+            detector.addDielectricVectorListener( new SimpleObserver() {
+                public void update() {
+                    // update vector
+                    //XXX
+                    // update value
+                    dielectricValueNode.setValue( detector.getDielectricVector() );
+                }
+            });
+            detector.addSumVectorListener( new SimpleObserver() {
+                public void update() {
+                    // update vector
+                    //XXX
+                    // update value
+                    sumValueNode.setValue( detector.getSumVector() );
+                }
+            });
+            detector.addPlateVectorVisibleListener( new SimpleObserver() {
+                public void update() {
+                    plateVectorNode.setVisible( detector.isPlateVectorVisible() );
+                    plateValueNode.setVisible( detector.isPlateVectorVisible() && detector.isValuesVisible() );
+                }
+            });
+            detector.addDielectricVectorVisibleListener( new SimpleObserver() {
+                public void update() {
+                    dielectricVectorNode.setVisible( detector.isDielectricVectorVisible() );
+                    dielectricValueNode.setVisible( detector.isDielectricVectorVisible() && detector.isValuesVisible() );
+                }
+            });
+            detector.addSumVectorVisibleListener( new SimpleObserver() {
+                public void update() {
+                    sumVectorNode.setVisible( detector.isSumVectorVisible() );
+                    sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
+                }
+            });
+            detector.addValuesVisibleListener( new SimpleObserver() {
+                public void update() {
+                    plateValueNode.setVisible( detector.isPlateVectorVisible() && detector.isValuesVisible() );
+                    dielectricValueNode.setVisible( detector.isDielectricVectorVisible() && detector.isValuesVisible() );
+                    sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
+                }
+            });
         }
     }
     
@@ -415,7 +429,7 @@ public class EFieldDetectorView {
      */
     private static class ProbeNode extends PhetPNode {
         
-        public ProbeNode( boolean dev ) {
+        public ProbeNode( final EFieldDetector detector, final ModelViewTransform mvt, boolean dev ) {
             super();
             
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
@@ -429,6 +443,48 @@ public class EFieldDetectorView {
                 PlusNode plusNode = new PlusNode( 12, 2, Color.GRAY );
                 addChild( plusNode );
             }
+            
+            detector.addProbeLocationListener( new SimpleObserver() {
+                public void update() {
+                    setOffset( mvt.modelToView( detector.getProbeLocationReference() ) );
+                }
+            });
+            
+            addInputEventListener( new ProbeDragHandler( this, detector, mvt ) );
+        }
+    }
+    
+    private static class ProbeDragHandler extends PDragSequenceEventHandler {
+        
+        private final ProbeNode probeNode;
+        private final EFieldDetector detector;
+        private final ModelViewTransform mvt;
+        
+        private double clickXOffset, clickYOffset;
+        
+        public ProbeDragHandler( ProbeNode probeNode, EFieldDetector detector, ModelViewTransform mvt ) {
+            this.probeNode = probeNode;
+            this.detector = detector;
+            this.mvt = mvt;
+        }
+        
+        @Override
+        protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
+            Point2D pOrigin = mvt.modelToViewDelta( detector.getProbeLocationReference() );
+            clickXOffset = pMouse.getX() - pOrigin.getX();
+            clickYOffset = pMouse.getY() - pOrigin.getY();
+        }
+        
+        @Override
+        protected void drag( final PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
+            double xView = pMouse.getX() - clickXOffset;
+            double yView = pMouse.getY() - clickYOffset;
+            Point3D pModel = new Point3D.Double( mvt.viewToModel( xView, yView ) );
+            detector.setProbeLocation( pModel );
         }
     }
     

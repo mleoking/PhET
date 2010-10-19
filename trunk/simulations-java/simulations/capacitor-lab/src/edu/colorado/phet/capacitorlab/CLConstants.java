@@ -68,6 +68,8 @@ public class CLConstants {
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     public static final double PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
     
+    public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX should probably start somewhere outside the capacitor
+    
     //----------------------------------------------------------------------------
     // View
     //----------------------------------------------------------------------------
@@ -117,8 +119,8 @@ public class CLConstants {
     public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 900 ); // number of lines on smallest plate
     
     // E-field detector
-    public static final boolean PLATE_FIELD_VISIBLE = true;
-    public static final boolean DIELECTRIC_FIELD_VISIBLE = true;
-    public static final boolean SUM_FIELD_VISIBLE = true;
-    public static final boolean SHOW_FIELD_VALUES = true;
+    public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_VALUES_VISIBLE = true;
 }

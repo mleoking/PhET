@@ -26,7 +26,6 @@ import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -101,7 +100,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeterNode = new VoltmeterNode();//XXX
-        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.getCircuit(), mvt, playAreaBoundsNode, dev );
+        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, playAreaBoundsNode, dev );
         eFieldDetectorBodyNode = eFieldDetector.getBodyNode();
         eFieldDetectorProbeNode = eFieldDetector.getProbeNode();
         
@@ -201,9 +200,6 @@ public class DielectricCanvas extends CLCanvas {
         energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
         voltmeterNode.setOffset( CLConstants.VOLTMETER_LOCATION );
         eFieldDetectorBodyNode.setOffset( CLConstants.EFIELD_DETECTOR_LOCATION );
-        double x = eFieldDetectorBodyNode.getFullBoundsReference().getMinX() - eFieldDetectorProbeNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( eFieldDetectorProbeNode ) - 50;
-        double y = eFieldDetectorBodyNode.getFullBoundsReference().getMinY();
-        eFieldDetectorProbeNode.setOffset( x, y );
     }
     
     public CapacitorNode getCapacitorNode() {
