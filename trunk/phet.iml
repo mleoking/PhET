@@ -127,6 +127,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-channels/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/work-energy/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/build-an-atom/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/games/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1453,6 +1454,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/build-an-atom/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/common/games/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
