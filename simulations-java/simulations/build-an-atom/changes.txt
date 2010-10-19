@@ -1,3 +1,5 @@
+# 0.00.11 (45194) Oct 19, 2010
+10/19/10 Deploying as 1st release candidate for v1.0
 Added cloud representation to mass indicator
 Added white backgrounds to the weigh scale and the charge meter.
 Changed the colors used to portray mass to be black, and for the charge to be red when positive, blue when negative, and black when neutral.
