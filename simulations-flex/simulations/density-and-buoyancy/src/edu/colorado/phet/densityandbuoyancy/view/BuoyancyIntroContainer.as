@@ -21,7 +21,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         modeControlPanel.y = DensityConstants.CONTROL_INSET;
 
         var label: Label = new Label();
-        label.text = FlexSimStrings.get( 'mode.title', 'Objects' );
+        label.text = FlexSimStrings.get( 'mode.title', 'Blocks' );
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
 
