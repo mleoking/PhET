@@ -38,6 +38,7 @@ public class Cuboid extends DensityObject {
         getVolumeProperty().addListener( volumeChangeListener );
 
         setVolume( width * height * depth );
+        inSceneProperty.addListener( updateShapeDef );
     }
 
     public override function updateBox2DModel(): void {
@@ -59,14 +60,16 @@ public class Cuboid extends DensityObject {
     }
 
     private function updateShapeDef(): void {
-        shapeDef.friction = 0.3;
-        shapeDef.restitution = 0;
-        shapeDef.density = density;
-        setBody( getModel().getWorld().CreateBody( bodyDef ) );
-        shapeDef.SetAsBox( width / 2 * DensityConstants.SCALE_BOX2D, height / 2 * DensityConstants.SCALE_BOX2D );
-        getBody().CreateShape( shapeDef );
-        getBody().SetUserData( this );
-        notifyShapeChanged();
+        if ( inScene ) {//only add to box2d if block is visible in away3d
+            shapeDef.friction = 0.3;
+            shapeDef.restitution = 0;
+            shapeDef.density = density;
+            setBody( getModel().getWorld().CreateBody( bodyDef ) );
+            shapeDef.SetAsBox( width / 2 * DensityConstants.SCALE_BOX2D, height / 2 * DensityConstants.SCALE_BOX2D );
+            getBody().CreateShape( shapeDef );
+            getBody().SetUserData( this );
+            notifyShapeChanged();
+        }
     }
 
     public function setSize( width: Number, height: Number ): void {

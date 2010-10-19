@@ -66,6 +66,7 @@ public class DensityModel {
         for each ( var listener: Function in densityObjectCreationListeners ) {
             listener( densityObject );
         }
+        densityObject.inScene = true;
     }
 
     public function teardown(): void {
