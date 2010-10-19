@@ -5,9 +5,9 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
-public class SameMassMode extends Mode {
+public class DensitySameMassMode extends Mode {
 
-    public function SameMassMode( canvas: AbstractDBCanvas ) {
+    public function DensitySameMassMode( canvas: AbstractDBCanvas ) {
         super( canvas );
     }
 

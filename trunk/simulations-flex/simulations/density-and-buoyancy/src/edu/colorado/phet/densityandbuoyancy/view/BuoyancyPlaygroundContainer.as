@@ -28,7 +28,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         addChild( fluidDensityControl );
     }
 
-    override public function createCustomObjectMode( canvas: AbstractDBCanvas ): Mode {
+    override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
         return new CustomObjectMode( canvas );
     }
 }

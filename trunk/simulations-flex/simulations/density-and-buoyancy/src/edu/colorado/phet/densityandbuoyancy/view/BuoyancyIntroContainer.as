@@ -1,7 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
-import edu.colorado.phet.densityandbuoyancy.view.modes.IntroObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -11,8 +10,9 @@ import mx.controls.Label;
 import mx.controls.RadioButton;
 
 public class BuoyancyIntroContainer extends BuoyancyContainer {
-    private var customButton: RadioButton;
     private static var count: Number = 0;//for different button groups
+    private var sameMassButton: RadioButton;
+
     public function BuoyancyIntroContainer() {
         count = count + 1;
 
@@ -26,20 +26,12 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         modeControlPanel.addChild( label );
 
         var groupName: String = "modes" + count;
-        customButton = new RadioButton();
-        customButton.groupName = groupName;
-        customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
-        customButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.switchToCustomObject()
-        } );
-        customButton.selected = true;
-        modeControlPanel.addChild( customButton );
 
         var sameMassButton: RadioButton = new RadioButton();
         sameMassButton.groupName = groupName;
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
         sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.switchToSameMass()
+            buoyancyCanvas.switchToSameMass();
         } );
         modeControlPanel.addChild( sameMassButton );
 
@@ -47,7 +39,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         sameVolumeButton.groupName = groupName;
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
         sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.switchToSameVolume()
+            buoyancyCanvas.switchToSameVolume();
         } );
         modeControlPanel.addChild( sameVolumeButton );
 
@@ -55,21 +47,21 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         sameDensityButton.groupName = groupName;
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
         sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.switchToSameDensity()
+            buoyancyCanvas.switchToSameDensity();
         } );
         modeControlPanel.addChild( sameDensityButton );
 
         addChild( modeControlPanel );
-        customButton.selected = true;
+        sameMassButton.selected = true;
     }
 
     override public function resetAll(): void {
         super.resetAll();
-        customButton.selected = true;
+        sameMassButton.selected = true;
     }
 
-    override public function createCustomObjectMode( canvas: AbstractDBCanvas ): Mode {
-        return new IntroObjectMode( canvas );
+    override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
+        return buoyancyCanvas.sameMassMode;
     }
 }
 }

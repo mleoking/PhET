@@ -6,19 +6,19 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameDensityMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameMassMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
 public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private var _container: BuoyancyContainer;
 
-    private var customObjectMode: Mode;
-    private var sameMassMode: SameMassMode;
-    private var sameVolumeMode: SameVolumeMode;
-    private var sameDensityMode: SameDensityMode;
+    private var defaultMode: Mode;
+    public var sameMassMode: BuoyancySameMassMode;
+    private var sameVolumeMode: BuoyancySameVolumeMode;
+    private var sameDensityMode: BuoyancySameDensityMode;
     private var mode: Mode;
 
     private var gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
@@ -40,12 +40,12 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     public function doInit( container: BuoyancyContainer ): void {
         this._container = container;
-        customObjectMode = container.createCustomObjectMode( this );
-        sameMassMode = new SameMassMode( this );
-        sameVolumeMode = new SameVolumeMode( this );
-        sameDensityMode = new SameDensityMode( this );
+        sameMassMode = new BuoyancySameMassMode( this );
+        sameVolumeMode = new BuoyancySameVolumeMode( this );
+        sameDensityMode = new BuoyancySameDensityMode( this );
+        defaultMode = container.getDefaultMode( this );
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
-        setMode( customObjectMode );
+        setMode( defaultMode );
 
         var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
         //        _densityCanvas.addChild(box2DDebug.getSprite());
@@ -53,8 +53,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     override public function resetAll(): void {
         super.resetAll();
-        customObjectMode.reset();
-        switchToCustomObject();
+        defaultMode.reset();
+        switchToDefaultMode();
         vectorValuesVisible.reset();
 
         buoyancyArrowsVisible.reset();
@@ -85,8 +85,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         setMode( sameDensityMode );
     }
 
-    public function switchToCustomObject(): void {
-        setMode( customObjectMode );
+    public function switchToDefaultMode(): void {
+        setMode( defaultMode );
     }
 
     override public function get container(): AbstractDBContainer {

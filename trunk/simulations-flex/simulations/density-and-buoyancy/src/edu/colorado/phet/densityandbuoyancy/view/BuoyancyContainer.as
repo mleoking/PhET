@@ -115,7 +115,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         // TODO: why multiple initialization functions? - JO
         buoyancyCanvas.init();
         buoyancyCanvas.doInit( this );
-        buoyancyCanvas.switchToCustomObject();
+        buoyancyCanvas.switchToDefaultMode();
 
         buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
@@ -135,7 +135,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         buoyancyCanvas.resetAll();
     }
 
-    public function createCustomObjectMode( canvas: AbstractDBCanvas ): Mode {
+    public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
         throw new Error( "Abstract method error" );
     }
 
