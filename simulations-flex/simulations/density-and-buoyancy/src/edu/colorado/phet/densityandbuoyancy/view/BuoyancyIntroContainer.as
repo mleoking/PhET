@@ -27,7 +27,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
 
         var groupName: String = "modes" + count;
 
-        var sameMassButton: RadioButton = new RadioButton();
+        sameMassButton = new RadioButton();
         sameMassButton.groupName = groupName;
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
         sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
