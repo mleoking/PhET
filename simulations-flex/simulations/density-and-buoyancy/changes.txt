@@ -1,3 +1,4 @@
+# 1.02.03 (45184) Oct 18, 2010
 Store first object state when switching to two objects in buoyancy playground
 Added a second object customization panel for buoyancy playground
 Fixed: When switching tabs, vector value readouts flash on and off
