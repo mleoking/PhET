@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * Shows a scale with a numeric readout of the atom weight.  Origin is the top left of the scale body (not the platform).
@@ -33,12 +34,13 @@ public class MassIndicatorNode extends PNode {
 
         final PImage weighScaleImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_scale.png" ) );
         weighScaleImageNode.setScale( WIDTH / weighScaleImageNode.getFullBoundsReference().width );
+        final double HEIGHT = weighScaleImageNode.getHeight();
         addChild ( weighScaleImageNode );
 
-        final PPath readout = new PhetPPath(Color.WHITE, new BasicStroke(2f), Color.LIGHT_GRAY){{
+        final PPath readout = new PhetPPath(Color.WHITE, new BasicStroke(1f), Color.LIGHT_GRAY){{
             Shape readoutBackgroundShape = new RoundRectangle2D.Double(0, 0,
-                    weighScaleImageNode.getFullBoundsReference().width * 0.4,
-                    weighScaleImageNode.getFullBoundsReference().height * 0.37, 4, 4);
+                    WIDTH * 0.4,
+                    HEIGHT * 0.31, 4, 4);
             setPathTo( readoutBackgroundShape );
         }};
         addChild( readout );
@@ -47,12 +49,11 @@ public class MassIndicatorNode extends PNode {
             setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
             setTextPaint( Color.BLACK );
         }};
-        readout.addChild( readoutPText );
-
+        addChild( readoutPText );
         atom.addObserver( new SimpleObserver() {
             public void update() {
                 readoutPText.setText( atom.getAtomicMassNumber() + "" );
-                readoutPText.setOffset( readout.getFullBounds().getWidth() / 2 - readoutPText.getFullBounds().getWidth() / 2, 0 );
+                readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY()-readoutPText.getFullBounds().getHeight()/2);
             }
         } );
 
@@ -107,6 +108,6 @@ public class MassIndicatorNode extends PNode {
         // readout.
         readout.setOffset(
                 weighScaleImageNode.getFullBoundsReference().getCenterX() - readout.getFullBoundsReference().width / 2,
-                weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 1);
+                weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 2.5);
     }
 }
