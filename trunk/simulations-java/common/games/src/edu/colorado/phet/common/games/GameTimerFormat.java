@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.util;
+package edu.colorado.phet.common.games;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;

@@ -1,3 +1,7 @@
+10/19/10 #2547, move game English strings to phetcommon-strings.properties
+10/19/10 #2547, move game classes to games/src
+10/19/10 #2547, move game icons to games/data/games/images
+10/19/10 #2547, create new "games" project for generalized game code and resources
 10/19/10 #2547, generalized GameOverNode (needs to be migrated to phetcommon, along with associated icons and strings)
 10/18/10 #2547, generalized TimeUtils to GameTimerFormat (needs to be migrated to phetcommon)
 10/18/10 #2547, generalized Game Scoreboard (needs to be migrated to phetcommon, along with associated icons and strings)

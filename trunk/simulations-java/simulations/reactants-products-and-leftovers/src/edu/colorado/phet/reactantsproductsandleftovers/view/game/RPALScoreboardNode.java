@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 

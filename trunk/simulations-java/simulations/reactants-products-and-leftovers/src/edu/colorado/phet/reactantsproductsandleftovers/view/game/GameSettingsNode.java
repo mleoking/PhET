@@ -10,11 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import edu.colorado.phet.common.games.GameSettingsPanel;
+import edu.colorado.phet.common.games.GameSettingsPanel.GameSettingsPanelAdapater;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameSettingsPanel.GameSettingsPanelAdapater;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
