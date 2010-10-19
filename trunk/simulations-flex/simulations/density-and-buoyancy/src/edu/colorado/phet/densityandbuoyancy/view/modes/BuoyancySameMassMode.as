@@ -19,13 +19,11 @@ public class BuoyancySameMassMode extends Mode {
         const volume: Number = mass / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
         woodBlock = Block.newBlockDensityMass( material.getDensity(), mass, -DensityConstants.POOL_WIDTH_X / 3, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
-        woodBlock.setBody( null );
 
         const brickMaterial: Material = Material.BRICK;
         const v2: Number = mass / material.getDensity();
         const h2: Number = Math.pow( volume, 1.0 / 3 );
         brick = Block.newBlockDensityMass( brickMaterial.getDensity(), mass, DensityConstants.POOL_WIDTH_X / 2, h2, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, brickMaterial );
-        brick.setBody( null );
     }
 
     override public function init(): void {

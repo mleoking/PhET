@@ -62,6 +62,7 @@ public class DensityModel {
     }
 
     public function addDensityObject( densityObject: DensityObject ): void {
+        trace( "Added object: " + densityObject.toString() );
         densityObjects.push( densityObject );
         for each ( var listener: Function in densityObjectCreationListeners ) {
             listener( densityObject );
@@ -81,11 +82,12 @@ public class DensityModel {
     }
 
     private function removeDensityObject( densityObject: DensityObject ): void {
+        trace( "removing: " + densityObject.toString() );
         densityObject.remove();
         for each ( var object: Function in densityObjectDestructionListeners ) {
             object( densityObject );
         }
-        densityObjects.splice( densityObjects.indexOf( densityObject ), 1 );
+        densityObjects = densityObjects.splice( densityObjects.indexOf( densityObject ), 1 );
     }
 
     private function createGround(): void {

@@ -10,7 +10,7 @@ import mx.controls.Label;
 import mx.controls.RadioButton;
 
 public class BuoyancyIntroContainer extends BuoyancyContainer {
-    private static var count: Number = 0;//for different button groups
+    public static var count: Number = 0;//for different button groups
     private var sameMassButton: RadioButton;
 
     public function BuoyancyIntroContainer() {

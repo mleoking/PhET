@@ -10,6 +10,8 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.OneObjectMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.TwoObjectsMode;
 
 public class BuoyancyCanvas extends AbstractDBCanvas {
 
@@ -19,6 +21,9 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     public var sameMassMode: BuoyancySameMassMode;
     private var sameVolumeMode: BuoyancySameVolumeMode;
     private var sameDensityMode: BuoyancySameDensityMode;
+
+    public var oneObjectMode: OneObjectMode;
+    private var twoObjectsMode: TwoObjectsMode;
     private var mode: Mode;
 
     private var gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
@@ -44,6 +49,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         sameMassMode = new BuoyancySameMassMode( this );
         sameVolumeMode = new BuoyancySameVolumeMode( this );
         sameDensityMode = new BuoyancySameDensityMode( this );
+        oneObjectMode = new OneObjectMode( this );
+        twoObjectsMode = new TwoObjectsMode( this );
         defaultMode = _container.getDefaultMode( this );
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
         setMode( defaultMode );
@@ -136,6 +143,14 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     public function setFluidDragForceVisible( selected: Boolean ): void {
         fluidDragArrowsVisible.value = selected;
+    }
+
+    public function switchToOneObject(): void {
+        setMode( oneObjectMode );
+    }
+
+    function switchToTwoObjects(): void {
+        setMode( twoObjectsMode );
     }
 }
 }

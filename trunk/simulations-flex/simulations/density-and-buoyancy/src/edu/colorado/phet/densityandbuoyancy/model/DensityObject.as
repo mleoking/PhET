@@ -187,6 +187,9 @@ public class DensityObject {
     }
 
     public function remove(): void {
+        //        if ( getBody() == null ) { //TODO: track this down
+        //            throw new Error( "null body" );
+        //        }
         model.getWorld().DestroyBody( getBody() );
         body = null;
         for each( var removalListener: Function in removalListeners ) {
@@ -394,6 +397,10 @@ public class DensityObject {
 
     public function get inSceneProperty(): BooleanProperty {
         return _inScene;
+    }
+
+    public function toString(): String {
+        return "x = " + x.value + ", y=" + y.value;
     }
 }
 }
