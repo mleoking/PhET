@@ -1,3 +1,5 @@
+10/18/10 add E-field detector to model, using Property<T> notification
+10/18/10 add stubs to BatteryCapacitorCircuit for determining E-field at a Point3D
 10/13/10 properly initialize "Show Values" in field detector
 10/12/10 add vector values to field detector, wire up to controls
 10/12/10 add wire that connects field detector probe to meter

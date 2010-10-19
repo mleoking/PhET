@@ -10,10 +10,12 @@ DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
-- init and Reset All for field detector
+- implement BatteryCapacitorCircuit.get*At(Point3D) methods
 - vectors in field detector
 - make "Show Values" its own PSwing so that it will always be at lower-left of field detector 
 - simplified field detector for Introduction tab (hide vector check boxes, show only Sum)
+- add geometry of wires to model
+- add geometry of battery to model
 - field detector body jerks up to upper-left of play area sometimes when dragging on a PSwing, general PSwing bug?
 - rotate field detector probe by -mvt.getYaw(), handle wire connection
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D

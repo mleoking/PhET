@@ -369,6 +369,10 @@ public class BatteryCapacitorCircuit {
         return getPlatesVoltage() / capacitor.getPlateSeparation();
     }
     
+    public double getEffectiveEFieldAt( Point3D location ) {
+        return getEffectiveEfield(); //XXX how is this calculated?
+    }
+    
     /**
      * Gets the field due to the plates in the capacitor volume that contains air.
      * (design doc symbol: E_plates_air)
@@ -387,6 +391,16 @@ public class BatteryCapacitorCircuit {
      */
     public double getPlatesDielectricEField() {
         return getPlatesEField( capacitor.getDielectricConstant(), getPlatesVoltage(), capacitor.getPlateSeparation() );
+    }
+    
+    /**
+     * Field due to the plate, equal to E_plate_air or E_plate_dielectric, depending on the location.
+     * 
+     * @param location
+     * @return
+     */
+    public double getPlatesDielectricEFieldAt( Point3D location ) {
+        return getPlatesDielectricEField(); //XXX compute based on location
     }
     
     /*
@@ -423,6 +437,17 @@ public class BatteryCapacitorCircuit {
      */
     public double getDielectricEField() {
         return getPlatesDielectricEField() - getEffectiveEfield();
+    }
+    
+    /**
+     * Gets the field due to dielectric polarization, which is either 
+     * E_air or E_dielectric, depending on where the probe is placed.
+     * 
+     * @param location
+     * @return
+     */
+    public Double getDielectricEFieldAt( Point3D location ) {
+        return getDielectricEField(); //XXX compute based on location
     }
     
     /**
