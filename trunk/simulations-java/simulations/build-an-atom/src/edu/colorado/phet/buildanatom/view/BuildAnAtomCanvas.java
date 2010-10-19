@@ -125,7 +125,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Add the atom's electron shells to the canvas.
         for ( ElectronShell electronShell : model.getAtom().getElectronShells() ) {
-            backLayer.addChild( new ElectronShellNode( mvt, viewOrbitals, model.getAtom(), electronShell ) );
+            backLayer.addChild( new ElectronShellNode( mvt, viewOrbitals, model.getAtom(), electronShell,true ) );
         }
 
         // Add the buckets that hold the sub-atomic particles.
@@ -210,7 +210,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Mass indicator
         // TODO: i18n
-        final MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, new MassIndicatorNode( model.getAtom() ){{
+        final MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, new MassIndicatorNode( model.getAtom() ,viewOrbitals){{
             setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
         }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );

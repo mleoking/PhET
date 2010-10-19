@@ -47,7 +47,7 @@ public class ElectronShellNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronShellNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom, final ElectronShell electronShell ) {
+    public ElectronShellNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom, final ElectronShell electronShell, final boolean allowsUserInput ) {
 
         final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
                 -electronShell.getRadius(),
@@ -100,6 +100,7 @@ public class ElectronShellNode extends PNode {
                 };
                 electronShell.addObserver( updatePickable );
                 viewOrbitals.addObserver( updatePickable );
+            if ( allowsUserInput ) {                       //todo: could factor into a subclass
                 addInputEventListener( new CursorHandler() );
 
                 //Make it possible to grab and manipulate electrons from the cloud representation, see related handling code in SubatomicParticleNode
@@ -126,6 +127,7 @@ public class ElectronShellNode extends PNode {
                         grabbedElectron=null;
                     }
                 } );
+            }
         }
         };
 //        viewOrbitals.setValue( false );//Uncomment this line to set the default view to cloud

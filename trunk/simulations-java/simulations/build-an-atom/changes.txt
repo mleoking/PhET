@@ -1,3 +1,4 @@
+Added cloud representation to mass indicator
 Added white backgrounds to the weigh scale and the charge meter.
 Changed the colors used to portray mass to be black, and for the charge to be red when positive, blue when negative, and black when neutral.
 Added a graph to the charge indicator node that allows side-by-side comparison of the charge balance.
