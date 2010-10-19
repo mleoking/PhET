@@ -23,11 +23,13 @@ public class BuoyancyPlaygroundMode extends Mode {
         const mass: Number = volume * material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
         woodBlock = Block.newBlockDensityMass( material.getDensity(), mass, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        woodBlock.name = "A";
 
         const v2: Number = DensityConstants.litersToMetersCubed( 8 );
         const h2: Number = Math.pow( v2, 1.0 / 3 );
         const mass2: Number = v2 * material.getDensity();
         brick = Block.newBlockDensityMass( material.getDensity(), mass2, DensityConstants.POOL_WIDTH_X / 2, h2, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        brick.name = "B";
         customObjectPropertiesPanelWrapper1 = new CustomObjectPropertiesPanelWrapper( woodBlock, canvas, DensityConstants.CONTROL_INSET, DensityConstants.CONTROL_INSET );
         customObjectPropertiesPanelWrapper2 = new CustomObjectPropertiesPanelWrapper( brick, canvas, customObjectPropertiesPanelWrapper1.x + customObjectPropertiesPanelWrapper1.width, DensityConstants.CONTROL_INSET );
         customObjectPropertiesPanelWrapper1.customObjectPropertiesPanel.addEventListener( Event.RESIZE, function(): void {
@@ -64,6 +66,9 @@ public class BuoyancyPlaygroundMode extends Mode {
             customObjectPropertiesPanelWrapper2.teardown();
             canvas.model.removeDensityObject( brick );
             woodBlock.updateBox2DModel();
+            woodBlock.nameVisible = false;
+            brick.nameVisible = true;
+
             oneObject = true;
         }
     }
@@ -74,6 +79,9 @@ public class BuoyancyPlaygroundMode extends Mode {
             canvas.model.addDensityObject( brick );
             woodBlock.updateBox2DModel();
             brick.updateBox2DModel();
+            woodBlock.nameVisible = true;
+            brick.nameVisible = true;
+
             oneObject = false;
         }
     }

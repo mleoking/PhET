@@ -1,3 +1,4 @@
+Added block labels onto the blocks when two blocks are shown in buoyancy playground mode
 Made objects start on the side of the pool instead of in the water
 # 1.02.03 (45184) Oct 18, 2010
 Store first object state when switching to two objects in buoyancy playground
