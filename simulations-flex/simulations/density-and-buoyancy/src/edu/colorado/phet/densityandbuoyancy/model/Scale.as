@@ -110,5 +110,9 @@ public class Scale extends Cuboid {
     public function addScaleReadoutListener( updateText: Function ): void {
         scaleReadoutListeners.push( updateText );
     }
+
+    override public function toString(): String {
+        return "Scale: " + super.toString();
+    }
 }
 }

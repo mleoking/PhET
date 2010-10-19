@@ -56,5 +56,9 @@ public class Block extends Cuboid {
     override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
         return new BlockNode( this, view, getLabelProperty(), massReadoutsVisible );
     }
+
+    override public function toString(): String {
+        return "Block: " + super.toString();
+    }
 }
 }
