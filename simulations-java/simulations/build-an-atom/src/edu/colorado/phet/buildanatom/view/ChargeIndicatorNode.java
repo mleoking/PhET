@@ -28,7 +28,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ChargeIndicatorNode extends PNode {
     private static final int BOX_DIMENSION = 80;
 
-    private static final Color purple = new Color( 112, 48, 160 );
     private static final double WIDTH = 90;
 
     public ChargeIndicatorNode( final Atom atom ) {
@@ -127,7 +126,7 @@ public class ChargeIndicatorNode extends PNode {
 
     private Paint getTextPaint( Atom atom ) {
         if ( atom.getCharge() == 0 ) {
-            return purple;
+            return Color.black;
         }
         else if ( atom.getCharge() > 0 ) {
             return Color.red;
