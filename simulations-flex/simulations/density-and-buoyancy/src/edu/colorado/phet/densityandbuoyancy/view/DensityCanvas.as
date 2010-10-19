@@ -1,10 +1,10 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameDensityMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameMassMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.SameDensityMode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.SameMassMode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.SameVolumeMode;
 
 import mx.containers.Canvas;
 
@@ -13,9 +13,9 @@ public class DensityCanvas extends AbstractDBCanvas {
     private var _container: DensityContainer;
 
     private var customObjectMode: CustomObjectMode;
-    private var sameMassMode: SameMassMode;
-    private var sameVolumeMode: SameVolumeMode;
-    private var sameDensityMode: SameDensityMode;
+    private var sameMassMode: DensitySameMassMode;
+    private var sameVolumeMode: DensitySameVolumeMode;
+    private var sameDensityMode: DensitySameDensityMode;
     private var mysteryObjectsMode: MysteryObjectsMode;
     private var mode: Mode;
 
@@ -26,9 +26,9 @@ public class DensityCanvas extends AbstractDBCanvas {
     public function doInit( densityCanvas: DensityContainer ): void {
         this._container = densityCanvas;
         customObjectMode = new CustomObjectMode( this );
-        sameMassMode = new SameMassMode( this );
-        sameVolumeMode = new SameVolumeMode( this );
-        sameDensityMode = new SameDensityMode( this );
+        sameMassMode = new DensitySameMassMode( this );
+        sameVolumeMode = new DensitySameVolumeMode( this );
+        sameDensityMode = new DensitySameDensityMode( this );
         mysteryObjectsMode = new MysteryObjectsMode( this );
         //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
         setMode( customObjectMode );
