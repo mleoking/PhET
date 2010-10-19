@@ -1,5 +1,3 @@
-# 2.07.19 (45200) Oct 19, 2010
-10/19/10 Deploying to dev as a release candidate for production.
 Changed the photon emitter such that it no longer sets the emission rate to zero when switching between photon types.
 # 2.07.18 (45072) Oct 15, 2010
 10/15/10 Fixed an issue where units were missing from some of the ice age gas concentrations.
