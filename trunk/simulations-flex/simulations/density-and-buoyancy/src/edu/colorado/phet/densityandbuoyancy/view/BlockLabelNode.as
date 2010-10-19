@@ -1,10 +1,11 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.cameras.Camera3D;
-import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
 
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.CubeNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.PickableCube;
 
 import flash.display.Sprite;
 import flash.text.TextField;
@@ -41,7 +42,6 @@ public class BlockLabelNode extends Sprite {
 
     private function updateGraphics(): void {
         graphics.clear();
-        //Convert SI to cm^3
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 20;
         textFormat.bold = true;
@@ -53,14 +53,16 @@ public class BlockLabelNode extends Sprite {
         graphics.endFill();
 
         try {
-            var vertex = new Vertex( densityObjectNode.center[0].x, densityObjectNode.center[0].y, densityObjectNode.frontZProperty.value );
-            var screenVertex: ScreenVertex = mainCamera.screen( densityObjectNode, densityObjectNode.center[0] );
+            var cubeNode: CubeNode = CubeNode( densityObjectNode );
+            var cube: PickableCube = cubeNode.getCube();
+            var screenVertex: ScreenVertex = mainCamera.screen( cube, cube.vertices[4] );//top left of front face of cube, TODO: less brittle way to encode vertex?
 
-            this.x = screenVertex.x + mainViewport.view.x - textField.width / 2;
-            this.y = screenVertex.y + mainViewport.view.y - textField.height / 2;
+            this.x = screenVertex.x + mainViewport.view.x + 5;
+            this.y = screenVertex.y + mainViewport.view.y + 5;
         }
         catch( e: * ) {
             //null pointer exception before camera is used to render the screen once
+            trace( "e=" + e );
         }
     }
 }
