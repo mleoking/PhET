@@ -22,7 +22,7 @@ import edu.colorado.phet.greenhouse.GreenhouseConfig;
  * Primary model for the Photon Absorption tab.  This models photons being
  * absorbed (or often NOT absorbed) by various molecules.  The scale for this
  * model is picometers (10E-12 meters).
- * 
+ *
  * @author John Blanco
  */
 public class PhotonAbsorptionModel {
@@ -30,25 +30,25 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-    
+
     // Constants that controls where and how photons are emitted.
     private static final Point2D PHOTON_EMISSION_LOCATION = new Point2D.Double(-1400, 0);
     private static final double PHOTON_EMISSION_ANGLE_RANGE = Math.PI/2;
-    
+
     // Location used when a single molecule is sitting in the area where the
     // photons pass through.
     private static final Point2D SINGLE_MOLECULE_LOCATION = new Point2D.Double(0, 0);
-    
+
     // Velocity of emitted photons.  Since they are emitted horizontally, only
     // one value is needed.
     private static final float PHOTON_VELOCITY = 2.0f;
-    
+
     // Distance for a photon to travel before being removed from the model.
     // This value is essentially arbitrary, and needs to be set such that the
     // photons only disappear after they have traveled beyond the bounds of
     // the play area.
     private static final double MAX_PHOTON_DISTANCE = 3000;
-    
+
     // Constants that define the size of the containment area, which is the
     // rectangle that surrounds the molecule(s).
     private static final double CONTAINMENT_AREA_WIDTH = 3100;   // In picometers.
@@ -60,50 +60,50 @@ public class PhotonAbsorptionModel {
             CONTAINMENT_AREA_WIDTH,
             CONTAINMENT_AREA_HEIGHT
             );
-    
+
     // Choices of targets for the photons.
     public enum PhotonTarget { SINGLE_CO2_MOLECULE, SINGLE_H2O_MOLECULE, SINGLE_CH4_MOLECULE, SINGLE_N2O_MOLECULE,
         SINGLE_N2_MOLECULE, SINGLE_O2_MOLECULE, CONFIGURABLE_ATMOSPHERE };
-        
+
     // Minimum and defaults for photon emission periods.  Note that the max is
     // assumed to be infinity.
     public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 200;
     private static final double DEFAULT_PHOTON_EMISSION_PERIOD = Double.POSITIVE_INFINITY; // Milliseconds of sim time.
     public static final double MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 100;
-    
+
     // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
     private static final double INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
-    
+
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
-    static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
+    static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
         put(MoleculeID.N2, 0);
         put(MoleculeID.O2, 0);
         put(MoleculeID.CO2, 0);
         put(MoleculeID.CH4, 0);
         put(MoleculeID.H2O, 0);
-    }}; 
-    static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{ 
-        put(MoleculeID.N2, 15); 
-        put(MoleculeID.O2, 15); 
-        put(MoleculeID.CO2, 15); 
-        put(MoleculeID.CH4, 15); 
-        put(MoleculeID.H2O, 15); 
     }};
-    
+    static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
+        put(MoleculeID.N2, 15);
+        put(MoleculeID.O2, 15);
+        put(MoleculeID.CO2, 15);
+        put(MoleculeID.CH4, 15);
+        put(MoleculeID.H2O, 15);
+    }};
+
     // Random number generator.
     private static final Random RAND = new Random();
-    
+
     // Create a grid-based set of possible locations for molecules in the
     // configurable atmosphere.
     private static final ArrayList<Point2D> GRID_POINTS = new ArrayList<Point2D>();
     static {
         int numGridlinesX = 8;
-        double gridLineSpacingX = CONTAINMENT_AREA_WIDTH / (double)(numGridlinesX + 1);
+        double gridLineSpacingX = CONTAINMENT_AREA_WIDTH / (numGridlinesX + 1);
         int numGridlinesY = 8;
-        double gridLineSpacingY = CONTAINMENT_AREA_WIDTH / (double)(numGridlinesY + 1);
+        double gridLineSpacingY = CONTAINMENT_AREA_WIDTH / (numGridlinesY + 1);
         for (int i = 1; i <= numGridlinesX; i++){
             for (int j = 1; j <= numGridlinesY; j++){
                 GRID_POINTS.add( new Point2D.Double(i * gridLineSpacingX + CONTAINMENT_AREA_RECT.getMinX(),
@@ -115,43 +115,45 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-    
-    private EventListenerList listeners = new EventListenerList();
-    private ArrayList<Photon> photons = new ArrayList<Photon>();
+
+    private final EventListenerList listeners = new EventListenerList();
+    private final ArrayList<Photon> photons = new ArrayList<Photon>();
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
     private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
     private PhotonTarget photonTarget = null;
-    
+
     // Variables that control periodic photon emission.
     private double photonEmissionCountdownTimer = Double.POSITIVE_INFINITY;
     private double photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD;
     private double previousEmissionAngle = 0;
-    
+
     // Collection that contains the molecules that comprise the configurable
     // atmosphere.
-    private ArrayList<Molecule> configurableAtmosphereMolecules = new ArrayList<Molecule>();
+    private final ArrayList<Molecule> configurableAtmosphereMolecules = new ArrayList<Molecule>();
 
     // Object that listens to molecules to see when they emit photons.
-    private Molecule.Adapter moleculePhotonEmissionListener = new Molecule.Adapter(){
+    private final Molecule.Adapter moleculePhotonEmissionListener = new Molecule.Adapter(){
+        @Override
         public void photonEmitted(Photon photon) {
             photons.add( photon );
             notifyPhotonAdded( photon );
         }
     };
-   
+
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
-    
+
     public PhotonAbsorptionModel(ConstantDtClock clock){
-        
+
         // Listen to the clock in order to step this model.
         clock.addClockListener(new ClockAdapter(){
+            @Override
             public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime(clockEvent.getSimulationTimeChange());
             }
         });
-        
+
         // Note: It is expected that this model will be reset as part of the
         // initialization sequence, so additional initialization is performed
         // there.
@@ -165,25 +167,25 @@ public class PhotonAbsorptionModel {
      * Reset the model to its initial state.
      */
     public void reset() {
-        
+
         // Remove any photons that are currently in transit.
         removeAllPhotons();
-        
+
         // Reset all molecules, which will stop any oscillations.
         for (Molecule molecule : activeMolecules){
             molecule.reset();
         }
-        
+
         // Set default values.
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
-        
+
         // Reset the configurable atmosphere.
         resetConfigurableAtmosphere();
     }
 
     public void stepInTime(double dt){
-        
+
         // Check if it is time to emit any photons.
         if (photonEmissionCountdownTimer != Double.POSITIVE_INFINITY){
             photonEmissionCountdownTimer -= dt;
@@ -193,7 +195,7 @@ public class PhotonAbsorptionModel {
                 photonEmissionCountdownTimer = photonEmissionPeriodTarget;
             }
         }
-        
+
         // Step the photons, marking any that have moved beyond the model
         // bounds for removal.
         ArrayList<Photon> photonsToRemove = new ArrayList<Photon>();
@@ -225,7 +227,7 @@ public class PhotonAbsorptionModel {
 
     public void setPhotonTarget( PhotonTarget photonTarget ){
         if (this.photonTarget != photonTarget){
-            
+
             // If switching to the configurable atmosphere, photon emission
             // is turned off (if it is happening).  This is done because it
             // just looks better.
@@ -236,14 +238,14 @@ public class PhotonAbsorptionModel {
 
             // Update to the new value.
             this.photonTarget = photonTarget;
-            
+
             // Remove the old photon target(s).
             ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( activeMolecules );
             activeMolecules.clear();
             for (Molecule molecule : copyOfMolecules){
                 notifyMoleculeRemoved( molecule );
             }
-            
+
             // Add the new photon target(s).
             Molecule newMolecule;
             switch (photonTarget){
@@ -280,15 +282,15 @@ public class PhotonAbsorptionModel {
                 System.err.println(getClass().getName() + " - Error: Unhandled photon target.");
                 break;
             }
-            
+
             // We use a higher emission speed for
-            
+
             // Send out notifications about the new molecule(s);
             for (Molecule molecule : activeMolecules){
                 molecule.addListener( moleculePhotonEmissionListener );
                 notifyMoleculeAdded( molecule );
             }
-            
+
             // Send out general notification about the change.
             notifyPhotonTargetChanged();
         }
@@ -302,34 +304,34 @@ public class PhotonAbsorptionModel {
             notifyPhotonRemoved( photon );
         }
     }
-    
+
     public PhotonTarget getPhotonTarget(){
         return photonTarget;
     }
-    
+
     public Point2D getPhotonEmissionLocation(){
         return PHOTON_EMISSION_LOCATION;
     }
-    
+
     public Rectangle2D getContainmentAreaRect(){
         return CONTAINMENT_AREA_RECT;
     }
-    
+
     public ArrayList<Molecule> getMolecules(){
         return new ArrayList<Molecule>(activeMolecules);
     }
-    
+
     /**
-     * 
+     *
      * @return - Period between photons in milliseconds.
      */
     public double getPhotonEmissionPeriod() {
         return photonEmissionPeriodTarget;
     }
-    
+
     /**
      * Set the emission period, i.e. the time between photons.
-     * 
+     *
      * @param photonEmissionPeriod - Period between photons in milliseconds.
      */
     public void setPhotonEmissionPeriod( double photonEmissionPeriod ) {
@@ -355,12 +357,12 @@ public class PhotonAbsorptionModel {
             notifyPhotonEmissionPeriodChanged();
         }
     }
-    
+
     /**
      * Cause a photon to be emitted from the emission point.
      */
     public void emitPhoton(){
-        
+
         Photon photon = new Photon( photonWavelength, null );
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
         double emissionAngle = 0; // Straight to the right.
@@ -378,25 +380,22 @@ public class PhotonAbsorptionModel {
         photons.add( photon );
         notifyPhotonAdded( photon );
     }
-    
+
     public void setEmittedPhotonWavelength(double freq){
         if (this.photonWavelength != freq){
-            // Set the emission rate to zero.
-            setPhotonEmissionPeriod( Double.POSITIVE_INFINITY );
-            
             // Set the new value and send out notification of change to listeners.
             this.photonWavelength = freq;
             notifyEmittedPhotonWavelengthChanged();
         }
     }
-    
+
     public double getEmittedPhotonWavelength(){
         return photonWavelength;
     }
 
     /**
      * Get the number of the specified molecule in the configurable atmosphere.
-     * 
+     *
      * @param moleculeID
      * @return
      */
@@ -409,10 +408,10 @@ public class PhotonAbsorptionModel {
         }
         return moleculeCount;
     }
-    
+
     /**
      * Set the level of the specified gas in the configurable atmosphere.
-     * 
+     *
      * @param moleculeID
      * @param targetQuantity
      */
@@ -425,22 +424,22 @@ public class PhotonAbsorptionModel {
             return;
         }
         else if (targetQuantity > MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID )){
-            System.err.println(getClass().getName() + " - Error: Target quantity of " + targetQuantity + 
+            System.err.println(getClass().getName() + " - Error: Target quantity of " + targetQuantity +
                     "is out of range, limiting to " + MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID ));
             targetQuantity = MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID );
         }
 
-        // Count the number of the specified type that currently exists. 
+        // Count the number of the specified type that currently exists.
         int numMoleculesOfSpecifiedType = 0;
         for (Molecule molecule : configurableAtmosphereMolecules){
             if (molecule.getMoleculeID() == moleculeID){
                 numMoleculesOfSpecifiedType++;
             }
         }
-        
+
         // Calculate the difference.
         int numMoleculesToAdd = targetQuantity - numMoleculesOfSpecifiedType;
-        
+
         // Make the changes.
         if (numMoleculesToAdd > 0){
             // Add the necessary number of the specified molecule.
@@ -469,22 +468,22 @@ public class PhotonAbsorptionModel {
                 System.err.println(getClass().getName() + " - Warning: Ignoring call to set molecule levels to current level.");
             }
         }
-        
+
         // Send notifications of the change.
         if (numMoleculesToAdd != 0){
             notifyConfigurableAtmospherCompositionChanged();
         }
-        
+
         // If the configurable atmosphere is the currently selected target,
         // then these changes must be synchronized with the active molecules.
         if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
             syncConfigAtmosphereToActiveMolecules();
         }
     }
-    
+
     /**
      * Get the number of the specified molecule in the configurable atmosphere.
-     * 
+     *
      * @param moleculeID
      * @return
      */
@@ -496,22 +495,22 @@ public class PhotonAbsorptionModel {
             return 0;
         }
     }
-    
+
     /**
      * Set the active molecules to match the list of molecules in the
      * configurable atmosphere list.  This is generally done when switching
      * the photon target to be the atmosphere or when the concentration of the
      * gases in the atmosphere changes while the configurable atmosphere is
      * the selected photon target.
-     * 
+     *
      * The direction of data flow is from the config atmosphere to the active
      * molecules, not the reverse.
-     * 
+     *
      * This routine takes care of sending out notifications of molecules
      * coming and/or going.
      */
     public void syncConfigAtmosphereToActiveMolecules(){
-        
+
         for (Molecule molecule : configurableAtmosphereMolecules){
             if (!activeMolecules.contains( molecule )){
                 // This molecule is not on the active list, so it should be
@@ -520,7 +519,7 @@ public class PhotonAbsorptionModel {
                 notifyMoleculeAdded( molecule );
             }
         }
-        
+
         ArrayList<Molecule> moleculesToRemoveFromActiveList = new ArrayList<Molecule>();
         for (Molecule molecule : activeMolecules){
             if (!configurableAtmosphereMolecules.contains( molecule )){
@@ -534,43 +533,43 @@ public class PhotonAbsorptionModel {
             notifyMoleculeRemoved( molecule );
         }
     }
-    
+
     public void addListener(Listener listener){
         listeners.add(Listener.class, listener);
     }
-    
+
     public void removeListener(Listener listener){
         listeners.remove(Listener.class, listener);
     }
-    
+
     // Constants used when trying to find an open location in the atmosphere.
     private static final double MIN_DIST_FROM_WALL_X = 20; // In picometers.
     private static final double MIN_DIST_FROM_WALL_Y = 20; // In picometers.
     private static final double EMITTER_AVOIDANCE_COMP_X = 300;
     private static final double EMITTER_AVOIDANCE_COMP_Y = 800;
-    
+
     /**
      * Find a location in the atmosphere that has a minimal amount of overlap
      * with other molecules.  This is assumed to be used only when multiple
      * molecules are being shown.
-     * 
+     *
      * IMPORTANT: This assumes that the molecule in question is not already on
      * the list of molecules, and may return weird results if it is.
-     * 
+     *
      * @return - A Point2D that is relatively free of other molecules.
      */
     private Point2D findLocationInAtmosphereForMolecule( Molecule molecule ){
-        
+
         // Generate a set of random location.
         ArrayList<Point2D> possibleLocations = new ArrayList<Point2D>();
-        
+
         double minDistWallToMolCenterX = MIN_DIST_FROM_WALL_X + molecule.getBoundingRect().getWidth() / 2;
         double minXPos = CONTAINMENT_AREA_RECT.getMinX() + minDistWallToMolCenterX;
         double xRange = CONTAINMENT_AREA_RECT.getWidth() - 2 * minDistWallToMolCenterX;
         double minDistWallToMolCenterY = MIN_DIST_FROM_WALL_Y + molecule.getBoundingRect().getHeight() / 2;
         double minYPos = CONTAINMENT_AREA_RECT.getMinY() + minDistWallToMolCenterY;
         double yRange = CONTAINMENT_AREA_RECT.getHeight() - 2 * minDistWallToMolCenterY;
-        
+
         for (int i = 0; i < 20; i++){
             // Randomly generate a position.
             double proposedYPos = minYPos + RAND.nextDouble() * yRange;
@@ -585,10 +584,10 @@ public class PhotonAbsorptionModel {
             }
             possibleLocations.add( new Point2D.Double(proposedXPos, proposedYPos ) );
         }
-        
+
         final double molRectWidth = molecule.getBoundingRect().getWidth();
         final double molRectHeight = molecule.getBoundingRect().getHeight();
-        
+
         // Figure out which point would position the molecule such that it had
         // the least overlap with other molecules.
         Collections.sort( possibleLocations, new Comparator<Point2D>() {
@@ -597,27 +596,27 @@ public class PhotonAbsorptionModel {
                         getOverlapWithOtherMolecules(p2, molRectWidth, molRectHeight) );
             }
         });
-        
+
         Point2D pt = possibleLocations.get( 0 );
         if (pt.getX() + molRectWidth / 2 > CONTAINMENT_AREA_RECT.getMaxX()){
             System.out.println("Whoa! " + pt);
         }
-        
+
         return possibleLocations.get( 0 );
     }
-    
+
     /**
      * Convenience method for creating a rectangle from a center point.
-     * 
+     *
      * @param pt
      * @param width
      * @param height
      * @return
      */
     private Rectangle2D createRectangleFromPoint(Point2D pt, double width, double height){
-       return new Rectangle2D.Double(pt.getX() - width / 2, pt.getY() - height / 2, width, height); 
+       return new Rectangle2D.Double(pt.getX() - width / 2, pt.getY() - height / 2, width, height);
     }
-    
+
     private double getMinDistanceToOtherMolecules( Point2D o1 ) {
         double minDistance = Double.POSITIVE_INFINITY;
         for (Molecule molecule : configurableAtmosphereMolecules){
@@ -627,14 +626,14 @@ public class PhotonAbsorptionModel {
         }
         return minDistance;
     }
-    
+
     private double getOverlapWithOtherMolecules( Point2D pt, double width, double height ){
         double overlap = 0;
         Rectangle2D testRect = createRectangleFromPoint( pt, width, height );
         for (Molecule molecule : configurableAtmosphereMolecules){
             // Add in the overlap for each molecule.  There may well be no
             // overlap.
-            overlap += Math.max( molecule.getBoundingRect().createIntersection( testRect ).getWidth(), 0 ) * 
+            overlap += Math.max( molecule.getBoundingRect().createIntersection( testRect ).getWidth(), 0 ) *
                 Math.max(molecule.getBoundingRect().createIntersection( testRect ).getHeight(), 0 );
         }
         if (overlap == 0){
@@ -646,52 +645,52 @@ public class PhotonAbsorptionModel {
         }
         return overlap;
     }
-    
+
     private void setConfigurableAtmosphereInitialLevel(MoleculeID moleculeID){
         if ( INITIAL_ATMOSPHERE_CONCENTRATIONS.containsKey( moleculeID )){
             setConfigurableAtmosphereGasLevel( moleculeID, INITIAL_ATMOSPHERE_CONCENTRATIONS.get( moleculeID  ) );
         }
     }
-    
+
     /**
      * Reset the configurable atmosphere by adding the initial levels of all
      * gasses.
      */
     private void resetConfigurableAtmosphere(){
-        
+
         assert photonTarget != PhotonTarget.CONFIGURABLE_ATMOSPHERE; // See method header comment if this assertion is hit.
-        
+
         setConfigurableAtmosphereInitialLevel( MoleculeID.CH4);
         setConfigurableAtmosphereInitialLevel( MoleculeID.CO2);
         setConfigurableAtmosphereInitialLevel( MoleculeID.H2O);
         setConfigurableAtmosphereInitialLevel( MoleculeID.N2);
         setConfigurableAtmosphereInitialLevel( MoleculeID.O2);
     }
-    
+
     private void notifyPhotonAdded(Photon photon){
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.photonAdded(photon);
         }
     }
-    
+
     private void notifyPhotonRemoved(Photon photon){
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.photonRemoved(photon);
         }
     }
-    
+
     private void notifyMoleculeAdded(Molecule molecule){
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.moleculeAdded( molecule );
         }
     }
-    
+
     private void notifyMoleculeRemoved(Molecule molecule){
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.moleculeRemoved( molecule );
         }
     }
-    
+
     private void notifyEmittedPhotonWavelengthChanged() {
         for (Listener listener : listeners.getListeners(Listener.class)){
             listener.emittedPhotonWavelengthChanged();
@@ -719,7 +718,7 @@ public class PhotonAbsorptionModel {
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
-    
+
     public interface Listener extends EventListener {
         void photonAdded(Photon photon);
         void photonRemoved(Photon photon);
@@ -730,7 +729,7 @@ public class PhotonAbsorptionModel {
         void photonEmissionPeriodChanged();
         void configurableAtmosphereCompositionChanged();
     }
-    
+
     public static class Adapter implements Listener {
         public void photonAdded( Photon photon ) {}
         public void emittedPhotonWavelengthChanged() {}
