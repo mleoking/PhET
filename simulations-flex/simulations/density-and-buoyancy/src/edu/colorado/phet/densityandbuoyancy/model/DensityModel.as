@@ -86,6 +86,21 @@ public class DensityModel {
         densityObjects = new Array();
     }
 
+    public function removeDensityObject( densityObject: DensityObject ): void {
+        densityObject.remove();
+        for each ( var object: Function in densityObjectDestructionListeners ) {
+            object( densityObject );
+        }
+        //Hooray, my code to remove an element from an as3 array
+        var newArray = new Array();
+        for each ( var d: DensityObject in densityObjects ) {
+            if ( d != densityObject ) {
+                newArray.push( d );
+            }
+        }
+        densityObjects = newArray;
+    }
+
     private function createGround(): void {
         var groundBodyDef: b2BodyDef = new b2BodyDef();
         var groundBody: b2Body = world.CreateBody( groundBodyDef );

@@ -8,13 +8,14 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import flash.events.Event;
 import flash.geom.ColorTransform;
 
-public class TwoObjectsMode extends Mode {
+public class BuoyancyPlaygroundMode extends Mode {
     private var woodBlock: DensityObject;
     private var brick: DensityObject;
     private var customObjectPropertiesPanelWrapper1: CustomObjectPropertiesPanelWrapper;
     private var customObjectPropertiesPanelWrapper2: CustomObjectPropertiesPanelWrapper;
+    private var oneObject: Boolean = true;
 
-    public function TwoObjectsMode( canvas: AbstractDBCanvas ) {
+    public function BuoyancyPlaygroundMode( canvas: AbstractDBCanvas ) {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = Material.WOOD;
@@ -39,10 +40,10 @@ public class TwoObjectsMode extends Mode {
         woodBlock.updateBox2DModel();
         brick.updateBox2DModel();
         customObjectPropertiesPanelWrapper1.init();
-        customObjectPropertiesPanelWrapper2.init();
+        //        customObjectPropertiesPanelWrapper2.init();
 
         canvas.model.addDensityObject( woodBlock );
-        canvas.model.addDensityObject( brick );
+        //        canvas.model.addDensityObject( brick );
     }
 
     override public function teardown(): void {
@@ -56,6 +57,25 @@ public class TwoObjectsMode extends Mode {
         woodBlock.material = Material.WOOD;
         brick.reset();
         brick.material = Material.BRICK;
+    }
+
+    public function setOneObject(): void {
+        if ( !oneObject ) {
+            customObjectPropertiesPanelWrapper2.teardown();
+            canvas.model.removeDensityObject( brick );
+            woodBlock.updateBox2DModel();
+            oneObject = true;
+        }
+    }
+
+    public function setTwoObjects(): void {
+        if ( oneObject ) {
+            customObjectPropertiesPanelWrapper2.init();
+            canvas.model.addDensityObject( brick );
+            woodBlock.updateBox2DModel();
+            brick.updateBox2DModel();
+            oneObject = false;
+        }
     }
 }
 }

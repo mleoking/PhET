@@ -63,7 +63,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     }
 
     override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
-        return buoyancyCanvas.oneObjectMode;
+        return buoyancyCanvas.playgroundModes;
     }
 }
 }
