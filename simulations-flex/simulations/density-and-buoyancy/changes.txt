@@ -1,3 +1,4 @@
+Added block name labels to the custom object control panel, when there are multiple blocks
 Renamed "Vector Values" to "Force Values"
 Renamed "Objects" to "Blocks" in mode control box title
 Added block labels onto the blocks when two blocks are shown in buoyancy playground mode

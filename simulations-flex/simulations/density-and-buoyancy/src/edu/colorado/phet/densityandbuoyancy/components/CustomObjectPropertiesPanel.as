@@ -79,8 +79,17 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         label.text = FlexSimStrings.get( "customObject.material", "Material" );
         label.setStyle( DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD );
 
+        var namePanel: Label = new Label();
+        namePanel.setStyle( DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD );
+        namePanel.text = densityObject.name;
+
         var comboBoxPanel: HBox = new HBox();
         comboBoxPanel.addChild( label );
+        comboBoxPanel.addChild( namePanel );
+        densityObject.nameVisibleProperty.addListener( function(): void {
+            namePanel.visible = densityObject.nameVisibleProperty.value;
+        } );
+        namePanel.visible = densityObject.nameVisibleProperty.value;
         comboBoxPanel.addChild( comboBox );
         addChild( comboBoxPanel );
 

@@ -31,7 +31,9 @@ public class BlockLabelNode extends Sprite {
         mouseChildren = false;
         densityObjectNode.getDensityObject().getYProperty().addListener( updateGraphics );
         densityObjectNode.getDensityObject().getXProperty().addListener( updateGraphics );
+        densityObjectNode.getDensityObject().getVolumeProperty().addListener( updateGraphics );
         densityObjectNode.frontZProperty.addListener( updateGraphics );
+        visibilityProperty.addListener( updateGraphics );
         updateGraphics();
         const updateVisibility: Function = function(): void {
             visible = visibilityProperty.value;
@@ -56,6 +58,7 @@ public class BlockLabelNode extends Sprite {
             var cubeNode: CubeNode = CubeNode( densityObjectNode );
             var cube: PickableCube = cubeNode.getCube();
             var screenVertex: ScreenVertex = mainCamera.screen( cube, cube.vertices[4] );//top left of front face of cube, TODO: less brittle way to encode vertex?
+            //TODO: have to run updateGraphics immediately after render, since that is when the screen function gets updated
 
             this.x = screenVertex.x + mainViewport.view.x + 5;
             this.y = screenVertex.y + mainViewport.view.y + 5;

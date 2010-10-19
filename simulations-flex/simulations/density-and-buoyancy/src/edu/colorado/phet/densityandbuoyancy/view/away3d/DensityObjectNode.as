@@ -103,7 +103,12 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
             canvas.removeChild( arrowNode.vectorValueNode );
         }
         arrowNodes = new Array();
-        canvas.removeChild( _blockLabelNode );
+        try {
+            canvas.removeChild( _blockLabelNode );
+        }
+        catch ( e: * ) {
+            trace( "got exception on blocklabelnode remove: " + e )
+        }
     }
 
     public function get densityObjectNode(): DensityObjectNode {
