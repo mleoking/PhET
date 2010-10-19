@@ -14,11 +14,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ScoreboardNode extends GameScoreboardNode {
+public class RPALScoreboardNode extends GameScoreboardNode {
     
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
     
-    public ScoreboardNode( final GameModel model ) {
+    public RPALScoreboardNode( final GameModel model ) {
         super( GameModel.getLevelRange().getMax(), GameModel.getPerfectScore(), POINTS_FORMAT );
         
         // when the model changes, update the scoreboard
