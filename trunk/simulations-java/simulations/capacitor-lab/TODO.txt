@@ -10,14 +10,14 @@ DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
-- properly initialize "Show Values" in field detector
 - init and Reset All for field detector
 - vectors in field detector
-- simplified field detector for Introduction tab
-- field detector body jerks up to upper-left of play area sometimes when dragging
+- make "Show Values" its own PSwing so that it will always be at lower-left of field detector 
+- simplified field detector for Introduction tab (hide vector check boxes, show only Sum)
+- field detector body jerks up to upper-left of play area sometimes when dragging on a PSwing, general PSwing bug?
 - rotate field detector probe by -mvt.getYaw(), handle wire connection
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
-- BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect
+- BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 
 MEDUIUM PRIORITY
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
