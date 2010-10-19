@@ -1,3 +1,4 @@
+Changed the photon emitter such that it no longer sets the emission rate to zero when switching between photon types.
 # 2.07.18 (45072) Oct 15, 2010
 10/15/10 Fixed an issue where units were missing from some of the ice age gas concentrations.
 # 2.07.17 (45037) Oct 13, 2010
