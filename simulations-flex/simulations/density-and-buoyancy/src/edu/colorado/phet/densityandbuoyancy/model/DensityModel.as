@@ -76,18 +76,14 @@ public class DensityModel {
     }
 
     public function clearDensityObjects(): void {
-        while ( densityObjects.length > 0 ) {
-            removeDensityObject( densityObjects[0] );
+        for each ( var densityObject: DensityObject in densityObjects ) {
+            //            trace( "removing: " + densityObject.toString() );
+            densityObject.remove();
+            for each ( var object: Function in densityObjectDestructionListeners ) {
+                object( densityObject );
+            }
         }
-    }
-
-    private function removeDensityObject( densityObject: DensityObject ): void {
-        trace( "removing: " + densityObject.toString() );
-        densityObject.remove();
-        for each ( var object: Function in densityObjectDestructionListeners ) {
-            object( densityObject );
-        }
-        densityObjects = densityObjects.splice( densityObjects.indexOf( densityObject ), 1 );
+        densityObjects = new Array();
     }
 
     private function createGround(): void {
