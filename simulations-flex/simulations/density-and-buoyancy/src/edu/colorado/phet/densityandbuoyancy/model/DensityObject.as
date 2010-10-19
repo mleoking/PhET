@@ -36,6 +36,7 @@ public class DensityObject {
 
     private var lastPosition: b2Vec2;
     private var velocity: b2Vec2 = new b2Vec2();
+    private var _inScene: BooleanProperty = new BooleanProperty( false );
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
@@ -191,6 +192,7 @@ public class DensityObject {
         for each( var removalListener: Function in removalListeners ) {
             removalListener();
         }
+        _inScene.value = false;
     }
 
     public function updatePositionFromBox2D(): void {
@@ -382,5 +384,16 @@ public class DensityObject {
         return true;
     }
 
+    public function set inScene( inScene: Boolean ): void {
+        this._inScene.value = inScene;
+    }
+
+    public function get inScene(): Boolean {
+        return _inScene.value;
+    }
+
+    public function get inSceneProperty(): BooleanProperty {
+        return _inScene;
+    }
 }
 }

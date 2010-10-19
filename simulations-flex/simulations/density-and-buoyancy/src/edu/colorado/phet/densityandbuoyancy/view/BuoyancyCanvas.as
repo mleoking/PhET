@@ -48,7 +48,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         setMode( defaultMode );
 
         var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
-        //        _densityCanvas.addChild(box2DDebug.getSprite());
+        //        addChild(box2DDebug.getSprite());
     }
 
     override public function resetAll(): void {
