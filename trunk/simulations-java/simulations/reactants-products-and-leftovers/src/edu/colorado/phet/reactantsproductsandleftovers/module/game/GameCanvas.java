@@ -90,7 +90,7 @@ public class GameCanvas extends RPALCanvas {
     private RealReactionEquationNode equationNode; // allocated when reaction changes
     private GameBeforeNode beforeNode; // allocated when reaction changes
     private GameAfterNode afterNode; // allocated when reaction changes
-    private GameOverNode gameOverNode; // allocate at end of game
+    private RPALGameOverNode gameOverNode; // allocate at end of game
 
     //---------------------------------------------------------------------------------
     //  Constructors
@@ -301,7 +301,7 @@ public class GameCanvas extends RPALCanvas {
     }
     
     private void addGameOverNode() {
-        gameOverNode = new GameOverNode( model );
+        gameOverNode = new RPALGameOverNode( model );
         gameOverNode.scale( 1.5 );
         addWorldChild( gameOverNode );
         centerNode( gameOverNode );
