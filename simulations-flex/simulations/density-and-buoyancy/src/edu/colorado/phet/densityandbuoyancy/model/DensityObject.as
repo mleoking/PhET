@@ -37,6 +37,8 @@ public class DensityObject {
     private var lastPosition: b2Vec2;
     private var velocity: b2Vec2 = new b2Vec2();
     private var _inScene: BooleanProperty = new BooleanProperty( false );
+    private const _nameVisible: BooleanProperty = new BooleanProperty( false );
+    private var _name: String = "name";
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
@@ -401,6 +403,22 @@ public class DensityObject {
 
     public function toString(): String {
         return "x = " + x.value + ", y=" + y.value;
+    }
+
+    public function set nameVisible( nameVisible: Boolean ): void {
+        _nameVisible.value = nameVisible;
+    }
+
+    public function get nameVisibleProperty(): BooleanProperty {
+        return _nameVisible;
+    }
+
+    public function get name(): String {
+        return _name;
+    }
+
+    public function set name( value: String ): void {
+        _name = value;
     }
 }
 }
