@@ -1,6 +1,3 @@
-
-blue-stopwatch.png source=www.freeclipartnow.com notes=Public Domain license, see http://www.freeclipartnow.com/termsofuse.php
-
 molecules/C.png author=PhET
 molecules/C2H2.png author=PhET
 molecules/C2H4.png author=PhET
@@ -39,5 +36,3 @@ molecules/SO3.png author=PhET
 sandwich/bread.png author=PhET
 sandwich/cheese.png author=PhET
 sandwich/meat.png author=PhET
-
-sound-icon.png author=PhET

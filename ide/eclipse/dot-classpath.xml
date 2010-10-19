@@ -49,6 +49,8 @@
 	<classpathentry kind="src" path="simulations-java/common/collision/src"/>
     <classpathentry kind="src" path="simulations-java/common/controls/src"/>
     <classpathentry kind="src" path="simulations-java/common/controls/data"/>
+    <classpathentry kind="src" path="simulations-java/common/games/src"/>
+    <classpathentry kind="src" path="simulations-java/common/games/data"/>
     <classpathentry kind="src" path="simulations-java/common/java-version-checker/src"/>
     <classpathentry kind="src" path="simulations-java/common/jfreechart-phet/src"/>
 	<classpathentry kind="src" path="simulations-java/common/mechanics/src"/>

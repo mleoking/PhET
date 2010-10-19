@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.view.game;
+package edu.colorado.phet.common.games;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -18,12 +18,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.util.GameTimerFormat;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -41,6 +40,17 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameOverNode extends PhetPNode {
+    
+    // localized strings
+    private static final String TITLE_GAME_OVER = PhetCommonResources.getString( "Games.title.gameOver" );
+    private static final String BUTTON_NEW_GAME = PhetCommonResources.getString( "Games.button.newGame" );
+    private static final String LABEL_LEVEL = PhetCommonResources.getString( "Games.label.level" );
+    private static final String LABEL_SCORE_IMPERFECT = PhetCommonResources.getString( "Games.label.score.max" );
+    private static final String LABEL_SCORE_PERFECT = PhetCommonResources.getString( "Games.label.score.max.perfect" );
+    private static final String LABEL_TIME = PhetCommonResources.getString( "Games.label.time" );
+    private static final String LABEL_BEST = PhetCommonResources.getString( "Games.label.best" );
+    private static final String LABEL_NEW_BEST = PhetCommonResources.getString( "Games.label.newBest" );
+    private static final String FORMAT_TIME_BEST = PhetCommonResources.getString( "Games.format.time.best" );
     
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Font LABEL_FONT = new PhetFont( 18 );
@@ -62,7 +72,7 @@ public class GameOverNode extends PhetPNode {
         this.listeners = new EventListenerList();
         
         // title
-        PText titleNode = new PText( RPALStrings.TITLE_GAME_OVER ); 
+        PText titleNode = new PText( TITLE_GAME_OVER ); 
         titleNode.setFont( TITLE_FONT );
         addChild( titleNode );
         
@@ -83,7 +93,7 @@ public class GameOverNode extends PhetPNode {
         addChild( timeNode );
         
         // buttons
-        JButton newGameButton = new JButton( RPALStrings.BUTTON_NEW_GAME );
+        JButton newGameButton = new JButton( BUTTON_NEW_GAME );
         newGameButton.setOpaque( false );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -146,7 +156,7 @@ public class GameOverNode extends PhetPNode {
      * Gets the level string.
      */
     private static String getLevelString( int level ) {
-        return MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( level ) );
+        return MessageFormat.format( LABEL_LEVEL, String.valueOf( level ) );
     }
     
     /*
@@ -158,10 +168,10 @@ public class GameOverNode extends PhetPNode {
         String perfectScoreString = scoreFormat.format( perfectScore );
         String scoreString = null;
         if ( score == perfectScore ) {
-            scoreString = MessageFormat.format( RPALStrings.LABEL_SCORE_PERFECT, pointsString, perfectScoreString );
+            scoreString = MessageFormat.format( LABEL_SCORE_PERFECT, pointsString, perfectScoreString );
         }
         else {
-            scoreString = MessageFormat.format( RPALStrings.LABEL_SCORE_IMPERFECT, pointsString, perfectScoreString );
+            scoreString = MessageFormat.format( LABEL_SCORE_IMPERFECT, pointsString, perfectScoreString );
         }
         return scoreString;
     }
@@ -175,20 +185,20 @@ public class GameOverNode extends PhetPNode {
         String s = " ";
         if ( timerVisible ) {
             // Time: 0:29
-            String timeString = MessageFormat.format( RPALStrings.LABEL_TIME, GameTimerFormat.format( time ) );
+            String timeString = MessageFormat.format( LABEL_TIME, GameTimerFormat.format( time ) );
             if ( !isPerfectScore ) {
                 // Time: 0:29
                 s = timeString;
             }
             else if ( isNewBestTime ) {
                 // Time: 0:29 (NEW BEST!)
-                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, RPALStrings.LABEL_NEW_BEST );
+                s = MessageFormat.format( FORMAT_TIME_BEST, timeString, LABEL_NEW_BEST );
             }
             else {
                 // (Best: 0:20)
-                String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, GameTimerFormat.format( bestTime ) );
+                String bestTimeString = MessageFormat.format( LABEL_BEST, GameTimerFormat.format( bestTime ) );
                 // Time: 0:29 (Best: 0:20)
-                s = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, timeString, bestTimeString );
+                s = MessageFormat.format( FORMAT_TIME_BEST, timeString, bestTimeString );
             }
         }
         return s;

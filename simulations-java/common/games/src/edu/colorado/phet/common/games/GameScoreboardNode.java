@@ -1,11 +1,12 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.reactantsproductsandleftovers.view.game;
+package edu.colorado.phet.common.games;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.EventListener;
@@ -19,9 +20,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.util.GameTimerFormat;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -34,6 +32,18 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameScoreboardNode extends PhetPNode {
+    
+    // images
+    private static final BufferedImage STOPWATCH_ICON = GamesResources.getImage( "blue-stopwatch.png" );
+    
+    // localized strings
+    private static final String LABEL_SCORE = PhetCommonResources.getString( "Games.label.score" );
+    private static final String BUTTON_NEW_GAME = PhetCommonResources.getString( "Games.button.newGame" );
+    private static final String LABEL_LEVEL = PhetCommonResources.getString( "Games.label.level" );
+    private static final String LABEL_BEST = PhetCommonResources.getString( "Games.label.best" );
+    private static final String FORMAT_TIME_BEST = PhetCommonResources.getString( "Games.format.time.best" );
+    private static final String MESSAGE_CONFIRM_NEW_GAME = PhetCommonResources.getString( "Games.message.confirmNewGame" );
+    private static final String CONFIRM_TITLE = PhetCommonResources.getString( "Common.title.confirm" );
     
     // default "look"
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
@@ -81,13 +91,13 @@ public class GameScoreboardNode extends PhetPNode {
         setScore( maxScore ); // start with this, so we have a reasonable size for layout
         
         // timer
-        timerIcon = new PImage( RPALImages.STOPWATCH );
+        timerIcon = new PImage( STOPWATCH_ICON );
         timerValue = new PText();
         timerValue.setFont( FONT );
         setTime( 0 ); // start with this, so we have a reasonable size for layout
         
         // New Game button
-        newGameButton = new GradientButtonNode( RPALStrings.BUTTON_NEW_GAME, BUTTON_FONT_SIZE, BUTTON_COLOR );
+        newGameButton = new GradientButtonNode( BUTTON_NEW_GAME, BUTTON_FONT_SIZE, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();
@@ -152,12 +162,12 @@ public class GameScoreboardNode extends PhetPNode {
     }
     
     public void setScore( double points ) {
-        String s = MessageFormat.format( RPALStrings.LABEL_SCORE, pointsFormat.format( points ) );
+        String s = MessageFormat.format( LABEL_SCORE, pointsFormat.format( points ) );
         scoreNode.setText( s );
     }
     
     public void setLevel( int level ) {
-        String s = MessageFormat.format( RPALStrings.LABEL_LEVEL, String.valueOf( level ) );
+        String s = MessageFormat.format( LABEL_LEVEL, String.valueOf( level ) );
         levelNode.setText( s );
     }
     
@@ -189,9 +199,9 @@ public class GameScoreboardNode extends PhetPNode {
         }
         else {
             // (Best: 0:34)
-            String bestTimeString = MessageFormat.format( RPALStrings.LABEL_BEST, GameTimerFormat.format( bestTime ) );
+            String bestTimeString = MessageFormat.format( LABEL_BEST, GameTimerFormat.format( bestTime ) );
             // 0:29 (Best: 0:34)
-            valueString = MessageFormat.format( RPALStrings.FORMAT_TIME_BEST, GameTimerFormat.format( time ), bestTimeString );
+            valueString = MessageFormat.format( FORMAT_TIME_BEST, GameTimerFormat.format( time ), bestTimeString );
         }
         timerValue.setText( valueString );
     }
@@ -209,9 +219,7 @@ public class GameScoreboardNode extends PhetPNode {
         if ( confirmNewGame ) {
             // request confirmation via a Yes/No dialog
             Component parent = PhetApplication.getInstance().getPhetFrame();
-            String message = RPALStrings.MESSAGE_CONFIRM_NEW_GAME;
-            String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-            int option = PhetOptionPane.showYesNoDialog( parent, message, title );
+            int option = PhetOptionPane.showYesNoDialog( parent, MESSAGE_CONFIRM_NEW_GAME, CONFIRM_TITLE );
             if ( option == JOptionPane.YES_OPTION ) {
                 fireNewGamePressed();
             }
