@@ -1,3 +1,4 @@
+Fixed: clicking on a radio button twice causes it to become de-selected
 Changed the color for neutral to black instead of purple in the charge indicator
 Start with the symbol, mass and charge windows minimized
 # 0.00.11 (45194) Oct 19, 2010
