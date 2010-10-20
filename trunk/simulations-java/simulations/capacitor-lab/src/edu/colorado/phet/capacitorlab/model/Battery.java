@@ -17,11 +17,14 @@ public class Battery {
 
     private final Point3D location;
     private double voltage;
+    private Polarity polarity;
+    
     private final EventListenerList listeners;
     
     public Battery( Point3D location, double voltage ) {
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.voltage = voltage;
+        this.polarity = getPolarity( voltage );
         listeners = new EventListenerList();
     }
     
@@ -37,17 +40,29 @@ public class Battery {
      */
     public void setVoltage( double voltage ) {
         if ( voltage != this.voltage ) {
-            double oldVoltage = this.voltage;
             this.voltage = voltage;
             fireVoltageChanged();
-            if ( ( oldVoltage >= 0 && voltage < 0 ) || ( oldVoltage < 0 && voltage >= 0 ) ) {
-                firePolarityChanged();
-            }
+            setPolarity( getPolarity( voltage ) );
         }
     }
     
     public double getVoltage() {
         return voltage;
+    }
+    
+    private void setPolarity( Polarity polarity ) {
+        if ( polarity != this.polarity ) {
+            this.polarity = polarity;
+            firePolarityChanged();
+        }
+    }
+    
+    public Polarity getPolarity() {
+        return polarity;
+    }
+    
+    private static Polarity getPolarity( double voltage ) {
+        return ( voltage >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
     }
     
     public interface BatteryChangeListener extends EventListener {

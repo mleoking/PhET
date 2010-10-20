@@ -1,3 +1,4 @@
+10/19/10 add polarity property to battery
 10/18/10 add E-field detector to model, using Property<T> notification
 10/18/10 add stubs to BatteryCapacitorCircuit for determining E-field at a Point3D
 10/13/10 properly initialize "Show Values" in field detector
