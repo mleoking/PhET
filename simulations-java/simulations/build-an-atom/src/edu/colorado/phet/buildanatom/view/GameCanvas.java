@@ -37,7 +37,7 @@ public class GameCanvas extends PhetPCanvas {
         this.model = model;
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
 
 
         // Root of our scene graph

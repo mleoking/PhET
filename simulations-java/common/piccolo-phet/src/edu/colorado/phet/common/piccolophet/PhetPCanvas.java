@@ -666,4 +666,41 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             return new AffineTransform();
         }
     }
+
+    /**
+     * Centers a "stage" area, of a specified size, within the PhetPCanvas, scaling it up and down so it is always
+     * entirely visible, and always at an aspect ratio of 1.
+     *
+     * @author Sam Reid
+     * @author John Blanco
+     */
+    public static class CenteredStage implements TransformStrategy {
+        private PhetPCanvas canvas;
+        private Dimension2D stageSize;
+
+        public CenteredStage( PhetPCanvas canvas, Dimension2D stageSize ) {
+            this.canvas = canvas;
+            this.stageSize = stageSize;
+        }
+
+        public AffineTransform getTransform() {
+            double sx = ( (double) canvas.getWidth() ) / stageSize.getWidth();
+            double sy = ( (double) canvas.getHeight() ) / stageSize.getHeight();
+
+            //use the smaller and maintain aspect ratio so that circles don't become ellipses
+            double scale = sx < sy ? sx : sy;
+            scale = scale <= 0 ? 1.0 : scale;//if scale is negative or zero, just use scale=1
+
+            AffineTransform transform = new AffineTransform();
+            double scaledStageWidth = scale * stageSize.getWidth();
+            double scaledStageHeight = scale * stageSize.getHeight();
+            //center it in width and height
+            transform.translate( canvas.getWidth() / 2 - scaledStageWidth / 2, canvas.getHeight() / 2 - scaledStageHeight / 2 );
+            transform.scale( scale, scale );
+
+            return transform;
+        }
+    }
+
+
 }
