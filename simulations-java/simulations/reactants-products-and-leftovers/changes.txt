@@ -1,3 +1,4 @@
+10/19/10 #2547, migrate Serbian (sr) game strings to phetcommon
 10/19/10 #2547, migrate Portuguese (pt) game strings to phetcommon
 10/19/10 #2547, migrate Brazilian Portuguese (pt_BR) game strings to phetcommon
 10/19/10 #2547, migrate Dutch (nl) game strings to phetcommon
