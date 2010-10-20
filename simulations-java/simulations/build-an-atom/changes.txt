@@ -1,3 +1,5 @@
+# 0.00.13 (45265) Oct 20, 2010
+10/20/10 Deploying dev version with several minor fixes, this is new candidate for release 1.0
 Fixed: Symbol indicator text can exit the white box
 Fixed: grabbing electrons from the cloud only works properly at 1024x768
 # 0.00.13 (45262) Oct 20, 2010
