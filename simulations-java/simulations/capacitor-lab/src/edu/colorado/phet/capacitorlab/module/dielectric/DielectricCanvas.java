@@ -105,8 +105,8 @@ public class DielectricCanvas extends CLCanvas {
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
-        topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0, Math.PI );
-        bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI, 0 );
+        topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
+        bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
         
         // rendering order
         addChild( bottomWireNode );
@@ -261,9 +261,9 @@ public class DielectricCanvas extends CLCanvas {
         keepInsideCanvas( capacitanceMeterNode );
         keepInsideCanvas( chargeMeterNode );
         keepInsideCanvas( energyMeterNode );
-        keepInsideCanvas( voltmeterNode );  //XXX does this work? it's 3 separate draggable pieces
-        keepInsideCanvas( eFieldDetectorBodyNode ); //XXX does this work? it's 2 separate draggable pieces
-        keepInsideCanvas( eFieldDetectorProbeNode ); //XXX does this work? it's 2 separate draggable pieces
+        keepInsideCanvas( voltmeterNode );  //XXX does not work, it's 3 separate draggable pieces
+        keepInsideCanvas( eFieldDetectorBodyNode );
+        keepInsideCanvas( eFieldDetectorProbeNode );
     }
     
     /*

@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
  * The node appears while current is flowing.
  * When current stops flowing, the node fades out over a period of time.
  * <p>
- * By default, the arrow points to the right.
+ * By default, the arrow points to the left.
  * Origin is at the geometric center, so that this node can be easily 
  * rotated when current changes direction.
  * 
@@ -56,7 +56,7 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final long FADEOUT_STEP_RATE = 10; // ms
     
     private final BatteryCapacitorCircuit circuit;
-    private final double positiveOrientation, negativeOrientation;
+    private final double positiveOrientation;
     private PActivity fadeOutActivity;
 
     /**
@@ -66,13 +66,11 @@ public class CurrentIndicatorNode extends PhetPNode {
      * 
      * @param circuit circuit model
      * @param positiveOrientation rotation angle for +dV/dt (radians)
-     * @param negativeOrientation rotation angle for -dV/dt (radians)
      */
-    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit, double positiveOrientation, double negativeOrientation ) {
+    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit, double positiveOrientation ) {
         
         this.circuit = circuit;
         this.positiveOrientation = positiveOrientation;
-        this.negativeOrientation = negativeOrientation;
         
         ArrowNode arrowNode = new ArrowNode( ARROW_TAIL_LOCATION, ARROW_TIP_LOCATION, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         arrowNode.setPaint( ARROW_COLOR );
@@ -143,7 +141,7 @@ public class CurrentIndicatorNode extends PhetPNode {
                     public void activityFinished( PActivity activity ) {
                         fadeOutActivity = null;
                     }
-
+                    
                     public void activityStarted( PActivity activity ) {}
 
                     public void activityStepped( PActivity activity ) {}
@@ -159,7 +157,7 @@ public class CurrentIndicatorNode extends PhetPNode {
     private void updateOrientation() {
         final double currentAmplitude = circuit.getCurrentAmplitude();
         if ( currentAmplitude != 0 ) {
-            setRotation( ( circuit.getCurrentAmplitude() > 0 ) ? positiveOrientation : negativeOrientation );
+            setRotation( ( circuit.getCurrentAmplitude() > 0 ) ? positiveOrientation : positiveOrientation + Math.PI );
         }
     }
 }
