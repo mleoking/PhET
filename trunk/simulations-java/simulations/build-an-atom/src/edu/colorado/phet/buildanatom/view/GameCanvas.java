@@ -5,6 +5,7 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -35,11 +36,16 @@ public class GameCanvas extends PhetPCanvas {
 
         this.model = model;
 
-        setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
+        // Set up the canvas-screen transform.
+        setWorldTransformStrategy( new CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
+
 
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
+
+        // Background.
+        setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
         // TODO: Temp - Put a "TBD" indicator on the canvas.
         //        PText tbdIndicator = new PText( "TBD" );
@@ -49,7 +55,9 @@ public class GameCanvas extends PhetPCanvas {
         //        rootNode.addChild( tbdIndicator );
 
         PNode gameSettingsNode = new PSwing( new GameSettingsPanel( new IntegerRange( 1, 3 ) ) );
-        gameSettingsNode.setOffset( 100, 100 );
+        gameSettingsNode.setOffset(
+                BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameSettingsNode.getFullBoundsReference().width / 2,
+                BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameSettingsNode.getFullBoundsReference().height / 2 );
         rootNode.addChild( gameSettingsNode );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
