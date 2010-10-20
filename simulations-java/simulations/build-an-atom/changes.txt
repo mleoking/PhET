@@ -1,3 +1,4 @@
+Fixed: grabbing electrons from the cloud only works properly at 1024x768
 # 0.00.13 (45262) Oct 20, 2010
 Set radio buttons and panel to transparent for support on mac
 Fixed: "show labels" button doesn't reset
