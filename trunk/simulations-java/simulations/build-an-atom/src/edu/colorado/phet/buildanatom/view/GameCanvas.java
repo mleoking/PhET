@@ -2,15 +2,15 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.games.GameSettingsPanel;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the game tab.
@@ -42,11 +42,15 @@ public class GameCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // TODO: Temp - Put a "TBD" indicator on the canvas.
-        PText tbdIndicator = new PText( "TBD" );
-        tbdIndicator.setFont( new PhetFont( 100, true ) );
-        tbdIndicator.setTextPaint( new Color(0, 0, 0, 100) );
-        tbdIndicator.setOffset( 380, 50 );
-        rootNode.addChild( tbdIndicator );
+        //        PText tbdIndicator = new PText( "TBD" );
+        //        tbdIndicator.setFont( new PhetFont( 100, true ) );
+        //        tbdIndicator.setTextPaint( new Color(0, 0, 0, 100) );
+        //        tbdIndicator.setOffset( 380, 50 );
+        //        rootNode.addChild( tbdIndicator );
+
+        PNode gameSettingsNode = new PSwing( new GameSettingsPanel( new IntegerRange( 1, 3 ) ) );
+        gameSettingsNode.setOffset( 100, 100 );
+        rootNode.addChild( gameSettingsNode );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
