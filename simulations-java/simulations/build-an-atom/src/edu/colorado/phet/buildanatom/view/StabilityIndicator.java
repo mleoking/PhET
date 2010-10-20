@@ -2,6 +2,7 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -15,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class StabilityIndicator extends PNode {
 
     public StabilityIndicator( final Atom atom, final BooleanProperty showLabels ) {
-        addChild( new PText( "Unstable" ) {{//TODO: il8n
+        addChild( new PText( BuildAnAtomStrings.UNSTABLE) {{
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.black );
         }} );

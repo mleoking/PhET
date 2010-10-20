@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -55,15 +56,12 @@ public class BuildAnAtomModel {
     private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
 
     // The buckets which can hold the subatomic particles.
-    // TODO: i18n
     private final SubatomicParticleBucket electronBucket = new SubatomicParticleBucket( ELECTRON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.blue, "Electrons", Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
-    // TODO: i18n
+            BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
     private final SubatomicParticleBucket protonBucket = new SubatomicParticleBucket( PROTON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.red, "Protons", Proton.RADIUS );
-    // TODO: i18n
+            BUCKET_SIZE, Color.red, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
     private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.gray, "Neutrons", Neutron.RADIUS );
+            BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
     // Constructor(s)
