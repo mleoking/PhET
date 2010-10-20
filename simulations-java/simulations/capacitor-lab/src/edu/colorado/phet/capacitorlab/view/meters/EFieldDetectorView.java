@@ -221,6 +221,7 @@ public class EFieldDetectorView {
             plateCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE );
             plateCheckBox.setFont( CONTROL_FONT );
             plateCheckBox.setForeground( CLPaints.PLATE_EFIELD_VECTOR );
+            plateCheckBox.setSelected( detector.isPlateVectorVisible() );
             plateCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     detector.setPlateVectorVisible( plateCheckBox.isSelected() );
