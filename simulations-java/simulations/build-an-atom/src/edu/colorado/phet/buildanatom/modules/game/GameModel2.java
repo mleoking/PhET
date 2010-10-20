@@ -2,11 +2,6 @@ package edu.colorado.phet.buildanatom.modules.game;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.games.GameSettingsPanel;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
 /**
  * The primary model for the Build an Atom game.  This sequences the game and
  * sends out events when the game state changes.
@@ -20,15 +15,33 @@ public class GameModel2 {
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
+    final GameSettingsState gameSettingsState = new GameSettingsState( this );
+    private PlayingGame playingGameState = new PlayingGame( this );
+    private PlayingGame level2 = new PlayingGame( this );
 
     public GameModel2() {
-        setState( new GameSettingsState( this ) );
+        setState( gameSettingsState );
+    }
+
+    public PlayingGame getLevel2() {
+        return level2;
+    }
+
+    public GameSettingsState getGameSettingsState() {
+        return gameSettingsState;
+    }
+
+    public PlayingGame getPlayingGameState() {
+        return playingGameState;
     }
 
     void setState( State newState ) {
         if ( currentState != newState ) {
+            State oldState = currentState;
             currentState = newState;
-            notifyStateChanged();
+            for ( GameModelListener listener : listeners ) {
+                listener.stateChanged( oldState, currentState );
+            }
         }
     }
 
@@ -36,22 +49,20 @@ public class GameModel2 {
         return currentState;
     }
 
-    private void notifyStateChanged() {
-        for ( GameModelListener listener : listeners ) {
-            listener.stateChanged();
-        }
-    }
-
     public void startGame() {
-        setState( new PlayingGame( this ) );
+        setState( playingGameState );
     }
 
     public void addListener( GameModelListener listener ) {
         listeners.add( listener );
     }
 
+    public void checkGuess() {
+        currentState.checkGuess();
+    }
+
     public static interface GameModelListener {
-        void stateChanged();
+        void stateChanged( State oldState, State newState );
     }
 
     public abstract static class State {
@@ -60,12 +71,17 @@ public class GameModel2 {
         public State( GameModel2 model ) {
             this.model = model;
         }
+
+        public abstract void checkGuess();
     }
 
     public static class GameSettingsState extends State {
         public GameSettingsState( GameModel2 model ) {
             super( model );
+        }
 
+        @Override
+        public void checkGuess() {
         }
     }
 
@@ -73,29 +89,13 @@ public class GameModel2 {
         public PlayingGame( GameModel2 model ) {
             super( model );
         }
+
+        @Override
+        public void checkGuess() {
+        }
     }
 
-    /**
-     *
-     */
     public void newGame() {
-        setState( new GameSettingsState( this ) );
+        setState( gameSettingsState );
     }
-
-    //    public static class GameSettingsStateView extends GameSettingsState {
-    //        public GameSettingsStateView( GameModel2 model ) {
-    //            super( model );
-    //        }
-    //
-    //        public PNode getNode() {
-    //            final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
-    //            final PNode gameSettingsNode = new PSwing( panel );
-    //            panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
-    //                @Override
-    //                public void startButtonPressed() {
-    //                    model.setState(new FirstChallengeState());
-    //                }
-    //            } );
-    //        }
-    //    }
 }
