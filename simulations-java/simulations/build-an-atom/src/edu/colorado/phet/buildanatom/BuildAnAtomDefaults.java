@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.buildanatom.module;
+package edu.colorado.phet.buildanatom;
 
 import edu.umd.cs.piccolo.util.PDimension;
 

@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.module.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

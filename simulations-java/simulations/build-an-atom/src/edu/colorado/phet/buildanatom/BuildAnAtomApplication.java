@@ -6,8 +6,8 @@ import java.awt.Frame;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.buildanatom.module.BuildAnAtomModule;
-import edu.colorado.phet.buildanatom.module.GameModule;
+import edu.colorado.phet.buildanatom.game.GameModule;
+import edu.colorado.phet.buildanatom.modules.BuildAnAtomModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -56,10 +56,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         }};
         addModule( firstModule );
 
-        //TODO: Enable game module later
-//        Module secondModule = new GameModule( parentFrame );
-//        secondModule.setName( BuildAnAtomStrings.TITLE_GAME_MODULE );
-//        addModule( secondModule );
+        addModule( new GameModule( parentFrame ) );
     }
 
     /*
