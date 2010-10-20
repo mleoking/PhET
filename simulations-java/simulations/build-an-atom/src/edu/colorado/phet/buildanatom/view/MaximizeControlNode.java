@@ -147,4 +147,8 @@ public class MaximizeControlNode extends PhetPNode {
             listener.stateChanged( event );
         }
     }
+
+    public void reset() {
+        
+    }
 }
