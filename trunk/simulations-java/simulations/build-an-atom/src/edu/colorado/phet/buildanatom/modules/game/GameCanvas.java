@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.buildanatom.view;
+package edu.colorado.phet.buildanatom.modules.game;
 
 import java.awt.geom.Dimension2D;
 
