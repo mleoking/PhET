@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Node that represents an electron shell, aka "orbit", in the view.  This
@@ -109,7 +110,7 @@ public class ElectronShellNode extends PNode {
                     @Override
                     public void mousePressed( PInputEvent event ) {
                         //Grab an electron out from the shell
-                        final Point2D position = mvt.viewToModel( event.getCanvasPosition() );
+                        final Point2D position = mvt.viewToModel( event.getPositionRelativeTo(getParent() ));
                         grabbedElectron=electronShell.getClosestElectron( position );
                         grabbedElectron.setUserControlled( true );
                         grabbedElectron.setPositionAndDestination( position );
@@ -117,7 +118,8 @@ public class ElectronShellNode extends PNode {
 
                     @Override
                     public void mouseDragged( PInputEvent event ) {
-                        grabbedElectron.translate( mvt.viewToModelDifferential(event.getCanvasDelta().width,event.getCanvasDelta().height ));
+                        PDimension delta=event.getDeltaRelativeTo( getParent() );
+                        grabbedElectron.translate( mvt.viewToModelDifferential(delta.width,delta.height ));
                         grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
                     }
 
