@@ -1,3 +1,4 @@
+Set radio buttons and panel to transparent for support on mac
 Fixed: "show labels" button doesn't reset
 Fixed: indicator window maximization doesn't reset properly
 # 0.00.12 (45228) Oct 19, 2010
