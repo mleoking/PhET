@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.buildanatom.game;
+package edu.colorado.phet.buildanatom.modules.game;
 
 import java.awt.Frame;
 

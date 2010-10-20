@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.buildanatom.game;
+package edu.colorado.phet.buildanatom.modules.game;
 
 /**
  * A challenge consists of a reaction (with specific before and after quantities)
