@@ -45,7 +45,7 @@ public class GameScoreboardNode extends PhetPNode {
     private static final String MESSAGE_CONFIRM_NEW_GAME = PhetCommonResources.getString( "Games.message.confirmNewGame" );
     private static final String CONFIRM_TITLE = PhetCommonResources.getString( "Common.title.confirm" );
     
-    // default "look"
+    // "look" properties
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
@@ -53,6 +53,8 @@ public class GameScoreboardNode extends PhetPNode {
     private static final int BUTTON_FONT_SIZE = 18;
     private static final int FONT_SIZE = 24;
     private static final PhetFont FONT = new PhetFont( FONT_SIZE );
+    
+    // layout properties
     private static final int X_MARGIN = 20;
     private static final int Y_MARGIN = 5;
     
@@ -70,6 +72,7 @@ public class GameScoreboardNode extends PhetPNode {
     
     /**
      * Constructor
+     * 
      * @param maxLevel the maximum level, used to adjust the layout to accommodate the maximum width
      * @param maxScore the maximum score, used to adjust the layout to accommodate the maximum width
      * @param pointsFormat points are displayed in this format

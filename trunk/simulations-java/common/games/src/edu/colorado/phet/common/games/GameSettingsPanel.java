@@ -43,11 +43,13 @@ public class GameSettingsPanel extends GridPanel {
     private static final String RADIO_BUTTON_OFF = PhetCommonResources.getString( "Games.radioButton.off" );
     private static final String BUTTON_START = PhetCommonResources.getString( "Games.button.start" );
     
-    // default properties
+    // "look" properties
     private static final PhetFont TITLE_FONT = new PhetFont( 24 );
     private static final PhetFont LABEL_FONT = new PhetFont();
     private static final PhetFont CONTROL_FONT = new PhetFont();
     private static final Border BORDER = new LineBorder( Color.BLACK, 1 );
+    
+    // layout properties
     private static final int X_MARGIN = 5;
     private static final int X_SPACING = 5;
     private static final int Y_SPACING = 6;
@@ -59,7 +61,7 @@ public class GameSettingsPanel extends GridPanel {
     private final JRadioButton soundOnRadioButton, soundOffRadioButton;
     private final GridPanel inputPanel;
     
-    private int inputRow;
+    private int inputRow; // next control added to the "input panel" will appear in this row
 
     public GameSettingsPanel( IntegerRange levelRange ) {
         this( levelRange, TITLE_FONT, LABEL_FONT, CONTROL_FONT );

@@ -52,11 +52,14 @@ public class GameOverNode extends PhetPNode {
     private static final String LABEL_NEW_BEST = PhetCommonResources.getString( "Games.label.newBest" );
     private static final String FORMAT_TIME_BEST = PhetCommonResources.getString( "Games.format.time.best" );
     
+    // "look" properties
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Font LABEL_FONT = new PhetFont( 18 );
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
+    
+    // layout properties
     private static final double MIN_SEPARATOR_WIDTH = 175;
     private static final double X_MARGIN = 25;
     private static final double Y_MARGIN = 15;
@@ -65,6 +68,18 @@ public class GameOverNode extends PhetPNode {
     private final NumberFormat scoreFormat;
     private final EventListenerList listeners;
     
+    /**
+     * Constructor.
+     * 
+     * @param level level number
+     * @param score user's score on the game that just ended
+     * @param perfectScore perfect (highest possible) score on the game that just ended
+     * @param scoreFormat how the scores (user's and perfect) should be formatted
+     * @param time user's time on the game that just ended
+     * @param bestTime the user's best time on all games played so far (typically for a specific level)
+     * @param isNewBestTime is the user's time a new "best" time? If so, this identifies the time as "new best".
+     * @param timerVisible was the timer visible during the game that just ended? Time is only shown if the timer was used during game play.
+     */
     public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
         super();
         
