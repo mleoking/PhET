@@ -8,11 +8,18 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * The primary model for the Build an Atom game.  This sequences the game and
+ * sends out events when the game state changes.
+ *
  * @author Sam Reid
+ * @author John Blanco
  */
 public class GameModel2 {
+    public static final int MAX_LEVELS = 3;
+    public static final int MAX_SCORE = 5;
+
     private State currentState;
-    private ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
+    private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
 
     public GameModel2() {
         setState( new GameSettingsState( this ) );
@@ -30,8 +37,8 @@ public class GameModel2 {
     }
 
     private void notifyStateChanged() {
-        for ( GameModelListener o : listeners ) {
-            o.stateChanged();
+        for ( GameModelListener listener : listeners ) {
+            listener.stateChanged();
         }
     }
 
@@ -39,8 +46,8 @@ public class GameModel2 {
         setState( new PlayingGame( this ) );
     }
 
-    public void addListener(GameModelListener listener) {
-        listeners.add(listener);
+    public void addListener( GameModelListener listener ) {
+        listeners.add( listener );
     }
 
     public static interface GameModelListener {
@@ -61,26 +68,34 @@ public class GameModel2 {
 
         }
     }
-    public static class PlayingGame extends State{
+
+    public static class PlayingGame extends State {
         public PlayingGame( GameModel2 model ) {
             super( model );
         }
     }
 
-//    public static class GameSettingsStateView extends GameSettingsState {
-//        public GameSettingsStateView( GameModel2 model ) {
-//            super( model );
-//        }
-//
-//        public PNode getNode() {
-//            final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
-//            final PNode gameSettingsNode = new PSwing( panel );
-//            panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
-//                @Override
-//                public void startButtonPressed() {
-//                    model.setState(new FirstChallengeState());
-//                }
-//            } );
-//        }
-//    }
+    /**
+     *
+     */
+    public void newGame() {
+        setState( new GameSettingsState( this ) );
+    }
+
+    //    public static class GameSettingsStateView extends GameSettingsState {
+    //        public GameSettingsStateView( GameModel2 model ) {
+    //            super( model );
+    //        }
+    //
+    //        public PNode getNode() {
+    //            final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
+    //            final PNode gameSettingsNode = new PSwing( panel );
+    //            panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
+    //                @Override
+    //                public void startButtonPressed() {
+    //                    model.setState(new FirstChallengeState());
+    //                }
+    //            } );
+    //        }
+    //    }
 }
