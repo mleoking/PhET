@@ -60,6 +60,7 @@ public class BuoyancyPlaygroundMode extends Mode {
         woodBlock.material = Material.WOOD;
         brick.reset();
         brick.material = Material.BRICK;
+        setOneObject();
     }
 
     public function setOneObject(): void {
