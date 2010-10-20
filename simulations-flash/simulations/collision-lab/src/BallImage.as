@@ -12,6 +12,7 @@ package{
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	import flash.filters.*;
 	import flash.geom.Point;
 	
 	public class BallImage extends Sprite{
@@ -30,6 +31,8 @@ package{
 		var tFormat:TextFormat;				//format for ball label text
 		var tFormat2:TextFormat;			//format for ball position and velocity readouts
 		var tFieldBallNbr:TextField;		//label = ball number
+		var outline:GlowFilter;				//outline for ball number text for better visibility
+
 		//var tFieldPosition:TextField;		//label showing x, y coords of ball during dragging
 		//var tFieldVelocity:TextField;		//label showing v_x, v_y during dragging
 		var xEqString:String;				//"x = "  All text must be programmatically set for internationalization
@@ -56,10 +59,13 @@ package{
 			this.arrowHeadIndicator = new Sprite();
 			this.arrowHeadHandle = new Sprite();
 			this.tFieldBallNbr = new TextField();
+			this.outline = new GlowFilter(0x000000,1.0,2.0,2.0,10);
+			this.outline.quality = BitmapFilterQuality.MEDIUM;
 			//this.tFieldPosition = new TextField();
 			//this.tFieldVelocity = new TextField();
 			var ballNbr:String = String(1 + this.ballIndex);
 			this.tFieldBallNbr.text = ballNbr;
+			this.tFieldBallNbr.filters = [outline];
 			this.xEqString = "x = ";
 			this.yEqString = "y = ";
 			//this.tFieldBallNbr.selectable = false;
