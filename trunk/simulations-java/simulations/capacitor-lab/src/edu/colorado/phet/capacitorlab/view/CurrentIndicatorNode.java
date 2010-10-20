@@ -9,7 +9,6 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -25,8 +24,9 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
  * The node appears while current is flowing.
  * When current stops flowing, the node fades out over a period of time.
  * <p>
+ * By default, the arrow points to the right.
  * Origin is at the geometric center, so that this node can be easily 
- * flipped (rotated) when current changes direction.
+ * rotated when current changes direction.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -56,13 +56,23 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final long FADEOUT_STEP_RATE = 10; // ms
     
     private final BatteryCapacitorCircuit circuit;
-    private final Polarity polarity;
+    private final double positiveOrientation, negativeOrientation;
     private PActivity fadeOutActivity;
 
-    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit, Polarity polarity ) {
+    /**
+     * Constructor.
+     * Rotation angles should be set such that +dV/dt indicates 
+     * current flow towards the positive terminal of the battery.
+     * 
+     * @param circuit circuit model
+     * @param positiveOrientation rotation angle for +dV/dt (radians)
+     * @param negativeOrientation rotation angle for -dV/dt (radians)
+     */
+    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit, double positiveOrientation, double negativeOrientation ) {
         
         this.circuit = circuit;
-        this.polarity = polarity;
+        this.positiveOrientation = positiveOrientation;
+        this.negativeOrientation = negativeOrientation;
         
         ArrowNode arrowNode = new ArrowNode( ARROW_TAIL_LOCATION, ARROW_TIP_LOCATION, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         arrowNode.setPaint( ARROW_COLOR );
@@ -144,18 +154,12 @@ public class CurrentIndicatorNode extends PhetPNode {
     }
 
     /*
-     * Updates the orientation of the current indicator.
-     * Indicates counterclockwise current flow for +dV, clockwise for -dV.
+     * Updates the orientation of the current indicator, based on the sign of the current amplitude.
      */
     private void updateOrientation() {
-        double currentAmplitude = circuit.getCurrentAmplitude();
+        final double currentAmplitude = circuit.getCurrentAmplitude();
         if ( currentAmplitude != 0 ) {
-            if ( polarity == Polarity.POSITIVE ) {
-                setRotation( ( currentAmplitude > 0 ) ? 0 : Math.PI );
-            }
-            else {
-                setRotation( ( currentAmplitude > 0 ) ? Math.PI : 0 );
-            }
+            setRotation( ( circuit.getCurrentAmplitude() > 0 ) ? positiveOrientation : negativeOrientation );
         }
     }
 }

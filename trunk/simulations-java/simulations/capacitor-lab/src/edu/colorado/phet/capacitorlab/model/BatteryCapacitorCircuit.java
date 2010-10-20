@@ -41,7 +41,7 @@ public class BatteryCapacitorCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private CustomDielectricMaterial customDielectric;
     private CustomDielectricChangeListener customDielectricChangeListener;
-    private double currentAmplitude;
+    private double currentAmplitude; // dV/dt, rate of voltage change
     private double previousVoltage;
 
     public BatteryCapacitorCircuit( CLClock clock, Battery battery, Capacitor capacitor, boolean batteryConnected ) {
