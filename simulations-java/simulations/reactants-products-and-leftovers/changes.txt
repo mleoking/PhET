@@ -1,3 +1,4 @@
+> move Game features and associated string translations to PhET common framework, for reuse in other sims
 10/19/10 #2547, migrate Traditional Chinese (zh_TW) game strings to phetcommon
 10/19/10 #2547, migrate Vietnamese (vi) game strings to phetcommon
 10/19/10 #2547, migrate Serbian (sr) game strings to phetcommon
