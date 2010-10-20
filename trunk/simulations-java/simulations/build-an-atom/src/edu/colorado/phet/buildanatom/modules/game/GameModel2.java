@@ -12,19 +12,21 @@ import java.util.ArrayList;
 public class GameModel2 {
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
+    public static final int CHALLENGES_PER_GAME = 3;
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     final GameSettingsState gameSettingsState = new GameSettingsState( this );
-    private PlayingGame playingGameState = new PlayingGame( this );
-    private PlayingGame level2 = new PlayingGame( this );
-    private GameOver gameOver= new GameOver( this );
+    private final Challenge playingGameState = new Challenge( this );
+    private final Challenge level2 = new Challenge( this );
+    private final GameOver gameOverState= new GameOver( this );
+    private int challengeCount = 0;
 
     public GameModel2() {
         setState( gameSettingsState );
     }
 
-    public PlayingGame getLevel2() {
+    public Challenge getLevel2() {
         return level2;
     }
 
@@ -32,7 +34,7 @@ public class GameModel2 {
         return gameSettingsState;
     }
 
-    public PlayingGame getPlayingGameState() {
+    public Challenge getPlayingGameState() {
         return playingGameState;
     }
 
@@ -58,10 +60,6 @@ public class GameModel2 {
         listeners.add( listener );
     }
 
-    public void checkGuess() {
-        currentState.checkGuess();
-    }
-
     public static interface GameModelListener {
         void stateChanged( State oldState, State newState );
     }
@@ -72,41 +70,48 @@ public class GameModel2 {
         public State( GameModel2 model ) {
             this.model = model;
         }
-
-        public abstract void checkGuess();
     }
 
     public static class GameSettingsState extends State {
         public GameSettingsState( GameModel2 model ) {
             super( model );
         }
-
-        @Override
-        public void checkGuess() {
-        }
     }
 
-    public static class PlayingGame extends State {
-        public PlayingGame( GameModel2 model ) {
+    public static class Challenge extends State {
+        public Challenge( GameModel2 model ) {
             super( model );
         }
 
-        @Override
         public void checkGuess() {
+            model.challengeCount++;
+            if (model.challengeCount < CHALLENGES_PER_GAME){
+                nextChallenge();
+            }
+            else{
+                model.setState( model.gameOverState );
+                model.challengeCount = 0;
+            }
         }
+
+        private void nextChallenge() {
+            // TODO Auto-generated method stub
+            System.err.println( getClass().getName() + "Would move to next challenge now." );
+        }
+
     }
 
     public static class GameOver extends State {
         public GameOver( GameModel2 model ) {
             super( model );
         }
-
-        @Override
-        public void checkGuess() {
-        }
     }
 
     public void newGame() {
         setState( gameSettingsState );
+    }
+
+    public State getGameOverState() {
+        return gameOverState;
     }
 }

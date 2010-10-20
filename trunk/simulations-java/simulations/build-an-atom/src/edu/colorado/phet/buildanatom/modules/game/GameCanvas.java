@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -43,22 +43,17 @@ public class GameCanvas extends PhetPCanvas {
     // View
     private final PNode rootNode;
 
-    private final GradientButtonNode checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR ){{
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.checkGuess();
-            }
-        } );
-    }};
     private final GameScoreboardNode scoreboard = new GameScoreboardNode( GameModel2.MAX_LEVELS, GameModel2.MAX_SCORE, new DecimalFormat( "0.#" ) ) {
         {
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
         }
     };
     private final StateView gameSettingsStateView = new GameSettingsStateView();
-    private final StateView playingGameStateView = new PlayingGameStateView();
-    private final StateView playingGameStateView2 = new PlayingGameStateView(){
+    private final StateView challengeStateView = new ChallengeStateView();
+    private final StateView gameOverStateView = new GameOverStateView();
+    private final StateView playingGameStateView2 = new ChallengeStateView(){
         final PText child = new PText( "Level 2" );
+        @Override
         public GameModel2.State getState() {
             return model.getLevel2();
         }
@@ -78,8 +73,9 @@ public class GameCanvas extends PhetPCanvas {
 
     private final ArrayList<StateView> stateViews = new ArrayList<StateView>() {{
         add( gameSettingsStateView );
-        add( playingGameStateView );
+        add( challengeStateView );
         add( playingGameStateView2 );
+        add( gameOverStateView );
     }};
 
     //----------------------------------------------------------------------------
@@ -176,8 +172,36 @@ public class GameCanvas extends PhetPCanvas {
         void init();
     }
 
+    private class GameOverStateView implements StateView {
+        private final GameOverNode gameOverNode;
+
+        private GameOverStateView() {
+            gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat("0.#"), 40000, 30000, false, true );
+            gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
+                public void newGamePressed() {
+                    model.newGame();
+                }
+            });
+        }
+
+        public GameModel2.State getState() {
+            return model.getGameOverState();
+        }
+
+        public void teardown() {
+            rootNode.removeChild( gameOverNode );
+        }
+
+        public void init() {
+            gameOverNode.setOffset(
+                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameOverNode.getFullBoundsReference().width / 2,
+                    BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameOverNode.getFullBoundsReference().height / 2 );
+            rootNode.addChild( gameOverNode );
+        }
+    }
+
     private class GameSettingsStateView implements StateView {
-        private GameSettingsPanel panel;
+        private final GameSettingsPanel panel;
         private final PNode gameSettingsNode;
 
         private GameSettingsStateView() {
@@ -189,6 +213,7 @@ public class GameCanvas extends PhetPCanvas {
                     model.startGame();
                 }
             } );
+
         }
 
         public GameModel2.State getState() {
@@ -207,7 +232,17 @@ public class GameCanvas extends PhetPCanvas {
         }
     }
 
-    private class PlayingGameStateView implements StateView {
+    private class ChallengeStateView implements StateView {
+
+        // TODO: i18n
+        private final GradientButtonNode checkButton = new GradientButtonNode( "Check", BUTTONS_FONT_SIZE, BUTTONS_COLOR ){{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.getPlayingGameState().checkGuess();
+                }
+            } );
+        }};
+
         public GameModel2.State getState() {
             return model.getPlayingGameState();
         }
@@ -218,7 +253,7 @@ public class GameCanvas extends PhetPCanvas {
         }
 
         public void init() {
-            checkButton.setOffset( 600, 400 );
+            checkButton.setOffset( 700, 500 );
             scoreboard.setOffset(
                     BuildAnAtomDefaults.STAGE_SIZE.width / 2 - scoreboard.getFullBoundsReference().width / 2,
                     BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * scoreboard.getFullBoundsReference().height ) );
