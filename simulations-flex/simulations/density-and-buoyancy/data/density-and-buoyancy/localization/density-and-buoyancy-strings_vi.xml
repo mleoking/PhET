@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_vi.xml created Mon Sep 27 15:41:59 ICT 2010 using: density-and-buoyancy 1.01.00 (44223), translation-utility 2.09.00 (44031) thg 9 14, 2010-->
+<!--density-and-buoyancy-strings_vi.xml created Tue Oct 19 13:25:51 ICT 2010 using: density-and-buoyancy 1.02.00 (44977), translation-utility 2.09.00 (44031) thg 9 14, 2010-->
 <SimStrings>
 <string key="properties.mass" value="Khối lượng"/>
 <string key="forceArrows.contact" value="Tiếp xúc"/>
@@ -7,6 +7,7 @@
 <string key="bottle.2L" value="2L"/>
 <string key="mysteryObject.densityColumnHeader" value="Mật độ ({0})"/>
 <string key="material.aluminum" value="Nhôm"/>
+<string key="material.air" value="Không khí"/>
 <string key="material.custom" value="Vật của tôi"/>
 <string key="material.gasoline" value="Xăng"/>
 <string key="customObject.material" value="Chất liệu"/>
@@ -14,6 +15,8 @@
 <string key="customObject.custom" value="Vật của tôi"/>
 <string key="material.wood" value="Gỗ"/>
 <string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="material.styrofoam" value="Styrofoam"/>
+<string key="material.honey" value="Mật"/>
 <string key="material.apple" value="Táo"/>
 <string key="material.ice" value="Nước đá"/>
 <string key="mode.mysteryObjects.E" value="E"/>
@@ -23,13 +26,15 @@
 <string key="material.diamond" value="Kim cương"/>
 <string key="mode.mysteryObjects.A" value="A"/>
 <string key="mode.title" value="Vật"/>
+<string key="material.oliveOil" value="Dầu olive"/>
 <string key="material.lead" value="Chì"/>
 <string key="forceArrows.buoyancy" value="Sự nổi"/>
+<string key="properties.fluidDensity" value="Mật độ chất lỏng"/>
 <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
 <string key="customObject.properties" value="Đặc tính"/>
 <string key="forceArrows.gravity" value="Trọng lực"/>
-<string key="mysteryObject.table.title" value="Mật độ của các chất khác nhau"/>
 <string key="material.brick" value="Gạch"/>
+<string key="mysteryObject.table.title" value="Mật độ của các chất khác nhau"/>
 <string key="mysteryObject.material" value="chất liệu"/>
 <string key="properties.weightPoundValue" value="{0} lb"/>
 <string key="properties.volumeLiterValue" value="{0} L"/>
@@ -37,8 +42,8 @@
 <string key="density.simTitle" value="Mật độ"/>
 <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
 <string key="forceArrows.fluidDrag" value="Lực đẩy của chất lỏng"/>
-<string key="mode.objectsOfSameMass" value="Cùng Khối lượng"/>
 <string key="mode.customObject" value="Tuỳ chỉnh"/>
+<string key="mode.objectsOfSameMass" value="Cùng Khối lượng"/>
 <string key="application.resetAll" value="Reset"/>
 <string key="material.gold" value="Vàng"/>
 <string key="properties.weightNewtonValue" value="{0} N"/>
