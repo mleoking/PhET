@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -26,12 +27,16 @@ public class BatteryNode extends PhetPNode {
     private final PImage imageNode;
     private final VoltageSliderNode sliderNode;
     
-    public BatteryNode( Battery battery, DoubleRange voltageRange ) {
+    public BatteryNode( final Battery battery, DoubleRange voltageRange ) {
         
         this.battery = battery;
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
             @Override
             public void voltageChanged() {
+                updateNode();
+            }
+            @Override
+            public void polarityChanged() {
                 updateNode();
             }
         });
@@ -59,8 +64,10 @@ public class BatteryNode extends PhetPNode {
     }
     
     private void updateNode() {
+        // slider
         sliderNode.setVoltage( battery.getVoltage() );
-        if ( battery.getVoltage() >= 0 ) {
+        // image
+        if ( battery.getPolarity() == Polarity.POSITIVE ) {
             imageNode.setImage( CLImages.BATTERY_UP );
         }
         else {
@@ -71,5 +78,4 @@ public class BatteryNode extends PhetPNode {
     private void updateModel() {
         battery.setVoltage( sliderNode.getVoltage() );
     }
-
 }
