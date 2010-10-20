@@ -1,3 +1,4 @@
+Fixed: indicator window maximization doesn't reset properly
 # 0.00.12 (45228) Oct 19, 2010
 Internationalized periodic table
 Added internationalization for everything except the periodic table

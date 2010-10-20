@@ -58,10 +58,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
     // Reset button.
     private final GradientButtonNode resetButtonNode;
-    private final ArrayList<MaximizeControlNode> maximizeControlNodeArrayList=new ArrayList<MaximizeControlNode>( );
 
     final BooleanProperty viewOrbitals = new BooleanProperty( true );
     final BooleanProperty showLabels = new BooleanProperty( true );
+    private MaximizeControlNode elementIndicatorWindow;
+    private MaximizeControlNode symbolWindow;
+    private MaximizeControlNode massWindow;
+    private MaximizeControlNode chargeWindow;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -192,7 +195,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // Element indicator
         PDimension elementIndicatorNodeWindowSize = new PDimension( 400, 250 - verticalSpacingBetweenWindows * 2 );
         ElementIndicatorNode elementIndicatorNode = new ElementIndicatorNode( model.getAtom() );
-        final MaximizeControlNode elementIndicatorWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_ELEMENT, elementIndicatorNodeWindowSize, elementIndicatorNode, true );
+        elementIndicatorWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_ELEMENT, elementIndicatorNodeWindowSize, elementIndicatorNode, true );
         elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width / 2 - elementIndicatorNode.getFullBounds().getWidth() / 2, elementIndicatorNodeWindowSize.getHeight() / 2 - elementIndicatorNode.getFullBounds().getHeight() / 2 );
         elementIndicatorWindow.setOffset( indicatorWindowPosX, verticalSpacingBetweenWindows );
         elementIndicatorNode.translate( 0, 10 );//fudge factor since centering wasn't quite right
@@ -200,7 +203,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Symbol indicator
         SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83, 83 );//has to be big enough to hold Ne with 2 digit numbers on both sides
-        MaximizeControlNode symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
+        symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         final double insetX = 20;
         symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
@@ -208,7 +211,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( symbolWindow );
 
         // Mass indicator
-        final MaximizeControlNode massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS, windowSize, new MassIndicatorNode( model.getAtom() ,viewOrbitals){{
+        massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS, windowSize, new MassIndicatorNode( model.getAtom() ,viewOrbitals){{
             setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
         }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
@@ -216,7 +219,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Charge indicator
         final ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
-        final MaximizeControlNode chargeWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_CHARGE, windowSize, chargeIndicatorNode, true );
+        chargeWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_CHARGE, windowSize, chargeIndicatorNode, true );
         chargeIndicatorNode.setOffset( insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
@@ -256,14 +259,9 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 chargeWindow.getFullBounds().getCenterX() +controlButtonOffset/2 ,
                 chargeWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
 
-        maximizeControlNodeArrayList.add( chargeWindow );
-        maximizeControlNodeArrayList.add( elementIndicatorWindow );
-        maximizeControlNodeArrayList.add( massWindow );
-        maximizeControlNodeArrayList.add( symbolWindow );
-
         //Add the Selection control for how to view the orbitals
         rootNode.addChild( new OrbitalViewControl( viewOrbitals ){{
-            setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20,chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
+            setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
         }} );
 
         rootNode.addChild( new IonIndicatorNode( model.getAtom(), showLabels ) {{
@@ -277,6 +275,11 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //Start with the symbol, mass and charge windows minimized.
         //TODO: the reason we didn't put these values for maximized = false above is because the layout code depends on the maximized size for each component.
         //TODO: it would be nice to rewrite so that we can initialize values properly and still get the layout correct
+        resetWindowMaximization();
+    }
+
+    private void resetWindowMaximization() {
+        elementIndicatorWindow.setMaximized( true );
         symbolWindow.setMaximized( false );
         massWindow.setMaximized( false );
         chargeWindow.setMaximized( false );
@@ -308,9 +311,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        for ( MaximizeControlNode maximizeControlNode : maximizeControlNodeArrayList ) {
-            maximizeControlNode.setMaximized( true );
-        }
+        resetWindowMaximization();
         viewOrbitals.reset();
     }
 }
