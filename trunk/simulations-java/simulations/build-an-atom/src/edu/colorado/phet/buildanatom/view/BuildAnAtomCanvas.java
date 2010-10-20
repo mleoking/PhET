@@ -10,9 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -61,10 +60,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
     final BooleanProperty viewOrbitals = new BooleanProperty( true );
     final BooleanProperty showLabels = new BooleanProperty( true );
-    private MaximizeControlNode elementIndicatorWindow;
-    private MaximizeControlNode symbolWindow;
-    private MaximizeControlNode massWindow;
-    private MaximizeControlNode chargeWindow;
+    private final MaximizeControlNode elementIndicatorWindow;
+    private final MaximizeControlNode symbolWindow;
+    private final MaximizeControlNode massWindow;
+    private final MaximizeControlNode chargeWindow;
 
     //----------------------------------------------------------------------------
     // Constructors
