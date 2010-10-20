@@ -69,12 +69,24 @@ public class SymbolIndicatorNode extends PNode {
         symbol.setOffset( boundingBox.getFullBoundsReference().getCenterX() - symbol.getFullBoundsReference().width / 2,
                 boundingBox.getFullBoundsReference().getCenterY() - symbol.getFullBoundsReference().height / 2 );
         protonCount.setText( atom.getNumProtons()==0?"":"" + atom.getNumProtons() );
+        final double OFFSET_FRACTION = 0.65;
+        final double TEXT_INSET = 2;
         protonCount.setOffset( symbol.getFullBoundsReference().getMinX() - protonCount.getFullBoundsReference().width,
-                symbol.getFullBoundsReference().getMaxY()-protonCount.getFullBounds().getHeight()/2 );
+                symbol.getFullBoundsReference().getMaxY()-protonCount.getFullBounds().getHeight()* (1-OFFSET_FRACTION) );
+
+        if (chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX()){
+            chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth(),chargeNode.getOffset().getY() );
+        }
+        if (protonCount.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX()){
+            protonCount.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,protonCount.getY() );
+        }
 
         massNumberNode.setText( atom.getAtomicMassNumber()==0?"":"" + atom.getAtomicMassNumber());
         massNumberNode.setOffset( symbol.getFullBoundsReference().getMinX() - massNumberNode.getFullBoundsReference().width,
-                symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()/2 );
+                symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()* OFFSET_FRACTION );
+        if (massNumberNode.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX()){
+            massNumberNode.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,massNumberNode.getY() );
+        }
 
         chargeNode.setText( atom.getAtomicMassNumber()==0?"":atom.getFormattedCharge() );
         Paint chargePaint = Color.BLACK;
@@ -86,6 +98,10 @@ public class SymbolIndicatorNode extends PNode {
         }
         chargeNode.setTextPaint( chargePaint );
         chargeNode.setOffset( symbol.getFullBoundsReference().getMaxX(),
-                symbol.getFullBoundsReference().getMinY()-chargeNode.getFullBounds().getHeight()/2 );
+                symbol.getFullBoundsReference().getMinY()-chargeNode.getFullBounds().getHeight()* OFFSET_FRACTION );
+
+        if (chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX()){
+            chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth()-TEXT_INSET,chargeNode.getOffset().getY() );
+        }
     }
 }
