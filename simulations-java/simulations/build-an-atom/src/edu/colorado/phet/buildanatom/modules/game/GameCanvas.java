@@ -6,11 +6,11 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -23,7 +23,7 @@ public class GameCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private final BuildAnAtomModel model;
+    private final GameModel2 model;
 
     // View
     private final PNode rootNode;
@@ -32,7 +32,7 @@ public class GameCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GameCanvas( BuildAnAtomModel model ) {
+    public GameCanvas( final GameModel2 model ) {
 
         this.model = model;
 
@@ -54,17 +54,37 @@ public class GameCanvas extends PhetPCanvas {
         //        tbdIndicator.setOffset( 380, 50 );
         //        rootNode.addChild( tbdIndicator );
 
-        PNode gameSettingsNode = new PSwing( new GameSettingsPanel( new IntegerRange( 1, 3 ) ) );
-        gameSettingsNode.setOffset(
-                BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameSettingsNode.getFullBoundsReference().width / 2,
-                BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameSettingsNode.getFullBoundsReference().height / 2 );
-        rootNode.addChild( gameSettingsNode );
+        updateView( model.getState() );
+        model.addListener(new GameModel2.GameModelListener() {
+            public void stateChanged() {
+                updateView( model.getState() );
+            }
+        } );
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
         //        image.scale( 0.75 );
         //        image.setOffset( 50, 0 );
         //        rootNode.addChild(image);
+    }
+
+    private void updateView( GameModel2.State state ) {
+        if ( state instanceof GameModel2.GameSettingsState ) {
+            final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
+            final PNode gameSettingsNode = new PSwing( panel );
+            panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
+                @Override
+                public void startButtonPressed() {
+                    model.startGame();
+                }
+            } );
+            gameSettingsNode.setOffset(
+                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameSettingsNode.getFullBoundsReference().width / 2,
+                    BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameSettingsNode.getFullBoundsReference().height / 2 );
+            rootNode.addChild( gameSettingsNode );
+        }else{
+            rootNode.addChild( new PText("Hello") );
+        }
     }
 
 
@@ -79,6 +99,7 @@ public class GameCanvas extends PhetPCanvas {
     /*
      * Updates the layout of stuff on the canvas.
      */
+
     @Override
     protected void updateLayout() {
 

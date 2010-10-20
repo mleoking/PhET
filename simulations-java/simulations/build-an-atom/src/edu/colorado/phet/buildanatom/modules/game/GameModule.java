@@ -35,7 +35,7 @@ public class GameModule extends PiccoloModule {
         model = new BuildAnAtomModel( clock );
 
         // Canvas
-        canvas = new GameCanvas( model );
+        canvas = new GameCanvas( new GameModel2() );
         setSimulationPanel( canvas );
 
         // Help
