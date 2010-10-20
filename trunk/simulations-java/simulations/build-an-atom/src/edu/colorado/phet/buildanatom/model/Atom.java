@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -30,17 +31,17 @@ public class Atom extends SimpleObservable{
     // Map of proton numbers to element symbols.
     private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
         // TODO: i18n for all element names.
-        put(0, new AtomName("-", "--"));//for an unbuilt or empty atom
-        put(1, new AtomName("H", "Hydrogen"));
-        put(2, new AtomName("He", "Helium"));
-        put(3, new AtomName("Li", "Lithium"));
-        put(4, new AtomName("Be", "Beryllium"));
-        put(5, new AtomName("B", "Boron"));
-        put(6, new AtomName("C", "Carbon"));
-        put(7, new AtomName("N", "Nitrogen"));
-        put(8, new AtomName("O", "Oxygen"));
-        put(9, new AtomName("F", "Fluorine"));
-        put(10, new AtomName("Ne", "Neon"));
+        put(0, new AtomName( BuildAnAtomStrings.ELEMENT_NONE_SYMBOL, BuildAnAtomStrings.ELEMENT_NONE_NAME));//for an unbuilt or empty atom
+        put(1, new AtomName( BuildAnAtomStrings.ELEMENT_HYDROGEN_SYMBOL, BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME));
+        put(2, new AtomName( BuildAnAtomStrings.ELEMENT_HELIUM_SYMBOL, BuildAnAtomStrings.ELEMENT_HELIUM_NAME));
+        put(3, new AtomName( BuildAnAtomStrings.ELEMENT_LITHIUM_SYMBOL, BuildAnAtomStrings.ELEMENT_LITHIUM_NAME));
+        put(4, new AtomName( BuildAnAtomStrings.ELEMENT_BERYLLIUM_SYMBOL, BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME));
+        put(5, new AtomName( BuildAnAtomStrings.ELEMENT_BORON_SYMBOL, BuildAnAtomStrings.ELEMENT_BORON_NAME));
+        put(6, new AtomName( BuildAnAtomStrings.ELEMENT_CARBON_SYMBOL, BuildAnAtomStrings.ELEMENT_CARBON_NAME));
+        put(7, new AtomName( BuildAnAtomStrings.ELEMENT_NITROGEN_SYMBOL, BuildAnAtomStrings.ELEMENT_NITROGEN_NAME));
+        put(8, new AtomName( BuildAnAtomStrings.ELEMENT_OXYGEN_SYMBOL, BuildAnAtomStrings.ELEMENT_OXYGEN_NAME));
+        put(9, new AtomName( BuildAnAtomStrings.ELEMENT_FLUORINE_SYMBOL, BuildAnAtomStrings.ELEMENT_FLUORINE_NAME));
+        put(10, new AtomName( BuildAnAtomStrings.ELEMENT_NEON_SYMBOL, BuildAnAtomStrings.ELEMENT_NEON_NAME));
     }};
 
     // List of stable isotopes for the first 2 rows of the periodic table

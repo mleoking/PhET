@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -18,11 +19,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class OrbitalViewControl extends PNode {
     public OrbitalViewControl( final BooleanProperty viewOrbitals) {
-        final PText textTitle = new PText( "Model:" ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};//TODO: I18n
+        final PText textTitle = new PText( BuildAnAtomStrings.ELECTRON_MODEL ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};
         addChild( textTitle );
         JPanel panel = new VerticalLayoutPanel() {{
             final ButtonGroup buttonGroup=new ButtonGroup();//Fixes the problem that clicking on a radio button twice causes it to become de-selected
-            add( new JRadioButton( "orbits" ,viewOrbitals.getValue()) {{//TODO: I18n
+            add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_ORBITS ,viewOrbitals.getValue()) {{
                 buttonGroup.add( this );
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 setFont( BuildAnAtomConstants.ITEM_FONT );
@@ -37,7 +38,7 @@ public class OrbitalViewControl extends PNode {
                     }
                 } );
             }} );
-            add( new JRadioButton( "cloud" ,!viewOrbitals.getValue()) {{//TODO: I18n
+            add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD ,!viewOrbitals.getValue()) {{
                 buttonGroup.add(this);
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 setFont( BuildAnAtomConstants.ITEM_FONT );

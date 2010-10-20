@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
@@ -191,8 +192,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         // Element indicator
         PDimension elementIndicatorNodeWindowSize = new PDimension( 400, 250 - verticalSpacingBetweenWindows * 2 );
         ElementIndicatorNode elementIndicatorNode = new ElementIndicatorNode( model.getAtom() );
-        // TODO: i18n
-        final MaximizeControlNode elementIndicatorWindow = new MaximizeControlNode( "Element", elementIndicatorNodeWindowSize, elementIndicatorNode, true );
+        final MaximizeControlNode elementIndicatorWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_ELEMENT, elementIndicatorNodeWindowSize, elementIndicatorNode, true );
         elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width / 2 - elementIndicatorNode.getFullBounds().getWidth() / 2, elementIndicatorNodeWindowSize.getHeight() / 2 - elementIndicatorNode.getFullBounds().getHeight() / 2 );
         elementIndicatorWindow.setOffset( indicatorWindowPosX, verticalSpacingBetweenWindows );
         elementIndicatorNode.translate( 0, 10 );//fudge factor since centering wasn't quite right
@@ -200,8 +200,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Symbol indicator
         SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83, 83 );//has to be big enough to hold Ne with 2 digit numbers on both sides
-        // TODO: i18n
-        MaximizeControlNode symbolWindow = new MaximizeControlNode( "Symbol", windowSize, symbolNode, true );
+        MaximizeControlNode symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         final double insetX = 20;
         symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
@@ -209,8 +208,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( symbolWindow );
 
         // Mass indicator
-        // TODO: i18n
-        final MaximizeControlNode massWindow = new MaximizeControlNode( "Mass", windowSize, new MassIndicatorNode( model.getAtom() ,viewOrbitals){{
+        final MaximizeControlNode massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS, windowSize, new MassIndicatorNode( model.getAtom() ,viewOrbitals){{
             setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
         }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
@@ -218,15 +216,14 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Charge indicator
         final ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
-        // TODO: i18n
-        final MaximizeControlNode chargeWindow = new MaximizeControlNode( "Charge", windowSize, chargeIndicatorNode, true );
+        final MaximizeControlNode chargeWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_CHARGE, windowSize, chargeIndicatorNode, true );
         chargeIndicatorNode.setOffset( insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
 
         final int controlButtonOffset=30;//distance between "show labels" and "reset all" buttons
         //"Show Labels" button.
-        PSwing showLabelsButton = new PSwing(new JCheckBox("Show Labels",showLabels.getValue() ){{//todo: i18n
+        PSwing showLabelsButton = new PSwing(new JCheckBox( BuildAnAtomStrings.SHOW_LABELS,showLabels.getValue() ){{
             setFont( new PhetFont(16,true) );
             setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
             addActionListener( new ActionListener() {
@@ -245,7 +242,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( showLabelsButton );
 
         // "Reset All" button.
-        resetButtonNode = new GradientButtonNode( "Reset All", 16, new Color( 255, 153, 0 ) );
+        resetButtonNode = new GradientButtonNode( BuildAnAtomStrings.RESET_ALL, 16, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         rootNode.addChild( resetButtonNode );

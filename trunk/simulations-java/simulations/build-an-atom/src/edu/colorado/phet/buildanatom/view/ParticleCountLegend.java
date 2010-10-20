@@ -8,6 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
@@ -38,7 +39,7 @@ public class ParticleCountLegend extends PNode {
     private static final ConstantDtClock NO_CLOCK = new ConstantDtClock( 1000, 1 );
 
     public ParticleCountLegend( final Atom atom ) {
-        final ReadoutLegendItem protonItem = new ReadoutLegendItem( "protons:", atom, new Getter() {
+        final ReadoutLegendItem protonItem = new ReadoutLegendItem( BuildAnAtomStrings.PROTONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumProtons();
             }
@@ -47,7 +48,7 @@ public class ParticleCountLegend extends PNode {
                 return new ProtonNode( NO_TRANSFORM, new Proton( NO_CLOCK ) );//creates a dummy particle so we can reuse graphics code
             }
         } );
-        final ReadoutLegendItem neutronItem = new ReadoutLegendItem( "neutrons:", atom, new Getter() {
+        final ReadoutLegendItem neutronItem = new ReadoutLegendItem( BuildAnAtomStrings.NEUTRONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumNeutrons();
             }
@@ -56,7 +57,7 @@ public class ParticleCountLegend extends PNode {
                 return new NeutronNode( NO_TRANSFORM, new Neutron( NO_CLOCK ) );
             }
         } );
-        final ReadoutLegendItem electronItem = new ReadoutLegendItem( "electrons:", atom, new Getter() {
+        final ReadoutLegendItem electronItem = new ReadoutLegendItem( BuildAnAtomStrings.ELECTRONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumElectrons();
             }
