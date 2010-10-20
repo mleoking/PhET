@@ -17,7 +17,6 @@ import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
@@ -106,8 +105,8 @@ public class DielectricCanvas extends CLCanvas {
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
-        topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Polarity.POSITIVE );
-        bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Polarity.NEGATIVE );
+        topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0, Math.PI );
+        bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI, 0 );
         
         // rendering order
         addChild( bottomWireNode );
