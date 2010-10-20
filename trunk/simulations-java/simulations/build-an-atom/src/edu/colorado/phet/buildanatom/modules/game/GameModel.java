@@ -432,6 +432,8 @@ public class GameModel {
         return getChallengesPerGame() * POINTS_FIRST_ATTEMPT;
     }
 
+
+
     //---------------------------------------------------------------------------------
     //
     //  Listener interface and related methods
