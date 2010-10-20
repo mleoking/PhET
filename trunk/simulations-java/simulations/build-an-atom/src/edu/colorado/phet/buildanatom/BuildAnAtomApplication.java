@@ -6,8 +6,8 @@ import java.awt.Frame;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.buildanatom.game.GameModule;
-import edu.colorado.phet.buildanatom.modules.BuildAnAtomModule;
+import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
+import edu.colorado.phet.buildanatom.modules.game.GameModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;

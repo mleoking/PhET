@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.buildanatom.modules;
+package edu.colorado.phet.buildanatom.modules.buildatom;
 
 import java.awt.Frame;
 

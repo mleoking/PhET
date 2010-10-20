@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.buildanatom.game;
+package edu.colorado.phet.buildanatom.modules.game;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
