@@ -22,8 +22,10 @@ public class OrbitalViewControl extends PNode {
         final PText textTitle = new PText( BuildAnAtomStrings.ELECTRON_MODEL ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};
         addChild( textTitle );
         JPanel panel = new VerticalLayoutPanel() {{
+            setOpaque( false );
             final ButtonGroup buttonGroup=new ButtonGroup();//Fixes the problem that clicking on a radio button twice causes it to become de-selected
             add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_ORBITS ,viewOrbitals.getValue()) {{
+                setOpaque( false );
                 buttonGroup.add( this );
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 setFont( BuildAnAtomConstants.ITEM_FONT );
@@ -39,6 +41,7 @@ public class OrbitalViewControl extends PNode {
                 } );
             }} );
             add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD ,!viewOrbitals.getValue()) {{
+                setOpaque( false );
                 buttonGroup.add(this);
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 setFont( BuildAnAtomConstants.ITEM_FONT );
