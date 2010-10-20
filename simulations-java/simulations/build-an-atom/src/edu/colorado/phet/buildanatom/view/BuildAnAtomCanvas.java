@@ -313,5 +313,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     public void reset() {
         resetWindowMaximization();
         viewOrbitals.reset();
+        showLabels.reset();
     }
 }
