@@ -78,14 +78,14 @@ public class SymbolIndicatorNode extends PNode {
             chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth(),chargeNode.getOffset().getY() );
         }
         if (protonCount.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX()){
-            protonCount.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,protonCount.getY() );
+            protonCount.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,protonCount.getFullBoundsReference().getY() );
         }
 
         massNumberNode.setText( atom.getAtomicMassNumber()==0?"":"" + atom.getAtomicMassNumber());
         massNumberNode.setOffset( symbol.getFullBoundsReference().getMinX() - massNumberNode.getFullBoundsReference().width,
                 symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()* OFFSET_FRACTION );
         if (massNumberNode.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX()){
-            massNumberNode.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,massNumberNode.getY() );
+            massNumberNode.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,massNumberNode.getFullBoundsReference().getY() );
         }
 
         chargeNode.setText( atom.getAtomicMassNumber()==0?"":atom.getFormattedCharge() );
