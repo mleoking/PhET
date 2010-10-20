@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.buildanatom.modules.game;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -41,14 +43,44 @@ public class GameCanvas extends PhetPCanvas {
     // View
     private final PNode rootNode;
 
-    private final GradientButtonNode checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
-    private final GameSettingsPanel panel;
-    private final PNode gameSettingsNode;
+    private final GradientButtonNode checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR ){{
+        addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.checkGuess();
+            }
+        } );
+    }};
     private final GameScoreboardNode scoreboard = new GameScoreboardNode( GameModel2.MAX_LEVELS, GameModel2.MAX_SCORE, new DecimalFormat( "0.#" ) ) {
         {
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
         }
     };
+    private final StateView gameSettingsStateView = new GameSettingsStateView();
+    private final StateView playingGameStateView = new PlayingGameStateView();
+    private final StateView playingGameStateView2 = new PlayingGameStateView(){
+        final PText child = new PText( "Level 2" );
+        public GameModel2.State getState() {
+            return model.getLevel2();
+        }
+
+        @Override
+        public void teardown() {
+            super.teardown();
+            rootNode.removeChild( child );
+        }
+
+        @Override
+        public void init() {
+            super.init();
+            rootNode.addChild( child );
+        }
+    };
+
+    private final ArrayList<StateView> stateViews = new ArrayList<StateView>() {{
+        add( gameSettingsStateView );
+        add( playingGameStateView );
+        add( playingGameStateView2 );
+    }};
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,24 +100,13 @@ public class GameCanvas extends PhetPCanvas {
         // Background.
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
-        panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
-        gameSettingsNode = new PSwing( panel );
-        panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
-            @Override
-            public void startButtonPressed() {
-                model.startGame();
-            }
-        } );
-
         // Set up listener for the button on the score board that indicates that
         // a new game is desired.
         scoreboard.addGameScoreboardListener( new GameScoreboardNode.GameScoreboardListener() {
-
             public void newGamePressed() {
                 model.newGame();
-
             }
-        });
+        } );
 
         // TODO: Temp - Put a "TBD" indicator on the canvas.
         //        PText tbdIndicator = new PText( "TBD" );
@@ -94,15 +115,14 @@ public class GameCanvas extends PhetPCanvas {
         //        tbdIndicator.setOffset( 380, 50 );
         //        rootNode.addChild( tbdIndicator );
 
-        // Set up the initial state.
-        updateView( model.getState() );
-
         // Listen for state changes so the representation can be updated.
         model.addListener( new GameModel2.GameModelListener() {
-            public void stateChanged() {
-                updateView( model.getState() );
+            public void stateChanged( GameModel2.State oldState, GameModel2.State newState ) {
+                getView( oldState ).teardown();
+                getView( newState ).init();
             }
         } );
+        getView( model.getState() ).init();
 
         // TODO: Temp - put a sketch of the tab up as a very early prototype.
         //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
@@ -111,24 +131,13 @@ public class GameCanvas extends PhetPCanvas {
         //        rootNode.addChild(image);
     }
 
-    private void updateView( GameModel2.State state ) {
-        if ( state instanceof GameModel2.GameSettingsState ) {
-            rootNode.removeChild( scoreboard );
-            rootNode.removeChild( checkButton );
-            gameSettingsNode.setOffset(
-                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameSettingsNode.getFullBoundsReference().width / 2,
-                    BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameSettingsNode.getFullBoundsReference().height / 2 );
-            rootNode.addChild( gameSettingsNode );
+    private StateView getView( GameModel2.State state ) {
+        for ( StateView stateView : stateViews ) {
+            if ( stateView.getState() == state ) {
+                return stateView;
+            }
         }
-        else if ( state instanceof GameModel2.PlayingGame ) {
-            checkButton.setOffset( 600, 400 );
-            rootNode.addChild( checkButton );
-            scoreboard.setOffset(
-                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - scoreboard.getFullBoundsReference().width / 2,
-                    BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * scoreboard.getFullBoundsReference().height ) );
-            rootNode.addChild( scoreboard );
-            rootNode.removeChild( gameSettingsNode );
-        }
+        throw new RuntimeException( "No state found" );
     }
 
 
@@ -157,5 +166,64 @@ public class GameCanvas extends PhetPCanvas {
         }
 
         //XXX lay out nodes
+    }
+
+    private interface StateView {
+        public GameModel2.State getState();
+
+        void teardown();
+
+        void init();
+    }
+
+    private class GameSettingsStateView implements StateView {
+        private GameSettingsPanel panel;
+        private final PNode gameSettingsNode;
+
+        private GameSettingsStateView() {
+            panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
+            gameSettingsNode = new PSwing( panel );
+            panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
+                @Override
+                public void startButtonPressed() {
+                    model.startGame();
+                }
+            } );
+        }
+
+        public GameModel2.State getState() {
+            return model.getGameSettingsState();
+        }
+
+        public void teardown() {
+            rootNode.removeChild( gameSettingsNode );
+        }
+
+        public void init() {
+            gameSettingsNode.setOffset(
+                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameSettingsNode.getFullBoundsReference().width / 2,
+                    BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameSettingsNode.getFullBoundsReference().height / 2 );
+            rootNode.addChild( gameSettingsNode );
+        }
+    }
+
+    private class PlayingGameStateView implements StateView {
+        public GameModel2.State getState() {
+            return model.getPlayingGameState();
+        }
+
+        public void teardown() {
+            rootNode.removeChild( scoreboard );
+            rootNode.removeChild( checkButton );
+        }
+
+        public void init() {
+            checkButton.setOffset( 600, 400 );
+            scoreboard.setOffset(
+                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - scoreboard.getFullBoundsReference().width / 2,
+                    BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * scoreboard.getFullBoundsReference().height ) );
+            rootNode.addChild( checkButton );
+            rootNode.addChild( scoreboard );
+        }
     }
 }
