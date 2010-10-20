@@ -1,33 +1,34 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.buildanatom.module;
+package edu.colorado.phet.buildanatom.game;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvas;
+import edu.colorado.phet.buildanatom.view.GameCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
- * Module for the Build Atom tab.
+ * Module for the game tab.
  */
-public class BuildAnAtomModule extends PiccoloModule {
+public class GameModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final BuildAnAtomModel model;
-    private final BuildAnAtomCanvas canvas;
+    private BuildAnAtomModel model;
+    private GameCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAnAtomModule( Frame parentFrame ) {
-        super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock( BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT ) );
+    public GameModule( Frame parentFrame ) {
+        super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock( BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT ) );
         setClockControlPanel( null );
 
         // Model
@@ -35,7 +36,7 @@ public class BuildAnAtomModule extends PiccoloModule {
         model = new BuildAnAtomModel( clock );
 
         // Canvas
-        canvas = new BuildAnAtomCanvas( model );
+        canvas = new GameCanvas( model );
         setSimulationPanel( canvas );
 
         // Help
@@ -52,16 +53,12 @@ public class BuildAnAtomModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     /**
-     * Resets the module.//TODO: this looks unused
+     * Resets the module.
      */
-    @Override
     public void reset() {
 
         // reset the clock
         BuildAnAtomClock clock = model.getClock();
         clock.resetSimulationTime();
-
-        // reset the model
-        model.reset();
-    }
+    }    
 }
