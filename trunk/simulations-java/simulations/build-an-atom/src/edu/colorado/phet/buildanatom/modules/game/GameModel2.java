@@ -18,6 +18,7 @@ public class GameModel2 {
     final GameSettingsState gameSettingsState = new GameSettingsState( this );
     private PlayingGame playingGameState = new PlayingGame( this );
     private PlayingGame level2 = new PlayingGame( this );
+    private GameOver gameOver= new GameOver( this );
 
     public GameModel2() {
         setState( gameSettingsState );
@@ -87,6 +88,16 @@ public class GameModel2 {
 
     public static class PlayingGame extends State {
         public PlayingGame( GameModel2 model ) {
+            super( model );
+        }
+
+        @Override
+        public void checkGuess() {
+        }
+    }
+
+    public static class GameOver extends State {
+        public GameOver( GameModel2 model ) {
             super( model );
         }
 
