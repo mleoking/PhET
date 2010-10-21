@@ -5,22 +5,31 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * The primary model for the Build an Atom game.  This sequences the game and
- * sends out events when the game state changes.
+ * The primary model for the Build an Atom game.  This class sequences the
+ * game and sends out events when the game state changes.
  *
  * @author Sam Reid
  * @author John Blanco
  */
 public class GameModel {
+
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
+
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final State gameSettingsState = new State( this );
     private final State gameOverState = new State( this );
 
-    //Level pools from the design doc
+    // Level pools from the design doc
     private final HashMap<Integer, ArrayList<AtomValue>> levels = new HashMap<Integer, ArrayList<AtomValue>>() {{
         put( 1, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 1 ) );
@@ -60,9 +69,17 @@ public class GameModel {
     }};
     private final Random random = new Random();
 
+
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
     public GameModel() {
         setState( gameSettingsState );
     }
+
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
 
     public State getGameSettingsState() {
         return gameSettingsState;
@@ -109,18 +126,22 @@ public class GameModel {
         listeners.add( listener );
     }
 
-    public static interface GameModelListener {
-        void stateChanged( State oldState, State newState );
-
-        void problemSetCreated( ProblemSet problemSet );
-    }
-
     public void newGame() {
         setState( gameSettingsState );
     }
 
     public State getGameOverState() {
         return gameOverState;
+    }
+
+    // -----------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    public static interface GameModelListener {
+        void stateChanged( State oldState, State newState );
+
+        void problemSetCreated( ProblemSet problemSet );
     }
 
 }
