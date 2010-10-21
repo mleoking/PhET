@@ -1,6 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.State;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -9,14 +9,14 @@ import edu.umd.cs.piccolo.PNode;
 */
 public abstract class StateView {
     private final GameCanvas gameCanvas;
-    GameModel.State state;
+    State state;
 
-    StateView( GameCanvas gameCanvas, GameModel.State state ) {
+    StateView( GameCanvas gameCanvas, State state ) {
         this.gameCanvas = gameCanvas;
         this.state = state;
     }
 
-    public GameModel.State getState() {
+    public State getState() {
         return state;
     }
 
