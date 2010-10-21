@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.*;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -81,23 +81,23 @@ public class GameCanvas extends PhetPCanvas {
 
         // Listen for state changes so the representation can be updated.
         model.addListener( new GameModel.GameModelListener() {
-            public void stateChanged( GameModel.State oldState, GameModel.State newState ) {
+            public void stateChanged( State oldState, State newState ) {
                 getView( oldState ).teardown();
                 getView( newState ).init();
             }
 
-            public void problemSetCreated( GameModel.ProblemSet problemSet ) {
+            public void problemSetCreated( ProblemSet problemSet ) {
                 //create views for the problem set
                 for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
-                    final GameModel.CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
+                    final CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
                     stateViews.add( new CompleteTheModelProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
-                    final GameModel.CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
+                    final CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
                     stateViews.add( new CompleteTheSymbolProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
-                    final GameModel.HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
+                    final HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
                     stateViews.add( new HowManyParticlesProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
             }
@@ -105,7 +105,7 @@ public class GameCanvas extends PhetPCanvas {
         getView( model.getState() ).init();
     }
 
-    private StateView getView( GameModel.State state ) {
+    private StateView getView( State state ) {
         for ( StateView stateView : stateViews ) {
             if ( stateView.getState() == state ) {
                 return stateView;

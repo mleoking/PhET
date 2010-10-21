@@ -1,7 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolProblem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -14,7 +14,7 @@ public class CompleteTheSymbolProblemView extends ProblemView {
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
 
-    public CompleteTheSymbolProblemView( GameCanvas canvas, GameModel.CompleteTheSymbolProblem completeTheSymbolProblem, int problemIndex, int totalNumProblems ) {
+    public CompleteTheSymbolProblemView( GameCanvas canvas, CompleteTheSymbolProblem completeTheSymbolProblem, int problemIndex, int totalNumProblems ) {
         super( canvas, completeTheSymbolProblem, problemIndex, totalNumProblems );
     }
 

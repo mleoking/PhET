@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -24,9 +24,9 @@ public class ProblemView extends StateView {
     }};
     private final PText problemNumberDisplay;
 
-    GameModel.Problem problem;
+    Problem problem;
 
-    ProblemView( GameCanvas gameCanvas, GameModel.Problem problem, int problemIndex, int totalNumProblems ) {
+    ProblemView( GameCanvas gameCanvas, Problem problem, int problemIndex, int totalNumProblems ) {
         super( gameCanvas, problem );
         this.problem = problem;
         problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ) {{
