@@ -239,7 +239,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 }
             } );
         }}){{
-            setOffset( chargeWindow.getFullBounds().getCenterX()-getFullBounds().getWidth()-controlButtonOffset/2, chargeWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
+//COMPILE ERROR            setOffset( chargeWindow.getFullBounds().getCenterX()-getFullBounds().getWidth()-controlButtonOffset/2, chargeWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
         }};
         rootNode.addChild( showLabelsButton );
 
@@ -260,11 +260,11 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         //Add the Selection control for how to view the orbitals
         rootNode.addChild( new OrbitalViewControl( viewOrbitals ){{
-            setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
+//COMPILE ERROR            setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
         }} );
 
         rootNode.addChild( new IonIndicatorNode( model.getAtom(), showLabels ) {{
-            setOffset( elementIndicatorWindow.getFullBounds().getMinX() - getFullBounds().getWidth() - 80, elementIndicatorWindow.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+//COMPILE ERROR            setOffset( elementIndicatorWindow.getFullBounds().getMinX() - getFullBounds().getWidth() - 80, elementIndicatorWindow.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
         //Make the "orbits" button not focused by default, by focusing the canvas
