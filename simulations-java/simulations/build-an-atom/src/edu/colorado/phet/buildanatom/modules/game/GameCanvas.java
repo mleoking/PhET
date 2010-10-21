@@ -179,15 +179,15 @@ public class GameCanvas extends PhetPCanvas {
             } );
         }
 
-        public void teardown() {
-            rootNode.removeChild( gameOverNode );
-        }
-
         public void init() {
             gameOverNode.setOffset(
                     BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameOverNode.getFullBoundsReference().width / 2,
                     BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameOverNode.getFullBoundsReference().height / 2 );
             rootNode.addChild( gameOverNode );
+        }
+
+        public void teardown() {
+            rootNode.removeChild( gameOverNode );
         }
     }
 
@@ -236,10 +236,10 @@ public class GameCanvas extends PhetPCanvas {
         private ProblemView( GameModel.Problem problem, int problemIndex, int totalNumProblems ) {
             super( problem );
             this.problem = problem;
-            problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ){{
-                setFont( new PhetFont(20,true) );
+            problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ) {{
+                setFont( new PhetFont( 20, true ) );
             }};
-            problemNumberDisplay.setOffset( 30,30 );
+            problemNumberDisplay.setOffset( 30, 30 );
         }
 
         public void init() {
@@ -265,13 +265,13 @@ public class GameCanvas extends PhetPCanvas {
         }
 
         @Override
-        public void teardown() {
-            super.teardown();
+        public void init() {
+            super.init();
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void teardown() {
+            super.teardown();
         }
     }
 
@@ -281,14 +281,15 @@ public class GameCanvas extends PhetPCanvas {
         }
 
         @Override
+        public void init() {
+            super.init();
+        }
+
+        @Override
         public void teardown() {
             super.teardown();
         }
 
-        @Override
-        public void init() {
-            super.init();
-        }
     }
 
     private class HowManyParticlesProblemView extends ProblemView {
@@ -297,13 +298,14 @@ public class GameCanvas extends PhetPCanvas {
         }
 
         @Override
+        public void init() {
+            super.init();
+        }
+
+        @Override
         public void teardown() {
             super.teardown();
         }
 
-        @Override
-        public void init() {
-            super.init();
-        }
     }
 }
