@@ -73,6 +73,9 @@ public class GameModel {
         }
     }
 
+    /**
+     * Represents one of the Problems in the game, formerly called Challenge.
+     */
     public static class Problem extends State {
         private final ProblemSet problemSet;
 
@@ -89,12 +92,6 @@ public class GameModel {
                 model.setState( problemSet.getNextProblem( this ) );
             }
         }
-
-        private void nextProblem() {
-            // TODO Auto-generated method stub
-            System.err.println( getClass().getName() + "Would move to next challenge now." );
-        }
-
     }
 
     public static class GameOver extends State {
