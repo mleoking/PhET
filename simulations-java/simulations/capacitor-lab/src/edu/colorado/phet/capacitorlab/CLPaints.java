@@ -30,7 +30,7 @@ public class CLPaints {
     public static final Color NEGATIVE_CHARGE = Color.BLUE;
     
     // energy
-    public static final Color ENERGY = Color.YELLOW;
+    public static final Color STORED_ENERGY = Color.YELLOW;
     
     // capacitance
     public static final Color CAPACITANCE = Color.GREEN;

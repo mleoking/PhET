@@ -50,7 +50,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         
         // value
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
-        valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.LABEL_PLATE_AREA, millimetersSquared, CLStrings.UNITS_MILLIMETERS_SQUARED );
+        valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.PLATE_AREA, millimetersSquared, CLStrings.MILLIMETERS_SQUARED );
         
         // watch for model changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {

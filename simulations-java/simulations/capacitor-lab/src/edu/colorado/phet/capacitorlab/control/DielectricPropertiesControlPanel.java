@@ -38,7 +38,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     private DielectricMaterial previousMaterial;
 
     public DielectricPropertiesControlPanel( DielectricModel model, CapacitorNode capacitorNode ) {
-        super( CLStrings.TITLE_DIELECTRIC );
+        super( CLStrings.DIELECTRIC );
         
         this.capacitor = model.getCapacitor();
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {

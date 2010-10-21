@@ -100,12 +100,12 @@ public class PlateChargeControlNode extends PhetPNode {
         trackNode = new TrackNode();
         knobNode = new KnobNode();
         TickMarkNode maxTickMarkNode = new TickMarkNode();
-        RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LABEL_LOTS_POSITIVE );
+        RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LOTS_POSITIVE );
         TickMarkNode zeroTickMarkNode = new TickMarkNode();
-        RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.LABEL_NONE );
+        RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.NONE );
         TickMarkNode minTickMarkNode = new TickMarkNode();
-        RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LABEL_LOTS_NEGATIVE );
-        titleNode = new TitleNode( CLStrings.LABEL_PLATE_CHARGE );
+        RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LOTS_NEGATIVE );
+        titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
         
         // parent for all nodes that are part of the slider, excluding the value
         PNode parentNode = new PNode();

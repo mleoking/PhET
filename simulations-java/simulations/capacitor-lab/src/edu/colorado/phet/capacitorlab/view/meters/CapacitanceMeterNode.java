@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.Color;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -19,16 +17,14 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class CapacitanceMeterNode extends BarMeterNode {
 
-    private static final Color BAR_COLOR = CLPaints.CAPACITANCE;
-    private static final String TITLE = CLStrings.METER_CAPACITANCE;
     private static final String VALUE_MANTISSA_PATTERN = "0.00";
     private static final int VALUE_EXPONENT = CLConstants.CAPACITANCE_METER_VALUE_EXPONENT;
-    private static final String UNITS = CLStrings.UNITS_FARADS;
+    private static final String UNITS = CLStrings.FARADS;
     
     private final BatteryCapacitorCircuit circuit;
     
     public CapacitanceMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
-        super( dragBoundsNode, BAR_COLOR, TITLE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 ); 
+        super( dragBoundsNode, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 ); 
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {

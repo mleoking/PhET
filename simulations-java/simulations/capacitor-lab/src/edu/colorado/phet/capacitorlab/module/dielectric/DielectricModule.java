@@ -19,7 +19,7 @@ public class DielectricModule extends CLModule {
     private final DielectricControlPanel controlPanel;
     
     public DielectricModule( Frame parentFrame, boolean dev ) {
-        this( CLStrings.TITLE_DIELECTRIC, parentFrame, dev );
+        this( CLStrings.DIELECTRIC, parentFrame, dev );
     }
     
     protected DielectricModule( String title, Frame parentFrame, boolean dev ) {

@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class RemoveWiresButtonNode extends PhetPNode {
     
     public RemoveWiresButtonNode( final BatteryCapacitorCircuit circuit ) {
-        JButton button = new JButton( CLStrings.BUTTON_REMOVE_WIRES );
+        JButton button = new JButton( CLStrings.REMOVE_WIRES );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( false );

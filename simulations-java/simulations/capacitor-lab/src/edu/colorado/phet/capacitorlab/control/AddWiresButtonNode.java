@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class AddWiresButtonNode extends PhetPNode {
     
     public AddWiresButtonNode( final BatteryCapacitorCircuit circuit ) {
-        JButton button = new JButton( CLStrings.BUTTON_ADD_WIRES );
+        JButton button = new JButton( CLStrings.ADD_WIRES );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( true );

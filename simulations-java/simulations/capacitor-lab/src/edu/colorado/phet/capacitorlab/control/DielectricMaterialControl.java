@@ -36,7 +36,7 @@ public class DielectricMaterialControl extends JPanel {
         
         listeners = new EventListenerList();
         
-        JLabel label = new JLabel( CLStrings.LABEL_DIELECTRIC_MATERIAL );
+        JLabel label = new JLabel( CLStrings.MATERIAL );
         
         comboBox = new JComboBox( materials );
         comboBox.setRenderer( new DielectricMaterialRenderer() );
@@ -133,7 +133,7 @@ public class DielectricMaterialControl extends JPanel {
                 s = material.getName();
             }
             else {
-                s = MessageFormat.format( CLStrings.PATTERN_DIELECTRIC_MATERIAL, material.getName(), material.getDielectricConstant() );
+                s = MessageFormat.format( CLStrings.PATTERN_MATERIAL_CONSTANT, material.getName(), material.getDielectricConstant() );
             }
             return s;
         }

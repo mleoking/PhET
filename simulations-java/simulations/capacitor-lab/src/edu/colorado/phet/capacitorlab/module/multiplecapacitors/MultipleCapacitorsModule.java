@@ -19,7 +19,7 @@ public class MultipleCapacitorsModule extends CLModule {
     private final MultipleCapacitorsControlPanel controlPanel;
 
     public MultipleCapacitorsModule( Frame parentFrame, boolean dev ) {
-        super( CLStrings.TAB_MULTIPLE_CAPACITORS );
+        super( CLStrings.MULTIPLE_CAPACITORS );
         
         model = new MultipleCapacitorsModel( getCLClock() );
         

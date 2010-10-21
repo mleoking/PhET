@@ -27,12 +27,12 @@ public class MetersControlPanel extends PhetTitledPanel {
     private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, eFieldDetectorCheckBox;
     
     public MetersControlPanel( final DielectricCanvas canvas ) {
-        super( CLStrings.TITLE_METERS );
+        super( CLStrings.METERS );
         
         // Capacitance meter
         {
             final PNode meter = canvas.getCapacitanceMeterNode();
-            capacitanceCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CAPACITANCE );
+            capacitanceCheckBox = new JCheckBox( CLStrings.CAPACITANCE );
             capacitanceCheckBox.setSelected( meter.getVisible() );
             capacitanceCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -51,7 +51,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         // Plate Charge meter
         {
             final PNode meter = canvas.getChargeMeterNode();
-            chargeCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_CHARGE );
+            chargeCheckBox = new JCheckBox( CLStrings.PLATE_CHARGE );
             chargeCheckBox.setSelected( meter.getVisible() );
             chargeCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -70,7 +70,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         // Energy meter
         {
             final PNode meter = canvas.getEnergyMeterNode();
-            energyCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_ENERGY );
+            energyCheckBox = new JCheckBox( CLStrings.STORED_ENERGY );
             energyCheckBox.setSelected( meter.getVisible() );
             energyCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -89,7 +89,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         // Voltmeter
         {
             final PNode meter = canvas.getVoltMeterNode();
-            voltmeterCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_VOLTMETER );
+            voltmeterCheckBox = new JCheckBox( CLStrings.VOLTMETER );
             voltmeterCheckBox.setSelected( meter.getVisible() );
             voltmeterCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -108,7 +108,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         // E-field Detector
         {
             final PNode meter = canvas.getEFieldDetectorNode();
-            eFieldDetectorCheckBox = new JCheckBox( CLStrings.CHECKBOX_METER_EFIELD_DETECTOR );
+            eFieldDetectorCheckBox = new JCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR );
             eFieldDetectorCheckBox.setSelected( meter.getVisible() );
             eFieldDetectorCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
