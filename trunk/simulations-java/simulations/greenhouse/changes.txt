@@ -1,5 +1,6 @@
+> Fixed an issue where "Reset All" on the Photon Absorption tab wasn't resetting photon emission rate to zero.
 # 3.00.00 (45321) Oct 21, 2010
-10/21/10 > New version that adds the 'Photon Absorption" tab.
+10/21/10 > New version that adds the "Photon Absorption" tab.
 # 2.07.21 (45207) Oct 19, 2010
 # 2.07.20 (45202) Oct 19, 2010
 10/19/10 Deploying to dev as release candidate.
