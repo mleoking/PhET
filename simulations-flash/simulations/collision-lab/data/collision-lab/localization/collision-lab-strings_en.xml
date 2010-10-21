@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <SimStrings>
     <string key="simTitle" value="Collision Lab"/>
-    <string key="PlayPauseButtons.reset" value="Reset"/>
+    <string key="PlayPauseButtons.rewind" value="Rewind"/>
     <string key="PlayPauseButtons.back" value="Back"/>
     <string key="PlayPauseButtons.play" value="Play"/>
     <string key="PlayPauseButtons.pause" value="Pause"/>

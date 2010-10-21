@@ -14,6 +14,8 @@ package{
 		var initPos:Array;		//array of initial positions of balls, after reset, to repeat expt
 		var initVel:Array;		//array of initial velocities of balls, after reset, to repeat expt
 		var CM:Point;			//center-of-mass of system
+		var massBall1:Number;	//initial mass of ball 1 (0 index in ball_arr)
+		var massBall2:Number;	//initial mass of ball 2 (1 index in ball_arr)
 		var borderOn:Boolean;	//if true, balls elastically reflect from border 
 		var borderWidth:Number;	//length of horizontal border in meters
 		var borderHeight:Number;	//current length of vertical border in meters, depends on oneDMode
@@ -54,6 +56,8 @@ package{
 			this.borderHeight = twoDBorderHeight;
 			this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
 			this.maxNbrBalls = 5;	
+			this.massBall1 = 0.5;
+			this.massBall2 = 1.5;
 			this.oneDMode = false;
 			this.CM = new Point();
 			this.ball_arr = new Array(this.maxNbrBalls);  //only first nbrBalls elements of array are used
@@ -169,6 +173,9 @@ package{
 				//new Ball(mass, position, velocity);
 				this.ball_arr[i] = new Ball(1.0, initPos[i].clone(), initVel[i].clone());
 			}
+			//want initial balls on screen to have different masses.
+			this.ball_arr[0].setMass(this.massBall1);
+			this.ball_arr[1].setMass(this.massBall2);
 			//this.nbrBallsChanged = true;
 			var maxN:int = this.maxNbrBalls;
 			//No point in updating views, since views not created yet
@@ -191,6 +198,8 @@ package{
 				this.ball_arr[i].setBall(1.0, startingPos[i].clone(), startingVel[i].clone());
 				this.setMass(i, 1.0);
 			}
+			this.ball_arr[0].setMass(this.massBall1);
+			this.ball_arr[1].setMass(this.massBall2);
 			//trace("Model.resetAll() called. startingVel[0].yComponent = " + startingVel[0].getY());
 			//trace("Model.ball_arr[0].velocity.getY() = "+ this.ball_arr[0].velocity.getY());
 			this.nbrBalls = 2;
@@ -573,7 +582,7 @@ package{
 			var balliNbr:String = String(i + 1); var balljNbr:String = String(j + 1);
 			//if(colliders[i][j] == 0 && !starting){ //if balls overlapped, but not collided yet, and not first step
 				
-				trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
+				//trace("Model.collideBalls(), between i: " + balliNbr + " and j: " + balljNbr + "  at time "+this.time);
 				//Balls have already overlapped, so currently have incorrect positions
 				var tC:Number = this.getContactTime(i,j);
 				var delTBefore = tC - this.lastTime;

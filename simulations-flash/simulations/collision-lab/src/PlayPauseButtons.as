@@ -10,7 +10,7 @@ import flash.display.*;
 		var myModel:Model;
 		var buttonView:PlayButtons;		//library instance
 		var paused:Boolean;
-		var resetText:String;			//for internationalization
+		var rewindText:String;			//for internationalization
 		var backText:String;
 		var playText:String;  			
 		var pauseText:String;
@@ -26,11 +26,11 @@ import flash.display.*;
 		}//end of constructor
 		
 		public function initializeButtons():void{
-			this.buttonView.myResetButton.addEventListener(MouseEvent.MOUSE_DOWN, reset);
+			this.buttonView.myRewindButton.addEventListener(MouseEvent.MOUSE_DOWN, rewind);
 			this.buttonView.myStepBackButton.addEventListener(MouseEvent.MOUSE_DOWN, stepBack);
 			this.buttonView.myPlayPauseButton.addEventListener(MouseEvent.MOUSE_DOWN, playPause);
 			this.buttonView.myStepButton.addEventListener(MouseEvent.MOUSE_DOWN, step);
-			this.buttonView.myResetButton.buttonMode = true;
+			this.buttonView.myRewindButton.buttonMode = true;
 			this.buttonView.myPlayPauseButton.buttonMode = true;
 			this.buttonView.myStepButton.buttonMode = true;
 		}
@@ -47,13 +47,13 @@ import flash.display.*;
 		
 		//must be altered when internationalizing
 		public function initializeLabels():void{
-			this.resetText = SimStrings.get("PlayPauseButtons.reset","Reset");
+			this.rewindText = SimStrings.get("PlayPauseButtons.rewind","Rewind");
 			this.backText = SimStrings.get("PlayPauseButtons.back","Back");
 			this.playText = SimStrings.get("PlayPauseButtons.play","Play");
 			this.pauseText = SimStrings.get("PlayPauseButtons.pause","Pause");
 			this.stepText = SimStrings.get("PlayPauseButtons.step","Step");
-			this.buttonView.resetLabel.text = resetText;
-            TextFieldUtils.resizeText(this.buttonView.resetLabel,TextFieldAutoSize.RIGHT);
+			this.buttonView.rewindLabel.text = rewindText;
+            TextFieldUtils.resizeText(this.buttonView.rewindLabel,TextFieldAutoSize.RIGHT);
 			this.buttonView.stepBackLabel.text = backText;
             TextFieldUtils.resizeText(this.buttonView.stepBackLabel,TextFieldAutoSize.RIGHT);
             setPlayText();
@@ -61,7 +61,7 @@ import flash.display.*;
             TextFieldUtils.resizeText(this.buttonView.stepLabel,TextFieldAutoSize.LEFT);
 		}
 		
-		public function reset(evt:MouseEvent):void{
+		public function rewind(evt:MouseEvent):void{
 			this.paused = true;
 			this.myModel.stopMotion();
 			this.buttonView.myPlayPauseButton.gotoAndStop(1);
@@ -70,7 +70,7 @@ import flash.display.*;
 			this.myModel.updateViews();
 		}
 		
-		//Need reset function without mouseEvent argument, to call from Reset All button in ControlPanel
+		//Need rewind function without mouseEvent argument, to call from Reset All button in ControlPanel
 		public function resetAllCalled():void{
 			this.paused = true;
 			this.myModel.stopMotion();
