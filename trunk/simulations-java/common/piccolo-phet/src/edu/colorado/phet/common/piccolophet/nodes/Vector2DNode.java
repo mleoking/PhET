@@ -224,6 +224,10 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
+    
+    public void setHeadSize( Dimension size ) {
+        setHeadSize( size.width, size.height );
+    }
 
     /**
      * Sets the width of the vector's arrow tail.
