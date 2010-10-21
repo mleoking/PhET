@@ -17,7 +17,6 @@ public class GameModel {
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final GameSettingsState gameSettingsState = new GameSettingsState( this );
     private final GameOver gameOverState = new GameOver( this );
-    private ProblemSet problemSet = null;
 
     public GameModel() {
         setState( gameSettingsState );
@@ -42,7 +41,7 @@ public class GameModel {
     }
 
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
-        this.problemSet = new ProblemSet( this, level, timerOn, soundOn );
+        ProblemSet problemSet = new ProblemSet( this, level, timerOn, soundOn );
         for ( GameModelListener listener : listeners ) {
             listener.problemSetCreated( problemSet );
         }
