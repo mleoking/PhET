@@ -1,3 +1,5 @@
+# 0.00.15 (45320) Oct 21, 2010
+10/21/10 Initial masses no longer equal. "Reset" changed to "Rewind".
 # 0.00.14 (45274) Oct 20, 2010
 10/20/10 Added text outline on ball numbers for better visibility.
 # 0.00.13 (45055) Oct 14, 2010
