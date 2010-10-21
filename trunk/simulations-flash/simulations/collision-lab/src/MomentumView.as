@@ -346,6 +346,11 @@ import flash.display.*;
 			for(i = 0; i < N; i++){
 				this.momentum_arr[i].setArrow(this.myModel.ball_arr[i].getMomentum());
 			}
+			if(this.myModel.resetting){
+				this.arrangeArrowsTipToTail();
+				this.tipToTail_cb.selected = true;
+				this.tipToTailDisplayOn = true;
+			}
 			//position momentum arrows tip-to-tail
 			if(tipToTailDisplayOn){
 				this.arrangeArrowsTipToTail();
