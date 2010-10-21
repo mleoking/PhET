@@ -60,8 +60,8 @@ public class GameCanvas extends PhetPCanvas {
     public GameCanvas( final GameModel model ) {
 
         this.model = model;
-        stateViews.add( new GameSettingsStateView() );
-        stateViews.add( new GameOverStateView() );
+        stateViews.add( new GameSettingsStateView( this ) );
+        stateViews.add( new GameOverStateView( this ) );
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
@@ -99,15 +99,15 @@ public class GameCanvas extends PhetPCanvas {
                 //create views for the problem set
                 for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
                     final GameModel.CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
-                    stateViews.add( new CompleteTheModelProblemView( problem, problemSet.getProblemIndex( problem )+1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheModelProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
                     final GameModel.CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
-                    stateViews.add( new CompleteTheSymbolProblemView( problem, problemSet.getProblemIndex( problem )+1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheSymbolProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
                     final GameModel.HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
-                    stateViews.add( new HowManyParticlesProblemView( problem, problemSet.getProblemIndex( problem )+1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new HowManyParticlesProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
             }
         } );
@@ -151,10 +151,12 @@ public class GameCanvas extends PhetPCanvas {
         //XXX lay out nodes
     }
 
-    private abstract class StateView {
+    private static abstract class StateView {
+        private final GameCanvas gameCanvas;
         GameModel.State state;
 
-        protected StateView( GameModel.State state ) {
+        protected StateView( GameCanvas gameCanvas, GameModel.State state ) {
+            this.gameCanvas = gameCanvas;
             this.state = state;
         }
 
@@ -165,13 +167,25 @@ public class GameCanvas extends PhetPCanvas {
         public abstract void teardown();
 
         public abstract void init();
+
+        public GameScoreboardNode getScoreboard() {
+            return gameCanvas.scoreboard;
+        }
+
+        public void addChild( PNode child ) {
+            gameCanvas.rootNode.addChild( child );
+        }
+
+        public void removeChild( PNode child ) {
+            gameCanvas.rootNode.removeChild( child );
+        }
     }
 
     private class GameOverStateView extends StateView {
         private final GameOverNode gameOverNode;
 
-        private GameOverStateView() {
-            super( model.getGameOverState() );
+        private GameOverStateView( GameCanvas gameCanvas ) {
+            super( gameCanvas, model.getGameOverState() );
             gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat( "0.#" ), 40000, 30000, false, true );
             gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
                 public void newGamePressed() {
@@ -196,8 +210,8 @@ public class GameCanvas extends PhetPCanvas {
         private final GameSettingsPanel panel;
         private final PNode gameSettingsNode;
 
-        private GameSettingsStateView() {
-            super( model.getGameSettingsState() );
+        private GameSettingsStateView( GameCanvas gameCanvas ) {
+            super( gameCanvas, model.getGameSettingsState() );
             panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
             gameSettingsNode = new PSwing( panel );
             panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
@@ -220,7 +234,7 @@ public class GameCanvas extends PhetPCanvas {
         }
     }
 
-    private class ProblemView extends StateView {
+    private static class ProblemView extends StateView {
 
         // TODO: i18n
         private final GradientButtonNode checkButton = new GradientButtonNode( "Check", BUTTONS_FONT_SIZE, BUTTONS_COLOR ) {{
@@ -234,8 +248,8 @@ public class GameCanvas extends PhetPCanvas {
 
         GameModel.Problem problem;
 
-        private ProblemView( GameModel.Problem problem, int problemIndex, int totalNumProblems ) {
-            super( problem );
+        private ProblemView( GameCanvas gameCanvas, GameModel.Problem problem, int problemIndex, int totalNumProblems ) {
+            super( gameCanvas, problem );
             this.problem = problem;
             problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ) {{
                 setFont( new PhetFont( 20, true ) );
@@ -245,93 +259,95 @@ public class GameCanvas extends PhetPCanvas {
 
         public void init() {
             checkButton.setOffset( 700, 500 );
-            scoreboard.setOffset(
-                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - scoreboard.getFullBoundsReference().width / 2,
-                    BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * scoreboard.getFullBoundsReference().height ) );
-            rootNode.addChild( checkButton );
-            rootNode.addChild( scoreboard );
-            rootNode.addChild( problemNumberDisplay );
+            getScoreboard().setOffset(
+                    BuildAnAtomDefaults.STAGE_SIZE.width / 2 - getScoreboard().getFullBoundsReference().width / 2,
+                    BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * getScoreboard().getFullBoundsReference().height ) );
+            addChild( checkButton );
+            addChild( getScoreboard() );
+            addChild( problemNumberDisplay );
         }
 
         public void teardown() {
-            rootNode.removeChild( scoreboard );
-            rootNode.removeChild( checkButton );
-            rootNode.removeChild( problemNumberDisplay );
+            removeChild( getScoreboard() );
+            removeChild( checkButton );
+            removeChild( problemNumberDisplay );
         }
     }
 
-    private class CompleteTheModelProblemView extends ProblemView {
+    private static class CompleteTheModelProblemView extends ProblemView {
         private PText description = new PText( "Complete the model:" ) {{
             setFont( new PhetFont( 20, true ) );
-            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
+            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
         }};
         private SymbolIndicatorNode symbolIndicatorNode;
 
-        public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem problem, int problemIndex, int totalNumProblems ) {
-            super( problem, problemIndex, totalNumProblems );
-            symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom());
+        public CompleteTheModelProblemView( GameCanvas canvas, GameModel.CompleteTheModelProblem problem, int problemIndex, int totalNumProblems ) {
+            super( canvas, problem, problemIndex, totalNumProblems );
+            symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom() );
             symbolIndicatorNode.scale( 2 );
-            symbolIndicatorNode.setOffset( 100,BuildAnAtomDefaults.STAGE_SIZE.height/2-symbolIndicatorNode.getFullBounds().getHeight()/2 );
+            symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
         }
 
         @Override
         public void init() {
             super.init();
-            rootNode.addChild( description );
-            rootNode.addChild( symbolIndicatorNode );
+            addChild( description );
+            addChild( symbolIndicatorNode );
         }
 
         @Override
         public void teardown() {
             super.teardown();
-            rootNode.removeChild( description );
-            rootNode.removeChild( symbolIndicatorNode );
+            removeChild( description );
+            removeChild( symbolIndicatorNode );
         }
     }
 
-    private class CompleteTheSymbolProblemView extends ProblemView {
+    private static class CompleteTheSymbolProblemView extends ProblemView {
         private PText description = new PText( "Complete the symbol:" ) {{
             setFont( new PhetFont( 20, true ) );
-            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
+            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
         }};
-        public CompleteTheSymbolProblemView( GameModel.CompleteTheSymbolProblem completeTheSymbolProblem, int problemIndex, int totalNumProblems ) {
-            super( completeTheSymbolProblem, problemIndex, totalNumProblems );
+
+        public CompleteTheSymbolProblemView( GameCanvas canvas, GameModel.CompleteTheSymbolProblem completeTheSymbolProblem, int problemIndex, int totalNumProblems ) {
+            super( canvas, completeTheSymbolProblem, problemIndex, totalNumProblems );
         }
 
         @Override
         public void init() {
             super.init();
-            rootNode.addChild( description );
+            addChild( description );
         }
 
         @Override
         public void teardown() {
             super.teardown();
-            rootNode.removeChild( description );
+            removeChild( description );
         }
 
     }
 
-    private class HowManyParticlesProblemView extends ProblemView {
+    private static class HowManyParticlesProblemView extends ProblemView {
         private PText description = new PText( "How many particles?" ) {{
             setFont( new PhetFont( 20, true ) );
-            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
+            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
         }};
-        public HowManyParticlesProblemView( GameModel.HowManyParticlesProblem howManyParticlesProblem, int problemIndex, int totalNumProblems ) {
-            super( howManyParticlesProblem, problemIndex, totalNumProblems );
+
+        public HowManyParticlesProblemView( GameCanvas canvas, GameModel.HowManyParticlesProblem howManyParticlesProblem, int problemIndex, int totalNumProblems ) {
+            super( canvas, howManyParticlesProblem, problemIndex, totalNumProblems );
 
         }
 
         @Override
         public void init() {
             super.init();
-            rootNode.addChild( description );
+            addChild( description );
         }
 
         @Override
         public void teardown() {
             super.teardown();
-            rootNode.removeChild( description );
+            removeChild( description );
         }
 
     }
