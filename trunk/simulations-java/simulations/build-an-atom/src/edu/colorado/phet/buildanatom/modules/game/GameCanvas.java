@@ -15,9 +15,11 @@ import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -95,13 +97,16 @@ public class GameCanvas extends PhetPCanvas {
             public void problemSetCreated( GameModel.ProblemSet problemSet ) {
                 //create views for the problem set
                 for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
-                    stateViews.add( new CompleteTheModelProblemView( problemSet.getCompleteTheModelProblem( i ) ) );
+                    final GameModel.CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
+                    stateViews.add( new CompleteTheModelProblemView( problem, problemSet.getProblemIndex( problem ), problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
-                    stateViews.add( new CompleteTheSymbolProblemView( problemSet.getCompleteTheSymbolProblem( i ) ) );
+                    final GameModel.CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
+                    stateViews.add( new CompleteTheSymbolProblemView( problem, problemSet.getProblemIndex( problem ), problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
-                    stateViews.add( new HowManyParticlesProblemView( problemSet.getHowManyParticlesProblem( i ) ) );
+                    final GameModel.HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
+                    stateViews.add( new HowManyParticlesProblemView( problem, problemSet.getProblemIndex( problem ), problemSet.getTotalNumProblems() ) );
                 }
             }
         } );
@@ -114,7 +119,7 @@ public class GameCanvas extends PhetPCanvas {
                 return stateView;
             }
         }
-        throw new RuntimeException( "No state found for state:"+state );
+        throw new RuntimeException( "No state found for state:" + state );
     }
 
 
@@ -224,16 +229,17 @@ public class GameCanvas extends PhetPCanvas {
                 }
             } );
         }};
+        private final PText problemNumberDisplay;
 
         GameModel.Problem problem;
-        private ProblemView( GameModel.Problem problem) {
-            super( problem);
-            this.problem = problem;
-        }
 
-        public void teardown() {
-            rootNode.removeChild( scoreboard );
-            rootNode.removeChild( checkButton );
+        private ProblemView( GameModel.Problem problem, int problemIndex, int totalNumProblems ) {
+            super( problem );
+            this.problem = problem;
+            problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ){{
+                setFont( new PhetFont(20,true) );
+            }};
+            problemNumberDisplay.setOffset( 30,30 );
         }
 
         public void init() {
@@ -243,12 +249,19 @@ public class GameCanvas extends PhetPCanvas {
                     BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * scoreboard.getFullBoundsReference().height ) );
             rootNode.addChild( checkButton );
             rootNode.addChild( scoreboard );
+            rootNode.addChild( problemNumberDisplay );
+        }
+
+        public void teardown() {
+            rootNode.removeChild( scoreboard );
+            rootNode.removeChild( checkButton );
+            rootNode.removeChild( problemNumberDisplay );
         }
     }
 
     private class CompleteTheModelProblemView extends ProblemView {
-        public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem completeTheModelProblem ) {
-            super( completeTheModelProblem );
+        public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem completeTheModelProblem, int problemIndex, int totalNumProblems ) {
+            super( completeTheModelProblem, problemIndex, totalNumProblems );
         }
 
         @Override
@@ -263,8 +276,8 @@ public class GameCanvas extends PhetPCanvas {
     }
 
     private class CompleteTheSymbolProblemView extends ProblemView {
-        public CompleteTheSymbolProblemView( GameModel.CompleteTheSymbolProblem completeTheSymbolProblem ) {
-            super( completeTheSymbolProblem );
+        public CompleteTheSymbolProblemView( GameModel.CompleteTheSymbolProblem completeTheSymbolProblem, int problemIndex, int totalNumProblems ) {
+            super( completeTheSymbolProblem, problemIndex, totalNumProblems );
         }
 
         @Override
@@ -279,8 +292,8 @@ public class GameCanvas extends PhetPCanvas {
     }
 
     private class HowManyParticlesProblemView extends ProblemView {
-        public HowManyParticlesProblemView( GameModel.HowManyParticlesProblem howManyParticlesProblem ) {
-            super( howManyParticlesProblem );
+        public HowManyParticlesProblemView( GameModel.HowManyParticlesProblem howManyParticlesProblem, int problemIndex, int totalNumProblems ) {
+            super( howManyParticlesProblem, problemIndex, totalNumProblems );
         }
 
         @Override
