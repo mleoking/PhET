@@ -16,22 +16,19 @@ public class ProblemSet {
     private ArrayList<Problem> allProblems = new ArrayList<Problem>();
 
     public ProblemSet( GameModel model, int level, boolean timerOn, boolean soundOn ) {
-        addProblem( new CompleteTheModelProblem( model, level, timerOn, soundOn, this ) );
-        addProblem( new CompleteTheSymbolProblem( model, level, timerOn, soundOn, this ) );
-        addProblem( new HowManyParticlesProblem( model, level, timerOn, soundOn, this ) );
     }
 
-    private void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {
+    public void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {
         howManyParticlesProblems.add( howManyParticlesProblem );
         allProblems.add( howManyParticlesProblem );
     }
 
-    private void addProblem( CompleteTheSymbolProblem completeTheSymbolProblem ) {
+    public void addProblem( CompleteTheSymbolProblem completeTheSymbolProblem ) {
         completeTheSymbolProblems.add( completeTheSymbolProblem );
         allProblems.add( completeTheSymbolProblem );
     }
 
-    private void addProblem( CompleteTheModelProblem completeTheModelProblem ) {
+    public void addProblem( CompleteTheModelProblem completeTheModelProblem ) {
         completeTheModelProblems.add( completeTheModelProblem );
         allProblems.add( completeTheModelProblem );
     }
