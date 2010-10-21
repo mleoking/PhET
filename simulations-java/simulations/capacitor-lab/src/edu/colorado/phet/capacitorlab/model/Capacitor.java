@@ -286,6 +286,19 @@ public class Capacitor {
     }
     
     /**
+     * Is a point between the capacitor plates?
+     * 
+     * @param p a point in the global 3D model coordinate frame
+     * @return true or false
+     */
+    public boolean isBetweenPlates( Point3D p ) {
+        boolean xBetween = Math.abs( p.getX() - location.getX() ) <= plateSideLength / 2;
+        boolean yBetween = Math.abs( p.getY() - location.getY() ) <= plateSeparation / 2;
+        boolean zBetween = Math.abs( p.getZ() - location.getZ() ) <= plateSideLength / 2;
+        return xBetween && yBetween && zBetween;
+    }
+    
+    /**
      * Interface implemented by listeners who are interested in capacitor changes.
      * Includes separate notification for each mutable property, plus capacitance.
      */

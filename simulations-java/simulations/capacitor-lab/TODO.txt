@@ -2,14 +2,20 @@ TODO list for capacitor-lab
 
 DEADLINES
 
-Oct 9 - complete "as much as possible" per Kathy P. for Hisham
-
 QUESTIONS FOR NOAH
+- how is E-field detector sum vector computed outside the capacitor?
+- all E-field detector vectors have same sign, so why does dielectric vector point in opposite direction?
+- do E-field detector vectors with positive sign point up or down?
+- do E-field detector values have a sign, or are they absolute values?
+- what is the desired layout of the vector area in the E-field detector? does it work with tiny vectors?
+- what is the E-field detector supposed to do inside the battery? wires?
 
 DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
+- i18n of vector labels in E-field detector
+- snapshot of design doc in SVN, for working offline
 - decide whether to use Property<T> for EFieldDetector
 - implement BatteryCapacitorCircuit.get*At(Point3D) methods
 - vectors in field detector
