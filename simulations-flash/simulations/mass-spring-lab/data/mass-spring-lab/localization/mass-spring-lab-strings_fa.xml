@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_fa.xml created Thu Oct 21 08:55:07 IRST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="pause" value="توقف"/>
+<string key="earth" value="زمين"/>
+<string key="dontBother" value="عاميانه"/>
+<string key="16thTime" value="1/16مدت"/>
+<string key="nothinOK" value="بازگشت به كلمات قبلي"/>
+<string key="mass1Label" value="50گرم"/>
+<string key="mass3Label" value="250گرم"/>
+<string key="planetX" value="بازگشت به"/>
+<string key="showEnergyOf" value="نمایش انرژِ از"/>
+<string key="mass5Label" value="قابل ارسال با پست"/>
+<string key="hangMe" value="رها كردن"/>
+<string key="resetTimer" value="بازنشاندن"/>
+<string key="hard" value="سخت"/>
+<string key="mass7Label" value="100گرم"/>
+<string key="stopWatch" value="كرونومتر"/>
+<string key="none" value="هيچ كدام"/>
+<string key="realTime" value="زمان واقعي"/>
+<string key="startTimer" value="شروع كردن توقف كردن"/>
+<string key="help4" value="گلاريد هايي كه داراي"/>
+<string key="help3" value="Pull mass sideways to detach from spring"/>
+<string key="showHelp" value="كمك نشان دادن"/>
+<string key="lots" value="گم شده"/>
+<string key="help2" value="جسمي كه به صورت لولايي نصب"/>
+<string key="help1" value="كشاننده"/>
+<string key="friction" value="اصطكاك"/>
+<string key="PEelas" value="برهنه"/>
+<string key="jupiter" value="مشتري"/>
+<string key="moon" value="ماه"/>
+<string key="energyOf" value="نيرومايه دگرگوني است"/>
+<string key="total" value="كلي"/>
+<string key="sound" value="صوت"/>
+<string key="PEgrav" value="PEرجوع شود به"/>
+<string key="mass2Label" value=" 100گرم"/>
+<string key="mass4Label" value="قابل ارسال با پست"/>
+<string key="mass6Label" value="قابل ارسال با پست"/>
+<string key="thermal" value="گرمايي"/>
+<string key="quarterTime" value="1/4مدت"/>
+<string key="KE" value="مجزا"/>
+<string key="gEqZero" value="g=0"/>
+<string key="hideHelp" value="بازگشت به"/>
+<string key="noHelp" value="كنترل نفس"/>
+<string key="soft" value="ملايم"/>
+<string key="softness" value="علوم مهندسي"/>
+<string key="simTitle" value="شاه فنر"/>
+<string key="totalE" value="كلي كردن"/>
+<string key="noShow" value="مسافري كه براي سفر حاضر نمي شود"/>
+<string key="paused" value="كلمات مرتبط"/>
+</SimStrings>
