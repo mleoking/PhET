@@ -12,15 +12,15 @@ import java.util.ArrayList;
 public class GameModel {
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
-    public static final int CHALLENGES_PER_GAME = 3;
+    public static final int PROBLEMS_PER_GAME = 3;
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     final GameSettingsState gameSettingsState = new GameSettingsState( this );
     private final Problem playingGameState = new Problem( this );
     private final Problem level2 = new Problem( this );
-    private final GameOver gameOverState= new GameOver( this );
-    private int challengeCount = 0;
+    private final GameOver gameOverState = new GameOver( this );
+    private int problemIndex = 0;
 
     public GameModel() {
         setState( gameSettingsState );
@@ -84,17 +84,17 @@ public class GameModel {
         }
 
         public void checkGuess() {
-            model.challengeCount++;
-            if (model.challengeCount < CHALLENGES_PER_GAME){
-                nextChallenge();
+            model.problemIndex++;
+            if ( model.problemIndex < PROBLEMS_PER_GAME ) {
+                nextProblem();
             }
-            else{
+            else {
                 model.setState( model.gameOverState );
-                model.challengeCount = 0;
+                model.problemIndex = 0;
             }
         }
 
-        private void nextChallenge() {
+        private void nextProblem() {
             // TODO Auto-generated method stub
             System.err.println( getClass().getName() + "Would move to next challenge now." );
         }

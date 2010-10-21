@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -51,8 +51,9 @@ public class GameCanvas extends PhetPCanvas {
     private final StateView gameSettingsStateView = new GameSettingsStateView();
     private final StateView challengeStateView = new ChallengeStateView();
     private final StateView gameOverStateView = new GameOverStateView();
-    private final StateView playingGameStateView2 = new ChallengeStateView(){
+    private final StateView playingGameStateView2 = new ChallengeStateView() {
         final PText child = new PText( "Level 2" );
+
         @Override
         public GameModel.State getState() {
             return model.getLevel2();
@@ -164,28 +165,33 @@ public class GameCanvas extends PhetPCanvas {
         //XXX lay out nodes
     }
 
-    private interface StateView {
-        public GameModel.State getState();
+    private abstract class StateView {
+        GameModel.State state;
 
-        void teardown();
+        protected StateView( GameModel.State state ) {
+            this.state = state;
+        }
 
-        void init();
+        public GameModel.State getState() {
+            return state;
+        }
+
+        public abstract void teardown();
+
+        public abstract void init();
     }
 
-    private class GameOverStateView implements StateView {
+    private class GameOverStateView extends StateView {
         private final GameOverNode gameOverNode;
 
         private GameOverStateView() {
-            gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat("0.#"), 40000, 30000, false, true );
+            super( model.getGameOverState() );
+            gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat( "0.#" ), 40000, 30000, false, true );
             gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
                 public void newGamePressed() {
                     model.newGame();
                 }
-            });
-        }
-
-        public GameModel.State getState() {
-            return model.getGameOverState();
+            } );
         }
 
         public void teardown() {
@@ -200,11 +206,12 @@ public class GameCanvas extends PhetPCanvas {
         }
     }
 
-    private class GameSettingsStateView implements StateView {
+    private class GameSettingsStateView extends StateView {
         private final GameSettingsPanel panel;
         private final PNode gameSettingsNode;
 
         private GameSettingsStateView() {
+            super( model.getGameSettingsState() );
             panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
             gameSettingsNode = new PSwing( panel );
             panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
@@ -213,11 +220,6 @@ public class GameCanvas extends PhetPCanvas {
                     model.startGame();
                 }
             } );
-
-        }
-
-        public GameModel.State getState() {
-            return model.getGameSettingsState();
         }
 
         public void teardown() {
@@ -232,16 +234,20 @@ public class GameCanvas extends PhetPCanvas {
         }
     }
 
-    private class ChallengeStateView implements StateView {
+    private class ChallengeStateView extends StateView {
 
         // TODO: i18n
-        private final GradientButtonNode checkButton = new GradientButtonNode( "Check", BUTTONS_FONT_SIZE, BUTTONS_COLOR ){{
+        private final GradientButtonNode checkButton = new GradientButtonNode( "Check", BUTTONS_FONT_SIZE, BUTTONS_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.getPlayingGameState().checkGuess();
                 }
             } );
         }};
+
+        protected ChallengeStateView() {
+            super( model.getPlayingGameState() );
+        }
 
         public GameModel.State getState() {
             return model.getPlayingGameState();
