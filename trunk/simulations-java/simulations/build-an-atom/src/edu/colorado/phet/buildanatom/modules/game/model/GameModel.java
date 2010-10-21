@@ -102,9 +102,11 @@ public class GameModel {
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
         System.out.println( "level = " + level );
         ProblemSet problemSet = new ProblemSet( this, level, timerOn, soundOn );
+        // TODO: We need to make sure that the same problem is not generated
+        // twice.
+        ArrayList<AtomValue> pool = levels.get( level );
         for ( int i = 0; i < 5; i++ ) {
             final int type = random.nextInt( 3 );
-            ArrayList<AtomValue> pool = levels.get( level );
             AtomValue atomValue = pool.get( random.nextInt( pool.size() ) );
             if ( type == 0 ) {
                 problemSet.addProblem( new CompleteTheModelProblem( this, problemSet, atomValue ) );
