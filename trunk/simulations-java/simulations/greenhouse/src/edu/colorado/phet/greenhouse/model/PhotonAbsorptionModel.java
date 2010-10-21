@@ -179,6 +179,7 @@ public class PhotonAbsorptionModel {
         // Set default values.
         setPhotonTarget( DEFAULT_PHOTON_TARGET );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
+        setPhotonEmissionPeriod( DEFAULT_PHOTON_EMISSION_PERIOD );
 
         // Reset the configurable atmosphere.
         resetConfigurableAtmosphere();
