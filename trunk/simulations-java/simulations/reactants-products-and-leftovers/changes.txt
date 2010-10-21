@@ -1,3 +1,4 @@
+# 1.02.00 (45305) Oct 21, 2010
 # 1.01.01 (45225) Oct 19, 2010
 > move Game features and associated string translations to PhET common framework, for reuse in other sims
 10/19/10 #2547, migrate Traditional Chinese (zh_TW) game strings to phetcommon
