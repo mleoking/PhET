@@ -23,7 +23,7 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 public class IntroductionModule extends DielectricModule {
     
     public IntroductionModule( Frame parentFrame, boolean dev ) {
-        super( CLStrings.TAB_INTRODUCTION, parentFrame, dev );
+        super( CLStrings.INTRODUCTION, parentFrame, dev );
         setDielectricVisible( false );
         setDielectricPropertiesControlPanelVisible( false );
     }

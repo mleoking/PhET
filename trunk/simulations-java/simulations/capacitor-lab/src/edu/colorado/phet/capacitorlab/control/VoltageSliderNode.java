@@ -274,7 +274,7 @@ public class VoltageSliderNode extends PhetPNode {
             setFont( TICK_LABEL_FONT );
             setTextPaint( TICK_LABEL_COLOR );
             NumberFormat format = ( value == 0 ) ? TICK_LABEL_ZERO_FORMAT : TICK_LABEL_NONZERO_FORMAT;
-            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, format.format( value ), CLStrings.UNITS_VOLTS ) );
+            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, format.format( value ), CLStrings.VOLTS ) );
         }
     }
     

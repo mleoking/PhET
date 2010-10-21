@@ -46,7 +46,7 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         
         // value
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getPlateSeparation() );
-        valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.LABEL_SEPARATION, millimeters, CLStrings.UNITS_MILLIMETERS );
+        valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.SEPARATION, millimeters, CLStrings.MILLIMETERS );
         
         // update when related model properties change
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {

@@ -38,23 +38,23 @@ public class DielectricChargesControl extends JPanel {
             }
         });
         
-        JLabel chargesLabel = new JLabel( CLStrings.LABEL_DIELECTRIC_CHARGES );
+        JLabel chargesLabel = new JLabel( CLStrings.DIELECTRIC_CHARGES );
         
-        hideAllRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_HIDE_ALL_CHARGES );
+        hideAllRadioButton = new JRadioButton( CLStrings.HIDE_ALL_CHARGES );
         hideAllRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 capacitorNode.setDielectricChargeView( DielectricChargeView.NONE );
             }
         } );
          
-        showAllRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_ALL_CHARGES );
+        showAllRadioButton = new JRadioButton( CLStrings.SHOW_ALL_CHARGES );
         showAllRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 capacitorNode.setDielectricChargeView( DielectricChargeView.ALL );
             }
         } );
         
-        showExcessRadioButton = new JRadioButton( CLStrings.RADIOBUTTON_SHOW_EXCESS_CHARGES );
+        showExcessRadioButton = new JRadioButton( CLStrings.SHOW_EXCESS_CHARGES );
         showExcessRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 capacitorNode.setDielectricChargeView( DielectricChargeView.EXCESS );

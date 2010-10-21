@@ -26,7 +26,7 @@ public class ViewControlPanel extends PhetTitledPanel {
     private final JCheckBox plateChargesCheckBox, electricFieldLinesCheckBox;
     
     public ViewControlPanel( final CapacitorNode capacitorNode ) {
-        super( CLStrings.TITLE_VIEW );
+        super( CLStrings.VIEW );
         
         this.capacitorNode = capacitorNode;
         capacitorNode.addCapacitorNodeChangeListener( new CapacitorNodeChangeAdapter() {
@@ -40,14 +40,14 @@ public class ViewControlPanel extends PhetTitledPanel {
             }
         });
         
-        plateChargesCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE_CHARGES );
+        plateChargesCheckBox = new JCheckBox( CLStrings.PLATE_CHARGES );
         plateChargesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 capacitorNode.setPlateChargeVisible( plateChargesCheckBox.isSelected() );
             }
         });
         
-        electricFieldLinesCheckBox = new JCheckBox( CLStrings.CHECKBOX_EFIELD_LINES );
+        electricFieldLinesCheckBox = new JCheckBox( CLStrings.ELECTRIC_FIELD_LINES );
         electricFieldLinesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 capacitorNode.setEFieldVisible( electricFieldLinesCheckBox.isSelected() );

@@ -48,19 +48,19 @@ public abstract class DielectricMaterial {
     
     public static class Teflon extends DielectricMaterial {
         public Teflon() {
-            super( CLStrings.DIELECTRIC_TEFLON, CLConstants.EPSILON_TEFLON, CLPaints.TEFLON );
+            super( CLStrings.TEFLON, CLConstants.EPSILON_TEFLON, CLPaints.TEFLON );
         }
     }
     
     public static class Glass extends DielectricMaterial {
         public Glass() {
-            super( CLStrings.DIELECTRIC_GLASS, CLConstants.EPSILON_GLASS, CLPaints.GLASS );
+            super( CLStrings.GLASS, CLConstants.EPSILON_GLASS, CLPaints.GLASS );
         }
     }
     
     public static class Paper extends DielectricMaterial {
         public Paper() {
-            super( CLStrings.DIELECTRIC_PAPER, CLConstants.EPSILON_PAPER, CLPaints.PAPER );
+            super( CLStrings.PAPER, CLConstants.EPSILON_PAPER, CLPaints.PAPER );
         }
     }
     
@@ -73,7 +73,7 @@ public abstract class DielectricMaterial {
         private final EventListenerList listeners;
         
         public CustomDielectricMaterial( double dielectricConstant ) {
-            super( CLStrings.DIELECTRIC_CUSTOM, dielectricConstant, CLPaints.CUSTOM_DIELECTRIC );
+            super( CLStrings.CUSTOM, dielectricConstant, CLPaints.CUSTOM_DIELECTRIC );
             listeners = new EventListenerList();
         }
         

@@ -152,7 +152,7 @@ public class EFieldDetectorView {
         public BodyNode( EFieldDetector detector ) {
             
             // title that appears at the top
-            PText titleNode = new PText( CLStrings.TITLE_ELECTRIC_FIELD );
+            PText titleNode = new PText( CLStrings.ELECTRIC_FIELD );
             titleNode.setTextPaint( TITLE_COLOR );
             titleNode.setFont( TITLE_FONT );
             
@@ -217,7 +217,7 @@ public class EFieldDetectorView {
             
             setBackground( BODY_COLOR );
             
-            JLabel showVectorsLabel = new JLabel( CLStrings.LABEL_SHOW_VECTORS );
+            JLabel showVectorsLabel = new JLabel( CLStrings.SHOW_VECTORS );
             showVectorsLabel.setFont( CONTROL_FONT );
             showVectorsLabel.setForeground( CONTROL_COLOR );
             
@@ -251,7 +251,7 @@ public class EFieldDetectorView {
                 }
             });
             
-            showValuesCheckBox = new JCheckBox( CLStrings.CHECKBOX_SHOW_VALUES );
+            showValuesCheckBox = new JCheckBox( CLStrings.SHOW_VALUES );
             showValuesCheckBox.setFont( CONTROL_FONT );
             showValuesCheckBox.setForeground( CONTROL_COLOR );
             showValuesCheckBox.setSelected( detector.isValuesVisible() );
@@ -501,7 +501,7 @@ public class EFieldDetectorView {
         }
         
         public void setValue( double value ) {
-            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, (int)value, CLStrings.UNITS_VOLTS_PER_METER ) );
+            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, (int)value, CLStrings.VOLTS_PER_METER ) );
         }
     }
     

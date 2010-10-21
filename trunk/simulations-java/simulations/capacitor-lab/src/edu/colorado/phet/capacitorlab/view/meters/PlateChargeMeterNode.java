@@ -21,15 +21,14 @@ public class PlateChargeMeterNode extends BarMeterNode {
 
     private static final Color POSITIVE_BAR_COLOR = CLPaints.POSITIVE_CHARGE;
     private static final Color NEGATIVE_BAR_COLOR = CLPaints.NEGATIVE_CHARGE;
-    private static final String TITLE = CLStrings.METER_PLATE_CHARGE;
     private static final String VALUE_MANTISSA_PATTERN = "0.00";
     private static final int VALUE_EXPONENT = CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT;
-    private static final String UNITS = CLStrings.UNITS_COULOMBS;
+    private static final String UNITS = CLStrings.COULOMBS;
     
     private final BatteryCapacitorCircuit circuit;
     
     public PlateChargeMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
-        super( dragBoundsNode, POSITIVE_BAR_COLOR, TITLE, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 ); 
+        super( dragBoundsNode, POSITIVE_BAR_COLOR, CLStrings.PLATE_CHARGE_TOP, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 ); 
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {

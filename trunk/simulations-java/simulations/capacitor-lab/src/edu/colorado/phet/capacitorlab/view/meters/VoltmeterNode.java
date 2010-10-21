@@ -38,7 +38,7 @@ public class VoltmeterNode extends PhetPNode {
     private static final String DISPLAY_LABEL = "";
     private static final NumberFormat DISPLAY_VALUE_FORMAT = new DecimalFormat( "0.00" );
     private static final String DISPLAY_PATTERN = CLStrings.PATTERN_LABEL_VALUE_UNITS;
-    private static final String DISPLAY_UNITS = CLStrings.UNITS_VOLTS;
+    private static final String DISPLAY_UNITS = CLStrings.VOLTS;
     private static final String DISPLAY_NOT_A_NUMBER = "???"; //XXX i18n
     private static final Font DISPLAY_FONT = new PhetFont( 22 );
     private static final Color DISPLAY_TEXT_COLOR = Color.BLACK;
