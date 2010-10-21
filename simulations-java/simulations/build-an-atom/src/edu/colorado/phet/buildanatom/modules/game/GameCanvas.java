@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -48,36 +47,8 @@ public class GameCanvas extends PhetPCanvas {
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
         }
     };
-    private final StateView gameSettingsStateView = new GameSettingsStateView();
-    private final StateView challengeStateView = new ChallengeStateView();
-    private final StateView gameOverStateView = new GameOverStateView();
-    private final StateView playingGameStateView2 = new ChallengeStateView() {
-        final PText child = new PText( "Level 2" );
 
-        @Override
-        public GameModel.State getState() {
-            return model.getLevel2();
-        }
-
-        @Override
-        public void teardown() {
-            super.teardown();
-            rootNode.removeChild( child );
-        }
-
-        @Override
-        public void init() {
-            super.init();
-            rootNode.addChild( child );
-        }
-    };
-
-    private final ArrayList<StateView> stateViews = new ArrayList<StateView>() {{
-        add( gameSettingsStateView );
-        add( challengeStateView );
-        add( playingGameStateView2 );
-        add( gameOverStateView );
-    }};
+    private final ArrayList<StateView> stateViews = new ArrayList<StateView>();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,6 +57,8 @@ public class GameCanvas extends PhetPCanvas {
     public GameCanvas( final GameModel model ) {
 
         this.model = model;
+        stateViews.add( new GameSettingsStateView() );
+        stateViews.add( new GameOverStateView() );
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
@@ -118,14 +91,21 @@ public class GameCanvas extends PhetPCanvas {
                 getView( oldState ).teardown();
                 getView( newState ).init();
             }
+
+            public void problemSetCreated( GameModel.ProblemSet problemSet ) {
+                //create views for the problem set
+                for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
+                    stateViews.add( new CompleteTheModelProblemView( problemSet.getCompleteTheModelProblem( i ) ) );
+                }
+                for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
+                    stateViews.add( new CompleteTheSymbolProblemView( problemSet.getCompleteTheSymbolProblem( i ) ) );
+                }
+                for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
+                    stateViews.add( new HowManyParticlesProblemView( problemSet.getHowManyParticlesProblem( i ) ) );
+                }
+            }
         } );
         getView( model.getState() ).init();
-
-        // TODO: Temp - put a sketch of the tab up as a very early prototype.
-        //        PImage image = new PImage( BuildAnAtomResources.getImage( "tab-2-sketch-01.png" ));
-        //        image.scale( 0.75 );
-        //        image.setOffset( 50, 0 );
-        //        rootNode.addChild(image);
     }
 
     private StateView getView( GameModel.State state ) {
@@ -134,7 +114,7 @@ public class GameCanvas extends PhetPCanvas {
                 return stateView;
             }
         }
-        throw new RuntimeException( "No state found" );
+        throw new RuntimeException( "No state found for state:"+state );
     }
 
 
@@ -217,7 +197,7 @@ public class GameCanvas extends PhetPCanvas {
             panel.addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
                 @Override
                 public void startButtonPressed() {
-                    model.startGame();
+                    model.startGame( panel.getLevel(), panel.isTimerOn(), panel.isSoundOn() );
                 }
             } );
         }
@@ -234,23 +214,21 @@ public class GameCanvas extends PhetPCanvas {
         }
     }
 
-    private class ChallengeStateView extends StateView {
+    private class ProblemView extends StateView {
 
         // TODO: i18n
         private final GradientButtonNode checkButton = new GradientButtonNode( "Check", BUTTONS_FONT_SIZE, BUTTONS_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getPlayingGameState().checkGuess();
+                    problem.checkGuess();
                 }
             } );
         }};
 
-        protected ChallengeStateView() {
-            super( model.getPlayingGameState() );
-        }
-
-        public GameModel.State getState() {
-            return model.getPlayingGameState();
+        GameModel.Problem problem;
+        private ProblemView( GameModel.Problem problem) {
+            super( problem);
+            this.problem = problem;
         }
 
         public void teardown() {
@@ -265,6 +243,54 @@ public class GameCanvas extends PhetPCanvas {
                     BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * scoreboard.getFullBoundsReference().height ) );
             rootNode.addChild( checkButton );
             rootNode.addChild( scoreboard );
+        }
+    }
+
+    private class CompleteTheModelProblemView extends ProblemView {
+        public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem completeTheModelProblem ) {
+            super( completeTheModelProblem );
+        }
+
+        @Override
+        public void teardown() {
+            super.teardown();
+        }
+
+        @Override
+        public void init() {
+            super.init();
+        }
+    }
+
+    private class CompleteTheSymbolProblemView extends ProblemView {
+        public CompleteTheSymbolProblemView( GameModel.CompleteTheSymbolProblem completeTheSymbolProblem ) {
+            super( completeTheSymbolProblem );
+        }
+
+        @Override
+        public void teardown() {
+            super.teardown();
+        }
+
+        @Override
+        public void init() {
+            super.init();
+        }
+    }
+
+    private class HowManyParticlesProblemView extends ProblemView {
+        public HowManyParticlesProblemView( GameModel.HowManyParticlesProblem howManyParticlesProblem ) {
+            super( howManyParticlesProblem );
+        }
+
+        @Override
+        public void teardown() {
+            super.teardown();
+        }
+
+        @Override
+        public void init() {
+            super.init();
         }
     }
 }

@@ -16,26 +16,17 @@ public class GameModel {
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
-    final GameSettingsState gameSettingsState = new GameSettingsState( this );
-    private final Problem playingGameState = new Problem( this );
-    private final Problem level2 = new Problem( this );
+    private final GameSettingsState gameSettingsState = new GameSettingsState( this );
     private final GameOver gameOverState = new GameOver( this );
     private int problemIndex = 0;
+    private ProblemSet problemSet = null;
 
     public GameModel() {
         setState( gameSettingsState );
     }
 
-    public Problem getLevel2() {
-        return level2;
-    }
-
     public GameSettingsState getGameSettingsState() {
         return gameSettingsState;
-    }
-
-    public Problem getPlayingGameState() {
-        return playingGameState;
     }
 
     void setState( State newState ) {
@@ -52,8 +43,12 @@ public class GameModel {
         return currentState;
     }
 
-    public void startGame() {
-        setState( playingGameState );
+    public void startGame( int level, boolean timerOn, boolean soundOn ) {
+        this.problemSet = new ProblemSet( this, level, timerOn, soundOn );
+        for ( GameModelListener listener : listeners ) {
+            listener.problemSetCreated( problemSet );
+        }
+        setState( problemSet.getProblem( 0 ) );
     }
 
     public void addListener( GameModelListener listener ) {
@@ -62,6 +57,8 @@ public class GameModel {
 
     public static interface GameModelListener {
         void stateChanged( State oldState, State newState );
+
+        void problemSetCreated( ProblemSet problemSet );
     }
 
     public abstract static class State {
@@ -79,6 +76,7 @@ public class GameModel {
     }
 
     public static class Problem extends State {
+
         public Problem( GameModel model ) {
             super( model );
         }
@@ -113,5 +111,81 @@ public class GameModel {
 
     public State getGameOverState() {
         return gameOverState;
+    }
+
+    public static class ProblemSet {
+        //keep track by type
+        private ArrayList<CompleteTheModelProblem> completeTheModelProblems = new ArrayList<CompleteTheModelProblem>();
+        private ArrayList<CompleteTheSymbolProblem> completeTheSymbolProblems = new ArrayList<CompleteTheSymbolProblem>();
+        private ArrayList<HowManyParticlesProblem> howManyParticlesProblems = new ArrayList<HowManyParticlesProblem>();
+        //keeps track by ordering
+        private ArrayList<Problem> allProblems = new ArrayList<Problem>();
+
+        public ProblemSet( GameModel model, int level, boolean timerOn, boolean soundOn ) {
+            addProblem( new CompleteTheModelProblem( model, level, timerOn, soundOn ) );
+            addProblem( new CompleteTheSymbolProblem( model, level, timerOn, soundOn ) );
+            addProblem( new HowManyParticlesProblem( model, level, timerOn, soundOn ) );
+        }
+
+        private void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {
+            howManyParticlesProblems.add( howManyParticlesProblem );
+            allProblems.add( howManyParticlesProblem );
+        }
+
+        private void addProblem( CompleteTheSymbolProblem completeTheSymbolProblem ) {
+            completeTheSymbolProblems.add( completeTheSymbolProblem );
+            allProblems.add( completeTheSymbolProblem );
+        }
+
+        private void addProblem( CompleteTheModelProblem completeTheModelProblem ) {
+            completeTheModelProblems.add( completeTheModelProblem );
+            allProblems.add( completeTheModelProblem );
+        }
+
+        public int getNumCompleteTheModelProblems() {
+            return completeTheModelProblems.size();
+        }
+
+        public int getNumCompleteTheSymbolProblems() {
+            return completeTheSymbolProblems.size();
+        }
+
+        public int getNumHowManyParticlesProblems() {
+            return howManyParticlesProblems.size();
+        }
+
+        public CompleteTheModelProblem getCompleteTheModelProblem( int i ) {
+            return completeTheModelProblems.get( i );
+        }
+
+        public CompleteTheSymbolProblem getCompleteTheSymbolProblem( int i ) {
+            return completeTheSymbolProblems.get( i );
+        }
+
+        public HowManyParticlesProblem getHowManyParticlesProblem( int i ) {
+            return howManyParticlesProblems.get( i );
+        }
+
+        public State getProblem( int i ) {
+            return allProblems.get(i);
+        }
+    }
+
+    public static class CompleteTheModelProblem extends Problem {
+        public CompleteTheModelProblem( GameModel model, int level, boolean timerOn, boolean soundOn ) {
+            super( model );
+        }
+    }
+
+    public static class CompleteTheSymbolProblem extends Problem {
+        public CompleteTheSymbolProblem( GameModel model, int level, boolean timerOn, boolean soundOn ) {
+            super( model );
+        }
+    }
+
+    public static class HowManyParticlesProblem extends Problem {
+        public HowManyParticlesProblem( GameModel model, int level, boolean timerOn, boolean soundOn ) {
+            super( model );
+        }
     }
 }
