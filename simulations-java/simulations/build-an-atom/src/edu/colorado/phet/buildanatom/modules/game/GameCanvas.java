@@ -38,12 +38,12 @@ public class GameCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private final GameModel2 model;
+    private final GameModel model;
 
     // View
     private final PNode rootNode;
 
-    private final GameScoreboardNode scoreboard = new GameScoreboardNode( GameModel2.MAX_LEVELS, GameModel2.MAX_SCORE, new DecimalFormat( "0.#" ) ) {
+    private final GameScoreboardNode scoreboard = new GameScoreboardNode( GameModel.MAX_LEVELS, GameModel.MAX_SCORE, new DecimalFormat( "0.#" ) ) {
         {
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
         }
@@ -54,7 +54,7 @@ public class GameCanvas extends PhetPCanvas {
     private final StateView playingGameStateView2 = new ChallengeStateView(){
         final PText child = new PText( "Level 2" );
         @Override
-        public GameModel2.State getState() {
+        public GameModel.State getState() {
             return model.getLevel2();
         }
 
@@ -82,7 +82,7 @@ public class GameCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GameCanvas( final GameModel2 model ) {
+    public GameCanvas( final GameModel model ) {
 
         this.model = model;
 
@@ -112,8 +112,8 @@ public class GameCanvas extends PhetPCanvas {
         //        rootNode.addChild( tbdIndicator );
 
         // Listen for state changes so the representation can be updated.
-        model.addListener( new GameModel2.GameModelListener() {
-            public void stateChanged( GameModel2.State oldState, GameModel2.State newState ) {
+        model.addListener( new GameModel.GameModelListener() {
+            public void stateChanged( GameModel.State oldState, GameModel.State newState ) {
                 getView( oldState ).teardown();
                 getView( newState ).init();
             }
@@ -127,7 +127,7 @@ public class GameCanvas extends PhetPCanvas {
         //        rootNode.addChild(image);
     }
 
-    private StateView getView( GameModel2.State state ) {
+    private StateView getView( GameModel.State state ) {
         for ( StateView stateView : stateViews ) {
             if ( stateView.getState() == state ) {
                 return stateView;
@@ -165,7 +165,7 @@ public class GameCanvas extends PhetPCanvas {
     }
 
     private interface StateView {
-        public GameModel2.State getState();
+        public GameModel.State getState();
 
         void teardown();
 
@@ -184,7 +184,7 @@ public class GameCanvas extends PhetPCanvas {
             });
         }
 
-        public GameModel2.State getState() {
+        public GameModel.State getState() {
             return model.getGameOverState();
         }
 
@@ -216,7 +216,7 @@ public class GameCanvas extends PhetPCanvas {
 
         }
 
-        public GameModel2.State getState() {
+        public GameModel.State getState() {
             return model.getGameSettingsState();
         }
 
@@ -243,7 +243,7 @@ public class GameCanvas extends PhetPCanvas {
             } );
         }};
 
-        public GameModel2.State getState() {
+        public GameModel.State getState() {
             return model.getPlayingGameState();
         }
 
