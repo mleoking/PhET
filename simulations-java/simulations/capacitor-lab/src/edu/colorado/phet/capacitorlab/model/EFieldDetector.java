@@ -16,7 +16,9 @@ public class EFieldDetector {
     
     private final BatteryCapacitorCircuit circuit;
     private final Property<Point3D> probeLocation;
-    private final Property<Double> plateVector, dielectricVector, sumVector;
+    private final Property<Double> plateVector; // field due to the plate (E_plate_dielectric or E_plate_air, depending on probe location)
+    private final Property<Double> dielectricVector; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
+    private final Property<Double> sumVector; // effective (net) field between the plates (E_effective)
     private final Property<Boolean> plateVisible, dielectricVisible, sumVisible, valuesVisible;
     
     public EFieldDetector( BatteryCapacitorCircuit circuit, Point3D probeLocation, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
