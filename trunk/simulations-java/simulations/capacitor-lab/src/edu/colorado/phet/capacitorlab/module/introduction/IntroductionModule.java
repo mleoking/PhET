@@ -26,11 +26,14 @@ public class IntroductionModule extends DielectricModule {
         super( CLStrings.INTRODUCTION, parentFrame, dev );
         setDielectricVisible( false );
         setDielectricPropertiesControlPanelVisible( false );
+        setEFieldDetectorShowVectorsPanelVisible( false );
     }
     
     @Override
     public void reset() {
         super.reset();
         setDielectricOffset( CLConstants.PLATE_SIZE_RANGE.getMax() + 1 ); // move dielectric outside plates
+        setEFieldDetectorDielectricVisible( false );
+        setEFieldDetectorSumVisible( false );
     }
 }

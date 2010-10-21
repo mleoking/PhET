@@ -54,4 +54,16 @@ public class DielectricModule extends CLModule {
     protected void setDielectricOffset( double offset ) {
         model.getCapacitor().setDielectricOffset( offset );
     }
+    
+    protected void setEFieldDetectorShowVectorsPanelVisible( boolean visible ) {
+        canvas.setEFieldDetectorShowVectorsPanelVisible( visible );
+    }
+    
+    protected void setEFieldDetectorDielectricVisible( boolean visible ) {
+        model.getEFieldDetector().setDielectricVisible( visible );
+    }
+    
+    protected void setEFieldDetectorSumVisible( boolean visible ) {
+        model.getEFieldDetector().setSumVisible( visible );
+    }
 }

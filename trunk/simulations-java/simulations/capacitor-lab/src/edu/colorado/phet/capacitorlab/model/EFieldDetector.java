@@ -17,9 +17,9 @@ public class EFieldDetector {
     private final BatteryCapacitorCircuit circuit;
     private final Property<Point3D> probeLocation;
     private final Property<Double> plateVector, dielectricVector, sumVector;
-    private final Property<Boolean> plateVectorVisible, dielectricVectorVisible, sumVectorVisible, valuesVisible;
+    private final Property<Boolean> plateVisible, dielectricVisible, sumVisible, valuesVisible;
     
-    public EFieldDetector( BatteryCapacitorCircuit circuit, Point3D probeLocation, boolean plateVectorVisible, boolean dielectricVectorVisible, boolean sumVectorVisible, boolean valuesVisible ) {
+    public EFieldDetector( BatteryCapacitorCircuit circuit, Point3D probeLocation, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -35,9 +35,9 @@ public class EFieldDetector {
         this.dielectricVector = new Property<Double>( 0d );
         this.sumVector = new Property<Double>( 0d );
         
-        this.plateVectorVisible = new Property<Boolean>( plateVectorVisible );
-        this.dielectricVectorVisible = new Property<Boolean>( dielectricVectorVisible );
-        this.sumVectorVisible = new Property<Boolean>( sumVectorVisible );
+        this.plateVisible = new Property<Boolean>( plateVisible );
+        this.dielectricVisible = new Property<Boolean>( dielectricVisible );
+        this.sumVisible = new Property<Boolean>( sumVisible );
         this.valuesVisible = new Property<Boolean>( valuesVisible );
         
         update();
@@ -45,9 +45,9 @@ public class EFieldDetector {
     
     public void reset() {
         probeLocation.reset();
-        plateVectorVisible.reset();
-        dielectricVectorVisible.reset();
-        sumVectorVisible.reset();
+        plateVisible.reset();
+        dielectricVisible.reset();
+        sumVisible.reset();
         valuesVisible.reset();
         // other properties reset when model resets
     }
@@ -102,40 +102,40 @@ public class EFieldDetector {
         return sumVector.getValue();
     }
     
-    public void addPlateVectorVisibleListener( SimpleObserver o ) {
-        plateVectorVisible.addObserver( o );
+    public void addPlateVisibleListener( SimpleObserver o ) {
+        plateVisible.addObserver( o );
     }
     
-    public void setPlateVectorVisible( boolean visible ) {
-        plateVectorVisible.setValue( visible );
+    public void setPlateVisible( boolean visible ) {
+        plateVisible.setValue( visible );
     }
     
-    public boolean isPlateVectorVisible() {
-        return plateVectorVisible.getValue();
+    public boolean isPlateVisible() {
+        return plateVisible.getValue();
     }
     
-    public void addDielectricVectorVisibleListener( SimpleObserver o ) {
-        dielectricVectorVisible.addObserver( o );
+    public void addDielectricVisibleListener( SimpleObserver o ) {
+        dielectricVisible.addObserver( o );
     }
     
-    public void setDielectricVectorVisible( boolean visible ) {
-        dielectricVectorVisible.setValue( visible );
+    public void setDielectricVisible( boolean visible ) {
+        dielectricVisible.setValue( visible );
     }
     
-    public boolean isDielectricVectorVisible() {
-        return dielectricVectorVisible.getValue();
+    public boolean isDielectricVisible() {
+        return dielectricVisible.getValue();
     }
     
-    public void addSumVectorVisibleListener( SimpleObserver o ) {
-        sumVectorVisible.addObserver( o );
+    public void addSumVisibleListener( SimpleObserver o ) {
+        sumVisible.addObserver( o );
     }
     
-    public void setSumVectorVisible( boolean visible ) {
-        sumVectorVisible.setValue( visible );
+    public void setSumVisible( boolean visible ) {
+        sumVisible.setValue( visible );
     }
     
     public boolean isSumVectorVisible() {
-        return sumVectorVisible.getValue();
+        return sumVisible.getValue();
     }
     
     public void addValuesVisibleListener( SimpleObserver o ) {
