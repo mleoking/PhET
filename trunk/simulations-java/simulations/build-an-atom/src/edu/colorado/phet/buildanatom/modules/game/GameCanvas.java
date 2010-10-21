@@ -98,15 +98,15 @@ public class GameCanvas extends PhetPCanvas {
                 //create views for the problem set
                 for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
                     final GameModel.CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
-                    stateViews.add( new CompleteTheModelProblemView( problem, problemSet.getProblemIndex( problem ), problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheModelProblemView( problem, problemSet.getProblemIndex( problem )+1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
                     final GameModel.CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
-                    stateViews.add( new CompleteTheSymbolProblemView( problem, problemSet.getProblemIndex( problem ), problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheSymbolProblemView( problem, problemSet.getProblemIndex( problem )+1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
                     final GameModel.HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
-                    stateViews.add( new HowManyParticlesProblemView( problem, problemSet.getProblemIndex( problem ), problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new HowManyParticlesProblemView( problem, problemSet.getProblemIndex( problem )+1, problemSet.getTotalNumProblems() ) );
                 }
             }
         } );
@@ -260,6 +260,11 @@ public class GameCanvas extends PhetPCanvas {
     }
 
     private class CompleteTheModelProblemView extends ProblemView {
+        private PText description = new PText( "Complete the model:" ) {{
+            setFont( new PhetFont( 20, true ) );
+            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
+        }};
+
         public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem completeTheModelProblem, int problemIndex, int totalNumProblems ) {
             super( completeTheModelProblem, problemIndex, totalNumProblems );
         }
@@ -267,15 +272,21 @@ public class GameCanvas extends PhetPCanvas {
         @Override
         public void init() {
             super.init();
+            rootNode.addChild( description );
         }
 
         @Override
         public void teardown() {
             super.teardown();
+            rootNode.removeChild( description );
         }
     }
 
     private class CompleteTheSymbolProblemView extends ProblemView {
+        private PText description = new PText( "Complete the symbol:" ) {{
+            setFont( new PhetFont( 20, true ) );
+            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
+        }};
         public CompleteTheSymbolProblemView( GameModel.CompleteTheSymbolProblem completeTheSymbolProblem, int problemIndex, int totalNumProblems ) {
             super( completeTheSymbolProblem, problemIndex, totalNumProblems );
         }
@@ -283,28 +294,37 @@ public class GameCanvas extends PhetPCanvas {
         @Override
         public void init() {
             super.init();
+            rootNode.addChild( description );
         }
 
         @Override
         public void teardown() {
             super.teardown();
+            rootNode.removeChild( description );
         }
 
     }
 
     private class HowManyParticlesProblemView extends ProblemView {
+        private PText description = new PText( "How many particles?" ) {{
+            setFont( new PhetFont( 20, true ) );
+            setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
+        }};
         public HowManyParticlesProblemView( GameModel.HowManyParticlesProblem howManyParticlesProblem, int problemIndex, int totalNumProblems ) {
             super( howManyParticlesProblem, problemIndex, totalNumProblems );
+
         }
 
         @Override
         public void init() {
             super.init();
+            rootNode.addChild( description );
         }
 
         @Override
         public void teardown() {
             super.teardown();
+            rootNode.removeChild( description );
         }
 
     }
