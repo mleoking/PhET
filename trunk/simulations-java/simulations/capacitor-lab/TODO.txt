@@ -15,7 +15,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - i18n of vector labels in E-field detector
-- snapshot of design doc in SVN, for working offline
 - decide whether to use Property<T> for EFieldDetector
 - implement BatteryCapacitorCircuit.get*At(Point3D) methods
 - vectors in field detector
