@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameModel {
+public class GameModelFromRPAL {
 
     // default settings for user controls
     private static final boolean DEFAULT_TIMER_VISIBLE = true;
@@ -58,7 +58,7 @@ public class GameModel {
     private boolean soundEnabled; // is sound enabled?
     private GameChallenge.ChallengeVisibility challengeVisibility; // what parts of the challenge are visible?
 
-    public GameModel() {
+    public GameModelFromRPAL() {
 
         listeners = new EventListenerList();
 
