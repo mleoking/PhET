@@ -3,7 +3,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
 import edu.colorado.phet.common.games.GameOverNode;
 
 /**

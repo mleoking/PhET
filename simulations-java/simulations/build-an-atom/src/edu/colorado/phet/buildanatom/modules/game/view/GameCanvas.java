@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;

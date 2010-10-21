@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildanatom.modules.game;
+package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
