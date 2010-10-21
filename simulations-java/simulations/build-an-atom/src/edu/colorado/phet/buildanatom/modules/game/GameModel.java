@@ -17,8 +17,8 @@ public class GameModel {
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     final GameSettingsState gameSettingsState = new GameSettingsState( this );
-    private final Challenge playingGameState = new Challenge( this );
-    private final Challenge level2 = new Challenge( this );
+    private final Problem playingGameState = new Problem( this );
+    private final Problem level2 = new Problem( this );
     private final GameOver gameOverState= new GameOver( this );
     private int challengeCount = 0;
 
@@ -26,7 +26,7 @@ public class GameModel {
         setState( gameSettingsState );
     }
 
-    public Challenge getLevel2() {
+    public Problem getLevel2() {
         return level2;
     }
 
@@ -34,7 +34,7 @@ public class GameModel {
         return gameSettingsState;
     }
 
-    public Challenge getPlayingGameState() {
+    public Problem getPlayingGameState() {
         return playingGameState;
     }
 
@@ -78,8 +78,8 @@ public class GameModel {
         }
     }
 
-    public static class Challenge extends State {
-        public Challenge( GameModel model ) {
+    public static class Problem extends State {
+        public Problem( GameModel model ) {
             super( model );
         }
 
