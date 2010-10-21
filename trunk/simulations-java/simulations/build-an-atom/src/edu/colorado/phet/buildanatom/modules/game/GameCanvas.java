@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
@@ -264,21 +265,27 @@ public class GameCanvas extends PhetPCanvas {
             setFont( new PhetFont( 20, true ) );
             setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth()-200,30 );
         }};
+        private SymbolIndicatorNode symbolIndicatorNode;
 
-        public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem completeTheModelProblem, int problemIndex, int totalNumProblems ) {
-            super( completeTheModelProblem, problemIndex, totalNumProblems );
+        public CompleteTheModelProblemView( GameModel.CompleteTheModelProblem problem, int problemIndex, int totalNumProblems ) {
+            super( problem, problemIndex, totalNumProblems );
+            symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom());
+            symbolIndicatorNode.scale( 2 );
+            symbolIndicatorNode.setOffset( 100,BuildAnAtomDefaults.STAGE_SIZE.height/2-symbolIndicatorNode.getFullBounds().getHeight()/2 );
         }
 
         @Override
         public void init() {
             super.init();
             rootNode.addChild( description );
+            rootNode.addChild( symbolIndicatorNode );
         }
 
         @Override
         public void teardown() {
             super.teardown();
             rootNode.removeChild( description );
+            rootNode.removeChild( symbolIndicatorNode );
         }
     }
 

@@ -201,7 +201,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( elementIndicatorWindow );
 
         // Symbol indicator
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), 83, 83 );//has to be big enough to hold Ne with 2 digit numbers on both sides
+        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom());
         symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         final double insetX = 20;

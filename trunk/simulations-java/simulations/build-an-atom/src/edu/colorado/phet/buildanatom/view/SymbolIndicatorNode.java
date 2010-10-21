@@ -29,7 +29,11 @@ public class SymbolIndicatorNode extends PNode {
     private final PText massNumberNode;
     private final PText chargeNode;
 
-    public SymbolIndicatorNode( final Atom atom, double width, double height ) {
+    public SymbolIndicatorNode( final Atom atom) {
+        //has to be big enough to hold Ne with 2 digit numbers on both sides
+        double width = 83;
+        double height = 83;
+        
         this.atom = atom;
         atom.addObserver( new SimpleObserver() {
             public void update() {
