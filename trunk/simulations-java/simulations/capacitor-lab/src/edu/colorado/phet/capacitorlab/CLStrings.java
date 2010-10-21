@@ -25,9 +25,6 @@ public class CLStrings {
     public static final String CHECKBOX_METER_VOLTMETER = getString( "checkBox.meter.voltmeter" );
     public static final String CHECKBOX_METER_EFIELD_DETECTOR = getString( "checkBox.meter.eFieldDetector" );
     public static final String CHECKBOX_SHOW_VALUES = getString( "checkBox.showValues" );
-    public static final String CHECKBOX_SUM = getString( "checkBox.sum" );
-    public static final String CHECKBOX_PLATE = getString( "checkBox.plate" );
-    public static final String CHECKBOX_DIELECTRIC = getString( "checkBox.dielectric" );
 
     public static final String DIELECTRIC_CUSTOM = getString( "dielectric.custom" );
     public static final String DIELECTRIC_GLASS = getString( "dielectric.glass" );
@@ -77,6 +74,10 @@ public class CLStrings {
     public static final String UNITS_COULOMBS = getString( "units.coulombs" );
     public static final String UNITS_FARADS = getString( "units.farads" );
     public static final String UNITS_JOULES = getString( "units.joules" );
+    
+    public static final String DIELECTRIC = getString( "dielectric" );
+    public static final String PLATE = getString( "plate" );
+    public static final String SUM = getString( "sum" );
     
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";

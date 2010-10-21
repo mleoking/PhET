@@ -221,7 +221,7 @@ public class EFieldDetectorView {
             showVectorsLabel.setFont( CONTROL_FONT );
             showVectorsLabel.setForeground( CONTROL_COLOR );
             
-            plateCheckBox = new JCheckBox( CLStrings.CHECKBOX_PLATE );
+            plateCheckBox = new JCheckBox( CLStrings.PLATE );
             plateCheckBox.setFont( CONTROL_FONT );
             plateCheckBox.setForeground( CLPaints.PLATE_EFIELD_VECTOR );
             plateCheckBox.setSelected( detector.isPlateVectorVisible() );
@@ -231,7 +231,7 @@ public class EFieldDetectorView {
                 }
             });
            
-            dielectricCheckBox = new JCheckBox( CLStrings.CHECKBOX_DIELECTRIC );
+            dielectricCheckBox = new JCheckBox( CLStrings.DIELECTRIC );
             dielectricCheckBox.setFont( CONTROL_FONT );
             dielectricCheckBox.setForeground( CLPaints.DIELECTRIC_EFIELD_VECTOR );
             dielectricCheckBox.setSelected( detector.isDielectricVectorVisible() );
@@ -241,7 +241,7 @@ public class EFieldDetectorView {
                 }
             });
             
-            sumCheckBox = new JCheckBox( CLStrings.CHECKBOX_SUM );
+            sumCheckBox = new JCheckBox( CLStrings.SUM );
             sumCheckBox.setFont( CONTROL_FONT );
             sumCheckBox.setForeground( CLPaints.SUM_EFIELD_VECTOR );
             sumCheckBox.setSelected( detector.isSumVectorVisible() );
@@ -316,9 +316,9 @@ public class EFieldDetectorView {
             addChild( backgroundNode );
             
             // labels
-            plateLabelNode = new FieldVectorLabelNode( "Plate" ); //XXX i18n
-            dielectricLabelNode = new FieldVectorLabelNode( "Dielectric" ); //XXX i18n
-            sumLabelNode = new FieldVectorLabelNode( "Sum" ); //XXX i18n
+            plateLabelNode = new FieldVectorLabelNode( CLStrings.PLATE );
+            dielectricLabelNode = new FieldVectorLabelNode( CLStrings.DIELECTRIC );
+            sumLabelNode = new FieldVectorLabelNode( CLStrings.SUM );
             
             // vectors
             plateVectorNode = new FieldVectorNode( detector.getPlateVector(), CLPaints.PLATE_EFIELD_VECTOR );
