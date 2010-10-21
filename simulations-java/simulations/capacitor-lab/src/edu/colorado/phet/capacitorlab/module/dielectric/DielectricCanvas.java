@@ -57,6 +57,7 @@ public class DielectricCanvas extends CLCanvas {
     private final PlateChargeMeterNode chargeMeterNode;
     private final StoredEnergyMeterNode energyMeterNode;
     private final VoltmeterNode voltmeterNode;
+    private final EFieldDetectorView eFieldDetector;
     private final PNode eFieldDetectorBodyNode, eFieldDetectorProbeNode;
     
     private final ArrayList<PNode> capacitorTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
@@ -99,7 +100,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeterNode = new VoltmeterNode();//XXX
-        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, playAreaBoundsNode, dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, playAreaBoundsNode, dev );
         eFieldDetectorBodyNode = eFieldDetector.getBodyNode();
         eFieldDetectorProbeNode = eFieldDetector.getProbeNode();
         
@@ -223,6 +224,10 @@ public class DielectricCanvas extends CLCanvas {
     
     public PNode getEFieldDetectorNode() {
         return eFieldDetectorBodyNode;
+    }
+    
+    public void setEFieldDetectorShowVectorsPanelVisible( boolean visible ) {
+        eFieldDetector.setShowVectorsPanelVisible( visible );
     }
     
     public void setDielectricVisible( boolean visible ) {
