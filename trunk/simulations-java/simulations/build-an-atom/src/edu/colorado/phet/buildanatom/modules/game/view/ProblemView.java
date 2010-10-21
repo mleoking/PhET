@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.umd.cs.piccolo.nodes.PText;
