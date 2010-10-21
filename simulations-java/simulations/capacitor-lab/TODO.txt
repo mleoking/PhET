@@ -17,8 +17,6 @@ HIGH PRIORITY
 - decide whether to use Property<T> for EFieldDetector
 - implement BatteryCapacitorCircuit.get*At(Point3D) methods
 - vectors in field detector
-- make "Show Values" its own PSwing so that it will always be at lower-left of field detector 
-- simplified field detector for Introduction tab (hide vector check boxes, show only Sum)
 - add geometry of wires to model
 - add geometry of battery to model
 - field detector body jerks up to upper-left of play area sometimes when dragging on a PSwing, general PSwing bug?
