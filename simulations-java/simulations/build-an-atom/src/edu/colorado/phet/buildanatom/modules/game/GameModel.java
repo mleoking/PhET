@@ -12,13 +12,11 @@ import java.util.ArrayList;
 public class GameModel {
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
-    public static final int PROBLEMS_PER_GAME = 3;
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final GameSettingsState gameSettingsState = new GameSettingsState( this );
     private final GameOver gameOverState = new GameOver( this );
-    private int problemIndex = 0;
     private ProblemSet problemSet = null;
 
     public GameModel() {
@@ -76,19 +74,19 @@ public class GameModel {
     }
 
     public static class Problem extends State {
+        private final ProblemSet problemSet;
 
-        public Problem( GameModel model ) {
+        public Problem( GameModel model, ProblemSet problemSet ) {
             super( model );
+            this.problemSet = problemSet;
         }
 
         public void checkGuess() {
-            model.problemIndex++;
-            if ( model.problemIndex < PROBLEMS_PER_GAME ) {
-                nextProblem();
+            if ( problemSet.isLastProblem( this ) ) {
+                model.setState( model.getGameOverState() );
             }
             else {
-                model.setState( model.gameOverState );
-                model.problemIndex = 0;
+                model.setState( problemSet.getNextProblem( this ) );
             }
         }
 
@@ -122,9 +120,9 @@ public class GameModel {
         private ArrayList<Problem> allProblems = new ArrayList<Problem>();
 
         public ProblemSet( GameModel model, int level, boolean timerOn, boolean soundOn ) {
-            addProblem( new CompleteTheModelProblem( model, level, timerOn, soundOn ) );
-            addProblem( new CompleteTheSymbolProblem( model, level, timerOn, soundOn ) );
-            addProblem( new HowManyParticlesProblem( model, level, timerOn, soundOn ) );
+            addProblem( new CompleteTheModelProblem( model, level, timerOn, soundOn, this ) );
+            addProblem( new CompleteTheSymbolProblem( model, level, timerOn, soundOn, this ) );
+            addProblem( new HowManyParticlesProblem( model, level, timerOn, soundOn, this ) );
         }
 
         private void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {
@@ -166,26 +164,42 @@ public class GameModel {
             return howManyParticlesProblems.get( i );
         }
 
-        public State getProblem( int i ) {
-            return allProblems.get(i);
+        public Problem getProblem( int i ) {
+            return allProblems.get( i );
+        }
+
+        public int getProblemIndex( Problem problem ) {
+            return allProblems.indexOf( problem );
+        }
+
+        public int getTotalNumProblems() {
+            return allProblems.size();
+        }
+
+        public boolean isLastProblem( Problem problem ) {
+            return getProblemIndex( problem ) == getTotalNumProblems() - 1;
+        }
+
+        public Problem getNextProblem( Problem problem ) {
+            return getProblem( getProblemIndex( problem ) + 1 );
         }
     }
 
     public static class CompleteTheModelProblem extends Problem {
-        public CompleteTheModelProblem( GameModel model, int level, boolean timerOn, boolean soundOn ) {
-            super( model );
+        public CompleteTheModelProblem( GameModel model, int level, boolean timerOn, boolean soundOn, ProblemSet problemSet ) {
+            super( model, problemSet );
         }
     }
 
     public static class CompleteTheSymbolProblem extends Problem {
-        public CompleteTheSymbolProblem( GameModel model, int level, boolean timerOn, boolean soundOn ) {
-            super( model );
+        public CompleteTheSymbolProblem( GameModel model, int level, boolean timerOn, boolean soundOn, ProblemSet problemSet ) {
+            super( model, problemSet );
         }
     }
 
     public static class HowManyParticlesProblem extends Problem {
-        public HowManyParticlesProblem( GameModel model, int level, boolean timerOn, boolean soundOn ) {
-            super( model );
+        public HowManyParticlesProblem( GameModel model, int level, boolean timerOn, boolean soundOn, ProblemSet problemSet ) {
+            super( model, problemSet );
         }
     }
 }
