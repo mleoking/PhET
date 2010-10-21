@@ -441,7 +441,7 @@ import flash.text.*;
 		
 		private function resetMassSliders():void{  //called when reset button on Control panel
 			for (var i:int = 0; i < this.maxNbrBalls; i++){
-				this.massSlider_arr[i].value = 1.0;
+				this.massSlider_arr[i].value = this.myModel.ball_arr[i].getMass();
 				this.myMainView.myTableView.ballImage_arr[i].drawLayer1();  //redraw ballImage for new diameter
 				this.myMainView.myTableView.ballImage_arr[i].drawLayer1a(); //redraw ballImage for new diameter
 				this.myMainView.myTableView.ballImage_arr[i].drawLayer4();  //redraw ballImage for new diameter
