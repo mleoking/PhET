@@ -1,1 +1,1 @@
-phet-credits lead-design=Kelly Lancaster software-development=John Blanco, Sam Reid design-team=Patricia Loblein, Robert Parson, Kathy Perkins interviews=Kelly Lancaster
+phet-credits lead-design=Kelly Lancaster software-development=John Blanco, Sam Reid design-team=Patricia Loeblein, Robert Parson, Kathy Perkins interviews=Kelly Lancaster
