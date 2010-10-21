@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -23,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
@@ -34,6 +32,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -68,6 +67,10 @@ public class EFieldDetectorView {
         
     private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 175 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
+    private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEField();
+    private static final double VECTOR_REFERENCE_LENGTH = 0.7 * VECTOR_DISPLAY_SIZE.getHeight();
+    private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
+    private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
     
     private static final Font VALUE_FONT = new PhetFont( 14 );
     
@@ -299,21 +302,28 @@ public class EFieldDetectorView {
      */
     private static final class VectorDisplayNode extends PComposite {
         
+        private final PPath backgroundNode;
+        private final FieldVectorLabelNode plateLabelNode, dielectricLabelNode, sumLabelNode;
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
         
         public VectorDisplayNode( final EFieldDetector detector, PDimension size ) {
             
             // background
-            PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+            backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
             backgroundNode.setPaint( VECTOR_DISPLAY_BACKGROUND );
             backgroundNode.setStroke( null );
             addChild( backgroundNode );
             
+            // labels
+            plateLabelNode = new FieldVectorLabelNode( "Plate" ); //XXX i18n
+            dielectricLabelNode = new FieldVectorLabelNode( "Dielectric" ); //XXX i18n
+            sumLabelNode = new FieldVectorLabelNode( "Sum" ); //XXX i18n
+            
             // vectors
-            plateVectorNode = new FieldVectorNode();
-            dielectricVectorNode = new FieldVectorNode();
-            sumVectorNode = new FieldVectorNode();
+            plateVectorNode = new FieldVectorNode( detector.getPlateVector(), CLPaints.PLATE_EFIELD_VECTOR );
+            dielectricVectorNode = new FieldVectorNode( detector.getDielectricVector(), CLPaints.DIELECTRIC_EFIELD_VECTOR );
+            sumVectorNode = new FieldVectorNode( detector.getSumVector(), CLPaints.SUM_EFIELD_VECTOR );
             
             // values
             plateValueNode = new FieldValueNode();
@@ -321,67 +331,58 @@ public class EFieldDetectorView {
             sumValueNode = new FieldValueNode();
             
             // rendering order
-//            addChild( plateVectorNode );
-//            addChild( dielectricVectorNode );
-//            addChild( sumVectorNode );
+            addChild( plateLabelNode );
+            addChild( dielectricLabelNode );
+            addChild( sumLabelNode );
+            addChild( plateVectorNode );
+            addChild( dielectricVectorNode );
+            addChild( sumVectorNode );
             addChild( plateValueNode );
             addChild( dielectricValueNode );
             addChild( sumValueNode );
             
-            // layout
-            double x = 0;
-            double y = 0;
-            double xMargin = 5;
-            double yMargin = 5;
-            double ySpacing = 3;
-            backgroundNode.setOffset( x, y );
-            x = backgroundNode.getFullBoundsReference().getMinX() + xMargin;
-            y = backgroundNode.getFullBoundsReference().getMinY() + yMargin;
-            plateValueNode.setOffset( x, y );
-            y = plateValueNode.getFullBoundsReference().getMaxY() + ySpacing;
-            dielectricValueNode.setOffset( x, y );
-            y = dielectricValueNode.getFullBoundsReference().getMaxY() + ySpacing;
-            sumValueNode.setOffset( x, y );
+            // static layout
+            backgroundNode.setOffset( 0, 0 );
             
             // listen to detector properties
             detector.addPlateVectorListener( new SimpleObserver() {
                 public void update() {
-                    // update vector
-                    //XXX
-                    // update value
+                    plateVectorNode.setXY( 0, detector.getPlateVector() );
                     plateValueNode.setValue( detector.getPlateVector() );
+                    updateLayout();
                 }
             });
             detector.addDielectricVectorListener( new SimpleObserver() {
                 public void update() {
-                    // update vector
-                    //XXX
-                    // update value
+                    dielectricVectorNode.setXY( 0, -detector.getDielectricVector() ); //XXX why is this sign change needed?
                     dielectricValueNode.setValue( detector.getDielectricVector() );
+                    updateLayout();
                 }
             });
             detector.addSumVectorListener( new SimpleObserver() {
                 public void update() {
-                    // update vector
-                    //XXX
-                    // update value
+                    sumVectorNode.setXY( 0, detector.getSumVector() ); 
                     sumValueNode.setValue( detector.getSumVector() );
+                    updateLayout();
                 }
             });
             detector.addPlateVectorVisibleListener( new SimpleObserver() {
                 public void update() {
+                    plateLabelNode.setVisible( detector.isPlateVectorVisible() );
                     plateVectorNode.setVisible( detector.isPlateVectorVisible() );
                     plateValueNode.setVisible( detector.isPlateVectorVisible() && detector.isValuesVisible() );
                 }
             });
             detector.addDielectricVectorVisibleListener( new SimpleObserver() {
                 public void update() {
+                    dielectricLabelNode.setVisible( detector.isDielectricVectorVisible() );
                     dielectricVectorNode.setVisible( detector.isDielectricVectorVisible() );
                     dielectricValueNode.setVisible( detector.isDielectricVectorVisible() && detector.isValuesVisible() );
                 }
             });
             detector.addSumVectorVisibleListener( new SimpleObserver() {
                 public void update() {
+                    sumLabelNode.setVisible( detector.isSumVectorVisible() );
                     sumVectorNode.setVisible( detector.isSumVectorVisible() );
                     sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
                 }
@@ -393,6 +394,86 @@ public class EFieldDetectorView {
                     sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
                 }
             });
+            
+            updateLayout();
+        }
+        
+        // dynamic layout
+        private void updateLayout() {
+            
+            double x, y;
+            
+            // vectors
+            {
+                final double xSpacing = 30; // horizontal spacing between plate and dielectric vector centers
+                
+                // plate vector is vertically centered
+                x = backgroundNode.getFullBoundsReference().getCenterX() - xSpacing;
+                y = backgroundNode.getFullBoundsReference().getCenterY() - ( plateVectorNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( plateVectorNode );
+                plateVectorNode.setOffset( x, y );
+                
+                // sum vector is aligned with tail of plate vector
+                x = backgroundNode.getFullBoundsReference().getCenterX() + xSpacing;
+                y = plateVectorNode.getYOffset();
+                sumVectorNode.setOffset( x, y );
+                
+                // dielectric vector fills in space above or below sum vector
+                x = sumVectorNode.getXOffset();
+                if ( dielectricVectorNode.getVector().getY() > 0 ) {
+                    y = sumVectorNode.getFullBoundsReference().getMinY() - dielectricVectorNode.getFullBoundsReference().getHeight(); // above
+                }
+                else {
+                    y = sumVectorNode.getFullBoundsReference().getMaxY() + dielectricVectorNode.getFullBoundsReference().getHeight(); // below
+                }
+                dielectricVectorNode.setOffset( x, y );
+            }
+            
+            // labels, all placed at vector tails, horizontally centered
+            {
+                final double ySpacing = 2; // space between vector tail and label
+                
+                // plate label
+                x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateLabelNode.getFullBoundsReference().getWidth() / 2 );
+                if ( plateVectorNode.getVector().getY() > 0 ) {
+                    y = plateVectorNode.getFullBoundsReference().getMinY() - plateLabelNode.getFullBoundsReference().getHeight() - ySpacing;
+                }
+                else {
+                    y = plateVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
+                }
+                plateLabelNode.setOffset( x, y );
+                
+                // sum label
+                x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumLabelNode.getFullBoundsReference().getWidth() / 2 );
+                if ( sumVectorNode.getVector().getY() > 0 ) {
+                    y = sumVectorNode.getFullBoundsReference().getMinY() - sumLabelNode.getFullBoundsReference().getHeight() - ySpacing;
+                }
+                else {
+                    y = sumVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
+                }
+                sumLabelNode.setOffset( x, y ); 
+                
+                // dielectric label
+                x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricLabelNode.getFullBoundsReference().getWidth() / 2 );
+                if ( dielectricVectorNode.getVector().getY() > 0 ) {
+                    y = dielectricVectorNode.getFullBoundsReference().getMinY() - dielectricLabelNode.getFullBoundsReference().getHeight() - ySpacing;
+                }
+                else {
+                    y = dielectricVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
+                }
+                dielectricLabelNode.setOffset( x, y ); 
+            }
+            
+            // values --------------------------
+        }
+    }
+    
+    /*
+     * Field vector label.
+     */
+    private static class FieldVectorLabelNode extends PText {
+        public FieldVectorLabelNode( String text ) {
+            super( text );
+            setFont( new PhetFont( 15 ) );
         }
     }
     
@@ -401,8 +482,11 @@ public class EFieldDetectorView {
      */
     private static class FieldVectorNode extends Vector2DNode {
         
-        public FieldVectorNode() {
-            super( 0, 0, 1, 1 );//XXX
+        public FieldVectorNode( double value, Color color ) {
+            super( 0, value, VECTOR_REFERENCE_MAGNITUDE, VECTOR_REFERENCE_LENGTH );
+            setArrowFillPaint( color );
+            setHeadSize( VECTOR_ARROW_HEAD_SIZE );
+            setTailWidth( VECTOR_ARROW_TAIL_WIDTH );
         }
     }
     

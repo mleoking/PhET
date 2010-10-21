@@ -43,7 +43,7 @@ public class CLPaints {
     public static final Color DRAGGABLE_HIGHLIGHT = Color.YELLOW;
     
     // vectors
-    public static final Color PLATE_EFIELD_VECTOR = Color.YELLOW;
-    public static final Color DIELECTRIC_EFIELD_VECTOR = Color.GREEN;
-    public static final Color SUM_EFIELD_VECTOR = Color.LIGHT_GRAY;
+    public static final Color PLATE_EFIELD_VECTOR = Color.LIGHT_GRAY;
+    public static final Color DIELECTRIC_EFIELD_VECTOR = Color.YELLOW;
+    public static final Color SUM_EFIELD_VECTOR = Color.GREEN;
 }
