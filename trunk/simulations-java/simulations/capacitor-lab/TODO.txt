@@ -14,7 +14,6 @@ DESIGN ISSUES
 - is range of E-field is too large to make E-Field Detector vector length vary proportionally?
 
 HIGH PRIORITY
-- i18n of vector labels in E-field detector
 - decide whether to use Property<T> for EFieldDetector
 - implement BatteryCapacitorCircuit.get*At(Point3D) methods
 - vectors in field detector
