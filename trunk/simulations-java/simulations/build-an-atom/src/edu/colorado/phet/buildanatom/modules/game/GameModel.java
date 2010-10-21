@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Sam Reid
  * @author John Blanco
  */
-public class GameModel2 {
+public class GameModel {
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
     public static final int CHALLENGES_PER_GAME = 3;
@@ -22,7 +22,7 @@ public class GameModel2 {
     private final GameOver gameOverState= new GameOver( this );
     private int challengeCount = 0;
 
-    public GameModel2() {
+    public GameModel() {
         setState( gameSettingsState );
     }
 
@@ -65,21 +65,21 @@ public class GameModel2 {
     }
 
     public abstract static class State {
-        protected final GameModel2 model;
+        protected final GameModel model;
 
-        public State( GameModel2 model ) {
+        public State( GameModel model ) {
             this.model = model;
         }
     }
 
     public static class GameSettingsState extends State {
-        public GameSettingsState( GameModel2 model ) {
+        public GameSettingsState( GameModel model ) {
             super( model );
         }
     }
 
     public static class Challenge extends State {
-        public Challenge( GameModel2 model ) {
+        public Challenge( GameModel model ) {
             super( model );
         }
 
@@ -102,7 +102,7 @@ public class GameModel2 {
     }
 
     public static class GameOver extends State {
-        public GameOver( GameModel2 model ) {
+        public GameOver( GameModel model ) {
             super( model );
         }
     }
