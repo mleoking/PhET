@@ -238,9 +238,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                     setSelected( showLabels.getValue() );
                 }
             } );
-        }}){{
-//COMPILE ERROR            setOffset( chargeWindow.getFullBounds().getCenterX()-getFullBounds().getWidth()-controlButtonOffset/2, chargeWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
-        }};
+        }});
+        showLabelsButton.setOffset( chargeWindow.getFullBounds().getCenterX()-showLabelsButton.getFullBounds().getWidth()-controlButtonOffset/2, chargeWindow.getFullBounds().getMaxY()+verticalSpacingBetweenWindows);
         rootNode.addChild( showLabelsButton );
 
         // "Reset All" button.
@@ -259,13 +258,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 chargeWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
 
         //Add the Selection control for how to view the orbitals
-        rootNode.addChild( new OrbitalViewControl( viewOrbitals ){{
-//COMPILE ERROR            setOffset( chargeWindow.getFullBounds().getMinX()-getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
-        }} );
+        final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( viewOrbitals );
+        orbitalViewControl.setOffset( chargeWindow.getFullBounds().getMinX()-orbitalViewControl.getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
+        rootNode.addChild( orbitalViewControl );
 
-        rootNode.addChild( new IonIndicatorNode( model.getAtom(), showLabels ) {{
-//COMPILE ERROR            setOffset( elementIndicatorWindow.getFullBounds().getMinX() - getFullBounds().getWidth() - 80, elementIndicatorWindow.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
+        final IonIndicatorNode ionIndicatorNode = new IonIndicatorNode( model.getAtom(), showLabels );
+        ionIndicatorNode.setOffset( elementIndicatorWindow.getFullBounds().getMinX() - ionIndicatorNode.getFullBounds().getWidth() - 80, elementIndicatorWindow.getFullBounds().getCenterY() - ionIndicatorNode.getFullBounds().getHeight() / 2 );
+        rootNode.addChild( ionIndicatorNode );
 
         //Make the "orbits" button not focused by default, by focusing the canvas
         setFocusable( true );
