@@ -1,3 +1,5 @@
+# 0.00.33 (45314) Oct 21, 2010
+10/21/10 dev version for discussion with Noah P.
 10/21/10 simplified field detector for Introduction tab (hide vector check boxes, show only Plate vector)
 10/21/10 make "Show Values" its own PSwing so that it will always be at lower-left of field detector 
 10/21/10 try a simplified naming scheme for string keys, hopefully easier for translators
