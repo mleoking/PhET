@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class HowManyParticlesProblemView extends ProblemView {
 
-    private final PText description = new PText( "How many particles?" ) {{
+    private final PText description = new PText( "How many particles?" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
@@ -41,19 +41,19 @@ public class HowManyParticlesProblemView extends ProblemView {
 
     public static class MultiEntryPanel extends PNode{
         public MultiEntryPanel( final Problem problem) {
-            final EntryPanel protonEntryPanel = new EntryPanel( "Protons:", new ValueSetter() {
+            final EntryPanel protonEntryPanel = new EntryPanel( "Protons:", new ValueSetter() {//todo i18n
                 public void setValue( int value ) {
                     problem.setGuessedProtons( value );
                 }
             } );
             addChild( protonEntryPanel );
-            final EntryPanel neutronEntryPanel = new EntryPanel( "Neutrons:", new ValueSetter() {
+            final EntryPanel neutronEntryPanel = new EntryPanel( "Neutrons:", new ValueSetter() {//todo i18n
                 public void setValue( int value ) {
                     problem.setGuessedNeutrons( value );
                 }
             } );
             addChild( neutronEntryPanel );
-            final EntryPanel electronEntryPanel = new EntryPanel( "Electrons:", new ValueSetter() {
+            final EntryPanel electronEntryPanel = new EntryPanel( "Electrons:", new ValueSetter() {//todo i18n, already exists
                 public void setValue( int value ) {
                     problem.setGuessedElectrons( value );
                 }

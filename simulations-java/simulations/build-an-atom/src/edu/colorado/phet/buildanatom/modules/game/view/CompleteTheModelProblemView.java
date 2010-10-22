@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 * @author Sam Reid
 */
 public class CompleteTheModelProblemView extends ProblemView {
-    private final PText description = new PText( "Complete the model:" ) {{
+    private final PText description = new PText( "Complete the model:" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};

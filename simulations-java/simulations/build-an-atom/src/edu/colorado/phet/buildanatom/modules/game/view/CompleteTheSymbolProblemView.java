@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 * @author Sam Reid
 */
 public class CompleteTheSymbolProblemView extends ProblemView {
-    private final PText description = new PText( "Complete the symbol:" ) {{
+    private final PText description = new PText( "Complete the symbol:" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
