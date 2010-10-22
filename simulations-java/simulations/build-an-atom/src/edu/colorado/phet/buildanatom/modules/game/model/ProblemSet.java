@@ -98,7 +98,7 @@ public class ProblemSet {
     }
 
     public boolean checkGuess (){
-        return getCurrentProblem().checkGuess();
+        return getCurrentProblem().isGuessCorrect();
     }
 
     /**

@@ -125,13 +125,20 @@ public class BuildAnAtomGameModel {
     /**
      * Check the user's guess and update the state of the model accordingly.
      */
-    public void processGuess(){
-        if ( problemSet.isLastProblem() ) {
-            setState( getGameOverState() );
+    public GuessResult processGuess() {
+        GuessResult result = problemSet.getCurrentProblem().processGuess();
+        if ( result.isCorrect() ) {
+            if ( problemSet.isLastProblem() ) {
+                setState( getGameOverState() );
+            }
+            else {
+                setState( problemSet.nextProblem() );
+            }
         }
         else {
-            setState( problemSet.nextProblem() );
+
         }
+        return result;
     }
 
     public ArrayList<AtomValue> getLevel( int level ) {

@@ -5,6 +5,6 @@ package edu.colorado.phet.buildanatom.modules.game.model;
  */
 public class CompleteTheSymbolProblem extends Problem {
     public CompleteTheSymbolProblem( BuildAnAtomGameModel model, ProblemSet problemSet,AtomValue atomValue ) {
-        super( model, problemSet, atomValue );
+        super( model, atomValue );
     }
 }
