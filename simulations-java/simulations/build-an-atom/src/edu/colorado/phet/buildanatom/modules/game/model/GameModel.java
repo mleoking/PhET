@@ -19,6 +19,7 @@ public class GameModel {
 
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
+    private static final int PROBLEMS_PER_GAME = 3;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -105,16 +106,17 @@ public class GameModel {
         // TODO: We need to make sure that the same problem is not generated
         // twice.
         ArrayList<AtomValue> pool = levels.get( level );
-        for ( int i = 0; i < 5; i++ ) {
-            final int type = random.nextInt( 3 );
+        for ( int i = 0; i < PROBLEMS_PER_GAME; i++ ) {
             AtomValue atomValue = pool.get( random.nextInt( pool.size() ) );
-            if ( type == 0 ) {
+//            final int problemType = random.nextInt( 3 );
+            final int problemType = 2; // TODO: Temporary to get one type of problem working.
+            if ( problemType == 0 ) {
                 problemSet.addProblem( new CompleteTheModelProblem( this, problemSet, atomValue ) );
             }
-            else if ( type == 1 ) {
+            else if ( problemType == 1 ) {
                 problemSet.addProblem( new CompleteTheSymbolProblem( this, problemSet, atomValue ) );
             }
-            else if ( type == 2 ) {
+            else if ( problemType == 2 ) {
                 problemSet.addProblem( new HowManyParticlesProblem( this, problemSet, atomValue ) );
             }
         }
