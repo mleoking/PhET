@@ -113,9 +113,5 @@ public class ProblemView extends StateView {
         public GameButtonNode( String label ) {
             super( label, GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );
         }
-
-        public void setCenterOffset(double x, double y){
-            setOffset(x - getFullBoundsReference().width / 2, y - getFullBoundsReference().height / 2 );
-        }
     }
 }
