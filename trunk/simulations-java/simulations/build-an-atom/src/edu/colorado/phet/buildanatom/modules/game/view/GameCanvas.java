@@ -2,14 +2,19 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.*;
+import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheModelProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.HowManyParticlesProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.ProblemSet;
+import edu.colorado.phet.buildanatom.modules.game.model.State;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -90,15 +95,15 @@ public class GameCanvas extends PhetPCanvas {
                 //create views for the problem set
                 for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
                     final CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
-                    stateViews.add( new CompleteTheModelProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheModelProblemView(  model, GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
                     final CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
-                    stateViews.add( new CompleteTheSymbolProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheSymbolProblemView( model, GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
                 for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
                     final HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
-                    stateViews.add( new HowManyParticlesProblemView( GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new HowManyParticlesProblemView( model, GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
                 }
             }
         } );

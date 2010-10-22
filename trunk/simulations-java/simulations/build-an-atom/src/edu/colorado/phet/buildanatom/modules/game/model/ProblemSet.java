@@ -9,11 +9,12 @@ import java.util.ArrayList;
  */
 public class ProblemSet {
     //keep track by type
-    private ArrayList<CompleteTheModelProblem> completeTheModelProblems = new ArrayList<CompleteTheModelProblem>();
-    private ArrayList<CompleteTheSymbolProblem> completeTheSymbolProblems = new ArrayList<CompleteTheSymbolProblem>();
-    private ArrayList<HowManyParticlesProblem> howManyParticlesProblems = new ArrayList<HowManyParticlesProblem>();
+    private final ArrayList<CompleteTheModelProblem> completeTheModelProblems = new ArrayList<CompleteTheModelProblem>();
+    private final ArrayList<CompleteTheSymbolProblem> completeTheSymbolProblems = new ArrayList<CompleteTheSymbolProblem>();
+    private final ArrayList<HowManyParticlesProblem> howManyParticlesProblems = new ArrayList<HowManyParticlesProblem>();
     //keeps track by ordering
-    private ArrayList<Problem> allProblems = new ArrayList<Problem>();
+    private final ArrayList<Problem> allProblems = new ArrayList<Problem>();
+    private int currentProblemIndex = 0;
 
     public ProblemSet( BuildAnAtomGameModel model, int level, boolean timerOn, boolean soundOn ) {
     }
@@ -69,11 +70,29 @@ public class ProblemSet {
         return allProblems.size();
     }
 
-    public boolean isLastProblem( Problem problem ) {
-        return getProblemIndex( problem ) == getTotalNumProblems() - 1;
+    public Problem getCurrentProblem(){
+        return allProblems.get( currentProblemIndex );
     }
 
-    public Problem getNextProblem( Problem problem ) {
-        return getProblem( getProblemIndex( problem ) + 1 );
+    public boolean checkGuess (){
+        return getCurrentProblem().checkGuess();
+    }
+
+    /**
+     * @return
+     */
+    public boolean isLastProblem() {
+        return currentProblemIndex == allProblems.size() -1;
+    }
+
+    /**
+     * Move to the next problem in the problem set.
+     *
+     * @return
+     */
+    public Problem nextProblem() {
+        assert !isLastProblem();
+        currentProblemIndex++;
+        return getCurrentProblem();
     }
 }

@@ -13,7 +13,7 @@ public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
 
     GameOverStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
-        super( gameCanvas, model.getGameOverState() );
+        super( model, model.getGameOverState(), gameCanvas );
         gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat( "0.#" ), 40000, 30000, false, true );
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
             public void newGamePressed() {
