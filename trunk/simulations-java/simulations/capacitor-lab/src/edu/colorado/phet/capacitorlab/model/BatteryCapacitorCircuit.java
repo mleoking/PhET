@@ -410,17 +410,19 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public double getPlatesDielectricEFieldAt( Point3D location ) {
-        System.out.println( "getPlatesDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
-        double eField = 0;
-        if ( capacitor.isBetweenPlates( location ) ) {
-            if ( capacitor.isInsideDielectric( location ) ) {
-                eField = getPlatesDielectricEField();
-            }
-            else {
-                eField = getPlatesAirEField();
-            }
-        }
-        return eField;
+        return capacitor.isBetweenPlates( location ) ? getPlatesDielectricEField() : 0;
+//XXX
+//        System.out.println( "getPlatesDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
+//        double eField = 0;
+//        if ( capacitor.isBetweenPlates( location ) ) {
+//            if ( capacitor.isInsideDielectric( location ) ) {
+//                eField = getPlatesDielectricEField();
+//            }
+//            else {
+//                eField = getPlatesAirEField();
+//            }
+//        }
+//        return eField;
     }
     
     /*
@@ -467,17 +469,19 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public Double getDielectricEFieldAt( Point3D location ) {
-        System.out.println( "getDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
-        double eField = 0;
-        if ( capacitor.isBetweenPlates( location ) ) {
-            if ( capacitor.isInsideDielectric( location ) ) {
-                eField = getDielectricEField();
-            }
-            else {
-                eField = getAirEField();
-            }
-        }
-        return eField;
+        return capacitor.isBetweenPlates( location ) ? getDielectricEField() : 0;
+//XXX
+//        System.out.println( "getDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
+//        double eField = 0;
+//        if ( capacitor.isBetweenPlates( location ) ) {
+//            if ( capacitor.isInsideDielectric( location ) ) {
+//                eField = getDielectricEField();
+//            }
+//            else {
+//                eField = getAirEField();
+//            }
+//        }
+//        return eField;
     }
     
     /**
