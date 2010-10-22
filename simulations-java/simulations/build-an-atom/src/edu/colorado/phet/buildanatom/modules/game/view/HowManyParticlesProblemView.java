@@ -19,8 +19,8 @@ public class HowManyParticlesProblemView extends ProblemView {
 
     private final SymbolIndicatorNode symbolIndicatorNode;
 
-    public HowManyParticlesProblemView( BuildAnAtomGameModel model, GameCanvas canvas, HowManyParticlesProblem howManyParticlesProblem, int problemIndex, int totalNumProblems ) {
-        super( model, canvas, howManyParticlesProblem, problemIndex, totalNumProblems );
+    public HowManyParticlesProblemView( BuildAnAtomGameModel model, GameCanvas canvas, HowManyParticlesProblem howManyParticlesProblem) {
+        super( model, canvas, howManyParticlesProblem);
         symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom() );
     }
 

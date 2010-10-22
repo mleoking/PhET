@@ -15,8 +15,8 @@ public class CompleteTheSymbolProblemView extends ProblemView {
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
 
-    public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem, int problemIndex, int totalNumProblems ) {
-        super( model, canvas, problem, problemIndex, totalNumProblems );
+    public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
+        super( model, canvas, problem);
     }
 
     @Override

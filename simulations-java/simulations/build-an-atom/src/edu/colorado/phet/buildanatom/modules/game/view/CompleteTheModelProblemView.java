@@ -17,8 +17,8 @@ public class CompleteTheModelProblemView extends ProblemView {
     }};
     private final SymbolIndicatorNode symbolIndicatorNode;
 
-    public CompleteTheModelProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheModelProblem problem, int problemIndex, int totalNumProblems ) {
-        super( model, canvas, problem, problemIndex, totalNumProblems );
+    public CompleteTheModelProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheModelProblem problem) {
+        super( model, canvas, problem);
         symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom() );
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
