@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -18,7 +19,7 @@ public class ProblemView extends StateView {
     private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR ) {{
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                problem.checkGuess();
+                getModel().processGuess();
             }
         } );
     }};
@@ -26,8 +27,8 @@ public class ProblemView extends StateView {
 
     Problem problem;
 
-    ProblemView( GameCanvas gameCanvas, Problem problem, int problemIndex, int totalNumProblems ) {
-        super( gameCanvas, problem );
+    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem, int problemIndex, int totalNumProblems ) {
+        super( model, problem, gameCanvas );
         this.problem = problem;
         problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ) {{
             setFont( new PhetFont( 20, true ) );
@@ -35,6 +36,7 @@ public class ProblemView extends StateView {
         problemNumberDisplay.setOffset( 30, 30 );
     }
 
+    @Override
     public void init() {
         checkButton.setOffset( 700, 500 );
         getScoreboard().setOffset(
@@ -45,6 +47,7 @@ public class ProblemView extends StateView {
         addChild( problemNumberDisplay );
     }
 
+    @Override
     public void teardown() {
         removeChild( getScoreboard() );
         removeChild( checkButton );

@@ -6,12 +6,10 @@ import edu.colorado.phet.buildanatom.model.Atom;
  * Represents one of the Problems in the game, formerly called Challenge.
  */
 public class Problem extends State {
-    private final ProblemSet problemSet;
-    private Atom atom;
+    private final Atom atom;
 
     public Problem( BuildAnAtomGameModel model, ProblemSet problemSet, Atom atom ) {
         super( model );
-        this.problemSet = problemSet;
         this.atom = atom;
     }
 
@@ -19,12 +17,7 @@ public class Problem extends State {
         return atom;
     }
 
-    public void checkGuess() {
-        if ( problemSet.isLastProblem( this ) ) {
-            model.setState( model.getGameOverState() );
-        }
-        else {
-            model.setState( problemSet.getNextProblem( this ) );
-        }
-    }
+    public boolean checkGuess() {
+        return true;
+  }
 }

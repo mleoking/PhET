@@ -69,6 +69,7 @@ public class BuildAnAtomGameModel {
 
     }};
     private final Random random = new Random();
+    private ProblemSet problemSet;
 
 
     // ------------------------------------------------------------------------
@@ -102,7 +103,7 @@ public class BuildAnAtomGameModel {
 
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
         System.out.println( "level = " + level );
-        ProblemSet problemSet = new ProblemSet( this, level, timerOn, soundOn );
+        problemSet = new ProblemSet( this, level, timerOn, soundOn );
         // TODO: We need to make sure that the same problem is not generated
         // twice.
         ArrayList<AtomValue> pool = levels.get( level );
@@ -123,7 +124,7 @@ public class BuildAnAtomGameModel {
         for ( GameModelListener listener : listeners ) {
             listener.problemSetCreated( problemSet );
         }
-        setState( problemSet.getProblem( 0 ) );
+        setState( problemSet.getCurrentProblem() );
     }
 
     public void addListener( GameModelListener listener ) {
@@ -136,6 +137,18 @@ public class BuildAnAtomGameModel {
 
     public State getGameOverState() {
         return gameOverState;
+    }
+
+    /**
+     * Check the user's guess and update the state of the model accordingly.
+     */
+    public void processGuess(){
+        if ( problemSet.isLastProblem() ) {
+            setState( getGameOverState() );
+        }
+        else {
+            setState( problemSet.nextProblem() );
+        }
     }
 
     // -----------------------------------------------------------------------
