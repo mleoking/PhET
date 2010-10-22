@@ -13,6 +13,7 @@ DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
 
 HIGH PRIORITY
+- remove dielectric gap from model (or just set it to zero?)
 - add zoom button to E-field detector
 - layout of values in E-field detector
 - decide whether to use Property<T> for EFieldDetector

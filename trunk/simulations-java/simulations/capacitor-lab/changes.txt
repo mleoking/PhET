@@ -1,3 +1,5 @@
+10/21/10 demonstrate dielectric gap = 0
+10/21/10 revert BatteryCapacitorCircuit.get*At methods for demo
 10/21/10 another attempt at BatteryCapacitorCircuit.get*At methods, still need specs
 10/21/10 add method for determining if a point is inside dielectric
 # 0.00.33 (45314) Oct 21, 2010
