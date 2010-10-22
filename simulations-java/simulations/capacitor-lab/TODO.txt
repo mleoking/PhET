@@ -3,17 +3,17 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
-- how is E-field detector sum vector computed outside the capacitor?
+- how are E-field detector vectors computed outside the capacitor?
 - all E-field detector vectors have same sign, so why does dielectric vector point in opposite direction?
-- do E-field detector vectors with positive sign point up or down?
 - do E-field detector values have a sign, or are they absolute values?
 - what is the desired layout of the vector area in the E-field detector? does it work with tiny vectors?
 - what is the E-field detector supposed to do inside the battery? wires?
 
 DESIGN ISSUES
-- is range of E-field is too large to make E-Field Detector vector length vary proportionally?
+- spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
 
 HIGH PRIORITY
+- add zoom button to E-field detector
 - layout of values in E-field detector
 - decide whether to use Property<T> for EFieldDetector
 - implement BatteryCapacitorCircuit.get*At(Point3D) methods
@@ -25,7 +25,6 @@ HIGH PRIORITY
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 
 MEDUIUM PRIORITY
-- spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
 - dynamic clipping planes for meter probes
 - collision detection of probes with battery and plates (OK to pass through wires and dielectric)
 - all features in Multiple Capacitors tab
