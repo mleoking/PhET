@@ -369,9 +369,18 @@ public class BatteryCapacitorCircuit {
         return getPlatesVoltage() / capacitor.getPlateSeparation();
     }
 
-    //TODO: javadoc
+    /**
+     * Gets the effective E-field at a specified location.
+     * 
+     * @param location
+     * @return
+     */
     public double getEffectiveEFieldAt( Point3D location ) {
-        return capacitor.isBetweenPlates( location ) ? getEffectiveEfield() : 0; //XXX incorrect
+        double eField = 0;
+        if ( capacitor.isBetweenPlates( location ) ) {
+           eField = getEffectiveEfield();
+        }
+        return eField;
     }
     
     /**
@@ -401,7 +410,17 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public double getPlatesDielectricEFieldAt( Point3D location ) {
-        return capacitor.isBetweenPlates( location ) ? getPlatesDielectricEField() : getPlatesAirEField();//XXX incorrect
+        System.out.println( "getPlatesDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
+        double eField = 0;
+        if ( capacitor.isBetweenPlates( location ) ) {
+            if ( capacitor.isInsideDielectric( location ) ) {
+                eField = getPlatesDielectricEField();
+            }
+            else {
+                eField = getPlatesAirEField();
+            }
+        }
+        return eField;
     }
     
     /*
@@ -448,7 +467,17 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public Double getDielectricEFieldAt( Point3D location ) {
-        return capacitor.isBetweenPlates( location ) ? getDielectricEField() : getAirEField(); //XXX incorrect
+        System.out.println( "getDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
+        double eField = 0;
+        if ( capacitor.isBetweenPlates( location ) ) {
+            if ( capacitor.isInsideDielectric( location ) ) {
+                eField = getDielectricEField();
+            }
+            else {
+                eField = getAirEField();
+            }
+        }
+        return eField;
     }
     
     /**
