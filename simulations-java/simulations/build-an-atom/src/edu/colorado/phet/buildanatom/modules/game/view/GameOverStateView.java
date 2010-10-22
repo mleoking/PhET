@@ -3,7 +3,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.common.games.GameOverNode;
 
 /**
@@ -12,7 +12,7 @@ import edu.colorado.phet.common.games.GameOverNode;
 public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
 
-    GameOverStateView( GameCanvas gameCanvas, final GameModel model ) {
+    GameOverStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( gameCanvas, model.getGameOverState() );
         gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat( "0.#" ), 40000, 30000, false, true );
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {

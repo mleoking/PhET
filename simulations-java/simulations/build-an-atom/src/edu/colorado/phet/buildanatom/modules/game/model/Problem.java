@@ -9,7 +9,7 @@ public class Problem extends State {
     private final ProblemSet problemSet;
     private Atom atom;
 
-    public Problem( GameModel model, ProblemSet problemSet, Atom atom ) {
+    public Problem( BuildAnAtomGameModel model, ProblemSet problemSet, Atom atom ) {
         super( model );
         this.problemSet = problemSet;
         this.atom = atom;
