@@ -52,4 +52,8 @@ public class AtomValue extends Atom {
             removeElectron();
         }
     }
+
+    public boolean guessEquals( AtomValue atom ) {
+        return atom.getNumProtons()==getNumProtons() && atom.getNumNeutrons()==getNumNeutrons() && atom.getNumElectrons() == getNumElectrons();
+    }
 }

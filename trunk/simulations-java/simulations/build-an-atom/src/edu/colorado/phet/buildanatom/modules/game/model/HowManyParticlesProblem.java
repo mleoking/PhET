@@ -5,6 +5,6 @@ package edu.colorado.phet.buildanatom.modules.game.model;
  */
 public class HowManyParticlesProblem extends Problem {
     public HowManyParticlesProblem( BuildAnAtomGameModel model, ProblemSet problemSet, AtomValue atomValue ) {
-        super( model, problemSet, atomValue );
+        super( model, atomValue );
     }
 }
