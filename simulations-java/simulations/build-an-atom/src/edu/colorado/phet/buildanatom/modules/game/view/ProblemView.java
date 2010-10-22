@@ -1,8 +1,9 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
@@ -18,13 +19,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 */
 public class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double(720, 510);
     PText text=new PText( "<debug info for guesses>");
     // TODO: i18n
-    private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );//todo i18n
+    private final GameButtonNode checkButton = new GameButtonNode( "Check" );
     private final PText problemNumberDisplay;
-    private PNode resultNode = new PNode( );
+    private final PNode resultNode = new PNode( );
 
-    private Problem problem;
+    private final Problem problem;
     ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem) {
         super( model, problem, gameCanvas );
         this.problem = problem;
@@ -36,7 +38,7 @@ public class ProblemView extends StateView {
 
     @Override
     public void init() {
-        checkButton.setOffset( 700, 500 );
+        checkButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
         checkButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess();
@@ -48,8 +50,8 @@ public class ProblemView extends StateView {
                     else {
                         frown();
                         if ( problem.getNumGuesses() == 1 ) {
-                            GradientButtonNode tryAgainButton = new GradientButtonNode( "Try again" );//todo i18n
-                            tryAgainButton.setOffset( 700,500 );
+                            GameButtonNode tryAgainButton = new GameButtonNode( "Try Again" );//todo i18n
+                            tryAgainButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
                             tryAgainButton.addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
@@ -60,13 +62,13 @@ public class ProblemView extends StateView {
                             checkButton.setVisible( false );
                         }
                         else if ( problem.getNumGuesses() == 2 ) {
-                            GradientButtonNode showAnswerButton = new GradientButtonNode( "Show answer" );//todo i18n
-                            showAnswerButton.setOffset( 700,500 );
+                            GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer" );//todo i18n
+                            showAnswerButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
                             showAnswerButton.addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
-                                    GradientButtonNode nextProblemButton = new GradientButtonNode( "Next Problem" );//todo i18n
-                                    nextProblemButton.setOffset( 700,500 );
+                                    GameButtonNode nextProblemButton = new GameButtonNode( "Next Problem" );//todo i18n
+                                    nextProblemButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
                                     nextProblemButton.addActionListener( new ActionListener() {
                                         public void actionPerformed( ActionEvent e ) {
                                             getModel().nextProblem();
@@ -102,5 +104,18 @@ public class ProblemView extends StateView {
         removeChild( text );
         removeChild( resultNode );
 
+    }
+
+    private static class GameButtonNode extends GradientButtonNode {
+        /**
+         * Constructor.
+         */
+        public GameButtonNode( String label ) {
+            super( label, GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );
+        }
+
+        public void setCenterOffset(double x, double y){
+            setOffset(x - getFullBoundsReference().width / 2, y - getFullBoundsReference().height / 2 );
+        }
     }
 }
