@@ -27,4 +27,29 @@ public class AtomValue extends Atom {
             addElectron( new Electron( ConstantDtClock.TEST ) );
         }
     }
+
+    public void setNumProtons(int numProtons){
+        while ( numProtons > getNumProtons()){
+            addProton(new Proton( ConstantDtClock.TEST ));
+        }
+        while ( numProtons < getNumProtons()){
+            removeProton();
+        }
+    }
+    public void setNumNeutrons(int numNeutrons){
+        while ( numNeutrons > getNumNeutrons()){
+            addNeutron(new Neutron( ConstantDtClock.TEST ));
+        }
+        while ( numNeutrons < getNumNeutrons()){
+            removeNeutron();
+        }
+    }
+    public void setNumElectrons(int numElectrons){
+        while ( numElectrons > getNumElectrons()){
+            addElectron(new Electron( ConstantDtClock.TEST ));
+        }
+        while ( numElectrons < getNumElectrons()){
+            removeElectron();
+        }
+    }
 }
