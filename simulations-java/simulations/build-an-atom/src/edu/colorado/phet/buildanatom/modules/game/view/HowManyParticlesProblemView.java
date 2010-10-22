@@ -31,7 +31,7 @@ public class HowManyParticlesProblemView extends ProblemView {
 
     public HowManyParticlesProblemView( BuildAnAtomGameModel model, GameCanvas canvas, HowManyParticlesProblem howManyParticlesProblem ) {
         super( model, canvas, howManyParticlesProblem );
-        symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom() );
+        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAtom() );
         symbolIndicatorNode.scale( 2.25 );
         symbolIndicatorNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width / 4 - symbolIndicatorNode.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
