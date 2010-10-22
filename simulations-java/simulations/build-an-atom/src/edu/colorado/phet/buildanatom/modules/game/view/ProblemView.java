@@ -49,6 +49,7 @@ public class ProblemView extends StateView {
                         frown();
                         if ( problem.getNumGuesses() == 1 ) {
                             GradientButtonNode tryAgainButton = new GradientButtonNode( "Try again" );//todo i18n
+                            tryAgainButton.setOffset( 700,500 );
                             tryAgainButton.addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
@@ -60,10 +61,12 @@ public class ProblemView extends StateView {
                         }
                         else if ( problem.getNumGuesses() == 2 ) {
                             GradientButtonNode showAnswerButton = new GradientButtonNode( "Show answer" );//todo i18n
+                            showAnswerButton.setOffset( 700,500 );
                             showAnswerButton.addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
                                     GradientButtonNode nextProblemButton = new GradientButtonNode( "Next Problem" );//todo i18n
+                                    nextProblemButton.setOffset( 700,500 );
                                     nextProblemButton.addActionListener( new ActionListener() {
                                         public void actionPerformed( ActionEvent e ) {
                                             getModel().nextProblem();
