@@ -5,10 +5,11 @@ import java.awt.event.ActionListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.GuessResult;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -16,20 +17,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 */
 public class ProblemView extends StateView {
 
-    PText text=new PText( "hello");
+    PText text=new PText( "<debug info for guesses>");
     // TODO: i18n
-    private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR ) {{
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                GuessResult guessResult=getModel().processGuess();
-                text.setText( guessResult.toString() );
-            }
-        } );
-    }};
+    private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );
     private final PText problemNumberDisplay;
+    private PNode resultNode = new PNode( );
 
-    Problem problem;
-
+    private Problem problem;
     ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem) {
         super( model, problem, gameCanvas );
         this.problem = problem;
@@ -42,6 +36,48 @@ public class ProblemView extends StateView {
     @Override
     public void init() {
         checkButton.setOffset( 700, 500 );
+        checkButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getModel().processGuess();
+                text.setText( "num guesses = "+problem.getNumGuesses()+", correctlySolved = "+problem.isSolvedCorrectly());
+                resultNode.addChild( new FaceNode( 300 ) {{
+                    if ( problem.isSolvedCorrectly() ) {
+                        smile();
+                    }
+                    else {
+                        frown();
+                        if ( problem.getNumGuesses() == 1 ) {
+                            GradientButtonNode tryAgainButton = new GradientButtonNode( "Try again" );
+                            tryAgainButton.addActionListener( new ActionListener() {
+                                public void actionPerformed( ActionEvent e ) {
+                                    resultNode.removeAllChildren();
+                                    checkButton.setVisible( true );
+                                }
+                            } );
+                            resultNode.addChild( tryAgainButton );
+                            checkButton.setVisible( false );
+                        }
+                        else if ( problem.getNumGuesses() == 2 ) {
+                            GradientButtonNode showAnswerButton = new GradientButtonNode( "Show answer" );
+                            showAnswerButton.addActionListener( new ActionListener() {
+                                public void actionPerformed( ActionEvent e ) {
+                                    resultNode.removeAllChildren();
+                                    GradientButtonNode nextProblemButton = new GradientButtonNode( "Next Problem" );
+                                    nextProblemButton.addActionListener( new ActionListener() {
+                                        public void actionPerformed( ActionEvent e ) {
+                                            getModel().nextProblem();
+                                        }
+                                    } );
+                                    resultNode.addChild( nextProblemButton );
+                                }
+                            } );
+                            resultNode.addChild( showAnswerButton );
+                            checkButton.setVisible( false );
+                        }
+                    }
+                }} );
+            }
+        } );
         getScoreboard().setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width / 2 - getScoreboard().getFullBoundsReference().width / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * getScoreboard().getFullBoundsReference().height ) );
@@ -49,6 +85,7 @@ public class ProblemView extends StateView {
         addChild( getScoreboard() );
         addChild( problemNumberDisplay );
         addChild( text );
+        addChild( resultNode );
     }
 
     @Override
@@ -57,5 +94,6 @@ public class ProblemView extends StateView {
         removeChild( checkButton );
         removeChild( problemNumberDisplay );
         removeChild( text );
+        removeChild( resultNode );
     }
 }

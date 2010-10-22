@@ -135,9 +135,6 @@ public class BuildAnAtomGameModel {
                 setState( problemSet.nextProblem() );
             }
         }
-        else {
-
-        }
         return result;
     }
 
@@ -151,6 +148,10 @@ public class BuildAnAtomGameModel {
 
     public int getNumberProblems() {
         return problemSet.getTotalNumProblems();
+    }
+
+    public void nextProblem() {
+        setState( problemSet.nextProblem() );
     }
 
     // -----------------------------------------------------------------------
