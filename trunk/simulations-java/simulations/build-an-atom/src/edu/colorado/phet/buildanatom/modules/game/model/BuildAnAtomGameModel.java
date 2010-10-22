@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Sam Reid
  * @author John Blanco
  */
-public class GameModel {
+public class BuildAnAtomGameModel {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -74,7 +74,7 @@ public class GameModel {
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
-    public GameModel() {
+    public BuildAnAtomGameModel() {
         setState( gameSettingsState );
     }
 

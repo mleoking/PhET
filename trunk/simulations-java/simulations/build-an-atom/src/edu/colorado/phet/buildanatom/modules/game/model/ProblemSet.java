@@ -15,7 +15,7 @@ public class ProblemSet {
     //keeps track by ordering
     private ArrayList<Problem> allProblems = new ArrayList<Problem>();
 
-    public ProblemSet( GameModel model, int level, boolean timerOn, boolean soundOn ) {
+    public ProblemSet( BuildAnAtomGameModel model, int level, boolean timerOn, boolean soundOn ) {
     }
 
     public void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {

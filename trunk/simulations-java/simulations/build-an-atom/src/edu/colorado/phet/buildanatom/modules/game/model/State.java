@@ -6,9 +6,9 @@ package edu.colorado.phet.buildanatom.modules.game.model;
  * @author Sam Reid
  */
 public class State {
-    protected final GameModel model;
+    protected final BuildAnAtomGameModel model;
 
-    public State( GameModel model ) {
+    public State( BuildAnAtomGameModel model ) {
         this.model = model;
     }
 }

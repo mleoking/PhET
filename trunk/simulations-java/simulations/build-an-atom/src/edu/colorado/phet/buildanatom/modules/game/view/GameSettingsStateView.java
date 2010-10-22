@@ -1,7 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.GameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.umd.cs.piccolo.PNode;
@@ -14,7 +14,7 @@ public class GameSettingsStateView extends StateView {
     private final GameSettingsPanel panel;
     private final PNode gameSettingsNode;
 
-    GameSettingsStateView( GameCanvas gameCanvas, final GameModel model ) {
+    GameSettingsStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( gameCanvas, model.getGameSettingsState() );
         panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
         gameSettingsNode = new PSwing( panel );

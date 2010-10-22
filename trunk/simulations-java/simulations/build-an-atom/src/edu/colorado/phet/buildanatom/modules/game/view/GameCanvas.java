@@ -31,12 +31,12 @@ public class GameCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private final GameModel model;
+    private final BuildAnAtomGameModel model;
 
     // View
     private final PNode rootNode;
 
-    private final GameScoreboardNode scoreboard = new GameScoreboardNode( GameModel.MAX_LEVELS, GameModel.MAX_SCORE, new DecimalFormat( "0.#" ) ) {
+    private final GameScoreboardNode scoreboard = new GameScoreboardNode( BuildAnAtomGameModel.MAX_LEVELS, BuildAnAtomGameModel.MAX_SCORE, new DecimalFormat( "0.#" ) ) {
         {
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
         }
@@ -48,7 +48,7 @@ public class GameCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GameCanvas( final GameModel model ) {
+    public GameCanvas( final BuildAnAtomGameModel model ) {
 
         this.model = model;
         stateViews.add( new GameSettingsStateView( this,model ) );
@@ -80,7 +80,7 @@ public class GameCanvas extends PhetPCanvas {
         //        rootNode.addChild( tbdIndicator );
 
         // Listen for state changes so the representation can be updated.
-        model.addListener( new GameModel.GameModelListener() {
+        model.addListener( new BuildAnAtomGameModel.GameModelListener() {
             public void stateChanged( State oldState, State newState ) {
                 getView( oldState ).teardown();
                 getView( newState ).init();
