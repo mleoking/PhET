@@ -1,5 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 * @author Sam Reid
 */
 public class ProblemView extends StateView {
-
+    private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     PText text=new PText( "<debug info for guesses>");
     // TODO: i18n
     private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );//todo i18n
@@ -40,7 +41,7 @@ public class ProblemView extends StateView {
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess();
                 text.setText( "num guesses = "+problem.getNumGuesses()+", correctlySolved = "+problem.isSolvedCorrectly());
-                resultNode.addChild( new FaceNode( 300 ) {{
+                resultNode.addChild( new FaceNode( 400 ,FACE_COLOR, new Color( 180,180,180,120), new Color( 180,180,180,120)) {{
                     if ( problem.isSolvedCorrectly() ) {
                         smile();
                     }
@@ -75,6 +76,8 @@ public class ProblemView extends StateView {
                             checkButton.setVisible( false );
                         }
                     }
+                    setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth()/2-getFullBounds().getWidth()/2,BuildAnAtomDefaults.STAGE_SIZE.getHeight()/2-getFullBounds().getHeight()/2 );
+                    resultNode.moveToFront();
                 }} );
             }
         } );
