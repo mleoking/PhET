@@ -299,6 +299,20 @@ public class Capacitor {
     }
     
     /**
+     * Is a point inside the dielectric?
+     * 
+     * @param p a point in the global 3D model coordinate frame
+     * @return true or false
+     */
+    public boolean isInsideDielectric( Point3D p ) {
+        double x = p.getX() - location.getX();
+        boolean xInside = ( x >= -( plateSideLength / 2 ) + dielectricOffset ) && ( x <= ( plateSideLength / 2 ) + dielectricOffset );
+        boolean yInside = Math.abs( p.getY() - location.getY() ) <= ( plateSeparation / 2 ) - dielectricGap;
+        boolean zInside = Math.abs( p.getZ() - location.getZ() ) <= ( plateSeparation / 2 ) - dielectricGap;
+        return xInside && yInside && zInside;
+    }
+    
+    /**
      * Interface implemented by listeners who are interested in capacitor changes.
      * Includes separate notification for each mutable property, plus capacitance.
      */
