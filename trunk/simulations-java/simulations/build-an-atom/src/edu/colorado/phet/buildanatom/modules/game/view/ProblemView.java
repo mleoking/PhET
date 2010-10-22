@@ -22,24 +22,17 @@ public class ProblemView extends StateView {
     private static final Point2D BUTTON_OFFSET = new Point2D.Double(720, 510);
     PText text=new PText( "<debug info for guesses>");
     // TODO: i18n
-    private final GameButtonNode checkButton = new GameButtonNode( "Check" );
+    private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;
     private final PNode resultNode = new PNode( );
 
-    private final Problem problem;
-    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem) {
+    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem) {
         super( model, problem, gameCanvas );
-        this.problem = problem;
         problemNumberDisplay = new PText( "Problem " + (model.getProblemIndex(problem)+1) + " of " + model.getNumberProblems()) {{//todo i18n
             setFont( new PhetFont( 20, true ) );
         }};
         problemNumberDisplay.setOffset( 30, 30 );
-    }
-
-    @Override
-    public void init() {
-        checkButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
-        checkButton.addActionListener( new ActionListener() {
+        checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess();
                 text.setText( "num guesses = "+problem.getNumGuesses()+", correctlySolved = "+problem.isSolvedCorrectly());
@@ -50,9 +43,8 @@ public class ProblemView extends StateView {
                     else {
                         frown();
                         if ( problem.getNumGuesses() == 1 ) {
-                            GameButtonNode tryAgainButton = new GameButtonNode( "Try Again" );//todo i18n
-                            tryAgainButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
-                            tryAgainButton.addActionListener( new ActionListener() {
+                            // TODO: i18n
+                            GameButtonNode tryAgainButton = new GameButtonNode( "Try Again", BUTTON_OFFSET, new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
                                     checkButton.setVisible( true );
@@ -62,14 +54,12 @@ public class ProblemView extends StateView {
                             checkButton.setVisible( false );
                         }
                         else if ( problem.getNumGuesses() == 2 ) {
-                            GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer" );//todo i18n
-                            showAnswerButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
-                            showAnswerButton.addActionListener( new ActionListener() {
+                            // TODO: i18n
+                            GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
-                                    GameButtonNode nextProblemButton = new GameButtonNode( "Next Problem" );//todo i18n
-                                    nextProblemButton.centerFullBoundsOnPoint( BUTTON_OFFSET.getX(), BUTTON_OFFSET.getY() );
-                                    nextProblemButton.addActionListener( new ActionListener() {
+                                    // TODO: i18n
+                                    GameButtonNode nextProblemButton = new GameButtonNode( "Next Problem", BUTTON_OFFSET, new ActionListener() {
                                         public void actionPerformed( ActionEvent e ) {
                                             getModel().nextProblem();
                                         }
@@ -86,6 +76,10 @@ public class ProblemView extends StateView {
                 }} );
             }
         } );
+    }
+
+    @Override
+    public void init() {
         getScoreboard().setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width / 2 - getScoreboard().getFullBoundsReference().width / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height - ( 1.3 * getScoreboard().getFullBoundsReference().height ) );
@@ -109,9 +103,13 @@ public class ProblemView extends StateView {
     private static class GameButtonNode extends GradientButtonNode {
         /**
          * Constructor.
+         * @param centerLocation TODO
+         * @param listener TODO
          */
-        public GameButtonNode( String label ) {
+        public GameButtonNode( String label, Point2D centerLocation, ActionListener listener ) {
             super( label, GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );
+            addActionListener( listener );
+            centerFullBoundsOnPoint( centerLocation.getX(), centerLocation.getY() );
         }
     }
 }
