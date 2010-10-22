@@ -1,3 +1,5 @@
+# 0.00.34 (45344) Oct 22, 2010
+10/22/10 dev version for discussion with Noah P.
 10/21/10 demonstrate dielectric gap = 0
 10/21/10 revert BatteryCapacitorCircuit.get*At methods for demo
 10/21/10 another attempt at BatteryCapacitorCircuit.get*At methods, still need specs
