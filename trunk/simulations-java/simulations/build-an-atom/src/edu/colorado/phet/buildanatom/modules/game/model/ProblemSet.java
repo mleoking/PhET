@@ -21,9 +21,13 @@ public class ProblemSet {
     public ProblemSet( BuildAnAtomGameModel model, int level, int numProblems, boolean timerOn, boolean soundOn ) {
         // TODO: We need to make sure that the same problem is not generated
         // twice.
-        ArrayList<AtomValue> pool = model.getLevel( level );
+        final ArrayList<AtomValue> levelPool = model.getLevel( level );
+        assert levelPool.size()>=numProblems;//otherwise problems would be duplicated in a game
+        ArrayList<AtomValue> remainingProblems = new ArrayList<AtomValue>( levelPool );//don't re-use the same problem twice in the same game
         for ( int i = 0; i < numProblems; i++ ) {
-            AtomValue atomValue = pool.get( random.nextInt( pool.size() ) );
+            final int index = random.nextInt( remainingProblems.size() );
+            AtomValue atomValue = remainingProblems.get( index );
+            remainingProblems.remove( index );
 //            final int problemType = random.nextInt( 3 );
             final int problemType = 2; // TODO: Temporary to get one type of problem working.
             if ( problemType == 0 ) {
