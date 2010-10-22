@@ -19,7 +19,7 @@ public class ProblemView extends StateView {
 
     PText text=new PText( "<debug info for guesses>");
     // TODO: i18n
-    private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );
+    private final GradientButtonNode checkButton = new GradientButtonNode( "Check", GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );//todo i18n
     private final PText problemNumberDisplay;
     private PNode resultNode = new PNode( );
 
@@ -27,7 +27,7 @@ public class ProblemView extends StateView {
     ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem) {
         super( model, problem, gameCanvas );
         this.problem = problem;
-        problemNumberDisplay = new PText( "Problem " + (model.getProblemIndex(problem)+1) + " of " + model.getNumberProblems()) {{
+        problemNumberDisplay = new PText( "Problem " + (model.getProblemIndex(problem)+1) + " of " + model.getNumberProblems()) {{//todo i18n
             setFont( new PhetFont( 20, true ) );
         }};
         problemNumberDisplay.setOffset( 30, 30 );
@@ -47,7 +47,7 @@ public class ProblemView extends StateView {
                     else {
                         frown();
                         if ( problem.getNumGuesses() == 1 ) {
-                            GradientButtonNode tryAgainButton = new GradientButtonNode( "Try again" );
+                            GradientButtonNode tryAgainButton = new GradientButtonNode( "Try again" );//todo i18n
                             tryAgainButton.addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
@@ -58,11 +58,11 @@ public class ProblemView extends StateView {
                             checkButton.setVisible( false );
                         }
                         else if ( problem.getNumGuesses() == 2 ) {
-                            GradientButtonNode showAnswerButton = new GradientButtonNode( "Show answer" );
+                            GradientButtonNode showAnswerButton = new GradientButtonNode( "Show answer" );//todo i18n
                             showAnswerButton.addActionListener( new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
-                                    GradientButtonNode nextProblemButton = new GradientButtonNode( "Next Problem" );
+                                    GradientButtonNode nextProblemButton = new GradientButtonNode( "Next Problem" );//todo i18n
                                     nextProblemButton.addActionListener( new ActionListener() {
                                         public void actionPerformed( ActionEvent e ) {
                                             getModel().nextProblem();
@@ -95,5 +95,6 @@ public class ProblemView extends StateView {
         removeChild( problemNumberDisplay );
         removeChild( text );
         removeChild( resultNode );
+
     }
 }
