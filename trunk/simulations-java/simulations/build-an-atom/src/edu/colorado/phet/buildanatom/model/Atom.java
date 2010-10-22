@@ -105,13 +105,39 @@ public class Atom extends SimpleObservable{
         public void grabbedByUser( SubatomicParticle particle ) {
             // The user has picked up this particle, so we assume
             // that it is essentially removed from the atom.
-            protons.remove( particle );
-            neutrons.remove( particle );
-            particle.removeListener( this );
-            reconfigureNucleus();
-            notifyObservers();
+            removeParticle( particle );
         }
     };
+
+
+    private void removeParticle( SubatomicParticle particle ) {
+        protons.remove( particle );
+        neutrons.remove( particle );
+        particle.removeListener( particleRemovalListener );
+        reconfigureNucleus();
+        notifyObservers();
+    }
+
+    /**
+     * Remove an arbitrary proton.
+     */
+    public void removeProton(){
+        removeParticle( protons.get( 0 ) );
+    }
+
+    /**
+     * Remove an arbitrary neutron.
+     */
+    public void removeNeutron(){
+        removeParticle( neutrons.get( 0 ) );
+    }
+
+    /**
+     * Remove an arbitrary electron.
+     */
+    public void removeElectron(){
+        electronShell1.removeElectron();
+    }
 
     /**
      * Constructor.

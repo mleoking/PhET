@@ -147,6 +147,16 @@ public class ElectronShell extends SimpleObservable {
         notifyObservers();
     }
 
+    /**
+     * Remove an arbitrary electron, doesn't matter which one.
+     */
+    public void removeElectron() {
+        assert getNumElectrons() > 0;
+        // The nasty hunk of code here gets the first electron in the map and
+        // removes it.
+        removeElectron( shellLocations.values().toArray( new Electron[0] )[0] );
+    }
+
     private Point2D findClosestOpenLocation( Point2D comparisonPt ) {
         ArrayList<Point2D> openShellLocations = getOpenShellLocations();
         if ( openShellLocations.size() == 0 ) {
@@ -171,6 +181,7 @@ public class ElectronShell extends SimpleObservable {
      * Automatically synchronize added observers with our state.
      * @param observer
      */
+    @Override
     public void addObserver( SimpleObserver observer ) {
         super.addObserver( observer );
         observer.update();
