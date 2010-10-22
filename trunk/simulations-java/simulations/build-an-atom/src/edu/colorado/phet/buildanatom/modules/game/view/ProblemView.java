@@ -27,10 +27,10 @@ public class ProblemView extends StateView {
 
     Problem problem;
 
-    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem, int problemIndex, int totalNumProblems ) {
+    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, Problem problem) {
         super( model, problem, gameCanvas );
         this.problem = problem;
-        problemNumberDisplay = new PText( "Problem " + problemIndex + " of " + totalNumProblems ) {{
+        problemNumberDisplay = new PText( "Problem " + (model.getProblemIndex(problem)+1) + " of " + model.getNumberProblems()) {{
             setFont( new PhetFont( 20, true ) );
         }};
         problemNumberDisplay.setOffset( 30, 30 );

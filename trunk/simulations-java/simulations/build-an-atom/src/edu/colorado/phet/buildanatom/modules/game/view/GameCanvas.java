@@ -95,15 +95,15 @@ public class GameCanvas extends PhetPCanvas {
                 //create views for the problem set
                 for ( int i = 0; i < problemSet.getNumCompleteTheModelProblems(); i++ ) {
                     final CompleteTheModelProblem problem = problemSet.getCompleteTheModelProblem( i );
-                    stateViews.add( new CompleteTheModelProblemView(  model, GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheModelProblemView(  model, GameCanvas.this, problem ) );
                 }
                 for ( int i = 0; i < problemSet.getNumCompleteTheSymbolProblems(); i++ ) {
                     final CompleteTheSymbolProblem problem = problemSet.getCompleteTheSymbolProblem( i );
-                    stateViews.add( new CompleteTheSymbolProblemView( model, GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new CompleteTheSymbolProblemView( model, GameCanvas.this, problem) );
                 }
                 for ( int i = 0; i < problemSet.getNumHowManyParticlesProblems(); i++ ) {
                     final HowManyParticlesProblem problem = problemSet.getHowManyParticlesProblem( i );
-                    stateViews.add( new HowManyParticlesProblemView( model, GameCanvas.this, problem, problemSet.getProblemIndex( problem ) + 1, problemSet.getTotalNumProblems() ) );
+                    stateViews.add( new HowManyParticlesProblemView( model, GameCanvas.this, problem) );
                 }
             }
         } );

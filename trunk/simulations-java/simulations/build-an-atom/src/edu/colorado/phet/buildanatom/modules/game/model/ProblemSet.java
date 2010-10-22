@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level
@@ -15,8 +16,26 @@ public class ProblemSet {
     //keeps track by ordering
     private final ArrayList<Problem> allProblems = new ArrayList<Problem>();
     private int currentProblemIndex = 0;
+    public static final Random random = new Random();
 
-    public ProblemSet( BuildAnAtomGameModel model, int level, boolean timerOn, boolean soundOn ) {
+    public ProblemSet( BuildAnAtomGameModel model, int level, int numProblems, boolean timerOn, boolean soundOn ) {
+        // TODO: We need to make sure that the same problem is not generated
+        // twice.
+        ArrayList<AtomValue> pool = model.getLevel( level );
+        for ( int i = 0; i < numProblems; i++ ) {
+            AtomValue atomValue = pool.get( random.nextInt( pool.size() ) );
+//            final int problemType = random.nextInt( 3 );
+            final int problemType = 2; // TODO: Temporary to get one type of problem working.
+            if ( problemType == 0 ) {
+                addProblem( new CompleteTheModelProblem( model, this, atomValue ) );
+            }
+            else if ( problemType == 1 ) {
+                addProblem( new CompleteTheSymbolProblem( model, this, atomValue ) );
+            }
+            else if ( problemType == 2 ) {
+                addProblem( new HowManyParticlesProblem( model, this, atomValue ) );
+            }
+        }
     }
 
     public void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {

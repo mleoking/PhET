@@ -19,7 +19,7 @@ public class BuildAnAtomGameModel {
 
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
-    private static final int PROBLEMS_PER_GAME = 3;
+    private static final int PROBLEMS_PER_SET = 3;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -103,24 +103,7 @@ public class BuildAnAtomGameModel {
 
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
         System.out.println( "level = " + level );
-        problemSet = new ProblemSet( this, level, timerOn, soundOn );
-        // TODO: We need to make sure that the same problem is not generated
-        // twice.
-        ArrayList<AtomValue> pool = levels.get( level );
-        for ( int i = 0; i < PROBLEMS_PER_GAME; i++ ) {
-            AtomValue atomValue = pool.get( random.nextInt( pool.size() ) );
-//            final int problemType = random.nextInt( 3 );
-            final int problemType = 2; // TODO: Temporary to get one type of problem working.
-            if ( problemType == 0 ) {
-                problemSet.addProblem( new CompleteTheModelProblem( this, problemSet, atomValue ) );
-            }
-            else if ( problemType == 1 ) {
-                problemSet.addProblem( new CompleteTheSymbolProblem( this, problemSet, atomValue ) );
-            }
-            else if ( problemType == 2 ) {
-                problemSet.addProblem( new HowManyParticlesProblem( this, problemSet, atomValue ) );
-            }
-        }
+        problemSet = new ProblemSet( this, level, PROBLEMS_PER_SET, timerOn, soundOn );
         for ( GameModelListener listener : listeners ) {
             listener.problemSetCreated( problemSet );
         }
@@ -149,6 +132,18 @@ public class BuildAnAtomGameModel {
         else {
             setState( problemSet.nextProblem() );
         }
+    }
+
+    public ArrayList<AtomValue> getLevel( int level ) {
+        return levels.get( level );
+    }
+
+    public int getProblemIndex( Problem problem ) {
+        return problemSet.getProblemIndex( problem );
+    }
+
+    public int getNumberProblems() {
+        return problemSet.getTotalNumProblems();
     }
 
     // -----------------------------------------------------------------------
