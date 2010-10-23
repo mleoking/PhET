@@ -11,6 +11,8 @@ import edu.colorado.phet.buildanatom.modules.game.model.HowManyParticlesProblem;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -41,23 +43,11 @@ public class HowManyParticlesProblemView extends ProblemView {
 
     public static class MultiEntryPanel extends PNode{
         public MultiEntryPanel( final Problem problem) {
-            final EntryPanel protonEntryPanel = new EntryPanel( "Protons:", new ValueSetter() {//todo i18n
-                public void setValue( int value ) {
-                    problem.setGuessedProtons( value );
-                }
-            } );
+            final EntryPanel protonEntryPanel = new EntryPanel( "Protons:", problem.getGuessedProtonsProperty());//todo: i18n
             addChild( protonEntryPanel );
-            final EntryPanel neutronEntryPanel = new EntryPanel( "Neutrons:", new ValueSetter() {//todo i18n
-                public void setValue( int value ) {
-                    problem.setGuessedNeutrons( value );
-                }
-            } );
+            final EntryPanel neutronEntryPanel = new EntryPanel( "Neutrons:", problem.getGuessedNeutronsProperty() );//todo: i18n
             addChild( neutronEntryPanel );
-            final EntryPanel electronEntryPanel = new EntryPanel( "Electrons:", new ValueSetter() {//todo i18n, already exists
-                public void setValue( int value ) {
-                    problem.setGuessedElectrons( value );
-                }
-            } );
+            final EntryPanel electronEntryPanel = new EntryPanel( "Electrons:", problem.getGuessedElectronsProperty() );//todo: i18n
             addChild( electronEntryPanel );
             double maxLabelWidth = MathUtil.max( new double[] { protonEntryPanel.getLabelWidth(), neutronEntryPanel.getLabelWidth(), electronEntryPanel.getLabelWidth() } );
             int distanceBetweenSpinnerAndLabel = 20;
@@ -73,26 +63,27 @@ public class HowManyParticlesProblemView extends ProblemView {
         }
     }
 
-    public interface ValueSetter {
-        public void setValue(int value);
-    }
-
     public static class EntryPanel extends PNode {
         private final PText label;
         private final PSwing spinnerPSwing;
 
-        public EntryPanel( String name, final ValueSetter valueSetter ) {
+        public EntryPanel( String name, final Property<Integer> property ) {
             label = new PText( name ) {{
                 setFont( new PhetFont( 20, true ) );
             }};
             addChild( label );
-            JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
+            final JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            valueSetter.setValue( (Integer) getValue() );
+                            property.setValue( (Integer) getValue() );
                         }
                     } );
                   }};
+            property.addObserver( new SimpleObserver() {
+                public void update() {
+                    spinner.setValue( property.getValue() );
+                }
+            } );
             spinnerPSwing = new PSwing( spinner );
             spinnerPSwing.scale( 2 );
             addChild( spinnerPSwing );
