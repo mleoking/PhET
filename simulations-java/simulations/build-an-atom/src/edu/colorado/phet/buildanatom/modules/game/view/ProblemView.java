@@ -66,6 +66,7 @@ public class ProblemView extends StateView {
                         else if ( problem.getNumGuesses() == 2 ) {
                             GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {
+                                    problem.showAnswer();
                                     resultNode.removeAllChildren();
                                     GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                         public void actionPerformed( ActionEvent e ) {

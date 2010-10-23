@@ -6,7 +6,9 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Represents one row from the table defined in the design doc (see pools for level 1-3)
@@ -14,9 +16,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * @author Sam Reid
  */
 public class AtomValue extends Atom {
+    private Property<Integer> numProtonsProperty=new Property<Integer>( 0);
+    private Property<Integer> numElectronsProperty=new Property<Integer>( 0);
+    private Property<Integer> numNeutronsProperty=new Property<Integer>( 0);
 
     public AtomValue( int protons, int neutrons, int electrons ) {
         super( new Point2D.Double( 0, 0 ) );
+        addObserver( new SimpleObserver() {
+            public void update() {
+                numProtonsProperty.setValue( getNumProtons() );
+                numElectronsProperty.setValue( getNumElectrons() );
+                numNeutronsProperty.setValue( getNumNeutrons() );
+            }
+        } );
         for ( int i = 0; i < protons; i++ ) {
             addProton( new Proton( ConstantDtClock.TEST ) );
         }
@@ -55,5 +67,23 @@ public class AtomValue extends Atom {
 
     public boolean guessEquals( AtomValue atom ) {
         return atom.getNumProtons()==getNumProtons() && atom.getNumNeutrons()==getNumNeutrons() && atom.getNumElectrons() == getNumElectrons();
+    }
+
+    public void setState( AtomValue atom ) {
+        setNumElectrons( atom.getNumElectrons() );
+        setNumProtons( atom.getNumProtons() );
+        setNumNeutrons( atom.getNumNeutrons() );
+    }
+
+    public Property<Integer> numProtonsProperty() {
+        return numProtonsProperty;
+    }
+
+    public Property<Integer> numNeutronsProperty() {
+        return numNeutronsProperty;
+    }
+
+    public Property<Integer> numElectronsProperty() {
+        return numElectronsProperty;
     }
 }
