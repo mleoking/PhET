@@ -9,7 +9,7 @@ public class Problem extends State {
     private final AtomValue atom;
     private final AtomValue guessedAtom = new AtomValue(0, 0, 0);
     private int numGuesses = 0;
-    private int points = 0;
+    private int score = 0;
     private boolean solvedCorrectly =false;
 
     public Problem( BuildAnAtomGameModel model, AtomValue atom ) {
@@ -37,18 +37,17 @@ public class Problem extends State {
         guessedAtom.setNumElectrons( numElectrons );
     }
 
-    public GuessResult processGuess() {
+    public void processGuess() {
         numGuesses++;
         if ( isGuessCorrect() ) {
             solvedCorrectly = true;
             if ( numGuesses == 1 ) {
-                points = 2;
+                score = 2;
             }
             else if ( numGuesses == 2 ) {
-                points = 1;
+                score = 1;
             }
         }
-        return new GuessResult( isGuessCorrect(), points );
     }
 
     public int getNumGuesses() {
@@ -57,5 +56,9 @@ public class Problem extends State {
 
     public boolean isSolvedCorrectly() {
         return solvedCorrectly;
+    }
+
+    public Integer getScore() {
+        return score;
     }
 }
