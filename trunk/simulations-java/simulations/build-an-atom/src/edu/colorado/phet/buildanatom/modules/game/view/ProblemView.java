@@ -1,12 +1,13 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.GuessResult;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -15,36 +16,42 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
-* @author Sam Reid
-*/
+ * @author Sam Reid
+ */
 public class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
-    private static final Point2D BUTTON_OFFSET = new Point2D.Double(720, 510);
-    PText text=new PText( "<debug info for guesses>");
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 510 );
+    PText text = new PText( "<debug info for guesses>" );
     // TODO: i18n
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;
-    private final PNode resultNode = new PNode( );
+    private final PNode resultNode = new PNode();
 
-    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem) {
+    ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
-        problemNumberDisplay = new PText( "Problem " + (model.getProblemIndex(problem)+1) + " of " + model.getNumberProblems()) {{//todo i18n
+        problemNumberDisplay = new PText( "Problem " + ( model.getProblemIndex( problem ) + 1 ) + " of " + model.getNumberProblems() ) {{//todo i18n
             setFont( new PhetFont( 20, true ) );
         }};
         problemNumberDisplay.setOffset( 30, 30 );
         checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModel().processGuess();
-                text.setText( "num guesses = "+problem.getNumGuesses()+", correctlySolved = "+problem.isSolvedCorrectly());
-                resultNode.addChild( new FaceNode( 400 ,FACE_COLOR, new Color( 180,180,180,120), new Color( 180,180,180,120)) {{
+                GuessResult result = getModel().processGuess();
+                text.setText( "num guesses = " + problem.getNumGuesses() + ", correctlySolved = " + problem.isSolvedCorrectly() );
+                resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {{
                     if ( problem.isSolvedCorrectly() ) {
                         smile();
+                        GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {
+                            public void actionPerformed( ActionEvent e ) {
+                                getModel().next();
+                            }
+                        } );
+                        checkButton.setVisible( false );
+                        resultNode.addChild( nextProblemButton );
                     }
                     else {
                         frown();
                         if ( problem.getNumGuesses() == 1 ) {
-                            // TODO: i18n
-                            GameButtonNode tryAgainButton = new GameButtonNode( "Try Again", BUTTON_OFFSET, new ActionListener() {
+                            GameButtonNode tryAgainButton = new GameButtonNode( "Try Again", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
                                     checkButton.setVisible( true );
@@ -54,14 +61,12 @@ public class ProblemView extends StateView {
                             checkButton.setVisible( false );
                         }
                         else if ( problem.getNumGuesses() == 2 ) {
-                            // TODO: i18n
-                            GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {
+                            GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
-                                    // TODO: i18n
-                                    GameButtonNode nextProblemButton = new GameButtonNode( "Next Problem", BUTTON_OFFSET, new ActionListener() {
+                                    GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                         public void actionPerformed( ActionEvent e ) {
-                                            getModel().nextProblem();
+                                            getModel().next();
                                         }
                                     } );
                                     resultNode.addChild( nextProblemButton );
@@ -71,7 +76,7 @@ public class ProblemView extends StateView {
                             checkButton.setVisible( false );
                         }
                     }
-                    setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth()/2-getFullBounds().getWidth()/2,BuildAnAtomDefaults.STAGE_SIZE.getHeight()/2-getFullBounds().getHeight()/2 );
+                    setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
                     resultNode.moveToFront();
                 }} );
             }
@@ -103,8 +108,9 @@ public class ProblemView extends StateView {
     private static class GameButtonNode extends GradientButtonNode {
         /**
          * Constructor.
+         *
          * @param centerLocation TODO
-         * @param listener TODO
+         * @param listener       TODO
          */
         public GameButtonNode( String label, Point2D centerLocation, ActionListener listener ) {
             super( label, GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );

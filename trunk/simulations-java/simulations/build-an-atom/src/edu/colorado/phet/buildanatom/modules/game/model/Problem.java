@@ -40,13 +40,12 @@ public class Problem extends State {
     public GuessResult processGuess() {
         numGuesses++;
         if ( isGuessCorrect() ) {
+            solvedCorrectly = true;
             if ( numGuesses == 1 ) {
                 points = 2;
-                solvedCorrectly = true;
             }
             else if ( numGuesses == 2 ) {
                 points = 1;
-                solvedCorrectly = true;
             }
         }
         return new GuessResult( isGuessCorrect(), points );
