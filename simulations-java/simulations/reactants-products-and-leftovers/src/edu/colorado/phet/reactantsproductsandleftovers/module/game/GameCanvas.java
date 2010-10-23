@@ -10,13 +10,13 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALAudioPlayer;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
@@ -66,7 +66,7 @@ public class GameCanvas extends RPALCanvas {
     
     private final GameModel model;
     private final NodeVisibilityManager visibilityManager;
-    private final RPALAudioPlayer audioPlayer;
+    private final GameAudioPlayer audioPlayer;
     
     // static nodes, allocated once, always visible
     private final PhetPNode buttonsParentNode;
@@ -99,7 +99,7 @@ public class GameCanvas extends RPALCanvas {
     public GameCanvas( final GameModel model, Resettable resettable ) {
         super();
         
-        audioPlayer = new RPALAudioPlayer( model.isSoundEnabled() );
+        audioPlayer = new GameAudioPlayer( model.isSoundEnabled() );
         
         // reward node
         rewardNode = new GameRewardNode();
