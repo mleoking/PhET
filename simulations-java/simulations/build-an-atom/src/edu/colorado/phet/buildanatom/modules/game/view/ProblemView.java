@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -25,6 +26,7 @@ public class ProblemView extends StateView {
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;
     private final PNode resultNode = new PNode();
+    private GameAudioPlayer gameAudioPlayer=new GameAudioPlayer( true);
 
     ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
@@ -39,6 +41,7 @@ public class ProblemView extends StateView {
                 resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {{
                     if ( problem.isSolvedCorrectly() ) {
                         smile();
+                        gameAudioPlayer.correctAnswer();
                         GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
                                 getModel().next();
@@ -49,6 +52,7 @@ public class ProblemView extends StateView {
                     }
                     else {
                         frown();
+                        gameAudioPlayer.wrongAnswer();
                         if ( problem.getNumGuesses() == 1 ) {
                             GameButtonNode tryAgainButton = new GameButtonNode( "Try Again", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {

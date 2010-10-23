@@ -161,6 +161,14 @@ public class BuildAnAtomGameModel {
         }
     }
 
+    public int getScore() {
+        return score.getValue();
+    }
+
+    public int getMaximumPossibleScore() {
+        return 2*problemSet.getTotalNumProblems();//todo: move the '2' elsewhere?
+    }
+
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
