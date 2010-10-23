@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.GuessResult;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -35,7 +34,7 @@ public class ProblemView extends StateView {
         problemNumberDisplay.setOffset( 30, 30 );
         checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                GuessResult result = getModel().processGuess();
+                getModel().processGuess();
                 text.setText( "num guesses = " + problem.getNumGuesses() + ", correctlySolved = " + problem.isSolvedCorrectly() );
                 resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {{
                     if ( problem.isSolvedCorrectly() ) {

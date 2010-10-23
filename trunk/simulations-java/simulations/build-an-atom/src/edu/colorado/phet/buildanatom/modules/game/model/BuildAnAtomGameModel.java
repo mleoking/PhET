@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
+
 /**
  * The primary model for the Build an Atom game.  This class sequences the
  * game and sends out events when the game state changes.
@@ -29,6 +31,7 @@ public class BuildAnAtomGameModel {
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final State gameSettingsState = new State( this );
     private final State gameOverState = new State( this );
+    private final Property<Integer> score = new Property<Integer>( 0 );
 
     // Level pools from the design doc
     private final HashMap<Integer, ArrayList<AtomValue>> levels = new HashMap<Integer, ArrayList<AtomValue>>() {{
@@ -125,8 +128,13 @@ public class BuildAnAtomGameModel {
     /**
      * Check the user's guess and update the state of the model accordingly.
      */
-    public GuessResult processGuess() {
-        return problemSet.getCurrentProblem().processGuess();
+    public void processGuess() {
+        problemSet.getCurrentProblem().processGuess();
+        score.setValue( score.getValue()+problemSet.getCurrentProblem().getScore() );
+    }
+
+    public Property<Integer> getScoreProperty() {
+        return score;
     }
 
     public ArrayList<AtomValue> getLevel( int level ) {
