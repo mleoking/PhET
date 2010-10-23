@@ -65,7 +65,7 @@ package{
 			this.initializeBalls();
 			//this.setCenterOfMass();
 			this.time = 0;
-			this.timeStep = 0.02;
+			this.timeStep = 0.01;  //time step in seconds
 			this.timeRate = 0.5;
 			this.updateRate = 1;		
 			this.frameCount = 0;
@@ -372,6 +372,7 @@ package{
 		public function stepForward(evt:TimerEvent):void{
 			//need function without event argument
 			this.singleStep();
+			evt.updateAfterEvent();
 		}//stepForward
 		
 		public function singleStep():void{
