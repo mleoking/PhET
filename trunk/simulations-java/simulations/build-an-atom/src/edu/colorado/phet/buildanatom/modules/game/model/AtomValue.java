@@ -22,6 +22,21 @@ public class AtomValue extends Atom {
 
     public AtomValue( int protons, int neutrons, int electrons ) {
         super( new Point2D.Double( 0, 0 ) );
+        numProtonsProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setNumProtons( numProtonsProperty.getValue() );
+            }
+        } );
+        numElectronsProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setNumElectrons( numElectronsProperty.getValue() );
+            }
+        } );
+        numNeutronsProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                setNumNeutrons( numNeutronsProperty.getValue() );
+            }
+        } );
         addObserver( new SimpleObserver() {
             public void update() {
                 numProtonsProperty.setValue( getNumProtons() );
