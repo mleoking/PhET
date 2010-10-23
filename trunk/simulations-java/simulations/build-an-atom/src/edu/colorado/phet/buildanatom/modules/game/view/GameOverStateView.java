@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 
 /**
@@ -11,7 +12,8 @@ import edu.colorado.phet.common.games.GameOverNode;
 */
 public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
-
+    private final GameAudioPlayer gameAudioPlayer=new GameAudioPlayer( true);
+    
     GameOverStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameOverState(), gameCanvas );
         gameOverNode = new GameOverNode( 1, 5, 5, new DecimalFormat( "0.#" ), 40000, 30000, false, true );
@@ -27,6 +29,15 @@ public class GameOverStateView extends StateView {
                 BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameOverNode.getFullBoundsReference().width / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - gameOverNode.getFullBoundsReference().height / 2 );
         addChild( gameOverNode );
+        if ( getModel().getScore() == 0 ) {
+            gameAudioPlayer.gameOverZeroScore();
+        }
+        else if ( getModel().getScore() == getModel().getMaximumPossibleScore() ) {
+            gameAudioPlayer.gameOverPerfectScore();
+        }
+        else {
+            gameAudioPlayer.gameOverImperfectScore();
+        }
     }
 
     public void teardown() {
