@@ -26,6 +26,7 @@ public class Problem extends State {
         return atom.guessEquals(guessedAtom);
   }
 
+    //TODO: use these or Property<Integer>?
     public void setGuessedProtons(int numProtons) {
         guessedAtom.setNumProtons( numProtons );
     }
