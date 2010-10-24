@@ -42,12 +42,16 @@ public class HowManyParticlesProblemView extends ProblemView {
     }
 
     public static class MultiEntryPanel extends PNode{
+        private final EntryPanel protonEntryPanel;
+        private final EntryPanel neutronEntryPanel;
+        private final EntryPanel electronEntryPanel;
+
         public MultiEntryPanel( final Problem problem) {
-            final EntryPanel protonEntryPanel = new EntryPanel( "Protons:", problem.getGuessedProtonsProperty());//todo: i18n
+            protonEntryPanel = new EntryPanel( "Protons:", problem.getGuessedProtonsProperty());
             addChild( protonEntryPanel );
-            final EntryPanel neutronEntryPanel = new EntryPanel( "Neutrons:", problem.getGuessedNeutronsProperty() );//todo: i18n
+            neutronEntryPanel = new EntryPanel( "Neutrons:", problem.getGuessedNeutronsProperty() );
             addChild( neutronEntryPanel );
-            final EntryPanel electronEntryPanel = new EntryPanel( "Electrons:", problem.getGuessedElectronsProperty() );//todo: i18n
+            electronEntryPanel = new EntryPanel( "Electrons:", problem.getGuessedElectronsProperty() );
             addChild( electronEntryPanel );
             double maxLabelWidth = MathUtil.max( new double[] { protonEntryPanel.getLabelWidth(), neutronEntryPanel.getLabelWidth(), electronEntryPanel.getLabelWidth() } );
             int distanceBetweenSpinnerAndLabel = 20;
@@ -61,6 +65,18 @@ public class HowManyParticlesProblemView extends ProblemView {
             neutronEntryPanel.setOffset( protonEntryPanel.getFullBounds().getX(), protonEntryPanel.getFullBounds().getMaxY() + verticalSpacing );
             electronEntryPanel.setOffset( neutronEntryPanel.getFullBounds().getX(), neutronEntryPanel.getFullBounds().getMaxY() + verticalSpacing );
         }
+
+        public void setEditable( boolean editable ) {
+            protonEntryPanel.setEditable(editable);
+            neutronEntryPanel.setEditable(editable);
+            electronEntryPanel.setEditable(editable);
+        }
+    }
+
+    @Override
+    protected void setGuessEditable( boolean guessEditable ) {
+        super.setGuessEditable( guessEditable );
+        multiEntryPanel.setEditable(guessEditable);
     }
 
     public static class EntryPanel extends PNode {
@@ -96,6 +112,10 @@ public class HowManyParticlesProblemView extends ProblemView {
 
         public void setSpinnerX( double x ) {
             spinnerPSwing.setOffset( x, spinnerPSwing.getOffset().getY() );
+        }
+
+        public void setEditable( boolean editable ) {
+            spinnerPSwing.getComponent().setEnabled( editable );
         }
     }
 
