@@ -53,11 +53,13 @@ public class ProblemView extends StateView {
                     else {
                         frown();
                         gameAudioPlayer.wrongAnswer();
+                        setGuessEditable( false );
                         if ( problem.getNumGuesses() == 1 ) {
                             GameButtonNode tryAgainButton = new GameButtonNode( "Try Again", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {
                                     resultNode.removeAllChildren();
                                     checkButton.setVisible( true );
+                                    setGuessEditable( true );
                                 }
                             } );
                             resultNode.addChild( tryAgainButton );
@@ -67,6 +69,7 @@ public class ProblemView extends StateView {
                             GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {
                                     problem.showAnswer();
+                                    setGuessEditable(false);
                                     resultNode.removeAllChildren();
                                     GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                         public void actionPerformed( ActionEvent e ) {
@@ -86,6 +89,9 @@ public class ProblemView extends StateView {
             }
         } );
     }
+
+    //disable controls during feedback stages
+    protected void setGuessEditable( boolean guessEditable ){}
 
     @Override
     public void init() {
