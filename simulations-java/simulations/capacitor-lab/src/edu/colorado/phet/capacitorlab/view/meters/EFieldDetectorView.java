@@ -9,7 +9,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -72,6 +74,7 @@ public class EFieldDetectorView {
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
     
     private static final Font VALUE_FONT = new PhetFont( 14 );
+    private static final NumberFormat VALUE_FORMAT = new DecimalFormat( "0" );
     
     private static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color CONTROL_COLOR = Color.WHITE;
@@ -519,7 +522,8 @@ public class EFieldDetectorView {
         }
         
         public void setValue( double value ) {
-            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, (int)value, CLStrings.VOLTS_PER_METER ) );
+            String valueString = VALUE_FORMAT.format( Math.abs( value ) );
+            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, valueString, CLStrings.VOLTS_PER_METER ) );
         }
     }
     

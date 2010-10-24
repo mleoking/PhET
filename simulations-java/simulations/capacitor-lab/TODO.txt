@@ -9,7 +9,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - chose a more appropriate max for detector vectors
-- show absolute values in detector
 - remove dielectric gap from model
 - center labels and values above/below tails of detector vectors, labels above values
 - add E-field model inside the battery (V_battery / d_battery, where d_battery is battery length, 10mm)
