@@ -29,7 +29,6 @@ public class Capacitor {
     // immutable properties
     private final Point3D location; // location of the capacitor's geometric center (meters)
     private final double plateThickness; // thickness of the plates (meters)
-    private final double dielectricGap; // gap between the dielectric and the plates (meters)
     
     // mutable properties
     private double plateSideLength; // length of one side of a plate (meters)
@@ -43,7 +42,6 @@ public class Capacitor {
         
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.plateThickness = CLConstants.PLATE_THICKNESS;
-        this.dielectricGap = CLConstants.DIELECTRIC_GAP;
         
         this.plateSideLength = plateSideLength;
         this.plateSeparation = plateSeparation;
@@ -158,20 +156,11 @@ public class Capacitor {
     }
     
     /**
-     * Gets the gap between the dielectric and the plates, identical for both plates.
-     * This property does not play a role in the model, but is used by the visual representation.
-     * @return the gap, in meters
-     */
-    public double getDielectricGap() {
-        return dielectricGap;
-    }
-    
-    /**
      * Convenience method for getting the dielectric height.
      * @return
      */
     public double getDielectricHeight() {
-        return plateSeparation - ( 2 * dielectricGap );
+        return plateSeparation;
     }
     
     /**
@@ -307,8 +296,8 @@ public class Capacitor {
     public boolean isInsideDielectric( Point3D p ) {
         double x = p.getX() - location.getX();
         boolean xInside = ( x >= -( plateSideLength / 2 ) + dielectricOffset ) && ( x <= ( plateSideLength / 2 ) + dielectricOffset );
-        boolean yInside = Math.abs( p.getY() - location.getY() ) <= ( plateSeparation / 2 ) - dielectricGap;
-        boolean zInside = Math.abs( p.getZ() - location.getZ() ) <= ( plateSeparation / 2 ) - dielectricGap;
+        boolean yInside = Math.abs( p.getY() - location.getY() ) <= ( plateSeparation / 2 );
+        boolean zInside = Math.abs( p.getZ() - location.getZ() ) <= ( plateSeparation / 2 );
         return xInside && yInside && zInside;
     }
     
