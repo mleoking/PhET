@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
+import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
+import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
@@ -20,7 +24,6 @@ public class BuildAnAtomGameModel {
     // ------------------------------------------------------------------------
 
     public static final int MAX_LEVELS = 3;
-    public static final int MAX_SCORE = 5;
     private static final int PROBLEMS_PER_SET = 3;//TODO: fix for deployment, should be 5
 
     // ------------------------------------------------------------------------
@@ -29,8 +32,16 @@ public class BuildAnAtomGameModel {
 
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
-    private final State gameSettingsState = new State( this );
-    private final State gameOverState = new State( this );
+    private final State gameSettingsState = new State( this ){
+        public StateView createView( GameCanvas gameCanvas ) {
+            return new GameSettingsStateView(gameCanvas, BuildAnAtomGameModel.this );
+        }
+    };
+    private final State gameOverState = new State( this ){
+        public StateView createView( GameCanvas gameCanvas ) {
+            return new GameOverStateView(gameCanvas, BuildAnAtomGameModel.this );
+        }
+    };
     private final Property<Integer> score = new Property<Integer>( 0 );
 
     // Level pools from the design doc
@@ -166,7 +177,7 @@ public class BuildAnAtomGameModel {
     }
 
     public int getMaximumPossibleScore() {
-        return 2*problemSet.getTotalNumProblems();//todo: move the '2' elsewhere?
+        return 2*PROBLEMS_PER_SET;//todo: move the '2' elsewhere?
     }
 
     // -----------------------------------------------------------------------

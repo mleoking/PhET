@@ -31,13 +31,13 @@ public class ProblemSet {
 //            final int problemType = random.nextInt( 3 );
             final int problemType = 2; // TODO: Temporary to get one type of problem working.
             if ( problemType == 0 ) {
-                addProblem( new CompleteTheModelProblem( model, this, atomValue ) );
+                addProblem( new CompleteTheModelProblem( model, atomValue ) );
             }
             else if ( problemType == 1 ) {
-                addProblem( new CompleteTheSymbolProblem( model, this, atomValue ) );
+                addProblem( new CompleteTheSymbolProblem( model, atomValue ) );
             }
             else if ( problemType == 2 ) {
-                addProblem( new HowManyParticlesProblem( model, this, atomValue ) );
+                addProblem( new HowManyParticlesProblem( model, atomValue ) );
             }
         }
     }

@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 /**
  * Represents one of the Problems in the game, formerly called Challenge.
  */
-public class Problem extends State {
+public abstract class Problem extends State {
     private final AtomValue atom;
     private final AtomValue guessedAtom = new AtomValue(0, 0, 0);
     private int numGuesses = 0;
