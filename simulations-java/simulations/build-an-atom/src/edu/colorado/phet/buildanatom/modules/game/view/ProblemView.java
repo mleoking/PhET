@@ -21,12 +21,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 510 );
-    PText text = new PText( "<debug info for guesses>" );
-    // TODO: i18n
+    private final PText text = new PText( "<debug info for guesses>" );
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;
     private final PNode resultNode = new PNode();
-    private GameAudioPlayer gameAudioPlayer=new GameAudioPlayer( true);
+    private final GameAudioPlayer gameAudioPlayer=new GameAudioPlayer( true);
 
     ProblemView( BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
@@ -34,15 +33,20 @@ public class ProblemView extends StateView {
             setFont( new PhetFont( 20, true ) );
         }};
         problemNumberDisplay.setOffset( 30, 30 );
-        checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {
+        checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {//TODO: i18n
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess();
                 text.setText( "num guesses = " + problem.getNumGuesses() + ", correctlySolved = " + problem.isSolvedCorrectly() );
                 resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {{
+                    final FaceNode faceNode = this;
                     if ( problem.isSolvedCorrectly() ) {
                         smile();
+                        addChild( new PText("+"+problem.getScore()){{//TODO: i18n, consider messageformat
+                            setOffset( faceNode.getFullBounds().getWidth()/2,faceNode.getFullBounds().getHeight() );
+                            setFont( new PhetFont( 24,true) );
+                        }} );
                         gameAudioPlayer.correctAnswer();
-                        GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {
+                        GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {//TODO: i18n
                             public void actionPerformed( ActionEvent e ) {
                                 getModel().next();
                             }
