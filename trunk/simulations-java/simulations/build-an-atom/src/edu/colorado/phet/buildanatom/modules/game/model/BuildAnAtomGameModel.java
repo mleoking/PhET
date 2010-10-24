@@ -21,7 +21,7 @@ public class BuildAnAtomGameModel {
 
     public static final int MAX_LEVELS = 3;
     public static final int MAX_SCORE = 5;
-    private static final int PROBLEMS_PER_SET = 9;
+    private static final int PROBLEMS_PER_SET = 3;//TODO: fix for deployment, should be 5
 
     // ------------------------------------------------------------------------
     // Instance Data
