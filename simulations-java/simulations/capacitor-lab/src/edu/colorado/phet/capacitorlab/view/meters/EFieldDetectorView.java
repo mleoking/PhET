@@ -509,11 +509,10 @@ public class EFieldDetectorView {
                     dielectricValueNode.setOffset( x, y );
                 }
             }
-            
-            // values --------------------------
         }
     }
     
+    //XXX combine FieldVectorLabelNode and FieldVectorNode to simplify layout code in VectorDisplayNode
     /*
      * Field vector label.
      */
