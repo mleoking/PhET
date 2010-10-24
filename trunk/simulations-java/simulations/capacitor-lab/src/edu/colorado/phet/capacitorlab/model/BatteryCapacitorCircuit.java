@@ -371,6 +371,8 @@ public class BatteryCapacitorCircuit {
 
     /**
      * Gets the effective E-field at a specified location.
+     * Inside the plates, this is E_effective.
+     * Outside the plates, it is zero.
      * 
      * @param location
      * @return
@@ -404,25 +406,24 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Field due to the plate, equal to E_plate_air or E_plate_dielectric, depending on the location.
+     * Field due to the plate, at a specific location.
+     * Between the plates, the field is either E_plate_dielectric or E_plate_air, depending on whether the probe intersects the dielectric.
+     * Outside the plates, the field is zero.
      * 
      * @param location
      * @return
      */
     public double getPlatesDielectricEFieldAt( Point3D location ) {
-        return capacitor.isBetweenPlates( location ) ? getPlatesDielectricEField() : 0;
-//XXX
-//        System.out.println( "getPlatesDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
-//        double eField = 0;
-//        if ( capacitor.isBetweenPlates( location ) ) {
-//            if ( capacitor.isInsideDielectric( location ) ) {
-//                eField = getPlatesDielectricEField();
-//            }
-//            else {
-//                eField = getPlatesAirEField();
-//            }
-//        }
-//        return eField;
+        double eField = 0;
+        if ( capacitor.isBetweenPlates( location ) ) {
+            if ( capacitor.isInsideDielectric( location ) ) {
+                eField = getPlatesDielectricEField();
+            }
+            else {
+                eField = getPlatesAirEField();
+            }
+        }
+        return eField;
     }
     
     /*
@@ -462,26 +463,24 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the field due to dielectric polarization, which is either 
-     * E_air or E_dielectric, depending on where the probe is placed.
+     * Gets the field due to dielectric polarization, at a specific location.
+     * Between the plates, the field is either E_dielectric or E_air, depending on whether the probe intersects the dielectric.
+     * Outside the plates, the field is zero.
      * 
      * @param location
      * @return
      */
     public Double getDielectricEFieldAt( Point3D location ) {
-        return capacitor.isBetweenPlates( location ) ? getDielectricEField() : 0;
-//XXX
-//        System.out.println( "getDielectricEFieldAt isBetweenPlates=" + capacitor.isBetweenPlates( location ) + " isInsideDielectric=" + capacitor.isInsideDielectric( location ) );//XXX
-//        double eField = 0;
-//        if ( capacitor.isBetweenPlates( location ) ) {
-//            if ( capacitor.isInsideDielectric( location ) ) {
-//                eField = getDielectricEField();
-//            }
-//            else {
-//                eField = getAirEField();
-//            }
-//        }
-//        return eField;
+        double eField = 0;
+        if ( capacitor.isBetweenPlates( location ) ) {
+            if ( capacitor.isInsideDielectric( location ) ) {
+                eField = getDielectricEField();
+            }
+            else {
+                eField = getAirEField();
+            }
+        }
+        return eField;
     }
     
     /**
