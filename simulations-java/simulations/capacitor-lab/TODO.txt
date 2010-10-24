@@ -9,6 +9,7 @@ DESIGN ISSUES
 - field detector is specific to capacitor-related fields, what to do about battery field?
 
 HIGH PRIORITY
+- fix initial location of vector labels and values
 - chose a more appropriate max for detector vectors
 - center labels and values above/below tails of detector vectors, labels above values
 - add E-field model inside the battery? (V_battery / d_battery, where d_battery is battery length, 10mm)
