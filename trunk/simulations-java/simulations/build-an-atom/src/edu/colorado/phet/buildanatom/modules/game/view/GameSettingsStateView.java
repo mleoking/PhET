@@ -14,7 +14,7 @@ public class GameSettingsStateView extends StateView {
     private final GameSettingsPanel panel;
     private final PNode gameSettingsNode;
 
-    GameSettingsStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
+    public GameSettingsStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameSettingsState(), gameCanvas );
         panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
         gameSettingsNode = new PSwing( panel );
