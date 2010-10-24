@@ -6,12 +6,13 @@ QUESTIONS FOR NOAH
 
 DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
+- field detector is specific to capacitor-related fields, what to do about battery field?
 
 HIGH PRIORITY
 - chose a more appropriate max for detector vectors
 - remove dielectric gap from model
 - center labels and values above/below tails of detector vectors, labels above values
-- add E-field model inside the battery (V_battery / d_battery, where d_battery is battery length, 10mm)
+- add E-field model inside the battery? (V_battery / d_battery, where d_battery is battery length, 10mm)
 - add zoom button to E-field detector (necessary after choosing a better max?)
 - decide whether to use Property<T> for EFieldDetector
 - add geometry of wires to model
