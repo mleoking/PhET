@@ -1,3 +1,4 @@
+10/24/10 remove dielectric gap from model, per Noah P.
 10/24/10 show absolute values in field detector, with no comma in numbers
 10/24/10 model for detector vectors: 0 outside plates, either air or dielectric inside plates
 # 0.00.34 (45344) Oct 22, 2010
