@@ -422,11 +422,13 @@ public class EFieldDetectorView {
         // dynamic layout
         private void updateLayout() {
             
+            //XXX replace this mess, there's a lot of duplicate code here
+            
             double x, y;
             
             // vectors
             {
-                final double xSpacing = 30; // horizontal spacing between plate and dielectric vector centers
+                final double xSpacing = 45; //XXX constant, horizontal spacing between plate and dielectric vector centers
                 
                 // plate vector is vertically centered
                 x = backgroundNode.getFullBoundsReference().getCenterX() - xSpacing;
@@ -449,39 +451,63 @@ public class EFieldDetectorView {
                 dielectricVectorNode.setOffset( x, y );
             }
             
-            // labels, all placed at vector tails, horizontally centered
+            // labels and values, all placed at vector tails, horizontally centered
             {
                 final double ySpacing = 2; // space between vector tail and label
                 
                 // plate label
-                x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateLabelNode.getFullBoundsReference().getWidth() / 2 );
                 if ( plateVectorNode.getVector().getY() > 0 ) {
-                    y = plateVectorNode.getFullBoundsReference().getMinY() - plateLabelNode.getFullBoundsReference().getHeight() - ySpacing;
+                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateValueNode.getFullBoundsReference().getWidth() / 2 );
+                    y = plateVectorNode.getFullBoundsReference().getMinY() - plateValueNode.getFullBoundsReference().getHeight() - ySpacing;
+                    plateValueNode.setOffset( x, y );
+                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateLabelNode.getFullBoundsReference().getWidth() / 2 );
+                    y = plateValueNode.getFullBoundsReference().getMinY() - plateLabelNode.getFullBoundsReference().getHeight() - 1;
+                    plateLabelNode.setOffset( x, y );
                 }
                 else {
+                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateLabelNode.getFullBoundsReference().getWidth() / 2 );
                     y = plateVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
+                    plateLabelNode.setOffset( x, y );
+                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateValueNode.getFullBoundsReference().getWidth() / 2 );
+                    y = plateLabelNode.getFullBoundsReference().getMaxY() + 1;
+                    plateValueNode.setOffset( x, y );
                 }
-                plateLabelNode.setOffset( x, y );
                 
                 // sum label
-                x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumLabelNode.getFullBoundsReference().getWidth() / 2 );
                 if ( sumVectorNode.getVector().getY() > 0 ) {
-                    y = sumVectorNode.getFullBoundsReference().getMinY() - sumLabelNode.getFullBoundsReference().getHeight() - ySpacing;
+                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumValueNode.getFullBoundsReference().getWidth() / 2 );
+                    y = sumVectorNode.getFullBoundsReference().getMinY() - sumValueNode.getFullBoundsReference().getHeight() - ySpacing;
+                    sumValueNode.setOffset( x, y );
+                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumLabelNode.getFullBoundsReference().getWidth() / 2 );
+                    y = sumValueNode.getFullBoundsReference().getMinY() - sumLabelNode.getFullBoundsReference().getHeight() - 1;
+                    sumLabelNode.setOffset( x, y );
                 }
                 else {
+                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumLabelNode.getFullBoundsReference().getWidth() / 2 );
                     y = sumVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
+                    sumLabelNode.setOffset( x, y );
+                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumValueNode.getFullBoundsReference().getWidth() / 2 );
+                    y = sumLabelNode.getFullBoundsReference().getMaxY() + 1;
+                    sumValueNode.setOffset( x, y );
                 }
-                sumLabelNode.setOffset( x, y ); 
                 
                 // dielectric label
-                x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricLabelNode.getFullBoundsReference().getWidth() / 2 );
-                if ( dielectricVectorNode.getVector().getY() > 0 ) {
-                    y = dielectricVectorNode.getFullBoundsReference().getMinY() - dielectricLabelNode.getFullBoundsReference().getHeight() - ySpacing;
+                if ( dielectricVectorNode.getVector().getY() >= 0 ) {
+                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricValueNode.getFullBoundsReference().getWidth() / 2 );
+                    y = dielectricVectorNode.getFullBoundsReference().getMinY() - dielectricValueNode.getFullBoundsReference().getHeight() - ySpacing;
+                    dielectricValueNode.setOffset( x, y );
+                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricLabelNode.getFullBoundsReference().getWidth() / 2 );
+                    y = dielectricValueNode.getFullBoundsReference().getMinY() - dielectricLabelNode.getFullBoundsReference().getHeight() - 1;
+                    dielectricLabelNode.setOffset( x, y );
                 }
                 else {
+                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricLabelNode.getFullBoundsReference().getWidth() / 2 );
                     y = dielectricVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
+                    dielectricLabelNode.setOffset( x, y );
+                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricValueNode.getFullBoundsReference().getWidth() / 2 );
+                    y = dielectricLabelNode.getFullBoundsReference().getMaxY() + 1;
+                    dielectricValueNode.setOffset( x, y );
                 }
-                dielectricLabelNode.setOffset( x, y ); 
             }
             
             // values --------------------------
