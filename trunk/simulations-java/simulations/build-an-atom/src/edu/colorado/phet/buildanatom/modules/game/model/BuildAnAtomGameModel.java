@@ -10,7 +10,6 @@ import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 
 /**
  * The primary model for the Build an Atom game.  This class sequences the
@@ -46,12 +45,14 @@ public class BuildAnAtomGameModel {
             return new GameOverStateView(gameCanvas, BuildAnAtomGameModel.this );
         }
     };
-    private final Property<Integer> score = new Property<Integer>( 0 );
 
-    private final Property<Boolean> timerEnabled = new Property<Boolean>( true );
+    private final Property<Integer> scoreProperty = new Property<Integer>( 0 );
+    private final Property<Boolean> timerEnabledProperty = new Property<Boolean>( true );
+    private final Property<Boolean> soundEnabledProperty = new Property<Boolean>( true );
+    private final Property<Integer> levelProperty = new Property<Integer>( 1 );
 
-    // Level pools from the design doc
-    private final HashMap<Integer, ArrayList<AtomValue>> levels = new HashMap<Integer, ArrayList<AtomValue>>() {{
+    // Level pools from the design doc.  These define the pools of problems for a given level.
+    private final HashMap<Integer, ArrayList<AtomValue>> levelPools = new HashMap<Integer, ArrayList<AtomValue>>() {{
         put( 1, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 1 ) );
             add( new AtomValue( 2, 2, 2 ) );
@@ -123,7 +124,9 @@ public class BuildAnAtomGameModel {
 
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
         problemSet = new ProblemSet( this, level, PROBLEMS_PER_SET, timerOn, soundOn );
-        timerEnabled.setValue( timerOn );
+        levelProperty.setValue( level );
+        timerEnabledProperty.setValue( timerOn );
+        soundEnabledProperty.setValue( soundOn );
         setState( problemSet.getCurrentProblem() );
 
         getGameClock().resetSimulationTime();//Start time at zero in case it had time from previous runs
@@ -147,19 +150,27 @@ public class BuildAnAtomGameModel {
      */
     public void processGuess() {
         problemSet.getCurrentProblem().processGuess();
-        score.setValue( score.getValue()+problemSet.getCurrentProblem().getScore() );
+        scoreProperty.setValue( scoreProperty.getValue()+problemSet.getCurrentProblem().getScore() );
     }
 
     public Property<Integer> getScoreProperty() {
-        return score;
+        return scoreProperty;
     }
 
     public Property<Boolean> getTimerEnabledProperty() {
-        return timerEnabled;
+        return timerEnabledProperty;
     }
 
-    public ArrayList<AtomValue> getLevel( int level ) {
-        return levels.get( level );
+    public Property<Integer> getLevelProperty() {
+        return levelProperty;
+    }
+
+    public Property<Boolean> getSoundEnabledProperty() {
+        return soundEnabledProperty;
+    }
+
+    public ArrayList<AtomValue> getLevelPool( int level ) {
+        return levelPools.get( level );
     }
 
     public int getProblemIndex( Problem problem ) {
@@ -183,7 +194,7 @@ public class BuildAnAtomGameModel {
     }
 
     public int getScore() {
-        return score.getValue();
+        return scoreProperty.getValue();
     }
 
     public int getMaximumPossibleScore() {

@@ -21,7 +21,7 @@ public class ProblemSet {
     public ProblemSet( BuildAnAtomGameModel model, int level, int numProblems, boolean timerOn, boolean soundOn ) {
         // TODO: We need to make sure that the same problem is not generated
         // twice.
-        final ArrayList<AtomValue> levelPool = model.getLevel( level );
+        final ArrayList<AtomValue> levelPool = model.getLevelPool( level );
         assert levelPool.size()>=numProblems;//otherwise problems would be duplicated in a game
         ArrayList<AtomValue> remainingProblems = new ArrayList<AtomValue>( levelPool );//don't re-use the same problem twice in the same game
         for ( int i = 0; i < numProblems; i++ ) {
