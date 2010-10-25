@@ -9,6 +9,8 @@ import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 
 /**
  * The primary model for the Build an Atom game.  This class sequences the
@@ -84,7 +86,7 @@ public class BuildAnAtomGameModel {
     }};
     private final Random random = new Random();
     private ProblemSet problemSet;
-
+    private ConstantDtClock clock=new ConstantDtClock( 1000,1000);//simulation time is in milliseconds
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -119,6 +121,9 @@ public class BuildAnAtomGameModel {
         System.out.println( "level = " + level );
         problemSet = new ProblemSet( this, level, PROBLEMS_PER_SET, timerOn, soundOn );
         setState( problemSet.getCurrentProblem() );
+
+        getGameClock().resetSimulationTime();//Start time at zero in case it had time from previous runs
+        getGameClock().start();//time starts when the game starts
     }
 
     public void addListener( GameModelListener listener ) {
@@ -175,6 +180,14 @@ public class BuildAnAtomGameModel {
 
     public int getMaximumPossibleScore() {
         return 2*PROBLEMS_PER_SET;//todo: move the '2' elsewhere?
+    }
+
+    public ConstantDtClock getGameClock() {
+        return clock;
+    }
+
+    public long getTime() {
+        return (long) clock.getSimulationTime();
     }
 
     // -----------------------------------------------------------------------

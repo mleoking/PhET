@@ -15,6 +15,8 @@ import edu.colorado.phet.buildanatom.modules.game.model.HowManyParticlesProblem;
 import edu.colorado.phet.buildanatom.modules.game.model.ProblemSet;
 import edu.colorado.phet.buildanatom.modules.game.model.State;
 import edu.colorado.phet.common.games.GameScoreboardNode;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -56,6 +58,11 @@ public class GameCanvas extends PhetPCanvas {
             setScore( 0 );//todo: could this be moved to the bottom of GameScoreboardNode?
             setLevel( 1 );//todo: could this be moved to the bottom of GameScoreboardNode?
         }};
+        model.getGameClock().addClockListener( new ClockAdapter(){
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                scoreboard.setTime( model.getTime() );
+            }
+        } );
         this.model.getScoreProperty().addObserver( new SimpleObserver() {
             public void update() {
                 scoreboard.setScore( model.getScoreProperty().getValue() );
