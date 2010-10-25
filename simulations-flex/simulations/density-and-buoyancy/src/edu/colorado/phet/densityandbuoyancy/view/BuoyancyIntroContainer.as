@@ -4,10 +4,12 @@ import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.controls.Label;
 import mx.controls.RadioButton;
+import mx.events.FlexEvent;
 
 public class BuoyancyIntroContainer extends BuoyancyContainer {
     public static var count: Number = 0;//for different button groups
@@ -62,6 +64,22 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
 
     override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
         return buoyancyCanvas.sameMassMode;
+    }
+
+    override public function init(): void {
+        super.init();
+
+        const fluidDensityControl: IntroFluidDensityControl = new IntroFluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
+        fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+
+        const updateFluidDensityControlLocation: Function = function(): void {
+            fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
+        };
+        addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
+        fluidDensityControl.addEventListener( FlexEvent.UPDATE_COMPLETE, updateFluidDensityControlLocation ); // listen to when our fluid control gets its size
+        updateFluidDensityControlLocation();
+
+        addChild( fluidDensityControl );
     }
 }
 }

@@ -1,3 +1,4 @@
+Added a "water/oil" control to the introduction tab
 Added block name labels to the custom object control panel, when there are multiple blocks
 Renamed "Vector Values" to "Force Values"
 Renamed "Objects" to "Blocks" in mode control box title
