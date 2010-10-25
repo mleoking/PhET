@@ -28,22 +28,17 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class InteractiveSymbolNode extends PNode {
 
-    public static final Font SYMBOL_FONT = new PhetFont( 40, true );
-    public static final Font NUMBER_FONT = new PhetFont( 20, true );
-    private static final double WIDTH = 150;
+    private static final Font SYMBOL_FONT = new PhetFont( 60, true );
+    private static final double WIDTH = 200;
     private static final double HEIGHT = WIDTH;
     private static final double SPINNER_EDGE_OFFSET = 5;
-    private static final double SPINNER_SCALE_FACTOR = 1.5;
-
-    private final PNode boundingBox;
-    private final PText massNumberNode;
-    private final PText chargeNode;
+    private static final double SPINNER_SCALE_FACTOR = 2;
 
     public InteractiveSymbolNode( final Property<Integer> guessedProtonsProperty,
             final Property<Integer> guessedNeutronsProperty, final Property<Integer> guessedElectronsProperty,
-            final boolean showElectrons ) {
+            final boolean showCharge ) {
 
-        boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), Color.white,
+        PNode boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), Color.white,
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
 
@@ -78,33 +73,5 @@ public class InteractiveSymbolNode extends PNode {
         massSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
         massSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, HEIGHT - massSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( massSpinnerPSwing );
-
-        massNumberNode = new PText();
-        massNumberNode.setFont( NUMBER_FONT );
-        massNumberNode.setTextPaint( Color.BLACK );
-        addChild( massNumberNode );
-
-        chargeNode = new PText();
-        chargeNode.setFont( NUMBER_FONT );
-        addChild( chargeNode );
-    }
-
-    private static class SpinnerForProperty extends PNode {
-
-        /**
-         * Constructor.
-         */
-        public SpinnerForProperty( final Property<Integer> property ) {
-            final JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
-                addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        property.setValue( (Integer) getValue() );
-                    }
-                } );
-            }};
-            PNode spinnerPSwing = new PSwing( spinner );
-            spinnerPSwing.scale( 1.5 );
-            addChild( spinnerPSwing );
-        }
     }
 }
