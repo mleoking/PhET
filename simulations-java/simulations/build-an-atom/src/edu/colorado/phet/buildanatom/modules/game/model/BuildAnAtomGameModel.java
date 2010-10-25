@@ -35,16 +35,20 @@ public class BuildAnAtomGameModel {
     private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final State gameSettingsState = new State( this ){
+        @Override
         public StateView createView( GameCanvas gameCanvas ) {
             return new GameSettingsStateView(gameCanvas, BuildAnAtomGameModel.this );
         }
     };
     private final State gameOverState = new State( this ){
+        @Override
         public StateView createView( GameCanvas gameCanvas ) {
             return new GameOverStateView(gameCanvas, BuildAnAtomGameModel.this );
         }
     };
     private final Property<Integer> score = new Property<Integer>( 0 );
+
+    private final Property<Boolean> timerEnabled = new Property<Boolean>( true );
 
     // Level pools from the design doc
     private final HashMap<Integer, ArrayList<AtomValue>> levels = new HashMap<Integer, ArrayList<AtomValue>>() {{
@@ -86,7 +90,7 @@ public class BuildAnAtomGameModel {
     }};
     private final Random random = new Random();
     private ProblemSet problemSet;
-    private ConstantDtClock clock=new ConstantDtClock( 1000,1000);//simulation time is in milliseconds
+    private final ConstantDtClock clock=new ConstantDtClock( 1000,1000);//simulation time is in milliseconds
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -118,8 +122,8 @@ public class BuildAnAtomGameModel {
     }
 
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
-        System.out.println( "level = " + level );
         problemSet = new ProblemSet( this, level, PROBLEMS_PER_SET, timerOn, soundOn );
+        timerEnabled.setValue( timerOn );
         setState( problemSet.getCurrentProblem() );
 
         getGameClock().resetSimulationTime();//Start time at zero in case it had time from previous runs
@@ -148,6 +152,10 @@ public class BuildAnAtomGameModel {
 
     public Property<Integer> getScoreProperty() {
         return score;
+    }
+
+    public Property<Boolean> getTimerEnabledProperty() {
+        return timerEnabled;
     }
 
     public ArrayList<AtomValue> getLevel( int level ) {
