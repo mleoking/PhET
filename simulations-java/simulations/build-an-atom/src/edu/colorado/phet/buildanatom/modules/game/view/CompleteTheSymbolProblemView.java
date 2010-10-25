@@ -10,13 +10,16 @@ import edu.umd.cs.piccolo.nodes.PText;
 * @author Sam Reid
 */
 public class CompleteTheSymbolProblemView extends ProblemView {
+
     private final PText description = new PText( "Complete the symbol:" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
+    private InteractiveSymbolNode interactiveSymbolNode;
 
     public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
         super( model, canvas, problem);
+        this.interactiveSymbolNode=new InteractiveSymbolNode();
     }
 
     @Override
@@ -30,5 +33,7 @@ public class CompleteTheSymbolProblemView extends ProblemView {
         super.teardown();
         removeChild( description );
     }
+    public static class InteractiveSymbolNode{
 
+    }
 }
