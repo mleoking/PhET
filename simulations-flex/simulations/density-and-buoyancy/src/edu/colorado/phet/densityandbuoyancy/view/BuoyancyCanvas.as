@@ -148,7 +148,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         playgroundModes.setOneObject();
     }
 
-    function switchToTwoObjects(): void {
+    public function switchToTwoObjects(): void {
         setMode( playgroundModes );
         playgroundModes.setTwoObjects();
     }

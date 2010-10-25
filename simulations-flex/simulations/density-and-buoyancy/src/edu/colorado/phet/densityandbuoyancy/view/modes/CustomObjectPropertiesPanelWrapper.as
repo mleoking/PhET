@@ -15,14 +15,14 @@ public class CustomObjectPropertiesPanelWrapper {
         customObjectPropertiesPanel.y = y;
     }
 
-    function teardown(): void {
+    public function teardown(): void {
         if ( customObjectPropertiesPanelShowing ) {
             canvas.container.removeChild( customObjectPropertiesPanel );
             customObjectPropertiesPanelShowing = false;
         }
     }
 
-    function init(): void {
+    public function init(): void {
         if ( !customObjectPropertiesPanelShowing ) {
             canvas.container.addChild( customObjectPropertiesPanel );
             customObjectPropertiesPanelShowing = true;
@@ -31,6 +31,6 @@ public class CustomObjectPropertiesPanelWrapper {
 
     public function get x(): Number {return customObjectPropertiesPanel.x;}
 
-    function get width(): Number {return customObjectPropertiesPanel.width;}
+    public function get width(): Number {return customObjectPropertiesPanel.width;}
 }
 }

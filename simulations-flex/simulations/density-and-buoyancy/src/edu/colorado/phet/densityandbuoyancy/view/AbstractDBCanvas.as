@@ -375,7 +375,7 @@ public class AbstractDBCanvas extends UIComponent {
         massReadoutsVisible.value = selected;
     }
 
-    function addRenderListener( updateGraphics: Function ): void {
+    public function addRenderListener( updateGraphics: Function ): void {
         renderListeners.push( updateGraphics );
     }
 }
