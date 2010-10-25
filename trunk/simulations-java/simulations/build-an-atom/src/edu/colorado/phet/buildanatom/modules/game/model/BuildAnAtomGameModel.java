@@ -146,10 +146,11 @@ public class BuildAnAtomGameModel {
 
     /**
      * Check the user's guess and update the state of the model accordingly.
+     * @param guess
      */
-    public void processGuess() {
-        problemSet.getCurrentProblem().processGuess();
-        scoreProperty.setValue( scoreProperty.getValue()+problemSet.getCurrentProblem().getScore() );
+    public void processGuess( AtomValue guess ) {
+        problemSet.getCurrentProblem().processGuess( guess );
+        scoreProperty.setValue( scoreProperty.getValue() + problemSet.getCurrentProblem().getScore() );
     }
 
     public Property<Integer> getScoreProperty() {

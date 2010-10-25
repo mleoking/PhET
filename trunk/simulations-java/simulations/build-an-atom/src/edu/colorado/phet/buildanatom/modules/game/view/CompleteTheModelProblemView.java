@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheModelProblem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
@@ -19,9 +20,18 @@ public class CompleteTheModelProblemView extends ProblemView {
 
     public CompleteTheModelProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheModelProblem problem) {
         super( model, canvas, problem);
-        symbolIndicatorNode = new SymbolIndicatorNode( problem.getAtom() );
+        symbolIndicatorNode = new SymbolIndicatorNode( problem.getAnswer().toAtom() );
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
+    }
+
+    @Override
+    protected AtomValue getGuess() {
+        return null;
+    }
+
+    @Override
+    protected void displayAnswer( AtomValue answer ) {
     }
 
     @Override

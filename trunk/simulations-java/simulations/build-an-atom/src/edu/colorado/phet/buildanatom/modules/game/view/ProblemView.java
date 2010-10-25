@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.games.GameAudioPlayer;
@@ -18,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author Sam Reid
  */
-public class ProblemView extends StateView {
+public abstract class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 510 );
     private final PText text = new PText( "<debug info for guesses>" );
@@ -26,9 +27,11 @@ public class ProblemView extends StateView {
     private final PText problemNumberDisplay;
     private final PNode resultNode = new PNode();
     private final GameAudioPlayer gameAudioPlayer;
+    private Problem problem;
 
     ProblemView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
+        this.problem = problem;
         gameAudioPlayer=new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
         problemNumberDisplay = new PText( "Problem " + ( model.getProblemIndex( problem ) + 1 ) + " of " + model.getNumberProblems() ) {{//todo i18n
             setFont( new PhetFont( 20, true ) );
@@ -36,7 +39,7 @@ public class ProblemView extends StateView {
         problemNumberDisplay.setOffset( 30, 30 );
         checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {//TODO: i18n
             public void actionPerformed( ActionEvent e ) {
-                getModel().processGuess();
+                getModel().processGuess(getGuess());
                 text.setText( "num guesses = " + problem.getNumGuesses() + ", correctlySolved = " + problem.isSolvedCorrectly() );
                 resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {{
                     final FaceNode faceNode = this;
@@ -73,7 +76,7 @@ public class ProblemView extends StateView {
                         else if ( problem.getNumGuesses() == 2 ) {
                             GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
                                 public void actionPerformed( ActionEvent e ) {
-                                    problem.showAnswer();
+                                    displayAnswer( problem.getAnswer() );
                                     setGuessEditable(false);
                                     resultNode.removeAllChildren();
                                     GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
@@ -94,6 +97,13 @@ public class ProblemView extends StateView {
             }
         } );
     }
+
+    /**
+     * Applies the user's guess from the view/controller to the model (if it has not done so already).
+     */
+    protected abstract AtomValue getGuess();
+
+    protected abstract void displayAnswer(AtomValue answer);
 
     //disable controls during feedback stages
     protected void setGuessEditable( boolean guessEditable ){}
@@ -132,5 +142,9 @@ public class ProblemView extends StateView {
             addActionListener( listener );
             centerFullBoundsOnPoint( centerLocation.getX(), centerLocation.getY() );
         }
+    }
+
+    public Problem getProblem() {
+        return problem;
     }
 }
