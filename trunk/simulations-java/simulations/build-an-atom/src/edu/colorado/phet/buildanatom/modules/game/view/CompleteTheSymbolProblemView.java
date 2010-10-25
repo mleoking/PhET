@@ -23,6 +23,12 @@ public class CompleteTheSymbolProblemView extends ProblemView {
      */
     public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
         super( model, canvas, problem);
+        AtomConfigText atomConfigurationText = new AtomConfigText( problem.getAtom().getNumProtons(),
+                problem.getAtom().getNumNeutrons(), problem.getAtom().getNumElectrons() );
+        atomConfigurationText.setOffset(
+                BuildAnAtomDefaults.STAGE_SIZE.width /4 - atomConfigurationText.getFullBounds().getWidth() / 2,
+                BuildAnAtomDefaults.STAGE_SIZE.height / 2 - atomConfigurationText.getFullBounds().getHeight() / 2 );
+        addChild( atomConfigurationText );
         InteractiveSymbolNode interactiveSymbolNode=new InteractiveSymbolNode( problem.getGuessedProtonsProperty(),
                 problem.getGuessedNeutronsProperty(), problem.getGuessedElectronsProperty(), true);
         interactiveSymbolNode.setOffset(
@@ -42,5 +48,4 @@ public class CompleteTheSymbolProblemView extends ProblemView {
         super.teardown();
         removeChild( description );
     }
-
 }
