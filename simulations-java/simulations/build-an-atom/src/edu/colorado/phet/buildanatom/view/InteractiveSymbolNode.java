@@ -61,7 +61,7 @@ public class InteractiveSymbolNode extends PNode {
         } );
         PNode protonSpinnerPSwing = new PSwing( protonSpinner );
         protonSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
-        protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
+        protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, HEIGHT - protonSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonSpinnerPSwing );
 
         massSpinner.addChangeListener( new ChangeListener() {
@@ -71,7 +71,7 @@ public class InteractiveSymbolNode extends PNode {
         } );
         PNode massSpinnerPSwing = new PSwing( massSpinner );
         massSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
-        massSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, HEIGHT - massSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
+        massSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massSpinnerPSwing );
 
         if ( showCharge ){
