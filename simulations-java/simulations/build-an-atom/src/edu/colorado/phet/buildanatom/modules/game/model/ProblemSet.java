@@ -18,10 +18,10 @@ public class ProblemSet {
     private int currentProblemIndex = 0;
     public static final Random random = new Random();
 
-    public ProblemSet( BuildAnAtomGameModel model, int level, int numProblems, boolean timerOn, boolean soundOn ) {
+    public ProblemSet( BuildAnAtomGameModel model, int numProblems ) {
         // TODO: We need to make sure that the same problem is not generated
         // twice.
-        final ArrayList<AtomValue> levelPool = model.getLevelPool( level );
+        final ArrayList<AtomValue> levelPool = model.getLevelPool();
         assert levelPool.size()>=numProblems;//otherwise problems would be duplicated in a game
         ArrayList<AtomValue> remainingProblems = new ArrayList<AtomValue>( levelPool );//don't re-use the same problem twice in the same game
         for ( int i = 0; i < numProblems; i++ ) {

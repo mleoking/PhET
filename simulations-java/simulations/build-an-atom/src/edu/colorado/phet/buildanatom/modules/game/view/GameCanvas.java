@@ -49,27 +49,32 @@ public class GameCanvas extends PhetPCanvas {
     public GameCanvas( final BuildAnAtomGameModel model ) {
 
         this.model = model;
-        scoreboard= new GameScoreboardNode( BuildAnAtomGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
+        scoreboard = new GameScoreboardNode( BuildAnAtomGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
             setScore( 0 );//todo: could this be moved to the bottom of GameScoreboardNode?
             setLevel( 1 );//todo: could this be moved to the bottom of GameScoreboardNode?
+            model.getGameClock().addClockListener( new ClockAdapter() {
+                @Override
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+                    setTime( model.getTime() );
+                }
+            } );
+            model.getScoreProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setScore( model.getScoreProperty().getValue() );
+                }
+            } );
+            model.getTimerEnabledProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setTimerVisible( model.getTimerEnabledProperty().getValue() );
+                }
+            } );
+            model.getLevelProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setLevel( model.getLevelProperty().getValue() );
+                }
+            } );
         }};
-        model.getGameClock().addClockListener( new ClockAdapter(){
-            @Override
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                scoreboard.setTime( model.getTime() );
-            }
-        } );
-        this.model.getScoreProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                scoreboard.setScore( model.getScoreProperty().getValue() );
-            }
-        } );
-        this.model.getTimerEnabledProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                scoreboard.setTimerVisible( model.getTimerEnabledProperty().getValue() );
-            }
-        });
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );

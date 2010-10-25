@@ -87,9 +87,7 @@ public class BuildAnAtomGameModel {
 //            add( new AtomValue( 17, 18, 18 ) );
 //            add( new AtomValue( 18, 22, 18 ) );
 //        }} );
-
     }};
-    private final Random random = new Random();
     private ProblemSet problemSet;
     private final ConstantDtClock clock=new ConstantDtClock( 1000,1000);//simulation time is in milliseconds
 
@@ -123,10 +121,11 @@ public class BuildAnAtomGameModel {
     }
 
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
-        problemSet = new ProblemSet( this, level, PROBLEMS_PER_SET, timerOn, soundOn );
         levelProperty.setValue( level );
         timerEnabledProperty.setValue( timerOn );
         soundEnabledProperty.setValue( soundOn );
+
+        problemSet = new ProblemSet( this, PROBLEMS_PER_SET );
         setState( problemSet.getCurrentProblem() );
 
         getGameClock().resetSimulationTime();//Start time at zero in case it had time from previous runs
@@ -169,8 +168,8 @@ public class BuildAnAtomGameModel {
         return soundEnabledProperty;
     }
 
-    public ArrayList<AtomValue> getLevelPool( int level ) {
-        return levelPools.get( level );
+    public ArrayList<AtomValue> getLevelPool( ) {
+        return levelPools.get( levelProperty.getValue() );
     }
 
     public int getProblemIndex( Problem problem ) {
