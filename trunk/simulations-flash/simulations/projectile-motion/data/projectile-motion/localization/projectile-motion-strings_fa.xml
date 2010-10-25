@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_fa.xml created Sat Oct 23 08:46:59 IRST 2010 using: projectile-motion 2.02.00 (37323), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="dragLabel" value="کشیدن ضریب"/>
+<string key="userChoice" value="انتخاب کاربر"/>
+<string key="altitudeLabel" value="ارتفاع (متر)"/>
+<string key="football" value="فوتبال"/>
+<string key="golfball" value="golfball"/>
+<string key="simTitle" value="حرکت پرتابه"/>
+<string key="collision" value="برخورد!"/>
+<string key="adultHuman" value="انسان بزرگسال"/>
+<string key="time" value="زمان (s)"/>
+<string key="buick" value="بیوک"/>
+<string key="diameter" value="قطر (متر)"/>
+<string key="initSpeed" value="سرعت اولیه (متر / ثانیه)"/>
+<string key="bowlingball" value="bowlingball"/>
+<string key="piano" value="پیانو"/>
+<string key="sound" value="صدا"/>
+<string key="range" value="محدوده (متر)"/>
+<string key="mass" value="جرم (کیلوگرم)"/>
+<string key="height" value="ارتفاع (متر)"/>
+<string key="pumpkin" value="کدو تنبل"/>
+<string key="score" value="امتیاز!"/>
+<string key="angle" value="زاویه (درجه)"/>
+<string key="baseball" value="بازی بیس بال"/>
+<string key="airResistance" value="مقاومت هوا"/>
+<string key="fire" value="آتش"/>
+<string key="erase" value="پاک کردن"/>
+<string key="tankshell" value="tankshell"/>
+</SimStrings>
