@@ -29,7 +29,7 @@ public class ProblemSet {
             AtomValue atomValue = remainingProblems.get( index );
             remainingProblems.remove( index );
 //            final int problemType = random.nextInt( 3 );
-            final int problemType = 2; // TODO: Temporary to get one type of problem working.
+            final int problemType = 1; // TODO: Temporary to get one type of problem working.
             if ( problemType == 0 ) {
                 addProblem( new CompleteTheModelProblem( model, atomValue ) );
             }
