@@ -14,6 +14,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * This class defines a PNode that represents a symbol for an atom, and the
+ * format of the symbol is similar to how that element would be represented
+ * on the periodic table.
+ *
  * @author John Blanco
  * @author Sam Reid
  */
@@ -33,7 +37,7 @@ public class SymbolIndicatorNode extends PNode {
         //has to be big enough to hold Ne with 2 digit numbers on both sides
         double width = 83;
         double height = 83;
-        
+
         this.atom = atom;
         atom.addObserver( new SimpleObserver() {
             public void update() {
