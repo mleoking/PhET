@@ -92,7 +92,7 @@ public class DensityModel {
             object( densityObject );
         }
         //Hooray, my code to remove an element from an as3 array
-        var newArray = new Array();
+        var newArray: Array = new Array();
         for each ( var d: DensityObject in densityObjects ) {
             if ( d != densityObject ) {
                 newArray.push( d );

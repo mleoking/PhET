@@ -17,7 +17,7 @@ import mx.events.SliderEvent;
 public class PropertyEditor extends GridRow {
     private var property: NumericProperty;
     private static const FONT_SIZE: Number = 12;
-    private var sliderWidth;
+    private var sliderWidth: Number;
     protected const textField: TextInput = new TextInput();
 
     /**
