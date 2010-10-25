@@ -118,9 +118,6 @@ public class BuildAnAtomGameModel {
     public void startGame( int level, boolean timerOn, boolean soundOn ) {
         System.out.println( "level = " + level );
         problemSet = new ProblemSet( this, level, PROBLEMS_PER_SET, timerOn, soundOn );
-        for ( GameModelListener listener : listeners ) {
-            listener.problemSetCreated( problemSet );
-        }
         setState( problemSet.getCurrentProblem() );
     }
 
@@ -186,8 +183,6 @@ public class BuildAnAtomGameModel {
 
     public static interface GameModelListener {
         void stateChanged( State oldState, State newState );
-
-        void problemSetCreated( ProblemSet problemSet );
     }
 
 }
