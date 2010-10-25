@@ -13,10 +13,10 @@ import edu.colorado.phet.common.games.GameOverNode;
 public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
     private final GameAudioPlayer gameAudioPlayer=new GameAudioPlayer( true);
-    
+
     public GameOverStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameOverState(), gameCanvas );
-        gameOverNode = new GameOverNode( 1, model.getScore(), model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), 30000, false, true );
+        gameOverNode = new GameOverNode( 1, model.getScore(), model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), 30000, false, model.getTimerEnabledProperty().getValue() );
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
             public void newGamePressed() {
                 model.newGame();
@@ -24,6 +24,7 @@ public class GameOverStateView extends StateView {
         } );
     }
 
+    @Override
     public void init() {
         gameOverNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width / 2 - gameOverNode.getFullBoundsReference().width / 2,
@@ -40,6 +41,7 @@ public class GameOverStateView extends StateView {
         }
     }
 
+    @Override
     public void teardown() {
         removeChild( gameOverNode );
     }

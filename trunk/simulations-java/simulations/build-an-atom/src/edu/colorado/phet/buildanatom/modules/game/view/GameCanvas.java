@@ -9,10 +9,6 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheModelProblem;
-import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolProblem;
-import edu.colorado.phet.buildanatom.modules.game.model.HowManyParticlesProblem;
-import edu.colorado.phet.buildanatom.modules.game.model.ProblemSet;
 import edu.colorado.phet.buildanatom.modules.game.model.State;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -59,6 +55,7 @@ public class GameCanvas extends PhetPCanvas {
             setLevel( 1 );//todo: could this be moved to the bottom of GameScoreboardNode?
         }};
         model.getGameClock().addClockListener( new ClockAdapter(){
+            @Override
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 scoreboard.setTime( model.getTime() );
             }
@@ -68,6 +65,11 @@ public class GameCanvas extends PhetPCanvas {
                 scoreboard.setScore( model.getScoreProperty().getValue() );
             }
         } );
+        this.model.getTimerEnabledProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                scoreboard.setTimerVisible( model.getTimerEnabledProperty().getValue() );
+            }
+        });
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
@@ -99,11 +101,9 @@ public class GameCanvas extends PhetPCanvas {
         currentView.init();
     }
 
-        
-        public StateView createView( State state ) {
-            return state.createView(this);
+    public StateView createView( State state ) {
+        return state.createView( this );
     }
-
 
     //----------------------------------------------------------------------------
     // Accessors
