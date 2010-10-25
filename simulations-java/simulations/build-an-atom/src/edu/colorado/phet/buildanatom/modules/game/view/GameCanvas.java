@@ -87,9 +87,6 @@ public class GameCanvas extends PhetPCanvas {
                 currentView = createView(newState);
                 currentView.init();
             }
-
-            public void problemSetCreated( ProblemSet problemSet ) {
-            }
         } );
         currentView = createView(model.getState() );
         currentView.init();
