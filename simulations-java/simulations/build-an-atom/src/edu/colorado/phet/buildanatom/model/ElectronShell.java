@@ -153,9 +153,7 @@ public class ElectronShell extends SimpleObservable {
      */
     public void removeElectron() {
         assert getNumElectrons() > 0;
-        // The nasty hunk of code here gets the first electron in the map and
-        // removes it.
-//        removeElectron( shellLocations.values().toArray( new Electron[0] )[0] );
+        // Gets the first electron in the map and removes it.
         for (Electron electron : shellLocations.values()){
             if (electron != null){
                 removeElectron( electron );
