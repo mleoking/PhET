@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
  */
 public abstract class Problem extends State {
     private final AtomValue atom;
-    private final AtomValue guessedAtom = new AtomValue(0, 0, 0);
     private int numGuesses = 0;
     private int score = 0;
     private boolean solvedCorrectly =false;
@@ -18,30 +17,26 @@ public abstract class Problem extends State {
         this.atom = atom;
     }
 
-    public Atom getAtom() {
-        return atom;
+    public boolean isGuessCorrect( AtomValue guess ) {
+        return atom.equals( guess );
     }
 
-    public boolean isGuessCorrect() {
-        return atom.guessEquals(guessedAtom);
-  }
+//    //TODO: use these or Property<Integer>?
+//    public void setGuessedProtons(int numProtons) {
+//        guessedAtom.setNumProtons( numProtons );
+//    }
+//
+//    public void setGuessedNeutrons(int numNeutrons) {
+//        guessedAtom.setNumNeutrons( numNeutrons );
+//    }
+//
+//    public void setGuessedElectrons(int numElectrons) {
+//        guessedAtom.setNumElectrons( numElectrons );
+//    }
 
-    //TODO: use these or Property<Integer>?
-    public void setGuessedProtons(int numProtons) {
-        guessedAtom.setNumProtons( numProtons );
-    }
-
-    public void setGuessedNeutrons(int numNeutrons) {
-        guessedAtom.setNumNeutrons( numNeutrons );
-    }
-
-    public void setGuessedElectrons(int numElectrons) {
-        guessedAtom.setNumElectrons( numElectrons );
-    }
-
-    public void processGuess() {
+    public void processGuess(AtomValue guess) {
         numGuesses++;
-        if ( isGuessCorrect() ) {
+        if ( isGuessCorrect(guess ) ) {
             solvedCorrectly = true;
             if ( numGuesses == 1 ) {
                 score = 2;
@@ -66,11 +61,11 @@ public abstract class Problem extends State {
 
     //Sets the state of the guess to be the correct value.
     //Observers that are depicting the guess will therefore display the correct value
-    public void showAnswer() {
-        guessedAtom.setState(atom);
-    }
+//    public void showAnswer() {
+//        guessedAtom.setState(atom);
+//    }
 
-    public Property<Integer> getGuessedProtonsProperty() {return guessedAtom.numProtonsProperty();}
-    public Property<Integer> getGuessedNeutronsProperty() {return guessedAtom.numNeutronsProperty();}
-    public Property<Integer> getGuessedElectronsProperty() {return guessedAtom.numElectronsProperty();}
+    public AtomValue getAnswer(){
+        return atom;
+    }
 }

@@ -6,6 +6,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.HowManyParticlesProblem;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -33,11 +34,11 @@ public class HowManyParticlesProblemView extends ProblemView {
 
     public HowManyParticlesProblemView( BuildAnAtomGameModel model, GameCanvas canvas, HowManyParticlesProblem howManyParticlesProblem ) {
         super( model, canvas, howManyParticlesProblem );
-        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAtom() );
+        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom() );
         symbolIndicatorNode.scale( 2.25 );
         symbolIndicatorNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width / 4 - symbolIndicatorNode.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
-        multiEntryPanel = new MultiEntryPanel( howManyParticlesProblem );
+        multiEntryPanel = new MultiEntryPanel(  );
         multiEntryPanel.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width *3/ 4 - multiEntryPanel.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - multiEntryPanel.getFullBounds().getHeight() / 2 );
     }
 
@@ -46,12 +47,16 @@ public class HowManyParticlesProblemView extends ProblemView {
         private final EntryPanel neutronEntryPanel;
         private final EntryPanel electronEntryPanel;
 
-        public MultiEntryPanel( final Problem problem) {
-            protonEntryPanel = new EntryPanel( "Protons:", problem.getGuessedProtonsProperty());
+        public Property<Integer> protonGuess = new Property<Integer>(0);
+        public Property<Integer> neutronGuess = new Property<Integer>(0);
+        public Property<Integer> electronGuess = new Property<Integer>(0);
+
+        public MultiEntryPanel(  ) {
+            protonEntryPanel = new EntryPanel( "Protons:", protonGuess );
             addChild( protonEntryPanel );
-            neutronEntryPanel = new EntryPanel( "Neutrons:", problem.getGuessedNeutronsProperty() );
+            neutronEntryPanel = new EntryPanel( "Neutrons:", neutronGuess );
             addChild( neutronEntryPanel );
-            electronEntryPanel = new EntryPanel( "Electrons:", problem.getGuessedElectronsProperty() );
+            electronEntryPanel = new EntryPanel( "Electrons:", electronGuess );
             addChild( electronEntryPanel );
             double maxLabelWidth = MathUtil.max( new double[] { protonEntryPanel.getLabelWidth(), neutronEntryPanel.getLabelWidth(), electronEntryPanel.getLabelWidth() } );
             int distanceBetweenSpinnerAndLabel = 20;
@@ -71,6 +76,26 @@ public class HowManyParticlesProblemView extends ProblemView {
             neutronEntryPanel.setEditable(editable);
             electronEntryPanel.setEditable(editable);
         }
+
+        public AtomValue getGuess() {
+            return new AtomValue( protonGuess.getValue(), neutronGuess.getValue(), electronGuess.getValue() );
+        }
+
+        public void displayAnswer( AtomValue answer ) {
+            protonGuess.setValue( answer.getProtons() );
+            electronGuess.setValue( answer.getElectrons() );
+            neutronGuess.setValue( answer.getNeutrons() );
+        }
+    }
+
+    @Override
+    protected AtomValue getGuess() {
+        return multiEntryPanel.getGuess();
+    }
+
+    @Override
+    protected void displayAnswer( AtomValue answer ) {
+        multiEntryPanel.displayAnswer(answer);
     }
 
     @Override
