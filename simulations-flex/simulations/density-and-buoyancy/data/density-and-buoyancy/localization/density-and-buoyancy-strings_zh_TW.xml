@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_zh_TW.xml created Wed Sep 15 14:09:18 CST 2010 using: density-and-buoyancy 1.00.00 (44000), translation-utility 2.09.00 (44031) 九月 14, 2010-->
+<!--density-and-buoyancy-strings_zh_TW.xml created Wed Oct 20 19:48:59 CST 2010 using: density-and-buoyancy 1.02.00 (44977), translation-utility 2.09.00 (44031) 九月 14, 2010-->
 <SimStrings>
 <string key="properties.mass" value="質量"/>
 <string key="forceArrows.contact" value="接觸"/>
@@ -7,6 +7,7 @@
 <string key="bottle.2L" value="2 L"/>
 <string key="mysteryObject.densityColumnHeader" value="密度 ({0})"/>
 <string key="material.aluminum" value="鋁"/>
+<string key="material.air" value="空氣"/>
 <string key="material.custom" value="自訂"/>
 <string key="material.gasoline" value="汽油"/>
 <string key="customObject.material" value="材料"/>
@@ -14,6 +15,7 @@
 <string key="customObject.custom" value="自訂"/>
 <string key="material.wood" value="木頭"/>
 <string key="properties.massKilogramValue" value="{0} kg (公斤)"/>
+<string key="material.styrofoam" value="保麗龍"/>
 <string key="material.apple" value="蘋果"/>
 <string key="material.ice" value="冰"/>
 <string key="mode.mysteryObjects.E" value="E"/>
@@ -23,8 +25,10 @@
 <string key="material.diamond" value="鑽石"/>
 <string key="mode.mysteryObjects.A" value="A"/>
 <string key="mode.title" value="物體"/>
+<string key="material.oliveOil" value="橄欖油"/>
 <string key="material.lead" value="鉛"/>
 <string key="forceArrows.buoyancy" value="浮力"/>
+<string key="properties.fluidDensity" value="液體的密度"/>
 <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
 <string key="customObject.properties" value="性質"/>
 <string key="forceArrows.gravity" value="重力"/>
@@ -37,8 +41,8 @@
 <string key="density.simTitle" value="Density 密度"/>
 <string key="properties.volumeMilliLiterValue" value="{0} mL (毫升)"/>
 <string key="forceArrows.fluidDrag" value="液體阻力"/>
-<string key="mode.objectsOfSameMass" value="質量相同"/>
 <string key="mode.customObject" value="自訂"/>
+<string key="mode.objectsOfSameMass" value="質量相同"/>
 <string key="application.resetAll" value="全部重設"/>
 <string key="material.gold" value="黃金"/>
 <string key="properties.weightNewtonValue" value="{0} N (牛頓)"/>
