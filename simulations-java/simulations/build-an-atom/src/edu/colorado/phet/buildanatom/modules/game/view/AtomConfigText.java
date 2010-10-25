@@ -9,15 +9,15 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This class defines a PNode that is a textual list of an atom's
- * configuration.
+ * This class defines a PNode that is a textual list of the number of protons,
+ * neutrons, and electrons that comprise an atom.
  *
  * @author John Blanco
  */
 public class AtomConfigText extends PNode {
 
     private static final Font LABEL_FONT = new PhetFont(30);
-    private static final double VERTICAL_LABEL_SPACING = 10;
+    private static final double VERTICAL_LABEL_SPACING = 20;
     private static final double MIN_LABEL_TO_VALUE_SPACING = 20;
 
     public AtomConfigText( int numProtons, int numNeutrons, int numElectrons ) {
