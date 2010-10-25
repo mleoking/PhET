@@ -34,6 +34,10 @@ public class InteractiveSymbolNode extends PNode {
     private static final double SPINNER_EDGE_OFFSET = 5;
     private static final double SPINNER_SCALE_FACTOR = 2;
 
+    private final JSpinner protonSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) );
+    private final JSpinner massSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) );
+    private final JSpinner chargeSpinner = new JSpinner( new SpinnerNumberModel( 0, -15, 15, 1 ) );
+
     public InteractiveSymbolNode( final Property<Integer> guessedProtonsProperty,
             final Property<Integer> guessedNeutronsProperty, final Property<Integer> guessedElectronsProperty,
             final boolean showCharge ) {
@@ -49,29 +53,39 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( symbol );
 
-        // Spinners for the various subatomic particles.
-        final JSpinner protonSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
-            addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    guessedProtonsProperty.setValue( (Integer)getValue() );
-                }
-            } );
-        }};
+        protonSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                guessedProtonsProperty.setValue( (Integer) protonSpinner.getValue() );
+                guessedElectronsProperty.setValue( (Integer) protonSpinner.getValue() - (Integer) chargeSpinner.getValue() );
+            }
+        } );
         PNode protonSpinnerPSwing = new PSwing( protonSpinner );
         protonSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
         protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( protonSpinnerPSwing );
 
-        final JSpinner massSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
-            addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    guessedNeutronsProperty.setValue( Math.max( (Integer) getValue() - guessedProtonsProperty.getValue(), 0 ) );
-                }
-            } );
-        }};
+        massSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                guessedNeutronsProperty.setValue( Math.max( (Integer) massSpinner.getValue() - (Integer) protonSpinner.getValue(), 0 ) );
+            }
+        } );
         PNode massSpinnerPSwing = new PSwing( massSpinner );
         massSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
         massSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, HEIGHT - massSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( massSpinnerPSwing );
+
+        if ( showCharge ){
+            chargeSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    guessedElectronsProperty.setValue( Math.max( (Integer) protonSpinner.getValue() - (Integer) chargeSpinner.getValue(), 0 ) );
+                }
+            } );
+            PNode chargeSpinnerPSwing = new PSwing( chargeSpinner );
+            chargeSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
+            chargeSpinnerPSwing.setOffset(
+                    WIDTH - chargeSpinnerPSwing.getFullBoundsReference().width - SPINNER_EDGE_OFFSET,
+                    SPINNER_EDGE_OFFSET );
+            addChild( chargeSpinnerPSwing );
+        }
     }
 }
