@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_fa.xml created Wed Oct 20 14:55:50 IRST 2010 using: density-and-buoyancy 1.01.00 (44223), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="properties.mass" value="جرم"/>
+<string key="forceArrows.contact" value="تماس"/>
+<string key="mode.objectsOfSameVolume" value="حجم مشابه"/>
+<string key="bottle.2L" value="2L"/>
+<string key="mysteryObject.densityColumnHeader" value=" ({0}) چگالی"/>
+<string key="material.aluminum" value="آلومينيوم"/>
+<string key="material.custom" value="شیء من"/>
+<string key="material.gasoline" value="گازوييل"/>
+<string key="customObject.material" value="ماده"/>
+<string key="mode.mysteryObjects" value="معما"/>
+<string key="customObject.custom" value="شیء من"/>
+<string key="material.wood" value="چوب"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="material.apple" value="سيب"/>
+<string key="material.ice" value="يخ"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="الماس"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="اشياء"/>
+<string key="material.lead" value="سرب"/>
+<string key="forceArrows.buoyancy" value="نيروی ارشميدس"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="خصوصيات"/>
+<string key="forceArrows.gravity" value=" ثقل"/>
+<string key="mysteryObject.table.title" value="تراکم مواد مختلف"/>
+<string key="material.brick" value="آجر"/>
+<string key="mysteryObject.material" value="ماده"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="چگالی مشابه"/>
+<string key="density.simTitle" value="چگالی"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="forceArrows.fluidDrag" value="کشش سيال"/>
+<string key="mode.objectsOfSameMass" value="جرم مشابه"/>
+<string key="mode.customObject" value="سفارشی"/>
+<string key="application.resetAll" value="راه اندازي مجدد همه"/>
+<string key="material.gold" value="طلا"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="اسم"/>
+<string key="material.water" value="آب"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="چگالی"/>
+<string key="material.waterBalloon" value="بالن آب"/>
+<string key="mysteryObject.table.showTable" value="جدول را نشان بده"/>
+<string key="properties.volume" value="حجم"/>
+<string key="buoyancy.simTitle" value="نيروی ارشميدس"/>
+</SimStrings>
