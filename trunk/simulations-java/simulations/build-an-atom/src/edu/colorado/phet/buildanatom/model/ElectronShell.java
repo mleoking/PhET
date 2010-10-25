@@ -142,6 +142,7 @@ public class ElectronShell extends SimpleObservable {
 
     public void removeElectron( Electron electronToRemove ) {
         assert shellLocations.containsValue( electronToRemove );
+        assert electronToRemove != null;
         shellLocations.put( getKey( electronToRemove ), null );
         electronToRemove.removeListener( particleRemovalListener );
         notifyObservers();
@@ -154,7 +155,13 @@ public class ElectronShell extends SimpleObservable {
         assert getNumElectrons() > 0;
         // The nasty hunk of code here gets the first electron in the map and
         // removes it.
-        removeElectron( shellLocations.values().toArray( new Electron[0] )[0] );
+//        removeElectron( shellLocations.values().toArray( new Electron[0] )[0] );
+        for (Electron electron : shellLocations.values()){
+            if (electron != null){
+                removeElectron( electron );
+                break;
+            }
+        }
     }
 
     private Point2D findClosestOpenLocation( Point2D comparisonPt ) {
