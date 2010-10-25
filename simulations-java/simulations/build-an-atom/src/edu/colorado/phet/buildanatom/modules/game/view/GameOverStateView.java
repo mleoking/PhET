@@ -16,7 +16,7 @@ public class GameOverStateView extends StateView {
     
     public GameOverStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameOverState(), gameCanvas );
-        gameOverNode = new GameOverNode( 1, model.getScore(), model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), 40000, 30000, false, true );
+        gameOverNode = new GameOverNode( 1, model.getScore(), model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), 30000, false, true );
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
             public void newGamePressed() {
                 model.newGame();
