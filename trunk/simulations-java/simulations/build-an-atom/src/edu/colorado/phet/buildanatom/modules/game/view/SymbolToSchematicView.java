@@ -17,7 +17,7 @@ public class SymbolToSchematicView extends ProblemView {
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
     private final SymbolIndicatorNode symbolIndicatorNode;
-    private InteractiveSchematicAtomNode buildAtomModelNode;
+    private final InteractiveSchematicAtomNode interactiveSchematicAtomNode;
 
     public SymbolToSchematicView( BuildAnAtomGameModel model, GameCanvas canvas, SymbolToSchematicProblem problem) {
         super( model, canvas, problem);
@@ -25,19 +25,24 @@ public class SymbolToSchematicView extends ProblemView {
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
-        buildAtomModelNode=new InteractiveSchematicAtomNode();
+        interactiveSchematicAtomNode=new InteractiveSchematicAtomNode();
     }
 
     @Override
     protected AtomValue getGuess() {
-        return buildAtomModelNode.getGuess();
+        return interactiveSchematicAtomNode.getGuess();
     }
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
-        buildAtomModelNode.displayAnswer(answer);
-        buildAtomModelNode.setPickable( false );
-        buildAtomModelNode.setChildrenPickable( false );
+        interactiveSchematicAtomNode.displayAnswer(answer);
+    }
+
+    @Override
+    protected void setGuessEditable( boolean guessEditable ) {
+        //Disable the user from changing the answer
+        interactiveSchematicAtomNode.setPickable( guessEditable );
+        interactiveSchematicAtomNode.setChildrenPickable( guessEditable );
     }
 
     @Override
@@ -45,7 +50,7 @@ public class SymbolToSchematicView extends ProblemView {
         super.init();
         addChild( description );
         addChild( symbolIndicatorNode );
-        addChild( buildAtomModelNode );
+        addChild( interactiveSchematicAtomNode );
     }
 
     @Override
@@ -53,6 +58,6 @@ public class SymbolToSchematicView extends ProblemView {
         super.teardown();
         removeChild( description );
         removeChild( symbolIndicatorNode );
-        removeChild( buildAtomModelNode );
+        removeChild( interactiveSchematicAtomNode );
     }
 }

@@ -7,7 +7,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
  * @author Sam Reid
  */
 public class SchematicToElementView extends ToElementView {
-    private SchematicAtomNode gameAtomModelNode;
+    private final SchematicAtomNode gameAtomModelNode;
 
     public SchematicToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );

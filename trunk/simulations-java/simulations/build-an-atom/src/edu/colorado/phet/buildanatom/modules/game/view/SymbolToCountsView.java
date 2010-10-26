@@ -100,8 +100,7 @@ public class SymbolToCountsView extends ProblemView {
 
     @Override
     protected void setGuessEditable( boolean guessEditable ) {
-        super.setGuessEditable( guessEditable );
-        multiEntryPanel.setEditable(guessEditable);
+        multiEntryPanel.setEditable( guessEditable );
     }
 
     public static class EntryPanel extends PNode {

@@ -45,7 +45,8 @@ public class ToSymbolProblemView extends ProblemView {
         removeChild( description );
         removeChild( interactiveSymbolNode );
     }
-    
+
+    @Override
     protected AtomValue getGuess() {
         return interactiveSymbolNode.getGuess();
     }
@@ -53,5 +54,11 @@ public class ToSymbolProblemView extends ProblemView {
     @Override
     protected void displayAnswer( AtomValue answer ) {
         interactiveSymbolNode.displayAnswer(answer);
+    }
+
+    @Override
+    protected void setGuessEditable( boolean guessEditable ) {
+        interactiveSymbolNode.setPickable( guessEditable );
+        interactiveSymbolNode.setChildrenPickable( guessEditable );
     }
 }
