@@ -367,7 +367,7 @@ public class EFieldDetectorView {
             });
             detector.addDielectricVectorListener( new SimpleObserver() {
                 public void update() {
-                    dielectricVectorNode.setXY( 0, -detector.getDielectricVector() ); //XXX why is this sign change needed?
+                    dielectricVectorNode.setXY( 0, -detector.getDielectricVector() ); // change sign because dielectric vector points in opposite direction
                     dielectricValueNode.setValue( detector.getDielectricVector() );
                     updateLayout();
                 }
