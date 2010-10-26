@@ -322,6 +322,7 @@ public class EFieldDetectorView {
      * Rectangular area where the vectors are displayed.
      * Vectors are clipped to this area.
      */
+    //XXX ensure that vectors are clipped to this area
     private static final class VectorDisplayNode extends PComposite {
         
         private final PPath backgroundNode;
