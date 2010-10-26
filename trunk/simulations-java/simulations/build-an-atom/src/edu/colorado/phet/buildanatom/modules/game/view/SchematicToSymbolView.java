@@ -8,14 +8,14 @@ import edu.colorado.phet.buildanatom.modules.game.model.SchematicToSymbolProblem
  * @author John Blanco
  */
 public class SchematicToSymbolView extends ToSymbolProblemView {
-    private GameAtomModelNode gameAtomModelNode;
+    private SchematicAtomNode gameAtomModelNode;
 
     /**
      * Constructor.
      */
     public SchematicToSymbolView( BuildAnAtomGameModel model, GameCanvas canvas, SchematicToSymbolProblem problem ) {
         super( model, canvas, problem );
-        gameAtomModelNode = new GameAtomModelNode( problem.getAnswer() );
+        gameAtomModelNode = new SchematicAtomNode( problem.getAnswer() );
     }
 
     @Override

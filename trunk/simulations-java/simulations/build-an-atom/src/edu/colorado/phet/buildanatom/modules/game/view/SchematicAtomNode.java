@@ -22,12 +22,12 @@ import edu.umd.cs.piccolo.PNode;
  * This shows the model of the atom (e.g. nucleus + shells + particles)
 * @author Sam Reid
 */
-public class GameAtomModelNode extends PNode {
+public class SchematicAtomNode extends PNode {
     PNode backLayer = new PNode();
     PNode particleLayer = new PNode();
     private ModelViewTransform2D mvt;
 
-    GameAtomModelNode( AtomValue atomValue ) {
+    SchematicAtomNode( AtomValue atomValue ) {
         //user shouldn't be able to modify the described problem
         setPickable( false );
         setChildrenPickable( false );

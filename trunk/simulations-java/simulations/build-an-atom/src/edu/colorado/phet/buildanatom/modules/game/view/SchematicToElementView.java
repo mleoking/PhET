@@ -7,11 +7,11 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
  * @author Sam Reid
  */
 public class SchematicToElementView extends ToElementView {
-    private GameAtomModelNode gameAtomModelNode;
+    private SchematicAtomNode gameAtomModelNode;
 
     public SchematicToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
-        gameAtomModelNode = new GameAtomModelNode( problem.getAnswer() );
+        gameAtomModelNode = new SchematicAtomNode( problem.getAnswer() );
     }
 
     @Override
