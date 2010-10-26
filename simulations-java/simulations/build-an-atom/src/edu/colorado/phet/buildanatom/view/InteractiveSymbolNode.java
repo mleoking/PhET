@@ -44,7 +44,7 @@ public class InteractiveSymbolNode extends PNode {
             System.out.println( "ignoring = " + e );
         }
     }};
-    private final JSpinner massSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) );
+    private final JSpinner massSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 60, 1 ) );
     private final JSpinner chargeSpinner = new JSpinner( new SpinnerNumberModel( 0, -15, 15, 1 ) ) {
         {
 
