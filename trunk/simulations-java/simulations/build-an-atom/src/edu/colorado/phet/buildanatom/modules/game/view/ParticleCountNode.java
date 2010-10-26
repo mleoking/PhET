@@ -14,13 +14,13 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author John Blanco
  */
-public class AtomConfigText extends PNode {
+public class ParticleCountNode extends PNode {
 
     private static final Font LABEL_FONT = new PhetFont(30);
     private static final double VERTICAL_LABEL_SPACING = 20;
     private static final double MIN_LABEL_TO_VALUE_SPACING = 20;
 
-    public AtomConfigText( int numProtons, int numNeutrons, int numElectrons ) {
+    public ParticleCountNode( int numProtons, int numNeutrons, int numElectrons ) {
         PText protonLabel = new PText("Protons:"){{ setFont( LABEL_FONT ); }};
         PText protonValue = new PText( Integer.toString( numProtons ) ){{ setFont( LABEL_FONT ); }};
         PText neutronLabel = new PText("Neutrons:"){{ setFont( LABEL_FONT ); }};

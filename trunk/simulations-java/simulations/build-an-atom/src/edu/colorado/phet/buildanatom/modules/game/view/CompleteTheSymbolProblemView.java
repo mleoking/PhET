@@ -3,7 +3,6 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolFromModelProblem;
 import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolProblem;
 import edu.colorado.phet.buildanatom.view.InteractiveSymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -19,7 +18,7 @@ public class CompleteTheSymbolProblemView extends ProblemView {
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
-    private final AtomConfigText atomConfigurationText;
+    private final ParticleCountNode atomConfigurationText;
     private final InteractiveSymbolNode interactiveSymbolNode;
 
     /**
@@ -27,7 +26,7 @@ public class CompleteTheSymbolProblemView extends ProblemView {
      */
     public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
         super( model, canvas, problem);
-        atomConfigurationText = new AtomConfigText( problem.getAnswer().getProtons(),
+        atomConfigurationText = new ParticleCountNode( problem.getAnswer().getProtons(),
                 problem.getAnswer().getNeutrons(), problem.getAnswer().getElectrons() );
         atomConfigurationText.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width /4 - atomConfigurationText.getFullBounds().getWidth() / 2,
