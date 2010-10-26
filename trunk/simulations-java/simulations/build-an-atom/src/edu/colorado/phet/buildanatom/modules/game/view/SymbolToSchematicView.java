@@ -12,10 +12,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 * @author Sam Reid
 */
 public class SymbolToSchematicView extends ProblemView {
-    private final PText description = new PText( "Complete the model:" ) {{//todo i18n
-        setFont( new PhetFont( 20, true ) );
-        setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
-    }};
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "Complete the model:" );//todo i18n
     private final SymbolIndicatorNode symbolIndicatorNode;
     private final InteractiveSchematicAtomNode interactiveSchematicAtomNode;
 
@@ -26,6 +23,7 @@ public class SymbolToSchematicView extends ProblemView {
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
         interactiveSchematicAtomNode=new InteractiveSchematicAtomNode();
+        description.centerAbove( interactiveSchematicAtomNode );
     }
 
     @Override

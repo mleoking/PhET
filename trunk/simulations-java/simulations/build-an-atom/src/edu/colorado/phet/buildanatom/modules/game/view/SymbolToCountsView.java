@@ -24,9 +24,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SymbolToCountsView extends ProblemView {
 
-    private final PText description = new PText( "How many particles?" ) {{//todo i18n
-        setFont( new PhetFont( 34, true ) );
-    }};
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "How many particles?" );//todo i18n
 
     private final SymbolIndicatorNode symbolIndicatorNode;
     private final MultiEntryPanel multiEntryPanel;
@@ -40,8 +38,7 @@ public class SymbolToCountsView extends ProblemView {
         multiEntryPanel = new MultiEntryPanel(  );
         multiEntryPanel.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width *3/ 4 - multiEntryPanel.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - multiEntryPanel.getFullBounds().getHeight() / 2 );
 
-        description.setOffset( multiEntryPanel.getFullBounds().getCenterX()-description.getFullBounds().getWidth()/2,
-                               multiEntryPanel.getFullBounds().getMinY()-description.getFullBounds().getHeight()-30 );
+        description.centerAbove(multiEntryPanel);
     }
 
     public static class MultiEntryPanel extends PNode{

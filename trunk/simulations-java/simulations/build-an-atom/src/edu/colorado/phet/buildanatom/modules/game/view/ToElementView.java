@@ -19,17 +19,16 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public abstract class ToElementView extends ProblemView {
-    private final PText description = new PText( "Complete the symbol:" ) {{//todo i18n
-        setFont( new PhetFont( 20, true ) );
-        setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 200 );
-    }};
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "Find the element:" );//todo i18n
 
     private final GamePeriodicTable gamePeriodicTable = new GamePeriodicTable() {{
-        setOffset( description.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, description.getFullBounds().getMaxY() + 20 );
+        setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth()*0.715 - getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.getHeight()/2-getFullBounds().getHeight()/2 );
+        scale( 1.2 );
     }};
 
     ToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
+        description.centerAbove( gamePeriodicTable );
     }
 
     @Override

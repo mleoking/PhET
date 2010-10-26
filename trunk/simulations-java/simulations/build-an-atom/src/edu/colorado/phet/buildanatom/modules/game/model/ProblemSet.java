@@ -21,6 +21,8 @@ public class ProblemSet {
     private int currentProblemIndex = 0;
     public static final Random random = new Random();
 
+    public static boolean iterateThrough = true;//for debugging
+
     public ProblemSet( BuildAnAtomGameModel model, int numProblems ) {
         // TODO: We need to make sure that the same problem is not generated
         // twice.
@@ -32,7 +34,7 @@ public class ProblemSet {
             AtomValue atomValue = remainingProblems.get( index );
             remainingProblems.remove( index );
 //            final int problemType = random.nextInt( 3 );
-            final int problemType = 2; // TODO: Temporary to get one type of problem working.
+            final int problemType = iterateThrough?i:3; // TODO: Temporary to get one type of problem working.
             if ( problemType == 0 ) {
                 addProblem( new SymbolToSchematicProblem( model, atomValue ) );
             }
