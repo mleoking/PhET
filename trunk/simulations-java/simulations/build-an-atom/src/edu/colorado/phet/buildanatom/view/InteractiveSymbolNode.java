@@ -127,16 +127,12 @@ public class InteractiveSymbolNode extends PNode {
         final int protons = (Integer) protonSpinner.getValue();
         final int massNumber = (Integer) massSpinner.getValue();
         final int charge = (Integer) chargeSpinner.getValue();
-        return new AtomValue( protons, massNumber - protons, protons - charge); 
+        return new AtomValue( protons, massNumber - protons, protons - charge);
     }
 
     public void displayAnswer( AtomValue answer ) {
         protonSpinner.setValue( answer.getProtons() );
         massSpinner.setValue( answer.getMassNumber());
         chargeSpinner.setValue( answer.getCharge());
-        
-        protonSpinner.setEnabled( false );
-        massSpinner.setEnabled( false );
-        chargeSpinner.setEnabled( false );
     }
 }
