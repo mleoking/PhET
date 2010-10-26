@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.HowManyParticlesProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.SymbolToCountsProblem;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * @author Sam Reid
  */
-public class HowManyParticlesProblemView extends ProblemView {
+public class SymbolToCountsView extends ProblemView {
 
     private final PText description = new PText( "How many particles?" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
@@ -32,7 +32,7 @@ public class HowManyParticlesProblemView extends ProblemView {
     private final SymbolIndicatorNode symbolIndicatorNode;
     private final MultiEntryPanel multiEntryPanel;
 
-    public HowManyParticlesProblemView( BuildAnAtomGameModel model, GameCanvas canvas, HowManyParticlesProblem howManyParticlesProblem ) {
+    public SymbolToCountsView( BuildAnAtomGameModel model, GameCanvas canvas, SymbolToCountsProblem howManyParticlesProblem ) {
         super( model, canvas, howManyParticlesProblem );
         symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom() );
         symbolIndicatorNode.scale( 2.25 );

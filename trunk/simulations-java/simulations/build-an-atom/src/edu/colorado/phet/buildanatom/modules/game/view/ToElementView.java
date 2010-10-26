@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author Sam Reid
  */
-public abstract class FindTheElementProblemView extends ProblemView {
+public abstract class ToElementView extends ProblemView {
     private final PText description = new PText( "Complete the symbol:" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 200 );
@@ -28,7 +28,7 @@ public abstract class FindTheElementProblemView extends ProblemView {
         setOffset( description.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, description.getFullBounds().getMaxY() + 20 );
     }};
 
-    FindTheElementProblemView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    ToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
     }
 

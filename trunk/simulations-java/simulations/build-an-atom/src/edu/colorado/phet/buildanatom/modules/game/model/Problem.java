@@ -1,7 +1,5 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * Represents one of the Problems in the game, formerly called Challenge.

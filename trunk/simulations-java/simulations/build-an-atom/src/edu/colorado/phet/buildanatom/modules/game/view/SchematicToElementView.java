@@ -6,10 +6,10 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 /**
  * @author Sam Reid
  */
-public class FindTheElementFromModelProblemView extends FindTheElementProblemView {
+public class SchematicToElementView extends ToElementView {
     private GameAtomModelNode gameAtomModelNode;
 
-    public FindTheElementFromModelProblemView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public SchematicToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
         gameAtomModelNode = new GameAtomModelNode( problem.getAnswer() );
     }

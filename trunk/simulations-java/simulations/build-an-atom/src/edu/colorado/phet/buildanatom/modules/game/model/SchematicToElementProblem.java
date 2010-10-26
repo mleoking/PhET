@@ -1,19 +1,19 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.modules.game.view.FindTheElementFromModelProblemView;
+import edu.colorado.phet.buildanatom.modules.game.view.SchematicToElementView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
  * @author Sam Reid
  */
-public class FindTheElementFromModelProblem extends FindTheElementProblem {
-    public FindTheElementFromModelProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
+public class SchematicToElementProblem extends ToElementProblem {
+    public SchematicToElementProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
         super( model, atomValue );
     }
 
     @Override
     public StateView createView( GameCanvas gameCanvas ) {
-        return new FindTheElementFromModelProblemView( model, gameCanvas, this );
+        return new SchematicToElementView( model, gameCanvas, this );
     }
 }
