@@ -8,6 +8,7 @@ DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
 
 HIGH PRIORITY
+
 - combine FieldVectorLabelNode and FieldVectorNode to simplify layout code in VectorDisplayNode
 - clean up layout and sizing of E-field detector
 - fix initial location of vector labels and values
