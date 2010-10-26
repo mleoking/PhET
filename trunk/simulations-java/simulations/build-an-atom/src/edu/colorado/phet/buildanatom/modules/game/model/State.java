@@ -16,4 +16,16 @@ public abstract class State {
     }
 
     public abstract StateView createView( GameCanvas gameCanvas );
+
+    /**
+     * Execute any functions that need to occur upon entry into this state,
+     * does nothing by default.
+     */
+    public void init(){};
+
+    /**
+     * Execute any functions that need to occur upon exit of this state, does
+     * nothing by default.
+     */
+    public void teardown(){};
 }
