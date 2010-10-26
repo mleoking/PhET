@@ -8,9 +8,9 @@ DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
 
 HIGH PRIORITY
-- detector background node is too wide and tall
+- initial location of vector labels and values is wrong because vectors are zero length
+- detector background node is too wide and tall because initial layout of vectors and values is wrong
 - clean up layout and sizing of E-field detector
-- fix initial location of vector labels and values
 - chose a more appropriate max for detector vectors
 - add zoom button to E-field detector (necessary after choosing a better max?)
 - decide whether to use Property<T> for EFieldDetector
