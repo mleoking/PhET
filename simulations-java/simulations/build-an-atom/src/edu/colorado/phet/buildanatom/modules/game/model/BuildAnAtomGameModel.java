@@ -2,7 +2,6 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
@@ -25,13 +24,12 @@ public class BuildAnAtomGameModel {
     // ------------------------------------------------------------------------
 
     public static final int MAX_LEVELS = 3;
-    private static final int PROBLEMS_PER_SET = 6;//TODO: fix for deployment, should be 5
+    private static final int PROBLEMS_PER_SET = 1;//TODO: fix for deployment, should be 5
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private State currentState;
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final State gameSettingsState = new State( this ){
         @Override
@@ -44,7 +42,25 @@ public class BuildAnAtomGameModel {
         public StateView createView( GameCanvas gameCanvas ) {
             return new GameOverStateView(gameCanvas, BuildAnAtomGameModel.this );
         }
+
+        @Override
+        public void init() {
+            // Stop the game clock.
+            stopGame();
+        }
     };
+
+    /**
+     * Null state, useful for avoiding use of null values.
+     */
+    private final State nullState = new State( this ){
+        @Override
+        public StateView createView( GameCanvas gameCanvas ) {
+            throw new RuntimeException("Not implemented.");
+        }
+    };
+
+    private State currentState = nullState;
 
     private final Property<Integer> scoreProperty = new Property<Integer>( 0 );
     private final Property<Boolean> timerEnabledProperty = new Property<Boolean>( true );
@@ -91,6 +107,8 @@ public class BuildAnAtomGameModel {
     private ProblemSet problemSet;
     private final ConstantDtClock clock=new ConstantDtClock( 1000,1000);//simulation time is in milliseconds
 
+    private double bestTime = Double.POSITIVE_INFINITY;
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -109,7 +127,9 @@ public class BuildAnAtomGameModel {
     public void setState( State newState ) {
         if ( currentState != newState ) {
             State oldState = currentState;
+            oldState.teardown();
             currentState = newState;
+            currentState.init();
             for ( GameModelListener listener : listeners ) {
                 listener.stateChanged( oldState, currentState );
             }
@@ -128,8 +148,20 @@ public class BuildAnAtomGameModel {
         problemSet = new ProblemSet( this, PROBLEMS_PER_SET );
         setState( problemSet.getCurrentProblem() );
 
+        scoreProperty.reset();
         getGameClock().resetSimulationTime();//Start time at zero in case it had time from previous runs
         getGameClock().start();//time starts when the game starts
+    }
+
+    public void stopGame() {
+        getGameClock().stop();
+
+        // Update the best time value if appropriate.
+        if ( timerEnabledProperty.getValue() ){
+            if ( getGameClock().getSimulationTime() < bestTime ){
+                bestTime = getGameClock().getSimulationTime();
+            }
+        }
     }
 
     public void addListener( GameModelListener listener ) {
@@ -217,4 +249,11 @@ public class BuildAnAtomGameModel {
         void stateChanged( State oldState, State newState );
     }
 
+    public long getBestTime() {
+        return (long) bestTime;
+    }
+
+    public boolean isNewBestTime(){
+        return getTime() == getBestTime() && timerEnabledProperty.getValue();
+    }
 }
