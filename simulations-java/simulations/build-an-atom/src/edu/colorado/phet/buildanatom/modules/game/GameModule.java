@@ -29,7 +29,7 @@ public class GameModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public GameModule( Frame parentFrame ) {
-        super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock( BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT ) );
+        super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock( ) );
         setClockControlPanel( null );
 
         // Model

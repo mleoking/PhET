@@ -18,7 +18,6 @@ public class CompleteTheSymbolProblemView extends ProblemView {
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
-    private final ParticleCountNode atomConfigurationText;
     private final InteractiveSymbolNode interactiveSymbolNode;
 
     /**
@@ -26,11 +25,7 @@ public class CompleteTheSymbolProblemView extends ProblemView {
      */
     public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
         super( model, canvas, problem);
-        atomConfigurationText = new ParticleCountNode( problem.getAnswer().getProtons(),
-                problem.getAnswer().getNeutrons(), problem.getAnswer().getElectrons() );
-        atomConfigurationText.setOffset(
-                BuildAnAtomDefaults.STAGE_SIZE.width /4 - atomConfigurationText.getFullBounds().getWidth() / 2,
-                BuildAnAtomDefaults.STAGE_SIZE.height / 2 - atomConfigurationText.getFullBounds().getHeight() / 2 );
+
         interactiveSymbolNode = new InteractiveSymbolNode( true);
         interactiveSymbolNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width * 0.75 - interactiveSymbolNode.getFullBounds().getWidth() / 2,
@@ -41,7 +36,6 @@ public class CompleteTheSymbolProblemView extends ProblemView {
     public void init() {
         super.init();
         addChild( description );
-        addChild( atomConfigurationText );
         addChild( interactiveSymbolNode );
     }
 
@@ -49,7 +43,6 @@ public class CompleteTheSymbolProblemView extends ProblemView {
     public void teardown() {
         super.teardown();
         removeChild( description );
-        removeChild( atomConfigurationText );
         removeChild( interactiveSymbolNode );
     }
     

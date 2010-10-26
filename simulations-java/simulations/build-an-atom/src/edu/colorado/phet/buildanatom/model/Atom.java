@@ -521,12 +521,27 @@ public class Atom extends SimpleObservable{
         return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
     }
 
+    public ArrayList<Electron> getElectrons(){
+        ArrayList<Electron> allElectrons = new ArrayList<Electron>( );
+        allElectrons.addAll( electronShell1.getElectrons() );
+        allElectrons.addAll( electronShell2.getElectrons() );
+        return allElectrons;
+    }
+
     public int getNumParticles() {
         return getAtomicMassNumber()+getNumElectrons();
     }
 
     public boolean containsElectron( Electron electron ) {
         return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron);
+    }
+
+    public SubatomicParticle getProton( int i ) {
+        return protons.get( i );
+    }
+
+    public SubatomicParticle getNeutron( int i ) {
+        return neutrons.get( i );
     }
 
     /**

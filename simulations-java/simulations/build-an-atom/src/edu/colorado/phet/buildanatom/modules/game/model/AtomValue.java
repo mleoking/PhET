@@ -2,10 +2,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.buildanatom.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -60,6 +57,7 @@ public class AtomValue {
 
 
     public Atom toAtom() {
+        BuildAnAtomClock clock=new BuildAnAtomClock();
         if ( protons < 0 ) {
             System.out.println( "protons = "+protons );
         }
@@ -71,14 +69,15 @@ public class AtomValue {
         }
         Atom atom = new Atom( new Point2D.Double( 0, 0 ));
         for ( int i = 0; i < protons; i++ ) {
-            atom.addProton( new Proton( ConstantDtClock.TEST ) );
+            atom.addProton( new Proton( clock ) );
         }
         for ( int i = 0; i < neutrons; i++ ) {
-            atom.addNeutron( new Neutron( ConstantDtClock.TEST ) );
+            atom.addNeutron( new Neutron( clock ) );
         }
         for ( int i = 0; i < electrons; i++ ) {
-            atom.addElectron( new Electron( ConstantDtClock.TEST ) );
+            atom.addElectron( new Electron( clock ) );
         }
+        clock.start();//TODO: memory leak and makes particles animate in an unphysical way
         return atom;
     }
 
