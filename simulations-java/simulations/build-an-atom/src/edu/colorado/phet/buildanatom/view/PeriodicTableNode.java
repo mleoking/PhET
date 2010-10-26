@@ -17,8 +17,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Sam Reid
  */
-public class ElementIndicatorNode extends PNode {
-    public ElementIndicatorNode( final Atom atom ) {
+public class PeriodicTableNode extends PNode {
+    public PeriodicTableNode( final Atom atom ) {
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
@@ -52,9 +52,9 @@ public class ElementIndicatorNode extends PNode {
 //        }} );
     }
 
-    private void addElement( final Atom atom, final PNode table, int i ) {
-        ElementCell elementCell = new ElementCell( atom, i );
-        final Point gridPoint = getGridPoint( i );
+    private void addElement( final Atom atom, final PNode table, int atomicNumber ) {
+        ElementCell elementCell = new ElementCell( atom, atomicNumber );
+        final Point gridPoint = getGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
         elementCell.setOffset( x, y );
@@ -132,7 +132,7 @@ public class ElementIndicatorNode extends PNode {
 
     public static int CELL_DIMENSION = 20;
 
-    public String getLine( int atomicNumber ) {
+    public static String getLine( int atomicNumber ) {
         StringTokenizer stringTokenizer = new StringTokenizer( table, "\n" );
         while ( stringTokenizer.hasMoreElements() ) {
             String element = stringTokenizer.nextToken();
@@ -151,18 +151,7 @@ public class ElementIndicatorNode extends PNode {
             final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), new BasicStroke( 1 ), Color.black );
             addChild( box );
 
-            String line = getLine( atomicNumber );
-            StringTokenizer stringTokenizer = new StringTokenizer( line, "\t " );
-            stringTokenizer.nextToken();//number
-            stringTokenizer.nextToken();//name
-            String abbreviation = stringTokenizer.nextToken();//abbreviation
-
-            if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
-                abbreviation = BuildAnAtomStrings.ELEMENT_LANTHANUM_SYMBOL;
-            }
-            if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
-                abbreviation = BuildAnAtomStrings.ELEMENT_ACTINIUM_SYMBOL;
-            }
+            String abbreviation = getElementAbbreviation( atomicNumber );
             final PText text = new PText( abbreviation );
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
@@ -183,6 +172,23 @@ public class ElementIndicatorNode extends PNode {
             return atomicNumber;
         }
     }
+
+    public static String getElementAbbreviation( int atomicNumber ) {
+        String line = getLine( atomicNumber );
+        StringTokenizer stringTokenizer = new StringTokenizer( line, "\t " );
+        stringTokenizer.nextToken();//number
+        stringTokenizer.nextToken();//name
+        String abbreviation = stringTokenizer.nextToken();//abbreviation
+
+        if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
+            abbreviation = BuildAnAtomStrings.ELEMENT_LANTHANUM_SYMBOL;
+        }
+        if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
+            abbreviation = BuildAnAtomStrings.ELEMENT_ACTINIUM_SYMBOL;
+        }
+        return abbreviation;
+    }
+
 //Copied table from http://www.zyra.org.uk/elements.htm
     //Used for generating the translatable version below in main()
     public static final String tableOrig = "1  \tHYDROGEN  \tH  \t1.008\n" +
