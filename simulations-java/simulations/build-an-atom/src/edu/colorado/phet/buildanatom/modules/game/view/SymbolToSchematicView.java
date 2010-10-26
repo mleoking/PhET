@@ -3,7 +3,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheModelProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.SymbolToSchematicProblem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
 * @author Sam Reid
 */
-public class CompleteTheModelProblemView extends ProblemView {
+public class SymbolToSchematicView extends ProblemView {
     private final PText description = new PText( "Complete the model:" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
@@ -19,7 +19,7 @@ public class CompleteTheModelProblemView extends ProblemView {
     private final SymbolIndicatorNode symbolIndicatorNode;
     private InteractiveGameAtomModelNode buildAtomModelNode;
 
-    public CompleteTheModelProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheModelProblem problem) {
+    public SymbolToSchematicView( BuildAnAtomGameModel model, GameCanvas canvas, SymbolToSchematicProblem problem) {
         super( model, canvas, problem);
         symbolIndicatorNode = new SymbolIndicatorNode( problem.getAnswer().toAtom() );
         symbolIndicatorNode.scale( 2 );

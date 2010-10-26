@@ -1,19 +1,19 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolFromModelProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.SchematicToSymbolProblem;
 
 /**
  * @author Sam Reid
  * @author John Blanco
  */
-public class CompleteTheSymbolFromModelProblemView extends CompleteTheSymbolProblemView {
+public class SchematicToSymbolView extends ToSymbolProblemView {
     private GameAtomModelNode gameAtomModelNode;
 
     /**
      * Constructor.
      */
-    public CompleteTheSymbolFromModelProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolFromModelProblem problem ) {
+    public SchematicToSymbolView( BuildAnAtomGameModel model, GameCanvas canvas, SchematicToSymbolProblem problem ) {
         super( model, canvas, problem );
         gameAtomModelNode = new GameAtomModelNode( problem.getAnswer() );
     }

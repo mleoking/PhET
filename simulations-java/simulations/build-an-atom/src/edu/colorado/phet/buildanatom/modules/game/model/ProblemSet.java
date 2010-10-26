@@ -10,12 +10,12 @@ import java.util.Random;
  */
 public class ProblemSet {
     //keep track by type
-    private final ArrayList<CompleteTheModelProblem> completeTheModelProblems = new ArrayList<CompleteTheModelProblem>();
-    private final ArrayList<CompleteTheSymbolFromModelProblem> completeTheSymbolProblems = new ArrayList<CompleteTheSymbolFromModelProblem>();
-    private final ArrayList<HowManyParticlesProblem> howManyParticlesProblems = new ArrayList<HowManyParticlesProblem>();
-    private final ArrayList<CompleteTheSymbolFromCountsProblem> completeTheSymbolFromCountsProblems = new ArrayList<CompleteTheSymbolFromCountsProblem>();
-    private final ArrayList<FindTheElementFromModelProblem> findTheElementFromModelProblems = new ArrayList<FindTheElementFromModelProblem>();
-    private final ArrayList<FindTheElementFromCountsProblem> findTheElementFromCountsProblems = new ArrayList<FindTheElementFromCountsProblem>();
+    private final ArrayList<SymbolToSchematicProblem> completeTheModelProblems = new ArrayList<SymbolToSchematicProblem>();
+    private final ArrayList<SchematicToSymbolProblem> completeTheSymbolProblems = new ArrayList<SchematicToSymbolProblem>();
+    private final ArrayList<SymbolToCountsProblem> howManyParticlesProblems = new ArrayList<SymbolToCountsProblem>();
+    private final ArrayList<CountsToSymbolProblem> completeTheSymbolFromCountsProblems = new ArrayList<CountsToSymbolProblem>();
+    private final ArrayList<SchematicToElementProblem> findTheElementFromModelProblems = new ArrayList<SchematicToElementProblem>();
+    private final ArrayList<CountsToElementProblem> findTheElementFromCountsProblems = new ArrayList<CountsToElementProblem>();
     //keeps track by ordering
     private final ArrayList<Problem> allProblems = new ArrayList<Problem>();
     private int currentProblemIndex = 0;
@@ -34,50 +34,50 @@ public class ProblemSet {
 //            final int problemType = random.nextInt( 3 );
             final int problemType = 1; // TODO: Temporary to get one type of problem working.
             if ( problemType == 0 ) {
-                addProblem( new CompleteTheModelProblem( model, atomValue ) );
+                addProblem( new SymbolToSchematicProblem( model, atomValue ) );
             }
             else if ( problemType == 1 ) {
-                addProblem( new CompleteTheSymbolFromModelProblem( model, atomValue ) );
+                addProblem( new SchematicToSymbolProblem( model, atomValue ) );
             }
             else if ( problemType == 2 ) {
-                addProblem( new HowManyParticlesProblem( model, atomValue ) );
+                addProblem( new SymbolToCountsProblem( model, atomValue ) );
             }
             else if ( problemType == 3 ) {
-                addProblem( new CompleteTheSymbolFromCountsProblem( model, atomValue ) );
+                addProblem( new CountsToSymbolProblem( model, atomValue ) );
             }
             else if ( problemType == 4 ) {
-                addProblem( new FindTheElementFromModelProblem( model, atomValue ) );
+                addProblem( new SchematicToElementProblem( model, atomValue ) );
             }
             else if ( problemType == 5 ) {
-                addProblem( new FindTheElementFromCountsProblem( model, atomValue ) );
+                addProblem( new CountsToElementProblem( model, atomValue ) );
             }
         }
     }
-    public void addProblem( FindTheElementFromModelProblem problem) {
+    public void addProblem( SchematicToElementProblem problem) {
         findTheElementFromModelProblems.add( problem );
         allProblems.add( problem );
     }
     
-    public void addProblem( FindTheElementFromCountsProblem problem) {
+    public void addProblem( CountsToElementProblem problem) {
         findTheElementFromCountsProblems.add( problem );
         allProblems.add( problem );
     }
 
-    public void addProblem( CompleteTheSymbolFromCountsProblem problem) {
+    public void addProblem( CountsToSymbolProblem problem) {
         completeTheSymbolFromCountsProblems.add( problem );
         allProblems.add( problem );
     }
-    public void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {
+    public void addProblem( SymbolToCountsProblem howManyParticlesProblem ) {
         howManyParticlesProblems.add( howManyParticlesProblem );
         allProblems.add( howManyParticlesProblem );
     }
 
-    public void addProblem( CompleteTheSymbolFromModelProblem completeTheSymbolProblem ) {
+    public void addProblem( SchematicToSymbolProblem completeTheSymbolProblem ) {
         completeTheSymbolProblems.add( completeTheSymbolProblem );
         allProblems.add( completeTheSymbolProblem );
     }
 
-    public void addProblem( CompleteTheModelProblem completeTheModelProblem ) {
+    public void addProblem( SymbolToSchematicProblem completeTheModelProblem ) {
         completeTheModelProblems.add( completeTheModelProblem );
         allProblems.add( completeTheModelProblem );
     }
@@ -94,15 +94,15 @@ public class ProblemSet {
         return howManyParticlesProblems.size();
     }
 
-    public CompleteTheModelProblem getCompleteTheModelProblem( int i ) {
+    public SymbolToSchematicProblem getCompleteTheModelProblem( int i ) {
         return completeTheModelProblems.get( i );
     }
 
-    public CompleteTheSymbolFromModelProblem getCompleteTheSymbolProblem( int i ) {
+    public SchematicToSymbolProblem getCompleteTheSymbolProblem( int i ) {
         return completeTheSymbolProblems.get( i );
     }
 
-    public HowManyParticlesProblem getHowManyParticlesProblem( int i ) {
+    public SymbolToCountsProblem getHowManyParticlesProblem( int i ) {
         return howManyParticlesProblems.get( i );
     }
 

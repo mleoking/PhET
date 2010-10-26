@@ -7,10 +7,10 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 /**
  * @author Sam Reid
  */
-public class FindTheElementFromCountsProblemView extends FindTheElementProblemView{
+public class CountsToElementView extends ToElementView{
     private ParticleCountNode atomConfigurationText;
 
-    public FindTheElementFromCountsProblemView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public CountsToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
         atomConfigurationText = new ParticleCountNode( problem.getAnswer().getProtons(),
                 problem.getAnswer().getNeutrons(), problem.getAnswer().getElectrons() );

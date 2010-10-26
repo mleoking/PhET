@@ -3,7 +3,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolProblem;
+import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 import edu.colorado.phet.buildanatom.view.InteractiveSymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 * @author Sam Reid
 * @author John Blanco
 */
-public class CompleteTheSymbolProblemView extends ProblemView {
+public class ToSymbolProblemView extends ProblemView {
 
     private final PText description = new PText( "Complete the symbol:" ) {{//todo i18n
         setFont( new PhetFont( 20, true ) );
@@ -23,7 +23,7 @@ public class CompleteTheSymbolProblemView extends ProblemView {
     /**
      * Constructor.
      */
-    public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
+    public ToSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem) {
         super( model, canvas, problem);
 
         interactiveSymbolNode = new InteractiveSymbolNode( true);

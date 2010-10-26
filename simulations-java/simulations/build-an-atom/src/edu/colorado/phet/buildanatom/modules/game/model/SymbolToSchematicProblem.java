@@ -1,19 +1,19 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import edu.colorado.phet.buildanatom.modules.game.view.SymbolToSchematicView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
-import edu.colorado.phet.buildanatom.modules.game.view.HowManyParticlesProblemView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
  * @author Sam Reid
  */
-public class HowManyParticlesProblem extends Problem {
-    public HowManyParticlesProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
+public class SymbolToSchematicProblem extends Problem {
+    public SymbolToSchematicProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
         super( model, atomValue );
     }
 
     @Override
     public StateView createView( GameCanvas gameCanvas ) {
-        return new HowManyParticlesProblemView( model, gameCanvas, this );
+        return new SymbolToSchematicView( model, gameCanvas, this );
     }
 }
