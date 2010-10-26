@@ -22,7 +22,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 public abstract class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 550 );
-    private final PText text = new PText( "<debug info for guesses>" );
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;
     private final PNode resultNode = new PNode();
@@ -42,7 +41,6 @@ public abstract class ProblemView extends StateView {
         checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {//TODO: i18n
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess( getGuess() );
-                text.setText( "num guesses = " + problem.getNumGuesses() + ", correctlySolved = " + problem.isSolvedCorrectly() );
                 resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {
                     {
                         final FaceNode faceNode = this;
@@ -123,7 +121,6 @@ public abstract class ProblemView extends StateView {
         addChild( checkButton );
         addChild( getScoreboard() );
         addChild( problemNumberDisplay );
-        addChild( text );
         addChild( resultNode );
     }
 
@@ -132,7 +129,6 @@ public abstract class ProblemView extends StateView {
         removeChild( getScoreboard() );
         removeChild( checkButton );
         removeChild( problemNumberDisplay );
-        removeChild( text );
         removeChild( resultNode );
 
     }

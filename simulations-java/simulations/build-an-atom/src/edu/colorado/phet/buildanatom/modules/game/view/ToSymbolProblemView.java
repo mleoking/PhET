@@ -14,10 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 */
 public class ToSymbolProblemView extends ProblemView {
 
-    private final PText description = new PText( "Complete the symbol:" ) {{//todo i18n
-        setFont( new PhetFont( 20, true ) );
-        setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
-    }};
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "Complete the symbol:" ); //todo i18n
     private final InteractiveSymbolNode interactiveSymbolNode;
 
     /**
@@ -30,6 +27,8 @@ public class ToSymbolProblemView extends ProblemView {
         interactiveSymbolNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width * 0.75 - interactiveSymbolNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - interactiveSymbolNode.getFullBounds().getHeight() / 2 );
+
+        description.centerAbove( interactiveSymbolNode );
     }
 
     @Override
