@@ -17,7 +17,7 @@ public class SymbolToSchematicView extends ProblemView {
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
     private final SymbolIndicatorNode symbolIndicatorNode;
-    private InteractiveGameAtomModelNode buildAtomModelNode;
+    private InteractiveSchematicAtomNode buildAtomModelNode;
 
     public SymbolToSchematicView( BuildAnAtomGameModel model, GameCanvas canvas, SymbolToSchematicProblem problem) {
         super( model, canvas, problem);
@@ -25,7 +25,7 @@ public class SymbolToSchematicView extends ProblemView {
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
-        buildAtomModelNode=new InteractiveGameAtomModelNode();
+        buildAtomModelNode=new InteractiveSchematicAtomNode();
     }
 
     @Override

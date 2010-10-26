@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class InteractiveGameAtomModelNode extends PNode {
+public class InteractiveSchematicAtomNode extends PNode {
     private ModelViewTransform2D mvt;
     private BuildAnAtomModel model;
 
-    public InteractiveGameAtomModelNode() {
+    public InteractiveSchematicAtomNode() {
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.70 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
