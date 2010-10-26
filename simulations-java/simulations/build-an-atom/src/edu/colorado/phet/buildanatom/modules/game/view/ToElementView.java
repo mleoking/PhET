@@ -55,28 +55,34 @@ public abstract class ToElementView extends ProblemView {
     @Override
     protected void displayAnswer( AtomValue answer ) {
         gamePeriodicTable.displayNumProtons( answer.getProtons() );
+    }
 
+    @Override
+    protected void setGuessEditable( boolean guessEditable ) {
         //Disable the user from changing the answer
-        gamePeriodicTable.setPickable( false );
-        gamePeriodicTable.setChildrenPickable( false );
+        gamePeriodicTable.setPickable( guessEditable );
+        gamePeriodicTable.setChildrenPickable( guessEditable );
     }
 
     private static class GamePeriodicTable extends PNode {
         final int[] numProtons = new int[] { 0 };//use an array because the reference must be final
-        private Atom atom;
+        private final Atom atom;
 
         private GamePeriodicTable() {
             //TODO: this is too sneaky and should be rewritten
             //We should rewrite ElementIndicatorNode to use something more general than Atom, so it can use a large number of protons without creating and deleting Proton instances
             atom = new Atom( new Point2D.Double() ) {
+                @Override
                 public int getNumProtons() {
                     return numProtons[0];//Trick the ElementIndicatorNode into thinking there are numProtons[0] protons.
                 }
             };
             addChild( new ElementIndicatorNode( atom ) {
+                @Override
                 protected void elementCellCreated( final ElementIndicatorNode.ElementCell elementCell ) {
                     elementCell.addInputEventListener( new CursorHandler() );
                     elementCell.addInputEventListener( new PBasicInputEventHandler() {
+                        @Override
                         public void mousePressed( PInputEvent event ) {
                             displayNumProtons( elementCell.getAtomicNumber() );
                         }
