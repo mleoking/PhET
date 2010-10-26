@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -27,6 +28,11 @@ public abstract class ProblemView extends StateView {
     private final PNode resultNode = new PNode();
     private final GameAudioPlayer gameAudioPlayer;
     private final Problem problem;
+    private final BuildAnAtomClock clock = new BuildAnAtomClock();
+
+    public BuildAnAtomClock getClock() {
+        return clock;
+    }
 
     ProblemView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
@@ -122,6 +128,7 @@ public abstract class ProblemView extends StateView {
         addChild( getScoreboard() );
         addChild( problemNumberDisplay );
         addChild( resultNode );
+        clock.start();
     }
 
     @Override
@@ -130,7 +137,7 @@ public abstract class ProblemView extends StateView {
         removeChild( checkButton );
         removeChild( problemNumberDisplay );
         removeChild( resultNode );
-
+        clock.stop();
     }
 
     private static class GameButtonNode extends GradientButtonNode {

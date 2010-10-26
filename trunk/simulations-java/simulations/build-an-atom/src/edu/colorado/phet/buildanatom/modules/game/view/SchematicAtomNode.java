@@ -5,10 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.ElectronShell;
-import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.buildanatom.model.*;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
 import edu.colorado.phet.buildanatom.view.ElectronShellNode;
@@ -27,7 +24,7 @@ public class SchematicAtomNode extends PNode {
     PNode particleLayer = new PNode();
     private ModelViewTransform2D mvt;
 
-    SchematicAtomNode( AtomValue atomValue ) {
+    SchematicAtomNode( AtomValue atomValue, BuildAnAtomClock clock ) {
         //user shouldn't be able to modify the described problem
         setPickable( false );
         setChildrenPickable( false );
@@ -37,7 +34,7 @@ public class SchematicAtomNode extends PNode {
                                                    (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
                                         2.0, true );
         // Add the atom's electron shells to the canvas.
-        final Atom atom = atomValue.toAtom();
+        final Atom atom = atomValue.toAtom(clock );
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
             backLayer.addChild( new ElectronShellNode( mvt, new BooleanProperty( true ), atom, electronShell, true ) );
         }

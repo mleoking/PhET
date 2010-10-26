@@ -11,7 +11,7 @@ public class SchematicToElementView extends ToElementView {
 
     public SchematicToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
-        gameAtomModelNode = new SchematicAtomNode( problem.getAnswer() );
+        gameAtomModelNode = new SchematicAtomNode( problem.getAnswer(),getClock() );
     }
 
     @Override

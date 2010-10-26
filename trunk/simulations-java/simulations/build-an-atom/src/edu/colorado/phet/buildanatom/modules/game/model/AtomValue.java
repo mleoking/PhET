@@ -55,9 +55,7 @@ public class AtomValue {
         return true;
     }
 
-
-    public Atom toAtom() {
-        BuildAnAtomClock clock=new BuildAnAtomClock();
+    public Atom toAtom(BuildAnAtomClock clock) {
         if ( protons < 0 ) {
             System.out.println( "protons = "+protons );
         }
@@ -77,7 +75,6 @@ public class AtomValue {
         for ( int i = 0; i < electrons; i++ ) {
             atom.addElectron( new Electron( clock ) );
         }
-        clock.start();//TODO: memory leak and makes particles animate in an unphysical way
         return atom;
     }
 

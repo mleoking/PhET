@@ -24,7 +24,7 @@ public class InteractiveSchematicAtomNode extends PNode {
     private ModelViewTransform2D mvt;
     private BuildAnAtomModel model;
 
-    public InteractiveSchematicAtomNode() {
+    public InteractiveSchematicAtomNode(BuildAnAtomClock clock) {
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.70 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
@@ -37,7 +37,6 @@ public class InteractiveSchematicAtomNode extends PNode {
         PNode backLayer = new PNode( );
         PNode particleLayer = new PNode( );
         PNode frontLayer= new PNode( );
-        final BuildAnAtomClock clock = new BuildAnAtomClock();
         model = new BuildAnAtomModel( clock );//todo: clock memory leak?
         // Layers on the canvas.
         addChild( backLayer );
