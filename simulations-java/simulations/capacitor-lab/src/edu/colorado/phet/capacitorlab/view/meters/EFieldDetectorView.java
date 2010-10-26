@@ -200,7 +200,8 @@ public class EFieldDetectorView {
             // background
             double maxControlWidth = Math.max( showVectorsPSwing.getFullBoundsReference().getWidth(), showValuesPSwing.getFullBoundsReference().getWidth() );
             double width = maxControlWidth + vectorDisplayNode.getFullBoundsReference().getWidth() + ( 2 * BODY_X_MARGIN ) + BODY_X_SPACING;
-            double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( showVectorsPSwing.getFullBoundsReference().getHeight(), vectorDisplayNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
+            final double controlsHeight = showVectorsPSwing.getFullBoundsReference().getHeight() + showValuesPSwing.getFullBoundsReference().getHeight();
+            double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( controlsHeight, vectorDisplayNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
             PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, BODY_CORNER_RADIUS, BODY_CORNER_RADIUS ) );
             backgroundNode.setPaint( BODY_COLOR );
             backgroundNode.setStroke( null );
@@ -324,7 +325,6 @@ public class EFieldDetectorView {
     private static final class VectorDisplayNode extends PComposite {
         
         private final PPath backgroundNode;
-        private final FieldVectorLabelNode plateLabelNode, dielectricLabelNode, sumLabelNode;
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
         
@@ -336,25 +336,17 @@ public class EFieldDetectorView {
             backgroundNode.setStroke( null );
             addChild( backgroundNode );
             
-            // labels
-            plateLabelNode = new FieldVectorLabelNode( CLStrings.PLATE );
-            dielectricLabelNode = new FieldVectorLabelNode( CLStrings.DIELECTRIC );
-            sumLabelNode = new FieldVectorLabelNode( CLStrings.SUM );
-            
             // vectors
             plateVectorNode = new FieldVectorNode( detector.getPlateVector(), CLPaints.PLATE_EFIELD_VECTOR );
             dielectricVectorNode = new FieldVectorNode( detector.getDielectricVector(), CLPaints.DIELECTRIC_EFIELD_VECTOR );
             sumVectorNode = new FieldVectorNode( detector.getSumVector(), CLPaints.SUM_EFIELD_VECTOR );
             
             // values
-            plateValueNode = new FieldValueNode();
-            dielectricValueNode = new FieldValueNode();
-            sumValueNode = new FieldValueNode();
+            plateValueNode = new FieldValueNode( CLStrings.PLATE );
+            dielectricValueNode = new FieldValueNode( CLStrings.DIELECTRIC );
+            sumValueNode = new FieldValueNode( CLStrings.SUM );
             
             // rendering order
-            addChild( plateLabelNode );
-            addChild( dielectricLabelNode );
-            addChild( sumLabelNode );
             addChild( plateVectorNode );
             addChild( dielectricVectorNode );
             addChild( sumVectorNode );
@@ -389,21 +381,18 @@ public class EFieldDetectorView {
             });
             detector.addPlateVisibleListener( new SimpleObserver() {
                 public void update() {
-                    plateLabelNode.setVisible( detector.isPlateVisible() );
                     plateVectorNode.setVisible( detector.isPlateVisible() );
                     plateValueNode.setVisible( detector.isPlateVisible() && detector.isValuesVisible() );
                 }
             });
             detector.addDielectricVisibleListener( new SimpleObserver() {
                 public void update() {
-                    dielectricLabelNode.setVisible( detector.isDielectricVisible() );
                     dielectricVectorNode.setVisible( detector.isDielectricVisible() );
                     dielectricValueNode.setVisible( detector.isDielectricVisible() && detector.isValuesVisible() );
                 }
             });
             detector.addSumVisibleListener( new SimpleObserver() {
                 public void update() {
-                    sumLabelNode.setVisible( detector.isSumVectorVisible() );
                     sumVectorNode.setVisible( detector.isSumVectorVisible() );
                     sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
                 }
@@ -451,75 +440,40 @@ public class EFieldDetectorView {
                 dielectricVectorNode.setOffset( x, y );
             }
             
-            // labels and values, all placed at vector tails, horizontally centered
+            // labeled values, all placed at vector tails, horizontally centered
             {
                 final double ySpacing = 2; // space between vector tail and label
                 
                 // plate label
+                x = plateVectorNode.getFullBoundsReference().getCenterX();
                 if ( plateVectorNode.getVector().getY() > 0 ) {
-                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateValueNode.getFullBoundsReference().getWidth() / 2 );
                     y = plateVectorNode.getFullBoundsReference().getMinY() - plateValueNode.getFullBoundsReference().getHeight() - ySpacing;
-                    plateValueNode.setOffset( x, y );
-                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateLabelNode.getFullBoundsReference().getWidth() / 2 );
-                    y = plateValueNode.getFullBoundsReference().getMinY() - plateLabelNode.getFullBoundsReference().getHeight() - 1;
-                    plateLabelNode.setOffset( x, y );
                 }
                 else {
-                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateLabelNode.getFullBoundsReference().getWidth() / 2 );
                     y = plateVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
-                    plateLabelNode.setOffset( x, y );
-                    x = plateVectorNode.getFullBoundsReference().getCenterX() - ( plateValueNode.getFullBoundsReference().getWidth() / 2 );
-                    y = plateLabelNode.getFullBoundsReference().getMaxY() + 1;
-                    plateValueNode.setOffset( x, y );
                 }
+                plateValueNode.setOffset( x, y );
                 
                 // sum label
+                x = sumVectorNode.getFullBoundsReference().getCenterX();
                 if ( sumVectorNode.getVector().getY() > 0 ) {
-                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumValueNode.getFullBoundsReference().getWidth() / 2 );
                     y = sumVectorNode.getFullBoundsReference().getMinY() - sumValueNode.getFullBoundsReference().getHeight() - ySpacing;
-                    sumValueNode.setOffset( x, y );
-                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumLabelNode.getFullBoundsReference().getWidth() / 2 );
-                    y = sumValueNode.getFullBoundsReference().getMinY() - sumLabelNode.getFullBoundsReference().getHeight() - 1;
-                    sumLabelNode.setOffset( x, y );
                 }
                 else {
-                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumLabelNode.getFullBoundsReference().getWidth() / 2 );
                     y = sumVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
-                    sumLabelNode.setOffset( x, y );
-                    x = sumVectorNode.getFullBoundsReference().getCenterX() - ( sumValueNode.getFullBoundsReference().getWidth() / 2 );
-                    y = sumLabelNode.getFullBoundsReference().getMaxY() + 1;
-                    sumValueNode.setOffset( x, y );
                 }
+                sumValueNode.setOffset( x, y );
                 
                 // dielectric label
-                if ( dielectricVectorNode.getVector().getY() >= 0 ) {
-                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricValueNode.getFullBoundsReference().getWidth() / 2 );
+                x = dielectricVectorNode.getFullBoundsReference().getCenterX();
+                if ( dielectricVectorNode.getVector().getY() >= 0 ) { /* >= 0 so that zero Dielectric and Sum values won't overlap */
                     y = dielectricVectorNode.getFullBoundsReference().getMinY() - dielectricValueNode.getFullBoundsReference().getHeight() - ySpacing;
-                    dielectricValueNode.setOffset( x, y );
-                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricLabelNode.getFullBoundsReference().getWidth() / 2 );
-                    y = dielectricValueNode.getFullBoundsReference().getMinY() - dielectricLabelNode.getFullBoundsReference().getHeight() - 1;
-                    dielectricLabelNode.setOffset( x, y );
                 }
                 else {
-                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricLabelNode.getFullBoundsReference().getWidth() / 2 );
                     y = dielectricVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
-                    dielectricLabelNode.setOffset( x, y );
-                    x = dielectricVectorNode.getFullBoundsReference().getCenterX() - ( dielectricValueNode.getFullBoundsReference().getWidth() / 2 );
-                    y = dielectricLabelNode.getFullBoundsReference().getMaxY() + 1;
-                    dielectricValueNode.setOffset( x, y );
                 }
+                dielectricValueNode.setOffset( x, y );
             }
-        }
-    }
-    
-    //XXX combine FieldVectorLabelNode and FieldVectorNode to simplify layout code in VectorDisplayNode
-    /*
-     * Field vector label.
-     */
-    private static class FieldVectorLabelNode extends PText {
-        public FieldVectorLabelNode( String text ) {
-            super( text );
-            setFont( new PhetFont( 15 ) );
         }
     }
     
@@ -537,18 +491,40 @@ public class EFieldDetectorView {
     }
     
     /*
-     * Displays a numeric field value.
+     * Displays a labeled vector value.
+     * Label is above value, and they are horizontally centered.
+     * Origin is at the top center of the bounding rectangle.
      */
-    private static class FieldValueNode extends PText {
+    private static class FieldValueNode extends PComposite {
         
-        public FieldValueNode() {
-            setFont( VALUE_FONT );
+        private final PText labelNode, valueNode;
+        
+        public FieldValueNode( String label ) {
+            
+            labelNode = new PText( label );
+            labelNode.setFont( VALUE_FONT );
+            addChild( labelNode );
+            
+            valueNode = new PText();
+            valueNode.setFont( VALUE_FONT );
+            addChild( valueNode );
+            
             setValue( 0 );
         }
         
         public void setValue( double value ) {
             String valueString = VALUE_FORMAT.format( Math.abs( value ) );
-            setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, valueString, CLStrings.VOLTS_PER_METER ) );
+            valueNode.setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, valueString, CLStrings.VOLTS_PER_METER ) );
+            updateLayout();
+        }
+        
+        private void updateLayout() {
+            double x = -labelNode.getFullBoundsReference().getWidth() / 2;
+            double y = 0;
+            labelNode.setOffset( x, y );
+            x = -valueNode.getFullBoundsReference().getWidth() / 2;
+            y = labelNode.getFullBoundsReference().getMaxY() + 1;
+            valueNode.setOffset( x, y );
         }
     }
     
