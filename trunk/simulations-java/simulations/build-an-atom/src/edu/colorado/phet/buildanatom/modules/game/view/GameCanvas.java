@@ -56,7 +56,12 @@ public class GameCanvas extends PhetPCanvas {
             model.getGameClock().addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    setTime( model.getTime() );
+                    if (model.isTimerEnabled() && model.isBestTimeRecorded()){
+                        setTime( model.getTime(), model.getBestTime() );
+                    }
+                    else {
+                        setTime( model.getTime() );
+                    }
                 }
             } );
             model.getScoreProperty().addObserver( new SimpleObserver() {
@@ -76,6 +81,14 @@ public class GameCanvas extends PhetPCanvas {
             } );
         }};
 
+        // Set up listener for the button on the score board that indicates that
+        // a new game is desired.
+        scoreboard.addGameScoreboardListener( new GameScoreboardNode.GameScoreboardListener() {
+            public void newGamePressed() {
+                model.newGame();
+            }
+        } );
+
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
 
@@ -85,14 +98,6 @@ public class GameCanvas extends PhetPCanvas {
 
         // Background.
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
-
-        // Set up listener for the button on the score board that indicates that
-        // a new game is desired.
-        scoreboard.addGameScoreboardListener( new GameScoreboardNode.GameScoreboardListener() {
-            public void newGamePressed() {
-                model.newGame();
-            }
-        } );
 
         // Listen for state changes so the representation can be updated.
         model.addListener( new BuildAnAtomGameModel.GameModelListener() {

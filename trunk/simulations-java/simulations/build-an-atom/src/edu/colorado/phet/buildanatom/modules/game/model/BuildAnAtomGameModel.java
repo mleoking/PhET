@@ -71,15 +71,15 @@ public class BuildAnAtomGameModel {
     private final HashMap<Integer, ArrayList<AtomValue>> levelPools = new HashMap<Integer, ArrayList<AtomValue>>() {{
         put( 1, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 1 ) );
-            add( new AtomValue( 2, 2, 2 ) );
-            add( new AtomValue( 3, 4, 3 ) );
-            add( new AtomValue( 4, 5, 4 ) );
-            add( new AtomValue( 5, 5, 5 ) );
-            add( new AtomValue( 6, 6, 6 ) );
-            add( new AtomValue( 7, 7, 7 ) );
-            add( new AtomValue( 8, 8, 8 ) );
-            add( new AtomValue( 9, 9, 9 ) );
-            add( new AtomValue( 10, 10, 10 ) );
+//            add( new AtomValue( 2, 2, 2 ) );
+//            add( new AtomValue( 3, 4, 3 ) );
+//            add( new AtomValue( 4, 5, 4 ) );
+//            add( new AtomValue( 5, 5, 5 ) );
+//            add( new AtomValue( 6, 6, 6 ) );
+//            add( new AtomValue( 7, 7, 7 ) );
+//            add( new AtomValue( 8, 8, 8 ) );
+//            add( new AtomValue( 9, 9, 9 ) );
+//            add( new AtomValue( 10, 10, 10 ) );
         }} );
         put( 2, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 0 ) );
@@ -193,6 +193,10 @@ public class BuildAnAtomGameModel {
         return timerEnabledProperty;
     }
 
+    public boolean isTimerEnabled(){
+        return timerEnabledProperty.getValue();
+    }
+
     public Property<Integer> getLevelProperty() {
         return levelProperty;
     }
@@ -255,5 +259,13 @@ public class BuildAnAtomGameModel {
 
     public boolean isNewBestTime(){
         return getTime() == getBestTime() && timerEnabledProperty.getValue();
+    }
+
+    /**
+     * Returns true if at least one best time has been recorded, false otherwise.
+     * @return
+     */
+    public boolean isBestTimeRecorded(){
+        return bestTime != Double.POSITIVE_INFINITY;
     }
 }
