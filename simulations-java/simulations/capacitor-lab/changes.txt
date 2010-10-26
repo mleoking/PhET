@@ -1,3 +1,4 @@
+10/25/10 clip vectors to display area
 10/25/10 fix initial layout of field detector
 10/25/10 combine vector label and value to simplify detector layout code
 10/24/10 center labels and values above/below tails of detector vectors, labels above values

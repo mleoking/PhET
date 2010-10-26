@@ -6,11 +6,12 @@ QUESTIONS FOR NOAH
 
 DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
+- what to do when detector probe moves to other side of detector body, should connecting wire switch sides?
+- should simplified field detector have a different layout, optimized for what it shows? (Plate vector centered, narrower vector display area, Show Values checkbox below vectors?)
 
 HIGH PRIORITY
 - clean up layout and sizing of E-field detector
-- chose a more appropriate max for detector vectors
-- add zoom button to E-field detector (necessary after choosing a better max?)
+- add auto-zoom button to E-field detector
 - decide whether to use Property<T> for EFieldDetector
 - add geometry of wires to model
 - add geometry of battery to model
