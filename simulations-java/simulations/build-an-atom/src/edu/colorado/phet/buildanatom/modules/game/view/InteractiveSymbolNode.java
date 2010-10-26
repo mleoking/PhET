@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildanatom.view;
+package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,6 +12,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -31,7 +33,6 @@ public class InteractiveSymbolNode extends PNode {
 
     private static final Font SYMBOL_FONT = new PhetFont( 60, true );
     private static final double WIDTH = 200;
-    private static final double HEIGHT = WIDTH;
     private static final double SPINNER_EDGE_OFFSET = 5;
     private static final double SPINNER_SCALE_FACTOR = 2;
 
@@ -84,10 +85,9 @@ public class InteractiveSymbolNode extends PNode {
     };
 
     public InteractiveSymbolNode( final boolean showCharge ) {
-        PNode boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), Color.white,
+        PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH,WIDTH ), Color.white,
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
-
         final PText symbol = new PText(){{
             setFont( SYMBOL_FONT );
         }};
@@ -97,7 +97,7 @@ public class InteractiveSymbolNode extends PNode {
             public void stateChanged( ChangeEvent e ) {
                 final int value = (Integer) protonSpinner.getValue();
                 symbol.setText( value == 0 ? "-" : PeriodicTableNode.getElementAbbreviation( value ) );
-                symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, HEIGHT / 2 - symbol.getFullBoundsReference().height / 2 );
+                symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, WIDTH/ 2 - symbol.getFullBoundsReference().height / 2 );
             }
         };
         listener.stateChanged( null );
@@ -106,7 +106,7 @@ public class InteractiveSymbolNode extends PNode {
         protonSpinner.setForeground( Color.red );
         PNode protonSpinnerPSwing = new PSwing( protonSpinner );
         protonSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
-        protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, HEIGHT - protonSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
+        protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, WIDTH- protonSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonSpinnerPSwing );
 
         PNode massSpinnerPSwing = new PSwing( massSpinner );
@@ -115,12 +115,15 @@ public class InteractiveSymbolNode extends PNode {
         addChild( massSpinnerPSwing );
 
         if ( showCharge ){
-            PNode chargeSpinnerPSwing = new PSwing( chargeSpinner );
+            PSwing chargeSpinnerPSwing = new PSwing( chargeSpinner );
             chargeSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
+            double width = Math.max( WIDTH,chargeSpinnerPSwing.getFullBounds().getWidth()+massSpinnerPSwing.getFullBounds().getWidth()+SPINNER_EDGE_OFFSET*3 );
+            boundingBox.setPathTo( new Rectangle2D.Double( 0, 0, width,width) );
             chargeSpinnerPSwing.setOffset(
-                    WIDTH - chargeSpinnerPSwing.getFullBoundsReference().width - SPINNER_EDGE_OFFSET,
+                    width - chargeSpinnerPSwing.getFullBoundsReference().width - SPINNER_EDGE_OFFSET,
                     SPINNER_EDGE_OFFSET );
             addChild( chargeSpinnerPSwing );
+            protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, width - protonSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         }
     }
 
