@@ -240,14 +240,22 @@ public class Atom extends SimpleObservable{
         }
     }
 
+    public static String getName(int protonCount){
+        return mapNumProtonsToName.get( protonCount ).name;
+    }
+
+    public static String getSymbol(int protonCount){
+        return mapNumProtonsToName.get( protonCount ).symbol;
+    }
+
     public String getName(){
         assert mapNumProtonsToName.containsKey( getNumProtons() );
-        return mapNumProtonsToName.get( getNumProtons() ).name;
+        return getName( getNumProtons() );
     }
 
     public String getSymbol(){
         assert mapNumProtonsToName.containsKey( getNumProtons() );
-        return mapNumProtonsToName.get( getNumProtons() ).symbol;
+        return getSymbol( getNumProtons() );
     }
 
     public void addProton( final Proton proton ) {

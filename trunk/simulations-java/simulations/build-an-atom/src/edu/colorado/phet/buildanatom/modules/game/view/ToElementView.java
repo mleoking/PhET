@@ -7,7 +7,7 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
-import edu.colorado.phet.buildanatom.view.ElementIndicatorNode;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -77,9 +77,9 @@ public abstract class ToElementView extends ProblemView {
                     return numProtons[0];//Trick the ElementIndicatorNode into thinking there are numProtons[0] protons.
                 }
             };
-            addChild( new ElementIndicatorNode( atom ) {
+            addChild( new PeriodicTableNode( atom ) {
                 @Override
-                protected void elementCellCreated( final ElementIndicatorNode.ElementCell elementCell ) {
+                protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
                     elementCell.addInputEventListener( new CursorHandler() );
                     elementCell.addInputEventListener( new PBasicInputEventHandler() {
                         @Override

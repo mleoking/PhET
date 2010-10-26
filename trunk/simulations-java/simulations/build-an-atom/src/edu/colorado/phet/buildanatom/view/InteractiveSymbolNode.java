@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,9 +12,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
-import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -92,11 +88,20 @@ public class InteractiveSymbolNode extends PNode {
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
 
-        PText symbol = new PText("X"){{
+        final PText symbol = new PText(){{
             setFont( SYMBOL_FONT );
-            setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, HEIGHT / 2 - getFullBoundsReference().height / 2 );
         }};
         addChild( symbol );
+
+        final ChangeListener listener = new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                final int value = (Integer) protonSpinner.getValue();
+                symbol.setText( value == 0 ? "-" : PeriodicTableNode.getElementAbbreviation( value ) );
+                symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, HEIGHT / 2 - symbol.getFullBoundsReference().height / 2 );
+            }
+        };
+        listener.stateChanged( null );
+        protonSpinner.addChangeListener( listener );
 
         protonSpinner.setForeground( Color.red );
         PNode protonSpinnerPSwing = new PSwing( protonSpinner );
