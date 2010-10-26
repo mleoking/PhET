@@ -9,6 +9,7 @@ import java.util.Random;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -32,17 +33,17 @@ public class Atom extends SimpleObservable{
     // Map of proton numbers to element symbols.
     private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
         // TODO: i18n for all element names.
-        put(0, new AtomName( BuildAnAtomStrings.ELEMENT_NONE_SYMBOL, BuildAnAtomStrings.ELEMENT_NONE_NAME));//for an unbuilt or empty atom
-        put(1, new AtomName( BuildAnAtomStrings.ELEMENT_HYDROGEN_SYMBOL, BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME));
-        put(2, new AtomName( BuildAnAtomStrings.ELEMENT_HELIUM_SYMBOL, BuildAnAtomStrings.ELEMENT_HELIUM_NAME));
-        put(3, new AtomName( BuildAnAtomStrings.ELEMENT_LITHIUM_SYMBOL, BuildAnAtomStrings.ELEMENT_LITHIUM_NAME));
-        put(4, new AtomName( BuildAnAtomStrings.ELEMENT_BERYLLIUM_SYMBOL, BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME));
-        put(5, new AtomName( BuildAnAtomStrings.ELEMENT_BORON_SYMBOL, BuildAnAtomStrings.ELEMENT_BORON_NAME));
-        put(6, new AtomName( BuildAnAtomStrings.ELEMENT_CARBON_SYMBOL, BuildAnAtomStrings.ELEMENT_CARBON_NAME));
-        put(7, new AtomName( BuildAnAtomStrings.ELEMENT_NITROGEN_SYMBOL, BuildAnAtomStrings.ELEMENT_NITROGEN_NAME));
-        put(8, new AtomName( BuildAnAtomStrings.ELEMENT_OXYGEN_SYMBOL, BuildAnAtomStrings.ELEMENT_OXYGEN_NAME));
-        put(9, new AtomName( BuildAnAtomStrings.ELEMENT_FLUORINE_SYMBOL, BuildAnAtomStrings.ELEMENT_FLUORINE_NAME));
-        put(10, new AtomName( BuildAnAtomStrings.ELEMENT_NEON_SYMBOL, BuildAnAtomStrings.ELEMENT_NEON_NAME));
+        put(0, new AtomName( BuildAnAtomStrings.ELEMENT_NONE_NAME));//for an unbuilt or empty atom
+        put(1, new AtomName( BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME));
+        put(2, new AtomName( BuildAnAtomStrings.ELEMENT_HELIUM_NAME));
+        put(3, new AtomName( BuildAnAtomStrings.ELEMENT_LITHIUM_NAME));
+        put(4, new AtomName( BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME));
+        put(5, new AtomName( BuildAnAtomStrings.ELEMENT_BORON_NAME));
+        put(6, new AtomName( BuildAnAtomStrings.ELEMENT_CARBON_NAME));
+        put(7, new AtomName( BuildAnAtomStrings.ELEMENT_NITROGEN_NAME));
+        put(8, new AtomName( BuildAnAtomStrings.ELEMENT_OXYGEN_NAME));
+        put(9, new AtomName( BuildAnAtomStrings.ELEMENT_FLUORINE_NAME));
+        put(10, new AtomName(BuildAnAtomStrings.ELEMENT_NEON_NAME));
     }};
 
     // List of stable isotopes for the first 2 rows of the periodic table
@@ -91,6 +92,7 @@ public class Atom extends SimpleObservable{
     // Shells for containing electrons.
     private final ElectronShell electronShell1 = new ElectronShell( ELECTRON_SHELL_1_RADIUS, 2 );
     private final ElectronShell electronShell2 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
+    private final ElectronShell electronShell3 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
 
     // Observer for electron shells.
     private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
@@ -157,6 +159,7 @@ public class Atom extends SimpleObservable{
         };
         electronShell1.addObserver( electronChangeAdapter );
         electronShell2.addObserver( electronChangeAdapter );
+        electronShell3.addObserver( electronChangeAdapter );
         notifyObservers();
     }
 
@@ -166,20 +169,25 @@ public class Atom extends SimpleObservable{
      * present in shell 2.
      */
     protected void checkAndReconfigureShells() {
-        if ( !electronShell1.isFull() && !electronShell2.isEmpty() ) {
+        checkAndReconfigureShells( electronShell1, electronShell2);
+        checkAndReconfigureShells( electronShell2, electronShell3);
+    }
+
+    private void checkAndReconfigureShells( ElectronShell inner, ElectronShell outer ) {
+        if ( !inner.isFull() && !outer.isEmpty() ) {
 
             // Need to move an electron from shell 2 to shell 1.
-            ArrayList<Point2D> openLocations = electronShell1.getOpenShellLocations();
+            ArrayList<Point2D> openLocations = inner.getOpenShellLocations();
 
             // We expect there to be one and only one open location, so test that this is true.
             assert openLocations.size() == 1;
 
             // Get the electron that is nearest to this location in shell 2
             // and move it to shell 1.
-            Electron electronToMove = electronShell2.getClosestElectron( openLocations.get( 0 ) );
+            Electron electronToMove = outer.getClosestElectron( openLocations.get( 0 ) );
 
-            electronShell2.removeElectron( electronToMove );
-            electronShell1.addElectron( electronToMove );
+            outer.removeElectron( electronToMove );
+            inner.addElectron( electronToMove );
         }
     }
 
@@ -195,6 +203,7 @@ public class Atom extends SimpleObservable{
         // It is important to reset the electron shells from the outside in so
         // that we don't end up with electrons trying to migrate from outer to
         // inner shells during reset.
+        electronShell3.reset();
         electronShell2.reset();
         electronShell1.reset();
         notifyObservers();
@@ -204,11 +213,12 @@ public class Atom extends SimpleObservable{
         ArrayList<ElectronShell> electronShells = new ArrayList<ElectronShell>();
         electronShells.add( electronShell1 );
         electronShells.add( electronShell2 );
+        electronShells.add( electronShell3 );
         return electronShells;
     }
 
     public int getRemainingElectronCapacity(){
-        return electronShell1.getNumOpenLocations() + electronShell2.getNumOpenLocations();
+        return electronShell1.getNumOpenLocations() + electronShell2.getNumOpenLocations() + electronShell3.getNumOpenLocations();
     }
 
     public double getNucleusRadius() {
@@ -245,7 +255,12 @@ public class Atom extends SimpleObservable{
     }
 
     public static String getSymbol(int protonCount){
-        return mapNumProtonsToName.get( protonCount ).symbol;
+        if ( protonCount == 0 ) {
+            return BuildAnAtomStrings.ELEMENT_NONE_SYMBOL;
+        }
+        else {
+            return PeriodicTableNode.getElementAbbreviation( protonCount );
+        }
     }
 
     public String getName(){
@@ -254,7 +269,6 @@ public class Atom extends SimpleObservable{
     }
 
     public String getSymbol(){
-        assert mapNumProtonsToName.containsKey( getNumProtons() );
         return getSymbol( getNumProtons() );
     }
 
@@ -295,7 +309,10 @@ public class Atom extends SimpleObservable{
             electronShell2.addElectron( electron );
             notifyObservers();
         }
-        else {
+        else if (!electronShell3.isFull()){
+            electronShell3.addElectron(electron);
+            notifyObservers(); 
+        }else {
             // Too many electrons.  The sim should be designed such that this
             // does not occur.  If it does, it should be debugged.
             assert false;
@@ -527,13 +544,14 @@ public class Atom extends SimpleObservable{
     }
 
     public int getNumElectrons() {
-        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
+        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons() + electronShell3.getNumElectrons();
     }
 
     public ArrayList<Electron> getElectrons(){
         ArrayList<Electron> allElectrons = new ArrayList<Electron>( );
         allElectrons.addAll( electronShell1.getElectrons() );
         allElectrons.addAll( electronShell2.getElectrons() );
+        allElectrons.addAll( electronShell3.getElectrons() );
         return allElectrons;
     }
 
@@ -542,7 +560,7 @@ public class Atom extends SimpleObservable{
     }
 
     public boolean containsElectron( Electron electron ) {
-        return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron);
+        return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron) || electronShell3.containsElectron( electron );
     }
 
     public SubatomicParticle getProton( int i ) {
@@ -596,10 +614,8 @@ public class Atom extends SimpleObservable{
      * @author John Blanco
      */
     private static class AtomName{
-        public final String symbol;
         public final String name;
-        public AtomName( String symbol, String name ) {
-            this.symbol = symbol;
+        public AtomName( String name ) {
             this.name = name;
         }
     }
