@@ -11,8 +11,11 @@ import java.util.Random;
 public class ProblemSet {
     //keep track by type
     private final ArrayList<CompleteTheModelProblem> completeTheModelProblems = new ArrayList<CompleteTheModelProblem>();
-    private final ArrayList<CompleteTheSymbolProblem> completeTheSymbolProblems = new ArrayList<CompleteTheSymbolProblem>();
+    private final ArrayList<CompleteTheSymbolFromModelProblem> completeTheSymbolProblems = new ArrayList<CompleteTheSymbolFromModelProblem>();
     private final ArrayList<HowManyParticlesProblem> howManyParticlesProblems = new ArrayList<HowManyParticlesProblem>();
+    private final ArrayList<CompleteTheSymbolFromCountsProblem> completeTheSymbolFromCountsProblems = new ArrayList<CompleteTheSymbolFromCountsProblem>();
+    private final ArrayList<FindTheElementFromModelProblem> findTheElementFromModelProblems = new ArrayList<FindTheElementFromModelProblem>();
+    private final ArrayList<FindTheElementFromCountsProblem> findTheElementFromCountsProblems = new ArrayList<FindTheElementFromCountsProblem>();
     //keeps track by ordering
     private final ArrayList<Problem> allProblems = new ArrayList<Problem>();
     private int currentProblemIndex = 0;
@@ -29,25 +32,47 @@ public class ProblemSet {
             AtomValue atomValue = remainingProblems.get( index );
             remainingProblems.remove( index );
 //            final int problemType = random.nextInt( 3 );
-            final int problemType = 1; // TODO: Temporary to get one type of problem working.
+            final int problemType = 5; // TODO: Temporary to get one type of problem working.
             if ( problemType == 0 ) {
                 addProblem( new CompleteTheModelProblem( model, atomValue ) );
             }
             else if ( problemType == 1 ) {
-                addProblem( new CompleteTheSymbolProblem( model, atomValue ) );
+                addProblem( new CompleteTheSymbolFromModelProblem( model, atomValue ) );
             }
             else if ( problemType == 2 ) {
                 addProblem( new HowManyParticlesProblem( model, atomValue ) );
             }
+            else if ( problemType == 3 ) {
+                addProblem( new CompleteTheSymbolFromCountsProblem( model, atomValue ) );
+            }
+            else if ( problemType == 4 ) {
+                addProblem( new FindTheElementFromModelProblem( model, atomValue ) );
+            }
+            else if ( problemType == 5 ) {
+                addProblem( new FindTheElementFromCountsProblem( model, atomValue ) );
+            }
         }
     }
+    public void addProblem( FindTheElementFromModelProblem problem) {
+        findTheElementFromModelProblems.add( problem );
+        allProblems.add( problem );
+    }
+    
+    public void addProblem( FindTheElementFromCountsProblem problem) {
+        findTheElementFromCountsProblems.add( problem );
+        allProblems.add( problem );
+    }
 
+    public void addProblem( CompleteTheSymbolFromCountsProblem problem) {
+        completeTheSymbolFromCountsProblems.add( problem );
+        allProblems.add( problem );
+    }
     public void addProblem( HowManyParticlesProblem howManyParticlesProblem ) {
         howManyParticlesProblems.add( howManyParticlesProblem );
         allProblems.add( howManyParticlesProblem );
     }
 
-    public void addProblem( CompleteTheSymbolProblem completeTheSymbolProblem ) {
+    public void addProblem( CompleteTheSymbolFromModelProblem completeTheSymbolProblem ) {
         completeTheSymbolProblems.add( completeTheSymbolProblem );
         allProblems.add( completeTheSymbolProblem );
     }
@@ -73,7 +98,7 @@ public class ProblemSet {
         return completeTheModelProblems.get( i );
     }
 
-    public CompleteTheSymbolProblem getCompleteTheSymbolProblem( int i ) {
+    public CompleteTheSymbolFromModelProblem getCompleteTheSymbolProblem( int i ) {
         return completeTheSymbolProblems.get( i );
     }
 
