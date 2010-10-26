@@ -25,6 +25,7 @@ public class BuildAnAtomGameModel {
 
     public static final int MAX_LEVELS = 3;
     private static final int PROBLEMS_PER_SET = 5;
+    private static final int MAX_POINTS_PER_PROBLEM = 2;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -234,7 +235,7 @@ public class BuildAnAtomGameModel {
     }
 
     public int getMaximumPossibleScore() {
-        return 2*PROBLEMS_PER_SET;//todo: move the '2' elsewhere?
+        return MAX_POINTS_PER_PROBLEM * PROBLEMS_PER_SET;
     }
 
     public ConstantDtClock getGameClock() {
