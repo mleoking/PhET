@@ -20,14 +20,12 @@ public class CompleteTheSymbolProblemView extends ProblemView {
     }};
     private final AtomConfigText atomConfigurationText;
     private final InteractiveSymbolNode interactiveSymbolNode;
-    private CompleteTheSymbolProblem completeTheSymbolProblem;
 
     /**
      * Constructor.
      */
     public CompleteTheSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheSymbolProblem problem) {
         super( model, canvas, problem);
-        this.completeTheSymbolProblem = problem;
         atomConfigurationText = new AtomConfigText( problem.getAnswer().getProtons(),
                 problem.getAnswer().getNeutrons(), problem.getAnswer().getElectrons() );
         atomConfigurationText.setOffset(
