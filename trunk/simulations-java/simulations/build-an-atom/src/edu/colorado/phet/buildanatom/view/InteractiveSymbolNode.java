@@ -5,8 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -36,9 +35,41 @@ public class InteractiveSymbolNode extends PNode {
     private static final double SPINNER_EDGE_OFFSET = 5;
     private static final double SPINNER_SCALE_FACTOR = 2;
 
-    private final JSpinner protonSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) );
+    private final JSpinner protonSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
+        try {
+            //Try to set the text color to red for protons, but be prepared to fail due to type unsafety
+            ( (JSpinner.DefaultEditor) getEditor() ).getTextField().setForeground( Color.red );
+        }
+        catch ( Exception e ) {
+            System.out.println( "ignoring = " + e );
+        }
+    }};
     private final JSpinner massSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) );
-    private final JSpinner chargeSpinner = new JSpinner( new SpinnerNumberModel( 0, -15, 15, 1 ) );
+    private final JSpinner chargeSpinner = new JSpinner( new SpinnerNumberModel( 0, -15, 15, 1 ) ) {
+        {
+            //TODO: figure out a way to suppress the + prefix for 0 while keeping it for positive numbers
+            setEditor( new NumberEditor( this,"+0;-0") );//Shows + sign for positive numbers (but unfortunately also for zero)
+        }
+
+        @Override
+        public void setValue( Object value ) {
+            super.setValue( value );
+            try {
+                int v = ((Integer)value).intValue();
+                Color color = Color.black;
+                if (v>0){
+                    color=Color.red;
+                }
+                else if (v<0){
+                    color=Color.blue;
+                }
+                ( (JSpinner.DefaultEditor) getEditor() ).getTextField().setForeground( color );
+            }
+            catch ( Exception e ) {
+                System.out.println( "ignoring = " + e );
+            }
+        }
+    };
 
     public InteractiveSymbolNode( final boolean showCharge ) {
         PNode boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), Color.white,
@@ -51,6 +82,7 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( symbol );
 
+        protonSpinner.setForeground( Color.red );
         PNode protonSpinnerPSwing = new PSwing( protonSpinner );
         protonSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
         protonSpinnerPSwing.setOffset( SPINNER_EDGE_OFFSET, HEIGHT - protonSpinnerPSwing.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
