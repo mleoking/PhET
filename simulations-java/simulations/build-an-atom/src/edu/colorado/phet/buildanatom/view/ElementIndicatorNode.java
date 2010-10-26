@@ -53,12 +53,17 @@ public class ElementIndicatorNode extends PNode {
     }
 
     private void addElement( final Atom atom, final PNode table, int i ) {
-        PNode elementCell = new ElementCell( atom, i );
+        ElementCell elementCell = new ElementCell( atom, i );
         final Point gridPoint = getGridPoint( i );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
         elementCell.setOffset( x, y );
         table.addChild( elementCell );
+        elementCellCreated(elementCell);
+    }
+
+    //Listener callback
+    protected void elementCellCreated( ElementCell elementCell ) {
     }
 
     //Reports (row,column) on the grid, with a 1-index
@@ -138,8 +143,11 @@ public class ElementIndicatorNode extends PNode {
         return null;
     }
 
-    private class ElementCell extends PNode {
+    public class ElementCell extends PNode {
+        private int atomicNumber;
+
         public ElementCell( final Atom atom, final int atomicNumber ) {
+            this.atomicNumber = atomicNumber;
             final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), new BasicStroke( 1 ), Color.black );
             addChild( box );
 
@@ -169,6 +177,10 @@ public class ElementIndicatorNode extends PNode {
                     box.setPaint( paint );
                 }
             } );
+        }
+
+        public int getAtomicNumber() {
+            return atomicNumber;
         }
     }
 //Copied table from http://www.zyra.org.uk/elements.htm

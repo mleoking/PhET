@@ -7,9 +7,9 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 /**
  * @author Sam Reid
  */
-public class FindTheElementFromModelProblem extends FindTheElementProblem{
+public class FindTheElementFromModelProblem extends FindTheElementProblem {
     public FindTheElementFromModelProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
-        super(model, atomValue );
+        super( model, atomValue );
     }
 
     @Override
