@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -214,4 +215,47 @@ public class BuildAnAtomModel {
     public SubatomicParticleBucket getNeutronBucket() {
         return neutronBucket;
     }
+
+    public ArrayList<Proton> getProtons() {
+        return protons;
+    }
+
+    public ArrayList<Neutron> getNeutrons() {
+        return neutrons;
+    }
+
+    public ArrayList<Electron> getElectrons() {
+        return electrons;
+    }
+    public static<T> ArrayList<T> reverse(ArrayList<T>list){
+        ArrayList<T> t = new ArrayList<T>( list );
+        Collections.reverse( t );
+        return t;
+    }
+
+    public Proton getFreeProton() {
+        for ( Proton proton : reverse(protons )) {
+            if (!getAtom().containsProton(proton )){
+                return proton;
+            }
+        }
+        return null;
+    }
+    public Neutron getFreeNeutron() {
+        for ( Neutron neutron : reverse(neutrons ) ) {
+            if (!getAtom().containsNeutron(neutron )){
+                return neutron;
+            }
+        }
+        return null;
+    }
+    public Electron getFreeElectron() {
+        for ( Electron electron : reverse(electrons )) {
+            if (!getAtom().containsElectron(electron )){
+                return electron;
+            }
+        }
+        return null;
+    }
+
 }

@@ -21,20 +21,15 @@ public class GameModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private BuildAnAtomModel model;
     private GameCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GameModule( Frame parentFrame ) {
+    public GameModule() {
         super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock( ) );
         setClockControlPanel( null );
-
-        // Model
-        BuildAnAtomClock clock = (BuildAnAtomClock) getClock();
-        model = new BuildAnAtomModel( clock );
 
         // Canvas
         canvas = new GameCanvas( new BuildAnAtomGameModel() );
@@ -57,9 +52,5 @@ public class GameModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // reset the clock
-        BuildAnAtomClock clock = model.getClock();
-        clock.resetSimulationTime();
-    }    
+    }
 }
