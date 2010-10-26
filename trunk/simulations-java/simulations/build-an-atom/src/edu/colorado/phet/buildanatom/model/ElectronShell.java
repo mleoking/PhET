@@ -2,6 +2,7 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -190,5 +191,15 @@ public class ElectronShell extends SimpleObservable {
     public void addObserver( SimpleObserver observer ) {
         super.addObserver( observer );
         observer.update();
+    }
+
+    public ArrayList<Electron> getElectrons() {
+        ArrayList<Electron> electrons = new ArrayList<Electron>();
+        for ( Electron electron : shellLocations.values() ) {
+            if ( electron != null ) {
+                electrons.add( electron );
+            }
+        }
+        return electrons;
     }
 }

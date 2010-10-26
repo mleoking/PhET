@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.buildanatom.model;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -15,7 +16,7 @@ public class BuildAnAtomClock extends ConstantDtClock {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BuildAnAtomClock( int framesPerSecond, double dt ) {
-        super( 1000 / framesPerSecond, dt );
+    public BuildAnAtomClock( ) {
+        super( 1000/BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT);
     }
 }

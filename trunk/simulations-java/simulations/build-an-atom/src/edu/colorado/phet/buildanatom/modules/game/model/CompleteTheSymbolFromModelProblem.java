@@ -1,5 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import edu.colorado.phet.buildanatom.modules.game.view.CompleteTheSymbolFromModelProblemView;
 import edu.colorado.phet.buildanatom.modules.game.view.CompleteTheSymbolProblemView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
@@ -14,6 +15,6 @@ public class CompleteTheSymbolFromModelProblem extends CompleteTheSymbolProblem 
 
     @Override
     public StateView createView( GameCanvas gameCanvas ) {
-        return new CompleteTheSymbolProblemView( model, gameCanvas, this );
+        return new CompleteTheSymbolFromModelProblemView( model, gameCanvas, this );
     }
 }

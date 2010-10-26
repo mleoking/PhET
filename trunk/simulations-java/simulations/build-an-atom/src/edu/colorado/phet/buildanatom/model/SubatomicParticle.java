@@ -169,6 +169,10 @@ public abstract class SubatomicParticle {
         position.removeObserver( listener );
     }
 
+    public void moveToDestination() {
+        setPosition( getDestination() );
+    }
+
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
