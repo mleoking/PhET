@@ -25,8 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class SymbolToCountsView extends ProblemView {
 
     private final PText description = new PText( "How many particles?" ) {{//todo i18n
-        setFont( new PhetFont( 20, true ) );
-        setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
+        setFont( new PhetFont( 34, true ) );
     }};
 
     private final SymbolIndicatorNode symbolIndicatorNode;
@@ -40,6 +39,9 @@ public class SymbolToCountsView extends ProblemView {
 
         multiEntryPanel = new MultiEntryPanel(  );
         multiEntryPanel.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width *3/ 4 - multiEntryPanel.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - multiEntryPanel.getFullBounds().getHeight() / 2 );
+
+        description.setOffset( multiEntryPanel.getFullBounds().getCenterX()-description.getFullBounds().getWidth()/2,
+                               multiEntryPanel.getFullBounds().getMinY()-description.getFullBounds().getHeight()-30 );
     }
 
     public static class MultiEntryPanel extends PNode{
@@ -71,12 +73,6 @@ public class SymbolToCountsView extends ProblemView {
             electronEntryPanel.setOffset( neutronEntryPanel.getFullBounds().getX(), neutronEntryPanel.getFullBounds().getMaxY() + verticalSpacing );
         }
 
-        public void setEditable( boolean editable ) {
-            protonEntryPanel.setEditable(editable);
-            neutronEntryPanel.setEditable(editable);
-            electronEntryPanel.setEditable(editable);
-        }
-
         public AtomValue getGuess() {
             return new AtomValue( protonGuess.getValue(), neutronGuess.getValue(), electronGuess.getValue() );
         }
@@ -100,7 +96,8 @@ public class SymbolToCountsView extends ProblemView {
 
     @Override
     protected void setGuessEditable( boolean guessEditable ) {
-        multiEntryPanel.setEditable( guessEditable );
+        multiEntryPanel.setPickable( guessEditable );
+        multiEntryPanel.setChildrenPickable( guessEditable );
     }
 
     public static class EntryPanel extends PNode {
@@ -109,7 +106,7 @@ public class SymbolToCountsView extends ProblemView {
 
         public EntryPanel( String name, final Property<Integer> property ) {
             label = new PText( name ) {{
-                setFont( new PhetFont( 20, true ) );
+                setFont( new PhetFont( 30 ) );
             }};
             addChild( label );
             final JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
@@ -136,10 +133,6 @@ public class SymbolToCountsView extends ProblemView {
 
         public void setSpinnerX( double x ) {
             spinnerPSwing.setOffset( x, spinnerPSwing.getOffset().getY() );
-        }
-
-        public void setEditable( boolean editable ) {
-            spinnerPSwing.getComponent().setEnabled( editable );
         }
     }
 
