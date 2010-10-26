@@ -6,16 +6,15 @@ import java.util.Random;
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level
  *
+ * @author John Blanco
  * @author Sam Reid
  */
 public class ProblemSet {
-    //keeps track by ordering
     private final ArrayList<Problem> allProblems = new ArrayList<Problem>();
     private int currentProblemIndex = 0;
     public static final Random random = new Random();
 
     public ProblemSet( BuildAnAtomGameModel model, int numProblems ) {
-        // TODO: We need to make sure that the same problem is not generated twice.
         final ArrayList<AtomValue> levelPool = model.getLevelPool();
         assert levelPool.size()>=numProblems;//otherwise problems would be duplicated in a game
         ArrayList<AtomValue> remainingProblems = new ArrayList<AtomValue>( levelPool );//don't re-use the same problem twice in the same game

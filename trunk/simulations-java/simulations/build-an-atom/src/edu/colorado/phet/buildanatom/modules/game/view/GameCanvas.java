@@ -51,8 +51,6 @@ public class GameCanvas extends PhetPCanvas {
         this.model = model;
         scoreboard = new GameScoreboardNode( BuildAnAtomGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
-            setScore( 0 );//todo: could this be moved to the bottom of GameScoreboardNode?
-            setLevel( 1 );//todo: could this be moved to the bottom of GameScoreboardNode?
             model.getGameClock().addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {

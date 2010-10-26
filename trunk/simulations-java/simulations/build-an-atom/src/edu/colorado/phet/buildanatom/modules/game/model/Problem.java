@@ -19,19 +19,6 @@ public abstract class Problem extends State {
         return atom.equals( guess );
     }
 
-//    //TODO: use these or Property<Integer>?
-//    public void setGuessedProtons(int numProtons) {
-//        guessedAtom.setNumProtons( numProtons );
-//    }
-//
-//    public void setGuessedNeutrons(int numNeutrons) {
-//        guessedAtom.setNumNeutrons( numNeutrons );
-//    }
-//
-//    public void setGuessedElectrons(int numElectrons) {
-//        guessedAtom.setNumElectrons( numElectrons );
-//    }
-
     public void processGuess(AtomValue guess) {
         numGuesses++;
         if ( isGuessCorrect(guess ) ) {
@@ -56,12 +43,6 @@ public abstract class Problem extends State {
     public Integer getScore() {
         return score;
     }
-
-    //Sets the state of the guess to be the correct value.
-    //Observers that are depicting the guess will therefore display the correct value
-//    public void showAnswer() {
-//        guessedAtom.setState(atom);
-//    }
 
     public AtomValue getAnswer(){
         return atom;
