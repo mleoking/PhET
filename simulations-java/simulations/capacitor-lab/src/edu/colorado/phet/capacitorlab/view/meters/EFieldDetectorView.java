@@ -66,10 +66,10 @@ public class EFieldDetectorView {
     private static final Color WIRE_COLOR = Color.BLACK;
     private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
         
-    private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 175 );
+    private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
     private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEField();
-    private static final double VECTOR_REFERENCE_LENGTH = 0.7 * VECTOR_DISPLAY_SIZE.getHeight();
+    private static final double VECTOR_REFERENCE_LENGTH = 0.65 * VECTOR_DISPLAY_SIZE.getHeight();
     private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
     
@@ -338,9 +338,9 @@ public class EFieldDetectorView {
             addChild( backgroundNode );
             
             // vectors
-            plateVectorNode = new FieldVectorNode( detector.getPlateVector(), CLPaints.PLATE_EFIELD_VECTOR );
-            dielectricVectorNode = new FieldVectorNode( detector.getDielectricVector(), CLPaints.DIELECTRIC_EFIELD_VECTOR );
-            sumVectorNode = new FieldVectorNode( detector.getSumVector(), CLPaints.SUM_EFIELD_VECTOR );
+            plateVectorNode = new FieldVectorNode( CLPaints.PLATE_EFIELD_VECTOR );
+            dielectricVectorNode = new FieldVectorNode( CLPaints.DIELECTRIC_EFIELD_VECTOR );
+            sumVectorNode = new FieldVectorNode( CLPaints.SUM_EFIELD_VECTOR );
             
             // values
             plateValueNode = new FieldValueNode( CLStrings.PLATE );
@@ -483,8 +483,8 @@ public class EFieldDetectorView {
      */
     private static class FieldVectorNode extends Vector2DNode {
         
-        public FieldVectorNode( double value, Color color ) {
-            super( 0, value, VECTOR_REFERENCE_MAGNITUDE, VECTOR_REFERENCE_LENGTH );
+        public FieldVectorNode( Color color ) {
+            super( 0, 1, VECTOR_REFERENCE_MAGNITUDE, VECTOR_REFERENCE_LENGTH ); //WORKAROUND: initial layout is wrong if magnitude is zero
             setArrowFillPaint( color );
             setHeadSize( VECTOR_ARROW_HEAD_SIZE );
             setTailWidth( VECTOR_ARROW_TAIL_WIDTH );
