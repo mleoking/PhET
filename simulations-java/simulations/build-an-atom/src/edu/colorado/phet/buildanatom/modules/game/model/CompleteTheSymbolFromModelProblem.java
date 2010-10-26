@@ -7,8 +7,13 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 /**
  * @author Sam Reid
  */
-public abstract class CompleteTheSymbolProblem extends Problem {
-    public CompleteTheSymbolProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
+public class CompleteTheSymbolFromModelProblem extends CompleteTheSymbolProblem {
+    public CompleteTheSymbolFromModelProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
         super( model, atomValue );
+    }
+
+    @Override
+    public StateView createView( GameCanvas gameCanvas ) {
+        return new CompleteTheSymbolProblemView( model, gameCanvas, this );
     }
 }

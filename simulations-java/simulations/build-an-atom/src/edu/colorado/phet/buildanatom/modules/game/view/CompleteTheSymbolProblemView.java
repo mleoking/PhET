@@ -3,6 +3,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolFromModelProblem;
 import edu.colorado.phet.buildanatom.modules.game.model.CompleteTheSymbolProblem;
 import edu.colorado.phet.buildanatom.view.InteractiveSymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
