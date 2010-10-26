@@ -42,6 +42,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -174,7 +175,7 @@ public class EFieldDetectorView {
             });
             
             // display area for vectors and values
-            vectorDisplayNode = new VectorDisplayNode( detector, VECTOR_DISPLAY_SIZE );
+            vectorDisplayNode = new VectorDisplayNode( detector );
 
             // Vector controls
             ShowVectorsPanel showVectorsPanel = new ShowVectorsPanel( detector );
@@ -322,20 +323,16 @@ public class EFieldDetectorView {
      * Rectangular area where the vectors are displayed.
      * Vectors are clipped to this area.
      */
-    //XXX ensure that vectors are clipped to this area
-    private static final class VectorDisplayNode extends PComposite {
+    private static final class VectorDisplayNode extends PClip {
         
-        private final PPath backgroundNode;
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
         
-        public VectorDisplayNode( final EFieldDetector detector, PDimension size ) {
+        public VectorDisplayNode( final EFieldDetector detector ) {
             
-            // background
-            backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            backgroundNode.setPaint( VECTOR_DISPLAY_BACKGROUND );
-            backgroundNode.setStroke( null );
-            addChild( backgroundNode );
+            setPathTo( new Rectangle2D.Double( 0, 0, VECTOR_DISPLAY_SIZE.getWidth(), VECTOR_DISPLAY_SIZE.getHeight() ) );
+            setPaint( VECTOR_DISPLAY_BACKGROUND );
+            setStroke( null );
             
             // vectors
             plateVectorNode = new FieldVectorNode( CLPaints.PLATE_EFIELD_VECTOR );
@@ -354,9 +351,6 @@ public class EFieldDetectorView {
             addChild( plateValueNode );
             addChild( dielectricValueNode );
             addChild( sumValueNode );
-            
-            // static layout
-            backgroundNode.setOffset( 0, 0 );
             
             // listen to detector properties
             detector.addPlateVectorListener( new SimpleObserver() {
@@ -421,12 +415,12 @@ public class EFieldDetectorView {
                 final double xSpacing = 45; //XXX constant, horizontal spacing between plate and dielectric vector centers
                 
                 // plate vector is vertically centered
-                x = backgroundNode.getFullBoundsReference().getCenterX() - xSpacing;
-                y = backgroundNode.getFullBoundsReference().getCenterY() - ( plateVectorNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( plateVectorNode );
+                x = this.getBoundsReference().getCenterX() - xSpacing;
+                y = this.getBoundsReference().getCenterY() - ( plateVectorNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( plateVectorNode );
                 plateVectorNode.setOffset( x, y );
                 
                 // sum vector is aligned with tail of plate vector
-                x = backgroundNode.getFullBoundsReference().getCenterX() + xSpacing;
+                x = this.getBoundsReference().getCenterX() + xSpacing;
                 y = plateVectorNode.getYOffset();
                 sumVectorNode.setOffset( x, y );
                 
