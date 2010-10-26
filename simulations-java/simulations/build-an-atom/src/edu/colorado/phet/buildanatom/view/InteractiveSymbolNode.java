@@ -4,13 +4,17 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -47,21 +51,33 @@ public class InteractiveSymbolNode extends PNode {
     private final JSpinner massSpinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) );
     private final JSpinner chargeSpinner = new JSpinner( new SpinnerNumberModel( 0, -15, 15, 1 ) ) {
         {
-            //TODO: figure out a way to suppress the + prefix for 0 while keeping it for positive numbers
-            setEditor( new NumberEditor( this,"+0;-0") );//Shows + sign for positive numbers (but unfortunately also for zero)
+
+            DefaultEditor numberEditor = (DefaultEditor) getEditor();
+            final NumberFormatter formatter = new NumberFormatter( new SignedIntegerFormat() );
+            formatter.setValueClass( Integer.class );
+            numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
+            setEditor( numberEditor );
         }
 
         @Override
         public void setValue( Object value ) {
             super.setValue( value );
+
             try {
                 int v = ((Integer)value).intValue();
-                Color color = Color.black;
+
+                //Set the format and colors based on the value
+                //Positive numbers are red and appear with a + sign
+                //Negative numbers are blue with a - sign
+                //Zero appears as 0 in black
+                Color color;
                 if (v>0){
                     color=Color.red;
                 }
                 else if (v<0){
                     color=Color.blue;
+                }else{//v==0
+                    color = Color.black;
                 }
                 ( (JSpinner.DefaultEditor) getEditor() ).getTextField().setForeground( color );
             }
