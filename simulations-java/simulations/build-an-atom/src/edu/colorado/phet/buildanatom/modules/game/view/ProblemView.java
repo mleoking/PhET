@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public abstract class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
-    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 510 );
+    private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 550);
     private final PText text = new PText( "<debug info for guesses>" );
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;

@@ -17,21 +17,27 @@ public class CompleteTheModelProblemView extends ProblemView {
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.width - getFullBounds().getWidth() - 200, 30 );
     }};
     private final SymbolIndicatorNode symbolIndicatorNode;
+    private InteractiveGameAtomModelNode buildAtomModelNode;
 
     public CompleteTheModelProblemView( BuildAnAtomGameModel model, GameCanvas canvas, CompleteTheModelProblem problem) {
         super( model, canvas, problem);
         symbolIndicatorNode = new SymbolIndicatorNode( problem.getAnswer().toAtom() );
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
+
+        buildAtomModelNode=new InteractiveGameAtomModelNode();
     }
 
     @Override
     protected AtomValue getGuess() {
-        return null;
+        return buildAtomModelNode.getGuess();
     }
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
+        buildAtomModelNode.displayAnswer(answer);
+        buildAtomModelNode.setPickable( false );
+        buildAtomModelNode.setChildrenPickable( false );
     }
 
     @Override
@@ -39,6 +45,7 @@ public class CompleteTheModelProblemView extends ProblemView {
         super.init();
         addChild( description );
         addChild( symbolIndicatorNode );
+        addChild( buildAtomModelNode );
     }
 
     @Override
@@ -46,5 +53,6 @@ public class CompleteTheModelProblemView extends ProblemView {
         super.teardown();
         removeChild( description );
         removeChild( symbolIndicatorNode );
+        removeChild( buildAtomModelNode );
     }
 }

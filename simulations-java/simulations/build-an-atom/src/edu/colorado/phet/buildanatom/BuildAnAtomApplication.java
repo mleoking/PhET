@@ -56,7 +56,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         }};
         addModule( firstModule );
 
-        addModule( new GameModule( parentFrame ) );
+        addModule( new GameModule() );
     }
 
     /*

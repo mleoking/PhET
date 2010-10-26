@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -298,7 +299,7 @@ public class Atom extends SimpleObservable{
      * Distribute the nucleons in the nucleus in such a way that the nucleus
      * will look good when shown in the view.
      */
-    private void reconfigureNucleus() {
+    public void reconfigureNucleus() {
 
         double nucleonRadius = Proton.RADIUS;
 
@@ -542,6 +543,42 @@ public class Atom extends SimpleObservable{
 
     public SubatomicParticle getNeutron( int i ) {
         return neutrons.get( i );
+    }
+
+    public AtomValue toAtomValue() {
+        return new AtomValue(getNumProtons(), getNumNeutrons(),getNumElectrons() );
+    }
+
+    //For the game mode
+    public void setState( AtomValue answer,BuildAnAtomModel model) {//provide the model to draw free particles from
+        while(getNumProtons()>answer.getProtons()){
+            removeProton();
+        }
+        while(getNumProtons()<answer.getProtons()){
+            addProton( model.getFreeProton());
+        }
+
+        while(getNumNeutrons()>answer.getNeutrons()){
+            removeNeutron();
+        }
+        while(getNumNeutrons()<answer.getNeutrons()){
+            addNeutron( model.getFreeNeutron());
+        }
+
+        while(getNumElectrons()>answer.getElectrons()){
+            removeElectron();
+        }
+        while(getNumElectrons()<answer.getElectrons()){
+            addElectron( model.getFreeElectron());
+        }
+    }
+
+    public boolean containsProton( Proton proton ) {
+        return protons.contains( proton );
+    }
+
+    public boolean containsNeutron( Neutron neutron ) {
+        return neutrons.contains( neutron );
     }
 
     /**
