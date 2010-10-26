@@ -32,8 +32,8 @@ public abstract class ProblemView extends StateView {
         super( model, problem, gameCanvas );
         this.problem = problem;
         gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
-        problemNumberDisplay = new PText( "Problem " + ( model.getProblemIndex( problem ) + 1 ) + " of " + model.getNumberProblems() ) {
-            {//todo i18n
+        problemNumberDisplay = new PText( "Problem " + ( model.getProblemIndex( problem ) + 1 ) + " of " + model.getNumberProblems() ) {//todo i18n
+            {
                 setFont( new PhetFont( 20, true ) );
             }
         };
