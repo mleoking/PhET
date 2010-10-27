@@ -377,26 +377,27 @@ public class EFieldDetectorView {
             detector.addPlateVisibleListener( new SimpleObserver() {
                 public void update() {
                     plateVectorNode.setVisible( detector.isPlateVisible() );
-                    plateValueNode.setVisible( detector.isPlateVisible() && detector.isValuesVisible() );
+                    plateValueNode.setVisible( detector.isPlateVisible() );
                 }
             });
             detector.addDielectricVisibleListener( new SimpleObserver() {
                 public void update() {
                     dielectricVectorNode.setVisible( detector.isDielectricVisible() );
-                    dielectricValueNode.setVisible( detector.isDielectricVisible() && detector.isValuesVisible() );
+                    dielectricValueNode.setVisible( detector.isDielectricVisible() );
                 }
             });
             detector.addSumVisibleListener( new SimpleObserver() {
                 public void update() {
                     sumVectorNode.setVisible( detector.isSumVectorVisible() );
-                    sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
+                    sumValueNode.setVisible( detector.isSumVectorVisible() );
                 }
             });
             detector.addValuesVisibleListener( new SimpleObserver() {
                 public void update() {
-                    plateValueNode.setVisible( detector.isPlateVisible() && detector.isValuesVisible() );
-                    dielectricValueNode.setVisible( detector.isDielectricVisible() && detector.isValuesVisible() );
-                    sumValueNode.setVisible( detector.isSumVectorVisible() && detector.isValuesVisible() );
+                    plateValueNode.setValueVisible( detector.isValuesVisible() );
+                    dielectricValueNode.setValueVisible( detector.isValuesVisible() );
+                    sumValueNode.setValueVisible( detector.isValuesVisible() );
+                    updateLayout();
                 }
             });
             
@@ -406,13 +407,11 @@ public class EFieldDetectorView {
         // dynamic layout
         private void updateLayout() {
             
-            //XXX replace this mess, there's a lot of duplicate code here
-            
             double x, y;
             
             // vectors
             {
-                final double xSpacing = 45; //XXX constant, horizontal spacing between plate and dielectric vector centers
+                final double xSpacing = this.getBoundsReference().getWidth() / 4; // horizontal spacing between plate and dielectric vector centers
                 
                 // plate vector is vertically centered
                 x = this.getBoundsReference().getCenterX() - xSpacing;
@@ -511,6 +510,17 @@ public class EFieldDetectorView {
             String valueString = VALUE_FORMAT.format( Math.abs( value ) );
             valueNode.setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, valueString, CLStrings.VOLTS_PER_METER ) );
             updateLayout();
+        }
+        
+        public void setValueVisible( boolean valueVisible ) {
+            if ( valueVisible ) {
+                addChild( valueNode );
+            }
+            else {
+                if ( indexOfChild( valueNode ) != -1 ) {
+                    removeChild( valueNode );
+                }
+            }
         }
         
         private void updateLayout() {
