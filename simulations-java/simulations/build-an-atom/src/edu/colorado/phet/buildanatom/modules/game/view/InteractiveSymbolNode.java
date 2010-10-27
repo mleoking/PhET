@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
@@ -41,68 +43,28 @@ public class InteractiveSymbolNode extends PNode {
     private static final double WIDTH = 200;
     private static final double SPINNER_EDGE_OFFSET = 5;
 
-    private final ValueNode protonValueNode;
-    private final ValueNode massValueNode;
-    private final ValueNode chargeValueNode;
-    private final Property<Integer> massProperty;
-    private final JSpinner chargeSpinner = new JSpinner( new SpinnerNumberModel( 0, -15, 15, 1 ) ) {
-        {
+    private final Property<Integer> massProperty=new Property<Integer>( 0 );
+    private final Property<Integer> protonCountProperty=new Property<Integer>( 0 );
+    private final Property<Integer> chargeProperty=new Property<Integer>( 0 );
 
-            DefaultEditor numberEditor = (DefaultEditor) getEditor();
-            final NumberFormatter formatter = new NumberFormatter( new SignedIntegerFormat() );
-            formatter.setValueClass( Integer.class );
-            numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
-            setEditor( numberEditor );
-        }
-
-        @Override
-        public void setValue( Object value ) {
-            super.setValue( value );
-
-            try {
-                int v = ( (Integer) value ).intValue();
-
-                //Set the format and colors based on the value
-                //Positive numbers are red and appear with a + sign
-                //Negative numbers are blue with a - sign
-                //Zero appears as 0 in black
-                Color color;
-                if ( v > 0 ) {
-                    color = Color.red;
-                }
-                else if ( v < 0 ) {
-                    color = Color.blue;
-                }
-                else {//v==0
-                    color = Color.black;
-                }
-                ( (JSpinner.DefaultEditor) getEditor() ).getTextField().setForeground( color );
-            }
-            catch ( Exception e ) {
-                System.out.println( "ignoring = " + e );
-            }
-        }
-    };
     private final Property<Boolean> interactiveProperty;
-    private final Property<Integer> protonCountProperty;
-    private final Property<Integer> chargeProperty;
 
     public InteractiveSymbolNode( boolean interactive, final boolean showCharge ) {
-
         interactiveProperty = new Property<Boolean>( interactive );
 
         PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
-        final PText symbol = new PText() {
-            {
+        final PText symbol = new PText() {{
                 setFont( SYMBOL_FONT );
-            }
-        };
+        }};
         addChild( symbol );
 
-        protonCountProperty = new Property<Integer>( 0 );
-        protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, Color.RED, NUMBER_FONT, interactiveProperty );
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, NUMBER_FONT, interactiveProperty, new Function0<Color>() {
+            public Color apply() {
+                return Color.red;
+            }
+        } );
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
         // Listen to the proton property value and update the symbol accordingly.
@@ -113,47 +75,35 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        massProperty = new Property<Integer>( 0 );
-        massValueNode = new ValueNode( massProperty, 0, 30, 1, Color.BLACK, NUMBER_FONT, interactiveProperty );
+        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, NUMBER_FONT, interactiveProperty,new Function0<Color>() {public Color apply() {return Color.black;}} );
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
-        chargeProperty = new Property<Integer>( 0 );
-        chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, Color.BLACK, NUMBER_FONT, interactiveProperty ) {
+
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, NUMBER_FONT, interactiveProperty, new Function0<Color>() {
+            public Color apply() {
+                //Set the color based on the value
+                //Positive numbers are red and appear with a + sign
+                //Negative numbers are blue with a - sign
+                //Zero appears as 0 in black
+                int v = chargeProperty.getValue();
+                Color color;
+                if ( v > 0 ) {
+                    color = Color.red;
+                }
+                else if ( v < 0 ) {
+                    color = Color.blue;
+                }
+                else {//v==0
+                    color = Color.black;
+                }
+                return color;
+            }
+        } ) {
             {
-                DefaultEditor numberEditor = (DefaultEditor) getSpinnerEditor();
-                final NumberFormatter formatter = new NumberFormatter( new SignedIntegerFormat() );
-                formatter.setValueClass( Integer.class );
-                numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
-                setSpinnerEditor( numberEditor );
+                setNumberFormat( new SignedIntegerFormat() );
                 double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
                 setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
-            }
-
-            @Override
-            public void formatSpinnerValue( Object value ) {
-                try {
-                    int v = ( (Integer) value ).intValue();
-
-                    //Set the color based on the value
-                    //Positive numbers are red and appear with a + sign
-                    //Negative numbers are blue with a - sign
-                    //Zero appears as 0 in black
-                    Color color;
-                    if ( v > 0 ) {
-                        color = Color.red;
-                    }
-                    else if ( v < 0 ) {
-                        color = Color.blue;
-                    }
-                    else {//v==0
-                        color = Color.black;
-                    }
-                    ( (JSpinner.DefaultEditor) getSpinnerEditor() ).getTextField().setForeground( color );
-                }
-                catch ( Exception e ) {
-                    System.out.println( "ignoring = " + e );
-                }
             }
         };
         addChild( chargeValueNode );
@@ -171,6 +121,7 @@ public class InteractiveSymbolNode extends PNode {
         }
         */
     }
+
     /**
      * Determines the particle counts given the proton count, mass number and charge.
      * @return the guess
@@ -189,6 +140,10 @@ public class InteractiveSymbolNode extends PNode {
         chargeProperty.setValue( answer.getCharge() );
     }
 
+    public static interface Function0<T> {
+        T apply();
+    }
+
     /**
      * This node is a combination of a spinner and a piece of text, and is
      * settable to display either one of the other.
@@ -196,52 +151,48 @@ public class InteractiveSymbolNode extends PNode {
     private static class ValueNode extends PNode {
         private final PText text = new PText( "0" );
         private final JSpinner spinner;
+        private NumberFormat numberFormat=new DecimalFormat( "0" );
+        private SimpleObserver updateReadouts;
 
         /**
          * Constructor.
          */
-        public ValueNode( final Property<Integer> property, int minimum, int maximum, int stepSize, final Color textColor, final Font textFont, final Property<Boolean> showEditable ) {
-            spinner = new JSpinner( new SpinnerNumberModel( property.getValue().intValue(), minimum, maximum, stepSize ) ) {
+        public ValueNode( final Property<Integer> numericProperty, int minimum, int maximum, int stepSize, final Font textFont, final Property<Boolean> showEditable, final Function0<Color> colorFunction) {
+            spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
                 {
                     setFont( textFont );
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            property.setValue( (Integer) getValue() );
+                            numericProperty.setValue( (Integer) getValue() );
                         }
                     } );
+                }
+            };
+
+            // If the numericProperty changes external to the spinner (such as when we show the answer to a problem), the
+            // text and the spinner will both need to be updated.
+            updateReadouts = new SimpleObserver() {
+                public void update() {
+                    spinner.setValue( numericProperty.getValue() );
                     try {
                         //Try to set the text color to red for protons, but be prepared to fail due to type unsafety
-                        ( (JSpinner.DefaultEditor) getEditor() ).getTextField().setForeground( textColor );
+                        ( (DefaultEditor) spinner.getEditor() ).getTextField().setForeground( colorFunction.apply() );
                     }
                     catch ( Exception e ) {
                         System.out.println( "ignoring = " + e );
                     }
-                }
-
-                @Override
-                public void setValue( Object value ) {
-                    super.setValue( value );
-                    formatSpinnerValue( value );
+                    text.setTextPaint( colorFunction.apply() );
+                    text.setText( numberFormat.format( numericProperty.getValue() ) );
                 }
             };
-
-            // If the property changes external to the spinner (such as when we show the answer to a problem), the
-            // text and the spinner will both need to be updated.
-            property.addObserver( new SimpleObserver() {
-                public void update() {
-                    spinner.setValue( property.getValue() );
-                    text.setText( property.getValue().toString() );
-                }
-            } );
+            numericProperty.addObserver( updateReadouts );
 
             final PSwing spinnerPSwing = new PSwing( spinner );
-
-            text.setTextPaint( textColor );
             text.setFont( textFont );
             text.setOffset( spinnerPSwing.getFullBoundsReference().getCenterX() - text.getFullBoundsReference().width / 2,
                     spinnerPSwing.getFullBoundsReference().getCenterY() - text.getFullBoundsReference().height / 2 );
 
-            // Listen to the property that controls whether or not the
+            // Listen to the numericProperty that controls whether or not the
             // editable version is shown or the fixed text is shown.
             showEditable.addObserver( new SimpleObserver() {
                 public void update() {
@@ -256,19 +207,18 @@ public class InteractiveSymbolNode extends PNode {
             } );
         }
 
-        public void setSpinnerEditor(JComponent editor){
-            spinner.setEditor( editor );
+        public void setNumberFormat( NumberFormat format ) {
+            this.numberFormat = format;
+            DefaultEditor numberEditor = (DefaultEditor) getSpinnerEditor();
+            final NumberFormatter formatter = new NumberFormatter( format );
+            formatter.setValueClass( Integer.class );
+            numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
+            spinner.setEditor( numberEditor );
+            updateReadouts.update();
         }
 
         public JComponent getSpinnerEditor(){
             return spinner.getEditor();
-        }
-
-        /**
-         * This exists so that the spinner value formatter can be overridden.
-         * @param value
-         */
-        public void formatSpinnerValue(Object value){
         }
     }
 }
