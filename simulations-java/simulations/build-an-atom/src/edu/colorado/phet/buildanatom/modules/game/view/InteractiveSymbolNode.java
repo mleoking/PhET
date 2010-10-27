@@ -119,15 +119,43 @@ public class InteractiveSymbolNode extends PNode {
         addChild( massValueNode );
 
         chargeProperty = new Property<Integer>( 0 );
-        chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, Color.BLACK, NUMBER_FONT, interactiveProperty ){{
-            DefaultEditor numberEditor = (DefaultEditor)getSpinnerEditor();
-            final NumberFormatter formatter = new NumberFormatter( new SignedIntegerFormat() );
-            formatter.setValueClass( Integer.class );
-            numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
-            setSpinnerEditor( numberEditor );
-            double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
-            setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
-        }};
+        chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, Color.BLACK, NUMBER_FONT, interactiveProperty ) {
+            {
+                DefaultEditor numberEditor = (DefaultEditor) getSpinnerEditor();
+                final NumberFormatter formatter = new NumberFormatter( new SignedIntegerFormat() );
+                formatter.setValueClass( Integer.class );
+                numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
+                setSpinnerEditor( numberEditor );
+                double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
+                setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
+            }
+
+            @Override
+            public void formatSpinnerValue( Object value ) {
+                try {
+                    int v = ( (Integer) value ).intValue();
+
+                    //Set the color based on the value
+                    //Positive numbers are red and appear with a + sign
+                    //Negative numbers are blue with a - sign
+                    //Zero appears as 0 in black
+                    Color color;
+                    if ( v > 0 ) {
+                        color = Color.red;
+                    }
+                    else if ( v < 0 ) {
+                        color = Color.blue;
+                    }
+                    else {//v==0
+                        color = Color.black;
+                    }
+                    ( (JSpinner.DefaultEditor) getSpinnerEditor() ).getTextField().setForeground( color );
+                }
+                catch ( Exception e ) {
+                    System.out.println( "ignoring = " + e );
+                }
+            }
+        };
         addChild( chargeValueNode );
         chargeValueNode.setVisible( showCharge );
 
@@ -166,8 +194,8 @@ public class InteractiveSymbolNode extends PNode {
      * settable to display either one of the other.
      */
     private static class ValueNode extends PNode {
-        private final JSpinner spinner;
         private final PText text = new PText( "0" );
+        private final JSpinner spinner;
 
         /**
          * Constructor.
@@ -189,14 +217,20 @@ public class InteractiveSymbolNode extends PNode {
                         System.out.println( "ignoring = " + e );
                     }
                 }
+
+                @Override
+                public void setValue( Object value ) {
+                    super.setValue( value );
+                    formatSpinnerValue( value );
+                }
             };
 
             // If the property changes external to the spinner (such as when we show the answer to a problem), the
             // text and the spinner will both need to be updated.
             property.addObserver( new SimpleObserver() {
                 public void update() {
-                    text.setText( property.getValue().toString() );
                     spinner.setValue( property.getValue() );
+                    text.setText( property.getValue().toString() );
                 }
             } );
 
@@ -220,7 +254,6 @@ public class InteractiveSymbolNode extends PNode {
                     }
                 }
             } );
-
         }
 
         public void setSpinnerEditor(JComponent editor){
@@ -229,6 +262,13 @@ public class InteractiveSymbolNode extends PNode {
 
         public JComponent getSpinnerEditor(){
             return spinner.getEditor();
+        }
+
+        /**
+         * This exists so that the spinner value formatter can be overridden.
+         * @param value
+         */
+        public void formatSpinnerValue(Object value){
         }
     }
 }
