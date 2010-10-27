@@ -113,7 +113,7 @@ public class TestDetectorWire extends JFrame {
             /*
              * XXX
              * Messing with rotation here causes the probe's CursorHandler and PDragEventHandler to behave incorrectly.
-             * The cursor only change when over a small upper-right portion of the probe image.
+             * The cursor only changes when over a small upper-right portion of the probe image.
              * And the probe disappears when dragged into the upper-right corner of the canvas.
              */
             // clear the probe's rotation, so we can find the connection point
