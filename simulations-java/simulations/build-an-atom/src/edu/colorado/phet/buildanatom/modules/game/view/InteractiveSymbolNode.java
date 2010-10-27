@@ -27,7 +27,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class InteractiveSymbolNode extends PNode {
 
     private static final Font SYMBOL_FONT = new PhetFont( 60, true );
-    private static final Font NUMBER_FONT = new PhetFont( 30, true );
     private static final double WIDTH = 200;
     private static final double SPINNER_EDGE_OFFSET = 5;
 
@@ -48,11 +47,7 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( symbol );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, NUMBER_FONT, interactiveProperty, new Function0<Color>() {
-            public Color apply() {
-                return Color.red;
-            }
-        } );
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new Function0.Constant<Color>(Color.red ));
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
         // Listen to the proton property value and update the symbol accordingly.
@@ -63,12 +58,12 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, NUMBER_FONT, interactiveProperty,new Function0<Color>() {public Color apply() {return Color.black;}} );
+        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,new Function0.Constant<Color>(Color.black ));
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
 
-        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, NUMBER_FONT, interactiveProperty, new Function0<Color>() {
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new Function0<Color>() {
             public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign
@@ -96,18 +91,6 @@ public class InteractiveSymbolNode extends PNode {
         };
         addChild( chargeValueNode );
         chargeValueNode.setVisible( showCharge );
-
-        /*
-        if ( showCharge ){
-            PSwing chargeSpinnerPSwing = new PSwing( chargeSpinner );
-            chargeSpinnerPSwing.scale( SPINNER_SCALE_FACTOR );
-            boundingBox.setPathTo( new Rectangle2D.Double( 0, 0, width,width) );
-            chargeSpinnerPSwing.setOffset(
-                    width - chargeSpinnerPSwing.getFullBoundsReference().width - SPINNER_EDGE_OFFSET,
-                    SPINNER_EDGE_OFFSET );
-            addChild( chargeSpinnerPSwing );
-        }
-        */
     }
 
     /**
@@ -126,10 +109,6 @@ public class InteractiveSymbolNode extends PNode {
         protonCountProperty.setValue( answer.getProtons() );
         massProperty.setValue( answer.getMassNumber() );
         chargeProperty.setValue( answer.getCharge() );
-    }
-
-    public static interface Function0<T> {
-        T apply();
     }
 
 }

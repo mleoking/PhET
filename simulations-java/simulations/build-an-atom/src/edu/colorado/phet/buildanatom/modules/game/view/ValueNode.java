@@ -12,6 +12,7 @@ import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -21,12 +22,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * settable to display either one of the other.
  */
 public class ValueNode extends PNode {
+    public static final Font DEFAULT_NUMBER_FONT = new PhetFont( 30, true );
     private final PText text = new PText( "0" );
     private final JSpinner spinner;
     private NumberFormat numberFormat=new DecimalFormat( "0" );
     private SimpleObserver updateReadouts;
 
-    public ValueNode( final Property<Integer> numericProperty, int minimum, int maximum, int stepSize, final Font textFont, final Property<Boolean> showEditable, final InteractiveSymbolNode.Function0<Color> colorFunction ) {
+    public ValueNode( final Property<Integer> numericProperty, int minimum, int maximum, int stepSize, final Font textFont, final Property<Boolean> editable, final Function0<Color> colorFunction ) {
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
             {
                 setFont( textFont );
@@ -63,10 +65,10 @@ public class ValueNode extends PNode {
 
         // Listen to the numericProperty that controls whether or not the
         // editable version is shown or the fixed text is shown.
-        showEditable.addObserver( new SimpleObserver() {
+        editable.addObserver( new SimpleObserver() {
             public void update() {
                 removeAllChildren();
-                if ( showEditable.getValue() ) {
+                if ( editable.getValue() ) {
                     addChild( spinnerPSwing );
                 }
                 else {
