@@ -20,7 +20,7 @@ public class ToSymbolProblemView extends ProblemView {
     public ToSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem) {
         super( model, canvas, problem);
 
-        interactiveSymbolNode = new InteractiveSymbolNode( true);
+        interactiveSymbolNode = new InteractiveSymbolNode( true, true );
         interactiveSymbolNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width * 0.75 - interactiveSymbolNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - interactiveSymbolNode.getFullBounds().getHeight() / 2 );
