@@ -10,6 +10,7 @@ DESIGN ISSUES
 - should simplified field detector have a different layout, optimized for what it shows? (Plate vector centered, narrower vector display area, Show Values checkbox below vectors?)
 
 HIGH PRIORITY
+- rotate field detector probe
 - add auto-zoom button to E-field detector
 - decide whether to use Property<T> for EFieldDetector
 - add geometry of wires to model
