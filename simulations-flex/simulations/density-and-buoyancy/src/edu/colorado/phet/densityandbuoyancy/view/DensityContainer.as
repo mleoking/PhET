@@ -36,51 +36,19 @@ public class DensityContainer extends AbstractDBContainer {
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
 
-        customButton = new RadioButton();
-        customButton.groupName = "modes";
-        customButton.label = FlexSimStrings.get( 'mode.customObject', 'Custom' );
-        customButton.addEventListener( MouseEvent.CLICK, function(): void {
+        customButton = new ModeRadioButton( FlexSimStrings.get( 'mode.customObject', 'Custom' ), true, function(): void {
             densityCanvas.switchToCustomObject()
         } );
         customButton.selected = true;
         modeControlPanel.addChild( customButton );
-
-        var sameMassButton: RadioButton = new RadioButton();
-        sameMassButton.groupName = "modes";
-        sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
-        sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityCanvas.switchToSameMass()
-        } );
-        modeControlPanel.addChild( sameMassButton );
-
-        var sameVolumeButton: RadioButton = new RadioButton();
-        sameVolumeButton.groupName = "modes";
-        sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
-        sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityCanvas.switchToSameVolume()
-        } );
-        modeControlPanel.addChild( sameVolumeButton );
-
-        var sameDensityButton: RadioButton = new RadioButton();
-        sameDensityButton.groupName = "modes";
-        sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
-        sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityCanvas.switchToSameDensity()
-        } );
-        modeControlPanel.addChild( sameDensityButton );
-
-        var mysteryObjectsButton: RadioButton = new RadioButton();
-        mysteryObjectsButton.groupName = "modes";
-        mysteryObjectsButton.label = FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' );
-        mysteryObjectsButton.addEventListener( MouseEvent.CLICK, function(): void {
-            densityCanvas.switchToMysteryObjects()
-        } );
-        modeControlPanel.addChild( mysteryObjectsButton );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' ), false, function(): void {densityCanvas.switchToSameMass()} ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' ), false, function(): void {densityCanvas.switchToSameVolume()} ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' ), false, function(): void {densityCanvas.switchToSameDensity()} ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' ), false, function(): void {densityCanvas.switchToMysteryObjects()} ) );
 
         addChild( modeControlPanel );
 
         addResetAll();
-
         addLogo();
     }
 
