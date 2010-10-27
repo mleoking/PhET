@@ -10,6 +10,7 @@ DESIGN ISSUES
 - should simplified field detector have a different layout, optimized for what it shows? (Plate vector centered, narrower vector display area, Show Values checkbox below vectors?)
 
 HIGH PRIORITY
+- bug: Show Values controls visibility of labels in detector
 - clean up layout and sizing of E-field detector
 - add auto-zoom button to E-field detector
 - decide whether to use Property<T> for EFieldDetector
@@ -26,6 +27,7 @@ MEDUIUM PRIORITY
 - all features in Multiple Capacitors tab
 
 LOW PRIORITY
+- initial layout is incorrect if it involves a Vector2DNode with zero magnitude (see WORKAROUND in EFieldDetectorView)
 - clean up CCKStrategyWithRounding
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
