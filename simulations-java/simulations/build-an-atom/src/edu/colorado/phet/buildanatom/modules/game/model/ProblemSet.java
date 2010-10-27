@@ -3,6 +3,9 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.modules.game.view.Function0;
+
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level
  *
@@ -27,36 +30,36 @@ public class ProblemSet {
         }
     }
 
-    private int[] getProblemTypes( AtomValue atomValue ) {
-        if ( atomValue.getProtons() <= 10 ) {
-            return new int[] { 0, 1, 2, 3, 4, 5 };
+    /**
+     * Returns the set of possible problems to choose from given a specific AtomValue
+     *
+     * @param model
+     * @param atomValue
+     * @return
+     */
+    private Problem[] getPossibleProblems( BuildAnAtomGameModel model, AtomValue atomValue ) {
+        if ( atomValue.getProtons() <= 3 ) {//only use schematic mode when Lithium or smaller
+            return new Problem[] {
+                    new SymbolToSchematicProblem( model, atomValue ),
+                    new SchematicToSymbolProblem( model, atomValue ),
+                    new SymbolToCountsProblem( model, atomValue ),
+                    new CountsToSymbolProblem( model, atomValue ),
+                    new SchematicToElementProblem( model, atomValue ),
+                    new CountsToElementProblem( model, atomValue ),
+            };
         }
         else {
-            return new int[] { 2, 3, 5 };
+            return new Problem[] {
+                    new SymbolToCountsProblem( model, atomValue ),
+                    new CountsToSymbolProblem( model, atomValue ),
+                    new CountsToElementProblem( model, atomValue ),
+            };
         }
     }
+
     private Problem getProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
-        int [] availableTypes = getProblemTypes( atomValue );
-        int problemType = availableTypes[random.nextInt( availableTypes.length )];
-        if ( problemType == 0 ) {
-            return new SymbolToSchematicProblem( model, atomValue ) ;
-        }
-        else if ( problemType == 1 ) {
-            return new SchematicToSymbolProblem( model, atomValue ) ;
-        }
-        else if ( problemType == 2 ) {
-            return new SymbolToCountsProblem( model, atomValue ) ;
-        }
-        else if ( problemType == 3 ) {
-            return new CountsToSymbolProblem( model, atomValue ) ;
-        }
-        else if ( problemType == 4 ) {
-            return new SchematicToElementProblem( model, atomValue ) ;
-        }
-        else if ( problemType == 5 ) {
-            return new CountsToElementProblem( model, atomValue ) ;
-        }
-        else throw new RuntimeException( "No problem found");
+        Problem[] problems = getPossibleProblems( model, atomValue );
+        return problems[random.nextInt( problems.length )];
     }
 
     public void addProblem( Problem problem) {
