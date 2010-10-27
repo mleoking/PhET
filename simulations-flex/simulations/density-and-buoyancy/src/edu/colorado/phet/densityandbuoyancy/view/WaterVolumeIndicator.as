@@ -29,10 +29,7 @@ public class WaterVolumeIndicator extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
 
-        //Convert SI to cm^3
-        //        var readout:Number = indicatedVolume * 1E6;
-
-        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );
+        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
 
         textField.text = FlexSimStrings.get( "properties.volumeLiterValue", "{0} L", [String( DensityConstants.format( readout ) )] );
         var textFormat: TextFormat = new TextFormat();

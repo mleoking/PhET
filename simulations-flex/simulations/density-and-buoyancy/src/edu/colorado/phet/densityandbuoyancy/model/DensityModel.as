@@ -77,7 +77,6 @@ public class DensityModel {
 
     public function clearDensityObjects(): void {
         for each ( var densityObject: DensityObject in densityObjects ) {
-            //            trace( "removing: " + densityObject.toString() );
             densityObject.remove();
             for each ( var object: Function in densityObjectDestructionListeners ) {
                 object( densityObject );

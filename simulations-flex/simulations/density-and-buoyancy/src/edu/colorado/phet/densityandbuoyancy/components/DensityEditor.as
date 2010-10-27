@@ -10,16 +10,7 @@ public class DensityEditor extends PropertyEditor {
     public function DensityEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number ) {
         super( property, minimum, maximum, unit, dataTipClamp, bounds, sliderWidth );
         this.densityObject = densityObject;
-
         textField.enabled = false; // direct density changes are now disabled
-
-        //        function updateTextBoxEnabled():void {
-        //            textField.enabled = densityObject.material.isCustom();
-        //        }
-
-        //        densityObject.addMaterialListener(updateTextBoxEnabled);
-        //        updateTextBoxEnabled();
-
         setStyle( "paddingTop", 10 ); // give us a bit more padding to compensate for the labeled tickmarks
     }
 
@@ -28,15 +19,7 @@ public class DensityEditor extends PropertyEditor {
         for each ( var material: Material in Material.LABELED_DENSITY_MATERIALS ) {
             slider.addTick( unit.fromSI( material.getDensity() ), material.tickColor, material.name )
         }
-
         slider.enabled = false; // direct density changes are now disabled
-
-        //        function updateEnabled():void {
-        //            slider.enabled = densityObject.material.isCustom();
-        //        }
-        //
-        //        densityObject.addMaterialListener(updateEnabled);
-        //        updateEnabled();
         return slider;
     }
 }

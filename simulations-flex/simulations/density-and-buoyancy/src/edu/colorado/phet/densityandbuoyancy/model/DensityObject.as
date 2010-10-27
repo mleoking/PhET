@@ -72,25 +72,8 @@ public class DensityObject {
 
         getVolumeProperty().addListener( volumeChanged );
 
-        function densityChanged(): void {
-            //this should change the mass
-
+        function densityChanged(): void { //this should change the mass
             setMass( volume * density );
-
-            //TODO: Switch into "custom object" mode
-            //This could be confusing because it will switch the behavior of the other sliders
-
-            // We should be setting the material elsewhere. This was "snapping" to a material
-            //            var changed:Boolean = false;
-            //            for each (var s:Material in Material.SELECTABLE_MATERIALS) {
-            //                if (s.getDensity() == getDensity()) {
-            //                    material = s;
-            //                    changed = true;
-            //                }
-            //            }
-            //            if (!changed) {
-            //                material = new Material("Custom", getDensity(), true);
-            //            }
         }
 
         getDensityProperty().addListener( densityChanged );
@@ -262,7 +245,6 @@ public class DensityObject {
             sum.Add( object as b2Vec2 );
         }
         sum.Multiply( 1.0 / DensityModel.DT_PER_FRAME / DensityConstants.SCALE_BOX2D );//to convert to force
-        //        trace("Force sum: " + sum.x + ", " + sum.y);
         return sum;
     }
 
@@ -281,7 +263,6 @@ public class DensityObject {
 
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
-        //        trace("Gravity y = " + getGravityForce().y);
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
         dragForceArrowModel.setValue( getDragForce().x, getDragForce().y );
         contactForceArrowModel.setValue( getNetContactForce().x, getNetContactForce().y );

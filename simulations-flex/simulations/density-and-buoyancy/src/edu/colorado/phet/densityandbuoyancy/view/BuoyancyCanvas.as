@@ -21,7 +21,6 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private var sameVolumeMode: BuoyancySameVolumeMode;
     private var sameDensityMode: BuoyancySameDensityMode;
 
-    //    public var oneObjectMode: OneObjectMode;
     public var playgroundModes: BuoyancyPlaygroundMode;
     private var mode: Mode;
 

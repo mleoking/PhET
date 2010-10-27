@@ -91,12 +91,6 @@ public class Scale extends Cuboid {
         totalImpulse += point.normalImpulse / DensityConstants.SCALE_BOX2D;//convert back to SI from box2d units
     }
 
-    override public function box2DStepped(): void {
-        super.box2DStepped();
-        //        setPosition(0,0);
-        //        getBody().SetLinearVelocity(new b2Vec2());
-    }
-
     override public function resetContacts(): void {
         super.resetContacts();
 

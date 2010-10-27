@@ -129,7 +129,6 @@ public class AbstractDBCanvas extends UIComponent {
             var waterMaterial: ShadingColorMaterial;
             var density: Number = model.fluidDensity.value;
             if ( density <= Material.WATER.getDensity() ) {
-                //                waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.15 + 0.25 * density / Material.WATER.getDensity() } );
                 waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
             }
             else {
@@ -153,7 +152,7 @@ public class AbstractDBCanvas extends UIComponent {
         marker.addChild( new Cube( { z: 50, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0x9999CC ) } ) );
         marker.addChild( new Cube( { z: 150, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0xCC9999 ) } ) );
         marker.addChild( new Cube( { z: -50, width: 5, height: 500, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0xFFFFFF ) } ) );
-        //        scene.addChild(marker);
+        //        scene.addChild(marker);//For debugging
     }
 
     private function addDensityObject( densityObject: DensityObject ): void {
@@ -248,7 +247,6 @@ public class AbstractDBCanvas extends UIComponent {
             tickMarkSet.updateCoordinates( mainCamera, groundNode, mainViewport.view );
         }
         waterVolumeIndicator.setWaterHeight( _model.getWaterHeight() );
-        //        water
     }
 
     /**
