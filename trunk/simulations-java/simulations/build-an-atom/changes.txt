@@ -1,3 +1,4 @@
+Fixed: only allow schematic mode when Lithium or smaller
 Fixed: Spinners change to text nodes during "show answer"
 # 1.00.01 (45486) Oct 26, 2010
 10/26/10 Deploying to dev with first working version of game tab
