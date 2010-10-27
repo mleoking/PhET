@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.test;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -48,13 +49,15 @@ public class TestDetectorWire extends JFrame {
     // field detector probe, rotated so that it's aligned with the pseudo-3D perspective
     private static class ProbeNode extends PhetPNode {
         public ProbeNode() {
+            
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
             double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
             imageNode.scale( 0.65 );
-            imageNode.rotate( YAW );
+            
+            this.setRotation( YAW ); // rotate this, not the imageNode
         }
     }
     
@@ -86,19 +89,44 @@ public class TestDetectorWire extends JFrame {
         }
         
         private void update() {
-            // connect to left center of body
-            double x = bodyNode.getFullBoundsReference().getMinX();
-            double y = bodyNode.getFullBoundsReference().getCenterY();
-            Point2D pBody = new Point2D.Double( x, y );
-            // connect to end of probe
-            x = probeNode.getFullBoundsReference().getCenterX(); //XXX does not account for probe rotation
-            y = probeNode.getFullBoundsReference().getMaxY(); //XXX does not account for probe rotation
-            Point2D pProbe = new Point2D.Double( x, y );
+            
+            Point2D pBody = getBodyConnectionPoint();
+            Point2D pProbe = getProbeConnectionPoint();
+            
             // control points 
             Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_CONTROL_POINT_DX, pBody.getY() );
             Point2D ctrl2 = new Point2D.Double( pProbe.getX(), pProbe.getY() + WIRE_CONTROL_POINT_DY );
+            
             // path
             setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );
+        }
+        
+        // connect to left center of body
+        private Point2D getBodyConnectionPoint() {
+            double x = bodyNode.getFullBoundsReference().getMinX();
+            double y = bodyNode.getFullBoundsReference().getCenterY();
+            return new Point2D.Double( x, y );
+        }
+        
+        // connect to end of probe handle, account for probe rotation
+        private Point2D getProbeConnectionPoint() {
+            /*
+             * XXX
+             * Messing with rotation here causes the probe's CursorHandler and PDragEventHandler to behave incorrectly.
+             * The cursor only change when over a small upper-right portion of the probe image.
+             * And the probe disappears when dragged into the upper-right corner of the canvas.
+             */
+            // clear the probe's rotation, so we can find the connection point
+            probeNode.setRotation( 0 ); 
+            // connect to the bottom center of the unrotated probe image
+            double x = probeNode.getFullBoundsReference().getCenterX();
+            double y = probeNode.getFullBoundsReference().getMaxY();
+            // rotate the connection point to match the probe's rotation
+            AffineTransform t = AffineTransform.getRotateInstance( YAW, probeNode.getXOffset(), probeNode.getYOffset() );
+            Point2D p = t.transform( new Point2D.Double( x, y ), null ); 
+            // restore the probe's rotation
+            probeNode.setRotation( YAW );
+            return p;
         }
     }
     
