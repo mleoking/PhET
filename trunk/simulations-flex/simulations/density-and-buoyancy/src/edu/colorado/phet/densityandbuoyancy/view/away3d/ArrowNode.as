@@ -29,15 +29,11 @@ public class ArrowNode extends MyMesh {
         offset = numArrowNodes + 1;
         numArrowNodes += 1;
 
-        //        super(combine({material:new WireColorMaterial(color, {alpha: 0.75})}, init));//useful for debugging objects that may have the same z-coordinate
         this._arrowModel = arrowModel;
         this._visibilityProperty = visibilityProperty;
         this.mouseEnabled = false; // don't want to click on arrows, but instead the objects behind them
         arrowModel.addListener( doUpdate );
         doUpdate();
-        //        super( combine( {outline:"black|2", material:new ColorMaterial( 0xFF0000 )}, init ) );
-        //        super( combine( {outine:"black|2"}, init ) );
-        //        super( init );
 
         function updateVisibility(): void {
             visible = visibilityProperty.value;
@@ -53,7 +49,6 @@ public class ArrowNode extends MyMesh {
     private function updateLocation(): void {
         this.x = densityObject.getX() * DensityModel.DISPLAY_SCALE;
         this.y = densityObject.getY() * DensityModel.DISPLAY_SCALE;
-        //        this.z = densityObject.getZ() * DensityModel.DISPLAY_SCALE;
     }
 
     public function doUpdate(): void {
@@ -95,12 +90,6 @@ public class ArrowNode extends MyMesh {
         f( 3, 2, 6, 3, 2, 6 );
         f( 2, 5, 6, 2, 5, 6 );
         f( 4, 3, 6, 4, 3, 6 );
-
-        //        addSegment(new Segment(getVertexArray()[0], getVertexArray()[1], new WireframeMaterial(0x000000)));
-        //        addSegment(new Segment(getVertexArray()[4], getVertexArray()[3], new WireframeMaterial(0x000000)));
-        //        addSegment(new Segment(getVertexArray()[2], getVertexArray()[5], new WireframeMaterial(0x000000)));
-        //        addSegment(new Segment(getVertexArray()[5], getVertexArray()[6], new WireframeMaterial(0xFF0000,{width:5})));
-        //        addSegment(new Segment(getVertexArray()[6], getVertexArray()[4], new WireframeMaterial(0x000000)));
 
         type = "edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode";
         url = "density";

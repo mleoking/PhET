@@ -65,18 +65,17 @@ public class Material {
     private var _alpha: Number = 1;
 
     private static function sortOnDensity( a: Material, b: Material ): Number {
-        var aPrice: Number = a.getDensity();
-        var bPrice: Number = b.getDensity();
+        var aValue: Number = a.getDensity();
+        var bValue: Number = b.getDensity();
 
-        if ( aPrice > bPrice ) {
+        if ( aValue > bValue ) {
             return 1;
         }
         else {
-            if ( aPrice < bPrice ) {
+            if ( aValue < bValue ) {
                 return -1;
             }
             else {
-                //aPrice == bPrice
                 return 0;
             }
         }

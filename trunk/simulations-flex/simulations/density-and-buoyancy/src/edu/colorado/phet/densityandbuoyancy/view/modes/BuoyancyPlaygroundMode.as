@@ -43,10 +43,7 @@ public class BuoyancyPlaygroundMode extends Mode {
         woodBlock.updateBox2DModel();
         brick.updateBox2DModel();
         customObjectPropertiesPanelWrapper1.init();
-        //        customObjectPropertiesPanelWrapper2.init();
-
         canvas.model.addDensityObject( woodBlock );
-        //        canvas.model.addDensityObject( brick );
     }
 
     override public function teardown(): void {

@@ -37,10 +37,7 @@ public class TickMark extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = value;
 
-        //Convert SI to cm^3
-        //        var readout:Number = indicatedVolume * 1E6;
-
-        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );
+        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );//Convert SI to display units
 
         textField.text = String( DensityConstants.format( readout ) );
         var textFormat: TextFormat = new TextFormat();

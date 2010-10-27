@@ -34,9 +34,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
         arrowControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
         arrowControlPanel.visible = true;
 
-        //        var readoutControlPanel:DensityVBox = new DensityVBox();
-        //        readoutControlPanel.setStyle("left")
-
         {
             var label: Label = new Label();
             label.text = FlexSimStrings.get( 'forceArrowControlPanelTitle', 'Show Forces' );
@@ -103,7 +100,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
             valueCheckBox.label = FlexSimStrings.get( 'controlPanel.showVectorValues', "Force Values" );
             valueCheckBox.addEventListener( MouseEvent.CLICK, function(): void {
                 buoyancyCanvas.vectorValuesVisible.value = valueCheckBox.selected;
-                //                buoyancyCanvas.setFluidDragForceVisible( showMassReadoutsCheckBox.selected );
             } );
             arrowControlPanel.addChild( valueCheckBox );
         }

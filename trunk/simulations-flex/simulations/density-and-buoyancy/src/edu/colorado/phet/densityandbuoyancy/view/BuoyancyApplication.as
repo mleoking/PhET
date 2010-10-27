@@ -22,8 +22,6 @@ public class BuoyancyApplication extends Canvas {
         addChild( densityAndBuoyancyFlashCommon );
         densityAndBuoyancyFlashCommon.init();
 
-        //        trace("my height = "+buoyancyTabNavigator.getTabAt(0).height);
-
         phetLogoButton.setStyle( "right", 0 );
         phetLogoButton.setStyle( "top", 0 );
         addChild( phetLogoButton );
