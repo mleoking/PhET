@@ -48,7 +48,7 @@ public class TestDetectorWire extends JFrame {
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-            double y = 0.078 * -imageNode.getFullBoundsReference().getHeight(); // multiplier is dependent on image file
+            double y = 0.078 * -imageNode.getFullBoundsReference().getHeight(); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
             imageNode.scale( 0.65 );
             imageNode.rotate( YAW );
@@ -58,13 +58,16 @@ public class TestDetectorWire extends JFrame {
     // wire that connects the body and probe
     private static class WireNode extends PPath {
         
-        private PNode bodyNode, probeNode;
+        private final BodyNode bodyNode;
+        private final ProbeNode probeNode;
         
-        public WireNode( PNode bodyNode, PNode probeNode ) {
+        public WireNode( BodyNode bodyNode, ProbeNode probeNode ) {
             setStroke( new BasicStroke( 2f ) );
             setStrokePaint( Color.RED );
+            
             this.bodyNode = bodyNode;
             this.probeNode = probeNode;
+            
             // update wire when body or probe moves
             {
                 PropertyChangeListener fullBoundsListener = new PropertyChangeListener() {
@@ -84,9 +87,9 @@ public class TestDetectorWire extends JFrame {
             double x = bodyNode.getFullBoundsReference().getMinX();
             double y = bodyNode.getFullBoundsReference().getCenterY();
             Point2D pBody = new Point2D.Double( x, y );
-            // connect to bottom center of probe
-            x = probeNode.getFullBoundsReference().getCenterX();
-            y = probeNode.getFullBoundsReference().getMaxY();
+            // connect to end of probe
+            x = probeNode.getFullBoundsReference().getCenterX(); //XXX does not account for probe rotation
+            y = probeNode.getFullBoundsReference().getMaxY(); //XXX does not account for probe rotation
             Point2D pProbe = new Point2D.Double( x, y );
             // control points 
             Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_CONTROL_POINT_DX, pBody.getY() );
@@ -99,23 +102,20 @@ public class TestDetectorWire extends JFrame {
     
     private static class MyCanvas extends PhetPCanvas {
         
-        private final PNode bodyNode, probeNode;
-        private final WireNode wireNode;
-        
         public MyCanvas() {
             setPreferredSize( new Dimension( 700, 500 ) );
             
-            bodyNode = new BodyNode() {{
+            BodyNode bodyNode = new BodyNode() {{
                 addInputEventListener( new PDragEventHandler() );
                 addInputEventListener( new CursorHandler() );
             }};
             
-            probeNode = new ProbeNode() {{
+            ProbeNode probeNode = new ProbeNode() {{
                 addInputEventListener( new PDragEventHandler() );
                 addInputEventListener( new CursorHandler() );
             }};
             
-            wireNode = new WireNode( bodyNode, probeNode );
+            WireNode wireNode = new WireNode( bodyNode, probeNode );
 
             // rendering order
             {
