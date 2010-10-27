@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * TODO: consolidate this with SchematicAtomNode, could be a subclass that adds interactivity, or a constructor arg interactive:Boolean
  * @author Sam Reid
  */
 public class InteractiveSchematicAtomNode extends PNode {
@@ -21,7 +22,6 @@ public class InteractiveSchematicAtomNode extends PNode {
 
     public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
         this.model=model;
-        //TODO : this was copied from lines 99-171 of BAAC
 
         PNode backLayer = new PNode( );
         PNode particleLayer = new PNode( );
