@@ -1,16 +1,16 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import java.awt.*;
+
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SymbolToCountsProblem;
-import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
@@ -79,6 +78,9 @@ public class SymbolToCountsView extends ProblemView {
             protonGuess.setValue( answer.getProtons() );
             electronGuess.setValue( answer.getElectrons() );
             neutronGuess.setValue( answer.getNeutrons() );
+            protonEntryPanel.setEditable( false );
+            neutronEntryPanel.setEditable( false );
+            electronEntryPanel.setEditable(false);
         }
     }
 
@@ -100,7 +102,8 @@ public class SymbolToCountsView extends ProblemView {
 
     public static class EntryPanel extends PNode {
         private final PText label;
-        private final PSwing spinnerPSwing;
+        private final ValueNode valueNode;
+        private Property<Boolean> editable;
 
         public EntryPanel( String name, final Property<Integer> property ) {
             label = new PText( name ) {{
@@ -119,10 +122,10 @@ public class SymbolToCountsView extends ProblemView {
                     spinner.setValue( property.getValue() );
                 }
             } );
-            spinnerPSwing = new PSwing( spinner );
-            spinnerPSwing.scale( 2 );
-            addChild( spinnerPSwing );
-            spinnerPSwing.setOffset( 0, label.getFullBounds().getHeight() / 2 - spinnerPSwing.getFullBounds().getHeight() / 2 );
+            editable = new Property<Boolean>( true );
+            valueNode = new ValueNode( property, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, editable, new Function0.Constant<Color>( Color.black ) );
+            addChild( valueNode );
+            valueNode.setOffset( 0, label.getFullBounds().getHeight() / 2 - valueNode.getFullBounds().getHeight() / 2 );
         }
 
         public double getLabelWidth() {
@@ -130,7 +133,11 @@ public class SymbolToCountsView extends ProblemView {
         }
 
         public void setSpinnerX( double x ) {
-            spinnerPSwing.setOffset( x, spinnerPSwing.getOffset().getY() );
+            valueNode.setOffset( x, valueNode.getOffset().getY() );
+        }
+
+        public void setEditable( boolean b ) {
+            editable.setValue( b );
         }
     }
 
