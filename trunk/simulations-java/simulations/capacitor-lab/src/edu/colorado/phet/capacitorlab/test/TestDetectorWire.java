@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class TestDetectorWire extends JFrame {
     
-    private static final double YAW = Math.toRadians( 45 ); // rotation about the vertical axis, creates pseudo-3D perspective
+    private static final double YAW = Math.toRadians(0 ); // rotation about the vertical axis, creates pseudo-3D perspective
     
     // wire is a cubic curve, these are the control point deltas
     private static final double WIRE_CONTROL_POINT_DX = -25;
@@ -57,6 +57,7 @@ public class TestDetectorWire extends JFrame {
             imageNode.setOffset( x, y );
             imageNode.scale( 0.65 );
             
+            //XXX This is wrong, need to rotate the imageNode so that crosshairs are still at origin.
             this.setRotation( YAW ); // rotate this, not the imageNode
         }
     }
