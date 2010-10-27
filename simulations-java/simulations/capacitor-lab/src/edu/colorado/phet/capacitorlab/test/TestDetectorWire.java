@@ -28,6 +28,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class TestDetectorWire extends JFrame {
     
+    private static final double YAW = Math.toRadians( 45 ); // rotation about the vertical axis, creates pseudo-3D perspective
+    
+    // wire is a cubic curve, these are the control point deltas
     private static final double WIRE_CONTROL_POINT_DX = -25;
     private static final double WIRE_CONTROL_POINT_DY = 100;
     
@@ -48,7 +51,7 @@ public class TestDetectorWire extends JFrame {
             double y = 0.078 * -imageNode.getFullBoundsReference().getHeight(); // multiplier is dependent on image file
             imageNode.setOffset( x, y );
             imageNode.scale( 0.65 );
-            imageNode.rotate( Math.toRadians( 45 ) );
+            imageNode.rotate( YAW );
         }
     }
     
@@ -85,7 +88,7 @@ public class TestDetectorWire extends JFrame {
             x = probeNode.getFullBoundsReference().getCenterX();
             y = probeNode.getFullBoundsReference().getMaxY();
             Point2D pProbe = new Point2D.Double( x, y );
-            // control points
+            // control points 
             Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_CONTROL_POINT_DX, pBody.getY() );
             Point2D ctrl2 = new Point2D.Double( pProbe.getX(), pProbe.getY() + WIRE_CONTROL_POINT_DY );
             // path
