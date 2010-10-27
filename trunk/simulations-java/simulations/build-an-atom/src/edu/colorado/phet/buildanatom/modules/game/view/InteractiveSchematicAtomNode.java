@@ -1,10 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Proton;
@@ -21,23 +17,15 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class InteractiveSchematicAtomNode extends PNode {
-    private ModelViewTransform2D mvt;
     private BuildAnAtomModel model;
 
-    public InteractiveSchematicAtomNode(BuildAnAtomClock clock) {
-        mvt = new ModelViewTransform2D(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.70 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
-                1.5,
-                true );
-
-        final BooleanProperty viewOrbitals=new BooleanProperty( true);
+    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
+        this.model=model;
         //TODO : this was copied from lines 99-171 of BAAC
 
         PNode backLayer = new PNode( );
         PNode particleLayer = new PNode( );
         PNode frontLayer= new PNode( );
-        model = new BuildAnAtomModel( clock );//todo: clock memory leak?
         // Layers on the canvas.
         addChild( backLayer );
         addChild( particleLayer );
@@ -111,10 +99,6 @@ public class InteractiveSchematicAtomNode extends PNode {
                 particleLayer.addChild( new NeutronNode( mvt, model.getNeutron( i ) ) );
             }
         }
-
-        //end copy
-        model.reset();
-        clock.start();
     }
 
     public AtomValue getGuess() {
