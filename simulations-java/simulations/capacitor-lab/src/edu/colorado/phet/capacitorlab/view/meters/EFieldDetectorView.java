@@ -548,7 +548,7 @@ public class EFieldDetectorView {
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-            double y = 0.078 * -imageNode.getFullBoundsReference().getHeight(); // multiplier is dependent on image file
+            double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
             
             // Put a '+' at origin to check that probe image is offset properly.
