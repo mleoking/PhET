@@ -3,12 +3,8 @@
                 xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
                 xmlns:components="edu.colorado.phet.densityandbuoyancy.components.*"
                 xmlns:flexcommon="edu.colorado.phet.flexcommon.*"
-                layout="absolute" width="100%" height="100%" applicationComplete="onApplicationComplete()"
+                layout="absolute" width="100%" height="100%"
+                applicationComplete="buoyancyApplication.onApplicationComplete()"
                 frameRate="30">
     <view:BuoyancyApplication id="buoyancyApplication"/>
-    <mx:Script><![CDATA[
-        private function onApplicationComplete(): void {
-            buoyancyApplication.onApplicationComplete();
-        }
-        ]]></mx:Script>
 </mx:Application>
