@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultFormatterFactory;
@@ -38,7 +40,6 @@ public class InteractiveSymbolNode extends PNode {
     private static final Font NUMBER_FONT = new PhetFont( 30, true );
     private static final double WIDTH = 200;
     private static final double SPINNER_EDGE_OFFSET = 5;
-    private static final double SPINNER_SCALE_FACTOR = 2;
 
     private final ValueNode protonValueNode;
     private final ValueNode massValueNode;
@@ -118,9 +119,15 @@ public class InteractiveSymbolNode extends PNode {
         addChild( massValueNode );
 
         chargeProperty = new Property<Integer>( 0 );
-        chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, Color.BLACK, NUMBER_FONT, interactiveProperty );
-        double width = Math.max( WIDTH,chargeValueNode.getFullBounds().getWidth()+massValueNode.getFullBounds().getWidth()+SPINNER_EDGE_OFFSET*3 );
-        chargeValueNode.setOffset( width - chargeValueNode.getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
+        chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, Color.BLACK, NUMBER_FONT, interactiveProperty ){{
+            DefaultEditor numberEditor = (DefaultEditor)getSpinnerEditor();
+            final NumberFormatter formatter = new NumberFormatter( new SignedIntegerFormat() );
+            formatter.setValueClass( Integer.class );
+            numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
+            setSpinnerEditor( numberEditor );
+            double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
+            setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
+        }};
         addChild( chargeValueNode );
         chargeValueNode.setVisible( showCharge );
 
@@ -213,6 +220,15 @@ public class InteractiveSymbolNode extends PNode {
                     }
                 }
             } );
+
+        }
+
+        public void setSpinnerEditor(JComponent editor){
+            spinner.setEditor( editor );
+        }
+
+        public JComponent getSpinnerEditor(){
+            return spinner.getEditor();
         }
     }
 }
