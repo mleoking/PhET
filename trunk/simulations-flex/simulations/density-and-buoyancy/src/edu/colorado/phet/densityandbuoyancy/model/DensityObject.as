@@ -208,10 +208,16 @@ public class DensityObject {
         this.x.value = x;
         this.y.value = y;
 
-        var newX: Number = x * DensityConstants.SCALE_BOX2D;
-        var newY: Number = y * DensityConstants.SCALE_BOX2D;
-        if ( body.GetPosition().x != newX || body.GetPosition().y != newY ) {
-            body.SetXForm( new b2Vec2( newX, newY ), 0 );
+        updatePosition();
+    }
+
+    private function updatePosition(): void {
+        var newX: Number = x.value * DensityConstants.SCALE_BOX2D;
+        var newY: Number = y.value * DensityConstants.SCALE_BOX2D;
+        if ( body != null ) { //body is only non-null after inScene = true, so only update when possible 
+            if ( body.GetPosition().x != newX || body.GetPosition().y != newY ) {
+                body.SetXForm( new b2Vec2( newX, newY ), 0 );
+            }
         }
     }
 
@@ -391,6 +397,9 @@ public class DensityObject {
 
     public function set inScene( inScene: Boolean ): void {
         this._inScene.value = inScene;
+        if ( inScene ) {
+            updatePosition();
+        }
     }
 
     public function get inScene(): Boolean {
