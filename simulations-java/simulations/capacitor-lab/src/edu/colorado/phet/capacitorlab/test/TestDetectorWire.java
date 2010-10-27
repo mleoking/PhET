@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.capacitorlab.test;
 
 import java.awt.BasicStroke;
@@ -13,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.capacitorlab.CLImages;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -96,7 +99,6 @@ public class TestDetectorWire extends JFrame {
             Point2D ctrl2 = new Point2D.Double( pProbe.getX(), pProbe.getY() + WIRE_CONTROL_POINT_DY );
             // path
             setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );
-
         }
     }
     
@@ -133,6 +135,7 @@ public class TestDetectorWire extends JFrame {
     }
     
     public TestDetectorWire() {
+        super( TestDetectorWire.class.getName() );
         setContentPane( new MyCanvas() );
         pack();
     }
@@ -140,6 +143,7 @@ public class TestDetectorWire extends JFrame {
     public static void main( String[] args ) {
         JFrame frame = new TestDetectorWire();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
     }
 }
