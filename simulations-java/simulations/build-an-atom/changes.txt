@@ -1,3 +1,4 @@
+# 1.00.02 (45521) Oct 27, 2010
 Fixed: only allow schematic mode when Lithium or smaller in the game mode
 Fixed: Spinners change to text nodes during "show answer"
 Internal refactoring of intro tab and game tab
