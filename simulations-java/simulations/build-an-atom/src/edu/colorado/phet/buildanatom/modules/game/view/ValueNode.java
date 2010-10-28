@@ -23,12 +23,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ValueNode extends PNode {
     public static final Font DEFAULT_NUMBER_FONT = new PhetFont( 30, true );
+    public static final NumberFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat( "0" );
     private final PText text = new PText( "0" );
     private final JSpinner spinner;
-    private NumberFormat numberFormat=new DecimalFormat( "0" );
     private SimpleObserver updateReadouts;
 
-    public ValueNode( final Property<Integer> numericProperty, int minimum, int maximum, int stepSize, final Font textFont, final Property<Boolean> editable, final Function0<Color> colorFunction ) {
+    public ValueNode( final Property<Integer> numericProperty, int minimum, int maximum, int stepSize, final Font textFont, final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
             {
                 setFont( textFont );
@@ -61,7 +61,7 @@ public class ValueNode extends PNode {
         final PSwing spinnerPSwing = new PSwing( spinner );
         text.setFont( textFont );
         text.setOffset( spinnerPSwing.getFullBoundsReference().getCenterX() - text.getFullBoundsReference().width / 2,
-                spinnerPSwing.getFullBoundsReference().getCenterY() - text.getFullBoundsReference().height / 2 );
+                        spinnerPSwing.getFullBoundsReference().getCenterY() - text.getFullBoundsReference().height / 2 );
 
         // Listen to the numericProperty that controls whether or not the
         // editable version is shown or the fixed text is shown.
@@ -76,19 +76,15 @@ public class ValueNode extends PNode {
                 }
             }
         } );
-    }
-
-    public void setNumberFormat( NumberFormat format ) {
-        this.numberFormat = format;
         JSpinner.DefaultEditor numberEditor = (JSpinner.DefaultEditor) getSpinnerEditor();
-        final NumberFormatter formatter = new NumberFormatter( format );
-        formatter.setValueClass( Integer.class );
-        numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( formatter ) );
+        numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) {{
+            setValueClass( Integer.class );
+        }} ) );
         spinner.setEditor( numberEditor );
         updateReadouts.update();
     }
 
-    public JComponent getSpinnerEditor(){
+    public JComponent getSpinnerEditor() {
         return spinner.getEditor();
     }
 }
