@@ -47,7 +47,7 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( symbol );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new Function0.Constant<Color>(Color.red ));
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
         // Listen to the proton property value and update the symbol accordingly.
@@ -58,12 +58,12 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,new Function0.Constant<Color>(Color.black ));
+        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
 
-        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new Function0<Color>() {
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new SignedIntegerFormat(),new Function0<Color>() {
             public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign
@@ -84,7 +84,6 @@ public class InteractiveSymbolNode extends PNode {
             }
         } ) {
             {
-                setNumberFormat( new SignedIntegerFormat() );
                 double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
                 setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
             }
