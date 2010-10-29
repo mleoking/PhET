@@ -3,10 +3,13 @@
 package edu.colorado.phet.buildanatom.developer;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 
@@ -23,7 +26,17 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
     public ProblemTypeSelectionDialog( Frame frame ) {
         super( frame, "Select Problem Types Allowed" );
         setPreferredSize( new Dimension(300, 400) );
-        add( new JCheckBox( "SymbolToSchematic" ) );
+        setLayout( new GridLayout(7, 1) );
+        add( new JCheckBox( "Prob type 1" ) );
+        add( new JCheckBox( "Prob type 2" ) );
+        add( new JCheckBox( "Prob type 3" ) );
+        add( new JCheckBox( "Prob type 4" ) );
+        add( new JCheckBox( "Prob type 5" ) );
+        add( new JCheckBox( "Prob type 6" ) );
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add( new JButton("Check All") );
+        buttonPanel.add( new JButton("Clear All") );
+        add( buttonPanel );
         pack();
     }
 }
