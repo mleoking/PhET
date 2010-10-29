@@ -32,7 +32,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
 
     private JCheckBoxMenuItem problemDialogVisableControl;
 
-    ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.getInstance();
+    ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.createInstance( getPhetFrame() );
 
     //----------------------------------------------------------------------------
     // Constructors
