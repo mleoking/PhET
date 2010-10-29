@@ -19,7 +19,18 @@ class VoltageMosaic extends MovieClip implements Observer {
         this.model = model;
         bitmapData = new BitmapData( sWidth, sHeight, false, 0xffffff );
         attachBitmap( bitmapData, getNextHighestDepth() );
+        //model.addObserver( this );
+        _visible = false;
+    }
+
+    public function start() {
         model.addObserver( this );
+        _visible = true;
+    }
+
+    public function stop() {
+        model.removeObserver( this );
+        _visible = false;
     }
 
     public function update( model:ChargeGroup ):Void {
