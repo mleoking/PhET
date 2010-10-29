@@ -31,7 +31,7 @@ public class SymbolToCountsView extends ProblemView {
 
     public SymbolToCountsView( BuildAnAtomGameModel model, GameCanvas canvas, SymbolToCountsProblem howManyParticlesProblem ) {
         super( model, canvas, howManyParticlesProblem );
-        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom(getClock()) );
+        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom(getClock()), true );
         symbolIndicatorNode.scale( 2.25 );
         symbolIndicatorNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width / 4 - symbolIndicatorNode.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
@@ -103,7 +103,7 @@ public class SymbolToCountsView extends ProblemView {
     public static class EntryPanel extends PNode {
         private final PText label;
         private final ValueNode valueNode;
-        private Property<Boolean> editable;
+        private final Property<Boolean> editable;
 
         public EntryPanel( String name, final Property<Integer> property ) {
             label = new PText( name ) {{
