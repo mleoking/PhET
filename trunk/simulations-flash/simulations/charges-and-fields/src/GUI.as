@@ -24,7 +24,7 @@ class GUI {
     var eFieldUnit_str: String = " V/m";		//used in E-field sensor label
     var angleUnit_str: String = " deg";		//used in E-field sensor label
 
-    //var bitmapData:BitmapData = new BitmapData(640,480,false,0x00ff00);
+//    var bitmapData:BitmapData = new BitmapData(640,480,false,0x00ff00);
 
     //constructor
     function GUI( model: ChargeGroup ) {
@@ -35,9 +35,12 @@ class GUI {
         _root.createEmptyMovieClip( "voltageMosaic_mc", _root.getNextHighestDepth() );
         _root.createEmptyMovieClip( "voltageHiRezMosaic_mc", _root.getNextHighestDepth() );
 
-        //    _root.createEmptyMovieClip("bitmapMosaic_mc",_root.getNextHighestDepth());
-        //
-        //    _root.bitmapMosaic_mc.attachBitmap(bitmapData,_root.bitmapMosaic_mc.getNextHighestDepth());
+        _root.attachMovie( "voltageMosaic", "advancedVoltageMosaic_mc", _root.getNextHighestDepth() ); // think of this like a constructor + addChild
+        _root.advancedVoltageMosaic_mc.init( model, 640, 480 );
+
+//        _root.createEmptyMovieClip("bitmapMosaic_mc",_root.getNextHighestDepth());
+        
+//        _root.bitmapMosaic_mc.attachBitmap(bitmapData,_root.bitmapMosaic_mc.getNextHighestDepth());
 
         _root.createEmptyMovieClip( "backgroundGrid_mc", _root.getNextHighestDepth() );
         _root.createEmptyMovieClip( "vaneGrid_mc", _root.getNextHighestDepth() );
