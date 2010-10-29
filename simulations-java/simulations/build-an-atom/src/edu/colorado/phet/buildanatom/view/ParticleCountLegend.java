@@ -67,13 +67,14 @@ public class ParticleCountLegend extends PNode {
             }
         } );
 
-        addChild( electronItem );
         addChild( protonItem );
         addChild( neutronItem );
+        addChild( electronItem );
 
         //Layout the components
-        protonItem.setOffset( 0, electronItem.getFullBounds().getMaxY() + OFFSET_Y );
+        protonItem.setOffset( 0, OFFSET_Y );
         neutronItem.setOffset( 0, protonItem.getFullBounds().getMaxY() + OFFSET_Y );
+        electronItem.setOffset( 0, neutronItem.getFullBounds().getMaxY() + OFFSET_Y );
         double iconX = 20 + Math.max( protonItem.textNode.getFullBounds().getMaxX(), Math.max( neutronItem.textNode.getFullBounds().getMaxX(), electronItem.textNode.getFullBounds().getMaxX() ) );//leftmost x where the grid items start
         protonItem.setIconXOffset( iconX );
         neutronItem.setIconXOffset( iconX );
