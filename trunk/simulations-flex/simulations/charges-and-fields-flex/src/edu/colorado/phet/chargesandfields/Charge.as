@@ -12,28 +12,28 @@ import mx.core.UIComponent;
 import mx.managers.IFocusManagerComponent;
 
 public class Charge extends UIComponent implements IFocusManagerComponent {
-    public var q : Number = 0;
+    public var q: Number = 0;
 
-    public var modelX : Number;
-    public var modelY : Number;
+    public var modelX: Number;
+    public var modelY: Number;
 
-    private var mosaic : VoltageMosaic;
+    private var mosaic: VoltageMosaic;
 
-    public var dragging : Boolean;
+    public var dragging: Boolean;
 
-    private var timer : Timer;
+    private var timer: Timer;
 
-    private var focusIsEnabled : Boolean = true;
+    private var focusIsEnabled: Boolean = true;
 
-    private static var tabNumber : int = 5000;
+    private static var tabNumber: int = 5000;
 
-    protected var chargeMC : Sprite;
+    protected var chargeMC: Sprite;
 
-    private var highlightSprite : Sprite;
+    private var highlightSprite: Sprite;
 
-    public var keyboardStep : Number = 5;
+    public var keyboardStep: Number = 5;
 
-    public function Charge( mosaic : VoltageMosaic ) {
+    public function Charge( mosaic: VoltageMosaic ) {
 
         this.tabEnabled = true;
         //this.tabIndex = tabNumber++;
@@ -42,24 +42,24 @@ public class Charge extends UIComponent implements IFocusManagerComponent {
         this.mosaic = mosaic;
         dragging = false;
 
-        timer = new Timer(50);
+        timer = new Timer( 50 );
 
-        timer.addEventListener(TimerEvent.TIMER, onTick);
+        timer.addEventListener( TimerEvent.TIMER, onTick );
 
         // make it appear hand-like
         this.useHandCursor = true;
         this.buttonMode = true;
 
-        addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-        addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+        addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+        addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 
         drawHighlight();
     }
 
-    public function drawHighlight() : void {
+    public function drawHighlight(): void {
 
-        var highlightRadius : Number = 15;
-        var highlightAlpha : Number = 0.8;
+        var highlightRadius: Number = 15;
+        var highlightAlpha: Number = 0.8;
 
         highlightSprite = new Sprite();
         highlightSprite.visible = false;
@@ -84,58 +84,56 @@ public class Charge extends UIComponent implements IFocusManagerComponent {
         highlightSprite.graphics.endFill();
     }
 
-    public function setDisplayPosition( x : Number, y : Number ) : void {
+    public function setDisplayPosition( x: Number, y: Number ): void {
         this.x = x;
         this.y = y;
 
         displayPositionToModel();
     }
 
-    private function displayPositionToModel() : void {
+    private function displayPositionToModel(): void {
         // TODO: integrate in scale. if we find this in the GUI
         modelX = x;
         modelY = y;
     }
 
-    public function mouseDown( evt : MouseEvent ) : void {
+    public function mouseDown( evt: MouseEvent ): void {
         startDrag();
         timer.start();
     }
 
-    public function mouseUp( evt : MouseEvent ) : void {
+    public function mouseUp( evt: MouseEvent ): void {
         timer.stop();
         stopDrag();
         displayPositionToModel();
         mosaic.draw();
     }
 
-    public function onTick( event : TimerEvent ) : void {
+    public function onTick( event: TimerEvent ): void {
         //trace("tick");
         displayPositionToModel();
         mosaic.draw();
     }
 
 
-
-
     /*
-    public function get focusEnabled():Boolean {
-        return focusIsEnabled;
-    }
+     public function get focusEnabled():Boolean {
+     return focusIsEnabled;
+     }
 
-    public function set focusEnabled( value:Boolean ):void {
-        focusIsEnabled = value;
-    }
+     public function set focusEnabled( value:Boolean ):void {
+     focusIsEnabled = value;
+     }
 
-    public function setFocus():void {
-    }
-    */
+     public function setFocus():void {
+     }
+     */
 
-    public override function get mouseFocusEnabled():Boolean {
+    public override function get mouseFocusEnabled(): Boolean {
         return true;
     }
 
-    public function keyCallback( event : KeyboardEvent ) : void {
+    public function keyCallback( event: KeyboardEvent ): void {
         //trace( event.keyCode );
 
         switch( event.keyCode ) {
@@ -159,12 +157,13 @@ public class Charge extends UIComponent implements IFocusManagerComponent {
         mosaic.draw();
     }
 
-    public override function drawFocus( isFocused:Boolean ):void {
-        if( isFocused ) {
+    public override function drawFocus( isFocused: Boolean ): void {
+        if ( isFocused ) {
             //chargeMC.alpha = 0.5;
             Application.application.addEventListener( KeyboardEvent.KEY_DOWN, keyCallback );
             highlightSprite.visible = true;
-        } else {
+        }
+        else {
             //chargeMC.alpha = 1;
             Application.application.removeEventListener( KeyboardEvent.KEY_DOWN, keyCallback );
             highlightSprite.visible = false;
