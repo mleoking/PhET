@@ -136,6 +136,31 @@ public class Model {
         return [ sumV, (red << 16) | (green << 8) | blue ];
     }
 
+    public function getVRatio( x: Number, y: Number ): Number {
+        var len: uint = chargeArray.length;
+        var sumV: Number = 0;
+        var maxV: Number = 20000;//voltage at which color will saturate
+        var red: Number;
+        var green: Number;
+        var blue: Number;
+
+        var xi: Number;
+        var yi: Number;
+        var dist: Number;
+
+        for ( var i: uint = 0; i < len; i++ ) {
+            var charge: Charge = chargeArray[i];
+            xi = charge.modelX;
+            yi = charge.modelY;
+
+            dist = Math.sqrt( (x - xi) * (x - xi) + (y - yi) * (y - yi) );
+            sumV += charge.q / dist;
+        }
+        sumV *= k;	//prefactor depends on units
+
+        return sumV / maxV;
+    }
+
     public function getVColor( x: Number, y: Number ): int {
         var len: int = chargeArray.length;
         var sumV: Number = 0;
