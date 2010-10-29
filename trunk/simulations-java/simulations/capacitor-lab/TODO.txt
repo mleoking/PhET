@@ -14,7 +14,6 @@ HIGH PRIORITY
 - add auto-zoom button to E-field detector
 - decide whether to use Property<T> for EFieldDetector
 - add geometry of wires to model
-- add geometry of battery to model
 - field detector body jerks up to upper-left of play area sometimes when dragging on a PSwing, general PSwing bug?
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?

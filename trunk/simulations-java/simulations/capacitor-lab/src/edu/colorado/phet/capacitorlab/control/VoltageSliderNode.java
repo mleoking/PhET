@@ -40,7 +40,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class VoltageSliderNode extends PhetPNode {
     
     // track properties
-    private static final double TRACK_LENGTH = 125;
     private static final Color TRACK_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 2f );
     
@@ -67,13 +66,13 @@ public class VoltageSliderNode extends PhetPNode {
     // mutable instance data
     private double voltage;
     
-    public VoltageSliderNode( DoubleRange voltageRange ) {
+    public VoltageSliderNode( DoubleRange voltageRange, double trackLength ) {
         
         this.voltageRange = new DoubleRange( voltageRange );
         listeners = new EventListenerList();
         
         // track
-        trackNode = new TrackNode( TRACK_LENGTH );
+        trackNode = new TrackNode( trackLength );
         addChild( trackNode );
         
         // ticks

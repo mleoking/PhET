@@ -15,14 +15,20 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public class Battery {
 
+    // immutable properties
     private final Point3D location;
+    private final double length, diameter;
+    
+    // mutable properties
     private double voltage;
     private Polarity polarity;
     
     private final EventListenerList listeners;
     
-    public Battery( Point3D location, double voltage ) {
+    public Battery( Point3D location, double length, double diameter, double voltage ) {
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
+        this.length = length;
+        this.diameter = diameter;
         this.voltage = voltage;
         this.polarity = getPolarity( voltage );
         listeners = new EventListenerList();
@@ -30,6 +36,14 @@ public class Battery {
     
     public Point3D getLocationReference() {
         return location;
+    }
+    
+    public double getLength() {
+        return length;
+    }
+    
+    public double getDiameter() {
+        return diameter;
     }
     
     /**
