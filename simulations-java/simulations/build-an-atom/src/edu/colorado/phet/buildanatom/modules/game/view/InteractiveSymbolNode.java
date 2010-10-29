@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class InteractiveSymbolNode extends PNode {
 
-    private static final Font SYMBOL_FONT = new PhetFont( 60, true );
+    private static final Font SYMBOL_FONT = new PhetFont( 90, true );
     private static final double WIDTH = 200;
     private static final double SPINNER_EDGE_OFFSET = 5;
 
