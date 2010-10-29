@@ -4,7 +4,6 @@ package edu.colorado.phet.buildanatom.developer;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
@@ -44,10 +44,18 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
     }};
 
     /**
-     * Constructor.
+     * Constructor.  This class is a singleton, so the constructor is not
+     * intended for direct invocation.
      */
-    public ProblemTypeSelectionDialog( Frame frame ) {
-        super( frame, "Select Problem Types Allowed" );
+    private ProblemTypeSelectionDialog() {
+
+        setTitle("Select Allowed Problem Types");
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+        // Center the window on the screen (initially - it will retain its
+        // position if moved after that).
+        setLocationRelativeTo(null);
+
         setPreferredSize( new Dimension( 300, 400 ) );
         setLayout( new GridLayout( 7, 1 ) );
         add( symbolToCountsProblemAllowed );
@@ -77,6 +85,15 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         }});
         add( buttonPanel );
         pack();
+    }
+
+    // Get the instance of this singleton.
+    static ProblemTypeSelectionDialog instance = null;
+    public static ProblemTypeSelectionDialog getInstance(){
+        if ( instance == null ){
+            instance = new ProblemTypeSelectionDialog();
+        }
+        return instance;
     }
 
     public boolean isSymbolToSchematicProblemAllowed() {
