@@ -1,4 +1,4 @@
-﻿//Class describing a collection (group) of source charges and test charges
+//Class describing a collection (group) of source charges and test charges
 class ChargeGroup extends Observable{
 	private var k:Number = 0.5*1E6;  			//prefactor in E-field equation: E= k*Q/r^2
 	private var RtoD:Number = 180/Math.PI;		//convert radians to degrees
@@ -107,7 +107,33 @@ class ChargeGroup extends Observable{
 		}
 		return [sumV,colorNbr];
 	}
-	
+
+    function getColor(x:Number,y:Number):Number{
+		var Qarr:Array = this.charge_array;
+		var len:Number = Qarr.length;
+		var sumV:Number = 0;
+		var maxV = 20000;//voltage at which color will saturate
+		var red:Number;
+		var green:Number;
+		var blue:Number;
+
+		for(var i = 0; i < len ; i++){
+			var xi = Qarr[i].x;
+			var yi = Qarr[i].y;
+			var dist = Math.sqrt((x - xi)*(x - xi) + (y - yi)*(y - yi));
+			sumV += Qarr[i].q/dist;
+		}
+		sumV = this.k*sumV;	//prefactor depends on units
+		//set color associated with voltage
+			if(sumV>0){
+				red =255;
+				green = blue = Math.max(0,(1-(sumV/maxV))*255);
+			}else{
+				blue = 255;
+				red = green = Math.max(0,(1-(-sumV/maxV))*255);
+			}
+		return (red << 16)|(green<<8)|blue;
+	}
 	
 	function getEX(x:Number, y:Number):Number{
 		var Qarr:Array = this.charge_array;
