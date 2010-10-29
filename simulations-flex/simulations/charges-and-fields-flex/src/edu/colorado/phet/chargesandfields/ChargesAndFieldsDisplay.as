@@ -58,7 +58,7 @@ public class ChargesAndFieldsDisplay extends UIComponent {
         myWidth = this.stage.stageWidth;
         myHeight = this.stage.stageHeight;
         background.changeSize( myWidth, myHeight );
-        mosaic.changeSize( myWidth, myHeight );
+        mosaic.setSize( myWidth, myHeight );
     }
 
     public function clearCharges(): void {

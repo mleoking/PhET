@@ -18,23 +18,20 @@ public class VoltageMosaic extends Sprite {
 
     [Bindable]
     public var step: int = 10;
-    var bitmapData: BitmapData = new BitmapData( 500, 500, false, 0xffffff );
-    var bitmap: Bitmap = new Bitmap( bitmapData );
+    var bitmapData: BitmapData;
+    var bitmap: Bitmap = null;
 
     public function VoltageMosaic( model: Model, w: Number, h: Number ) {
         this.model = model;
-        myWidth = w;
-        myHeight = h;
-
-        addChild( bitmap );
-
-        draw();
+        setSize( w, h );
     }
 
-    public function changeSize( w: Number, h: Number ): void {
+    public function setSize( w: Number, h: Number ): void {
         myWidth = w;
         myHeight = h;
-        removeChild( bitmap );
+        if ( bitmap != null ) {
+            removeChild( bitmap );
+        }
         bitmapData = new BitmapData( w, h, false, 0xffffff );
         bitmap = new Bitmap( bitmapData );
         addChild( bitmap );
