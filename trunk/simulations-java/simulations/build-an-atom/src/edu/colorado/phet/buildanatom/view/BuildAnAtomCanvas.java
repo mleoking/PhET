@@ -119,7 +119,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( elementIndicatorWindow );
 
         // Symbol indicator
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), false);
+        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), false );
         symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
         //PDebug.debugBounds = true;//helps get the layout and bounds correct
         final double insetX = 20;
