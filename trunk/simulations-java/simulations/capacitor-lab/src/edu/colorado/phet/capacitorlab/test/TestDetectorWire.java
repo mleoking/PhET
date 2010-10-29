@@ -32,13 +32,14 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class TestDetectorWire extends JFrame {
     
-    private static final double YAW = Math.toRadians(0 ); // rotation about the vertical axis, creates pseudo-3D perspective
+    private static final double YAW = Math.toRadians( 45 ); // rotation about the vertical axis, creates pseudo-3D perspective
     
     // wire is a cubic curve, these are the control point deltas
     private static final double WIRE_CONTROL_POINT_DX = -25;
     private static final double WIRE_CONTROL_POINT_DY = 100;
     
-    // field detector body, simplified
+    // field detector body, simplified.
+    // origin at upper-left of bounding rectangle.
     private static class BodyNode extends PPath {
         public BodyNode() {
             setPathTo( new Rectangle2D.Double( 0, 0, 200, 100 ) );
@@ -46,7 +47,8 @@ public class TestDetectorWire extends JFrame {
         }
     }
     
-    // field detector probe, rotated so that it's aligned with the pseudo-3D perspective
+    // field detector probe, rotated so that it's aligned with the pseudo-3D perspective.
+    // origin at center of image crosshairs.
     private static class ProbeNode extends PhetPNode {
         public ProbeNode() {
             
@@ -57,8 +59,8 @@ public class TestDetectorWire extends JFrame {
             imageNode.setOffset( x, y );
             imageNode.scale( 0.65 );
             
-            //XXX This is wrong, need to rotate the imageNode so that crosshairs are still at origin.
-            this.setRotation( YAW ); // rotate this, not the imageNode
+            //XXX problem: doesn't rotate around center of crosshairs, compare with YAW=0
+            this.rotate( YAW );
         }
     }
     
@@ -112,7 +114,7 @@ public class TestDetectorWire extends JFrame {
         // connect to end of probe handle, account for probe rotation
         private Point2D getProbeConnectionPoint() {
             /*
-             * XXX
+             * XXX problem:
              * Messing with rotation here causes the probe's CursorHandler and PDragEventHandler to behave incorrectly.
              * The cursor only changes when over a small upper-right portion of the probe image.
              * And the probe disappears when dragged into the upper-right corner of the canvas.
