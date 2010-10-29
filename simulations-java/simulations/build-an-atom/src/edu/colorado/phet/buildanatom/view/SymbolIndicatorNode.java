@@ -25,6 +25,7 @@ public class SymbolIndicatorNode extends PNode {
 
     public static final Font SYMBOL_FONT = new PhetFont( 28, true );
     public static final Font NUMBER_FONT = new PhetFont( 20, true );
+    public static final Font ELEMENT_NAME_FONT = new PhetFont( 16, true );
 
     private final Atom atom;
     private final PText symbol;
@@ -32,6 +33,7 @@ public class SymbolIndicatorNode extends PNode {
     private final PNode boundingBox;
     private final PText massNumberNode;
     private final PText chargeNode;
+    private final PText elementName;
 
     public SymbolIndicatorNode( final Atom atom) {
         //has to be big enough to hold Ne with 2 digit numbers on both sides
@@ -60,14 +62,22 @@ public class SymbolIndicatorNode extends PNode {
         protonCount.setTextPaint( Color.RED );
         addChild( protonCount );
 
+        // Mass number.
         massNumberNode = new PText();
         massNumberNode.setFont( NUMBER_FONT );
         massNumberNode.setTextPaint( Color.BLACK );
         addChild( massNumberNode );
 
+        // Charge value indicator.
         chargeNode = new PText();
         chargeNode.setFont(NUMBER_FONT);
         addChild( chargeNode );
+
+        // Element name.
+        elementName = new PText();
+        elementName.setFont( NUMBER_FONT );
+        elementName.setTextPaint( Color.RED );
+        addChild( elementName );
 
         updateSymbol();
     }
@@ -111,5 +121,21 @@ public class SymbolIndicatorNode extends PNode {
         if (chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX()){
             chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth()-TEXT_INSET,chargeNode.getOffset().getY() );
         }
+
+        elementName.setScale( 1 );
+        if ( atom.getNumProtons() > 0 ){
+            elementName.setText( Atom.getName( atom.getNumProtons() ) );
+        }
+        else{
+            elementName.setText( "" );
+        }
+        if (elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
+            // Make sure the caption is not wider than the bounding box and,
+            // if it is, scale it to fit.
+            setScale(boundingBox.getFullBoundsReference().width / elementName.getFullBoundsReference().width );
+        }
+        elementName.setOffset(
+                boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
+                boundingBox.getFullBoundsReference().getMaxY() );
     }
 }
