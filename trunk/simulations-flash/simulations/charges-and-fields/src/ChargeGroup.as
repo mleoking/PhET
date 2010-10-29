@@ -4,24 +4,24 @@ class ChargeGroup extends Observable{
 	private var RtoD:Number = 180/Math.PI;		//convert radians to degrees
 	public var charge_array:Array;		//source charges make E-field
 	public var sensor_array:Array;		//test charges measure E-field
-	
+
 	function ChargeGroup(){
 		charge_array = new Array();
 		sensor_array = new Array();
 		}
-	
+
 	function addCharge(charge1:Charge):Void{
 		this.charge_array.push(charge1);		//new charge added to end of array
 		this.setChanged();
 		this.notifyObservers();
 		//trace("Charge added.  Array length is: "+ charge_array.length);
 	}
-	
+
 	function addSensor(charge1:Charge):Void{
 		this.sensor_array.push(charge1);
-		
+
 	}
-	
+
 	function removeCharge(charge:Charge):Boolean{				//removes 1 array element at index i
 		var len:Number = this.charge_array.length;
 		for(var i = 0; i < len; i++){
@@ -35,11 +35,11 @@ class ChargeGroup extends Observable{
 		}
 		return false;
 	}
-	
+
 	function hasCharges() : Boolean {
 		return charge_array.length != 0;
 	}
-	
+
 	function removeSensor(i:Number):Void{
 		if( i >= 0 && i < this.sensor_array.length){
 			this.sensor_array.splice(i,1);  //removes 1 array element at index i
@@ -47,7 +47,7 @@ class ChargeGroup extends Observable{
 			trace("TestChargeArray index out of bounds or array is empty.")
 		}
 	}
-	
+
 	function getE(x:Number,y:Number):Array {
 		var EMag:Number;	//Magnitude of E-field
 		var EAng:Number;	//Angle of E-field
@@ -65,13 +65,13 @@ class ChargeGroup extends Observable{
 		}
 		var EX = this.k*sumX;	//prefactor depends on units
 		var EY = this.k*sumY;
-		
+
 		EMag = Math.sqrt(EX*EX+EY*EY);
 		EAng = this.RtoD*Math.atan2(EY, EX);
 		//trace("  sumX:  "+sumX+"  sumY:  "+sumY+"   sumY/sumX:  "+sumY/sumX+"   angel: "+EAng);
 		return [EMag, EAng, EX, EY];
 	}
-	
+
 	//returns voltage and color nbr (RGB values) associated with voltage
 	function getV(x:Number,y:Number):Array{
 		var V:Number;	//Voltage at point x, y
@@ -83,7 +83,7 @@ class ChargeGroup extends Observable{
 		var green:Number;
 		var blue:Number;
 		var colorNbr;  	//RGB number of color associated with voltage
-		
+
 		for(var i = 0; i < len ; i++){
 			var xi = Qarr[i].x;
 			var yi = Qarr[i].y;
@@ -108,33 +108,36 @@ class ChargeGroup extends Observable{
 		return [sumV,colorNbr];
 	}
 
-    function getColor(x:Number,y:Number):Number{
-		var Qarr:Array = this.charge_array;
-		var len:Number = Qarr.length;
-		var sumV:Number = 0;
-		var maxV = 20000;//voltage at which color will saturate
-		var red:Number;
-		var green:Number;
-		var blue:Number;
+    function getColor( x:Number, y:Number ):Number {
+        var len:Number = charge_array.length;
+        var sumV:Number = 0;
+        for ( var i = 0; i < len; i++ ) {
+            var charge:Charge = charge_array[i];
+            var xi = charge.x;
+            var yi = charge.y;
+            sumV += charge.q / Math.sqrt( (x - xi) * (x - xi) + (y - yi) * (y - yi) );
+        }
+        sumV = this.k * sumV;	//prefactor depends on units
+        //set color associated with voltage
 
-		for(var i = 0; i < len ; i++){
-			var xi = Qarr[i].x;
-			var yi = Qarr[i].y;
-			var dist = Math.sqrt((x - xi)*(x - xi) + (y - yi)*(y - yi));
-			sumV += Qarr[i].q/dist;
-		}
-		sumV = this.k*sumV;	//prefactor depends on units
-		//set color associated with voltage
-			if(sumV>0){
-				red =255;
-				green = blue = Math.max(0,(1-(sumV/maxV))*255);
-			}else{
-				blue = 255;
-				red = green = Math.max(0,(1-(-sumV/maxV))*255);
-			}
-		return (red << 16)|(green<<8)|blue;
-	}
-	
+        var red:Number;
+        var green:Number;
+        var blue:Number;
+        if ( sumV > 0 ) {
+            // saturates at 20000
+            //            green = blue = Math.max( 0, (1 - (sumV / 20000)) * 255 );
+            var bright = Math.max( 0, 255 - sumV * 0.01275 );
+            return 16711680 | (bright << 8) | bright; // 255,bright,bright color
+        }
+        else {
+            // saturates at 20000
+            //            red = green = Math.max( 0, (1 - (-sumV / 20000)) * 255 );
+            var bright =  Math.max( 0, 255 + sumV * 0.01275 );
+            return (bright << 16) | (bright << 8) | 255; // bright,bright,255 color
+        }
+//        return (red << 16) | (green << 8) | blue;
+    }
+
 	function getEX(x:Number, y:Number):Number{
 		var Qarr:Array = this.charge_array;
 		var sum:Number = 0;
@@ -160,7 +163,7 @@ class ChargeGroup extends Observable{
 		sum = k*sum;	//prefactor depends on units
 		return sum;
 	}
-	
+
 	//starting at (xInit, yInit), find final position distance delS along equipotential
 	function getMoveToSameVPos(VInit:Number, delS:Number, xInit:Number, yInit:Number):Array{
 		var E0_array = this.getE(xInit,yInit);  //E_array = [EMag, EAng, EX, EY]
@@ -182,8 +185,8 @@ class ChargeGroup extends Observable{
 		var yFinal = yMid + delX*EYMid/EXMid;
 		return [xFinal,yFinal];
 	}
-	
-	//starting at (xInit,yInit) move along E-field direction and get (x,y) position at which voltage is targetV 
+
+	//starting at (xInit,yInit) move along E-field direction and get (x,y) position at which voltage is targetV
 	//this function unused at present
 	function getTargetVPos(targetV:Number,xInit:Number,yInit:Number):Array{
 		var E_array = this.getE(xInit,yInit);  //E_array = [EMag, EAng, EX, EY]
@@ -200,7 +203,7 @@ class ChargeGroup extends Observable{
 		//trace("delEAng: "+delEAng);
 		return [xFinal,yFinal];
 	}//end of getTargetVPos
-	
+
 	//override notifyObservers method
 	public function notifyObservers():Void{
 		if(!this.changed){
@@ -211,11 +214,11 @@ class ChargeGroup extends Observable{
 		var observersSnapshot:Array = this.observers.slice(0);
 		this.clearChanged();
 		//Invoke update on all observers.  Count backwards because it is quicker, says Moock (Really? Is it simply because initialization of counter is set only once? -MD)
-		
+
 		for (var i:Number = observersSnapshot.length-1; i >=0; i--){
 			//every observer must implement interface Observer and have an update() method
 			observersSnapshot[i].update(this);
 		}
 	}//end of notifyObservers
-	
+
 }//end of class ChargeGroup
