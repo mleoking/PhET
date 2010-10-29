@@ -25,7 +25,7 @@ public class SymbolIndicatorNode extends PNode {
 
     public static final Font SYMBOL_FONT = new PhetFont( 28, true );
     public static final Font NUMBER_FONT = new PhetFont( 20, true );
-    public static final Font ELEMENT_NAME_FONT = new PhetFont( 16, true );
+    public static final Font ELEMENT_NAME_FONT = new PhetFont( 12, true );
 
     private final Atom atom;
     private final PText symbol;
@@ -75,7 +75,7 @@ public class SymbolIndicatorNode extends PNode {
 
         // Element name.
         elementName = new PText();
-        elementName.setFont( NUMBER_FONT );
+        elementName.setFont( ELEMENT_NAME_FONT );
         elementName.setTextPaint( Color.RED );
         if ( showElementName ){
             addChild( elementName );
@@ -134,7 +134,7 @@ public class SymbolIndicatorNode extends PNode {
         if (elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
             // Make sure the caption is not wider than the bounding box and,
             // if it is, scale it to fit.
-            setScale(boundingBox.getFullBoundsReference().width / elementName.getFullBoundsReference().width );
+            elementName.setScale( boundingBox.getFullBoundsReference().width / elementName.getFullBoundsReference().width );
         }
         elementName.setOffset(
                 boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
