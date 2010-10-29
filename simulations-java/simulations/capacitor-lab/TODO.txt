@@ -16,7 +16,6 @@ HIGH PRIORITY
 - add geometry of wires to model
 - add geometry of battery to model
 - field detector body jerks up to upper-left of play area sometimes when dragging on a PSwing, general PSwing bug?
-- rotate field detector probe by -mvt.getYaw(), handle wire connection
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 
