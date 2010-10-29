@@ -1,3 +1,4 @@
+Added a developer dialog that allows the specification of the allowed problem types for the game.
 Added the ability to display the element name to the symbol display nodes.
 Made symbol larger on the interactive symbol node.
 # 1.00.02 (45521) Oct 27, 2010
