@@ -44,6 +44,16 @@ public class Atom extends SimpleObservable{
         put(8, new AtomName( BuildAnAtomStrings.ELEMENT_OXYGEN_NAME));
         put(9, new AtomName( BuildAnAtomStrings.ELEMENT_FLUORINE_NAME));
         put(10, new AtomName(BuildAnAtomStrings.ELEMENT_NEON_NAME));
+        put(11, new AtomName(BuildAnAtomStrings.ELEMENT_SODIUM_NAME));
+        put(12, new AtomName(BuildAnAtomStrings.ELEMENT_MAGNESIUM_NAME));
+        put(13, new AtomName(BuildAnAtomStrings.ELEMENT_ALUMINUM_NAME));
+        put(14, new AtomName(BuildAnAtomStrings.ELEMENT_SILICON_NAME));
+        put(15, new AtomName(BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME));
+        put(16, new AtomName(BuildAnAtomStrings.ELEMENT_SULPHER_NAME));
+        put(17, new AtomName(BuildAnAtomStrings.ELEMENT_CHLORINE_NAME));
+        put(18, new AtomName(BuildAnAtomStrings.ELEMENT_ARGON_NAME));
+        put(19, new AtomName(BuildAnAtomStrings.ELEMENT_POTASSIUM_NAME));
+        put(20, new AtomName(BuildAnAtomStrings.ELEMENT_CALCIUM_NAME));
     }};
 
     // List of stable isotopes for the first 2 rows of the periodic table
@@ -311,7 +321,7 @@ public class Atom extends SimpleObservable{
         }
         else if (!electronShell3.isFull()){
             electronShell3.addElectron(electron);
-            notifyObservers(); 
+            notifyObservers();
         }else {
             // Too many electrons.  The sim should be designed such that this
             // does not occur.  If it does, it should be debugged.
