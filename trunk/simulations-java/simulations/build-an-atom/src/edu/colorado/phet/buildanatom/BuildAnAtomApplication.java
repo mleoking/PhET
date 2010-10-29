@@ -9,7 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
@@ -21,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.neuron.developer.HodgkinHuxleyInternalDynamicsDlg;
 
 /**
  * The main application for this simulation.
@@ -34,23 +32,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
 
     private JCheckBoxMenuItem problemDialogVisableControl;
 
-    ProblemTypeSelectionDialog problemTypeSelectionDialog = new ProblemTypeSelectionDialog( getPhetFrame() ){{
-        // Just hide when closed so we don't have to keep recreating it.
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-        // Center the window on the screen (initially - it will retain its
-        // position if moved after that).
-        setLocationRelativeTo(null);
-
-        // Clear the check box if the user closes this by closing the
-        // dialog itself.
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e){
-                problemDialogVisableControl.setSelected(false);
-            }
-        });
-    }};
+    ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.getInstance();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -111,6 +93,15 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
                 setProblemTypeDialogVisible(problemDialogVisableControl.isSelected());
             }
         } );
+
+        // Add a listener that will clear the check mark if the user closes
+        // the problem selection dialog directly.
+        problemTypeSelectionDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e){
+                problemDialogVisableControl.setSelected(false);
+            }
+        });
     }
 
     /**
