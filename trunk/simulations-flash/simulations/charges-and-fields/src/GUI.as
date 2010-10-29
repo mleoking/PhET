@@ -193,21 +193,25 @@ class GUI {
     }
 
     function voltageTileOn() {
-        var mosaic_mc = _root.voltageMosaic_mc;
-        mosaic_mc._visible = true;
-        for ( var clip in mosaic_mc ) {
-            this.model.addObserver( mosaic_mc[clip] );
-        }
+//        var mosaic_mc = _root.voltageMosaic_mc;
+//        mosaic_mc._visible = true;
+//        for ( var clip in mosaic_mc ) {
+//            this.model.addObserver( mosaic_mc[clip] );
+//        }
+        _root.advancedVoltageMosaic_mc.start();
         this.model.setChanged();
         this.model.notifyObservers();
+        trace( "on" );
     }
 
     function voltageTileOff() {
         var mosaic_mc = _root.voltageMosaic_mc;
         mosaic_mc._visible = false
-        for ( var clip in mosaic_mc ) {
-            this.model.removeObserver( mosaic_mc[clip] );
-        }
+//        for ( var clip in mosaic_mc ) {
+//            this.model.removeObserver( mosaic_mc[clip] );
+//        }
+        _root.advancedVoltageMosaic_mc.stop();
+        trace( "off" );
     }
 
 
