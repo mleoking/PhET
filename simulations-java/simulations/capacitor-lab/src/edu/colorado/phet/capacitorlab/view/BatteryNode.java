@@ -2,17 +2,23 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import java.awt.Color;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Visual representation of a DC battery, with a control for setting its voltage.
@@ -27,7 +33,7 @@ public class BatteryNode extends PhetPNode {
     private final PImage imageNode;
     private final VoltageSliderNode sliderNode;
     
-    public BatteryNode( final Battery battery, DoubleRange voltageRange ) {
+    public BatteryNode( final Battery battery, ModelViewTransform mvt, boolean dev, DoubleRange voltageRange ) {
         
         this.battery = battery;
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
@@ -41,10 +47,18 @@ public class BatteryNode extends PhetPNode {
             }
         });
         
+        // battery image, scaled to match model dimensions
         imageNode = new PImage( CLImages.BATTERY_UP );
         addChild( imageNode );
+        double imageWidth = mvt.modelToViewDelta( battery.getDiameter(), 0, 0 ).getX();
+        double imageHeight = mvt.modelToViewDelta( 0, battery.getLength(), 0 ).getY();
+        double xScale = imageWidth / imageNode.getFullBoundsReference().getWidth();
+        double yScale = imageHeight / imageNode.getFullBoundsReference().getHeight();
+        imageNode.setTransform( AffineTransform.getScaleInstance( xScale, yScale ) );
         
-        sliderNode = new VoltageSliderNode( voltageRange );
+        // voltage slider
+        double trackLength = 0.60 * imageHeight;
+        sliderNode = new VoltageSliderNode( voltageRange, trackLength );
         addChild( sliderNode );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -59,6 +73,14 @@ public class BatteryNode extends PhetPNode {
         x = imageNode.getXOffset() + ( imageNode.getFullBoundsReference().getWidth() - sliderNode.getFullBoundsReference().getWidth() ) / 2; // horizontally centered
         y = imageNode.getYOffset() + 60; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
+        
+        // show model bounds
+        if ( dev ) {
+            PPath batteryPathNode = new PPath( new Rectangle2D.Double( 0, 0, imageWidth, imageHeight ) );
+            batteryPathNode.setStrokePaint( Color.RED );
+            addChild( batteryPathNode );
+            batteryPathNode.setOffset( imageNode.getOffset() );
+        }
         
         updateNode();
     }

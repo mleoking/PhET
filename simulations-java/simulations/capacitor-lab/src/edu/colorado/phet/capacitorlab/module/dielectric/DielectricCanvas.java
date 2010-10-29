@@ -80,7 +80,7 @@ public class DielectricCanvas extends CLCanvas {
         
         mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
         
-        batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
+        batteryNode = new BatteryNode( model.getBattery(), mvt, dev, CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );
         topWireNode = new TopWireNode( model.getTopWire(), model.getCapacitor(), model.getBattery(), mvt );
         bottomWireNode = new BottomWireNode( model.getBottomWire(), model.getCapacitor(), model.getBattery(), mvt );
