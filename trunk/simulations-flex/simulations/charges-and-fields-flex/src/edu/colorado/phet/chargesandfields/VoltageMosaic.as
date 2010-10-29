@@ -75,6 +75,10 @@ public class VoltageMosaic extends Sprite {
     public function changeSize( w: Number, h: Number ): void {
         myWidth = w;
         myHeight = h;
+        removeChild( bitmap );
+        bitmapData = new BitmapData( w, h, false, 0xffffff );
+        bitmap = new Bitmap( bitmapData );
+        addChild( bitmap );
         draw();
     }
 
