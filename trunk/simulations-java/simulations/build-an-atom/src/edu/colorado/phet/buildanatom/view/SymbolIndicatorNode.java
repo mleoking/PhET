@@ -35,7 +35,7 @@ public class SymbolIndicatorNode extends PNode {
     private final PText chargeNode;
     private final PText elementName;
 
-    public SymbolIndicatorNode( final Atom atom) {
+    public SymbolIndicatorNode( final Atom atom, boolean showElementName) {
         //has to be big enough to hold Ne with 2 digit numbers on both sides
         double width = 83;
         double height = 83;
@@ -77,7 +77,9 @@ public class SymbolIndicatorNode extends PNode {
         elementName = new PText();
         elementName.setFont( NUMBER_FONT );
         elementName.setTextPaint( Color.RED );
-        addChild( elementName );
+        if ( showElementName ){
+            addChild( elementName );
+        }
 
         updateSymbol();
     }
