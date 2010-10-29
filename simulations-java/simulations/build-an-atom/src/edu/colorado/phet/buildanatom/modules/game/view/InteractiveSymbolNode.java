@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
@@ -34,12 +35,14 @@ public class InteractiveSymbolNode extends PNode {
     private final Property<Integer> protonCountProperty=new Property<Integer>( 0 );
     private final Property<Integer> chargeProperty=new Property<Integer>( 0 );
 
+    // Controls the interactivity of this node, and modifications to it are
+    // monitored by the node itself in order to change its appearance.
     private final Property<Boolean> interactiveProperty;
 
     public InteractiveSymbolNode( boolean interactive, final boolean showCharge ) {
         interactiveProperty = new Property<Boolean>( interactive );
 
-        PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
+        final PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
         final PText symbol = new PText() {{
@@ -47,21 +50,32 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( symbol );
 
+        final PText elementName = new PText(){{
+            setFont( new PhetFont( 30 ) );
+            setTextPaint( Color.red );
+        }};
+        addChild( elementName );
+
         ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
-        // Listen to the proton property value and update the symbol accordingly.
+
+        // Listen to the proton property value and update the symbol and element name accordingly.
         protonCountProperty.addObserver( new SimpleObserver() {
             public void update() {
                 symbol.setText( protonCountProperty.getValue() == 0 ? "-" : PeriodicTableNode.getElementAbbreviation( protonCountProperty.getValue() ) );
                 symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, WIDTH / 2 - symbol.getFullBoundsReference().height / 2 );
+                elementName.setText( Atom.getName( protonCountProperty.getValue() ) );
+                elementName.setOffset(
+                        boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
+                        boundingBox.getFullBoundsReference().getMaxY() + 5);
+                elementName.setVisible( protonCountProperty.getValue() != 0 ); // Only show up for real elements.
             }
         } );
 
         final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
-
 
         ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new SignedIntegerFormat(),new Function0<Color>() {
             public Color apply() {
@@ -90,6 +104,7 @@ public class InteractiveSymbolNode extends PNode {
         };
         addChild( chargeValueNode );
         chargeValueNode.setVisible( showCharge );
+
     }
 
     /**
