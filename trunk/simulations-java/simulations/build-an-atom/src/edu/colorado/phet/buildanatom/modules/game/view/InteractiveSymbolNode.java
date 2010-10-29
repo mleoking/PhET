@@ -56,7 +56,7 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( elementName );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
 

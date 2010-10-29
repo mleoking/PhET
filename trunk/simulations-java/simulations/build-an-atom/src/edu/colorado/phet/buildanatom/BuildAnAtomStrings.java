@@ -49,18 +49,28 @@ public class BuildAnAtomStrings {
     public static final String ELEMENT_FLUORINE_NAME = getString( "element.fluorine.name" );
     public static final String ELEMENT_NEON_SYMBOL = getString( "element.neon.symbol" );
     public static final String ELEMENT_NEON_NAME = getString( "element.neon.name" );
+    public static final String ELEMENT_SODIUM_SYMBOL = getString( "element.sodium.symbol" );
+    public static final String ELEMENT_SODIUM_NAME = getString( "element.sodium.name" );
+    public static final String ELEMENT_MAGNESIUM_SYMBOL = getString( "element.magnesium.symbol" );
+    public static final String ELEMENT_MAGNESIUM_NAME = getString( "element.magnesium.name" );
+    public static final String ELEMENT_ALUMINIUM_SYMBOL = getString( "element.aluminium.symbol" );
+    public static final String ELEMENT_ALUMINUM_NAME = getString( "element.aluminium.name" );
+    public static final String ELEMENT_SILICON_SYMBOL = getString( "element.silicon.symbol" );
+    public static final String ELEMENT_SILICON_NAME = getString( "element.silicon.name" );
+    public static final String ELEMENT_PHOSPHORUS_SYMBOL = getString( "element.phosphorus.symbol" );
+    public static final String ELEMENT_PHOSPHORUS_NAME = getString( "element.phosphorus.name" );
+    public static final String ELEMENT_SULPHUR_SYMBOL = getString( "element.sulphur.symbol" );
+    public static final String ELEMENT_SULPHER_NAME = getString( "element.sulphur.name" );
+    public static final String ELEMENT_CHLORINE_SYMBOL = getString( "element.chlorine.symbol" );
+    public static final String ELEMENT_CHLORINE_NAME = getString( "element.chlorine.name" );
+    public static final String ELEMENT_ARGON_SYMBOL = getString( "element.argon.symbol" );
+    public static final String ELEMENT_ARGON_NAME = getString( "element.argon.name" );
+    public static final String ELEMENT_POTASSIUM_SYMBOL = getString( "element.potassium.symbol" );
+    public static final String ELEMENT_POTASSIUM_NAME = getString( "element.potassium.name" );
+    public static final String ELEMENT_CALCIUM_SYMBOL = getString( "element.calcium.symbol" );
+    public static final String ELEMENT_CALCIUM_NAME = getString( "element.calcium.name" );
 
     //Extra values for periodic table:
-    public static final String ELEMENT_SODIUM_SYMBOL = getString( "element.sodium.symbol" );
-    public static final String ELEMENT_MAGNESIUM_SYMBOL = getString( "element.magnesium.symbol" );
-    public static final String ELEMENT_ALUMINIUM_SYMBOL = getString( "element.aluminium.symbol" );
-    public static final String ELEMENT_SILICON_SYMBOL = getString( "element.silicon.symbol" );
-    public static final String ELEMENT_PHOSPHORUS_SYMBOL = getString( "element.phosphorus.symbol" );
-    public static final String ELEMENT_SULPHUR_SYMBOL = getString( "element.sulphur.symbol" );
-    public static final String ELEMENT_CHLORINE_SYMBOL = getString( "element.chlorine.symbol" );
-    public static final String ELEMENT_ARGON_SYMBOL = getString( "element.argon.symbol" );
-    public static final String ELEMENT_POTASSIUM_SYMBOL = getString( "element.potassium.symbol" );
-    public static final String ELEMENT_CALCIUM_SYMBOL = getString( "element.calcium.symbol" );
     public static final String ELEMENT_SCANDIUM_SYMBOL = getString( "element.scandium.symbol" );
     public static final String ELEMENT_TITANIUM_SYMBOL = getString( "element.titanium.symbol" );
     public static final String ELEMENT_VANADIUM_SYMBOL = getString( "element.vanadium.symbol" );
@@ -156,7 +166,7 @@ public class BuildAnAtomStrings {
 
     /* not intended for instantiation */
     private BuildAnAtomStrings() {}
-    
+
     public static final String TITLE_BUILD_ATOM_MODULE = getString( "title.buildAtomModule" );
     public static final String TITLE_GAME_MODULE = getString( "title.gameModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
