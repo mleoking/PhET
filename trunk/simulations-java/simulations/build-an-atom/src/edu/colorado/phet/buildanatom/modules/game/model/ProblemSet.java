@@ -3,8 +3,9 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.modules.game.view.Function0;
+import javax.swing.JCheckBox;
+
+import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level
@@ -37,29 +38,56 @@ public class ProblemSet {
      * @param atomValue
      * @return
      */
-    private Problem[] getPossibleProblems( BuildAnAtomGameModel model, AtomValue atomValue ) {
-        if ( atomValue.getProtons() <= 3 ) {//only use schematic mode when Lithium or smaller
-            return new Problem[] {
-                    new SymbolToSchematicProblem( model, atomValue ),
-                    new SchematicToSymbolProblem( model, atomValue ),
-                    new SymbolToCountsProblem( model, atomValue ),
-                    new CountsToSymbolProblem( model, atomValue ),
-                    new SchematicToElementProblem( model, atomValue ),
-                    new CountsToElementProblem( model, atomValue ),
-            };
+    private ArrayList<Problem> getPossibleProblems( BuildAnAtomGameModel model, AtomValue atomValue ) {
+
+        // Get the developer dialog that contains the information regarding
+        // which problem types are allowed.
+        // TODO: We may wish to remove this once interviews are complete.
+        ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
+
+        // Note: Due to the difficulty of being able to count the nucleons in
+        // the schematic view (a.k.a. the Bohr model), a restriction has been
+        // added so that we don't present this view for any atoms heavier than
+        // Lithium.  HOWEVER, this restriction is problematic if someone has
+        // used the developer controls to turn off all problem types except
+        // those involving the schematic view.  So, the rule is that we follow
+        // this restriction unless only schematic problems are enabled, and
+        // then the restriction goes out the window.
+        boolean onlySchematicProbsEnabled = (allowedProbsDlg.isSymbolToSchematicProblemAllowed() ||
+                allowedProbsDlg.isSchematicToElementProblemAllowed() ||
+                allowedProbsDlg.isSchematicToSymbolProblemAllowed()) &&
+                !allowedProbsDlg.isCountsToElementProblemAllowed() &&
+                !allowedProbsDlg.isCountsToSymbolProblemAllowed() &&
+                !allowedProbsDlg.isSymbolToCountsProblemAllowed();
+
+        ArrayList<Problem> problems = new ArrayList<Problem>();
+        if (allowedProbsDlg.isSymbolToCountsProblemAllowed()){
+            problems.add(new SymbolToCountsProblem( model, atomValue ));
         }
-        else {
-            return new Problem[] {
-                    new SymbolToCountsProblem( model, atomValue ),
-                    new CountsToSymbolProblem( model, atomValue ),
-                    new CountsToElementProblem( model, atomValue ),
-            };
+        if (allowedProbsDlg.isCountsToSymbolProblemAllowed()){
+            problems.add(new CountsToSymbolProblem( model, atomValue ));
         }
+        if (allowedProbsDlg.isCountsToElementProblemAllowed()){
+            problems.add(new CountsToElementProblem( model, atomValue ));
+        }
+        if (allowedProbsDlg.isSymbolToSchematicProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
+          //only use schematic mode when Lithium or smaller
+            problems.add(new SymbolToSchematicProblem( model, atomValue ));
+        }
+        if (allowedProbsDlg.isSchematicToSymbolProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
+            //only use schematic mode when Lithium or smaller
+            problems.add(new SchematicToSymbolProblem( model, atomValue ));
+        }
+        if (allowedProbsDlg.isSchematicToElementProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
+            //only use schematic mode when Lithium or smaller
+            problems.add(new SchematicToSymbolProblem( model, atomValue ));
+        }
+        return problems;
     }
 
     private Problem getProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
-        Problem[] problems = getPossibleProblems( model, atomValue );
-        return problems[random.nextInt( problems.length )];
+        ArrayList<Problem> problems = getPossibleProblems( model, atomValue );
+        return problems.get( random.nextInt( problems.size() ) );
     }
 
     public void addProblem( Problem problem) {

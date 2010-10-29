@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.developer;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,10 +37,10 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
     private final ArrayList<JCheckBox> checkBoxList = new ArrayList<JCheckBox>() {{
         add( symbolToSchematicProblemAllowed );
-        add( schematicToSymbolProblemAllowed );
         add( symbolToCountsProblemAllowed );
-        add( countsToSymbolProblemAllowed );
+        add( schematicToSymbolProblemAllowed );
         add( schematicToElementProblemAllowed );
+        add( countsToSymbolProblemAllowed );
         add( countsToElementProblemAllowed );
     }};
 
@@ -47,9 +48,9 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
      * Constructor.  This class is a singleton, so the constructor is not
      * intended for direct invocation.
      */
-    private ProblemTypeSelectionDialog() {
+    private ProblemTypeSelectionDialog(Frame parent) {
+        super(parent, "Select Allowed Problem Types");
 
-        setTitle("Select Allowed Problem Types");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         // Center the window on the screen (initially - it will retain its
@@ -59,10 +60,10 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         setPreferredSize( new Dimension( 300, 400 ) );
         setLayout( new GridLayout( 7, 1 ) );
         add( symbolToCountsProblemAllowed );
+        add( symbolToSchematicProblemAllowed );
         add( schematicToSymbolProblemAllowed );
-        add( symbolToCountsProblemAllowed );
-        add( countsToSymbolProblemAllowed );
         add( schematicToElementProblemAllowed );
+        add( countsToSymbolProblemAllowed );
         add( countsToElementProblemAllowed );
         JPanel buttonPanel = new JPanel( new FlowLayout() );
         buttonPanel.add( new JButton( "Check All" ){{
@@ -90,8 +91,16 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
     // Get the instance of this singleton.
     static ProblemTypeSelectionDialog instance = null;
     public static ProblemTypeSelectionDialog getInstance(){
-        if ( instance == null ){
-            instance = new ProblemTypeSelectionDialog();
+        assert instance != null; // Must be explicitly created before this can be called.
+        return instance;
+    }
+
+    public static ProblemTypeSelectionDialog createInstance(Frame parent){
+        if (instance == null){
+            instance = new ProblemTypeSelectionDialog( parent );
+        }
+        else{
+            System.err.println( "Warning: Multiple attempts to create this singleton." );
         }
         return instance;
     }
