@@ -18,7 +18,7 @@ class VoltageMosaic extends MovieClip implements Observer {
     public function init( model:ChargeGroup ) {
         this.model = model;
         bitmapData = new BitmapData( sWidth, sHeight, false, 0xffffff );
-        attachBitmap( bitmapData, getNextHighestDepth() );
+        attachBitmap( bitmapData, getNextHighestDepth(), "always" );
         //model.addObserver( this );
         _visible = false;
     }
@@ -40,6 +40,10 @@ class VoltageMosaic extends MovieClip implements Observer {
     public function drawTile( x:Number, y:Number, width:Number, height:Number ):Void {
         var rect:Rectangle = new Rectangle( x, y, width, height );
         bitmapData.fillRect( rect, model.getColor( x + width / 2, y + height / 2 ) )
+    }
+
+    public function clear():Void {
+        bitmapData.fillRect( new Rectangle( 0, 0, sWidth, sHeight ), 0xFFFFFF );
     }
 
     public function draw( step:Number ):Void {
