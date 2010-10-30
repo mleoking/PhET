@@ -24,13 +24,18 @@ class GUI {
     var eFieldUnit_str: String = " V/m";		//used in E-field sensor label
     var angleUnit_str: String = " deg";		//used in E-field sensor label
 
-    private var highResTileWidth: Number = 5;
-    private var highResTileHeight: Number = 5;
+    public var highResTileWidth: Number = 5;
+    public var highResTileHeight: Number = 5;
+
+    public var highResTileCols: Number = 640 / highResTileWidth;
+    public var highResTileRows: Number = 480 / highResTileHeight;
 
 //    var bitmapData:BitmapData = new BitmapData(640,480,false,0x00ff00);
 
     //constructor
     function GUI( model: ChargeGroup ) {
+
+        _root.gui = this;
 
         this.model = model;
         var thisGUI = this;
@@ -147,8 +152,8 @@ class GUI {
 
     //make position array for computing voltage tiles from center outward
     function makeRArray(): Array {
-        var xHalfLength: Number = 64; //64;		//must be even
-        var yHalfLength: Number = 48; //48;		//must be even
+        var xHalfLength: Number = highResTileCols; //64;		//must be even
+        var yHalfLength: Number = highResTileRows; //48;		//must be even
         var xMid: Number = 0;
         var yMid: Number = 0;
         var posList: Array = new Array( 2 * xHalfLength + 1, 2 * yHalfLength + 1 );
@@ -424,7 +429,9 @@ class GUI {
 
     function startHiResVoltageDrawingConcentric( x0: Number, y0: Number ): Void {
         clearInterval( this.colorVoltageIntervalID );
-        this.colorVoltageIntervalID = setInterval( this, "colorTilesOutward", 1 );
+        //this.colorVoltageIntervalID = setInterval( this, "colorTilesOutward", 1 );
+        _root.advancedVoltageMosaic_mc._visible = true;
+        _root.advancedVoltageMosaic_mc.draw( 5 );
     }
 
     function stopHiResVoltageDrawing(): Void {
@@ -432,11 +439,12 @@ class GUI {
         this.delI = 0;
         this.delJ = 0;
         //reset all tiles to white
-        for ( var i = 0; i < 64; i++ ) {
-            for ( var j = 0; j < 48; j++ ) {
-                _root.voltageHiRezMosaic_mc["tileX" + i + "tileY" + j].paneColor.setRGB( 0xFFFFFF )
-            }
-        }
+//        for ( var i = 0; i < highResTileCols; i++ ) {
+//            for ( var j = 0; j < highResTileRows; j++ ) {
+//                _root.voltageHiRezMosaic_mc["tileX" + i + "tileY" + j].paneColor.setRGB( 0xFFFFFF )
+//            }
+//        }
+        _root.advancedVoltageMosaic_mc.clear();
         _root.voltageHiRezMosaic_mc._visible = false;
     }
 
@@ -484,18 +492,18 @@ class GUI {
         var localPosLast = this.posLast;
         _root.advancedVoltageMosaic_mc._visible = true;
         _root.voltageHiRezMosaic_mc._visible = false;
-        for ( var n = 0; n < 48; n++ ) {
+        for ( var n = 0; n < highResTileRows; n++ ) {
             posArray = localRArray[localPosLast + n];
             xT = posArray[0] + localx0;
             yT = posArray[1] + localy0;
-            if ( xT >= 0 && xT < 64 && yT >= 0 && yT < 48 ) {
-                _root.advancedVoltageMosaic_mc.drawTile( xT * 10, yT * 10, 10, 10 );
+            if ( xT >= 0 && xT < highResTileCols && yT >= 0 && yT < highResTileRows ) {
+                _root.advancedVoltageMosaic_mc.drawTile( xT * highResTileWidth, yT * highResTileHeight, highResTileWidth, highResTileHeight );
 //                _root.voltageHiRezMosaic_mc["tileX" + xT + "tileY" + yT].update( this.model );
                 this.tileLast++;
             }
         }//end of n-loop
-        this.posLast = this.posLast + 48;
-        if ( this.tileLast > 64 * 48 ) {
+        this.posLast = this.posLast + highResTileRows;
+        if ( this.tileLast > highResTileCols * highResTileRows ) {
             this.pauseHiResVoltageDrawing();
             this.tileLast = 0;
         }
@@ -591,8 +599,8 @@ class GUI {
             //thisGUI.startHiResVoltageDrawing();
             //}
             if ( _root.controlPanel_mc.hiResVoltage_ch.checkState ) {
-                thisGUI.x0 = Math.floor( _root._xmouse / 10 );
-                thisGUI.y0 = Math.floor( _root._ymouse / 10 );
+                thisGUI.x0 = Math.floor( _root._xmouse / _root.gui.highResTileWidth );
+                thisGUI.y0 = Math.floor( _root._ymouse / _root.gui.highResTileHeight );
                 thisGUI.tileLast = 0;
                 thisGUI.posLast = 0;
                 thisGUI.startHiResVoltageDrawingConcentric();
@@ -680,8 +688,8 @@ class GUI {
             this.onMouseMove = undefined;
             //trace("hiResVoltage state ="+_root.controlPanel_mc.hiResVoltage_ch.checkState);
             if ( _root.controlPanel_mc.hiResVoltage_ch.checkState ) {
-                thisGUI.x0 = Math.floor( this._x / 10 );
-                thisGUI.y0 = Math.floor( this._y / 10 );
+                thisGUI.x0 = Math.floor( this._x / _root.gui.highResTileWidth );
+                thisGUI.y0 = Math.floor( this._y / _root.gui.highResTileHeight );
                 thisGUI.tileLast = 0;
                 thisGUI.posLast = 0;
                 thisGUI.startHiResVoltageDrawingConcentric();
