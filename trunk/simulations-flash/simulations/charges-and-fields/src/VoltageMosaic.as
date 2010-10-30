@@ -6,7 +6,7 @@ class VoltageMosaic extends MovieClip implements Observer {
     private var bitmapData:BitmapData;
     private var model:ChargeGroup;
 
-    public var movingStep:Number = 10;
+    public var movingStep:Number = 16;
 
     public var sWidth:Number = 640;
     public var sHeight:Number = 480;
@@ -35,6 +35,11 @@ class VoltageMosaic extends MovieClip implements Observer {
 
     public function update( model:ChargeGroup ):Void {
         draw( movingStep );
+    }
+
+    public function drawTile( x:Number, y:Number, width:Number, height:Number ):Void {
+        var rect:Rectangle = new Rectangle( x, y, width, height );
+        bitmapData.fillRect( rect, model.getColor( x + width / 2, y + height / 2 ) )
     }
 
     public function draw( step:Number ):Void {

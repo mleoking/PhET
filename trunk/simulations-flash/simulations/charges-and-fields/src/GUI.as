@@ -39,7 +39,7 @@ class GUI {
         _root.advancedVoltageMosaic_mc.init( model, 640, 480 );
 
 //        _root.createEmptyMovieClip("bitmapMosaic_mc",_root.getNextHighestDepth());
-        
+
 //        _root.bitmapMosaic_mc.attachBitmap(bitmapData,_root.bitmapMosaic_mc.getNextHighestDepth());
 
         _root.createEmptyMovieClip( "backgroundGrid_mc", _root.getNextHighestDepth() );
@@ -446,11 +446,14 @@ class GUI {
         var iA: Number = 0;
         var jA: Number = 0;
 
+        _root.advancedVoltageMosaic_mc._visible = true;
+        _root.voltageHiRezMosaic_mc._visible = false;
         for ( var i = 0; i < 8; i++ ) {
             for ( var j = 0; j < 6; j++ ) {
                 iA = i * 8 + delI;
                 jA = j * 8 + delJ;
-                _root.voltageHiRezMosaic_mc["tileX" + iA + "tileY" + jA].update( this.model );//_visible = false;
+//                _root.voltageHiRezMosaic_mc["tileX" + iA + "tileY" + jA].update( this.model );//_visible = false;
+                _root.advancedVoltageMosaic_mc.drawTile( iA * 10, jA * 10, 10, 10 );
             }
         }
         this.delI = (this.delI + 1) % 8;
@@ -469,12 +472,15 @@ class GUI {
         var yT: Number;
         var localTileLast = this.tileLast;
         var localPosLast = this.posLast;
+        _root.advancedVoltageMosaic_mc._visible = true;
+        _root.voltageHiRezMosaic_mc._visible = false;
         for ( var n = 0; n < 48; n++ ) {
             posArray = localRArray[localPosLast + n];
             xT = posArray[0] + localx0;
             yT = posArray[1] + localy0;
             if ( xT >= 0 && xT < 64 && yT >= 0 && yT < 48 ) {
-                _root.voltageHiRezMosaic_mc["tileX" + xT + "tileY" + yT].update( this.model );
+                _root.advancedVoltageMosaic_mc.drawTile( xT * 10, yT * 10, 10, 10 );
+//                _root.voltageHiRezMosaic_mc["tileX" + xT + "tileY" + yT].update( this.model );
                 this.tileLast++;
             }
         }//end of n-loop
