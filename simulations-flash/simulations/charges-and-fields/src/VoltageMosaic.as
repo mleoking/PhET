@@ -6,7 +6,7 @@ class VoltageMosaic extends MovieClip implements Observer {
     private var bitmapData:BitmapData;
     private var model:ChargeGroup;
 
-    public var movingStep:Number = 16;
+    public var movingStep:Number = 10;
 
     public var sWidth:Number = 640;
     public var sHeight:Number = 480;

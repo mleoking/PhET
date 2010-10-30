@@ -24,6 +24,9 @@ class GUI {
     var eFieldUnit_str: String = " V/m";		//used in E-field sensor label
     var angleUnit_str: String = " deg";		//used in E-field sensor label
 
+    private var highResTileWidth: Number = 5;
+    private var highResTileHeight: Number = 5;
+
 //    var bitmapData:BitmapData = new BitmapData(640,480,false,0x00ff00);
 
     //constructor
@@ -446,18 +449,25 @@ class GUI {
         var iA: Number = 0;
         var jA: Number = 0;
 
+        var tileWidth:Number = 5;
+        var tileHeight:Number = 5;
+        var groupWidth:Number = 8;
+        var groupHeight:Number = 8;
+        var numHGroups = 640 / (tileWidth * groupWidth);
+        var numVGroups = 480 / (tileHeight * groupHeight);
+
         _root.advancedVoltageMosaic_mc._visible = true;
         _root.voltageHiRezMosaic_mc._visible = false;
-        for ( var i = 0; i < 8; i++ ) {
-            for ( var j = 0; j < 6; j++ ) {
-                iA = i * 8 + delI;
-                jA = j * 8 + delJ;
+        for ( var i = 0; i < numHGroups; i++ ) {
+            for ( var j = 0; j < numVGroups; j++ ) {
+                iA = i * groupWidth + delI;
+                jA = j * groupHeight + delJ;
 //                _root.voltageHiRezMosaic_mc["tileX" + iA + "tileY" + jA].update( this.model );//_visible = false;
-                _root.advancedVoltageMosaic_mc.drawTile( iA * 10, jA * 10, 10, 10 );
+                _root.advancedVoltageMosaic_mc.drawTile( iA * tileWidth, jA * tileHeight, tileWidth, tileHeight );
             }
         }
-        this.delI = (this.delI + 1) % 8;
-        if ( this.delI == 0 ) {this.delJ = (this.delJ + 1) % 8;}
+        this.delI = (this.delI + 1) % groupWidth;
+        if ( this.delI == 0 ) {this.delJ = (this.delJ + 1) % groupHeight;}
         //stop drawing when stage refreshed, to make other controls speedy
         if ( this.delI == 0 && this.delJ == 0 ) {this.pauseHiResVoltageDrawing();}
     }
