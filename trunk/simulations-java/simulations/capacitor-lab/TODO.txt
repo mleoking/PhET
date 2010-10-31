@@ -3,22 +3,25 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
+- should simplified field detector have a different layout, optimized for what it shows? (Plate vector centered, narrower vector display area, Show Values checkbox below vectors?)
+- should the battery geometry model include the + terminal? is 2D plane sufficient?
+- what to do when detector probe moves to other side of detector body, should connecting wire switch sides?
+- zooming grid lines in E-Field Detector has the same scale issue as the vectors
 
 DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
-- what to do when detector probe moves to other side of detector body, should connecting wire switch sides?
-- should simplified field detector have a different layout, optimized for what it shows? (Plate vector centered, narrower vector display area, Show Values checkbox below vectors?)
 
 HIGH PRIORITY
 - rotate field detector probe
 - add auto-zoom button to E-field detector
-- decide whether to use Property<T> for EFieldDetector
 - add geometry of wires to model
-- field detector body jerks up to upper-left of play area sometimes when dragging on a PSwing, general PSwing bug?
+- add geometry of probes to model
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 
 MEDUIUM PRIORITY
+- nicer bending behavior of E-field detector wire, more natural attachment to probe
+- decide whether to use Property<T> for EFieldDetector
 - dynamic clipping planes for meter probes
 - collision detection of probes with battery and plates (OK to pass through wires and dielectric)
 - all features in Multiple Capacitors tab
@@ -34,7 +37,10 @@ LOW PRIORITY
 
 LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
+
+GENERAL BUGS
 - #2521, dragging HTMLNode leaves artifacts
+- #XXXX, dragging is broken for PSwing nodes
 
 MIGRATE TO PHETCOMMON
 - PolygonUtils

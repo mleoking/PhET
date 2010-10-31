@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.Color;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.ChangeEvent;
@@ -50,14 +49,9 @@ public class BatteryNode extends PhetPNode {
         // battery image, scaled to match model dimensions
         imageNode = new PImage( CLImages.BATTERY_UP );
         addChild( imageNode );
-        double imageWidth = mvt.modelToViewDelta( battery.getDiameter(), 0, 0 ).getX();
-        double imageHeight = mvt.modelToViewDelta( 0, battery.getLength(), 0 ).getY();
-        double xScale = imageWidth / imageNode.getFullBoundsReference().getWidth();
-        double yScale = imageHeight / imageNode.getFullBoundsReference().getHeight();
-        imageNode.setTransform( AffineTransform.getScaleInstance( xScale, yScale ) );
         
         // voltage slider
-        double trackLength = 0.60 * imageHeight;
+        double trackLength = 0.60 * imageNode.getFullBoundsReference().getHeight();
         sliderNode = new VoltageSliderNode( voltageRange, trackLength );
         addChild( sliderNode );
         sliderNode.addChangeListener( new ChangeListener() {
@@ -76,10 +70,14 @@ public class BatteryNode extends PhetPNode {
         
         // show model bounds
         if ( dev ) {
-            PPath batteryPathNode = new PPath( new Rectangle2D.Double( 0, 0, imageWidth, imageHeight ) );
+            double width = mvt.modelToViewDelta( battery.getDiameter(), 0, 0 ).getX();
+            double height = mvt.modelToViewDelta( 0, battery.getLength(), 0 ).getY();
+            PPath batteryPathNode = new PPath( new Rectangle2D.Double( 0, 0, width, height ) );
             batteryPathNode.setStrokePaint( Color.RED );
             addChild( batteryPathNode );
-            batteryPathNode.setOffset( imageNode.getOffset() );
+            x = -batteryPathNode.getFullBoundsReference().getWidth() / 2;
+            y = -batteryPathNode.getFullBoundsReference().getHeight() / 2;
+            batteryPathNode.setOffset( x, y );
         }
         
         updateNode();

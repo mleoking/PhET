@@ -39,8 +39,8 @@ public class CLConstants {
     //----------------------------------------------------------------------------
     
     public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.035, 0 ); // meters
-    public static final double BATTERY_LENGTH = 0.0145; // meters
-    public static final double BATTERY_DIAMETER = 0.007; // meters
+    public static final double BATTERY_LENGTH = 0.0135; // meters, determined by visual inspection of associated image file
+    public static final double BATTERY_DIAMETER = 0.0065; // meters, determined by visual inspection of associated image file
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // Volts
     public static final double BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD = 0.1; // Volts
     public static final boolean BATTERY_CONNECTED = true;
