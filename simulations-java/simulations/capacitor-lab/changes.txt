@@ -1,3 +1,6 @@
+10/30/10 confirm that E-field detector probe remains aligned with origin when rotated
+10/30/10 TestDragPSwing, test app to demonstrate a general problem with dragging PSwing nodes, see #2557
+10/30/10 decrease size of battery to match the part of the battery that's in the same 2D plane as the E-field probe
 10/29/10 add geometry of battery to model, needed by voltmeter and collision detection
 # 0.00.35 (45524) Oct 28, 2010
 10/28/10 demonstrate progress on E-field detector

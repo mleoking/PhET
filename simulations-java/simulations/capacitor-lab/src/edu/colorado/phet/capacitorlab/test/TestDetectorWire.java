@@ -54,12 +54,11 @@ public class TestDetectorWire extends JFrame {
             
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
+//            imageNode.scale( 0.65 ); // scale before setting offset!
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
             double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
-            imageNode.scale( 0.65 );
             
-            //XXX problem: doesn't rotate around center of crosshairs, compare with YAW=0
             this.rotate( YAW );
         }
     }
