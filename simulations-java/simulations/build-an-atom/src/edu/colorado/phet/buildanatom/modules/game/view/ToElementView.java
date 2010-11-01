@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
@@ -27,7 +28,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public abstract class ToElementView extends ProblemView {
-    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "Find the element:" );//todo i18n
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_FIND_THE_ELEMENT );
 
     private final GamePeriodicTable gamePeriodicTable = new GamePeriodicTable() {{
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth()*0.715 - getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.getHeight()/2-getFullBounds().getHeight()/2 );
@@ -105,7 +106,7 @@ public abstract class ToElementView extends ProblemView {
             final PSwing buttonPanelNode = new PSwing( new JPanel() {{
                 setOpaque( false );
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
-                add( new JRadioButton( "Neutral Atom" ) {{
+                add( new JRadioButton( BuildAnAtomStrings.GAME_NEUTRAL_ATOM ) {{
                     setOpaque( false );
                     setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                     final SimpleObserver updateSelected = new SimpleObserver() {
@@ -121,7 +122,7 @@ public abstract class ToElementView extends ProblemView {
                         }
                     } );
                 }} );
-                add( new JRadioButton( "Ion" ) {{
+                add( new JRadioButton( BuildAnAtomStrings.GAME_ION ) {{
                     setOpaque( false );
                     setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                     final SimpleObserver updateSelected = new SimpleObserver() {

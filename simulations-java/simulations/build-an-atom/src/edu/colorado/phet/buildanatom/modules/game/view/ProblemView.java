@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
@@ -38,13 +40,13 @@ public abstract class ProblemView extends StateView {
         super( model, problem, gameCanvas );
         this.problem = problem;
         gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
-        problemNumberDisplay = new PText( "Problem " + ( model.getProblemIndex( problem ) + 1 ) + " of " + model.getNumberProblems() ) {//todo i18n
-            {
+        final int problemIndex = model.getProblemIndex( problem ) + 1;
+        final int maxProblems = model.getNumberProblems();
+        problemNumberDisplay = new PText( MessageFormat.format( BuildAnAtomStrings.GAME_PROBLEM_INDEX_READOUT_PATTERN, problemIndex, maxProblems ) ) {{
                 setFont( new PhetFont( 20, true ) );
-            }
-        };
+            }};
         problemNumberDisplay.setOffset( 30, 30 );
-        checkButton = new GameButtonNode( "Check", BUTTON_OFFSET, new ActionListener() {//TODO: i18n
+        checkButton = new GameButtonNode( BuildAnAtomStrings.GAME_CHECK, BUTTON_OFFSET, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess( getGuess() );
                 resultNode.addChild( new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) ) {
@@ -53,14 +55,14 @@ public abstract class ProblemView extends StateView {
                         if ( problem.isSolvedCorrectly() ) {
                             setGuessEditable( false );
                             smile();
-                            addChild( new PText( "+" + problem.getScore() ) {
-                                {//TODO: i18n, consider messageformat
+                            addChild( new PText( "+" + problem.getScore() ) {//TODO: i18n, consider messageformat
+                                {
                                     setOffset( faceNode.getFullBounds().getWidth() / 2, faceNode.getFullBounds().getHeight() );
                                     setFont( new PhetFont( 24, true ) );
                                 }
                             } );
                             gameAudioPlayer.correctAnswer();
-                            GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {//TODO: i18n
+                            GameButtonNode nextProblemButton = new GameButtonNode( BuildAnAtomStrings.GAME_NEXT, BUTTON_OFFSET, new ActionListener() {
                                 public void actionPerformed( ActionEvent e ) {
                                     getModel().next();
                                     }
@@ -73,7 +75,7 @@ public abstract class ProblemView extends StateView {
                             gameAudioPlayer.wrongAnswer();
                             setGuessEditable( false );
                             if ( problem.getNumGuesses() == 1 ) {
-                                GameButtonNode tryAgainButton = new GameButtonNode( "Try Again", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
+                                GameButtonNode tryAgainButton = new GameButtonNode( BuildAnAtomStrings.GAME_TRY_AGAIN, BUTTON_OFFSET, new ActionListener() {
                                     public void actionPerformed( ActionEvent e ) {
                                         resultNode.removeAllChildren();
                                         checkButton.setVisible( true );
@@ -84,12 +86,12 @@ public abstract class ProblemView extends StateView {
                                 checkButton.setVisible( false );
                             }
                             else if ( problem.getNumGuesses() == 2 ) {
-                                GameButtonNode showAnswerButton = new GameButtonNode( "Show Answer", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
+                                GameButtonNode showAnswerButton = new GameButtonNode( BuildAnAtomStrings.GAME_SHOW_ANSWER, BUTTON_OFFSET, new ActionListener() {
                                     public void actionPerformed( ActionEvent e ) {
                                         displayAnswer( problem.getAnswer() );
                                         setGuessEditable( false );
                                         resultNode.removeAllChildren();
-                                        GameButtonNode nextProblemButton = new GameButtonNode( "Next", BUTTON_OFFSET, new ActionListener() {// TODO: i18n
+                                        GameButtonNode nextProblemButton = new GameButtonNode( BuildAnAtomStrings.GAME_NEXT, BUTTON_OFFSET, new ActionListener() {
                                             public void actionPerformed( ActionEvent e ) {
                                                 getModel().next();
                                                 }
@@ -111,6 +113,8 @@ public abstract class ProblemView extends StateView {
 
     /**
      * Applies the user's guess from the view/controller to the model (if it has not done so already).
+     *
+     * @return the gussed value
      */
     protected abstract AtomValue getGuess();
 
@@ -144,8 +148,8 @@ public abstract class ProblemView extends StateView {
         /**
          * Constructor.
          *
-         * @param centerLocation TODO
-         * @param listener       TODO
+         * @param centerLocation location on which to center the node
+         * @param listener       callback when the button is pressed
          */
         public GameButtonNode( String label, Point2D centerLocation, ActionListener listener ) {
             super( label, GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );

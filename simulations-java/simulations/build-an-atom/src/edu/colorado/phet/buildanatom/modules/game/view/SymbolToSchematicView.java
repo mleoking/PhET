@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 * @author Sam Reid
 */
 public class SymbolToSchematicView extends ProblemView {
-    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "Complete the model:" );//todo i18n
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_MODEL );
     private final SymbolIndicatorNode symbolIndicatorNode;
     private final InteractiveSchematicAtomNode interactiveSchematicAtomNode;
 

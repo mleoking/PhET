@@ -1,3 +1,4 @@
+Internationalized game
 Added a "neutral atom" / "ion" radio button selection for Guess the Element type problems
 Fixed a bug that prevented SchematicToElementProblem from appearing
 Added a developer dialog that allows the specification of the allowed problem types for the game.
