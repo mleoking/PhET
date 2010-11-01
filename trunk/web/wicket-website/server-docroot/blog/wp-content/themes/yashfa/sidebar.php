@@ -34,18 +34,45 @@
 
 			</li> <?php }?>
 
-			<li class="boxr clearfix archives"><h3><?php _e('Archives','yashfa')?></h3>
-				<ul>
-				<?php wp_get_archives('type=monthly&show_post_count=1'); ?>
-				</ul>
-			</li>
+            <li class="boxr linkcat">
+                <h3>About this Site</h3>
+                <ul>
+                    <li style="line-height: 150%;">
+                        PhET provides fun, interactive, <a href="/en/research">research-based</a> simulations of physical phenomena for free. We believe that our research-based approach- incorporating findings from prior research and our own testing- enables students to make connections between real-life phenomena and the underlying science, deepening their understanding and appreciation of the physical world.
+                    </li>
+                </ul>
+            </li>
 
+            <li class="boxr linkcat">
+                <h3>Links</h3>
+                <ul>
+                    <li><a href="/" target="_blank">PhET Home</a></li>
+                    <li><a href="/en/donate" target="_blank">Donate</a></li>
+                    <li><a href="/en/research" target="_blank">PhET Research</a></li>
+                    <li><a href="/en/about" target="_blank">About PhET</a></li>
+                </ul>
+            </li>
+
+            <li class="boxr linkcat">
+                <h3>Stay Connected</h3>
+                <ul>
+                    <li><a href="http://www.facebook.com/pages/PhET-Interactive-Simulations/87753699983?v=wall" target="_blank">Join us on <img style="vertical-align: middle;" src="/images/icons/social/facebook.png" alt="Facebook icon"/></a></li>
+                    <li><a href="http://twitter.com/PhETSims" target="_blank">Follow us on <img style="vertical-align: middle;" src="/images/icons/social/twitter.png" alt="Twitter icon"/></a></li>
+                    <li><a href="http://phet.colorado.edu/blog/feed/">RSS <img style="vertical-align: middle;" src="/images/icons/social/16/rss.png" alt="RSS icon"/></a></li>
+                </ul>
+            </li>
 
 			<li class="boxr clearfix archives">
 			<h3><?php _e('Categories','yashfa')?></h3>
 			<ul>
 			<?php wp_list_categories('show_count=1&title_li=&hierarchical=0'); ?>
 			</ul>
+			</li>                            
+
+			<li class="boxr clearfix archives"><h3><?php _e('Archives','yashfa')?></h3>
+				<ul>
+				<?php wp_get_archives('type=monthly&show_post_count=1'); ?>
+				</ul>
 			</li>
 			
 			<?php /* If this is the frontpage */ if ( is_home() || is_page() ) { ?>

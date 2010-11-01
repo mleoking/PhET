@@ -3,7 +3,7 @@
 </div>
 </div>
 
-<div id="more-footer">
+<div id="more-footer" style="display: none;">
 <div id="more-more-footer">
 <div class="inner-one inner">
 <div class="grap">
@@ -63,7 +63,7 @@ echo $output;?>
 
 <div id="footer">
 	<p>
-		<?php bloginfo(__('name','yashfa')); _e('is proudly powered by','yashfa');?>
+		<?php bloginfo(__('name','yashfa')); _e(' is proudly powered by','yashfa');?>
 		<a href="http://wordpress.org/">WordPress</a>
 		<br /><a href="<?php bloginfo('rss2_url'); ?>"><?php _e('Entries (RSS)','yashfa');?></a>
 		<?php _e('and','yashfa')?> <a href="<?php bloginfo('comments_rss2_url'); ?>"><?php _e('Comments (RSS)','yashfa');?></a>.

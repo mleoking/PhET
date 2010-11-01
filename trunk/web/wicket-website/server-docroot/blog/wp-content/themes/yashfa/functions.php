@@ -53,7 +53,7 @@ if ( function_exists('register_sidebar') ) {
         'before_widget' => '<div id="%1$s" class="widget %2$s">',
         'after_widget' => '</div>',
         'before_title' => '<h3 class="widgettitle"><span>',
-        'after_title' => '<span></h3>'
+        'after_title' => '</span></h3>'
 	));
 	register_sidebar(array(
 		'name'=>'Extra Bottom Right',
@@ -158,15 +158,15 @@ function list_comment($comment, $args, $depth) {
 <li <?php comment_class(); ?> id="comment-<?php comment_ID() ?>">
   <div id="div-comment-<?php comment_ID() ?>" class="thechild">
     <div class="cleft">
-      <?php echo get_avatar($comment, 60); ?>
+      <?php echo get_avatar($comment, 40); ?>
       
       </div>
     <div class="cright"> 
-    <div class="comment-author vcard by"> <?php printf('<span class="fn">%s</span>', get_comment_author_link()) ?> <a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>">#</a> </div>
-      <div class="comment-meta commentmetadata"><?php printf('%1$s %2$s', get_comment_date('m.d.Y'),  get_comment_time('H:i')) ?>
-        <?php edit_comment_link(__('(e)','yashfa'),'  ','') ?>
+    <div class="comment-author vcard by"> <?php printf('<span class="fn">%s</span>', get_comment_author_link()) ?> <a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>" style="display: none;">#</a> </div>
+      <div class="comment-meta commentmetadata"><?php printf('%1$s at %2$s', get_comment_date('M jS, Y'),  get_comment_time('g:i a')) ?>
+        <?php edit_comment_link(__('(edit)','yashfa'),'  ','') ?>
       </div>
-	<span class="numero"><?php global $cmntCnt; ?><?php echo $cmntCnt+1; ?><?php $cmntCnt = $cmntCnt + 1; ?>
+<!--	<span class="numero">--><?php //global $cmntCnt; ?><!----><?php //echo $cmntCnt+1; ?><!----><?php //$cmntCnt = $cmntCnt + 1; ?>
 </span>
     
       <?php if ($comment->comment_approved == '0') : ?>
@@ -176,7 +176,7 @@ function list_comment($comment, $args, $depth) {
       <?php endif; ?>
       <div class="texe"><?php comment_text() ?></div>
       <div class="reply">
-        <?php comment_reply_link(array_merge( $args, array('add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+        <?php comment_reply_link(array_merge( $args, array('reply_text ' => 'Reply to this comment', 'add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
       </div>
     </div>
 <div class="clear"></div>
@@ -251,6 +251,14 @@ $cjd_comment_count_cache[$count->ID][$type] = $count->ccount;
 }
 }
 return $queried_posts;
+}
+
+add_filter( 'avatar_defaults', 'newgravatar' );
+
+function newgravatar ($avatar_defaults) {
+    $myavatar = get_bloginfo('template_directory') . 'phet-gravatar.png';
+    $avatar_defaults[$myavatar] = "PhET Team";
+    return $avatar_defaults;
 }
 
 ?>

@@ -54,10 +54,13 @@ $jx(document).ready(function() {
             </a>
         </div>
 
-        <div style="position: absolute; width: 400px; height: 127px; right: 0; top: 0;">
+        <div style="position: absolute; width: 400px; right: 0; top: 0;">
             <img src="/images/logo-title.jpg"
                  alt="Physics Education Technology - University of Colorado, Boulder"
                  title="Physics Education Technology - University of Colorado, Boulder"/>
+            <div style="text-align: center; position: relative; top: -8px;">
+                <a href="/blog/" style="color: #eded6d; font-size: 30px; font-style:italic; font-family: Times New Roman,Times,serif; text-decoration: none;">PhET Blog</a>
+            </div>
         </div>
     </div>
 </div>
