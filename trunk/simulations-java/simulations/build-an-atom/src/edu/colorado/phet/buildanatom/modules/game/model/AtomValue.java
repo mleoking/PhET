@@ -85,4 +85,8 @@ public class AtomValue {
     public int getCharge() {
         return protons-electrons;
     }
+
+    public boolean isNeutral() {
+        return getCharge()==0;
+    }
 }
