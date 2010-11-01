@@ -80,7 +80,7 @@ public class ProblemSet {
         }
         if (allowedProbsDlg.isSchematicToElementProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
             //only use schematic mode when Lithium or smaller
-            problems.add(new SchematicToSymbolProblem( model, atomValue ));
+            problems.add(new SchematicToElementProblem( model, atomValue ));
         }
         return problems;
     }
