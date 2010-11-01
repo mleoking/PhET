@@ -24,6 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * Test app for fine tuning behavior of the wire that connects the field detector probe to the body.
@@ -169,6 +170,7 @@ public class TestDetectorWire extends JFrame {
     }
 
     public static void main( String[] args ) {
+        PDebug.debugBounds = true;
         JFrame frame = new TestDetectorWire();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
