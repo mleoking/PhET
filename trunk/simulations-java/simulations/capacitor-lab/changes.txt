@@ -1,3 +1,4 @@
+11/1/10 make the E-field detector wire look more natural
 11/1/10 setOpaque(false) on various Swing components in the E-field Detector
 11/1/10 get wire connection working properly for rotated E-field probe 
 10/30/10 confirm that E-field detector probe remains aligned with origin when rotated
