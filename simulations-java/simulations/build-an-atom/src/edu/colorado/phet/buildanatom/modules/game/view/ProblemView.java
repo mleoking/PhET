@@ -55,7 +55,7 @@ public abstract class ProblemView extends StateView {
                         if ( problem.isSolvedCorrectly() ) {
                             setGuessEditable( false );
                             smile();
-                            addChild( new PText( "+" + problem.getScore() ) {//TODO: i18n, consider messageformat
+                            addChild( new PText( "+" + problem.getScore() ) {
                                 {
                                     setOffset( faceNode.getFullBounds().getWidth() / 2, faceNode.getFullBounds().getHeight() );
                                     setFont( new PhetFont( 24, true ) );
