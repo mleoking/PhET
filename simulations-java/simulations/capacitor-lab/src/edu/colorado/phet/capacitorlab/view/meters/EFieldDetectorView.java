@@ -63,8 +63,9 @@ public class EFieldDetectorView {
     
     private static final Color WIRE_COLOR = Color.BLACK;
     private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
-    private static final double WIRE_CONTROL_POINT_DX = -25;
-    private static final double WIRE_CONTROL_POINT_DY = 100;
+    // wire is a cubic curve, these are the control point offsets
+    private static final Point2D WIRE_BODY_CONTROL_POINT_OFFSET = new Point2D.Double( -25, 0 );
+    private static final Point2D WIRE_PROBE_CONTROL_POINT_OFFSET = new Point2D.Double( -80, 100 );
         
     private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
@@ -620,8 +621,8 @@ public class EFieldDetectorView {
             Point2D pProbe = getProbeConnectionPoint();
             
             // control points 
-            Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_CONTROL_POINT_DX, pBody.getY() );
-            Point2D ctrl2 = new Point2D.Double( pProbe.getX(), pProbe.getY() + WIRE_CONTROL_POINT_DY );
+            Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_BODY_CONTROL_POINT_OFFSET.getX(), pBody.getY() + WIRE_BODY_CONTROL_POINT_OFFSET.getY() );
+            Point2D ctrl2 = new Point2D.Double( pProbe.getX() + WIRE_PROBE_CONTROL_POINT_OFFSET.getX(), pProbe.getY() + WIRE_PROBE_CONTROL_POINT_OFFSET.getY() );
             
             // path
             setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );

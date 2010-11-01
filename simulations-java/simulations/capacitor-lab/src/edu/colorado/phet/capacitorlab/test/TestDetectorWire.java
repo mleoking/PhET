@@ -37,9 +37,9 @@ public class TestDetectorWire extends JFrame {
     
     private static final double YAW = Math.toRadians( 45 ); // rotation about the vertical axis, creates pseudo-3D perspective
     
-    // wire is a cubic curve, these are the control point deltas
-    private static final double WIRE_CONTROL_POINT_DX = -25;
-    private static final double WIRE_CONTROL_POINT_DY = 100;
+    // wire is a cubic curve, these are the control point offsets
+    private static final Point2D BODY_CONTROL_POINT_OFFSET = new Point2D.Double( -25, 0 );
+    private static final Point2D PROBE_CONTROL_POINT_OFFSET = new Point2D.Double( -80, 100 );
     
     // field detector body, simplified.
     // origin at upper-left of bounding rectangle.
@@ -108,8 +108,8 @@ public class TestDetectorWire extends JFrame {
             Point2D pProbe = getProbeConnectionPoint();
             
             // control points 
-            Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_CONTROL_POINT_DX, pBody.getY() );
-            Point2D ctrl2 = new Point2D.Double( pProbe.getX(), pProbe.getY() + WIRE_CONTROL_POINT_DY );
+            Point2D ctrl1 = new Point2D.Double( pBody.getX() + BODY_CONTROL_POINT_OFFSET.getX(), pBody.getY() + BODY_CONTROL_POINT_OFFSET.getY() );
+            Point2D ctrl2 = new Point2D.Double( pProbe.getX() + PROBE_CONTROL_POINT_OFFSET.getX(), pProbe.getY() + PROBE_CONTROL_POINT_OFFSET.getY() );
             
             // path
             setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );
