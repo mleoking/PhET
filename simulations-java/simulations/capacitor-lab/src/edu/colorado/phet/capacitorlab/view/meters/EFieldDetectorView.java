@@ -3,10 +3,7 @@
 package edu.colorado.phet.capacitorlab.view.meters;
 
 import java.awt.*;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -66,6 +63,8 @@ public class EFieldDetectorView {
     
     private static final Color WIRE_COLOR = Color.BLACK;
     private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
+    private static final double WIRE_CONTROL_POINT_DX = -25;
+    private static final double WIRE_CONTROL_POINT_DY = 100;
         
     private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
@@ -82,7 +81,7 @@ public class EFieldDetectorView {
 
     private final BodyNode bodyNode;
     private final ProbeNode probeNode;
-    private final CubicWireNode wireNode;
+    private final WireNode wireNode;
     
     public EFieldDetectorView( EFieldDetector detector, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
         
@@ -93,23 +92,13 @@ public class EFieldDetectorView {
                     probeNode.setVisible( bodyNode.getVisible() );
                     wireNode.setVisible( bodyNode.getVisible() );
                 }
-                else if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                    updateWire();
-                }
             }
         });
         
         probeNode = new ProbeNode( detector, mvt, dev );
-//XXX        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
-        probeNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                    updateWire();
-                }
-            }
-        });
+        probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         
-        wireNode = new CubicWireNode( WIRE_COLOR, -25, 100 ); //XXX constants
+        wireNode = new WireNode( bodyNode, probeNode );
         wireNode.setPickable( false );
         
         // interactivity
@@ -117,20 +106,6 @@ public class EFieldDetectorView {
         probeNode.addInputEventListener( new CursorHandler() );
         bodyNode.addInputEventListener( new BoundedDragHandler( bodyNode, dragBoundsNode ) );
         probeNode.addInputEventListener( new BoundedDragHandler( probeNode, dragBoundsNode ) );
-        
-        updateWire();
-    }
-    
-    private void updateWire() {
-        // connect to left center of body
-        double x = bodyNode.getFullBoundsReference().getMinX();
-        double y = bodyNode.getFullBoundsReference().getCenterY();
-        Point2D bodyConnectionPoint = new Point2D.Double( x, y );
-        // connect to bottom center of probe
-        x = probeNode.getFullBoundsReference().getCenterX();
-        y = probeNode.getFullBoundsReference().getMaxY();
-        Point2D probeConnectionPoint = new Point2D.Double( x, y );
-        wireNode.setEndPoints( bodyConnectionPoint, probeConnectionPoint );
     }
     
     public PNode getBodyNode() {
@@ -542,6 +517,8 @@ public class EFieldDetectorView {
      */
     private static class ProbeNode extends PhetPNode {
         
+        private final Point2D connectionOffset;
+        
         public ProbeNode( final EFieldDetector detector, final ModelViewTransform mvt, boolean dev ) {
             super();
             
@@ -550,6 +527,8 @@ public class EFieldDetectorView {
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
             double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
+            
+            connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() + y ); // connect wire to bottom center
             
             // Put a '+' at origin to check that probe image is offset properly.
             if ( dev ) {
@@ -564,6 +543,10 @@ public class EFieldDetectorView {
             });
             
             addInputEventListener( new ProbeDragHandler( this, detector, mvt ) );
+        }
+        
+        public Point2D getConnectionOffsetReference() {
+            return connectionOffset;
         }
     }
     
@@ -604,21 +587,60 @@ public class EFieldDetectorView {
     /*
      * Wire that connects the probe to the body.
      */
-    private static class CubicWireNode extends PPath {
-
-        private final double controlPointDx, controlPointDy;
-
-        public CubicWireNode( Color color, double controlPointDx, double controlPointDy ) {
-            this.controlPointDx = controlPointDx;
-            this.controlPointDy = controlPointDy;
+    private static class WireNode extends PPath {
+        
+        private final BodyNode bodyNode;
+        private final ProbeNode probeNode;
+        
+        public WireNode( BodyNode bodyNode, ProbeNode probeNode ) {
             setStroke( WIRE_STROKE );
-            setStrokePaint( color );
+            setStrokePaint( WIRE_COLOR );
+            
+            this.bodyNode = bodyNode;
+            this.probeNode = probeNode;
+            
+            // update wire when body or probe moves
+            {
+                PropertyChangeListener fullBoundsListener = new PropertyChangeListener() {
+                    public void propertyChange( PropertyChangeEvent event ) {
+                        if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                            update();
+                        }
+                    }
+                };
+                bodyNode.addPropertyChangeListener( fullBoundsListener );
+                probeNode.addPropertyChangeListener( fullBoundsListener );
+            }
         }
-
-        public void setEndPoints( Point2D startPoint, Point2D endPoint ) {
-            Point2D ctrl1 = new Point2D.Double( startPoint.getX() + controlPointDx, startPoint.getY() );
-            Point2D ctrl2 = new Point2D.Double( endPoint.getX(), endPoint.getY() + controlPointDy );
-            setPathTo( new CubicCurve2D.Double( startPoint.getX(), startPoint.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), endPoint.getX(), endPoint.getY() ) );
+        
+        private void update() {
+            
+            Point2D pBody = getBodyConnectionPoint();
+            Point2D pProbe = getProbeConnectionPoint();
+            
+            // control points 
+            Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_CONTROL_POINT_DX, pBody.getY() );
+            Point2D ctrl2 = new Point2D.Double( pProbe.getX(), pProbe.getY() + WIRE_CONTROL_POINT_DY );
+            
+            // path
+            setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );
+        }
+        
+        // connect to left center of body
+        private Point2D getBodyConnectionPoint() {
+            double x = bodyNode.getFullBoundsReference().getMinX();
+            double y = bodyNode.getFullBoundsReference().getCenterY();
+            return new Point2D.Double( x, y );
+        }
+        
+        // connect to end of probe handle, account for probe rotation
+        private Point2D getProbeConnectionPoint() {
+            // unrotated connection point
+            double x = probeNode.getXOffset() + probeNode.getConnectionOffsetReference().getX();
+            double y = probeNode.getYOffset() + probeNode.getConnectionOffsetReference().getY();
+            // rotate the connection point to match the probe's rotation
+            AffineTransform t = AffineTransform.getRotateInstance( probeNode.getRotation(), probeNode.getXOffset(), probeNode.getYOffset() );
+            return t.transform( new Point2D.Double( x, y ), null );
         }
     }
 }
