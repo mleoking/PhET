@@ -51,15 +51,12 @@ public class TestDetectorWire extends JFrame {
     // origin at center of image crosshairs.
     private static class ProbeNode extends PhetPNode {
         public ProbeNode() {
-            
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
-//            imageNode.scale( 0.65 ); // scale before setting offset!
+            imageNode.scale( 0.65 ); // scale before setting offset!
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
             double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
-            
-            this.rotate( YAW );
         }
     }
     
@@ -138,14 +135,15 @@ public class TestDetectorWire extends JFrame {
             setPreferredSize( new Dimension( 700, 500 ) );
             
             BodyNode bodyNode = new BodyNode() {{
-                addInputEventListener( new PDragEventHandler() );
                 addInputEventListener( new CursorHandler() );
+                addInputEventListener( new PDragEventHandler() );
             }};
             
             ProbeNode probeNode = new ProbeNode() {{
-                addInputEventListener( new PDragEventHandler() );
                 addInputEventListener( new CursorHandler() );
+                addInputEventListener( new PDragEventHandler() );
             }};
+            probeNode.rotate( YAW );
             
             WireNode wireNode = new WireNode( bodyNode, probeNode );
 
