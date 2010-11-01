@@ -32,7 +32,6 @@ public class Atom extends SimpleObservable{
 
     // Map of proton numbers to element symbols.
     private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
-        // TODO: i18n for all element names.
         put(0, new AtomName( BuildAnAtomStrings.ELEMENT_NONE_NAME));//for an unbuilt or empty atom
         put(1, new AtomName( BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME));
         put(2, new AtomName( BuildAnAtomStrings.ELEMENT_HELIUM_NAME));

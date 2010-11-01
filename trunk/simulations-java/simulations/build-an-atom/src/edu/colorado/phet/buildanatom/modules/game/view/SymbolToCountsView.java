@@ -8,6 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SymbolToCountsProblem;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SymbolToCountsView extends ProblemView {
 
-    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "How many particles?" );//todo i18n
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_HOW_MANY_PARTICLES );
 
     private final SymbolIndicatorNode symbolIndicatorNode;
     private final MultiEntryPanel multiEntryPanel;
@@ -51,11 +52,11 @@ public class SymbolToCountsView extends ProblemView {
         public Property<Integer> electronGuess = new Property<Integer>(0);
 
         public MultiEntryPanel(  ) {
-            protonEntryPanel = new EntryPanel( "Protons:", protonGuess );
+            protonEntryPanel = new EntryPanel( BuildAnAtomStrings.PROTONS_READOUT, protonGuess );
             addChild( protonEntryPanel );
-            neutronEntryPanel = new EntryPanel( "Neutrons:", neutronGuess );
+            neutronEntryPanel = new EntryPanel( BuildAnAtomStrings.NEUTRONS_READOUT, neutronGuess );
             addChild( neutronEntryPanel );
-            electronEntryPanel = new EntryPanel( "Electrons:", electronGuess );
+            electronEntryPanel = new EntryPanel( BuildAnAtomStrings.ELECTRONS_READOUT, electronGuess );
             addChild( electronEntryPanel );
             double maxLabelWidth = MathUtil.max( new double[] { protonEntryPanel.getLabelWidth(), neutronEntryPanel.getLabelWidth(), electronEntryPanel.getLabelWidth() } );
             int distanceBetweenSpinnerAndLabel = 20;

@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.Font;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -21,11 +22,11 @@ public class ParticleCountNode extends PNode {
     private static final double MIN_LABEL_TO_VALUE_SPACING = 20;
 
     public ParticleCountNode( int numProtons, int numNeutrons, int numElectrons ) {
-        PText protonLabel = new PText("Protons:"){{ setFont( LABEL_FONT ); }};
+        PText protonLabel = new PText( BuildAnAtomStrings.PROTONS_READOUT ){{ setFont( LABEL_FONT ); }};
         PText protonValue = new PText( Integer.toString( numProtons ) ){{ setFont( LABEL_FONT ); }};
-        PText neutronLabel = new PText("Neutrons:"){{ setFont( LABEL_FONT ); }};
+        PText neutronLabel = new PText(BuildAnAtomStrings.NEUTRONS_READOUT ){{ setFont( LABEL_FONT ); }};
         PText neutronValue = new PText( Integer.toString( numNeutrons ) ){{ setFont( LABEL_FONT ); }};
-        PText electronLabel = new PText("Electrons:"){{ setFont( LABEL_FONT ); }};
+        PText electronLabel = new PText(BuildAnAtomStrings.ELECTRONS_READOUT){{ setFont( LABEL_FONT ); }};
         PText electronValue = new PText( Integer.toString( numElectrons ) ){{ setFont( LABEL_FONT ); }};
         double width = Math.max(
                 protonLabel.getFullBoundsReference().width + protonValue.getFullBoundsReference().width + MIN_LABEL_TO_VALUE_SPACING,

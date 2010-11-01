@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
@@ -11,7 +12,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 */
 public class ToSymbolProblemView extends ProblemView {
 
-    private final ProblemDescriptionNode description = new ProblemDescriptionNode( "Complete the symbol:" ); //todo i18n
+    private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL );
     private final InteractiveSymbolNode interactiveSymbolNode;
 
     /**

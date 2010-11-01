@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.buildanatom;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import static edu.colorado.phet.buildanatom.BuildAnAtomResources.*;
 
@@ -163,6 +165,19 @@ public class BuildAnAtomStrings {
     public static final String ELEMENT_DARMSTADTIUM_SYMBOL = getString( "element.darmstadtium.symbol" );
     public static final String ELEMENT_ROENTGENIUM_SYMBOL = getString( "element.roentgenium.symbol" );
     public static final String ELEMENT_UNUNBIUM_SYMBOL = getString( "element.ununbium.symbol" );
+
+    //game
+    public static final String GAME_PROBLEM_INDEX_READOUT_PATTERN = getString( "game.problemIndexReadout.pattern" );
+    public static final String GAME_CHECK = getString( "game.check" );
+    public static final String GAME_NEXT = getString( "game.next" );
+    public static final String GAME_TRY_AGAIN = getString( "game.tryAgain" );
+    public static final String GAME_SHOW_ANSWER = getString( "game.showAnswer" );
+    public static final String GAME_HOW_MANY_PARTICLES = getString( "game.howManyParticles" );
+    public static final String GAME_COMPLETE_THE_MODEL = getString( "game.completeTheModel" );
+    public static final String GAME_FIND_THE_ELEMENT = getString( "game.findTheElement" );
+    public static final String GAME_COMPLETE_THE_SYMBOL = getString( "game.completeTheSymbol" );
+    public static final String GAME_NEUTRAL_ATOM = getString( "game.neutralAtom" );
+    public static final String GAME_ION = getString( "game.ion" );
 
     /* not intended for instantiation */
     private BuildAnAtomStrings() {}
