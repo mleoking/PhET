@@ -158,6 +158,7 @@ public class EFieldDetectorView {
             
             // Show Values check box
             final JCheckBox showValuesCheckBox = new JCheckBox( CLStrings.SHOW_VALUES );
+            showValuesCheckBox.setOpaque( false );
             showValuesCheckBox.setFont( CONTROL_FONT );
             showValuesCheckBox.setForeground( CONTROL_COLOR );
             showValuesCheckBox.setSelected( detector.isValuesVisible() );
@@ -229,7 +230,7 @@ public class EFieldDetectorView {
         private final JCheckBox plateCheckBox, dielectricCheckBox, sumCheckBox;
         
         public ShowVectorsPanel( final EFieldDetector detector ) {
-            
+            setOpaque( false );
             setBackground( BODY_COLOR );
             
             JLabel showVectorsLabel = new JLabel( CLStrings.SHOW_VECTORS );
