@@ -26,9 +26,9 @@ public class ValueNode extends PNode {
     public static final NumberFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat( "0" );
     private final PText text = new PText( "0" );
     private final JSpinner spinner;
-    private SimpleObserver updateReadouts;
+    private final SimpleObserver updateReadouts;
 
-    public ValueNode( final Property<Integer> numericProperty, int minimum, int maximum, int stepSize, final Font textFont, final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
+    public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize, final Font textFont, final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
             {
                 setFont( textFont );
@@ -78,6 +78,8 @@ public class ValueNode extends PNode {
         } );
         JSpinner.DefaultEditor numberEditor = (JSpinner.DefaultEditor) getSpinnerEditor();
         numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) {{
+            setMinimum( minimum );
+            setMaximum( maximum );
             setValueClass( Integer.class );
         }} ) );
         spinner.setEditor( numberEditor );
