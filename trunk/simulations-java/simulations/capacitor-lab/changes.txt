@@ -1,3 +1,4 @@
+11/1/10 get wire connection working properly for rotated E-field probe 
 10/30/10 confirm that E-field detector probe remains aligned with origin when rotated
 10/30/10 TestDragPSwing, test app to demonstrate a general problem with dragging PSwing nodes, see #2557
 10/30/10 decrease size of battery to match the part of the battery that's in the same 2D plane as the E-field probe

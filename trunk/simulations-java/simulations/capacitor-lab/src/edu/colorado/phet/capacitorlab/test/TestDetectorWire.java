@@ -22,9 +22,11 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Test app for fine tuning behavior of the wire that connects the field detector probe to the body.
@@ -48,9 +50,15 @@ public class TestDetectorWire extends JFrame {
         }
     }
     
-    // field detector probe, rotated so that it's aligned with the pseudo-3D perspective.
-    // origin at center of image crosshairs.
+    /*
+     * Field detector probe, rotated so that it's aligned with the pseudo-3D perspective.
+     * Origin at center of image crosshairs.
+     * Connection point is precomputed because we'll be rotating this node.
+     */
     private static class ProbeNode extends PhetPNode {
+        
+        private final Point2D connectionOffset;
+        
         public ProbeNode() {
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
@@ -58,6 +66,12 @@ public class TestDetectorWire extends JFrame {
             double x = -imageNode.getFullBoundsReference().getWidth() / 2;
             double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
             imageNode.setOffset( x, y );
+            
+            connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() + y ); // connect wire to bottom center
+        }
+        
+        public Point2D getConnectionOffsetReference() {
+            return connectionOffset;
         }
     }
     
@@ -110,23 +124,29 @@ public class TestDetectorWire extends JFrame {
         
         // connect to end of probe handle, account for probe rotation
         private Point2D getProbeConnectionPoint() {
-            /*
-             * XXX problem:
-             * Messing with rotation here causes the probe's CursorHandler and PDragEventHandler to behave incorrectly.
-             * The cursor only changes when over a small upper-right portion of the probe image.
-             * And the probe disappears when dragged into the upper-right corner of the canvas.
-             */
-            // clear the probe's rotation, so we can find the connection point
-            probeNode.setRotation( 0 ); 
-            // connect to the bottom center of the unrotated probe image
-            double x = probeNode.getFullBoundsReference().getCenterX();
-            double y = probeNode.getFullBoundsReference().getMaxY();
+            // unrotated connection point
+            double x = probeNode.getXOffset() + probeNode.getConnectionOffsetReference().getX();
+            double y = probeNode.getYOffset() + probeNode.getConnectionOffsetReference().getY();
             // rotate the connection point to match the probe's rotation
-            AffineTransform t = AffineTransform.getRotateInstance( YAW, probeNode.getXOffset(), probeNode.getYOffset() );
-            Point2D p = t.transform( new Point2D.Double( x, y ), null ); 
-            // restore the probe's rotation
-            probeNode.setRotation( YAW );
-            return p;
+            AffineTransform t = AffineTransform.getRotateInstance( probeNode.getRotation(), probeNode.getXOffset(), probeNode.getYOffset() );
+            return t.transform( new Point2D.Double( x, y ), null );
+        }
+    }
+    
+    // Adjust offset when a node or any of its children are dragged.
+    private static class MyDragHandler extends PDragEventHandler {
+
+        private final PNode dragNode;
+
+        public MyDragHandler( PNode dragNode ) {
+            this.dragNode = dragNode;
+        }
+
+        @Override
+        protected void drag( final PInputEvent event ) {
+            final PDimension d = event.getDeltaRelativeTo( dragNode );
+            dragNode.localToParent( d );
+            dragNode.setOffset( dragNode.getXOffset() + d.getWidth(), dragNode.getYOffset() + d.getHeight() );
         }
     }
     
@@ -134,15 +154,15 @@ public class TestDetectorWire extends JFrame {
         
         public MyCanvas() {
             setPreferredSize( new Dimension( 700, 500 ) );
-            
+
             BodyNode bodyNode = new BodyNode() {{
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PDragEventHandler() );
+                addInputEventListener( new MyDragHandler( this ) );
             }};
             
-            ProbeNode probeNode = new ProbeNode() {{
+            final ProbeNode probeNode = new ProbeNode() {{
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PDragEventHandler() );
+                addInputEventListener( new MyDragHandler( this ) );
             }};
             probeNode.rotate( YAW );
             
