@@ -69,18 +69,14 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         buttonPanel.add( new JButton( "Check All" ){{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    for ( JCheckBox checkBox : checkBoxList){
-                        checkBox.setSelected( true );
-                    }
+                    setAllSelected();
                 }
             });
         }});
         buttonPanel.add( new JButton( "Clear All" ){{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    for ( JCheckBox checkBox : checkBoxList){
-                        checkBox.setSelected( false );
-                    }
+                    setNoneSelected();
                 }
             });
         }});
@@ -127,5 +123,17 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
     public boolean isCountsToElementProblemAllowed() {
         return countsToElementProblemAllowed.isSelected();
+    }
+
+    public void setAllSelected(){
+        for ( JCheckBox checkBox : checkBoxList){
+            checkBox.setSelected( true );
+        }
+    }
+
+    private void setNoneSelected(){
+        for ( JCheckBox checkBox : checkBoxList){
+            checkBox.setSelected( false );
+        }
     }
 }

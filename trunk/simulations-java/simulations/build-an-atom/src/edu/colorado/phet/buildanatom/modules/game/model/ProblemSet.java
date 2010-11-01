@@ -3,8 +3,6 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JCheckBox;
-
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 
 /**
@@ -44,6 +42,20 @@ public class ProblemSet {
         // which problem types are allowed.
         // TODO: We may wish to remove this once interviews are complete.
         ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
+
+        // Make sure that at least one problem type is allowed.
+        if ( !allowedProbsDlg.isSymbolToSchematicProblemAllowed() &&
+             !allowedProbsDlg.isSchematicToElementProblemAllowed() &&
+             !allowedProbsDlg.isSchematicToSymbolProblemAllowed() &&
+             !allowedProbsDlg.isCountsToElementProblemAllowed() &&
+             !allowedProbsDlg.isCountsToSymbolProblemAllowed() &&
+             !allowedProbsDlg.isSymbolToCountsProblemAllowed() ){
+            // No problem types are selected.  Warn the user via console and
+            // turn on all problem types.
+            System.err.println( getClass().getName() + " - Error: No problem types selected, re-selecting them all." );
+            allowedProbsDlg.setAllSelected();
+        }
+
 
         // Note: Due to the difficulty of being able to count the nucleons in
         // the schematic view (a.k.a. the Bohr model), a restriction has been
