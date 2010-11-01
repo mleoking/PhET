@@ -82,6 +82,9 @@ public class SubatomicParticleBucket {
         }
     };
 
+    /**
+     * Constructor.
+     */
     public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
         this.position.setLocation( position );
         this.baseColor = baseColor;
