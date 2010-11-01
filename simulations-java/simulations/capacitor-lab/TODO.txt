@@ -13,6 +13,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - add auto-zoom button to E-field detector
+- bug: E-field probe can be dragged outside play area because it has both a BoundedDragHandler and ProbeDragHandler
 - add geometry of wires to model
 - add geometry of probes to model
 - get voltmeter and E-field detector working without 3D perspective, then work on 3D
