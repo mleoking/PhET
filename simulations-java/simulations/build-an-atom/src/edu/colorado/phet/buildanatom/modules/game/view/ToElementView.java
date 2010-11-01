@@ -1,19 +1,27 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
+import javax.swing.*;
+
+import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
@@ -47,8 +55,11 @@ public abstract class ToElementView extends ProblemView {
 
     @Override
     protected AtomValue getGuess() {
+        boolean userGuessMatchesAnswerNeutrality = gamePeriodicTable.isGuessNeutral() == getProblem().getAnswer().isNeutral();
         return new AtomValue( gamePeriodicTable.getGuessedNumberProtons(),
-                              getProblem().getAnswer().getNeutrons(), getProblem().getAnswer().getElectrons() );//Assume the user would have guessed the right neutrons and electrons, since they don't even have that as an option
+                              getProblem().getAnswer().getNeutrons(),
+                              userGuessMatchesAnswerNeutrality ? getProblem().getAnswer().getElectrons() ://if they guessed the right neutrality, assume they got the number of electrons right
+                              getProblem().getAnswer().getElectrons() + 1 );//If they guessed the incorrect neutrality, then just return a number that differs from the correct # electrons
     }
 
     @Override
@@ -66,6 +77,7 @@ public abstract class ToElementView extends ProblemView {
     private static class GamePeriodicTable extends PNode {
         final int[] numProtons = new int[] { 0 };//use an array because the reference must be final
         private final Atom atom;
+        private final Property<Boolean> guessNeutralProperty = new Property<Boolean>( true );
 
         private GamePeriodicTable() {
             //TODO: this is too sneaky and should be rewritten
@@ -88,7 +100,46 @@ public abstract class ToElementView extends ProblemView {
                     } );
                 }
             } );
-            addInputEventListener( new PBasicInputEventHandler() );
+            
+            //Add the "neutral atom" / "ion" selection radio buttons
+            final PSwing buttonPanelNode = new PSwing( new JPanel() {{
+                setOpaque( false );
+                setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
+                add( new JRadioButton( "Neutral Atom" ) {{
+                    setOpaque( false );
+                    setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
+                    final SimpleObserver updateSelected = new SimpleObserver() {
+                        public void update() {
+                            setSelected( guessNeutralProperty.getValue() );
+                        }
+                    };
+                    guessNeutralProperty.addObserver( updateSelected );
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            guessNeutralProperty.setValue( true );
+                            updateSelected.update();
+                        }
+                    } );
+                }} );
+                add( new JRadioButton( "Ion" ) {{
+                    setOpaque( false );
+                    setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
+                    final SimpleObserver updateSelected = new SimpleObserver() {
+                        public void update() {
+                            setSelected( !guessNeutralProperty.getValue() );
+                        }
+                    };
+                    guessNeutralProperty.addObserver( updateSelected );
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            guessNeutralProperty.setValue( false );
+                            updateSelected.update();
+                        }
+                    } );
+                }} );
+            }} );
+            buttonPanelNode.setOffset( getFullBounds().getWidth() / 2 - buttonPanelNode.getFullBounds().getWidth() / 2, getFullBounds().getHeight() + 10 );
+            addChild( buttonPanelNode );
         }
 
         public int getGuessedNumberProtons() {
@@ -98,6 +149,10 @@ public abstract class ToElementView extends ProblemView {
         public void displayNumProtons( int protons ) {
             numProtons[0] = protons;
             atom.notifyObservers();
+        }
+
+        public boolean isGuessNeutral() {
+            return guessNeutralProperty.getValue();
         }
     }
 }
