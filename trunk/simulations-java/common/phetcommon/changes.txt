@@ -1,3 +1,4 @@
+11-2-2010: added ability to specify color to PhetLineBorder
 11-2-2010: added viewToModelDifferential( Dimension2D delta ) to ModelViewTransform2D
 9-14-2010: Improved phetcommon's test for Mac OS X, see #2505
 promoted PhetLineBorder to public top level class
