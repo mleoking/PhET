@@ -105,6 +105,10 @@ public class Body {
     }
 
     public Point2D[] getTrace() {
-        return trace.toArray( new Point2D[0] );
+        return trace.toArray( new Point2D[trace.size()] );
+    }
+
+    public void clearTrace() {
+        trace.clear();
     }
 }

@@ -15,11 +15,17 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class TraceNode extends PNode {
+    private final PhetPPath phetPPath;
+    private Body body;
+
     public TraceNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible ) {
-        final PhetPPath phetPPath = new PhetPPath( new BasicStroke( 2 ), body.getColor() );
+        this.body=body;
+        phetPPath = new PhetPPath( new BasicStroke( 2 ), body.getColor() );
         addChild( phetPPath );
         visible.addObserver( new SimpleObserver() {
             public void update() {
+                body.clearTrace();
+                clearPath();
                 setVisible( visible.getValue() );
             }
         } );
@@ -31,12 +37,16 @@ public class TraceNode extends PNode {
                     txTrace[i] = transform.modelToViewDouble( trace[i] );
                 }
                 if ( trace.length == 0 ) {
-                    phetPPath.setPathTo( new Ellipse2D.Double( body.getPosition().getX(), body.getPosition().getY(), 0, 0 ) );
+                    clearPath();
                 }
                 else {
                     phetPPath.setPathToPolyline( txTrace );
                 }
             }
         } );
+    }
+
+    private void clearPath() {
+        phetPPath.setPathTo( new Ellipse2D.Double( body.getPosition().getX(), body.getPosition().getY(), 0, 0 ) );
     }
 }
