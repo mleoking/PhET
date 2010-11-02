@@ -133,6 +133,7 @@ public class PhetWicketApplication extends WebApplication {
         StaticPage.addPanel( UgandaWorkshopsPanel.class );
         StaticPage.addPanel( UgandaWorkshopPhotosPanel.class );
         StaticPage.addPanel( ChangePasswordSuccessPanel.class );
+        StaticPage.addPanel( StayConnectedPanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();

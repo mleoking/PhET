@@ -26,6 +26,15 @@ public class NewStrings {
         checkString( session, "home.twitterText", "Follow us on  {0}" );
         checkString( session, "home.blogText", "Read our blog" );
         checkString( session, "sponsors.odonnell", "The O'Donnell Foundation is devoted to building model programs to enhance the quality of education." );
+        checkString( session, "stayConnected.title", "Stay Connected" );
+        checkString( session, "nav.stayConnected", "Stay Connected" );
+        checkString( session, "social.facebook.tooltip", "Share this on Facebook" );
+        checkString( session, "social.twitter.tooltip", "Share this on Twitter" );
+        checkString( session, "social.stumbleupon.tooltip", "Share this on Stumble Upon" );
+        checkString( session, "social.digg.tooltip", "Share this on Digg" );
+        checkString( session, "social.reddit.tooltip", "Share this on Reddit" );
+        checkString( session, "social.delicious.tooltip", "Share this on Delicious" );
+        checkString( session, "stayConnected.newsletterInstructions", "To subscribe newsletter, please <a {0}>log in or create an account</a>, go to the <a href={1}>Edit Profile page</a> select \"Receive PhET Email\" and submit." );
         session.close();
     }
 

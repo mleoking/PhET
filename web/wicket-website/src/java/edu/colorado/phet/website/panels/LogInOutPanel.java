@@ -60,12 +60,4 @@ public class LogInOutPanel extends PhetPanel {
         }
     }
 
-    private String getFullPath( PageContext context ) {
-        String path = context.getPrefix() + context.getPath();
-        String queryString = getPhetCycle().getQueryString();
-        if ( queryString != null ) {
-            path += "?" + queryString;
-        }
-        return path;
-    }
 }

@@ -82,38 +82,41 @@ public class NavMenu {
         simulations = new NavLocation( null, "simulations", CategoryPage.getLinker() );
         addMajorLocation( simulations );
 
-        NavLocation teacherIdeas = new NavLocation( null, "teacherIdeas", TeacherIdeasPanel.getLinker() );
-        addMajorLocation( teacherIdeas );
+        NavLocation forTeachers = new NavLocation( null, "teacherIdeas", TeacherIdeasPanel.getLinker() ) {{
+            NavLocation teacherIdeasBrowse = new NavLocation( this, "teacherIdeas.browse", ContributionBrowsePage.getLinker() );
+            addLocation( teacherIdeasBrowse );
+            addChild( teacherIdeasBrowse );
 
-        NavLocation teacherIdeasBrowse = new NavLocation( teacherIdeas, "teacherIdeas.browse", ContributionBrowsePage.getLinker() );
-        addLocation( teacherIdeasBrowse );
-        teacherIdeas.addChild( teacherIdeasBrowse );
+            NavLocation workshops = new NavLocation( this, "workshops", WorkshopsPanel.getLinker() );
+            addLocation( workshops );
+            addChild( workshops );
 
-        NavLocation workshops = new NavLocation( teacherIdeas, "workshops", WorkshopsPanel.getLinker() );
-        addLocation( workshops );
-        teacherIdeas.addChild( workshops );
+            NavLocation teacherIdeasSubmit = new NavLocation( this, "teacherIdeas.submit", ContributionCreatePage.getLinker() );
+            addLocation( teacherIdeasSubmit );
+            addChild( teacherIdeasSubmit );
 
-        NavLocation teacherIdeasSubmit = new NavLocation( teacherIdeas, "teacherIdeas.submit", ContributionCreatePage.getLinker() );
-        addLocation( teacherIdeasSubmit );
-        teacherIdeas.addChild( teacherIdeasSubmit );
+            NavLocation teacherIdeasManage = new NavLocation( this, "teacherIdeas.manage", ContributionManagePage.getLinker() );
+            addLocation( teacherIdeasManage );
+            addChild( teacherIdeasManage );
 
-        NavLocation teacherIdeasManage = new NavLocation( teacherIdeas, "teacherIdeas.manage", ContributionManagePage.getLinker() );
-        addLocation( teacherIdeasManage );
-        teacherIdeas.addChild( teacherIdeasManage );
+            NavLocation teacherIdeasEdit = new NavLocation( this, "teacherIdeas.edit", ContributionBrowsePage.getLinker() );
+            addLocation( teacherIdeasEdit );
 
-        NavLocation teacherIdeasEdit = new NavLocation( teacherIdeas, "teacherIdeas.edit", ContributionBrowsePage.getLinker() );
-        addLocation( teacherIdeasEdit );
+            NavLocation teacherIdeasGuide = new NavLocation( this, "teacherIdeas.guide", ContributionGuidelinesPanel.getLinker() );
+            addLocation( teacherIdeasGuide );
 
-        NavLocation teacherIdeasGuide = new NavLocation( teacherIdeas, "teacherIdeas.guide", ContributionGuidelinesPanel.getLinker() );
-        addLocation( teacherIdeasGuide );
+            NavLocation aboutLegend = new NavLocation( this, "about.legend", AboutLegendPanel.getLinker() );
+            addLocation( aboutLegend );
+            addChild( aboutLegend );
 
-        NavLocation aboutLegend = new NavLocation( teacherIdeas, "about.legend", AboutLegendPanel.getLinker() );
-        addLocation( aboutLegend );
-        teacherIdeas.addChild( aboutLegend );
+            // orphan!
+            NavLocation classroomUse = new NavLocation( this, "for-teachers.classroom-use", ClassroomUsePanel.getLinker() );
+            addLocation( classroomUse );
+        }};
+        addMajorLocation( forTeachers );
 
-        // orphan!
-        NavLocation classroomUse = new NavLocation( teacherIdeas, "for-teachers.classroom-use", ClassroomUsePanel.getLinker() );
-        addLocation( classroomUse );
+        NavLocation stayConnected = new NavLocation( null, "stayConnected", StayConnectedPanel.getLinker() );
+        addMajorLocation( stayConnected );
 
         NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
         addMajorLocation( getPhet );
@@ -201,7 +204,7 @@ public class NavMenu {
 
         NavLocation changePasswordSuccess = new NavLocation( null, "changePasswordSuccess", ChangePasswordSuccessPanel.getLinker() );
         addLocation( changePasswordSuccess );
-        
+
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
         try {
@@ -212,13 +215,13 @@ public class NavMenu {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;

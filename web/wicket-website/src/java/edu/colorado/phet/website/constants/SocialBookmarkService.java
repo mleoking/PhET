@@ -27,6 +27,12 @@ public abstract class SocialBookmarkService {
      */
     public abstract String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException;
 
+    public abstract String getName();
+
+    public String getTooltipLocalizationKey() {
+        return "social." + getName() + ".tooltip";
+    }
+
     public RawLinker getLinker( String relativeUrl, String title ) {
         try {
             return new RawLinker( getShareUrl( relativeUrl, title ) );
@@ -50,6 +56,11 @@ public abstract class SocialBookmarkService {
         public String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException {
             return "http://www.facebook.com/sharer.php?u=http%3A%2F%2Fphet.colorado.edu" + URLEncoder.encode( relativeUrl, "UTF-8" ) + "&t=" + URLEncoder.encode( title, "UTF-8" );
         }
+
+        @Override
+        public String getName() {
+            return "facebook";
+        }
     };
 
     public static final SocialBookmarkService TWITTER = new SocialBookmarkService() {
@@ -61,6 +72,11 @@ public abstract class SocialBookmarkService {
         @Override
         public String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException {
             return "https://twitter.com/share?url=http%3A%2F%2Fphet.colorado.edu" + URLEncoder.encode( relativeUrl, "UTF-8" ) + "&text=" + URLEncoder.encode( title, "UTF-8" );
+        }
+
+        @Override
+        public String getName() {
+            return "twitter";
         }
     };
 
@@ -74,6 +90,11 @@ public abstract class SocialBookmarkService {
         public String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException {
             return "http://www.stumbleupon.com/submit?url=http%3A%2F%2Fphet.colorado.edu" + URLEncoder.encode( relativeUrl, "UTF-8" ) + "&title=" + URLEncoder.encode( title, "UTF-8" );
         }
+
+        @Override
+        public String getName() {
+            return "stumbleupon";
+        }
     };
 
     public static final SocialBookmarkService DIGG = new SocialBookmarkService() {
@@ -85,6 +106,11 @@ public abstract class SocialBookmarkService {
         @Override
         public String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException {
             return "http://digg.com/submit?phase=2&url=http%3A%2F%2Fphet.colorado.edu" + URLEncoder.encode( relativeUrl, "UTF-8" ) + "&title=" + URLEncoder.encode( title, "UTF-8" );
+        }
+
+        @Override
+        public String getName() {
+            return "digg";
         }
     };
 
@@ -98,6 +124,11 @@ public abstract class SocialBookmarkService {
         public String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException {
             return "http://www.reddit.com/login?dest=%2Fsubmit%3Furl%3Dhttp%3A%2F%2Fhttp%253A%252F%252Fphet.colorado.edu" + doubleEncode( relativeUrl ) + "%26title%3D" + doubleEncode( title );
         }
+
+        @Override
+        public String getName() {
+            return "reddit";
+        }
     };
 
     public static final SocialBookmarkService DELICIOUS = new SocialBookmarkService() {
@@ -109,6 +140,11 @@ public abstract class SocialBookmarkService {
         @Override
         public String getShareUrl( String relativeUrl, String title ) throws UnsupportedEncodingException {
             return "https://secure.delicious.com/login?jump=http%3A%2F%2Fwww.delicious.com%2Fsave%3Furl%3Dhttp%253A%252F%252Fphet.colorado.edu" + doubleEncode( relativeUrl ) + "%26title%3D" + doubleEncode( title );
+        }
+
+        @Override
+        public String getName() {
+            return "delicious";
         }
     };
 
