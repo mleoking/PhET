@@ -15,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.buildanatom.modules.game.model.ProblemType;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 
 /**
@@ -123,6 +124,34 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
     public boolean isCountsToElementProblemAllowed() {
         return countsToElementProblemAllowed.isSelected();
+    }
+
+    public boolean isProblemTypeAllowed( ProblemType problemType ){
+        boolean allowed = false;
+        switch ( problemType ){
+        case SYMBOL_TO_SCHEMATIC:
+            allowed = symbolToSchematicProblemAllowed.isSelected();
+            break;
+        case SCHEMATIC_TO_SYMBOL:
+            allowed = schematicToSymbolProblemAllowed.isSelected();
+            break;
+        case SYMBOL_TO_COUNTS:
+            allowed = symbolToCountsProblemAllowed.isSelected();
+            break;
+        case COUNTS_TO_SYMBOL:
+            allowed = countsToSymbolProblemAllowed.isSelected();
+            break;
+        case SCHEMATIC_TO_ELEMENT:
+            allowed = schematicToElementProblemAllowed.isSelected();
+            break;
+        case COUNTS_TO_ELEMENT:
+            allowed = countsToElementProblemAllowed.isSelected();
+            break;
+        default:
+            System.err.println( getClass().getName() + " - Error: Unknown problem type." );
+            break;
+        }
+        return allowed;
     }
 
     public void setAllSelected(){
