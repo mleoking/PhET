@@ -4,7 +4,10 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
@@ -35,12 +38,16 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         int minimumWidth = GravityAndOrbitsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
 
-        // Layout
-        {
-            addResetAllButton( module );
-        }
+        addControlFullWidth( new JCheckBox( "Forces" ) );
+        addControlFullWidth( new JCheckBox( "Traces" ) );
+        addControlFullWidth( new JCheckBox( "Velocity" ) );
+        addControlFullWidth( new JCheckBox( "Show Masses" ) );
+        addControlFullWidth( new BodyDiameterControl( model.getSun() ) );
+        addControlFullWidth( new BodyDiameterControl( model.getPlanet() ) );
+        addControlFullWidth( new JCheckBox( "Moon" ) );
 
-        addControl( new BodyDiameterControl( model.getSun() ) );
+        addResetAllButton( module );
+        setBorder( new PhetLineBorder( Color.green ) );
     }
 
     //----------------------------------------------------------------------------

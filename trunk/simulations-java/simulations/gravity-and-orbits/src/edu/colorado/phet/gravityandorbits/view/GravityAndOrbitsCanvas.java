@@ -41,8 +41,11 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 2.0,
                 true );
 
-        BodyNode bodyNode = new BodyNode( model.getSun(), modelViewTransform2D );
-        addChild( bodyNode );
+        BodyNode sunNode = new BodyNode( model.getSun(), modelViewTransform2D );
+        addChild( sunNode );
+
+        BodyNode planetNode = new BodyNode( model.getPlanet(), modelViewTransform2D );
+        addChild( planetNode );
     }
 
     private void addChild( BodyNode bodyNode ) {
