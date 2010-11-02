@@ -36,13 +36,13 @@ public class BodyNode extends PNode {
         } );
         body.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
+//                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
             }
         } );
         body.getDiameterProperty().addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "getViewDiameter() = " + getViewDiameter() );
+//                System.out.println( "getViewDiameter() = " + getViewDiameter() );
                 sphere.setDiameter( getViewDiameter() );
                 sphere.setPaint( createPaint( getViewDiameter() ) );
             }
