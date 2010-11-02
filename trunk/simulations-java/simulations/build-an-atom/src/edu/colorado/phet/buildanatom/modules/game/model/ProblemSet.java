@@ -257,6 +257,7 @@ public class ProblemSet {
     private static class AtomValuePool {
         private static final Random AVP_RAND = new Random();
         private final ArrayList<AtomValue> remainingAtomValues;
+        private final ArrayList<AtomValue> usedAtomValues = new ArrayList<AtomValue>();
 
         public AtomValuePool(BuildAnAtomGameModel model) {
             remainingAtomValues = new ArrayList<AtomValue>( model.getLevelPool() );
@@ -271,13 +272,16 @@ public class ProblemSet {
             assert remainingAtomValues.size() > 0;
             int index = AVP_RAND.nextInt( remainingAtomValues.size() );
             AtomValue atomValue = remainingAtomValues.get( index );
+            usedAtomValues.add( atomValue );
             remainingAtomValues.remove( index );
             return atomValue;
         }
 
         /**
          * Get an atom value from the pool that is at or below the specified
-         * proton count.
+         * proton count, and then remove it from the list of remaining atoms.
+         * If there are none that match the constraint, try the list of used
+         * atoms.
          */
         public AtomValue getRandomAtomValueMaxSize( int maxProtons ){
 
@@ -290,12 +294,13 @@ public class ProblemSet {
             AtomValue atomValue;
             if ( allowableAtomValues.size() > 0){
                 atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
+                remainingAtomValues.remove( atomValue );
+                usedAtomValues.add( atomValue );
             }
             else{
-                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, returning arbitrary problem." );
-                atomValue = remainingAtomValues.get( AVP_RAND.nextInt( remainingAtomValues.size() ) );
+                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, returning previously used atom value." );
+                atomValue = usedAtomValues.get( AVP_RAND.nextInt( usedAtomValues.size() ) );
             }
-            remainingAtomValues.remove( atomValue );
             return atomValue;
         }
     }
