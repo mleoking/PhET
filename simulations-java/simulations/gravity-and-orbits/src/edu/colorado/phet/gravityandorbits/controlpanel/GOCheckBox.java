@@ -27,7 +27,7 @@ public class GOCheckBox extends JCheckBox {
             }
         } );
         setOpaque( false );
-        setFont( new PhetFont( 18 ) );
+        setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
         setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
     }

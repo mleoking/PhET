@@ -53,8 +53,7 @@ public class BodyNode extends PNode {
     }
 
     private double getViewDiameter() {
-        final boolean toScale = toScaleProperty.getValue();
-        if ( toScale ) {
+        if ( toScaleProperty.getValue() ) {
             return Math.max( modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() ), 2 );
         }
         else {

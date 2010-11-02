@@ -21,6 +21,7 @@ public class Body {
     private final Color color;
     private final Color highlight;
     private final ArrayList<Point2D> trace = new ArrayList<Point2D>();
+    private final double density;
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;
@@ -32,6 +33,15 @@ public class Body {
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         massProperty = new Property<Double>( mass );
         diameterProperty = new Property<Double>( diameter );
+        density = mass / getVolume();
+    }
+
+    private double getVolume() {
+        return 4.0 / 3.0 * Math.PI * Math.pow( getRadius(), 3 );
+    }
+
+    private double getRadius() {
+        return getDiameter() / 2;
     }
 
     public Color getColor() {
@@ -87,7 +97,7 @@ public class Body {
         return new VelocityVerlet.BodyState( getPosition(), getVelocity(), getAcceleration(), getMass() );
     }
 
-    private double getMass() {
+    public double getMass() {
         return massProperty.getValue();
     }
 
@@ -117,5 +127,21 @@ public class Body {
 
     public Property<ImmutableVector2D> getForceProperty() {
         return forceProperty;
+    }
+
+    public void setMass( double mass ) {
+        massProperty.setValue( mass );
+        double radius = Math.pow( 3 * mass / 4 / Math.PI / density, 1.0 / 3.0 );
+        diameterProperty.setValue( radius * 2 );
+    }
+
+    public void resetAll() {
+        positionProperty.reset();
+        velocityProperty.reset();
+        accelerationProperty.reset();
+        forceProperty.reset();
+        massProperty.reset();
+        diameterProperty.reset();
+        clearTrace();
     }
 }
