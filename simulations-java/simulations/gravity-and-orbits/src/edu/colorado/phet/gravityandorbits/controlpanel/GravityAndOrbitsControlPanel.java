@@ -4,8 +4,6 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import java.awt.*;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
@@ -38,16 +36,18 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         int minimumWidth = GravityAndOrbitsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
 
-        addControlFullWidth( new JCheckBox( "Forces" ) );
-        addControlFullWidth( new JCheckBox( "Traces" ) );
-        addControlFullWidth( new JCheckBox( "Velocity" ) );
-        addControlFullWidth( new JCheckBox( "Show Masses" ) );
+        addControlFullWidth( new GOCheckBox( "Forces", module.getForcesProperty() ) );
+        addControlFullWidth( new GOCheckBox( "Traces", module.getTracesProperty() ) );
+        addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
+        addControlFullWidth( new GOCheckBox( "Show Masses", module.getShowMassesProperty() ) );
         addControlFullWidth( new BodyDiameterControl( model.getSun() ) );
         addControlFullWidth( new BodyDiameterControl( model.getPlanet() ) );
-        addControlFullWidth( new JCheckBox( "Moon" ) );
+        addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
 
         addResetAllButton( module );
         setBorder( new PhetLineBorder( Color.green ) );
+        setBackground( BACKGROUND );
+        getContentPanel().setBackground( BACKGROUND );
     }
 
     //----------------------------------------------------------------------------
@@ -62,4 +62,7 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
     // Access to subpanels
     //----------------------------------------------------------------------------
 
+    public static Color BACKGROUND = Color.blue;
+
+    public static Color FOREGROUND = Color.white;
 }

@@ -4,6 +4,7 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
@@ -25,6 +26,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private GravityAndOrbitsCanvas canvas;
     private GravityAndOrbitsControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
+    private Property<Boolean> forcesProperty = new Property<Boolean>( false );
+    private Property<Boolean> tracesProperty = new Property<Boolean>( false );
+    private Property<Boolean> velocityProperty = new Property<Boolean>( false );
+    private Property<Boolean> showMassesProperty = new Property<Boolean>( false );
+    private Property<Boolean> moonProperty = new Property<Boolean>( false );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,5 +80,25 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         // reset the clock
         GravityAndOrbitsClock clock = model.getClock();
         clock.resetSimulationTime();
+    }
+
+    public Property<Boolean> getForcesProperty() {
+        return forcesProperty;
+    }
+
+    public Property<Boolean> getTracesProperty() {
+        return tracesProperty;
+    }
+
+    public Property<Boolean> getVelocityProperty() {
+        return velocityProperty;
+    }
+
+    public Property<Boolean> getShowMassesProperty() {
+        return showMassesProperty;
+    }
+
+    public Property<Boolean> getMoonProperty() {
+        return moonProperty;
     }
 }
