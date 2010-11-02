@@ -1,3 +1,4 @@
+11/2/10 add zoom control to E-field detector
 11/2/10 EFieldDetectorView was getting too large, move body and probe to separate files
 11/2/10 generalize wire that connects a probe to a meter
 11/1/10 constrain E-field probe location to be inside the bounds of the world
