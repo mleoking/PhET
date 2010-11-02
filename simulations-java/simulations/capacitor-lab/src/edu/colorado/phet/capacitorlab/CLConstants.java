@@ -104,7 +104,7 @@ public class CLConstants {
     public static final Point2D CHARGE_METER_LOCATION = new Point2D.Double( 750, 25 );
     public static final Point2D ENERGY_METER_LOCATION = new Point2D.Double( 900, 25 );
     public static final Point2D VOLTMETER_LOCATION = new Point2D.Double( 750, 325 );
-    public static final Point2D EFIELD_DETECTOR_LOCATION = new Point2D.Double( 650, 600 );
+    public static final Point2D EFIELD_DETECTOR_BODY_LOCATION = new Point2D.Double( 650, 600 );
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = true; 

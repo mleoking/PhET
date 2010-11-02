@@ -21,6 +21,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.World;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -84,29 +85,25 @@ public class EFieldDetectorView {
     private final ProbeNode probeNode;
     private final WireNode wireNode;
     
-    public EFieldDetectorView( EFieldDetector detector, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
+    public EFieldDetectorView( EFieldDetector detector, World world, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
         
-        bodyNode = new BodyNode( detector );
-        bodyNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                    probeNode.setVisible( bodyNode.getVisible() );
-                    wireNode.setVisible( bodyNode.getVisible() );
-                }
-            }
-        });
+        bodyNode = new BodyNode( detector, dragBoundsNode );
         
-        probeNode = new ProbeNode( detector, mvt, dev );
+        probeNode = new ProbeNode( detector, world, mvt, dev );
         probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         
         wireNode = new WireNode( bodyNode, probeNode );
         wireNode.setPickable( false );
-        
-        // interactivity
-        bodyNode.addInputEventListener( new CursorHandler() );
-        probeNode.addInputEventListener( new CursorHandler() );
-        bodyNode.addInputEventListener( new BoundedDragHandler( bodyNode, dragBoundsNode ) );
-        probeNode.addInputEventListener( new BoundedDragHandler( probeNode, dragBoundsNode ) );
+    }
+    
+    public void setVisible( boolean visible ) {
+        bodyNode.setVisible( visible );
+        probeNode.setVisible( visible );
+        wireNode.setVisible( visible );
+    }
+    
+    public boolean isVisible() {
+        return bodyNode.isVisible();
     }
     
     public PNode getBodyNode() {
@@ -133,7 +130,7 @@ public class EFieldDetectorView {
         private final PSwing showVectorsPSwing;
         private final VectorDisplayNode vectorDisplayNode;
         
-        public BodyNode( final EFieldDetector detector ) {
+        public BodyNode( final EFieldDetector detector, PNode dragBoundsNode ) {
             
             // title that appears at the top
             PText titleNode = new PText( CLStrings.ELECTRIC_FIELD );
@@ -216,6 +213,10 @@ public class EFieldDetectorView {
             x = BODY_X_MARGIN + maxControlWidth + BODY_X_SPACING;
             y = showVectorsPSwing.getYOffset();
             vectorDisplayNode.setOffset( x, y );
+            
+            // interactivity
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         }
         
         public void setShowVectorsPanelVisible( boolean visible ) {
@@ -521,7 +522,7 @@ public class EFieldDetectorView {
         
         private final Point2D connectionOffset;
         
-        public ProbeNode( final EFieldDetector detector, final ModelViewTransform mvt, boolean dev ) {
+        public ProbeNode( final EFieldDetector detector, World world, final ModelViewTransform mvt, boolean dev ) {
             super();
             
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
@@ -544,7 +545,8 @@ public class EFieldDetectorView {
                 }
             });
             
-            addInputEventListener( new ProbeDragHandler( this, detector, mvt ) );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new ProbeDragHandler( this, detector, world, mvt ) );
         }
         
         public Point2D getConnectionOffsetReference() {
@@ -556,13 +558,15 @@ public class EFieldDetectorView {
         
         private final ProbeNode probeNode;
         private final EFieldDetector detector;
+        private final World world;
         private final ModelViewTransform mvt;
         
         private double clickXOffset, clickYOffset;
         
-        public ProbeDragHandler( ProbeNode probeNode, EFieldDetector detector, ModelViewTransform mvt ) {
+        public ProbeDragHandler( ProbeNode probeNode, EFieldDetector detector, World world, ModelViewTransform mvt ) {
             this.probeNode = probeNode;
             this.detector = detector;
+            this.world = world;
             this.mvt = mvt;
         }
         
@@ -582,7 +586,10 @@ public class EFieldDetectorView {
             double xView = pMouse.getX() - clickXOffset;
             double yView = pMouse.getY() - clickYOffset;
             Point3D pModel = new Point3D.Double( mvt.viewToModel( xView, yView ) );
-            detector.setProbeLocation( pModel );
+            // prevent probe from being dragged outside world bounds
+            if ( world.contains( pModel ) ) {
+                detector.setProbeLocation( pModel );
+            }
         }
     }
     

@@ -1,3 +1,6 @@
+11/1/10 clean up handling of visibility for E-field detector
+11/1/10 fix detector probe drag behavior, constrain to the play area via the model "world bounds"
+11/1/10 add world bounds to model, to constrain placement of model elements
 11/1/10 make the E-field detector wire look more natural
 11/1/10 setOpaque(false) on various Swing components in the E-field Detector
 11/1/10 get wire connection working properly for rotated E-field probe 

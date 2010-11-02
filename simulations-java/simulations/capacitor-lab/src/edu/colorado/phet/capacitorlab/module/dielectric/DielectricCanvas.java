@@ -16,15 +16,14 @@ import edu.colorado.phet.capacitorlab.control.RemoveWiresButtonNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
-import edu.colorado.phet.capacitorlab.view.BatteryNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
+import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
 import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -58,7 +57,6 @@ public class DielectricCanvas extends CLCanvas {
     private final StoredEnergyMeterNode energyMeterNode;
     private final VoltmeterNode voltmeterNode;
     private final EFieldDetectorView eFieldDetector;
-    private final PNode eFieldDetectorBodyNode, eFieldDetectorProbeNode;
     
     private final ArrayList<PNode> capacitorTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
     
@@ -100,9 +98,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeterNode = new VoltmeterNode();//XXX
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, playAreaBoundsNode, dev );
-        eFieldDetectorBodyNode = eFieldDetector.getBodyNode();
-        eFieldDetectorProbeNode = eFieldDetector.getProbeNode();
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), model.getWorld(), mvt, playAreaBoundsNode, dev );
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
@@ -126,15 +122,15 @@ public class DielectricCanvas extends CLCanvas {
         addChild( chargeMeterNode );
         addChild( energyMeterNode );
         addChild( voltmeterNode );
-        addChild( eFieldDetectorBodyNode );
+        addChild( eFieldDetector.getBodyNode() );
         addChild( eFieldDetector.getWireNode() );
-        addChild( eFieldDetectorProbeNode );
+        addChild( eFieldDetector.getProbeNode() );
         
         // nodes whose visibility causes the capacitor to become transparent
         capacitorTransparencyNodes = new ArrayList<PNode>();
         addCapacitorTransparencyNode( capacitorNode.getEFieldNode() );
         addCapacitorTransparencyNode( voltmeterNode );
-        addCapacitorTransparencyNode( eFieldDetectorBodyNode );
+        addCapacitorTransparencyNode( eFieldDetector.getBodyNode() );
         
         // static layout
         {
@@ -188,8 +184,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
         energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
         voltmeterNode.setVisible( CLConstants.VOLTMETER_VISIBLE );
-        eFieldDetectorBodyNode.setVisible( CLConstants.EFIELD_DETECTOR_VISIBLE );
-        eFieldDetectorProbeNode.setVisible( CLConstants.EFIELD_DETECTOR_VISIBLE );
+        eFieldDetector.setVisible( CLConstants.EFIELD_DETECTOR_VISIBLE );
         capacitorNode.setPlateChargeVisible( CLConstants.PLATE_CHARGES_VISIBLE );
         capacitorNode.setEFieldVisible( CLConstants.EFIELD_VISIBLE );
         // dielectric charge view
@@ -199,7 +194,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
         energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
         voltmeterNode.setOffset( CLConstants.VOLTMETER_LOCATION );
-        eFieldDetectorBodyNode.setOffset( CLConstants.EFIELD_DETECTOR_LOCATION );
+        eFieldDetector.getBodyNode().setOffset( CLConstants.EFIELD_DETECTOR_BODY_LOCATION );
     }
     
     public CapacitorNode getCapacitorNode() {
@@ -222,8 +217,8 @@ public class DielectricCanvas extends CLCanvas {
         return voltmeterNode;
     }
     
-    public PNode getEFieldDetectorNode() {
-        return eFieldDetectorBodyNode;
+    public EFieldDetectorView getEFieldDetector() {
+        return eFieldDetector;
     }
     
     public void setEFieldDetectorShowVectorsPanelVisible( boolean visible ) {
@@ -258,6 +253,10 @@ public class DielectricCanvas extends CLCanvas {
             return;
         }
         
+        // adjust the model bounds
+        Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
+        model.getWorld().setBounds( 0, 0, p.getX(), p.getY() );
+        
         // Adjust play area bounds so that things aren't dragged off the canvas.
         final double margin = 0;
         playAreaBoundsNode.setPathTo( new Rectangle2D.Double( margin, margin, worldSize.getWidth() - ( 2 * margin ), worldSize.getHeight() - ( 2 * margin ) ) );
@@ -267,8 +266,7 @@ public class DielectricCanvas extends CLCanvas {
         keepInsideCanvas( chargeMeterNode );
         keepInsideCanvas( energyMeterNode );
         keepInsideCanvas( voltmeterNode );  //XXX does not work, it's 3 separate draggable pieces
-        keepInsideCanvas( eFieldDetectorBodyNode );
-        keepInsideCanvas( eFieldDetectorProbeNode );
+        keepInsideCanvas( eFieldDetector.getBodyNode() );
     }
     
     /*

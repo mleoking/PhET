@@ -12,6 +12,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
+import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -107,18 +108,18 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // E-field Detector
         {
-            final PNode meter = canvas.getEFieldDetectorNode();
+            final EFieldDetectorView detector = canvas.getEFieldDetector();
             eFieldDetectorCheckBox = new JCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR );
-            eFieldDetectorCheckBox.setSelected( meter.getVisible() );
+            eFieldDetectorCheckBox.setSelected( detector.isVisible() );
             eFieldDetectorCheckBox.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    meter.setVisible( eFieldDetectorCheckBox.isSelected() );
+                    detector.setVisible( eFieldDetectorCheckBox.isSelected() );
                 }
             } );
-            meter.addPropertyChangeListener( new PropertyChangeListener() {
+            detector.getBodyNode().addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        eFieldDetectorCheckBox.setSelected( meter.getVisible() );
+                        eFieldDetectorCheckBox.setSelected( detector.isVisible() );
                     }
                 }
             } );

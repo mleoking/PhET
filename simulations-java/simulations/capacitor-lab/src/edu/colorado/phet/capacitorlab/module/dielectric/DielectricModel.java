@@ -17,14 +17,18 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
  */
 public class DielectricModel {
     
+    // static properties
+    private final World world;
     private final DielectricMaterial[] dielectricMaterials;
     private final CustomDielectricMaterial customDielectricMaterial;
     private final DielectricMaterial defaultDielectricMaterial;
     private final BatteryCapacitorCircuit circuit;
     private final Wire topWire, bottomWire;
     private final EFieldDetector eFieldDetector;
-
+    
     public DielectricModel( CLClock clock ) {
+        
+        world = new World();
         
         customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, new Teflon(), new Paper(), new Glass() };
@@ -44,6 +48,10 @@ public class DielectricModel {
         
         // default state
         reset();
+    }
+    
+    public World getWorld() {
+        return world;
     }
     
     public DielectricMaterial[] getDielectricMaterials() {
