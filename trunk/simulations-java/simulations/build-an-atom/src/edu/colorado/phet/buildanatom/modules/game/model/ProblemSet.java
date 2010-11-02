@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
@@ -12,21 +13,43 @@ import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
  * @author Sam Reid
  */
 public class ProblemSet {
-    private final ArrayList<Problem> allProblems = new ArrayList<Problem>();
+    private static final int MIN_NUM_SCHEMATIC_PROBS_PER_SET = 2;
+    private static final int MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS = 3; // Disallow schematic (Bohr model) probs above this size.
+
+    private final ArrayList<Problem> problems = new ArrayList<Problem>();
     private int currentProblemIndex = 0;
     public static final Random random = new Random();
 
+    /**
+     * Constructor.  This is where the problems are generated and put into the
+     * problem set.  They are created randomly based on the constraints of the
+     * current level selection and the "pool" of potential problems for the
+     * level.
+     */
     public ProblemSet( BuildAnAtomGameModel model, int numProblems ) {
-        final ArrayList<AtomValue> levelPool = model.getLevelPool();
-        assert levelPool.size()>=numProblems;//otherwise problems would be duplicated in a game
-        ArrayList<AtomValue> remainingProblems = new ArrayList<AtomValue>( levelPool );//don't re-use the same problem twice in the same game
-        for ( int i = 0; i < numProblems; i++ ) {
-            final int index = random.nextInt( remainingProblems.size() );
-            AtomValue atomValue = remainingProblems.get( index );
-            remainingProblems.remove( index );
-            Problem problem = getProblem( model, atomValue );
+
+        // Create a pool of atom values that can be used to create problems
+        // for the problem set.
+        AtomValuePool atomValueList = new AtomValuePool( model );
+
+        // There is a constraint that there must be a certain number of
+        // schematic (a.k.a. Bohr) model problems in each problem set.  To
+        // support this, we first add the min number of these problems to the
+        // problem set.  We will randomize the order later.
+        assert numProblems >= MIN_NUM_SCHEMATIC_PROBS_PER_SET;
+        for ( int i = 0; i < MIN_NUM_SCHEMATIC_PROBS_PER_SET; i++){
+            Problem problem = getProblem( model, atomValueList.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS ) );
             addProblem( problem );
         }
+
+        // Now add problems of any type to the problem set.
+        for ( int i = MIN_NUM_SCHEMATIC_PROBS_PER_SET; i < numProblems; i++ ) {
+            Problem problem = getProblem( model, atomValueList.getRandomAtomValue() );
+            addProblem( problem );
+        }
+
+        // Radomize the order of the problems.
+        Collections.shuffle( problems );
     }
 
     /**
@@ -43,7 +66,9 @@ public class ProblemSet {
         // TODO: We may wish to remove this once interviews are complete.
         ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
 
-        // Make sure that at least one problem type is allowed.
+        // Make sure that at least one problem type is allowed based on the
+        // current setting of the developer dialog.  If not, turn 'em all back
+        // on.
         if ( !allowedProbsDlg.isSymbolToSchematicProblemAllowed() &&
              !allowedProbsDlg.isSchematicToElementProblemAllowed() &&
              !allowedProbsDlg.isSchematicToSymbolProblemAllowed() &&
@@ -55,7 +80,6 @@ public class ProblemSet {
             System.err.println( getClass().getName() + " - Error: No problem types selected, re-selecting them all." );
             allowedProbsDlg.setAllSelected();
         }
-
 
         // Note: Due to the difficulty of being able to count the nucleons in
         // the schematic view (a.k.a. the Bohr model), a restriction has been
@@ -102,31 +126,112 @@ public class ProblemSet {
         return problems.get( random.nextInt( problems.size() ) );
     }
 
+    private Problem getSchematicProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
+        ArrayList<Problem> problems = getPossibleSchematicProblems( model, atomValue );
+        return problems.get( random.nextInt( problems.size() ) );
+    }
+
+    /**
+     * Get all possible problems that involve an atom schematic, a.k.a. a
+     * "Bohr model" representation.
+     */
+    private ArrayList<Problem> getPossibleSchematicProblems( BuildAnAtomGameModel model, AtomValue atomValue ) {
+
+        assert atomValue.getProtons() < MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS;
+
+        // Get the developer dialog that contains the information regarding
+        // which problem types are allowed.
+        // TODO: We may wish to remove this once interviews are complete.
+        ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
+
+        // Make sure that at least one schematic problem type is allowed based
+        // on the current setting of the developer dialog.  If not, turn 'em
+        // all back on.
+        if ( !allowedProbsDlg.isSymbolToSchematicProblemAllowed() &&
+             !allowedProbsDlg.isSchematicToElementProblemAllowed() &&
+             !allowedProbsDlg.isSchematicToSymbolProblemAllowed() ){
+            // No problem types are selected.  Warn the user via console and
+            // turn on all problem types.
+            System.err.println( getClass().getName() + " - Error: No problem types selected, re-selecting them all." );
+            allowedProbsDlg.setAllSelected();
+        }
+
+        ArrayList<Problem> problems = new ArrayList<Problem>();
+        if ( allowedProbsDlg.isSymbolToSchematicProblemAllowed() ) {
+            problems.add( new SymbolToSchematicProblem( model, atomValue ) );
+        }
+        if ( allowedProbsDlg.isSchematicToSymbolProblemAllowed() ) {
+            problems.add( new SchematicToSymbolProblem( model, atomValue ) );
+        }
+        if ( allowedProbsDlg.isSchematicToElementProblemAllowed() ) {
+            problems.add( new SchematicToElementProblem( model, atomValue ) );
+        }
+        return problems;
+    }
+
+    /**
+     * Get all possible problems that involve the symbol representation, i.e.
+     * the white box with the element symbol in the middle and the various
+     * numbers that qualify it in the corners of the box.
+     */
+    private ArrayList<Problem> getPossibleSymbolProblems( BuildAnAtomGameModel model, AtomValue atomValue ) {
+
+        // Get the developer dialog that contains the information regarding
+        // which problem types are allowed.
+        // TODO: We may wish to remove this once interviews are complete.
+        ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
+
+        // Make sure that at least one symbol problem type is allowed based
+        // on the current setting of the developer dialog.  If not, turn 'em
+        // all back on.
+        if ( !allowedProbsDlg.isSymbolToSchematicProblemAllowed() &&
+                !allowedProbsDlg.isSchematicToSymbolProblemAllowed() &&
+                !allowedProbsDlg.isSymbolToCountsProblemAllowed() &&
+                !allowedProbsDlg.isCountsToSymbolProblemAllowed() ) {
+            // No problem types are selected.  Warn the user via console and
+            // turn on all problem types.
+            System.err.println( getClass().getName() + " - Error: No problem types selected, re-selecting them all." );
+            allowedProbsDlg.setAllSelected();
+        }
+
+        ArrayList<Problem> problems = new ArrayList<Problem>();
+        if ( allowedProbsDlg.isSymbolToSchematicProblemAllowed() ) {
+            problems.add( new SymbolToSchematicProblem( model, atomValue ) );
+        }
+        if ( allowedProbsDlg.isSchematicToSymbolProblemAllowed() ) {
+            problems.add( new SchematicToSymbolProblem( model, atomValue ) );
+        }
+        if ( allowedProbsDlg.isSchematicToElementProblemAllowed() ) {
+            problems.add( new SchematicToElementProblem( model, atomValue ) );
+        }
+        return problems;
+    }
+
     public void addProblem( Problem problem) {
-        allProblems.add( problem );
+        problems.add( problem );
     }
 
     public Problem getProblem( int i ) {
-        return allProblems.get( i );
+        return problems.get( i );
     }
 
     public int getProblemIndex( Problem problem ) {
-        return allProblems.indexOf( problem );
+        return problems.indexOf( problem );
     }
 
     public int getTotalNumProblems() {
-        return allProblems.size();
+        return problems.size();
     }
 
     public Problem getCurrentProblem(){
-        return allProblems.get( currentProblemIndex );
+        return problems.get( currentProblemIndex );
     }
 
     /**
      * @return
      */
     public boolean isLastProblem() {
-        return currentProblemIndex == allProblems.size() -1;
+        return currentProblemIndex == problems.size() -1;
     }
 
     /**
@@ -139,4 +244,87 @@ public class ProblemSet {
         currentProblemIndex++;
         return getCurrentProblem();
     }
+
+    private static class AtomValuePool {
+        private static final Random RAND = new Random();
+        private final ArrayList<AtomValue> remainingAtomValues;
+
+        public AtomValuePool(BuildAnAtomGameModel model) {
+            remainingAtomValues = new ArrayList<AtomValue>( model.getLevelPool() );
+        }
+
+        /**
+         * Get a random atom value from the pool of available ones, and then
+         * remove it from the list so that it won't be returned again.
+         * @return
+         */
+        public AtomValue getRandomAtomValue(){
+            assert remainingAtomValues.size() > 0;
+            int index = RAND.nextInt( remainingAtomValues.size() );
+            AtomValue atomValue = remainingAtomValues.get( index );
+            remainingAtomValues.remove( index );
+            return atomValue;
+        }
+
+        /**
+         * Get a atom value from the pool that is at or below the specified
+         * proton count.
+         */
+        public AtomValue getRandomAtomValueMaxSize( int maxProtons ){
+
+            ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
+            for ( AtomValue av : remainingAtomValues ){
+                if (av.getProtons() <= maxProtons){
+                    allowableAtomValues.add( av );
+                }
+            }
+            AtomValue atomValue;
+            if ( allowableAtomValues.size() > 0){
+                atomValue = allowableAtomValues.get( RAND.nextInt( allowableAtomValues.size() ) );
+            }
+            else{
+                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, returning arbitrary problem." );
+                atomValue = remainingAtomValues.get( RAND.nextInt( allowableAtomValues.size() ) );
+            }
+            remainingAtomValues.remove( atomValue );
+            return atomValue;
+        }
+    }
+
+    private enum ProblemTypes {
+        SYMBOL_TO_SCHEMATIC,
+        SCHEMATIC_TO_SYMBOL,
+        SYMBOL_TO_COUNTS,
+        COUNTS_TO_SYMBOL,
+        SCHEMATIC_TO_ELEMENT,
+        COUNTS_TO_ELEMENT
+    }
+
+    private static final ProblemTypes[] LEVEL_1_SCHEMATIC_PROB_TYPES = {
+            ProblemTypes.SCHEMATIC_TO_ELEMENT
+            };
+    private static final ProblemTypes[] LEVEL_1_ALL_PROB_TYPES = {
+            ProblemTypes.SCHEMATIC_TO_ELEMENT,
+            ProblemTypes.COUNTS_TO_ELEMENT
+            };
+    private static final ProblemTypes[] LEVEL_2_SCHEMATIC_PROB_TYPES = {
+            ProblemTypes.SCHEMATIC_TO_SYMBOL,
+            ProblemTypes.SYMBOL_TO_SCHEMATIC
+            };
+    private static final ProblemTypes[] LEVEL_2_ALL_PROB_TYPES = {
+            ProblemTypes.SCHEMATIC_TO_SYMBOL,
+            ProblemTypes.SYMBOL_TO_SCHEMATIC,
+            ProblemTypes.SYMBOL_TO_COUNTS,
+            ProblemTypes.COUNTS_TO_SYMBOL
+            };
+    private static final ProblemTypes[] LEVEL_3_SCHEMATIC_PROB_TYPES = {
+            ProblemTypes.SCHEMATIC_TO_SYMBOL,
+            ProblemTypes.SYMBOL_TO_SCHEMATIC
+            };
+    private static final ProblemTypes[] LEVEL_3_ALL_PROB_TYPES = {
+            ProblemTypes.SCHEMATIC_TO_SYMBOL,
+            ProblemTypes.SYMBOL_TO_SCHEMATIC,
+            ProblemTypes.SYMBOL_TO_COUNTS,
+            ProblemTypes.COUNTS_TO_SYMBOL
+            };
 }
