@@ -66,6 +66,7 @@ public abstract class ToElementView extends ProblemView {
     @Override
     protected void displayAnswer( AtomValue answer ) {
         gamePeriodicTable.displayNumProtons( answer.getProtons() );
+        gamePeriodicTable.setGuessNeutral( answer.isNeutral() );
     }
 
     @Override
@@ -101,7 +102,7 @@ public abstract class ToElementView extends ProblemView {
                     } );
                 }
             } );
-            
+
             //Add the "neutral atom" / "ion" selection radio buttons
             final PSwing buttonPanelNode = new PSwing( new JPanel() {{
                 setOpaque( false );
@@ -154,6 +155,10 @@ public abstract class ToElementView extends ProblemView {
 
         public boolean isGuessNeutral() {
             return guessNeutralProperty.getValue();
+        }
+
+        public void setGuessNeutral( boolean isNeutral ){
+            guessNeutralProperty.setValue( isNeutral );
         }
     }
 }
