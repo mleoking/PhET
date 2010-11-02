@@ -42,8 +42,8 @@ public class GravityAndOrbitsModel {
                         }
                     }
                 } );
-//                sun.setBodyState( state.get( 0 ) );
-//                planet.setBodyState( state.get( 1 ) );
+                sun.setBodyState( state.get( 0 ) );
+                planet.setBodyState( state.get( 1 ) );
             }
         } );
     }
