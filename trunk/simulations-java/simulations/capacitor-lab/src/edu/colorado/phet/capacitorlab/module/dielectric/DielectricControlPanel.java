@@ -25,7 +25,7 @@ public class DielectricControlPanel extends CLControlPanel {
     public DielectricControlPanel( Frame parentFrame, Module module, DielectricModel model, DielectricCanvas canvas, boolean dev ) {
         
         addControlFullWidth( new ViewControlPanel( canvas.getCapacitorNode() ) );
-        addControlFullWidth( new MetersControlPanel( canvas ) );
+        addControlFullWidth( new MetersControlPanel( canvas, model ) );
         dielectricPropertiesControlPanel = new DielectricPropertiesControlPanel( model, canvas.getCapacitorNode() );
         addControlFullWidth( dielectricPropertiesControlPanel );
         

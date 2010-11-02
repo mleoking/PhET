@@ -49,14 +49,14 @@ public class Voltmeter {
     }
     
     private void updateValue() {
-        //XXX update value property base on probe locations
-        value.setValue( circuit.getPlatesVoltage() ); //XXX for now...
+        value.setValue( circuit.getVoltageBetween( positiveProbeLocation.getValue(), negativeProbeLocation.getValue() ) );
     }
     
     public void reset() {
+        visible.reset();
         positiveProbeLocation.reset();
         negativeProbeLocation.reset();
-        updateValue();
+        // value property updates other properties are reset
     }
     
     public boolean isVisible() {
@@ -80,6 +80,7 @@ public class Voltmeter {
     public void setPositiveProbeLocation( Point3D location ) {
         if ( !location.equals( getPositiveProbeLocationReference() )) {
             this.positiveProbeLocation.setValue( new Point3D.Double( location ) );
+            updateValue();
         }
     }
     
@@ -94,6 +95,7 @@ public class Voltmeter {
     public void setNegativeProbeLocation( Point3D location ) {
         if ( !location.equals( getNegativeProbeLocationReference() )) {
             this.negativeProbeLocation.setValue( new Point3D.Double( location ) );
+            updateValue();
         }
     }
     
