@@ -16,11 +16,10 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  */
 public class GravityAndOrbitsControlPanel extends ControlPanel {
     public static Color BACKGROUND = new Color( 3, 0, 133 );
-    public static Color BRIGHTER_BACKGROUND = new Color( 103, 100, 233 );
     public static Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 18, true );
 
-    public GravityAndOrbitsControlPanel( GravityAndOrbitsModule module, Frame parentFrame, GravityAndOrbitsModel model ) {
+    public GravityAndOrbitsControlPanel( GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
         super();
 
         // Set the control panel's minimum width.
