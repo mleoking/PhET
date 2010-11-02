@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -62,8 +64,6 @@ public class EFieldDetectorView {
     private static final int BODY_X_SPACING = 2;
     private static final int BODY_Y_SPACING = 4;
     
-    private static final Color WIRE_COLOR = Color.BLACK;
-    private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
     // wire is a cubic curve, these are the control point offsets
     private static final Point2D WIRE_BODY_CONTROL_POINT_OFFSET = new Point2D.Double( -25, 0 );
     private static final Point2D WIRE_PROBE_CONTROL_POINT_OFFSET = new Point2D.Double( -80, 100 );
@@ -83,7 +83,7 @@ public class EFieldDetectorView {
 
     private final BodyNode bodyNode;
     private final ProbeNode probeNode;
-    private final WireNode wireNode;
+    private final ProbeWireNode wireNode;
     
     public EFieldDetectorView( EFieldDetector detector, World world, ModelViewTransform mvt, PNode dragBoundsNode, boolean dev ) {
         
@@ -92,7 +92,7 @@ public class EFieldDetectorView {
         probeNode = new ProbeNode( detector, world, mvt, dev );
         probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         
-        wireNode = new WireNode( bodyNode, probeNode );
+        wireNode = new ProbeWireNode( bodyNode, probeNode, WIRE_BODY_CONTROL_POINT_OFFSET, WIRE_PROBE_CONTROL_POINT_OFFSET, probeNode.getConnectionOffset() );
         wireNode.setPickable( false );
     }
     
@@ -549,8 +549,8 @@ public class EFieldDetectorView {
             addInputEventListener( new ProbeDragHandler( this, detector, world, mvt ) );
         }
         
-        public Point2D getConnectionOffsetReference() {
-            return connectionOffset;
+        public Point2D getConnectionOffset() {
+            return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
         }
     }
     
@@ -590,66 +590,6 @@ public class EFieldDetectorView {
             if ( world.contains( pModel ) ) {
                 detector.setProbeLocation( pModel );
             }
-        }
-    }
-    
-    /*
-     * Wire that connects the probe to the body.
-     */
-    private static class WireNode extends PPath {
-        
-        private final BodyNode bodyNode;
-        private final ProbeNode probeNode;
-        
-        public WireNode( BodyNode bodyNode, ProbeNode probeNode ) {
-            setStroke( WIRE_STROKE );
-            setStrokePaint( WIRE_COLOR );
-            
-            this.bodyNode = bodyNode;
-            this.probeNode = probeNode;
-            
-            // update wire when body or probe moves
-            {
-                PropertyChangeListener fullBoundsListener = new PropertyChangeListener() {
-                    public void propertyChange( PropertyChangeEvent event ) {
-                        if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                            update();
-                        }
-                    }
-                };
-                bodyNode.addPropertyChangeListener( fullBoundsListener );
-                probeNode.addPropertyChangeListener( fullBoundsListener );
-            }
-        }
-        
-        private void update() {
-            
-            Point2D pBody = getBodyConnectionPoint();
-            Point2D pProbe = getProbeConnectionPoint();
-            
-            // control points 
-            Point2D ctrl1 = new Point2D.Double( pBody.getX() + WIRE_BODY_CONTROL_POINT_OFFSET.getX(), pBody.getY() + WIRE_BODY_CONTROL_POINT_OFFSET.getY() );
-            Point2D ctrl2 = new Point2D.Double( pProbe.getX() + WIRE_PROBE_CONTROL_POINT_OFFSET.getX(), pProbe.getY() + WIRE_PROBE_CONTROL_POINT_OFFSET.getY() );
-            
-            // path
-            setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );
-        }
-        
-        // connect to left center of body
-        private Point2D getBodyConnectionPoint() {
-            double x = bodyNode.getFullBoundsReference().getMinX();
-            double y = bodyNode.getFullBoundsReference().getCenterY();
-            return new Point2D.Double( x, y );
-        }
-        
-        // connect to end of probe handle, account for probe rotation
-        private Point2D getProbeConnectionPoint() {
-            // unrotated connection point
-            double x = probeNode.getXOffset() + probeNode.getConnectionOffsetReference().getX();
-            double y = probeNode.getYOffset() + probeNode.getConnectionOffsetReference().getY();
-            // rotate the connection point to match the probe's rotation
-            AffineTransform t = AffineTransform.getRotateInstance( probeNode.getRotation(), probeNode.getXOffset(), probeNode.getYOffset() );
-            return t.transform( new Point2D.Double( x, y ), null );
         }
     }
 }
