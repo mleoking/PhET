@@ -178,7 +178,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         showVectorsPSwing.setOffset( x, y );
         // zoom controls below vector controls
         x = showVectorsPSwing.getFullBoundsReference().getMinX();
-        y = showVectorsPSwing.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
+        y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING );
         zoomPSwing.setOffset( x, y );
         // "Show values" control at lower left
         x = BODY_X_MARGIN;
