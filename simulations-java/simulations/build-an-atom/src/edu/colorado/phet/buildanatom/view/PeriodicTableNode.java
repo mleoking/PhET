@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.StringTokenizer;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -144,11 +145,11 @@ public class PeriodicTableNode extends PNode {
     }
 
     public class ElementCell extends PNode {
-        private int atomicNumber;
+        private final int atomicNumber;
 
         public ElementCell( final Atom atom, final int atomicNumber ) {
             this.atomicNumber = atomicNumber;
-            final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), new BasicStroke( 1 ), Color.black );
+            final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), BuildAnAtomConstants.CANVAS_BACKGROUND, new BasicStroke( 1 ), Color.black );
             addChild( box );
 
             String abbreviation = getElementAbbreviation( atomicNumber );
