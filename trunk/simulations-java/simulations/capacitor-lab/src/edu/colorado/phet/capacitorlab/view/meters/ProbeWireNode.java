@@ -28,6 +28,7 @@ public class ProbeWireNode extends PPath {
     private final Point2D bodyConnectionOffset, probeConnectionOffset;
     
     public ProbeWireNode( PNode bodyNode, PNode probeNode, Point2D bodyControlPointOffset, Point2D probeControlPointOffset, Point2D bodyConnectionOffset, Point2D probeConnectionOffset ) {
+        setPickable( false );
         setStroke( WIRE_STROKE );
         setStrokePaint( WIRE_COLOR );
         
