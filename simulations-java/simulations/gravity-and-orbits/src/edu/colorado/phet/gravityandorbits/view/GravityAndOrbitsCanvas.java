@@ -9,7 +9,6 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
-import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -48,7 +47,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( planetNode );
     }
 
-    private void addChild( BodyNode bodyNode ) {
-        _rootNode.addChild( bodyNode );
+    public void addChild( PNode node ) {
+        _rootNode.addChild( node );
     }
 }
