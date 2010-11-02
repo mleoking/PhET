@@ -224,6 +224,9 @@ public class BuildAnAtomGameModel {
         return soundEnabledProperty;
     }
 
+    /**
+     * Get the pool of possible problems for the current level setting.
+     */
     public ArrayList<AtomValue> getLevelPool( ) {
         return levelPools.get( levelProperty.getValue() );
     }
