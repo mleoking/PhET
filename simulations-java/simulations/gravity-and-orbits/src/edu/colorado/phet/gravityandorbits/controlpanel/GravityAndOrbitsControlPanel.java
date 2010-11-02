@@ -35,8 +35,8 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
         addControlFullWidth( new GOCheckBox( "Show Masses", module.getShowMassesProperty() ) );
         addControlFullWidth( new GOCheckBox( "To Scale", module.getToScaleProperty() ) );
-        addControlFullWidth( new BodyMassControl( model.getSun(), earthMassesToSI( 0.1E6 ), earthMassesToSI( 10E6 ) ) );
-        addControlFullWidth( new BodyMassControl( model.getPlanet(), earthMassesToSI( 0.1 ), earthMassesToSI( 10 ) ) );
+        addControlFullWidth( new BodyMassControl( model.getSun(), earthMassesToSI( 0.1E6 ), earthMassesToSI( 10E6 ), "Large", "Very Large" ) );
+        addControlFullWidth( new BodyMassControl( model.getPlanet(), earthMassesToSI( 0.1 ), earthMassesToSI( 10 ), "Very Small", "Small" ) );
         addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
 
         setBackground( BACKGROUND );

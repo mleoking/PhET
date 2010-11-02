@@ -1,6 +1,8 @@
 package edu.colorado.phet.gravityandorbits.controlpanel;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -11,9 +13,13 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
 
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.BACKGROUND;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.FOREGROUND;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
 
 /**
@@ -21,31 +27,46 @@ import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STA
  */
 public class BodyMassControl extends VerticalLayoutPanel {
 
-    public BodyMassControl( final Body body, double min, double max ) {
+    public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel ) {
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, 0, 100 );
+        setInsets( new Insets( 5,5,5,5) );
 
         //TODO: move title label west, probably by not having the horizontal panel expand to take full width
         add( new JPanel() {{
-            setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
+            setBackground( BACKGROUND );
             add( new JLabel( body.getName() ) {{
-                setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
-                setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
-                setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
+                setFont( CONTROL_FONT );
+                setForeground( FOREGROUND );
+                setBackground( BACKGROUND );
             }} );
             final BodyNode bodyNode = new BodyNode( body, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true ), new Property<Boolean>( false ) );
             add( new JLabel( "", new ImageIcon( bodyNode.toImage() ), SwingConstants.LEFT ) {{
-                setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
+                setBackground( BACKGROUND );
             }} );
         }} );
 
-        setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
-        setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
+        setForeground( FOREGROUND );
+        setBackground( BACKGROUND );
 
         add( new JSlider() {{
-            setMinorTickSpacing( 0 );
-            setMajorTickSpacing( 0 );
-            setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
-            setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
+            setMinorTickSpacing( 10 );
+            setMajorTickSpacing( 50 );
+            setPaintLabels( true );
+            setPaintTicks( true );
+            setLabelTable( new Hashtable() {{
+                put( 0, new JLabel( minLabel ) {{
+                    setBackground( BACKGROUND );
+                    setForeground( FOREGROUND );
+                    setFont( new PhetFont(14,true) );
+                }} );
+                put( 100, new JLabel( maxLabel) {{
+                    setBackground( BACKGROUND );
+                    setForeground( FOREGROUND );
+                    setFont( new PhetFont(14,true) );
+                }} );
+            }} );
+            setBackground( BACKGROUND );
+            setForeground( FOREGROUND );
             body.getDiameterProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     setValue( (int) modelToView.evaluate( body.getMass() ) );//todo: will this clamp create problems?
