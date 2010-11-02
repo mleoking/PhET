@@ -6,7 +6,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
@@ -15,21 +15,11 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  * Control panel template.
  */
 public class GravityAndOrbitsControlPanel extends ControlPanel {
+    public static Color BACKGROUND = new Color( 3, 0, 133 );
+    public static Color BRIGHTER_BACKGROUND = new Color( 103, 100, 233 );
+    public static Color FOREGROUND = Color.white;
+    public static final Font CONTROL_FONT = new PhetFont( 18, true );
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
-    /**
-     * Constructor.
-     *
-     * @param module
-     * @param parentFrame parent frame, for creating dialogs
-     */
     public GravityAndOrbitsControlPanel( GravityAndOrbitsModule module, Frame parentFrame, GravityAndOrbitsModel model ) {
         super();
 
@@ -45,13 +35,16 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
         addControlFullWidth( new GOCheckBox( "Show Masses", module.getShowMassesProperty() ) );
         addControlFullWidth( new GOCheckBox( "To Scale", module.getToScaleProperty() ) );
-        addControlFullWidth( new BodyDiameterControl( model.getSun() ) );
-        addControlFullWidth( new BodyDiameterControl( model.getPlanet() ) );
+        addControlFullWidth( new BodyMassControl( model.getSun(), earthMassesToSI( 0.1E6 ), earthMassesToSI( 10E6 ) ) );
+        addControlFullWidth( new BodyMassControl( model.getPlanet(), earthMassesToSI( 0.1 ), earthMassesToSI( 10 ) ) );
         addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
 
-        addResetAllButton( module );
         setBackground( BACKGROUND );
         getContentPanel().setBackground( BACKGROUND );
+    }
+
+    private double earthMassesToSI( double v ) {
+        return v * 5.9742E24;
     }
 
     //----------------------------------------------------------------------------
@@ -62,11 +55,4 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         //XXX close any dialogs created via the control panel
     }
 
-    //----------------------------------------------------------------------------
-    // Access to subpanels
-    //----------------------------------------------------------------------------
-
-    public static Color BACKGROUND = Color.blue;
-
-    public static Color FOREGROUND = Color.white;
 }

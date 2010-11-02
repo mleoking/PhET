@@ -66,4 +66,9 @@ public class GravityAndOrbitsModel {
     public Body getPlanet() {
         return planet;
     }
+
+    public void resetAll() {
+        sun.resetAll();
+        planet.resetAll();
+    }
 }
