@@ -3,15 +3,18 @@
 package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -51,8 +54,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
         // Control Panel
         controlPanel = new GravityAndOrbitsControlPanel( this, parentFrame, model );
-//        setControlPanel( controlPanel );
-        canvas.addChild( new PSwing( controlPanel ) {{
+        canvas.addChild( new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
+            final PSwing controlPanelPSwing = new PSwing( controlPanel );
+            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), GravityAndOrbitsControlPanel.BACKGROUND ) );
+            addChild( controlPanelPSwing );
+            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.green ) );
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
 

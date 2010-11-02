@@ -50,7 +50,6 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
 
         addResetAllButton( module );
-        setBorder( new PhetLineBorder( Color.green ) );
         setBackground( BACKGROUND );
         getContentPanel().setBackground( BACKGROUND );
     }
