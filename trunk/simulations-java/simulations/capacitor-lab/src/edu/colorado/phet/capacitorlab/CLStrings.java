@@ -58,6 +58,7 @@ public class CLStrings {
     public static final String VOLTMETER = getString( "voltmeter" );
     public static final String VOLTS = getString( "volts" );
     public static final String VOLTS_PER_METER = getString( "voltsPerMeter" );
+    public static final String ZOOM = getString( "zoom" );
     
     // MessageFormat patterns
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );

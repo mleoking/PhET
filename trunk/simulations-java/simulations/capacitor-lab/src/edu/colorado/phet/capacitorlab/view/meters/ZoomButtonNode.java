@@ -9,6 +9,9 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.capacitorlab.view.MinusNode;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -113,5 +116,21 @@ public class ZoomButtonNode extends PComposite {
         // visibility
         plusNode.setVisible( enabled && plusVisible );
         minusNode.setVisible( enabled && !plusVisible );
+    }
+    
+    public static Icon getZoomInIcon( double scale ) {
+        return getZoomIcon( true /* plusVisible */, scale );
+    }
+    
+    public static Icon getZoomOutIcon( double scale ) {
+        return getZoomIcon( false /* plusVisible */, scale );
+    }
+    
+    private static Icon getZoomIcon( boolean plusVisible, double scale ) {
+        ZoomButtonNode node = new ZoomButtonNode();
+        node.setEnabled( true );
+        node.setPlusVisible( plusVisible );
+        node.scale( scale );
+        return new ImageIcon( node.toImage() );
     }
 }
