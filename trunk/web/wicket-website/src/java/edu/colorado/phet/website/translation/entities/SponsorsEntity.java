@@ -13,6 +13,7 @@ public class SponsorsEntity extends TranslationEntity {
         addString( "sponsors.hewlett" );
         addString( "sponsors.nsf" );
         addString( "sponsors.ksu" );
+        addString( "sponsors.odonnell" );
         addString( "sponsors.otherSponsors" );
 
         addString( "sponsors.header" );

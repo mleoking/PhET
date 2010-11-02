@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.website.DistributionHandler;
 import edu.colorado.phet.website.authentication.AuthenticatedPage;
@@ -160,6 +162,7 @@ public abstract class PhetMenuPage extends PhetPage {
                 protected void populateItem( ListItem<SocialBookmarkService> item ) {
                     SocialBookmarkService mark = item.getModelObject();
                     Link link = mark.getLinker( getFullPath(), getSocialBookmarkTitle() ).getLink( "link", getPageContext(), getPhetCycle() );
+                    link.add( new AttributeModifier( "title", true, new ResourceModel( mark.getTooltipLocalizationKey() ) ) ); // tooltip
                     item.add( link );
                     link.add( new StaticImage( "icon", mark.getIconPath(), null ) ); // for now, don't replace the alt attribute
                 }

@@ -63,6 +63,18 @@ public class PhetPanel extends Panel implements Stylable {
     }
 
     /**
+     * @return Full relative path (includes query string).
+     */
+    public String getFullPath( PageContext context ) {
+        String path = context.getPrefix() + context.getPath();
+        String queryString = getPhetCycle().getQueryString();
+        if ( queryString != null ) {
+            path += "?" + queryString;
+        }
+        return path;
+    }
+
+    /**
      * Considered immutable
      *
      * @return Direct access to the panel's locale
