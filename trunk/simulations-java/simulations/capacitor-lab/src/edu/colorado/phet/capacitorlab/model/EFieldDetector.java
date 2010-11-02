@@ -15,13 +15,16 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class EFieldDetector {
     
     private final BatteryCapacitorCircuit circuit;
+    private final World world;
+    
+    // observable properties
     private final Property<Point3D> probeLocation;
     private final Property<Double> plateVector; // field due to the plate (E_plate_dielectric or E_plate_air, depending on probe location)
     private final Property<Double> dielectricVector; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
     private final Property<Double> sumVector; // effective (net) field between the plates (E_effective)
     private final Property<Boolean> plateVisible, dielectricVisible, sumVisible, valuesVisible;
     
-    public EFieldDetector( BatteryCapacitorCircuit circuit, Point3D probeLocation, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
+    public EFieldDetector( BatteryCapacitorCircuit circuit, World world, Point3D probeLocation, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -30,6 +33,8 @@ public class EFieldDetector {
                 update();
             }
         });
+        
+        this.world = world;
         
         this.probeLocation = new Property<Point3D>( new Point3D.Double( probeLocation ) );
         
@@ -41,6 +46,12 @@ public class EFieldDetector {
         this.dielectricVisible = new Property<Boolean>( dielectricVisible );
         this.sumVisible = new Property<Boolean>( sumVisible );
         this.valuesVisible = new Property<Boolean>( valuesVisible );
+        
+        world.addBoundsObserver( new SimpleObserver() {
+            public void update() {
+                constrainProbeLocation();
+            }
+        } );
         
         update();
     }
@@ -150,5 +161,37 @@ public class EFieldDetector {
     
     public boolean isValuesVisible() {
         return valuesVisible.getValue();
+    }
+    
+    /*
+     * Ensures that the probe remains inside the world bounds.
+     */
+    private void constrainProbeLocation() {
+        Point3D eFieldProbeLocation = getProbeLocationReference();
+        if ( !world.contains( eFieldProbeLocation ) ) {
+            
+            // adjust x coordinate
+            double newX = eFieldProbeLocation.getX();
+            if ( eFieldProbeLocation.getX() < world.getBoundsReference().getX() ) {
+                newX = world.getBoundsReference().getX();
+            }
+            else if ( eFieldProbeLocation.getX() > world.getBoundsReference().getMaxX() ) {
+                newX = world.getBoundsReference().getMaxX();
+            }
+            
+            // adjust y coordinate
+            double newY = eFieldProbeLocation.getY();
+            if ( eFieldProbeLocation.getY() < world.getBoundsReference().getY() ) {
+                newY = world.getBoundsReference().getY();
+            }
+            else if ( eFieldProbeLocation.getY() > world.getBoundsReference().getMaxY() ) {
+                newY = world.getBoundsReference().getMaxY();
+            }
+            
+            // z is fixed
+            final double z = eFieldProbeLocation.getZ();
+            
+            setProbeLocation( new Point3D.Double( newX, newY, z ) );
+        }
     }
 }

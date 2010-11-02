@@ -8,6 +8,8 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
 /**
@@ -42,7 +44,7 @@ public class DielectricModel {
         topWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.TOP_WIRE_EXTENT );
         bottomWire = new Wire( CLConstants.WIRE_THICKNESS, CLConstants.BOTTOM_WIRE_EXTENT );
         
-        eFieldDetector = new EFieldDetector( circuit, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION, 
+        eFieldDetector = new EFieldDetector( circuit, world, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION, 
                 CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE, 
                 CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
         
