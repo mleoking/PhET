@@ -31,7 +31,10 @@ public class GravityAndOrbitsModel {
                 super.simulationTimeChanged( clockEvent );
                 final VelocityVerlet.BodyState sunState = sun.toBodyState();
                 final VelocityVerlet.BodyState planetState = planet.toBodyState();
-                final ArrayList<VelocityVerlet.BodyState> verletState = getVerletState();
+                final ArrayList<VelocityVerlet.BodyState> verletState = new ArrayList<VelocityVerlet.BodyState>( ){{
+                    add( sunState );
+                    add( planetState);
+                }};
                 ArrayList<VelocityVerlet.BodyState> state = new VelocityVerlet().getNextState( verletState, clockEvent.getSimulationTimeChange(), new VelocityVerlet.PotentialField() {
                     public ImmutableVector2D getGradient( VelocityVerlet.BodyState body, ImmutableVector2D position ) {
                         if ( body == sunState ) {//sun
@@ -50,13 +53,6 @@ public class GravityAndOrbitsModel {
 
     private ImmutableVector2D getForce( VelocityVerlet.BodyState source, VelocityVerlet.BodyState target ) {
         return target.getUnitDirectionVector( source ).getScaledInstance( G * source.mass * target.mass / source.distanceSquared( target ) );
-    }
-
-    private ArrayList<VelocityVerlet.BodyState> getVerletState() {
-        ArrayList<VelocityVerlet.BodyState> state = new ArrayList<VelocityVerlet.BodyState>();
-        state.add( sun.toBodyState() );
-        state.add( planet.toBodyState() );
-        return state;
     }
 
     public GravityAndOrbitsClock getClock() {

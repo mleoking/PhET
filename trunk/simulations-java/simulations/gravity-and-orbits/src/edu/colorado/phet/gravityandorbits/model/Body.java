@@ -14,6 +14,7 @@ public class Body {
     private final Property<ImmutableVector2D> positionProperty;
     private final Property<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
+    private final Property<ImmutableVector2D> forceProperty;
     private final Property<Double> massProperty;
     private final Property<Double> diameterProperty;
     private final String name;
@@ -28,6 +29,7 @@ public class Body {
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+        forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         massProperty = new Property<Double>( mass );
         diameterProperty = new Property<Double>( diameter );
     }
@@ -101,6 +103,7 @@ public class Body {
         positionProperty.setValue( bodyState.position );
         velocityProperty.setValue( bodyState.velocity );
         accelerationProperty.setValue( bodyState.acceleration );
+        forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
         trace.add( getPosition().toPoint2D() );
     }
 
@@ -110,5 +113,9 @@ public class Body {
 
     public void clearTrace() {
         trace.clear();
+    }
+
+    public Property<ImmutableVector2D> getForceProperty() {
+        return forceProperty;
     }
 }
