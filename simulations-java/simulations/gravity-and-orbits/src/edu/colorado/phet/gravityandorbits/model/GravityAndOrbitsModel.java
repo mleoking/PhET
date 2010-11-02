@@ -8,27 +8,19 @@ package edu.colorado.phet.gravityandorbits.model;
  */
 public class GravityAndOrbitsModel {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
     private final GravityAndOrbitsClock clock;
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
+    private final Body sun = new Body( "Sun" );
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
         super();
-
         this.clock = clock;
     }
 
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-
     public GravityAndOrbitsClock getClock() {
         return clock;
+    }
+
+    public Body getSun() {
+        return sun;
     }
 }

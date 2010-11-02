@@ -17,18 +17,15 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class BodyNode extends PNode {
+    private ModelViewTransform2D modelViewTransform2D;
+    private Body body;
 
     public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D ) {
-        double diameter = modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() );
-        // Create the gradient paint for the sphere in order to give it a 3D look.
-        Paint spherePaint = new RoundGradientPaint( diameter / 8, -diameter / 8,
-                                                    Color.white,
-                                                    new Point2D.Double( diameter / 4, diameter / 4 ),
-                                                    Color.blue );
-
+        this.modelViewTransform2D = modelViewTransform2D;
+        this.body = body;
         // Create and add the sphere node.
-        SphericalNode sphere = new SphericalNode( diameter, spherePaint, false );
-        sphere.setOffset( diameter / 2, diameter / 2 );
+        final SphericalNode sphere = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
+        sphere.setOffset( getViewDiameter() / 2, getViewDiameter() / 2 );
         addChild( sphere );
 
         addInputEventListener( new CursorHandler() );
@@ -43,5 +40,23 @@ public class BodyNode extends PNode {
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
             }
         } );
+        body.getDiameterProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                sphere.setDiameter( getViewDiameter() );
+                sphere.setPaint( createPaint( getViewDiameter() ) );
+            }
+        } );
+    }
+
+    private double getViewDiameter() {
+        return modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() );
+    }
+
+    private Paint createPaint( double diameter ) {// Create the gradient paint for the sphere in order to give it a 3D look.
+        Paint spherePaint = new RoundGradientPaint( diameter / 8, -diameter / 8,
+                                                    Color.white,
+                                                    new Point2D.Double( diameter / 4, diameter / 4 ),
+                                                    Color.blue );
+        return spherePaint;
     }
 }
