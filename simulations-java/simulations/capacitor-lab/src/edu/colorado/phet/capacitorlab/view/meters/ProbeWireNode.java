@@ -73,7 +73,7 @@ public class ProbeWireNode extends PPath {
     private Point2D getConnectionPoint( PNode node, Point2D offset ) {
         double x = node.getXOffset() + offset.getX();
         double y = node.getYOffset() + offset.getY();
-        // rotate the connection point to match the body's rotation
+        // rotate the connection point to match the node's rotation
         AffineTransform t = AffineTransform.getRotateInstance( node.getRotation(), node.getXOffset(), node.getYOffset() );
         return t.transform( new Point2D.Double( x, y ), null );
     }
