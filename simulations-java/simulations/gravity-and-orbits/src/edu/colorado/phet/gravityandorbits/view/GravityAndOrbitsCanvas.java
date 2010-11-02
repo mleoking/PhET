@@ -41,14 +41,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 1.5E-9,
                 true );
 
-        BodyNode sunNode = new BodyNode( model.getSun(), modelViewTransform2D,module.getToScaleProperty() );
-        addChild( sunNode );
-
-        BodyNode planetNode = new BodyNode( model.getPlanet(), modelViewTransform2D,module.getToScaleProperty() );
-        addChild( planetNode );
-
-        final TraceNode node = new TraceNode( model.getPlanet(), modelViewTransform2D, module.getTracesProperty() );
-        addChild( node );
+        addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty() ) );
+        addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty() ) );
+        addChild( new TraceNode( model.getPlanet(), modelViewTransform2D, module.getTracesProperty() ) );
+        addChild( new TraceNode( model.getSun(), modelViewTransform2D, module.getTracesProperty() ) );
+        addChild( new ForceVectorNode( model.getPlanet(), modelViewTransform2D, module.getForcesProperty() ) );
+        addChild( new ForceVectorNode( model.getSun(), modelViewTransform2D, module.getForcesProperty() ) );
     }
 
     public void addChild( PNode node ) {
