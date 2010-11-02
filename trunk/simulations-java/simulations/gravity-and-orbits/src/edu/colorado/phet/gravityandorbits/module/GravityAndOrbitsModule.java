@@ -32,6 +32,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<Boolean> velocityProperty = new Property<Boolean>( false );
     private Property<Boolean> showMassesProperty = new Property<Boolean>( false );
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
+    private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,7 +46,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         model = new GravityAndOrbitsModel( clock );
 
         // Canvas
-        canvas = new GravityAndOrbitsCanvas( model,this );
+        canvas = new GravityAndOrbitsCanvas( model, this );
         setSimulationPanel( canvas );
 
         // Control Panel
@@ -104,5 +105,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Boolean> getMoonProperty() {
         return moonProperty;
+    }
+
+    public Property<Boolean> getToScaleProperty() {
+        return toScaleProperty;
     }
 }

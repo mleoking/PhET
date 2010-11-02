@@ -44,6 +44,7 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         addControlFullWidth( new GOCheckBox( "Traces", module.getTracesProperty() ) );
         addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
         addControlFullWidth( new GOCheckBox( "Show Masses", module.getShowMassesProperty() ) );
+        addControlFullWidth( new GOCheckBox( "To Scale", module.getToScaleProperty() ) );
         addControlFullWidth( new BodyDiameterControl( model.getSun() ) );
         addControlFullWidth( new BodyDiameterControl( model.getPlanet() ) );
         addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
