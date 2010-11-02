@@ -70,5 +70,7 @@ public class GravityAndOrbitsModel {
     public void resetAll() {
         sun.resetAll();
         planet.resetAll();
+        getClock().resetSimulationTime();
+        getClock().start();
     }
 }

@@ -24,7 +24,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
-    private PiccoloClockControlPanel clockControlPanel;
     private Property<Boolean> forcesProperty = new Property<Boolean>( false );
     private Property<Boolean> tracesProperty = new Property<Boolean>( false );
     private Property<Boolean> velocityProperty = new Property<Boolean>( false );
@@ -47,18 +46,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         canvas = new GravityAndOrbitsCanvas( model, this );
         setSimulationPanel( canvas );
 
-        // Clock controls
-        clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        clockControlPanel.setRewindButtonVisible( true );
-        clockControlPanel.setTimeDisplayVisible( true );
-        clockControlPanel.setUnits( GravityAndOrbitsStrings.UNITS_TIME );
-        clockControlPanel.setTimeColumns( GravityAndOrbitsDefaults.CLOCK_TIME_COLUMNS );
-
-        //Show the clock controls in the play area, not in a separate panel
-        canvas.addChild( new PSwing( clockControlPanel ) {{
-            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-        }} );
-        setClockControlPanel( null );
+        setClockControlPanel( null );//clock panel appears in the canvas
 
         // Help
         if ( hasHelp() ) {

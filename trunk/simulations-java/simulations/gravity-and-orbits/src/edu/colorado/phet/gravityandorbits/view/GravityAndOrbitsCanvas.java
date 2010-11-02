@@ -71,6 +71,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 }
             } );
         }} );
+
+        addChild( new GravityAndOrbitsClockControlNode( model.getClock() ) {{
+            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
     }
 
     public void addChild( PNode node ) {
