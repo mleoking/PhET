@@ -26,14 +26,13 @@ public class GravityAndOrbitsModel {
         super();
         this.clock = clock;
         clock.addClockListener( new ClockAdapter() {
-            @Override
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
+            public void clockTicked( ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
                 final VelocityVerlet.BodyState sunState = sun.toBodyState();
                 final VelocityVerlet.BodyState planetState = planet.toBodyState();
-                final ArrayList<VelocityVerlet.BodyState> verletState = new ArrayList<VelocityVerlet.BodyState>( ){{
+                final ArrayList<VelocityVerlet.BodyState> verletState = new ArrayList<VelocityVerlet.BodyState>() {{
                     add( sunState );
-                    add( planetState);
+                    add( planetState );
                 }};
                 ArrayList<VelocityVerlet.BodyState> state = new VelocityVerlet().getNextState( verletState, clockEvent.getSimulationTimeChange(), new VelocityVerlet.PotentialField() {
                     public ImmutableVector2D getGradient( VelocityVerlet.BodyState body, ImmutableVector2D position ) {

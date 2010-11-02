@@ -40,6 +40,11 @@ public class GravityAndOrbitsClockControlNode extends PNode {
             };
             playPauseButton.addListener( updateEnabled );
             updateEnabled.playbackStateChanged();
+            addListener( new Listener() {
+                public void buttonPressed() {
+                    clock.stepClockWhilePaused();
+                }
+            } );
         }};
         addChild( playPauseButton );
         addChild( stepButton );
