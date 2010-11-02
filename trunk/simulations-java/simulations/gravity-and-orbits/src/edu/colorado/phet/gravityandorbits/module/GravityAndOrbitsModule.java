@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -44,7 +44,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         // Control Panel
         controlPanel = new GravityAndOrbitsControlPanel( this, parentFrame, model );
         setControlPanel( controlPanel );
-        
+
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
         clockControlPanel.setRewindButtonVisible( true );
@@ -74,5 +74,5 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         // reset the clock
         GravityAndOrbitsClock clock = model.getClock();
         clock.resetSimulationTime();
-    }    
+    }
 }

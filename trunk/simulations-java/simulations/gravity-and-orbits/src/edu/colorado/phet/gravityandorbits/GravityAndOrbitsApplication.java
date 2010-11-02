@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.gravityandorbits;
 
-import java.awt.Frame;
+import java.awt.*;
 
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -36,8 +36,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public GravityAndOrbitsApplication( PhetApplicationConfig config )
-    {
+    public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -50,8 +49,9 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     /*
      * Initializes the modules.
      */
+
     private void initModules() {
-        
+
         Frame parentFrame = getPhetFrame();
 
         Module firstModule = new GravityAndOrbitsModule( parentFrame );
@@ -65,6 +65,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     /*
      * Initializes the menubar.
      */
+
     private void initMenubar() {
 
         // File->Save/Load
