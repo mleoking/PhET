@@ -148,6 +148,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/gene-network/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/glaciers/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/glaciers/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/gravity-and-orbits/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/gravity-and-orbits/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/greenhouse/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/greenhouse/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/hydrogen-atom/src"/>
