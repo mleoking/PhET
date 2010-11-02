@@ -14,7 +14,7 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 public class BodyDiameterControl extends JPanel {
     public BodyDiameterControl( final Body body ) {
         //todo: add icon for the object
-        final LinearValueControl control = new LinearValueControl( 0, 100, body.getDiameter(), body.getName(), "0.00", "" );
+        final LinearValueControl control = new LinearValueControl( 0, 2E30, body.getDiameter(), body.getName(), "0.00", "" );
         body.getDiameterProperty().addObserver( new SimpleObserver() {
             public void update() {
                 control.setValue( body.getDiameter() );

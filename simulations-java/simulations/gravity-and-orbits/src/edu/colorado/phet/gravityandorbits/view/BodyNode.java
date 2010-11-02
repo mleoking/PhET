@@ -25,7 +25,6 @@ public class BodyNode extends PNode {
         this.body = body;
         // Create and add the sphere node.
         final SphericalNode sphere = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
-        sphere.setOffset( getViewDiameter() / 2, getViewDiameter() / 2 );
         addChild( sphere );
 
         addInputEventListener( new CursorHandler() );
@@ -37,11 +36,13 @@ public class BodyNode extends PNode {
         } );
         body.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
+                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
             }
         } );
         body.getDiameterProperty().addObserver( new SimpleObserver() {
             public void update() {
+                System.out.println( "getViewDiameter() = " + getViewDiameter() );
                 sphere.setDiameter( getViewDiameter() );
                 sphere.setPaint( createPaint( getViewDiameter() ) );
             }
@@ -49,7 +50,7 @@ public class BodyNode extends PNode {
     }
 
     private double getViewDiameter() {
-        return modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() );
+        return modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() )*100;
     }
 
     private Paint createPaint( double diameter ) {// Create the gradient paint for the sphere in order to give it a 3D look.

@@ -36,8 +36,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         modelViewTransform2D = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
-                2.0,
+                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.5 ) ),
+                2E-9,
                 true );
 
         BodyNode sunNode = new BodyNode( model.getSun(), modelViewTransform2D );
