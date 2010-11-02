@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
+import java.awt.*;
+
 
 /**
  * Model template.
@@ -9,7 +11,8 @@ package edu.colorado.phet.gravityandorbits.model;
 public class GravityAndOrbitsModel {
 
     private final GravityAndOrbitsClock clock;
-    private final Body sun = new Body( "Sun" );
+    private final Body sun = new Body( "Sun", 0, 0, 50, Color.yellow, Color.white );
+    private final Body planet = new Body( "Planet", 0, 0, 10, Color.blue, Color.white );
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
         super();
@@ -22,5 +25,9 @@ public class GravityAndOrbitsModel {
 
     public Body getSun() {
         return sun;
+    }
+
+    public Body getPlanet() {
+        return planet;
     }
 }
