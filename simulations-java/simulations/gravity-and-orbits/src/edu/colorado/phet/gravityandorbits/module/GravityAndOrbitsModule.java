@@ -45,7 +45,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         model = new GravityAndOrbitsModel( clock );
 
         // Canvas
-        canvas = new GravityAndOrbitsCanvas( model );
+        canvas = new GravityAndOrbitsCanvas( model,this );
         setSimulationPanel( canvas );
 
         // Control Panel

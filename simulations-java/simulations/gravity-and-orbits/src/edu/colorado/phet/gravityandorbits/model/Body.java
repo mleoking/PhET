@@ -2,6 +2,7 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -18,6 +19,7 @@ public class Body {
     private final String name;
     private final Color color;
     private final Color highlight;
+    private final ArrayList<Point2D> trace = new ArrayList<Point2D>();
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;
@@ -56,6 +58,7 @@ public class Body {
 
     public void translate( Point2D delta ) {
         translate( delta.getX(), delta.getY() );
+        trace.add( getPosition().toPoint2D() );
     }
 
     public void translate( double dx, double dy ) {
@@ -98,5 +101,10 @@ public class Body {
         positionProperty.setValue( bodyState.position );
         velocityProperty.setValue( bodyState.velocity );
         accelerationProperty.setValue( bodyState.acceleration );
+        trace.add( getPosition().toPoint2D() );
+    }
+
+    public Point2D[] getTrace() {
+        return trace.toArray( new Point2D[0] );
     }
 }
