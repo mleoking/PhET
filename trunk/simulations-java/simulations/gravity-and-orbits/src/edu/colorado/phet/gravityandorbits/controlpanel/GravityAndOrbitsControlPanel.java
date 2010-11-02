@@ -5,6 +5,7 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -36,6 +37,9 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         int minimumWidth = GravityAndOrbitsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
 
+        final LogoPanel panel = new LogoPanel();
+        panel.setBackground( BACKGROUND );
+        addControl( panel );
         addControlFullWidth( new GOCheckBox( "Forces", module.getForcesProperty() ) );
         addControlFullWidth( new GOCheckBox( "Traces", module.getTracesProperty() ) );
         addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );

@@ -12,6 +12,7 @@ import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPa
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Module template.
@@ -49,7 +50,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
         // Control Panel
         controlPanel = new GravityAndOrbitsControlPanel( this, parentFrame, model );
-        setControlPanel( controlPanel );
+//        setControlPanel( controlPanel );
+        canvas.addChild( new PSwing( controlPanel ) {{
+            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+        }} );
 
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );

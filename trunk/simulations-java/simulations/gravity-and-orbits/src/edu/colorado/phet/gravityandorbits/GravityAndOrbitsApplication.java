@@ -51,15 +51,9 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
      */
 
     private void initModules() {
-
-        Frame parentFrame = getPhetFrame();
-
-        Module firstModule = new GravityAndOrbitsModule( parentFrame );
-        addModule( firstModule );
-
-        Module secondModule = new GravityAndOrbitsModule( parentFrame );
-        secondModule.setName( "Another Example" );
-        addModule( secondModule );
+        addModule( new GravityAndOrbitsModule( getPhetFrame() ) {{
+            getModulePanel().setLogoPanel( null );
+        }});
     }
 
     /*
