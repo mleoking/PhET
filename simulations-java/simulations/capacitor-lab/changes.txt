@@ -1,3 +1,4 @@
+11/1/10 constrain E-field probe location to be inside the bounds of the world
 11/1/10 clean up handling of visibility for E-field detector
 11/1/10 fix detector probe drag behavior, constrain to the play area via the model "world bounds"
 11/1/10 add world bounds to model, to constrain placement of model elements
