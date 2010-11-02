@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -23,7 +24,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     private ModelViewTransform2D modelViewTransform2D;
 
-    public GravityAndOrbitsCanvas( GravityAndOrbitsModel model ) {
+    public GravityAndOrbitsCanvas( GravityAndOrbitsModel model, GravityAndOrbitsModule gravityAndOrbitsModule ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         this.model = model;
@@ -45,6 +46,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         BodyNode planetNode = new BodyNode( model.getPlanet(), modelViewTransform2D );
         addChild( planetNode );
+
+        addChild( new TraceNode( model.getPlanet(), modelViewTransform2D,gravityAndOrbitsModule.getTracesProperty() ) );
     }
 
     public void addChild( PNode node ) {
