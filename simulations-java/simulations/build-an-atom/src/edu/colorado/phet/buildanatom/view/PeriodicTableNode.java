@@ -450,13 +450,12 @@ public class PeriodicTableNode extends PNode {
                 String symbol = st.nextToken();//symbol
                 String key = "element." + name.toLowerCase() + ".symbol";
                 String propertiesLine = key + " = " + symbol;
-
-//                System.out.println( propertiesLine);
+                System.out.println( propertiesLine);
                 String upperName = name.toUpperCase().trim();
                 final String EINine = "\"" + index + " \\t"+upperName+"\\t\"+BuildAnAtomStrings.ELEMENT_" + upperName + "_SYMBOL+\"\\n\"+";
                 System.out.println( EINine );
 
-                String stringLine = "public static final String ELEMENT_" + upperName + "_SYMBOL = getString( \"" + key + "\" );";
+//                String stringLine = "public static final String ELEMENT_" + upperName + "_SYMBOL = getString( \"" + key + "\" );";
 //                System.out.println( stringLine );
             }
         }
