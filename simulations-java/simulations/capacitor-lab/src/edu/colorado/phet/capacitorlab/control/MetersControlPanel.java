@@ -11,9 +11,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.EFieldDetector;
+import edu.colorado.phet.capacitorlab.model.Voltmeter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
-import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
-import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -28,7 +30,7 @@ public class MetersControlPanel extends PhetTitledPanel {
     
     private final JCheckBox capacitanceCheckBox, chargeCheckBox, energyCheckBox, voltmeterCheckBox, eFieldDetectorCheckBox;
     
-    public MetersControlPanel( final DielectricCanvas canvas ) {
+    public MetersControlPanel( final DielectricCanvas canvas, DielectricModel model ) {
         super( CLStrings.METERS );
         
         // Capacitance meter
@@ -90,7 +92,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         
         // Voltmeter
         {
-            final VoltmeterView voltmeter = canvas.getVoltMeter();
+            final Voltmeter voltmeter = model.getVoltmeter();
             voltmeterCheckBox = new JCheckBox( CLStrings.VOLTMETER );
             voltmeterCheckBox.setSelected( voltmeter.isVisible() );
             voltmeterCheckBox.addChangeListener( new ChangeListener() {
@@ -98,18 +100,16 @@ public class MetersControlPanel extends PhetTitledPanel {
                     voltmeter.setVisible( voltmeterCheckBox.isSelected() );
                 }
             } );
-            voltmeter.getBodyNode().addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        voltmeterCheckBox.setSelected( voltmeter.isVisible() );
-                    }
+            voltmeter.addVisibleObserver( new SimpleObserver() {
+                public void update() {
+                    voltmeterCheckBox.setSelected( voltmeter.isVisible() );
                 }
             } );
         }
         
         // E-field Detector
         {
-            final EFieldDetectorView detector = canvas.getEFieldDetector();
+            final EFieldDetector detector = model.getEFieldDetector();
             eFieldDetectorCheckBox = new JCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR );
             eFieldDetectorCheckBox.setSelected( detector.isVisible() );
             eFieldDetectorCheckBox.addChangeListener( new ChangeListener() {
@@ -117,11 +117,9 @@ public class MetersControlPanel extends PhetTitledPanel {
                     detector.setVisible( eFieldDetectorCheckBox.isSelected() );
                 }
             } );
-            detector.getBodyNode().addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    if ( evt.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                        eFieldDetectorCheckBox.setSelected( detector.isVisible() );
-                    }
+            detector.addVisibleObserver( new SimpleObserver() {
+                public void update() {
+                    eFieldDetectorCheckBox.setSelected( detector.isVisible() );
                 }
             } );
         }

@@ -182,6 +182,16 @@ public class BatteryCapacitorCircuit {
         return V_plates;
     }
     
+    /**
+     * Gets the voltage between 2 points.
+     * @param pPositive
+     * @param pNegative
+     * @return
+     */
+    public double getVoltageBetween( Point3D pPositive, Point3D pNegative ) {
+        return getPlatesVoltage(); //TODO compute based on points
+    }
+    
     //----------------------------------------------------------------------------------
     //
     // Plate Charge (Q)

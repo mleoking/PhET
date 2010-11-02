@@ -18,24 +18,26 @@ public class EFieldDetector {
     private final World world;
     
     // observable properties
+    private final Property<Boolean> visible;
     private final Property<Point3D> probeLocation;
     private final Property<Double> plateVector; // field due to the plate (E_plate_dielectric or E_plate_air, depending on probe location)
     private final Property<Double> dielectricVector; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
     private final Property<Double> sumVector; // effective (net) field between the plates (E_effective)
     private final Property<Boolean> plateVisible, dielectricVisible, sumVisible, valuesVisible;
     
-    public EFieldDetector( BatteryCapacitorCircuit circuit, World world, Point3D probeLocation, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
+    public EFieldDetector( BatteryCapacitorCircuit circuit, World world, Point3D probeLocation, boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
             public void efieldChanged() {
-                update();
+                updateVectors();
             }
         });
         
         this.world = world;
         
+        this.visible = new Property<Boolean>( visible );
         this.probeLocation = new Property<Point3D>( new Point3D.Double( probeLocation ) );
         
         this.plateVector = new Property<Double>( 0d );
@@ -53,19 +55,34 @@ public class EFieldDetector {
             }
         } );
         
-        update();
+        updateVectors();
     }
     
     public void reset() {
+        visible.reset();
         probeLocation.reset();
         plateVisible.reset();
         dielectricVisible.reset();
         sumVisible.reset();
         valuesVisible.reset();
-        // other properties reset when model resets
+        // vector properties reset probe location is reset
     }
     
-    private void update() {
+    public boolean isVisible() {
+        return visible.getValue();
+    }
+    
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            this.visible.setValue( visible );
+        }
+    }
+    
+    public void addVisibleObserver( SimpleObserver o ) {
+        visible.addObserver( o );
+    }
+    
+    private void updateVectors() {
         // update values displayed by the meter based on probe location
         plateVector.setValue( circuit.getPlatesDielectricEFieldAt( probeLocation.getValue() ) );
         dielectricVector.setValue( circuit.getDielectricEFieldAt( probeLocation.getValue() ) );
@@ -79,7 +96,7 @@ public class EFieldDetector {
     public void setProbeLocation( Point3D probeLocation ) {
         if ( !probeLocation.equals( getProbeLocationReference() ) ) {
             this.probeLocation.setValue( new Point3D.Double( probeLocation ) );
-            update();
+            updateVectors();
         }
     }
     
