@@ -9,15 +9,17 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class GravityAndOrbitsStrings {
-    
+
     /* not intended for instantiation */
-    private GravityAndOrbitsStrings() {}
-    
-    public static final String TITLE_EXAMPLE_CONTROL_PANEL = GravityAndOrbitsResources.getString( "title.exampleControlPanel");
+
+    private GravityAndOrbitsStrings() {
+    }
+
+    public static final String TITLE_EXAMPLE_CONTROL_PANEL = GravityAndOrbitsResources.getString( "title.exampleControlPanel" );
     public static final String TITLE_EXAMPLE_MODULE = GravityAndOrbitsResources.getString( "title.exampleModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
     public static final String UNITS_TIME = GravityAndOrbitsResources.getString( "units.time" );
-    
+
     public static final String MESSAGE_NOT_A_CONFIG = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
 }

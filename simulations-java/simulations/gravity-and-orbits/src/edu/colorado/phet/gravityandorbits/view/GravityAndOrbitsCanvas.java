@@ -4,7 +4,6 @@ package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -57,6 +56,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     /*
      * Updates the layout of stuff on the canvas.
      */
+
     @Override
     protected void updateLayout() {
 

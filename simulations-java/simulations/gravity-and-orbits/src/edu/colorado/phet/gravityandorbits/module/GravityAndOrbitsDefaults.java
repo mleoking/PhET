@@ -2,13 +2,12 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.Dimension;
-
+import java.awt.*;
 
 
 /**
  * Default settings that are common to 2 or more modules.
- * 
+ * <p/>
  * NOTE! This class is package private, and values herein should only be referenced
  * by the "defaults" classes for each module.  Classes that are module-specific should
  * use the class that corresponds to their module.
@@ -16,8 +15,10 @@ import java.awt.Dimension;
 public class GravityAndOrbitsDefaults {
 
     /* Not intended for instantiation */
-    private GravityAndOrbitsDefaults() {}
-    
+
+    private GravityAndOrbitsDefaults() {
+    }
+
     // Clock
     public static final boolean CLOCK_RUNNING = true;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
