@@ -56,7 +56,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // Control Panel
-        controlPanel = new GravityAndOrbitsControlPanel( this, parentFrame, model );
+        controlPanel = new GravityAndOrbitsControlPanel( this, model );
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
             final PSwing controlPanelPSwing = new PSwing( controlPanel );
             //This next line works around a layout problem in pswing or swing in which the panel was reporting larger bounds than it displayed
@@ -67,7 +67,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }};
         canvas.addChild( controlPanelNode );
 
-        canvas.addChild( new GradientButtonNode( "Reset all", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize()*1.3), GravityAndOrbitsControlPanel.BACKGROUND, GravityAndOrbitsControlPanel.FOREGROUND ) {{
+        canvas.addChild( new GradientButtonNode( "Reset all", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.BACKGROUND, GravityAndOrbitsControlPanel.FOREGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -88,7 +88,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         clockControlPanel.setTimeDisplayVisible( true );
         clockControlPanel.setUnits( GravityAndOrbitsStrings.UNITS_TIME );
         clockControlPanel.setTimeColumns( GravityAndOrbitsDefaults.CLOCK_TIME_COLUMNS );
-        setClockControlPanel( clockControlPanel );
+
+        //Show the clock controls in the play area, not in a separate panel
+        canvas.addChild( new PSwing( clockControlPanel ) {{
+            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
+        setClockControlPanel( null );
 
         // Help
         if ( hasHelp() ) {
