@@ -39,6 +39,8 @@ public class GravityAndOrbitsControlPanel extends ControlPanel {
         {
             addResetAllButton( module );
         }
+
+        addControl( new BodyDiameterControl( model.getSun() ) );
     }
 
     //----------------------------------------------------------------------------
