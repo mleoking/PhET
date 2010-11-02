@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class EFieldDetectorProbeNode extends PhetPNode {
     
-    private final Point2D connectionOffset;
+    private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
     public EFieldDetectorProbeNode( final EFieldDetector detector, World world, final ModelViewTransform mvt, boolean dev ) {
         super();

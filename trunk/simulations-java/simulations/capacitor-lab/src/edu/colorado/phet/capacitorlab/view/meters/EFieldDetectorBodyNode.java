@@ -75,7 +75,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     
     private final PSwing showVectorsPSwing;
     private final VectorDisplayNode vectorDisplayNode;
-    private final Point2D connectionOffset; // offset for connection point of wire that attaches to probe
+    private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
 
     public EFieldDetectorBodyNode( final EFieldDetector detector, PNode dragBoundsNode ) {
 
