@@ -92,7 +92,7 @@ public class EFieldDetectorView {
         probeNode = new ProbeNode( detector, world, mvt, dev );
         probeNode.rotate( -mvt.getYaw() ); // rotated so that it's sticking into the capacitor
         
-        wireNode = new ProbeWireNode( bodyNode, probeNode, WIRE_BODY_CONTROL_POINT_OFFSET, WIRE_PROBE_CONTROL_POINT_OFFSET, probeNode.getConnectionOffset() );
+        wireNode = new ProbeWireNode( bodyNode, probeNode, WIRE_BODY_CONTROL_POINT_OFFSET, WIRE_PROBE_CONTROL_POINT_OFFSET, bodyNode.getConnectionOffset(), probeNode.getConnectionOffset() );
         wireNode.setPickable( false );
     }
     
@@ -129,6 +129,7 @@ public class EFieldDetectorView {
         
         private final PSwing showVectorsPSwing;
         private final VectorDisplayNode vectorDisplayNode;
+        private final Point2D connectionOffset;
         
         public BodyNode( final EFieldDetector detector, PNode dragBoundsNode ) {
             
@@ -214,6 +215,9 @@ public class EFieldDetectorView {
             y = showVectorsPSwing.getYOffset();
             vectorDisplayNode.setOffset( x, y );
             
+            // wire connects to the left center of the detector body
+            connectionOffset = new Point2D.Double( 0, getFullBoundsReference().getHeight() / 2 );
+            
             // interactivity
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
@@ -221,6 +225,10 @@ public class EFieldDetectorView {
         
         public void setShowVectorsPanelVisible( boolean visible ) {
             showVectorsPSwing.setVisible( visible );
+        }
+        
+        public Point2D getConnectionOffset() {
+            return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
         }
     }
     

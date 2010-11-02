@@ -25,9 +25,9 @@ public class ProbeWireNode extends PPath {
     
     private final PNode bodyNode,  probeNode;
     private final Point2D bodyControlPointOffset, probeControlPointOffset;
-    private final Point2D probeConnectionOffset;
+    private final Point2D bodyConnectionOffset, probeConnectionOffset;
     
-    public ProbeWireNode( PNode bodyNode, PNode probeNode, Point2D bodyControlPointOffset, Point2D probeControlPointOffset, Point2D probeConnectionOffset ) {
+    public ProbeWireNode( PNode bodyNode, PNode probeNode, Point2D bodyControlPointOffset, Point2D probeControlPointOffset, Point2D bodyConnectionOffset, Point2D probeConnectionOffset ) {
         setStroke( WIRE_STROKE );
         setStrokePaint( WIRE_COLOR );
         
@@ -35,6 +35,7 @@ public class ProbeWireNode extends PPath {
         this.probeNode = probeNode;
         this.bodyControlPointOffset = bodyControlPointOffset;
         this.probeControlPointOffset = probeControlPointOffset;
+        this.bodyConnectionOffset = bodyConnectionOffset;
         this.probeConnectionOffset = probeConnectionOffset;
         
         // update wire when body or probe moves
@@ -53,8 +54,8 @@ public class ProbeWireNode extends PPath {
     
     private void update() {
         
-        Point2D pBody = getBodyConnectionPoint();
-        Point2D pProbe = getProbeConnectionPoint();
+        Point2D pBody = getConnectionPoint( bodyNode, bodyConnectionOffset );
+        Point2D pProbe = getConnectionPoint( probeNode, probeConnectionOffset );
         
         // control points 
         Point2D ctrl1 = new Point2D.Double( pBody.getX() + bodyControlPointOffset.getX(), pBody.getY() + bodyControlPointOffset.getY() );
@@ -64,20 +65,15 @@ public class ProbeWireNode extends PPath {
         setPathTo( new CubicCurve2D.Double( pBody.getX(), pBody.getY(), ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(), pProbe.getX(), pProbe.getY() ) );
     }
     
-    // connect to left center of body
-    private Point2D getBodyConnectionPoint() {
-        double x = bodyNode.getFullBoundsReference().getMinX();
-        double y = bodyNode.getFullBoundsReference().getCenterY();
-        return new Point2D.Double( x, y );
-    }
-    
-    // connect to end of probe handle, account for probe rotation
-    private Point2D getProbeConnectionPoint() {
-        // unrotated connection point
-        double x = probeNode.getXOffset() + probeConnectionOffset.getX();
-        double y = probeNode.getYOffset() + probeConnectionOffset.getY();
-        // rotate the connection point to match the probe's rotation
-        AffineTransform t = AffineTransform.getRotateInstance( probeNode.getRotation(), probeNode.getXOffset(), probeNode.getYOffset() );
+    /*
+     * Gets the point where the wire connects to a specified node.
+     * The offset is used to account for rotation, and is the offset for the *unrotated* node.
+     */
+    private Point2D getConnectionPoint( PNode node, Point2D offset ) {
+        double x = node.getXOffset() + offset.getX();
+        double y = node.getYOffset() + offset.getY();
+        // rotate the connection point to match the body's rotation
+        AffineTransform t = AffineTransform.getRotateInstance( node.getRotation(), node.getXOffset(), node.getYOffset() );
         return t.transform( new Point2D.Double( x, y ), null );
     }
 }
