@@ -20,17 +20,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ProbeWireNode extends PPath {
     
-    private static final Color WIRE_COLOR = Color.BLACK;
     private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
     
     private final PNode bodyNode,  probeNode;
     private final Point2D bodyControlPointOffset, probeControlPointOffset;
     private final Point2D bodyConnectionOffset, probeConnectionOffset;
     
-    public ProbeWireNode( PNode bodyNode, PNode probeNode, Point2D bodyControlPointOffset, Point2D probeControlPointOffset, Point2D bodyConnectionOffset, Point2D probeConnectionOffset ) {
+    public ProbeWireNode( PNode bodyNode, PNode probeNode, Point2D bodyControlPointOffset, Point2D probeControlPointOffset, Point2D bodyConnectionOffset, Point2D probeConnectionOffset, Color color ) {
         setPickable( false );
         setStroke( WIRE_STROKE );
-        setStrokePaint( WIRE_COLOR );
+        setStrokePaint( color );
         
         this.bodyNode = bodyNode;
         this.probeNode = probeNode;

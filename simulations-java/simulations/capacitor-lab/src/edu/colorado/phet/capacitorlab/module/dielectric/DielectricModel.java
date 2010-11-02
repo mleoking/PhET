@@ -8,8 +8,6 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
 /**
@@ -27,6 +25,7 @@ public class DielectricModel {
     private final BatteryCapacitorCircuit circuit;
     private final Wire topWire, bottomWire;
     private final EFieldDetector eFieldDetector;
+    private final Voltmeter voltmeter;
     
     public DielectricModel( CLClock clock ) {
         
@@ -47,6 +46,8 @@ public class DielectricModel {
         eFieldDetector = new EFieldDetector( circuit, world, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION, 
                 CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE, 
                 CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
+        
+        voltmeter = new Voltmeter( circuit, world, CLConstants.VOLTMETER_VISIBLE, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION );
         
         // default state
         reset();
@@ -84,6 +85,10 @@ public class DielectricModel {
         return eFieldDetector;
     }
     
+    public Voltmeter getVoltmeter() {
+        return voltmeter;
+    }
+    
     public void reset() {
         // battery
         getBattery().setVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
@@ -97,5 +102,7 @@ public class DielectricModel {
         getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
         // E-field detector
         eFieldDetector.reset();
+        // voltmeter
+        voltmeter.reset();
     }
 }
