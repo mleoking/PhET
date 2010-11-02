@@ -1,3 +1,4 @@
+11/2/10 first pass at voltmeter (displays plate voltage)
 11/2/10 add zoom control to E-field detector
 11/2/10 EFieldDetectorView was getting too large, move body and probe to separate files
 11/2/10 generalize wire that connects a probe to a meter
