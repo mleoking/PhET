@@ -14,7 +14,11 @@ public class PhetLineBorder extends LineBorder {
     private static final int CORNER_RADIUS = 8; // radius of the rounded corners (aka arc width)
     
     public PhetLineBorder() {
-        super( Color.black, 1, true );
+        this(Color.black);
+    }
+
+    public PhetLineBorder( Color color ) {
+        super( color, 1, true );
     }
 
     @Override
