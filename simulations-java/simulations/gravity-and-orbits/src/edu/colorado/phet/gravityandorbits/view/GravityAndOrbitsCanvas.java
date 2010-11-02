@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
@@ -35,11 +33,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
 
-        modelViewTransform2D = new ModelViewTransform2D(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.5 ) ),
-                1.5E-9,
-                true );
+        modelViewTransform2D = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
 
         addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty() ) );
         addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty() ) );
