@@ -3,21 +3,14 @@
 package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
-import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -31,7 +24,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
-    private GravityAndOrbitsControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
     private Property<Boolean> forcesProperty = new Property<Boolean>( false );
     private Property<Boolean> tracesProperty = new Property<Boolean>( false );
@@ -54,33 +46,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         // Canvas
         canvas = new GravityAndOrbitsCanvas( model, this );
         setSimulationPanel( canvas );
-
-        // Control Panel
-        controlPanel = new GravityAndOrbitsControlPanel( this, model );
-        final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
-            final PSwing controlPanelPSwing = new PSwing( controlPanel );
-            //This next line works around a layout problem in pswing or swing in which the panel was reporting larger bounds than it displayed
-            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), GravityAndOrbitsControlPanel.BACKGROUND ) );
-            addChild( controlPanelPSwing );
-            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.green ) );
-            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
-        }};
-        canvas.addChild( controlPanelNode );
-
-        canvas.addChild( new GradientButtonNode( "Reset all", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.BACKGROUND, GravityAndOrbitsControlPanel.FOREGROUND ) {{
-            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    forcesProperty.reset();
-                    tracesProperty.reset();
-                    velocityProperty.reset();
-                    showMassesProperty.reset();
-                    moonProperty.reset();
-                    toScaleProperty.reset();
-                    model.resetAll();
-                }
-            } );
-        }} );
 
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
@@ -140,5 +105,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Boolean> getToScaleProperty() {
         return toScaleProperty;
+    }
+
+    public void resetAll() {
+        forcesProperty.reset();
+        tracesProperty.reset();
+        velocityProperty.reset();
+        showMassesProperty.reset();
+        moonProperty.reset();
+        toScaleProperty.reset();
+        model.resetAll();
     }
 }
