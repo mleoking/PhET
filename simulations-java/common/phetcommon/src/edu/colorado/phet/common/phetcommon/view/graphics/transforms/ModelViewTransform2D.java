@@ -11,12 +11,10 @@
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * ModelViewTransform2D
@@ -187,6 +185,10 @@ public class ModelViewTransform2D {
 
     public int modelToViewDifferentialY( double dy ) {
         return modelToViewDifferential( 0, dy ).y;
+    }
+    
+    public Point2D viewToModelDifferential( Dimension2D delta ) {
+        return viewToModelDifferential( delta.getWidth(),delta.getHeight() );
     }
 
     //----------------------------------------------------------------------------
