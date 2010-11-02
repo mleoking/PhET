@@ -24,7 +24,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     private ModelViewTransform2D modelViewTransform2D;
 
-    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, GravityAndOrbitsModule gravityAndOrbitsModule ) {
+    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, GravityAndOrbitsModule module ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         this.model = model;
@@ -38,16 +38,16 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         modelViewTransform2D = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.5 ) ),
-                2E-9,
+                1.5E-9,
                 true );
 
-        BodyNode sunNode = new BodyNode( model.getSun(), modelViewTransform2D );
+        BodyNode sunNode = new BodyNode( model.getSun(), modelViewTransform2D,module.getToScaleProperty() );
         addChild( sunNode );
 
-        BodyNode planetNode = new BodyNode( model.getPlanet(), modelViewTransform2D );
+        BodyNode planetNode = new BodyNode( model.getPlanet(), modelViewTransform2D,module.getToScaleProperty() );
         addChild( planetNode );
 
-        final TraceNode node = new TraceNode( model.getPlanet(), modelViewTransform2D, gravityAndOrbitsModule.getTracesProperty() );
+        final TraceNode node = new TraceNode( model.getPlanet(), modelViewTransform2D, module.getTracesProperty() );
         addChild( node );
     }
 
