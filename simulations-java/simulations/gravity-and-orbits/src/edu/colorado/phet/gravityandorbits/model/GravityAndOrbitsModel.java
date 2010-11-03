@@ -23,28 +23,33 @@ public class GravityAndOrbitsModel {
     private final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, 1.989E30, Color.yellow, Color.white );
     private final Body planet = new Body( "Planet", 149668992000.0, 0, EARTH_RADIUS * 2, 0, -29.78E3, EARTH_MASS, Color.blue, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
 
+
+    class ModelState{
+        ArrayList<VelocityVerlet.BodyState> 
+    }
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
         super();
         this.clock = clock;
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
-                final VelocityVerlet.BodyState sunState = sun.toBodyState();
-                final VelocityVerlet.BodyState planetState = planet.toBodyState();
                 final ArrayList<VelocityVerlet.BodyState> verletState = new ArrayList<VelocityVerlet.BodyState>() {{
-                    add( sunState );
-                    add( planetState );
+                    add( sun.toBodyState() );
+                    add( planet.toBodyState() );
                 }};
-                ArrayList<VelocityVerlet.BodyState> state = new VelocityVerlet().getNextState( verletState, clockEvent.getSimulationTimeChange(), new VelocityVerlet.PotentialField() {
-                    public ImmutableVector2D getGradient( VelocityVerlet.BodyState body, ImmutableVector2D position ) {
-                        if ( body == sunState ) {//sun
-                            return getForce( planetState, sunState );
+                final ArrayList<VelocityVerlet.PotentialField>fields= new ArrayList<VelocityVerlet.PotentialField>() {{
+                    add(new VelocityVerlet.PotentialField() {
+                        public ImmutableVector2D getGradient( VelocityVerlet.BodyState body, ImmutableVector2D newPosition, ArrayList<VelocityVerlet.BodyState> state ) {
+                            return getForce( state.get(1 ),state.get( 0 ));
                         }
-                        else {
-                            return getForce( sunState, planetState );
+                    });
+                    add(new VelocityVerlet.PotentialField() {
+                        public ImmutableVector2D getGradient( VelocityVerlet.BodyState body, ImmutableVector2D newPosition, ArrayList<VelocityVerlet.BodyState> state ) {
+                            return getForce( state.get(0 ),state.get( 1 ));
                         }
-                    }
-                } );
+                    });
+                }};
+                ArrayList<VelocityVerlet.BodyState> state = new MultiStepPhysicsUpdate( 100, new VelocityVerlet() ).getNextState( verletState, clockEvent.getSimulationTimeChange(), fields );
                 sun.updateBodyStateFromModel( state.get( 0 ) );
                 planet.updateBodyStateFromModel( state.get( 1 ) );
             }
