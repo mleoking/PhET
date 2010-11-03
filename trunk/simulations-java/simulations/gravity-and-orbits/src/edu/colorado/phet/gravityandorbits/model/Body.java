@@ -22,6 +22,7 @@ public class Body {
     private final Color highlight;
     private final ArrayList<Point2D> trace = new ArrayList<Point2D>();
     private final double density;
+    private boolean userControlled;
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;
@@ -151,5 +152,13 @@ public class Body {
 
     public Property<Double> getMassProperty() {
         return massProperty;
+    }
+
+    public boolean isUserControlled() {
+        return userControlled;
+    }
+
+    public void setUserControlled( boolean b ) {
+        this.userControlled = b;
     }
 }

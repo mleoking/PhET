@@ -32,9 +32,16 @@ public class BodyNode extends PNode {
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
-            @Override
+            public void mousePressed( PInputEvent event ) {
+                body.setUserControlled( true );
+            }
+
             public void mouseDragged( PInputEvent event ) {
                 body.translate( modelViewTransform2D.viewToModelDifferential( event.getDeltaRelativeTo( getParent() ) ) );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                body.setUserControlled( false );
             }
         } );
         body.getPositionProperty().addObserver( new SimpleObserver() {

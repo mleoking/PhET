@@ -23,16 +23,14 @@ public class GrabbableVectorNode extends VectorNode {
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new BasicStroke( 1 ), Color.yellow ) {{
             setOffset( tip.getX() - getFullBounds().getWidth() / 2, tip.getY() - getFullBounds().getHeight() / 2 );
         }};
-        property.addObserver( new SimpleObserver() {
+        final SimpleObserver updateGrabArea = new SimpleObserver() {
             public void update() {
-                GrabbableVectorNode.this.update();
+                final Point2D tip = getTip();
+                grabArea.setOffset( tip.getX() - grabArea.getFullBounds().getWidth() / 2, tip.getY() - grabArea.getFullBounds().getHeight() / 2 );
             }
-        } );
+        };
+        property.addObserver( updateGrabArea );
+        body.getPositionProperty().addObserver( updateGrabArea );
         addChild( grabArea );
-    }
-
-    protected void update() {
-        final Point2D tip = getTip();
-        grabArea.setOffset( tip.getX() - grabArea.getFullBounds().getWidth() / 2, tip.getY() - grabArea.getFullBounds().getHeight() / 2 );
     }
 }

@@ -37,17 +37,17 @@ public class VectorNode extends PNode {
             setPaint( Color.pink );
             setStrokePaint( Color.red );
         }};
-        property.addObserver( new SimpleObserver() {
+        final SimpleObserver updateArrow = new SimpleObserver() {
             public void update() {
-                VectorNode.this.update();
+                final Point2D tail = getTail();
+                arrowNode.setTipAndTailLocations( getTip( tail ), tail );
             }
-        } );
+        };
+        property.addObserver( updateArrow );
+        body.getPositionProperty().addObserver( updateArrow );
         addChild( arrowNode );
-    }
-
-    private void update() {
-        final Point2D tail = getTail();
-        arrowNode.setTipAndTailLocations( getTip( tail ), tail );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     private Point2D getTail() {
