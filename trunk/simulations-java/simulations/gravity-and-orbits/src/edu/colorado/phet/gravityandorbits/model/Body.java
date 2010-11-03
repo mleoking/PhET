@@ -83,7 +83,7 @@ public class Body {
         return positionProperty.getValue().getY();
     }
 
-    private double getX() {
+    public double getX() {
         return positionProperty.getValue().getX();
     }
 

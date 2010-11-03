@@ -36,6 +36,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     private ModelViewTransform2D modelViewTransform2D;
     public static final Function.LinearFunction SUN_SIZER = new Function.LinearFunction( 0, 1, 0, 15 );
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
+    public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
@@ -63,14 +64,19 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         addChild( new TraceNode( model.getPlanet(), modelViewTransform2D, module.getTracesProperty() ) );
         addChild( new TraceNode( model.getSun(), modelViewTransform2D, module.getTracesProperty() ) );
-        addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, SUN_SIZER ) );
-        addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, PLANET_SIZER ) );
+        addChild( new TraceNode( model.getMoon(), modelViewTransform2D, module.getTracesProperty() ) );
+        addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, SUN_SIZER, -Math.PI / 4 ) );
+        addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, PLANET_SIZER, -Math.PI / 4 ) );
+        addChild( new BodyNode( model.getMoon(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, MOON_SIZER, -Math.PI / 4 -Math.PI/2) );
         addChild( new VectorNode( model.getPlanet(), modelViewTransform2D, module.getForcesProperty(), model.getPlanet().getForceProperty(), VectorNode.FORCE_SCALE ) );
         addChild( new VectorNode( model.getSun(), modelViewTransform2D, module.getForcesProperty(), model.getSun().getForceProperty(), VectorNode.FORCE_SCALE ) );
+        addChild( new VectorNode( model.getMoon(), modelViewTransform2D, module.getForcesProperty(), model.getMoon().getForceProperty(), VectorNode.FORCE_SCALE ) );
         addChild( new GrabbableVectorNode( model.getPlanet(), modelViewTransform2D, module.getVelocityProperty(), model.getPlanet().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
         addChild( new GrabbableVectorNode( model.getSun(), modelViewTransform2D, module.getVelocityProperty(), model.getSun().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
+        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, module.getVelocityProperty(), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
         addChild( new MassReadoutNode( model.getSun(), modelViewTransform2D, module.getShowMassesProperty() ) );
         addChild( new MassReadoutNode( model.getPlanet(), modelViewTransform2D, module.getShowMassesProperty() ) );
+        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, module.getShowMassesProperty() ) );
 
         // Control Panel
         final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );

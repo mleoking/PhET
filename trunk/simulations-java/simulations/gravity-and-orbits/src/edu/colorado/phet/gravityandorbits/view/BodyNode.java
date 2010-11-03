@@ -32,7 +32,7 @@ public class BodyNode extends PNode {
     private final SphericalNode sphereNode;
 
     public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> toScaleProperty,
-                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer ) {
+                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
         this.modelViewTransform2D = modelViewTransform2D;
         this.body = body;
         this.toScaleProperty = toScaleProperty;
@@ -99,7 +99,7 @@ public class BodyNode extends PNode {
         //Points to the sphere with a text indicator and line, for when it is too small to see (in "to scale" mode)
         arrowIndicator = new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
-            ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, -Math.PI / 4 );
+            ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, labelAngle );
             Point2D tip = northEastVector.getScaledInstance( 10 ).getDestination( viewCenter );
             final Point2D tail = northEastVector.getScaledInstance( 50 ).getDestination( viewCenter );
 
