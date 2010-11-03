@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * @author Sam Reid
@@ -37,10 +38,9 @@ public class GrabbableVectorNode extends VectorNode {
         addChild( grabArea );
         grabArea.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                Point2D position = event.getPositionRelativeTo( getParent() );
-                Point2D model = modelViewTransform2D.viewToModel( position );
-                ImmutableVector2D velocityVector = new ImmutableVector2D( model ).getSubtractedInstance( body.getPosition() );
-                body.setVelocity( velocityVector.getScaledInstance( 1.0 / scale ) );
+                PDimension delta = event.getDeltaRelativeTo( getParent() );
+                Point2D modelDelta = modelViewTransform2D.viewToModelDifferential( delta );
+                body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
             }
         } );
         grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?

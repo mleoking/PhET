@@ -107,7 +107,7 @@ public class Body {
         return accelerationProperty.getValue();
     }
 
-    private ImmutableVector2D getVelocity() {
+    public ImmutableVector2D getVelocity() {
         return velocityProperty.getValue();
     }
 
