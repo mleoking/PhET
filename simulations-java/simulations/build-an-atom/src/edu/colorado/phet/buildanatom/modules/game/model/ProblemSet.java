@@ -51,7 +51,7 @@ public class ProblemSet {
         }
 
         // Now add problems of any type to the problem set.
-        for ( int i = problems.size() - 1; i < numProblems; i++ ) {
+        for ( int i = problems.size(); i < numProblems; i++ ) {
             Problem problem = generateProblem( model, atomValueList );
             if ( problem != null ){
                 addProblem( problem );
