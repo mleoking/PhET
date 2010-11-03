@@ -45,8 +45,12 @@ public class GravityAndOrbitsModel {
                         }
                     }
                 } );
-                sun.setBodyState( state.get( 0 ) );
-                planet.setBodyState( state.get( 1 ) );
+                if ( !sun.isUserControlled() ) {
+                    sun.setBodyState( state.get( 0 ) );
+                }
+                if ( !planet.isUserControlled() ) {
+                    planet.setBodyState( state.get( 1 ) );
+                }
             }
         } );
     }
