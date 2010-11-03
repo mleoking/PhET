@@ -178,6 +178,10 @@ public class Body {
         traceListeners.remove( listener );
     }
 
+    public void setVelocity( ImmutableVector2D velocity ) {
+        velocityProperty.setValue( velocity );
+    }
+
     public static class TracePoint {
         public ImmutableVector2D point;
         public final boolean userControlled;
