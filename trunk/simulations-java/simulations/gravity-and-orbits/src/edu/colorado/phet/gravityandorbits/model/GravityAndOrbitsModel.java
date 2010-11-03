@@ -5,6 +5,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
@@ -23,9 +24,9 @@ public class GravityAndOrbitsModel {
     private final GravityAndOrbitsClock clock;
     private final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, 1.989E30, Color.yellow, Color.white );
     private final Body planet = new Body( "Planet", 149668992000.0, 0, EARTH_RADIUS * 2, 0, -29.78E3, EARTH_MASS, Color.blue, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
-    private final Body moon = new Body( "Moon", planet.getX()+384399E3, 0, MOON_RADIUS * 2, 0, -29.78E3-1.022E3, MOON_MASS, Color.gray, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
+    private final Body moon = new Body( "Moon", planet.getX() + 384399E3, 0, MOON_RADIUS * 2, 0, -29.78E3 - 1.022E3, MOON_MASS, Color.gray, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
 
-    public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
+    public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
         super();
         this.clock = clock;
         clock.addClockListener( new ClockAdapter() {
@@ -34,11 +35,15 @@ public class GravityAndOrbitsModel {
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
-                    add( moon.toBodyState() );
+                    if ( moonProperty.getValue() ) {
+                        add( moon.toBodyState() );
+                    }
                 }} ).getNextState( clockEvent.getSimulationTimeChange(), 100 );
                 sun.updateBodyStateFromModel( newState.getBodyState( 0 ) );
                 planet.updateBodyStateFromModel( newState.getBodyState( 1 ) );
-                moon.updateBodyStateFromModel( newState.getBodyState( 2 ) );
+                if ( moonProperty.getValue() ) {
+                    moon.updateBodyStateFromModel( newState.getBodyState( 2 ) );
+                }
             }
         } );
     }
