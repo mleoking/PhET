@@ -51,6 +51,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( new VectorNode( model.getSun(), modelViewTransform2D, module.getForcesProperty(), model.getSun().getForceProperty(), VectorNode.FORCE_SCALE ) );
         addChild( new GrabbableVectorNode( model.getPlanet(), modelViewTransform2D, module.getVelocityProperty(), model.getPlanet().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
         addChild( new GrabbableVectorNode( model.getSun(), modelViewTransform2D, module.getVelocityProperty(), model.getSun().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
+        addChild( new MassReadoutNode(model.getSun(),modelViewTransform2D,module.getShowMassesProperty() ) );
+        addChild( new MassReadoutNode(model.getPlanet(),modelViewTransform2D,module.getShowMassesProperty() ) );
 
         // Control Panel
         final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );
