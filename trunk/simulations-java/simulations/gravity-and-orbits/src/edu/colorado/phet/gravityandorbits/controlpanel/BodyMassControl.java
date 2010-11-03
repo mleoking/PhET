@@ -24,9 +24,11 @@ import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STA
  * @author Sam Reid
  */
 public class BodyMassControl extends VerticalLayoutPanel {
+    public static final int MIN = 0;
+    public static final int MAX = 100000;
 
     public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel ) {
-        final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, 0, 100 );
+        final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, MIN, MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
 
         //TODO: move title label west, probably by not having the horizontal panel expand to take full width
@@ -46,18 +48,18 @@ public class BodyMassControl extends VerticalLayoutPanel {
         setForeground( FOREGROUND );
         setBackground( BACKGROUND );
 
-        add( new JSlider() {{
-            setMinorTickSpacing( 10 );
-            setMajorTickSpacing( 50 );
+        add( new JSlider(MIN,MAX) {{
+            setMinorTickSpacing( (MAX-MIN)/10 );
+            setMajorTickSpacing( (MAX-MIN)/2);
             setPaintLabels( true );
             setPaintTicks( true );
             setLabelTable( new Hashtable() {{
-                put( 0, new JLabel( minLabel ) {{
+                put( MIN, new JLabel( minLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
                     setFont( new PhetFont( 14, true ) );
                 }} );
-                put( 100, new JLabel( maxLabel ) {{
+                put( MAX, new JLabel( maxLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
                     setFont( new PhetFont( 14, true ) );
