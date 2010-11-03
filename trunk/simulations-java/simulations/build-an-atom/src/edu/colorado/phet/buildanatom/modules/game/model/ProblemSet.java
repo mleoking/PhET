@@ -16,7 +16,6 @@ import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
  */
 public class ProblemSet {
 
-    private static final int MIN_NUM_SCHEMATIC_PROBS_PER_SET = 2;
     private static final int MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS = 3; // Disallow schematic (Bohr model) probs above this size.
     public static final Random RAND = new Random();
 
@@ -39,18 +38,6 @@ public class ProblemSet {
         // Create a pool of atom values that can be used to create problems
         // for the problem set.
         AtomValuePool atomValueList = new AtomValuePool( model );
-
-        // There is a constraint that there must be a certain number of
-        // schematic (a.k.a. Bohr model) problems in each problem set.  To
-        // support this, we first add the min number of these problems to the
-        // problem set.  We will randomize the order later.
-        assert numProblems >= MIN_NUM_SCHEMATIC_PROBS_PER_SET;
-        for ( int i = 0; i < MIN_NUM_SCHEMATIC_PROBS_PER_SET; i++){
-            Problem problem = generateSchematicProblem( model, atomValueList );
-            if ( problem != null ){
-                addProblem( problem );
-            }
-        }
 
         // Now add problems of any type to the problem set.
         for ( int i = problems.size(); i < numProblems; i++ ) {
@@ -104,21 +91,10 @@ public class ProblemSet {
     }
 
     // Lists that define the problem types that can be used at a given level.
-    private static final ArrayList<ProblemType> LEVEL_1_SCHEMATIC_PROB_TYPES = new ArrayList<ProblemType>() {
-        {
-            add( ProblemType.SCHEMATIC_TO_ELEMENT );
-        }
-    };
     private static final ArrayList<ProblemType> LEVEL_1_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_ELEMENT );
             add( ProblemType.COUNTS_TO_ELEMENT );
-        }
-    };
-    private static final ArrayList<ProblemType> LEVEL_2_SCHEMATIC_PROB_TYPES = new ArrayList<ProblemType>() {
-        {
-            add( ProblemType.SCHEMATIC_TO_SYMBOL );
-            add( ProblemType.SYMBOL_TO_SCHEMATIC );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_2_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
@@ -127,12 +103,6 @@ public class ProblemSet {
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
             add( ProblemType.SYMBOL_TO_COUNTS );
             add( ProblemType.COUNTS_TO_SYMBOL );
-        }
-    };
-    private static final ArrayList<ProblemType> LEVEL_3_SCHEMATIC_PROB_TYPES = new ArrayList<ProblemType>() {
-        {
-            add( ProblemType.SCHEMATIC_TO_SYMBOL );
-            add( ProblemType.SYMBOL_TO_SCHEMATIC );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
@@ -163,66 +133,27 @@ public class ProblemSet {
     }
 
     /**
-     * Map the game level and a flag for whether only schematic problems are
-     * desired to the set of problem types that can be used.
-     *
-     * @param level
-     * @param schematicProbsOnly
-     * @return
+     * Get all of the problems types that are allowed for the specified level.
      */
-    private ArrayList<ProblemType> getProblemTypesForLevel(int level, boolean schematicProbsOnly ){
+    private ArrayList<ProblemType> getAllProblemTypesForLevel( int level ) {
         ArrayList<ProblemType> problemTypes;
-        switch( level ){
+        switch ( level ) {
         case 1:
-            if (schematicProbsOnly){
-                problemTypes = LEVEL_1_SCHEMATIC_PROB_TYPES;
-            }
-            else{
-                problemTypes = LEVEL_1_ALL_PROB_TYPES;
-            }
+            problemTypes = LEVEL_1_ALL_PROB_TYPES;
             break;
         case 2:
-            if (schematicProbsOnly){
-                problemTypes = LEVEL_2_SCHEMATIC_PROB_TYPES;
-            }
-            else{
-                problemTypes = LEVEL_2_ALL_PROB_TYPES;
-            }
+            problemTypes = LEVEL_2_ALL_PROB_TYPES;
             break;
         case 3:
-            if (schematicProbsOnly){
-                problemTypes = LEVEL_3_SCHEMATIC_PROB_TYPES;
-            }
-            else{
-                problemTypes = LEVEL_3_ALL_PROB_TYPES;
-            }
+            problemTypes = LEVEL_3_ALL_PROB_TYPES;
             break;
         default:
             System.err.println( getClass().getName() + " - Error: Undefined game level." );
+            assert false;
             problemTypes = LEVEL_1_ALL_PROB_TYPES; // Arbitrary.
             break;
         }
         return problemTypes;
-    }
-
-    /**
-     * Generate a single schematic problem (e.g. a problem that includes a
-     * schematic representation, also called a Bohr model, of the atom) given
-     * the model (which contains the current level setting) and a pool of
-     * atoms values that can be used for the problem.
-     */
-    private Problem generateSchematicProblem( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ){
-        ArrayList<ProblemType> possibleProbTypes = getProblemTypesForLevel( model.getLevelProperty().getValue(), true  );
-        possibleProbTypes = filterProblemTypes( possibleProbTypes );
-        if (possibleProbTypes.size() == 0){
-            // There are no schematic problem types enabled that match this
-            // level's constraints.
-            System.err.println( getClass().getName() + " - Warning: No schematic problem types enabled for level " + model.getLevelProperty().getValue() );
-            return null;
-        }
-        ProblemType problemType = possibleProbTypes.get( RAND.nextInt( possibleProbTypes.size() ) );
-        AtomValue atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
-        return createProblem( model, problemType, atomValue );
     }
 
     /**
@@ -234,10 +165,10 @@ public class ProblemSet {
      * @param atomValuePool
      * @return
      */
-    private Problem generateProblem ( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ){
-        ArrayList<ProblemType> possibleProbTypes = getProblemTypesForLevel( model.getLevelProperty().getValue(), false );
+    private Problem generateProblem( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ) {
+        ArrayList<ProblemType> possibleProbTypes = getAllProblemTypesForLevel( model.getLevelProperty().getValue() );
         possibleProbTypes = filterProblemTypes( possibleProbTypes );
-        if (possibleProbTypes.size() == 0){
+        if ( possibleProbTypes.size() == 0 ) {
             // There are no problem types enabled that match this level's
             // constraints.
             System.err.println( getClass().getName() + " - Warning: No problem types enabled for level " + model.getLevelProperty().getValue() );
@@ -245,11 +176,11 @@ public class ProblemSet {
         }
         ProblemType problemType = possibleProbTypes.get( RAND.nextInt( possibleProbTypes.size() ) );
         AtomValue atomValue;
-        if ( isSchematicProbType( problemType )){
+        if ( isSchematicProbType( problemType ) ) {
             // Need to limit size of atom value.
             atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
         }
-        else{
+        else {
             atomValue = availableAtomValues.getRandomAtomValue();
         }
         return createProblem( model, problemType, atomValue );
@@ -259,9 +190,9 @@ public class ProblemSet {
      * Create a single problem given a problem type (e.g. Schematic to
      * Element) and an atom value that defines that atom configuration.
      */
-    private Problem createProblem( BuildAnAtomGameModel model, ProblemType problemType, AtomValue atomValue ){
+    private Problem createProblem( BuildAnAtomGameModel model, ProblemType problemType, AtomValue atomValue ) {
         Problem problem = null;
-        switch ( problemType ){
+        switch ( problemType ) {
         case SYMBOL_TO_SCHEMATIC:
             problem = new SymbolToSchematicProblem( model, atomValue );
             break;
@@ -336,21 +267,32 @@ public class ProblemSet {
          */
         public AtomValue getRandomAtomValueMaxSize( int maxProtons ){
 
+            // Make a list of the atoms that are small enough.
             ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
             for ( AtomValue av : remainingAtomValues ){
                 if (av.getProtons() <= maxProtons){
                     allowableAtomValues.add( av );
                 }
             }
-            AtomValue atomValue;
-            if ( allowableAtomValues.size() > 0){
+            if ( allowableAtomValues.size() == 0){
+                // There were none available on the list of unused atoms, so
+                // add some from the list of used atoms.
+                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, returning previously used atom value." );
+                for ( AtomValue av : usedAtomValues ){
+                    if (av.getProtons() <= maxProtons){
+                        allowableAtomValues.add( av );
+                    }
+                }
+            }
+
+            AtomValue atomValue = null;
+            if ( allowableAtomValues.size() > 0 ){
                 atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
                 remainingAtomValues.remove( atomValue );
                 usedAtomValues.add( atomValue );
             }
             else{
-                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, returning previously used atom value." );
-                atomValue = usedAtomValues.get( AVP_RAND.nextInt( usedAtomValues.size() ) );
+                System.err.println( getClass().getName() + " - Error: No atoms found below specified size threshold." );
             }
             return atomValue;
         }
