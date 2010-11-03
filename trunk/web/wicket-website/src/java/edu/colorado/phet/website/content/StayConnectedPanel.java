@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.content;
 
 import edu.colorado.phet.website.authentication.EditProfilePage;
+import edu.colorado.phet.website.authentication.RegisterPage;
 import edu.colorado.phet.website.authentication.SignInPage;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -23,6 +24,7 @@ public class StayConnectedPanel extends PhetPanel {
 
         add( new LocalizedText( "newsletter-instructions", "stayConnected.newsletterInstructions", new Object[]{
                 SignInPage.getLinker( getFullPath( context ) ).getHref( context, getPhetCycle() ),
+                RegisterPage.getLinker( getFullPath( context ) ).getHref( context, getPhetCycle() ),
                 EditProfilePage.getLinker( getFullPath( context ) ).getHref( context, getPhetCycle() )
         }));
     }

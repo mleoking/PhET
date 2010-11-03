@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.authentication;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 
@@ -31,7 +34,18 @@ public class RegisterPage extends PhetMenuPage {
         return new AbstractLinker() {
             @Override
             public String getSubUrl( PageContext context ) {
-                return "register?dest=" + destination;
+                try {
+                    // always encode the destination because special characters might be hidden
+                    String finalDestination = destination;
+                    if ( finalDestination.equals( "/en/" ) ) {
+                        finalDestination = "/";
+                    }
+                    return "register?dest=" + URLEncoder.encode( finalDestination, "UTF-8" );
+                }
+                catch ( UnsupportedEncodingException e ) {
+                    e.printStackTrace();
+                    throw new RuntimeException( e );
+                }
             }
         };
     }

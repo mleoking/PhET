@@ -34,7 +34,7 @@ public class NewStrings {
         checkString( session, "social.digg.tooltip", "Share this on Digg" );
         checkString( session, "social.reddit.tooltip", "Share this on Reddit" );
         checkString( session, "social.delicious.tooltip", "Share this on Delicious" );
-        checkString( session, "stayConnected.newsletterInstructions", "To subscribe newsletter, please <a {0}>log in or create an account</a>, go to the <a {1}>Edit Profile page</a> select \"Receive PhET Email\" and submit." );
+        checkString( session, "stayConnected.newsletterInstructions", "To subscribe newsletter, please <a {0}>log in</a> or <a {1}>create an account</a>, go to the <a {2}>Edit Profile page</a> select \"Receive PhET Email\" and submit." );
         session.close();
     }
 
