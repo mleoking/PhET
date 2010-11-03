@@ -28,13 +28,12 @@ public class GravityAndOrbitsModel {
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
-                ModelState modelState = new ModelState( new ArrayList<BodyState>() {{
+                ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
-                }} );
-                ModelState updated = modelState.getNextState( clockEvent.getSimulationTimeChange(), 100 );
-                sun.updateBodyStateFromModel( updated.getBodyState( 0 ) );
-                planet.updateBodyStateFromModel( updated.getBodyState( 1 ) );
+                }} ).getNextState( clockEvent.getSimulationTimeChange(), 100 );
+                sun.updateBodyStateFromModel( newState.getBodyState( 0 ) );
+                planet.updateBodyStateFromModel( newState.getBodyState( 1 ) );
             }
         } );
     }
