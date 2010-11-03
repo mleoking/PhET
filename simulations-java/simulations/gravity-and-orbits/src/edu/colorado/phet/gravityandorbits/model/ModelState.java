@@ -42,4 +42,8 @@ public class ModelState {
         }
         return sum;
     }
+
+    public BodyState getBodyState( int index ) {
+        return bodyStates.get( index );
+    }
 }
