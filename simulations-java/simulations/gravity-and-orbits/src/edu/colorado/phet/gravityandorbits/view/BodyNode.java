@@ -127,7 +127,6 @@ public class BodyNode extends PNode {
         else {
             final double viewDiameter = modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() );
             final double newDiameter = sizer.evaluate( viewDiameter );
-            System.out.println( "body.getDiameter()+\", \" = " + body.getDiameter() + ", " + viewDiameter + ", newDiameter = " + newDiameter );
             return newDiameter;
         }
     }
