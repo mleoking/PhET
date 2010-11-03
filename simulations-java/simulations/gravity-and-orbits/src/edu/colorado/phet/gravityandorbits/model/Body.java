@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -20,9 +21,10 @@ public class Body {
     private final String name;
     private final Color color;
     private final Color highlight;
-    private final ArrayList<TracePoint> trace = new ArrayList<TracePoint>();
     private final double density;
     private boolean userControlled;
+
+    private final java.util.List<TraceListener> traceListeners = new LinkedList<TraceListener>();
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;
@@ -121,15 +123,16 @@ public class Body {
     }
 
     private void addTracePoint() {
-        trace.add( new TracePoint( getPosition(), isUserControlled() ) );
-    }
-
-    public TracePoint[] getTrace() {
-        return trace.toArray( new TracePoint[trace.size()] );
+        TracePoint trace = new TracePoint( getPosition(), isUserControlled() );
+        for ( TraceListener listener : traceListeners ) {
+            listener.traceAdded( trace );
+        }
     }
 
     public void clearTrace() {
-        trace.clear();
+        for ( TraceListener listener : traceListeners ) {
+            listener.traceCleared();
+        }
     }
 
     public Property<ImmutableVector2D> getForceProperty() {
@@ -168,6 +171,14 @@ public class Body {
         this.userControlled = b;
     }
 
+    public void addTraceListener( TraceListener listener ) {
+        traceListeners.add( listener );
+    }
+
+    public void removeTraceListener( TraceListener listener ) {
+        traceListeners.remove( listener );
+    }
+
     public static class TracePoint {
         public ImmutableVector2D point;
         public final boolean userControlled;
@@ -176,5 +187,11 @@ public class Body {
             this.point = point;
             this.userControlled = userControlled;
         }
+    }
+
+    public static interface TraceListener {
+        public void traceAdded( TracePoint trace );
+
+        public void traceCleared();
     }
 }
