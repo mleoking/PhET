@@ -90,7 +90,10 @@ public class BuildAnAtomGameModel {
         }} );
         put( 2, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 1 ) );
+            add( new AtomValue( 1, 1, 1 ) );
+            add( new AtomValue( 2, 1, 2 ) );
             add( new AtomValue( 2, 2, 2 ) );
+            add( new AtomValue( 3, 3, 3 ) );
             add( new AtomValue( 3, 4, 3 ) );
             add( new AtomValue( 4, 5, 4 ) );
             add( new AtomValue( 5, 5, 5 ) );
@@ -111,11 +114,11 @@ public class BuildAnAtomGameModel {
         //before these can work, sim will need to support another shell for e-
         put( 3, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 0 ) );
-            add( new AtomValue( 1, 0, 1 ) );
+            add( new AtomValue( 1, 1, 0 ) );
+            add( new AtomValue( 1, 1, 2 ) );
             add( new AtomValue( 1, 0, 2 ) );
-            add( new AtomValue( 2, 2, 2 ) );
+            add( new AtomValue( 3, 3, 2 ) );
             add( new AtomValue( 3, 4, 2 ) );
-            add( new AtomValue( 3, 4, 3 ) );
             add( new AtomValue( 7, 7, 10 ) );
             add( new AtomValue( 8, 8, 10 ) );
             add( new AtomValue( 9, 9, 10 ) );
