@@ -40,7 +40,7 @@ public class Body {
         return 4.0 / 3.0 * Math.PI * Math.pow( getRadius(), 3 );
     }
 
-    private double getRadius() {
+    public double getRadius() {
         return getDiameter() / 2;
     }
 
@@ -147,5 +147,9 @@ public class Body {
 
     public Property<ImmutableVector2D> getVelocityProperty() {
         return velocityProperty;
+    }
+
+    public Property<Double> getMassProperty() {
+        return massProperty;
     }
 }
