@@ -46,8 +46,8 @@ public class VectorNode extends PNode {
         property.addObserver( updateArrow );
         body.getPositionProperty().addObserver( updateArrow );
         addChild( arrowNode );
-        setPickable( false );
-        setChildrenPickable( false );
+        arrowNode.setPickable( false );
+        arrowNode.setChildrenPickable( false );
     }
 
     private Point2D getTail() {
