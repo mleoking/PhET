@@ -24,29 +24,30 @@ public class TraceNode extends PNode {
         addChild( phetPPath );
         visible.addObserver( new SimpleObserver() {
             public void update() {
-                body.clearTrace();
-                clearPath();
                 setVisible( visible.getValue() );
             }
         } );
         body.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
-                final Point2D[] trace = body.getTrace();
-                final Point2D[] txTrace = new Point2D[trace.length];
-                for ( int i = 0; i < txTrace.length; i++ ) {
-                    txTrace[i] = transform.modelToViewDouble( trace[i] );
-                }
+                final Body.TracePoint[] trace = body.getTrace();
                 if ( trace.length == 0 ) {
                     clearPath();
                 }
                 else {
-                    phetPPath.setPathToPolyline( txTrace );
+                    Body.TracePoint lastTrace = trace[trace.length - 1];
+                    Point2D viewPoint = transform.modelToViewDouble( lastTrace.point.toPoint2D() );
+                    if ( lastTrace.userControlled || trace.length == 1 ) {
+                        phetPPath.moveTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
+                    }
+                    else {
+                        phetPPath.lineTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
+                    }
                 }
             }
         } );
     }
 
     private void clearPath() {
-        phetPPath.setPathTo( new Ellipse2D.Double( body.getPosition().getX(), body.getPosition().getY(), 0, 0 ) );
+        phetPPath.reset();
     }
 }
