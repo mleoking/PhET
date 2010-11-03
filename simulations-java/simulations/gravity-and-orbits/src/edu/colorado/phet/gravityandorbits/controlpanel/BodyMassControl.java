@@ -9,6 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -27,7 +28,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
     public static final int MIN = 0;
     public static final int MAX = 100000;
 
-    public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel ) {
+    public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel, final Function.LinearFunction sizer ) {
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, MIN, MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
 
@@ -39,8 +40,9 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setForeground( FOREGROUND );
                 setBackground( BACKGROUND );
             }} );
-            final BodyNode bodyNode = new BodyNode( body, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true ) );
-            add( new JLabel( "", new ImageIcon( bodyNode.toImage() ), SwingConstants.LEFT ) {{
+            final BodyNode bodyNode = new BodyNode( body, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true ),
+                                                    new Property<Boolean>( false ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, sizer );
+            add( new JLabel( "", new ImageIcon( bodyNode.sphereNodeToImage() ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );
             }} );
         }} );
@@ -67,7 +69,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
             }} );
             setBackground( BACKGROUND );
             setForeground( FOREGROUND );
-            body.getDiameterProperty().addObserver( new SimpleObserver() {
+            body.getMassProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     setValue( (int) modelToView.evaluate( body.getMass() ) );//todo: will this clamp create problems?
                 }
