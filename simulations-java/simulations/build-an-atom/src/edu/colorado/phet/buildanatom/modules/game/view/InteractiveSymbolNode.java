@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class InteractiveSymbolNode extends PNode {
 
     private static final Font SYMBOL_FONT = new PhetFont( 90, true );
+    private static final Font ELEMENT_NAME_FONT = new PhetFont( 30, false );
     private static final double WIDTH = 200;
     private static final double SPINNER_EDGE_OFFSET = 5;
 
@@ -51,12 +52,12 @@ public class InteractiveSymbolNode extends PNode {
         addChild( symbol );
 
         final PText elementName = new PText(){{
-            setFont( new PhetFont( 30 ) );
+            setFont( ELEMENT_NAME_FONT );
             setTextPaint( Color.red );
         }};
         addChild( elementName );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, ValueNode.DEFAULT_SPINNER_FONT, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
 
@@ -73,11 +74,13 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
+        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_SPINNER_FONT,
+                ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
-        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new SignedIntegerFormat(),new Function0<Color>() {
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_SPINNER_FONT,
+                ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new SignedIntegerFormat(),new Function0<Color>() {
             public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign

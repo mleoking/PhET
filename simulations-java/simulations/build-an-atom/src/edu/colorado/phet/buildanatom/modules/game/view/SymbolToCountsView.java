@@ -102,13 +102,14 @@ public class SymbolToCountsView extends ProblemView {
     }
 
     public static class EntryPanel extends PNode {
+        private final static Font FONT = new PhetFont( 30 );
         private final PText label;
         private final ValueNode valueNode;
         private final Property<Boolean> editable;
 
         public EntryPanel( String name, final Property<Integer> property ) {
             label = new PText( name ) {{
-                setFont( new PhetFont( 30 ) );
+                setFont( FONT );
             }};
             addChild( label );
             final JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
@@ -124,7 +125,7 @@ public class SymbolToCountsView extends ProblemView {
                 }
             } );
             editable = new Property<Boolean>( true );
-            valueNode = new ValueNode( property, 0, 30, 1, ValueNode.DEFAULT_NUMBER_FONT, editable, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
+            valueNode = new ValueNode( property, 0, 30, 1, FONT, FONT, editable, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
             addChild( valueNode );
             valueNode.setOffset( 0, label.getFullBounds().getHeight() / 2 - valueNode.getFullBounds().getHeight() / 2 );
         }

@@ -22,16 +22,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * settable to display either one of the other.
  */
 public class ValueNode extends PNode {
-    public static final Font DEFAULT_NUMBER_FONT = new PhetFont( 30, true );
+    public static final Font DEFAULT_NUMBER_FONT = new PhetFont( 36, true );
+    public static final Font DEFAULT_SPINNER_FONT = new PhetFont( 30, true );
     public static final NumberFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat( "0" );
     private final PText text = new PText( "0" );
     private final JSpinner spinner;
     private final SimpleObserver updateReadouts;
 
-    public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize, final Font textFont, final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
+    public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize,
+            final Font spinnerFont, final Font textFont, final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
             {
-                setFont( textFont );
+                setFont( spinnerFont );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         numericProperty.setValue( (Integer) getValue() );
