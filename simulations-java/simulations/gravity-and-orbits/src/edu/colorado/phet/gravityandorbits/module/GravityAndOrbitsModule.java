@@ -36,7 +36,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
         // Model
         GravityAndOrbitsClock clock = (GravityAndOrbitsClock) getClock();
-        model = new GravityAndOrbitsModel( clock );
+        model = new GravityAndOrbitsModel( clock, moonProperty );
 
         // Canvas
         canvas = new GravityAndOrbitsCanvas( model, this );
