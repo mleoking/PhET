@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
@@ -113,12 +114,15 @@ public class PhetApplicationLauncher {
                         app.startApplication();
                         disposeSplashWindow();
 
-                        // statistics
-                        StatisticsManager.initInstance( app ).start();
-                        
-                        // updates
-                        AutomaticUpdatesManager.initInstance( app ).start();
-                        ManualUpdatesManager.initInstance( app );
+                        //Ignore statistics and updates for sims that are still under development
+                        if ( app.getSimInfo().getVersion().getMajorAsInt() >= 1 ) {
+                            // statistics
+                            StatisticsManager.initInstance( app ).start();
+
+                            // updates
+                            AutomaticUpdatesManager.initInstance( app ).start();
+                            ManualUpdatesManager.initInstance( app );
+                        }
                     }
                     else {
                         new RuntimeException( "No applicationconstructor specified" ).printStackTrace();
@@ -133,4 +137,5 @@ public class PhetApplicationLauncher {
             e.printStackTrace();
         }
     }
+
 }
