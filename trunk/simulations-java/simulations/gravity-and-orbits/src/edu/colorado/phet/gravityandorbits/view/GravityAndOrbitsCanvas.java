@@ -35,7 +35,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     private ModelViewTransform2D modelViewTransform2D;
     public static final Function.LinearFunction SUN_SIZER = new Function.LinearFunction( 0, 1, 0, 15 );
-    public static  final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
+    public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
