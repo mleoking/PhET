@@ -121,34 +121,35 @@ public class Atom extends SimpleObservable{
         }
     };
 
-
-    private void removeParticle( SubatomicParticle particle ) {
+    /**Returns the removed particle.*/
+    private SubatomicParticle removeParticle( SubatomicParticle particle ) {
         protons.remove( particle );
         neutrons.remove( particle );
         particle.removeListener( particleRemovalListener );
         reconfigureNucleus();
         notifyObservers();
+        return particle;
     }
 
     /**
      * Remove an arbitrary proton.
      */
-    public void removeProton(){
-        removeParticle( protons.get( 0 ) );
+    public SubatomicParticle removeProton(){
+        return removeParticle( protons.get( 0 ) );
     }
 
     /**
      * Remove an arbitrary neutron.
      */
-    public void removeNeutron(){
-        removeParticle( neutrons.get( 0 ) );
+    public SubatomicParticle removeNeutron(){
+        return removeParticle( neutrons.get( 0 ) );
     }
 
     /**
      * Remove an arbitrary electron.
      */
-    public void removeElectron(){
-        electronShell1.removeElectron();
+    public Electron removeElectron(){
+        return electronShell1.removeElectron();
     }
 
     /**
@@ -585,27 +586,29 @@ public class Atom extends SimpleObservable{
     }
 
     //For the game mode
-    public void setState( AtomValue answer,BuildAnAtomModel model) {//provide the model to draw free particles from
+    public ArrayList<SubatomicParticle> setState( AtomValue answer,BuildAnAtomModel model) {//provide the model to draw free particles from
+        ArrayList<SubatomicParticle> removedParticles=new ArrayList<SubatomicParticle>( );
         while(getNumProtons()>answer.getProtons()){
-            removeProton();
+            removedParticles.add( removeProton() );
         }
         while(getNumProtons()<answer.getProtons()){
             addProton( model.getFreeProton());
         }
 
         while(getNumNeutrons()>answer.getNeutrons()){
-            removeNeutron();
+            removedParticles.add( removeNeutron());
         }
         while(getNumNeutrons()<answer.getNeutrons()){
             addNeutron( model.getFreeNeutron());
         }
 
         while(getNumElectrons()>answer.getElectrons()){
-            removeElectron();
+            removedParticles.add( removeElectron() );
         }
         while(getNumElectrons()<answer.getElectrons()){
             addElectron( model.getFreeElectron());
         }
+        return removedParticles;
     }
 
     public boolean containsProton( Proton proton ) {

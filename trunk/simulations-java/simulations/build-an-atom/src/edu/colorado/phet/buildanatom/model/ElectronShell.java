@@ -141,26 +141,27 @@ public class ElectronShell extends SimpleObservable {
         notifyObservers();
     }
 
-    public void removeElectron( Electron electronToRemove ) {
+    public Electron removeElectron( Electron electronToRemove ) {
         assert shellLocations.containsValue( electronToRemove );
         assert electronToRemove != null;
         shellLocations.put( getKey( electronToRemove ), null );
         electronToRemove.removeListener( particleRemovalListener );
         notifyObservers();
+        return electronToRemove;
     }
 
     /**
      * Remove an arbitrary electron, doesn't matter which one.
      */
-    public void removeElectron() {
+    public Electron removeElectron() {
         assert getNumElectrons() > 0;
         // Gets the first electron in the map and removes it.
         for (Electron electron : shellLocations.values()){
             if (electron != null){
-                removeElectron( electron );
-                break;
+                return removeElectron( electron );
             }
         }
+        return null;
     }
 
     private Point2D findClosestOpenLocation( Point2D comparisonPt ) {

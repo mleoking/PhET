@@ -106,7 +106,6 @@ public class InteractiveSchematicAtomNode extends PNode {
     }
 
     public void displayAnswer( AtomValue answer ) {
-        // Make the atom configure itself to match the answer.
-        model.getAtom().setState(answer, model);
+        model.setState(answer);
     }
 }

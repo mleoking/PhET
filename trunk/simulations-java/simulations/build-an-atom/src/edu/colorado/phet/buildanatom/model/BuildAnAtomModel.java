@@ -11,6 +11,7 @@ import java.util.Collections;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -258,4 +259,10 @@ public class BuildAnAtomModel {
         return null;
     }
 
+    public void setState( AtomValue answer ) {
+        ArrayList<SubatomicParticle> removed = getAtom().setState(answer, this);// Add new particles into the atom
+        for ( SubatomicParticle particle : removed ) {
+            particle.setDestination( 1000,1000 );
+        }
+    }
 }
