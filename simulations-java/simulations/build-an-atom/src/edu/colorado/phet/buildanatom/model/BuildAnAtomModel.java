@@ -262,7 +262,15 @@ public class BuildAnAtomModel {
     public void setState( AtomValue answer ) {
         ArrayList<SubatomicParticle> removed = getAtom().setState(answer, this);// Add new particles into the atom
         for ( SubatomicParticle particle : removed ) {
-            particle.setDestination( 1000,1000 );
+            if ( particle instanceof Proton ) {
+                protonBucket.addParticle( particle, false );
+            }
+            else if ( particle instanceof Electron ) {
+                electronBucket.addParticle( particle, false );
+            }
+            else if ( particle instanceof Neutron ) {
+                neutronBucket.addParticle( particle, false );
+            }
         }
     }
 }
