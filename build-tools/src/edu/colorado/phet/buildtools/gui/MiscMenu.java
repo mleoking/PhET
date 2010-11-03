@@ -252,7 +252,7 @@ public class MiscMenu extends JMenu {
                         str.append( "\n" );
                     }
 
-                    new JFrame() {{
+                    new JFrame( "Simulation Statistics" ) {{
                         setContentPane( new JScrollPane( new JTextArea( str.toString() ) ) );
 
                         pack();
