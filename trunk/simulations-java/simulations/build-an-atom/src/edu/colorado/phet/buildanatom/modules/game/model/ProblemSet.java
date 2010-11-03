@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
@@ -58,86 +60,12 @@ public class ProblemSet {
             }
         }
 
-        // Radomize the order of the problems.
+        // Radomize the order of the problems within the set.
         Collections.shuffle( problems );
 
         if (problems.size() == 0){
             System.err.println( getClass().getName() + " - Warning: Empty problem set, probably due to developer dialog settings." );
         }
-    }
-
-    /**
-     * Returns the set of possible problems to choose from given a specific AtomValue
-     *
-     * @param model
-     * @param atomValue
-     * @return
-     */
-    private ArrayList<Problem> getPossibleProblems( BuildAnAtomGameModel model, AtomValue atomValue ) {
-
-        // Get the developer dialog that contains the information regarding
-        // which problem types are allowed.
-        // TODO: We may wish to remove this once interviews are complete.
-        ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
-
-        // Make sure that at least one problem type is allowed based on the
-        // current setting of the developer dialog.  If not, turn 'em all back
-        // on.
-        if ( !allowedProbsDlg.isSymbolToSchematicProblemAllowed() &&
-             !allowedProbsDlg.isSchematicToElementProblemAllowed() &&
-             !allowedProbsDlg.isSchematicToSymbolProblemAllowed() &&
-             !allowedProbsDlg.isCountsToElementProblemAllowed() &&
-             !allowedProbsDlg.isCountsToSymbolProblemAllowed() &&
-             !allowedProbsDlg.isSymbolToCountsProblemAllowed() ){
-            // No problem types are selected.  Warn the user via console and
-            // turn on all problem types.
-            System.err.println( getClass().getName() + " - Error: No problem types selected, re-selecting them all." );
-            allowedProbsDlg.setAllSelected();
-        }
-
-        // Note: Due to the difficulty of being able to count the nucleons in
-        // the schematic view (a.k.a. the Bohr model), a restriction has been
-        // added so that we don't present this view for any atoms heavier than
-        // Lithium.  HOWEVER, this restriction is problematic if someone has
-        // used the developer controls to turn off all problem types except
-        // those involving the schematic view.  So, the rule is that we follow
-        // this restriction unless only schematic problems are enabled, and
-        // then the restriction goes out the window.
-        boolean onlySchematicProbsEnabled = (allowedProbsDlg.isSymbolToSchematicProblemAllowed() ||
-                allowedProbsDlg.isSchematicToElementProblemAllowed() ||
-                allowedProbsDlg.isSchematicToSymbolProblemAllowed()) &&
-                !allowedProbsDlg.isCountsToElementProblemAllowed() &&
-                !allowedProbsDlg.isCountsToSymbolProblemAllowed() &&
-                !allowedProbsDlg.isSymbolToCountsProblemAllowed();
-
-        ArrayList<Problem> problems = new ArrayList<Problem>();
-        if (allowedProbsDlg.isSymbolToCountsProblemAllowed()){
-            problems.add(new SymbolToCountsProblem( model, atomValue ));
-        }
-        if (allowedProbsDlg.isCountsToSymbolProblemAllowed()){
-            problems.add(new CountsToSymbolProblem( model, atomValue ));
-        }
-        if (allowedProbsDlg.isCountsToElementProblemAllowed()){
-            problems.add(new CountsToElementProblem( model, atomValue ));
-        }
-        if (allowedProbsDlg.isSymbolToSchematicProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
-          //only use schematic mode when Lithium or smaller
-            problems.add(new SymbolToSchematicProblem( model, atomValue ));
-        }
-        if (allowedProbsDlg.isSchematicToSymbolProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
-            //only use schematic mode when Lithium or smaller
-            problems.add(new SchematicToSymbolProblem( model, atomValue ));
-        }
-        if (allowedProbsDlg.isSchematicToElementProblemAllowed() && (atomValue.getProtons() <= 3 || onlySchematicProbsEnabled)){
-            //only use schematic mode when Lithium or smaller
-            problems.add(new SchematicToElementProblem( model, atomValue ));
-        }
-        return problems;
-    }
-
-    private Problem getProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
-        ArrayList<Problem> problems = getPossibleProblems( model, atomValue );
-        return problems.get( RAND.nextInt( problems.size() ) );
     }
 
     private void addProblem( Problem problem) {
@@ -160,9 +88,6 @@ public class ProblemSet {
         return problems.get( currentProblemIndex );
     }
 
-    /**
-     * @return
-     */
     public boolean isLastProblem() {
         return currentProblemIndex == problems.size() -1;
     }
@@ -178,6 +103,7 @@ public class ProblemSet {
         return getCurrentProblem();
     }
 
+    // Lists that define the problem types that can be used at a given level.
     private static final ArrayList<ProblemType> LEVEL_1_SCHEMATIC_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_ELEMENT );
@@ -372,6 +298,13 @@ public class ProblemSet {
         return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT || problemType == ProblemType.SCHEMATIC_TO_SYMBOL || problemType == ProblemType.SYMBOL_TO_SCHEMATIC);
     }
 
+    /**
+     * Helper class for managing the list of atom values that can be used for
+     * creating problems.  The two main pieces of functionality added by this
+     * class is that it removes items from the enclosed list automatically,
+     * and it keeps track of what we removed in case it ends up being needed
+     * again.
+     */
     private static class AtomValuePool {
         private static final Random AVP_RAND = new Random();
         private final ArrayList<AtomValue> remainingAtomValues;
