@@ -6,7 +6,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -28,7 +33,7 @@ public class AbstractMediaButton extends PNode {
     private boolean mouseEntered = false;
 
     private final Image normalImage;
-    private final Image disabledImage;
+    private final BufferedImage disabledImage;
     private final Image mouseEnteredImage;
     private final Image armedImage;
     private CursorHandler cursorHandler;
@@ -37,7 +42,7 @@ public class AbstractMediaButton extends PNode {
         this.buttonHeight = buttonHeight;
 
         normalImage = createImage();
-        disabledImage = new MyRescaleOp( 0.5, -100 ).filter( createImage(), null );
+        disabledImage = new MyRescaleOp( getDisabledImageRescaleOpScale(), -100 ).filter( createImage(), null );
         mouseEnteredImage = new MyRescaleOp( 1.2, 0 ).filter( createImage(), null );
         armedImage = new MyRescaleOp( 0.9, 0 ).filter( createImage(), null );
 
@@ -78,6 +83,11 @@ public class AbstractMediaButton extends PNode {
                 }
             }
         });
+    }
+
+    //Can be overriden (e.g. to be 1.0) in sims in which this button is used against a black background
+    protected double getDisabledImageRescaleOpScale() {
+        return 0.5;
     }
 
     private void addListener( Listener listener ) {

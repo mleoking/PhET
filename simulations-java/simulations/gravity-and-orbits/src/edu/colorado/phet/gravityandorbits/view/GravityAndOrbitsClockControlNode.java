@@ -33,23 +33,29 @@ public class GravityAndOrbitsClockControlNode extends PNode {
             addListener( updatePlayPauseButtons );
             updatePlayPauseButtons.playbackStateChanged();
         }};
-        stepButton = new StepButton( 60 ) {{
-            setOffset( playPauseButton.getFullBounds().getMaxX() + 5, playPauseButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-            final PlayPauseButton.Listener updateEnabled = new PlayPauseButton.Listener() {
-                public void playbackStateChanged() {
-                    setEnabled( !playPauseButton.isPlaying() );
-                }
-            };
-            playPauseButton.addListener( updateEnabled );
-            updateEnabled.playbackStateChanged();
-            addListener( new Listener() {
-                public void buttonPressed() {
-                    if ( isEnabled() ) {
-                        clock.stepClockWhilePaused();
+        stepButton = new StepButton( 60 ) {
+            {
+                setOffset( playPauseButton.getFullBounds().getMaxX() + 5, playPauseButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                final PlayPauseButton.Listener updateEnabled = new PlayPauseButton.Listener() {
+                    public void playbackStateChanged() {
+                        setEnabled( !playPauseButton.isPlaying() );
                     }
-                }
-            } );
-        }};
+                };
+                playPauseButton.addListener( updateEnabled );
+                updateEnabled.playbackStateChanged();
+                addListener( new Listener() {
+                    public void buttonPressed() {
+                        if ( isEnabled() ) {
+                            clock.stepClockWhilePaused();
+                        }
+                    }
+                } );
+            }
+
+            protected double getDisabledImageRescaleOpScale() {
+                return 1;
+            }
+        };
         addChild( playPauseButton );
         addChild( stepButton );
 
