@@ -239,17 +239,20 @@ public class MiscMenu extends JMenu {
                         }
                     } );
                     final StringBuilder str = new StringBuilder();
-                    str.append( "Project\t# of simulations\t# of translations\tsimulation names\n" );
+                    str.append( "Project\t# of simulations\t# of translations\ttranslations\tsimulation names\n" );
                     for ( PhetProject project : projects ) {
                         Simulation[] simulations = project.getSimulations();
                         str.append( project.getName() + "\t" + simulations.length + "\t" );
-                        str.append( project.getLocales().length + "\t" );
+                        str.append( project.getLocales().length + "\t\t" );
                         boolean first = true;
                         for ( Simulation simulation : simulations ) {
                             str.append( ( first ? "" : "\t" ) + simulation.getName() );
                             first = false;
                         }
                         str.append( "\n" );
+                        for ( Locale locale : project.getLocales() ) {
+                            str.append( "\t\t\t"+locale +"\n");
+                        }
                     }
 
                     new JFrame( "Simulation Statistics" ) {{
