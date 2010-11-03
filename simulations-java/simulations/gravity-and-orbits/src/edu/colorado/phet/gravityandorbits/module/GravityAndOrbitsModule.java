@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.*;
-
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
@@ -33,7 +31,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GravityAndOrbitsModule( Frame parentFrame ) {
+    public GravityAndOrbitsModule() {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE, new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
         // Model
