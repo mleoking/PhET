@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,18 +28,18 @@ public class BodyNode extends PNode {
     private Body body;
     private final Property<Boolean> toScaleProperty;
     private PNode arrowIndicator;
+    private Function.LinearFunction sizer;//mapping to use when 'not to scale'
+    private final SphericalNode sphereNode;
 
-    public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D ) {
-        this( body, modelViewTransform2D, new Property<Boolean>( false ), new Property<ImmutableVector2D>( new ImmutableVector2D() ), null );
-    }
-
-    public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> toScaleProperty, final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent ) {
+    public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> toScaleProperty,
+                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer ) {
         this.modelViewTransform2D = modelViewTransform2D;
         this.body = body;
         this.toScaleProperty = toScaleProperty;
+        this.sizer = sizer;
         // Create and add the sphere node.
-        final SphericalNode sphere = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
-        addChild( sphere );
+        sphereNode = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
+        addChild( sphereNode );
 
         final CursorHandler cursorHandler = new CursorHandler();
         addInputEventListener( cursorHandler );
@@ -88,8 +89,8 @@ public class BodyNode extends PNode {
         } );
         final SimpleObserver updateDiameter = new SimpleObserver() {
             public void update() {
-                sphere.setDiameter( getViewDiameter() );
-                sphere.setPaint( createPaint( getViewDiameter() ) );
+                sphereNode.setDiameter( getViewDiameter() );
+                sphereNode.setPaint( createPaint( getViewDiameter() ) );
             }
         };
         body.getDiameterProperty().addObserver( updateDiameter );
@@ -121,10 +122,13 @@ public class BodyNode extends PNode {
 
     private double getViewDiameter() {
         if ( toScaleProperty.getValue() ) {
-            return Math.max( modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() ), 2 );
+            return Math.max( modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() ), 2 );//anything less than 2 is not visible on the screen with default scaling
         }
         else {
-            return modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() ) + 20;
+            final double viewDiameter = modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() );
+            final double newDiameter = sizer.evaluate( viewDiameter );
+            System.out.println( "body.getDiameter()+\", \" = " + body.getDiameter() + ", " + viewDiameter + ", newDiameter = " + newDiameter );
+            return newDiameter;
         }
     }
 
@@ -134,5 +138,9 @@ public class BodyNode extends PNode {
                                                     new Point2D.Double( diameter / 4, diameter / 4 ),
                                                     body.getColor() );
         return spherePaint;
+    }
+
+    public Image sphereNodeToImage() {
+        return sphereNode.toImage();
     }
 }
