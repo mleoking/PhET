@@ -2,11 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits;
 
-import java.awt.*;
-
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -53,7 +50,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     private void initModules() {
         addModule( new GravityAndOrbitsModule( getPhetFrame() ) {{
             getModulePanel().setLogoPanel( null );
-        }});
+        }} );
     }
 
     /*

@@ -19,7 +19,7 @@ public class TraceNode extends PNode {
     private Body body;
 
     public TraceNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible ) {
-        this.body=body;
+        this.body = body;
         phetPPath = new PhetPPath( new BasicStroke( 2 ), body.getColor() );
         addChild( phetPPath );
         visible.addObserver( new SimpleObserver() {
