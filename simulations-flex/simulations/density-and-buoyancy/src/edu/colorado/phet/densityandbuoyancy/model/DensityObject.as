@@ -107,6 +107,7 @@ public class DensityObject {
         if ( !this._material.equals( material ) ) {
             this._material = material;
             this._density.value = material.getDensity();
+            updateBox2DModel();
             for each ( var listener: Function in materialListeners ) {
                 listener();
             }

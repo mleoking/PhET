@@ -14,6 +14,8 @@ import mx.events.FlexEvent;
 public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     private var count: Number = 0;
 
+    var oneObjectButton: RadioButton;
+
     public function BuoyancyPlaygroundContainer() {
         var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
@@ -26,7 +28,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
 
         var groupName: String = "playground_modes" + count;
 
-        var oneObjectButton: RadioButton = new RadioButton();
+        oneObjectButton = new RadioButton();
         oneObjectButton.groupName = groupName;
         oneObjectButton.label = FlexSimStrings.get( 'mode.one', 'One' );
         oneObjectButton.addEventListener( MouseEvent.CLICK, function(): void {
@@ -60,6 +62,10 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         updateFluidDensityControlLocation();
 
         addChild( fluidDensityControl );
+
+        buoyancyCanvas.playgroundModes.oneObject.addListener( function(): void {
+            oneObjectButton.selected = buoyancyCanvas.playgroundModes.oneObject.value
+        } );
     }
 
     override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
