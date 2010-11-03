@@ -220,6 +220,7 @@ public class PhetWicketApplication extends WebApplication {
         mount( new HybridUrlCodingStrategy( "/error", ErrorPage.class ) );
         mount( new HybridUrlCodingStrategy( "/error/404", NotFoundPage.class ) );
         mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
+        mount( new HybridUrlCodingStrategy( "/uptime-check", BlankPage.class ) ); // landing page for checking that the PhET site is up
 
         logger.info( "Running as: " + getConfigurationType() );
         logger.debug( "Detected phet-document-root: " + getWebsiteProperties().getPhetDocumentRoot().getAbsolutePath() );
