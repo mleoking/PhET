@@ -20,7 +20,7 @@ public class Body {
     private final String name;
     private final Color color;
     private final Color highlight;
-    private final ArrayList<Point2D> trace = new ArrayList<Point2D>();
+    private final ArrayList<TracePoint> trace = new ArrayList<TracePoint>();
     private final double density;
     private boolean userControlled;
 
@@ -71,7 +71,7 @@ public class Body {
 
     public void translate( Point2D delta ) {
         translate( delta.getX(), delta.getY() );
-        trace.add( getPosition().toPoint2D() );
+        addTracePoint();
     }
 
     public void translate( double dx, double dy ) {
@@ -110,16 +110,22 @@ public class Body {
         return velocityProperty.getValue();
     }
 
-    public void setBodyState( VelocityVerlet.BodyState bodyState ) {
-        positionProperty.setValue( bodyState.position );
-        velocityProperty.setValue( bodyState.velocity );
+    public void updateBodyStateFromModel( VelocityVerlet.BodyState bodyState ) {
+        if ( !isUserControlled() ) {
+            positionProperty.setValue( bodyState.position );
+            velocityProperty.setValue( bodyState.velocity );
+        }
         accelerationProperty.setValue( bodyState.acceleration );
         forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
-        trace.add( getPosition().toPoint2D() );
+        addTracePoint();
     }
 
-    public Point2D[] getTrace() {
-        return trace.toArray( new Point2D[trace.size()] );
+    private void addTracePoint() {
+        trace.add( new TracePoint( getPosition(), isUserControlled() ) );
+    }
+
+    public TracePoint[] getTrace() {
+        return trace.toArray( new TracePoint[trace.size()] );
     }
 
     public void clearTrace() {
@@ -160,5 +166,15 @@ public class Body {
 
     public void setUserControlled( boolean b ) {
         this.userControlled = b;
+    }
+
+    public static class TracePoint {
+        public ImmutableVector2D point;
+        public final boolean userControlled;
+
+        public TracePoint( ImmutableVector2D point, boolean userControlled ) {
+            this.point = point;
+            this.userControlled = userControlled;
+        }
     }
 }
