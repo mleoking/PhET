@@ -144,4 +144,8 @@ public class Body {
         diameterProperty.reset();
         clearTrace();
     }
+
+    public Property<ImmutableVector2D> getVelocityProperty() {
+        return velocityProperty;
+    }
 }
