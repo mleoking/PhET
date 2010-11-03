@@ -16,10 +16,6 @@ public class BodyState {
     }
 
     public double distanceSquared( ImmutableVector2D position ) {
-        return position.getSubtractedInstance( position ).getMagnitudeSq();
-    }
-
-    public ImmutableVector2D getUnitDirectionVector( BodyState planetState ) {
-        return position.getSubtractedInstance( planetState.position ).getNormalizedInstance();
+        return this.position.getSubtractedInstance( position ).getMagnitudeSq();
     }
 }

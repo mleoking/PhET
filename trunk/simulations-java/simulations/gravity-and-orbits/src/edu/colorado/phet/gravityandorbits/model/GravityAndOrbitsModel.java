@@ -32,7 +32,7 @@ public class GravityAndOrbitsModel {
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
                 }} );
-                ModelState updated = modelState.getNextState( clockEvent.getSimulationTimeChange() );
+                ModelState updated = modelState.getNextState( clockEvent.getSimulationTimeChange(), 100 );
                 sun.updateBodyStateFromModel( updated.getBodyState( 0 ) );
                 planet.updateBodyStateFromModel( updated.getBodyState( 1 ) );
             }
