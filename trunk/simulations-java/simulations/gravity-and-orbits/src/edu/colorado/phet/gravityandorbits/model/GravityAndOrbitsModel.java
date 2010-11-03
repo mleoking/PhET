@@ -5,7 +5,6 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
@@ -23,28 +22,22 @@ public class GravityAndOrbitsModel {
     private final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, 1.989E30, Color.yellow, Color.white );
     private final Body planet = new Body( "Planet", 149668992000.0, 0, EARTH_RADIUS * 2, 0, -29.78E3, EARTH_MASS, Color.blue, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
 
-
-    class ModelState{
-        ArrayList<BodyState>
-    }
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
         super();
         this.clock = clock;
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
-                final ArrayList<BodyState> verletState = new ArrayList<BodyState>() {{
+                ModelState modelState = new ModelState( new ArrayList<BodyState>() {{
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
-                }};
-                ArrayList<BodyState> state = new MultiStepPhysicsUpdate( 100, new VelocityVerlet() ).getNextState( verletState, clockEvent.getSimulationTimeChange(), fields );
-                sun.updateBodyStateFromModel( state.get( 0 ) );
-                planet.updateBodyStateFromModel( state.get( 1 ) );
+                }} );
+                ModelState updated = modelState.getNextState( clockEvent.getSimulationTimeChange() );
+                sun.updateBodyStateFromModel( updated.getBodyState( 0 ) );
+                planet.updateBodyStateFromModel( updated.getBodyState( 1 ) );
             }
         } );
     }
-
-    
 
     public GravityAndOrbitsClock getClock() {
         return clock;
