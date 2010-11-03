@@ -52,7 +52,7 @@ public class MiscMenu extends JMenu {
                     report.start();
                     PhetWebsite.openBrowser( report.getIndexFile().getAbsolutePath() );
                 }
-                catch( IOException ex ) {
+                catch ( IOException ex ) {
                     ex.printStackTrace();
                 }
             }
@@ -76,13 +76,13 @@ public class MiscMenu extends JMenu {
         batchTest.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    PhetProject[] projects = new PhetProject[]{
+                    PhetProject[] projects = new PhetProject[] {
                             new JavaSimulationProject( new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/test-project" ) ),
                             new FlashSimulationProject( new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/test-flash-project" ) )
                     };
                     batchDeploy( projects, selectDeployStrategy() );
                 }
-                catch( IOException e1 ) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
 
@@ -189,10 +189,10 @@ public class MiscMenu extends JMenu {
                 try {
                     WebsiteResourceDeployClient.deployJavaResourceFile( PhetBuildGUI.getProductionWebsite(), trunk, resourceFile, path );
                 }
-                catch( IOException e1 ) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
-                catch( JSchException e1 ) {
+                catch ( JSchException e1 ) {
                     e1.printStackTrace();
                 }
                 JOptionPane.showMessageDialog( null, "The instructions to complete the resource deployment have been printed to the console", "Instructions", JOptionPane.INFORMATION_MESSAGE );
@@ -216,16 +216,51 @@ public class MiscMenu extends JMenu {
                 try {
                     WebsiteResourceDeployClient.deployFlashResourceFile( PhetBuildGUI.getProductionWebsite(), trunk, resourceFile, path );
                 }
-                catch( IOException e1 ) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
-                catch( JSchException e1 ) {
+                catch ( JSchException e1 ) {
                     e1.printStackTrace();
                 }
                 JOptionPane.showMessageDialog( null, "The instructions to complete the resource deployment have been printed to the console", "Instructions", JOptionPane.INFORMATION_MESSAGE );
             }
         } );
         add( deployFlashResource );
+
+        add( new JSeparator() );
+
+        add( new JMenuItem( "Simulation Statistics" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    PhetProject[] projects = PhetProject.getAllSimulationProjects( trunk );
+                    Arrays.sort( projects, new Comparator<PhetProject>() {
+                        public int compare( PhetProject o1, PhetProject o2 ) {
+                            return o1.getName().compareToIgnoreCase( o2.getName() );
+                        }
+                    } );
+                    final StringBuilder str = new StringBuilder();
+                    str.append( "Project\t# of simulations\t# of translations\tsimulation names\n" );
+                    for ( PhetProject project : projects ) {
+                        Simulation[] simulations = project.getSimulations();
+                        str.append( project.getName() + "\t" + simulations.length + "\t" );
+                        str.append( project.getLocales().length + "\t" );
+                        boolean first = true;
+                        for ( Simulation simulation : simulations ) {
+                            str.append( ( first ? "" : "\t" ) + simulation.getName() );
+                            first = false;
+                        }
+                        str.append( "\n" );
+                    }
+
+                    new JFrame() {{
+                        setContentPane( new JScrollPane( new JTextArea( str.toString() ) ) );
+
+                        pack();
+                        show();
+                    }};
+                }
+            } );
+        }} );
     }
 
     private PhetProject[] select( PhetProject[] allSimulations ) {
@@ -251,7 +286,7 @@ public class MiscMenu extends JMenu {
 
     private DeployStrategy selectDeployStrategy() {
         DeployDev dev = new DeployDev();
-        DeployStrategy sel = (DeployStrategy) JOptionPane.showInputDialog( this, "Choose a batch deploy location", "Batch deploy location", JOptionPane.QUESTION_MESSAGE, null, new Object[]{dev, new DeployProd()}, dev );
+        DeployStrategy sel = (DeployStrategy) JOptionPane.showInputDialog( this, "Choose a batch deploy location", "Batch deploy location", JOptionPane.QUESTION_MESSAGE, null, new Object[] { dev, new DeployProd() }, dev );
         return sel;
     }
 
@@ -284,7 +319,7 @@ public class MiscMenu extends JMenu {
     }
 
     public static boolean askUserToGenerateOfflineJARS( JComponent parent ) {
-        Object[] objects = {"No", "Yes"};
+        Object[] objects = { "No", "Yes" };
         int option = JOptionPane.showOptionDialog( parent, "Generate locale-specific JARs?", "Options", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, objects, objects[0] );
         final boolean generateOfflineJars = option == 1;
         return generateOfflineJars;
@@ -318,7 +353,7 @@ public class MiscMenu extends JMenu {
             bufferedWriter.write( "#generate.jars=" + generateJARs );
 
         }
-        catch( IOException e1 ) {
+        catch ( IOException e1 ) {
             e1.printStackTrace();
         }
 
@@ -342,7 +377,7 @@ public class MiscMenu extends JMenu {
                         }
                         log.write( "" );
                     }
-                    catch( IOException e1 ) {
+                    catch ( IOException e1 ) {
                         e1.printStackTrace();
                     }
                 }
@@ -351,7 +386,7 @@ public class MiscMenu extends JMenu {
                     try {
                         log.write( "ERROR: " + project.getName() + ", errror=" + error + "\n" );
                     }
-                    catch( IOException e1 ) {
+                    catch ( IOException e1 ) {
                         e1.printStackTrace();
                     }
                 }
@@ -361,7 +396,7 @@ public class MiscMenu extends JMenu {
         try {
             bufferedWriter.close();
         }
-        catch( IOException e1 ) {
+        catch ( IOException e1 ) {
             e1.printStackTrace();
         }
         System.out.println( "Finished batch deploy, see log file here: " + logFile.getAbsolutePath() );
