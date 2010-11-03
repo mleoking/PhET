@@ -14,7 +14,6 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * ModelViewTransform2D
