@@ -2,7 +2,6 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
