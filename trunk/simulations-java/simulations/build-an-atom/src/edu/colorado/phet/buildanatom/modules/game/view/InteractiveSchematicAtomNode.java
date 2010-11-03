@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class InteractiveSchematicAtomNode extends PNode {
-    private BuildAnAtomModel model;
+    private final BuildAnAtomModel model;
 
     public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
         this.model=model;
@@ -106,7 +106,7 @@ public class InteractiveSchematicAtomNode extends PNode {
     }
 
     public void displayAnswer( AtomValue answer ) {
-        //move particles from the bucket to the response area
+        // Make the atom configure itself to match the answer.
         model.getAtom().setState(answer, model);
     }
 }
