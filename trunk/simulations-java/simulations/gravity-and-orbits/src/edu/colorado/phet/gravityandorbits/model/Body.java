@@ -95,8 +95,8 @@ public class Body {
         diameterProperty.setValue( value );
     }
 
-    public VelocityVerlet.BodyState toBodyState() {
-        return new VelocityVerlet.BodyState( getPosition(), getVelocity(), getAcceleration(), getMass() );
+    public BodyState toBodyState() {
+        return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass() );
     }
 
     public double getMass() {
@@ -111,7 +111,7 @@ public class Body {
         return velocityProperty.getValue();
     }
 
-    public void updateBodyStateFromModel( VelocityVerlet.BodyState bodyState ) {
+    public void updateBodyStateFromModel( BodyState bodyState ) {
         if ( !isUserControlled() ) {
             positionProperty.setValue( bodyState.position );
             velocityProperty.setValue( bodyState.velocity );
