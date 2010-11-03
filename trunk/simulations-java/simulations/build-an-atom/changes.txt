@@ -1,6 +1,10 @@
+Fixed: Neutral Atom / Ion on the "Element" view was not being correctly updated on "Show Answer".
+Limited problems on level 1 of the game to "To Element" types, and to "To Symbol" or "From Symbol" types on the other two levels.
+Fixed: Bug where atoms with too many particles in the schematic view did not reconfigure correctly on "Display Answer"
+Added new possible atoms values for the game so that more schematic problems would be shown.
 Internationalized game
 Added a "neutral atom" / "ion" radio button selection for Guess the Element type problems
-Fixed a bug that prevented SchematicToElementProblem from appearing
+Fixed: Bug that prevented SchematicToElementProblem from appearing
 Added a developer dialog that allows the specification of the allowed problem types for the game.
 Added the ability to display the element name to the symbol display nodes.
 Made symbol larger on the interactive symbol node.
