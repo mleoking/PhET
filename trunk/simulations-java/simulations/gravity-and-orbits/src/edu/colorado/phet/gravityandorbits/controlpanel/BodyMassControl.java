@@ -17,9 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
 
-import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.BACKGROUND;
-import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.FOREGROUND;
-import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.*;
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
 
 /**
@@ -29,7 +27,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
 
     public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel ) {
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, 0, 100 );
-        setInsets( new Insets( 5,5,5,5) );
+        setInsets( new Insets( 5, 5, 5, 5 ) );
 
         //TODO: move title label west, probably by not having the horizontal panel expand to take full width
         add( new JPanel() {{
@@ -57,12 +55,12 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 put( 0, new JLabel( minLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
-                    setFont( new PhetFont(14,true) );
+                    setFont( new PhetFont( 14, true ) );
                 }} );
-                put( 100, new JLabel( maxLabel) {{
+                put( 100, new JLabel( maxLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
-                    setFont( new PhetFont(14,true) );
+                    setFont( new PhetFont( 14, true ) );
                 }} );
             }} );
             setBackground( BACKGROUND );

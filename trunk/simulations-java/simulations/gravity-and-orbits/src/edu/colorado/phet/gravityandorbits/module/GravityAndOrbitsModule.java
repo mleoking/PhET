@@ -6,12 +6,10 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Module template.
