@@ -95,7 +95,6 @@ public class BodyNode extends PNode {
         body.getDiameterProperty().addObserver( updateDiameter );
         toScaleProperty.addObserver( updateDiameter );
 
-
         arrowIndicator = new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
             ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, -Math.PI / 4 );
