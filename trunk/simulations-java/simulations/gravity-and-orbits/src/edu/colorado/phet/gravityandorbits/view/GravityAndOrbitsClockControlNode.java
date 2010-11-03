@@ -20,16 +20,18 @@ public class GravityAndOrbitsClockControlNode extends PNode {
 
     public GravityAndOrbitsClockControlNode( final IClock clock ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
-            addListener( new Listener() {
+            final Listener updatePlayPauseButtons = new Listener() {
                 public void playbackStateChanged() {
-                    if ( playPauseButton.isPlaying() ) {
+                    if ( isPlaying() ) {
                         clock.start();
                     }
                     else {
                         clock.pause();
                     }
                 }
-            } );
+            };
+            addListener( updatePlayPauseButtons );
+            updatePlayPauseButtons.playbackStateChanged();
         }};
         stepButton = new StepButton( 60 ) {{
             setOffset( playPauseButton.getFullBounds().getMaxX() + 5, playPauseButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
