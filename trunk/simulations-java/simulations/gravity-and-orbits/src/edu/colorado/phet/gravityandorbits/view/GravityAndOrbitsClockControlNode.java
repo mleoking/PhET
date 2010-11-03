@@ -42,7 +42,9 @@ public class GravityAndOrbitsClockControlNode extends PNode {
             updateEnabled.playbackStateChanged();
             addListener( new Listener() {
                 public void buttonPressed() {
-                    clock.stepClockWhilePaused();
+                    if ( isEnabled() ) {
+                        clock.stepClockWhilePaused();
+                    }
                 }
             } );
         }};
