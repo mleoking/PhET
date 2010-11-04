@@ -183,7 +183,7 @@ public class Body {
     }
 
     public void setPosition( double x, double y ) {
-        positionProperty.setValue( new ImmutableVector2D( x,y) );
+        positionProperty.setValue( new ImmutableVector2D( x, y ) );
     }
 
     public static class TracePoint {
@@ -204,6 +204,6 @@ public class Body {
 
     @Override
     public String toString() {
-        return "name = "+getName()+", mass = "+getMass();
+        return "name = " + getName() + ", mass = " + getMass();
     }
 }

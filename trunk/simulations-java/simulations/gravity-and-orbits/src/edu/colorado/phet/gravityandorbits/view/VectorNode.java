@@ -23,7 +23,8 @@ public class VectorNode extends PNode {
     private Property<ImmutableVector2D> property;
     private ArrowNode arrowNode;
 
-    public VectorNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> visible, final Property<ImmutableVector2D> property, final double scale ) {
+    public VectorNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> visible,
+                       final Property<ImmutableVector2D> property, final double scale, final Color fill, final Color outline ) {
         this.property = property;
         this.body = body;
         this.modelViewTransform2D = modelViewTransform2D;
@@ -34,8 +35,8 @@ public class VectorNode extends PNode {
             }
         } );
         arrowNode = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 15, 15, 5, 2, true ) {{
-            setPaint( Color.pink );
-            setStrokePaint( Color.red );
+            setPaint( fill );
+            setStrokePaint( outline );
         }};
         final SimpleObserver updateArrow = new SimpleObserver() {
             public void update() {

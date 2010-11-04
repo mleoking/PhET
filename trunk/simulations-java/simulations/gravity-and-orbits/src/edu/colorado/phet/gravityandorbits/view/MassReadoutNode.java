@@ -35,8 +35,8 @@ public class MassReadoutNode extends PNode {
                     else if ( Math.abs( planetMasses - 1 ) < 1E-2 ) {
                         text = 1 + " planet mass";
                     }
-                    else if (planetMasses < 1){
-                        text = new DecimalFormat( "0.000").format( planetMasses )+" planet masses";
+                    else if ( planetMasses < 1 ) {
+                        text = new DecimalFormat( "0.000" ).format( planetMasses ) + " planet masses";
                     }
                     else {
                         text = decimalFormat.format( planetMasses ) + " planet masses";

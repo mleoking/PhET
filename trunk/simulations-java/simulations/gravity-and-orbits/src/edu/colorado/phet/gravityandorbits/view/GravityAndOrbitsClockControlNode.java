@@ -50,7 +50,7 @@ public class GravityAndOrbitsClockControlNode extends PNode {
                         setEnabled( !playPauseButton.isPlaying() );
                     }
                 };
-                clock.addClockListener( new ClockAdapter(){
+                clock.addClockListener( new ClockAdapter() {
                     public void clockStarted( ClockEvent clockEvent ) {
                         updateEnabled.playbackStateChanged();
                     }

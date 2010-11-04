@@ -25,9 +25,9 @@ public class GravityAndOrbitsModel {
     public static final double MOON_MASS = 1E25;
     public static final double MOON_INITIAL_X = 1.4E11;
     public static final double MOON_ORBITAL_SPEED = 0.397E4;
-    
+
     public final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, -0.045E4, SUN_MASS, Color.yellow, Color.white );
-    public final Body planet = new Body( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, PLANET_ORBITAL_SPEED, PLANET_MASS, Color.blue, Color.white );
+    public final Body planet = new Body( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, PLANET_ORBITAL_SPEED, PLANET_MASS, Color.magenta, Color.white );
     public final Body moon = new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white );
 
     private final GravityAndOrbitsClock clock;
