@@ -148,8 +148,7 @@ public abstract class ToElementView extends ProblemView {
             buttonPanelNode.setOffset( getFullBounds().getWidth() / 2 - buttonPanelNode.getFullBounds().getWidth() / 2, getFullBounds().getHeight() + 10 );
             addChild( buttonPanelNode );
             // Put a label in front of the button selection.
-            // TODO: i18n
-            PText buttonLabel = new PText("Is it:"){{
+            PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ){{
                 setFont( new PhetFont( 30, true ) );
                 setOffset( buttonPanelNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5,
                         buttonPanelNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height * 0.6 );
