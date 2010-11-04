@@ -92,7 +92,7 @@ public abstract class ToElementView extends ProblemView {
                     return numProtons[0];//Trick the ElementIndicatorNode into thinking there are numProtons[0] protons.
                 }
             };
-            addChild( new PeriodicTableNode( atom ) {
+            PNode periodicTableNode = new PeriodicTableNode( atom ) {
                 @Override
                 protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
                     elementCell.addInputEventListener( new CursorHandler() );
@@ -103,7 +103,8 @@ public abstract class ToElementView extends ProblemView {
                         }
                     } );
                 }
-            } );
+            };
+            addChild( periodicTableNode );
 
             // Add the "neutral atom" / "ion" selection radio buttons
             final PSwing buttonPanelNode = new PSwing( new JPanel() {{
@@ -145,15 +146,18 @@ public abstract class ToElementView extends ProblemView {
                     } );
                 }} );
             }} );
-            buttonPanelNode.setOffset( getFullBounds().getWidth() / 2 - buttonPanelNode.getFullBounds().getWidth() / 2, getFullBounds().getHeight() + 10 );
-            addChild( buttonPanelNode );
-            // Put a label in front of the button selection.
+            PNode selectNeutralOrIonTypeNode = new PNode();
             PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ){{
                 setFont( new PhetFont( 30, true ) );
-                setOffset( buttonPanelNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5,
-                        buttonPanelNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height * 0.6 );
             }};
-            addChild( buttonLabel );
+            selectNeutralOrIonTypeNode.addChild( buttonLabel );
+            buttonPanelNode.setOffset( buttonLabel.getFullBoundsReference().width + 5,
+                    buttonLabel.getFullBoundsReference().height * 0.6 - buttonPanelNode.getFullBoundsReference().height / 2 );
+            selectNeutralOrIonTypeNode.addChild( buttonPanelNode );
+            selectNeutralOrIonTypeNode.setOffset(
+                    periodicTableNode.getFullBoundsReference().getCenterX() - selectNeutralOrIonTypeNode.getFullBoundsReference().width / 2,
+                    periodicTableNode.getFullBoundsReference().getMaxY() + 10 );
+            addChild(selectNeutralOrIonTypeNode);
         }
 
         public int getGuessedNumberProtons() {
