@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
@@ -21,17 +23,17 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
     private Property<Boolean> forcesProperty = new Property<Boolean>( false );
-    private Property<Boolean> tracesProperty = new Property<Boolean>( false );
+    private Property<Boolean> tracesProperty = new Property<Boolean>( true );
     private Property<Boolean> velocityProperty = new Property<Boolean>( false );
     private Property<Boolean> showMassesProperty = new Property<Boolean>( false );
-    private Property<Boolean> moonProperty = new Property<Boolean>( false );
+    private Property<Boolean> moonProperty = new Property<Boolean>( true );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GravityAndOrbitsModule() {
+    public GravityAndOrbitsModule( JFrame parentFrame) {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE, new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
         // Model
@@ -39,7 +41,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         model = new GravityAndOrbitsModel( clock, moonProperty );
 
         // Canvas
-        canvas = new GravityAndOrbitsCanvas( model, this );
+        canvas = new GravityAndOrbitsCanvas( parentFrame, model, this );
         setSimulationPanel( canvas );
 
         setClockControlPanel( null );//clock panel appears in the canvas

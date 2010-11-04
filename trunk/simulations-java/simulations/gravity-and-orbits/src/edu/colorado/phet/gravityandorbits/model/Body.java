@@ -182,6 +182,10 @@ public class Body {
         velocityProperty.setValue( velocity );
     }
 
+    public void setPosition( double x, double y ) {
+        positionProperty.setValue( new ImmutableVector2D( x,y) );
+    }
+
     public static class TracePoint {
         public ImmutableVector2D point;
         public final boolean userControlled;

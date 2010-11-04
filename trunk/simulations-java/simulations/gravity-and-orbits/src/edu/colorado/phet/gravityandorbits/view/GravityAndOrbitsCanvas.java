@@ -10,16 +10,23 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
+import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
@@ -39,7 +46,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
     public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
-    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
+    public GravityAndOrbitsCanvas( JFrame parentFrame, final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         this.model = model;
@@ -63,6 +70,16 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         modelViewTransform2D = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
 
+        module.getMoonProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                if ( module.getMoonProperty().getValue() ) {
+                    model.getPlanet().resetAll();
+                    model.getMoon().resetAll();
+                    model.getSun().resetAll();
+                }
+            }
+        } );
+
         addChild( new TraceNode( model.getPlanet(), modelViewTransform2D, module.getTracesProperty() ) );
         addChild( new TraceNode( model.getSun(), modelViewTransform2D, module.getTracesProperty() ) );
         addChild( new TraceNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getTracesProperty(), module.getMoonProperty() ) ) );
@@ -80,10 +97,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( new VectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getForcesProperty(), module.getMoonProperty() ), model.getMoon().getForceProperty(), VectorNode.FORCE_SCALE ) );
         addChild( new GrabbableVectorNode( model.getPlanet(), modelViewTransform2D, module.getVelocityProperty(), model.getPlanet().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
         addChild( new GrabbableVectorNode( model.getSun(), modelViewTransform2D, module.getVelocityProperty(), model.getSun().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
-        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getVelocityProperty(),module.getMoonProperty() ), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
+        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getVelocityProperty(), module.getMoonProperty() ), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE ) );
         addChild( new MassReadoutNode( model.getSun(), modelViewTransform2D, module.getShowMassesProperty() ) );
         addChild( new MassReadoutNode( model.getPlanet(), modelViewTransform2D, module.getShowMassesProperty() ) );
-        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowMassesProperty(),module.getMoonProperty() ) ) );
+        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowMassesProperty(), module.getMoonProperty() ) ) );
 
         // Control Panel
         final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );
@@ -108,6 +125,111 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( new GravityAndOrbitsClockControlNode( model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
+
+        new JDialog( parentFrame, false ) {{
+            setContentPane( new VerticalLayoutPanel() {{
+                //public static final double SUN_MASS = 1.989E30;
+                final BodyConfigPanel sunPanel = new BodyConfigPanel( model.getSun(), 1.989, 30, 0, 0, 0, 0, 0, 0, 0, 0 );
+                add( sunPanel );
+                //public static double EARTH_MASS = 5.9742E24;
+                //private final double EARTH_ORBIT_RADIUS = 149668992000.0;
+                //private final double EARTH_ORBITAL_SPEED = -29.78E3;
+                final BodyConfigPanel planetPanel = new BodyConfigPanel( model.getPlanet(), 5.9742, 24, 1.49668992, 11, 0, 0, 0, 0, -2.9783, 4 );
+                add( planetPanel );
+
+                //public static double MOON_MASS = 7.3477E22;
+                //moon x = planet.getX() + 384399E3 = 150053391000 = 1.50053391000 E11
+                //private final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED - 1.022E3; = -30802 = -3.0802E4
+                final BodyConfigPanel moonPanel = new BodyConfigPanel( model.getMoon(), 7.3477, 22, 1.50053391000, 11, 0, 0, 0, 0, -3.0802, 4 );
+                add( moonPanel );
+                add( new JButton( "Apply" ) {{
+                    final ActionListener listener = new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            sunPanel.apply();
+                            planetPanel.apply();
+                            moonPanel.apply();
+                        }
+                    };
+                    sunPanel.setListener(listener);
+                    planetPanel.setListener(listener);
+                    moonPanel.setListener(listener);
+                    addActionListener( listener );
+                }} );
+            }} );
+            pack();
+        }}.setVisible( true );
+    }
+
+    public static class BodyConfigPanel extends JPanel {
+        private final NumericControl massControl;
+        private final NumericControl xControl;
+        private final NumericControl yControl;
+        private final NumericControl vxControl;
+        private final NumericControl vyControl;
+        private Body body;
+        private ActionListener listener;
+
+        public BodyConfigPanel( Body body, double massPrefix, int massExponent, double xPrefix, int xExponent,
+                                double yPrefix, int yExponent, double vxPrefix, int vxExponent, double vyPrefix, int vyExponent) {
+            this.body = body;
+            final SimpleObserver apply = new SimpleObserver() {
+                public void update() {
+                    listener.actionPerformed(null);
+                }
+            };
+            massControl = new NumericControl( "mass", "kg", massPrefix, massExponent, apply );
+            add( massControl );
+            xControl = new NumericControl( "x", "m", xPrefix, xExponent, apply );
+            add( xControl );
+            yControl = new NumericControl( "y", "m", yPrefix, yExponent, apply );
+            add( yControl );
+            vxControl = new NumericControl( "vx", "m/s", vxPrefix, vxExponent, apply );
+            add( vxControl );
+            vyControl = new NumericControl( "vy", "m/s", vyPrefix, vyExponent, apply );
+            add( vyControl );
+            setBorder( BorderFactory.createTitledBorder( body.getName() ) );
+        }
+
+        public void apply() {
+            body.resetAll();
+            body.setMass( massControl.getValue() );
+            body.setPosition( xControl.getValue(), yControl.getValue() );
+            body.setVelocity( new ImmutableVector2D( vxControl.getValue(), vyControl.getValue() ) );
+            body.clearTrace();
+        }
+
+        public void setListener( ActionListener listener ) {
+            this.listener=listener;
+        }
+    }
+
+    public static class NumericControl extends JPanel {
+//        private final LinearValueControl linearValueControl;
+        private final JSpinner exponentSpinner;
+        private JSpinner mantissaControl;
+
+        public NumericControl( String title, String units, double prefix, int exponent, final SimpleObserver update ) {
+            add(new JLabel(title+": "+units));
+            mantissaControl = new JSpinner(new SpinnerNumberModel( prefix, -10.0,10.0,0.001) );
+            mantissaControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    update.update();
+                }
+            } );
+            add(mantissaControl);
+
+            exponentSpinner = new JSpinner( new SpinnerNumberModel( exponent, 0, 100, 1 ) );
+            exponentSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    update.update();
+                }
+            } );
+            add( exponentSpinner );
+        }
+
+        public double getValue() {
+            return (Double)mantissaControl.getValue() * Math.pow( 10, (Integer) exponentSpinner.getValue() );
+        }
     }
 
     public static class AndProperty extends Property<Boolean> {
