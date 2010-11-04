@@ -79,7 +79,7 @@ public class Body {
         positionProperty.setValue( new ImmutableVector2D( getX() + dx, getY() + dy ) );
     }
 
-    private double getY() {
+    public double getY() {
         return positionProperty.getValue().getY();
     }
 
@@ -200,5 +200,10 @@ public class Body {
         public void traceAdded( TracePoint trace );
 
         public void traceCleared();
+    }
+
+    @Override
+    public String toString() {
+        return "name = "+getName()+", mass = "+getMass();
     }
 }
