@@ -14,6 +14,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  * Model template.
  */
 public class GravityAndOrbitsModel {
+
+    public static final double DUBSON_SUN_MASS = 200;
+    public static final double DUBSON_PLANET_MASS = 10;
+    public static final double DUBSON_PLANET_DISTANCE = 160;
+    public static final double DUBSON_PLANET_VELOCITY = 120;//to the up 
+    public static final double DUBSON_MOON_MASS = 0.001;
+    public static final double DUBSON_MOON_DISTANCE = 140;
+    public static final double DUBSON_MOON_VELOCITY = 53;
+
+    private static final double DUBSON_MASS_SCALE = 1;
+    private static final double DUBSON_DISTANCE_SCALE = 1;
+    private static final double DUBSON_VELOCITY_SCALE = 1;
+
     public static double EARTH_MASS = 5.9742E24;
     public static double MOON_MASS = 7.3477E22;
     private static final double SUN_RADIUS = 6.955E8;
@@ -22,9 +35,13 @@ public class GravityAndOrbitsModel {
     public static final double G = 6.67428E-11;
 
     private final GravityAndOrbitsClock clock;
-    private final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, 1.989E30, Color.yellow, Color.white );
-    private final Body planet = new Body( "Planet", 149668992000.0, 0, EARTH_RADIUS * 2, 0, -29.78E3, EARTH_MASS, Color.blue, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
-    private final Body moon = new Body( "Moon", planet.getX() + 384399E3, 0, MOON_RADIUS * 2, 0, -29.78E3 - 1.022E3, MOON_MASS, Color.gray, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
+    public static final double SUN_MASS = 1.989E30;
+    private final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white );
+    private final double EARTH_ORBIT_RADIUS = 149668992000.0;
+    private final double EARTH_ORBITAL_SPEED = -29.78E3;
+    private final Body planet = new Body( "Planet", EARTH_ORBIT_RADIUS, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED, EARTH_MASS, Color.blue, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
+    private final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED - 1.022E3;
+    private final Body moon = new Body( "Moon", planet.getX() + 384399E3, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white );//semi-major axis, see http://en.wikipedia.org/wiki/Earth, http://en.wikipedia.org/wiki/Sun
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
         super();
