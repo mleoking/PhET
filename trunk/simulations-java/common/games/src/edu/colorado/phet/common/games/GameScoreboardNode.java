@@ -80,7 +80,7 @@ public class GameScoreboardNode extends PhetPNode {
     public GameScoreboardNode( int maxLevel, double maxScore, NumberFormat pointsFormat ) {
         
         this.pointsFormat = pointsFormat;
-        this.confirmNewGame = false;
+        this.confirmNewGame = true;
         this.listeners = new EventListenerList();
         
         // Level
