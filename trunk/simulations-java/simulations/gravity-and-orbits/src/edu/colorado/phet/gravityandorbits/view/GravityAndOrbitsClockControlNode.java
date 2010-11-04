@@ -32,6 +32,15 @@ public class GravityAndOrbitsClockControlNode extends PNode {
             };
             addListener( updatePlayPauseButtons );
             updatePlayPauseButtons.playbackStateChanged();
+            clock.addClockListener( new ClockAdapter() {
+                public void clockStarted( ClockEvent clockEvent ) {
+                    setPlaying( clock.isRunning() );
+                }
+
+                public void clockPaused( ClockEvent clockEvent ) {
+                    setPlaying( clock.isRunning() );
+                }
+            } );
         }};
         stepButton = new StepButton( 60 ) {
             {
@@ -41,6 +50,16 @@ public class GravityAndOrbitsClockControlNode extends PNode {
                         setEnabled( !playPauseButton.isPlaying() );
                     }
                 };
+                clock.addClockListener( new ClockAdapter(){
+                    public void clockStarted( ClockEvent clockEvent ) {
+                        updateEnabled.playbackStateChanged();
+                    }
+
+                    @Override
+                    public void clockPaused( ClockEvent clockEvent ) {
+                        updateEnabled.playbackStateChanged();
+                    }
+                } );
                 playPauseButton.addListener( updateEnabled );
                 updateEnabled.playbackStateChanged();
                 addListener( new Listener() {
