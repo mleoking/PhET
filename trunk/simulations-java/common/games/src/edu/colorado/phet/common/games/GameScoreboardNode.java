@@ -213,6 +213,10 @@ public class GameScoreboardNode extends PhetPNode {
         this.confirmNewGame = confirmNewGame;
     }
     
+    public boolean isConfirmNewGame() {
+        return confirmNewGame;
+    }
+    
     /*
      * Handle the "New Game" button.
      * If confirmation is enabled, posts a confirmation dialog.
