@@ -2,16 +2,18 @@
 
 package edu.colorado.phet.buildanatom;
 
-import javax.swing.*;
-
+import static edu.colorado.phet.buildanatom.BuildAnAtomResources.getString;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import static edu.colorado.phet.buildanatom.BuildAnAtomResources.*;
 
 /**
  * A collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class BuildAnAtomStrings {
+
+    /* not intended for instantiation */
+    private BuildAnAtomStrings() {}
+
     public static final String ELECTRONS_NAME = getString( "electrons.name" );
     public static final String ELECTRONS_READOUT = getString( "electrons.readout" );
     public static final String PROTONS_NAME = getString( "protons.name" );
@@ -178,9 +180,7 @@ public class BuildAnAtomStrings {
     public static final String GAME_COMPLETE_THE_SYMBOL = getString( "game.completeTheSymbol" );
     public static final String GAME_NEUTRAL_ATOM = getString( "game.neutralAtom" );
     public static final String GAME_ION = getString( "game.ion" );
-
-    /* not intended for instantiation */
-    private BuildAnAtomStrings() {}
+    public static final String IS_IT = getString( "game.isIt");
 
     public static final String TITLE_BUILD_ATOM_MODULE = getString( "title.buildAtomModule" );
     public static final String TITLE_GAME_MODULE = getString( "title.gameModule" );
