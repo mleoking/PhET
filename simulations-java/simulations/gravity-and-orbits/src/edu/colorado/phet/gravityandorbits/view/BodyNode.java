@@ -64,10 +64,10 @@ public class BodyNode extends PNode {
                  *
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
-                boolean isMouseOverBefore = BodyNode.this.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                boolean isMouseOverBefore = sphereNode.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
 //                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
-                boolean isMouseOverAfter = BodyNode.this.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                boolean isMouseOverAfter = sphereNode.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 if ( parentComponent != null ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
