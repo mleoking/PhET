@@ -32,8 +32,8 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
         addControlFullWidth( new GOCheckBox( "Show Masses", module.getShowMassesProperty() ) );
         addControlFullWidth( new GOCheckBox( "To Scale", module.getToScaleProperty() ) );
-        addControlFullWidth( new BodyMassControl( model.getSun(), earthMassesToSI( 0.1E6 ), earthMassesToSI( 10E6 ), "Large", "Very Large", GravityAndOrbitsCanvas.SUN_SIZER ) );
-        addControlFullWidth( new BodyMassControl( model.getPlanet(), earthMassesToSI( 0.1 ), earthMassesToSI( 10 ), "Very Small", "Small", GravityAndOrbitsCanvas.PLANET_SIZER ) );
+        addControlFullWidth( new BodyMassControl( model.getSun(), model.getSun().getMassProperty().getDefaultValue()/2, model.getSun().getMassProperty().getDefaultValue()*2, "Large", "Very Large", GravityAndOrbitsCanvas.SUN_SIZER ) );
+        addControlFullWidth( new BodyMassControl( model.getPlanet(), model.getPlanet().getMassProperty().getDefaultValue()/2, model.getPlanet().getMassProperty().getDefaultValue()*2, "Very Small", "Small", GravityAndOrbitsCanvas.PLANET_SIZER ) );
         addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
 
         setBackground( BACKGROUND );
