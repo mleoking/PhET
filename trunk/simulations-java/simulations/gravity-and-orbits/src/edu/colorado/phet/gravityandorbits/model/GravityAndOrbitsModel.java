@@ -44,7 +44,7 @@ public class GravityAndOrbitsModel {
                     if ( moonProperty.getValue() ) {
                         add( moon.toBodyState() );
                     }
-                }} ).getNextState( clockEvent.getSimulationTimeChange(), 100 );
+                }} ).getNextState( clockEvent.getSimulationTimeChange(), 10 );
                 sun.updateBodyStateFromModel( newState.getBodyState( 0 ) );
                 planet.updateBodyStateFromModel( newState.getBodyState( 1 ) );
                 if ( moonProperty.getValue() ) {
