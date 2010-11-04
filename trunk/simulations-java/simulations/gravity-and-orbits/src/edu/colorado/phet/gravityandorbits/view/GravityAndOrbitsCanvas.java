@@ -129,18 +129,18 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         new JDialog( parentFrame, false ) {{
             setContentPane( new VerticalLayoutPanel() {{
                 //public static final double SUN_MASS = 1.989E30;
-                final BodyConfigPanel sunPanel = new BodyConfigPanel( model.getSun(), 1.989, 30, 0, 0, 0, 0, 0, 0, 0, 0 );
+                final BodyConfigPanel sunPanel = new BodyConfigPanel( model.getSun());
                 add( sunPanel );
                 //public static double EARTH_MASS = 5.9742E24;
                 //private final double EARTH_ORBIT_RADIUS = 149668992000.0;
                 //private final double EARTH_ORBITAL_SPEED = -29.78E3;
-                final BodyConfigPanel planetPanel = new BodyConfigPanel( model.getPlanet(), 5.9742, 24, 1.49668992, 11, 0, 0, 0, 0, -2.9783, 4 );
+                final BodyConfigPanel planetPanel = new BodyConfigPanel( model.getPlanet());
                 add( planetPanel );
 
                 //public static double MOON_MASS = 7.3477E22;
                 //moon x = planet.getX() + 384399E3 = 150053391000 = 1.50053391000 E11
                 //private final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED - 1.022E3; = -30802 = -3.0802E4
-                final BodyConfigPanel moonPanel = new BodyConfigPanel( model.getMoon(), 7.3477, 22, 1.50053391000, 11, 0, 0, 0, 0, -3.0802, 4 );
+                final BodyConfigPanel moonPanel = new BodyConfigPanel( model.getMoon());
                 add( moonPanel );
                 add( new JButton( "Apply" ) {{
                     final ActionListener listener = new ActionListener() {
@@ -169,33 +169,58 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         private Body body;
         private ActionListener listener;
 
-        public BodyConfigPanel( Body body, double massPrefix, int massExponent, double xPrefix, int xExponent,
-                                double yPrefix, int yExponent, double vxPrefix, int vxExponent, double vyPrefix, int vyExponent) {
+        public BodyConfigPanel( Body body
+        ) {
             this.body = body;
             final SimpleObserver apply = new SimpleObserver() {
                 public void update() {
                     listener.actionPerformed(null);
                 }
             };
-            massControl = new NumericControl( "mass", "kg", massPrefix, massExponent, apply );
+            massControl = new NumericControl( body.getName()+", mass", "kg", getMantissa(body.getMass()), getExponent(body.getMass()), apply );
             add( massControl );
-            xControl = new NumericControl( "x", "m", xPrefix, xExponent, apply );
+            xControl = new NumericControl( body.getName()+", x", "m", getMantissa(body.getX()), getExponent(body.getX()), apply );
             add( xControl );
-            yControl = new NumericControl( "y", "m", yPrefix, yExponent, apply );
+            yControl = new NumericControl( body.getName()+", y", "m", getMantissa( body.getY() ), getExponent( body.getY() ), apply );
             add( yControl );
-            vxControl = new NumericControl( "vx", "m/s", vxPrefix, vxExponent, apply );
+            vxControl = new NumericControl( body.getName()+", vx", "m/s", getMantissa( body.getVelocity().getX() ), getExponent( body.getVelocity().getX() ), apply );
             add( vxControl );
-            vyControl = new NumericControl( "vy", "m/s", vyPrefix, vyExponent, apply );
+            vyControl = new NumericControl( body.getName()+", vy", "m/s", getMantissa( body.getVelocity().getY() ), getExponent( body.getVelocity().getY() ), apply );
             add( vyControl );
             setBorder( BorderFactory.createTitledBorder( body.getName() ) );
         }
 
+        private int getExponent( double v ) {
+            if (v==0){
+                return 0;
+            }
+            v = Math.abs(v);
+            for (int exp = 0;exp<1000;exp++){
+                if (v<Math.pow( 10,exp )){
+                    return exp-1;
+                }
+            }
+            throw new RuntimeException( "No exponent found :(");
+        }
+
+        private double getMantissa( double v) {
+            if (v==0){
+                return 0;
+            }
+            double y = v/Math.pow( 10,getExponent(v ));
+            return y;
+        }
+
         public void apply() {
             body.resetAll();
+            if (body.getName().equals( "Sun" )){
+                System.out.println( "hello" );
+            }
             body.setMass( massControl.getValue() );
             body.setPosition( xControl.getValue(), yControl.getValue() );
             body.setVelocity( new ImmutableVector2D( vxControl.getValue(), vyControl.getValue() ) );
             body.clearTrace();
+            System.out.println( "updated body = "+body );
         }
 
         public void setListener( ActionListener listener ) {
@@ -207,8 +232,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 //        private final LinearValueControl linearValueControl;
         private final JSpinner exponentSpinner;
         private JSpinner mantissaControl;
+        private String title;
+        private String units;
 
         public NumericControl( String title, String units, double prefix, int exponent, final SimpleObserver update ) {
+           this.title=title;
+            this.units = units;
             add(new JLabel(title+": "+units));
             mantissaControl = new JSpinner(new SpinnerNumberModel( prefix, -10.0,10.0,0.001) );
             mantissaControl.addChangeListener( new ChangeListener() {
@@ -218,6 +247,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
             add(mantissaControl);
 
+            if (exponent<0 || exponent>100){
+                throw new RuntimeException( "out of bounds exponent");
+            }
             exponentSpinner = new JSpinner( new SpinnerNumberModel( exponent, 0, 100, 1 ) );
             exponentSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -228,7 +260,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
 
         public double getValue() {
-            return (Double)mantissaControl.getValue() * Math.pow( 10, (Integer) exponentSpinner.getValue() );
+            final double v = (Double) mantissaControl.getValue() * Math.pow( 10, (Integer) exponentSpinner.getValue() );
+            System.out.println( "> getting value, title = "+title+", units = "+units+", mantissa = "+mantissaControl.getValue()+", exp = "+exponentSpinner.getValue()+", value = "+ v );
+            return v;
         }
     }
 

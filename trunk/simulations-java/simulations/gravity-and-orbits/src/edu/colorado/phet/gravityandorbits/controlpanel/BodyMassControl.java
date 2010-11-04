@@ -69,16 +69,21 @@ public class BodyMassControl extends VerticalLayoutPanel {
             }} );
             setBackground( BACKGROUND );
             setForeground( FOREGROUND );
-            body.getMassProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setValue( (int) modelToView.evaluate( body.getMass() ) );//todo: will this clamp create problems?
-                }
-            } );
-            addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    body.setMass( modelToView.createInverse().evaluate( getValue() ) );
-                }
-            } );
+//            body.getMassProperty().addObserver( new SimpleObserver() {
+//                double lastSetValue = Double.NaN;
+//                public void update() {
+//                    final double newViewValue = modelToView.evaluate( body.getMass() );
+//                    if ( newViewValue != lastSetValue ) {
+//                        setValue( (int) newViewValue );//todo: will this clamp create problems?
+//                        lastSetValue = newViewValue;
+//                    }
+//                }
+//            } );
+//            addChangeListener( new ChangeListener() {
+//                public void stateChanged( ChangeEvent e ) {
+//                    body.setMass( modelToView.createInverse().evaluate( getValue() ) );
+//                }
+//            } );
         }} );
     }
 }

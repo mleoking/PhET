@@ -37,8 +37,14 @@ public class ModelState {
         return new ModelState( newState );
     }
 
+    //TODO: limit distance so forces don't become infinite
     private ImmutableVector2D getForce( BodyState source, BodyState target, ImmutableVector2D newTargetPosition ) {
-        return getUnitVector( source, newTargetPosition ).getScaledInstance( GravityAndOrbitsModel.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
+        if ( source.position.equals( newTargetPosition ) ) {//If they are on top of each other, force should be infinite, but ignore it since we want to have semi-realistic behavior
+            return new ImmutableVector2D();
+        }
+        else {
+            return getUnitVector( source, newTargetPosition ).getScaledInstance( GravityAndOrbitsModel.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
+        }
     }
 
     private ImmutableVector2D getUnitVector( BodyState source, ImmutableVector2D newPosition ) {
