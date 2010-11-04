@@ -23,10 +23,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
     private Property<Boolean> forcesProperty = new Property<Boolean>( false );
-    private Property<Boolean> tracesProperty = new Property<Boolean>( true );
+    private Property<Boolean> tracesProperty = new Property<Boolean>( false );
     private Property<Boolean> velocityProperty = new Property<Boolean>( false );
     private Property<Boolean> showMassesProperty = new Property<Boolean>( false );
-    private Property<Boolean> moonProperty = new Property<Boolean>( true );
+    private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
     //----------------------------------------------------------------------------
