@@ -146,6 +146,9 @@ public abstract class ToElementView extends ProblemView {
                     } );
                 }} );
             }} );
+
+            // Create the PNode that contains the label and the buttons for
+            // selecting Neutral Atom or Ion and position it on this node.
             PNode selectNeutralOrIonTypeNode = new PNode();
             PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ){{
                 setFont( new PhetFont( 30, true ) );
