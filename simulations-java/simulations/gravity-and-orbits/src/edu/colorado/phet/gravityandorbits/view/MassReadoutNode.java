@@ -25,7 +25,7 @@ public class MassReadoutNode extends PNode {
             body.getMassProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     double massKG = body.getMass();
-                    double earthMasses = massKG / GravityAndOrbitsModel.EARTH_MASS;
+                    double earthMasses = massKG / GravityAndOrbitsModel.PLANET_MASS;
 //                    System.out.println( "earthMasses = " + earthMasses );
                     String text;
                     DecimalFormat decimalFormat = new DecimalFormat( "0" );

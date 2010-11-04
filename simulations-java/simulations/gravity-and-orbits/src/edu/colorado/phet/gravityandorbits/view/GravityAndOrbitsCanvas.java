@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -131,7 +130,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 //public static final double SUN_MASS = 1.989E30;
                 final BodyConfigPanel sunPanel = new BodyConfigPanel( model.getSun());
                 add( sunPanel );
-                //public static double EARTH_MASS = 5.9742E24;
+                //public static double PLANET_MASS = 5.9742E24;
                 //private final double EARTH_ORBIT_RADIUS = 149668992000.0;
                 //private final double EARTH_ORBITAL_SPEED = -29.78E3;
                 final BodyConfigPanel planetPanel = new BodyConfigPanel( model.getPlanet());
