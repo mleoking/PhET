@@ -48,6 +48,7 @@ public class GameSettingsPanel extends GridPanel {
     private static final PhetFont LABEL_FONT = new PhetFont();
     private static final PhetFont CONTROL_FONT = new PhetFont();
     private static final Border BORDER = new LineBorder( Color.BLACK, 1 );
+    private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     
     // layout properties
     private static final int X_MARGIN = 5;
@@ -69,6 +70,7 @@ public class GameSettingsPanel extends GridPanel {
     
     public GameSettingsPanel( IntegerRange levelRange, PhetFont titleFont, PhetFont labelFont, PhetFont controlFont ) {
         setBorder( BORDER );
+        setBackground( BACKGROUND_FILL_COLOR );
         
         this.levelRange = new IntegerRange( levelRange );
         this.listeners = new EventListenerList();
