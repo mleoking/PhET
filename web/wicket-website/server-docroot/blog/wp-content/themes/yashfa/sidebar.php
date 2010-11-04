@@ -48,7 +48,7 @@
                 <ul>
                     <li><a href="http://www.facebook.com/pages/PhET-Interactive-Simulations/87753699983?v=wall" target="_blank">Join us on <img style="vertical-align: middle;" src="/images/icons/social/facebook.png" alt="Facebook icon"/></a></li>
                     <li><a href="http://twitter.com/PhETSims" target="_blank">Follow us on <img style="vertical-align: middle;" src="/images/icons/social/twitter.png" alt="Twitter icon"/></a></li>
-                    <li><a href="http://phet.colorado.edu/blog/feed/">RSS <img style="vertical-align: middle;" src="/images/icons/social/16/rss.png" alt="RSS icon"/></a></li>
+                    <li><a href="http://phet.colorado.edu/blog/feed/">RSS <img style="vertical-align: middle;" src="/blog/wp-content/themes/yashfa/rss.png" alt="RSS icon"/></a></li>
                     <li><a href="/en/donate" target="_blank">Donate to PhET</a></li>
                 </ul>
             </li>
