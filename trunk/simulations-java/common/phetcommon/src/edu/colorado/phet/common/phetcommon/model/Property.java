@@ -60,4 +60,8 @@ public class Property<T> extends SimpleObservable {
             notifyObservers();
         }
     }
+
+    public T getDefaultValue() {
+        return defaultValue;
+    }
 }
