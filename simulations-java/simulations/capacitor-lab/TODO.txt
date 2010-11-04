@@ -14,6 +14,7 @@ QUESTIONS FOR NOAH
 - what do views (bar meters, E-feild detector, voltmeter, plate charge, field lines) look like while dragging capacitors to building circuits?
 - instead of "Choose Arrangement" dialog, why not have 3 places to drop 3rd capacitor?
 - building circuits is going to be expensive to implement and (I predict) confusing to use, would like to see this interviewed on with mockups
+- what happens when meters are in the way while building circuits?
 
 DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
