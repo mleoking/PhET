@@ -28,6 +28,8 @@ public class BodyMassControl extends VerticalLayoutPanel {
     public static final int MIN = 0;
     public static final int MAX = 100000;
 
+    private boolean updatingSlider = false;
+
     public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel, final Function.LinearFunction sizer ) {
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, MIN, MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
@@ -69,21 +71,22 @@ public class BodyMassControl extends VerticalLayoutPanel {
             }} );
             setBackground( BACKGROUND );
             setForeground( FOREGROUND );
-//            body.getMassProperty().addObserver( new SimpleObserver() {
-//                double lastSetValue = Double.NaN;
-//                public void update() {
-//                    final double newViewValue = modelToView.evaluate( body.getMass() );
-//                    if ( newViewValue != lastSetValue ) {
-//                        setValue( (int) newViewValue );//todo: will this clamp create problems?
-//                        lastSetValue = newViewValue;
-//                    }
-//                }
-//            } );
-//            addChangeListener( new ChangeListener() {
-//                public void stateChanged( ChangeEvent e ) {
-//                    body.setMass( modelToView.createInverse().evaluate( getValue() ) );
-//                }
-//            } );
+            body.getMassProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    updatingSlider = true;
+                    setValue( (int) modelToView.evaluate( body.getMass() ) );
+                    updatingSlider = false;
+                }
+            } );
+            addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    if ( !updatingSlider ) {
+                        // we don't want to set the body mass if we are updating the slider. otherwise we get a
+                        // mass change => update slider => mass change bounce and the wrong values are stored for a reset
+                        body.setMass( modelToView.createInverse().evaluate( getValue() ) );
+                    }
+                }
+            } );
         }} );
     }
 }
