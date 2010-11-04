@@ -33,7 +33,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GravityAndOrbitsModule( JFrame parentFrame) {
+    public GravityAndOrbitsModule( JFrame parentFrame ) {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE, new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
         // Model

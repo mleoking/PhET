@@ -38,6 +38,7 @@ public class ModelState {
     }
 
     //TODO: limit distance so forces don't become infinite
+
     private ImmutableVector2D getForce( BodyState source, BodyState target, ImmutableVector2D newTargetPosition ) {
         if ( source.position.equals( newTargetPosition ) ) {//If they are on top of each other, force should be infinite, but ignore it since we want to have semi-realistic behavior
             return new ImmutableVector2D();

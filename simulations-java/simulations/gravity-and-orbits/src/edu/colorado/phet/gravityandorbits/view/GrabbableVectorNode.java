@@ -21,8 +21,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
-    public GrabbableVectorNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> visible, final Property<ImmutableVector2D> property, final double scale ) {
-        super( body, modelViewTransform2D, visible, property, scale );
+    public GrabbableVectorNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
+                                final double scale, Color fill, Color outline ) {
+        super( body, modelViewTransform2D, visible, property, scale, fill, outline );
         final Point2D tip = getTip();
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 1 ), Color.yellow ) {{
             setOffset( tip.getX() - getFullBounds().getWidth() / 2, tip.getY() - getFullBounds().getHeight() / 2 );
