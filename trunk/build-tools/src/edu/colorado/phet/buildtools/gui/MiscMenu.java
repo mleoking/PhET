@@ -17,6 +17,7 @@ import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.resource.WebsiteResourceDeployClient;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.licensing.reports.DependencyReport;
 
 import com.jcraft.jsch.JSchException;
@@ -239,28 +240,32 @@ public class MiscMenu extends JMenu {
                         }
                     } );
                     final StringBuilder str = new StringBuilder();
-                    str.append( "Project\t# of simulations\t# of translations\ttranslations\tsimulation names\n" );
+                    str.append( "Project\tVersion\t# of simulations\t# of translations\ttranslations\tsimulation names\n" );
                     for ( PhetProject project : projects ) {
-                        Simulation[] simulations = project.getSimulations();
-                        str.append( project.getName() + "\t" + simulations.length + "\t" );
-                        str.append( project.getLocales().length + "\t\t" );
-                        boolean first = true;
-                        for ( Simulation simulation : simulations ) {
-                            str.append( ( first ? "" : "\t" ) + simulation.getName() );
-                            first = false;
-                        }
-                        str.append( "\n" );
                         for ( Locale locale : project.getLocales() ) {
-                            str.append( "\t\t\t"+locale +"\n");
+                            Simulation[] simulations = project.getSimulations();
+                            String version = "?";
+                            try{
+                                version =project.getVersion().toString();
+                            }catch(Exception ex){
+
+                            }
+
+                            str.append( project.getName() + "\t" + version +"\t"+simulations.length + "\t" );
+                            str.append( project.getLocales().length + "\t"+locale+"\t" );
+                            boolean first = true;
+                            for ( Simulation simulation : simulations ) {
+                                str.append( ( first ? "" : "\t" ) + simulation.getName() );
+                                first = false;
+                            }
+                            str.append( "\n" );
                         }
                     }
 
                     new JFrame( "Simulation Statistics" ) {{
                         setContentPane( new JScrollPane( new JTextArea( str.toString() ) ) );
-
                         pack();
-                        show();
-                    }};
+                    }}.setVisible( true );
                 }
             } );
         }} );
