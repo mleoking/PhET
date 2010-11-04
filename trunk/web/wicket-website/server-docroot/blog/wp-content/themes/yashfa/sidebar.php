@@ -13,22 +13,22 @@
 
 			<?php /* If this is a 404 page */ if (is_404()) { ?>
 			<?php /* If this is a category archive */ } elseif (is_category()) { ?>
-			<p class="sideinfo"><?php _e('You are currently browsing the archives for the','yashfa');  single_cat_title(''); _e('category.','yashfa');?> </p>
+<!--			<p class="sideinfo">--><?php //_e('You are currently browsing the archives for the','yashfa');  single_cat_title(''); _e('category.','yashfa');?><!-- </p>-->
 
 			<?php /* If this is a yearly archive */ } elseif (is_day()) { ?>
-			<p class="sideinfo"><?php _e('You are currently browsing the','yashfa')?> <a href="<?php bloginfo('url'); ?>/"><?php echo bloginfo(__('name','yashfa')); ?></a><?php _e('blog archives for the day','yashfa' );the_time('l, F jS, Y'); ?>.</p>
+<!--			<p class="sideinfo">--><?php //_e('You are currently browsing the','yashfa')?><!-- <a href="--><?php //bloginfo('url'); ?><!--/">--><?php //echo bloginfo(__('name','yashfa')); ?><!--</a>--><?php //_e(' archives for the day ','yashfa' );the_time('l, F jS, Y'); ?><!--.</p>-->
 
 			<?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
-			<p class="sideinfo"><?php _e('You are currently browsing the','yashfa')?> <a href="<?php bloginfo('url'); ?>/"><?php echo bloginfo(__('name','yashfa')); ?></a><?php _e('blog archives for','yashfa'); the_time('F, Y'); ?>.</p>
+<!--			<p class="sideinfo">--><?php //_e('You are currently browsing the','yashfa')?><!-- <a href="--><?php //bloginfo('url'); ?><!--/">--><?php //echo bloginfo(__('name','yashfa')); ?><!--</a>--><?php //_e(' archives for ','yashfa'); the_time('F, Y'); ?><!--.</p>-->
 
 			<?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
-			<p class="sideinfo"><?php _e('You are currently browsing the','yashfa')?><a href="<?php bloginfo('url'); ?>/"><?php echo bloginfo(__('name','yashfa')); ?></a><?php _e('blog archives for the year','yashfa') ; the_time('Y'); ?>.</p>
+<!--			<p class="sideinfo">--><?php //_e('You are currently browsing the','yashfa')?><!--<a href="--><?php //bloginfo('url'); ?><!--/">--><?php //echo bloginfo(__('name','yashfa')); ?><!--</a>--><?php //_e(' archives for the year ','yashfa') ; the_time('Y'); ?><!--.</p>-->
 
 			<?php /* If this is a monthly archive */ } elseif (is_search()) { ?>
-			<p class="sideinfo"><?php _e('You have searched the ','yashfa')?> <a href="<?php echo bloginfo('url'); ?>/"><?php echo bloginfo(__('name','yashfa')); ?></a><?php _e('blog archives for ','yashfa')?><strong>'<?php the_search_query(); ?>'</strong><?php _e('. If you are unable to find anything in these search results, you can try one of these links.','yashfa')?></p>
+<!--			<p class="sideinfo">--><?php //_e('You have searched the ','yashfa')?><!-- <a href="--><?php //echo bloginfo('url'); ?><!--/">--><?php //echo bloginfo(__('name','yashfa')); ?><!--</a>--><?php //_e(' archives for ','yashfa')?><!--<strong>'--><?php //the_search_query(); ?><!--'</strong>--><?php //_e('. If you are unable to find anything in these search results, you can try one of these links.','yashfa')?><!--</p>-->
 
 			<?php /* If this is a monthly archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-			<p class="sideinfo"><?php _e('You are currently browsing the ','yashfa')?><a href="<?php echo bloginfo('url'); ?>/"><?php echo bloginfo(__('name','yashfa'),','); ?></a><?php _e('blog archives.','yashfa')?></p>
+<!--			<p class="sideinfo">--><?php //_e('You are currently browsing the ','yashfa')?><!--<a href="--><?php //echo bloginfo('url'); ?><!--/">--><?php //echo bloginfo(__('name','yashfa'),','); ?><!--</a>--><?php //_e(' archives.','yashfa')?><!--</p>-->
 
 			<?php } ?>
 

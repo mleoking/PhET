@@ -56,7 +56,7 @@
 <h3 style="font-size: 150%;"><?php the_time('D d') ?></h3>
 <h5><?php the_time('M Y') ?></h5>
 </div>
-<p class="metadata"><br /><?php _e('by','yashfa'); ?> <?php the_author() ?> <br /><?php _e('posted in<br/>','yashfa');?><?php the_category(', ') ?> <?php edit_post_link(__('Edit','yashfa'), '', ''); ?><br /><?php comments_popup_link(__('No Comments &#187;','yashfa'),__('1 Comment &#187;','yashfa'),__('% Comments &#187;','yashfa')); ?></p>
+<p class="metadata"><br /><?php _e('by','yashfa'); ?> <?php the_author() ?> <br /><?php _e('posted in<br/>','yashfa');?><?php the_category(', ') ?> <?php edit_post_link(__('Edit','yashfa'), '', ''); ?><br /><?php comments_popup_link(__('0 Comments &#187;','yashfa'),__('1 Comment &#187;','yashfa'),__('% Comments &#187;','yashfa')); ?></p>
 </div>
 				</div>
 
