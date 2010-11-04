@@ -1,10 +1,12 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -103,12 +105,14 @@ public abstract class ToElementView extends ProblemView {
                 }
             } );
 
-            //Add the "neutral atom" / "ion" selection radio buttons
+            // Add the "neutral atom" / "ion" selection radio buttons
             final PSwing buttonPanelNode = new PSwing( new JPanel() {{
+                final Font BUTTON_FONT = new PhetFont( 20 );
                 setOpaque( false );
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 add( new JRadioButton( BuildAnAtomStrings.GAME_NEUTRAL_ATOM ) {{
                     setOpaque( false );
+                    setFont( BUTTON_FONT );
                     setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                     final SimpleObserver updateSelected = new SimpleObserver() {
                         public void update() {
@@ -125,6 +129,7 @@ public abstract class ToElementView extends ProblemView {
                 }} );
                 add( new JRadioButton( BuildAnAtomStrings.GAME_ION ) {{
                     setOpaque( false );
+                    setFont( BUTTON_FONT );
                     setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                     final SimpleObserver updateSelected = new SimpleObserver() {
                         public void update() {
@@ -142,6 +147,14 @@ public abstract class ToElementView extends ProblemView {
             }} );
             buttonPanelNode.setOffset( getFullBounds().getWidth() / 2 - buttonPanelNode.getFullBounds().getWidth() / 2, getFullBounds().getHeight() + 10 );
             addChild( buttonPanelNode );
+            // Put a label in front of the button selection.
+            // TODO: i18n
+            PText buttonLabel = new PText("Is it:"){{
+                setFont( new PhetFont( 30, true ) );
+                setOffset( buttonPanelNode.getFullBoundsReference().getMinX() - getFullBoundsReference().width - 5,
+                        buttonPanelNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height * 0.6 );
+            }};
+            addChild( buttonLabel );
         }
 
         public int getGuessedNumberProtons() {
