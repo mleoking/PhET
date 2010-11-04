@@ -8,7 +8,7 @@
 
  	  <?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
  	  <?php /* If this is a category archive */ if (is_category()) { ?>
-		<h2 class="pagetitle"><?php _e('Archive for the &#8216;', 'yashfa' ); ?><?php single_cat_title(); ?>&#8217;<?php _e('Category','yashfa')?></h2>
+		<h2 class="pagetitle"><?php _e('Archive for the &#8216;', 'yashfa' ); ?><?php single_cat_title(); ?>&#8217; <?php _e('Category','yashfa')?></h2>
  	  <?php /* If this is a tag archive */ } elseif( is_tag() ) { ?>
 		<h2 class="pagetitle"><?php _e('Posts Tagged &#8216;', 'yashfa'); ?><?php single_tag_title(); ?>&#8217;</h2>
  	  <?php /* If this is a daily archive */ } elseif (is_day()) { ?>
@@ -47,7 +47,7 @@
 <h3 style="font-size: 150%;"><?php the_time('D d') ?></h3>
 <h5><?php the_time('M Y') ?></h5>
 </div>
-<p class="metadata"><br /><?php _e('by','yashfa'); ?> <?php  the_author() ?> <br /><?php _e('posted in<br/>','yashfa'); ?> <?php  the_category(', ') ?> <?php edit_post_link(__('Edit','yashfa'), '', ''); ?><br /><?php comments_popup_link(__('No Comments','yashfa'), __('1 Comment','yashfa'), __( '% Comments','yashfa')); ?></p>
+<p class="metadata"><br /><?php _e('by','yashfa'); ?> <?php  the_author() ?> <br /><?php _e('posted in<br/>','yashfa'); ?> <?php  the_category(', ') ?> <?php edit_post_link(__('Edit','yashfa'), '', ''); ?><br /><?php comments_popup_link(__('0 Comments','yashfa'), __('1 Comment','yashfa'), __( '% Comments','yashfa')); ?></p>
 </div>
 				</div>
 
