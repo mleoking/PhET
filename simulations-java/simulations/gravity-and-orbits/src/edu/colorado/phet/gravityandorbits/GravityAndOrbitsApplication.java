@@ -35,7 +35,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
      */
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        initModules();
+        initModules(config);
         initMenubar();
     }
 
@@ -47,8 +47,8 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
 
-    private void initModules() {
-        addModule( new GravityAndOrbitsModule( getPhetFrame() ) {{
+    private void initModules( PhetApplicationConfig config ) {
+        addModule( new GravityAndOrbitsModule( getPhetFrame() ,config.getCommandLineArgs()) {{
             getModulePanel().setLogoPanel( null );
         }} );
     }
