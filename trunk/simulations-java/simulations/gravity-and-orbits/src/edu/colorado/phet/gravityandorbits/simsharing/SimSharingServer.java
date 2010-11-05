@@ -43,8 +43,11 @@ public class SimSharingServer {
                                         if ( line == null ) {
                                             break;
                                         }
-                                        teacherBufferedWriter.write( line );
-                                        teacherBufferedWriter.flush();
+                                        if (teacherBufferedWriter !=null ){
+                                            teacherBufferedWriter.write( line );
+                                            teacherBufferedWriter.flush();
+                                            System.out.println("wrote to teacher: "+line);
+                                        }
                                     }
                                 }
                                 catch ( IOException e ) {
