@@ -84,28 +84,6 @@ public abstract class ToElementView extends ProblemView {
         private final Property<Boolean> guessNeutralProperty = new Property<Boolean>( true );
 
         private GamePeriodicTable() {
-            //TODO: this is too sneaky and should be rewritten
-            //We should rewrite ElementIndicatorNode to use something more general than Atom, so it can use a large number of protons without creating and deleting Proton instances
-            atom = new Atom( new Point2D.Double() ) {
-                @Override
-                public int getNumProtons() {
-                    return numProtons[0];//Trick the ElementIndicatorNode into thinking there are numProtons[0] protons.
-                }
-            };
-            PNode periodicTableNode = new PeriodicTableNode( atom ) {
-                @Override
-                protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
-                    elementCell.addInputEventListener( new CursorHandler() );
-                    elementCell.addInputEventListener( new PBasicInputEventHandler() {
-                        @Override
-                        public void mousePressed( PInputEvent event ) {
-                            displayNumProtons( elementCell.getAtomicNumber() );
-                        }
-                    } );
-                }
-            };
-            addChild( periodicTableNode );
-
             // Add the "neutral atom" / "ion" selection radio buttons
             final PSwing buttonPanelNode = new PSwing( new JPanel() {{
                 final Font BUTTON_FONT = new PhetFont( 20 );
@@ -149,7 +127,7 @@ public abstract class ToElementView extends ProblemView {
 
             // Create the PNode that contains the label and the buttons for
             // selecting Neutral Atom or Ion and position it on this node.
-            PNode selectNeutralOrIonTypeNode = new PNode();
+            final PNode selectNeutralOrIonTypeNode = new PNode();
             PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ){{
                 setFont( new PhetFont( 30, true ) );
             }};
@@ -157,10 +135,40 @@ public abstract class ToElementView extends ProblemView {
             buttonPanelNode.setOffset( buttonLabel.getFullBoundsReference().width + 5,
                     buttonLabel.getFullBoundsReference().height * 0.6 - buttonPanelNode.getFullBoundsReference().height / 2 );
             selectNeutralOrIonTypeNode.addChild( buttonPanelNode );
+            addChild(selectNeutralOrIonTypeNode);
+
+            // This selector is initially invisible but then appears when the
+            // user makes a selection in the periodic table.
+            selectNeutralOrIonTypeNode.setVisible( false );
+
+            //TODO: this is too sneaky and should be rewritten
+            //We should rewrite ElementIndicatorNode to use something more general than Atom, so it can use a large number of protons without creating and deleting Proton instances
+            atom = new Atom( new Point2D.Double() ) {
+                @Override
+                public int getNumProtons() {
+                    return numProtons[0];//Trick the ElementIndicatorNode into thinking there are numProtons[0] protons.
+                }
+            };
+
+            PNode periodicTableNode = new PeriodicTableNode( atom ) {
+                @Override
+                protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
+                    elementCell.addInputEventListener( new CursorHandler() );
+                    elementCell.addInputEventListener( new PBasicInputEventHandler() {
+                        @Override
+                        public void mousePressed( PInputEvent event ) {
+                            displayNumProtons( elementCell.getAtomicNumber() );
+                            selectNeutralOrIonTypeNode.setVisible( true );
+                        }
+                    } );
+                }
+            };
+            addChild( periodicTableNode );
+
+            // Layout.
             selectNeutralOrIonTypeNode.setOffset(
                     periodicTableNode.getFullBoundsReference().getCenterX() - selectNeutralOrIonTypeNode.getFullBoundsReference().width / 2,
                     periodicTableNode.getFullBoundsReference().getMaxY() + 10 );
-            addChild(selectNeutralOrIonTypeNode);
         }
 
         public int getGuessedNumberProtons() {
