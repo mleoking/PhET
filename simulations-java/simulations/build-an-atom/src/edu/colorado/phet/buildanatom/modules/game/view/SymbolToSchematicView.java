@@ -37,12 +37,12 @@ public class SymbolToSchematicView extends ProblemView {
 
     @Override
     protected AtomValue getGuess() {
-        return interactiveSchematicAtomNode.getGuess();
+        return interactiveSchematicAtomNode.getAtomValue();
     }
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
-        interactiveSchematicAtomNode.displayAnswer(answer);
+        interactiveSchematicAtomNode.setAtomValue(answer);
     }
 
     @Override
