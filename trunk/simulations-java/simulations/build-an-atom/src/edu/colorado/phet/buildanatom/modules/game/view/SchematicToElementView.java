@@ -18,14 +18,9 @@ public class SchematicToElementView extends ToElementView {
 
     public SchematicToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
-        ModelViewTransform2D mvt = new ModelViewTransform2D(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.35 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
-                1.5,
-                true );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
 
-        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) ){{
+        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, SchematicToSymbolView.SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
             setPickable( false );
             setChildrenPickable( false );
         }};
