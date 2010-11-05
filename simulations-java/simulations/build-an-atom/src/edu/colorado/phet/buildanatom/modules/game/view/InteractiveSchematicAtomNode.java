@@ -15,8 +15,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * TODO: consolidate this with SchematicAtomNode, could be a subclass that adds interactivity, or a constructor arg interactive:Boolean
  * @author Sam Reid
+ * @author John Blanco
  */
 public class InteractiveSchematicAtomNode extends SchematicAtomNode {
 
