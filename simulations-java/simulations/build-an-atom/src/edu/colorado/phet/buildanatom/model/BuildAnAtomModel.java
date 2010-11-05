@@ -73,6 +73,17 @@ public class BuildAnAtomModel {
         this( clock, new AtomValue( DEFAULT_NUM_PROTONS, DEFAULT_NUM_NEUTRONS, DEFAULT_NUM_ELECTRONS ) );
     }
 
+    /**
+     * Construct the model and move the particles immediately into their positions.
+     */
+    public BuildAnAtomModel( BuildAnAtomClock clock, AtomValue atomValue, boolean moveImmediately ) {
+        this( clock, atomValue );
+        setState( atomValue, moveImmediately );
+    }
+
+    /**
+     * Construct the model with the atoms initially in the bucket.
+     */
     public BuildAnAtomModel( BuildAnAtomClock clock, AtomValue atomValue ) {
         super();
 
@@ -194,7 +205,6 @@ public class BuildAnAtomModel {
             //            atom.addNeutron( neutron );
             neutronBucket.addParticle( neutron, true );
         }
-
     }
 
     public Atom getAtom() {

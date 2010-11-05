@@ -27,10 +27,7 @@ public class SchematicToSymbolView extends ToSymbolProblemView {
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.35 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
                 1.5,
                 true );
-        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer() ) {{
-            reset();
-            setState( problem.getAnswer(), true );
-        }};
+        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 
         gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) );
     }
