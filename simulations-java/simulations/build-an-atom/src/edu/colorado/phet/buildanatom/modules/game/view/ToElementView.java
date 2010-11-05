@@ -188,7 +188,7 @@ public abstract class ToElementView extends ProblemView {
             // Layout.
             selectNeutralOrIonTypeNode.setOffset(
                     periodicTableNode.getFullBoundsReference().getCenterX() - selectNeutralOrIonTypeNode.getFullBoundsReference().width / 2,
-                    periodicTableNode.getFullBoundsReference().getMaxY() + 10 );
+                    periodicTableNode.getFullBoundsReference().getMaxY() + 30 );
         }
 
         private void notifyRadioButtonPressed() {
