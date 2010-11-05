@@ -2,7 +2,6 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -129,7 +128,7 @@ public class ElectronShell extends SimpleObservable {
         }
     }
 
-    protected void addElectron( final Electron electronToAdd, boolean animate ) {
+    protected void addElectron( final Electron electronToAdd, boolean moveImmediately ) {
         Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition() );
         if (shellLocation == null){
             System.err.println( getClass().getName() + " - Error: No space in shell." );
@@ -140,7 +139,7 @@ public class ElectronShell extends SimpleObservable {
         electronToAdd.addListener( particleRemovalListener );
 
         //If the particle shouldn't animate, then it should move to its destination immediately.
-        if ( !animate ) {
+        if ( moveImmediately ) {
             electronToAdd.moveToDestination();
         }
         notifyObservers();

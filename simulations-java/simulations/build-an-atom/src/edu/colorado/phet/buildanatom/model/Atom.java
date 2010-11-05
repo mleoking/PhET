@@ -282,7 +282,7 @@ public class Atom extends SimpleObservable{
         return getSymbol( getNumProtons() );
     }
 
-    public void addProton( final Proton proton,boolean animate ) {
+    public void addProton( final Proton proton,boolean moveImmediately ) {
         assert !protons.contains( proton );
 
         // Add to the list of protons that are in the atom.
@@ -290,13 +290,13 @@ public class Atom extends SimpleObservable{
 
         // Reconfigure the nucleus.  This will set the destination for this
         // new nucleon.
-        reconfigureNucleus(animate);
+        reconfigureNucleus(moveImmediately);
 
         proton.addListener( particleRemovalListener );
         notifyObservers();
     }
 
-    public void addNeutron( final Neutron neutron,boolean animate ) {
+    public void addNeutron( final Neutron neutron,boolean moveImmediately ) {
         assert !neutrons.contains( neutron );
 
         // Add to the list of neutrons that are in the atom.
@@ -304,23 +304,23 @@ public class Atom extends SimpleObservable{
 
         // Reconfigure the nucleus.  This will set the destination for this
         // new nucleon.
-        reconfigureNucleus(animate );
+        reconfigureNucleus(moveImmediately );
 
         neutron.addListener( particleRemovalListener );
         notifyObservers();
     }
 
-    public void addElectron( final Electron electron,boolean animate ) {
+    public void addElectron( final Electron electron,boolean moveImmediately ) {
         if ( !electronShell1.isFull() ) {
-            electronShell1.addElectron( electron, animate );
+            electronShell1.addElectron( electron, moveImmediately );
             notifyObservers();
         }
         else if ( !electronShell2.isFull() ) {
-            electronShell2.addElectron( electron, animate );
+            electronShell2.addElectron( electron, moveImmediately );
             notifyObservers();
         }
         else if (!electronShell3.isFull()){
-            electronShell3.addElectron( electron, animate );
+            electronShell3.addElectron( electron, moveImmediately );
             notifyObservers();
         }else {
             // Too many electrons.  The sim should be designed such that this
@@ -334,7 +334,7 @@ public class Atom extends SimpleObservable{
      * Distribute the nucleons in the nucleus in such a way that the nucleus
      * will look good when shown in the view.
      */
-    public void reconfigureNucleus(boolean animate) {
+    public void reconfigureNucleus(boolean moveImmediately) {
 
         double nucleonRadius = Proton.RADIUS;
 
@@ -509,7 +509,7 @@ public class Atom extends SimpleObservable{
         }
 
         //If the particles shouldn't be animating, they should immediately move to their destination
-        if ( !animate ) {
+        if ( moveImmediately ) {
             for ( SubatomicParticle nucleon : nucleons ) {
                 nucleon.moveToDestination();
             }
@@ -596,27 +596,27 @@ public class Atom extends SimpleObservable{
     }
 
     //For the game mode
-    public ArrayList<SubatomicParticle> setState( AtomValue answer,BuildAnAtomModel model,boolean animate) {//provide the model to draw free particles from
+    public ArrayList<SubatomicParticle> setState( AtomValue answer,BuildAnAtomModel model,boolean moveImmediately) {//provide the model to draw free particles from
         ArrayList<SubatomicParticle> removedParticles=new ArrayList<SubatomicParticle>( );
         while(getNumProtons()>answer.getProtons()){
             removedParticles.add( removeProton() );
         }
         while(getNumProtons()<answer.getProtons()){
-            addProton( model.getFreeProton(),animate);
+            addProton( model.getFreeProton(),moveImmediately);
         }
 
         while(getNumNeutrons()>answer.getNeutrons()){
             removedParticles.add( removeNeutron());
         }
         while(getNumNeutrons()<answer.getNeutrons()){
-            addNeutron( model.getFreeNeutron(),animate);
+            addNeutron( model.getFreeNeutron(),moveImmediately);
         }
 
         while(getNumElectrons()>answer.getElectrons()){
             removedParticles.add( removeElectron() );
         }
         while(getNumElectrons()<answer.getElectrons()){
-            addElectron( model.getFreeElectron(),animate);
+            addElectron( model.getFreeElectron(),moveImmediately);
         }
         return removedParticles;
     }

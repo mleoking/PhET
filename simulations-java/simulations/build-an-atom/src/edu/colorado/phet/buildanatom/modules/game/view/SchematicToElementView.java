@@ -27,8 +27,7 @@ public class SchematicToElementView extends ToElementView {
                 true );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{
             reset();
-            //Configure the build an atom model to reflect the AtomValue answer
-            getAtom().setState( problem.getAnswer(), this, false );
+            setState( problem.getAnswer(), true );
         }};
         
         gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) );

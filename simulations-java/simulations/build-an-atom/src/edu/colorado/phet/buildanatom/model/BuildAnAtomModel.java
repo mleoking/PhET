@@ -259,17 +259,17 @@ public class BuildAnAtomModel {
         return null;
     }
 
-    public void setState( AtomValue answer ) {
-        ArrayList<SubatomicParticle> removed = getAtom().setState(answer, this,true);// Add new particles into the atom
+    public void setState( AtomValue answer,boolean moveImmediately ) {
+        ArrayList<SubatomicParticle> removed = getAtom().setState( answer, this, moveImmediately );// Add new particles into the atom
         for ( SubatomicParticle particle : removed ) {
             if ( particle instanceof Proton ) {
-                protonBucket.addParticle( particle, false );
+                protonBucket.addParticle( particle, moveImmediately );
             }
             else if ( particle instanceof Electron ) {
-                electronBucket.addParticle( particle, false );
+                electronBucket.addParticle( particle, moveImmediately );
             }
             else if ( particle instanceof Neutron ) {
-                neutronBucket.addParticle( particle, false );
+                neutronBucket.addParticle( particle, moveImmediately );
             }
         }
     }
