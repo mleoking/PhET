@@ -62,7 +62,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode2 {
     }
 
     public void displayAnswer( AtomValue answer ) {
-        model.setState(answer);
+        model.setState( answer, false );
     }
 
 }
