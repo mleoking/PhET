@@ -1,3 +1,5 @@
+# 1.00.05 (45778) Nov 5, 2010
+11/5/10 Deploying to dev for use in upcoming interviews
 # 1.00.04 (45774) Nov 5, 2010
 11/5/10 Deploying for upcoming interviews.
 Made the "Check" button be grayed out until the user enters an initial guess.
