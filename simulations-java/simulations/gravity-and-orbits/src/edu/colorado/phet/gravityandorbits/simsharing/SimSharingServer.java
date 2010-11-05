@@ -16,7 +16,7 @@ public class SimSharingServer {
     public static final int STUDENT_PORT = 3752;
     public static final int TEACHER_PORT = 3753;
     private Socket teacherSocket;
-    private BufferedWriter teacherBufferedWriter;
+    private ObjectOutputStream teacherOutputStream;
 
     public SimSharingServer() throws IOException {
         System.out.println( "Started simsharing server" );
@@ -35,24 +35,31 @@ public class SimSharingServer {
                     try {
                         Socket socket = studentServerSocket.accept();
                         System.out.println( "connected to student" );
-                        final BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+                        final ObjectInputStream objectInputStream = new ObjectInputStream( socket.getInputStream() );
+//                        final BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
                         new Thread( new Runnable() {
                             public void run() {
                                 try {
                                     while ( true ) {
-                                        String line = bufferedReader.readLine();
-                                        System.out.println( "line = " + line );
-                                        if ( line == null ) {
+                                        Object obj = objectInputStream.readObject();
+                                        System.out.println( "obj = " + obj );
+//                                        String line = bufferedReader.readLine();
+//                                        System.out.println( "line = " + line );
+                                        if ( obj == null ) {
                                             break;
                                         }
-                                        if ( teacherBufferedWriter != null ) {
-                                            teacherBufferedWriter.write( line+"\n" );
-                                            teacherBufferedWriter.flush();
-                                            System.out.println( "wrote to teacher: " + line );
+                                        if ( teacherOutputStream != null ) {
+                                            teacherOutputStream.writeObject( obj );
+//                                            teacherOutputStream.write( line + "\n" );
+                                            teacherOutputStream.flush();
+                                            System.out.println( "wrote to teacher: " + obj);
                                         }
                                     }
                                 }
                                 catch ( IOException e ) {
+                                    e.printStackTrace();
+                                }
+                                catch ( ClassNotFoundException e ) {
                                     e.printStackTrace();
                                 }
                             }
@@ -70,7 +77,7 @@ public class SimSharingServer {
                     try {
                         teacherSocket = teacherServerSocket.accept();
                         System.out.println( "connected to teacher" );
-                        teacherBufferedWriter = new BufferedWriter( new OutputStreamWriter( teacherSocket.getOutputStream() ) );
+                        teacherOutputStream = new ObjectOutputStream( teacherSocket.getOutputStream() );
 
                         final BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( teacherSocket.getInputStream() ) );
                         new Thread( new Runnable() {

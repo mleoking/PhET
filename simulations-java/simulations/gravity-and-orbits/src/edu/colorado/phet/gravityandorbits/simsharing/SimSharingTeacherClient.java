@@ -6,6 +6,7 @@ import java.net.Socket;
 
 import javax.swing.*;
 
+import edu.colorado.phet.gravityandorbits.model.BodyState;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
@@ -13,7 +14,7 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  */
 public class SimSharingTeacherClient {
     private final Socket socket;
-    private final BufferedReader bufferedReader;
+    private final ObjectInputStream  objectInputStream;
 
     public SimSharingTeacherClient( final GravityAndOrbitsModule module, final JFrame parentFrame ) throws AWTException, IOException {
         final JFrame displayFrame = new JFrame();
@@ -26,15 +27,21 @@ public class SimSharingTeacherClient {
         bufferedWriter.flush();
 
         System.out.println( "socket.getLocalPort() = " + socket.getLocalPort() + ", port = " + socket.getPort() );
-        bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+        objectInputStream=new ObjectInputStream( socket.getInputStream() );
         new Thread( new Runnable() {
             public void run() {
                 while ( true ) {
                     try {
-                        String line = bufferedReader.readLine();
-                        System.out.println( "line = " + line );
+                        Object obj = objectInputStream.readObject();
+//                        String line = bufferedReader.readLine();
+//                        System.out.println( "line = " + line );
+                        System.out.println( "obj = " + obj );
+                        module.getGravityAndOrbitsModel().getPlanet().updateBodyStateFromModel( (BodyState) obj );
                     }
                     catch ( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( ClassNotFoundException e ) {
                         e.printStackTrace();
                     }
                 }

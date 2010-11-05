@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
@@ -20,7 +21,8 @@ public class SimSharingStudentClient {
     int N = 100;
     int count = 0;
     private final Socket socket;
-    private final BufferedWriter bufferedWriter;
+//    private final BufferedWriter bufferedWriter;
+    private ObjectOutputStream objectOutputStream;
 
     public SimSharingStudentClient( final GravityAndOrbitsModule module, final JFrame parentFrame ) throws AWTException, IOException {
         final Robot robot = new Robot();
@@ -29,7 +31,8 @@ public class SimSharingStudentClient {
         displayFrame.setContentPane( contentPane );
         final boolean[] firstTime = { true };
         socket = new Socket( SimSharingServer.host, SimSharingServer.STUDENT_PORT );
-        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream() );
+//        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 
         module.getGravityAndOrbitsModel().addModelSteppedListener( new SimpleObserver() {
             public void update() {
@@ -56,8 +59,10 @@ public class SimSharingStudentClient {
 
     private void sendToServer( BodyState bodyState ) {
         try {
-            bufferedWriter.write( bodyState.toString() + "\n" );
-            bufferedWriter.flush();
+            objectOutputStream.writeObject( bodyState );
+            objectOutputStream.flush();
+//            bufferedWriter.write( bodyState.toString() + "\n" );
+//            bufferedWriter.flush();
         }
         catch ( IOException e ) {
             e.printStackTrace();

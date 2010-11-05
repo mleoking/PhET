@@ -1,8 +1,10 @@
 package edu.colorado.phet.gravityandorbits.model;
 
+import java.io.Serializable;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
-public class BodyState {
+public class BodyState implements Serializable {
     public final ImmutableVector2D position;
     public final ImmutableVector2D velocity;
     public final ImmutableVector2D acceleration;
