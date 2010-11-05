@@ -88,6 +88,7 @@ public abstract class ToElementView extends ProblemView {
         final int[] numProtons = new int[] { 0 };//use an array because the reference must be final
         private final Atom atom;
         private final Property<Boolean> guessNeutralProperty = new Property<Boolean>( true );
+        private final PNode selectNeutralOrIonTypeNode;
 
         private GamePeriodicTable() {
             // Create the "neutral atom" / "ion" selection radio buttons
@@ -131,9 +132,7 @@ public abstract class ToElementView extends ProblemView {
                 }} );
             }} );
 
-            // Create the PNode that contains the label and the buttons for
-            // selecting Neutral Atom or Ion and position it on this node.
-            final PNode selectNeutralOrIonTypeNode = new PNode();
+            selectNeutralOrIonTypeNode = new PNode();
             PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ){{
                 setFont( new PhetFont( 30, true ) );
             }};
@@ -192,6 +191,7 @@ public abstract class ToElementView extends ProblemView {
 
         public void setGuessNeutral( boolean isNeutral ){
             guessNeutralProperty.setValue( isNeutral );
+            selectNeutralOrIonTypeNode.setVisible( true );
         }
     }
 }
