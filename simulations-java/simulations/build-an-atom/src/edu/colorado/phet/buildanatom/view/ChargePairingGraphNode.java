@@ -76,7 +76,7 @@ public class ChargePairingGraphNode extends PNode {
             positiveChargeIconList.add( icon );
             icon.setOffset(
                     ( positiveChargeIconList.size() - 1 ) * ( ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING ),
-                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
+                    0 );
             addChild( icon );
         }
     }
@@ -88,7 +88,7 @@ public class ChargePairingGraphNode extends PNode {
             negativeChargeIconList.add( icon );
             icon.setOffset(
                     ( negativeChargeIconList.size() - 1 ) * ( ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + HORIZONTAL_INTER_ICON_SPACING ),
-                    0 );
+                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() + VERTICAL_INTER_ICON_SPACING );
             addChild( icon );
         }
     }
