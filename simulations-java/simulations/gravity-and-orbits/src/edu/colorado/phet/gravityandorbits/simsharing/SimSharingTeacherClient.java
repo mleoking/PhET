@@ -36,7 +36,7 @@ public class SimSharingTeacherClient {
 //                        String line = bufferedReader.readLine();
 //                        System.out.println( "line = " + line );
                         System.out.println( "obj = " + obj );
-                        module.getGravityAndOrbitsModel().getPlanet().updateBodyStateFromModel( (BodyState) obj );
+                        module.setState( (GravityAndOrbitsState) obj );
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();

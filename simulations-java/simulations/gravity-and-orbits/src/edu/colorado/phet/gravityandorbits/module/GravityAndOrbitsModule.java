@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
+import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsState;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
@@ -40,7 +41,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public GravityAndOrbitsModule( JFrame parentFrame, String[] commandLineArgs ) {
-        super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE, new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
+        super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE
+               + ": " + Arrays.asList( commandLineArgs )//For simsharing
+                ,
+               new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
         // Model
         GravityAndOrbitsClock clock = (GravityAndOrbitsClock) getClock();
@@ -57,9 +61,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             //XXX add help items
         }
 
-        if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ))
+        if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ) ) {
+            model.teacherMode = true;
             try {
-                new SimSharingTeacherClient(this,parentFrame).start();
+                new SimSharingTeacherClient( this, parentFrame ).start();
             }
             catch ( AWTException e ) {
                 e.printStackTrace();
@@ -67,9 +72,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             catch ( IOException e ) {
                 e.printStackTrace();
             }
-        else if (Arrays.asList( commandLineArgs ).contains( "-student" ))
+        }
+        else if ( Arrays.asList( commandLineArgs ).contains( "-student" ) ) {
             try {
-                new SimSharingStudentClient(this,parentFrame).start();
+                new SimSharingStudentClient( this, parentFrame ).start();
             }
             catch ( AWTException e ) {
                 e.printStackTrace();
@@ -77,6 +83,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             catch ( IOException e ) {
                 e.printStackTrace();
             }
+        }
 
         // Set initial state
         reset();
@@ -135,5 +142,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         moonProperty.reset();
         toScaleProperty.reset();
         model.resetAll();
+    }
+
+    public GravityAndOrbitsState getState() {
+        return new GravityAndOrbitsState( model.getSun().toBodyState(), model.getPlanet().toBodyState(), model.getMoon().toBodyState() );
+    }
+
+    public void setState( GravityAndOrbitsState gravityAndOrbitsState ) {
+        model.getSun().updateBodyStateFromModel( gravityAndOrbitsState.sunState );
+        model.getPlanet().updateBodyStateFromModel( gravityAndOrbitsState.planetState );
+        model.getMoon().updateBodyStateFromModel( gravityAndOrbitsState.moonState );
     }
 }

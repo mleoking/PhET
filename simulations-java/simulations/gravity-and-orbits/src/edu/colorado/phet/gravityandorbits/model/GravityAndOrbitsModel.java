@@ -36,6 +36,7 @@ public class GravityAndOrbitsModel {
 
     private final GravityAndOrbitsClock clock;
     private ArrayList<SimpleObserver> modelStepListeners=new ArrayList<SimpleObserver>( );
+    public boolean teacherMode;
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
         super();
@@ -43,6 +44,7 @@ public class GravityAndOrbitsModel {
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
+                if (teacherMode) return;
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
