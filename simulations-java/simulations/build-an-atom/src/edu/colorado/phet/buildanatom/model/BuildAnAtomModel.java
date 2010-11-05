@@ -102,7 +102,7 @@ public class BuildAnAtomModel {
                     // enough to the shell, and there is room, send it there.
                     // Otherwise send it to its bucket.
                     if ( atom.getRemainingElectronCapacity() > 0 && electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
-                        atom.addElectron( electron ,true);
+                        atom.addElectron( electron , false );
                     }
                     else {
                         electronBucket.addParticle( electron, false );
@@ -121,7 +121,7 @@ public class BuildAnAtomModel {
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
                     if ( proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
-                        atom.addProton( proton ,true);
+                        atom.addProton( proton, false );
                     }
                     else {
                         protonBucket.addParticle( proton, false );
@@ -140,7 +140,7 @@ public class BuildAnAtomModel {
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
                     if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
-                        atom.addNeutron( neutron,true );
+                        atom.addNeutron( neutron, false );
                     }
                     else {
                         neutronBucket.addParticle( neutron, false );
