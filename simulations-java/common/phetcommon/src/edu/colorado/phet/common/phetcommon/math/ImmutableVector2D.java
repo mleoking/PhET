@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 /**
  * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.  
@@ -10,7 +11,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @author Sam Reid
  */
-public class ImmutableVector2D {
+public class ImmutableVector2D implements Serializable {
     private double x;
     private double y;
 
