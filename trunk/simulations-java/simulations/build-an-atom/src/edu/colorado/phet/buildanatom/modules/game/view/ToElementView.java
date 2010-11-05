@@ -27,7 +27,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * Base class for views in the game that include a periodic table on the right side.
+ *
  * @author Sam Reid
+ * @author John Blanco
  */
 public abstract class ToElementView extends ProblemView {
     private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_FIND_THE_ELEMENT );
@@ -37,6 +40,9 @@ public abstract class ToElementView extends ProblemView {
         scale( 1.2 );
     }};
 
+    /**
+     * Constructor.
+     */
     ToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
         description.centerAbove( gamePeriodicTable );
@@ -84,7 +90,7 @@ public abstract class ToElementView extends ProblemView {
         private final Property<Boolean> guessNeutralProperty = new Property<Boolean>( true );
 
         private GamePeriodicTable() {
-            // Add the "neutral atom" / "ion" selection radio buttons
+            // Create the "neutral atom" / "ion" selection radio buttons
             final PSwing buttonPanelNode = new PSwing( new JPanel() {{
                 final Font BUTTON_FONT = new PhetFont( 20 );
                 setOpaque( false );
