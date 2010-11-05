@@ -43,10 +43,10 @@ public class SimSharingServer {
                                         if ( line == null ) {
                                             break;
                                         }
-                                        if (teacherBufferedWriter !=null ){
+                                        if ( teacherBufferedWriter != null ) {
                                             teacherBufferedWriter.write( line );
                                             teacherBufferedWriter.flush();
-                                            System.out.println("wrote to teacher: "+line);
+                                            System.out.println( "wrote to teacher: " + line );
                                         }
                                     }
                                 }
@@ -69,22 +69,24 @@ public class SimSharingServer {
                         teacherSocket = teacherServerSocket.accept();
                         System.out.println( "connected to teacher" );
                         teacherBufferedWriter = new BufferedWriter( new OutputStreamWriter( teacherSocket.getOutputStream() ) );
-//                        new Thread( new Runnable() {
-//                            public void run() {
-//                                try {
-//                                    while ( true ) {
-//                                        teacherBufferedWriter.write( "hello at " + System.currentTimeMillis() );
-//                                        Thread.sleep( 1000 );
-//                                    }
-//                                }
-//                                catch ( IOException e ) {
-//                                    e.printStackTrace();
-//                                }
-//                                catch ( InterruptedException e ) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        } ).start();
+
+                        final BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( teacherSocket.getInputStream() ) );
+                        new Thread( new Runnable() {
+                            public void run() {
+                                try {
+                                    while ( true ) {
+                                        String line = bufferedReader.readLine();
+                                        System.out.println( "line = " + line );
+                                        if ( line == null ) {
+                                            break;
+                                        }
+                                    }
+                                }
+                                catch ( IOException e ) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } ).start();
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();

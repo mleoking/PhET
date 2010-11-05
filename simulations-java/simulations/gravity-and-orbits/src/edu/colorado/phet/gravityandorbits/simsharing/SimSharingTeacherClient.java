@@ -1,9 +1,7 @@
 package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 import javax.swing.*;
@@ -22,6 +20,11 @@ public class SimSharingTeacherClient {
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
         socket = new Socket( SimSharingServer.host, SimSharingServer.TEACHER_PORT );
+
+        BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
+        bufferedWriter.write( "Hello from teacher" );
+
+        System.out.println( "socket.getLocalPort() = " + socket.getLocalPort() + ", port = " + socket.getPort() );
         bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
         new Thread( new Runnable() {
             public void run() {
