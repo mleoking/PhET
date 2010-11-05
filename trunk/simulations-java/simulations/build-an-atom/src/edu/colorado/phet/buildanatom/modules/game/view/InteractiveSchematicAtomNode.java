@@ -57,11 +57,11 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode2 {
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
     }
 
-    public AtomValue getGuess() {
+    public AtomValue getAtomValue() {
         return model.getAtom().toAtomValue();
     }
 
-    public void displayAnswer( AtomValue answer ) {
+    public void setAtomValue( AtomValue answer ) {
         model.setState( answer, false );
     }
 
