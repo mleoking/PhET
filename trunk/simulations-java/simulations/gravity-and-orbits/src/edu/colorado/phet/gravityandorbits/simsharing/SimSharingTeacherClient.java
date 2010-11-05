@@ -6,7 +6,6 @@ import java.net.Socket;
 
 import javax.swing.*;
 
-import edu.colorado.phet.gravityandorbits.model.BodyState;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
@@ -20,7 +19,7 @@ public class SimSharingTeacherClient {
         final JFrame displayFrame = new JFrame();
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
-        socket = new Socket( SimSharingServer.host, SimSharingServer.TEACHER_PORT );
+        socket = new Socket( SimSharingServer.HOST, SimSharingServer.TEACHER_PORT );
 
         BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
         bufferedWriter.write( "Hello from teacher\n" );

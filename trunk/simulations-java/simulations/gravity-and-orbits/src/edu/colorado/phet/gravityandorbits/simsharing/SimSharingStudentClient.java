@@ -30,7 +30,7 @@ public class SimSharingStudentClient {
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
         final boolean[] firstTime = { true };
-        socket = new Socket( SimSharingServer.host, SimSharingServer.STUDENT_PORT );
+        socket = new Socket( SimSharingServer.HOST, SimSharingServer.STUDENT_PORT );
         objectOutputStream = new ObjectOutputStream( socket.getOutputStream() );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 
