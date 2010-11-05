@@ -1,4 +1,4 @@
-package edu.colorado.phet.neuron.view;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
