@@ -16,20 +16,20 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  */
 public class SchematicToSymbolView extends ToSymbolProblemView {
     private final SchematicAtomNode2 gameAtomModelNode;
+    public static final ModelViewTransform2D SCHEMATIC_PROBLEM_MVT = new ModelViewTransform2D(
+            new Point2D.Double( 0, 0 ),
+            new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.27 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
+            2.0,
+            true );
 
     /**
      * Constructor.
      */
     public SchematicToSymbolView( BuildAnAtomGameModel model, GameCanvas canvas, final SchematicToSymbolProblem problem ) {
         super( model, canvas, problem );
-        ModelViewTransform2D mvt = new ModelViewTransform2D(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.35 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
-                1.5,
-                true );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 
-        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) ){{
+        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
             setPickable( false );
             setChildrenPickable( false );
         }};
