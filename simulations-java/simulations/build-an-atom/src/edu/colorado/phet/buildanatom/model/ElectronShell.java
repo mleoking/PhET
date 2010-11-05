@@ -129,7 +129,7 @@ public class ElectronShell extends SimpleObservable {
         }
     }
 
-    protected void addElectron( final Electron electronToAdd ) {
+    protected void addElectron( final Electron electronToAdd, boolean animate ) {
         Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition() );
         if (shellLocation == null){
             System.err.println( getClass().getName() + " - Error: No space in shell." );
@@ -138,6 +138,11 @@ public class ElectronShell extends SimpleObservable {
         electronToAdd.setDestination( shellLocation );
         shellLocations.put( shellLocation, electronToAdd );
         electronToAdd.addListener( particleRemovalListener );
+
+        //If the particle shouldn't animate, then it should move to its destination immediately.
+        if ( !animate ) {
+            electronToAdd.moveToDestination();
+        }
         notifyObservers();
     }
 

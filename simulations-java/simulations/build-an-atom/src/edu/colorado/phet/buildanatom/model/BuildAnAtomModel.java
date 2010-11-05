@@ -87,7 +87,7 @@ public class BuildAnAtomModel {
                     // enough to the shell, and there is room, send it there.
                     // Otherwise send it to its bucket.
                     if ( atom.getRemainingElectronCapacity() > 0 && electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
-                        atom.addElectron( electron );
+                        atom.addElectron( electron ,true);
                     }
                     else {
                         electronBucket.addParticle( electron, false );
@@ -106,7 +106,7 @@ public class BuildAnAtomModel {
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
                     if ( proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
-                        atom.addProton( proton );
+                        atom.addProton( proton ,true);
                     }
                     else {
                         protonBucket.addParticle( proton, false );
@@ -125,7 +125,7 @@ public class BuildAnAtomModel {
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
                     if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
-                        atom.addNeutron( neutron );
+                        atom.addNeutron( neutron,true );
                     }
                     else {
                         neutronBucket.addParticle( neutron, false );
@@ -260,7 +260,7 @@ public class BuildAnAtomModel {
     }
 
     public void setState( AtomValue answer ) {
-        ArrayList<SubatomicParticle> removed = getAtom().setState(answer, this);// Add new particles into the atom
+        ArrayList<SubatomicParticle> removed = getAtom().setState(answer, this,true);// Add new particles into the atom
         for ( SubatomicParticle particle : removed ) {
             if ( particle instanceof Proton ) {
                 protonBucket.addParticle( particle, false );
