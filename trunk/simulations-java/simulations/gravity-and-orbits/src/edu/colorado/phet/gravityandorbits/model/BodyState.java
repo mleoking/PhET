@@ -18,4 +18,14 @@ public class BodyState {
     public double distanceSquared( ImmutableVector2D position ) {
         return this.position.getSubtractedInstance( position ).getMagnitudeSq();
     }
+
+    @Override
+    public String toString() {
+        return "BodyState{" +
+               "position=" + position +
+               ", velocity=" + velocity +
+               ", acceleration=" + acceleration +
+               ", mass=" + mass +
+               '}';
+    }
 }

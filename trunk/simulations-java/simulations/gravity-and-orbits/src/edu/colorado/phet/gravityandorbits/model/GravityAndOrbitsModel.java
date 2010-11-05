@@ -3,11 +3,15 @@
 package edu.colorado.phet.gravityandorbits.model;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 public class GravityAndOrbitsModel {
 
@@ -31,6 +35,7 @@ public class GravityAndOrbitsModel {
     public final Body moon = new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white );
 
     private final GravityAndOrbitsClock clock;
+    private ArrayList<SimpleObserver> modelStepListeners=new ArrayList<SimpleObserver>( );
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
         super();
@@ -49,6 +54,9 @@ public class GravityAndOrbitsModel {
                 planet.updateBodyStateFromModel( newState.getBodyState( 1 ) );
                 if ( moonProperty.getValue() ) {
                     moon.updateBodyStateFromModel( newState.getBodyState( 2 ) );
+                }
+                for ( SimpleObserver modelStepListener : modelStepListeners ) {
+                    modelStepListener.update();
                 }
             }
         } );
@@ -76,5 +84,9 @@ public class GravityAndOrbitsModel {
 
     public Body getMoon() {
         return moon;
+    }
+
+    public void addModelSteppedListener( SimpleObserver simpleObserver ) {
+        modelStepListeners.add(simpleObserver);
     }
 }

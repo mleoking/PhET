@@ -2,6 +2,10 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
+import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -9,6 +13,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
+import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
+import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
 /**
@@ -33,7 +39,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GravityAndOrbitsModule( JFrame parentFrame ) {
+    public GravityAndOrbitsModule( JFrame parentFrame, String[] commandLineArgs ) {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE, new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
         // Model
@@ -51,10 +57,38 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             //XXX add help items
         }
 
+        if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ))
+            try {
+                new SimSharingTeacherClient(this,parentFrame).start();
+            }
+            catch ( AWTException e ) {
+                e.printStackTrace();
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        else if (Arrays.asList( commandLineArgs ).contains( "-student" ))
+            try {
+                new SimSharingStudentClient(this,parentFrame).start();
+            }
+            catch ( AWTException e ) {
+                e.printStackTrace();
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+
         // Set initial state
         reset();
     }
 
+    public GravityAndOrbitsModel getGravityAndOrbitsModel() {
+        return model;
+    }
+
+    public GravityAndOrbitsCanvas getCanvas() {
+        return canvas;
+    }
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
