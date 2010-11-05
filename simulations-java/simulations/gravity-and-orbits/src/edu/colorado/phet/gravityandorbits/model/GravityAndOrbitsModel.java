@@ -44,7 +44,7 @@ public class GravityAndOrbitsModel {
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
-                if (teacherMode) return;
+//                if (teacherMode) return;
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
