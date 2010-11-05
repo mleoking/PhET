@@ -12,12 +12,14 @@ public class SimSharingServer {
     private final ServerSocket teacherServerSocket;
 
     public static String host = "phet-server.colorado.edu";
+//    public static String host = "localhost";
     public static final int STUDENT_PORT = 3752;
     public static final int TEACHER_PORT = 3753;
     private Socket teacherSocket;
     private BufferedWriter teacherBufferedWriter;
 
     public SimSharingServer() throws IOException {
+        System.out.println( "Started simsharing server" );
         studentServerSocket = new ServerSocket( STUDENT_PORT );
         teacherServerSocket = new ServerSocket( TEACHER_PORT );
     }
@@ -44,7 +46,7 @@ public class SimSharingServer {
                                             break;
                                         }
                                         if ( teacherBufferedWriter != null ) {
-                                            teacherBufferedWriter.write( line );
+                                            teacherBufferedWriter.write( line+"\n" );
                                             teacherBufferedWriter.flush();
                                             System.out.println( "wrote to teacher: " + line );
                                         }
