@@ -1,3 +1,10 @@
+Made the "Check" button be grayed out until the user enters an initial guess.
+Capitalized Orbits and Clouds labels
+Reversed order of the charge pair indicator so that it matches legend
+Changed the nucleus configuration algorithm so that protons are easier to count (works better in game).
+Made the Neutral Atom / Ion selector in the game only appear after the user had selected something in the periodic table.
+Added label "Is it:" to the Neutral Atom / Ion selector in the game.
+Various internal refactorings.
 # 1.00.03 (45709) Nov 3, 2010
 11/3/10 Publishing version to dev for internal review
 Fixed: Neutral Atom / Ion on the "Element" view was not being correctly updated on "Show Answer".
