@@ -406,7 +406,6 @@ public class Atom extends SimpleObservable{
                 else {
                     // Move out to the next radius.
                     level++;
-                    System.out.println("Moving to new level, level = " + level);
                     placementRadius += nucleonRadius * 1.3 / level;
                     placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
