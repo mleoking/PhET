@@ -350,7 +350,6 @@ public class Atom extends SimpleObservable{
                 nucleons.add( neutrons.get( i ) );
             }
         }
-        Collections.reverse( nucleons );
 
         if ( nucleons.size() == 0 ) {
             // Nothing to do.
@@ -362,12 +361,13 @@ public class Atom extends SimpleObservable{
             nucleons.get( 0 ).setDestination( getPosition() );
         }
         else if ( nucleons.size() == 2 ) {
+            // Two nucleons - place them side by side with their meeting point in the center.
             double angle = RAND.nextDouble() * 2 * Math.PI;
             nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
             nucleons.get( 1 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
         }
         else if ( nucleons.size() == 3 ) {
-            // Form a triangle where they all touch.
+            // Three nucleons - form a triangle where they all touch.
             double angle = RAND.nextDouble() * 2 * Math.PI;
             double distFromCenter = nucleonRadius * 1.155;
             nucleons.get( 0 ).setDestination( distFromCenter * Math.cos( angle ), distFromCenter * Math.sin( angle ) );
@@ -377,6 +377,7 @@ public class Atom extends SimpleObservable{
                     distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) );
         }
         else if ( nucleons.size() == 4 ) {
+            // Four nucleons - make a sort of diamond shape with some overlap.
             double angle = RAND.nextDouble() * 2 * Math.PI;
             nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
             nucleons.get( 1 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
@@ -405,8 +406,8 @@ public class Atom extends SimpleObservable{
                 else {
                     // Move out to the next radius.
                     level++;
+                    System.out.println("Moving to new level, level = " + level);
                     placementRadius += nucleonRadius * 1.3 / level;
-                    //                    placementAngle = RAND.nextDouble() * Math.PI / 4; // Initialize to a random angle.
                     placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
@@ -415,6 +416,7 @@ public class Atom extends SimpleObservable{
 
             // Shuffle the location of some of the nucleons in order to
             // minimize the appearance of "clumpiness".
+            /*
             for ( int i = 0; i < nucleons.size() / 2; i++ ) {
                 Proton mostClumpedProton = null;
                 for ( Proton proton : protons ) {
@@ -435,6 +437,7 @@ public class Atom extends SimpleObservable{
                     swap(nucleons, nucleons.indexOf( mostClumpedProton ), nucleons.indexOf( mostClumpedNeutron ) );
                 }
             }
+            */
 
             // TODO: There are several different attempts at reducing the
             // clumpiness that are commented out below.  This should be
