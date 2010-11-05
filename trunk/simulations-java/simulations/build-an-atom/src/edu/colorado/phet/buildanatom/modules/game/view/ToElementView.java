@@ -64,7 +64,7 @@ public abstract class ToElementView extends ProblemView {
 
     @Override
     protected AtomValue getGuess() {
-        boolean userGuessMatchesAnswerNeutrality = gamePeriodicTable.isGuessNeutral() == getProblem().getAnswer().isNeutral();
+        boolean userGuessMatchesAnswerNeutrality = gamePeriodicTable.doesAtomChargeMatchGuess( getProblem().getAnswer() );
         return new AtomValue( gamePeriodicTable.getGuessedNumberProtons(),
                               getProblem().getAnswer().getNeutrons(),
                               userGuessMatchesAnswerNeutrality ? getProblem().getAnswer().getElectrons() ://if they guessed the right neutrality, assume they got the number of electrons right
@@ -85,9 +85,10 @@ public abstract class ToElementView extends ProblemView {
     }
 
     private static class GamePeriodicTable extends PNode {
+        private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION};
         final int[] numProtons = new int[] { 0 };//use an array because the reference must be final
         private final Atom atom;
-        private final Property<Boolean> guessNeutralProperty = new Property<Boolean>( true );
+        private final Property<ChargeGuess> chargeGuessProperty = new Property<ChargeGuess>( ChargeGuess.UNANSWERED );
         private final PNode selectNeutralOrIonTypeNode;
 
         private GamePeriodicTable() {
@@ -102,13 +103,13 @@ public abstract class ToElementView extends ProblemView {
                     setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                     final SimpleObserver updateSelected = new SimpleObserver() {
                         public void update() {
-                            setSelected( guessNeutralProperty.getValue() );
+                            setSelected( chargeGuessProperty.getValue() == ChargeGuess.NEUTRAL_ATOM );
                         }
                     };
-                    guessNeutralProperty.addObserver( updateSelected );
+                    chargeGuessProperty.addObserver( updateSelected );
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            guessNeutralProperty.setValue( true );
+                            chargeGuessProperty.setValue( ChargeGuess.NEUTRAL_ATOM );
                             updateSelected.update();
                         }
                     } );
@@ -119,13 +120,13 @@ public abstract class ToElementView extends ProblemView {
                     setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                     final SimpleObserver updateSelected = new SimpleObserver() {
                         public void update() {
-                            setSelected( !guessNeutralProperty.getValue() );
+                            setSelected( chargeGuessProperty.getValue() == ChargeGuess.ION );
                         }
                     };
-                    guessNeutralProperty.addObserver( updateSelected );
+                    chargeGuessProperty.addObserver( updateSelected );
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            guessNeutralProperty.setValue( false );
+                            chargeGuessProperty.setValue( ChargeGuess.ION );
                             updateSelected.update();
                         }
                     } );
@@ -185,12 +186,23 @@ public abstract class ToElementView extends ProblemView {
             atom.notifyObservers();
         }
 
-        public boolean isGuessNeutral() {
-            return guessNeutralProperty.getValue();
+        public boolean doesAtomChargeMatchGuess( AtomValue atomValue ) {
+            if ( chargeGuessProperty.getValue() == ChargeGuess.UNANSWERED ) {
+                return false;
+            }
+            return ( atomValue.isNeutral() && chargeGuessProperty.getValue() == ChargeGuess.NEUTRAL_ATOM ) || ( !atomValue.isNeutral() && chargeGuessProperty.getValue() == ChargeGuess.ION );
         }
 
         public void setGuessNeutral( boolean isNeutral ){
-            guessNeutralProperty.setValue( isNeutral );
+            // This assumes that the guess is being set to something other
+            // than UNANSWERED.
+            if ( isNeutral ){
+                chargeGuessProperty.setValue( ChargeGuess.NEUTRAL_ATOM );
+            }
+            else{
+                chargeGuessProperty.setValue( ChargeGuess.ION );
+            }
+            // Display the selector node in case it isn't already visible.
             selectNeutralOrIonTypeNode.setVisible( true );
         }
     }
