@@ -1,17 +1,15 @@
 package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.gravityandorbits.model.BodyState;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
@@ -23,52 +21,71 @@ public class SimSharingStudentClient {
     private final Socket socket;
 //    private final BufferedWriter bufferedWriter;
     private ObjectOutputStream objectOutputStream;
+    private GravityAndOrbitsModule module;
 
     public SimSharingStudentClient( final GravityAndOrbitsModule module, final JFrame parentFrame ) throws AWTException, IOException {
+        this.module = module;
         final Robot robot = new Robot();
         final JFrame displayFrame = new JFrame();
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
         final boolean[] firstTime = { true };
         socket = new Socket( SimSharingServer.host, SimSharingServer.STUDENT_PORT );
-        objectOutputStream = new ObjectOutputStream(socket.getOutputStream() );
+        objectOutputStream = new ObjectOutputStream( socket.getOutputStream() );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 
         module.getGravityAndOrbitsModel().addModelSteppedListener( new SimpleObserver() {
             public void update() {
-                count++;
-                if ( count % N == 0 ) {
-                    new Thread( new Runnable() {
-                        public void run() {
-                            BufferedImage bufferedImage = robot.createScreenCapture( parentFrame.getBounds() );
-                            System.out.println( "robot received image: " + bufferedImage );
-                            contentPane.setIcon( new ImageIcon( bufferedImage ) );
-                            if ( firstTime[0] ) {
-                                displayFrame.pack();
-                                displayFrame.setVisible( true );
-                                firstTime[0] = false;
-                            }
-                            BodyState bodyState = module.getGravityAndOrbitsModel().getPlanet().toBodyState();
-                            sendToServer( bodyState );
-                        }
-                    } ).start();
-                }
+                updateSharing();
             }
         } );
+        new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( module.getGravityAndOrbitsModel().getClock().isPaused() ) {
+                    updateSharing();
+                }
+            }
+        } ).start();
     }
+
+    private void updateSharing() {
+        //                System.out.println( "In update" );
+        if ( count % N == 0 ) {
+//                    System.out.println( "mod = true" );
+//                    new Thread( new Runnable() {
+//                        public void run() {
+//                            BufferedImage bufferedImage = robot.createScreenCapture( parentFrame.getBounds() );
+//                            System.out.println( "robot received image: " + bufferedImage );
+//                            contentPane.setIcon( new ImageIcon( bufferedImage ) );
+//                            if ( firstTime[0] ) {
+//                                displayFrame.pack();
+//                                displayFrame.setVisible( true );
+//                                firstTime[0] = false;
+//                            }
+            GravityAndOrbitsState state = module.getState();
+            System.out.println( "got body state" );
+            sendToServer( state );
+//                        }
+//                    } ).start();
+        }
+        count++;
+    }
+
     String mymonitor = "hello";
 
-    private void sendToServer( BodyState bodyState ) {
-        synchronized(mymonitor){
-        try {
-            objectOutputStream.writeObject( bodyState );
-            objectOutputStream.flush();
+    private void sendToServer( GravityAndOrbitsState state ) {
+        System.out.println( "About to deliver message: " + state );
+        synchronized ( mymonitor ) {
+            try {
+                objectOutputStream.writeObject( state );
+                objectOutputStream.flush();
+                System.out.println( "delivered message: " + state );
 //            bufferedWriter.write( bodyState.toString() + "\n" );
 //            bufferedWriter.flush();
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
         }
     }
 

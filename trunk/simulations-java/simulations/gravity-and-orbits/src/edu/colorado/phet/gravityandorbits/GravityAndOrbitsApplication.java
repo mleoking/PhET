@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits;
 
+import java.util.Arrays;
+
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -35,22 +37,11 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
      */
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        initModules(config);
-        initMenubar();
-    }
-
-    //----------------------------------------------------------------------------
-    // Initialization
-    //----------------------------------------------------------------------------
-
-    /*
-     * Initializes the modules.
-     */
-
-    private void initModules( PhetApplicationConfig config ) {
-        addModule( new GravityAndOrbitsModule( getPhetFrame() ,config.getCommandLineArgs()) {{
+        addModule( new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() ) {{
             getModulePanel().setLogoPanel( null );
         }} );
+        initMenubar();
+        getPhetFrame().setTitle( config.getName()+": "+ Arrays.toString(config.getCommandLineArgs() ));//simsharing
     }
 
     /*
