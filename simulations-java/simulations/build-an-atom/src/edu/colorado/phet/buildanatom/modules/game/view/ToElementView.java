@@ -1,9 +1,12 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import JSci.maths.vectors.Complex2Vector;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -38,6 +41,11 @@ public abstract class ToElementView extends ProblemView {
     private final GamePeriodicTable gamePeriodicTable = new GamePeriodicTable() {{
         setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth()*0.715 - getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.getHeight()/2-getFullBounds().getHeight()/2 );
         scale( 1.2 );
+        super.addJRadioButtonListener(new SimpleObserver(){
+            public void update() {
+                enableCheckButton();
+            }
+        });
     }};
 
     /**
@@ -85,6 +93,12 @@ public abstract class ToElementView extends ProblemView {
     }
 
     private static class GamePeriodicTable extends PNode {
+        private ArrayList<SimpleObserver> jradioButtonListeners=new ArrayList<SimpleObserver>( );
+
+        public void addJRadioButtonListener( SimpleObserver simpleObserver ) {
+            jradioButtonListeners.add(simpleObserver);
+        }
+
         private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION};
         final int[] numProtons = new int[] { 0 };//use an array because the reference must be final
         private final Atom atom;
@@ -111,6 +125,7 @@ public abstract class ToElementView extends ProblemView {
                         public void actionPerformed( ActionEvent e ) {
                             chargeGuessProperty.setValue( ChargeGuess.NEUTRAL_ATOM );
                             updateSelected.update();
+                            notifyRadioButtonPressed();
                         }
                     } );
                 }} );
@@ -128,6 +143,7 @@ public abstract class ToElementView extends ProblemView {
                         public void actionPerformed( ActionEvent e ) {
                             chargeGuessProperty.setValue( ChargeGuess.ION );
                             updateSelected.update();
+                            notifyRadioButtonPressed();
                         }
                     } );
                 }} );
@@ -175,6 +191,12 @@ public abstract class ToElementView extends ProblemView {
             selectNeutralOrIonTypeNode.setOffset(
                     periodicTableNode.getFullBoundsReference().getCenterX() - selectNeutralOrIonTypeNode.getFullBoundsReference().width / 2,
                     periodicTableNode.getFullBoundsReference().getMaxY() + 10 );
+        }
+
+        private void notifyRadioButtonPressed() {
+            for ( SimpleObserver jradioButtonListener : jradioButtonListeners ) {
+                jradioButtonListener.update();
+            }
         }
 
         public int getGuessedNumberProtons() {

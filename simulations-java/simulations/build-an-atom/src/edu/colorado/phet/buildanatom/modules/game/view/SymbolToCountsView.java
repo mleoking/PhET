@@ -38,6 +38,11 @@ public class SymbolToCountsView extends ProblemView {
 
         multiEntryPanel = new MultiEntryPanel(  );
         multiEntryPanel.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width *3/ 4 - multiEntryPanel.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - multiEntryPanel.getFullBounds().getHeight() / 2 );
+        multiEntryPanel.addChangeListener(new ChangeListener(){
+            public void stateChanged( ChangeEvent e ) {
+                enableCheckButton();
+            }
+        });
 
         description.centerAbove(multiEntryPanel);
     }
@@ -82,6 +87,17 @@ public class SymbolToCountsView extends ProblemView {
             protonEntryPanel.setEditable( false );
             neutronEntryPanel.setEditable( false );
             electronEntryPanel.setEditable(false);
+        }
+
+        public void addChangeListener( final ChangeListener changeListener ) {
+            final SimpleObserver observer = new SimpleObserver() {
+                public void update() {
+                    changeListener.stateChanged( null );
+                }
+            };
+            protonGuess.addObserver( observer, false );
+            neutronGuess.addObserver( observer, false );
+            electronGuess.addObserver( observer, false );
         }
     }
 
