@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  * @author John Blanco
  */
-public class SchematicAtomNode2 extends PNode {
+public class SchematicAtomNode extends PNode {
 
     // The number of layers upon which particles can be placed.  The number
     // was determined empirically and can be adjusted if needed.
@@ -42,7 +42,7 @@ public class SchematicAtomNode2 extends PNode {
     protected final PNode backLayer;
     protected final PNode frontLayer;
 
-    public SchematicAtomNode2( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
+    public SchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
         this.model = model;
 
         backLayer = new PNode( );

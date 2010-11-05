@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  * TODO: consolidate this with SchematicAtomNode, could be a subclass that adds interactivity, or a constructor arg interactive:Boolean
  * @author Sam Reid
  */
-public class InteractiveSchematicAtomNode extends SchematicAtomNode2 {
+public class InteractiveSchematicAtomNode extends SchematicAtomNode {
 
 
     /**
