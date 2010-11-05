@@ -29,7 +29,10 @@ public class SchematicToSymbolView extends ToSymbolProblemView {
                 true );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 
-        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) );
+        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) ){{
+            setPickable( false );
+            setChildrenPickable( false );
+        }};
     }
 
     @Override
