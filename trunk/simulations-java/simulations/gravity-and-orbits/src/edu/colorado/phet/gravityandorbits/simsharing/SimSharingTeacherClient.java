@@ -22,7 +22,8 @@ public class SimSharingTeacherClient {
         socket = new Socket( SimSharingServer.host, SimSharingServer.TEACHER_PORT );
 
         BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
-        bufferedWriter.write( "Hello from teacher" );
+        bufferedWriter.write( "Hello from teacher\n" );
+        bufferedWriter.flush();
 
         System.out.println( "socket.getLocalPort() = " + socket.getLocalPort() + ", port = " + socket.getPort() );
         bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
