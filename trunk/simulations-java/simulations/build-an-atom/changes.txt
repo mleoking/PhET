@@ -1,3 +1,5 @@
+# 1.00.04 (45774) Nov 5, 2010
+11/5/10 Deploying for upcoming interviews.
 Made the "Check" button be grayed out until the user enters an initial guess.
 Capitalized Orbits and Clouds labels
 Reversed order of the charge pair indicator so that it matches legend
