@@ -4,6 +4,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
@@ -128,4 +131,14 @@ public class InteractiveSymbolNode extends PNode {
         chargeProperty.setValue( answer.getCharge() );
     }
 
+    public void addChangeListener( final ChangeListener changeListener ) {
+        final SimpleObserver observer = new SimpleObserver() {
+            public void update() {
+                changeListener.stateChanged( null );
+            }
+        };
+        massProperty.addObserver( observer, false );
+        protonCountProperty.addObserver( observer, false );
+        chargeProperty.addObserver( observer, false );
+    }
 }

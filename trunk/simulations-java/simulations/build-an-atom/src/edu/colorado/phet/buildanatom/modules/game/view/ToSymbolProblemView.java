@@ -1,5 +1,8 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
@@ -22,6 +25,11 @@ public class ToSymbolProblemView extends ProblemView {
         super( model, canvas, problem);
 
         interactiveSymbolNode = new InteractiveSymbolNode( true, true );
+        interactiveSymbolNode.addChangeListener(new ChangeListener(){
+            public void stateChanged( ChangeEvent e ) {
+                enableCheckButton();
+            }
+        });
         interactiveSymbolNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width * 0.75 - interactiveSymbolNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - interactiveSymbolNode.getFullBounds().getHeight() / 2 );

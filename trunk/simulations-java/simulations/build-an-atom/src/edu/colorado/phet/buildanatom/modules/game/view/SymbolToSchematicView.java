@@ -11,6 +11,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SymbolToSchematicProblem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 /**
@@ -27,11 +28,19 @@ public class SymbolToSchematicView extends ProblemView {
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
-        interactiveSchematicAtomNode=new InteractiveSchematicAtomNode(new BuildAnAtomModel( getClock() ){{reset();}}, new ModelViewTransform2D(
+        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{reset();}};
+        interactiveSchematicAtomNode=new InteractiveSchematicAtomNode( buildAnAtomModel, new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.70 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
                 1.5,
                 true ), new BooleanProperty( true) );
+        buildAnAtomModel.getAtom().addObserver( new SimpleObserver() {
+            public void update() {
+                if ( buildAnAtomModel.getAtom().getNumParticles() > 0 ) {
+                    enableCheckButton();
+                }
+            }
+        } );
         description.centerAbove( interactiveSchematicAtomNode );
     }
 
