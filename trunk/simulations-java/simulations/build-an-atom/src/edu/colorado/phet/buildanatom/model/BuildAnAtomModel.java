@@ -30,9 +30,9 @@ public class BuildAnAtomModel {
 
     // Constants that define the number of sub-atomic particles that exist
     // within the sim.
-    private static final int NUM_ELECTRONS = 10;
-    private static final int NUM_PROTONS = 10;
-    private static final int NUM_NEUTRONS = 13;
+    private static final int DEFAULT_NUM_ELECTRONS = 10;
+    private static final int DEFAULT_NUM_PROTONS = 10;
+    private static final int DEFAULT_NUM_NEUTRONS = 13;
 
     // Constants that define the size, position, and appearance of the buckets.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
@@ -70,6 +70,10 @@ public class BuildAnAtomModel {
     //----------------------------------------------------------------------------
 
     public BuildAnAtomModel( BuildAnAtomClock clock ) {
+        this( clock, new AtomValue( DEFAULT_NUM_PROTONS, DEFAULT_NUM_NEUTRONS, DEFAULT_NUM_ELECTRONS ) );
+    }
+
+    public BuildAnAtomModel( BuildAnAtomClock clock, AtomValue atomValue ) {
         super();
 
         this.clock = clock;
@@ -77,7 +81,7 @@ public class BuildAnAtomModel {
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ) );
 
-        for ( int i = 0; i < NUM_ELECTRONS; i++ ) {
+        for ( int i = 0; i < atomValue.getElectrons(); i++ ) {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
             electron.addListener( new SubatomicParticle.Adapter() {
@@ -96,7 +100,7 @@ public class BuildAnAtomModel {
             } );
         }
 
-        for ( int i = 0; i < NUM_PROTONS; i++ ) {
+        for ( int i = 0; i < atomValue.getProtons(); i++ ) {
             final Proton proton = new Proton( clock );
             protons.add( proton );
             proton.addListener( new SubatomicParticle.Adapter() {
@@ -115,7 +119,7 @@ public class BuildAnAtomModel {
             } );
         }
 
-        for ( int i = 0; i < NUM_NEUTRONS; i++ ) {
+        for ( int i = 0; i < atomValue.getNeutrons(); i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
             neutron.addListener( new SubatomicParticle.Adapter() {
@@ -259,7 +263,7 @@ public class BuildAnAtomModel {
         return null;
     }
 
-    public void setState( AtomValue answer,boolean moveImmediately ) {
+    public void setState( AtomValue answer, boolean moveImmediately ) {
         ArrayList<SubatomicParticle> removed = getAtom().setState( answer, this, moveImmediately );// Add new particles into the atom
         for ( SubatomicParticle particle : removed ) {
             if ( particle instanceof Proton ) {

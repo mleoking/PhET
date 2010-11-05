@@ -1,11 +1,10 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SchematicToSymbolProblem;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -16,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  * @author John Blanco
  */
 public class SchematicToSymbolView extends ToSymbolProblemView {
-    private SchematicAtomNode2 gameAtomModelNode;
+    private final SchematicAtomNode2 gameAtomModelNode;
 
     /**
      * Constructor.
@@ -28,7 +27,7 @@ public class SchematicToSymbolView extends ToSymbolProblemView {
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.35 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
                 1.5,
                 true );
-        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{
+        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer() ) {{
             reset();
             setState( problem.getAnswer(), true );
         }};
