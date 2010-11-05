@@ -5,6 +5,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -23,8 +25,13 @@ public class SchematicToElementView extends ToElementView {
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.35 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
                 1.5,
                 true );
-
-        gameAtomModelNode = new SchematicAtomNode2( new BuildAnAtomModel( getClock() ){{reset();}}, mvt, new BooleanProperty( true ) );
+        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{
+            reset();
+            //Configure the build an atom model to reflect the AtomValue answer
+            getAtom().setState( problem.getAnswer(), this, false );
+        }};
+        
+        gameAtomModelNode = new SchematicAtomNode2( buildAnAtomModel, mvt, new BooleanProperty( true ) );
     }
 
     @Override

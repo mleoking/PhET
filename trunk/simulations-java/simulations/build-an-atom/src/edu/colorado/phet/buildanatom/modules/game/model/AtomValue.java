@@ -67,13 +67,13 @@ public class AtomValue {
         }
         Atom atom = new Atom( new Point2D.Double( 0, 0 ));
         for ( int i = 0; i < protons; i++ ) {
-            atom.addProton( new Proton( clock ) );
+            atom.addProton( new Proton( clock ) ,false );
         }
         for ( int i = 0; i < neutrons; i++ ) {
-            atom.addNeutron( new Neutron( clock ) );
+            atom.addNeutron( new Neutron( clock ),false );
         }
         for ( int i = 0; i < electrons; i++ ) {
-            atom.addElectron( new Electron( clock ) );
+            atom.addElectron( new Electron( clock ),false );
         }
         return atom;
     }
