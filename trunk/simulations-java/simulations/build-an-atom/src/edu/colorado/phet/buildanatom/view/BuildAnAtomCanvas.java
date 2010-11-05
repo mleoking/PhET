@@ -56,7 +56,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final MaximizeControlNode chargeWindow;
 
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructor(s)
     //----------------------------------------------------------------------------
 
     public BuildAnAtomCanvas( final BuildAnAtomModel model ) {
@@ -194,19 +194,16 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         resetWindowMaximization();
     }
 
+    //----------------------------------------------------------------------------
+    // Methods
+    //----------------------------------------------------------------------------
+
     private void resetWindowMaximization() {
         elementIndicatorWindow.setMaximized( true );
         symbolWindow.setMaximized( false );
         massWindow.setMaximized( false );
         chargeWindow.setMaximized( false );
     }
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
 
     /*
      * Updates the layout of stuff on the canvas.
