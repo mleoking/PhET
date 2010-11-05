@@ -1,7 +1,5 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import JSci.maths.vectors.Complex2Vector;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
