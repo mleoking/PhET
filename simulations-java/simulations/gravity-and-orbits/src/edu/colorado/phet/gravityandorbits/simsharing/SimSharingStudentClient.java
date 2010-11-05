@@ -18,7 +18,7 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  * @author Sam Reid
  */
 public class SimSharingStudentClient {
-    int N = 100;
+    int N = 1;
     int count = 0;
     private final Socket socket;
 //    private final BufferedWriter bufferedWriter;
@@ -56,8 +56,10 @@ public class SimSharingStudentClient {
             }
         } );
     }
+    String mymonitor = "hello";
 
     private void sendToServer( BodyState bodyState ) {
+        synchronized(mymonitor){
         try {
             objectOutputStream.writeObject( bodyState );
             objectOutputStream.flush();
@@ -66,6 +68,7 @@ public class SimSharingStudentClient {
         }
         catch ( IOException e ) {
             e.printStackTrace();
+        }
         }
     }
 
