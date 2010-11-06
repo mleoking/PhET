@@ -1,3 +1,4 @@
+Changed maximum mass from 30 to 50 in interactive symbol for game modes to support P, S, Cl, Ar
 Added more vertical space between periodic table and neutral atom/ion radio buttons in game modes
 Fixed capitalization for text "Is It:"
 # 1.00.05 (45778) Nov 5, 2010
