@@ -77,7 +77,7 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        final ValueNode massValueNode=new ValueNode( massProperty, 0, 30, 1, ValueNode.DEFAULT_SPINNER_FONT,
+        final ValueNode massValueNode=new ValueNode( massProperty, 0, 50, 1, ValueNode.DEFAULT_SPINNER_FONT,
                 ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
