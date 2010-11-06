@@ -124,7 +124,7 @@ public class PhotonCloudCollisionModel {
         }
 
         result.setComponents( (float) xt, (float) yt );
-        return new Vector2D(result.getNormalizedInstance());
+        return new Vector2D( result.getY(), -result.getX() );
     }
 
 
