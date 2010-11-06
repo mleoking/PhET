@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -19,7 +19,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class PeriodicTableNode extends PNode {
-    public PeriodicTableNode( final Atom atom ) {
+
+    public PeriodicTableNode( final IAtom atom ) {
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
@@ -53,7 +54,7 @@ public class PeriodicTableNode extends PNode {
 //        }} );
     }
 
-    private void addElement( final Atom atom, final PNode table, int atomicNumber ) {
+    private void addElement( final IAtom atom, final PNode table, int atomicNumber ) {
         ElementCell elementCell = new ElementCell( atom, atomicNumber );
         final Point gridPoint = getGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
@@ -147,7 +148,7 @@ public class PeriodicTableNode extends PNode {
     public class ElementCell extends PNode {
         private final int atomicNumber;
 
-        public ElementCell( final Atom atom, final int atomicNumber ) {
+        public ElementCell( final IAtom atom, final int atomicNumber ) {
             this.atomicNumber = atomicNumber;
             final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), BuildAnAtomConstants.CANVAS_BACKGROUND, new BasicStroke( 1 ), Color.black );
             addChild( box );

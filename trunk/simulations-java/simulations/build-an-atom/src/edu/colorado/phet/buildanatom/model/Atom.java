@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * information such as the position of the atom, as well as dynamic
  * information such as the number of protons present.
  */
-public class Atom extends SimpleObservable{
+public class Atom extends SimpleObservable implements IAtom{
 
     private static final Random RAND = new Random();
 

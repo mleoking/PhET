@@ -3,7 +3,6 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -12,7 +11,6 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -92,14 +90,8 @@ public abstract class ToElementView extends ProblemView {
 
     private static class GamePeriodicTable extends PNode {
         private ArrayList<SimpleObserver> jradioButtonListeners=new ArrayList<SimpleObserver>( );
-
-        public void addJRadioButtonListener( SimpleObserver simpleObserver ) {
-            jradioButtonListeners.add(simpleObserver);
-        }
-
         private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION};
-        final int[] numProtons = new int[] { 0 };//use an array because the reference must be final
-        private final Atom atom;
+        private final SimpleAtom atom = new SimpleAtom();
         private final Property<ChargeGuess> chargeGuessProperty = new Property<ChargeGuess>( ChargeGuess.UNANSWERED );
         private final PNode selectNeutralOrIonTypeNode;
 
@@ -161,15 +153,6 @@ public abstract class ToElementView extends ProblemView {
             // user makes a selection in the periodic table.
             selectNeutralOrIonTypeNode.setVisible( false );
 
-            //TODO: this is too sneaky and should be rewritten
-            //We should rewrite ElementIndicatorNode to use something more general than Atom, so it can use a large number of protons without creating and deleting Proton instances
-            atom = new Atom( new Point2D.Double() ) {
-                @Override
-                public int getNumProtons() {
-                    return numProtons[0];//Trick the ElementIndicatorNode into thinking there are numProtons[0] protons.
-                }
-            };
-
             PNode periodicTableNode = new PeriodicTableNode( atom ) {
                 @Override
                 protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
@@ -198,12 +181,11 @@ public abstract class ToElementView extends ProblemView {
         }
 
         public int getGuessedNumberProtons() {
-            return numProtons[0];
+            return atom.getNumProtons();
         }
 
         public void displayNumProtons( int protons ) {
-            numProtons[0] = protons;
-            atom.notifyObservers();
+            atom.setNumProtons( protons );
         }
 
         public boolean doesAtomChargeMatchGuess( AtomValue atomValue ) {
@@ -224,6 +206,10 @@ public abstract class ToElementView extends ProblemView {
             }
             // Display the selector node in case it isn't already visible.
             selectNeutralOrIonTypeNode.setVisible( true );
+        }
+
+        public void addJRadioButtonListener( SimpleObserver simpleObserver ) {
+            jradioButtonListeners.add(simpleObserver);
         }
     }
 }
