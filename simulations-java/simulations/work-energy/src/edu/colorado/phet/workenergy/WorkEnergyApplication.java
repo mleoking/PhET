@@ -12,7 +12,7 @@ public class WorkEnergyApplication extends PiccoloPhetApplication {
         super( config );
 
         addModule( new EnergyModule( getPhetFrame() ) );
-        addModule( new WorkModule( getPhetFrame() ) );
+//        addModule( new WorkModule( getPhetFrame() ) );
     }
 
     public static void main( String[] args ) {

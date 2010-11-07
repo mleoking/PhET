@@ -103,4 +103,16 @@ public class WorkEnergyObject {
         snapshot.appliedWork.setValue( appliedWork.getValue() );
         return snapshot;
     }
+
+    public void translate( double dx, double dy ) {
+        position.setValue( new ImmutableVector2D( getX() + dx, getY() + dy ) );
+    }
+
+    private double getY() {
+        return getPositionProperty().getValue().getY();
+    }
+
+    private double getX() {
+        return getPositionProperty().getValue().getX();
+    }
 }
