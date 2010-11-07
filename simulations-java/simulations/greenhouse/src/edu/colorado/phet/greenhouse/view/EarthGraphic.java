@@ -223,10 +223,12 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         public Color getColor( double x, double y ) {
             try {
                 Point2D dstPoint = getTransform().createInverse().transform( new Point2D.Double( x, y ), null );
-                Graphics2D g2 = image.createGraphics();
-                g2.setPaint( Color.green );
-                g2.fillOval( (int) dstPoint.getX(), (int) dstPoint.getY(), 2, 2 );
-                g2.dispose();
+
+                //This block of code helps debug the x,y, photon location.
+//                Graphics2D g2 = image.createGraphics();
+//                g2.setPaint( Color.green );
+//                g2.fillOval( (int) dstPoint.getX(), (int) dstPoint.getY(), 2, 2 );
+//                g2.dispose();
 
                 final int x1 = (int) dstPoint.getX();
                 final int y1 = (int) dstPoint.getY();
