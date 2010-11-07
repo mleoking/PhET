@@ -76,6 +76,10 @@ public class ImageGraphic implements Graphic, ImageObserver {
         g2.drawImage( image, imageTx, this );
     }
 
+    public AffineTransform getImageTx() {
+        return imageTx;
+    }
+
     public BufferedImage getBufferedImage() {
         return this.image;
     }

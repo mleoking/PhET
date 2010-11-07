@@ -65,6 +65,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     private boolean isVisible;
     private double directionOfTravel = Double.POSITIVE_INFINITY;
     private static boolean scaleChanged = false;
+    private Point2D drawLocation=new Point2D.Double(  );
 
     public PhotonGraphic( Photon photon ) {
         this.photon = photon;
@@ -72,6 +73,11 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         isVisible = true;
 
         this.update();
+    }
+
+    //Provides a means for determining the global (i.e. canvas coordinate frame = pixels) for usage with ice collisions
+    public Point2D getGlobalCenter2D(){
+        return drawLocation;
     }
 
     public void update() {
@@ -83,7 +89,21 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
             if ( photonImage != null ) {
                 removeGraphic( photonImage );
             }
-            photonImage = new ImageGraphic( photon.getWavelength() > 6E-7 ? redImage : yellowImage, position );
+            photonImage = new ImageGraphic( photon.getWavelength() > 6E-7 ? redImage : yellowImage, position ){
+                @Override
+                public void paint( Graphics2D g2 ) {
+                    AffineTransform at = new AffineTransform( g2.getTransform() );
+                    super.paint( g2 );
+                    at.concatenate( new AffineTransform( getImageTx() ) );
+                    try {
+                         //Keep track of the photon location for ice scattering
+                        drawLocation.setLocation( at.transform( new Point2D.Double( getImage().getWidth( null ) / 2, getImage().getHeight( null ) / 2 ), null ) );
+                    }
+                    catch ( Exception e ) {
+                        e.printStackTrace();
+                    }
+                }
+            };
             this.addGraphic( photonImage, 0 );
         }
 
