@@ -44,7 +44,7 @@ public class GreenhouseEffectModel {
 		    }
 		});
 	}
-	
+
 	private void stepInTime(double dt){
 		
 		if (photon == null){
