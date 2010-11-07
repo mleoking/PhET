@@ -1,5 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.components.DensityHBox;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
@@ -10,7 +10,7 @@ import mx.containers.Grid;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 
-public class IntroFluidDensityControl extends DensityVBox {
+public class IntroFluidDensityControl extends DensityHBox {
     private var grid: Grid = new Grid();
 
     private var GROUP: String = "fluid.controls.intro";
