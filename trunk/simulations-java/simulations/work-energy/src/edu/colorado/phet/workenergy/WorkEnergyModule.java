@@ -21,11 +21,9 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
     public WorkEnergyModule( PhetFrame phetFrame, String title, final ModelType model ) {
         super( title, new ConstantDtClock( 30, 1.0 ) );
         this.model = model;
-        ModelViewTransform2D transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, 1, 1 ) );
-        WorkEnergyObjectNode node = new WorkEnergyObjectNode( model.getObject(), transform );
-        final PhetPCanvas panel = new PhetPCanvas();
-        panel.addScreenChild( node );
-        setSimulationPanel( panel );
+        WorkEnergyCanvas energyCanvas = new WorkEnergyCanvas(model);
+
+        setSimulationPanel( energyCanvas );
         setControlPanel( new WorkEnergyControlPanel() );
 
         getClock().addClockListener( new ClockAdapter() {
