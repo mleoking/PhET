@@ -1,3 +1,4 @@
+Buoyancy: Made fluid radio button control horizontal instead of vertical
 # 1.02.04 (45522) Oct 28, 2010
 Density: fixed a nullpointer exception on mode switches
 Added a "water/oil" control to the introduction tab
