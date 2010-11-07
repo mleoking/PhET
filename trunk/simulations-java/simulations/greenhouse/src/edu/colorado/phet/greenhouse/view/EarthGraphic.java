@@ -7,16 +7,14 @@
  */
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
+import java.util.HashMap;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
@@ -40,7 +38,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private Rectangle2D.Double modelBounds;
     private static int numRedsToAve = 20;
     int[] redsToAve = new int[numRedsToAve];
-    private ImageGraphic backdropGraphic;
+    private GreenhouseBackgroundImageGraphic backdropGraphic;
     private DiskGraphic disk;
     private Color earthBaseColor = new Color( 0, 180, 100 );
     private boolean isIceAge;
@@ -48,15 +46,16 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
     private BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
     private BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
-    private Point2D.Double pUtil = new Point2D.Double();
     private double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
+    private HashMap photonToGraphicsMap;
 
     /**
      * @param apparatusPanel
      * @param earth
      * @param modelBounds
      */
-    public EarthGraphic( ApparatusPanel apparatusPanel, Earth earth, final Rectangle2D.Double modelBounds ) {
+    public EarthGraphic( ApparatusPanel apparatusPanel, Earth earth, final Rectangle2D.Double modelBounds,HashMap photonToGraphicsMap) {
+        this.photonToGraphicsMap = photonToGraphicsMap;
         this.apparatusPanel = apparatusPanel;
         this.earth = earth;
         this.modelBounds = modelBounds;
@@ -167,7 +166,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
         if ( backdropImage != null ) {
-            backdropGraphic = new ImageGraphic( backdropImage, location );
+            backdropGraphic = new GreenhouseBackgroundImageGraphic( backdropImage, location,apparatusPanel );
             apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
         }
     }
@@ -180,39 +179,91 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         //Scale the currentBackdropImage so that it fills the width of the apparatus panel
         //phetgraphics API was confusing and difficult to get it right,
         //so we just clear the AffineTransform so that we can set it up ourselves, see #2453
-        backdropGraphic = new ImageGraphic(currentBackdropImage, location ){
-            public void paint(Graphics2D g2) {
-                AffineTransform savedTransform=g2.getTransform();
-                g2.setTransform(new AffineTransform());
-                final PAffineTransform newTransform = new PAffineTransform();
-                double xScale = (double)apparatusPanel.getWidth() / (double)currentBackdropImage.getWidth();
-                double yScale = (double)apparatusPanel.getHeight() / (double)currentBackdropImage.getHeight();
-                newTransform.translate(0, apparatusPanel.getHeight() - currentBackdropImage.getHeight() * yScale);
-                newTransform.scale(xScale, yScale);
-                g2.drawRenderedImage(currentBackdropImage, newTransform);
-                g2.setTransform(savedTransform);
-            }
-        };
+        backdropGraphic = new GreenhouseBackgroundImageGraphic(currentBackdropImage, location,apparatusPanel );
         apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
+    }
+
+    /**
+     * This graphic allows lookup of pixel colors, which is currently used for detection of collision with ice.
+     */
+    static class GreenhouseBackgroundImageGraphic extends ImageGraphic {
+
+        private final BufferedImage image;
+        private final ApparatusPanel apparatusPanel;
+
+        public GreenhouseBackgroundImageGraphic( BufferedImage image, Point2D.Double modelLocation, ApparatusPanel apparatusPanel ) {
+            super( image, modelLocation );
+            this.image = image;
+            this.apparatusPanel = apparatusPanel;
+        }
+
+        @Override
+        public void paint( Graphics2D g2 ) {
+            AffineTransform savedTransform = g2.getTransform();
+            g2.setTransform( new AffineTransform() );
+            g2.drawRenderedImage( image, getTransform() );
+            g2.setTransform( savedTransform );
+        }
+
+        private PAffineTransform getTransform() {
+            final PAffineTransform newTransform = new PAffineTransform();
+            double xScale = (double) apparatusPanel.getWidth() / (double) image.getWidth();
+            double yScale = (double) apparatusPanel.getHeight() / (double) image.getHeight();
+            newTransform.translate( 0, apparatusPanel.getHeight() - image.getHeight() * yScale );
+            newTransform.scale( xScale, yScale );
+            return newTransform;
+        }
+
+        /**
+         * Find the image color at the specified coordinate.
+         * @param x
+         * @param y
+         * @return
+         */
+        public Color getColor( double x, double y ) {
+            try {
+                Point2D dstPoint = getTransform().createInverse().transform( new Point2D.Double( x, y ), null );
+                Graphics2D g2 = image.createGraphics();
+                g2.setPaint( Color.green );
+                g2.fillOval( (int) dstPoint.getX(), (int) dstPoint.getY(), 2, 2 );
+                g2.dispose();
+
+                final int x1 = (int) dstPoint.getX();
+                final int y1 = (int) dstPoint.getY();
+                if ( x1 >= 0 && y1 >= 0 && x1 < image.getWidth() && y1 < image.getHeight() ) {
+                    int clr = image.getRGB( x1, y1 );
+                    int red = ( clr & 0x00ff0000 ) >> 16;
+                    int green = ( clr & 0x0000ff00 ) >> 8;
+                    int blue = clr & 0x000000ff;
+                    return new Color( red, green, blue );
+                }
+                else {
+                    return Color.black;
+                }
+            }
+            catch ( Exception e ) {
+                e.printStackTrace();
+                return Color.black;
+            }
+        }
     }
 
     public double getReflectivity( Photon photon ) {
         double reflectivity = 0;
         if ( isIceAge ) {
             if ( backdropGraphic != null
-                 && backdropGraphic.contains( photon.getLocation() )
                  && photon.getVelocity().getY() < 0
-                 && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
+                 && photon.getWavelength() == GreenhouseConfig.sunlightWavelength) {
 
                 // The 1 in the following line is a hack number that is needed to make the locations work out
-                pUtil.setLocation( photon.getLocation().getX(), photon.getLocation().getY() + 1 );
-                int pixel = backdropGraphic.getRGB( pUtil );
-                ColorModel colorModel = backdropGraphic.getBufferedImage().getColorModel();
-                int red = colorModel.getRed( pixel );
-                int blue = colorModel.getBlue( pixel );
-                int green = colorModel.getGreen( pixel );
-                if ( red == 255 && green == 255 && blue == 255 ) {
-                    reflectivity = .6;
+                PhotonGraphic node = (PhotonGraphic) photonToGraphicsMap.get( photon );
+
+                if ( node != null ) {
+                    Point2D center = node.getGlobalCenter2D();
+                    Color pixel = backdropGraphic.getColor( center.getX(), center.getY() );
+                    if ( pixel.getRed() == 255 && pixel.getGreen() == 255 && pixel.getBlue() == 255 ) {
+                        reflectivity = .6;
+                    }
                 }
             }
         }
