@@ -82,7 +82,7 @@ public class GradientButtonNode extends PhetPNode {
      * be created.
      * @param textColor - Color of the text that will appear on the button.
      */
-    public GradientButtonNode(String label, int fontSize, Color buttonColor, Color textColor){
+    public GradientButtonNode( String label, int fontSize, Color buttonColor, Color textColor ) {
         this( createHtmlLabelNode( label, fontSize, textColor ), buttonColor );
         _textColor = textColor;
     }
@@ -95,16 +95,16 @@ public class GradientButtonNode extends PhetPNode {
      * @param buttonColor - Overall color of button from which gradient will
      * be created.
      */
-    public GradientButtonNode(String label, int fontSize, Color buttonColor){
+    public GradientButtonNode( String label, int fontSize, Color buttonColor ) {
         this( createHtmlLabelNode( label, fontSize, DEFAULT_TEXT_COLOR ), buttonColor );
     }
 
     //Assumes the PNode has an offset of (0,0)
-    public GradientButtonNode(HTMLNode htmlLabelNode, Color buttonColor){
-        this._htmlLabelNode=htmlLabelNode;
-        _htmlLabelNode.setOffset((getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth()) / 2,
-        		(getIconHeight() * VERTICAL_PADDING_FACTOR - getIconHeight()) / 2);
-        this._buttonColor=buttonColor;
+    public GradientButtonNode( HTMLNode htmlLabelNode, Color buttonColor ) {
+        this._htmlLabelNode = htmlLabelNode;
+        _htmlLabelNode.setOffset( ( getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth() ) / 2,
+                ( getIconHeight() * VERTICAL_PADDING_FACTOR - getIconHeight() ) / 2 );
+        this._buttonColor = buttonColor;
 
         // Initialize local data.
         _actionListeners = new ArrayList<ActionListener>();
@@ -116,17 +116,17 @@ public class GradientButtonNode extends PhetPNode {
         final Paint armedGradient = getArmedGradient();
 
         // Create the button node.
-        RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0,
+        RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0,
                 getIconWidth() * HORIZONTAL_PADDING_FACTOR,
                 getIconHeight() * VERTICAL_PADDING_FACTOR,
-                BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS);
+                BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS );
 
-        _button = new PPath(buttonShape);
+        _button = new PPath( buttonShape );
         _button.setPaint( _mouseNotOverGradient );
         _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
 
         // Create the shadow node.
-        PPath buttonShadow = new PPath(buttonShape);
+        PPath buttonShadow = new PPath( buttonShape );
         buttonShadow.setPaint( SHADOW_COLOR );
         buttonShadow.setPickable( false );
         buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
@@ -143,9 +143,10 @@ public class GradientButtonNode extends PhetPNode {
         _button.addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventListener() {
             private boolean focus = false; // true if the button has focus
+
             public void setFocus( boolean focus ) {
                 this.focus = focus;
-                _button.setPaint( focus ? mouseOverGradient : _mouseNotOverGradient);
+                _button.setPaint( focus ? mouseOverGradient : _mouseNotOverGradient );
             }
             public void setArmed( boolean armed ) {
                 if ( armed ) {
@@ -158,9 +159,9 @@ public class GradientButtonNode extends PhetPNode {
                 }
             }
             public void fire() {
-                ActionEvent event = new ActionEvent(this, 0, "BUTTON_FIRED");
-                for (int i =0; i < _actionListeners.size(); i++){
-                    (_actionListeners.get(i)).actionPerformed( event );
+                ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
+                for ( int i = 0; i < _actionListeners.size(); i++ ) {
+                    ( _actionListeners.get( i ) ).actionPerformed( event );
                 }
             }
         } );
@@ -171,8 +172,8 @@ public class GradientButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
 
     private static HTMLNode createHtmlLabelNode( String label, int fontSize, Color textColor ) {
-        final HTMLNode _buttonText = new HTMLNode(label, textColor);
-        _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
+        final HTMLNode _buttonText = new HTMLNode( label, textColor );
+        _buttonText.setFont( new PhetFont( Font.BOLD, fontSize ) );
         _buttonText.setPickable( false );
         return _buttonText;
     }
@@ -228,8 +229,8 @@ public class GradientButtonNode extends PhetPNode {
                 (Paint) DISABLED_BUTTON_COLOR;
     }
 
-    protected PPath getButton(){
-    	return _button;
+    protected PPath getButton() {
+        return _button;
     }
 
     /**
@@ -238,8 +239,8 @@ public class GradientButtonNode extends PhetPNode {
      *
      * @param label - Text that will appear on button.
      */
-    public GradientButtonNode(String label){
-        this(label, DEFAULT_FONT_SIZE, DEFAULT_COLOR);
+    public GradientButtonNode( String label ) {
+        this( label, DEFAULT_FONT_SIZE, DEFAULT_COLOR );
     }
 
     /**
@@ -248,12 +249,12 @@ public class GradientButtonNode extends PhetPNode {
      * @param label
      * @param buttonColor
      */
-    public GradientButtonNode(String label, Color buttonColor){
-        this(label, DEFAULT_FONT_SIZE, buttonColor);
+    public GradientButtonNode( String label, Color buttonColor ) {
+        this( label, DEFAULT_FONT_SIZE, buttonColor );
     }
 
     public void addActionListener( ActionListener listener ) {
-        if (!_actionListeners.contains( listener )){
+        if ( !_actionListeners.contains( listener ) ) {
             _actionListeners.add( listener );
         }
     }
@@ -262,12 +263,12 @@ public class GradientButtonNode extends PhetPNode {
         _actionListeners.remove( listener );
     }
 
-    private static Color getBrighterColor(Color origColor){
-        int red = origColor.getRed() + (int)Math.round( (255 - origColor.getRed()) * COLOR_SCALING_FACTOR);
-        int green = origColor.getGreen() + (int)Math.round( (255 - origColor.getGreen()) * COLOR_SCALING_FACTOR);
-        int blue = origColor.getBlue() + (int)Math.round( (255 - origColor.getBlue()) * COLOR_SCALING_FACTOR);
+    private static Color getBrighterColor( Color origColor ) {
+        int red = origColor.getRed() + (int) Math.round( ( 255 - origColor.getRed() ) * COLOR_SCALING_FACTOR );
+        int green = origColor.getGreen() + (int) Math.round( ( 255 - origColor.getGreen() ) * COLOR_SCALING_FACTOR );
+        int blue = origColor.getBlue() + (int) Math.round( ( 255 - origColor.getBlue() ) * COLOR_SCALING_FACTOR );
         int alpha = origColor.getAlpha(); // preserve transparency of original color, see #2123
-        return new Color ( red, green, blue, alpha );
+        return new Color( red, green, blue, alpha );
     }
 
     public void setEnabled( boolean enabled ) {
@@ -288,7 +289,7 @@ public class GradientButtonNode extends PhetPNode {
         }
     }
 
-    public boolean isEnabled(){
+    public boolean isEnabled() {
         return _enabled;
     }
 
@@ -298,44 +299,44 @@ public class GradientButtonNode extends PhetPNode {
 
     public static void main( String[] args ) {
 
-        ActionListener listener = new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                System.out.println("actionPerformed event= " + event);
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                System.out.println( "actionPerformed event= " + event );
             }
         };
 
-        GradientButtonNode testButton01 = new GradientButtonNode("Test Me", 16, Color.GREEN);
+        GradientButtonNode testButton01 = new GradientButtonNode( "Test Me", 16, Color.GREEN );
         testButton01.setOffset( 5, 5 );
         testButton01.addActionListener( listener );
 
-        GradientButtonNode testButton02 = new GradientButtonNode("<html>Test <br> Me Too</html>", 24, new Color(0x99cccc));
+        GradientButtonNode testButton02 = new GradientButtonNode( "<html>Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
         testButton02.setOffset( 200, 5 );
         testButton02.addActionListener( listener );
 
-        GradientButtonNode testButton03 = new GradientButtonNode("<html><center>Default Color<br>and Font<center></html>");
+        GradientButtonNode testButton03 = new GradientButtonNode( "<html><center>Default Color<br>and Font<center></html>" );
         testButton03.setOffset( 5, 200 );
         testButton03.addActionListener( listener );
 
-        GradientButtonNode testButton04 = new GradientButtonNode("Default Font Size", new Color(0xcc3366));
+        GradientButtonNode testButton04 = new GradientButtonNode( "Default Font Size", new Color( 0xcc3366 ) );
         testButton04.setOffset( 200, 200 );
         testButton04.addActionListener( listener );
 
-        GradientButtonNode testButton05 = new GradientButtonNode("Transparent", new Color( 255, 0, 0, 100 ) );
+        GradientButtonNode testButton05 = new GradientButtonNode( "Transparent", new Color( 255, 0, 0, 100 ) );
         testButton05.setOffset( 200, 100 );
         testButton05.addActionListener( listener );
 
-        final GradientButtonNode testButton06 = new GradientButtonNode("Test Enabled", new Color( 0, 200, 200 ) );
+        final GradientButtonNode testButton06 = new GradientButtonNode( "Test Enabled", new Color( 0, 200, 200 ) );
         testButton06.setOffset( 200, 300 );
         testButton06.addActionListener( listener );
 
-        GradientButtonNode testButton07 = new GradientButtonNode("Toggle Enabled ->", new Color( 200, 200, 0 ) );
+        GradientButtonNode testButton07 = new GradientButtonNode( "Toggle Enabled ->", new Color( 200, 200, 0 ) );
         testButton07.setOffset( 10, 300 );
-        testButton07.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                System.out.println("actionPerformed event= " + event);
+        testButton07.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                System.out.println( "actionPerformed event= " + event );
                 testButton06.setEnabled( !testButton06.isEnabled() );
             }
-        });
+        } );
 
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.addScreenChild( testButton01 );
