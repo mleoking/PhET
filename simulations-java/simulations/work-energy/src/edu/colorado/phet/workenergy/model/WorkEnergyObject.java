@@ -104,18 +104,22 @@ public class WorkEnergyObject {
     }
 
     public void stepInTime( double dt ) {
+        double initialEnergy = getTotalEnergy();
         time.setValue( time.getValue() + dt );
         //Assumes driven by applied force, not user setting position manually
         acceleration.setValue( netForce.times( 1.0 / mass.getValue() ) );
         velocity.setValue( acceleration.times( dt ).getAddedInstance( velocity.getValue() ) );
         position.setValue( velocity.times( dt ).getAddedInstance( position.getValue() ) );
+
+        double deltaEnergy = initialEnergy - getTotalEnergy();
+        //find a good vertical location for the object so energy is conserved
+        double deltaH = -deltaEnergy / mass.getValue() / gravity.getValue();
+        position.setValue( new ImmutableVector2D( position.getValue().getX(), position.getValue().getY() + deltaH ) );
+
         if ( getY() <= 0 ) {
-            double initKineticEnergy = getKineticEnergyProperty().getValue();
             position.setValue( new ImmutableVector2D( getX(), 0 ) );
             velocity.setValue( new ImmutableVector2D() );
-            double newKineticEnergy = getKineticEnergyProperty().getValue();
-            double energyLostDueToHeat = initKineticEnergy - newKineticEnergy;
-            thermalEnergy.setValue( thermalEnergy.getValue() + energyLostDueToHeat );
+            thermalEnergy.setValue( initialEnergy - getKineticEnergyProperty().getValue() - getPotentialEnergyProperty().getValue() );
         }
 //        System.out.println( time.getValue() + "\t" + position.getValue().getY() + "\t" + velocity.getValue().getY() + "\t" + acceleration.getValue().getY() + "\t" + potentialEnergy.getValue() + "\t" + kineticEnergy.getValue() );
     }
