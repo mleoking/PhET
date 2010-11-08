@@ -3,12 +3,17 @@
 package edu.colorado.phet.workenergy.controlpanel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.workenergy.module.WorkEnergyModule;
 
 /**
  * Control panel template.
@@ -18,30 +23,35 @@ public class WorkEnergyControlPanel extends VerticalLayoutPanel {
     public static Color FOREGROUND = Color.black;
     public static final Font CONTROL_FONT = new PhetFont( 18, true );
 
-    public WorkEnergyControlPanel() {
+    public static class WorkEnergyCheckBox extends JCheckBox {
+        public WorkEnergyCheckBox( String label, final Property<Boolean> property ) {
+            super( label, property.getValue() );
+            setBackground( BACKGROUND );
+            setForeground( FOREGROUND );
+            setFont( CONTROL_FONT );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    property.setValue( isSelected() );
+                }
+            } );
+            property.addObserver( new SimpleObserver() {
+                public void update() {
+                    setSelected( property.getValue() );
+                }
+            } );
+        }
+    }
+
+    public WorkEnergyControlPanel( WorkEnergyModule module ) {
         super();
 
         final LogoPanel panel = new LogoPanel();
         panel.setBackground( BACKGROUND );
         addControl( panel );
-        addControlFullWidth( new JCheckBox( "Energy Pie Chart" ) {{
-            setBackground( BACKGROUND );
-            setForeground( FOREGROUND );
-            setFont( CONTROL_FONT );
-        }} );
-        addControlFullWidth( new JCheckBox( "Energy Bar Chart" ) {{
-            setBackground( BACKGROUND );
-            setForeground( FOREGROUND );
-            setFont( CONTROL_FONT );
-        }} );
-        addControlFullWidth( new JCheckBox( "Ruler" ) {{
-            setBackground( BACKGROUND );
-            setForeground( FOREGROUND );
-            setFont( CONTROL_FONT );
-        }} );
+        addControlFullWidth( new WorkEnergyCheckBox( "Energy Pie Chart", module.getShowPieChartProperty() ) );
+        addControlFullWidth( new WorkEnergyCheckBox( "Energy Bar Chart", module.getShowEnergyBarChartProperty() ) );
+        addControlFullWidth( new WorkEnergyCheckBox( "Ruler", module.getShowRulerProperty() ) );
         setBackground( BACKGROUND );
-//        setBackground( new Color( 0, 0, 0, 0 ) );
-//        setOpaque( false );
     }
 
     private void addControlFullWidth( JComponent component ) {
