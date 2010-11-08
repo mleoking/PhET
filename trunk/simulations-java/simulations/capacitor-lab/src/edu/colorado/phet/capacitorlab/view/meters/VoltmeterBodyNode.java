@@ -18,31 +18,29 @@ import edu.colorado.phet.capacitorlab.model.Voltmeter;
 import edu.colorado.phet.capacitorlab.view.DoubleDisplayNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Body of the voltmeter.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class VoltmeterBodyNode extends PComposite {
+public class VoltmeterBodyNode extends PhetPNode {
     
     // body of the meter
     private static final Image BODY_IMAGE = CLImages.VOLTMETER;
     
     // digital display
     private static final double DISPLAY_DEFAULT_VALUE = Double.NaN;
-    private static final String DISPLAY_LABEL = "";
     private static final NumberFormat DISPLAY_VALUE_FORMAT = new DecimalFormat( "0.00" );
-    private static final String DISPLAY_PATTERN = CLStrings.PATTERN_LABEL_VALUE_UNITS;
-    private static final String DISPLAY_UNITS = CLStrings.VOLTS;
-    private static final String DISPLAY_NOT_A_NUMBER = "???"; //XXX i18n
     private static final Font DISPLAY_FONT = new PhetFont( 16 );
     private static final Color DISPLAY_TEXT_COLOR = Color.BLACK;
     private static final Color DISPLAY_BACKGROUND_COLOR = Color.WHITE;
@@ -63,6 +61,20 @@ public class VoltmeterBodyNode extends PComposite {
         PImage imageNode = new PImage( BODY_IMAGE );
         addChild( imageNode );
         
+        // close button
+        PImage closeButtonNode = new PImage( CLImages.CLOSE_BUTTON );
+        closeButtonNode.addInputEventListener( new CursorHandler() );
+        closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
+            @Override
+            public void mouseReleased( PInputEvent event ) {
+                voltmeter.setVisible( false );
+            }
+        } );
+        addChild( closeButtonNode );
+        double xOffset = imageNode.getFullBoundsReference().getMaxX() + 2;
+        double yOffset = imageNode.getFullBoundsReference().getMinY();
+        closeButtonNode.setOffset( xOffset, yOffset );
+        
         // display background, assumes display is horizontally centered in the meter
         double x = DISPLAY_X_MARGIN_TO_IMAGE_WIDTH_RATIO * imageNode.getFullBoundsReference().getWidth();
         double y = DISPLAY_Y_MARGIN_TO_IMAGE_HEIGHT_RATIO * imageNode.getFullBoundsReference().getHeight();
@@ -74,7 +86,7 @@ public class VoltmeterBodyNode extends PComposite {
         addChild( displayBackgroundNode );
         
         // digital display
-        displayNode = new DoubleDisplayNode( DISPLAY_DEFAULT_VALUE, DISPLAY_LABEL, DISPLAY_VALUE_FORMAT, DISPLAY_UNITS, DISPLAY_PATTERN, DISPLAY_NOT_A_NUMBER, DISPLAY_SHOW_SIGN );
+        displayNode = new DoubleDisplayNode( DISPLAY_DEFAULT_VALUE, "", DISPLAY_VALUE_FORMAT, CLStrings.VOLTS, CLStrings.PATTERN_LABEL_VALUE_UNITS, CLStrings.VOLTS_UNKNOWN, DISPLAY_SHOW_SIGN );
         displayNode.setFont( DISPLAY_FONT );
         displayNode.setHTMLColor( DISPLAY_TEXT_COLOR );
         addChild( displayNode );
