@@ -39,7 +39,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( new SkyNode( transform ) );
         addChild( new GroundNode( transform ) );
         addChild( objectNode );
-        addChild( new PieChartNode( module.getShowPieChartProperty() ) );
+        addChild( new WorkEnergyPieChartNode( module.getShowPieChartProperty(),model.getObject(), transform ) );
         addChild( new RulerNode( module.getShowRulerProperty() ) );
 //        addChild( new PieChartNode( module.getShowPieChartProperty() ) );
 

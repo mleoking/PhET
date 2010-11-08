@@ -18,8 +18,11 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
     private Property<Boolean> showEnergyBarChartProperty = new Property<Boolean>( false );
     private Property<Boolean> showRulerProperty = new Property<Boolean>( false );
 
+    static final int delay = 30;//milliseconds between clock ticks
+    static final double delaySec = delay / 1000.0;
+
     public WorkEnergyModule( PhetFrame phetFrame, String title, final ModelType model ) {
-        super( title, new ConstantDtClock( 30, 1.0 ) );
+        super( title, new ConstantDtClock( delay, delaySec ) );
         this.model = model;
         WorkEnergyCanvas energyCanvas = new WorkEnergyCanvas( this, model );
         getModulePanel().setLogoPanel( null );
@@ -42,6 +45,10 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
     }
 
     public void resetAll() {
+        showPieChartProperty.reset();
+        showEnergyBarChartProperty.reset();
+        showRulerProperty.reset();
+        model.resetAll();
     }
 
     public Property<Boolean> getShowPieChartProperty() {

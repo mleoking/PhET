@@ -1,5 +1,6 @@
 package edu.colorado.phet.workenergy.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.workenergy.WorkEnergyResources;
@@ -12,8 +13,8 @@ public class WorkEnergyModel {
     private final MutableList<Snapshot> snapshots = new MutableList<Snapshot>();
     private IClock clock;
 
-    public WorkEnergyModel( IClock clock ) {
-        this.clock = clock;
+    public WorkEnergyModel() {
+        this.clock = new ConstantDtClock( 30, 30 / 1000.0 );
         workEnergyObject.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
                 if ( workEnergyObject.getPositionProperty().getValue().getX() > 200 ) {
@@ -32,10 +33,17 @@ public class WorkEnergyModel {
     }
 
     public void stepInTime( double simulationTimeChange ) {
+//        System.out.println( "simulationTimeChange = " + simulationTimeChange );
         workEnergyObject.stepInTime( simulationTimeChange );
     }
 
     public IClock getClock() {
         return clock;
+    }
+
+    public void resetAll() {
+        clock.resetSimulationTime();
+        workEnergyObject.reset();
+//        snapshots.clear();
     }
 }
