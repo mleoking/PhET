@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -64,7 +63,7 @@ public class GradientButtonNode extends PhetPNode {
 
     private final ArrayList<ActionListener> _actionListeners;
     private final Color _buttonColor;
-    private final PNode _icon;
+    private final HTMLNode _htmlLabelNode;
     private final PPath _button;
     private boolean _enabled = true;
     private final Paint _mouseNotOverGradient;
@@ -84,7 +83,7 @@ public class GradientButtonNode extends PhetPNode {
      * @param textColor - Color of the text that will appear on the button.
      */
     public GradientButtonNode(String label, int fontSize, Color buttonColor, Color textColor){
-        this( createTextIcon( label, fontSize, textColor ), buttonColor );
+        this( createHtmlLabelNode( label, fontSize, textColor ), buttonColor );
         _textColor = textColor;
     }
 
@@ -97,13 +96,13 @@ public class GradientButtonNode extends PhetPNode {
      * be created.
      */
     public GradientButtonNode(String label, int fontSize, Color buttonColor){
-        this( createTextIcon( label, fontSize, DEFAULT_TEXT_COLOR ), buttonColor );
+        this( createHtmlLabelNode( label, fontSize, DEFAULT_TEXT_COLOR ), buttonColor );
     }
 
     //Assumes the PNode has an offset of (0,0)
-    public GradientButtonNode(PNode icon, Color buttonColor){
-        this._icon=icon;
-        _icon.setOffset((getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth()) / 2,
+    public GradientButtonNode(HTMLNode htmlLabelNode, Color buttonColor){
+        this._htmlLabelNode=htmlLabelNode;
+        _htmlLabelNode.setOffset((getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth()) / 2,
         		(getIconHeight() * VERTICAL_PADDING_FACTOR - getIconHeight()) / 2);
         this._buttonColor=buttonColor;
 
@@ -137,7 +136,7 @@ public class GradientButtonNode extends PhetPNode {
         // appear as desired.
         addChild( buttonShadow );
         addChild( _button );
-        _button.addChild( _icon ); // icon is a child of the button so we don't have to move it separately
+        _button.addChild( _htmlLabelNode ); // icon is a child of the button so we don't have to move it separately
 
         // Register a handler to watch for button state changes.
         ButtonEventHandler handler = new ButtonEventHandler();
@@ -171,9 +170,7 @@ public class GradientButtonNode extends PhetPNode {
     // Methods
     //------------------------------------------------------------------------
 
-    private static PNode createTextIcon( String label, int fontSize, Color textColor ) {
-        // Create the label node first, since its size will be the basis for
-        // the other components of this button.
+    private static HTMLNode createHtmlLabelNode( String label, int fontSize, Color textColor ) {
         final HTMLNode _buttonText = new HTMLNode(label, textColor);
         _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
         _buttonText.setPickable( false );
@@ -181,11 +178,11 @@ public class GradientButtonNode extends PhetPNode {
     }
 
     private double getIconWidth() {
-        return _icon.getFullBounds().getWidth();
+        return _htmlLabelNode.getFullBounds().getWidth();
     }
 
     private double getIconHeight() {
-        return _icon.getFullBounds().getHeight();
+        return _htmlLabelNode.getFullBounds().getHeight();
     }
 
     protected Paint getArmedGradient() {
@@ -279,16 +276,12 @@ public class GradientButtonNode extends PhetPNode {
             if ( enabled ) {
                 // Restore original colors.
                 _button.setPaint( getMouseNotOverGradient() );
-                if ( _icon instanceof HTMLNode ) {
-                    ( (HTMLNode) _icon ).setHTMLColor( _textColor );
-                }
+                _htmlLabelNode.setHTMLColor( _textColor );
             }
             else {
                 // Set the colors to make the button appear disabled.
                 _button.setPaint( getDisabledGradient() );
-                if ( _icon instanceof HTMLNode ) {
-                    ( (HTMLNode) _icon ).setHTMLColor( DISABLED_TEXT_COLOR );
-                }
+                _htmlLabelNode.setHTMLColor( DISABLED_TEXT_COLOR );
             }
             setPickable( enabled );
             setChildrenPickable( enabled );
