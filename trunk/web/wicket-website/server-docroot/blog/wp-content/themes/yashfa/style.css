@@ -713,6 +713,20 @@ img.centered, .aligncenter, div.aligncenter {
     color: #FD6A11;
 }
 
+.new-comments-area {
+    text-align: right;
+    color: #999;
+}
+
+.new-comments-area a {
+    color: #666;
+}
+
+.social-sub-div {
+    float: left;
+    padding-right: 10px;
+}
+
 /* Change Log *** 
 1.0	: Public Releaed
 1.1 : Fix Header
