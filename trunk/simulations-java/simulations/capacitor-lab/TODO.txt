@@ -8,6 +8,7 @@ NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
 - review Multiple Capacitors tab design and decide which features are unnecessary (Remove Wires, E-Field Lines, E-Field Detector)
 - need a different name for "Remove Wires" in Multiple Capacitors tab
+- provide Sketchup files for probes 
 
 DESIGN ISSUES
 - spacing change between charge pairs is very small with battery, because battery range is so small compared to sim max
@@ -23,6 +24,7 @@ HIGH PRIORITY
 - show "?" in voltmeter when probes are not connected to circuit
 
 MEDUIUM PRIORITY
+- probes and capacitor plate edges don't quite have the same perspective
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 - decide whether to use Property<T> (currently used in: EFieldDetector, World)
 - all features in Multiple Capacitors tab
