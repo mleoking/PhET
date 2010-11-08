@@ -134,7 +134,7 @@ public class BarChartNode extends PNode {
     public void init( Variable[] variables ) {
         this.variables = variables;
         double w = variables.length * ( sep + dw ) - sep;
-        background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1000 ) );
+        background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1) );
         background.setPaint( null );
         background.setStroke( new BasicStroke() );
         background.setStrokePaint( null );
