@@ -1,5 +1,7 @@
 package edu.colorado.phet.workenergy.model;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -28,8 +30,10 @@ public class WorkEnergyObject {
     private DoubleProperty gravityWork = new DoubleProperty( 0 );
     private DoubleProperty frictionWork = new DoubleProperty( 0 );
     private DoubleProperty appliedWork = new DoubleProperty( 0 );
+    private final BufferedImage image;//image is stored in the model so that we can obtain the correct aspect ratio
 
-    public WorkEnergyObject() {
+    public WorkEnergyObject( BufferedImage image ) {
+        this.image = image;
         final SimpleObserver updateNetForce = new SimpleObserver() {
             public void update() {
                 netForce.setValue( appliedForce.getValue().getAddedInstance( frictionForce.getValue() ).getAddedInstance( gravityForce.getValue() ) );
@@ -83,7 +87,7 @@ public class WorkEnergyObject {
     }
 
     public WorkEnergyObject copy() {
-        final WorkEnergyObject snapshot = new WorkEnergyObject();
+        final WorkEnergyObject snapshot = new WorkEnergyObject( image );
         snapshot.mass.setValue( mass.getValue() );
         snapshot.gravity.setValue( gravity.getValue() );
         snapshot.position.setValue( position.getValue() );
@@ -114,5 +118,9 @@ public class WorkEnergyObject {
 
     private double getX() {
         return getPositionProperty().getValue().getX();
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 }

@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.view.WorkEnergyCanvas;
 
@@ -18,15 +17,17 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
     public WorkEnergyModule( PhetFrame phetFrame, String title, final ModelType model ) {
         super( title, new ConstantDtClock( 30, 1.0 ) );
         this.model = model;
-        WorkEnergyCanvas energyCanvas = new WorkEnergyCanvas( model );
+        WorkEnergyCanvas energyCanvas = new WorkEnergyCanvas( this, model );
+        getModulePanel().setLogoPanel( null );
 
         setSimulationPanel( energyCanvas );
-        setControlPanel( new WorkEnergyControlPanel() );
+
+        //Handled in canvas
+        setControlPanel( null );
+        setClockControlPanel( null );
 
         getClock().addClockListener( new ClockAdapter() {
-            @Override
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                super.simulationTimeChanged( clockEvent );
                 model.stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
@@ -34,5 +35,8 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
 
     public ModelType getWorkEnergyModel() {
         return model;
+    }
+
+    public void resetAll() {
     }
 }
