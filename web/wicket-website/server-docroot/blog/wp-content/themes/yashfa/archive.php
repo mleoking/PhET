@@ -57,6 +57,64 @@
                         <?php the_tags( __( 'Tags: ', 'yashfa' ), ', ', '<br />' ); ?>
                         </div>
 
+                        <div class="social-sub-div">
+                            <a href="http://www.facebook.com/sharer.php?u=<?php echo urlencode( get_permalink( ) ); ?>&amp;t=<?php echo urlencode( get_the_title( ) ); ?>"
+                               style="padding: 0; margin: 0; text-decoration: none;" target="_blank"
+                               title="Share this on Facebook">
+
+                                <img src="/images/icons/social/16/facebook.png" alt="Social Media Icon"
+                                     style="border: none;"/>
+                            </a>
+                        </div>
+                        <div class="social-sub-div">
+                            <a href="https://twitter.com/share?url=<?php echo urlencode( get_permalink( ) ); ?>&amp;text=<?php echo urlencode( get_the_title( ) ); ?>"
+                               style="padding: 0; margin: 0; text-decoration: none;" target="_blank"
+                               title="Share this on Twitter">
+                                <img src="/images/icons/social/16/twitter.png" alt="Social Media Icon"
+                                     style="border: none;"/>
+                            </a>
+                        </div>
+                        <div class="social-sub-div">
+                            <a href="http://www.stumbleupon.com/submit?url=<?php echo urlencode( get_permalink( ) ); ?>&amp;title=<?php echo urlencode( get_the_title( ) ); ?>"
+                               style="padding: 0; margin: 0; text-decoration: none;" target="_blank"
+                               title="Share this on Stumble Upon">
+                                <img src="/images/icons/social/16/stumbleupon.png"
+                                     alt="Social Media Icon" style="border: none;"/>
+
+                            </a>
+                        </div>
+                        <div class="social-sub-div">
+                            <a href="http://digg.com/submit?phase=2&amp;url=<?php echo urlencode( get_permalink( ) ); ?>&amp;title=<?php echo urlencode( get_the_title( ) ); ?>"
+                               style="padding: 0; margin: 0; text-decoration: none;" target="_blank"
+                               title="Share this on Digg">
+                                <img src="/images/icons/social/16/digg.png" alt="Social Media Icon"
+                                     style="border: none;"/>
+                            </a>
+                        </div>
+                        <div class="social-sub-div">
+                            <a href="http://reddit.com/submit?url=<?php echo urlencode( get_permalink( ) ); ?>&amp;title=<?php echo urlencode( get_the_title( ) ); ?>"
+                               style="padding: 0; margin: 0; text-decoration: none;" target="_blank"
+                               title="Share this on Reddit">
+                                <img src="/images/icons/social/16/reddit.png" alt="Social Media Icon"
+                                     style="border: none;"/>
+                            </a>
+
+                        </div>
+                        <div class="social-sub-div">
+                            <a href="http://del.icio.us/post?url=<?php echo urlencode( get_permalink( ) ); ?>&amp;title=<?php echo urlencode( get_the_title( ) ); ?>"
+                               style="padding: 0; margin: 0; text-decoration: none;" target="_blank"
+                               title="Share this on Delicious">
+                                <img src="/images/icons/social/16/delicious.png" alt="Social Media Icon"
+                                     style="border: none;"/>
+                            </a>
+                        </div>
+
+                        <div class="new-comments-area">
+                        <?php comments_popup_link( __( '0 Comments', 'yashfa' ), __( '1 Comment', 'yashfa' ), __( '% Comments', 'yashfa' ) ); ?>
+                            &nbsp;|&nbsp;
+                        <?php comments_popup_link( __( 'Add a Comment', 'yashfa' ), __( 'Add a Comment', 'yashfa' ), __( 'Add a Comment', 'yashfa' ) ); ?>
+                        </div>
+
                     </div>
                     <div class="two">
                         <div class="dater">
@@ -65,7 +123,6 @@
                         </div>
                         <p class="metadata"><br/><?php _e( 'by', 'yashfa' ); ?> <?php  the_author( ) ?>
                             <br/><?php _e( 'posted in<br/>', 'yashfa' ); ?> <?php  the_category( ', ' ) ?> <?php edit_post_link( __( 'Edit', 'yashfa' ), '', '' ); ?>
-                            <br/><?php comments_popup_link( __( '0 Comments', 'yashfa' ), __( '1 Comment', 'yashfa' ), __( '% Comments', 'yashfa' ) ); ?>
                         </p>
                     </div>
                 </div>

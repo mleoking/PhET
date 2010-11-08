@@ -33,11 +33,11 @@ if ( post_password_required( ) ) {
 <br class="clear"/>
 <?php endif; ?>
 <?php if ( !empty( $comments_by_type[__( 'pings', 'yashfa' )] ) ) : ?>
-<h3 id="pings"><?php fb_comment_type_count( __( 'pingback', 'yashfa' ) ); _e( 'Trackbacks/Pingbacks' );?>
-</h3>
-<ol class="trackbacklist">
-<?php wp_list_comments( 'type=pings&callback=list_pings' ); ?>
-</ol>
+<!--<h3 id="pings">--><?php //fb_comment_type_count( __( 'pingback', 'yashfa' ) ); _e( 'Trackbacks/Pingbacks' );?>
+<!--</h3>-->
+<!--<ol class="trackbacklist">-->
+<?php //wp_list_comments( 'type=pings&callback=list_pings' ); ?>
+<!--</ol>-->
 <?php endif; ?>
 <br class="clear"/>
 <?php else : // this is displayed if there are no comments so far  ?>
