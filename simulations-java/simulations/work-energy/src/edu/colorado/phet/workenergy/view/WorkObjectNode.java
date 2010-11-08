@@ -1,5 +1,6 @@
 package edu.colorado.phet.workenergy.view;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.workenergy.model.WorkEnergyObject;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -10,8 +11,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class WorkObjectNode extends WorkEnergyObjectNode {
-    public WorkObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform ) {
-        super( workEnergyObject, transform );
+    public WorkObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform, Property<Boolean> originLineVisible ) {
+        super( workEnergyObject, transform, originLineVisible );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseDragged( PInputEvent event ) {
