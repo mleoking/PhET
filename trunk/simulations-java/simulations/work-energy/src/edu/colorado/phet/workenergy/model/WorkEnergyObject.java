@@ -1,5 +1,6 @@
 package edu.colorado.phet.workenergy.model;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -11,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class WorkEnergyObject {
     private final DoubleProperty mass = new DoubleProperty( 20.0 );//kg
-    private final DoubleProperty gravity = new DoubleProperty( 0.0 );//kg/m/m; in space to start with
+    private final DoubleProperty gravity = new DoubleProperty( -9.8 );//kg/m/m
 
     private final MutableVector2D position = new MutableVector2D( 0, 0 );
     private final MutableVector2D velocity = new MutableVector2D( 0, 0 );
@@ -19,7 +20,7 @@ public class WorkEnergyObject {
 
     private final MutableVector2D appliedForce = new MutableVector2D( 0, 0 );
     private final MutableVector2D frictionForce = new MutableVector2D( 0, 0 );
-    private final MutableVector2D gravityForce = new MutableVector2D( 0, -9.8 );
+    private final MutableVector2D gravityForce = new MutableVector2D( 0, -9.8 * mass.getValue() );
     private final MutableVector2D netForce = new MutableVector2D( 0, 0 );
 
     private final DoubleProperty kineticEnergy = new DoubleProperty( 0 );
@@ -34,6 +35,8 @@ public class WorkEnergyObject {
     private final BufferedImage image;//image is stored in the model so that we can obtain the correct aspect ratio
     private final DoubleProperty height;
     private final BooleanProperty userControlled = new BooleanProperty( false );
+
+    private final DoubleProperty time = new DoubleProperty( 0.0 );
 
     public WorkEnergyObject( BufferedImage image, double height ) {
         this.image = image;
@@ -53,7 +56,16 @@ public class WorkEnergyObject {
         position.addObserver( updateNetForce );
         frictionForce.addObserver( updateNetForce );
         gravityForce.addObserver( updateNetForce );
-        updateNetForce.update();
+        mass.addObserver( updateNetForce );
+
+        SimpleObserver updateEnergy = new SimpleObserver() {
+            public void update() {
+                totalEnergy.setValue( kineticEnergy.getValue() + potentialEnergy.getValue() + thermalEnergy.getValue() );
+            }
+        };
+        kineticEnergy.addObserver( updateEnergy );
+        potentialEnergy.addObserver( updateEnergy );
+        thermalEnergy.addObserver( updateEnergy );
 
         //Velocity changing should trigger KE changing
         final SimpleObserver updateKineticEnergy = new SimpleObserver() {
@@ -63,28 +75,49 @@ public class WorkEnergyObject {
         };
         mass.addObserver( updateKineticEnergy );
         velocity.addObserver( updateKineticEnergy );
-        updateKineticEnergy.update();
 
         //Position changing should possibly trigger PE changing
         final SimpleObserver updatePotentialEnergy = new SimpleObserver() {
             public void update() {
-                potentialEnergy.setValue( mass.getValue() );
+                potentialEnergy.setValue( -mass.getValue() * gravity.getValue() * position.getValue().getY() );
             }
         };
+        mass.addObserver( updatePotentialEnergy );
+        gravity.addObserver( updatePotentialEnergy );
+        position.addObserver( updatePotentialEnergy );
+
+        final SimpleObserver updateGravityForce = new SimpleObserver() {
+            public void update() {
+                gravityForce.setValue( new ImmutableVector2D( 0, gravity.getValue() * mass.getValue() ) );
+            }
+        };
+        gravity.addObserver( updateGravityForce );
+        mass.addObserver( updateGravityForce );
     }
 
     private boolean isUserControlled() {
         return userControlled.getValue();
     }
 
+    static {
+//        System.out.println( "time\tposition\tvelocity\tacceleration\tpotential-energy\tkinetic-energy" );
+    }
+
     public void stepInTime( double dt ) {
+        time.setValue( time.getValue() + dt );
         //Assumes driven by applied force, not user setting position manually
         acceleration.setValue( netForce.times( 1.0 / mass.getValue() ) );
         velocity.setValue( acceleration.times( dt ).getAddedInstance( velocity.getValue() ) );
         position.setValue( velocity.times( dt ).getAddedInstance( position.getValue() ) );
         if ( getY() <= 0 ) {
+            double initKineticEnergy = getKineticEnergyProperty().getValue();
             position.setValue( new ImmutableVector2D( getX(), 0 ) );
+            velocity.setValue( new ImmutableVector2D() );
+            double newKineticEnergy = getKineticEnergyProperty().getValue();
+            double energyLostDueToHeat = initKineticEnergy - newKineticEnergy;
+            thermalEnergy.setValue( thermalEnergy.getValue() + energyLostDueToHeat );
         }
+//        System.out.println( time.getValue() + "\t" + position.getValue().getY() + "\t" + velocity.getValue().getY() + "\t" + acceleration.getValue().getY() + "\t" + potentialEnergy.getValue() + "\t" + kineticEnergy.getValue() );
     }
 
     public void setAppliedForce( double fx, double fy ) {
@@ -151,6 +184,49 @@ public class WorkEnergyObject {
 
     public void setUserControlled( boolean b ) {
         userControlled.setValue( b );
-        velocity.setValue( new ImmutableVector2D( ));
+        velocity.setValue( new ImmutableVector2D() );
+    }
+
+    public Point2D getTopCenter() {
+        return new Point2D.Double( getX(), getY() + getHeight() );
+    }
+
+    public DoubleProperty getTotalEnergyProperty() {
+        return totalEnergy;
+    }
+
+    public double getTotalEnergy() {
+        return totalEnergy.getValue();
+    }
+
+    public DoubleProperty getPotentialEnergyProperty() {
+        return potentialEnergy;
+    }
+
+    public DoubleProperty getThermalEnergyProperty() {
+        return thermalEnergy;
+    }
+
+    public void reset() {
+        mass.reset();
+        gravity.reset();
+        position.reset();
+        velocity.reset();
+        acceleration.reset();
+        appliedForce.reset();
+        frictionForce.reset();
+        gravityForce.reset();
+        netForce.reset();
+        kineticEnergy.reset();
+        thermalEnergy.reset();
+        potentialEnergy.reset();
+        totalEnergy.reset();
+        netWork.reset();
+        gravityWork.reset();
+        frictionWork.reset();
+        appliedWork.reset();
+        height.reset();
+        userControlled.reset();
+        time.reset();
     }
 }

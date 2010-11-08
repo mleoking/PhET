@@ -8,7 +8,7 @@ import edu.colorado.phet.workenergy.model.WorkEnergyModel;
  * @author Sam Reid
  */
 public class EnergyModule extends WorkEnergyModule<WorkEnergyModel> {
-    public EnergyModule( PhetFrame phetFrame, IClock clock ) {
-        super( phetFrame, "Energy", new WorkEnergyModel( clock ) );
+    public EnergyModule( PhetFrame phetFrame) {
+        super( phetFrame, "Energy", new WorkEnergyModel(  ) );
     }
 }
