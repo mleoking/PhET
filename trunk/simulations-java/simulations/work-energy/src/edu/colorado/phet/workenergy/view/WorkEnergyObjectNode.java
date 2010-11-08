@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.workenergy.model.WorkEnergyObject;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -24,16 +26,34 @@ public class WorkEnergyObjectNode extends PNode {
         this.workEnergyObject = workEnergyObject;
         this.transform = transform;
 
-        addChild( new PImage( workEnergyObject.getImage() ) );
+        final PImage child = new PImage( workEnergyObject.getImage() ) {{
+            double h = Math.abs( transform.modelToViewDifferentialYDouble( workEnergyObject.getHeight() ) );
+            double w = Math.abs( transform.modelToViewDifferentialXDouble( workEnergyObject.getWidth() ) );
+            final double scale = h / getFullBounds().getHeight();
+            translate( -w / 2, -h *
+                               0.8 );//so the bottom of the 3d crate looks like it is touching the ground
+            scale( scale );
+        }};
+
+        addChild( child );
 
         //for debugging
-        double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 1 ) );
-        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( -ellipseHeight / 2, -ellipseHeight / 2, ellipseHeight, ellipseHeight ), Color.blue, new BasicStroke( 2 ), Color.black );
+        double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 0.5 ) );
+        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( -ellipseHeight / 2, -ellipseHeight / 2, ellipseHeight, ellipseHeight ), new Color( 0, 0, 255, 128 ), new BasicStroke( 2 ), Color.black );
         addChild( path );
 
         final PText keReadoutText = new PText();
         addChild( keReadoutText );
         addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler(){
+            public void mousePressed( PInputEvent event ) {
+                workEnergyObject.setUserControlled(true);
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                workEnergyObject.setUserControlled(false);
+            }
+        } );
 
         final SimpleObserver updatePosition = new SimpleObserver() {
             public void update() {

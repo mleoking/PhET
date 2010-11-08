@@ -13,7 +13,7 @@ public class WorkEnergyApplication extends PiccoloPhetApplication {
     public WorkEnergyApplication( PhetApplicationConfig config ) {
         super( config );
 
-        addModule( new EnergyModule( getPhetFrame(), new ConstantDtClock( 30, 1 ) ) );
+        addModule( new EnergyModule( getPhetFrame(), new ConstantDtClock( 30, 1.0 / 30 ) ) );
 //        addModule( new WorkModule( getPhetFrame() ) );
     }
 

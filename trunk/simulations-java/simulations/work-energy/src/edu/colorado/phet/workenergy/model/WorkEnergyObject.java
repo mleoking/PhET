@@ -3,43 +3,54 @@ package edu.colorado.phet.workenergy.model;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * @author Sam Reid
  */
 public class WorkEnergyObject {
-    private DoubleProperty mass = new DoubleProperty( 20.0 );//kg
-    private DoubleProperty gravity = new DoubleProperty( 0.0 );//kg/m/m; in space to start with
+    private final DoubleProperty mass = new DoubleProperty( 20.0 );//kg
+    private final DoubleProperty gravity = new DoubleProperty( 0.0 );//kg/m/m; in space to start with
 
-    private MutableVector2D position = new MutableVector2D( 0, 0 );
-    private MutableVector2D velocity = new MutableVector2D( 0, 0 );
-    private MutableVector2D acceleration = new MutableVector2D( 0, 0 );
+    private final MutableVector2D position = new MutableVector2D( 0, 0 );
+    private final MutableVector2D velocity = new MutableVector2D( 0, 0 );
+    private final MutableVector2D acceleration = new MutableVector2D( 0, 0 );
 
-    private MutableVector2D appliedForce = new MutableVector2D( 0, 0 );
-    private MutableVector2D frictionForce = new MutableVector2D( 0, 0 );
-    private MutableVector2D gravityForce = new MutableVector2D( 0, 0 );
-    private MutableVector2D netForce = new MutableVector2D( 0, 0 );
+    private final MutableVector2D appliedForce = new MutableVector2D( 0, 0 );
+    private final MutableVector2D frictionForce = new MutableVector2D( 0, 0 );
+    private final MutableVector2D gravityForce = new MutableVector2D( 0, -9.8 );
+    private final MutableVector2D netForce = new MutableVector2D( 0, 0 );
 
-    private DoubleProperty kineticEnergy = new DoubleProperty( 0 );
-    private DoubleProperty thermalEnergy = new DoubleProperty( 0 );
-    private DoubleProperty potentialEnergy = new DoubleProperty( 0 );
-    private DoubleProperty totalEnergy = new DoubleProperty( 0 );
+    private final DoubleProperty kineticEnergy = new DoubleProperty( 0 );
+    private final DoubleProperty thermalEnergy = new DoubleProperty( 0 );
+    private final DoubleProperty potentialEnergy = new DoubleProperty( 0 );
+    private final DoubleProperty totalEnergy = new DoubleProperty( 0 );
 
-    private DoubleProperty netWork = new DoubleProperty( 0 );
-    private DoubleProperty gravityWork = new DoubleProperty( 0 );
-    private DoubleProperty frictionWork = new DoubleProperty( 0 );
-    private DoubleProperty appliedWork = new DoubleProperty( 0 );
+    private final DoubleProperty netWork = new DoubleProperty( 0 );
+    private final DoubleProperty gravityWork = new DoubleProperty( 0 );
+    private final DoubleProperty frictionWork = new DoubleProperty( 0 );
+    private final DoubleProperty appliedWork = new DoubleProperty( 0 );
     private final BufferedImage image;//image is stored in the model so that we can obtain the correct aspect ratio
+    private final DoubleProperty height;
+    private final BooleanProperty userControlled = new BooleanProperty( false );
 
-    public WorkEnergyObject( BufferedImage image ) {
+    public WorkEnergyObject( BufferedImage image, double height ) {
         this.image = image;
+        this.height = new DoubleProperty( height );
         final SimpleObserver updateNetForce = new SimpleObserver() {
             public void update() {
-                netForce.setValue( appliedForce.getValue().getAddedInstance( frictionForce.getValue() ).getAddedInstance( gravityForce.getValue() ) );
+                if ( position.getValue().getY() <= 0 || isUserControlled() ) {
+                    netForce.setValue( new ImmutableVector2D() );
+                }
+                else {
+                    netForce.setValue( appliedForce.getValue().getAddedInstance( frictionForce.getValue() ).getAddedInstance( gravityForce.getValue() ) );
+                }
             }
         };
+        userControlled.addObserver( updateNetForce );
         appliedForce.addObserver( updateNetForce );
+        position.addObserver( updateNetForce );
         frictionForce.addObserver( updateNetForce );
         gravityForce.addObserver( updateNetForce );
         updateNetForce.update();
@@ -62,11 +73,18 @@ public class WorkEnergyObject {
         };
     }
 
+    private boolean isUserControlled() {
+        return userControlled.getValue();
+    }
+
     public void stepInTime( double dt ) {
         //Assumes driven by applied force, not user setting position manually
         acceleration.setValue( netForce.times( 1.0 / mass.getValue() ) );
         velocity.setValue( acceleration.times( dt ).getAddedInstance( velocity.getValue() ) );
         position.setValue( velocity.times( dt ).getAddedInstance( position.getValue() ) );
+        if ( getY() <= 0 ) {
+            position.setValue( new ImmutableVector2D( getX(), 0 ) );
+        }
 //        System.out.println("position = " + position);
     }
 
@@ -87,7 +105,7 @@ public class WorkEnergyObject {
     }
 
     public WorkEnergyObject copy() {
-        final WorkEnergyObject snapshot = new WorkEnergyObject( image );
+        final WorkEnergyObject snapshot = new WorkEnergyObject( image, getHeight() );
         snapshot.mass.setValue( mass.getValue() );
         snapshot.gravity.setValue( gravity.getValue() );
         snapshot.position.setValue( position.getValue() );
@@ -122,5 +140,17 @@ public class WorkEnergyObject {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public double getHeight() {
+        return height.getValue();
+    }
+
+    public double getWidth() {
+        return image.getWidth() * getHeight() / image.getHeight();
+    }
+
+    public void setUserControlled( boolean b ) {
+        userControlled.setValue( b );
     }
 }

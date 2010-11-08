@@ -8,7 +8,7 @@ import edu.colorado.phet.workenergy.WorkEnergyResources;
  * @author Sam Reid
  */
 public class WorkEnergyModel {
-    private final WorkEnergyObject workEnergyObject = new WorkEnergyObject( WorkEnergyResources.getImage( "crate.gif" ) );
+    private final WorkEnergyObject workEnergyObject = new WorkEnergyObject( WorkEnergyResources.getImage( "crate.gif" ), 1 );
     private final MutableList<Snapshot> snapshots = new MutableList<Snapshot>();
     private IClock clock;
 
