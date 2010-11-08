@@ -273,21 +273,21 @@ public class GradientButtonNode extends PhetPNode {
         return new Color ( red, green, blue, alpha );
     }
 
-    public void setEnabled( boolean enabled ){
-        if ( this._enabled != enabled ){
+    public void setEnabled( boolean enabled ) {
+        if ( this._enabled != enabled ) {
             this._enabled = enabled;
-            if ( enabled ){
+            if ( enabled ) {
                 // Restore original colors.
                 _button.setPaint( getMouseNotOverGradient() );
-                if (_icon instanceof HTMLNode){
-                    ((HTMLNode)_icon).setHTMLColor( _textColor );
+                if ( _icon instanceof HTMLNode ) {
+                    ( (HTMLNode) _icon ).setHTMLColor( _textColor );
                 }
             }
-            else{
+            else {
                 // Set the colors to make the button appear disabled.
                 _button.setPaint( getDisabledGradient() );
-                if (_icon instanceof HTMLNode){
-                    ((HTMLNode)_icon).setHTMLColor( Color.LIGHT_GRAY );
+                if ( _icon instanceof HTMLNode ) {
+                    ( (HTMLNode) _icon ).setHTMLColor( DISABLED_TEXT_COLOR );
                 }
             }
             setPickable( enabled );
