@@ -107,13 +107,6 @@ public class Vector3D extends PhysicalVector {
         return this.subtract( temp );
     }
 
-    public Vector3D normalVector() {
-        if ( true ) {
-            throw new RuntimeException( "not implemented" );
-        }
-        return new Vector3D( this.getY(), -this.getX(), this.getZ() );
-    }
-
     public Vector3D crossProduct( Vector3D that ) {
         Vector3D result = new Vector3D(
                 this.getY() * that.getZ() - this.getZ() * that.getY(),
