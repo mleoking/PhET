@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class WorkEnergyObjectNode extends PNode {
+    public static final int AMOUNT_LINE_EXTENDS_BEYOND_OBJECT = 30;
     private final WorkEnergyObject workEnergyObject;
     private final ModelViewTransform2D transform;
 //    boolean debug = false;
@@ -37,8 +38,7 @@ public class WorkEnergyObjectNode extends PNode {
 
         addChild( child );
 
-        final int amountLineExtendsBeyondObject = 30;
-        final PhetPPath originLine = new PhetPPath( new Line2D.Double( -getObjectWidthView() / 2 - amountLineExtendsBeyondObject, 0, getObjectWidthView() / 2 + amountLineExtendsBeyondObject, 0 ),
+        final PhetPPath originLine = new PhetPPath( new Line2D.Double( -getObjectWidthView() / 2 - AMOUNT_LINE_EXTENDS_BEYOND_OBJECT, 0, getObjectWidthView() / 2 + AMOUNT_LINE_EXTENDS_BEYOND_OBJECT, 0 ),
                                                     new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 4, 4 }, 0 ), Color.black ) {{
             originLineVisible.addObserver( new SimpleObserver() {
                 public void update() {

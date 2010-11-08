@@ -1,5 +1,7 @@
 package edu.colorado.phet.workenergy.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -14,7 +16,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class WorkEnergyRulerNode extends PNode {
-    public WorkEnergyRulerNode( final Property<Boolean> visibleProperty, ModelViewTransform2D transform ) {
+    /**
+     * Constructor.
+     *
+     * @param transform - Model view transform.
+     * @param rulerModelOrigin - Origin point for the ruler - the ruler will be positioned such that the 0 tick
+     * mark on the right side is at this location in model space.
+     */
+    public WorkEnergyRulerNode( final Property<Boolean> visibleProperty, ModelViewTransform2D transform, Point2D rulerModelOrigin ) {
         visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visibleProperty.getValue() );
@@ -23,8 +32,9 @@ public class WorkEnergyRulerNode extends PNode {
 
         final RulerNode rulerNode = new RulerNode( Math.abs( transform.modelToViewDifferentialYDouble( 5 ) ),
                 50, new String[] { "0", "1", "2", "3", "4", "5" }, "m", 4, 18 );
-        rulerNode.setOffset(300, transform.modelToViewYDouble( 0 ) + rulerNode.getInsetWidth() );
         rulerNode.rotate( -Math.PI / 2 );
+        rulerNode.setOffset(transform.modelToViewXDouble( rulerModelOrigin.getX() ) - rulerNode.getFullBoundsReference().width - WorkEnergyObjectNode.AMOUNT_LINE_EXTENDS_BEYOND_OBJECT,
+                transform.modelToViewYDouble( rulerModelOrigin.getY() ) + rulerNode.getInsetWidth() );
         addChild( rulerNode );
 
         addInputEventListener( new CursorHandler() );
