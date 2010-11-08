@@ -39,10 +39,13 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( new SkyNode( transform ) );
         addChild( new GroundNode( transform ) );
         addChild( objectNode );
+        addChild( new PieChartNode( module.getShowPieChartProperty() ) );
+        addChild( new RulerNode( module.getShowRulerProperty() ) );
+//        addChild( new PieChartNode( module.getShowPieChartProperty() ) );
 
         // Control Panel
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
-            final PSwing controlPanelPSwing = new PSwing( new WorkEnergyControlPanel() );
+            final PSwing controlPanelPSwing = new PSwing( new WorkEnergyControlPanel( module ) );
             addChild( controlPanelPSwing );
             addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 1 ), Color.darkGray ) );
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
