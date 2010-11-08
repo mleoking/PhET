@@ -96,10 +96,9 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         PImage closeButtonNode = new PImage( CLImages.CLOSE_BUTTON );
         closeButtonNode.addInputEventListener( new CursorHandler() );
         closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
-
             @Override
             public void mouseReleased( PInputEvent event ) {
-                EFieldDetectorBodyNode.this.setVisible( false );
+                detector.setVisible( false );
             }
         } );
 
