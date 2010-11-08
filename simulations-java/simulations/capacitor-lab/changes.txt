@@ -1,3 +1,4 @@
+11/8/10 new 3D probes from Noah P.
 11/8/10 feasibility test for Noah P. with 3D-looking voltmeter probe
 11/4/10 decided that we will have no collision detection (11/4 status meeting)
 11/4/10 decided not to add grid lines to E-Field Detector because of scale issues (11/4 meeting with NP)
