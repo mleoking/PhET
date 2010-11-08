@@ -1,11 +1,10 @@
-package edu.colorado.phet.workenergy;
+package edu.colorado.phet.workenergy.view;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
-import edu.colorado.phet.workenergy.view.EnergyObjectNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
