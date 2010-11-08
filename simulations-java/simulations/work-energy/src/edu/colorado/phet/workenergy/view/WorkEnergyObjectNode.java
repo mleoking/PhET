@@ -1,7 +1,7 @@
 package edu.colorado.phet.workenergy.view;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -19,8 +19,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class WorkEnergyObjectNode extends PNode {
-    private WorkEnergyObject workEnergyObject;
-    private ModelViewTransform2D transform;
+    private final WorkEnergyObject workEnergyObject;
+    private final ModelViewTransform2D transform;
 //    boolean debug = false;
 
     public WorkEnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform, final Property<Boolean> originLineVisible ) {
@@ -37,10 +37,6 @@ public class WorkEnergyObjectNode extends PNode {
 
         addChild( child );
 
-        double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 0.5 ) );
-        final PhetPPath centerDebugger = new PhetPPath( new Ellipse2D.Double( -ellipseHeight / 2, -ellipseHeight / 2, ellipseHeight, ellipseHeight ), new Color( 0, 0, 255, 128 ), new BasicStroke( 2 ), Color.black );
-        addChild( centerDebugger );
-
         final int amountLineExtendsBeyondObject = 30;
         final PhetPPath originLine = new PhetPPath( new Line2D.Double( -getObjectWidthView() / 2 - amountLineExtendsBeyondObject, 0, getObjectWidthView() / 2 + amountLineExtendsBeyondObject, 0 ),
                                                     new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 4, 4 }, 0 ), Color.black ) {{
@@ -54,14 +50,17 @@ public class WorkEnergyObjectNode extends PNode {
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
+            @Override
             public void mousePressed( PInputEvent event ) {
                 workEnergyObject.setUserControlled( true );
             }
 
+            @Override
             public void mouseDragged( PInputEvent event ) {
                 workEnergyObject.setUserControlled( true );
             }
 
+            @Override
             public void mouseReleased( PInputEvent event ) {
                 workEnergyObject.setUserControlled( false );
             }
