@@ -29,7 +29,6 @@ HIGH PRIORITY
 MEDUIUM PRIORITY
 - decide whether to use Property<T> (currently used in: EFieldDetector, World)
 - dynamic clipping planes for meter probes
-- collision detection of probes with battery and plates (OK to pass through wires and dielectric)
 - all features in Multiple Capacitors tab
 
 LOW PRIORITY
