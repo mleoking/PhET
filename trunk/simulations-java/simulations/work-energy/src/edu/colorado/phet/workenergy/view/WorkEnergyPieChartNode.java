@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.workenergy.model.WorkEnergyObject;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * @author Sam Reid
@@ -21,7 +20,6 @@ public class WorkEnergyPieChartNode extends PNode {
     Function.LinearFunction energyToDiameter = new Function.LinearFunction( 0, 1000, 0, 100 );
 
     public WorkEnergyPieChartNode( final Property<Boolean> visibleProperty, final WorkEnergyObject object, final ModelViewTransform2D transform ) {
-        addChild( new PText( "Pie chart" ) );
         visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visibleProperty.getValue() );
