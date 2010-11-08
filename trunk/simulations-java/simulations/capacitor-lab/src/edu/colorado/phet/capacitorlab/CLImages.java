@@ -22,8 +22,8 @@ public class CLImages {
     public static final BufferedImage SLIDER_KNOB = getBufferedImage( "sliderKnob.png" );
     public static final BufferedImage SLIDER_KNOB_HIGHLIGHT = getBufferedImage( "sliderKnobHighlight.png" );
     public static final BufferedImage VOLTMETER = getBufferedImage( "voltmeter.png" );
-    public static final BufferedImage RED_PROBE = getBufferedImage( "redProbe.png" );
-    public static final BufferedImage BLACK_PROBE = getBufferedImage( "probe_3D_black.png" );
+    public static final BufferedImage RED_VOLTMETER_PROBE = getBufferedImage( "redProbe.png" );
+    public static final BufferedImage BLACK_VOLTMETER_PROBE = getBufferedImage( "probe_3D_black.png" );
     public static final BufferedImage EFIELD_PROBE = getBufferedImage( "e-field_probe.png" );
     
     // common images
