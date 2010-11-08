@@ -1,3 +1,5 @@
+# 0.00.37 (45831) Nov 8, 2010
+11/8/10 demo 3D probe with parallel projection
 11/8/10 new 3D voltmeter black probe with parallel projection, from Noah P.
 11/8/10 check in Sketchup files for 3D probes, created by Noah P.
 11/8/10 another black voltmeter probe image from Noah P, previous one was slightly rotated
