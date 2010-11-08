@@ -27,7 +27,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     public static class PositiveVoltmeterProbeNode extends VoltmeterProbeNode {
         
         public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
-            super( CLImages.RED_PROBE, voltmeter, world, mvt );
+            super( CLImages.RED_VOLTMETER_PROBE, voltmeter, world, mvt );
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( voltmeter.getPositiveProbeLocationReference() ) );
@@ -47,7 +47,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     public static class NegativeVoltmeterProbeNode extends VoltmeterProbeNode {
         
         public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
-            super( CLImages.BLACK_PROBE, voltmeter, world, mvt );
+            super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, world, mvt );
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( voltmeter.getNegativeProbeLocationReference() ) );
