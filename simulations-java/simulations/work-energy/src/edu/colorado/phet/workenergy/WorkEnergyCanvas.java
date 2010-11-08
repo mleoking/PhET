@@ -26,6 +26,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         EnergyObjectNode node = new EnergyObjectNode( model.getObject(), transform );
+        rootNode.addChild( new SkyNode( transform ) );
         rootNode.addChild( new GroundNode( transform ) );
         rootNode.addChild( node );
     }
