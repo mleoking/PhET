@@ -20,7 +20,7 @@ public class WorkEnergyBarGraphNode extends PNode {
             }
         } );
 
-        BarChartNode barGraph = new BarChartNode( "Energy (J)", 0.3, new Color( 0, 0, 0, 0 ) );
+        final BarChartNode barGraph = new BarChartNode( "Energy (J)", 0.3, new Color( 0, 0, 0, 0 ) );
         barGraph.init( new BarChartNode.Variable[] {
                 new WorkEnergyBarValue( "Kinetic", object.getKineticEnergyProperty(), PhetColorScheme.KINETIC_ENERGY, barGraph ),
                 new WorkEnergyBarValue( "Potential", object.getPotentialEnergyProperty(), PhetColorScheme.POTENTIAL_ENERGY, barGraph ),
@@ -29,7 +29,15 @@ public class WorkEnergyBarGraphNode extends PNode {
         } );
         barGraph.scale( 1.2 );
         addChild( barGraph );
-        final VerticalZoomButtons verticalZoomButtons = new VerticalZoomButtons();
+        final VerticalZoomButtons verticalZoomButtons = new VerticalZoomButtons( new Zoomable() {
+            public void zoomOut() {
+                barGraph.setBarScale( barGraph.getBarScale() / 1.2 );
+            }
+
+            public void zoomIn() {
+                barGraph.setBarScale( barGraph.getBarScale() * 1.2 );
+            }
+        } );
         addChild( verticalZoomButtons );
         barGraph.translate( verticalZoomButtons.getFullBounds().getWidth() + 2, 0 );
         verticalZoomButtons.setOffset( 0, barGraph.getFullBounds().getCenterY() - verticalZoomButtons.getFullBounds().getHeight() / 2 );

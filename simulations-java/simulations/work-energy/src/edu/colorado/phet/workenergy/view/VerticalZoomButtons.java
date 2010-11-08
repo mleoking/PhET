@@ -46,15 +46,15 @@ public class VerticalZoomButtons extends PNode {
         }
     }
 
-    public VerticalZoomButtons() {
+    public VerticalZoomButtons( final Zoomable zoomable) {
         final ZoomButton zoomInButton = new ZoomButton( "magnify-plus.png", new Listener() {
             public void actionPerformed() {
-//                chart.zoomInVertical();
+                zoomable.zoomIn();
             }
         } );
         final ZoomButton zoomOutButton = new ZoomButton( "magnify-minus.png", new Listener() {
             public void actionPerformed() {
-//                chart.zoomOutVertical();
+                zoomable.zoomOut();
             }
         } );
         addChild( zoomOutButton );
