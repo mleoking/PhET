@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -46,7 +47,7 @@ public class VerticalZoomButtons extends PNode {
         }
     }
 
-    public VerticalZoomButtons( final Zoomable zoomable) {
+    public VerticalZoomButtons( final Zoomable zoomable ) {
         final ZoomButton zoomInButton = new ZoomButton( "magnify-plus.png", new Listener() {
             public void actionPerformed() {
                 zoomable.zoomIn();
@@ -58,15 +59,13 @@ public class VerticalZoomButtons extends PNode {
             }
         } );
         addChild( zoomOutButton );
-//        chart.getDataModelBounds().addObserver( new SimpleObserver() {
-//            public void update() {
-//                zoomInButton.setEnabled( chart.getDataModelBounds().getHeight() > chart.getMinimumRangeRange() + 1E-6 );
-//                zoomOutButton.setEnabled( chart.getDataModelBounds().getHeight() < chart.getMaximumRangeRange() - 1E-6 );//20000 so that it goes -10000 to 10000
-//                //TODO: cursor hand never goes away
-//            }
-//        } );
+        zoomable.addObserver( new SimpleObserver() {
+            public void update() {
+                zoomInButton.setEnabled( zoomable.isZoomInEnabled() );
+                zoomOutButton.setEnabled( zoomable.isZoomOutEnabled() );
+            }
+        } );
         addChild( zoomInButton );
-
 
         //Add small icons to indicate zoom dimension (i.e. horizontal or vertical)
         PNode upIcon = new TriangleIcon();
