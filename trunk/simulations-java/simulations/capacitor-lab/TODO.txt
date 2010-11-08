@@ -21,9 +21,9 @@ HIGH PRIORITY
 - dynamic clipping planes for meter probes
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - show "?" in voltmeter when probes are not connected to circuit
+- get new 3D probe images with parallel projection from Noah P
 
 MEDUIUM PRIORITY
-- probes and capacitor plate edges don't quite have the same perspective
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 - decide whether to use Property<T> (currently used in: EFieldDetector, World)
 - all features in Multiple Capacitors tab
