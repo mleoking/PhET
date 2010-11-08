@@ -720,6 +720,7 @@ img.centered, .aligncenter, div.aligncenter {
 
 .new-comments-area a {
     color: #666;
+    text-decoration: underline;
 }
 
 .social-sub-div {
