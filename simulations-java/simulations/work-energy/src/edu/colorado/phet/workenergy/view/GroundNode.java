@@ -1,4 +1,4 @@
-package edu.colorado.phet.workenergy;
+package edu.colorado.phet.workenergy.view;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

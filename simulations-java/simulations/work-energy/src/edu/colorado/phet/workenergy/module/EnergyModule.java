@@ -1,4 +1,4 @@
-package edu.colorado.phet.workenergy;
+package edu.colorado.phet.workenergy.module;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.workenergy;
+package edu.colorado.phet.workenergy.controlpanel;
 
 import javax.swing.*;
 

@@ -22,8 +22,8 @@ public class WorkEnergyObjectNode extends PNode {
     public WorkEnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform ) {
         this.workEnergyObject = workEnergyObject;
         this.transform = transform;
-        double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 1 ));
-        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( 0, 0, ellipseHeight, ellipseHeight ) , Color.blue, new BasicStroke( 2 ), Color.black );
+        double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 1 ) );
+        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( 0, 0, ellipseHeight, ellipseHeight ), Color.blue, new BasicStroke( 2 ), Color.black );
         addChild( path );
 
         final PText keReadoutText = new PText();
