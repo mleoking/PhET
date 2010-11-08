@@ -36,7 +36,6 @@ public class BarGraphNode extends PNode {
             value.addObserver( new SimpleObserver() {
                 public void update() {
                     setValue( value.getValue() );
-                    System.out.println( "value.getValue() = " + value.getValue() );
                     parent.update();
                 }
             } );
