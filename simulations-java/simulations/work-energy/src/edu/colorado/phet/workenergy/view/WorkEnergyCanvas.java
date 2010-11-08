@@ -23,11 +23,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class WorkEnergyCanvas extends PhetPCanvas {
-    private ModelViewTransform2D transform;
+    private final ModelViewTransform2D transform;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
-    private PNode rootNode;
+    private final PNode rootNode;
 
-    public WorkEnergyCanvas( final WorkEnergyModule module, WorkEnergyModel model ) {
+    public WorkEnergyCanvas( final WorkEnergyModule<?> module, WorkEnergyModel model ) {
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         transform = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 5, 5 ),
                                               new Point2D.Double( STAGE_SIZE.width * 0.5, STAGE_SIZE.height * 0.86 ), new Point2D.Double( STAGE_SIZE.width, STAGE_SIZE.height * 0.1 ), true );
