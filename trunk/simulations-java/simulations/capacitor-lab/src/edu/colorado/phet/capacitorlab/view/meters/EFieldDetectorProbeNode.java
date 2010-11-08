@@ -48,7 +48,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         
         // Put a '+' at origin to check that probe image is offset properly.
         if ( dev ) {
-            PlusNode plusNode = new PlusNode( 12, 2, Color.GRAY );
+            PlusNode plusNode = new PlusNode( 12, 2, Color.RED );
             addChild( plusNode );
         }
         
