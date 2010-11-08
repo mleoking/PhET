@@ -41,7 +41,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( objectNode );
         addChild( new WorkEnergyPieChartNode( module.getShowPieChartProperty(), model.getObject(), transform ) );
         addChild( new RulerNode( module.getShowRulerProperty() ) );
-        addChild( new BarGraphNode( module.getShowEnergyBarChartProperty(), model.getObject() ) {{
+        addChild( new WorkEnergyBarGraphNode( module.getShowEnergyBarChartProperty(), model.getObject() ) {{
             setOffset( 20, 20 );
         }} );
 
