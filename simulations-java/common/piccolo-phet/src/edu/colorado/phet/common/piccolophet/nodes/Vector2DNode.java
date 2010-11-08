@@ -4,6 +4,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
@@ -70,7 +71,6 @@ public class Vector2DNode extends PhetPNode {
     private DecimalFormat _valueFormat;
     private String _units;
     private boolean _updateEnabled;
-    private boolean _valueVisible;
 
     private Point2D _somePoint; // reusable point
 
@@ -124,7 +124,6 @@ public class Vector2DNode extends PhetPNode {
         _valueFormat = DEFAULT_VALUE_FORMAT;
         _units = DEFAULT_UNITS;
         _updateEnabled = true;
-        _valueVisible = _valueNode.getVisible();
 
         _somePoint = new Point2D.Double();
 
@@ -204,7 +203,6 @@ public class Vector2DNode extends PhetPNode {
      * @param visible true or false
      */
     public void setValueVisible( boolean visible ) {
-        _valueVisible = visible;
         _valueNode.setVisible( visible );
         if ( visible ) {
             update();
@@ -366,97 +364,93 @@ public class Vector2DNode extends PhetPNode {
 
             final double magnitude = PolarCartesianConverter.getRadius( _x, _y );
 
+            // update the arrow
+            final double xTip = _x * ( _referenceLength / _referenceMagnitude );
+            final double yTip = _y * ( _referenceLength / _referenceMagnitude );
+            _somePoint.setLocation( xTip, yTip );
             if ( magnitude == 0 ) {
-                _arrowNode.setVisible( false );
-                _valueNode.setVisible( false );
+                _arrowNode.setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
             }
             else {
-                _arrowNode.setVisible( true );
-                _valueNode.setVisible( _valueVisible );
-
-                // update the arrow
-                final double xTip = _x * ( _referenceLength / _referenceMagnitude );
-                final double yTip = _y * ( _referenceLength / _referenceMagnitude );
-                _somePoint.setLocation( xTip, yTip );
-                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
+                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */);
                 _arrowNode.setPathTo( arrow.getShape() );
+            }
 
-                // update the text
-                if ( _valueNode.getVisible() ) {
+            // update the text
+            if ( _valueNode.getVisible() ) {
 
-                    String text = _valueFormat.format( magnitude );
-                    if ( _units != null && _units.length() > 0 ) {
-                        text = text + " " + _units;
+                String text = _valueFormat.format( magnitude );
+                if ( _units != null && _units.length() > 0 ) {
+                    text = text + " " + _units;
+                }
+                _valueNode.setText( text );
+
+                /* 
+                 * Position the text at the tip of the arrow.
+                 * Sorry about this, and good luck debugging.
+                 * There is undoubtedly a simpler way to do this...
+                 * 
+                 * Basic idea of this algorithm:
+                 * Divide a circle into eight 45-degree slices.
+                 * The vector's angle falls into one of these slices.
+                 * For each slice, the vector's tip slides alone one of 
+                 * the sides of the valueNode's bounds as the angle 
+                 * sweeps through the slice.
+                 * 
+                 * Test changes to this algorithm using TestVector2DNode.
+                 */
+                {
+                    double x = 0;
+                    double y = 0;
+                    final double valueWidth = _valueNode.getFullBoundsReference().getWidth();
+                    final double valueHeight = _valueNode.getFullBoundsReference().getHeight();
+                    double frac = 0;
+                    double angle = PolarCartesianConverter.getAngle( _x, _y );
+                    if ( angle < 0 ) {
+                        angle += ( 2 * Math.PI );
                     }
-                    _valueNode.setText( text );
 
-                    /* 
-                     * Position the text at the tip of the arrow.
-                     * Sorry about this, and good luck debugging.
-                     * There is undoubtedly a simpler way to do this...
-                     * 
-                     * Basic idea of this algorithm:
-                     * Divide a circle into eight 45-degree slices.
-                     * The vector's angle falls into one of these slices.
-                     * For each slice, the vector's tip slides alone one of 
-                     * the sides of the valueNode's bounds as the angle 
-                     * sweeps through the slice.
-                     * 
-                     * Test changes to this algorithm using TestVector2DNode.
-                     */
-                    {
-                        double x = 0;
-                        double y = 0;
-                        final double valueWidth = _valueNode.getFullBoundsReference().getWidth();
-                        final double valueHeight = _valueNode.getFullBoundsReference().getHeight();
-                        double frac = 0;
-                        double angle = PolarCartesianConverter.getAngle( _x, _y );
-                        if ( angle < 0 ) {
-                            angle += ( 2 * Math.PI );
-                        }
-
-                        if ( angle >= 0 && angle < 0.25 * Math.PI ) {
-                            frac = angle / ( 0.25 * Math.PI );
-                            x = xTip + _valueSpacing;
-                            y = yTip - ( ( 1 - frac ) * valueHeight / 2 ) + ( frac * _valueSpacing );
-                        }
-                        else if ( angle >= 0.25 * Math.PI && angle < 0.5 * Math.PI ) {
-                            frac = ( ( 0.5 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
-                            x = xTip - ( ( 1 - frac ) * valueWidth / 2 ) + ( frac * _valueSpacing );
-                            y = yTip + _valueSpacing;
-                        }
-                        else if ( angle >= 0.5 * Math.PI && angle < 0.75 * Math.PI ) {
-                            frac = ( ( 0.75 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
-                            x = xTip - ( valueWidth / 2 ) - ( ( 1 - frac ) * valueWidth / 2 ) - ( ( 1 - frac ) * _valueSpacing );
-                            y = yTip + _valueSpacing;
-                        }
-                        else if ( angle >= 0.75 * Math.PI && angle < Math.PI ) {
-                            frac = ( Math.PI - angle ) / ( 0.25 * Math.PI );
-                            x = xTip - valueWidth - _valueSpacing;
-                            y = yTip - ( ( 1 - frac ) * valueHeight / 2 ) + ( frac * _valueSpacing );
-                        }
-                        else if ( angle >= Math.PI && angle < 1.25 * Math.PI ) {
-                            frac = ( ( 1.25 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
-                            x = xTip - valueWidth - _valueSpacing;
-                            y = yTip - ( valueHeight / 2 ) - ( ( 1 - frac ) * valueHeight / 2 ) - ( ( 1 - frac ) * _valueSpacing );
-                        }
-                        else if ( angle >= 1.25 * Math.PI && angle < 1.5 * Math.PI ) {
-                            frac = ( ( 1.5 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
-                            x = xTip - valueWidth + ( ( 1 - frac ) * valueWidth / 2 ) - ( frac * _valueSpacing );
-                            y = yTip - valueHeight - _valueSpacing;
-                        }
-                        else if ( angle >= 1.5 * Math.PI && angle < 1.75 * Math.PI ) {
-                            frac = ( ( 1.75 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
-                            x = xTip - ( valueWidth / 2 ) + ( ( 1 - frac ) * valueWidth / 2 ) + ( ( 1 - frac ) * _valueSpacing );
-                            y = yTip - valueHeight - _valueSpacing;
-                        }
-                        else {
-                            frac = ( ( 2 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
-                            x = xTip + _valueSpacing;
-                            y = yTip - valueHeight + ( ( 1 - frac ) * valueHeight / 2 ) - ( frac * _valueSpacing );
-                        }
-                        _valueNode.setOffset( x, y );
+                    if ( angle >= 0 && angle < 0.25 * Math.PI ) {
+                        frac = angle / ( 0.25 * Math.PI );
+                        x = xTip + _valueSpacing;
+                        y = yTip - ( ( 1 - frac ) * valueHeight / 2 ) + ( frac * _valueSpacing );
                     }
+                    else if ( angle >= 0.25 * Math.PI && angle < 0.5 * Math.PI ) {
+                        frac = ( ( 0.5 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - ( ( 1 - frac ) * valueWidth / 2 ) + ( frac * _valueSpacing );
+                        y = yTip + _valueSpacing;
+                    }
+                    else if ( angle >= 0.5 * Math.PI && angle < 0.75 * Math.PI ) {
+                        frac = ( ( 0.75 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - ( valueWidth / 2 ) - ( ( 1 - frac ) * valueWidth / 2 ) - ( ( 1 - frac ) * _valueSpacing );
+                        y = yTip + _valueSpacing;
+                    }
+                    else if ( angle >= 0.75 * Math.PI && angle < Math.PI ) {
+                        frac = ( Math.PI - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - valueWidth - _valueSpacing;
+                        y = yTip - ( ( 1 - frac ) * valueHeight / 2 ) + ( frac * _valueSpacing );
+                    }
+                    else if ( angle >= Math.PI && angle < 1.25 * Math.PI ) {
+                        frac = ( ( 1.25 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - valueWidth - _valueSpacing;
+                        y = yTip - ( valueHeight / 2 ) - ( ( 1 - frac ) * valueHeight / 2 ) - ( ( 1 - frac ) * _valueSpacing );
+                    }
+                    else if ( angle >= 1.25 * Math.PI && angle < 1.5 * Math.PI ) {
+                        frac = ( ( 1.5 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - valueWidth + ( ( 1 - frac ) * valueWidth / 2 ) - ( frac * _valueSpacing );
+                        y = yTip - valueHeight - _valueSpacing;
+                    }
+                    else if ( angle >= 1.5 * Math.PI && angle < 1.75 * Math.PI ) {
+                        frac = ( ( 1.75 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip - ( valueWidth / 2 ) + ( ( 1 - frac ) * valueWidth / 2 ) + ( ( 1 - frac ) * _valueSpacing );
+                        y = yTip - valueHeight - _valueSpacing;
+                    }
+                    else {
+                        frac = ( ( 2 * Math.PI ) - angle ) / ( 0.25 * Math.PI );
+                        x = xTip + _valueSpacing;
+                        y = yTip - valueHeight + ( ( 1 - frac ) * valueHeight / 2 ) - ( frac * _valueSpacing );
+                    }
+                    _valueNode.setOffset( x, y );
                 }
             }
         }
