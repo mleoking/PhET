@@ -166,11 +166,11 @@ public class WorkEnergyObject {
         position.setValue( new ImmutableVector2D( getX() + dx, getY() + dy ) );
     }
 
-    private double getY() {
+    public double getY() {
         return getPositionProperty().getValue().getY();
     }
 
-    private double getX() {
+    public double getX() {
         return getPositionProperty().getValue().getX();
     }
 
