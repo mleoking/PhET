@@ -1,8 +1,11 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2010, University of Colorado */
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -11,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * TestVector2DNode is a test application for Vector2DNode.
@@ -18,10 +22,10 @@ import edu.umd.cs.piccolo.PCanvas;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestVector2DNode extends JFrame {
-
-    private Vector2DNode _vectorNode;
-    private LinearValueControl _magnitudeControl;
-    private LinearValueControl _angleControl;
+    
+    private final Vector2DNode _vectorNode;
+    private final LinearValueControl _magnitudeControl, _angleControl;
+    private final JCheckBox _valueVisibleCheckBox;
 
     public TestVector2DNode() {
         super();
@@ -60,12 +64,21 @@ public class TestVector2DNode extends JFrame {
                 updateVectorNode();
             }
         } );
+        
+        _valueVisibleCheckBox = new JCheckBox( "value visible", true );
+        _valueVisibleCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent arg0 ) {
+                updateVectorNode();
+            }
+        } );
 
         Box controlPanel = new Box( BoxLayout.Y_AXIS );
         controlPanel.add( new JSeparator() );
         controlPanel.add( _magnitudeControl );
         controlPanel.add( new JSeparator() );
         controlPanel.add( _angleControl );
+        controlPanel.add( new JSeparator() );
+        controlPanel.add( _valueVisibleCheckBox );
 
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
@@ -74,17 +87,21 @@ public class TestVector2DNode extends JFrame {
 
         setContentPane( panel );
         pack();
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        
+        updateVectorNode();
     }
 
     private void updateVectorNode() {
+        _vectorNode.setValueVisible( _valueVisibleCheckBox.isSelected() );
         double magnitude = _magnitudeControl.getValue();
         double angle = Math.toRadians( _angleControl.getValue() );
         _vectorNode.setMagnitudeAngle( magnitude, angle );
     }
 
     public static void main( String[] args ) {
-        TestVector2DNode test = new TestVector2DNode();
-        test.show();
+        PDebug.debugBounds = true;
+        TestVector2DNode frame = new TestVector2DNode();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }

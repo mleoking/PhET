@@ -18,13 +18,13 @@ HIGH PRIORITY
 - add geometry of probes to model
 - add geometry of battery terminals (+ and -) to model
 - implement BatteryCapacitorCircuit.getVoltageBetween(Point2D,Point2D)
-- get voltmeter and E-field detector working without 3D perspective, then work on 3D
-- BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
+- dynamic clipping planes for meter probes
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
+- show "?" in voltmeter when probes are not connected to circuit
 
 MEDUIUM PRIORITY
+- BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 - decide whether to use Property<T> (currently used in: EFieldDetector, World)
-- dynamic clipping planes for meter probes
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working
