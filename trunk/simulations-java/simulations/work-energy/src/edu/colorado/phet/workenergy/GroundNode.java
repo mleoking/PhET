@@ -16,9 +16,10 @@ public class GroundNode extends PNode {
         int groundWidth = 1000;
         Color topColor = new Color( 144, 199, 86 );
         Color bottomColor = new Color( 103, 162, 87 );
-        double dy = Math.abs( transform2D.modelToViewDifferentialYDouble( 1 ) );//fade color 1 meter down
-        PhetPPath path = new PhetPPath( transform2D.createTransformedShape( new Rectangle2D.Double( -groundWidth, -groundHeight, groundWidth * 2, groundHeight ) ),
-                                        new GradientPaint( 0, 0, topColor, 0, (float) dy, bottomColor ), new BasicStroke( 1.6f ), Color.gray );
+        double yBottom = transform2D.modelToViewYDouble( -2 );//fade color 1 meter down
+        double yTop = transform2D.modelToViewYDouble( 0 );//fade color 1 meter down
+        final Shape viewShape = transform2D.createTransformedShape( new Rectangle2D.Double( -groundWidth, -groundHeight, groundWidth * 2, groundHeight ) );
+        PhetPPath path = new PhetPPath( viewShape, new GradientPaint( 0, (float) yTop, topColor, 0, (float) yBottom, bottomColor ), new BasicStroke( 1 ), Color.gray );
         addChild( path );
     }
 }
