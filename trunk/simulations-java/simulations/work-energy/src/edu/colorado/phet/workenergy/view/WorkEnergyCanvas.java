@@ -39,9 +39,11 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( new SkyNode( transform ) );
         addChild( new GroundNode( transform ) );
         addChild( objectNode );
-        addChild( new WorkEnergyPieChartNode( module.getShowPieChartProperty(),model.getObject(), transform ) );
+        addChild( new WorkEnergyPieChartNode( module.getShowPieChartProperty(), model.getObject(), transform ) );
         addChild( new RulerNode( module.getShowRulerProperty() ) );
-//        addChild( new PieChartNode( module.getShowPieChartProperty() ) );
+        addChild( new BarGraphNode( module.getShowEnergyBarChartProperty(), model.getObject() ) {{
+            setOffset( 20, 20 );
+        }} );
 
         // Control Panel
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
