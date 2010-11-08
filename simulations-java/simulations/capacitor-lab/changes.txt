@@ -1,3 +1,5 @@
+11/8/10 feasibility test for Noah P. with 3D-looking voltmeter probe
+11/4/10 decided that we will have no collision detection (11/4 status meeting)
 11/2/10 control visibility of voltmeter and E-field detector in model
 11/2/10 add getVoltageBetween to circuit model (needs to be properly implemented)
 11/2/10 first pass at voltmeter
