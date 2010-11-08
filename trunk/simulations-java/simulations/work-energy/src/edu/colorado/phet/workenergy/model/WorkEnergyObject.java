@@ -85,7 +85,6 @@ public class WorkEnergyObject {
         if ( getY() <= 0 ) {
             position.setValue( new ImmutableVector2D( getX(), 0 ) );
         }
-//        System.out.println("position = " + position);
     }
 
     public void setAppliedForce( double fx, double fy ) {
@@ -152,5 +151,6 @@ public class WorkEnergyObject {
 
     public void setUserControlled( boolean b ) {
         userControlled.setValue( b );
+        velocity.setValue( new ImmutableVector2D( ));
     }
 }
