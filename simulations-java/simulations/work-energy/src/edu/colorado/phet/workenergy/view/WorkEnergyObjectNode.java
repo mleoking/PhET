@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class WorkEnergyObjectNode extends PNode {
     private WorkEnergyObject workEnergyObject;
     private ModelViewTransform2D transform;
+    boolean debug = false;
 
     public WorkEnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform ) {
         this.workEnergyObject = workEnergyObject;
@@ -37,25 +38,24 @@ public class WorkEnergyObjectNode extends PNode {
 
         addChild( child );
 
-        //for debugging
-        double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 0.5 ) );
-        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( -ellipseHeight / 2, -ellipseHeight / 2, ellipseHeight, ellipseHeight ), new Color( 0, 0, 255, 128 ), new BasicStroke( 2 ), Color.black );
-        addChild( path );
+        if (debug){//for debugging
+            double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 0.5 ) );
+            final PhetPPath centerDebugger = new PhetPPath( new Ellipse2D.Double( -ellipseHeight / 2, -ellipseHeight / 2, ellipseHeight, ellipseHeight ), new Color( 0, 0, 255, 128 ), new BasicStroke( 2 ), Color.black );
+            addChild( centerDebugger );
+        }
 
-        final PText keReadoutText = new PText();
-        addChild( keReadoutText );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler(){
+        addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                workEnergyObject.setUserControlled(true);
+                workEnergyObject.setUserControlled( true );
             }
 
             public void mouseDragged( PInputEvent event ) {
-                workEnergyObject.setUserControlled(true);
+                workEnergyObject.setUserControlled( true );
             }
 
             public void mouseReleased( PInputEvent event ) {
-                workEnergyObject.setUserControlled(false);
+                workEnergyObject.setUserControlled( false );
             }
         } );
 
@@ -66,13 +66,5 @@ public class WorkEnergyObjectNode extends PNode {
         };
         updatePosition.update();
         workEnergyObject.getPositionProperty().addObserver( updatePosition );
-
-        SimpleObserver updateKineticEnergy = new SimpleObserver() {
-            public void update() {
-                keReadoutText.setText( "KE = " + new DecimalFormat( "0.00" ).format( workEnergyObject.getKineticEnergyProperty().getValue() ) );
-            }
-        };
-        updateKineticEnergy.update();
-        workEnergyObject.getKineticEnergyProperty().addObserver( updateKineticEnergy );
     }
 }
