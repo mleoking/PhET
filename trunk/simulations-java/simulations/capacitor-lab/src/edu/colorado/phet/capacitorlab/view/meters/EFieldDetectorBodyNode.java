@@ -476,7 +476,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     private static class FieldVectorNode extends Vector2DNode {
 
         public FieldVectorNode( Color color ) {
-            super( 0, 1, VECTOR_REFERENCE_MAGNITUDE, VECTOR_REFERENCE_LENGTH ); //WORKAROUND: initial layout is wrong if magnitude is zero
+            super( 0, 0, VECTOR_REFERENCE_MAGNITUDE, VECTOR_REFERENCE_LENGTH );
             setArrowFillPaint( color );
             setHeadSize( VECTOR_ARROW_HEAD_SIZE );
             setTailWidth( VECTOR_ARROW_TAIL_WIDTH );
