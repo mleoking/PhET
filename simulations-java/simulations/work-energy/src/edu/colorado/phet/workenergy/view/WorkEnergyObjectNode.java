@@ -50,6 +50,10 @@ public class WorkEnergyObjectNode extends PNode {
                 workEnergyObject.setUserControlled(true);
             }
 
+            public void mouseDragged( PInputEvent event ) {
+                workEnergyObject.setUserControlled(true);
+            }
+
             public void mouseReleased( PInputEvent event ) {
                 workEnergyObject.setUserControlled(false);
             }
