@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
-import org.eclipse.swt.custom.ST;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -37,7 +35,8 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        EnergyObjectNode objectNode = new EnergyObjectNode( model.getObject(), transform );
+        EnergyObjectNode objectNode = new EnergyObjectNode( model.getObject(), transform,
+                                                            module.getShowRulerProperty() );//When showing the ruler, also show the origin line for the object
         addChild( new SkyNode( transform ) );
         addChild( new GroundNode( transform ) );
         addChild( objectNode );
@@ -45,7 +44,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( new EnergyLegend( module.getShowPieChartProperty() ){{
             setOffset( STAGE_SIZE.width-getFullBounds().getWidth()-2,2 );
         }} );
-        addChild( new RulerNode( module.getShowRulerProperty() ) );
+        addChild( new WorkEnergyRulerNode( module.getShowRulerProperty() ) );
         addChild( new WorkEnergyBarGraphNode( module.getShowEnergyBarChartProperty(), model.getObject() ) {{
             setOffset( 20, 20 );
         }} );

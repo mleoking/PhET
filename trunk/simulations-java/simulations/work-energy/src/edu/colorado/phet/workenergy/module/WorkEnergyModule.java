@@ -16,7 +16,7 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
     private ModelType model;
     private Property<Boolean> showPieChartProperty = new Property<Boolean>( true );
     private Property<Boolean> showEnergyBarChartProperty = new Property<Boolean>( true);
-    private Property<Boolean> showRulerProperty = new Property<Boolean>( false );
+    private Property<Boolean> showRulerProperty = new Property<Boolean>( true);
 
     static final int delay = 30;//milliseconds between clock ticks
     static final double delaySec = delay / 1000.0;
