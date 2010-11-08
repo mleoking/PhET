@@ -1,3 +1,5 @@
+# 0.00.36 (45825) Nov 8, 2010
+11/8/10 dev version to demo new 3D probes
 11/8/10 new 3D voltmeter probes from Noah P, with outlined tips
 11/8/10 fixed #2570, Vector2DNode bugs causing layout problems in E-field Detector for zero-magnitude vectors
 11/8/10 new 3D E-field detector probe from Noah P, crosshairs properly centered
