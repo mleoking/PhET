@@ -29,7 +29,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
 
     public WorkEnergyCanvas( final WorkEnergyModule module, WorkEnergyModel model ) {
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
-        transform = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 10, 10 ),
+        transform = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 5, 5 ),
                                               new Point2D.Double( STAGE_SIZE.width * 0.5, STAGE_SIZE.height * 0.86 ), new Point2D.Double( STAGE_SIZE.width, STAGE_SIZE.height * 0.1 ), true );
         // Root of our scene graph
         rootNode = new PNode();
