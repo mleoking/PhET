@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.workenergy.model.WorkEnergyObject;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -22,8 +23,12 @@ public class WorkEnergyObjectNode extends PNode {
     public WorkEnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform ) {
         this.workEnergyObject = workEnergyObject;
         this.transform = transform;
+
+        addChild( new PImage( workEnergyObject.getImage() ) );
+
+        //for debugging
         double ellipseHeight = Math.abs( transform.modelToViewDifferentialYDouble( 1 ) );
-        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( 0, 0, ellipseHeight, ellipseHeight ), Color.blue, new BasicStroke( 2 ), Color.black );
+        final PhetPPath path = new PhetPPath( new Ellipse2D.Double( -ellipseHeight / 2, -ellipseHeight / 2, ellipseHeight, ellipseHeight ), Color.blue, new BasicStroke( 2 ), Color.black );
         addChild( path );
 
         final PText keReadoutText = new PText();
