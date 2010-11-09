@@ -2,13 +2,18 @@ package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
+import edu.colorado.phet.densityandbuoyancy.view.BlockLabelNode;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+
+import flash.display.Sprite;
 
 import mx.containers.Grid;
 import mx.containers.HBox;
 import mx.controls.ComboBox;
 import mx.controls.Label;
+import mx.controls.Spacer;
+import mx.core.UIComponent;
 import mx.events.ListEvent;
 
 public class CustomObjectPropertiesPanel extends DensityVBox {
@@ -92,6 +97,16 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         namePanel.visible = densityObject.nameVisibleProperty.value;
         comboBoxPanel.addChild( comboBox );
         addChild( comboBoxPanel );
+
+        var sprite: Sprite = new BlockLabelNode( densityObject.name, densityObject.nameVisibleProperty );
+        var uiComponent: UIComponent = new UIComponent();
+        uiComponent.width = sprite.width;
+        uiComponent.addChild( sprite );
+        var spacer: Spacer = new Spacer();
+        spacer.percentWidth = 100;
+        comboBoxPanel.percentWidth = 100;
+        comboBoxPanel.addChild( spacer );
+        comboBoxPanel.addChild( uiComponent );
 
         addChild( grid );
     }

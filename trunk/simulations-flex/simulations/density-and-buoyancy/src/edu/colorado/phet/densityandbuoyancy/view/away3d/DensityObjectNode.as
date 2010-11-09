@@ -38,7 +38,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         densityObject.addRemovalListener( remove );
 
         densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
-        _blockLabelNode = new BlockLabelNode( canvas, densityObject.name, this, canvas.mainCamera, canvas.mainViewport, densityObject.nameVisibleProperty );
+        _blockLabelNode = new Away3DBlockLabelNode( densityObject.name, this, densityObject.nameVisibleProperty, canvas, canvas.mainCamera, canvas.mainViewport );
     }
 
     public function get canvas(): AbstractDBCanvas {
