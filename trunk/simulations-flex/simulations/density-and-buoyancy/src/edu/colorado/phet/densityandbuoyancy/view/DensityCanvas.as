@@ -20,7 +20,7 @@ public class DensityCanvas extends AbstractDBCanvas {
     private var mode: Mode;
 
     public function DensityCanvas() {
-        super();
+        super( false );
     }
 
     public function doInit( densityCanvas: DensityContainer ): void {
