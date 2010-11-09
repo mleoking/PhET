@@ -7,7 +7,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.buildanatom.modules.game.view.Function1;
+import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -29,7 +34,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     private final PNode rootNode;
 
-    public WorkEnergyCanvas( final WorkEnergyModule<?> module, WorkEnergyModel model ) {
+    public WorkEnergyCanvas( final WorkEnergyModule<?> module, final WorkEnergyModel model ) {
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         transform = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 5, 5 ),
                                               new Point2D.Double( STAGE_SIZE.width * 0.5, STAGE_SIZE.height * 0.86 ), new Point2D.Double( STAGE_SIZE.width, STAGE_SIZE.height * 0.1 ), true );
@@ -72,6 +77,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         }} );
 
         addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
+
             DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
 
             public String apply( Double aDouble ) {
@@ -79,7 +85,28 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             }
         } ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, "0.00", model.getClock() ) {{
+                makeTransparent( this );
+                addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        model.getClock().setDt( getValue() );
+                    }
+                } );
+            }};
+            addChild( new PSwing( timeSpeedSlider ) {{
+                setOffset( -getFullBounds().getWidth(), 0 );
+            }} );
         }} );
+    }
+
+    private void makeTransparent( JComponent component ) {
+        component.setBackground( new Color( 0, 0, 0, 0 ) );
+        component.setOpaque( false );
+        for ( Component component1 : component.getComponents() ) {
+            if ( component1 instanceof JComponent ) {
+                makeTransparent( (JComponent) component1 );
+            }
+        }
     }
 
     private void addChild( PNode node ) {
