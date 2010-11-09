@@ -1,7 +1,6 @@
 package edu.colorado.phet.workenergy.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;

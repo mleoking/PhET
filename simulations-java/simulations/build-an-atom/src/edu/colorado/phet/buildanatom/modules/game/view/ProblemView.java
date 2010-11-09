@@ -14,8 +14,8 @@ import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.DisableableGradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -149,7 +149,7 @@ public abstract class ProblemView extends StateView {
         clock.stop();
     }
 
-    private static class GameButtonNode extends DisableableGradientButtonNode {
+    private static class GameButtonNode extends GradientButtonNode{
         /**
          * Constructor.
          *

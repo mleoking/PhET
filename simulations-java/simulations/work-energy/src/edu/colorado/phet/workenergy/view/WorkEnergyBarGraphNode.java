@@ -30,13 +30,13 @@ public class WorkEnergyBarGraphNode extends PNode {
         } );
         barGraph.scale( 1.2 );
         addChild( barGraph );
-        final VerticalZoomButtons verticalZoomButtons = new VerticalZoomButtons( new Zoomable( initialScale / 10, initialScale, initialScale * 10 ){{
+        final VerticalZoomButtons verticalZoomButtons = new VerticalZoomButtons( new Zoomable( initialScale / 10, initialScale, initialScale * 10 ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     barGraph.setBarScale( getZoomLevel() );
                 }
             } );
-        }}) ;
+        }} );
         addChild( verticalZoomButtons );
         barGraph.translate( verticalZoomButtons.getFullBounds().getWidth() + 2, 0 );
         verticalZoomButtons.setOffset( 0, barGraph.getFullBounds().getCenterY() - verticalZoomButtons.getFullBounds().getHeight() / 2 );

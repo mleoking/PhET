@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
-import edu.colorado.phet.common.piccolophet.nodes.DisableableGradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -101,7 +101,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private MembranePotentialChart membranePotentialChart;
     
     // Button for stimulating the neuron.
-    DisableableGradientButtonNode stimulateNeuronButton;
+    GradientButtonNode stimulateNeuronButton;
     
     // Concentration readouts.
     PText sodiumInteriorConcentrationReadout;
@@ -198,7 +198,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         addScreenChild(chartLayer);
         
         // Add the button for stimulating the neuron.
-        stimulateNeuronButton = new DisableableGradientButtonNode(NeuronStrings.STIMULATE_BUTTON_CAPTION, 12,
+        stimulateNeuronButton = new GradientButtonNode(NeuronStrings.STIMULATE_BUTTON_CAPTION, 12,
         		CANVAS_BUTTON_COLOR);
         stimulateNeuronButton.scale(2);
         stimulateNeuronButton.setOffset(10, 10);

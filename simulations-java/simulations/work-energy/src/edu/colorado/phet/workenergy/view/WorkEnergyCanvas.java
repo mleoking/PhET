@@ -16,7 +16,6 @@ import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.module.WorkEnergyModule;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -42,11 +41,11 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( new GroundNode( transform ) );
         addChild( objectNode );
         addChild( new WorkEnergyPieChartNode( module.getShowPieChartProperty(), model.getObject(), transform ) );
-        addChild( new EnergyLegend( module.getShowPieChartProperty() ){{
-            setOffset( STAGE_SIZE.width-getFullBounds().getWidth()-2,2 );
+        addChild( new EnergyLegend( module.getShowPieChartProperty() ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 2, 2 );
         }} );
         addChild( new WorkEnergyRulerNode( module.getShowRulerProperty(), transform,
-                new Point2D.Double(model.getObject().getX() - model.getObject().getWidth() / 2, 0) ) );
+                                           new Point2D.Double( model.getObject().getX() - model.getObject().getWidth() / 2, 0 ) ) );
         addChild( new WorkEnergyBarGraphNode( module.getShowEnergyBarChartProperty(), model.getObject() ) {{
             setOffset( 20, 20 );
         }} );
