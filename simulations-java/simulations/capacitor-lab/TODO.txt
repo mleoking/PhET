@@ -3,6 +3,9 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
+- if voltmeter probes touch, should voltmeter read zero? this will be difficult for the user to do with our '2D plane' probes
+- do voltmeter probes read on both top and bottom surfaces of a plate? how about inside plate?
+- concerns about 3D perspective and probe movement
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
@@ -20,6 +23,7 @@ HIGH PRIORITY
 - implement BatteryCapacitorCircuit.getVoltageBetween(Point2D,Point2D)
 - dynamic clipping planes for meter probes
 - get new 3D probe images with parallel projection from Noah P
+- wire doesn't connect to top terminal of battery when top terminal is negative
 
 MEDUIUM PRIORITY
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector

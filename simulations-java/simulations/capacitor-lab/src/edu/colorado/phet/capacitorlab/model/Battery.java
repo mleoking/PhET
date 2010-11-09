@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -32,6 +35,34 @@ public class Battery {
         this.voltage = voltage;
         this.polarity = getPolarity( voltage );
         listeners = new EventListenerList();
+    }
+    
+    public Shape createPositiveTerminalShape() {
+        final double terminalWidth = diameter / 4;
+        final double terminalHeight = diameter / 6;
+        double x = location.getX() - terminalWidth;
+        double y;
+        if ( polarity == Polarity.POSITIVE ) {
+            y = location.getY() - length/2 - terminalHeight;
+        }
+        else {
+            y = location.getY() + length/2;
+        }
+        return new Rectangle2D.Double( x, y, terminalWidth, terminalHeight );
+    }
+    
+    public Shape createNegativeTerminalShape() {
+        final double terminalWidth = diameter / 4;
+        final double terminalHeight = diameter / 6;
+        double x = location.getX() - terminalWidth;
+        double y;
+        if ( polarity == Polarity.POSITIVE ) {
+            y = location.getY() + length/2 - terminalHeight;
+        }
+        else {
+            y = location.getY() - length/2;
+        }
+        return new Ellipse2D.Double( x, y, terminalWidth, terminalHeight );
     }
     
     public Point3D getLocationReference() {
@@ -77,6 +108,24 @@ public class Battery {
     
     private static Polarity getPolarity( double voltage ) {
         return ( voltage >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
+    }
+    
+    public boolean topTerminalContains( Point3D p ) {
+        if ( polarity == Polarity.POSITIVE ) {
+            return createPositiveTerminalShape().contains( p.getX(), p.getY() );
+        }
+        else {
+            return createNegativeTerminalShape().contains( p.getX(), p.getY() );
+        }
+    }
+    
+    public boolean bottomTerminalContains( Point3D p ) {
+        if ( polarity == Polarity.NEGATIVE ) {
+            return createPositiveTerminalShape().contains( p.getX(), p.getY() );
+        }
+        else {
+            return createNegativeTerminalShape().contains( p.getX(), p.getY() );
+        }
     }
     
     public interface BatteryChangeListener extends EventListener {
