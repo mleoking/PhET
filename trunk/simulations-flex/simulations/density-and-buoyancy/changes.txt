@@ -1,3 +1,4 @@
+# 1.02.05 (45875) Nov 9, 2010
 Internal fixes
 Buoyancy: Increased pool depth on buoyancy playground tab to prevent overflow
 Buoyancy: Fixed: Move "A" and "B" labels to top right of control boxes.
