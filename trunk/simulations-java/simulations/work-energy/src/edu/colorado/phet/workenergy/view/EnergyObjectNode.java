@@ -16,22 +16,30 @@ public class EnergyObjectNode extends WorkEnergyObjectNode {
     public EnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform, Property<Boolean> originLineVisible ) {
         super( workEnergyObject, transform, originLineVisible );
         addInputEventListener( new PBasicInputEventHandler() {
-            private Point2D grabPoint;
+            private Point2D.Double relativeGrabPoint;
 
             public void mousePressed( PInputEvent event ) {
                 updateGrabPoint( event );
             }
 
             private void updateGrabPoint( PInputEvent event ) {
-                grabPoint = transform.viewToModel( event.getPositionRelativeTo( getParent() ) );
+                Point2D viewStartingPoint = event.getPositionRelativeTo( getParent() );
+                Point2D viewCoordinateOfObject = transform.modelToView( workEnergyObject.getX(), workEnergyObject.getY() );
+                relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
             }
 
             public void mouseDragged( PInputEvent event ) {
-                if ( grabPoint == null ) {
+                if ( relativeGrabPoint == null ) {
                     updateGrabPoint( event );
                 }
-                Point2D modelLocation = transform.viewToModel( event.getPositionRelativeTo( getParent() ) );
-                workEnergyObject.setPosition( modelLocation.getX() - grabPoint.getX(), Math.max( modelLocation.getY() - grabPoint.getY(), 0 ) );//not allowed to go to negative Potential Energy
+                final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
+                Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
+                                                               newDragPosition.getY() - relativeGrabPoint.getY() );
+                workEnergyObject.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), 0 ) );//not allowed to go to negative Potential Energy
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                relativeGrabPoint = null;
             }
         } );
     }
