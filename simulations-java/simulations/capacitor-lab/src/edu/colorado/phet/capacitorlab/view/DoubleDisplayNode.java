@@ -22,16 +22,14 @@ public class DoubleDisplayNode extends HTMLNode {
     private String units; // the value's units
     private String labelValueUnitsPattern; // pattern that determines the order of label, value and units
     private String notANumber; // what to display if the value is not a number
-    private boolean showSign;
     
-    public DoubleDisplayNode( double value, String label, NumberFormat valueFormat, String units, String labelValueUnitsPattern, String notANumber, boolean showSign ) {
+    public DoubleDisplayNode( double value, String label, NumberFormat valueFormat, String units, String labelValueUnitsPattern, String notANumber ) {
         this.value = value;
         this.label = label;
         this.valueFormat = valueFormat;
         this.units = units;
         this.labelValueUnitsPattern = labelValueUnitsPattern;
         this.notANumber = notANumber;
-        this.showSign = showSign;
         update();
     }
     
@@ -91,24 +89,12 @@ public class DoubleDisplayNode extends HTMLNode {
         return notANumber;
     }
     
-    public void setShowSign( boolean showSign ) {
-        this.showSign = showSign;
-        update();
-    }
-    
-    public boolean isShowSign() {
-        return showSign;
-    }
-    
     private void update() {
         String valueString = null;
         if ( Double.isNaN( value ) ) {
             valueString = notANumber;
         }
         else {
-            if ( showSign ) {
-                valueString = ( value < 0 ) ? "-" : "+";
-            }
             valueString = valueFormat.format( value ); // eg, "1.234"
         }
         String displayString = MessageFormat.format( labelValueUnitsPattern, label, valueString, units ); // eg, "voltage: 1.234 V"

@@ -23,7 +23,6 @@ HIGH PRIORITY
 - get new 3D probe images with parallel projection from Noah P
 
 MEDUIUM PRIORITY
-- Voltmeter needs a close button, similar to other meters
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 - decide whether to use Property<T> (currently used in: EFieldDetector, World)
