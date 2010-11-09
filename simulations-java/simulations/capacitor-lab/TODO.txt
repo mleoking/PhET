@@ -22,10 +22,10 @@ HIGH PRIORITY
 - move logic in BatteryCapacitorCircuit.createWire into new WireSegment subclass that connect to Battery and Capacitor
 - when battery polarity changes, update wire segments that are connected to the battery
 - dynamic clipping planes for meter probes
-- get new 3D probe images with parallel projection from Noah P
 - wire doesn't connect to top terminal of battery when top terminal is negative
 
 MEDUIUM PRIORITY
+- small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
 - decide whether to use Property<T> (currently used in: EFieldDetector, World)
