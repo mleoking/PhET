@@ -19,19 +19,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class WireSegment {
 
-    private final double thickness;
     private final Property<Point2D> startPointProperty, endPointProperty;
 
-    public WireSegment( double thickness, Point2D startPoint, Point2D endPoint ) {
-        this.thickness = thickness;
+    public WireSegment( Point2D startPoint, Point2D endPoint ) {
         this.startPointProperty = new Property<Point2D>( new Point2D.Double( startPoint.getX(), startPoint.getY() ) );
         this.endPointProperty = new Property<Point2D>( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
     }
     
-    public double getThickness() {
-        return thickness;
-    }
-
     public void addStartPointObserver( SimpleObserver o ) {
         startPointProperty.addObserver( o );
     }
@@ -56,7 +50,7 @@ public class WireSegment {
         this.endPointProperty.setValue( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
     }
     
-    public Shape createShape() {
+    public Shape createShape( double thickness ) {
         Line2D line = new Line2D.Double( getStartPoint(), getEndPoint() );
         /*
          *  CAP_SQUARE ensures that the joints between segments will look correct.
