@@ -20,8 +20,6 @@ import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapac
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.*;
-import edu.colorado.phet.capacitorlab.view.WireNode.BottomWireNode;
-import edu.colorado.phet.capacitorlab.view.WireNode.TopWireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.PNode;
@@ -40,8 +38,6 @@ public class DielectricCanvas extends CLCanvas {
     // circuit
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
-    private final TopWireNode topWireNode;
-    private final BottomWireNode bottomWireNode;
     private final AddWiresButtonNode addWiresButtonNode;
     private final RemoveWiresButtonNode removeWiresButtonNode;
     private final CurrentIndicatorNode topCurrentIndicatorNode, bottomCurrentIndicatorNode;
@@ -65,7 +61,9 @@ public class DielectricCanvas extends CLCanvas {
     
     // bounds of the play area, for constraining dragging to within the play area
     private final PPath playAreaBoundsNode;
-    
+    private WireBranchNode topWireBranchNode;
+    private WireBranchNode bottomWireBranchNode;
+
     public DielectricCanvas( final DielectricModel model, boolean dev ) {
         
         this.model = model;
@@ -80,9 +78,9 @@ public class DielectricCanvas extends CLCanvas {
         
         batteryNode = new BatteryNode( model.getBattery(), mvt, dev, CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );
-        topWireNode = new TopWireNode( model.getTopWire(), model.getCapacitor(), model.getBattery(), mvt );
-        bottomWireNode = new BottomWireNode( model.getBottomWire(), model.getCapacitor(), model.getBattery(), mvt );
-        
+        topWireBranchNode = new WireBranchNode( model.getTopWireBranch(), mvt );
+        bottomWireBranchNode = new WireBranchNode( model.getBottomWireBranch(), mvt );
+
         addWiresButtonNode = new AddWiresButtonNode( model.getCircuit() );
         removeWiresButtonNode = new RemoveWiresButtonNode( model.getCircuit() );
         
@@ -105,13 +103,11 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
         
-        WireBranchNode wireBranchNode = new WireBranchNode( model.getSomeWireBranch(), mvt );
-        
         // rendering order
-        addChild( bottomWireNode );
+        addChild( bottomWireBranchNode );
         addChild( batteryNode );
         addChild( capacitorNode );
-        addChild( topWireNode );
+        addChild( topWireBranchNode );
         addChild( topCurrentIndicatorNode );
         addChild( bottomCurrentIndicatorNode );
         addChild( dielectricOffsetDragHandleNode );
@@ -131,8 +127,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( eFieldDetector.getBodyNode() );
         addChild( eFieldDetector.getWireNode() );
         addChild( eFieldDetector.getProbeNode() );
-        addChild( wireBranchNode );
-        
+
         // nodes whose visibility causes the capacitor to become transparent
         capacitorTransparencyNodes = new ArrayList<PNode>();
         addCapacitorTransparencyNode( capacitorNode.getEFieldNode() );
@@ -153,24 +148,24 @@ public class DielectricCanvas extends CLCanvas {
             capacitorNode.setOffset( pView );
             
             // top current indicator
-            double topWireThickness = mvt.modelToViewDelta( model.getTopWire().getThickness(), 0, 0 ).getX();
-            x = topWireNode.getFullBoundsReference().getCenterX();
-            y = topWireNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
+            double topWireThickness = mvt.modelToViewDelta( model.getTopWireBranch().getThickness(), 0, 0 ).getX();
+            x = topWireBranchNode.getFullBoundsReference().getCenterX();
+            y = topWireBranchNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
             topCurrentIndicatorNode.setOffset( x, y );
             
             // bottom current indicator
-            double bottomWireThickness = mvt.modelToViewDelta( model.getBottomWire().getThickness(), 0, 0 ).getX();
-            x = bottomWireNode.getFullBoundsReference().getCenterX();
-            y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
+            double bottomWireThickness = mvt.modelToViewDelta( model.getBottomWireBranch().getThickness(), 0, 0 ).getX();
+            x = bottomWireBranchNode.getFullBoundsReference().getCenterX();
+            y = bottomWireBranchNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             bottomCurrentIndicatorNode.setOffset( x, y );
             
             // "Add Wires" button
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( addWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
+            x = topWireBranchNode.getFullBoundsReference().getCenterX() - ( addWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
             y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - addWiresButtonNode.getFullBoundsReference().getHeight() - 10;
             addWiresButtonNode.setOffset( x, y );
             
             // "Remove Wires" button
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( removeWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
+            x = topWireBranchNode.getFullBoundsReference().getCenterX() - ( removeWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
             y = addWiresButtonNode.getYOffset();
             removeWiresButtonNode.setOffset( x, y );
             
@@ -238,8 +233,8 @@ public class DielectricCanvas extends CLCanvas {
     private void updateBatteryConnectivity() {
         boolean isConnected = model.getCircuit().isBatteryConnected();
         // visible when battery is connected
-        topWireNode.setVisible( isConnected );
-        bottomWireNode.setVisible( isConnected );
+        topWireBranchNode.setVisible( isConnected );
+        bottomWireBranchNode.setVisible( isConnected );
         topCurrentIndicatorNode.setVisible( isConnected );
         bottomCurrentIndicatorNode.setVisible( isConnected );
         // visible when battery is disconnected
