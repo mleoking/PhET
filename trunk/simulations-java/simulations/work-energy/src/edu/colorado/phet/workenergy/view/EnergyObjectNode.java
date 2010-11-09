@@ -16,9 +16,22 @@ public class EnergyObjectNode extends WorkEnergyObjectNode {
     public EnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform, Property<Boolean> originLineVisible ) {
         super( workEnergyObject, transform, originLineVisible );
         addInputEventListener( new PBasicInputEventHandler() {
+            private Point2D grabPoint;
+
+            public void mousePressed( PInputEvent event ) {
+                updateGrabPoint( event );
+            }
+
+            private void updateGrabPoint( PInputEvent event ) {
+                grabPoint = transform.viewToModel( event.getPositionRelativeTo( getParent() ) );
+            }
+
             public void mouseDragged( PInputEvent event ) {
-                Point2D modelDelta = transform.viewToModelDifferential( event.getDeltaRelativeTo( EnergyObjectNode.this ) );
-                workEnergyObject.translate( modelDelta.getX(), modelDelta.getY() );
+                if ( grabPoint == null ) {
+                    updateGrabPoint( event );
+                }
+                Point2D modelLocation = transform.viewToModel( event.getPositionRelativeTo( getParent() ) );
+                workEnergyObject.setPosition( modelLocation.getX() - grabPoint.getX(), Math.max( modelLocation.getY() - grabPoint.getY(), 0 ) );//not allowed to go to negative Potential Energy
             }
         } );
     }
