@@ -12,7 +12,7 @@ public class CSS {
     public static final String CATEGORY_PAGE = "/css/category-page-v1.css";
     public static final String CONTRIBUTION_BROWSE = "/css/contribution-browse-v2.css";
     public static final String CONTRIBUTION_MAIN = "/css/contribution-main-v2.css";
-    public static final String HOME = "/css/home-v3.css";
+    public static final String HOME = "/css/home-v4.css";
     public static final String MENU_PAGE = "/css/menu-page-v4.css";
     public static final String NAV_BREADCRUMBS = "/css/nav-breadcrumbs-v1.css";
     public static final String NAV_MENU = "/css/navmenu-v3.css";
