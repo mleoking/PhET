@@ -19,6 +19,7 @@ DESIGN ISSUES
 HIGH PRIORITY
 - revisit: Wire.createShape
 - revisit: move bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
+- when battery polarity changes, update wire segments that are connected to the battery
 - dynamic clipping planes for meter probes
 - get new 3D probe images with parallel projection from Noah P
 - wire doesn't connect to top terminal of battery when top terminal is negative

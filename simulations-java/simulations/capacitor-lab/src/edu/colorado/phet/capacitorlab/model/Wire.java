@@ -13,17 +13,25 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 /**
  * A wire is a collection of connected wire segments.
  * It has an associated voltage.
+ * <p>
+ * NOTE: It's the client's responsibility to ensure 
+ * that all segments are connected.  No checking is done here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Wire {
     
     private final ArrayList<WireSegment> wireSegments;
+    private final double thickness;
+    
     private final Property<Shape> shapeProperty;
     private final Property<Double> voltageProperty;
 
-    public Wire( ArrayList<WireSegment> wireSegments ) {
+    public Wire( ArrayList<WireSegment> wireSegments, double thickness ) {
+        assert( wireSegments != null && wireSegments.size() > 0 );
+        assert( thickness > 0 );
         
+        this.thickness = thickness;
         this.wireSegments = new ArrayList<WireSegment>( wireSegments );
         this.shapeProperty = new Property<Shape>( createShape() );
         this.voltageProperty = new Property<Double>( 0.0 );
@@ -42,6 +50,10 @@ public class Wire {
         }
     }
     
+    public double getThickness() {
+        return thickness;
+    }
+    
     public double getVoltage() {
         return voltageProperty.getValue();
     }
@@ -58,14 +70,10 @@ public class Wire {
         return shapeProperty.getValue();
     }
     
-    public double getThickness() {
-        return wireSegments.get( 0 ).getThickness();
-    }
-    
     private Shape createShape() {
         Area area = new Area();
         for ( WireSegment wireSegment : wireSegments ) {
-            area.add( new Area( wireSegment.createShape() ) );
+            area.add( new Area( wireSegment.createShape( thickness ) ) );
         }
         return area;
     }
