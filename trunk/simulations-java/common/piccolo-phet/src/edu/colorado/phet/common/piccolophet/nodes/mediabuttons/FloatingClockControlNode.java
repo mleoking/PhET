@@ -1,24 +1,27 @@
-package edu.colorado.phet.gravityandorbits.view;
+package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.*;
 
+import edu.colorado.phet.buildanatom.modules.game.view.Function1;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * Shows the play/pause button and step button without a container, useful when the
+ * clock control buttons should be displayed in the play area.
+ *
  * @author Sam Reid
  */
-public class GravityAndOrbitsClockControlNode extends PNode {
+public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
-    public GravityAndOrbitsClockControlNode( final IClock clock ) {
+    public FloatingClockControlNode( final IClock clock,
+                                     final Function1<Double, String> getTimeReadout ) {//The function used for displaying the time readout
         playPauseButton = new PlayPauseButton( 80 ) {{
             final Listener updatePlayPauseButtons = new Listener() {
                 public void playbackStateChanged() {
@@ -84,14 +87,10 @@ public class GravityAndOrbitsClockControlNode extends PNode {
 
             clock.addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    setText( (int) ( toEarthDays( clock.getSimulationTime() ) ) + " Earth Days" );
+                    setText( getTimeReadout.apply( clock.getSimulationTime() ) );
                     setOffset( stepButton.getFullBounds().getMaxX() + 5, stepButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
                 }
             } );
         }} );
-    }
-
-    private double toEarthDays( double simulationTime ) {
-        return simulationTime / 86400;
     }
 }
