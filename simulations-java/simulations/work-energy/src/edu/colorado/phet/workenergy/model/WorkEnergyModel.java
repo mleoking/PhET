@@ -44,6 +44,7 @@ public class WorkEnergyModel {
 
     public void resetAll() {
         clock.resetSimulationTime();
+        clock.setDt( DEFAULT_DT );
         workEnergyObject.reset();
 //        snapshots.clear();
     }
