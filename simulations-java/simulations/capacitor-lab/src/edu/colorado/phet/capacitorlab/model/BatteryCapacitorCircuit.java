@@ -133,9 +133,9 @@ public class BatteryCapacitorCircuit {
 
     private Wire createWire( final Capacitor capacitor, final Point2D batteryStartPoint, final Point2D leftCorner, final Point2D rightCorner, final Function0<Point2D> getCapacitorPoint ) {
         ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
-            add( new WireSegment( batteryStartPoint, leftCorner ) );
-            add( new WireSegment( leftCorner, rightCorner ) );
-            add( new WireSegment( rightCorner, getCapacitorPoint.apply() ) {{
+            add( new WireSegment( WIRE_THICKNESS, batteryStartPoint, leftCorner ) );
+            add( new WireSegment( WIRE_THICKNESS, leftCorner, rightCorner ) );
+            add( new WireSegment( WIRE_THICKNESS, rightCorner, getCapacitorPoint.apply() ) {{
                 capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
                     @Override
                     public void plateSeparationChanged() {
@@ -144,7 +144,7 @@ public class BatteryCapacitorCircuit {
                 } );
             }} );
         }};
-        return new Wire( WIRE_THICKNESS, segments );
+        return new Wire( segments );
     }
 
     //----------------------------------------------------------------------------------
