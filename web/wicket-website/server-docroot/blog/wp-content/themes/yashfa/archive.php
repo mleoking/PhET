@@ -68,8 +68,9 @@
                     </div>
                     <div class="two">
                         <div class="dater">
-                            <h3 style="font-size: 150%;"><?php the_time( 'D d' ) ?></h3>
-                            <h5><?php the_time( 'M Y' ) ?></h5>
+                            <h3 style="font-size: 120%;"><?php the_time( 'l' ) ?></h3>
+                            <h3 style="font-size: 150%;"><?php the_time( 'M j' ) ?></h3>
+                            <h5><?php the_time( 'Y' ) ?></h5>
                         </div>
                         <p class="metadata"><br/><?php _e( 'by', 'yashfa' ); ?> <?php  the_author( ) ?>
                             <br/><?php _e( 'posted in<br/>', 'yashfa' ); ?> <?php  the_category( ', ' ) ?> <?php edit_post_link( __( 'Edit', 'yashfa' ), '', '' ); ?>
