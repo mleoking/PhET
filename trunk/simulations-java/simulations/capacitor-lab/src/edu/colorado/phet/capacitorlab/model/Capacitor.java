@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -120,6 +121,22 @@ public class Capacitor {
      */
     public double getPlateSeparation() {
         return plateSeparation;
+    }
+    
+    /**
+     * Convenience method for determining the attachment point on the top plate.
+     * @return
+     */
+    public Point2D getTopPlateCenter() {
+        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() - ( plateSeparation/2 ) );
+    }
+    
+    /**
+     * Convenience method for determining the attachment point on the bottom plate.
+     * @return
+     */
+    public Point2D getBottomPlateCenter() {
+        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() + ( plateSeparation/2 ) );
     }
     
     /**

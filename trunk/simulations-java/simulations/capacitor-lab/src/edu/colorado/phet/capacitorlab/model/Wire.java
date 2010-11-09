@@ -11,7 +11,7 @@ package edu.colorado.phet.capacitorlab.model;
 public class Wire {
     
     private final double thickness; // mm
-    private final double extent; // how far the wire extends vertically from the capacitor's orgin (mm)
+    private final double extent; // how far the wire extends vertically from the capacitor's origin (mm)
     
     public Wire( double thickness, double extent ) {
         this.thickness = thickness;
