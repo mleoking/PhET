@@ -1,3 +1,5 @@
+# 1.00.07 (45884) Nov 9, 2010
+11/9/10 Deploying to dev in order to test on Mac.
 Fixed an issue where the spinners in the various game views were not correctly sized on Macs.
 Internal fix: improved interface for PeriodicTableNode for usage in game mode
 # 1.00.06 (45782) Nov 5, 2010
