@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.module.WorkEnergyModule;
@@ -62,7 +61,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             final PSwing controlPanelPSwing = new PSwing( new WorkEnergyControlPanel( module ) );
             addChild( controlPanelPSwing );
             addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 1 ), Color.darkGray ) );
-            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }};
         addChild( controlPanelNode );
 
