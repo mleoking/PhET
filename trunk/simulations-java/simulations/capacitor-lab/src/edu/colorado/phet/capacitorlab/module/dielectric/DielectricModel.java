@@ -29,8 +29,8 @@ public class DielectricModel {
     private final CustomDielectricMaterial customDielectricMaterial;
     private final DielectricMaterial defaultDielectricMaterial;
     private final BatteryCapacitorCircuit circuit;
-    private final WireBranch topWire;
-    private final WireBranch bottomWire;
+    private final Wire topWire;
+    private final Wire bottomWire;
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
     
@@ -53,23 +53,23 @@ public class DielectricModel {
         
         voltmeter = new Voltmeter( circuit, world, CLConstants.VOLTMETER_VISIBLE, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION );
 
-        //Create the top wire branch
+        //Create the top wire
         {
             final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() - BATTERY_LENGTH / 2 );
             final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() - WIRE_EXTENT );
             final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
-            topWire = createWireBranch( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
+            topWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
                 public Point2D apply() {
                     return capacitor.getTopPlateCenter();
                 }
             } );
         }
-        //Create the bottom wire branch
+        //Create the bottom wire
         {
             final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() + BATTERY_LENGTH / 2 );
             final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() + WIRE_EXTENT );
             final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
-            bottomWire = createWireBranch( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
+            bottomWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
                 public Point2D apply() {
                     return capacitor.getBottomPlateCenter();
                 }
@@ -80,7 +80,7 @@ public class DielectricModel {
         reset();
     }
 
-    private WireBranch createWireBranch( final Capacitor capacitor, Point2D batteryStartPoint, Point2D leftCorner, Point2D rightCorner, final Function0<Point2D> getCapacitorPoint) {
+    private Wire createWire( final Capacitor capacitor, Point2D batteryStartPoint, Point2D leftCorner, Point2D rightCorner, final Function0<Point2D> getCapacitorPoint ) {
         final WireSegment segment1 = new WireSegment( batteryStartPoint, leftCorner );
         final WireSegment segment2 = new WireSegment( leftCorner, rightCorner );
         final WireSegment segment3 = new WireSegment( rightCorner, getCapacitorPoint.apply() );
@@ -96,7 +96,7 @@ public class DielectricModel {
             add( segment2 );
             add( segment3 );
         }};
-        return new WireBranch(WIRE_THICKNESS,  segments );
+        return new Wire(WIRE_THICKNESS,  segments );
     }
 
     public World getWorld() {
@@ -127,11 +127,11 @@ public class DielectricModel {
         return voltmeter;
     }
     
-    public WireBranch getTopWireBranch() {
+    public Wire getTopWire() {
         return topWire;
     }
 
-    public WireBranch getBottomWireBranch(){
+    public Wire getBottomWire(){
         return bottomWire;
     }
 
