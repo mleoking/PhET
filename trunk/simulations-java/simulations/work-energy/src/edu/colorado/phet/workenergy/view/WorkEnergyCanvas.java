@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.modules.game.view.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -71,8 +72,10 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         }} );
 
         addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
+            DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
+
             public String apply( Double aDouble ) {
-                return aDouble + " seconds";
+                return decimalFormat.format( aDouble ) + " seconds";
             }
         } ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
