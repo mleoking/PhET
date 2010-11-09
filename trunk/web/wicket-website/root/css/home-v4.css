@@ -235,10 +235,8 @@ div.practices dd a:hover.nolink {
 }
 
 div.practices dd a {
-    background: url(../images/circleArrow_Icon.gif) no-repeat 0 0;
     text-decoration: none;
     color: #000;
-    padding: 0 0 0 17px;
     line-height: 20px;
 }
 
@@ -246,15 +244,16 @@ div.rtl div.practices dd a {
     background: none;
 }
 
-div.practices dd a img {
+div.practices dd a img { /* the green circles */
     border: none;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
 }
 
 div.practices dd a:hover {
-    background: url(../images/circleArrow_Icon.gif) no-repeat 0 0;
     text-decoration: none;
     color: #2345a1;
-    padding: 0 0 0 17px;
     line-height: 20px;
 }
 
