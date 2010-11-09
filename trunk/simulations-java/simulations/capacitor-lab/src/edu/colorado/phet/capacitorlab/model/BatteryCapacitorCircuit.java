@@ -39,8 +39,7 @@ public class BatteryCapacitorCircuit {
     
     // immutable instance data
     private final CLClock clock;
-    private final Wire topWire;
-    private final Wire bottomWire;
+    private final Wire topWire, bottomWire;
     private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
@@ -54,6 +53,7 @@ public class BatteryCapacitorCircuit {
     private double previousVoltage;
 
     public BatteryCapacitorCircuit( CLClock clock, Battery battery, final Capacitor capacitor, boolean batteryConnected) {
+        
         this.clock = clock;
         this.listeners = new EventListenerList();
         this.battery = battery;
@@ -103,7 +103,8 @@ public class BatteryCapacitorCircuit {
                 updateCurrentAmplitude();
             }
         });
-        //Create the top wire
+        
+        // Create the top wire
         {
             final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() - BATTERY_LENGTH / 2 );
             final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() - WIRE_EXTENT );
@@ -115,7 +116,8 @@ public class BatteryCapacitorCircuit {
                 }
             } );
         }
-        //Create the bottom wire
+        
+        // Create the bottom wire
         {
             final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() + BATTERY_LENGTH / 2 );
             final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() + WIRE_EXTENT );

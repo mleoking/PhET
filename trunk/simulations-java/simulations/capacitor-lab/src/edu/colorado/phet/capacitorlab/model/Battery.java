@@ -36,25 +36,25 @@ public class Battery {
         this.polarity = getPolarity( voltage );
         listeners = new EventListenerList();
     }
-    
+
     public Shape createPositiveTerminalShape() {
-        final double terminalWidth = diameter / 4;
-        final double terminalHeight = diameter / 6;
-        double x = location.getX() - terminalWidth;
+        final double terminalWidth = diameter / 3;
+        final double terminalHeight = diameter / 4;
+        double x = location.getX() - ( terminalWidth / 2 );
         double y;
         if ( polarity == Polarity.POSITIVE ) {
-            y = location.getY() - length/2 - terminalHeight;
+            y = location.getY() - ( length / 2 ) - ( terminalHeight / 2 );
         }
         else {
-            y = location.getY() + length/2;
+            y = location.getY() + ( length / 2 ) - ( terminalHeight / 2 );
         }
         return new Rectangle2D.Double( x, y, terminalWidth, terminalHeight );
     }
     
     public Shape createNegativeTerminalShape() {
-        final double terminalWidth = diameter / 4;
-        final double terminalHeight = diameter / 6;
-        double x = location.getX() - terminalWidth;
+        final double terminalWidth = diameter / 1.5;
+        final double terminalHeight = diameter / 5;
+        double x = location.getX() - ( terminalWidth / 2 );
         double y;
         if ( polarity == Polarity.POSITIVE ) {
             y = location.getY() + length/2 - terminalHeight;
