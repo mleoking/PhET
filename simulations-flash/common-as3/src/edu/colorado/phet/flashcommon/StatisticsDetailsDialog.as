@@ -18,7 +18,7 @@ import org.aswing.border.EmptyBorder;
 import org.aswing.border.LineBorder;
 import org.aswing.geom.IntDimension;
 
-class StatisticsDetailsDialog extends CommonDialog {
+public class StatisticsDetailsDialog extends CommonDialog {
 
     public var okButton: JButton;
     public var textArea: JTextArea;

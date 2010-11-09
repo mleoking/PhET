@@ -17,7 +17,7 @@ import org.aswing.border.EmptyBorder;
 import org.aswing.event.FrameEvent;
 import org.aswing.geom.IntDimension;
 
-class UpdateInstallationDetailsDialog extends CommonDialog {
+public class UpdateInstallationDetailsDialog extends CommonDialog {
 
     public var textArea: JTextArea;
     public var okButton: JButton;

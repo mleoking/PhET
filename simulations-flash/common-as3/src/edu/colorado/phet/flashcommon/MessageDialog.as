@@ -19,7 +19,7 @@ import org.aswing.border.EmptyBorder;
 import org.aswing.event.FrameEvent;
 import org.aswing.geom.IntDimension;
 
-class MessageDialog extends CommonDialog {
+public class MessageDialog extends CommonDialog {
 
     public var okButton: JButton;
 

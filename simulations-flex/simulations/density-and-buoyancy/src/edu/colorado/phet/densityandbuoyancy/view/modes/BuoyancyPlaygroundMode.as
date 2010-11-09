@@ -17,7 +17,7 @@ public class BuoyancyPlaygroundMode extends Mode {
     private var customObjectPropertiesPanelWrapper2: CustomObjectPropertiesPanelWrapper;
     public var oneObject: BooleanProperty = new BooleanProperty( true );
 
-    const defaultMaterial: Material = Material.WOOD;
+    private const defaultMaterial: Material = Material.WOOD;
 
     public function BuoyancyPlaygroundMode( canvas: AbstractDBCanvas ) {
         super( canvas );

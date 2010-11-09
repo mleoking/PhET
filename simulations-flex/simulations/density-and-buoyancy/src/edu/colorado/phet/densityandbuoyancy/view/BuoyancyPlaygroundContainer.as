@@ -14,7 +14,7 @@ import mx.events.FlexEvent;
 public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     private var count: Number = 0;
 
-    var oneObjectButton: RadioButton;
+    private var oneObjectButton: RadioButton;
 
     public function BuoyancyPlaygroundContainer() {
         super( true );

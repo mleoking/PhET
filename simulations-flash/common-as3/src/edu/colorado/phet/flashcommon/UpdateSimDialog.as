@@ -21,7 +21,7 @@ import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
 import org.aswing.geom.IntDimension;
 
-class UpdateSimDialog extends CommonDialog {
+public class UpdateSimDialog extends CommonDialog {
 
     public var newMajorVersion: Number;
     public var newMinorVersion: Number;
