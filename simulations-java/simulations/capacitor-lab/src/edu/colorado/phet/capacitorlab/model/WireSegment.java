@@ -2,50 +2,46 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.BasicStroke;
-import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * A straight segment of wire.
+ * A straight segment of wire. One or more segments are joined to create a wire.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class WireSegment {
 
-    private final Property<Point2D> startPoint, endPoint;
+    private final Property<Point2D> startPointProperty, endPointProperty;
 
     public WireSegment( Point2D startPoint, Point2D endPoint ) {
-        this.startPoint = new Property<Point2D>( new Point2D.Double( startPoint.getX(), startPoint.getY() ) );
-        this.endPoint = new Property<Point2D>( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
+        this.startPointProperty = new Property<Point2D>( new Point2D.Double( startPoint.getX(), startPoint.getY() ) );
+        this.endPointProperty = new Property<Point2D>( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
     }
 
-    public void addStartPointChangeListener( SimpleObserver o ) {
-        startPoint.addObserver( o );
+    public void addStartPointObserver( SimpleObserver o ) {
+        startPointProperty.addObserver( o );
     }
     
-    public Point2D getStartPoint() {
-        return new Point2D.Double( startPoint.getValue().getX(), startPoint.getValue().getY() );
+    public Point2D getStartPointProperty() {
+        return new Point2D.Double( startPointProperty.getValue().getX(), startPointProperty.getValue().getY() );
     }
 
     public void setStartPoint( Point2D startPoint ) {
-        this.startPoint.setValue( new Point2D.Double( startPoint.getX(), startPoint.getY() )  );
+        this.startPointProperty.setValue( new Point2D.Double( startPoint.getX(), startPoint.getY() )  );
     }
 
-    public void addEndPointChangeListener( SimpleObserver o ) {
-        endPoint.addObserver( o );
+    public void addEndPointObserver( SimpleObserver o ) {
+        endPointProperty.addObserver( o );
     }
     
-    public Point2D getEndPoint() {
-        return new Point2D.Double( endPoint.getValue().getX(), endPoint.getValue().getY() );
+    public Point2D getEndPointProperty() {
+        return new Point2D.Double( endPointProperty.getValue().getX(), endPointProperty.getValue().getY() );
     }
 
     public void setEndPoint( Point2D endPoint ) {
-        this.endPoint.setValue( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
+        this.endPointProperty.setValue( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
     }
 }

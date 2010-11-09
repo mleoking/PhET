@@ -1,10 +1,11 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -13,22 +14,24 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
- * A collection of connected wire segments.
+ * A wire is a collection of connected wire segments.
+ * It has an associated voltage.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Wire {
     
+    private final double thickness;
     private final ArrayList<WireSegment> wireSegments;
-    private Property<Shape> shapeProperty;
-    private double thickness;
-    private Property<Double> voltageProperty = new Property<Double>( 0.0 );
+    private final Property<Shape> shapeProperty;
+    private final Property<Double> voltageProperty;
 
     public Wire( double thickness, ArrayList<WireSegment> wireSegments ) {
+        
         this.thickness = thickness;
-
-        this.wireSegments = wireSegments;
+        this.wireSegments = new ArrayList<WireSegment>( wireSegments );
         this.shapeProperty = new Property<Shape>( createShape() );
+        this.voltageProperty = new Property<Double>( 0.0 );
         
         // when any segment changes, update the shape property
         {
@@ -38,8 +41,8 @@ public class Wire {
                 }
             };
             for ( WireSegment segment : wireSegments ) {
-                segment.addStartPointChangeListener( o );
-                segment.addEndPointChangeListener( o );
+                segment.addStartPointObserver( o );
+                segment.addEndPointObserver( o );
             }
         }
     }
@@ -48,14 +51,18 @@ public class Wire {
         return voltageProperty.getValue();
     }
     
-    public Shape getShape() {
-        return shapeProperty.getValue();
+    public void setVoltage( double voltage ) {
+        voltageProperty.setValue( voltage );
     }
     
     public void addShapeObserver( SimpleObserver o ) {
         shapeProperty.addObserver( o );
     }
-
+    
+    public Shape getShape() {
+        return shapeProperty.getValue();
+    }
+    
     private Shape createShape() {
         return new Area( new BasicStroke( (float) getThickness(), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() ) );
     }
@@ -68,15 +75,11 @@ public class Wire {
         return shapeProperty.getValue().contains( pt.getX(),pt.getY() );
     }
 
-    public GeneralPath getPath(){
-        DoubleGeneralPath path = new DoubleGeneralPath( wireSegments.get(0).getStartPoint() );
+    private GeneralPath getPath(){
+        DoubleGeneralPath path = new DoubleGeneralPath( wireSegments.get(0).getStartPointProperty() );
         for ( WireSegment wireSegment : wireSegments ) {
-            path.lineTo( wireSegment.getEndPoint() );
+            path.lineTo( wireSegment.getEndPointProperty() );
         }
         return path.getGeneralPath();
-    }
-
-    public void setVoltage( double voltage ) {
-        voltageProperty.setValue( voltage );
     }
 }
