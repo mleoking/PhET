@@ -35,7 +35,7 @@ public class DensityObject {
     private var _userControlled: Boolean = false;
 
     private var lastPosition: b2Vec2;
-    private var velocity: b2Vec2 = new b2Vec2();
+//    private var velocity: b2Vec2 = new b2Vec2();
     private var _inScene: BooleanProperty = new BooleanProperty( false );
     private const _nameVisible: BooleanProperty = new BooleanProperty( false );
     private var _name: String = "name";
@@ -259,8 +259,8 @@ public class DensityObject {
 
     public function modelStepped( dt: Number ): void {
         //Estimate velocity for purposes of fluid drag calculation since body.GetLinearVelocity reflects an internal value, not a good final state (i.e. objects in contact may be at rest but report a nonzero velocity)
-        velocity.x = (x.value - lastPosition.x) / dt;
-        velocity.y = (y.value - lastPosition.y) / dt;
+//        velocity.x = (x.value - lastPosition.x) / dt;
+//        velocity.y = (y.value - lastPosition.y) / dt;
 
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
@@ -295,10 +295,8 @@ public class DensityObject {
             return new b2Vec2();
         }
         else {
-            //            var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();//TODO: here would be a good place to solve the incorrect drag force problem
-            var dragForce: b2Vec2 = velocity.Copy();
-            //            trace("GLV.y = "+body.GetLinearVelocity().y+", v.y="+velocity.y);
-            dragForce.Multiply( 10 * -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
+            var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
+            dragForce.Multiply( -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
             return dragForce;
         }
     }
