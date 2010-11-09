@@ -52,9 +52,9 @@ public class WireSegment {
     
     public Shape createShape( double thickness ) {
         Line2D line = new Line2D.Double( getStartPoint(), getEndPoint() );
-        /*
-         *  CAP_SQUARE ensures that the joints between segments will look correct.
-         *  But it does make the termination ends of the wires a tad longer.
+        /* TODO:
+         * CAP_SQUARE ensures that the joints between segments will look correct.
+         * But it makes the termination ends of the wires a tad longer than desired.
          */
         Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER );
         return new Area( stroke.createStrokedShape( line ) );
