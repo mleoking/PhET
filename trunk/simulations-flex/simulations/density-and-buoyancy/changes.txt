@@ -1,3 +1,5 @@
+Buoyancy: Fixed: Move "A" and "B" labels to top right of control boxes.
+Buoyancy: Fixed: In 2nd tab, "A" and "B" in control boxes should be decorated as they are on the objects.
 Buoyancy: Made fluid radio button control horizontal instead of vertical
 # 1.02.04 (45522) Oct 28, 2010
 Density: fixed a nullpointer exception on mode switches
