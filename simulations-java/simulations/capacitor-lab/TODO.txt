@@ -17,9 +17,9 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- revisit: Wire.createShape
-- revisit: move bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
-- revisit: stroke issue in WireSegment.createShape
+- move debug bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
+- address stroke issue in WireSegment.createShape
+- move logic in BatteryCapacitorCircuit.createWire into new WireSegment subclass that connect to Battery and Capacitor
 - when battery polarity changes, update wire segments that are connected to the battery
 - dynamic clipping planes for meter probes
 - get new 3D probe images with parallel projection from Noah P
