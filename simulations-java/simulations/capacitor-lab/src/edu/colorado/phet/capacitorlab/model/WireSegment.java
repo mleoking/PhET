@@ -25,7 +25,7 @@ public class WireSegment {
         startPointProperty.addObserver( o );
     }
     
-    public Point2D getStartPointProperty() {
+    public Point2D getStartPoint() {
         return new Point2D.Double( startPointProperty.getValue().getX(), startPointProperty.getValue().getY() );
     }
 
@@ -37,7 +37,7 @@ public class WireSegment {
         endPointProperty.addObserver( o );
     }
     
-    public Point2D getEndPointProperty() {
+    public Point2D getEndPoint() {
         return new Point2D.Double( endPointProperty.getValue().getX(), endPointProperty.getValue().getY() );
     }
 

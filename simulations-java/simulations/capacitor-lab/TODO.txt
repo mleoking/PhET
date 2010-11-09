@@ -17,10 +17,8 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- add geometry of wires to model
-- add geometry of probes to model
-- add geometry of battery terminals (+ and -) to model
-- implement BatteryCapacitorCircuit.getVoltageBetween(Point2D,Point2D)
+- revisit: Wire.createShape
+- revisit: move bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
 - dynamic clipping planes for meter probes
 - get new 3D probe images with parallel projection from Noah P
 - wire doesn't connect to top terminal of battery when top terminal is negative

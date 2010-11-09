@@ -76,9 +76,9 @@ public class Wire {
     }
 
     private GeneralPath getPath(){
-        DoubleGeneralPath path = new DoubleGeneralPath( wireSegments.get(0).getStartPointProperty() );
+        DoubleGeneralPath path = new DoubleGeneralPath( wireSegments.get(0).getStartPoint() );
         for ( WireSegment wireSegment : wireSegments ) {
-            path.lineTo( wireSegment.getEndPointProperty() );
+            path.lineTo( wireSegment.getEndPoint() );
         }
         return path.getGeneralPath();
     }
