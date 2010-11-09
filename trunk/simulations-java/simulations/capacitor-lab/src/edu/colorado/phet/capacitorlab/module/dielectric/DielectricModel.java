@@ -2,19 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
-import edu.colorado.phet.common.phetcommon.util.Function0;
-
-import static edu.colorado.phet.capacitorlab.CLConstants.*;
 
 /**
  * Model for the "Dielectric" module.
