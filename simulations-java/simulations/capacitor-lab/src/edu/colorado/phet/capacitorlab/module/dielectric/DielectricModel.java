@@ -50,6 +50,7 @@ public class DielectricModel {
                 CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
         
         voltmeter = new Voltmeter( circuit, world, CLConstants.VOLTMETER_VISIBLE, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION );
+        
         // default state
         reset();
     }
