@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.view.WorkEnergyCanvas;
@@ -22,7 +21,7 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
     static final double delaySec = delay / 1000.0;
 
     public WorkEnergyModule( PhetFrame phetFrame, String title, final ModelType model ) {
-        super( title, new ConstantDtClock( delay, delaySec ) );
+        super( title, model.getClock() );
         this.model = model;
         WorkEnergyCanvas energyCanvas = new WorkEnergyCanvas( this, model );
         getModulePanel().setLogoPanel( null );
