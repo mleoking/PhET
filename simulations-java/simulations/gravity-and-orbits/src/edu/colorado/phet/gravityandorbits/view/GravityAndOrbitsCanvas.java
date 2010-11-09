@@ -12,7 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildanatom.modules.game.view.Function1;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;

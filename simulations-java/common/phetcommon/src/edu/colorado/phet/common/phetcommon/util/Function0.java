@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildanatom.modules.game.view;
+package edu.colorado.phet.common.phetcommon.util;
 
 /**
 * @author Sam Reid
