@@ -80,23 +80,20 @@ public class DielectricModel {
         reset();
     }
 
-    private Wire createWire( final Capacitor capacitor, Point2D batteryStartPoint, Point2D leftCorner, Point2D rightCorner, final Function0<Point2D> getCapacitorPoint ) {
-        final WireSegment segment1 = new WireSegment( batteryStartPoint, leftCorner );
-        final WireSegment segment2 = new WireSegment( leftCorner, rightCorner );
-        final WireSegment segment3 = new WireSegment( rightCorner, getCapacitorPoint.apply() );
-        CapacitorChangeAdapter plateSeparationListener = new CapacitorChangeAdapter() {
-            @Override
-            public void plateSeparationChanged() {
-                segment3.setEndPoint( getCapacitorPoint.apply() );
-            }
-        };
-        capacitor.addCapacitorChangeListener( plateSeparationListener );
+    private Wire createWire( final Capacitor capacitor, final Point2D batteryStartPoint, final Point2D leftCorner, final Point2D rightCorner, final Function0<Point2D> getCapacitorPoint ) {
         ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
-            add( segment1 );
-            add( segment2 );
-            add( segment3 );
+            add( new WireSegment( batteryStartPoint, leftCorner ) );
+            add( new WireSegment( leftCorner, rightCorner ) );
+            add( new WireSegment( rightCorner, getCapacitorPoint.apply() ) {{
+                capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+                    @Override
+                    public void plateSeparationChanged() {
+                        setEndPoint( getCapacitorPoint.apply() );
+                    }
+                } );
+            }} );
         }};
-        return new Wire(WIRE_THICKNESS,  segments );
+        return new Wire( WIRE_THICKNESS, segments );
     }
 
     public World getWorld() {
