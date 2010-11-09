@@ -1,3 +1,4 @@
+Buoyancy: Increased pool depth on buoyancy playground tab to prevent overflow
 Buoyancy: Fixed: Move "A" and "B" labels to top right of control boxes.
 Buoyancy: Fixed: In 2nd tab, "A" and "B" in control boxes should be decorated as they are on the objects.
 Buoyancy: Made fluid radio button control horizontal instead of vertical

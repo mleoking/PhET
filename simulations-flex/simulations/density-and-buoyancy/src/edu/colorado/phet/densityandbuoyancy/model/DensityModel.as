@@ -14,7 +14,7 @@ public class DensityModel {
     private var densityObjects: Array;
 
     private var poolWidth: Number = DensityConstants.POOL_WIDTH_X;
-    private var poolHeight: Number = DensityConstants.POOL_HEIGHT_Y;
+    private var poolHeight: Number;
     private var poolDepth: Number = DensityConstants.POOL_DEPTH_Z;
     private var waterHeight: Number;
 
@@ -44,10 +44,16 @@ public class DensityModel {
      */
     public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
 
-    public function DensityModel( volume: Number ) {
+    public function DensityModel( volume: Number, extendedPool: Boolean ) {
         this.volume = volume;
         this.waterHeight = volume / poolWidth / poolDepth;
         densityObjects = new Array();
+        if ( extendedPool ) {
+            poolHeight = DensityConstants.POOL_HEIGHT_Y_EXTENDED;
+        }
+        else {
+            poolHeight = DensityConstants.POOL_HEIGHT_Y;
+        }
 
         initWorld();
         createGround();

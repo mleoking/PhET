@@ -16,6 +16,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
     private var sameMassButton: RadioButton;
 
     public function BuoyancyIntroContainer() {
+        super( false );
         count = count + 1;
 
         var modeControlPanel: DensityVBox = new DensityVBox();

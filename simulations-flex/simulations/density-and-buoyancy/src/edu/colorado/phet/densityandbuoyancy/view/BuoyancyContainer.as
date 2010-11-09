@@ -16,12 +16,12 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
     protected var buoyancyCanvas: BuoyancyCanvas;
 
-    public function BuoyancyContainer() {
+    public function BuoyancyContainer( extendedPool: Boolean ) {
         super();
 
         addBackground();
 
-        buoyancyCanvas = new BuoyancyCanvas( this );
+        buoyancyCanvas = new BuoyancyCanvas( this, extendedPool );
         addChild( buoyancyCanvas );
 
 

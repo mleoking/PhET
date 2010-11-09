@@ -57,9 +57,11 @@ public class AbstractDBCanvas extends UIComponent {
 
     private var _units: Units = new Units( "kg/L", new LinearUnit( "kg", 1.0 ), new LinearUnit( "L", 1000.0 ), new LinearUnit( "kg/L", 1.0 / 1000.0 ) );
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
+    protected var extendedPool: Boolean;
 
-    public function AbstractDBCanvas() {
+    public function AbstractDBCanvas( extendedPool: Boolean ) {
         super();
+        this.extendedPool = extendedPool;
         _model = createModel();
 
         _model.addDensityObjectCreationListener( addDensityObject );
@@ -71,7 +73,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     protected function createModel(): DensityModel {
-        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ) );
+        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
 
     public function init(): void {

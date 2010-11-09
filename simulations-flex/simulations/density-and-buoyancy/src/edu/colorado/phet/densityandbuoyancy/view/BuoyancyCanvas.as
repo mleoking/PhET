@@ -30,8 +30,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
 
-    public function BuoyancyCanvas( container: BuoyancyContainer ) {
-        super();
+    public function BuoyancyCanvas( container: BuoyancyContainer, extendedPool: Boolean ) {
+        super( extendedPool );
         this._container = container;
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
@@ -39,7 +39,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     override protected function createModel(): DensityModel {
         //TODO: dynamically compute the volume of the submerged scale
-        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 - 2.46 ) );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
+        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 - 2.46 ), extendedPool );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
     }
 
     override public function init(): void {
