@@ -11,10 +11,11 @@ import edu.colorado.phet.workenergy.WorkEnergyResources;
 public class WorkEnergyModel {
     private final WorkEnergyObject workEnergyObject = new WorkEnergyObject( WorkEnergyResources.getImage( "crate.gif" ), 1 );
     private final MutableList<Snapshot> snapshots = new MutableList<Snapshot>();
-    private IClock clock;
+    private ConstantDtClock clock;
+    public static final double DEFAULT_DT = 30 / 1000.0;
 
     public WorkEnergyModel() {
-        this.clock = new ConstantDtClock( 30, 30 / 1000.0 );
+        this.clock = new ConstantDtClock( 30, DEFAULT_DT );
         workEnergyObject.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
                 if ( workEnergyObject.getPositionProperty().getValue().getX() > 200 ) {
@@ -37,7 +38,7 @@ public class WorkEnergyModel {
         workEnergyObject.stepInTime( simulationTimeChange );
     }
 
-    public IClock getClock() {
+    public ConstantDtClock getClock() {
         return clock;
     }
 
