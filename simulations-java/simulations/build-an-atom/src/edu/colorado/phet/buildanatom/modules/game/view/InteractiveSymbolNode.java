@@ -34,6 +34,7 @@ public class InteractiveSymbolNode extends PNode {
     private static final Font ELEMENT_NAME_FONT = new PhetFont( 30, false );
     private static final double WIDTH = 200;
     private static final double SPINNER_EDGE_OFFSET = 5;
+    private static final double SPINNER_HEIGHT = WIDTH * 0.175;
 
     private final Property<Integer> massProperty=new Property<Integer>( 0 );
     private final Property<Integer> protonCountProperty=new Property<Integer>( 0 );
@@ -60,7 +61,8 @@ public class InteractiveSymbolNode extends PNode {
         }};
         addChild( elementName );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, ValueNode.DEFAULT_SPINNER_FONT, ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
+        protonValueNode.setScale( SPINNER_HEIGHT / protonValueNode.getFullBoundsReference().height );
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
 
@@ -77,13 +79,14 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        final ValueNode massValueNode=new ValueNode( massProperty, 0, 50, 1, ValueNode.DEFAULT_SPINNER_FONT,
-                ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty,ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
+        final ValueNode massValueNode=new ValueNode( massProperty, 0, 50, 1, interactiveProperty,
+                ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
+        massValueNode.setScale( SPINNER_HEIGHT / massValueNode.getFullBoundsReference().height );
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
-        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, ValueNode.DEFAULT_SPINNER_FONT,
-                ValueNode.DEFAULT_NUMBER_FONT, interactiveProperty, new SignedIntegerFormat(),new Function0<Color>() {
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, interactiveProperty,
+                new SignedIntegerFormat(), new Function0<Color>() {
             public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign
@@ -104,6 +107,7 @@ public class InteractiveSymbolNode extends PNode {
             }
         } ) {
             {
+                setScale( SPINNER_HEIGHT / getFullBoundsReference().height );
                 double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
                 setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
             }
