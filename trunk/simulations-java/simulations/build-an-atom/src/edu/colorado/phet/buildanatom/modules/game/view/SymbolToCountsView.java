@@ -143,6 +143,7 @@ public class SymbolToCountsView extends ProblemView {
             } );
             editable = new Property<Boolean>( true );
             valueNode = new ValueNode( property, 0, 30, 1, editable, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
+            valueNode.setScale( label.getFullBoundsReference().height / valueNode.getFullBoundsReference().height * 0.9 );
             addChild( valueNode );
             valueNode.setOffset( 0, label.getFullBounds().getHeight() / 2 - valueNode.getFullBounds().getHeight() / 2 );
         }
