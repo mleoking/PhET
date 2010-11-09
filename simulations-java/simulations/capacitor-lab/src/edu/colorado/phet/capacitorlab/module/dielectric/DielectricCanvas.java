@@ -105,6 +105,8 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
         
+        WireBranchNode wireBranchNode = new WireBranchNode( model.getSomeWireBranch(), mvt );
+        
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
@@ -129,6 +131,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( eFieldDetector.getBodyNode() );
         addChild( eFieldDetector.getWireNode() );
         addChild( eFieldDetector.getProbeNode() );
+        addChild( wireBranchNode );
         
         // nodes whose visibility causes the capacitor to become transparent
         capacitorTransparencyNodes = new ArrayList<PNode>();

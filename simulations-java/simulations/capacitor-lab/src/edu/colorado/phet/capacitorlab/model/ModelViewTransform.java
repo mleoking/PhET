@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -112,6 +113,15 @@ public class ModelViewTransform {
      */
     public Point2D modelToViewDelta( double xDelta, double yDelta, double zDelta ) {
         return modelToViewDelta( new Point3D.Double( xDelta, yDelta, zDelta ) );
+    }
+    
+    /**
+     * Model shapes are all in the 2D xy plane, and have no depth.
+     * @param modelShape
+     * @return
+     */
+    public Shape modelToView( Shape modelShape ) {
+        return modelToViewTransform2D.createTransformedShape( modelShape );
     }
     
     //----------------------------------------------------------------------------
