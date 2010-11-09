@@ -117,9 +117,6 @@ public class DielectricCanvas extends CLCanvas {
         BatteryChangeListener polarityListener = new BatteryChangeAdapter() {
             @Override
             public void polarityChanged() {
-                // terminals
-                System.out.println( model.getBattery().createPositiveTerminalShape() );//XXX
-                System.out.println( mvt.modelToView( model.getBattery().createPositiveTerminalShape() ) );//XXX
                 positiveTerminalNode.setPathTo( mvt.modelToView( model.getBattery().createPositiveTerminalShape() ) );
                 negativeTerminalNode.setPathTo( mvt.modelToView( model.getBattery().createNegativeTerminalShape() ) );
             }

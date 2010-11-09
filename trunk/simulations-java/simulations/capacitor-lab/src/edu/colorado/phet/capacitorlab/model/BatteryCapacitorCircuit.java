@@ -248,9 +248,13 @@ public class BatteryCapacitorCircuit {
      */
     public double getVoltageBetween( Point3D pPositive, Point3D pNegative ) {
         return getVoltage( pPositive ) - getVoltage(pNegative);
-//        return getPlatesVoltage(); //TODO compute based on points
     }
 
+    /*
+     * Gets the voltage at a point.
+     * @param p
+     * @return
+     */
     private double getVoltage( Point3D p ) {
         if ( topWire.containsPoint( p ) ) {
             return topWire.getVoltage();
