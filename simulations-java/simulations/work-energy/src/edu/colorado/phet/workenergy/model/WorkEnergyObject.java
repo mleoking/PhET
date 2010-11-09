@@ -233,4 +233,8 @@ public class WorkEnergyObject {
         userControlled.reset();
         time.reset();
     }
+
+    public void setPosition( double x, double y ) {
+        position.setValue( new ImmutableVector2D( x, y ));
+    }
 }
