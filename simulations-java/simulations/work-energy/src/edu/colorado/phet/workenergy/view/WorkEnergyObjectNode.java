@@ -21,13 +21,14 @@ public class WorkEnergyObjectNode extends PNode {
     public static final int AMOUNT_LINE_EXTENDS_BEYOND_OBJECT = 30;
     private final WorkEnergyObject workEnergyObject;
     private final ModelViewTransform2D transform;
+    protected PImage imageNode;
 //    boolean debug = false;
 
     public WorkEnergyObjectNode( final WorkEnergyObject workEnergyObject, final ModelViewTransform2D transform, final Property<Boolean> originLineVisible ) {
         this.workEnergyObject = workEnergyObject;
         this.transform = transform;
 
-        final PImage child = new PImage( workEnergyObject.getImage() ) {{
+        imageNode = new PImage( workEnergyObject.getImage() ) {{
             double h = Math.abs( transform.modelToViewDifferentialYDouble( workEnergyObject.getHeight() ) );
             final double scale = h / getFullBounds().getHeight();
             translate( -getObjectWidthView() / 2, -h *
@@ -35,7 +36,7 @@ public class WorkEnergyObjectNode extends PNode {
             scale( scale );
         }};
 
-        addChild( child );
+        addChild( imageNode );
 
         final PhetPPath originLine = new PhetPPath( new Line2D.Double( -getObjectWidthView() / 2 - AMOUNT_LINE_EXTENDS_BEYOND_OBJECT, 0, getObjectWidthView() / 2 + AMOUNT_LINE_EXTENDS_BEYOND_OBJECT, 0 ),
                                                     new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 4, 4 }, 0 ), Color.black ) {{
