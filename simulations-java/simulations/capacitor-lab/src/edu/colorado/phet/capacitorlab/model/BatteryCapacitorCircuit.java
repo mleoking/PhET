@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -14,6 +16,11 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.Function0;
+
+import static edu.colorado.phet.capacitorlab.CLConstants.*;
+import static edu.colorado.phet.capacitorlab.CLConstants.CAPACITOR_LOCATION;
+import static edu.colorado.phet.capacitorlab.CLConstants.WIRE_THICKNESS;
 
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
@@ -32,6 +39,8 @@ public class BatteryCapacitorCircuit {
     
     // immutable instance data
     private final CLClock clock;
+    private final Wire topWire;
+    private final Wire bottomWire;
     private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
@@ -44,8 +53,7 @@ public class BatteryCapacitorCircuit {
     private double currentAmplitude; // dV/dt, rate of voltage change
     private double previousVoltage;
 
-    public BatteryCapacitorCircuit( CLClock clock, Battery battery, Capacitor capacitor, boolean batteryConnected ) {
-        
+    public BatteryCapacitorCircuit( CLClock clock, Battery battery, final Capacitor capacitor, boolean batteryConnected) {
         this.clock = clock;
         this.listeners = new EventListenerList();
         this.battery = battery;
@@ -95,8 +103,46 @@ public class BatteryCapacitorCircuit {
                 updateCurrentAmplitude();
             }
         });
+        //Create the top wire
+        {
+            final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() - BATTERY_LENGTH / 2 );
+            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() - WIRE_EXTENT );
+            final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
+            topWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
+                public Point2D apply() {
+                    return capacitor.getTopPlateCenter();
+                }
+            } );
+        }
+        //Create the bottom wire
+        {
+            final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() + BATTERY_LENGTH / 2 );
+            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() + WIRE_EXTENT );
+            final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
+            bottomWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
+                public Point2D apply() {
+                    return capacitor.getBottomPlateCenter();
+                }
+            } );
+        }
     }
-    
+
+    private Wire createWire( final Capacitor capacitor, final Point2D batteryStartPoint, final Point2D leftCorner, final Point2D rightCorner, final Function0<Point2D> getCapacitorPoint ) {
+        ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
+            add( new WireSegment( batteryStartPoint, leftCorner ) );
+            add( new WireSegment( leftCorner, rightCorner ) );
+            add( new WireSegment( rightCorner, getCapacitorPoint.apply() ) {{
+                capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+                    @Override
+                    public void plateSeparationChanged() {
+                        setEndPoint( getCapacitorPoint.apply() );
+                    }
+                } );
+            }} );
+        }};
+        return new Wire( WIRE_THICKNESS, segments );
+    }
+
     //----------------------------------------------------------------------------------
     //
     // Circuit components
@@ -147,13 +193,25 @@ public class BatteryCapacitorCircuit {
                 disconnectedPlateCharge = getTotalPlateCharge();
             }
             this.batteryConnected = connected;
+            updateWireVoltages();
             fireBatteryConnectedChanged();
             fireChargeChanged();
             fireEfieldChanged();
             fireEnergyChanged();
         }
     }
-    
+
+    private void updateWireVoltages() {
+        if ( batteryConnected ) {
+            topWire.setVoltage( battery.getVoltage() );
+            bottomWire.setVoltage( 0 );
+        }
+        else {
+            topWire.setVoltage( Double.NaN );
+            bottomWire.setVoltage( Double.NaN );
+        }
+    }
+
     /**
      * Is the battery connected to the capacitor?
      * @return
@@ -189,9 +247,28 @@ public class BatteryCapacitorCircuit {
      * @return voltage, Double.NaN if the 2 points are not in the circuit
      */
     public double getVoltageBetween( Point3D pPositive, Point3D pNegative ) {
-        return getPlatesVoltage(); //TODO compute based on points
+        return getVoltage( pPositive ) - getVoltage(pNegative);
+//        return getPlatesVoltage(); //TODO compute based on points
     }
-    
+
+    private double getVoltage( Point3D p ) {
+        if ( topWire.containsPoint( p ) ) {
+            return topWire.getVoltage();
+        }
+        else if ( bottomWire.containsPoint( p ) ) {
+            return bottomWire.getVoltage();
+        }
+        else if (capacitor.bottomPlateContains(p)){
+            return 0;
+        }
+        else if (capacitor.topPlateContains(p)){
+            return getPlatesVoltage();
+        }
+        else {
+            return Double.NaN;
+        }
+    }
+
     //----------------------------------------------------------------------------------
     //
     // Plate Charge (Q)
@@ -589,6 +666,7 @@ public class BatteryCapacitorCircuit {
     
     private void handleBatteryVoltageChanged() {
         if ( isBatteryConnected() ) {
+            updateWireVoltages();
             fireVoltageChanged();
             fireChargeChanged();
             fireEfieldChanged();
@@ -597,12 +675,13 @@ public class BatteryCapacitorCircuit {
     }
     
     private void handleCapacitanceChanged() {
+        updateWireVoltages();
         fireCapacitanceChanged();
         fireChargeChanged();
         fireEfieldChanged();
         fireEnergyChanged();
     }
-    
+
     private void handleDielectricMaterialChanged() {
         updateCustomDielectric();
     }
@@ -623,7 +702,15 @@ public class BatteryCapacitorCircuit {
             customDielectric.addCustomDielectricChangeListener( customDielectricChangeListener );
         }
     }
-    
+
+    public Wire getTopWire() {
+        return topWire;
+    }
+
+    public Wire getBottomWire() {
+        return bottomWire;
+    }
+
     //----------------------------------------------------------------------------------
     //
     // Notification mechanisms

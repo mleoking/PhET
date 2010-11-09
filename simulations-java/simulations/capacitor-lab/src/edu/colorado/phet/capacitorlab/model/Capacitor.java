@@ -317,7 +317,23 @@ public class Capacitor {
         boolean zInside = Math.abs( p.getZ() - location.getZ() ) <= ( plateSeparation / 2 );
         return xInside && yInside && zInside;
     }
-    
+
+    public boolean topPlateContains( Point3D p ) {
+        return plateContainsX( p ) && plateContainsY( p, getTopPlateCenter() );
+    }
+
+    public boolean bottomPlateContains( Point3D p ) {
+        return plateContainsX( p ) && plateContainsY( p, getBottomPlateCenter() );
+    }
+
+    private boolean plateContainsY( Point3D p, Point2D plateCenter ) {
+        return Math.abs( plateCenter.getY() - p.getY() ) < plateThickness;
+    }
+
+    private boolean plateContainsX( Point3D p ) {
+        return Math.abs( getLocationReference().getX() - p.getX() ) <= getPlateSideLength() / 2;
+    }
+
     /**
      * Interface implemented by listeners who are interested in capacitor changes.
      * Includes separate notification for each mutable property, plus capacitance.
