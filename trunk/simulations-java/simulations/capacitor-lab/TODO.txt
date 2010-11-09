@@ -19,7 +19,6 @@ HIGH PRIORITY
 - add geometry of battery terminals (+ and -) to model
 - implement BatteryCapacitorCircuit.getVoltageBetween(Point2D,Point2D)
 - dynamic clipping planes for meter probes
-- show "?" in voltmeter when probes are not connected to circuit
 - get new 3D probe images with parallel projection from Noah P
 
 MEDUIUM PRIORITY
@@ -31,7 +30,6 @@ MEDUIUM PRIORITY
 - add circuit construction to Multiple Capacitors tab after everything else is working
 
 LOW PRIORITY
-- initial layout of E-field detector is incorrect if Vector2DNode has zero magnitude (see WORKAROUND in EFieldDetectorView)
 - clean up CCKStrategyWithRounding
 - gradient paint on plate top surfaces (not on edges)
 - round the end of the wire that connects to the top plate
