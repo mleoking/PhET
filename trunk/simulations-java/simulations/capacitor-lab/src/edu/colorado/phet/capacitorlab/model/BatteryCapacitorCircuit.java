@@ -264,6 +264,12 @@ public class BatteryCapacitorCircuit {
         else if (capacitor.topPlateContains(p)){
             return getPlatesVoltage();
         }
+        else if ( battery.topTerminalContains( p ) ) {
+            return battery.getVoltage();
+        }
+        else if ( battery.bottomTerminalContains( p ) ) {
+            return 0;
+        }
         else {
             return Double.NaN;
         }

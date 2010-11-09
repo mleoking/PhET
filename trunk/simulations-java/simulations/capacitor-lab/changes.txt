@@ -1,3 +1,5 @@
+11/9/10 add shape of battery terminals to model (with SR)
+11/9/10 add shape of wires to model, associate voltage with a wire (with SR)
 11/8/10 use Double.NaN for unknown voltage, display "?" in voltmeter, document in model
 11/8/10 remove superfluous "show sign" feature in voltmeter
 11/8/10 i18n of "?" for voltmeter display
