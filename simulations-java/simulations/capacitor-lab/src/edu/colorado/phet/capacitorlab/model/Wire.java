@@ -15,13 +15,13 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WireBranch {
+public class Wire {
     
     private final ArrayList<WireSegment> wireSegments;
     private Property<Shape> shape;
     private double thickness;
 
-    public WireBranch(double thickness, ArrayList<WireSegment> wireSegments ) {
+    public Wire( double thickness, ArrayList<WireSegment> wireSegments ) {
         this.thickness = thickness;
 
         this.wireSegments = wireSegments;
