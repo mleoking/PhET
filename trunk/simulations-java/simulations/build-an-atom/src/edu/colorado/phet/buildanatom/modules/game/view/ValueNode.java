@@ -20,21 +20,24 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This node is a combination of a spinner and a piece of text, and is
- * settable to display either one of the other.
+ * settable to display either one or the other.
  */
 public class ValueNode extends PNode {
-    public static final Font DEFAULT_NUMBER_FONT = new PhetFont( 36, true );
-    public static final Font DEFAULT_SPINNER_FONT = new PhetFont( 30, true );
+
+    // Font for the numbers that are displayed when the spinners are NOT
+    // visible.  This is intended to make the number a little taller than the
+    // spinners.
+    public static final Font NUMBER_FONT = new PhetFont( 14, true );
+
     public static final NumberFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat( "0" );
     private final PText text = new PText( "0" );
     private final JSpinner spinner;
     private final SimpleObserver updateReadouts;
 
     public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize,
-            final Font spinnerFont, final Font textFont, final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
+            final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
             {
-                setFont( spinnerFont );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         numericProperty.setValue( (Integer) getValue() );
@@ -62,7 +65,7 @@ public class ValueNode extends PNode {
         numericProperty.addObserver( updateReadouts );
 
         final PSwing spinnerPSwing = new PSwing( spinner );
-        text.setFont( textFont );
+        text.setFont( NUMBER_FONT );
         text.setOffset( spinnerPSwing.getFullBoundsReference().getCenterX() - text.getFullBoundsReference().width / 2,
                         spinnerPSwing.getFullBoundsReference().getCenterY() - text.getFullBoundsReference().height / 2 );
 
