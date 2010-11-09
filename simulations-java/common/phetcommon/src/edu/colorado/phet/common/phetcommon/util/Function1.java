@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 /**
- * This is a single-parameter function instance that takes a parameter of type U and returns a value of type T.
+ * A one-parameter function that takes an argument of type U and returns a value of type T.
  *
  * @author Sam Reid
  */
