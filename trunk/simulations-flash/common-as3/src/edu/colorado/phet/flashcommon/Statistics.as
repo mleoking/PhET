@@ -48,7 +48,7 @@ public class Statistics {
         // CURRENTLY CALLED FROM ELSEWHERE sendSessionStart();
     }
 
-    public function fieldTranslate( field: String ) {
+    public function fieldTranslate( field: String ):String {
         var str: String = CommonStrings.get( "StatisticsField-" + field, field );
         if ( str != field ) {
             // it was translated

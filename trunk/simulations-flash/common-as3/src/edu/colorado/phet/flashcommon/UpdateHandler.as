@@ -216,7 +216,7 @@ public class UpdateHandler {
         //        queryXML.sendAndLoad( "http://" + FlashCommon.getMainServer() + "/services/phet-info", xml );
     }
 
-    public function manualCheckSim() {
+    public function manualCheckSim():void {
         debug( "UpdateHandler: checking manually for sim" );
         manual = true;
         sendStartupQuery( startupQueryString( true, false ) );
@@ -228,10 +228,10 @@ public class UpdateHandler {
         sendStartupQuery( startupQueryString( false, true ) );
     }
 
-    public function handleResponse() {
+    public function handleResponse():void {
         //debug("UpdateHandler: handleResponse()\n");
 
-        var installShown = false;
+        var installShown:Boolean = false;
 
         if ( receivedInstallationResponse && common.fromFullInstallation() ) {
             receivedInstallationResponse = false;

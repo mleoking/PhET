@@ -177,7 +177,7 @@ public class FlashCommon {
         }
     }
 
-    var debugText: JTextArea = null;
+    private var debugText: JTextArea = null;
 
     private function debugInit( root: Sprite ): void {
         var debugFrame: JFrame = new JFrame( root, "debug" );
@@ -572,7 +572,7 @@ public class FlashCommon {
     public function stripNewlines( str: String ): String {
         var ret: String = "";
 
-        for ( var idx = 0; idx < str.length; idx++ ) {
+        for ( var idx:Number = 0; idx < str.length; idx++ ) {
             if ( str.charCodeAt( idx ) == 10 || str.charCodeAt( idx ) == 13 ) {
                 continue;
             }

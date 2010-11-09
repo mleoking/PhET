@@ -19,7 +19,7 @@ import org.aswing.SoftBoxLayout;
 import org.aswing.border.EmptyBorder;
 import org.aswing.geom.IntDimension;
 
-class UpdateInstallationDialog extends CommonDialog {
+public class UpdateInstallationDialog extends CommonDialog {
 
     public var newInstallerTimestamp: Number;
     public var newInstallerAskLaterDays: Number;
@@ -52,7 +52,7 @@ class UpdateInstallationDialog extends CommonDialog {
         str += "\n";
         str += CommonStrings.get( "InstallerAsk", "Would you like to get the latest PhET Offline Website Installer?" );
 
-        var textArea = new JTextArea( str, 0, 0 );
+        var textArea:JTextArea = new JTextArea( str, 0, 0 );
         textArea.setHtmlText( str );
         textArea.setEditable( false );
         textArea.setCSS( FlashCommon.LINK_STYLE_SHEET );

@@ -37,11 +37,11 @@ public class PreferencesDialog extends CommonDialog {
     public var statisticsCheck: JCheckBox;
     public var highContrastCheck: JCheckBox;
 
-    var updatesSimButton: JButton;
-    var updatesInstallationButton: JButton;
-    var detailsButton: JButton;
-    var okButton: JButton;
-    var cancelButton: JButton;
+    private var updatesSimButton: JButton;
+    private var updatesInstallationButton: JButton;
+    private var detailsButton: JButton;
+    private var okButton: JButton;
+    private var cancelButton: JButton;
 
     private static var instance: PreferencesDialog = null;
 
@@ -65,11 +65,11 @@ public class PreferencesDialog extends CommonDialog {
         window.getContentPane().setLayout( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
 
         // panel that will hold the updates and privacy options (everything except OK/Cancel)
-        var bigPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
+        var bigPanel:JPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
         bigPanel.setBorder( new EmptyBorder( null, new Insets( 5, 5, 5, 5 ) ) );
 
         // holds the update options
-        var updatesPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
+        var updatesPanel:JPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
         updatesPanel.setName( CommonStrings.get( "Updates", "Updates" ) );
         updatesPanel.setBorder( new TitledBorder( new EmptyBorder( null, new Insets( 5, 5, 5, 5 ) ), CommonStrings.get( "Updates", "Updates" ) ) );
 
@@ -102,7 +102,7 @@ public class PreferencesDialog extends CommonDialog {
         updatesPanel.append( new JSpacer( new IntDimension( 5, 5 ) ) );
 
         // holds the privacy options
-        var privacyPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
+        var privacyPanel:JPanel = new JPanel( new SoftBoxLayout( SoftBoxLayout.Y_AXIS ) );
         privacyPanel.setName( CommonStrings.get( "Privacy", "Privacy" ) );
         privacyPanel.setBorder( new TitledBorder( new EmptyBorder( null, new Insets( 5, 5, 5, 5 ) ), CommonStrings.get( "Privacy", "Privacy" ) ) );
 
@@ -115,7 +115,7 @@ public class PreferencesDialog extends CommonDialog {
         defaultStr += "of PhET sims and to better serve our users' update needs.";
         str += CommonStrings.get( "PrivacyRequirement", defaultStr, ["event:http://" + FlashCommon.getMainServer() + ""] );
 
-        var textArea = new JTextArea( str, 0, 20 );
+        var textArea:JTextArea = new JTextArea( str, 0, 20 );
         textArea.setHtmlText( str );
         textArea.addEventListener(TextEvent.LINK,function(event:TextEvent):void{common.openExternalLink(event.text)});
         textArea.setEditable( false );
