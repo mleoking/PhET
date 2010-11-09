@@ -17,6 +17,7 @@ public class DensityConstants {
     public static const POOL_WIDTH_X: Number = 1;
     public static const POOL_DEPTH_Z: Number = 0.3;
     public static const POOL_HEIGHT_Y: Number = 0.4;
+    public static const POOL_HEIGHT_Y_EXTENDED: Number = POOL_HEIGHT_Y + 0.02245 / (POOL_WIDTH_X * POOL_DEPTH_Z);//to make sure max size objects don't overflow the pool in buoyancy playground
     public static const DEFAULT_BLOCK_MASS: Number = 2;
     /**
      * Scale up all box2d computations so that they are in the sweet spot for ranges for box2d.

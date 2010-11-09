@@ -27,10 +27,11 @@ public class Scale extends Cuboid {
     public static const GROUND_SCALE_Y: Number = Scale.SCALE_HEIGHT / 2;
 
     public static const POOL_SCALE_X: Number = DensityConstants.POOL_WIDTH_X / 2 - Scale.SCALE_WIDTH * 1.5;
-    public static const POOL_SCALE_Y: Number = Scale.SCALE_HEIGHT / 2 - DensityConstants.POOL_HEIGHT_Y;
+    public static var POOL_SCALE_Y: Number;
 
     public function Scale( x: Number, y: Number, model: DensityModel ): void {
         super( SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM );
+        POOL_SCALE_Y = Scale.SCALE_HEIGHT / 2 - model.getPoolHeight();
 
         // set mass to make this mobile / immobile, and then listen to it
         getModel().scalesMovableProperty.addListener( updateBox2DModel );
