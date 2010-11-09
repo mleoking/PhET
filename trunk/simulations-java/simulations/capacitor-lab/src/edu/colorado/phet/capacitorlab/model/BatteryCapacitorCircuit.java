@@ -110,7 +110,8 @@ public class BatteryCapacitorCircuit {
             final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
             topWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
                 public Point2D apply() {
-                    return capacitor.getTopPlateCenter();
+                    Point3D center = capacitor.getTopPlateCenter();
+                    return new Point2D.Double( center.getX(), center.getY() );
                 }
             } );
         }
@@ -121,7 +122,8 @@ public class BatteryCapacitorCircuit {
             final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
             bottomWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
                 public Point2D apply() {
-                    return capacitor.getBottomPlateCenter();
+                    Point3D center = capacitor.getBottomPlateCenter();
+                    return new Point2D.Double( center.getX(), center.getY() );
                 }
             } );
         }

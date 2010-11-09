@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -51,17 +50,29 @@ public class Capacitor {
     }
     
     /**
-     * Gets the capacitor's location in 2D model coordinates.
-     * This property does not play a role in the model, but is used by the visual representation.
+     * Gets the capacitor's location in model coordinates.
+     * 
      * @return location, in meters relative to (0,0,0)
      */
     public Point3D getLocationReference() {
         return location;
     }
     
+    public double getX() {
+        return location.getX();
+    }
+    
+    public double getY() {
+        return location.getY();
+    }
+    
+    public double getZ() {
+        return location.getZ();
+    }
+    
     /**
      * Gets the thickness of the plates.
-     * This property does not play a role in the model, but is used by the visual representation.
+     * 
      * @param thickness, in meters
      */
     public double getPlateThickness() {
@@ -124,19 +135,21 @@ public class Capacitor {
     }
     
     /**
-     * Convenience method for determining the attachment point on the top plate.
+     * Convenience method for determining the outside center of the top plate.
+     * This is a wire attachment point.
      * @return
      */
-    public Point2D getTopPlateCenter() {
-        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() - plateSeparation / 2 - plateThickness );
+    public Point3D getTopPlateCenter() {
+        return new Point3D.Double( getX(), getY() - ( plateSeparation / 2 ) - plateThickness, getZ() );
     }
     
     /**
-     * Convenience method for determining the attachment point on the bottom plate.
+     * Convenience method for determining the outside center of the bottom plate.
+     * This is a wire attachment point.
      * @return
      */
-    public Point2D getBottomPlateCenter() {
-        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() + plateSeparation / 2 + plateThickness );
+    public Point3D getBottomPlateCenter() {
+        return new Point3D.Double( getX(), getY() + ( plateSeparation / 2 ) + plateThickness, getZ());
     }
     
     /**
@@ -304,6 +317,26 @@ public class Capacitor {
         return xBetween && yBetween && zBetween;
     }
     
+    public boolean topPlateContains( Point3D p ) {
+        return plateContainsX( p ) && plateContainsY( p, getTopPlateCenter() ) && plateContainsZ( p );
+    }
+
+    public boolean bottomPlateContains( Point3D p ) {
+        return plateContainsX( p ) && plateContainsY( p, getBottomPlateCenter() ) && plateContainsZ( p );
+    }
+
+    private boolean plateContainsX( Point3D p ) {
+        return Math.abs( getX() - p.getX() ) <= ( getPlateSideLength() / 2 );
+    }
+    
+    private boolean plateContainsY( Point3D p, Point3D plateCenter ) {
+        return Math.abs( plateCenter.getY() - p.getY() ) < plateThickness;
+    }
+    
+    private boolean plateContainsZ( Point3D p ) {
+        return Math.abs( getZ() - p.getZ() ) <= ( getPlateSideLength() / 2 );
+    }
+    
     /**
      * Is a point inside the dielectric?
      * 
@@ -316,22 +349,6 @@ public class Capacitor {
         boolean yInside = Math.abs( p.getY() - location.getY() ) <= ( plateSeparation / 2 );
         boolean zInside = Math.abs( p.getZ() - location.getZ() ) <= ( plateSeparation / 2 );
         return xInside && yInside && zInside;
-    }
-
-    public boolean topPlateContains( Point3D p ) {
-        return plateContainsX( p ) && plateContainsY( p, getTopPlateCenter() );
-    }
-
-    public boolean bottomPlateContains( Point3D p ) {
-        return plateContainsX( p ) && plateContainsY( p, getBottomPlateCenter() );
-    }
-
-    private boolean plateContainsY( Point3D p, Point2D plateCenter ) {
-        return Math.abs( plateCenter.getY() - p.getY() ) < plateThickness;
-    }
-
-    private boolean plateContainsX( Point3D p ) {
-        return Math.abs( getLocationReference().getX() - p.getX() ) <= getPlateSideLength() / 2;
     }
 
     /**
