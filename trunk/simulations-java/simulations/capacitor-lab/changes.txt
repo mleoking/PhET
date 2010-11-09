@@ -1,3 +1,4 @@
+11/9/10 fix wire shape algorithm, it wouldn't handle the types of wires in Multiple Capacitor circuits
 11/9/10 add shape of battery terminals to model (with SR)
 11/9/10 add shape of wires to model, associate voltage with a wire (with SR)
 11/8/10 use Double.NaN for unknown voltage, display "?" in voltmeter, document in model
