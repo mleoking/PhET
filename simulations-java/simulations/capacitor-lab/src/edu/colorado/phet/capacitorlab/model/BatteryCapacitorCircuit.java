@@ -186,7 +186,7 @@ public class BatteryCapacitorCircuit {
      * Gets the voltage between 2 points.
      * @param pPositive
      * @param pNegative
-     * @return
+     * @return voltage, Double.NaN if the 2 points are not in the circuit
      */
     public double getVoltageBetween( Point3D pPositive, Point3D pNegative ) {
         return getPlatesVoltage(); //TODO compute based on points
