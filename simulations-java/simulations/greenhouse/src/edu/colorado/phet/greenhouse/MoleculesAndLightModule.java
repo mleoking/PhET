@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockContr
 import edu.colorado.phet.greenhouse.controlpanel.PhotonAbsorptionControlPanel;
 import edu.colorado.phet.greenhouse.developer.PhotonAbsorptionParamsDlg;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.view.PhotonAbsorptionCanvas;
+import edu.colorado.phet.greenhouse.view.MoleculesAndLightCanvas;
 
 /**
  * This class is where the model and view classes are created and connected
@@ -66,7 +66,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
         model = new PhotonAbsorptionModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        canvas = new PhotonAbsorptionCanvas( model, false );
+        canvas = new MoleculesAndLightCanvas( model );
         setSimulationPanel( canvas );
 
         // Control panel.
