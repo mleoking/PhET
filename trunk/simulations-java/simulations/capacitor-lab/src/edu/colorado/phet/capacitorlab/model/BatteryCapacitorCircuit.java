@@ -18,10 +18,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function0;
 
-import static edu.colorado.phet.capacitorlab.CLConstants.*;
-import static edu.colorado.phet.capacitorlab.CLConstants.CAPACITOR_LOCATION;
-import static edu.colorado.phet.capacitorlab.CLConstants.WIRE_THICKNESS;
-
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
  * <p>
@@ -106,9 +102,9 @@ public class BatteryCapacitorCircuit {
         
         // Create the top wire
         {
-            final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() - BATTERY_LENGTH / 2 );
-            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() - WIRE_EXTENT );
-            final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
+            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() - battery.getLength() / 2 );
+            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
+            final Point2D.Double topRightCorner = new Point2D.Double( capacitor.getX(), topLeftCorner.getY() );
             topWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
                 public Point2D apply() {
                     Point3D center = capacitor.getTopPlateCenter();
@@ -119,9 +115,9 @@ public class BatteryCapacitorCircuit {
         
         // Create the bottom wire
         {
-            final Point2D.Double batteryStartPoint = new Point2D.Double( BATTERY_LOCATION.getX(), BATTERY_LOCATION.getY() + BATTERY_LENGTH / 2 );
-            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), BATTERY_LOCATION.getY() + WIRE_EXTENT );
-            final Point2D.Double topRightCorner = new Point2D.Double( CAPACITOR_LOCATION.getX(), topLeftCorner.getY() );
+            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() + battery.getLength() / 2 );
+            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
+            final Point2D.Double topRightCorner = new Point2D.Double( capacitor.getX(), topLeftCorner.getY() );
             bottomWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
                 public Point2D apply() {
                     Point3D center = capacitor.getBottomPlateCenter();
@@ -144,7 +140,7 @@ public class BatteryCapacitorCircuit {
                 } );
             }} );
         }};
-        return new Wire( segments, WIRE_THICKNESS );
+        return new Wire( segments, CLConstants.WIRE_THICKNESS );
     }
 
     //----------------------------------------------------------------------------------

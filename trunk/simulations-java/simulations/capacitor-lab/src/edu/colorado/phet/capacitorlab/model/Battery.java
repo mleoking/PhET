@@ -69,6 +69,18 @@ public class Battery {
         return location;
     }
     
+    public double getX() {
+        return location.getX();
+    }
+    
+    public double getY() {
+        return location.getY();
+    }
+    
+    public double getZ() {
+        return location.getZ();
+    }
+    
     public double getLength() {
         return length;
     }
