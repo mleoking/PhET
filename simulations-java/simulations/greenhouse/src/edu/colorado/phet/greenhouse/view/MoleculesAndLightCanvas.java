@@ -69,7 +69,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
-                (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.5 ) ),
+                (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.3 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         true );
 
