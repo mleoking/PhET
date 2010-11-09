@@ -6,12 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.buildanatom.modules.game.view.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
-import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsClockControlNode;
 import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.module.WorkEnergyModule;
@@ -69,7 +70,11 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new GravityAndOrbitsClockControlNode( model.getClock() ) {{
+        addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
+            public String apply( Double aDouble ) {
+                return aDouble + " seconds";
+            }
+        } ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
     }

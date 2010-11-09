@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildanatom.modules.game.view.Function1;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -122,7 +124,11 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new GravityAndOrbitsClockControlNode( model.getClock() ) {{
+        addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
+            public String apply( Double time ) {
+                return (int) ( time / 86400 ) + " Earth Days";
+            }
+        } ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 
