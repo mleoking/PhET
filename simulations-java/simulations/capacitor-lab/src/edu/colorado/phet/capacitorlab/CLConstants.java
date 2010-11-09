@@ -54,9 +54,8 @@ public class CLConstants {
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_SIZE_RANGE.getMax(), PLATE_SIZE_RANGE.getDefault() ); // meters
     
     public static final double WIRE_THICKNESS = 0.0005; // meters
-    public static final double TOP_WIRE_EXTENT = Math.abs( .016 ); // how far the top wire extends above the capactor's origin, absolute value (meters)
-    public static final double BOTTOM_WIRE_EXTENT = TOP_WIRE_EXTENT; // how far the bottom wire extends below the capactor's origin, absolute value (meters)
-    
+    public static final double WIRE_EXTENT = 0.016; // how far a wire extends beyond a capactor's origin in meters
+
     public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
     
     // dielectric constants (dimensionless)

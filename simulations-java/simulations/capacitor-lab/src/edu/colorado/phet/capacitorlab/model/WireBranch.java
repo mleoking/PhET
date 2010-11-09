@@ -1,11 +1,14 @@
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * A collection of connected wire segments.
@@ -16,9 +19,11 @@ public class WireBranch {
     
     private final ArrayList<WireSegment> wireSegments;
     private Property<Shape> shape;
+    private double thickness;
 
-    public WireBranch( ArrayList<WireSegment> wireSegments ) {
-        
+    public WireBranch(double thickness, ArrayList<WireSegment> wireSegments ) {
+        this.thickness = thickness;
+
         this.wireSegments = wireSegments;
         this.shape = new Property<Shape>( createShape() );
         
@@ -49,10 +54,18 @@ public class WireBranch {
     }
 
     private Shape createShape() {
-        Area area = new Area();
-        for ( WireSegment segment : wireSegments ) {
-            area.add( new Area( segment.toShape() ));
+        return new Area( new BasicStroke( (float) getThickness(), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() ) );
+    }
+
+    public double getThickness() {
+        return thickness;
+    }
+
+    public GeneralPath getPath(){
+        DoubleGeneralPath path = new DoubleGeneralPath( wireSegments.get(0).getStartPoint() );
+        for ( WireSegment wireSegment : wireSegments ) {
+            path.lineTo( wireSegment.getEndPoint() );
         }
-        return area;
+        return path.getGeneralPath();
     }
 }

@@ -128,7 +128,7 @@ public class Capacitor {
      * @return
      */
     public Point2D getTopPlateCenter() {
-        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() - ( plateSeparation/2 ) );
+        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() - plateSeparation / 2 - plateThickness );
     }
     
     /**
@@ -136,7 +136,7 @@ public class Capacitor {
      * @return
      */
     public Point2D getBottomPlateCenter() {
-        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() + ( plateSeparation/2 ) );
+        return new Point2D.Double( getLocationReference().getX(), getLocationReference().getY() + plateSeparation / 2 + plateThickness );
     }
     
     /**
