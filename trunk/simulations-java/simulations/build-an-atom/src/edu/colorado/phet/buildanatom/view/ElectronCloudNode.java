@@ -69,7 +69,6 @@ public class ElectronCloudNode extends PNode {
                         new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), alpha ),
                         new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                         new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
-                        System.out.println( "size: " + electronShellShape.getBounds2D() );
                         electronCloudNode.setPaint( shellGradientPaint );
             }
         };
