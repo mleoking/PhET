@@ -28,6 +28,7 @@ public class GameSettingsStateView extends StateView {
             } );
         }};
         gameSettingsNode = new PSwing( panel );
+        gameSettingsNode.scale( 1.5 );
     }
 
     @Override
