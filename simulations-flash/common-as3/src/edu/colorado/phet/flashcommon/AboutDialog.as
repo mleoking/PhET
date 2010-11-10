@@ -43,7 +43,12 @@ public class AboutDialog extends CommonDialog {
 
         str += "<b><font size='16'>" + common.getSimTitle() + "</font></b>\n";
         str += CommonStrings.get( "Version", "Version" ) + ": " + common.getFullVersionString() + "\n";
-        str += CommonStrings.get( "BuildDate", "Build Date" ) + ": " + FlashCommon.dateString( FlashCommon.dateOfSeconds( common.getVersionTimestamp() ) ) + "\n";
+        const timestampString: String = common.getVersionTimestampString();
+        var dateString: String = FlashCommon.NULLVAL;
+        if ( timestampString != FlashCommon.NULLVAL ) {
+            dateString = FlashCommon.dateString( FlashCommon.dateOfSeconds( parseInt( timestampString ) ) );
+        }
+        str += CommonStrings.get( "BuildDate", "Build Date" ) + ": " + dateString + "\n";
         if ( common.getDistributionTag() != null || common.getSimName() == "flash-common-strings" ) {
             str += CommonStrings.get( "Distribution", "Distribution" ) + ": " + String( common.getDistributionTag() ) + "\n";
         }
