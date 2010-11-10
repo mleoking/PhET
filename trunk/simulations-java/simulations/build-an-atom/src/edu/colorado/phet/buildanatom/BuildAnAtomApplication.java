@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.buildanatom;
 
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -14,11 +13,9 @@ import javax.swing.JMenu;
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
 import edu.colorado.phet.buildanatom.modules.game.GameModule;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -62,14 +59,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-
-        Frame parentFrame = getPhetFrame();
-
-        Module firstModule = new BuildAnAtomModule( parentFrame ){{
-            getModulePanel().setLogoPanel( null );
-        }};
-        addModule( firstModule );
-
+        addModule( new BuildAnAtomModule() );
         addModule( new GameModule() );
     }
 

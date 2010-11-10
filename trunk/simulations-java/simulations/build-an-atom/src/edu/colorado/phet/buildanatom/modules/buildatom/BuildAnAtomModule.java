@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.buildatom;
 
-import java.awt.Frame;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
@@ -27,7 +25,7 @@ public class BuildAnAtomModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAnAtomModule( Frame parentFrame ) {
+    public BuildAnAtomModule( ) {
         super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock( ) );
         setClockControlPanel( null );
 
