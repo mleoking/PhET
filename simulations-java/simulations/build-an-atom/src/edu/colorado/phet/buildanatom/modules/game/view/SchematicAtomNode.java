@@ -9,8 +9,9 @@ import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.buildanatom.view.ElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
-import edu.colorado.phet.buildanatom.view.ElectronShellNode;
+import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
 import edu.colorado.phet.buildanatom.view.NeutronNode;
 import edu.colorado.phet.buildanatom.view.ProtonNode;
 import edu.colorado.phet.buildanatom.view.SubatomicParticleNode;
@@ -58,10 +59,12 @@ public class SchematicAtomNode extends PNode {
         frontLayer = new PNode( );
         addChild( frontLayer );
 
-        // Add the atom's electron shells to the canvas.
+        // Add the atom's electron shells to the canvas.  There are two representations that are mutually
+        // exclusive - the orbital view and the cloud view.
         for ( ElectronShell electronShell : model.getAtom().getElectronShells() ) {
-            backLayer.addChild( new ElectronShellNode( mvt, viewOrbitals, model.getAtom(), electronShell,true ) );
+            backLayer.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, model.getAtom(), electronShell, true ) );
         }
+        backLayer.addChild( new ElectronCloudNode( mvt, viewOrbitals, model.getAtom(), true ) );
 
         // Add the electrons.
         for ( int i = 0; i < model.numElectrons(); i++ ) {

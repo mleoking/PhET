@@ -3,7 +3,6 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -20,7 +19,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * Shows a scale with a numeric readout of the atom weight.  Origin is the top left of the scale body (not the platform).
@@ -64,12 +62,13 @@ public class MassIndicatorNode extends PNode {
 
         final PNode atomNode = new PNode();
         //Make it small enough so it looks to scale, but also so we don't have to indicate atomic substructure
-        Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 1.5f, 1.5f }, 0 );
-        double scale = 1.0/5;
-        ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale,scale), false );
+        double scale = 1.0 / 5;
+        ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale, scale ), false );
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
-            atomNode.addChild( new ElectronShellNode( mvt, viewOrbitals, atom, electronShell,false ) );
+            atomNode.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, atom, electronShell, false ) );
         }
+        atomNode.addChild( new ElectronCloudNode( mvt, viewOrbitals, atom, false ) );
+
         double nucleusWidth=1;
         atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
             setOffset( atomNode.getFullBounds().getCenter2D() );
