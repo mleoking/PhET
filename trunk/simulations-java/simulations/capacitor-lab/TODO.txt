@@ -4,8 +4,6 @@ DEADLINES
 
 QUESTIONS FOR NOAH
 - if voltmeter probes touch, should voltmeter read zero? this will be difficult for the user to do with our '2D plane' probes
-- do voltmeter probes read on both top and bottom surfaces of a plate? how about inside plate?
-- concerns about 3D perspective and probe movement
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
@@ -17,6 +15,8 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
+- make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
+- add shapes for voltmeter probe tips
 - move debug bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
 - address stroke issue in WireSegment.createShape
 - move logic in BatteryCapacitorCircuit.createWire into new WireSegment subclass that connect to Battery and Capacitor
