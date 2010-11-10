@@ -154,9 +154,15 @@ public class Atom extends SimpleObservable implements IAtom{
         } );
     }
 
+    // TODO: This is a quick implementation of animation for unstable nuclei,
+    // done for interviews.  If the animation feature is kept, this should be
+    // reworked.
+    int count = 0;
     private void stepInTime( double simulationTimeChange ) {
-        if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
-            reconfigureNucleus( false );
+        if ( count++ % 5 == 0){
+            if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
+                reconfigureNucleus( false );
+            }
         }
     }
 
