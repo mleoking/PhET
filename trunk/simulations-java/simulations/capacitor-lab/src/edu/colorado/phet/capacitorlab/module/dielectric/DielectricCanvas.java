@@ -140,14 +140,14 @@ public class DielectricCanvas extends CLCanvas {
         addChild( capacitanceMeterNode );
         addChild( chargeMeterNode );
         addChild( energyMeterNode );
+        addChild( eFieldDetector.getBodyNode() );
+        addChild( eFieldDetector.getWireNode() );
+        addChild( eFieldDetector.getProbeNode() );
         addChild( voltmeter.getBodyNode() );
         addChild( voltmeter.getPositiveProbeNode() );
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
-        addChild( eFieldDetector.getBodyNode() );
-        addChild( eFieldDetector.getWireNode() );
-        addChild( eFieldDetector.getProbeNode() );
         if ( dev ) {
             addChild( positiveTerminalNode );
             addChild( negativeTerminalNode );
