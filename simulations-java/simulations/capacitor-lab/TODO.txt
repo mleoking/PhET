@@ -14,7 +14,6 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- issue mentioned by NP about bottom wire clipped on his hi-res display
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
 - if voltmeter probes touch, voltmeter should read zero
 - add shapes for voltmeter probe tips
