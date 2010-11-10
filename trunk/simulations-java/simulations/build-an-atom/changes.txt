@@ -1,3 +1,7 @@
+Made the animation less frenetic.
+> Made the electron cloud one big one instead of two concentric ones sized like the orbitals.
+Added interlock to prevent enabling of animation when stable/unstable labels not shown.
+> Changed name of "Mass" indicator to "Mass Number". 
 > Added checkboxes for "show name", "show stable/unstable", "show neutral/ion"
 # 1.00.08 (45912) Nov 9, 2010
 Added developer control that causes unstable nuclei to be animated
