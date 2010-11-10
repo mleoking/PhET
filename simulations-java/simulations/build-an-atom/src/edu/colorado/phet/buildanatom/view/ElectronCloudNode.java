@@ -108,8 +108,7 @@ public class ElectronCloudNode extends PNode {
                         public void mousePressed( PInputEvent event ) {
                             // Grab an electron out from one of the shells
                             final Point2D position = mvt.viewToModel( event.getPositionRelativeTo( getParent() ) );
-                            grabbedElectron = atom.getElectrons().get( 0 );
-                            //                            grabbedElectron = atom.removeElectron();
+                            grabbedElectron = atom.removeElectron();
                             grabbedElectron.setUserControlled( true );
                             grabbedElectron.setPositionAndDestination( position );
                         }
