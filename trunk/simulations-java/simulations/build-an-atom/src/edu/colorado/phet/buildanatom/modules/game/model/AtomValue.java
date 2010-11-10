@@ -65,7 +65,7 @@ public class AtomValue {
         if ( electrons < 0 ) {
             System.out.println( "electrons = "+electrons );
         }
-        Atom atom = new Atom( new Point2D.Double( 0, 0 ));
+        Atom atom = new Atom( new Point2D.Double( 0, 0 ), clock );
         for ( int i = 0; i < protons; i++ ) {
             atom.addProton( new Proton( clock ) ,false );
         }
