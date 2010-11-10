@@ -88,7 +88,7 @@ public class UpdateHandler {
         }
 
         if ( checkInstallation && common.fromFullInstallation() ) {
-            str += "<phet_installer_update request_version=\"" + INSTALLER_REQUEST_VERSION + "\" timestamp_seconds=\"" + String( common.getInstallationTimestamp() ) + "\" />";
+            str += "<phet_installer_update request_version=\"" + INSTALLER_REQUEST_VERSION + "\" timestamp_seconds=\"" + common.getInstallationTimestampString() + "\" />";
         }
 
         str += "</phet_info>";
@@ -100,7 +100,7 @@ public class UpdateHandler {
 
     public function sendStartupQuery( query: String ): void {
 
-        if ( query === undefined || query == null ) {
+        if ( query == null ) {
             // must not be querying for anything, don't do anything
             return;
         }
@@ -138,8 +138,8 @@ public class UpdateHandler {
 
             var children: Array = xml.childNodes[0].childNodes; // children of sim_startup_query_response
 
-            for ( var idx in children ) {
-                var child = children[idx];
+            for ( var idx:* in children ) {
+                var child:* = children[idx];
                 var atts: Object = child.attributes;
                 if ( child.nodeName == "sim_version_response" ) {
                     debug( "UpdateHandler (2): received sim_version_response\n" );

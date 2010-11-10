@@ -455,13 +455,13 @@ public class FlashCommon {
         return distribTag;
     }
 
-    public function getInstallationTimestamp(): Number {
+    public function getInstallationTimestampString(): String {
         var timestamp: String = getFlashArg( "installationTimestamp" );
         if ( null_replace( timestamp ) == NULLVAL || isPlaceholder( timestamp ) ) {
-            return null;
+            return NULLVAL;
         }
         else {
-            return parseInt( timestamp );
+            return timestamp;
         }
     }
 
