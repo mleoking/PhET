@@ -1,3 +1,4 @@
+11/10/10 put voltmeter in front of E-Field detector, since voltmeter is smaller
 11/10/10 move circuit up a little so bottom wire doesn't get clipped when window is maximized
 # 0.00.38 (45903) Nov 9, 2010
 11/9/10 dev version to demo progress on voltage measurement
