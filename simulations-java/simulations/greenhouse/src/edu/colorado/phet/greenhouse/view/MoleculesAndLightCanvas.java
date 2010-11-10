@@ -27,7 +27,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final double FLASHLIGHT_WIDTH = 300;
+    private static final double PHOTON_EMITTER_WIDTH = 300;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -122,9 +122,9 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         myWorldNode.addChild( photonEmitterLayer );
 
         // Add the photon emitter.
-        PNode flashlightNode = new PhotonEmitterNode( FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel );
-        flashlightNode.setOffset( mvt.modelToViewDouble( photonAbsorptionModel.getPhotonEmissionLocation() ) );
-        photonEmitterLayer.addChild( flashlightNode );
+        PNode photonEmitterNode = new PhotonEmitterNode2( PHOTON_EMITTER_WIDTH, mvt, photonAbsorptionModel );
+        photonEmitterNode.setOffset( mvt.modelToViewDouble( photonAbsorptionModel.getPhotonEmissionLocation() ) );
+        photonEmitterLayer.addChild( photonEmitterNode );
 
         // Add in the initial molecule(s).
         for ( Molecule molecule : photonAbsorptionModel.getMolecules() ) {
