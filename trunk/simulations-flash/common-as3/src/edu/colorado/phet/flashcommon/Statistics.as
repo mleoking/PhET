@@ -123,7 +123,7 @@ public class Statistics {
         str += fieldFormat( "sim_minor_version", common.getVersionMinor(), humanReadable );
         str += fieldFormat( "sim_dev_version", common.getVersionDev(), humanReadable );
         str += fieldFormat( "sim_revision", common.getVersionRevision(), humanReadable );
-        str += fieldFormat( "sim_version_timestamp", common.getVersionTimestamp(), humanReadable );
+        str += fieldFormat( "sim_version_timestamp", common.getVersionTimestampString(), humanReadable );
 
         str += fieldFormat( "sim_locale_language", common.getLanguage(), humanReadable );
         str += fieldFormat( "sim_locale_country", common.getCountry(), humanReadable );

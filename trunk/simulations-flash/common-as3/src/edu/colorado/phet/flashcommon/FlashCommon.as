@@ -469,20 +469,20 @@ public class FlashCommon {
         // WARNING: Do NOT CHANGE installerCreationTimestamp's name, it is used in the installation utility
         var timestamp: String = getFlashArg( "installerCreationTimestamp" );
         if ( null_replace( timestamp ) == NULLVAL || isPlaceholder( timestamp ) ) {
-            return null;
+            return 0;
         }
         else {
             return parseInt( timestamp );
         }
     }
 
-    public function getVersionTimestamp(): Number {
+    public function getVersionTimestampString(): String {
         var timestamp: String = getFlashArg( "versionTimestamp" );
         if ( null_replace( timestamp ) == NULLVAL ) {
-            return null;
+            return NULLVAL;
         }
         else {
-            return parseInt( timestamp );
+            return timestamp;
         }
     }
 
@@ -639,9 +639,9 @@ public class FlashCommon {
     private function existingSystemFont( preferredFonts: Array ): String {
         throw new Error( "existingSystemFont is probably broken" );
         var fontList: Array = Font.enumerateFonts( true );
-        for ( var pkey in preferredFonts ) {
+        for ( var pkey:* in preferredFonts ) {
             var pfont: String = preferredFonts[pkey];
-            for ( var fkey in fontList ) {
+            for ( var fkey:* in fontList ) {
                 var ffont: String = fontList[fkey];
                 if ( pfont == ffont ) {
                     debug( "Found good system font: " + pfont + "\n" );
