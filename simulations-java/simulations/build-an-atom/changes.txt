@@ -1,3 +1,4 @@
+# 1.00.08 (45912) Nov 9, 2010
 Added developer control that causes unstable nuclei to be animated
 > Improved highlighting in periodic table
 # 1.00.07 (45884) Nov 9, 2010
