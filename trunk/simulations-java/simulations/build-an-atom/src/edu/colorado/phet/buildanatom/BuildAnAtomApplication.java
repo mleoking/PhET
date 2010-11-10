@@ -13,9 +13,11 @@ import javax.swing.JMenu;
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
 import edu.colorado.phet.buildanatom.modules.game.GameModule;
+import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvas;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -97,14 +99,32 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
             }
         });
 
-        developerMenu.add( new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
+        final JCheckBoxMenuItem animateNucleusCheckBox = new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
             setSelected( animateUnstableNucleusProperty.getValue() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     animateUnstableNucleusProperty.setValue( isSelected() );
                 }
             } );
-        }} );
+        }};
+
+        // This implements an interlock where the ability to turn on animation
+        // of the unstable nucleus is only available when the "Stable/Unstable"
+        // labels are being shown.
+        BuildAnAtomCanvas.showStableUnstable.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( BuildAnAtomCanvas.showStableUnstable.getValue() ){
+                    animateNucleusCheckBox.setEnabled( true );
+                }
+                else{
+                    animateNucleusCheckBox.setSelected( false );
+                    animateNucleusCheckBox.setEnabled( false );
+                    animateUnstableNucleusProperty.setValue( false );
+                }
+            }
+        });
+
+        developerMenu.add( animateNucleusCheckBox );
     }
 
     /**
