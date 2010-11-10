@@ -148,7 +148,7 @@ public class Statistics {
 
         /////// user data
         str += fieldFormat( "user_preference_file_creation_time", common.preferences.getUserTime(), humanReadable );
-        str += fieldFormat( "user_installation_timestamp", common.getInstallationTimestamp(), humanReadable );
+        str += fieldFormat( "user_installation_timestamp", common.getInstallationTimestampString(), humanReadable );
         str += fieldFormat( "user_total_sessions", common.preferences.getUserTotalSessions(), humanReadable );
 
         // unload data from shared object
@@ -285,7 +285,7 @@ public class Statistics {
                 }
             }
         }
-        if ( str == null || str == undefined || common.isPlaceholder( str ) ) {
+        if ( str == null || common.isPlaceholder( str ) ) {
             return FlashCommon.NULLVAL;
         }
         return escape( str );
