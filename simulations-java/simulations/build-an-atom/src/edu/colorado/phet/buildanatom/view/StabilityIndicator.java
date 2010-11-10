@@ -16,13 +16,19 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class StabilityIndicator extends PNode {
 
     public StabilityIndicator( final Atom atom, final BooleanProperty showLabels ) {
-        addChild( new PText( BuildAnAtomStrings.UNSTABLE) {{
+        final PText child = new PText( BuildAnAtomStrings.UNSTABLE ) {{
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.black );
-        }} );
+        }};
+        addChild( child );
         SimpleObserver updateVisibility = new SimpleObserver() {
             public void update() {
-                setVisible( !atom.isStable() && showLabels.getValue() );
+                setVisible( showLabels.getValue() );
+                if (atom.isStable()){
+                    child.setText( "Stable" );
+                }else{
+                    child.setText( BuildAnAtomStrings.UNSTABLE );
+                }
             }
         };
         atom.addObserver( updateVisibility );
