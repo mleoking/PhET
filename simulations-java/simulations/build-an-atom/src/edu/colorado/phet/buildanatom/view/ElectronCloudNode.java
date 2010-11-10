@@ -129,7 +129,7 @@ public class ElectronCloudNode extends PNode {
                 }
             }
         };
-        viewOrbitals.setValue( false );//Uncomment this line to set the default view to cloud
+//        viewOrbitals.setValue( false );//Uncomment this line to set the default view to cloud
         addChild( electronCloudNode );
 
                 for ( ElectronShell electronShell : electronShells ) {
