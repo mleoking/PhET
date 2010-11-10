@@ -1,3 +1,5 @@
+# 0.00.38 (45903) Nov 9, 2010
+11/9/10 dev version to demo progress on voltage measurement
 11/9/10 new 3D probes with parallel projection from Noah P (images and assets)
 11/9/10 get wire segment endpoints from battery and capacitor model elements, not constants
 11/9/10 fix wire shape algorithm, it wouldn't handle the types of wires in Multiple Capacitor circuits
