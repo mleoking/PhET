@@ -90,7 +90,7 @@ public class BuildAnAtomModel {
         this.clock = clock;
 
         // Create the atom.
-        atom = new Atom( new Point2D.Double( 0, 0 ) );
+        atom = new Atom( new Point2D.Double( 0, 0 ), clock );
 
         for ( int i = 0; i < atomValue.getElectrons(); i++ ) {
             final Electron electron = new Electron( clock );

@@ -17,6 +17,8 @@ import edu.colorado.phet.buildanatom.modules.game.GameModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -31,6 +33,8 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     private JCheckBoxMenuItem problemDialogVisableControl;
+
+    public static final Property<Boolean> animateUnstableNucleusProperty = new Property<Boolean>( false );
 
     ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.createInstance( getPhetFrame() );
 
@@ -102,6 +106,15 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
                 problemDialogVisableControl.setSelected(false);
             }
         });
+
+        developerMenu.add( new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
+            setSelected( animateUnstableNucleusProperty.getValue() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    animateUnstableNucleusProperty.setValue( isSelected() );
+                }
+            } );
+        }} );
     }
 
     /**

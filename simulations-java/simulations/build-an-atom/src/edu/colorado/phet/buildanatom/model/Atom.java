@@ -7,9 +7,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomApplication;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -121,6 +124,42 @@ public class Atom extends SimpleObservable implements IAtom{
         }
     };
 
+    /**
+     * Constructor.
+     */
+    public Atom( Point2D position, BuildAnAtomClock clock ) {
+        this.position.setLocation( position );
+        //Only need to listen for 'removal' notifications on the inner shell
+        //to decide when an outer electron should fall
+        electronShell1.addObserver( electronShellChangeObserver );
+
+        //Need to notify our observers when the number of electrons changes
+        final SimpleObserver electronChangeAdapter = new SimpleObserver() {
+            public void update() {
+                notifyObservers();
+            }
+        };
+        electronShell1.addObserver( electronChangeAdapter );
+        electronShell2.addObserver( electronChangeAdapter );
+        electronShell3.addObserver( electronChangeAdapter );
+        notifyObservers();
+
+        clock.addClockListener( new ClockAdapter() {
+
+            @Override
+            public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+
+        } );
+    }
+
+    private void stepInTime( double simulationTimeChange ) {
+        if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
+            reconfigureNucleus( false );
+        }
+    }
+
     /**Returns the removed particle.*/
     private SubatomicParticle removeParticle( SubatomicParticle particle ) {
         protons.remove( particle );
@@ -150,27 +189,6 @@ public class Atom extends SimpleObservable implements IAtom{
      */
     public Electron removeElectron(){
         return electronShell1.removeElectron();
-    }
-
-    /**
-     * Constructor.
-     */
-    public Atom( Point2D position ) {
-        this.position.setLocation( position );
-        //Only need to listen for 'removal' notifications on the inner shell
-        //to decide when an outer electron should fall
-        electronShell1.addObserver( electronShellChangeObserver );
-
-        //Need to notify our observers when the number of electrons changes
-        final SimpleObserver electronChangeAdapter = new SimpleObserver() {
-            public void update() {
-                notifyObservers();
-            }
-        };
-        electronShell1.addObserver( electronChangeAdapter );
-        electronShell2.addObserver( electronChangeAdapter );
-        electronShell3.addObserver( electronChangeAdapter );
-        notifyObservers();
     }
 
     /**
@@ -408,6 +426,9 @@ public class Atom extends SimpleObservable implements IAtom{
                     level++;
                     placementRadius += nucleonRadius * 1.3 / level;
                     placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
+                    if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
+                        placementAngle += Math.random() * 2 * Math.PI;
+                    }
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
