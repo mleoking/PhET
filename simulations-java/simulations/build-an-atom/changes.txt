@@ -1,3 +1,5 @@
+# 1.00.09 (45942) Nov 10, 2010
+11/10/10 Deploying to dev for interviews.
 Made the animation less frenetic.
 > Made the electron cloud one big one instead of two concentric ones sized like the orbitals.
 Added interlock to prevent enabling of animation when stable/unstable labels not shown.
