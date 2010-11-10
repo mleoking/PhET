@@ -3,7 +3,6 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
-- if voltmeter probes touch, should voltmeter read zero? this will be difficult for the user to do with our '2D plane' probes
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
@@ -17,6 +16,7 @@ DESIGN ISSUES
 HIGH PRIORITY
 - issue mentioned by NP about bottom wire clipped on his hi-res display
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
+- if voltmeter probes touch, voltmeter should read zero
 - add shapes for voltmeter probe tips
 - move debug bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
 - address stroke issue in WireSegment.createShape
