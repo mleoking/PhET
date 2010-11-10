@@ -48,11 +48,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Reset button.
     private final GradientButtonNode resetButtonNode;
 
-    final BooleanProperty viewOrbitals = new BooleanProperty( true );
-    final BooleanProperty showLabels = new BooleanProperty( true );
-    final BooleanProperty showName= new BooleanProperty( true );
-    final BooleanProperty showNeutralIon = new BooleanProperty( true );
-    final BooleanProperty showStableUnstable = new BooleanProperty( false );
+    private final BooleanProperty viewOrbitals = new BooleanProperty( true );
+    private final BooleanProperty showLabels = new BooleanProperty( true );
+    private final BooleanProperty showName= new BooleanProperty( true );
+    private final BooleanProperty showNeutralIon = new BooleanProperty( true );
+    // TODO: Make this non-static and private if and when the interlock with the animate
+    // functionality is removed.
+    public static final BooleanProperty showStableUnstable = new BooleanProperty( false );
     private final MaximizeControlNode elementIndicatorWindow;
     private final MaximizeControlNode symbolWindow;
     private final MaximizeControlNode massWindow;
@@ -224,6 +226,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         symbolWindow.setMaximized( false );
         massWindow.setMaximized( false );
         chargeWindow.setMaximized( false );
+    }
+
+    public boolean getShowStableUnstable(){
+        return showStableUnstable.getValue();
     }
 
     /*
