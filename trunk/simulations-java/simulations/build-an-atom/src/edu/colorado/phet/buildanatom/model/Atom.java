@@ -215,7 +215,7 @@ public class Atom extends SimpleObservable implements IAtom{
             Electron electronToMove = outer.getClosestElectron( openLocations.get( 0 ) );
 
             outer.removeElectron( electronToMove );
-            inner.addElectron( electronToMove, true );
+            inner.addElectron( electronToMove, false );
         }
     }
 
