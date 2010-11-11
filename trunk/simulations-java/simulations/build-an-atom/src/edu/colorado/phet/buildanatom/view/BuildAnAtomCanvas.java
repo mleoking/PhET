@@ -54,7 +54,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final BooleanProperty showNeutralIon = new BooleanProperty( true );
     // TODO: Make this non-static and private if and when the interlock with the animate
     // functionality is removed.
-    public static final BooleanProperty showStableUnstable = new BooleanProperty( false );
+    public static final BooleanProperty showStableUnstable = new BooleanProperty( true );
     private final MaximizeControlNode elementIndicatorWindow;
     private final MaximizeControlNode symbolWindow;
     private final MaximizeControlNode massWindow;
@@ -70,10 +70,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
-
-        //        mvt = new ModelViewTransform2D( model.getModelViewport(),
-        //                new Rectangle2D.Double( 0, BuildAnAtomDefaults.STAGE_SIZE.getHeight() * ( 1 - 0.8 ),
-        //                BuildAnAtomDefaults.STAGE_SIZE.getWidth() * 0.7, BuildAnAtomDefaults.STAGE_SIZE.getHeight() * 0.7 ) );
 
         // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
         // factors for the point in the view can be adjusted to shift the
