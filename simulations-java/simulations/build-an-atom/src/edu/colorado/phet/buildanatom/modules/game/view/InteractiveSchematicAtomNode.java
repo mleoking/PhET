@@ -9,6 +9,7 @@ import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,19 +29,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         super( model, mvt, viewOrbitals );
 
         // Add the atom's nucleus location to the canvas.
-        DoubleGeneralPath nucleusXMarkerModelCoords = new DoubleGeneralPath();
-        double xMarkerSize = Proton.RADIUS; // Arbitrary, adjust as desired.
-        nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
-                model.getAtom().getPosition().getY() - xMarkerSize / 2 );
-        nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
-                model.getAtom().getPosition().getY() + xMarkerSize / 2 );
-        nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
-                model.getAtom().getPosition().getY() + xMarkerSize / 2 );
-        nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
-                model.getAtom().getPosition().getY() - xMarkerSize / 2 );
-        Shape nucleusXMarkerShape = mvt.createTransformedShape( nucleusXMarkerModelCoords.getGeneralPath() );
-        PNode nucleusXMarkerNode = new PhetPPath( nucleusXMarkerShape, new BasicStroke( 4f ), new Color( 255, 0, 0, 75 ) );
-        backLayer.addChild( nucleusXMarkerNode );
+        backLayer.addChild( new CenterMarkerNode( model, mvt ) );
 
         // Add the buckets that hold the sub-atomic particles.
         BucketNode electronBucketNode = new BucketNode( model.getElectronBucket(), mvt );
@@ -65,4 +54,30 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         model.setState( answer, false );
     }
 
+    private static class CenterMarkerNode extends PNode {
+        public CenterMarkerNode( final BuildAnAtomModel model, ModelViewTransform2D mvt ) {
+
+            model.getAtom().addObserver( new SimpleObserver() {
+                public void update() {
+                    // Only visible when there are no nucleons in the atom.
+                    setVisible (model.getAtom().getAtomicMassNumber() == 0);
+                }
+            });
+
+            // Create the marker.
+            DoubleGeneralPath nucleusXMarkerModelCoords = new DoubleGeneralPath();
+            double xMarkerSize = Proton.RADIUS; // Arbitrary, adjust as desired.
+            nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
+                    model.getAtom().getPosition().getY() - xMarkerSize / 2 );
+            nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
+                    model.getAtom().getPosition().getY() + xMarkerSize / 2 );
+            nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
+                    model.getAtom().getPosition().getY() + xMarkerSize / 2 );
+            nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
+                    model.getAtom().getPosition().getY() - xMarkerSize / 2 );
+            Shape nucleusXMarkerShape = mvt.createTransformedShape( nucleusXMarkerModelCoords.getGeneralPath() );
+            PNode nucleusXMarkerNode = new PhetPPath( nucleusXMarkerShape, new BasicStroke( 4f ), new Color( 255, 0, 0, 75 ) );
+            addChild( nucleusXMarkerNode );
+        }
+    }
 }
