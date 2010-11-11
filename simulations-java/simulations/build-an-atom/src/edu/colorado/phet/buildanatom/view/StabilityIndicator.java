@@ -23,7 +23,7 @@ public class StabilityIndicator extends PNode {
         addChild( child );
         SimpleObserver updateVisibility = new SimpleObserver() {
             public void update() {
-                setVisible( showLabels.getValue() );
+                setVisible( showLabels.getValue() && atom.getAtomicMassNumber() > 0 );
                 if (atom.isStable()){
                     child.setText( BuildAnAtomStrings.STABLE );
                 }else{
