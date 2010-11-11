@@ -68,11 +68,11 @@ public class MovingManApplication extends PiccoloPhetApplication {
             }
         });
         getPhetFrame().addMenu(new SpecialFeaturesMenu(this));
-        positiveToTheRight.addObserver(new SimpleObserver() {
+        positiveToTheRight.addObserver( new SimpleObserver() {
             public void update() {
-                getActiveMovingManModule().setPositiveToTheRight(positiveToTheRight.getValue());
+                getActiveMovingManModule().setPositiveToTheRight( positiveToTheRight.getValue() );
             }
-        });
+        }, false );
     }
 
     private MovingManModule getActiveMovingManModule() {
