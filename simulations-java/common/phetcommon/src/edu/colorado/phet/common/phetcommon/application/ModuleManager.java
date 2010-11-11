@@ -307,4 +307,13 @@ class ModuleManager {
         }
         startModule = module;
     }
+
+    /**
+     * Removes the specified moduleObserver
+     *
+     * @param moduleObserver the ModuleObserver to unsubscribe from module events
+     */
+    void removeModuleObserver( ModuleObserver moduleObserver ) {
+        moduleObservers.remove( moduleObserver );
+    }
 }
