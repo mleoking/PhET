@@ -138,7 +138,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt-examples" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/charges-and-fields-scala" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab" />
-      <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/inside-magnets" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/simulations/scala-sim-template" />
