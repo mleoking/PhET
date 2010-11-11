@@ -86,7 +86,7 @@ public class ParticleCountLegend extends PNode {
         PropertyChangeListener updateBounds = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 Rectangle2D bounds = RectangleUtils.union( new Rectangle2D[] { protonItem.getFullBounds(), neutronItem.getFullBounds(), electronItem.getFullBounds() } );
-                Rectangle2D expanded = RectangleUtils.expandRectangle2D( bounds, 10, 10 );
+                Rectangle2D expanded = RectangleUtils.expandRectangle2D( bounds, 5, 5 );
                 boundsNode.setPathTo( new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), Math.max( expanded.getWidth(), 170 ),//start small and expand to the right or it looks unusual by default
                                                                    expanded.getHeight(), 10, 10 ) );
             }
