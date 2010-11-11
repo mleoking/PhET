@@ -2,8 +2,6 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -564,48 +562,6 @@ public class Atom extends SimpleObservable implements IAtom{
             }
         }
         return nucleons;
-    }
-
-    private Point2D getNucleusPosition() {
-        return nucleusOffset.getDestination( getPosition() );
-    }
-
-    private double getClumpiness( ArrayList<SubatomicParticle> nucleons ) {
-        double error = 0;
-        for ( SubatomicParticle nucleon : nucleons ) {
-            error += getClumpFactor( nucleon, nucleons );
-        }
-        return error;
-    }
-
-    int MAX_CLUMP_FACTOR = 5;
-
-    private double getClumpFactor( SubatomicParticle nucleon, ArrayList<SubatomicParticle> n ) {
-        ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>( n );
-        nucleons.remove( nucleon );
-        final HashMap<SubatomicParticle, Double> distances = new HashMap<SubatomicParticle, Double>();
-        for ( SubatomicParticle subatomicParticle : nucleons ) {
-            distances.put( subatomicParticle, nucleon.getDestination().distance( subatomicParticle.getDestination() ) );
-        }
-        Collections.sort( nucleons, new Comparator<SubatomicParticle>() {
-                public int compare( SubatomicParticle o1, SubatomicParticle o2 ) {
-                return Double.compare( distances.get( o1 ), distances.get( o2 ) );
-                }
-                } );
-        //take the top N particles
-        int error = 0;
-        for ( int i = 0; i < MAX_CLUMP_FACTOR && i < nucleons.size(); i++ ) {
-            if ( nucleon.getClass().equals( nucleons.get( i ).getClass() ) ) {
-                error++;
-            }
-        }
-        return error;
-    }
-
-    private void swap( ArrayList<SubatomicParticle> nucleons, int particle1, int particle2 ) {
-        Point2D point1 = nucleons.get( particle1 ).getDestination();
-        nucleons.get( particle1 ).setDestination( nucleons.get( particle2 ).getDestination() );
-        nucleons.get( particle2 ).setDestination( point1 );
     }
 
     public boolean isStable() {
