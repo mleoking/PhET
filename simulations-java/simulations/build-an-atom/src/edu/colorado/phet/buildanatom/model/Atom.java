@@ -173,10 +173,14 @@ public class Atom extends SimpleObservable implements IAtom{
                 double rand = random.nextDouble() * Math.PI * 2;
                 nucleusOffset.setAngle( rand );
                 nucleusOffset.setMagnitude( random.nextDouble() * 10 );
-                for ( SubatomicParticle nucleon : getNucleons() ) {
-                    nucleon.setPosition( nucleusOffset.getDestination( nucleon.getDestination() ) );
-                }
+                offsetNucleons();
             }
+        }
+    }
+
+    private void offsetNucleons() {
+        for ( SubatomicParticle nucleon : getNucleons() ) {
+            nucleon.setPosition( nucleusOffset.getDestination( nucleon.getDestination() ) );
         }
     }
 
@@ -539,6 +543,8 @@ public class Atom extends SimpleObservable implements IAtom{
             //            double finalClump = getClumpiness( nucleons );
             //            System.out.println( "origClump = " + origClump + ", final clump = " + finalClump );
         }
+
+        offsetNucleons();
 
         //If the particles shouldn't be animating, they should immediately move to their destination
         if ( moveImmediately ) {
