@@ -37,30 +37,46 @@ public class Battery {
         listeners = new EventListenerList();
     }
 
-    public Shape createPositiveTerminalShape() {
+    public Shape createPositiveTerminalShapeLocal() {
+        return createPositiveTerminalShape( new Point3D.Double() );
+    }
+    
+    public Shape createPositiveTerminalShapeGlobal() {
+        return createPositiveTerminalShape( location );
+    }
+    
+    private Shape createPositiveTerminalShape( Point3D origin ) {
         final double terminalWidth = diameter / 3;
         final double terminalHeight = diameter / 4;
-        double x = location.getX() - ( terminalWidth / 2 );
+        double x = origin.getX() - ( terminalWidth / 2 );
         double y;
         if ( polarity == Polarity.POSITIVE ) {
-            y = location.getY() - ( length / 2 ) - ( terminalHeight / 2 );
+            y = origin.getY() - ( length / 2 ) - ( terminalHeight / 2 );
         }
         else {
-            y = location.getY() + ( length / 2 ) - ( terminalHeight / 2 );
+            y = origin.getY() + ( length / 2 ) - ( terminalHeight / 2 );
         }
         return new Rectangle2D.Double( x, y, terminalWidth, terminalHeight );
     }
     
-    public Shape createNegativeTerminalShape() {
+    public Shape createNegativeTerminalShapeLocal() {
+        return createNegativeTerminalShape( new Point3D.Double() );
+    }
+    
+    public Shape createNegativeTerminalShapeGlobal() {
+        return createNegativeTerminalShape( location );
+    }
+    
+    private Shape createNegativeTerminalShape( Point3D origin ) {
         final double terminalWidth = diameter / 1.5;
         final double terminalHeight = diameter / 5;
-        double x = location.getX() - ( terminalWidth / 2 );
+        double x = origin.getX() - ( terminalWidth / 2 );
         double y;
         if ( polarity == Polarity.POSITIVE ) {
-            y = location.getY() + length/2 - terminalHeight;
+            y = origin.getY() + length/2 - terminalHeight;
         }
         else {
-            y = location.getY() - length/2;
+            y = origin.getY() - length/2;
         }
         return new Ellipse2D.Double( x, y, terminalWidth, terminalHeight );
     }
@@ -124,19 +140,19 @@ public class Battery {
     
     public boolean topTerminalContains( Point3D p ) {
         if ( polarity == Polarity.POSITIVE ) {
-            return createPositiveTerminalShape().contains( p.getX(), p.getY() );
+            return createPositiveTerminalShapeGlobal().contains( p.getX(), p.getY() );
         }
         else {
-            return createNegativeTerminalShape().contains( p.getX(), p.getY() );
+            return createNegativeTerminalShapeGlobal().contains( p.getX(), p.getY() );
         }
     }
     
     public boolean bottomTerminalContains( Point3D p ) {
         if ( polarity == Polarity.NEGATIVE ) {
-            return createPositiveTerminalShape().contains( p.getX(), p.getY() );
+            return createPositiveTerminalShapeGlobal().contains( p.getX(), p.getY() );
         }
         else {
-            return createNegativeTerminalShape().contains( p.getX(), p.getY() );
+            return createNegativeTerminalShapeGlobal().contains( p.getX(), p.getY() );
         }
     }
     

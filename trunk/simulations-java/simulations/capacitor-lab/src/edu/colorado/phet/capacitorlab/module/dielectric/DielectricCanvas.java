@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -18,8 +16,6 @@ import edu.colorado.phet.capacitorlab.control.RemoveWiresButtonNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
@@ -29,7 +25,6 @@ import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
 import edu.colorado.phet.capacitorlab.view.WireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -111,19 +106,6 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
         
-        // battery terminals
-        final PhetPPath positiveTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.ORANGE );
-        final PhetPPath negativeTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.GREEN );
-        BatteryChangeListener polarityListener = new BatteryChangeAdapter() {
-            @Override
-            public void polarityChanged() {
-                positiveTerminalNode.setPathTo( mvt.modelToView( model.getBattery().createPositiveTerminalShape() ) );
-                negativeTerminalNode.setPathTo( mvt.modelToView( model.getBattery().createNegativeTerminalShape() ) );
-            }
-        };
-        model.getBattery().addBatteryChangeListener( polarityListener );
-        polarityListener.polarityChanged();
-        
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
@@ -148,10 +130,6 @@ public class DielectricCanvas extends CLCanvas {
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
-        if ( dev ) {
-            addChild( positiveTerminalNode );
-            addChild( negativeTerminalNode );
-        }
 
         // nodes whose visibility causes the capacitor to become transparent
         capacitorTransparencyNodes = new ArrayList<PNode>();
