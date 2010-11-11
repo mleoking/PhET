@@ -146,7 +146,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         final int controlButtonOffset=30;//distance between "show labels" and "reset all" buttons
 
-        PSwing showNameCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_NAME, showName );
+        PSwing showNameCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_ELEMENT_NAME, showName );
         showNameCheckBox.setOffset( chargeWindow.getFullBounds().getMinX(), chargeWindow.getFullBounds().getMaxY() + 5 );
         rootNode.addChild( showNameCheckBox );
 
@@ -169,9 +169,11 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 reset();
             }
         } );
+        double maxCheckboxX = Math.max( showNameCheckBox.getFullBoundsReference().getMaxX(), showNeutralIonCheckBox.getFullBoundsReference().getMaxX() );
+        maxCheckboxX = Math.max( maxCheckboxX, showStableUnstableCheckBox.getFullBoundsReference().getMaxX() );
         resetButtonNode.setOffset(
-                chargeWindow.getFullBounds().getCenterX() +controlButtonOffset/2 ,
-                chargeWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
+                (maxCheckboxX + (chargeWindow.getFullBounds().getMaxX() - maxCheckboxX) / 2) - resetButtonNode.getFullBoundsReference().width / 2,
+                showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
 
         //Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( viewOrbitals );
