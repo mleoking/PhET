@@ -14,6 +14,7 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
+- change battery image so that positive terminal doesn't stick out above/below battery body
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
 - if voltmeter probes touch, voltmeter should read zero
 - add shapes for voltmeter probe tips
