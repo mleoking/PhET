@@ -107,8 +107,6 @@ public class Atom extends SimpleObservable implements IAtom{
     private final ElectronShell electronShell1 = new ElectronShell( ELECTRON_SHELL_1_RADIUS, 2 );
     private final ElectronShell electronShell2 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
     // Electron shell 3 is (at least initially) only used for the game, and is never shown in the main tab.  Thus, its
-    // size is equal to that of the 2nd shell.
-    private final ElectronShell electronShell3 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
 
     // Observer for electron shells.
     private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
@@ -145,7 +143,6 @@ public class Atom extends SimpleObservable implements IAtom{
         };
         electronShell1.addObserver( electronChangeAdapter );
         electronShell2.addObserver( electronChangeAdapter );
-        electronShell3.addObserver( electronChangeAdapter );
         notifyObservers();
 
         clock.addClockListener( new ClockAdapter() {
@@ -221,7 +218,6 @@ public class Atom extends SimpleObservable implements IAtom{
      */
     protected void checkAndReconfigureShells() {
         checkAndReconfigureShells( electronShell1, electronShell2);
-        checkAndReconfigureShells( electronShell2, electronShell3);
     }
 
     private void checkAndReconfigureShells( ElectronShell inner, ElectronShell outer ) {
@@ -254,7 +250,6 @@ public class Atom extends SimpleObservable implements IAtom{
         // It is important to reset the electron shells from the outside in so
         // that we don't end up with electrons trying to migrate from outer to
         // inner shells during reset.
-        electronShell3.reset();
         electronShell2.reset();
         electronShell1.reset();
         notifyObservers();
@@ -264,12 +259,11 @@ public class Atom extends SimpleObservable implements IAtom{
         ArrayList<ElectronShell> electronShells = new ArrayList<ElectronShell>();
         electronShells.add( electronShell1 );
         electronShells.add( electronShell2 );
-        electronShells.add( electronShell3 );
         return electronShells;
     }
 
     public int getRemainingElectronCapacity(){
-        return electronShell1.getNumOpenLocations() + electronShell2.getNumOpenLocations() + electronShell3.getNumOpenLocations();
+        return electronShell1.getNumOpenLocations() + electronShell2.getNumOpenLocations();
     }
 
     public double getNucleusRadius() {
@@ -359,11 +353,7 @@ public class Atom extends SimpleObservable implements IAtom{
         else if ( !electronShell2.isFull() ) {
             electronShell2.addElectron( electron, moveImmediately );
             notifyObservers();
-        }
-        else if (!electronShell3.isFull()){
-            electronShell3.addElectron( electron, moveImmediately );
-            notifyObservers();
-        }else {
+        } else {
             // Too many electrons.  The sim should be designed such that this
             // does not occur.  If it does, it should be debugged.
             assert false;
@@ -574,14 +564,13 @@ public class Atom extends SimpleObservable implements IAtom{
     }
 
     public int getNumElectrons() {
-        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons() + electronShell3.getNumElectrons();
+        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
     }
 
     public ArrayList<Electron> getElectrons(){
         ArrayList<Electron> allElectrons = new ArrayList<Electron>( );
         allElectrons.addAll( electronShell1.getElectrons() );
         allElectrons.addAll( electronShell2.getElectrons() );
-        allElectrons.addAll( electronShell3.getElectrons() );
         return allElectrons;
     }
 
@@ -590,7 +579,7 @@ public class Atom extends SimpleObservable implements IAtom{
     }
 
     public boolean containsElectron( Electron electron ) {
-        return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron) || electronShell3.containsElectron( electron );
+        return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron);
     }
 
     public SubatomicParticle getProton( int i ) {
