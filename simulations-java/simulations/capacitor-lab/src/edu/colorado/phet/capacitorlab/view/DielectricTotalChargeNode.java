@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DielectricTotalChargeNode extends PhetPNode {
     
     private static final int SPACING_BETWEEN_PAIRS = 45; // view coordinates
-    private static final DoubleRange SPACING_BETWEEN_CHARGES = new DoubleRange( 0, 2 * SPACING_BETWEEN_PAIRS ); // view coordinates
+    private static final DoubleRange SPACING_BETWEEN_CHARGES = new DoubleRange( 0, SPACING_BETWEEN_PAIRS ); // view coordinates
     
     private final BatteryCapacitorCircuit circuit;
     private final ModelViewTransform mvt;
