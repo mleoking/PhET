@@ -1,3 +1,5 @@
+Made the red X in the center of the nucleus become invisible once nucleons are added.
+Made the animation of unstable atom nuclei be more of an overall jitter rather than individual nucleon motion.
 > Fixed: particle count legend can overlap electrons in the atom's outer shell
 > Made the cloud representation of the electrons grow/shrink as a function of the number of electrons in the atom.
 Changed "Show name" caption to "Show element name"
