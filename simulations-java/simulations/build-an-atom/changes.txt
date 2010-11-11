@@ -1,3 +1,4 @@
+> Fixed: particle count legend can overlap electrons in the atom's outer shell
 # 1.00.09 (45942) Nov 10, 2010
 11/10/10 Deploying to dev for interviews.
 Made the animation less frenetic.

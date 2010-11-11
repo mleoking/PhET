@@ -107,7 +107,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Show the legend/particle count indicator in the top left.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
-        particleCountLegend.setOffset( 20, 20 );//top left corner, but with some padding
+        particleCountLegend.setOffset( 20, 10 );//top left corner, but with some padding
         rootNode.addChild( particleCountLegend );
 
         final PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
