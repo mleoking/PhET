@@ -146,8 +146,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
 
-        final int controlButtonOffset=30;//distance between "show labels" and "reset all" buttons
-
         PSwing showNameCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_ELEMENT_NAME, showName );
         showNameCheckBox.setOffset( chargeWindow.getFullBounds().getMinX(), chargeWindow.getFullBounds().getMaxY() + 5 );
         rootNode.addChild( showNameCheckBox );
