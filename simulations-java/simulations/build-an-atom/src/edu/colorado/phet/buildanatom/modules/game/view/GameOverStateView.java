@@ -20,6 +20,7 @@ public class GameOverStateView extends StateView {
         gameOverNode = new GameOverNode( model.getLevelProperty().getValue(), model.getScore(),
                 model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), model.getBestTime(),
                 model.isNewBestTime(), model.getTimerEnabledProperty().getValue() );
+        gameOverNode.setScale( 1.5 );
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
             public void newGamePressed() {
                 model.newGame();
