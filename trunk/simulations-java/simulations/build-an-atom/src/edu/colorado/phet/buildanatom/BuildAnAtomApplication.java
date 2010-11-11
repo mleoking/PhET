@@ -29,7 +29,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private JCheckBoxMenuItem problemDialogVisableControl;
+    private JCheckBoxMenuItem problemDialogVisibleControl;
 
     public static final Property<Boolean> animateUnstableNucleusProperty = new Property<Boolean>( false );
 
@@ -80,11 +80,11 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
 
-        problemDialogVisableControl = new JCheckBoxMenuItem( "Show Problem Type Dialog" );
-        developerMenu.add( problemDialogVisableControl );
-        problemDialogVisableControl.addActionListener( new ActionListener() {
+        problemDialogVisibleControl = new JCheckBoxMenuItem( "Show Problem Type Dialog" );
+        developerMenu.add( problemDialogVisibleControl );
+        problemDialogVisibleControl.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setProblemTypeDialogVisible(problemDialogVisableControl.isSelected());
+                setProblemTypeDialogVisible( problemDialogVisibleControl.isSelected());
             }
         } );
 
@@ -93,7 +93,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         problemTypeSelectionDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e){
-                problemDialogVisableControl.setSelected(false);
+                problemDialogVisibleControl.setSelected(false);
             }
         });
 
