@@ -25,8 +25,7 @@ public class StabilityIndicator extends PNode {
             public void update() {
                 setVisible( showLabels.getValue() );
                 if (atom.isStable()){
-                    // TODO: i18n
-                    child.setText( "Stable" );
+                    child.setText( BuildAnAtomStrings.STABLE );
                 }else{
                     child.setText( BuildAnAtomStrings.UNSTABLE );
                 }

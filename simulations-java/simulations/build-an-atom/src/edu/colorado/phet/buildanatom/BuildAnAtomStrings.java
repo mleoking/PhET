@@ -34,6 +34,7 @@ public class BuildAnAtomStrings {
     public static final String NEGATIVE_ION = getString( "negative.ion" );
     public static final String NEUTRAL_ATOM = getString( "neutral.atom" );
     public static final String UNSTABLE = getString( "unstable" );
+    public static final String STABLE = getString( "stable" );
     public static final String ELEMENT_NONE_SYMBOL = getString( "element.none.symbol" );
     public static final String ELEMENT_NONE_NAME = getString( "element.none.name" );
     public static final String ELEMENT_HYDROGEN_SYMBOL = getString( "element.hydrogen.symbol" );
