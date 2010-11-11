@@ -379,12 +379,7 @@ public class BatteryCapacitorCircuit {
     
     /**
      * Gets the maximum charge on the top plate (Q_total).
-     * Maximum charge occurs when the battery is connected, 
-     * plate separate and dielectric offset are at their minimums,
-     * and all other quantities are at their maximums.
-     * <p>
-     * We compute this with the battery connected because this is used 
-     * to determine the range of the Plate Charge slider.
+     * We compute this with the battery connected because this is used to determine the range of the Plate Charge slider.
      * 
      * @return charge, in Coulombs
      */
