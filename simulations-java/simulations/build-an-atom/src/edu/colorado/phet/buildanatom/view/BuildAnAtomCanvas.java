@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
+import java.util.Collections;
 
 import javax.swing.JCheckBox;
 
@@ -169,8 +171,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 reset();
             }
         } );
-        double maxCheckboxX = Math.max( showNameCheckBox.getFullBoundsReference().getMaxX(), showNeutralIonCheckBox.getFullBoundsReference().getMaxX() );
-        maxCheckboxX = Math.max( maxCheckboxX, showStableUnstableCheckBox.getFullBoundsReference().getMaxX() );
+
+        double maxCheckboxX = Collections.max( Arrays.asList( showNameCheckBox.getFullBoundsReference().getMaxX(),
+                                                              showNeutralIonCheckBox.getFullBoundsReference().getMaxX(),
+                                                              showStableUnstableCheckBox.getFullBoundsReference().getMaxX()));
         resetButtonNode.setOffset(
                 (maxCheckboxX + (chargeWindow.getFullBounds().getMaxX() - maxCheckboxX) / 2) - resetButtonNode.getFullBoundsReference().width / 2,
                 showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
