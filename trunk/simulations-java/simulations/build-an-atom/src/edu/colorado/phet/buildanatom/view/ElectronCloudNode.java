@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -52,12 +53,7 @@ public class ElectronCloudNode extends PNode {
         electronShells.add(  atom.getElectronShells().get(0) );
         electronShells.add(  atom.getElectronShells().get(1) );
 
-        // Find the radius of the largest shell.
-        Collections.sort( electronShells, new Comparator<ElectronShell>() {
-                public int compare( ElectronShell o1, ElectronShell o2 ) {
-                return Double.compare( o1.getRadius(), o2.getRadius() );
-                }
-                } );
+        // Find the range of radii to display, assuming shells are already ordered from small to large
         final double minRadius = electronShells.get( 0 ).getRadius();
         final double maxRadius = electronShells.get( electronShells.size() - 1 ).getRadius();
 
