@@ -71,7 +71,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 new Point( (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
                 (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.3 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
-        true );
+                true );
 
         setBackground( Color.BLACK );
 
@@ -121,10 +121,25 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         photonEmitterLayer = new PNode();
         myWorldNode.addChild( photonEmitterLayer );
 
-        // Add the photon emitter.
+        // Create the control panel for photon emission frequency.
+        PNode photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel );
+        photonEmissionControlPanel.setOffset( 0, 500 );
+
+        // Create the photon emitter.
         PNode photonEmitterNode = new PhotonEmitterNode2( PHOTON_EMITTER_WIDTH, mvt, photonAbsorptionModel );
         photonEmitterNode.setOffset( mvt.modelToViewDouble( photonAbsorptionModel.getPhotonEmissionLocation() ) );
+
+        // Create the rod that connects the emitter to the control panel.
+        PNode connectingRod = new VerticalRodNode( 30,
+                Math.abs( photonEmitterNode.getFullBoundsReference().getCenterY() - photonEmissionControlPanel.getFullBoundsReference().getCenterY() ) );
+        connectingRod.setOffset(
+                photonEmitterNode.getFullBoundsReference().getCenterX() - connectingRod.getFullBoundsReference().width / 2,
+                photonEmitterNode.getFullBoundsReference().getCenterY() );
+
+        // Add the nodes in the order necessary for correct layering.
+        photonEmitterLayer.addChild( connectingRod );
         photonEmitterLayer.addChild( photonEmitterNode );
+        photonEmitterLayer.addChild( photonEmissionControlPanel );
 
         // Add in the initial molecule(s).
         for ( Molecule molecule : photonAbsorptionModel.getMolecules() ) {
