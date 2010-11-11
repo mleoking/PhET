@@ -1,3 +1,5 @@
+# 1.00.10 (45979) Nov 11, 2010
+11/11/10 Deploying to dev for next round of interviews.
 Made the red X in the center of the nucleus become invisible once nucleons are added.
 Made the animation of unstable atom nuclei be more of an overall jitter rather than individual nucleon motion.
 > Fixed: particle count legend can overlap electrons in the atom's outer shell
