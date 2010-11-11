@@ -1,3 +1,4 @@
+Enlarged "Game Over" node to match the newly enlarged "Game Settings" node.
 # 1.00.10 (45979) Nov 11, 2010
 11/11/10 Deploying to dev for next round of interviews.
 Made the red X in the center of the nucleus become invisible once nucleons are added.
