@@ -165,22 +165,23 @@ public class Atom extends SimpleObservable implements IAtom{
     // reworked.
     int count = 0;
     Random random = new Random();
-
     private void stepInTime( double simulationTimeChange ) {
-        count++;
-        if ( count % 5 == 0 ) {
-            if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
-                double rand = random.nextDouble() * Math.PI * 2;
-                nucleusOffset.setAngle( rand );
-                nucleusOffset.setMagnitude( random.nextDouble() * 10 );
-                offsetNucleons();
+        if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
+            count++;
+            if ( count % 4 == 0 ) {
+                updateNucleonOffsets( -1 );
+            }
+            else if ( count % 2 == 0){
+                nucleusOffset.setAngle( random.nextDouble() * Math.PI * 2 );
+                nucleusOffset.setMagnitude( random.nextDouble() * 5 );
+                updateNucleonOffsets( 1 );
             }
         }
     }
 
-    private void offsetNucleons() {
+    private void updateNucleonOffsets(double factor) {
         for ( SubatomicParticle nucleon : getNucleons() ) {
-            nucleon.setPosition( nucleusOffset.getDestination( nucleon.getDestination() ) );
+            nucleon.setPositionAndDestination( nucleusOffset.getScaledInstance( factor ).getDestination( nucleon.getDestination() ) );
         }
     }
 
@@ -543,8 +544,6 @@ public class Atom extends SimpleObservable implements IAtom{
             //            double finalClump = getClumpiness( nucleons );
             //            System.out.println( "origClump = " + origClump + ", final clump = " + finalClump );
         }
-
-        offsetNucleons();
 
         //If the particles shouldn't be animating, they should immediately move to their destination
         if ( moveImmediately ) {
