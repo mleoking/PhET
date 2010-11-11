@@ -104,6 +104,8 @@ public class Atom extends SimpleObservable implements IAtom{
     // Shells for containing electrons.
     private final ElectronShell electronShell1 = new ElectronShell( ELECTRON_SHELL_1_RADIUS, 2 );
     private final ElectronShell electronShell2 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
+    // Electron shell 3 is (at least initially) only used for the game, and is never shown in the main tab.  Thus, its
+    // size is equal to that of the 2nd shell.
     private final ElectronShell electronShell3 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
 
     // Observer for electron shells.

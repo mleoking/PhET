@@ -39,14 +39,18 @@ public class ElectronCloudNode extends PNode {
     // Cloud version of the representation.
     private final PhetPPath electronCloudNode;
 
-    private final ArrayList<ElectronShell> electronShells;
+    private final ArrayList<ElectronShell> electronShells = new ArrayList<ElectronShell>();
 
     /**
      * Constructor.
      */
     public ElectronCloudNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom, final boolean allowsUserInput ) {
 
-        electronShells = atom.getElectronShells();
+        // This representation only pays attention to the first two shells.
+        // This may need to be changed if this is ever expanded to use more
+        // shells.
+        electronShells.add(  atom.getElectronShells().get(0) );
+        electronShells.add(  atom.getElectronShells().get(1) );
 
         // Find the radius of the largest shell.
         Collections.sort( electronShells, new Comparator<ElectronShell>() {
@@ -54,14 +58,16 @@ public class ElectronCloudNode extends PNode {
                 return Double.compare( o1.getRadius(), o2.getRadius() );
                 }
                 } );
-        double radius = electronShells.get( electronShells.size() - 1 ).getRadius();
-
-
-        final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
+        final double minRadius = electronShells.get( 0 ).getRadius();
+        final double maxRadius = electronShells.get( electronShells.size() - 1 ).getRadius();
 
         SimpleObserver shellObserver = new SimpleObserver() {
             public void update() {
-                Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, getTotalElectronCapacity(), 50, 200 );//Map to alpha values between 50 and 200
+                Function.LinearFunction electronCountToRadiusFunction = new Function.LinearFunction( 1, getTotalElectronCapacity(), minRadius, maxRadius );
+                double radius = electronCountToRadiusFunction.evaluate( getElectronCount() );
+                final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
+                electronCloudNode.setPathTo( electronShellShape );
+                Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, getTotalElectronCapacity(), 50, 175 );//Map to alpha values between 50 and 200
                 int alpha = getElectronCount() == 0 ? 0 : (int) electronCountToAlphaMapping.evaluate( getElectronCount() );//But if there are no electrons, be transparent
                 Paint shellGradientPaint = new RoundGradientPaint(
                         electronShellShape.getBounds2D().getCenterX(),
@@ -76,7 +82,7 @@ public class ElectronCloudNode extends PNode {
         // Create and add the nodes that will be used when depicting the
         // electrons as a fuzzy cloud.
         Paint initialPaint = new Color( 0, 0, 0, 0 );
-        electronCloudNode = new PhetPPath( electronShellShape, initialPaint ) {
+        electronCloudNode = new PhetPPath( initialPaint ) {
             {
                 viewOrbitals.addObserver( new SimpleObserver() {
                     public void update() {
