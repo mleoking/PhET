@@ -11,6 +11,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomApplication;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Atom extends SimpleObservable implements IAtom{
 
-    private static final Random RAND = new Random();
+    private static Random RAND = new Random();
 
     // Nuclear radius, in picometers.  This is not to scale - we need it
     // to be larger than real life.
@@ -96,6 +97,9 @@ public class Atom extends SimpleObservable implements IAtom{
     // Position in model space.
     private final Point2D position = new Point2D.Double();
 
+    //The total translation of all nucleons, used for animating instability
+    private final Vector2D nucleusOffset = new Vector2D( 0, 0 );
+
     // List of the subatomic particles that are currently in the nucleus.
     // Note that the electrons are maintained in the shells.
     private final ArrayList<Proton> protons = new ArrayList<Proton>();
@@ -160,10 +164,18 @@ public class Atom extends SimpleObservable implements IAtom{
     // done for interviews.  If the animation feature is kept, this should be
     // reworked.
     int count = 0;
+    Random random = new Random();
+
     private void stepInTime( double simulationTimeChange ) {
-        if ( count++ % 5 == 0){
-            if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
-                reconfigureNucleus( false );
+        count++;
+        if ( count % 5 == 0 ) {
+            if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
+                double rand = random.nextDouble() * Math.PI * 2;
+                nucleusOffset.setAngle( rand );
+                nucleusOffset.setMagnitude( random.nextDouble() * 10 );
+                for ( SubatomicParticle nucleon : getNucleons() ) {
+                    nucleon.setPosition( nucleusOffset.getDestination( nucleon.getDestination() ) );
+                }
             }
         }
     }
@@ -367,15 +379,7 @@ public class Atom extends SimpleObservable implements IAtom{
         // Get all the nucleons onto one list.  Add them alternately so that
         // they don't get clustered together by type when distributed in the
         // nucleus.
-        final ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
-        for ( int i = 0; i < Math.max( protons.size(), neutrons.size() ); i++ ) {
-            if ( i < protons.size() ) {
-                nucleons.add( protons.get( i ) );
-            }
-            if ( i < neutrons.size() ) {
-                nucleons.add( neutrons.get( i ) );
-            }
-        }
+        final ArrayList<SubatomicParticle> nucleons = getNucleons();
 
         if ( nucleons.size() == 0 ) {
             // Nothing to do.
@@ -434,9 +438,9 @@ public class Atom extends SimpleObservable implements IAtom{
                     level++;
                     placementRadius += nucleonRadius * 1.3 / level;
                     placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
-                    if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
-                        placementAngle += Math.random() * 2 * Math.PI;
-                    }
+//                    if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
+//                        placementAngle += RAND.nextDouble() * 2 * Math.PI;
+//                    }
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
@@ -542,6 +546,23 @@ public class Atom extends SimpleObservable implements IAtom{
                 nucleon.moveToDestination();
             }
         }
+    }
+
+    private ArrayList<SubatomicParticle> getNucleons() {
+        final ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
+        for ( int i = 0; i < Math.max( protons.size(), neutrons.size() ); i++ ) {
+            if ( i < protons.size() ) {
+                nucleons.add( protons.get( i ) );
+            }
+            if ( i < neutrons.size() ) {
+                nucleons.add( neutrons.get( i ) );
+            }
+        }
+        return nucleons;
+    }
+
+    private Point2D getNucleusPosition() {
+        return nucleusOffset.getDestination( getPosition() );
     }
 
     private double getClumpiness( ArrayList<SubatomicParticle> nucleons ) {
