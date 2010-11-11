@@ -23,7 +23,7 @@ public class BuildAnAtomStrings {
     public static final String ELECTRON_MODEL = getString( "electron.model" );
     public static final String ELECTRON_MODEL_ORBITS = getString( "electron.model.orbits" );
     public static final String ELECTRON_MODEL_CLOUD = getString( "electron.model.cloud" );
-    public static final String SHOW_NAME = getString( "show.name" );
+    public static final String SHOW_ELEMENT_NAME = getString( "show.element.name" );
     public static final String SHOW_NEUTRAL_ION = getString( "show.neutralIon" );
     public static final String SHOW_STABLE_UNSTABLE = getString( "show.stableUnstable" );
     public static final String INDICATOR_ELEMENT = getString( "indicator.element" );
