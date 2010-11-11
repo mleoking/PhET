@@ -276,6 +276,15 @@ public class PhetApplication
     }
 
     /**
+     * Removes the specified moduleObserver
+     *
+     * @param moduleObserver the ModuleObserver to unsubscribe from module events
+     */
+    public void removeModuleObserver( ModuleObserver moduleObserver ) {
+        moduleManager.removeModuleObserver( moduleObserver );
+    }
+
+    /**
      * Get the index of the specified Module.
      *
      * @param m
