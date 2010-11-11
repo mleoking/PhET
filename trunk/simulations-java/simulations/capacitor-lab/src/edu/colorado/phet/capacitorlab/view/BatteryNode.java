@@ -4,21 +4,20 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
-import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeListener;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Visual representation of a DC battery, with a control for setting its voltage.
@@ -30,8 +29,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class BatteryNode extends PhetPNode {
     
     private final Battery battery;
+    private final ModelViewTransform mvt;
     private final PImage imageNode;
     private final VoltageSliderNode sliderNode;
+    private final PhetPPath positiveTerminalNode, negativeTerminalNode;
     
     public BatteryNode( final Battery battery, final ModelViewTransform mvt, boolean dev, DoubleRange voltageRange ) {
         
@@ -46,6 +47,8 @@ public class BatteryNode extends PhetPNode {
                 updateNode();
             }
         });
+        
+        this.mvt = mvt;
         
         // battery image, scaled to match model dimensions
         imageNode = new PImage( CLImages.BATTERY_UP );
@@ -70,32 +73,13 @@ public class BatteryNode extends PhetPNode {
         sliderNode.setOffset( x, y );
         
         // show model bounds
+        PhetPPath bodyNode = new PhetPPath( mvt.modelToView( battery.createBodyShapeLocal() ), new BasicStroke( 1f ), Color.RED );
+        positiveTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.ORANGE );
+        negativeTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.GREEN );
         if ( dev ) {
-            
-            // body
-            double width = mvt.modelToViewDelta( battery.getDiameter(), 0, 0 ).getX();
-            double height = mvt.modelToViewDelta( 0, battery.getLength(), 0 ).getY();
-            PPath batteryPathNode = new PPath( new Rectangle2D.Double( 0, 0, width, height ) );
-            batteryPathNode.setStrokePaint( Color.RED );
-            addChild( batteryPathNode );
-            x = -batteryPathNode.getFullBoundsReference().getWidth() / 2;
-            y = -batteryPathNode.getFullBoundsReference().getHeight() / 2;
-            batteryPathNode.setOffset( x, y );
-            
-            // terminals
-            final PhetPPath positiveTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.ORANGE );
+            addChild( bodyNode );
             addChild( positiveTerminalNode );
-            final PhetPPath negativeTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.GREEN );
             addChild( negativeTerminalNode );
-            BatteryChangeListener polarityListener = new BatteryChangeAdapter() {
-                @Override
-                public void polarityChanged() {
-                    positiveTerminalNode.setPathTo( mvt.modelToView( battery.createPositiveTerminalShapeLocal() ) );
-                    negativeTerminalNode.setPathTo( mvt.modelToView( battery.createNegativeTerminalShapeLocal() ) );
-                }
-            };
-            battery.addBatteryChangeListener( polarityListener );
-            polarityListener.polarityChanged();
         }
         
         updateNode();
@@ -111,6 +95,9 @@ public class BatteryNode extends PhetPNode {
         else {
             imageNode.setImage( CLImages.BATTERY_DOWN );
         }
+        // terminal shapes
+        positiveTerminalNode.setPathTo( mvt.modelToView( battery.createPositiveTerminalShapeLocal() ) );
+        negativeTerminalNode.setPathTo( mvt.modelToView( battery.createNegativeTerminalShapeLocal() ) );
     }
     
     private void updateModel() {

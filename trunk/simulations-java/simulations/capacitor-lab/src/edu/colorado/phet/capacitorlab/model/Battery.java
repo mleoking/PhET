@@ -36,6 +36,16 @@ public class Battery {
         this.polarity = getPolarity( voltage );
         listeners = new EventListenerList();
     }
+    
+    public Shape createBodyShapeLocal() {
+        return createBodyShape( new Point3D.Double() );
+    }
+    
+    private Shape createBodyShape( Point3D origin ) {
+        double x = origin.getX() - ( diameter / 2 );
+        double y = origin.getY() - ( length / 2 );
+        return new Rectangle2D.Double( x, y, diameter, length );
+    }
 
     public Shape createPositiveTerminalShapeLocal() {
         return createPositiveTerminalShape( new Point3D.Double() );
