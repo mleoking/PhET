@@ -31,31 +31,24 @@ public class VoltmeterShapeFactory {
     }
 
     /**
-     * This shape will be drawn by the voltmeter probe node, for debugging purposes.
-     * Its rotation here is zero because rotation is handled by the node. 
+     * Gets the shape of the positive probe's tip in the world coordinate frame.
      * @return
      */
-    public Shape getPositiveProbeTipShapeLocal() {
-        return getProbeTipShape( new Point3D.Double(), 0 );
-    }
-    
-    public Shape getPositiveProbeTipShapeWorld() {
+    public Shape getPositiveProbeTipShape() {
         return getProbeTipShape( voltmeter.getPositiveProbeLocationReference(), -CLConstants.MVT_YAW );
     }
     
     /**
-     * This shape will be drawn by the voltmeter probe node, for debugging purposes.
-     * Its rotation here is zero because rotation is handled by the node. 
+     * Gets the shape of the negative probe's tip in the world coordinate frame.
      * @return
      */
-    public Shape getNegativeProbeTipShapeLocal() {
-        return getProbeTipShape( new Point3D.Double(), 0 );
-    }
-    
-    public Shape getNegativeProbeTipShapeWorld() {
+    public Shape getNegativeProbeTipShape() {
         return getProbeTipShape( voltmeter.getNegativeProbeLocationReference(), -CLConstants.MVT_YAW );
     }
     
+    /*
+     * Gets the shape of a probe tip relative to some specified origin.
+     */
     private Shape getProbeTipShape( Point3D origin, double theta ) {
         double x = origin.getX() - ( PROBE_TIP_SIZE.getWidth() / 2 );
         double y = origin.getY();

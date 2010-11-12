@@ -5,16 +5,13 @@ package edu.colorado.phet.capacitorlab.view;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
-import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
-import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
-import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -27,13 +24,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class BatteryNode extends PhetPNode {
     
     private final Battery battery;
-    private final BatteryShapeFactory shapeFactory;
-    private final ModelViewTransform mvt;
     private final PImage imageNode;
     private final VoltageSliderNode sliderNode;
-    private final PhetPPath topTerminalNode;
     
-    public BatteryNode( final Battery battery, final ModelViewTransform mvt, boolean dev, DoubleRange voltageRange ) {
+    public BatteryNode( final Battery battery, boolean dev, DoubleRange voltageRange ) {
         
         this.battery = battery;
         battery.addBatteryChangeListener( new BatteryChangeAdapter() {
@@ -46,10 +40,6 @@ public class BatteryNode extends PhetPNode {
                 updateNode();
             }
         });
-        
-        this.shapeFactory = new BatteryShapeFactory( battery );
-        
-        this.mvt = mvt;
         
         // battery image, scaled to match model dimensions
         imageNode = new PImage( CLImages.BATTERY_UP );
@@ -73,14 +63,6 @@ public class BatteryNode extends PhetPNode {
         y = imageNode.getYOffset() + 60; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
         
-        // show model bounds
-        PhetPPath bodyNode = new PhetPPath( mvt.modelToView( shapeFactory.createBodyShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
-        topTerminalNode = new PhetPPath( CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
-        if ( dev ) {
-            addChild( bodyNode );
-            addChild( topTerminalNode );
-        }
-        
         updateNode();
     }
     
@@ -94,8 +76,6 @@ public class BatteryNode extends PhetPNode {
         else {
             imageNode.setImage( CLImages.BATTERY_DOWN );
         }
-        // top terminal shape
-        topTerminalNode.setPathTo( mvt.modelToView( shapeFactory.createTopTerminalShapeLocal() ) );
     }
     
     private void updateModel() {

@@ -87,7 +87,7 @@ public class Battery {
     }
     
     public boolean topTerminalIntersects( Shape shape ) {
-        return ShapeUtils.intersects( shapeFactory.createTopTerminalShapeWorld(), shape );
+        return ShapeUtils.intersects( shapeFactory.createTopTerminalShape(), shape );
     }
     
     /**

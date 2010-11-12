@@ -79,7 +79,7 @@ public class DielectricCanvas extends CLCanvas {
         
         mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
         
-        batteryNode = new BatteryNode( model.getBattery(), mvt, dev, CLConstants.BATTERY_VOLTAGE_RANGE );
+        batteryNode = new BatteryNode( model.getBattery(), dev, CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
@@ -130,6 +130,9 @@ public class DielectricCanvas extends CLCanvas {
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
+        if ( dev ) {
+            addChild( new ShapesDebugNode( model, mvt ) );
+        }
 
         // nodes whose visibility causes the capacitor to become transparent
         capacitorTransparencyNodes = new ArrayList<PNode>();
