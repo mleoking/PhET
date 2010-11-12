@@ -96,7 +96,7 @@ public class CLConstants {
     public static final boolean CAPACITANCE_METER_VISIBLE = false;
     public static final boolean CHARGE_METER_VISIBLE = false;
     public static final boolean ENERGY_METER_VISIBLE = false;
-    public static final boolean VOLTMETER_VISIBLE = true;//XXX should be false by default
+    public static final boolean VOLTMETER_VISIBLE = false;//XXX should be false by default
     public static final boolean EFIELD_DETECTOR_VISIBLE = false;
     
     // default meter locations, view coordinates
