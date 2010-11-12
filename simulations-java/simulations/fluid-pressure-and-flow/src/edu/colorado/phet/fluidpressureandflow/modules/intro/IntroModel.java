@@ -4,8 +4,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.view.Pool;
 
 /**
  * @author Sam Reid
@@ -37,5 +38,9 @@ public class IntroModel {
 
     public Pool getPool() {
         return pool;
+    }
+
+    public void addFluidChangeObserver( SimpleObserver updatePressure ) {
+        pool.addDensityListener( updatePressure );
     }
 }
