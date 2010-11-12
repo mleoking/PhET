@@ -43,8 +43,8 @@ public class TestDetectorWire extends JFrame {
     
     // field detector body, simplified.
     // origin at upper-left of bounding rectangle.
-    private static class BodyNode extends PPath {
-        public BodyNode() {
+    private static class TestBodyNode extends PPath {
+        public TestBodyNode() {
             setPathTo( new Rectangle2D.Double( 0, 0, 200, 100 ) );
             setPaint( Color.BLACK );
         }
@@ -55,11 +55,11 @@ public class TestDetectorWire extends JFrame {
      * Origin at center of image crosshairs.
      * Connection point is precomputed because we'll be rotating this node.
      */
-    private static class ProbeNode extends PhetPNode {
+    private static class TestProbeNode extends PhetPNode {
         
         private final Point2D connectionOffset;
         
-        public ProbeNode() {
+        public TestProbeNode() {
             PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
             addChild( imageNode );
             imageNode.scale( 0.65 ); // scale before setting offset!
@@ -76,12 +76,12 @@ public class TestDetectorWire extends JFrame {
     }
     
     // wire that connects the body and probe
-    private static class WireNode extends PPath {
+    private static class TestWireNode extends PPath {
         
-        private final BodyNode bodyNode;
-        private final ProbeNode probeNode;
+        private final TestBodyNode bodyNode;
+        private final TestProbeNode probeNode;
         
-        public WireNode( BodyNode bodyNode, ProbeNode probeNode ) {
+        public TestWireNode( TestBodyNode bodyNode, TestProbeNode probeNode ) {
             setStroke( new BasicStroke( 2f ) );
             setStrokePaint( Color.RED );
             
@@ -134,11 +134,11 @@ public class TestDetectorWire extends JFrame {
     }
     
     // Adjust offset when a node or any of its children are dragged.
-    private static class MyDragHandler extends PDragEventHandler {
+    private static class TestDragHandler extends PDragEventHandler {
 
         private final PNode dragNode;
 
-        public MyDragHandler( PNode dragNode ) {
+        public TestDragHandler( PNode dragNode ) {
             this.dragNode = dragNode;
         }
 
@@ -150,23 +150,23 @@ public class TestDetectorWire extends JFrame {
         }
     }
     
-    private static class MyCanvas extends PhetPCanvas {
+    private static class TestCanvas extends PhetPCanvas {
         
-        public MyCanvas() {
+        public TestCanvas() {
             setPreferredSize( new Dimension( 700, 500 ) );
 
-            BodyNode bodyNode = new BodyNode() {{
+            TestBodyNode bodyNode = new TestBodyNode() {{
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new MyDragHandler( this ) );
+                addInputEventListener( new TestDragHandler( this ) );
             }};
             
-            final ProbeNode probeNode = new ProbeNode() {{
+            final TestProbeNode probeNode = new TestProbeNode() {{
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new MyDragHandler( this ) );
+                addInputEventListener( new TestDragHandler( this ) );
             }};
             probeNode.rotate( YAW );
             
-            WireNode wireNode = new WireNode( bodyNode, probeNode );
+            TestWireNode wireNode = new TestWireNode( bodyNode, probeNode );
 
             // rendering order
             {
@@ -185,7 +185,7 @@ public class TestDetectorWire extends JFrame {
     
     public TestDetectorWire() {
         super( TestDetectorWire.class.getName() );
-        setContentPane( new MyCanvas() );
+        setContentPane( new TestCanvas() );
         pack();
     }
 
