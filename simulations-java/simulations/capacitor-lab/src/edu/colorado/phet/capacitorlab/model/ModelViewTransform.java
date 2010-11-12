@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
@@ -37,6 +38,10 @@ public class ModelViewTransform {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
+    
+    public ModelViewTransform() {
+        this( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
+    }
     
     /**
      * Constructor.

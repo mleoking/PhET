@@ -8,13 +8,14 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D battery model.
- * All coordinates are in model world coordinate frame.
+ * All Shapes are in the global view coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -30,9 +31,11 @@ public class BatteryShapeFactory {
     private static final PDimension NEGATIVE_TERMINAL_SIZE = new PDimension( 0.0035, 0.0009 ); // meters
     
     private final Battery battery;
+    private final ModelViewTransform mvt;
     
-    public BatteryShapeFactory( Battery battery ) {
+    public BatteryShapeFactory( Battery battery, ModelViewTransform mvt ) {
         this.battery = battery;
+        this.mvt = mvt;
     }
     
     public PDimension getBodySizeReference() {
@@ -50,7 +53,8 @@ public class BatteryShapeFactory {
     public Shape createBodyShape() {
         double x = battery.getLocationReference().getX() - ( BODY_SIZE.getWidth() / 2 );
         double y = battery.getLocationReference().getY() - ( BODY_SIZE.getHeight() / 2 );
-        return new Rectangle2D.Double( x, y, BODY_SIZE.getWidth(), BODY_SIZE.getHeight() );
+        Shape s = new Rectangle2D.Double( x, y, BODY_SIZE.getWidth(), BODY_SIZE.getHeight() );
+        return mvt.modelToView( s );
     }
 
     /**
@@ -74,7 +78,8 @@ public class BatteryShapeFactory {
         final double terminalHeight = POSITIVE_TERMINAL_SIZE.getHeight();
         double x = origin.getX() - ( terminalWidth / 2 );
         double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) - ( terminalHeight / 2 );
-        return new RoundRectangle2D.Double( x, y, terminalWidth, terminalHeight, POSITIVE_TERMINAL_CORNER_RADIUS, POSITIVE_TERMINAL_CORNER_RADIUS );
+        Shape s = new RoundRectangle2D.Double( x, y, terminalWidth, terminalHeight, POSITIVE_TERMINAL_CORNER_RADIUS, POSITIVE_TERMINAL_CORNER_RADIUS );
+        return mvt.modelToView( s );
     }
     
     /*
@@ -85,6 +90,7 @@ public class BatteryShapeFactory {
         final double terminalHeight = NEGATIVE_TERMINAL_SIZE.getHeight();
         double x = origin.getX() - ( terminalWidth / 2 );
         double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) - ( terminalHeight / 2 );
-        return new Ellipse2D.Double( x, y, terminalWidth, terminalHeight );
+        Shape s = new Ellipse2D.Double( x, y, terminalWidth, terminalHeight );
+        return mvt.modelToView( s );
     }
 }

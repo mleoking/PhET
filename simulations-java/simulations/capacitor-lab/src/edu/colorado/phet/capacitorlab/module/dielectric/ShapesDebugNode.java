@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Displays the shapes for various model elements.
- * All shapes are in the world coordinate frame, for the purposes of testing object intersections.
+ * All shapes are in the global view coordinate frame.
  * So when a model object moves, its shape changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -34,19 +34,19 @@ public class ShapesDebugNode extends PComposite {
         // battery
         {
             final Battery battery = model.getBattery();
-            final BatteryShapeFactory shapeFactory = new BatteryShapeFactory( battery );
+            final BatteryShapeFactory shapeFactory = new BatteryShapeFactory( battery, mvt );
             
-            PPath bodyNode = new PhetPPath( mvt.modelToView( shapeFactory.createBodyShape() ), STROKE, STROKE_COLOR );
+            PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
             addChild( bodyNode );
 
-            final PPath topTerminalNode = new PhetPPath( mvt.modelToView( shapeFactory.createTopTerminalShape() ), STROKE, STROKE_COLOR );
+            final PPath topTerminalNode = new PhetPPath( shapeFactory.createTopTerminalShape(), STROKE, STROKE_COLOR );
             addChild( topTerminalNode );
             
             // set top terminal shape to match polarity
             battery.addBatteryChangeListener( new BatteryChangeAdapter() {
                 @Override
                 public void polarityChanged() {
-                    topTerminalNode.setPathTo( mvt.modelToView( shapeFactory.createTopTerminalShape() ) );
+                    topTerminalNode.setPathTo( shapeFactory.createTopTerminalShape() );
                 }
             } );
         }
@@ -56,23 +56,23 @@ public class ShapesDebugNode extends PComposite {
             final Voltmeter voltmeter = model.getVoltmeter();
             final VoltmeterShapeFactory shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
             
-            final PPath positiveTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ), STROKE, STROKE_COLOR );
+            final PPath positiveTipNode = new PhetPPath( shapeFactory.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
             
-            final PPath negativeTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getNegativeProbeTipShape() ), STROKE, STROKE_COLOR );
+            final PPath negativeTipNode = new PhetPPath( shapeFactory.getNegativeProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( negativeTipNode );
             
             // set shape to match positive probe location
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
-                    positiveTipNode.setPathTo( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ) );
+                    positiveTipNode.setPathTo( shapeFactory.getPositiveProbeTipShape() );
                 }
             } );
             
             // set shape to match negative probe location
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
                 public void update() {
-                    negativeTipNode.setPathTo( mvt.modelToView( shapeFactory.getNegativeProbeTipShape() ) );
+                    negativeTipNode.setPathTo( shapeFactory.getNegativeProbeTipShape() );
                 }
             } );
             

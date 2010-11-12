@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLModule;
@@ -27,7 +26,7 @@ public class DielectricModule extends CLModule {
     protected DielectricModule( String title, Frame parentFrame, boolean dev ) {
         super( title );
         
-        ModelViewTransform mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
+        ModelViewTransform mvt = new ModelViewTransform();
         
         model = new DielectricModel( getCLClock(), mvt);
         
