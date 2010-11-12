@@ -1,3 +1,4 @@
+11/12/10 shape of bottom wire subtracts dielectric and top plate shapes (bottom plate is OK)
 11/12/10 implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape), voltmeter probes can now touch the plates
 11/12/10 implement shape factory for capacitor, handle object occlusion via shape subtraction
 11/12/10 move code for box shapes into BoxShapeFactory, use in BoxNode
