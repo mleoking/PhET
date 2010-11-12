@@ -37,9 +37,9 @@ public class ShapesDebugNode extends PComposite {
             PPath bodyNode = new PhetPPath( mvt.modelToView( shapeFactory.createBodyShape() ), STROKE, STROKE_COLOR );
             addChild( bodyNode );
 
-            final PPath topTerminalNode = new PhetPPath( shapeFactory.createTopTerminalShape(), STROKE, STROKE_COLOR );
+            final PPath topTerminalNode = new PhetPPath( mvt.modelToView( shapeFactory.createTopTerminalShape() ), STROKE, STROKE_COLOR );
             addChild( topTerminalNode );
-            model.getBattery().addBatteryChangeListener( new BatteryChangeAdapter() {
+            battery.addBatteryChangeListener( new BatteryChangeAdapter() {
                 @Override
                 public void polarityChanged() {
                     topTerminalNode.setPathTo( mvt.modelToView( shapeFactory.createTopTerminalShape() ) );
@@ -54,7 +54,7 @@ public class ShapesDebugNode extends PComposite {
             
             final PPath positiveTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
-            model.getVoltmeter().addPositiveProbeLocationObserver( new SimpleObserver() {
+            voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     positiveTipNode.setPathTo( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ) );
                 }
