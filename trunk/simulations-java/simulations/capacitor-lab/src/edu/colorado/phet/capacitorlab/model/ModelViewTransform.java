@@ -68,22 +68,6 @@ public class ModelViewTransform {
     }
     
     //----------------------------------------------------------------------------
-    // Model 3D to 2D transforms
-    //----------------------------------------------------------------------------
-    
-    /**
-     * "Flattens" a 3D model point to its corresponding 2D model point.
-     * 
-     * @param p
-     * @return
-     */
-    public Point2D modelToModel( Point3D p ) {
-        double xModel = p.getX() + ( p.getZ() * Math.sin( pitch ) * Math.cos( yaw ) );
-        double yModel = p.getY() + ( p.getZ() * Math.sin( pitch ) * Math.sin( yaw ) );
-        return new Point2D.Double( xModel, yModel );
-    }
-    
-    //----------------------------------------------------------------------------
     // Model-to-view transforms
     //----------------------------------------------------------------------------
     
@@ -95,7 +79,9 @@ public class ModelViewTransform {
      * @return
      */
     public Point2D modelToView( Point3D pModel ) {
-        return modelToViewTransform2D.transform( modelToModel( pModel ), null );
+        double xModel = pModel.getX() + ( pModel.getZ() * Math.sin( pitch ) * Math.cos( yaw ) );
+        double yModel = pModel.getY() + ( pModel.getZ() * Math.sin( pitch ) * Math.sin( yaw ) );
+        return modelToViewTransform2D.transform( new Point2D.Double( xModel, yModel ), null );
     }
     
     /**
