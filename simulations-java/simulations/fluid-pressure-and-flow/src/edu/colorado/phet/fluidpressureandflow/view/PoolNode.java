@@ -11,8 +11,9 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PoolNode extends PNode {
     public PoolNode( ModelViewTransform2D transform2D, Pool pool ) {
-        Color topColor = new Color( 105, 227, 253, 200 );//must be transparent so objects can submerge
-        Color bottomColor = new Color( 50, 151, 173, 200 );
+        int x = 15;
+        Color topColor = new Color( 105 - x, 227 - x, 253 - x, 158 );//must be transparent so objects can submerge
+        Color bottomColor = new Color( 50 - x, 151 - x, 173 - x, 188 );
         double yBottom = transform2D.modelToViewYDouble( -pool.getHeight() );//fade color halfway down
         double yTop = transform2D.modelToViewYDouble( 0 );
         final Shape viewShape = transform2D.createTransformedShape( pool.getShape() );
