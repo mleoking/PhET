@@ -53,5 +53,5 @@ public class CLPaints {
     public static final Color VOLTMETER_NEGATIVE_WIRE = Color.BLACK;
     
     // debug
-    public static final Color MODEL_BOUNDS = Color.MAGENTA;
+    public static final Color MODEL_BOUNDS = Color.YELLOW;
 }
