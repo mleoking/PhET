@@ -31,7 +31,7 @@ public class Voltmeter {
     private final Property<Point3D> positiveProbeLocationProperty, negativeProbeLocationProperty;
     private final Property<Double> valueProperty;
 
-    public Voltmeter( BatteryCapacitorCircuit circuit, World world, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
+    public Voltmeter( BatteryCapacitorCircuit circuit, final World world, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
        
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -49,12 +49,13 @@ public class Voltmeter {
         
         world.addBoundsObserver( new SimpleObserver() {
             public void update() {
-                constrainProbeLocation( Voltmeter.this.positiveProbeLocationProperty );
-                constrainProbeLocation( Voltmeter.this.negativeProbeLocationProperty );
+                if ( !world.isBoundsEmpty() ) {
+                    constrainProbeLocation( Voltmeter.this.positiveProbeLocationProperty );
+                    constrainProbeLocation( Voltmeter.this.negativeProbeLocationProperty );
+                }
             }
         } );
         
-        System.out.println( "Voltmeter.probesAreTouching=" + probesAreTouching() );
         updateValue();
     }
     
