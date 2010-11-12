@@ -1,3 +1,4 @@
+11/12/10 remove MVT.modelToModel(Point3D), no longer needed since all Shape creation is in view coordinate frame
 11/12/10 change all Shape generation to use global *view* coordinate frame, view needs this for rendering, model doesn't care for Shape intersection
 11/12/10 provide MVT to model elements, for 2D shape generation in model coordinates
 11/12/10 add method in MVT for "flattening" a 3D model point to a 2D point, still in model coordinates

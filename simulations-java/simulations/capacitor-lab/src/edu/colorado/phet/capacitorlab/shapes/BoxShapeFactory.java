@@ -32,7 +32,7 @@ public class BoxShapeFactory {
      *         /                /
      *       p3 --------------p2
      */
-    public Shape ceateTopFace( double width, double height, double depth ) {
+    public Shape createTopFace( double width, double height, double depth ) {
         return null;//XXX
     }
     
