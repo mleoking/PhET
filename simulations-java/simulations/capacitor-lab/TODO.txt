@@ -17,12 +17,10 @@ HIGH PRIORITY
 - add shape for E-field
 - shape of bottom wire needs to subtract bottom capacitor plate shape
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
-- use of CLConstants.MVT_YAW in VoltmeterShapeFactory, should have access to mvt instance instead?
 - address stroke issue in WireSegment.createShape
-- wires don't connect to battery terminals accurately, most noticeable on top terminal
 
 MEDUIUM PRIORITY
-- limit voltage to 1.5V when battery is disconnected?
+- wires don't connect to battery terminals perfectly
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
