@@ -40,6 +40,7 @@ public class IntroCanvas extends PhetPCanvas {
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
+        addChild( new PhetPPath( transform.createTransformedShape( module.getIntroModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
         addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor() ) );
         addChild( new PoolNode( transform, module.getIntroModel().getPool() ) );
 

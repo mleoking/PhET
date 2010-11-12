@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
@@ -26,7 +27,9 @@ public class PressureSensorNode extends PNode {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
-        final PText child = new PText( getText() );
+        final PText child = new PText( getText() ) {{
+            setFont( new PhetFont( 18, true ) );
+        }};
         addChild( child );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
