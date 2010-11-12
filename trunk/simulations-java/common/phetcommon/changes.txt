@@ -1,3 +1,5 @@
+11-12-2010: added a constructor to ConstantDTClock with a default number of frames per second
+11-12-2010: added a constructor to ConstantDTClock that allows setting number of frames per second
 11-11-2010: added removeModuleObserver to PhetApplication and ModuleManager
 11-2-2010: added ability to specify color to PhetLineBorder
 11-2-2010: added viewToModelDifferential( Dimension2D delta ) to ModelViewTransform2D
