@@ -32,7 +32,7 @@ public class BatteryNode extends PhetPNode {
     private final ModelViewTransform mvt;
     private final PImage imageNode;
     private final VoltageSliderNode sliderNode;
-    private final PhetPPath positiveTerminalNode, negativeTerminalNode;
+    private final PhetPPath topTerminalNode;
     
     public BatteryNode( final Battery battery, final ModelViewTransform mvt, boolean dev, DoubleRange voltageRange ) {
         
@@ -74,12 +74,10 @@ public class BatteryNode extends PhetPNode {
         
         // show model bounds
         PhetPPath bodyNode = new PhetPPath( mvt.modelToView( battery.createBodyShapeLocal() ), new BasicStroke( 1f ), Color.RED );
-        positiveTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.ORANGE );
-        negativeTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.GREEN );
+        topTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.RED );
         if ( dev ) {
             addChild( bodyNode );
-            addChild( positiveTerminalNode );
-            addChild( negativeTerminalNode );
+            addChild( topTerminalNode );
         }
         
         updateNode();
@@ -95,9 +93,8 @@ public class BatteryNode extends PhetPNode {
         else {
             imageNode.setImage( CLImages.BATTERY_DOWN );
         }
-        // terminal shapes
-        positiveTerminalNode.setPathTo( mvt.modelToView( battery.createPositiveTerminalShapeLocal() ) );
-        negativeTerminalNode.setPathTo( mvt.modelToView( battery.createNegativeTerminalShapeLocal() ) );
+        // top terminal shape
+        topTerminalNode.setPathTo( mvt.modelToView( battery.createTopTerminalShapeLocal() ) );
     }
     
     private void updateModel() {
