@@ -11,6 +11,7 @@ NOAH P ACTION ITEMS
 
 DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
+- should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
 - add shape for top capacitor plate
