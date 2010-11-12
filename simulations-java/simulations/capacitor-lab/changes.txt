@@ -1,3 +1,4 @@
+# 0.00.42 (46037) Nov 12, 2010
 11/12/10 make charges bolder
 # 0.00.41 (46029) Nov 12, 2010
 11/12/10 use a non-linear relationship for showing total charge on dielectric, so that changes are clearly visible with battery voltages
