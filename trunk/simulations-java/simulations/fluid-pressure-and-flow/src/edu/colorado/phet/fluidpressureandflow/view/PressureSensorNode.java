@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -24,7 +25,7 @@ public class PressureSensorNode extends PNode {
     ModelViewTransform2D transform;
     private PressureSensor pressureSensor;
 
-    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool) {
+    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool ) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
@@ -53,9 +54,9 @@ public class PressureSensorNode extends PNode {
                 final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
                 Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
                                                                newDragPosition.getY() - relativeGrabPoint.getY() );
-                pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), -5 ) );//not allowed to go to negative Potential Energy
+                pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), pool.getMinY() ) );//not allowed to go to negative Potential Energy
                 if ( pressureSensor.getPosition().getY() < 0 ) {
-                    pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX()), pressureSensor.getY() );//todo: use pool dimensions
+                    pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX() ), pressureSensor.getY() );//todo: use pool dimensions
                 }
             }
 

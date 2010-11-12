@@ -17,11 +17,13 @@ public class PressureSensor {
 
     public PressureSensor( final IntroModel context ) {
         this.context = context;
-        addPositionObserver( new SimpleObserver() {
+        final SimpleObserver updatePressure = new SimpleObserver() {
             public void update() {
                 pressureProperty.setValue( context.getPressureSensor( getPosition() ) );
             }
-        } );
+        };
+        addPositionObserver( updatePressure );
+        context.addFluidChangeObserver(updatePressure);
     }
 
     public double getPressure() {
