@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D voltmeter model.
+ * All coordinates are in model world coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

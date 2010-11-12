@@ -10,6 +10,7 @@ import edu.colorado.phet.capacitorlab.model.WireSegment;
 
 /**
  * Creates the 2D shape for a wire.
+ * All coordinates are in model world coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
