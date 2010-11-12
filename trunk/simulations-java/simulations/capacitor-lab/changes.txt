@@ -1,3 +1,4 @@
+11/11/10 add infrastructure for touching voltmeter probe tips together to display 0V
 11/11/10 specializations of Wire for connecting a battery to a capacitor
 11/11/10 specializations of WireSegment for connection to battery and capacitor, length changes dynamically
 11/11/10 add y-offset getters for battery terminals, for computing wire connection points

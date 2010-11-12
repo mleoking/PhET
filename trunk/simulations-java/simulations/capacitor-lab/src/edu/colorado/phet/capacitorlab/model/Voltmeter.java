@@ -49,7 +49,16 @@ public class Voltmeter {
     }
     
     private void updateValue() {
-        value.setValue( circuit.getVoltageBetween( positiveProbeLocation.getValue(), negativeProbeLocation.getValue() ) );
+        if ( probesAreTouching() ) {
+            value.setValue( 0d );
+        }
+        else {
+            value.setValue( circuit.getVoltageBetween( positiveProbeLocation.getValue(), negativeProbeLocation.getValue() ) );
+        }
+    }
+    
+    private boolean probesAreTouching() {
+        return false; //XXX implement this for probe tip shapes
     }
     
     public void reset() {

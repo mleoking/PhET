@@ -19,6 +19,7 @@ HIGH PRIORITY
 - replace Wire.containsPoint(Point3D) with intersects(Shape)
 - replace Capacitor.topPlateContains(Point3D) with topPlateIntersects(Shape)
 - replace Capacitor.bottomPlateContains(Point3D) with bottomPlateIntersects(Shape)
+- implement Voltmeter.probesAreTouching
 - if voltmeter probes touch, voltmeter should read zero
 - add shapes for voltmeter probe tips
 - add shape for E-field
