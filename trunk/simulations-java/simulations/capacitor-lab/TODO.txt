@@ -14,7 +14,6 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- bug: Voltmeter.probesAreTouching should not be true in constructor
 - add shape for top of capacitor plate
 - implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape)
 - add shape for E-field
