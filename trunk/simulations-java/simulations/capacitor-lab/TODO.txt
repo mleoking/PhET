@@ -3,6 +3,7 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
+- should you be able to touch the bottom plate with a voltmeter probe through the transparent dielectric?
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
