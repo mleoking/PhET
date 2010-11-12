@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -48,7 +48,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final ModelViewTransform2D mvt;
 
     // Reset button.
-    private final GradientButtonNode resetButtonNode;
+    private final ButtonNode resetButtonNode;
 
     private final BooleanProperty viewOrbitals = new BooleanProperty( true );
     private final BooleanProperty showLabels = new BooleanProperty( true );
@@ -159,7 +159,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( showStableUnstableCheckBox );
 
         // "Reset All" button.
-        resetButtonNode = new GradientButtonNode( BuildAnAtomStrings.RESET_ALL, 16, new Color( 255, 153, 0 ) );
+        resetButtonNode = new ButtonNode( BuildAnAtomStrings.RESET_ALL, 16, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         rootNode.addChild( resetButtonNode );

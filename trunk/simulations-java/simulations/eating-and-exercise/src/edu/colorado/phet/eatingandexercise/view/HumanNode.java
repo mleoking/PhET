@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -35,7 +35,7 @@ public class HumanNode extends PNode {
     private PImage heartNode;
     private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
-    private GradientButtonNode infoButton;
+    private ButtonNode infoButton;
     private ArrayList listeners = new ArrayList();
 
     public HumanNode( Human human ) {
@@ -65,7 +65,7 @@ public class HumanNode extends PNode {
             }
         } );
 
-        infoButton = new GradientButtonNode( EatingAndExerciseResources.getString( "question.mark" ), 12, Color.red );
+        infoButton = new ButtonNode( EatingAndExerciseResources.getString( "question.mark" ), 12, Color.red );
         infoButton.setScale( 0.007 );
         infoButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

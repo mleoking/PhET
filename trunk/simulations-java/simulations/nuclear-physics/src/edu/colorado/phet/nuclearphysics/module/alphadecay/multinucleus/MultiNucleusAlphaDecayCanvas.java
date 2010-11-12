@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
@@ -85,7 +85,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
     
     private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
-    private GradientButtonNode _addTenButtonNode;
+    private ButtonNode _addTenButtonNode;
     private MultiNucleusAlphaDecayModel _model;
 	private Rectangle2D _bucketRect;
 	private BucketOfNucleiNode _bucketNode;
@@ -173,7 +173,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
         // Add the button that allows the user to add multiple nuclei at once.
         // Position it just under the bucket and scale it so that its size is
         // proportionate to the bucket.
-        _addTenButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, CANVAS_BUTTON_COLOR);
+        _addTenButtonNode = new ButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, CANVAS_BUTTON_COLOR);
         double addTenButtonScale = (_bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width) * 0.4;
         _addTenButtonNode.scale(addTenButtonScale);
         _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 

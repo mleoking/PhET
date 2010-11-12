@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * @author John Blanco
  */
-public class AutoPressGradientButtonNode extends GradientButtonNode{
+public class AutoPressGradientButtonNode extends ButtonNode {
 
 	private static final int HIGHLIGHT_TIME = 250; // In milliseconds.
 	private static final int PRESS_TIME = 500; // In milliseconds.

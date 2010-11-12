@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -282,12 +282,12 @@ public class ChartNode extends PNode {
     }
 
     private class EatingAndExerciseControlGraph extends ControlGraph {
-        private GradientButtonNode gradientButtonNode;
+        private ButtonNode gradientButtonNode;
         private PNode axisLabel;
 
         public EatingAndExerciseControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
-            gradientButtonNode = new GradientButtonNode( EatingAndExerciseResources.getString( "time.reset" ), 12, Color.green );
+            gradientButtonNode = new ButtonNode( EatingAndExerciseResources.getString( "time.reset" ), 12, Color.green );
             gradientButtonNode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     resetChartArea();

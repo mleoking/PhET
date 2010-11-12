@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class GradientButtonNode extends PhetPNode {
+public class ButtonNode extends PhetPNode {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -82,7 +82,7 @@ public class GradientButtonNode extends PhetPNode {
      * be created.
      * @param textColor - Color of the text that will appear on the button.
      */
-    public GradientButtonNode( String label, int fontSize, Color buttonColor, Color textColor ) {
+    public ButtonNode( String label, int fontSize, Color buttonColor, Color textColor ) {
         this( createHtmlLabelNode( label, fontSize, textColor ), buttonColor );
         _textColor = textColor;
     }
@@ -95,12 +95,12 @@ public class GradientButtonNode extends PhetPNode {
      * @param buttonColor - Overall color of button from which gradient will
      * be created.
      */
-    public GradientButtonNode( String label, int fontSize, Color buttonColor ) {
+    public ButtonNode( String label, int fontSize, Color buttonColor ) {
         this( createHtmlLabelNode( label, fontSize, DEFAULT_TEXT_COLOR ), buttonColor );
     }
 
     //Assumes the PNode has an offset of (0,0)
-    public GradientButtonNode( HTMLNode htmlLabelNode, Color buttonColor ) {
+    public ButtonNode( HTMLNode htmlLabelNode, Color buttonColor ) {
         this._htmlLabelNode = htmlLabelNode;
         _htmlLabelNode.setOffset( ( getIconWidth() * HORIZONTAL_PADDING_FACTOR - getIconWidth() ) / 2,
                 ( getIconHeight() * VERTICAL_PADDING_FACTOR - getIconHeight() ) / 2 );
@@ -241,7 +241,7 @@ public class GradientButtonNode extends PhetPNode {
      *
      * @param label - Text that will appear on button.
      */
-    public GradientButtonNode( String label ) {
+    public ButtonNode( String label ) {
         this( label, DEFAULT_FONT_SIZE, DEFAULT_COLOR );
     }
 
@@ -251,7 +251,7 @@ public class GradientButtonNode extends PhetPNode {
      * @param label
      * @param buttonColor
      */
-    public GradientButtonNode( String label, Color buttonColor ) {
+    public ButtonNode( String label, Color buttonColor ) {
         this( label, DEFAULT_FONT_SIZE, buttonColor );
     }
 
@@ -307,31 +307,31 @@ public class GradientButtonNode extends PhetPNode {
             }
         };
 
-        GradientButtonNode testButton01 = new GradientButtonNode( "Test Me", 16, Color.GREEN );
+        ButtonNode testButton01 = new ButtonNode( "Test Me", 16, Color.GREEN );
         testButton01.setOffset( 5, 5 );
         testButton01.addActionListener( listener );
 
-        GradientButtonNode testButton02 = new GradientButtonNode( "<html>Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
+        ButtonNode testButton02 = new ButtonNode( "<html>Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
         testButton02.setOffset( 200, 5 );
         testButton02.addActionListener( listener );
 
-        GradientButtonNode testButton03 = new GradientButtonNode( "<html><center>Default Color<br>and Font<center></html>" );
+        ButtonNode testButton03 = new ButtonNode( "<html><center>Default Color<br>and Font<center></html>" );
         testButton03.setOffset( 5, 200 );
         testButton03.addActionListener( listener );
 
-        GradientButtonNode testButton04 = new GradientButtonNode( "Default Font Size", new Color( 0xcc3366 ) );
+        ButtonNode testButton04 = new ButtonNode( "Default Font Size", new Color( 0xcc3366 ) );
         testButton04.setOffset( 200, 200 );
         testButton04.addActionListener( listener );
 
-        GradientButtonNode testButton05 = new GradientButtonNode( "Transparent", new Color( 255, 0, 0, 100 ) );
+        ButtonNode testButton05 = new ButtonNode( "Transparent", new Color( 255, 0, 0, 100 ) );
         testButton05.setOffset( 200, 100 );
         testButton05.addActionListener( listener );
 
-        final GradientButtonNode testButton06 = new GradientButtonNode( "Test Enabled", new Color( 0, 200, 200 ) );
+        final ButtonNode testButton06 = new ButtonNode( "Test Enabled", new Color( 0, 200, 200 ) );
         testButton06.setOffset( 200, 300 );
         testButton06.addActionListener( listener );
 
-        GradientButtonNode testButton07 = new GradientButtonNode( "Toggle Enabled ->", new Color( 200, 200, 0 ) );
+        ButtonNode testButton07 = new ButtonNode( "Toggle Enabled ->", new Color( 200, 200, 0 ) );
         testButton07.setOffset( 10, 300 );
         testButton07.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

@@ -14,7 +14,7 @@ import java.util.Random;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
@@ -32,7 +32,7 @@ public class CalorieNode extends PNode {
     private JDialog dialog;
     private String selectedTitle;
     private String availableTitle;
-    private GradientButtonNode editButton;
+    private ButtonNode editButton;
     private ArrayList closedListeners = new ArrayList();
     private PImage dropTarget;
     private PlateTopSummaryNode plateTopSummaryNode;
@@ -47,7 +47,7 @@ public class CalorieNode extends PNode {
         this.calorieSet = calorieSet;
         this.availableTitle = availableTitle;
         this.selectedTitle = selectedTitle;
-        editButton = new GradientButtonNode( editButtonText, 18, editButtonColor );
+        editButton = new ButtonNode( editButtonText, 18, editButtonColor );
         editButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {

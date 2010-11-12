@@ -14,8 +14,8 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
@@ -78,7 +78,7 @@ public class GameCanvas extends RPALCanvas {
     private final PhetPNode parentNode;
     private final PhetPNode gameSettingsNode;
     private final FaceNode faceNode;
-    private final GradientButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
+    private final ButtonNode checkButton, nextButton, tryAgainButton, showAnswerButton;
     private final GameMessageNode instructionsNode;
     private final PointsDeltaNode pointsDeltaNode;
     private final GameRewardNode rewardNode;
@@ -141,13 +141,13 @@ public class GameCanvas extends RPALCanvas {
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
         parentNode.addChild( buttonsParentNode );
-        checkButton = new GradientButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        checkButton = new ButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( checkButton );
-        nextButton = new GradientButtonNode( RPALStrings.BUTTON_NEXT, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        nextButton = new ButtonNode( RPALStrings.BUTTON_NEXT, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( nextButton );
-        tryAgainButton = new GradientButtonNode( RPALStrings.BUTTON_TRY_AGAIN, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        tryAgainButton = new ButtonNode( RPALStrings.BUTTON_TRY_AGAIN, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( tryAgainButton );
-        showAnswerButton = new GradientButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        showAnswerButton = new ButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions

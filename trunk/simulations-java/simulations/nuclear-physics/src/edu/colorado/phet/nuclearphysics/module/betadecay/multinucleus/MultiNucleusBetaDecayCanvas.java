@@ -19,7 +19,7 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -35,11 +35,9 @@ import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
-import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
 import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
 import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
@@ -101,7 +99,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     
     private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
-    private GradientButtonNode _addTenButtonNode;
+    private ButtonNode _addTenButtonNode;
     private MultiNucleusBetaDecayModel _model;
 	private Rectangle2D _bucketRect;
 	private BucketOfNucleiNode _bucketNode;
@@ -196,7 +194,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         // Add the button that allows the user to add multiple nuclei at once.
         // Position it just under the bucket and scale it so that its size is
         // proportionate to the bucket.
-        _addTenButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, BUCKET_AND_BUTTON_COLOR);
+        _addTenButtonNode = new ButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, BUCKET_AND_BUTTON_COLOR);
         double addTenButtonScale = (_bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width) * 0.4;
         _addTenButtonNode.scale(addTenButtonScale);
         _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 

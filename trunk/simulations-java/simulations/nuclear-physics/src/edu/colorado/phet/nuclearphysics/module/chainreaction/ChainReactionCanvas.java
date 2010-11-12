@@ -13,7 +13,7 @@ import java.util.HashMap;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
@@ -69,7 +69,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private PNode _nucleusLayer;
     private NeutronSourceNode _neutronSourceNode;
     AtomicBombGraphicNode _atomicBombGraphicNode;
-    private GradientButtonNode _resetNucleiButtonNode;
+    private ButtonNode _resetNucleiButtonNode;
     private int _reactionState = REACTION_STATE_NO_REACTION_PRODUCTS_PRESENT;
 
     //----------------------------------------------------------------------------
@@ -142,7 +142,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         
         // Add the button that will allow the user to clear the nuclei from
         // the canvas.
-        _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16,
+        _resetNucleiButtonNode = new ButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16,
         		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         _resetNucleiButtonNode.setScale(0.40);
         _resetNucleiButtonNode.setOffset(-100, -70); 
