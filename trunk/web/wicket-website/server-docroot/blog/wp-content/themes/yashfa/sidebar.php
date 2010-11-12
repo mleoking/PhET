@@ -72,7 +72,7 @@
         <li class="boxr linkcat">
             <h3>Stay Connected</h3>
             <ul>
-                <li><a href="http://www.facebook.com/pages/PhET-Interactive-Simulations/87753699983?v=wall"
+                <li><a href="http://www.facebook.com/pages/PhET-Interactive-Simulations/161503243888932?v=wall"
                        target="_blank">Join us on <img style="vertical-align: middle;"
                                                        src="/files/icons/social/facebook.png" alt="Facebook icon"/></a>
                 </li>
