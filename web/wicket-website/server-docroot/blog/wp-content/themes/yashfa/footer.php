@@ -64,9 +64,9 @@ LIMIT 10";
         <p>
         <?php bloginfo( __( 'name', 'yashfa' ) ); _e( ' is proudly powered by', 'yashfa' );?>
             <a href="http://wordpress.org/">WordPress</a>
-            <br/><a href="<?php bloginfo( 'rss2_url' ); ?>"><?php _e( 'Entries (RSS)', 'yashfa' );?></a>
+            <br/><a href="<?php bloginfo( 'rss2_url' ); ?>" target="_blank"><?php _e( 'Entries (RSS)', 'yashfa' );?></a>
         <?php _e( 'and', 'yashfa' )?> <a
-                href="<?php bloginfo( 'comments_rss2_url' ); ?>"><?php _e( 'Comments (RSS)', 'yashfa' );?></a>.
+                href="<?php bloginfo( 'comments_rss2_url' ); ?>" target="_blank"><?php _e( 'Comments (RSS)', 'yashfa' );?></a>.
             <!-- <?php echo get_num_queries( ); ?> queries. <?php timer_stop( 1 ); ?> seconds. -->
         </p>
 
