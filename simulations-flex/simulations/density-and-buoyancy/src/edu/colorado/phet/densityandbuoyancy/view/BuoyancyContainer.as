@@ -46,6 +46,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         gravityCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.setGravityForceVisible( gravityCheckbox.selected );
         } );
+        styleForceCheckbox( gravityCheckbox, DensityConstants.GRAVITY_COLOR );
         arrowControlPanel.addChild( gravityCheckbox );
 
         var buoyancyCheckbox: CheckBox = new CheckBox();
@@ -54,6 +55,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         buoyancyCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.setBuoyancyForceVisible( buoyancyCheckbox.selected );
         } );
+        styleForceCheckbox( buoyancyCheckbox, DensityConstants.BUOYANCY_COLOR );
         arrowControlPanel.addChild( buoyancyCheckbox );
 
         var contactCheckbox: CheckBox = new CheckBox();
@@ -61,6 +63,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         contactCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.setContactForceVisible( contactCheckbox.selected );
         } );
+        styleForceCheckbox( contactCheckbox, DensityConstants.CONTACT_COLOR );
         arrowControlPanel.addChild( contactCheckbox );
 
         var fluidDragCheckbox: CheckBox = new CheckBox();
@@ -68,6 +71,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         fluidDragCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
             buoyancyCanvas.setFluidDragForceVisible( fluidDragCheckbox.selected );
         } );
+        styleForceCheckbox( fluidDragCheckbox, DensityConstants.FLUID_DRAG_COLOR );
         arrowControlPanel.addChild( fluidDragCheckbox );
         addChild( arrowControlPanel );
 
@@ -103,6 +107,13 @@ public class BuoyancyContainer extends AbstractDBContainer {
             } );
             arrowControlPanel.addChild( valueCheckBox );
         }
+    }
+
+    private function styleForceCheckbox( gravityCheckbox: CheckBox, color: int ): void {
+        gravityCheckbox.setStyle( "iconColor", color );
+        gravityCheckbox.setStyle( "color", color );
+        gravityCheckbox.setStyle( "textRollOverColor", color );
+        gravityCheckbox.setStyle( "textSelectedColor", color );
     }
 
     override public function init(): void {
