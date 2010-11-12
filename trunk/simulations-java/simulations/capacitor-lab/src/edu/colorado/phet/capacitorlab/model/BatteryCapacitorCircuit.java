@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.Shape;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -210,34 +211,34 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the voltage between 2 points.
-     * @param pPositive
-     * @param pNegative
-     * @return voltage, Double.NaN if the 2 points are not in the circuit
+     * Gets the voltage between 2 Shapes.
+     * @param positiveShape
+     * @param negativeShape
+     * @return voltage, Double.NaN if the 2 Shape are not both connected to the circuit
      */
-    public double getVoltageBetween( Point3D pPositive, Point3D pNegative ) {
-        return getVoltage( pPositive ) - getVoltage(pNegative);
+    public double getVoltageBetween( Shape positiveShape, Shape negativeShape ) {
+        return getVoltage( positiveShape ) - getVoltage( negativeShape );
     }
 
     /*
-     * Gets the voltage at a point.
+     * Gets the voltage at a Shape.
      * @param p
      * @return
      */
-    private double getVoltage( Point3D p ) {
-        if ( topWire.containsPoint( p ) ) {
+    private double getVoltage( Shape s ) {
+        if ( topWire.intersects( s ) ) {
             return topWire.getVoltage();
         }
-        else if ( bottomWire.containsPoint( p ) ) {
+        else if ( bottomWire.intersects( s ) ) {
             return bottomWire.getVoltage();
         }
-        else if (capacitor.bottomPlateContains(p)){
+        else if ( capacitor.bottomPlateIntersects( s ) ) {
             return 0;
         }
-        else if (capacitor.topPlateContains(p)){
+        else if ( capacitor.topPlateIntersects( s ) ) {
             return getPlatesVoltage();
         }
-        else if ( battery.topTerminalContains( p ) ) {
+        else if ( battery.topTerminalIntersects( s ) ) {
             return battery.getVoltage();
         }
         else {

@@ -15,10 +15,8 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
-- replace Battery.topTerminalContains(Point3D) with topTerminalIntersects(Shape)
-- replace Wire.containsPoint(Point3D) with intersects(Shape)
-- replace Capacitor.topPlateContains(Point3D) with topPlateIntersects(Shape)
-- replace Capacitor.bottomPlateContains(Point3D) with bottomPlateIntersects(Shape)
+- bug: Voltmeter.probesAreTouching should not be true in constructor
+- implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape)
 - add shape for E-field
 - add shape for top of capacitor plate
 - address stroke issue in WireSegment.createShape

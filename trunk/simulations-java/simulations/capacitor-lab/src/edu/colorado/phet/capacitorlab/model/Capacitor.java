@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.Shape;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -317,24 +318,12 @@ public class Capacitor {
         return xBetween && yBetween && zBetween;
     }
     
-    public boolean topPlateContains( Point3D p ) {
-        return plateContainsX( p ) && plateContainsY( p, getTopPlateCenter() ) && plateContainsZ( p );
-    }
-
-    public boolean bottomPlateContains( Point3D p ) {
-        return plateContainsX( p ) && plateContainsY( p, getBottomPlateCenter() ) && plateContainsZ( p );
-    }
-
-    private boolean plateContainsX( Point3D p ) {
-        return Math.abs( getX() - p.getX() ) <= ( getPlateSideLength() / 2 );
+    public boolean topPlateIntersects( Shape shape ) {
+        return false; //XXX
     }
     
-    private boolean plateContainsY( Point3D p, Point3D plateCenter ) {
-        return Math.abs( plateCenter.getY() - p.getY() ) < plateThickness;
-    }
-    
-    private boolean plateContainsZ( Point3D p ) {
-        return Math.abs( getZ() - p.getZ() ) <= ( getPlateSideLength() / 2 );
+    public boolean bottomPlateIntersects( Shape shape ) {
+        return false; //XXX
     }
     
     /**

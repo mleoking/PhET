@@ -12,7 +12,7 @@ import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -84,8 +84,8 @@ public class Wire {
         return area;
     }
 
-    public boolean containsPoint( Point3D pt ) {
-        return shapeProperty.getValue().contains( pt.getX(), pt.getY() );
+    public boolean intersects( Shape shape ) {
+        return ShapeUtils.intersects( shapeProperty.getValue(), shape );
     }
 
     /**

@@ -9,6 +9,7 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -90,8 +91,8 @@ public class Battery {
         return ( voltage >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
     }
     
-    public boolean topTerminalContains( Point3D p ) {
-        return createTopTerminalShapeWorld().contains( p.getX(), p.getY() );
+    public boolean topTerminalIntersects( Shape shape ) {
+        return ShapeUtils.intersects( createTopTerminalShapeWorld(), shape );
     }
     
     /**
