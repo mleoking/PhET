@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -13,10 +11,11 @@ import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
+import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
+import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.Function0;
 
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
@@ -48,7 +47,7 @@ public class BatteryCapacitorCircuit {
     private double currentAmplitude; // dV/dt, rate of voltage change
     private double previousVoltage;
 
-    public BatteryCapacitorCircuit( CLClock clock, Battery battery, final Capacitor capacitor, boolean batteryConnected) {
+    public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected) {
         
         this.clock = clock;
         this.listeners = new EventListenerList();
@@ -100,47 +99,9 @@ public class BatteryCapacitorCircuit {
             }
         });
         
-        // Create the top wire
-        {
-            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() );
-            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
-            final Point2D.Double topRightCorner = new Point2D.Double( capacitor.getX(), topLeftCorner.getY() );
-            topWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
-                public Point2D apply() {
-                    Point3D center = capacitor.getTopPlateCenter();
-                    return new Point2D.Double( center.getX(), center.getY() );
-                }
-            } );
-        }
-        
-        // Create the bottom wire
-        {
-            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() );
-            final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
-            final Point2D.Double topRightCorner = new Point2D.Double( capacitor.getX(), topLeftCorner.getY() );
-            bottomWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
-                public Point2D apply() {
-                    Point3D center = capacitor.getBottomPlateCenter();
-                    return new Point2D.Double( center.getX(), center.getY() );
-                }
-            } );
-        }
-    }
-
-    private Wire createWire( final Capacitor capacitor, final Point2D batteryStartPoint, final Point2D leftCorner, final Point2D rightCorner, final Function0<Point2D> getCapacitorPoint ) {
-        ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
-            add( new WireSegment( batteryStartPoint, leftCorner ) );
-            add( new WireSegment( leftCorner, rightCorner ) );
-            add( new WireSegment( rightCorner, getCapacitorPoint.apply() ) {{
-                capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-                    @Override
-                    public void plateSeparationChanged() {
-                        setEndPoint( getCapacitorPoint.apply() );
-                    }
-                } );
-            }} );
-        }};
-        return new Wire( segments, CLConstants.WIRE_THICKNESS );
+        // Create the wires
+        topWire = new TopWire( battery, capacitor, CLConstants.WIRE_THICKNESS );
+        bottomWire = new BottomWire( battery, capacitor, CLConstants.WIRE_THICKNESS );
     }
 
     //----------------------------------------------------------------------------------
@@ -163,6 +124,14 @@ public class BatteryCapacitorCircuit {
      */
     public Capacitor getCapacitor() {
         return capacitor;
+    }
+    
+    public Wire getTopWire() {
+        return topWire;
+    }
+
+    public Wire getBottomWire() {
+        return bottomWire;
     }
     
     /**
@@ -703,14 +672,6 @@ public class BatteryCapacitorCircuit {
             customDielectric = (CustomDielectricMaterial) material;
             customDielectric.addCustomDielectricChangeListener( customDielectricChangeListener );
         }
-    }
-
-    public Wire getTopWire() {
-        return topWire;
-    }
-
-    public Wire getBottomWire() {
-        return bottomWire;
     }
 
     //----------------------------------------------------------------------------------

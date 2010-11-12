@@ -1,3 +1,5 @@
+11/11/10 specializations of Wire for connecting a battery to a capacitor
+11/11/10 specializations of WireSegment for connection to battery and capacitor, length changes dynamically
 11/11/10 add y-offset getters for battery terminals, for computing wire connection points
 11/11/10 move all battery shape constants inside Battery model element
 11/11/10 adjusted battery body bounds to match new battery images

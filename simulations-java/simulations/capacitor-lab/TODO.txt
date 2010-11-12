@@ -14,14 +14,10 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- change battery image so that positive terminal doesn't stick out above/below battery body
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
 - if voltmeter probes touch, voltmeter should read zero
 - add shapes for voltmeter probe tips
-- move debug bounds nodes for battery terminals into BatteryNode, they are currently on DielectricCanvas
 - address stroke issue in WireSegment.createShape
-- move logic in BatteryCapacitorCircuit.createWire into new WireSegment subclass that connect to Battery and Capacitor
-- when battery polarity changes, update wire segments that are connected to the battery
 - wires don't connect to battery terminals accurately, most noticeable on top terminal
 - dynamic clipping planes for meter probes
 
