@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.model.*;
@@ -13,14 +14,12 @@ import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Displays the shapes for various model elements.
- * All shapes are in the global view coordinate frame.
- * So when a model object moves, its shape changes.
+ * All shapes are in the global view coordinate frame; when a model object moves, its shape changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -29,6 +28,14 @@ public class ShapesDebugNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = Color.YELLOW;
     
+    private static class ShapeNode extends PPath {
+        public ShapeNode( Shape shape ) {
+            super( shape );
+            setStroke( STROKE );
+            setStrokePaint( STROKE_COLOR );
+        }
+    }
+    
     public ShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
         
         // battery
@@ -36,10 +43,10 @@ public class ShapesDebugNode extends PComposite {
             final Battery battery = model.getBattery();
             final BatteryShapeFactory shapeFactory = new BatteryShapeFactory( battery, mvt );
             
-            PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
+            ShapeNode bodyNode = new ShapeNode( shapeFactory.createBodyShape() );
             addChild( bodyNode );
 
-            final PPath topTerminalNode = new PhetPPath( shapeFactory.createTopTerminalShape(), STROKE, STROKE_COLOR );
+            final ShapeNode topTerminalNode = new ShapeNode( shapeFactory.createTopTerminalShape() );
             addChild( topTerminalNode );
             
             // set top terminal shape to match polarity
@@ -56,10 +63,10 @@ public class ShapesDebugNode extends PComposite {
             final Capacitor capacitor = model.getCapacitor();
             final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
             
-            final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShape(), STROKE, STROKE_COLOR );
+            final ShapeNode topPlateNode = new ShapeNode( shapeFactory.createTopPlateShape() );
             addChild( topPlateNode );
             
-            final PPath bottomPlateNode = new PhetPPath( shapeFactory.createBottomPlateShape(), STROKE, STROKE_COLOR );
+            final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShape() );
             addChild( bottomPlateNode );
             
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
@@ -91,10 +98,10 @@ public class ShapesDebugNode extends PComposite {
             final Voltmeter voltmeter = model.getVoltmeter();
             final VoltmeterShapeFactory shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
             
-            final PPath positiveTipNode = new PhetPPath( shapeFactory.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );
+            final ShapeNode positiveTipNode = new ShapeNode( shapeFactory.getPositiveProbeTipShape() );
             addChild( positiveTipNode );
             
-            final PPath negativeTipNode = new PhetPPath( shapeFactory.getNegativeProbeTipShape(), STROKE, STROKE_COLOR );
+            final ShapeNode negativeTipNode = new ShapeNode( shapeFactory.getNegativeProbeTipShape() );
             addChild( negativeTipNode );
             
             // set shape to match positive probe location
