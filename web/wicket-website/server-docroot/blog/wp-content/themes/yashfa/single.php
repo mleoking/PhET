@@ -59,7 +59,7 @@
                                     class="sright"><?php the_author_posts_link( ); ?></span></p>
 
                             <p class="lines"><span
-                                    class="sleft"><?php _e( 'Author his web site', 'yashfa' )?></span><span
+                                    class="sleft"><?php _e( 'Author\'s website', 'yashfa' )?></span><span
                                     class="sright"><a href="<?php the_author_url( ); ?>"><?php the_author_url( ); ?></a>
                             </p>
                         </div>
