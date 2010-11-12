@@ -1,3 +1,4 @@
+11/11/10 move all Shape creation stuff out of the model and into factories, usable by both model and view
 11/11/10 add constant for MODEL_BOUNDS_STROKE
 11/11/10 don't try to constrain locations unless !World.isBoundsEmpty
 11/11/10 use intersects(Shape) instead of contains(Point2D) for voltmeter probes

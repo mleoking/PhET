@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
 import edu.colorado.phet.capacitorlab.model.World;
+import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -33,13 +34,13 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
         public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
             super( CLImages.RED_VOLTMETER_PROBE, voltmeter, world, mvt );
             
-            final PPath tipNode = new PhetPPath( mvt.modelToView( voltmeter.getPositiveProbeTipShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
+            final PPath tipNode = new PhetPPath( mvt.modelToView( getShapeFactory().getPositiveProbeTipShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
             addChild( tipNode );
             
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( voltmeter.getPositiveProbeLocationReference() ) );
-                    tipNode.setPathTo( mvt.modelToView( voltmeter.getPositiveProbeTipShapeLocal() ) );
+                    tipNode.setPathTo( mvt.modelToView( getShapeFactory().getPositiveProbeTipShapeLocal() ) );
                 }
             });
         }
@@ -58,13 +59,13 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
         public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
             super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, world, mvt );
             
-            final PPath tipNode = new PhetPPath( mvt.modelToView( voltmeter.getNegativeProbeTipShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
+            final PPath tipNode = new PhetPPath( mvt.modelToView( getShapeFactory().getNegativeProbeTipShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
             addChild( tipNode );
             
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( voltmeter.getNegativeProbeLocationReference() ) );
-                    tipNode.setPathTo( mvt.modelToView( voltmeter.getNegativeProbeTipShapeLocal() ) );
+                    tipNode.setPathTo( mvt.modelToView( getShapeFactory().getNegativeProbeTipShapeLocal() ) );
                 }
             });
         }
@@ -79,11 +80,13 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     }
     
     private final Voltmeter voltmeter;
+    private final VoltmeterShapeFactory shapeFactory;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
     public VoltmeterProbeNode( Image image, final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
         
         this.voltmeter = voltmeter;
+        this.shapeFactory = new VoltmeterShapeFactory( voltmeter );
         
         PImage imageNode = new PImage( image );
         addChild( imageNode );
@@ -102,6 +105,10 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     
     protected Voltmeter getVoltmeter() {
         return voltmeter;
+    }
+    
+    protected VoltmeterShapeFactory getShapeFactory() {
+        return shapeFactory;
     }
     
     public Point2D getConnectionOffset() {

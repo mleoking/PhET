@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -12,6 +11,7 @@ import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
+import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,29 +27,32 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Wire {
 
-    private final ArrayList<WireSegment> wireSegments;
+    private final ArrayList<WireSegment> segments;
     private final double thickness;
+    private final WireShapeFactory shapeFactory;
 
     private final Property<Shape> shapeProperty;
     private final Property<Double> voltageProperty;
 
-    public Wire( ArrayList<WireSegment> wireSegments, double thickness ) {
-        assert ( wireSegments != null && wireSegments.size() > 0 );
+    public Wire( ArrayList<WireSegment> segments, double thickness ) {
+        assert ( segments != null && segments.size() > 0 );
         assert ( thickness > 0 );
 
+        this.segments = new ArrayList<WireSegment>( segments );
         this.thickness = thickness;
-        this.wireSegments = new ArrayList<WireSegment>( wireSegments );
-        this.shapeProperty = new Property<Shape>( createShape() );
+        this.shapeFactory = new WireShapeFactory( this );
+        
+        this.shapeProperty = new Property<Shape>( shapeFactory.createShape() );
         this.voltageProperty = new Property<Double>( 0.0 );
 
         // when any segment changes, update the shape property
         {
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    shapeProperty.setValue( createShape() );
+                    shapeProperty.setValue( shapeFactory.createShape() );
                 }
             };
-            for ( WireSegment segment : wireSegments ) {
+            for ( WireSegment segment : segments ) {
                 segment.addStartPointObserver( o );
                 segment.addEndPointObserver( o );
             }
@@ -58,6 +61,10 @@ public class Wire {
 
     public double getThickness() {
         return thickness;
+    }
+    
+    public ArrayList<WireSegment> getSegmentsReference() {
+        return segments;
     }
 
     public double getVoltage() {
@@ -74,14 +81,6 @@ public class Wire {
 
     public Shape getShape() {
         return shapeProperty.getValue();
-    }
-
-    private Shape createShape() {
-        Area area = new Area();
-        for ( WireSegment wireSegment : wireSegments ) {
-            area.add( new Area( wireSegment.createShape( thickness ) ) );
-        }
-        return area;
     }
 
     public boolean intersects( Shape shape ) {

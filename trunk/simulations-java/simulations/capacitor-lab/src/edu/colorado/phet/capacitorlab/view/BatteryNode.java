@@ -9,10 +9,9 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
-import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Polarity;
+import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,6 +27,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class BatteryNode extends PhetPNode {
     
     private final Battery battery;
+    private final BatteryShapeFactory shapeFactory;
     private final ModelViewTransform mvt;
     private final PImage imageNode;
     private final VoltageSliderNode sliderNode;
@@ -46,6 +46,8 @@ public class BatteryNode extends PhetPNode {
                 updateNode();
             }
         });
+        
+        this.shapeFactory = new BatteryShapeFactory( battery );
         
         this.mvt = mvt;
         
@@ -72,7 +74,7 @@ public class BatteryNode extends PhetPNode {
         sliderNode.setOffset( x, y );
         
         // show model bounds
-        PhetPPath bodyNode = new PhetPPath( mvt.modelToView( battery.createBodyShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
+        PhetPPath bodyNode = new PhetPPath( mvt.modelToView( shapeFactory.createBodyShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
         topTerminalNode = new PhetPPath( CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
         if ( dev ) {
             addChild( bodyNode );
@@ -93,7 +95,7 @@ public class BatteryNode extends PhetPNode {
             imageNode.setImage( CLImages.BATTERY_DOWN );
         }
         // top terminal shape
-        topTerminalNode.setPathTo( mvt.modelToView( battery.createTopTerminalShapeLocal() ) );
+        topTerminalNode.setPathTo( mvt.modelToView( shapeFactory.createTopTerminalShapeLocal() ) );
     }
     
     private void updateModel() {
