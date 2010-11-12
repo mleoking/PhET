@@ -1,3 +1,5 @@
+# 0.00.40 (46011) Nov 11, 2010
+11/11/10 dev version to demonstrate shape-based voltmeter probes
 11/11/10 move responsibility for debug shape rendering into ShapesDebugNode and out of general nodes, all shape generation can now be in world coordinate frame
 11/11/10 move all Shape creation stuff out of the model and into factories, usable by both model and view
 11/11/10 add constant for MODEL_BOUNDS_STROKE
