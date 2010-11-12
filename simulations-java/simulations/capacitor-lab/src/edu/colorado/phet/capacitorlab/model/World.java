@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.Rectangle2D;
@@ -6,7 +8,13 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-
+/**
+ * World coordinate system for the model.
+ * The primary purpose of this class is to define the visible bounds of the world,
+ * so that we can constrain object locations and dragging.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class World {
     
     private final Property<Rectangle2D> bounds; // meters
