@@ -14,8 +14,6 @@ DESIGN ISSUES
 - should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
-- add shape for top capacitor plate
-- add shape for bottom capacitor plate, subtract top capacitor plate and dielectric
 - implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape)
 - add shape for E-field
 - shape of bottom wire needs to subtract bottom capacitor plate shape

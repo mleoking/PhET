@@ -6,11 +6,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 
-import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Voltmeter;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -47,6 +47,41 @@ public class ShapesDebugNode extends PComposite {
                 @Override
                 public void polarityChanged() {
                     topTerminalNode.setPathTo( shapeFactory.createTopTerminalShape() );
+                }
+            } );
+        }
+        
+        // capacitor
+        {
+            final Capacitor capacitor = model.getCapacitor();
+            final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
+            
+            final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShape(), STROKE, STROKE_COLOR );
+            addChild( topPlateNode );
+            
+            final PPath bottomPlateNode = new PhetPPath( shapeFactory.createBottomPlateShape(), STROKE, STROKE_COLOR );
+            addChild( bottomPlateNode );
+            
+            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+
+                @Override
+                public void plateSizeChanged() {
+                     updateShapes();
+                }
+
+                @Override
+                public void plateSeparationChanged() {
+                    updateShapes();
+                }
+                
+                @Override
+                public void dielectricOffsetChanged() {
+                    updateShapes();
+                }
+                
+                private void updateShapes() {
+                    topPlateNode.setPathTo( shapeFactory.createTopPlateShape() );
+                    bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShape() );
                 }
             } );
         }

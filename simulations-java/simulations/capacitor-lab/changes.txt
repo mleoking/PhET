@@ -1,3 +1,4 @@
+11/12/10 implement shape factory for capacitor, handle object occlusion via shape subtraction
 11/12/10 move code for box shapes into BoxShapeFactory, use in BoxNode
 11/12/10 remove MVT.modelToModel(Point3D), no longer needed since all Shape creation is in view coordinate frame
 11/12/10 change all Shape generation to use global *view* coordinate frame, view needs this for rendering, model doesn't care for Shape intersection
