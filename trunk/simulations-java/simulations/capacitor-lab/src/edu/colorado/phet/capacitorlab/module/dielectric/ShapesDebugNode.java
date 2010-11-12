@@ -19,6 +19,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Displays the shapes for various model elements.
+ * All shapes are in the world coordinate frame, for the purposes of testing object intersections.
+ * So when a model object moves, its shape changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -39,6 +41,8 @@ public class ShapesDebugNode extends PComposite {
 
             final PPath topTerminalNode = new PhetPPath( mvt.modelToView( shapeFactory.createTopTerminalShape() ), STROKE, STROKE_COLOR );
             addChild( topTerminalNode );
+            
+            // set top terminal shape to match polarity
             battery.addBatteryChangeListener( new BatteryChangeAdapter() {
                 @Override
                 public void polarityChanged() {
@@ -54,20 +58,25 @@ public class ShapesDebugNode extends PComposite {
             
             final PPath positiveTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
+            
+            final PPath negativeTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getNegativeProbeTipShape() ), STROKE, STROKE_COLOR );
+            addChild( negativeTipNode );
+            
+            // set shape to match positive probe location
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     positiveTipNode.setPathTo( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ) );
                 }
             } );
-
-            final PPath negativeTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getNegativeProbeTipShape() ), STROKE, STROKE_COLOR );
-            addChild( negativeTipNode );
+            
+            // set shape to match negative probe location
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     negativeTipNode.setPathTo( mvt.modelToView( shapeFactory.getNegativeProbeTipShape() ) );
                 }
             } );
             
+            // set visibility to match voltmeter visibility
             voltmeter.addVisibleObserver( new SimpleObserver() {
                 public void update() {
                     positiveTipNode.setVisible( voltmeter.isVisible() );
