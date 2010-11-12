@@ -4,8 +4,14 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment;
+import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
+import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
+import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -80,5 +86,45 @@ public class Wire {
 
     public boolean containsPoint(Point3D pt){
         return shapeProperty.getValue().contains( pt.getX(),pt.getY() );
+    }
+    
+    /**
+     * Wire that connects the tops of a battery and capacitor.
+     */
+    public static class TopWire extends Wire {
+        public TopWire( final Battery battery, final Capacitor capacitor, double thickness ) {
+            super( createSegments( battery, capacitor ), thickness );
+        }
+        
+        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {
+            final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
+            final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
+            ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
+                add( new BatteryTopWireSegment( battery, leftCorner ) );
+                add( new WireSegment( leftCorner, rightCorner ) );
+                add( new CapacitorTopWireSegment( rightCorner, capacitor ) );
+            }};
+            return segments;
+        }
+    }
+    
+    /**
+     * Wire that connects the bottoms of a battery and capacitor.
+     */
+    public static class BottomWire extends Wire {
+        public BottomWire( final Battery battery, final Capacitor capacitor, double thickness ) {
+            super( createSegments( battery, capacitor ), thickness );
+        }
+        
+        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {
+            final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
+            final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
+            ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
+                add( new BatteryBottomWireSegment( battery, leftCorner ) );
+                add( new WireSegment( leftCorner, rightCorner ) );
+                add( new CapacitorBottomWireSegment( rightCorner, capacitor ) );
+            }};
+            return segments;
+        }
     }
 }
