@@ -10,7 +10,8 @@ import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
- * All Shapes are in the global view coordinate frame.
+ * All Shapes are in the view coordinate frame.
+ * Shapes for all faces corresponds to a box with its origin in the center of the top face.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -24,8 +25,6 @@ public class BoxShapeFactory {
     
     /**
      * Top face is a parallelogram.
-     * Origin at lower-left corner.
-     * Path specified using clockwise traversal.
      * 
      *          p0 -------------- p1
      *          /                /
@@ -33,12 +32,17 @@ public class BoxShapeFactory {
      *       p3 --------------p2
      */
     public Shape createTopFace( double width, double height, double depth ) {
-        return null;//XXX
+        // points
+        Point2D p0 = mvt.modelToView( -width / 2, 0, depth / 2 );
+        Point2D p1 = mvt.modelToView( width / 2, 0, depth / 2 );
+        Point2D p2 = mvt.modelToView( width / 2, 0, -depth / 2 );
+        Point2D p3 = mvt.modelToView( -width / 2, 0, -depth / 2 );
+        // shape
+        return createFace( p0, p1, p2, p3 );
     }
     
     /**
      * Front face is a rectangle.
-     * Path specified using clockwise traversal.
      * 
      *    p0 --------------- p1
      *     |                 |
@@ -46,12 +50,17 @@ public class BoxShapeFactory {
      *    p3 --------------- p2
      */
     public Shape createFrontFace( double width, double height, double depth ) {
-        return null;//XXX
+        // points
+        Point2D p0 = mvt.modelToView( -width / 2, 0, -depth / 2 );
+        Point2D p1 = mvt.modelToView( width / 2, 0, -depth / 2 );
+        Point2D p2 = mvt.modelToView( width / 2, height, -depth / 2 );
+        Point2D p3 = mvt.modelToView( -width / 2, height, -depth / 2 );
+        // shape
+        return createFace( p0, p1, p2, p3 );
     }
     
     /**
      * Side face is a parallelogram.
-     * Path specified using clockwise traversal.
      * 
      *              p1
      *             / |
@@ -65,11 +74,17 @@ public class BoxShapeFactory {
      *         p3
      */
     public Shape createSideFace( double width, double height, double depth ) {
-        return null;//XXX
+        // points
+        Point2D p0 = mvt.modelToView( width / 2, 0, -depth / 2 );
+        Point2D p1 = mvt.modelToView( width / 2, 0, depth / 2 );
+        Point2D p2 = mvt.modelToView( width / 2, height, depth / 2 );
+        Point2D p3 = mvt.modelToView( width / 2, height, -depth / 2 );
+        // path
+        return createFace( p0, p1, p2, p3 );
     }
     
     /*
-     * A capacitor plate face is generally defined by 4 points.
+     * A face is defined by 4 points, specified in view coordinates.
      */
     private Shape createFace( Point2D p0, Point2D p1, Point2D p2, Point2D p3 ) {
         GeneralPath path = new GeneralPath();
