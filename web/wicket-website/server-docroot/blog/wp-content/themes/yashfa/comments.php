@@ -16,7 +16,7 @@ if ( post_password_required( ) ) {
 <?php if ( !empty( $comments_by_type[__( 'comment', 'yashfa' )] ) ) : ?>
 <h3 id="comments">
 <?php fb_comment_type_count( __( 'comment', 'yashfa' ) ); ?>
-    Comments <a href="#respond"><?php _e( 'Add Yours &darr;', 'yashfa' );?></a></h3>
+    Comments | <a href="#respond"><?php _e( 'Add your comment &darr;', 'yashfa' );?></a></h3>
 <!--<p class="cinfo">--><?php //_e('The upper is the most recent comment','yashfa');?><!--</p>-->
 <ol class="commentlist">
 <?php $cmntCnt = 1;?>
