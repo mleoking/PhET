@@ -19,7 +19,6 @@ HIGH PRIORITY
 - add shapes for voltmeter probe tips
 - address stroke issue in WireSegment.createShape
 - wires don't connect to battery terminals accurately, most noticeable on top terminal
-- dynamic clipping planes for meter probes
 
 MEDUIUM PRIORITY
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
