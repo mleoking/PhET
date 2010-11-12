@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
@@ -66,7 +66,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Reset all button
-        addChild( new GradientButtonNode( "Reset all", (int) ( WorkEnergyControlPanel.CONTROL_FONT.getSize() * 1.3 ), WorkEnergyControlPanel.BACKGROUND, WorkEnergyControlPanel.FOREGROUND ) {{
+        addChild( new ButtonNode( "Reset all", (int) ( WorkEnergyControlPanel.CONTROL_FONT.getSize() * 1.3 ), WorkEnergyControlPanel.BACKGROUND, WorkEnergyControlPanel.FOREGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

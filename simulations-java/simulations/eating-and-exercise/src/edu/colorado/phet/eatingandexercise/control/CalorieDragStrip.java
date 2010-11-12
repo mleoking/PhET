@@ -11,7 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
@@ -51,7 +51,7 @@ public class CalorieDragStrip extends PNode {
         stripPanelClip.addChild( stripPanel );
         stripPanelClip.setPaint( new Color( 200, 220, 220 ) );
 
-        GradientButtonNode leftButton = new GradientButtonNode( EatingAndExerciseResources.getString( "control.more.right" ), 13, buttonColor );
+        ButtonNode leftButton = new ButtonNode( EatingAndExerciseResources.getString( "control.more.right" ), 13, buttonColor );
         leftButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 nextPanel( +1 );
@@ -60,7 +60,7 @@ public class CalorieDragStrip extends PNode {
         addChild( leftButton );
         leftButton.setOffset( getMaxPanelWidth(), getMaxPanelHeight() / 2 - leftButton.getFullBounds().getHeight() / 2 );
 
-        GradientButtonNode rightButton = new GradientButtonNode( EatingAndExerciseResources.getString( "control.more.left" ), 13, buttonColor );
+        ButtonNode rightButton = new ButtonNode( EatingAndExerciseResources.getString( "control.more.left" ), 13, buttonColor );
         rightButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 nextPanel( -1 );
@@ -379,7 +379,7 @@ public class CalorieDragStrip extends PNode {
         final BalancedDietDialog dialog = new BalancedDietDialog( item );
         balancedDietDialogs.add( dialog );
 
-        GradientButtonNode gradientButtonNode = new GradientButtonNode( EatingAndExerciseResources.getString( "edit.edit" ), 12, Color.red );
+        ButtonNode gradientButtonNode = new ButtonNode( EatingAndExerciseResources.getString( "edit.edit" ), 12, Color.red );
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dialog.setVisible( true );

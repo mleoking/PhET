@@ -11,7 +11,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.dialog.ReactorPictureDialog;
@@ -48,8 +48,8 @@ public class NuclearReactorCanvas extends PhetPCanvas{
     
     private NuclearReactorModel _nuclearReactorModel;
     private NuclearReactorNode  _nuclearReactorNode;
-    private GradientButtonNode _resetNucleiButtonNode;
-    private GradientButtonNode _showReactorImageButtonNode;
+    private ButtonNode _resetNucleiButtonNode;
+    private ButtonNode _showReactorImageButtonNode;
     private Frame _parentFrame;
 
     //----------------------------------------------------------------------------
@@ -101,7 +101,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         
         // Add the button for resetting the reactor.  This won't be visible
         // until the reaction has been started.
-        _resetNucleiButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16, 
+        _resetNucleiButtonNode = new ButtonNode(NuclearPhysicsStrings.RESET_NUCLEI, 16,
         		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         addWorldChild( _resetNucleiButtonNode );
         _resetNucleiButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getMinX(), 
@@ -115,7 +115,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         });
         
         // Add the button for showing the reactor photo.
-        _showReactorImageButtonNode = new GradientButtonNode(NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, 16, 
+        _showReactorImageButtonNode = new ButtonNode(NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, 16,
         		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         addWorldChild(_showReactorImageButtonNode);
         _showReactorImageButtonNode.setOffset( -(CANVAS_WIDTH/2), CANVAS_HEIGHT / 2 );

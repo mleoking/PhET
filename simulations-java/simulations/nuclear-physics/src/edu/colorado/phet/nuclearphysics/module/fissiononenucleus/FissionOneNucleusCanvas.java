@@ -13,7 +13,7 @@ import java.util.Hashtable;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
@@ -59,7 +59,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;
-    private GradientButtonNode _resetButtonNode;
+    private ButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -182,7 +182,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, 
+        _resetButtonNode = new ButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16,
         		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
         double desiredResetButtonWidth = _neutronSourceNode.getFullBoundsReference().width;
         _resetButtonNode.setScale(desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width);

@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.audio.AudioResourcePlayer;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -99,7 +99,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private IdentityHashMap<DatableItem, AgeGuessResultNode> _mapDatableItemsToGuessResults = 
     	new IdentityHashMap<DatableItem, AgeGuessResultNode>();
     private AgeGuessingNode.Listener _ageGuessListener;
-    private GradientButtonNode _resetGuessesButtonNode;
+    private ButtonNode _resetGuessesButtonNode;
     private PPath _transformedViewportBounds = new PPath();
     private AgeGuessResultNode.Listener _clearResultListener;
     private AudioResourcePlayer _audioResourcePlayer;
@@ -232,7 +232,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
         // Add a button to the canvas for resetting the guesses.  The button
         // remains invisible until the user makes their first guess.
-        _resetGuessesButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_GUESSES, 30, 
+        _resetGuessesButtonNode = new ButtonNode(NuclearPhysicsStrings.RESET_GUESSES, 30,
         		RESET_GUESSES_BUTTON_COLOR);
         _resetGuessesButtonNode.setOffset(_proportionsChart.getFullBoundsReference().getMaxX()
         		- _resetGuessesButtonNode.getFullBoundsReference().width,
