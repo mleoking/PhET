@@ -14,11 +14,13 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
 - bug: Voltmeter.probesAreTouching should not be true in constructor
+- add shape for top of capacitor plate
 - implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape)
 - add shape for E-field
-- add shape for top of capacitor plate
+- pull all of the Shape creation stuff out of the model and into some intermediate layer that is accessible to both model and view
+- make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
+- uses of CLConstants.MVT_YAW in model, should have access to mvt instance instead?
 - address stroke issue in WireSegment.createShape
 - wires don't connect to battery terminals accurately, most noticeable on top terminal
 
