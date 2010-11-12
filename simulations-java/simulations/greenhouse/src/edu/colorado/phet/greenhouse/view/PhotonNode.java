@@ -9,6 +9,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -53,7 +54,16 @@ public class PhotonNode extends PNode implements Observer {
 		assert mapWavelengthToImageName.containsKey( photon.getWavelength() );
 		// TODO: Remove permanently if accepted.
 //        photonImage = new PImage( GreenhouseResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
-        photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
+		if ( photon.getWavelength() == GreenhouseConfig.microWavelength ){
+		    // Special case for microwaves, since PhotonImageFactory makes all
+		    // photons with a wavelength longer than visible light look the
+		    // same.
+		    // TODO: Do we want to change PhotonImageFactory to handle this case?
+		    photonImage = new PImage( GreenhouseResources.getImage( "microwave-photon.png" ) );
+		}
+		else{
+		    photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
+		}
 		photonImage.setOffset( -photonImage.getFullBoundsReference().width / 2,
 		        -photonImage.getFullBoundsReference().height / 2 );
 		addChild(photonImage);
