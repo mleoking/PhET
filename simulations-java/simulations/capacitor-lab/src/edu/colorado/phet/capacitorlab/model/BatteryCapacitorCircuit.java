@@ -102,7 +102,7 @@ public class BatteryCapacitorCircuit {
         
         // Create the top wire
         {
-            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() - battery.getLength() / 2 );
+            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() );
             final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
             final Point2D.Double topRightCorner = new Point2D.Double( capacitor.getX(), topLeftCorner.getY() );
             topWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
@@ -115,7 +115,7 @@ public class BatteryCapacitorCircuit {
         
         // Create the bottom wire
         {
-            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() + battery.getLength() / 2 );
+            final Point2D.Double batteryStartPoint = new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() );
             final Point2D.Double topLeftCorner = new Point2D.Double( batteryStartPoint.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
             final Point2D.Double topRightCorner = new Point2D.Double( capacitor.getX(), topLeftCorner.getY() );
             bottomWire = createWire( capacitor, batteryStartPoint, topLeftCorner, topRightCorner, new Function0<Point2D>() {
@@ -271,9 +271,6 @@ public class BatteryCapacitorCircuit {
         else if ( battery.topTerminalContains( p ) ) {
             return battery.getVoltage();
         }
-        else if ( battery.bottomTerminalContains( p ) ) {
-            return 0;
-        }
         else {
             return Double.NaN;
         }
@@ -386,7 +383,7 @@ public class BatteryCapacitorCircuit {
     public static double getMaxPlateCharge() {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_LENGTH, CLConstants.BATTERY_DIAMETER, CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */ );
         return circuit.getTotalPlateCharge();
     }
@@ -398,7 +395,7 @@ public class BatteryCapacitorCircuit {
     public static double getMaxExcessDielectricPlateCharge() {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMax(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_LENGTH, CLConstants.BATTERY_DIAMETER, CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */ );
         return circuit.getExcessDielectricPlateCharge();
     }
@@ -585,7 +582,7 @@ public class BatteryCapacitorCircuit {
     public static double getMaxEffectiveEfield() {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin() );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_LENGTH, CLConstants.BATTERY_DIAMETER, 0 );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getEffectiveEfield();
@@ -598,7 +595,7 @@ public class BatteryCapacitorCircuit {
     public static double getMaxDielectricEField() {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax() );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_LENGTH, CLConstants.BATTERY_DIAMETER, 0 );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getDielectricEField();
@@ -611,7 +608,7 @@ public class BatteryCapacitorCircuit {
     public static double getMaxPlatesDielectricEField() {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_SIZE_RANGE.getMin(), CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax() );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_LENGTH, CLConstants.BATTERY_DIAMETER, 0 );
+        Battery battery = new Battery( new Point3D.Double(), 0 );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getPlatesDielectricEField();

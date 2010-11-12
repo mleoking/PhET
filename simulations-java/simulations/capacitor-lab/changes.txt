@@ -1,3 +1,5 @@
+11/11/10 add y-offset getters for battery terminals, for computing wire connection points
+11/11/10 move all battery shape constants inside Battery model element
 11/11/10 adjusted battery body bounds to match new battery images
 11/11/10 modified the battery image so that only the top terminal is visible, and the positive terminal doesn't extend above body
 11/11/10 move creation of battery body shape into Battery model element
