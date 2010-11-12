@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
-import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ButtonNode}
 import java.awt.geom.{Rectangle2D, Point2D}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -159,7 +159,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   addStageNode(returnObjectButton)
 }
 
-class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
+class ReturnObjectButton(model: MotionSeriesModel) extends ButtonNode("controls.return-object".translate, Color.orange) {
   def updateVisibility() = setVisible(model.motionSeriesObjectInModelViewportRange || model.motionSeriesObject.isCrashed)
   updateVisibility()
   model.addListener(updateVisibility)
