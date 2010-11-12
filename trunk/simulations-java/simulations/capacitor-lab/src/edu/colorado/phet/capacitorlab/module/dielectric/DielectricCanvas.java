@@ -67,7 +67,7 @@ public class DielectricCanvas extends CLCanvas {
     private WireNode topWireNode;
     private WireNode bottomWireNode;
 
-    public DielectricCanvas( final DielectricModel model, boolean dev ) {
+    public DielectricCanvas( final DielectricModel model, ModelViewTransform mvt, boolean dev ) {
         
         this.model = model;
         model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -77,7 +77,7 @@ public class DielectricCanvas extends CLCanvas {
             }
         } );
         
-        mvt = new ModelViewTransform( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
+        this.mvt = mvt;
         
         batteryNode = new BatteryNode( model.getBattery(), dev, CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );

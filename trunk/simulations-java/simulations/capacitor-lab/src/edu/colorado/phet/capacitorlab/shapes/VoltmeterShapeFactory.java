@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -26,9 +26,11 @@ public class VoltmeterShapeFactory {
     private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 );
     
     private final Voltmeter voltmeter;
+    private final ModelViewTransform mvt;
     
-    public VoltmeterShapeFactory( Voltmeter voltmeter ) {
+    public VoltmeterShapeFactory( Voltmeter voltmeter, ModelViewTransform mvt ) {
         this.voltmeter = voltmeter;
+        this.mvt = mvt;
     }
 
     /**
@@ -36,7 +38,7 @@ public class VoltmeterShapeFactory {
      * @return
      */
     public Shape getPositiveProbeTipShape() {
-        return getProbeTipShape( voltmeter.getPositiveProbeLocationReference(), -CLConstants.MVT_YAW );
+        return getProbeTipShape( voltmeter.getPositiveProbeLocationReference(), -mvt.getYaw() );
     }
     
     /**
@@ -44,7 +46,7 @@ public class VoltmeterShapeFactory {
      * @return
      */
     public Shape getNegativeProbeTipShape() {
-        return getProbeTipShape( voltmeter.getNegativeProbeLocationReference(), -CLConstants.MVT_YAW );
+        return getProbeTipShape( voltmeter.getNegativeProbeLocationReference(), -mvt.getYaw() );
     }
     
     /*

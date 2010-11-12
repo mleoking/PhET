@@ -54,7 +54,7 @@ public class ShapesDebugNode extends PComposite {
         // voltmeter
         {
             final Voltmeter voltmeter = model.getVoltmeter();
-            final VoltmeterShapeFactory shapeFactory = new VoltmeterShapeFactory( voltmeter );
+            final VoltmeterShapeFactory shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
             
             final PPath positiveTipNode = new PhetPPath( mvt.modelToView( shapeFactory.getPositiveProbeTipShape() ), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
