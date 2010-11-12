@@ -1,4 +1,4 @@
-<?php get_header( ); include 'socialicons.php'; ?>
+<?php get_header( ); include 'util.php' ?>
 
 <div id="content-wrap">
     <div id="content">
@@ -29,7 +29,7 @@
                         <div class="new-comments-area">
                         <?php comments_popup_link( __( '0 Comments', 'yashfa' ), __( '1 Comment', 'yashfa' ), __( '% Comments', 'yashfa' ) ); ?>
                             &nbsp;|&nbsp;
-                        <?php comments_popup_link( __( 'Add a Comment', 'yashfa' ), __( 'Add a Comment', 'yashfa' ), __( 'Add a Comment', 'yashfa' ) ); ?>
+                        <?php print_respond_reference(); ?>
                         </div>
 
                     </div>
