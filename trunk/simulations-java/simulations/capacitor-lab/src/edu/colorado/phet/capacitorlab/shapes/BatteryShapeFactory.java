@@ -41,48 +41,25 @@ public class BatteryShapeFactory {
     }
     
     /**
-     * Gets the shape of the battery's body in the battery's local coordinate frame.
+     * Gets the shape of the battery's body in the world coordinate frame.
      * @return
      */
-    public Shape createBodyShapeLocal() {
-        return createBodyShape( new Point3D.Double() );
-    }
-    
-    /*
-     * Gets the shape of the battery's body relative to some specific origin.
-     */
-    private Shape createBodyShape( Point3D origin ) {
-        double x = origin.getX() - ( BODY_SIZE.getWidth() / 2 );
-        double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 );
+    public Shape createBodyShape() {
+        double x = battery.getLocationReference().getX() - ( BODY_SIZE.getWidth() / 2 );
+        double y = battery.getLocationReference().getY() - ( BODY_SIZE.getHeight() / 2 );
         return new Rectangle2D.Double( x, y, BODY_SIZE.getWidth(), BODY_SIZE.getHeight() );
     }
 
     /**
-     * Gets the shape of the top terminal in the battery's local coordinate frame.
-     * @return
-     */
-    public Shape createTopTerminalShapeLocal() {
-        return createTopTerminalShape( new Point3D.Double() );
-    }
-    
-    /**
-     * Gets the shape of the top terminal in the world's coordinate frame.
-     * @return
-     */
-    public Shape createTopTerminalShapeWorld() {
-        return createTopTerminalShape( battery.getLocationReference() );
-    }
-    
-    /*
-     * Creates the shape of the top terminal relative to some specified origin.
+     * Creates the shape of the top terminal in the world coordinate frame.
      * Which terminal is on top depends on the polarity.
      */
-    private Shape createTopTerminalShape( Point3D origin ) {
+    public Shape createTopTerminalShape() {
         if ( battery.getPolarity() == Polarity.POSITIVE ) {
-            return createPositiveTerminalShape( origin );
+            return createPositiveTerminalShape( battery.getLocationReference() );
         }
         else {
-            return createNegativeTerminalShape( origin );
+            return createNegativeTerminalShape( battery.getLocationReference() );
         }
     }
     
@@ -104,7 +81,7 @@ public class BatteryShapeFactory {
         final double terminalWidth = NEGATIVE_TERMINAL_SIZE.getWidth();
         final double terminalHeight = NEGATIVE_TERMINAL_SIZE.getHeight();
         double x = origin.getX() - ( terminalWidth / 2 );
-        double y = origin.getY() - ( BODY_SIZE.getHeight()/2 ) - ( terminalHeight / 2 );
+        double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) - ( terminalHeight / 2 );
         return new Ellipse2D.Double( x, y, terminalWidth, terminalHeight );
     }
 }

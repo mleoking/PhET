@@ -59,12 +59,12 @@ public class Voltmeter {
             valueProperty.setValue( 0d );
         }
         else {
-            valueProperty.setValue( circuit.getVoltageBetween( shapeFactory.getPositiveProbeTipShapeWorld(), shapeFactory.getNegativeProbeTipShapeWorld() ) );
+            valueProperty.setValue( circuit.getVoltageBetween( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() ) );
         }
     }
     
     private boolean probesAreTouching() {
-        return ShapeUtils.intersects( shapeFactory.getPositiveProbeTipShapeWorld(), shapeFactory.getNegativeProbeTipShapeWorld() );
+        return ShapeUtils.intersects( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() );
     }
     
     public void reset() {
