@@ -55,6 +55,12 @@ public class DensityConstants {
     public static const MAX_FLUID_DENSITY: Number = kgLtoSI( 2 );
     //To keep the volume small enough so the pool doesn't overflow
 
+    public static const GRAVITY_COLOR: int = 0x0000FF;
+    public static const BUOYANCY_COLOR: int = 0xFF00FF;
+    public static const CONTACT_COLOR: int = 0xFF8800;
+    public static const FLUID_DRAG_COLOR: int = 0xFF0000;
+
+
     //this is a magic number that just barely fits "00.00" with the above specified font;
 
     //So that away3d faces don't overlap
