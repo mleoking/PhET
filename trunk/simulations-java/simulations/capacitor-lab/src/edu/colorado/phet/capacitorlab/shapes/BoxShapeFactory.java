@@ -10,7 +10,7 @@ import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
- * All coordinates are in model world coordinate frame.
+ * All Shapes are in the global view coordinate frame.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

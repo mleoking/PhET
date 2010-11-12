@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D voltmeter model.
- * All coordinates are in model world coordinate frame.
+ * All Shapes are in the global view coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -57,6 +57,7 @@ public class VoltmeterShapeFactory {
         double y = origin.getY();
         Rectangle2D r = new Rectangle2D.Double( x, y, PROBE_TIP_SIZE.getWidth(), PROBE_TIP_SIZE.getHeight() );
         AffineTransform t = AffineTransform.getRotateInstance( theta, origin.getX(), origin.getY() );
-        return t.createTransformedShape( r );
+        Shape s = t.createTransformedShape( r );
+        return mvt.modelToView( s );
     }
 }

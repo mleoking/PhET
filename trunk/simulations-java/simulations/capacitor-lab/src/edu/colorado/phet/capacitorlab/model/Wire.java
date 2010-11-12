@@ -31,16 +31,16 @@ public class Wire {
     private final double thickness;
     private final WireShapeFactory shapeFactory;
 
-    private final Property<Shape> shapeProperty;
+    private final Property<Shape> shapeProperty; // Shape in view coordinates!
     private final Property<Double> voltageProperty;
 
-    public Wire( ArrayList<WireSegment> segments, double thickness ) {
+    public Wire( ArrayList<WireSegment> segments, double thickness, ModelViewTransform mvt ) {
         assert ( segments != null && segments.size() > 0 );
         assert ( thickness > 0 );
 
         this.segments = new ArrayList<WireSegment>( segments );
         this.thickness = thickness;
-        this.shapeFactory = new WireShapeFactory( this );
+        this.shapeFactory = new WireShapeFactory( this, mvt );
         
         this.shapeProperty = new Property<Shape>( shapeFactory.createShape() );
         this.voltageProperty = new Property<Double>( 0.0 );
@@ -92,8 +92,8 @@ public class Wire {
      */
     public static class TopWire extends Wire {
 
-        public TopWire( final Battery battery, final Capacitor capacitor, double thickness ) {
-            super( createSegments( battery, capacitor ), thickness );
+        public TopWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
+            super( createSegments( battery, capacitor ), thickness, mvt );
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {
@@ -113,8 +113,8 @@ public class Wire {
      */
     public static class BottomWire extends Wire {
 
-        public BottomWire( final Battery battery, final Capacitor capacitor, double thickness ) {
-            super( createSegments( battery, capacitor ), thickness );
+        public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
+            super( createSegments( battery, capacitor ), thickness, mvt );
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {

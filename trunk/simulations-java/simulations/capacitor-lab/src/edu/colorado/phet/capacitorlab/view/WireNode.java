@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.BasicStroke;
@@ -11,7 +13,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * Visual representation of a wire.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class WireNode extends PComposite {
     
     private static final Stroke WIRE_STROKE = new BasicStroke( 1f );
@@ -25,7 +31,7 @@ public class WireNode extends PComposite {
         
         wire.addShapeObserver( new SimpleObserver() {
             public void update() {
-                pathNode.setPathTo( mvt.modelToView( wire.getShape() ) );
+                pathNode.setPathTo( wire.getShape() );
             }
         } );
     }

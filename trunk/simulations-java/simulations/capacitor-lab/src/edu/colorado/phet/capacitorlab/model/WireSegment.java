@@ -2,11 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.BasicStroke;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.Area;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
@@ -50,16 +45,6 @@ public class WireSegment {
 
     public void setEndPoint( Point2D endPoint ) {
         this.endPointProperty.setValue( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
-    }
-    
-    public Shape createShape( double thickness ) {
-        Line2D line = new Line2D.Double( getStartPoint(), getEndPoint() );
-        /* TODO:
-         * CAP_SQUARE ensures that the joints between segments will look correct.
-         * But it makes the termination ends of the wires a tad longer than desired.
-         */
-        Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER );
-        return new Area( stroke.createStrokedShape( line ) );
     }
     
     /**

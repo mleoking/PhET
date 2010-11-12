@@ -29,11 +29,11 @@ public class Battery {
     
     private final EventListenerList listeners;
     
-    public Battery( Point3D location, double voltage ) {
+    public Battery( Point3D location, double voltage, ModelViewTransform mvt ) {
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.voltage = voltage;
         this.polarity = getPolarity( voltage );
-        this.shapeFactory = new BatteryShapeFactory( this );
+        this.shapeFactory = new BatteryShapeFactory( this, mvt );
         listeners = new EventListenerList();
     }
     
