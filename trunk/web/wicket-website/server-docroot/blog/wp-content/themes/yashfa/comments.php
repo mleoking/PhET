@@ -20,8 +20,7 @@ if ( post_password_required( ) ) {
 <!--<p class="cinfo">--><?php //_e('The upper is the most recent comment','yashfa');?><!--</p>-->
 <ol class="commentlist">
 <?php $cmntCnt = 1;?>
-<?php //wp_list_comments( 'type=comment&callback=list_comment' ); ?>
-<?php wp_list_comments( 'type=comment' ); ?>
+<?php wp_list_comments( 'type=comment&callback=list_comment' ); ?>
 </ol>
 <div class="navigation">
     <div class="alignleft">
