@@ -2,10 +2,17 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Voltmeter model.
@@ -14,13 +21,15 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Voltmeter {
     
+    private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 );
+    
     private final BatteryCapacitorCircuit circuit;
     private final World world;
     
     // observable properties
-    private final Property<Boolean> visible;
-    private final Property<Point3D> positiveProbeLocation, negativeProbeLocation;
-    private final Property<Double> value;
+    private final Property<Boolean> visibleProperty;
+    private final Property<Point3D> positiveProbeLocationProperty, negativeProbeLocationProperty;
+    private final Property<Double> valueProperty;
 
     public Voltmeter( BatteryCapacitorCircuit circuit, World world, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
        
@@ -33,15 +42,15 @@ public class Voltmeter {
         });
         
         this.world = world;
-        this.visible = new Property<Boolean>( visible );
-        this.positiveProbeLocation = new Property<Point3D>( positiveProbeLocation );
-        this.negativeProbeLocation = new Property<Point3D>( negativeProbeLocation );
-        this.value = new Property<Double>( 0d ); // will be properly initialized by updateValue
+        this.visibleProperty = new Property<Boolean>( visible );
+        this.positiveProbeLocationProperty = new Property<Point3D>( positiveProbeLocation );
+        this.negativeProbeLocationProperty = new Property<Point3D>( negativeProbeLocation );
+        this.valueProperty = new Property<Double>( 0d ); // will be properly initialized by updateValue
         
         world.addBoundsObserver( new SimpleObserver() {
             public void update() {
-                constrainProbeLocation( Voltmeter.this.positiveProbeLocation );
-                constrainProbeLocation( Voltmeter.this.negativeProbeLocation );
+                constrainProbeLocation( Voltmeter.this.positiveProbeLocationProperty );
+                constrainProbeLocation( Voltmeter.this.negativeProbeLocationProperty );
             }
         } );
         
@@ -50,80 +59,82 @@ public class Voltmeter {
     
     private void updateValue() {
         if ( probesAreTouching() ) {
-            value.setValue( 0d );
+            valueProperty.setValue( 0d );
         }
         else {
-            value.setValue( circuit.getVoltageBetween( positiveProbeLocation.getValue(), negativeProbeLocation.getValue() ) );
+            valueProperty.setValue( circuit.getVoltageBetween( positiveProbeLocationProperty.getValue(), negativeProbeLocationProperty.getValue() ) );
         }
     }
     
     private boolean probesAreTouching() {
-        return false; //XXX implement this for probe tip shapes
+        Area area = new Area( getPositiveProbeTipShapeWorld() );
+        area.intersect( new Area( getNegativeProbeTipShapeWorld() ) );
+        return !area.isEmpty();
     }
     
     public void reset() {
-        visible.reset();
-        positiveProbeLocation.reset();
-        negativeProbeLocation.reset();
+        visibleProperty.reset();
+        positiveProbeLocationProperty.reset();
+        negativeProbeLocationProperty.reset();
         // value property updates other properties are reset
     }
     
     public boolean isVisible() {
-        return visible.getValue();
+        return visibleProperty.getValue();
     }
     
     public void setVisible( boolean visible ) {
         if ( visible != isVisible() ) {
-            this.visible.setValue( visible );
+            this.visibleProperty.setValue( visible );
         }
     }
     
     public void addVisibleObserver( SimpleObserver o ) {
-        visible.addObserver( o );
+        visibleProperty.addObserver( o );
     }
     
     public Point3D getPositiveProbeLocationReference() {
-        return positiveProbeLocation.getValue();
+        return positiveProbeLocationProperty.getValue();
     }
     
     public void setPositiveProbeLocation( Point3D location ) {
         if ( !location.equals( getPositiveProbeLocationReference() )) {
-            this.positiveProbeLocation.setValue( new Point3D.Double( location ) );
+            this.positiveProbeLocationProperty.setValue( new Point3D.Double( location ) );
             updateValue();
         }
     }
     
     public void addPositiveProbeLocationObserver( SimpleObserver o ) {
-        positiveProbeLocation.addObserver( o );
+        positiveProbeLocationProperty.addObserver( o );
     }
     
     public Point3D getNegativeProbeLocationReference() {
-        return negativeProbeLocation.getValue();
+        return negativeProbeLocationProperty.getValue();
     }
     
     public void setNegativeProbeLocation( Point3D location ) {
         if ( !location.equals( getNegativeProbeLocationReference() )) {
-            this.negativeProbeLocation.setValue( new Point3D.Double( location ) );
+            this.negativeProbeLocationProperty.setValue( new Point3D.Double( location ) );
             updateValue();
         }
     }
     
     public void addNegativeProbeLocationObserver( SimpleObserver o ) {
-        negativeProbeLocation.addObserver( o );
+        negativeProbeLocationProperty.addObserver( o );
     }
 
     public double getValue() {
-        return value.getValue();
+        return valueProperty.getValue();
     }
     
     public void setValue( double value ) {
         if ( value != getValue() ) {
-            this.value.setValue( value );
+            this.valueProperty.setValue( value );
         }
     }
     
     public void addValueObserver( SimpleObserver o ) {
-        value.addObserver( o );
+        valueProperty.addObserver( o );
     }
     
     private void constrainProbeLocation( Property<Point3D> probeLocation ) {
@@ -152,5 +163,33 @@ public class Voltmeter {
             
             probeLocation.setValue( new Point3D.Double( newX, newY, z ) );
         }
+    }
+    
+    public Shape getPositiveProbeTipShapeLocal() {
+        return getProbeTipShape( new Point3D.Double() );
+    }
+    
+    public Shape getPositiveProbeTipShapeWorld() {
+        Shape shape = getProbeTipShape( positiveProbeLocationProperty.getValue() );
+        double theta = -CLConstants.MVT_YAW; //XXX get from mvt?
+        AffineTransform t = AffineTransform.getRotateInstance( theta, getPositiveProbeLocationReference().getX(), getPositiveProbeLocationReference().getY() );
+        return t.createTransformedShape( shape );
+    }
+    
+    public Shape getNegativeProbeTipShapeLocal() {
+        return getProbeTipShape( new Point3D.Double() );
+    }
+    
+    public Shape getNegativeProbeTipShapeWorld() {
+        Shape shape = getProbeTipShape( negativeProbeLocationProperty.getValue() );
+        double theta = -CLConstants.MVT_YAW; //XXX get from mvt?
+        AffineTransform t = AffineTransform.getRotateInstance( theta, getNegativeProbeLocationReference().getX(), getNegativeProbeLocationReference().getY() );
+        return t.createTransformedShape( shape );
+    }
+    
+    private Shape getProbeTipShape( Point3D origin ) {
+        double x = origin.getX() - ( PROBE_TIP_SIZE.getWidth() / 2 );
+        double y = origin.getY();
+        return new Rectangle2D.Double( x, y, PROBE_TIP_SIZE.getWidth(), PROBE_TIP_SIZE.getHeight() );
     }
 }
