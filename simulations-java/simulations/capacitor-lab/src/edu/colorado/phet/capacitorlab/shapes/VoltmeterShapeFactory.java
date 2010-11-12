@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Creates 2D shapes associated with the voltmeter.
+ * Creates 2D projections of shapes that are related to the 3D voltmeter model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
