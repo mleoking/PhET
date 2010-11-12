@@ -25,7 +25,7 @@ public class Voltmeter {
     private final Property<Point3D> positiveProbeLocationProperty, negativeProbeLocationProperty;
     private final Property<Double> valueProperty;
 
-    public Voltmeter( BatteryCapacitorCircuit circuit, final World world, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
+    public Voltmeter( BatteryCapacitorCircuit circuit, final World world, ModelViewTransform mvt, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
        
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -36,7 +36,7 @@ public class Voltmeter {
         });
         
         this.world = world;
-        this.shapeFactory = new VoltmeterShapeFactory( this );
+        this.shapeFactory = new VoltmeterShapeFactory( this, mvt );
         this.visibleProperty = new Property<Boolean>( visible );
         this.positiveProbeLocationProperty = new Property<Point3D>( positiveProbeLocation );
         this.negativeProbeLocationProperty = new Property<Point3D>( negativeProbeLocation );

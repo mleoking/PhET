@@ -6,6 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
  * All coordinates are in model world coordinate frame.
@@ -14,8 +16,10 @@ import java.awt.geom.Point2D;
  */
 public class BoxShapeFactory {
     
-    public BoxShapeFactory() {
-        
+    private final ModelViewTransform mvt;
+    
+    public BoxShapeFactory( ModelViewTransform mvt ) {
+        this.mvt = mvt;
     }
     
     /**

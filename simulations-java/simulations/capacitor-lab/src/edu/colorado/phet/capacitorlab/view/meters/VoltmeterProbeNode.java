@@ -72,7 +72,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     public VoltmeterProbeNode( Image image, final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
         
         this.voltmeter = voltmeter;
-        this.shapeFactory = new VoltmeterShapeFactory( voltmeter );
+        this.shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
         
         PImage imageNode = new PImage( image );
         addChild( imageNode );

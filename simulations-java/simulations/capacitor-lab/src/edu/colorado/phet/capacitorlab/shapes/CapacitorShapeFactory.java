@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.shapes;
 import java.awt.Shape;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D capacitor model.
@@ -15,11 +16,13 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 public class CapacitorShapeFactory {
     
     private final Capacitor capacitor;
+    private final ModelViewTransform mvt;
     private final BoxShapeFactory boxShapeFactory;
     
-    public CapacitorShapeFactory( Capacitor capacitor ) {
+    public CapacitorShapeFactory( Capacitor capacitor, ModelViewTransform mvt ) {
         this.capacitor = capacitor;
-        this.boxShapeFactory = new BoxShapeFactory();
+        this.mvt = mvt;
+        this.boxShapeFactory = new BoxShapeFactory( mvt );
     }
     
     public Shape createTopPlateShape() {
