@@ -2,17 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
+import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Voltmeter model.
@@ -21,10 +16,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class Voltmeter {
     
-    private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 );
-    
     private final BatteryCapacitorCircuit circuit;
     private final World world;
+    private final VoltmeterShapeFactory shapeFactory;
     
     // observable properties
     private final Property<Boolean> visibleProperty;
@@ -42,6 +36,7 @@ public class Voltmeter {
         });
         
         this.world = world;
+        this.shapeFactory = new VoltmeterShapeFactory( this );
         this.visibleProperty = new Property<Boolean>( visible );
         this.positiveProbeLocationProperty = new Property<Point3D>( positiveProbeLocation );
         this.negativeProbeLocationProperty = new Property<Point3D>( negativeProbeLocation );
@@ -64,12 +59,12 @@ public class Voltmeter {
             valueProperty.setValue( 0d );
         }
         else {
-            valueProperty.setValue( circuit.getVoltageBetween( getPositiveProbeTipShapeWorld(), getNegativeProbeTipShapeWorld() ) );
+            valueProperty.setValue( circuit.getVoltageBetween( shapeFactory.getPositiveProbeTipShapeWorld(), shapeFactory.getNegativeProbeTipShapeWorld() ) );
         }
     }
     
     private boolean probesAreTouching() {
-        return ShapeUtils.intersects( getPositiveProbeTipShapeWorld(), getNegativeProbeTipShapeWorld() );
+        return ShapeUtils.intersects( shapeFactory.getPositiveProbeTipShapeWorld(), shapeFactory.getNegativeProbeTipShapeWorld() );
     }
     
     public void reset() {
@@ -163,33 +158,5 @@ public class Voltmeter {
             
             probeLocation.setValue( new Point3D.Double( newX, newY, z ) );
         }
-    }
-    
-    public Shape getPositiveProbeTipShapeLocal() {
-        return getProbeTipShape( new Point3D.Double() );
-    }
-    
-    public Shape getPositiveProbeTipShapeWorld() {
-        Shape shape = getProbeTipShape( positiveProbeLocationProperty.getValue() );
-        double theta = -CLConstants.MVT_YAW; //XXX get from mvt?
-        AffineTransform t = AffineTransform.getRotateInstance( theta, getPositiveProbeLocationReference().getX(), getPositiveProbeLocationReference().getY() );
-        return t.createTransformedShape( shape );
-    }
-    
-    public Shape getNegativeProbeTipShapeLocal() {
-        return getProbeTipShape( new Point3D.Double() );
-    }
-    
-    public Shape getNegativeProbeTipShapeWorld() {
-        Shape shape = getProbeTipShape( negativeProbeLocationProperty.getValue() );
-        double theta = -CLConstants.MVT_YAW; //XXX get from mvt?
-        AffineTransform t = AffineTransform.getRotateInstance( theta, getNegativeProbeLocationReference().getX(), getNegativeProbeLocationReference().getY() );
-        return t.createTransformedShape( shape );
-    }
-    
-    private Shape getProbeTipShape( Point3D origin ) {
-        double x = origin.getX() - ( PROBE_TIP_SIZE.getWidth() / 2 );
-        double y = origin.getY();
-        return new Rectangle2D.Double( x, y, PROBE_TIP_SIZE.getWidth(), PROBE_TIP_SIZE.getHeight() );
     }
 }

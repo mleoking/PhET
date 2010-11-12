@@ -19,7 +19,6 @@ HIGH PRIORITY
 - implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape)
 - add shape for E-field
 - shape of bottom wire needs to subtract bottom capacitor plate shape
-- pull all of the Shape creation stuff out of the model and into some intermediate layer that is accessible to both model and view
 - make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
 - uses of CLConstants.MVT_YAW in model, should have access to mvt instance instead?
 - address stroke issue in WireSegment.createShape
