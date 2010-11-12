@@ -67,6 +67,13 @@ public class ShapesDebugNode extends PComposite {
                     negativeTipNode.setPathTo( mvt.modelToView( shapeFactory.getNegativeProbeTipShape() ) );
                 }
             } );
+            
+            voltmeter.addVisibleObserver( new SimpleObserver() {
+                public void update() {
+                    positiveTipNode.setVisible( voltmeter.isVisible() );
+                    negativeTipNode.setVisible( voltmeter.isVisible() );
+                }
+            } );
         }
     }
 
