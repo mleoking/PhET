@@ -4,11 +4,11 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
+import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -54,6 +54,7 @@ public class Voltmeter {
             }
         } );
         
+        System.out.println( "Voltmeter.probesAreTouching=" + probesAreTouching() );
         updateValue();
     }
     
@@ -62,14 +63,12 @@ public class Voltmeter {
             valueProperty.setValue( 0d );
         }
         else {
-            valueProperty.setValue( circuit.getVoltageBetween( positiveProbeLocationProperty.getValue(), negativeProbeLocationProperty.getValue() ) );
+            valueProperty.setValue( circuit.getVoltageBetween( getPositiveProbeTipShapeWorld(), getNegativeProbeTipShapeWorld() ) );
         }
     }
     
     private boolean probesAreTouching() {
-        Area area = new Area( getPositiveProbeTipShapeWorld() );
-        area.intersect( new Area( getNegativeProbeTipShapeWorld() ) );
-        return !area.isEmpty();
+        return ShapeUtils.intersects( getPositiveProbeTipShapeWorld(), getNegativeProbeTipShapeWorld() );
     }
     
     public void reset() {

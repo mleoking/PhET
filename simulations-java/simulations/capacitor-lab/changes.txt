@@ -1,3 +1,5 @@
+11/11/10 use intersects(Shape) instead of contains(Point2D) for voltmeter probes
+11/11/10 test for shape intersection between wires and voltmeter probes
 11/11/10 make voltmeter read 0V when probes are touching
 11/11/10 add shapes for voltmeter probe tips
 11/11/10 add infrastructure for touching voltmeter probe tips together to display 0V
