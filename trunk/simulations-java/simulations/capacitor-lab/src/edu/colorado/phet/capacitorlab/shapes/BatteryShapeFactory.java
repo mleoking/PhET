@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.shapes;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Polarity;
@@ -24,6 +25,7 @@ public class BatteryShapeFactory {
      */
     private static final PDimension BODY_SIZE = new PDimension( 0.0065, 0.01225 ); // meters
     private static final PDimension POSITIVE_TERMINAL_SIZE = new PDimension( 0.0022, 0.00163 ); // meters
+    private static final double POSITIVE_TERMINAL_CORNER_RADIUS = 0.001; // meters
     private static final PDimension NEGATIVE_TERMINAL_SIZE = new PDimension( 0.0035, 0.0009 ); // meters
     
     private final Battery battery;
@@ -71,7 +73,7 @@ public class BatteryShapeFactory {
         final double terminalHeight = POSITIVE_TERMINAL_SIZE.getHeight();
         double x = origin.getX() - ( terminalWidth / 2 );
         double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) - ( terminalHeight / 2 );
-        return new Rectangle2D.Double( x, y, terminalWidth, terminalHeight );
+        return new RoundRectangle2D.Double( x, y, terminalWidth, terminalHeight, POSITIVE_TERMINAL_CORNER_RADIUS, POSITIVE_TERMINAL_CORNER_RADIUS );
     }
     
     /*
