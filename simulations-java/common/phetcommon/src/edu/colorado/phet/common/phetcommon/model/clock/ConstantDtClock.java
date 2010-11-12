@@ -19,6 +19,7 @@ public class ConstantDtClock extends SwingClock {
     
     // Clock used for testing, delay=1 so that tests will run as fast as possible
     public static final ConstantDtClock TEST = new ConstantDtClock( 1, 1 );
+    public static final double DEFAULT_FRAMES_PER_SECOND = 30.0;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -29,6 +30,28 @@ public class ConstantDtClock extends SwingClock {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
+
+
+    /**
+     * Creates a ConstantDtClock that with the default frame rate (30 frames per second),
+     * with simulation time equal to wall time.
+     */
+    public ConstantDtClock() {
+        this( DEFAULT_FRAMES_PER_SECOND );
+    }
+
+    /**
+     * Creates a ConstantDTClock based on a number of requested frames per second.
+     * This uses the same value for elapsed simulation time, and should be used for simulations
+     * that run in real time (e.g. one sim time second equals one wall clock second)
+     *
+     * @param framesPerSecond the number of frames per second
+     */
+    public ConstantDtClock( double framesPerSecond ) {
+        //time between frames in seconds = 1 / framesPerSecond
+        //time between frames in milliseconds = 1000 / framesPerSecond
+        this( (int) ( 1000 / framesPerSecond ), 1 / framesPerSecond );
+    }
 
     /**
      * Constructor.
