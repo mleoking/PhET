@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Creates 2D projections of the 3D battery model.
+ * Creates 2D projections of shapes that are related to the 3D battery model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
