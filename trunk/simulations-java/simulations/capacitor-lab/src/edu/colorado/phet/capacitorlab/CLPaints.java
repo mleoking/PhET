@@ -51,7 +51,4 @@ public class CLPaints {
     public static final Color EFIELD_DETECTOR_WIRE = Color.BLACK;
     public static final Color VOLTMETER_POSITIVE_WIRE = Color.RED;
     public static final Color VOLTMETER_NEGATIVE_WIRE = Color.BLACK;
-    
-    // debug
-    public static final Color MODEL_BOUNDS = Color.YELLOW;
 }
