@@ -75,11 +75,11 @@ public class CapacitorShapeFactory {
         return area;
     }
     
-    /*
+    /**
      * Gets the bounding shape of the the visible portions of the dielectric.
      * The dielectric may be partially occluded by the top plate.
      */
-    private Shape createDielectricShape() {
+    public Shape createDielectricShape() {
         // Get the complete dielectric shape
         Point3D origin = new Point3D.Double( capacitor.getX() + capacitor.getDielectricOffset(), capacitor.getY() - ( capacitor.getDielectricHeight() / 2 ), capacitor.getZ() );
         Shape dielectricShape = createBoxShape( capacitor.getPlateSideLength(), capacitor.getDielectricHeight(), capacitor.getPlateSideLength(), origin );

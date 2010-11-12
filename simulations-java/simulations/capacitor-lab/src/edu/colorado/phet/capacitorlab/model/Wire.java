@@ -3,14 +3,17 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -42,14 +45,14 @@ public class Wire {
         this.thickness = thickness;
         this.shapeFactory = new WireShapeFactory( this, mvt );
         
-        this.shapeProperty = new Property<Shape>( shapeFactory.createShape() );
+        this.shapeProperty = new Property<Shape>( createShape() );
         this.voltageProperty = new Property<Double>( 0.0 );
 
         // when any segment changes, update the shape property
         {
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    shapeProperty.setValue( shapeFactory.createShape() );
+                    setShape( createShape() );
                 }
             };
             for ( WireSegment segment : segments ) {
@@ -82,9 +85,17 @@ public class Wire {
     public Shape getShape() {
         return shapeProperty.getValue();
     }
+    
+    protected void setShape( Shape shape ) {
+        shapeProperty.setValue( shape );
+    }
 
     public boolean intersects( Shape shape ) {
         return ShapeUtils.intersects( shapeProperty.getValue(), shape );
+    }
+    
+    protected Shape createShape() {
+        return shapeFactory.createShape();
     }
 
     /**
@@ -113,8 +124,31 @@ public class Wire {
      */
     public static class BottomWire extends Wire {
 
+        private final CapacitorShapeFactory capacitorShapeFactory;
+        
         public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
             super( createSegments( battery, capacitor ), thickness, mvt );
+            this.capacitorShapeFactory = new CapacitorShapeFactory( capacitor, mvt );
+            
+            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
+                
+                @Override
+                public void plateSizeChanged() {
+                    setShape( createShape() );
+                }
+                
+                @Override
+                public void plateSeparationChanged() {
+                    setShape( createShape() );
+                }
+                
+                @Override
+                public void dielectricOffsetChanged() {
+                    setShape( createShape() );
+                }
+            });
+            
+            setShape( createShape() ); // require because of hack in createShape
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {
@@ -126,6 +160,30 @@ public class Wire {
                 add( new CapacitorBottomWireSegment( rightCorner, capacitor ) );
             }};
             return segments;
+        }
+        
+        @Override
+        /*
+         * Subtract any part of the wire that is occluded by the top plate or dielectric.
+         * Occlusion by the bottom plate is OK because the wire and bottom plate have the same potential.
+         */
+        protected Shape createShape() {
+            Shape shape = null;
+            Shape wireShape = super.createShape();
+            if ( capacitorShapeFactory == null ) {
+                /*
+                 * HACK: Null check required because createShape is called in the superclass constructor.
+                 * A call to setShape at the end of the constructor is required for proper construction.
+                 */
+                shape = wireShape;
+            }
+            else {
+                Area area = new Area( wireShape );
+                area.subtract( new Area( capacitorShapeFactory.createTopPlateShape() ) );
+                area.subtract( new Area( capacitorShapeFactory.createDielectricShape() ) );
+                shape = area;
+            }
+            return shape;
         }
     }
 }
