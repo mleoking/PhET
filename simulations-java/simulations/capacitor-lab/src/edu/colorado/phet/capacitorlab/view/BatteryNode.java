@@ -3,12 +3,12 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLImages;
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
@@ -73,8 +73,8 @@ public class BatteryNode extends PhetPNode {
         sliderNode.setOffset( x, y );
         
         // show model bounds
-        PhetPPath bodyNode = new PhetPPath( mvt.modelToView( battery.createBodyShapeLocal() ), new BasicStroke( 1f ), Color.RED );
-        topTerminalNode = new PhetPPath( new BasicStroke( 1f ), Color.RED );
+        PhetPPath bodyNode = new PhetPPath( mvt.modelToView( battery.createBodyShapeLocal() ), new BasicStroke( 1f ), CLPaints.MODEL_BOUNDS );
+        topTerminalNode = new PhetPPath( new BasicStroke( 1f ), CLPaints.MODEL_BOUNDS );
         if ( dev ) {
             addChild( bodyNode );
             addChild( topTerminalNode );
