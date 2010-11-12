@@ -8,6 +8,8 @@ import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
+import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
@@ -26,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class Capacitor {
     
     private final EventListenerList listeners;
+    private final CapacitorShapeFactory shapeFactory;
     
     // immutable properties
     private final Point3D location; // location of the capacitor's geometric center (meters)
@@ -37,9 +40,10 @@ public class Capacitor {
     private DielectricMaterial dielectricMaterial; // insulator between the plates
     private double dielectricOffset; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
 
-    public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+    public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, ModelViewTransform mvt ) {
         
         listeners = new EventListenerList();
+        this.shapeFactory = new CapacitorShapeFactory( this, mvt );
         
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.plateThickness = CLConstants.PLATE_THICKNESS;
@@ -318,12 +322,22 @@ public class Capacitor {
         return xBetween && yBetween && zBetween;
     }
     
+    /**
+     * Does a Shape intersect the top plate?
+     * @param shape
+     * @return
+     */
     public boolean topPlateIntersects( Shape shape ) {
-        return false; //XXX
+        return ShapeUtils.intersects( shape, shapeFactory.createTopPlateShape() );
     }
     
+    /**
+     * Does a shape intersect the bottom plate?
+     * @param shape
+     * @return
+     */
     public boolean bottomPlateIntersects( Shape shape ) {
-        return false; //XXX
+        return ShapeUtils.intersects( shape, shapeFactory.createBottomPlateShape() );
     }
     
     /**
