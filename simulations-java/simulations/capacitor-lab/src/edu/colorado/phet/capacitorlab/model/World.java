@@ -29,6 +29,10 @@ public class World {
         return bounds.getValue();
     }
     
+    public boolean isBoundsEmpty() { 
+        return bounds.getValue().getWidth() == 0 || bounds.getValue().getHeight() == 0;
+    }
+    
     public void addBoundsObserver( SimpleObserver o ) {
         bounds.addObserver( o );
     }

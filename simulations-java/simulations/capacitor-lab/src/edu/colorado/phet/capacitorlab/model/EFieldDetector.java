@@ -25,7 +25,7 @@ public class EFieldDetector {
     private final Property<Double> sumVector; // effective (net) field between the plates (E_effective)
     private final Property<Boolean> plateVisible, dielectricVisible, sumVisible, valuesVisible;
     
-    public EFieldDetector( BatteryCapacitorCircuit circuit, World world, Point3D probeLocation, boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
+    public EFieldDetector( BatteryCapacitorCircuit circuit, final World world, Point3D probeLocation, boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -51,7 +51,9 @@ public class EFieldDetector {
         
         world.addBoundsObserver( new SimpleObserver() {
             public void update() {
-                constrainProbeLocation();
+                if ( !world.isBoundsEmpty() ) {
+                    constrainProbeLocation();
+                }
             }
         } );
         
