@@ -4,13 +4,12 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.Stroke;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.shapes.BoxShapeFactory;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -26,10 +25,8 @@ public abstract class BoxNode extends PhetPNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final TopNode topNode;
-    private final FrontNode frontNode;
-    private final SideNode sideNode;
-    
+    private final BoxShapeFactory shapeFactory;
+    private final PPath topNode, frontNode, sideNode;
     private double width, depth, height;
     
     public BoxNode( ModelViewTransform mvt, Color color ) {
@@ -38,19 +35,15 @@ public abstract class BoxNode extends PhetPNode {
     
     public BoxNode( ModelViewTransform mvt, Color color, double width, double height, double depth ) {
         
-        topNode = new TopNode( mvt, getTopColor( color ) );
-        frontNode = new FrontNode( mvt, getFrontColor( color ) );
-        sideNode = new SideNode( mvt, getSideColor( color ) );
+        this.shapeFactory = new BoxShapeFactory( mvt );
+        
+        topNode = new PhetPPath( shapeFactory.createTopFace( width, height, depth ), getTopColor( color ), STROKE, STROKE_COLOR );
+        frontNode = new PhetPPath( shapeFactory.createFrontFace( width, height, depth ), getFrontColor( color ), STROKE, STROKE_COLOR );
+        sideNode = new PhetPPath( shapeFactory.createSideFace( width, height, depth ), getSideColor( color ), STROKE, STROKE_COLOR );
         
         addChild( topNode );
         addChild( frontNode );
         addChild( sideNode );
-        
-        // force an update
-        this.width = -1;
-        this.depth = -1;
-        this.height = -1;
-        setSize( width, height, depth );
     }
     
     public void setSize( double width, double height, double depth ) {
@@ -58,7 +51,7 @@ public abstract class BoxNode extends PhetPNode {
             this.width = width;
             this.height = height;
             this.depth = depth;
-            update();
+            updateShapes();
         }
     }
     
@@ -68,127 +61,10 @@ public abstract class BoxNode extends PhetPNode {
         sideNode.setPaint( getSideColor( color ) );
     }
     
-    private void update() {
-        topNode.setSize( width, height, depth );
-        frontNode.setSize( width, height, depth );
-        sideNode.setSize( width, height, depth );
-    }
-    
-    /*
-     * Base class for all faces of the box.
-     */
-    private abstract static class FaceNode extends PPath {
-        
-        private final ModelViewTransform mvt;
-        private final GeneralPath path;
-        
-        public FaceNode( ModelViewTransform mvt, Paint paint ) {
-            this.mvt = mvt;
-            this.path = new GeneralPath();
-            setPaint( paint );
-            setStroke( STROKE );
-            setStrokePaint( STROKE_COLOR );
-        }
-        
-        public abstract void setSize( double width, double height, double depth );
-        
-        protected ModelViewTransform getMvt() {
-            return mvt;
-        }
-        
-        protected void setPath( Point2D p0, Point2D p1, Point2D p2, Point2D p3 ) {
-            path.reset();
-            path.moveTo( (float) p0.getX(), (float) p0.getY() );
-            path.lineTo( (float) p1.getX(), (float) p1.getY() );
-            path.lineTo( (float) p2.getX(), (float) p2.getY() );
-            path.lineTo( (float) p3.getX(), (float) p3.getY() );
-            path.closePath();
-            setPathTo( path );
-        }
-    }
-    
-    /*
-     * Top of the box is a parallelogram.
-     * Path specified using clockwise traversal.
-     * 
-     *          p0 -------------- p1
-     *          /                /
-     *         /                /
-     *       p3 --------------p2
-     */
-    private static class TopNode extends FaceNode {
-        
-        public TopNode( ModelViewTransform mvt, Paint paint ) {
-            super( mvt, paint );
-        }
-        
-        public void setSize( double width, double height, double depth ) {
-            // 3D model to 2D view transform
-            Point2D p0 = getMvt().modelToView( -width / 2, 0, depth / 2 );
-            Point2D p1 = getMvt().modelToView( width / 2, 0, depth / 2 );
-            Point2D p2 = getMvt().modelToView( width / 2, 0, -depth / 2 );
-            Point2D p3 = getMvt().modelToView( -width / 2, 0, -depth / 2 );
-            // path
-            setPath( p0, p1, p2, p3 );
-        }
-    }
-    
-    /*
-     * Front of the box is a rectangle.
-     * Path specified using clockwise traversal.
-     * 
-     *    p0 ----------- p1
-     *     |              |
-     *     |              |
-     *    p3 ----------- p2
-     */
-    private static class FrontNode extends FaceNode {
-        
-        public FrontNode( ModelViewTransform mvt, Paint paint ) {
-            super( mvt, paint );
-        }
-        
-        public void setSize( double width, double height, double depth ) {
-            // 3D model to 2D view transform
-            Point2D p0 = getMvt().modelToView( -width / 2, 0, -depth / 2 );
-            Point2D p1 = getMvt().modelToView( width / 2, 0, -depth / 2 );
-            Point2D p2 = getMvt().modelToView( width / 2, height, -depth / 2 );
-            Point2D p3 = getMvt().modelToView( -width / 2, height, -depth / 2 );
-            // path
-            setPath( p0, p1, p2, p3 );
-        }
-    }
-    
-    /*
-     * Side of the box is a parallelogram.
-     * Path specified using clockwise traversal.
-     * 
-     *              p1
-     *             / |
-     *            /  |
-     *           /   |
-     *          /   p2
-     *         p0   /
-     *         |   /
-     *         |  /
-     *         | /
-     *         p3
-     */
-    private static class SideNode extends FaceNode {
-        
-        public SideNode( ModelViewTransform mvt, Paint paint ) {
-            super( mvt, paint );
-        }
-        
-        public void setSize( double width, double height, double depth ) {
-            // 3D model to 2D view transform
-            Point2D p0 = getMvt().modelToView( width / 2, 0, -depth / 2 );
-            Point2D p1 = getMvt().modelToView( width / 2, 0, depth / 2 );
-            Point2D p2 = getMvt().modelToView( width / 2, height, depth / 2 );
-            Point2D p3 = getMvt().modelToView( width / 2, height, -depth / 2 );
-            // path
-            setPath( p0, p1, p2, p3 );
-        }
+    private void updateShapes() {
+        topNode.setPathTo( shapeFactory.createTopFace( width, height, depth ) );
+        frontNode.setPathTo( shapeFactory.createFrontFace( width, height, depth ) );
+        sideNode.setPathTo( shapeFactory.createSideFace( width, height, depth ) );
     }
     
     private Color getTopColor( Color baseColor ) {
