@@ -5,6 +5,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -23,7 +24,7 @@ public class PressureSensorNode extends PNode {
     ModelViewTransform2D transform;
     private PressureSensor pressureSensor;
 
-    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor ) {
+    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
@@ -53,6 +54,9 @@ public class PressureSensorNode extends PNode {
                 Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
                                                                newDragPosition.getY() - relativeGrabPoint.getY() );
                 pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), -5 ) );//not allowed to go to negative Potential Energy
+                if ( pressureSensor.getPosition().getY() < 0 ) {
+                    pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX()), pressureSensor.getY() );//todo: use pool dimensions
+                }
             }
 
             public void mouseReleased( PInputEvent event ) {
@@ -72,6 +76,6 @@ public class PressureSensorNode extends PNode {
     }
 
     private String getText() {
-        return "pressure = " + new DecimalFormat( "0.00" ).format( pressureSensor.getPressure() );
+        return "pressure: " + new DecimalFormat( "0.00" ).format( pressureSensor.getPressure() ) + " Pa";
     }
 }

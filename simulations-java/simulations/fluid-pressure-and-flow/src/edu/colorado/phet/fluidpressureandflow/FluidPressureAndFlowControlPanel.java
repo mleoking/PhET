@@ -9,6 +9,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fluidpressureandflow.modules.intro.IntroModule;
@@ -40,6 +41,25 @@ public class FluidPressureAndFlowControlPanel extends VerticalLayoutPanel {
         }
     }
 
+    public static class RadioButton extends JRadioButton {
+        public RadioButton( String label, final Property<Boolean> property ) {
+            super( label, property.getValue() );
+            setBackground( BACKGROUND );
+            setForeground( FOREGROUND );
+            setFont( CONTROL_FONT );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    property.setValue( isSelected() );
+                }
+            } );
+            property.addObserver( new SimpleObserver() {
+                public void update() {
+                    setSelected( property.getValue() );
+                }
+            } );
+        }
+    }
+
     public FluidPressureAndFlowControlPanel( IntroModule module ) {
         super();
 
@@ -49,6 +69,15 @@ public class FluidPressureAndFlowControlPanel extends VerticalLayoutPanel {
 //        addControlFullWidth( new WorkEnergyCheckBox( "Energy Pie Chart", module.getShowPieChartProperty() ) );
 //        addControlFullWidth( new WorkEnergyCheckBox( "Energy Bar Chart", module.getShowEnergyBarChartProperty() ) );
 //        addControlFullWidth( new WorkEnergyCheckBox( "Ruler", module.getShowRulerProperty() ) );
+
+//        addControlFullWidth( new PhetTitledPanel( "Units" ) {{
+//            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+//            setBackground( BACKGROUND );
+//            setForeground( FOREGROUND );
+//            add( new RadioButton( "Pascals (Pa)", new Property<Boolean>( true ) ) );
+//            add( new RadioButton( "atmospheres (atm)", new Property<Boolean>( false ) ) );
+//            add( new RadioButton( "pounds per square inch (psi)", new Property<Boolean>( false ) ) );
+//        }} );
         setBackground( BACKGROUND );
     }
 
