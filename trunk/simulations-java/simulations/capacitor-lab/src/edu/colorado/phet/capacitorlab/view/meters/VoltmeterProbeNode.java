@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.BasicStroke;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
@@ -33,7 +33,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
         public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
             super( CLImages.RED_VOLTMETER_PROBE, voltmeter, world, mvt );
             
-            final PPath tipNode = new PhetPPath( mvt.modelToView( voltmeter.getPositiveProbeTipShapeLocal() ), new BasicStroke( 1f ), CLPaints.MODEL_BOUNDS );
+            final PPath tipNode = new PhetPPath( mvt.modelToView( voltmeter.getPositiveProbeTipShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
             addChild( tipNode );
             
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
@@ -58,7 +58,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
         public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
             super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, world, mvt );
             
-            final PPath tipNode = new PhetPPath( mvt.modelToView( voltmeter.getNegativeProbeTipShapeLocal() ), new BasicStroke( 1f ), CLPaints.MODEL_BOUNDS );
+            final PPath tipNode = new PhetPPath( mvt.modelToView( voltmeter.getNegativeProbeTipShapeLocal() ), CLConstants.MODEL_BOUNDS_STROKE, CLPaints.MODEL_BOUNDS );
             addChild( tipNode );
             
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {

@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.capacitorlab;
 
+import java.awt.BasicStroke;
 import java.awt.Dimension;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
@@ -124,4 +126,7 @@ public class CLConstants {
     public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
     public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
     public static final boolean EFIELD_VALUES_VISIBLE = true;
+    
+    // debug
+    public static final Stroke MODEL_BOUNDS_STROKE = new BasicStroke( 2f );
 }
