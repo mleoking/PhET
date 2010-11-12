@@ -155,12 +155,12 @@ public class DielectricTotalChargeNode extends PhetPNode {
     }
     
     /*
-     * Spacing between charges is proportion to the E-field.
+     * Spacing between charges is non-linearly proportion to the E-field.
      */
     private double getSpacingBetweenCharges( double eField ) {
         double absEField = Math.abs( eField );
         double maxEField = BatteryCapacitorCircuit.getMaxDielectricEField();
-        double percent = absEField / maxEField;
+        double percent = Math.pow( absEField / maxEField, 1d/3d );
         return SPACING_BETWEEN_CHARGES.getMin() + ( percent * SPACING_BETWEEN_CHARGES.getLength() );
     }
     
