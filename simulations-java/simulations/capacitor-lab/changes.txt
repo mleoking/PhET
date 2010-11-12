@@ -1,3 +1,4 @@
+11/12/10 use consistent labeling of points for defining 3D box faces
 # 0.00.42 (46037) Nov 12, 2010
 11/12/10 make charges bolder
 # 0.00.41 (46029) Nov 12, 2010

@@ -111,10 +111,10 @@ public abstract class BoxNode extends PhetPNode {
      * Top of the box is a parallelogram.
      * Path specified using clockwise traversal.
      * 
-     *          p1 -------------- p2
+     *          p0 -------------- p1
      *          /                /
      *         /                /
-     *       p0 --------------p3
+     *       p3 --------------p2
      */
     private static class TopNode extends FaceNode {
         
@@ -124,10 +124,10 @@ public abstract class BoxNode extends PhetPNode {
         
         public void setSize( double width, double height, double depth ) {
             // 3D model to 2D view transform
-            Point2D p0 = getMvt().modelToView( -width / 2, 0, -depth / 2 );
-            Point2D p1 = getMvt().modelToView( -width / 2, 0, depth / 2 );
-            Point2D p2 = getMvt().modelToView( width / 2, 0, depth / 2 );
-            Point2D p3 = getMvt().modelToView( width / 2, 0, -depth / 2 );
+            Point2D p0 = getMvt().modelToView( -width / 2, 0, depth / 2 );
+            Point2D p1 = getMvt().modelToView( width / 2, 0, depth / 2 );
+            Point2D p2 = getMvt().modelToView( width / 2, 0, -depth / 2 );
+            Point2D p3 = getMvt().modelToView( -width / 2, 0, -depth / 2 );
             // path
             setPath( p0, p1, p2, p3 );
         }
@@ -137,10 +137,10 @@ public abstract class BoxNode extends PhetPNode {
      * Front of the box is a rectangle.
      * Path specified using clockwise traversal.
      * 
-     *    p1 ----------- p2
+     *    p0 ----------- p1
      *     |              |
      *     |              |
-     *    p0 ----------- p3
+     *    p3 ----------- p2
      */
     private static class FrontNode extends FaceNode {
         
@@ -150,10 +150,10 @@ public abstract class BoxNode extends PhetPNode {
         
         public void setSize( double width, double height, double depth ) {
             // 3D model to 2D view transform
-            Point2D p0 = getMvt().modelToView( -width / 2, height, -depth / 2 );
-            Point2D p1 = getMvt().modelToView( -width / 2, 0, -depth / 2 );
-            Point2D p2 = getMvt().modelToView( width / 2, 0, -depth / 2 );
-            Point2D p3 = getMvt().modelToView( width / 2, height, -depth / 2 );
+            Point2D p0 = getMvt().modelToView( -width / 2, 0, -depth / 2 );
+            Point2D p1 = getMvt().modelToView( width / 2, 0, -depth / 2 );
+            Point2D p2 = getMvt().modelToView( width / 2, height, -depth / 2 );
+            Point2D p3 = getMvt().modelToView( -width / 2, height, -depth / 2 );
             // path
             setPath( p0, p1, p2, p3 );
         }
@@ -161,19 +161,18 @@ public abstract class BoxNode extends PhetPNode {
     
     /*
      * Side of the box is a parallelogram.
-     * Original at upper-left point. 
      * Path specified using clockwise traversal.
      * 
-     *              p2
+     *              p1
      *             / |
      *            /  |
      *           /   |
-     *          /   p3
-     *         p1   /
+     *          /   p2
+     *         p0   /
      *         |   /
      *         |  /
      *         | /
-     *         p0
+     *         p3
      */
     private static class SideNode extends FaceNode {
         
@@ -183,10 +182,10 @@ public abstract class BoxNode extends PhetPNode {
         
         public void setSize( double width, double height, double depth ) {
             // 3D model to 2D view transform
-            Point2D p0 = getMvt().modelToView( width / 2, height, -depth / 2 );
-            Point2D p1 = getMvt().modelToView( width / 2, 0, -depth / 2 );
-            Point2D p2 = getMvt().modelToView( width / 2, 0, depth / 2 );
-            Point2D p3 = getMvt().modelToView( width / 2, height, depth / 2 );
+            Point2D p0 = getMvt().modelToView( width / 2, 0, -depth / 2 );
+            Point2D p1 = getMvt().modelToView( width / 2, 0, depth / 2 );
+            Point2D p2 = getMvt().modelToView( width / 2, height, depth / 2 );
+            Point2D p3 = getMvt().modelToView( width / 2, height, -depth / 2 );
             // path
             setPath( p0, p1, p2, p3 );
         }
