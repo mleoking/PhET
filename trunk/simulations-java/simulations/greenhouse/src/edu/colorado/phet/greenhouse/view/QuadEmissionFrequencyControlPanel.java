@@ -14,7 +14,6 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -26,6 +25,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class QuadEmissionFrequencyControlPanel extends PNode {
 
     private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    public static final double REMOVE_ME = 200;
 
     public QuadEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ){
 
@@ -35,13 +35,13 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Add the radio buttons that set the emission frequency.
         JPanel buttonPanel = new JPanel();
         // TODO: i18n
-        buttonPanel.add( new WavelengthSelectButton( "Microwave", model, GreenhouseConfig.sunlightWavelength ) );
+        buttonPanel.add( new WavelengthSelectButton( "Microwave", model, GreenhouseConfig.microWavelength ) );
         // TODO: i18n
         buttonPanel.add( new WavelengthSelectButton( "Infrared", model, GreenhouseConfig.irWavelength ) );
         // TODO: i18n
         buttonPanel.add( new WavelengthSelectButton( "Visible", model, GreenhouseConfig.sunlightWavelength ) );
         // TODO: i18n
-        buttonPanel.add( new WavelengthSelectButton( "Ultraviolet", model, GreenhouseConfig.irWavelength ) );
+        buttonPanel.add( new WavelengthSelectButton( "Ultraviolet", model, GreenhouseConfig.uvWavelength ) );
 
         PSwing buttonPanelNode = new PSwing( buttonPanel );
 
@@ -67,6 +67,14 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                     model.setEmittedPhotonWavelength( wavelength );
                 }
             });
+            model.addListener( new PhotonAbsorptionModel.Adapter() {
+                @Override
+                public void emittedPhotonWavelengthChanged() {
+                    setSelected( model.getEmittedPhotonWavelength() == wavelength );
+                }
+            } );
+            // Set initial state.
+            setSelected( model.getEmittedPhotonWavelength() == wavelength );
         }
     }
 }
