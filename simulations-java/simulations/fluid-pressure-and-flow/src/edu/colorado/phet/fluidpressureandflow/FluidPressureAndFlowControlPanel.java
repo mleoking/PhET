@@ -59,7 +59,7 @@ public class FluidPressureAndFlowControlPanel extends VerticalLayoutPanel {
         }
     }
 
-    public FluidPressureAndFlowControlPanel( FluidPressureModule module ) {
+    public FluidPressureAndFlowControlPanel( FluidPressureAndFlowModule module ) {
         super();
 
         final LogoPanel panel = new LogoPanel();
