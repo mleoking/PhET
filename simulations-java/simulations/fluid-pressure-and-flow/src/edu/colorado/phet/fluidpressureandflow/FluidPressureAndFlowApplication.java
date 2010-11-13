@@ -3,7 +3,7 @@ package edu.colorado.phet.fluidpressureandflow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.fluidpressureandflow.modules.intro.IntroModule;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.IntroModule;
 
 /**
  * @author Sam Reid

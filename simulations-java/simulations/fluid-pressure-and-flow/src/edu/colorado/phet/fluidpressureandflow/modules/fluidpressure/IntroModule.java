@@ -1,4 +1,4 @@
-package edu.colorado.phet.fluidpressureandflow.modules.intro;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 

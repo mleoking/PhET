@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.fluidpressureandflow.modules.intro.IntroModel;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.IntroModel;
 
 /**
  * @author Sam Reid
