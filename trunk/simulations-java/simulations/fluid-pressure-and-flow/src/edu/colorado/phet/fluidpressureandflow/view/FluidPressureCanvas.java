@@ -1,4 +1,4 @@
-package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
+package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowControlPanel;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
-import edu.colorado.phet.fluidpressureandflow.view.*;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -49,13 +49,13 @@ public class FluidPressureCanvas extends PhetPCanvas {
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
-        addChild( new PhetPPath( transform.createTransformedShape( module.getIntroModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
-        addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor0(), module.getIntroModel().getPool() ) );
-        addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor1(), module.getIntroModel().getPool() ) );
+        addChild( new PhetPPath( transform.createTransformedShape( module.getFluidPressureAndFlowModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
+        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool() ) );
+        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
 
         //Some nodes go behind the pool so that it looks like they submerge
-        addChild( new FluidPressureAndFlowRulerNode( transform, module.getIntroModel().getPool() ) );
-        final PoolNode poolNode = new PoolNode( transform, module.getIntroModel().getPool() );
+        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ) );
+        final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool() );
 
         addChild( poolNode );
 
@@ -79,16 +79,16 @@ public class FluidPressureCanvas extends PhetPCanvas {
         }} );
 
         final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
-        final PSwing fluidDensityControl = new PSwing( new LinearValueControl( 500, 1500, module.getIntroModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {{
+        final PSwing fluidDensityControl = new PSwing( new LinearValueControl( 500, 1500, module.getFluidPressureAndFlowModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {{
             makeTransparent( this );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    module.getIntroModel().getPool().setLiquidDensity( getValue() );
+                    module.getFluidPressureAndFlowModel().getPool().setLiquidDensity( getValue() );
                 }
             } );
-            module.getIntroModel().getPool().addDensityListener( new SimpleObserver() {
+            module.getFluidPressureAndFlowModel().getPool().addDensityListener( new SimpleObserver() {
                 public void update() {
-                    setValue( module.getIntroModel().getPool().getLiquidDensity() );
+                    setValue( module.getFluidPressureAndFlowModel().getPool().getLiquidDensity() );
                 }
             } );
         }} ) {{
