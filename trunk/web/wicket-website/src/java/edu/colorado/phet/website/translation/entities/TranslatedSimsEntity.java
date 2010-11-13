@@ -1,5 +1,7 @@
 package edu.colorado.phet.website.translation.entities;
 
+import java.util.Locale;
+
 import edu.colorado.phet.website.content.simulations.TranslationListPanel;
 import edu.colorado.phet.website.content.simulations.TranslationLocaleListPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
@@ -27,7 +29,14 @@ public class TranslatedSimsEntity extends TranslationEntity {
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new TranslationListPanel( id, context, context.getLocale() );
+                Locale otherLocale;
+                if ( context.getLocale().equals( new Locale( "ko" ) ) ) {
+                    otherLocale = new Locale( "zh", "TW" );
+                }
+                else {
+                    otherLocale = new Locale( "ko" );
+                }
+                return new TranslationListPanel( id, context, otherLocale );
             }
         }, "Translation list" );
     }
