@@ -1,4 +1,4 @@
-package edu.colorado.phet.fluidpressureandflow.modules.intro;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import java.awt.geom.Point2D;
 

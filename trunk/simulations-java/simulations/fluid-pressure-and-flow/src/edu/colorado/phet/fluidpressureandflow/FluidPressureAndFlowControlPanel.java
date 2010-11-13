@@ -9,10 +9,9 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fluidpressureandflow.modules.intro.IntroModule;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.IntroModule;
 
 /**
  * @author Sam Reid

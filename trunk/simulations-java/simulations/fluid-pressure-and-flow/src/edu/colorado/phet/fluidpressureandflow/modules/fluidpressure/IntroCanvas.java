@@ -1,4 +1,4 @@
-package edu.colorado.phet.fluidpressureandflow.modules.intro;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
