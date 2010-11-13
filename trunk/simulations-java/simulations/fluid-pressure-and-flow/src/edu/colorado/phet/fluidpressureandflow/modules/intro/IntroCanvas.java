@@ -49,10 +49,11 @@ public class IntroCanvas extends PhetPCanvas {
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
         addChild( new PhetPPath( transform.createTransformedShape( module.getIntroModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
-        addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor(), module.getIntroModel().getPool() ) );
+        addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor0(), module.getIntroModel().getPool() ) );
+        addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor1(), module.getIntroModel().getPool() ) );
 
         //Some nodes go behind the pool so that it looks like they submerge
-        addChild( new FluidPressureAndFlowRulerNode(transform,module.getIntroModel().getPool() ) );
+        addChild( new FluidPressureAndFlowRulerNode( transform, module.getIntroModel().getPool() ) );
         final PoolNode poolNode = new PoolNode( transform, module.getIntroModel().getPool() );
 
         addChild( poolNode );
@@ -90,7 +91,7 @@ public class IntroCanvas extends PhetPCanvas {
             } );
         }} ) {{
             scale( 1.2 );
-            setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth()-2,poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+            setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth() - 2, poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
 
 //

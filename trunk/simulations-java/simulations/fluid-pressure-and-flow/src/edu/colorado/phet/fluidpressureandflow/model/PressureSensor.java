@@ -10,20 +10,22 @@ import edu.colorado.phet.fluidpressureandflow.modules.intro.IntroModel;
  * @author Sam Reid
  */
 public class PressureSensor {
-    private Property<Double> xProperty = new Property<Double>( 0.0 );
-    private Property<Double> yProperty = new Property<Double>( 0.0 );
+    private Property<Double> xProperty;
+    private Property<Double> yProperty;
     private Property<Double> pressureProperty = new Property<Double>( 0.0 );
     private final IntroModel context;
 
-    public PressureSensor( final IntroModel context ) {
+    public PressureSensor( final IntroModel context, double x, double y ) {
         this.context = context;
+        this.xProperty = new Property<Double>( x );
+        this.yProperty = new Property<Double>( y );
         final SimpleObserver updatePressure = new SimpleObserver() {
             public void update() {
                 pressureProperty.setValue( context.getPressureSensor( getPosition() ) );
             }
         };
         addPositionObserver( updatePressure );
-        context.addFluidChangeObserver(updatePressure);
+        context.addFluidChangeObserver( updatePressure );
     }
 
     public double getPressure() {
