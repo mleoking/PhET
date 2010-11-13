@@ -17,14 +17,19 @@ public class IntroModel {
     private Function.LinearFunction pressure = new Function.LinearFunction( 0, 500, STANDARD_AIR_PRESSURE, 99490 );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ConstantDtClock clock = new ConstantDtClock( 30 );
     private Pool pool = new Pool();
-    private PressureSensor pressureSensor = new PressureSensor( this );
+    private PressureSensor pressureSensor0 = new PressureSensor( this, 0, 0 );
+    private PressureSensor pressureSensor1 = new PressureSensor( this, -4, 1 );
 
     public ConstantDtClock getClock() {
         return clock;
     }
 
-    public PressureSensor getPressureSensor() {
-        return pressureSensor;
+    public PressureSensor getPressureSensor0() {
+        return pressureSensor0;
+    }
+
+    public PressureSensor getPressureSensor1() {
+        return pressureSensor1;
     }
 
     public double getPressureSensor( Point2D position ) {
