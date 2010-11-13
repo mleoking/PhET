@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModule;
 
 /**
@@ -14,6 +15,7 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
     public FluidPressureAndFlowApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new FluidPressureModule() );
+        addModule( new FluidFlowModule() );
     }
 
     public static void main( String[] args ) {
