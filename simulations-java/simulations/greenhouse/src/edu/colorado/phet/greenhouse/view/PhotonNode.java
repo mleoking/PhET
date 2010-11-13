@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.greenhouse.view;
 
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -32,6 +33,17 @@ public class PhotonNode extends PNode implements Observer {
     private final Photon photon; // Model element represented by this node.
     private final ModelViewTransform2D mvt;
 
+    // Map of photon wavelengths to visual images used for representing them.
+    private static final HashMap<Double, String> mapWavelengthToImageName = new HashMap<Double, String>(){{
+        put( GreenhouseConfig.microWavelength, "microwave-photon.png");
+        put( GreenhouseConfig.irWavelength, "photon-660.png");
+        put( GreenhouseConfig.sunlightWavelength, "photon-575.png");
+        put( GreenhouseConfig.uvWavelength, "photon-100.png");
+    }};
+
+    // TODO: Temp for debug
+    private static final boolean USE_PHOTON_FACTORY = false;
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -42,15 +54,21 @@ public class PhotonNode extends PNode implements Observer {
         this.photon.addObserver( this );
         this.mvt = mvt;
 
-        if ( photon.getWavelength() == GreenhouseConfig.microWavelength ) {
-            // Special case for microwaves, since PhotonImageFactory makes all
-            // photons with a wavelength longer than visible light look the
-            // same.
-            // TODO: Do we want to change PhotonImageFactory to handle this case?
-            photonImage = new PImage( GreenhouseResources.getImage( "microwave-photon.png" ) );
+        if ( USE_PHOTON_FACTORY ){
+            if ( photon.getWavelength() == GreenhouseConfig.microWavelength ) {
+                // Special case for microwaves, since PhotonImageFactory makes all
+                // photons with a wavelength longer than visible light look the
+                // same.
+                // TODO: Do we want to change PhotonImageFactory to handle this case?
+                photonImage = new PImage( GreenhouseResources.getImage( "microwave-photon.png" ) );
+            }
+            else {
+                photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
+            }
         }
-        else {
-            photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
+        else{
+            assert mapWavelengthToImageName.containsKey( photon.getWavelength() );
+            photonImage = new PImage( GreenhouseResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
         }
         photonImage.setOffset( -photonImage.getFullBoundsReference().width / 2,
                 -photonImage.getFullBoundsReference().height / 2 );
