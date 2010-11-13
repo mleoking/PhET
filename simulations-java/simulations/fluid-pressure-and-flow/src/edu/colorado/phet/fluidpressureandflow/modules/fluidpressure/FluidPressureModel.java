@@ -11,7 +11,7 @@ import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 /**
  * @author Sam Reid
  */
-public class IntroModel {
+public class FluidPressureModel {
     private static final int STANDARD_AIR_PRESSURE = 101325;//Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
     public static final double g = 9.8;
     private Function.LinearFunction pressure = new Function.LinearFunction( 0, 500, STANDARD_AIR_PRESSURE, 99490 );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html

@@ -5,17 +5,17 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 /**
  * @author Sam Reid
  */
-public class IntroModule extends Module {
-    IntroModel model;
+public class FluidPressureModule extends Module {
+    FluidPressureModel model;
 
-    public IntroModule() {
-        this( new IntroModel() );
+    public FluidPressureModule() {
+        this( new FluidPressureModel() );
     }
 
-    IntroModule( IntroModel model ) {
+    FluidPressureModule( FluidPressureModel model ) {
         super( "Intro", model.getClock() );
         this.model = model;
-        setSimulationPanel( new IntroCanvas( this ) );
+        setSimulationPanel( new FluidPressureCanvas( this ) );
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );
     }
@@ -23,7 +23,7 @@ public class IntroModule extends Module {
     public void resetAll() {
     }
 
-    public IntroModel getIntroModel() {
+    public FluidPressureModel getIntroModel() {
         return model;
     }
 }

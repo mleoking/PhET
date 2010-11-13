@@ -29,12 +29,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * @author Sam Reid
  */
-public class IntroCanvas extends PhetPCanvas {
+public class FluidPressureCanvas extends PhetPCanvas {
     private final ModelViewTransform2D transform;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private final PNode rootNode;
 
-    public IntroCanvas( final IntroModule module ) {
+    public FluidPressureCanvas( final FluidPressureModule module ) {
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
         double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();

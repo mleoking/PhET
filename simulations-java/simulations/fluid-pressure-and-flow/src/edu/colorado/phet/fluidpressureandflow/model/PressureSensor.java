@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.IntroModel;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModel;
 
 /**
  * @author Sam Reid
@@ -13,9 +13,9 @@ public class PressureSensor {
     private Property<Double> xProperty;
     private Property<Double> yProperty;
     private Property<Double> pressureProperty = new Property<Double>( 0.0 );
-    private final IntroModel context;
+    private final FluidPressureModel context;
 
-    public PressureSensor( final IntroModel context, double x, double y ) {
+    public PressureSensor( final FluidPressureModel context, double x, double y ) {
         this.context = context;
         this.xProperty = new Property<Double>( x );
         this.yProperty = new Property<Double>( y );
