@@ -19,32 +19,29 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowControlPanel;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModule;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
  */
-public class FluidPressureCanvas extends PhetPCanvas {
-    private final ModelViewTransform2D transform;
+public class FluidPressureAndFlowCanvas extends PhetPCanvas {
+    protected final ModelViewTransform2D transform;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private final PNode rootNode;
 
-    public FluidPressureCanvas( final FluidPressureModule module ) {
+    public FluidPressureAndFlowCanvas( final FluidPressureAndFlowModule module ) {
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
         double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
         double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
         transform = new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true );
-//        transform = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 ), STAGE_SIZE.getHeight() / modelHeight, true );
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        addChild( new PText( "Hello" ) );
         setBorder( null );
 
         addChild( new GroundNode( transform ) );
@@ -143,7 +140,7 @@ public class FluidPressureCanvas extends PhetPCanvas {
         }
     }
 
-    private void addChild( PNode node ) {
+    protected void addChild( PNode node ) {
         rootNode.addChild( node );
     }
 }
