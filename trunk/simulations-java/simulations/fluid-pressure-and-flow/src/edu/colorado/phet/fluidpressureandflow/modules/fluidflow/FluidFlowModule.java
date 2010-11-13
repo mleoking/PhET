@@ -10,4 +10,8 @@ public class FluidFlowModule extends FluidPressureAndFlowModule<FluidFlowModel> 
         super( "Flow", new FluidFlowModel() );
         setSimulationPanel( new FluidFlowCanvas(this) );
     }
+
+    public FluidFlowModel getFluidFlowModel() {
+        return getFluidPressureAndFlowModel();
+    }
 }
