@@ -158,13 +158,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
         logger.debug( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
 
-        if ( PhetWicketApplication.get().isDevelopment() ) {
-            add( new RawBodyLabel( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" ) );
-        }
-        else {
-            add( new InvisibleComponent( "debug-page-class" ) );
-
-        }
+        add( new RawBodyLabel( "debug-page-class", "<!-- class " + getClass().getCanonicalName() + " -->" ) );
         if ( getPhetCycle().isForProductionServer() ) {
             add( new Label( "autotracking" ) ); // enable autotracking script
         }
