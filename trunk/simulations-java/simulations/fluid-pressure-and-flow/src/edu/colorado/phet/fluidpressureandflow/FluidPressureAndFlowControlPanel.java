@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.IntroModule;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModule;
 
 /**
  * @author Sam Reid
@@ -59,7 +59,7 @@ public class FluidPressureAndFlowControlPanel extends VerticalLayoutPanel {
         }
     }
 
-    public FluidPressureAndFlowControlPanel( IntroModule module ) {
+    public FluidPressureAndFlowControlPanel( FluidPressureModule module ) {
         super();
 
         final LogoPanel panel = new LogoPanel();
