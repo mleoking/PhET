@@ -19,10 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowControlPanel;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
-import edu.colorado.phet.fluidpressureandflow.view.GroundNode;
-import edu.colorado.phet.fluidpressureandflow.view.PoolNode;
-import edu.colorado.phet.fluidpressureandflow.view.PressureSensorNode;
-import edu.colorado.phet.fluidpressureandflow.view.SkyNode;
+import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -53,7 +50,11 @@ public class IntroCanvas extends PhetPCanvas {
         addChild( new SkyNode( transform ) );
         addChild( new PhetPPath( transform.createTransformedShape( module.getIntroModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
         addChild( new PressureSensorNode( transform, module.getIntroModel().getPressureSensor(), module.getIntroModel().getPool() ) );
+
+        //Some nodes go behind the pool so that it looks like they submerge
+        addChild( new FluidPressureAndFlowRulerNode(transform,module.getIntroModel().getPool() ) );
         final PoolNode poolNode = new PoolNode( transform, module.getIntroModel().getPool() );
+
         addChild( poolNode );
 
         // Control Panel
@@ -91,6 +92,7 @@ public class IntroCanvas extends PhetPCanvas {
             scale( 1.2 );
             setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth()-2,poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
+
 //
 //        addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
 //
