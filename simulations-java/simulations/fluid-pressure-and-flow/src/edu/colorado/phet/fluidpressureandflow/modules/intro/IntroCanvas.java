@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -77,7 +78,8 @@ public class IntroCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new PSwing( new LinearValueControl( 500, 1500, module.getIntroModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {{
+        final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
+        final PSwing fluidDensityControl = new PSwing( new LinearValueControl( 500, 1500, module.getIntroModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {{
             makeTransparent( this );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -92,30 +94,41 @@ public class IntroCanvas extends PhetPCanvas {
         }} ) {{
             scale( 1.2 );
             setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth() - 2, poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+            fluidDensityControlVisible.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( fluidDensityControlVisible.getValue() );
+                }
+            } );
+        }};
+        addChild( fluidDensityControl );
+        addChild( new PSwing( new JButton( "Fluid Density >" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    fluidDensityControlVisible.setValue( true );
+                }
+            } );
+        }} ) {{
+            fluidDensityControlVisible.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( !fluidDensityControlVisible.getValue() );
+                }
+            } );
+            setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-
-//
-//        addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
-//
-//            DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
-//
-//            public String apply( Double aDouble ) {
-//                return decimalFormat.format( aDouble ) + " seconds";
-//            }
-//        } ) {{
-//            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-//            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, "0.00", model.getClock() ) {{
-//                makeTransparent( this );
-//                addChangeListener( new ChangeListener() {
-//                    public void stateChanged( ChangeEvent e ) {
-//                        model.getClock().setDt( getValue() );
-//                    }
-//                } );
-//            }};
-//            addChild( new PSwing( timeSpeedSlider ) {{
-//                setOffset( -getFullBounds().getWidth(), 0 );
-//            }} );
-//        }} );
+        addChild( new PSwing( new JButton( "Fluid Density <" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    fluidDensityControlVisible.setValue( false );
+                }
+            } );
+        }} ) {{
+            fluidDensityControlVisible.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( fluidDensityControlVisible.getValue() );
+                }
+            } );
+            setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
+        }} );
     }
 
     private void makeTransparent( JComponent component ) {
