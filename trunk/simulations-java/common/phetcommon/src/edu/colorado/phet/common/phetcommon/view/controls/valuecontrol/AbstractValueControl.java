@@ -658,7 +658,7 @@ public abstract class AbstractValueControl extends JPanel {
      * If labels were specified via addTickLabel, use them.
      * Otherwise, generate numberic labels for the major and minor tick marks.
      */
-    private void updateTickLabels() {
+    protected void updateTickLabels() {
 
         final double min = getMinimum();
         final double max = getMaximum();
