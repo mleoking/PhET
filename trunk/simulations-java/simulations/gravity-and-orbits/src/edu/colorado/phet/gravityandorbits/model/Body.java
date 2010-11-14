@@ -103,7 +103,7 @@ public class Body {
         return massProperty.getValue();
     }
 
-    private ImmutableVector2D getAcceleration() {
+    public ImmutableVector2D getAcceleration() {
         return accelerationProperty.getValue();
     }
 
@@ -184,6 +184,18 @@ public class Body {
 
     public void setPosition( double x, double y ) {
         positionProperty.setValue( new ImmutableVector2D( x, y ) );
+    }
+
+    public double getDensity() {
+        return density;
+    }
+
+    public void setAcceleration( ImmutableVector2D acceleration ) {
+        this.accelerationProperty.setValue( acceleration );
+    }
+
+    public void setForce( ImmutableVector2D force ) {
+        this.forceProperty.setValue( force );
     }
 
     public static class TracePoint {
