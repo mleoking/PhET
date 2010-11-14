@@ -38,4 +38,8 @@ public class PipePosition {
     public void translateBottom( double dx, double dy ) {
         bottom.setValue( new ImmutableVector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
     }
+
+    public double getX() {
+        return top.getValue().getX();
+    }
 }
