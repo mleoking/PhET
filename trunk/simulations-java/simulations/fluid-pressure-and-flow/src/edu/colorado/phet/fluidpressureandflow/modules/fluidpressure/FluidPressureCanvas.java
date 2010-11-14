@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -61,6 +62,10 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
 
         final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
         final PSwing fluidDensityControl = new PSwing( new LinearValueControl( 500, 1500, module.getFluidPressureAndFlowModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {{
+            setTickLabels( new Hashtable( ){{
+                put( 1000,new JLabel("water" ));
+                put(  )
+            }});
             makeTransparent( this );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
