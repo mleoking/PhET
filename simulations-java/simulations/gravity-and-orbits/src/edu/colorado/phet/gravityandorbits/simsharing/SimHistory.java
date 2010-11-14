@@ -36,10 +36,10 @@ public class SimHistory {
 
             //intermittent snapshots in case main stream is truncated or fails
             //TODO: make these happen once every N time steps
-            ObjectOutputStream stream = new ObjectOutputStream( new FileOutputStream( new File( dir, "snapshot-" + System.currentTimeMillis() + ".ser" ) ) );
-            stream.writeObject( states );
-            stream.flush();
-            stream.close();
+//            ObjectOutputStream stream = new ObjectOutputStream( new FileOutputStream( new File( dir, "snapshot-" + System.currentTimeMillis() + ".ser" ) ) );
+//            stream.writeObject( states );
+//            stream.flush();
+//            stream.close();
         }
         catch ( IOException e ) {
             e.printStackTrace();
