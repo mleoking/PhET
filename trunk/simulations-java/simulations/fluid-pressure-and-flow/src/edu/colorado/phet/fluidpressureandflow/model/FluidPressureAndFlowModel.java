@@ -11,6 +11,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class FluidPressureAndFlowModel {
     private static final int STANDARD_AIR_PRESSURE = 101325;//Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
+    public static double GASOLINE_DENSITY = 700;
+    public static double WATER_DENSITY = 1000;
+    public static double HONEY_DENSITY = 1420;
+
     public static final double g = 9.8;
     private Function.LinearFunction pressure = new Function.LinearFunction( 0, 500, STANDARD_AIR_PRESSURE, 99490 );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ConstantDtClock clock = new ConstantDtClock( 30 );

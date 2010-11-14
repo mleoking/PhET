@@ -1,15 +1,23 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
  */
 public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private PNode particleLayer;
+    private PNode foodColoringLayer;
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
         super( module );
@@ -20,6 +28,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         addChild( new PipeNode( transform, module.getFluidFlowModel().getPipe() ) );
         particleLayer = new PNode();
+        foodColoringLayer = new PNode();
+        addChild( foodColoringLayer );
         addChild( particleLayer );
         for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
             addParticleNode( p );
@@ -34,7 +44,24 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
         addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor() ) );
 
-        addChild( new DropperNode(transform,module.getFluidFlowModel().getPipe(),module.getFluidFlowModel().getDropperOnProperty()) );
+        final DropperNode dropperNode = new DropperNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getDropperOnProperty() );
+        addChild( dropperNode );
+        addChild( new PSwing( new JButton( "Pour Food Coloring" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.getFluidFlowModel().pourFoodColoring();
+                }
+            } );
+        }} ) {{
+            setOffset(dropperNode.getFullBounds().getMaxX(),dropperNode.getFullBounds().getMaxY()-getFullBounds().getHeight());
+        }} );
+
+        module.getFluidFlowModel().addFoodColoringObserver( new Function1<FoodColoring, Void>() {
+            public Void apply( FoodColoring foodColoring ) {
+                addFoodColoringNode( foodColoring );
+                return null;
+            }
+        } );
         //Some nodes go behind the pool so that it looks like they submerge
 //        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ) );
 
@@ -111,6 +138,17 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 //            } );
 //            setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
 //        }} );
+    }
+
+    private void addFoodColoringNode( final FoodColoring p ) {
+        final FoodColoringNode node = new FoodColoringNode( transform, p );
+        foodColoringLayer.addChild( node );
+        p.addRemovalListener( new SimpleObserver() {
+            public void update() {
+                particleLayer.removeChild( node );
+                p.removeRemovalListener( this );
+            }
+        } );
     }
 
     private void addParticleNode( final Particle p ) {
