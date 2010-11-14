@@ -34,12 +34,15 @@ public class Away3DBlockLabelNode extends BlockLabelNode {
     override protected function updateGraphics(): void {
         super.updateGraphics();
         try {
-            var cubeNode: CubeNode = CubeNode( densityObjectNode );
-            var cube: PickableCube = cubeNode.getCube();
-            var screenVertex: ScreenVertex = mainCamera.screen( cube, cube.vertices[4] );//top left of front face of cube, TODO: less brittle way to encode vertex?
+            if ( densityObjectNode is CubeNode ) {
+                var cubeNode: CubeNode = CubeNode( densityObjectNode );
+                var cube: PickableCube = cubeNode.getCube();
+                var screenVertex: ScreenVertex = mainCamera.screen( cube, cube.vertices[4] );//top left of front face of cube, TODO: less brittle way to encode vertex?
 
-            this.x = screenVertex.x + mainViewport.view.x + 5;
-            this.y = screenVertex.y + mainViewport.view.y + 5;
+                this.x = screenVertex.x + mainViewport.view.x + 5;
+                this.y = screenVertex.y + mainViewport.view.y + 5;
+            }
+            //TODO: what to do for scale nodes?  Maybe better to never create this in the first place.
         }
         catch( e: * ) {
             //null pointer exception before camera is used to render the screen once

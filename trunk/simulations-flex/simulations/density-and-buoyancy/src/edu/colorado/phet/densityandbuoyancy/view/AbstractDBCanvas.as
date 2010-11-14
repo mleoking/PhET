@@ -59,10 +59,10 @@ public class AbstractDBCanvas extends UIComponent {
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
     protected var extendedPool: Boolean;
 
-    public function AbstractDBCanvas( extendedPool: Boolean ) {
+    public function AbstractDBCanvas( extendedPool: Boolean,showExactLiquidColor:Boolean=false ) {
         super();
         this.extendedPool = extendedPool;
-        _model = createModel();
+        _model = createModel(showExactLiquidColor);
 
         _model.addDensityObjectCreationListener( addDensityObject );
         waterVolumeIndicator = new WaterVolumeIndicator( _model );
@@ -72,7 +72,7 @@ public class AbstractDBCanvas extends UIComponent {
         percentHeight = 100;
     }
 
-    protected function createModel(): DensityModel {
+    protected function createModel(showExactLiquidColor:Boolean): DensityModel {
         return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
 
@@ -130,7 +130,13 @@ public class AbstractDBCanvas extends UIComponent {
         model.fluidDensity.addListener( function(): void {
             var waterMaterial: ShadingColorMaterial;
             var density: Number = model.fluidDensity.value;
-            if ( density <= Material.WATER.getDensity() ) {
+
+            //On the first tab, when the user selects the 'oil' radio button, the fluid should visually change color
+            //Even though on the 2nd tab oil and water aren't that far apart in density space, and look visually similar
+            if ( density == Material.OLIVE_OIL.getDensity() && model.getShowExactLiquidColor() ) {
+                waterMaterial = new ShadingColorMaterial( Material.OLIVE_OIL.tickColor, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
+            }
+            else if ( density <= Material.WATER.getDensity() ) {
                 waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
             }
             else {

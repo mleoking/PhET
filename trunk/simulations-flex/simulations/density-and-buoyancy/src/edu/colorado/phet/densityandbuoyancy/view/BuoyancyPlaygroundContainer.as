@@ -17,7 +17,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     private var oneObjectButton: RadioButton;
 
     public function BuoyancyPlaygroundContainer() {
-        super( true );
+        super( true, false );
         var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
         modeControlPanel.y = DensityConstants.CONTROL_INSET;
