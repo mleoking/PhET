@@ -36,7 +36,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
 
         //Some nodes go behind the pool so that it looks like they submerge
-        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ) );
+        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ,module.getRulerVisibleProperty() ) );
         final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool() );
 
         addChild( poolNode );
