@@ -22,6 +22,9 @@ import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 
+/**
+ * Shows a list of all projects. Also presents the user with operations that can be done to all projects.
+ */
 public class AdminProjectsPage extends AdminPage {
     private List<Project> projects;
 
@@ -42,9 +45,9 @@ public class AdminProjectsPage extends AdminPage {
 
         sortProjects();
 
-        ListView projectList = new ListView( "project-list", projects ) {
-            protected void populateItem( ListItem item ) {
-                final Project project = (Project) item.getModel().getObject();
+        ListView<Project> projectList = new ListView<Project>( "project-list", projects ) {
+            protected void populateItem( ListItem<Project> item ) {
+                final Project project = item.getModelObject();
                 Link projectLink = new Link( "project-link" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
@@ -71,7 +74,7 @@ public class AdminProjectsPage extends AdminPage {
                                 projects.remove( project );
                             }
                         }
-                        catch( RuntimeException e ) {
+                        catch ( RuntimeException e ) {
                             e.printStackTrace();
                         }
                     }
@@ -88,6 +91,15 @@ public class AdminProjectsPage extends AdminPage {
             protected void onSubmit() {
                 for ( Project project : projects ) {
                     Project.synchronizeProject( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot(), getHibernateSession(), project.getName() );
+                }
+            }
+        } );
+
+        add( new Form( "backup-all-projects-form" ) {
+            @Override
+            protected void onSubmit() {
+                for ( Project project : projects ) {
+                    Project.backupProject( ( (PhetWicketApplication) getApplication() ).getWebsiteProperties().getPhetDocumentRoot(), project.getName() );
                 }
             }
         } );
