@@ -21,22 +21,22 @@ public class IntroFluidDensityControl extends DensityHBox {
         title.setStyle( "fontWeight", "bold" );
         addChild( title );
 
-        const radioButton: RadioButton = new RadioButton();
-        radioButton.selected = true;
-        radioButton.addEventListener( MouseEvent.CLICK, function(): void {
-            fluidDensity.value = Material.WATER.getDensity();
-        } );
-        radioButton.groupName = GROUP;
-        radioButton.label = "Water";
-        addChild( radioButton );
-
-        const radioButton2: RadioButton = new RadioButton();
-        radioButton2.groupName = GROUP;
-        radioButton2.addEventListener( MouseEvent.CLICK, function(): void {
+        const oilButton: RadioButton = new RadioButton();
+        oilButton.groupName = GROUP;
+        oilButton.addEventListener( MouseEvent.CLICK, function(): void {
             fluidDensity.value = Material.OLIVE_OIL.getDensity();
         } );
-        radioButton2.label = "Oil";
-        addChild( radioButton2 );
+        oilButton.label = "Oil";
+        addChild( oilButton );
+
+        const waterButton: RadioButton = new RadioButton();
+        waterButton.selected = true;
+        waterButton.addEventListener( MouseEvent.CLICK, function(): void {
+            fluidDensity.value = Material.WATER.getDensity();
+        } );
+        waterButton.groupName = GROUP;
+        waterButton.label = "Water";
+        addChild( waterButton );
 
         setStyle( "paddingTop", 10 );
     }
