@@ -18,12 +18,13 @@ public class Pipe {
     private ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
 
     public Pipe() {
-        pipePositions.add( new PipePosition( -5, -3, 3 ) );
-        pipePositions.add( new PipePosition( -3, -3, 3 ) );
-        pipePositions.add( new PipePosition( -1, -3, 3 ) );
-        pipePositions.add( new PipePosition( 1, -3, 3 ) );
-        pipePositions.add( new PipePosition( 3, -3, 3 ) );
-        pipePositions.add( new PipePosition( 5, -3, 3 ) );
+        pipePositions.add( new PipePosition( -6, -3, -1 ) );
+        pipePositions.add( new PipePosition( -4, -3, -1 ) );
+        pipePositions.add( new PipePosition( -2, -3, -1 ) );
+        pipePositions.add( new PipePosition( 0, -3, -1 ) );
+        pipePositions.add( new PipePosition( 2, -3, -1 ) );
+        pipePositions.add( new PipePosition( 4, -3, -1 ) );
+        pipePositions.add( new PipePosition( 6, -3, -1 ) );
     }
 
     public ArrayList<PipePosition> getPipePositions() {
@@ -152,5 +153,9 @@ public class Pipe {
 
     public boolean contains( double x, double y ) {
         return getShape().contains( x, y );
+    }
+
+    public Point2D getTopLeft() {
+        return new Point2D.Double( getMinX(), getPipePositions().get( 0 ).getTop().getY() );
     }
 }

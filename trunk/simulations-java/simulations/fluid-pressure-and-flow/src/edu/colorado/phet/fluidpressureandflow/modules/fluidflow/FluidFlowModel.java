@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function1;
@@ -20,15 +21,18 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private Random random = new Random();
     private ArrayList<Function1<Particle, Void>> particleAddedObservers = new ArrayList<Function1<Particle, Void>>();
     private VelocitySensor velocitySensor = new VelocitySensor( 0, 0, this );
+    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
 
     public FluidFlowModel() {
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe );
-                particles.add( newParticle );
-                for ( Function1<Particle, Void> particleAddedObserver : particleAddedObservers ) {
-                    particleAddedObserver.apply( newParticle );
+                if ( dropperOnProperty.getValue() ) {
+                    final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe );
+                    particles.add( newParticle );
+                    for ( Function1<Particle, Void> particleAddedObserver : particleAddedObservers ) {
+                        particleAddedObserver.apply( newParticle );
+                    }
                 }
 
                 ArrayList<Particle> toRemove = new ArrayList<Particle>();
@@ -75,5 +79,9 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
 
     public VelocitySensor getVelocitySensor() {
         return velocitySensor;
+    }
+
+    public Property<Boolean> getDropperOnProperty() {
+        return dropperOnProperty;
     }
 }
