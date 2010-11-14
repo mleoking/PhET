@@ -3,6 +3,7 @@
 package edu.colorado.phet.gravityandorbits;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
+import edu.colorado.phet.gravityandorbits.simsharing.SimHistoryPlayback;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 
@@ -60,6 +62,11 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
             }
             catch ( IOException e ) {
                 e.printStackTrace();
+            }
+            if (Arrays.asList( commandLineArgs ).contains( "-history" )){//load and play back history
+                int index = Arrays.asList( commandLineArgs ).indexOf( "-history" );
+                String historyFile = commandLineArgs[index+1];
+                SimHistoryPlayback.playHistory( this, new File( historyFile ) );
             }
         }
         else if ( Arrays.asList( commandLineArgs ).contains( "-student" ) ) {
