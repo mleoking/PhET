@@ -15,11 +15,13 @@ public class VelocitySensor extends Sensor {
     public VelocitySensor( final double x, final double y, final FluidFlowModel context ) {
         super( x, y );
         this.context = context;
-        addPositionObserver( new SimpleObserver() {
+        final SimpleObserver updateVelocity = new SimpleObserver() {
             public void update() {
                 velocity.setValue( context.getVelocity( getX(), getY() ) );
             }
-        } );
+        };
+        addPositionObserver( updateVelocity );
+        context.getPipe().addShapeChangeListener( updateVelocity );//pipe could change underneath the velocity sensor
     }
 
     public void addVelocityObserver( SimpleObserver observer ) {
