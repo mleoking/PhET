@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.phetcommon.math;
 
+import java.awt.geom.Point2D;
+
 /**
  * A Function maps from double values to double values, and supports an inverse Function.
  */
@@ -46,6 +48,15 @@ public interface Function {
 
         public LinearFunction( double offset, double scale ) {
             this( 0, 1, offset, offset + scale*1 );
+        }
+
+        /**
+         * Constructs a LinearFunction that passes through the 2 specified points.
+         * @param p1 one point to pass through
+         * @param p2 another point this function should pass through
+         */
+        public LinearFunction( Point2D p1, Point2D p2 ) {
+            this( p1.getX(), p2.getX(), p1.getY(), p2.getY() );
         }
 
         public LinearFunction( double minInput, double maxInput, double minOutput, double maxOutput ) {
