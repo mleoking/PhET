@@ -20,8 +20,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private Random random = new Random();
     private ArrayList<Function1<Particle, Void>> particleAddedObservers = new ArrayList<Function1<Particle, Void>>();
+    private ArrayList<Function1<FoodColoring, Void>> foodColoringObservers = new ArrayList<Function1<FoodColoring, Void>>();
     private VelocitySensor velocitySensor = new VelocitySensor( 0, 0, this );
     private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
+    private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
     public FluidFlowModel() {
         getClock().addClockListener( new ClockAdapter() {
@@ -35,22 +37,46 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                     }
                 }
 
-                ArrayList<Particle> toRemove = new ArrayList<Particle>();
-                for ( int i = 0; i < particles.size(); i++ ) {
-                    Particle particle = particles.get( i );
-                    double x = particle.getX();
-                    double x2 = x + pipe.getSpeed( x ) * clockEvent.getSimulationTimeChange();
-                    if ( x2 >= pipe.getMaxX() ) {
-                        toRemove.add( particle );
+                //UPDATE PARTICLES
+                {
+                    ArrayList<Particle> toRemove = new ArrayList<Particle>();
+                    for ( int i = 0; i < particles.size(); i++ ) {
+                        Particle particle = particles.get( i );
+                        double x = particle.getX();
+                        double x2 = x + pipe.getSpeed( x ) * clockEvent.getSimulationTimeChange();
+                        if ( x2 >= pipe.getMaxX() ) {
+                            toRemove.add( particle );
+                        }
+                        else {
+                            particle.setX( x2 );
+                        }
                     }
-                    else {
-                        particle.setX( x2 );
+                    for ( int i = 0; i < toRemove.size(); i++ ) {
+                        Particle particle = toRemove.get( i );
+                        particles.remove( particle );
+                        particle.notifyRemoved();
                     }
                 }
-                for ( int i = 0; i < toRemove.size(); i++ ) {
-                    Particle particle = toRemove.get( i );
-                    particles.remove( particle );
-                    particle.notifyRemoved();
+
+                //UPDATE FOOD COLORING
+                {
+                    ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
+                    for ( int i = 0; i < foodColorings.size(); i++ ) {
+                        FoodColoring foodColoring = foodColorings.get( i );
+                        double x = foodColoring.getX();
+                        double x2 = x + pipe.getSpeed( x ) * clockEvent.getSimulationTimeChange();
+                        if ( x2 >= pipe.getMaxX() ) {
+                            toRemove.add( foodColoring );
+                        }
+                        else {
+                            foodColoring.setX( x2 );
+                        }
+                    }
+                    for ( int i = 0; i < toRemove.size(); i++ ) {
+                        FoodColoring particle = toRemove.get( i );
+                        foodColorings.remove( particle );
+                        particle.notifyRemoved();
+                    }
                 }
             }
         } );
@@ -68,6 +94,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         particleAddedObservers.add( listener );
     }
 
+    public void addFoodColoringObserver( Function1<FoodColoring, Void> listener ) {
+        foodColoringObservers.add( listener );
+    }
+
     public ImmutableVector2D getVelocity( double x, double y ) {
         if ( pipe.contains( x, y ) ) {
             return pipe.getVelocity( x, y );//assumes velocity same at all y along a specified x
@@ -83,5 +113,13 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
 
     public Property<Boolean> getDropperOnProperty() {
         return dropperOnProperty;
+    }
+
+    public void pourFoodColoring() {
+        final FoodColoring foodColoring = new FoodColoring( pipe.getMinX() + 1E-6, 1, pipe );
+        for ( Function1<FoodColoring, Void> foodColoringObserver : foodColoringObservers ) {
+            foodColoringObserver.apply( foodColoring );
+        }
+        foodColorings.add( foodColoring );
     }
 }

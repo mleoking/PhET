@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowControlPanel;
+import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -37,7 +38,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
 
         //Some nodes go behind the pool so that it looks like they submerge
-        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ,module.getRulerVisibleProperty() ) );
+        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getRulerVisibleProperty() ) );
         final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool() );
 
         addChild( poolNode );
@@ -61,23 +62,34 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         }} );
 
         final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
-        final PSwing fluidDensityControl = new PSwing( new LinearValueControl( 500, 1500, module.getFluidPressureAndFlowModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {{
-            setTickLabels( new Hashtable( ){{
-                put( 1000,new JLabel("water" ));
-                put(  )
-            }});
-            makeTransparent( this );
-            addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    module.getFluidPressureAndFlowModel().getPool().setLiquidDensity( getValue() );
-                }
-            } );
-            module.getFluidPressureAndFlowModel().getPool().addDensityListener( new SimpleObserver() {
-                public void update() {
-                    setValue( module.getFluidPressureAndFlowModel().getPool().getLiquidDensity() );
-                }
-            } );
-        }} ) {{
+        final PSwing fluidDensityControl = new PSwing( new LinearValueControl( FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {
+            {
+                setTickLabels( new Hashtable() {{
+                    put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
+                    put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
+                    put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
+                }} );
+                setMajorTicksVisible( false );
+                setMinorTicksVisible( false );
+                makeTransparent( this );
+                addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        module.getFluidPressureAndFlowModel().getPool().setLiquidDensity( getValue() );
+                    }
+                } );
+                module.getFluidPressureAndFlowModel().getPool().addDensityListener( new SimpleObserver() {
+                    public void update() {
+                        setValue( module.getFluidPressureAndFlowModel().getPool().getLiquidDensity() );
+                    }
+                } );
+            }
+
+            @Override
+            protected void updateTickLabels() {
+                super.updateTickLabels();
+                getSlider().setPaintLabels( true );
+            }
+        } ) {{
             scale( 1.2 );
             setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth() - 2, poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
             fluidDensityControlVisible.addObserver( new SimpleObserver() {
@@ -115,5 +127,24 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
             } );
             setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
+    }
+
+    private class TickLabel extends JLabel {
+        public TickLabel( String label ) {
+            super( label );
+        }
+
+        @Override
+        protected void paintComponent( Graphics g ) {
+            Graphics2D g2 = (Graphics2D) g;
+            super.paintComponent( g );
+            Paint color = g2.getPaint();
+            Stroke stroke = g2.getStroke();
+            g2.setPaint( Color.black );
+            g2.setStroke( new BasicStroke(1) );
+            g2.drawLine( getWidth() / 2, 0, getWidth() / 2, 3 );
+            g2.setPaint( color );
+            g2.setStroke( stroke );
+        }
     }
 }
