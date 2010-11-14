@@ -49,4 +49,7 @@ public class FluidPressureAndFlowCanvas extends PhetPCanvas {
     protected void addChild( PNode node ) {
         rootNode.addChild( node );
     }
+    protected void removeChild( PNode node ) {
+        rootNode.removeChild( node );
+    }
 }

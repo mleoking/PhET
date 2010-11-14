@@ -42,4 +42,8 @@ public class PipePosition {
     public double getX() {
         return top.getValue().getX();
     }
+
+    public double getHeight() {
+        return getTop().getY()- getBottom().getY();
+    }
 }

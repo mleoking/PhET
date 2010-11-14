@@ -1,5 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
+import edu.colorado.phet.common.phetcommon.util.Function0;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 
 /**
@@ -16,9 +18,15 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
 
         addChild( new PipeNode( transform, module.getFluidFlowModel().getPipe() ) );
-        for ( Particle p : module.getFluidFlowModel().getParticles() ) {
-            addChild( new ParticleNode( transform, p ) );
+        for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
+            addParticleNode( p );
         }
+        module.getFluidFlowModel().addParticleAddedObserver( new Function1<Particle, Void>() {
+            public Void apply( Particle particle ) {
+                addParticleNode( particle );
+                return null;//TODO: better support for void
+            }
+        } );
         //Some nodes go behind the pool so that it looks like they submerge
 //        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ) );
 
@@ -96,4 +104,17 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 //            setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
 //        }} );
     }
+
+    private void addParticleNode( final Particle p ) {
+        final ParticleNode node = new ParticleNode( transform, p );
+        addChild( node );
+        p.addRemovalListener( new Function0() {
+            public Object apply() {
+                removeChild( node );
+                p.removeRemovalListener( this );
+                return null;//TODO: better interface so we don't have to do this
+            }
+        } );
+    }
+
 }

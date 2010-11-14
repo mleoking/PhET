@@ -2,6 +2,7 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 
@@ -13,6 +14,7 @@ public class Particle {
     private double fractionUpPipe;
     private final Pipe container;
     private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
+    private ArrayList<Function0> listeners = new ArrayList<Function0>();
 
     public Particle( double x, double fractionUpPipe, Pipe container ) {
         this.x = x;
@@ -38,5 +40,19 @@ public class Particle {
     public void addObserver( SimpleObserver observer ) {
         observers.add( observer );
         observer.update();
+    }
+
+    public void notifyRemoved() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            listeners.get( i ).apply();
+        }
+    }
+
+    public void addRemovalListener( Function0 removalListener ) {
+        listeners.add( removalListener );
+    }
+
+    public void removeRemovalListener( Function0 function0 ) {
+        listeners.remove( function0 );
     }
 }
