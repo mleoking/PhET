@@ -1,9 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
-import edu.colorado.phet.fluidpressureandflow.view.FluidPressureAndFlowCanvas;
-import edu.colorado.phet.fluidpressureandflow.view.GroundNode;
-import edu.colorado.phet.fluidpressureandflow.view.PressureSensorNode;
-import edu.colorado.phet.fluidpressureandflow.view.SkyNode;
+import edu.colorado.phet.fluidpressureandflow.view.*;
 
 /**
  * @author Sam Reid
@@ -19,6 +16,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
 
         addChild( new PipeNode( transform, module.getFluidFlowModel().getPipe() ) );
+        for ( Particle p : module.getFluidFlowModel().getParticles() ) {
+            addChild( new ParticleNode( transform, p ) );
+        }
         //Some nodes go behind the pool so that it looks like they submerge
 //        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ) );
 
