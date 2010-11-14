@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.util.Function0;
-import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -35,12 +33,12 @@ public class PipeNode extends PNode {
     }
 
     public static class GrabHandle extends PNode {
-        public GrabHandle( final ModelViewTransform2D transform, final Function1<SimpleObserver, Void> addObserver, final Function0<Point2D> getPosition, final Function1<Point2D, Void> translate ) {
+        public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint ) {
             double grabHandleRadius = 10;
             addChild( new PhetPPath( new Ellipse2D.Double( -grabHandleRadius, -grabHandleRadius, grabHandleRadius * 2, grabHandleRadius * 2 ), Color.green ) {{
-                addObserver.apply( new SimpleObserver() {
+                controlPoint.addObserver( new SimpleObserver() {
                     public void update() {
-                        setOffset( transform.modelToView( getPosition.apply() ) );
+                        setOffset( transform.modelToView( controlPoint.getPoint() ) );
                     }
                 } );
                 addInputEventListener( new CursorHandler() );
@@ -48,42 +46,49 @@ public class PipeNode extends PNode {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        translate.apply( new Point2D.Double( 0, transform.viewToModelDifferential( delta ).getY() ) );
+                        controlPoint.translate( 0, transform.viewToModelDifferential( delta ).getY() );
                     }
                 } );
             }} );
         }
     }
 
+    public static interface ControlPoint {
+        Point2D getPoint();
+
+        void translate( double x, double y );
+
+        void addObserver( SimpleObserver observer );
+    }
+
     public static class PipePositionControl extends PNode {
         public PipePositionControl( final ModelViewTransform2D transform, final PipePosition pipePosition ) {
-            final Function1<SimpleObserver, Void> addObserver = new Function1<SimpleObserver, Void>() {
-                public Void apply( SimpleObserver simpleObserver ) {
-                    pipePosition.addObserver( simpleObserver );
-                    return null;//TODO: ugly way to return void value
-                }
-            };
-            addChild( new GrabHandle( transform, addObserver, new Function0<Point2D>() {
-                public Point2D apply() {
+            addChild( new GrabHandle( transform, new ControlPoint() {
+                public Point2D getPoint() {
                     return pipePosition.getTop();
                 }
-            }, new Function1<Point2D, Void>() {
-                public Void apply( Point2D point2D ) {
-                    pipePosition.translateTop( point2D.getX(), point2D.getY() );
-                    return null;
+
+                public void translate( double x, double y ) {
+                    pipePosition.translateTop( x, y );
+                }
+
+                public void addObserver( SimpleObserver observer ) {
+                    pipePosition.addObserver( observer );
                 }
             } ) );
-            addChild( new GrabHandle( transform, addObserver, new Function0<Point2D>() {
-                public Point2D apply() {
+            addChild( new GrabHandle( transform, new ControlPoint() {
+                public Point2D getPoint() {
                     return pipePosition.getBottom();
                 }
-            }, new Function1<Point2D, Void>() {
-                public Void apply( Point2D point2D ) {
-                    pipePosition.translateBottom( point2D.getX(), point2D.getY() );
-                    return null;
+
+                public void translate( double x, double y ) {
+                    pipePosition.translateBottom( x, y );
+                }
+
+                public void addObserver( SimpleObserver observer ) {
+                    pipePosition.addObserver( observer );
                 }
             } ) );
-
         }
     }
 }
