@@ -1,3 +1,4 @@
+Buoyancy: moved "oil" radio button to be before "water" radio button, to have the same ordering as on the slider in the 2nd tab
 Buoyancy: Color-coded vector legend
 # 1.02.05 (45875) Nov 9, 2010
 Internal fixes
