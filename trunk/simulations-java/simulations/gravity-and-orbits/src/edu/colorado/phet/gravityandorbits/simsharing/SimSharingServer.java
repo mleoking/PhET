@@ -11,17 +11,19 @@ public class SimSharingServer {
     private final ServerSocket studentServerSocket;
     private final ServerSocket teacherServerSocket;
 
-//    public static String HOST = "phet-server.colorado.edu";
+    //    public static String HOST = "phet-server.colorado.edu";
     public static String HOST = "localhost";
     public static final int STUDENT_PORT = 3752;
     public static final int TEACHER_PORT = 3753;
     private Socket teacherSocket;
     private ObjectOutputStream teacherOutputStream;
+    private SimHistory simHistory;
 
     public SimSharingServer() throws IOException {
         System.out.println( "Started simsharing server" );
         studentServerSocket = new ServerSocket( STUDENT_PORT );
         teacherServerSocket = new ServerSocket( TEACHER_PORT );
+        simHistory = new SimHistory();
     }
 
     public static void main( String[] args ) throws IOException {
@@ -36,23 +38,23 @@ public class SimSharingServer {
                         Socket socket = studentServerSocket.accept();
                         System.out.println( "connected to student" );
                         final ObjectInputStream objectInputStream = new ObjectInputStream( socket.getInputStream() );
-//                        final BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
                         new Thread( new Runnable() {
                             public void run() {
                                 try {
                                     while ( true ) {
                                         Object obj = objectInputStream.readObject();
                                         System.out.println( "obj = " + obj );
-//                                        String line = bufferedReader.readLine();
-//                                        System.out.println( "line = " + line );
                                         if ( obj == null ) {
+                                            simHistory.close();
                                             break;
                                         }
                                         if ( teacherOutputStream != null ) {
                                             teacherOutputStream.writeObject( obj );
-//                                            teacherOutputStream.write( line + "\n" );
                                             teacherOutputStream.flush();
-                                            System.out.println( "wrote to teacher: " + obj);
+                                            System.out.println( "wrote to teacher: " + obj );
+                                        }
+                                        if (simHistory != null ){
+                                            simHistory.store(obj);
                                         }
                                     }
                                 }
