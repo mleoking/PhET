@@ -5,12 +5,14 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 
 public class CubeNode extends CuboidNode {
     private var cube: PickableCube;
+    private var _blockLabelNode: BlockLabelNode;
 
     public function CubeNode( cuboid: Cuboid, canvas: AbstractDBCanvas ) {
         super( cuboid, canvas );
         cube = new PickableCube( this );
         cube.segmentsH = 2;
         cube.segmentsW = 2;
+        _blockLabelNode = new Away3DBlockLabelNode( getDensityObject().name, this, getDensityObject().nameVisibleProperty, canvas, canvas.mainCamera, canvas.mainViewport );
     }
 
     public function getCube(): PickableCube {
@@ -22,6 +24,23 @@ public class CubeNode extends CuboidNode {
         cube.width = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
         cube.height = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
         cube.depth = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
+    }
+
+
+    override public function addOverlayObjects(): void {
+        super.addOverlayObjects();
+        canvas.addChild( _blockLabelNode );
+    }
+
+
+    override public function removeOverlayObjects(): void {
+        super.removeOverlayObjects();
+        try {
+            canvas.removeChild( _blockLabelNode );
+        }
+        catch ( e: * ) {
+            trace( "got exception on blocklabelnode remove: " + e )
+        }
     }
 }
 }

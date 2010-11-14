@@ -27,7 +27,6 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var pickable: BooleanProperty = new BooleanProperty( true );
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
-    private var _blockLabelNode: BlockLabelNode;
 
     public function DensityObjectNode( densityObject: DensityObject, canvas: AbstractDBCanvas ) {
         super();
@@ -38,7 +37,6 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         densityObject.addRemovalListener( remove );
 
         densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
-        _blockLabelNode = new Away3DBlockLabelNode( densityObject.name, this, densityObject.nameVisibleProperty, canvas, canvas.mainCamera, canvas.mainViewport );
     }
 
     public function get canvas(): AbstractDBCanvas {
@@ -93,7 +91,6 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         for each ( var arrowNode: ArrowNode in arrowNodes ) {
             canvas.addChild( arrowNode.vectorValueNode );
         }
-        canvas.addChild( _blockLabelNode );
     }
 
     public function removeOverlayObjects(): void {
@@ -103,12 +100,6 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
             canvas.removeChild( arrowNode.vectorValueNode );
         }
         arrowNodes = new Array();
-        try {
-            canvas.removeChild( _blockLabelNode );
-        }
-        catch ( e: * ) {
-            trace( "got exception on blocklabelnode remove: " + e )
-        }
     }
 
     public function get densityObjectNode(): DensityObjectNode {
