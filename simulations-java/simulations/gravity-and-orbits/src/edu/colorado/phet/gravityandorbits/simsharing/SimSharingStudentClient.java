@@ -10,7 +10,8 @@ import java.net.Socket;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
+import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
+import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
 
 /**
  * @author Sam Reid
@@ -19,12 +20,12 @@ public class SimSharingStudentClient {
     int N = 1;
     int count = 0;
     private final Socket socket;
-//    private final BufferedWriter bufferedWriter;
+    //    private final BufferedWriter bufferedWriter;
     private ObjectOutputStream objectOutputStream;
-    private GravityAndOrbitsModule module;
+    private final GravityAndOrbitsApplication application;
 
-    public SimSharingStudentClient( final GravityAndOrbitsModule module, final JFrame parentFrame ) throws AWTException, IOException {
-        this.module = module;
+    public SimSharingStudentClient( final GravityAndOrbitsApplication application, final JFrame parentFrame ) throws AWTException, IOException {
+        this.application = application;
         final Robot robot = new Robot();
         final JFrame displayFrame = new JFrame();
         final JLabel contentPane = new JLabel();
@@ -34,14 +35,14 @@ public class SimSharingStudentClient {
         objectOutputStream = new ObjectOutputStream( socket.getOutputStream() );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 
-        module.getGravityAndOrbitsModel().addModelSteppedListener( new SimpleObserver() {
+        application.getGravityAndOrbitsModule().getGravityAndOrbitsModel().addModelSteppedListener( new SimpleObserver() {
             public void update() {
                 updateSharing();
             }
         } );
         new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( module.getGravityAndOrbitsModel().getClock().isPaused() ) {
+                if ( application.getGravityAndOrbitsModule().getGravityAndOrbitsModel().getClock().isPaused() ) {
                     updateSharing();
                 }
             }
@@ -62,8 +63,8 @@ public class SimSharingStudentClient {
 //                                displayFrame.setVisible( true );
 //                                firstTime[0] = false;
 //                            }
-            GravityAndOrbitsState state = module.getState();
-            System.out.println( "got body state" );
+            GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application );
+            System.out.println( "got app state" );
             sendToServer( state );
 //                        }
 //                    } ).start();
@@ -73,7 +74,7 @@ public class SimSharingStudentClient {
 
     String mymonitor = "hello";
 
-    private void sendToServer( GravityAndOrbitsState state ) {
+    private void sendToServer( GravityAndOrbitsApplicationState state ) {
         System.out.println( "About to deliver message: " + state );
         synchronized ( mymonitor ) {
             try {

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
-import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsState;
+import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
@@ -59,30 +59,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         // Help
         if ( hasHelp() ) {
             //XXX add help items
-        }
-
-        if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ) ) {
-            model.teacherMode = true;
-            try {
-                new SimSharingTeacherClient( this, parentFrame ).start();
-            }
-            catch ( AWTException e ) {
-                e.printStackTrace();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-        else if ( Arrays.asList( commandLineArgs ).contains( "-student" ) ) {
-            try {
-                new SimSharingStudentClient( this, parentFrame ).start();
-            }
-            catch ( AWTException e ) {
-                e.printStackTrace();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
         }
 
         // Set initial state
@@ -142,15 +118,5 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         moonProperty.reset();
         toScaleProperty.reset();
         model.resetAll();
-    }
-
-    public GravityAndOrbitsState getState() {
-        return new GravityAndOrbitsState( model.getSun().toBodyState(), model.getPlanet().toBodyState(), model.getMoon().toBodyState() );
-    }
-
-    public void setState( GravityAndOrbitsState gravityAndOrbitsState ) {
-        model.getSun().updateBodyStateFromModel( gravityAndOrbitsState.sunState );
-        model.getPlanet().updateBodyStateFromModel( gravityAndOrbitsState.planetState );
-        model.getMoon().updateBodyStateFromModel( gravityAndOrbitsState.moonState );
     }
 }

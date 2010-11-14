@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -13,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
+import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
+import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 
 /**
  * The main application for this simulation.
@@ -25,6 +29,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
+    private GravityAndOrbitsModule gravityAndOrbitsModule;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,13 +42,42 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
      */
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() ) {{
+        gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() ) {{
             getModulePanel().setLogoPanel( null );
-        }} );
+        }};
+        addModule( gravityAndOrbitsModule );
         initMenubar();
-        getPhetFrame().setTitle( config.getName()+": "+ Arrays.toString(config.getCommandLineArgs() ));//simsharing
+        getPhetFrame().setTitle( config.getName() + ": " + Arrays.toString( config.getCommandLineArgs() ) );//simsharing
+
+        String[] commandLineArgs = config.getCommandLineArgs();
+        if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ) ) {
+            gravityAndOrbitsModule.getGravityAndOrbitsModel().teacherMode = true;
+            try {
+                new SimSharingTeacherClient( this, getPhetFrame() ).start();
+            }
+            catch ( AWTException e ) {
+                e.printStackTrace();
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        else if ( Arrays.asList( commandLineArgs ).contains( "-student" ) ) {
+            try {
+                new SimSharingStudentClient( this, getPhetFrame() ).start();
+            }
+            catch ( AWTException e ) {
+                e.printStackTrace();
+            }
+            catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    public GravityAndOrbitsModule getGravityAndOrbitsModule() {
+        return gravityAndOrbitsModule;
+    }
     /*
      * Initializes the menubar.
      */

@@ -6,7 +6,9 @@ import java.net.Socket;
 
 import javax.swing.*;
 
+import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
+import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
 
 /**
  * @author Sam Reid
@@ -15,7 +17,7 @@ public class SimSharingTeacherClient {
     private final Socket socket;
     private final ObjectInputStream  objectInputStream;
 
-    public SimSharingTeacherClient( final GravityAndOrbitsModule module, final JFrame parentFrame ) throws AWTException, IOException {
+    public SimSharingTeacherClient( final GravityAndOrbitsApplication application, final JFrame parentFrame ) throws AWTException, IOException {
         final JFrame displayFrame = new JFrame();
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
@@ -35,7 +37,8 @@ public class SimSharingTeacherClient {
 //                        String line = bufferedReader.readLine();
 //                        System.out.println( "line = " + line );
                         System.out.println( "obj = " + obj );
-                        module.setState( (GravityAndOrbitsState) obj );
+                        final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) obj;
+                        state.apply(application);
                     }
                     catch ( IOException e ) {
                         e.printStackTrace();
