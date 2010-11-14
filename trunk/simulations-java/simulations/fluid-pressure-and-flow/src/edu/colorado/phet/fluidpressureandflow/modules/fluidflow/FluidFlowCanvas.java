@@ -3,21 +3,24 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.fluidpressureandflow.view.*;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
 public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
+    private PNode particleLayer;
+
     public FluidFlowCanvas( final FluidFlowModule module ) {
         super( module );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
 //        addChild( new PhetPPath( transform.createTransformedShape( module.getFluidPressureAndFlowModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
-        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool() ) );
-        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
 
         addChild( new PipeNode( transform, module.getFluidFlowModel().getPipe() ) );
+        particleLayer = new PNode();
+        addChild( particleLayer );
         for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
             addParticleNode( p );
         }
@@ -27,6 +30,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 return null;//TODO: better support for void
             }
         } );
+        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool() ) );
+        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
+        addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor() ) );
         //Some nodes go behind the pool so that it looks like they submerge
 //        addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool() ) );
 
@@ -107,10 +113,10 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
     private void addParticleNode( final Particle p ) {
         final ParticleNode node = new ParticleNode( transform, p );
-        addChild( node );
+        particleLayer.addChild( node );
         p.addRemovalListener( new Function0() {
             public Object apply() {
-                removeChild( node );
+                particleLayer.removeChild( node );
                 p.removeRemovalListener( this );
                 return null;//TODO: better interface so we don't have to do this
             }

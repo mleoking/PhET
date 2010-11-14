@@ -1,11 +1,13 @@
 package edu.colorado.phet.fluidpressureandflow.model;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -106,11 +108,27 @@ public class Pipe {
         return list.get( 0 );
     }
 
-    public double getVelocity( double x ) {
+    public double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
         double k = 5.0;
         return k / getPipePosition( x ).getHeight();
+    }
+
+    public ImmutableVector2D getVelocity( double x, double y ) {
+        double speed = getSpeed( x );
+        double fraction = getFractionToTop( x, y );
+        PipePosition pre = getPipePosition( x - 1E-7 );
+        PipePosition post = getPipePosition( x + 1E-7 );
+
+        double x0 = pre.getX();
+        double y0 = new Function.LinearFunction( 0, 1, pre.getBottom().getY(), pre.getTop().getY() ).evaluate( fraction );
+
+        double x1 = post.getX();
+        double y1 = new Function.LinearFunction( 0, 1, post.getBottom().getY(), post.getTop().getY() ).evaluate( fraction );
+
+        ImmutableVector2D vector2D = new ImmutableVector2D( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
+        return vector2D.getInstanceOfMagnitude( speed );
     }
 
     public double getMaxX() {
@@ -130,5 +148,9 @@ public class Pipe {
                 }
             } );
         }};
+    }
+
+    public boolean contains( double x, double y ) {
+        return getShape().contains( x, y );
     }
 }
