@@ -18,7 +18,7 @@ public class DensityModel {
     private var poolDepth: Number = DensityConstants.POOL_DEPTH_Z;
     private var waterHeight: Number;
 
-    public var fluidDensity: NumericProperty = new NumericProperty( FlexSimStrings.get( "properties.fluidDensity", "Fluid Density" ), "kg/m\u00b3", Material.WATER.getDensity() );
+    public const fluidDensity: NumericProperty = new NumericProperty( FlexSimStrings.get( "properties.fluidDensity", "Fluid Density" ), "kg/m\u00b3", Material.WATER.getDensity() );
 
     public static var DISPLAY_SCALE: Number = 1000.0;
 
@@ -43,9 +43,11 @@ public class DensityModel {
      * move according to forces from other objects
      */
     public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
+    private var showExactLiquidColor: Boolean;
 
-    public function DensityModel( volume: Number, extendedPool: Boolean ) {
+    public function DensityModel( volume: Number, extendedPool: Boolean, showExactLiquidColor:Boolean = false ) {
         this.volume = volume;
+        this.showExactLiquidColor = showExactLiquidColor;
         this.waterHeight = volume / poolWidth / poolDepth;
         densityObjects = new Array();
         if ( extendedPool ) {
@@ -311,6 +313,10 @@ public class DensityModel {
 
     public function addDensityObjectCreationListener( addDensityObject: Function ): void {
         densityObjectCreationListeners.push( addDensityObject );
+    }
+
+    public function getShowExactLiquidColor(): Boolean {
+        return showExactLiquidColor;
     }
 }
 }
