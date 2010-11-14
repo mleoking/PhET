@@ -56,20 +56,22 @@ public class Pipe {
      * @return
      */
     public double getFractionToTop( double x, double y ) {
+        PipePosition position = getPipePosition( x );
+        return new Function.LinearFunction( position.getBottom().getY(), position.getTop().getY(), 0, 1 ).evaluate( y );
+    }
+
+    public PipePosition getPipePosition( double x ) {
         PipePosition previous = getPipePositionBefore( x );
         PipePosition next = getPipePositionAfter( x );
         double top = new Function.LinearFunction( previous.getTop(), next.getTop() ).evaluate( x );
         double bottom = new Function.LinearFunction( previous.getBottom(), next.getBottom() ).evaluate( x );
-        return new Function.LinearFunction( bottom, top, 0, 1 ).evaluate( y );
+        return new PipePosition( x, bottom, top );
     }
 
     //TODO consolidate with above
     public double fractionToLocation( double x, double fraction ) {
-        PipePosition previous = getPipePositionBefore( x );
-        PipePosition next = getPipePositionAfter( x );
-        double top = new Function.LinearFunction( previous.getTop(), next.getTop() ).evaluate( x );
-        double bottom = new Function.LinearFunction( previous.getBottom(), next.getBottom() ).evaluate( x );
-        return new Function.LinearFunction( 0, 1, bottom, top ).evaluate( fraction );
+        PipePosition position = getPipePosition( x );
+        return new Function.LinearFunction( 0, 1, position.getBottom().getY(), position.getTop().getY() ).evaluate( fraction );
     }
 
     private PipePosition getPipePositionBefore( final double x ) {
@@ -105,6 +107,28 @@ public class Pipe {
     }
 
     public double getVelocity( double x ) {
-        return 1;
+        //Continuity equation: a1 v1 = a2 v2
+        //TODO: treat pipes as if they are cylindrical cross sections?
+        double k = 5.0;
+        return k / getPipePosition( x ).getHeight();
+    }
+
+    public double getMaxX() {
+        ArrayList<PipePosition> list = getPipePositionsSortedByX();
+        return list.get( list.size() - 1 ).getX();
+    }
+
+    public double getMinX() {
+        return getPipePositionsSortedByX().get( 0 ).getX();
+    }
+
+    private ArrayList<PipePosition> getPipePositionsSortedByX() {
+        return new ArrayList<PipePosition>( pipePositions ) {{
+            Collections.sort( this, new Comparator<PipePosition>() {
+                public int compare( PipePosition o1, PipePosition o2 ) {
+                    return Double.compare( o1.getX(), o2.getX() );
+                }
+            } );
+        }};
     }
 }
