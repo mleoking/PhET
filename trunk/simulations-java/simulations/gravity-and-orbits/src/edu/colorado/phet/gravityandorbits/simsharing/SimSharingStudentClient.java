@@ -33,7 +33,7 @@ public class SimSharingStudentClient {
         displayFrame.setContentPane( contentPane );
         final boolean[] firstTime = { true };
         socket = new Socket( SimSharingServer.HOST, SimSharingServer.STUDENT_PORT );
-        objectOutputStream = new ObjectOutputStream( socket.getOutputStream() );
+        objectOutputStream = new ObjectOutputStream( new BufferedOutputStream( socket.getOutputStream() ) );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 
         application.getGravityAndOrbitsModule().getGravityAndOrbitsModel().addModelSteppedListener( new SimpleObserver() {

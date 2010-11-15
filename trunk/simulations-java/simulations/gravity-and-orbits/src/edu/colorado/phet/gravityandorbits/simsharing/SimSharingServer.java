@@ -79,7 +79,7 @@ public class SimSharingServer {
                     try {
                         teacherSocket = teacherServerSocket.accept();
                         System.out.println( "connected to teacher" );
-                        teacherOutputStream = new ObjectOutputStream( teacherSocket.getOutputStream() );
+                        teacherOutputStream = new ObjectOutputStream( new BufferedOutputStream( teacherSocket.getOutputStream() ) );
 
                         final BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( teacherSocket.getInputStream() ) );
                         new Thread( new Runnable() {
