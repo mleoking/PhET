@@ -34,7 +34,7 @@ public class FluidPressureAndFlowCanvas extends PhetPCanvas {
         setBorder( null );
     }
 
-    protected void makeTransparent( JComponent component ) {
+    protected static void makeTransparent( JComponent component ) {
         if ( !( component instanceof JTextComponent ) ) {
             component.setBackground( new Color( 0, 0, 0, 0 ) );
             component.setOpaque( false );

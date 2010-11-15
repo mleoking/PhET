@@ -4,15 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowControlPanel;
@@ -62,35 +59,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         }} );
 
         final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
-        final PSwing fluidDensityControl = new PSwing( new LinearValueControl( FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getPool().getLiquidDensity(), "Fluid density", "0.00", "kg/m^3" ) {
-            {
-                setTickLabels( new Hashtable() {{
-                    put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
-                    put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
-                    put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
-                }} );
-                setMajorTicksVisible( false );
-                setMinorTicksVisible( false );
-                makeTransparent( this );
-                addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        module.getFluidPressureAndFlowModel().getPool().setLiquidDensity( getValue() );
-                    }
-                } );
-                module.getFluidPressureAndFlowModel().getPool().addDensityListener( new SimpleObserver() {
-                    public void update() {
-                        setValue( module.getFluidPressureAndFlowModel().getPool().getLiquidDensity() );
-                    }
-                } );
-            }
-
-            @Override
-            protected void updateTickLabels() {
-                super.updateTickLabels();
-                getSlider().setPaintLabels( true );
-            }
-        } ) {{
-            scale( 1.2 );
+        final Property<Boolean> gravityControlVisible = new Property<Boolean>( true );
+        final SliderControl fluidDensityControl = new SliderControl( FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getPool().getLiquidDensityProperty(), new HashMap<Double, TickLabel>() {{
+            put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
+            put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
+            put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
+        }} ) {{
             setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth() - 2, poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
             fluidDensityControlVisible.addObserver( new SimpleObserver() {
                 public void update() {
@@ -98,8 +72,22 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
                 }
             } );
         }};
+
+        final SliderControl gravityControl = new SliderControl( FluidPressureAndFlowModel.MOON_GRAVITY, FluidPressureAndFlowModel.JUPITER_GRAVITY, module.getFluidPressureAndFlowModel().getGravityProperty(), new HashMap<Double, TickLabel>() {{
+            put( FluidPressureAndFlowModel.EARTH_GRAVITY, new TickLabel( "Earth" ) );
+            put( FluidPressureAndFlowModel.MOON_GRAVITY, new TickLabel( "Moon" ) );
+            put( FluidPressureAndFlowModel.JUPITER_GRAVITY, new TickLabel( "Jupiter" ) );
+        }} ) {{
+            gravityControlVisible.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( gravityControlVisible.getValue() );
+                }
+            } );
+        }};
+
+        addChild( gravityControl );
         addChild( fluidDensityControl );
-        addChild( new PSwing( new JButton( "Fluid Density >" ) {{
+        final PSwing fluidDensityExpander = new PSwing( new JButton( "Fluid Density >" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     fluidDensityControlVisible.setValue( true );
@@ -112,7 +100,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
                 }
             } );
             setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
-        }} );
+        }};
+        addChild( fluidDensityExpander );
+        gravityControl.setOffset( fluidDensityExpander.getFullBounds().getMinX(), fluidDensityExpander.getFullBounds().getY() - gravityControl.getFullBounds().getHeight() - 20 );
         addChild( new PSwing( new JButton( "Fluid Density <" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -127,24 +117,5 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
             } );
             setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-    }
-
-    private class TickLabel extends JLabel {
-        public TickLabel( String label ) {
-            super( label );
-        }
-
-        @Override
-        protected void paintComponent( Graphics g ) {
-            Graphics2D g2 = (Graphics2D) g;
-            super.paintComponent( g );
-            Paint color = g2.getPaint();
-            Stroke stroke = g2.getStroke();
-            g2.setPaint( Color.black );
-            g2.setStroke( new BasicStroke(1) );
-            g2.drawLine( getWidth() / 2, 0, getWidth() / 2, 3 );
-            g2.setPaint( color );
-            g2.setStroke( stroke );
-        }
     }
 }
