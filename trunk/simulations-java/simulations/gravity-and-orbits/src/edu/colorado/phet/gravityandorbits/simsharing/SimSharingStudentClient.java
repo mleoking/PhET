@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -64,7 +65,7 @@ public class SimSharingStudentClient {
 //                                firstTime[0] = false;
 //                            }
             GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application );
-            System.out.println( "got app state" );
+//            System.out.println( "got app state" );
             sendToServer( state );
 //                        }
 //                    } ).start();
@@ -75,12 +76,12 @@ public class SimSharingStudentClient {
     String mymonitor = "hello";
 
     private void sendToServer( GravityAndOrbitsApplicationState state ) {
-        System.out.println( "About to deliver message: " + state );
+//        System.out.println( "About to deliver message: " + state );
         synchronized ( mymonitor ) {
             try {
                 objectOutputStream.writeObject( state );
                 objectOutputStream.flush();
-                System.out.println( "delivered message: " + state );
+//                System.out.println( "delivered message: " + state );
 //            bufferedWriter.write( bodyState.toString() + "\n" );
 //            bufferedWriter.flush();
             }

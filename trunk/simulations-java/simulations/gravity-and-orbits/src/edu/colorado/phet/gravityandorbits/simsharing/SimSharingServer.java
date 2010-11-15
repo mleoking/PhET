@@ -43,7 +43,7 @@ public class SimSharingServer {
                                 try {
                                     while ( true ) {
                                         Object obj = objectInputStream.readObject();
-                                        System.out.println( "obj = " + obj );
+//                                        System.out.println( "obj = " + obj );
                                         if ( obj == null ) {
                                             simHistory.close();
                                             break;
@@ -51,10 +51,10 @@ public class SimSharingServer {
                                         if ( teacherOutputStream != null ) {
                                             teacherOutputStream.writeObject( obj );
                                             teacherOutputStream.flush();
-                                            System.out.println( "wrote to teacher: " + obj );
+//                                            System.out.println( "wrote to teacher: " + obj );
                                         }
-                                        if (simHistory != null ){
-                                            simHistory.store(obj);
+                                        if ( simHistory != null ) {
+                                            simHistory.store( obj );
                                         }
                                     }
                                 }
@@ -87,7 +87,7 @@ public class SimSharingServer {
                                 try {
                                     while ( true ) {
                                         String line = bufferedReader.readLine();
-                                        System.out.println( "line = " + line );
+//                                        System.out.println( "line = " + line );
                                         if ( line == null ) {
                                             break;
                                         }
