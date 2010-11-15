@@ -47,13 +47,6 @@ public class InteractiveSymbolNode extends PNode {
     private final Property<Boolean> interactiveChargeProperty;
 
     /**
-     * Constructor for version where everything is interactive.
-     */
-    public InteractiveSymbolNode( final boolean showCharge ) {
-        this( true, true, true, showCharge );
-    }
-
-    /**
      * Primary constructor.
      */
     public InteractiveSymbolNode( boolean interactiveProtonCount, boolean interactiveMass, boolean interactiveCharge, final boolean showCharge ) {
@@ -144,6 +137,8 @@ public class InteractiveSymbolNode extends PNode {
 
     public void displayAnswer( AtomValue answer ) {
         interactiveProtonCountProperty.setValue( false );
+        interactiveMassProperty.setValue( false );
+        interactiveChargeProperty.setValue( false );
         protonCountProperty.setValue( answer.getProtons() );
         massProperty.setValue( answer.getMassNumber() );
         chargeProperty.setValue( answer.getCharge() );
