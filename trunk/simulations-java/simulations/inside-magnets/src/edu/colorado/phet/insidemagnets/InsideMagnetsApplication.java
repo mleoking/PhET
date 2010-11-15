@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class InsideMagnetsApplication extends PiccoloPhetApplication {
     public InsideMagnetsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new InsideMagnetsModule() );
+        addModule( new InsideMagnetsModule("test") );
     }
 
     public static void main( String[] args ) {
