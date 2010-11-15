@@ -1,3 +1,4 @@
+11/15/10 debug CapacitorShapeFactory methods used by E-field Detector
 11/15/10 clean up CapacitorShapeFactory, add methods needed for E-field Detector
 11/15/10 add ShapeUtils.add and subtract
 11/15/10 remove Point3D from BoxShapeFactory interface

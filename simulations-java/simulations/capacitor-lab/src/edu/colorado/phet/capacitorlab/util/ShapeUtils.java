@@ -29,6 +29,18 @@ public class ShapeUtils {
     }
     
     /**
+     * Returns the intersection of 2 Shapes.
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public static final Shape intersect( Shape s1, Shape s2 ) {
+        Area area = new Area( s1 );
+        area.intersect( new Area( s2 ) );
+        return area;
+    }
+    
+    /**
      * Adds a variable number of shapes to a primary shape.
      * @param primaryShape
      * @param shapes

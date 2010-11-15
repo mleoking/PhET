@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.shapes;
 
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
@@ -64,7 +65,7 @@ public class CapacitorShapeFactory {
      */
     private Shape createBetweenPlatesShape() {
         double x = capacitor.getX();
-        double y = capacitor.getY() + ( capacitor.getPlateSeparation() / 2 );
+        double y = capacitor.getY() - ( capacitor.getPlateSeparation() / 2 );
         double z = capacitor.getZ();
         double width = capacitor.getPlateSideLength();
         double height = capacitor.getPlateSeparation();
@@ -76,8 +77,13 @@ public class CapacitorShapeFactory {
      * Portion of the dielectric that is between the capacitor plates
      * @return
      */
-    private Shape createDielectricBetweenPlatesShape() {
-        return ShapeUtils.subtract( createDielectricShape(), createBetweenPlatesShape() );
+    private Shape createDielectricBetweenPlatesShape() {//XXX private
+        if ( capacitor.getDielectricOffset() >= capacitor.getPlateSideLength() ) {
+            return createEmptyShape();
+        }
+        else {
+            return ShapeUtils.intersect( createDielectricShape(), createBetweenPlatesShape() );
+        }
     }
     
     /*
@@ -85,7 +91,12 @@ public class CapacitorShapeFactory {
      * @return
      */
     private Shape createAirBetweenPlateShape() {
-        return ShapeUtils.subtract( createDielectricShape(), createBetweenPlatesShape() );
+        if ( capacitor.getDielectricOffset() == 0 ) {
+            return createEmptyShape();
+        }
+        else {
+            return ShapeUtils.subtract( createBetweenPlatesShape(), createDielectricBetweenPlatesShape() );
+        }
     }
     
     //----------------------------------------------------------------------------------------
@@ -107,7 +118,7 @@ public class CapacitorShapeFactory {
      * @return
      */
     public Shape createBottomPlateShapeOccluded() {
-        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShapeOccluded(), createDielectricShape() );
+        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShape(), createDielectricShape() );
     }
     
     /*
@@ -115,15 +126,15 @@ public class CapacitorShapeFactory {
      * May be partially occluded by the top plate.
      */
     public Shape createDielectricBetweenPlatesShapeOccluded() {
-        return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
+        return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShape() );
     }
     
     /*
      * Visible portion of air between the plates.
-     * May be partially occluded by the dielectric and top plate.
+     * May be partially occluded by the top plate.
      */
     public Shape createAirBetweenPlatesShapeOccluded() {
-        return ShapeUtils.subtract( createAirBetweenPlateShape(), createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
+        return ShapeUtils.subtract( createAirBetweenPlateShape(), createTopPlateShape() );
     }
     
     //----------------------------------------------------------------------------------------
@@ -145,5 +156,9 @@ public class CapacitorShapeFactory {
         Shape frontShape = boxShapeFactory.createFrontFace( x, y, z, width, height, depth );
         Shape sideShape = boxShapeFactory.createSideFace( x, y, z, width, height, depth );
         return ShapeUtils.add( topShape, frontShape, sideShape );
+    }
+    
+    private Shape createEmptyShape() {
+        return new Rectangle2D.Double( 0, 0, 0, 0 );
     }
 }
