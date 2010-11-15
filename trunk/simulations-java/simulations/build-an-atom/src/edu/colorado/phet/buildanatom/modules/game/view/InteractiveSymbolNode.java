@@ -36,9 +36,9 @@ public class InteractiveSymbolNode extends PNode {
     private static final double SPINNER_EDGE_OFFSET = 5;
     private static final double SPINNER_HEIGHT = WIDTH * 0.175;
 
-    private final Property<Integer> massProperty=new Property<Integer>( 0 );
-    private final Property<Integer> protonCountProperty=new Property<Integer>( 0 );
-    private final Property<Integer> chargeProperty=new Property<Integer>( 0 );
+    private final Property<Integer> massProperty = new Property<Integer>( 0 );
+    private final Property<Integer> protonCountProperty = new Property<Integer>( 0 );
+    private final Property<Integer> chargeProperty = new Property<Integer>( 0 );
 
     // Controls the interactivity of this node, and modifications to it are
     // monitored by the node itself in order to change its appearance.
@@ -50,18 +50,22 @@ public class InteractiveSymbolNode extends PNode {
         final PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
-        final PText symbol = new PText() {{
+        final PText symbol = new PText() {
+            {
                 setFont( SYMBOL_FONT );
-        }};
+            }
+        };
         addChild( symbol );
 
-        final PText elementName = new PText(){{
-            setFont( ELEMENT_NAME_FONT );
-            setTextPaint( Color.red );
-        }};
+        final PText elementName = new PText() {
+            {
+                setFont( ELEMENT_NAME_FONT );
+                setTextPaint( Color.red );
+            }
+        };
         addChild( elementName );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.red ));
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.red ) );
         protonValueNode.setScale( SPINNER_HEIGHT / protonValueNode.getFullBoundsReference().height );
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
@@ -74,20 +78,19 @@ public class InteractiveSymbolNode extends PNode {
                 elementName.setText( Atom.getName( protonCountProperty.getValue() ) );
                 elementName.setOffset(
                         boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
-                        boundingBox.getFullBoundsReference().getMaxY() + 5);
+                        boundingBox.getFullBoundsReference().getMaxY() + 5 );
                 elementName.setVisible( protonCountProperty.getValue() != 0 ); // Only show up for real elements.
             }
         } );
 
-        final ValueNode massValueNode=new ValueNode( massProperty, 0, 50, 1, interactiveProperty,
-                ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>(Color.black ));
+        final ValueNode massValueNode = new ValueNode( massProperty, 0, 50, 1, interactiveProperty,
+                ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
         massValueNode.setScale( SPINNER_HEIGHT / massValueNode.getFullBoundsReference().height );
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
-        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, interactiveProperty,
-                new SignedIntegerFormat(), new Function0<Color>() {
-            public Color apply() {
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, interactiveProperty, new SignedIntegerFormat(), new Function0<Color>() {
+                public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign
                 //Negative numbers are blue with a - sign
@@ -104,8 +107,9 @@ public class InteractiveSymbolNode extends PNode {
                     color = Color.black;
                 }
                 return color;
-            }
-        } ) {
+                }
+                } )
+        {
             {
                 setScale( SPINNER_HEIGHT / getFullBoundsReference().height );
                 double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
@@ -114,7 +118,6 @@ public class InteractiveSymbolNode extends PNode {
         };
         addChild( chargeValueNode );
         chargeValueNode.setVisible( showCharge );
-
     }
 
     /**
