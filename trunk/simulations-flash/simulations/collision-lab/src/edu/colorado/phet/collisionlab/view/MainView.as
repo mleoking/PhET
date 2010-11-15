@@ -44,12 +44,14 @@ public class MainView extends Sprite {
         this.myModel.resetAll();
         //this.myModel.updateViews();
         //this.myDataTable.x = 60;
-        this.myDataTable.y = 0.75 * this.stageH;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
+        var paddingForTabs: Number = 10;
+        this.myTableView.y += paddingForTabs;
+        this.myDataTable.y = 0.75 * this.stageH + paddingForTabs;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
         this.myDataTable.x = this.myTableView.width / 2;
         this.controlPanel.background.width = 170;
         this.controlPanel.background.height = 330;
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
-        this.controlPanel.y = 30;//0.3*this.controlPanel.height;
+        this.controlPanel.y = 30 + paddingForTabs;//0.3*this.controlPanel.height;
         this.phetLogo.x = 0;
         this.phetLogo.y = this.stageH - this.phetLogo.height - 35;
         this.momentumView.visible = false;

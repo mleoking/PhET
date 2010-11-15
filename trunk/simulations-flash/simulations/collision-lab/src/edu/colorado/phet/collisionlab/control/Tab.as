@@ -3,6 +3,7 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
 
 public class Tab extends Sprite {
     private var textField: TextField;
@@ -13,8 +14,13 @@ public class Tab extends Sprite {
         this.tabBar = tabBar;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.LEFT;
-        textField.text = title;
+        textField.text = " " + title + " ";
         textField.selectable = false;
+        var textFormat: TextFormat = new TextFormat();
+        textFormat.size = 20;
+        textFormat.font = "Arial";
+        textFormat.bold = true;
+        textField.setTextFormat( textFormat );
         addChild( textField );
         update();
         buttonMode = true;

@@ -22,7 +22,7 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         this.stageW = 950;//this.stage.stageWidth;
         this.stageH = 700;//this.stage.stageHeight;
         introModule.attach( this );
-        var tabBar: TabBar = new TabBar( CollisionLabConstants.BACKGROUND_COLOR, 0xFFFFFF );
+        var tabBar: TabBar = new TabBar( CollisionLabConstants.BACKGROUND_COLOR, 0xFFFFBB );
         var introTab: Tab = new Tab( "Introduction", tabBar );
         tabBar.addTab( introTab );
         var advancedTab: Tab = new Tab( "Advanced", tabBar );
