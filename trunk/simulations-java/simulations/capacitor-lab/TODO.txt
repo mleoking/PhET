@@ -20,7 +20,6 @@ DESIGN ISSUES
 HIGH PRIORITY
 - remove portion of bottom wire that is occluded by battery
 - remove transparency from the top plate
-- remove dielectric transparency for voltmeter and E-field detector
 - address stroke issue in WireSegment.createShape
 - WireNode gets shapes from Wire, which has a Shape property, this pattern is different
 - hack in BottomWire

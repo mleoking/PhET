@@ -1,3 +1,4 @@
+11/15/10 remove dielectric transparency for voltmeter
 # 0.00.43 (46138) Nov 15, 2010
 11/15/10 dev version to demo measurement of voltage and E-field in 2D projection of 3D scene
 11/15/10 make E-field detector measure points in the 2D projection of space between the capacitor plates
