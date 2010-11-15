@@ -36,4 +36,12 @@ public class MultipleCapacitorsModule extends CLModule {
         model.reset();
         canvas.reset();
     }
+    
+    public void setEFieldShapesDebugEnabled( boolean enabled ) {
+        //XXX
+    }
+    
+    public void setVoltageShapesDebugEnabled( boolean enabled ) {
+        //XXX
+    }
 }

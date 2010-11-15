@@ -22,4 +22,8 @@ public abstract class CLModule extends PiccoloModule {
     public CLClock getCLClock() {
         return (CLClock)getClock();
     }
+    
+    public abstract void setEFieldShapesDebugEnabled( boolean enabled );
+    
+    public abstract void setVoltageShapesDebugEnabled( boolean enabled );
 }
