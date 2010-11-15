@@ -40,8 +40,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 return null;//TODO: better support for void
             }
         } );
-        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool() ) );
-        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool() ) );
+        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor() ) );
 
         final DropperNode dropperNode = new DropperNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getDropperOnProperty() );
@@ -53,7 +53,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 }
             } );
         }} ) {{
-            setOffset(dropperNode.getFullBounds().getMaxX(),dropperNode.getFullBounds().getMaxY()-getFullBounds().getHeight());
+            setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
 
         module.getFluidFlowModel().addFoodColoringObserver( new Function1<FoodColoring, Void>() {

@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.model.Units;
 
 /**
  * @author Sam Reid
@@ -60,7 +61,7 @@ public class FluidPressureAndFlowControlPanel<T extends FluidPressureAndFlowMode
         }
     }
 
-    public FluidPressureAndFlowControlPanel( FluidPressureAndFlowModule<T> module ) {
+    public FluidPressureAndFlowControlPanel( final FluidPressureAndFlowModule<T> module ) {
         super();
 
         final LogoPanel panel = new LogoPanel();
@@ -75,11 +76,36 @@ public class FluidPressureAndFlowControlPanel<T extends FluidPressureAndFlowMode
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             setBackground( BACKGROUND );
             setForeground( FOREGROUND );
-            add( new RadioButton( "Pascals (Pa)", new Property<Boolean>( true ) ) );
-            add( new RadioButton( "atmospheres (atm)", new Property<Boolean>( false ) ) );
-            add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new Property<Boolean>( false ) ) );
+
+            add( new RadioButton( "atmospheres (atm)", new IsSelectedProperty<Units.PressureUnit>( Units.PressureUnit.ATMOSPHERE, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
+            add( new RadioButton( "Pascals (Pa)", new IsSelectedProperty<Units.PressureUnit>( Units.PressureUnit.PASCAL, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
+            add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new IsSelectedProperty<Units.PressureUnit>( Units.PressureUnit.PSI, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
         }} );
         setBackground( BACKGROUND );
+    }
+
+    /**
+     * This adapter class converts an enumeration property to a boolean property indicating true if the specified element is selected.
+     * It is used to map the enumeration property types into radio button handlers.
+     *
+     * @param <T>
+     */
+    private static class IsSelectedProperty<T> extends Property<Boolean> {
+        public IsSelectedProperty( final T a, final Property<T> p ) {
+            super( p.getValue() == a );
+            p.addObserver( new SimpleObserver() {
+                public void update() {
+                    setValue( p.getValue().equals( a ) );
+                }
+            } );
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    if ( getValue() ) {
+                        p.setValue( a );
+                    }
+                }
+            } );
+        }
     }
 
     private void addControlFullWidth( JComponent component ) {
