@@ -13,7 +13,7 @@ public class PressureSensor extends Sensor {
         super( x, y );
         final SimpleObserver updatePressure = new SimpleObserver() {
             public void update() {
-                pressureProperty.setValue( context.getPressureSensor( getPosition() ) );
+                pressureProperty.setValue( context.getPressure( getPosition() ) );
             }
         };
         addPositionObserver( updatePressure );

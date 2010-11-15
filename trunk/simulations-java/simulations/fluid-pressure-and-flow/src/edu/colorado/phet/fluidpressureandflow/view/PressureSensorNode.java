@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -24,10 +26,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class PressureSensorNode extends PNode {
     ModelViewTransform2D transform;
     private PressureSensor pressureSensor;
+    private final Property<Units.PressureUnit> units;
 
-    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool ) {
+    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.PressureUnit> units ) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
+        this.units = units;
         addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
         final PText child = new PText( getText() ) {{
             setFont( new PhetFont( 18, true ) );
@@ -69,14 +73,16 @@ public class PressureSensorNode extends PNode {
                 setOffset( transform.modelToView( pressureSensor.getPosition() ) );
             }
         } );
-        pressureSensor.addPressureObserver( new SimpleObserver() {
+        final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
                 child.setText( getText() );
             }
-        } );
+        };
+        pressureSensor.addPressureObserver( updateText );
+        units.addObserver( updateText );
     }
 
     private String getText() {
-        return "pressure: " + new DecimalFormat( "0.00" ).format( pressureSensor.getPressure() ) + " Pa";
+        return "" + new DecimalFormat( "0.00" ).format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " "+units.getValue().getName();
     }
 }

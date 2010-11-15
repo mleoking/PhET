@@ -28,6 +28,7 @@ public class FluidPressureAndFlowModel {
     public static final Double EARTH_GRAVITY = 9.8;
     public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0;
     public static final Double JUPITER_GRAVITY = EARTH_GRAVITY * 2.364;
+    public final Property<Units.PressureUnit> pressureUnitProperty = new Property<Units.PressureUnit>( Units.PressureUnit.ATMOSPHERE );
 
     public ConstantDtClock getClock() {
         return clock;
@@ -41,7 +42,7 @@ public class FluidPressureAndFlowModel {
         return pressureSensor1;
     }
 
-    public double getPressureSensor( Point2D position ) {
+    public double getPressure( Point2D position ) {
         if ( position.getY() > 0 ) {
             return pressure.evaluate( position.getY() );
         }
@@ -62,5 +63,9 @@ public class FluidPressureAndFlowModel {
 
     public Property<Double> getGravityProperty() {
         return gravityProperty;
+    }
+
+    public Property<Units.PressureUnit> getPressureUnitProperty() {
+        return pressureUnitProperty;
     }
 }
