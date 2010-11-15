@@ -34,6 +34,10 @@ public class Pool {
         return liquidDensityProperty.getValue();
     }
 
+    public Property<Double> getLiquidDensityProperty() {
+        return liquidDensityProperty;
+    }
+
     public double getMinX() {
         return getShape().getBounds2D().getMinX();
     }
