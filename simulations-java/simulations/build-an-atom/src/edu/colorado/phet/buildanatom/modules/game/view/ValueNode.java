@@ -65,21 +65,18 @@ public class ValueNode extends PNode {
         numericProperty.addObserver( updateReadouts );
 
         final PSwing spinnerPSwing = new PSwing( spinner );
+        addChild( spinnerPSwing );
         text.setFont( NUMBER_FONT );
         text.setOffset( spinnerPSwing.getFullBoundsReference().getCenterX() - text.getFullBoundsReference().width / 2,
                         spinnerPSwing.getFullBoundsReference().getCenterY() - text.getFullBoundsReference().height / 2 );
+        addChild( text );
 
         // Listen to the numericProperty that controls whether or not the
         // editable version is shown or the fixed text is shown.
         editable.addObserver( new SimpleObserver() {
             public void update() {
-                removeAllChildren();
-                if ( editable.getValue() ) {
-                    addChild( spinnerPSwing );
-                }
-                else {
-                    addChild( text );
-                }
+                spinnerPSwing.setVisible( editable.getValue() );
+                text.setVisible( !editable.getValue() );
             }
         } );
         JSpinner.DefaultEditor numberEditor = (JSpinner.DefaultEditor) getSpinnerEditor();

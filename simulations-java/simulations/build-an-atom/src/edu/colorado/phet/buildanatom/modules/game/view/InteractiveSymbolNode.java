@@ -126,8 +126,14 @@ public class InteractiveSymbolNode extends PNode {
         {
             {
                 setScale( SPINNER_HEIGHT / getFullBoundsReference().height );
-                double width = Math.max( WIDTH, getFullBounds().getWidth() + massValueNode.getFullBounds().getWidth() + SPINNER_EDGE_OFFSET * 3 );
-                setOffset( width - getFullBoundsReference().width - SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
+                double xOffset = WIDTH - getFullBoundsReference().width - SPINNER_EDGE_OFFSET;
+                if ( xOffset < massValueNode.getFullBoundsReference().getMaxX()){
+                    // Prevent overlap of the value nodes by shifting this one
+                    // to the right.  Note that this could potentially push
+                    // this node partially outside of the bounding box.
+                    xOffset = massValueNode.getFullBoundsReference().getMaxX() + SPINNER_EDGE_OFFSET;
+                }
+                setOffset( xOffset, SPINNER_EDGE_OFFSET );
             }
         };
         addChild( chargeValueNode );
