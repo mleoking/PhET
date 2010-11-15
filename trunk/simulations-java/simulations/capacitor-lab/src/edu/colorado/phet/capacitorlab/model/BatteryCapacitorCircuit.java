@@ -234,10 +234,10 @@ public class BatteryCapacitorCircuit {
         else if ( bottomWire.intersects( s ) ) {
             voltage = bottomWire.getVoltage();
         }
-        else if ( capacitor.topPlateIntersects( s ) ) {
+        else if ( capacitor.intersectsTopPlateShape( s ) ) {
             voltage = getPlatesVoltage();
         }
-        else if ( capacitor.bottomPlateIntersects( s ) ) {
+        else if ( capacitor.intersectsBottomPlateShape( s ) ) {
             voltage = 0;
         }
         else if ( battery.topTerminalIntersects( s ) ) {
