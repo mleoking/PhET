@@ -10,12 +10,15 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 public class GravityAndOrbitsApplicationState implements Serializable {
 
     private GravityAndOrbitsModuleState moduleState;
+    private long timestamp;
 
     public GravityAndOrbitsApplicationState( GravityAndOrbitsApplication gravityAndOrbitsApplication ) {
         moduleState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getGravityAndOrbitsModule() );
+        timestamp = System.currentTimeMillis();
     }
 
     public void apply( GravityAndOrbitsApplication application ) {
+        System.out.println( "round trip time: "+(System.currentTimeMillis() - timestamp) );
         moduleState.apply( application.getGravityAndOrbitsModule() );
     }
 }

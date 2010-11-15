@@ -12,7 +12,8 @@ public class SimSharingServer {
     private final ServerSocket teacherServerSocket;
 
     //    public static String HOST = "phet-server.colorado.edu";
-    public static String HOST = "localhost";
+    public static String HOST = "ec2-75-101-172-224.compute-1.amazonaws.com";
+
     public static final int STUDENT_PORT = 3752;
     public static final int TEACHER_PORT = 3753;
     private Socket teacherSocket;
