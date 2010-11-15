@@ -25,14 +25,19 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ShapesDebugNode extends PComposite {
     
-    private static final Stroke STROKE = new BasicStroke( 2f );
-    private static final Color STROKE_COLOR = Color.YELLOW;
-    
     private static class ShapeNode extends PPath {
+        
+        private static final Stroke STROKE = new BasicStroke( 2f );
+        private static final Color STROKE_COLOR = Color.YELLOW;
+        
         public ShapeNode( Shape shape ) {
+            this( shape, STROKE_COLOR );
+        }
+        
+        public ShapeNode( Shape shape, Color strokeColor ) {
             super( shape );
             setStroke( STROKE );
-            setStrokePaint( STROKE_COLOR );
+            setStrokePaint( strokeColor );
         }
     }
     
@@ -73,6 +78,12 @@ public class ShapesDebugNode extends PComposite {
             final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShapeOccluded() );
             addChild( bottomPlateNode );
             
+            final ShapeNode dielectricBetweenPlatesNode = new ShapeNode( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), Color.RED );
+            addChild( dielectricBetweenPlatesNode );
+            
+            final ShapeNode airBetweenPlatesNode = new ShapeNode( shapeFactory.createAirBetweenPlatesShapeOccluded(), Color.RED );
+            addChild( airBetweenPlatesNode );
+            
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
 
                 @Override
@@ -93,6 +104,8 @@ public class ShapesDebugNode extends PComposite {
                 private void updateShapes() {
                     topPlateNode.setPathTo( shapeFactory.createTopPlateShapeOccluded() );
                     bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
+                    dielectricBetweenPlatesNode.setPathTo( shapeFactory.createDielectricBetweenPlatesShapeOccluded() );
+                    airBetweenPlatesNode.setPathTo( shapeFactory.createAirBetweenPlatesShapeOccluded() );
                 }
             } );
         }
