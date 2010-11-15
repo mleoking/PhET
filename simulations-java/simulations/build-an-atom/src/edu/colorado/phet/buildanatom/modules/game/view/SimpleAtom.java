@@ -10,9 +10,9 @@ import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
- * This is the minimal interface required for atom identity, used in ToElementView and PeriodicTableNode.  It does
- * not create actual proton, neutron, or electron model elements, it just keeps track of the numbers of these
- * subatomic particles.
+ * An atom that simply tracks the quantities of the various subatomic
+ * particles, but doesn't actually create them.  This can be used in many
+ * cases where no subatomic particles are needed.
  *
  * @author Sam Reid
  * @author John Blanco
@@ -22,6 +22,22 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
     private int numProtons = 0;
     private int numNeutrons = 0;
     private int numElectrons = 0;
+
+    /**
+     * Default constructor.
+     */
+    public SimpleAtom(){
+        // Use the default values.
+    }
+
+    /**
+     * Constructor.
+     */
+    public SimpleAtom( int numProtons, int numNeutrons, int numElectrons ) {
+        this.numProtons = numProtons;
+        this.numNeutrons = numNeutrons;
+        this.numElectrons = numElectrons;
+    }
 
     /**
      * Structure that contains both the chemical symbol and textual name for
