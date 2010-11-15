@@ -43,7 +43,9 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                     for ( int i = 0; i < particles.size(); i++ ) {
                         Particle particle = particles.get( i );
                         double x = particle.getX();
-                        double x2 = x + pipe.getSpeed( x ) * clockEvent.getSimulationTimeChange();
+                        ImmutableVector2D velocity = pipe.getVelocity( particle.getX(), particle.getY() );
+                        ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
+                        double x2 = x + ( pipe.getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() ) ) * clockEvent.getSimulationTimeChange();
                         if ( x2 >= pipe.getMaxX() ) {
                             toRemove.add( particle );
                         }
