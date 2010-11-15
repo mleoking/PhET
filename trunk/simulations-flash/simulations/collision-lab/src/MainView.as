@@ -3,6 +3,7 @@ package {
 import edu.colorado.phet.flashcommon.FlashCommonCS4;
 
 import flash.display.*;
+import flash.events.Event;
 
 public class MainView extends Sprite {
     var myModel: Model;
@@ -14,6 +15,8 @@ public class MainView extends Sprite {
     var phetLogo: Sprite;
     var stageH: Number;
     var stageW: Number;
+
+    var common: FlashCommonCS4;
 
     public function MainView( myModel: Model, stageW: Number, stageH: Number ) {
         this.stageH = stageH;
@@ -44,7 +47,7 @@ public class MainView extends Sprite {
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
         this.controlPanel.y = 30;//0.3*this.controlPanel.height;
         this.phetLogo.x = 0;
-        this.phetLogo.y = this.stageH - this.phetLogo.height;
+        this.phetLogo.y = this.stageH - this.phetLogo.height - 35;
         this.momentumView.visible = false;
 
         addFlashCommon();
@@ -58,8 +61,24 @@ public class MainView extends Sprite {
     private function addFlashCommon(): void {
         var ui: Sprite = new Sprite(); // used for FlashCommon UI
         addChild( ui );
-        var common: FlashCommonCS4 = FlashCommonCS4.getInstance( ui.stage, this.stageW, this.stageH );//950,700 );
+        common = FlashCommonCS4.getInstance( ui.stage, this.stageW, this.stageH );//950,700 );
         common.initialize( ui );
+
+        common.addLoadListener( positionButtons );
+        stage.addEventListener( Event.RESIZE, function( evt: Event ): void {
+            positionButtons();
+        } );
+        positionButtons();
+    }
+
+    protected function positionButtons(): void {
+        if ( common.commonButtons == null ) {
+            return;
+        }
+        var height: int = common.commonButtons.getPreferredHeight();
+        const x: Number = 5;
+        const y: Number = 700 - height - 5;
+        common.commonButtons.setLocationXY( x, y );
     }
 }//end of class
 }//end of package
