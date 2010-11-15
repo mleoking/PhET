@@ -15,7 +15,7 @@ public class BuoyancyFlashCommon extends DensityAndBuoyancyFlashCommon {
     }
 
     protected override function positionButtons(): void {
-        var buttons: CommonButtons = FlexCommon.getInstance().commonButtons
+        var buttons: CommonButtons = FlexCommon.getInstance().commonButtons;
         if ( buttons != null ) {
             var padding: Number = (availableHeight - buttons.height) / 2;
             buttons.setLocationXY( stage.stageWidth - buttons.getPreferredWidth() - insetX - padding, padding );
