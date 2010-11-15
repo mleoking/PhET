@@ -21,15 +21,16 @@ public class ToSymbolProblemView extends ProblemView {
     /**
      * Constructor.
      */
-    public ToSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem) {
-        super( model, canvas, problem);
+    public ToSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem ) {
+        super( model, canvas, problem );
 
-        interactiveSymbolNode = new InteractiveSymbolNode( true );
-        interactiveSymbolNode.addChangeListener(new ChangeListener(){
+        interactiveSymbolNode = new InteractiveSymbolNode( problem.isConfigurableProtonCount(),
+                problem.isConfigurableMass(), problem.isConfigurableCharge(), true );
+        interactiveSymbolNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 enableCheckButton();
             }
-        });
+        } );
         interactiveSymbolNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width * 0.75 - interactiveSymbolNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - interactiveSymbolNode.getFullBounds().getHeight() / 2 );
