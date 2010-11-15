@@ -1,12 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 
 /**
@@ -59,26 +53,8 @@ public class AtomValue {
     }
 
     public SimpleAtom toAtom(BuildAnAtomClock clock) {
-        if ( protons < 0 ) {
-            System.out.println( "protons = "+protons );
-        }
-        if ( neutrons < 0 ) {
-            System.out.println( "neutrons = "+neutrons );
-        }
-        if ( electrons < 0 ) {
-            System.out.println( "electrons = "+electrons );
-        }
-        Atom atom = new Atom( new Point2D.Double( 0, 0 ), clock );
-        for ( int i = 0; i < protons; i++ ) {
-            atom.addProton( new Proton( clock ) ,false );
-        }
-        for ( int i = 0; i < neutrons; i++ ) {
-            atom.addNeutron( new Neutron( clock ),false );
-        }
-        for ( int i = 0; i < electrons; i++ ) {
-            atom.addElectron( new Electron( clock ),false );
-        }
-        return atom;
+        assert protons >= 0 && neutrons >= 0 && electrons >= 0;
+        return new SimpleAtom( protons, neutrons, electrons );
     }
 
     public int getMassNumber() {
