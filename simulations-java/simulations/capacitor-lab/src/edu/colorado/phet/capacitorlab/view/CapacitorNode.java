@@ -75,16 +75,12 @@ public class CapacitorNode extends PhetPNode {
     }
     
     /**
-     * Controls the opacity of the physical parts of the capacitor.
-     * This is needed because the plates and dielectric must be transparent
-     * when certain nodes (voltmeter, E-Field detector, E-field view) are visible,
-     * in order to see what's doing on inside the capacitor.
+     * Controls the opacity of the dielectric.
+     * This is needed because the dielectric must be transparent to see E-field.
      * @param opaque
      */
-    public void setOpaque( boolean opaque ) {
+    public void setDielectricOpaque( boolean opaque ) {
         float transparency = ( opaque ) ? 1f : TRANSPARENCY;
-        topPlateNode.setTransparency( transparency );
-        bottomPlateNode.setTransparency( transparency );
         /*
          * Some dielectric materials are naturally transparent.
          * Modify dielectric transparency only if its not already transparent. 
