@@ -96,8 +96,7 @@ public class Battery {
      * @return
      */
     public double getTopTerminalYOffset() {
-        double terminalHeight = ( polarity == Polarity.POSITIVE ) ? shapeFactory.getPositiveProbeSizeReference().getHeight() : 0;
-        return -( shapeFactory.getBodySizeReference().getHeight() / 2 ) - ( terminalHeight / 2 );
+        return shapeFactory.getTopTerminalYOffset();
     }
     
     /**
