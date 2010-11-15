@@ -7,6 +7,7 @@ QUESTIONS FOR NOAH
 - when should the dielectric be transparent?
 - any special consideration with the glass dielectric, which is always transparent?
 - should be put a dashed box around the E-field measurement shape?
+- top plate should never be transparent, confuses issue of E-field measurement
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
