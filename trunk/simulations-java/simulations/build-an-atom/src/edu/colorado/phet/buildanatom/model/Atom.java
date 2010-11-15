@@ -53,6 +53,10 @@ public class Atom extends SimpleAtom {
         }
     };
 
+    // Repository from which to draw particles if told to add them non-
+    // specifically, i.e. "addProton()" instead of "addProton( Proton )".
+    private SubatomicParticleRepository subatomicParticleRepository = new NullSubatomicParticleRepository();
+
     /**
      * Constructor.
      */
@@ -80,6 +84,16 @@ public class Atom extends SimpleAtom {
             }
 
         } );
+    }
+
+    /**
+     * Constructor.  This version specifies a repository from which particles
+     * may be drawn if methods are called that add particles generically, e.g.
+     * "addProton()" or "setNumProtons(X)".
+     */
+    public Atom( Point2D position, BuildAnAtomClock clock, SubatomicParticleRepository subatomicParticleRepository ) {
+        this( position, clock );
+        this.subatomicParticleRepository = subatomicParticleRepository;
     }
 
     // TODO: This is a quick implementation of animation for unstable nuclei,
@@ -223,10 +237,77 @@ public class Atom extends SimpleAtom {
         proton.addListener( particleRemovalListener );
 
         // Update count in super class.  This sends out the change notification.
-        setNumProtons( protons.size() );
+        super.setNumProtons( protons.size() );
     }
 
-    public void addNeutron( final Neutron neutron,boolean moveImmediately ) {
+    @Override
+    public void setNumElectrons( int numElectrons ) {
+        int numElectronsInShells = electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
+        if ( numElectrons > numElectronsInShells ){
+            // Attempt to get electrons from the repository to add to this
+            // atom until we have enough or run out.
+            for ( int i = 0; i < numElectrons - numElectronsInShells; i++ ){
+                Electron electron = subatomicParticleRepository.getElectron();
+                if ( electron != null ){
+                    addElectron( electron, true );
+                }
+                else{
+                    assert false;
+                    System.err.println("Error: Not enough electrons available to allow set operation to succeed.");
+                    continue;
+                }
+            }
+        }
+        else if ( numElectrons < numElectronsInShells ){
+            // Move electrons to the repository until the numbers match.
+            for ( int i = 0; i < numElectronsInShells - numElectrons; i++ ){
+                subatomicParticleRepository.addElectron( removeElectron() );
+            }
+        }
+        super.setNumElectrons( numElectrons );
+    }
+
+    @Override
+    public void setNumNeutrons( int numNeutrons ) {
+        if ( numNeutrons > neutrons.size() ){
+            // Attempt to get neutrons from the repository to add to this
+            // atom until we have enough or run out.
+            for ( int i = 0; i < numNeutrons - neutrons.size(); i++ ){
+                Neutron neutron = subatomicParticleRepository.getNeutron();
+                if ( neutron != null ){
+                    addNeutron( neutron, true );
+                }
+                else{
+                    assert false;
+                    System.err.println("Error: Not enough neutrons available to allow set operation to succeed.");
+                    continue;
+                }
+            }
+        }
+        super.setNumNeutrons( numNeutrons );
+    }
+
+    @Override
+    public void setNumProtons( int numProtons ) {
+        if ( numProtons > protons.size() ){
+            // Attempt to get protons from the repository to add to this
+            // atom until we have enough or run out.
+            for ( int i = 0; i < numProtons - protons.size(); i++ ){
+                Neutron neutron = subatomicParticleRepository.getNeutron();
+                if ( neutron != null ){
+                    addNeutron( neutron, true );
+                }
+                else{
+                    assert false;
+                    System.err.println("Error: Not enough protons available to allow set operation to succeed.");
+                    continue;
+                }
+            }
+        }
+        super.setNumProtons( numProtons );
+    }
+
+    public void addNeutron( final Neutron neutron, boolean moveImmediately ) {
         assert !neutrons.contains( neutron );
 
         // Add to the list of neutrons that are in the atom.
@@ -239,7 +320,7 @@ public class Atom extends SimpleAtom {
         neutron.addListener( particleRemovalListener );
 
         // Update count in super class.  This sends out the change notification.
-        setNumNeutrons( neutrons.size() );
+        super.setNumNeutrons( neutrons.size() );
     }
 
     public void addElectron( final Electron electron,boolean moveImmediately ) {
@@ -255,7 +336,7 @@ public class Atom extends SimpleAtom {
         }
 
         // Update count in super class.  This sends out the change notification.
-        setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
     }
 
     /**
