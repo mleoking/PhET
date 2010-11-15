@@ -1,3 +1,4 @@
+11/15/10 enable/disable shape debug via developer menu items
 11/15/10 remove portion of bottom wire that is occluded by battery
 11/15/10 add battery terminal offsets to shape model, for more precise wire connections
 11/15/10 more precise model of positive battery terminal

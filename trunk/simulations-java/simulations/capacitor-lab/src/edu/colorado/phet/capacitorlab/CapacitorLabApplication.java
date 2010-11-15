@@ -5,7 +5,10 @@ package edu.colorado.phet.capacitorlab;
 import java.awt.Frame;
 
 import javax.swing.Box;
+import javax.swing.JMenu;
 
+import edu.colorado.phet.capacitorlab.control.EFieldShapesDebugMenuItem;
+import edu.colorado.phet.capacitorlab.control.VoltageShapesDebugMenuItem;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -30,6 +33,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
     {
         super( config );
         initModules();
+        initMenuBar();
     }
 
     /*
@@ -58,6 +62,13 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         if ( dev ) {
             setStartModule( getModule( 1 ) );
         }
+    }
+    
+    private void initMenuBar() {
+        // Developer menu items
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new EFieldShapesDebugMenuItem( this ) );
+        developerMenu.add( new VoltageShapesDebugMenuItem( this ) );
     }
 
     //----------------------------------------------------------------------------

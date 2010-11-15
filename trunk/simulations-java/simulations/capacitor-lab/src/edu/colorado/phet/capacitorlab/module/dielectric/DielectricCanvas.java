@@ -57,6 +57,9 @@ public class DielectricCanvas extends CLCanvas {
     private final VoltmeterView voltmeter;
     private final EFieldDetectorView eFieldDetector;
     
+    // debug
+    private final PNode voltageShapesDebugNode, eFieldShapesDebugNode;
+    
     private final ArrayList<PNode> dielectricTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
     
     // controls
@@ -106,6 +109,12 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
         
+        voltageShapesDebugNode = new VoltageShapesDebugNode( model, mvt );
+        voltageShapesDebugNode.setVisible( false );
+        
+        eFieldShapesDebugNode = new EFieldShapesDebugNode( model, mvt );
+        eFieldShapesDebugNode.setVisible( false );
+        
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
@@ -130,9 +139,8 @@ public class DielectricCanvas extends CLCanvas {
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
-        if ( dev ) {
-            addChild( new ShapesDebugNode( model, mvt ) );
-        }
+        addChild( voltageShapesDebugNode );
+        addChild( eFieldShapesDebugNode );
 
         // nodes whose visibility causes the capacitor to become transparent
         dielectricTransparencyNodes = new ArrayList<PNode>();
@@ -200,6 +208,14 @@ public class DielectricCanvas extends CLCanvas {
         energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
         voltmeter.getBodyNode().setOffset( CLConstants.VOLTMETER_BODY_LOCATION );
         eFieldDetector.getBodyNode().setOffset( CLConstants.EFIELD_DETECTOR_BODY_LOCATION );
+    }
+    
+    public void setEFieldShapesVisible( boolean enabled ) {
+        eFieldShapesDebugNode.setVisible( enabled );
+    }
+    
+    public void setVoltageShapesVisible( boolean enabled ) {
+        voltageShapesDebugNode.setVisible( enabled );
     }
     
     public CapacitorNode getCapacitorNode() {

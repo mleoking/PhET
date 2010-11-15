@@ -18,12 +18,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Displays the shapes for various model elements.
+ * Displays the shapes related to the measurement of voltage.
  * All shapes are in the global view coordinate frame; when a model object moves, its shape changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ShapesDebugNode extends PComposite {
+public class VoltageShapesDebugNode extends PComposite {
     
     private static class ShapeNode extends PPath {
         
@@ -41,7 +41,7 @@ public class ShapesDebugNode extends PComposite {
         }
     }
     
-    public ShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
+    public VoltageShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
         
         // nothing interactive here
         setPickable( false );
@@ -78,12 +78,6 @@ public class ShapesDebugNode extends PComposite {
             final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShapeOccluded() );
             addChild( bottomPlateNode );
             
-            final ShapeNode dielectricBetweenPlatesNode = new ShapeNode( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), Color.RED );
-            addChild( dielectricBetweenPlatesNode );
-            
-            final ShapeNode airBetweenPlatesNode = new ShapeNode( shapeFactory.createAirBetweenPlatesShapeOccluded(), Color.RED );
-            addChild( airBetweenPlatesNode );
-            
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
 
                 @Override
@@ -104,8 +98,6 @@ public class ShapesDebugNode extends PComposite {
                 private void updateShapes() {
                     topPlateNode.setPathTo( shapeFactory.createTopPlateShapeOccluded() );
                     bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
-                    dielectricBetweenPlatesNode.setPathTo( shapeFactory.createDielectricBetweenPlatesShapeOccluded() );
-                    airBetweenPlatesNode.setPathTo( shapeFactory.createAirBetweenPlatesShapeOccluded() );
                 }
             } );
         }

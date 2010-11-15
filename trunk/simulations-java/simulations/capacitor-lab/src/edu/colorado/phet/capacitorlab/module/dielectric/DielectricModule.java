@@ -46,6 +46,14 @@ public class DielectricModule extends CLModule {
         canvas.reset();
     }
     
+    public void setEFieldShapesDebugEnabled( boolean enabled ) {
+        canvas.setEFieldShapesVisible( enabled );
+    }
+    
+    public void setVoltageShapesDebugEnabled( boolean enabled ) {
+        canvas.setVoltageShapesVisible( enabled );
+    }
+    
     protected void setDielectricVisible( boolean visible ) {
         canvas.setDielectricVisible( false ); // hide dielectric and offset drag handle
     }
