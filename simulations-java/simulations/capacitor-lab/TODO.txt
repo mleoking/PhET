@@ -17,8 +17,6 @@ DESIGN ISSUES
 - should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
-- add shape for E-field
-- make probes work on flattened 2D version of image; if you can see it, you can touch it with a probe
 - address stroke issue in WireSegment.createShape
 - WireNode gets shapes from Wire, which has a Shape property, this pattern is different
 - hack in BottomWire

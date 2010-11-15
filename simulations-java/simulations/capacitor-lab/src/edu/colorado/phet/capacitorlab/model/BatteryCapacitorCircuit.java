@@ -442,7 +442,7 @@ public class BatteryCapacitorCircuit {
      */
     public double getEffectiveEFieldAt( Point3D location ) {
         double eField = 0;
-        if ( capacitor.isBetweenPlates( location ) ) {
+        if ( capacitor.isBetweenPlatesShape( location ) ) {
            eField = getEffectiveEfield();
         }
         return eField;
@@ -478,13 +478,11 @@ public class BatteryCapacitorCircuit {
      */
     public double getPlatesDielectricEFieldAt( Point3D location ) {
         double eField = 0;
-        if ( capacitor.isBetweenPlates( location ) ) {
-            if ( capacitor.isInsideDielectric( location ) ) {
-                eField = getPlatesDielectricEField();
-            }
-            else {
-                eField = getPlatesAirEField();
-            }
+        if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
+            eField = getPlatesDielectricEField();
+        }
+        else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
+            eField = getPlatesAirEField();
         }
         return eField;
     }
@@ -535,13 +533,11 @@ public class BatteryCapacitorCircuit {
      */
     public Double getDielectricEFieldAt( Point3D location ) {
         double eField = 0;
-        if ( capacitor.isBetweenPlates( location ) ) {
-            if ( capacitor.isInsideDielectric( location ) ) {
-                eField = getDielectricEField();
-            }
-            else {
-                eField = getAirEField();
-            }
+        if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
+            eField = getDielectricEField();
+        }
+        else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
+            eField = getAirEField();
         }
         return eField;
     }
