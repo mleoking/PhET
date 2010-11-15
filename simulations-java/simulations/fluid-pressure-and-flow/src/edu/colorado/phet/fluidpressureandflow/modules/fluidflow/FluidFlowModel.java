@@ -38,19 +38,14 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 }
 
                 //UPDATE PARTICLES
+                final double dt = clockEvent.getSimulationTimeChange();
                 {
                     ArrayList<Particle> toRemove = new ArrayList<Particle>();
                     for ( int i = 0; i < particles.size(); i++ ) {
                         Particle particle = particles.get( i );
-                        double x = particle.getX();
-                        ImmutableVector2D velocity = pipe.getVelocity( particle.getX(), particle.getY() );
-                        ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
-                        double x2 = x + ( pipe.getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() ) ) * clockEvent.getSimulationTimeChange();
-                        if ( x2 >= pipe.getMaxX() ) {
+                        boolean remove = updateParticle( dt, particle );
+                        if ( remove ) {
                             toRemove.add( particle );
-                        }
-                        else {
-                            particle.setX( x2 );
                         }
                     }
                     for ( int i = 0; i < toRemove.size(); i++ ) {
@@ -65,14 +60,12 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                     ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
                     for ( int i = 0; i < foodColorings.size(); i++ ) {
                         FoodColoring foodColoring = foodColorings.get( i );
-                        double x = foodColoring.getX();
-                        double x2 = x + pipe.getSpeed( x ) * clockEvent.getSimulationTimeChange();
-                        if ( x2 >= pipe.getMaxX() ) {
-                            toRemove.add( foodColoring );
+                        ArrayList<Particle> p = foodColoring.getParticles();
+                        for ( Particle particle : p ) {
+                            boolean remove = updateParticle( dt, particle );
+                            //todo: handle removes
                         }
-                        else {
-                            foodColoring.setX( x2 );
-                        }
+                        foodColoring.notifyObservers();
                     }
                     for ( int i = 0; i < toRemove.size(); i++ ) {
                         FoodColoring particle = toRemove.get( i );
@@ -82,6 +75,27 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 }
             }
         } );
+    }
+
+    /**
+     * Returns true if the particle should be removed because it exited the model.
+     *
+     * @param dt
+     * @param particle
+     * @return
+     */
+    private boolean updateParticle( double dt, Particle particle ) {
+        double x = particle.getX();
+        ImmutableVector2D velocity = pipe.getVelocity( particle.getX(), particle.getY() );
+        ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
+        double x2 = x + ( pipe.getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() ) ) * dt;
+        if ( x2 >= pipe.getMaxX() ) {
+            return true;
+        }
+        else {
+            particle.setX( x2 );
+            return false;
+        }
     }
 
     public Pipe getPipe() {
@@ -118,7 +132,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     }
 
     public void pourFoodColoring() {
-        final FoodColoring foodColoring = new FoodColoring( pipe.getMinX() + 1E-6, 1, pipe );
+        final FoodColoring foodColoring = new FoodColoring( pipe.getMinX() + 1E-6, 0.75, pipe );
         for ( Function1<FoodColoring, Void> foodColoringObserver : foodColoringObservers ) {
             foodColoringObserver.apply( foodColoring );
         }

@@ -1,3 +1,4 @@
+Added particle model for food coloring
 Added labels and tick marks to density slider
 Added an arrow node to velocity sensor
 Initial version of fluid pressure and flow sim
