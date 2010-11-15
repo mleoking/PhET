@@ -12,6 +12,7 @@ import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
+import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
@@ -123,10 +124,13 @@ public class Wire {
      */
     public static class BottomWire extends Wire {
 
+        private final BatteryShapeFactory batteryShapeFactory;
         private final CapacitorShapeFactory capacitorShapeFactory;
         
         public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
             super( createSegments( battery, capacitor ), thickness, mvt );
+            
+            this.batteryShapeFactory = new BatteryShapeFactory( battery, mvt );
             this.capacitorShapeFactory = new CapacitorShapeFactory( capacitor, mvt );
             
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
@@ -163,7 +167,7 @@ public class Wire {
         
         @Override
         /*
-         * Subtract any part of the wire that is occluded by the bottom plate.
+         * Subtract any part of the wire that is occluded by the battery or bottom plate.
          */
         protected Shape createShape() {
             Shape shape = null;
@@ -176,7 +180,7 @@ public class Wire {
                 shape = wireShape;
             }
             else {
-                shape = ShapeUtils.subtract( wireShape, capacitorShapeFactory.createBottomPlateShape() );
+                shape = ShapeUtils.subtract( wireShape, batteryShapeFactory.createBodyShape(), capacitorShapeFactory.createBottomPlateShape() );
             }
             return shape;
         }

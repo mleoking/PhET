@@ -23,12 +23,15 @@ public class BatteryShapeFactory {
     
     /*
      * Sizes determined by visual inspection of the associated image files.
+     * All units in meters.
      * To see the corresponding bounds, run the sim with -dev.
      */
-    private static final PDimension BODY_SIZE = new PDimension( 0.0065, 0.01225 ); // meters
-    private static final PDimension POSITIVE_TERMINAL_SIZE = new PDimension( 0.0022, 0.00163 ); // meters
-    private static final double POSITIVE_TERMINAL_CORNER_RADIUS = 0.001; // meters
-    private static final PDimension NEGATIVE_TERMINAL_SIZE = new PDimension( 0.0035, 0.0009 ); // meters
+    private static final PDimension BODY_SIZE = new PDimension( 0.0065, 0.01425 );
+    private static final PDimension POSITIVE_TERMINAL_SIZE = new PDimension( 0.0025, 0.0014 );
+    private static final double POSITIVE_TERMINAL_CORNER_RADIUS = 0.0005;
+    private static final double POSITIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.00025;
+    private static final PDimension NEGATIVE_TERMINAL_SIZE = new PDimension( 0.0035, 0.0009 );
+    private static final double NEGATIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.00075;
     
     private final Battery battery;
     private final ModelViewTransform mvt;
@@ -44,6 +47,15 @@ public class BatteryShapeFactory {
     
     public PDimension getPositiveProbeSizeReference() {
         return POSITIVE_TERMINAL_SIZE;
+    }
+    
+    public double getTopTerminalYOffset() {
+        if ( battery.getPolarity() == Polarity.POSITIVE ) {
+            return POSITIVE_TERMINAL_Y_OFFSET;
+        }
+        else {
+            return NEGATIVE_TERMINAL_Y_OFFSET;
+        }
     }
     
     /**
@@ -77,7 +89,7 @@ public class BatteryShapeFactory {
         final double terminalWidth = POSITIVE_TERMINAL_SIZE.getWidth();
         final double terminalHeight = POSITIVE_TERMINAL_SIZE.getHeight();
         double x = origin.getX() - ( terminalWidth / 2 );
-        double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) - ( terminalHeight / 2 );
+        double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) + 0.0002;
         Shape s = new RoundRectangle2D.Double( x, y, terminalWidth, terminalHeight, POSITIVE_TERMINAL_CORNER_RADIUS, POSITIVE_TERMINAL_CORNER_RADIUS );
         return mvt.modelToView( s );
     }
@@ -89,7 +101,7 @@ public class BatteryShapeFactory {
         final double terminalWidth = NEGATIVE_TERMINAL_SIZE.getWidth();
         final double terminalHeight = NEGATIVE_TERMINAL_SIZE.getHeight();
         double x = origin.getX() - ( terminalWidth / 2 );
-        double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) - ( terminalHeight / 2 );
+        double y = origin.getY() - ( BODY_SIZE.getHeight() / 2 ) + 0.0006;
         Shape s = new Ellipse2D.Double( x, y, terminalWidth, terminalHeight );
         return mvt.modelToView( s );
     }
