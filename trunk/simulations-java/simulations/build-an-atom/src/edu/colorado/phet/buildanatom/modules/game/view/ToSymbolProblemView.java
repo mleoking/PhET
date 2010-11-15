@@ -15,7 +15,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 */
 public class ToSymbolProblemView extends ProblemView {
 
-    private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL );
+    private final ProblemDescriptionNode description;
     private final InteractiveSymbolNode interactiveSymbolNode;
 
     /**
@@ -34,6 +34,24 @@ public class ToSymbolProblemView extends ProblemView {
         interactiveSymbolNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width * 0.75 - interactiveSymbolNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - interactiveSymbolNode.getFullBounds().getHeight() / 2 );
+
+        // Set up the problem description based upon which of the fields need
+        // to be filled in.
+        if ( problem.isConfigurableProtonCount() && problem.isConfigurableMass() && problem.isConfigurableCharge() ){
+            description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_ALL );
+        }
+        else if ( problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && !problem.isConfigurableCharge() ){
+            description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_PROTON_COUNT );
+        }
+        else if ( !problem.isConfigurableProtonCount() && problem.isConfigurableMass() && !problem.isConfigurableCharge() ){
+            description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_MASS );
+        }
+        else {
+            // Should not reach this code, debug if it does.
+            System.err.println( getClass().getName() + " - Error: No problem description available for specified configuration." );
+            assert false;
+            description = new ProblemDescriptionNode( "Fill in." );
+        }
 
         description.centerAbove( interactiveSymbolNode );
     }
