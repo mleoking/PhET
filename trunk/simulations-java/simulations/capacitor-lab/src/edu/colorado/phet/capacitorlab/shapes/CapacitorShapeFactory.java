@@ -77,7 +77,7 @@ public class CapacitorShapeFactory {
      * Portion of the dielectric that is between the capacitor plates
      * @return
      */
-    private Shape createDielectricBetweenPlatesShape() {//XXX private
+    private Shape createDielectricBetweenPlatesShape() {
         if ( capacitor.getDielectricOffset() >= capacitor.getPlateSideLength() ) {
             return createEmptyShape();
         }
@@ -121,7 +121,7 @@ public class CapacitorShapeFactory {
         return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShape(), createDielectricShape() );
     }
     
-    /*
+    /**
      * Visible portion of the dielectric between the plates.
      * May be partially occluded by the top plate.
      */
@@ -129,7 +129,7 @@ public class CapacitorShapeFactory {
         return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShape() );
     }
     
-    /*
+    /**
      * Visible portion of air between the plates.
      * May be partially occluded by the top plate.
      */
@@ -158,6 +158,9 @@ public class CapacitorShapeFactory {
         return ShapeUtils.add( topShape, frontShape, sideShape );
     }
     
+    /*
+     * Encapsulation of empty shape.
+     */
     private Shape createEmptyShape() {
         return new Rectangle2D.Double( 0, 0, 0, 0 );
     }
