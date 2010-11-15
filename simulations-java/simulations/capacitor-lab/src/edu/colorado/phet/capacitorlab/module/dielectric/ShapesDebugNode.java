@@ -38,6 +38,10 @@ public class ShapesDebugNode extends PComposite {
     
     public ShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
         
+        // nothing interactive here
+        setPickable( false );
+        setChildrenPickable( false );
+        
         // battery
         {
             final Battery battery = model.getBattery();
@@ -66,7 +70,7 @@ public class ShapesDebugNode extends PComposite {
             final ShapeNode topPlateNode = new ShapeNode( shapeFactory.createTopPlateShape() );
             addChild( topPlateNode );
             
-            final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShape() );
+            final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShapeOccluded() );
             addChild( bottomPlateNode );
             
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
@@ -88,7 +92,7 @@ public class ShapesDebugNode extends PComposite {
                 
                 private void updateShapes() {
                     topPlateNode.setPathTo( shapeFactory.createTopPlateShape() );
-                    bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShape() );
+                    bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
                 }
             } );
         }
