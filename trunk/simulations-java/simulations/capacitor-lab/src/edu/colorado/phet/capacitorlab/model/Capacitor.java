@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class Capacitor {
     
     private final EventListenerList listeners;
+    private final ModelViewTransform mvt;
     private final CapacitorShapeFactory shapeFactory;
     
     // immutable properties
@@ -43,6 +44,7 @@ public class Capacitor {
     public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, ModelViewTransform mvt ) {
         
         listeners = new EventListenerList();
+        this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );
         
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
@@ -310,19 +312,6 @@ public class Capacitor {
     }
     
     /**
-     * Is a point between the capacitor plates?
-     * 
-     * @param p a point in the global 3D model coordinate frame
-     * @return true or false
-     */
-    public boolean isBetweenPlates( Point3D p ) {
-        boolean xBetween = Math.abs( p.getX() - location.getX() ) <= plateSideLength / 2;
-        boolean yBetween = Math.abs( p.getY() - location.getY() ) <= plateSeparation / 2;
-        boolean zBetween = Math.abs( p.getZ() - location.getZ() ) <= plateSideLength / 2;
-        return xBetween && yBetween && zBetween;
-    }
-    
-    /**
      * Does a Shape intersect the top plate shape?
      * @param shape
      * @return
@@ -341,17 +330,33 @@ public class Capacitor {
     }
     
     /**
-     * Is a point inside the dielectric?
+     * Is a point inside the Shape that is the 2D projection of the space between the capacitor plates?
      * 
      * @param p a point in the global 3D model coordinate frame
      * @return true or false
      */
-    public boolean isInsideDielectric( Point3D p ) {
-        double x = p.getX() - location.getX();
-        boolean xInside = ( x >= -( plateSideLength / 2 ) + dielectricOffset ) && ( x <= ( plateSideLength / 2 ) + dielectricOffset );
-        boolean yInside = Math.abs( p.getY() - location.getY() ) <= ( plateSeparation / 2 );
-        boolean zInside = Math.abs( p.getZ() - location.getZ() ) <= ( plateSeparation / 2 );
-        return xInside && yInside && zInside;
+    public boolean isBetweenPlatesShape( Point3D p ) {
+        return isInsideDielectricBetweenPlatesShape( p ) || isInsideAirBetweenPlatesShape( p );
+    }
+    
+    /**
+     * Is a point inside the Shape that is the 2D projection the portion of the dielectric that is between the plates?
+     * 
+     * @param p a point in the global 3D model coordinate frame
+     * @return true or false
+     */
+    public boolean isInsideDielectricBetweenPlatesShape( Point3D p ) {
+        return shapeFactory.createDielectricBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
+    }
+    
+    /**
+     * Is a point inside the Shape that is the 2D projection of air between the plates?
+     * 
+     * @param p a point in the global 3D model coordinate frame
+     * @return true or false
+     */
+    public boolean isInsideAirBetweenPlatesShape( Point3D p ) {
+        return shapeFactory.createAirBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
     }
 
     /**
