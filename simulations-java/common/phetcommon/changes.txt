@@ -1,3 +1,4 @@
+11-15-2010: added machine generated equals and hashcode for linear function
 11-14-2010: made a private method in AbstractValueControl protected to allow override in functionality
 11-12-2010: added a constructor to ConstantDTClock with a default number of frames per second
 11-12-2010: added a constructor to ConstantDTClock that allows setting number of frames per second

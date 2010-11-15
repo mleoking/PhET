@@ -123,5 +123,53 @@ public interface Function {
         public String toString() {
             return "Linear Function, [" + minInput + "," + maxInput + "]->[" + minOutput + "," + maxOutput + "]";
         }
+
+        /**
+         * Machine generated deep equals implementation.
+         * @param o
+         * @return
+         */
+        @Override
+        public boolean equals( Object o ) {
+            if ( this == o ) { return true; }
+            if ( o == null || getClass() != o.getClass() ) { return false; }
+
+            LinearFunction that = (LinearFunction) o;
+
+            if ( Double.compare( that.maxInput, maxInput ) != 0 ) { return false; }
+            if ( Double.compare( that.maxOutput, maxOutput ) != 0 ) { return false; }
+            if ( Double.compare( that.minInput, minInput ) != 0 ) { return false; }
+            if ( Double.compare( that.minOutput, minOutput ) != 0 ) { return false; }
+            if ( Double.compare( that.scale, scale ) != 0 ) { return false; }
+            if ( Double.compare( that.t1, t1 ) != 0 ) { return false; }
+            if ( Double.compare( that.t2, t2 ) != 0 ) { return false; }
+
+            return true;
+        }
+
+        /**
+         * Machine generated deep hashcode implementation.
+         * @return
+         */
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            temp = minInput != +0.0d ? Double.doubleToLongBits( minInput ) : 0L;
+            result = (int) ( temp ^ ( temp >>> 32 ) );
+            temp = maxInput != +0.0d ? Double.doubleToLongBits( maxInput ) : 0L;
+            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+            temp = minOutput != +0.0d ? Double.doubleToLongBits( minOutput ) : 0L;
+            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+            temp = maxOutput != +0.0d ? Double.doubleToLongBits( maxOutput ) : 0L;
+            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+            temp = t1 != +0.0d ? Double.doubleToLongBits( t1 ) : 0L;
+            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+            temp = scale != +0.0d ? Double.doubleToLongBits( scale ) : 0L;
+            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+            temp = t2 != +0.0d ? Double.doubleToLongBits( t2 ) : 0L;
+            result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+            return result;
+        }
     }
 }
