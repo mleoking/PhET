@@ -28,21 +28,17 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
  */
 public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
-    // Checkboxes that control the problem types allowed.
-    private final JCheckBox symbolToSchematicProblemAllowed = new JCheckBox( "Symbol To Schematic Problem Allowed", true );
-    private final JCheckBox schematicToSymbolProblemAllowed = new JCheckBox( "Schematic To Symbol Problem Allowed", true );
-    private final JCheckBox symbolToCountsProblemAllowed = new JCheckBox( "Symbol To Counts Problem Allowed", true );
-    private final JCheckBox countsToSymbolProblemAllowed = new JCheckBox( "Counts To Symbol Problem Allowed", true );
-    private final JCheckBox schematicToElementProblemAllowed = new JCheckBox( "Schematic To Element Problem Allowed", true );
-    private final JCheckBox countsToElementProblemAllowed = new JCheckBox( "Counts To Element Problem Allowed", true );
-
-    private final ArrayList<JCheckBox> checkBoxList = new ArrayList<JCheckBox>() {{
-        add( symbolToSchematicProblemAllowed );
-        add( symbolToCountsProblemAllowed );
-        add( schematicToSymbolProblemAllowed );
-        add( schematicToElementProblemAllowed );
-        add( countsToSymbolProblemAllowed );
-        add( countsToElementProblemAllowed );
+    private final ArrayList<ProblemTypeCheckBox> checkBoxList = new ArrayList<ProblemTypeCheckBox>() {{
+        add( new ProblemTypeCheckBox( "Symbol To Schematic Problem Allowed", ProblemType.SYMBOL_TO_SCHEMATIC ) );
+        add( new ProblemTypeCheckBox( "Schematic To Symbol All Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_ALL ) );
+        add( new ProblemTypeCheckBox( "Schematic To Symbol Mass Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_MASS ) );
+        add( new ProblemTypeCheckBox( "Schematic To Symbol Proton Count Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ) );
+        add( new ProblemTypeCheckBox( "Symbol To Counts Problem Allowed", ProblemType.SYMBOL_TO_COUNTS ) );
+        add( new ProblemTypeCheckBox( "Counts To Symbol All Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_ALL ) );
+        add( new ProblemTypeCheckBox( "Counts To Symbol Mass Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_MASS ) );
+        add( new ProblemTypeCheckBox( "Counts To Symbol Proton Count Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT ) );
+        add( new ProblemTypeCheckBox( "Schematic To Element Problem Allowed", ProblemType.SCHEMATIC_TO_ELEMENT ) );
+        add( new ProblemTypeCheckBox( "Counts To Element Problem Allowed", ProblemType.COUNTS_TO_ELEMENT ) );
     }};
 
     /**
@@ -58,14 +54,11 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         // position if moved after that).
         setLocationRelativeTo(null);
 
-        setPreferredSize( new Dimension( 300, 400 ) );
-        setLayout( new GridLayout( 7, 1 ) );
-        add( symbolToCountsProblemAllowed );
-        add( symbolToSchematicProblemAllowed );
-        add( schematicToSymbolProblemAllowed );
-        add( schematicToElementProblemAllowed );
-        add( countsToSymbolProblemAllowed );
-        add( countsToElementProblemAllowed );
+        setPreferredSize( new Dimension( 300, 500 ) );
+        setLayout( new GridLayout( 11, 1 ) );
+        for ( JCheckBox checkBox : checkBoxList ){
+            add( checkBox );
+        }
         JPanel buttonPanel = new JPanel( new FlowLayout() );
         buttonPanel.add( new JButton( "Check All" ){{
             addActionListener( new ActionListener() {
@@ -102,56 +95,20 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         return instance;
     }
 
-    public boolean isSymbolToSchematicProblemAllowed() {
-        return symbolToSchematicProblemAllowed.isSelected();
-    }
-
-    public boolean isSchematicToSymbolProblemAllowed() {
-        return schematicToSymbolProblemAllowed.isSelected();
-    }
-
-    public boolean isSymbolToCountsProblemAllowed() {
-        return symbolToCountsProblemAllowed.isSelected();
-    }
-
-    public boolean isCountsToSymbolProblemAllowed() {
-        return countsToSymbolProblemAllowed.isSelected();
-    }
-
-    public boolean isSchematicToElementProblemAllowed() {
-        return schematicToElementProblemAllowed.isSelected();
-    }
-
-    public boolean isCountsToElementProblemAllowed() {
-        return countsToElementProblemAllowed.isSelected();
-    }
-
     public boolean isProblemTypeAllowed( ProblemType problemType ){
-        boolean allowed = false;
-        switch ( problemType ){
-        case SYMBOL_TO_SCHEMATIC:
-            allowed = symbolToSchematicProblemAllowed.isSelected();
-            break;
-        case SCHEMATIC_TO_SYMBOL_ALL:
-            allowed = schematicToSymbolProblemAllowed.isSelected();
-            break;
-        case SYMBOL_TO_COUNTS:
-            allowed = symbolToCountsProblemAllowed.isSelected();
-            break;
-        case COUNTS_TO_SYMBOL_ALL:
-            allowed = countsToSymbolProblemAllowed.isSelected();
-            break;
-        case SCHEMATIC_TO_ELEMENT:
-            allowed = schematicToElementProblemAllowed.isSelected();
-            break;
-        case COUNTS_TO_ELEMENT:
-            allowed = countsToElementProblemAllowed.isSelected();
-            break;
-        default:
-            System.err.println( getClass().getName() + " - Error: Unknown problem type." );
-            break;
+        ProblemTypeCheckBox problemTypeCheckBox = null;
+        for (ProblemTypeCheckBox checkBox : checkBoxList ){
+            if ( problemType == checkBox.getProblemType() ){
+                // Found the check box for the corresponding prob type.
+                problemTypeCheckBox = checkBox;
+                break;
+            }
         }
-        return allowed;
+        if (problemTypeCheckBox == null){
+            System.err.println( getClass().getName() + " - Error: No check box found for problem type " + problemType );
+            return false;
+        }
+        return problemTypeCheckBox.isSelected();
     }
 
     public void setAllSelected(){
@@ -163,6 +120,24 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
     private void setNoneSelected(){
         for ( JCheckBox checkBox : checkBoxList){
             checkBox.setSelected( false );
+        }
+    }
+
+    /**
+     * Convenience class for mapping the check boxes to problem types.
+     *
+     * @author John Blanco
+     */
+    private static class ProblemTypeCheckBox extends JCheckBox {
+        private final ProblemType problemType;
+
+        public ProblemTypeCheckBox ( String text, ProblemType problemType ){
+            super( text, true );
+            this.problemType = problemType;
+        }
+
+        public ProblemType getProblemType(){
+            return problemType;
         }
     }
 }
