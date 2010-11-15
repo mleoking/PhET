@@ -36,7 +36,7 @@ public class SimSharingTeacherClient {
                         Object obj = objectInputStream.readObject();
 //                        String line = bufferedReader.readLine();
 //                        System.out.println( "line = " + line );
-                        System.out.println( "obj = " + obj );
+//                        System.out.println( "obj = " + obj );
                         final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) obj;
                         state.apply(application);
                     }
