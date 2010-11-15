@@ -5,6 +5,8 @@ import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
+import fl.controls.RadioButton;
+import fl.controls.RadioButtonGroup;
 import fl.events.*;
 import fl.managers.StyleManager;
 
@@ -42,6 +44,8 @@ public class ControlPanel extends Sprite {
     private var resetButton: NiceButton;
     public var showCMOn: Boolean;
 
+    private static var groupName: String = "pad";
+
 
     public function ControlPanel( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
@@ -78,6 +82,15 @@ public class ControlPanel extends Sprite {
         StyleManager.setStyle( "textFormat", tFormat );
 
         initializeStrings();
+
+        // make the radio buttons have different groups across different tabs TODO: fix this, not working?!? egad!
+        var oneDimensionRadioButton: RadioButton = this.oneD_rb;
+        var twoDimensionRadioButton: RadioButton = this.twoD_rb;
+        var group: RadioButtonGroup = new RadioButtonGroup( groupName );
+        trace( groupName );
+        groupName += "Pad";
+        oneDimensionRadioButton.group = group;
+        twoDimensionRadioButton.group = group;
 
         this.oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
