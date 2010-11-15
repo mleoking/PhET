@@ -4,6 +4,8 @@ DEADLINES
 
 QUESTIONS FOR NOAH
 - should you be able to touch the bottom plate with a voltmeter probe through the transparent dielectric?
+- when should the dielectric be transparent?
+- any special consideration with the glass dielectric, which is always transparent?
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature

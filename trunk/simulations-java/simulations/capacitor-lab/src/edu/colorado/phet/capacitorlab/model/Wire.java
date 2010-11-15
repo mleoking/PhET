@@ -180,7 +180,7 @@ public class Wire {
             else {
                 Area area = new Area( wireShape );
                 area.subtract( new Area( capacitorShapeFactory.createTopPlateShape() ) );
-                area.subtract( new Area( capacitorShapeFactory.createDielectricShape() ) );
+                area.subtract( new Area( capacitorShapeFactory.createDielectricShapeOccluded() ) );
                 shape = area;
             }
             return shape;
