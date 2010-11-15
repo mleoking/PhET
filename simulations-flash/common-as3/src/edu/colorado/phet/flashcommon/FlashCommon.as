@@ -127,6 +127,11 @@ public class FlashCommon {
             redirect( "http://" + getMainServer() + "/sims/" + getFlashArg( "backupSimName" ) + "/" + getFlashArg( "backupSimName" ) + "_en.html" );
         }
 
+        if ( !hasFlashVars() ) {
+            debug( "stopping FlashCommon initialization due to lack of FlashVars" );
+            return;
+        }
+
         // DEVELOPMENT: catch key events to this object
         //        Key.addListener( this );
 
@@ -572,7 +577,7 @@ public class FlashCommon {
     public function stripNewlines( str: String ): String {
         var ret: String = "";
 
-        for ( var idx:Number = 0; idx < str.length; idx++ ) {
+        for ( var idx: Number = 0; idx < str.length; idx++ ) {
             if ( str.charCodeAt( idx ) == 10 || str.charCodeAt( idx ) == 13 ) {
                 continue;
             }
@@ -639,9 +644,9 @@ public class FlashCommon {
     private function existingSystemFont( preferredFonts: Array ): String {
         throw new Error( "existingSystemFont is probably broken" );
         var fontList: Array = Font.enumerateFonts( true );
-        for ( var pkey:* in preferredFonts ) {
+        for ( var pkey: * in preferredFonts ) {
             var pfont: String = preferredFonts[pkey];
-            for ( var fkey:* in fontList ) {
+            for ( var fkey: * in fontList ) {
                 var ffont: String = fontList[fkey];
                 if ( pfont == ffont ) {
                     debug( "Found good system font: " + pfont + "\n" );
