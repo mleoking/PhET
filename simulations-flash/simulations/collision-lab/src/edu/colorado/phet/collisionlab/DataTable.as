@@ -3,15 +3,17 @@
 //each has header row + row for each ball
 //partial data table has column for ball number, col for mass, and col for mass slider
 
-package {
+package edu.colorado.phet.collisionlab {
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
 import flash.events.*;
+
 import fl.events.*;
 import fl.controls.*;
+
 import flash.text.*;
 
 public class DataTable extends Sprite {
@@ -184,22 +186,22 @@ public class DataTable extends Sprite {
 
     //following function to be altered during internationalization
     public function initializeStrings(): void {
-        this.addBall_str = SimStrings.get( "DataTable.addBall", "Add Ball" );
-        this.removeBall_str = SimStrings.get( "DataTable.removeBall", "Remove Ball" );
+        this.addBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.addBall", "Add Ball" );
+        this.removeBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.removeBall", "Remove Ball" );
         this.addBallButton.setLabel( this.addBall_str );
         this.removeBallButton.setLabel( this.removeBall_str );
-        this.moreData_str = SimStrings.get( "DataTable.moreData", "More Data" );
-        this.lessData_str = SimStrings.get( "DataTable.lessData", "Less Data" );
+        this.moreData_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.moreData", "More Data" );
+        this.lessData_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.lessData", "Less Data" );
         this.moreDataButton.setLabel( this.moreData_str );
         this.lessDataButton.setLabel( this.lessData_str );
-        this.ball_str = SimStrings.get( "DataTable.ball", "ball" );
-        this.mass_str = SimStrings.get( "DataTable.mass", "mass" );
-        this.x_str = SimStrings.get( "DataTable.x", "x" );
-        this.y_str = SimStrings.get( "DataTable.y", "y" );
-        this.Vx_str = SimStrings.get( "DataTable.vx", "Vx" );
-        this.Vy_str = SimStrings.get( "DataTable.vy", "Vy" );
-        this.Px_str = SimStrings.get( "DataTable.px", "Px" );
-        this.Py_str = SimStrings.get( "DataTable.py", "Py" );
+        this.ball_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.ball", "ball" );
+        this.mass_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.mass", "mass" );
+        this.x_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.x", "x" );
+        this.y_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.y", "y" );
+        this.Vx_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.vx", "Vx" );
+        this.Vy_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.vy", "Vy" );
+        this.Px_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.px", "Px" );
+        this.Py_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.py", "Py" );
 
 
     }//end of initializeString()

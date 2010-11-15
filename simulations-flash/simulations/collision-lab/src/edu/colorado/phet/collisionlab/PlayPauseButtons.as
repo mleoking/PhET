@@ -1,4 +1,4 @@
-﻿package {
+package edu.colorado.phet.collisionlab {
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
@@ -48,11 +48,11 @@ public class PlayPauseButtons extends Sprite {
 
     //must be altered when internationalizing
     public function initializeLabels(): void {
-        this.rewindText = SimStrings.get( "PlayPauseButtons.rewind", "Rewind" );
-        this.backText = SimStrings.get( "PlayPauseButtons.back", "Back" );
-        this.playText = SimStrings.get( "PlayPauseButtons.play", "Play" );
-        this.pauseText = SimStrings.get( "PlayPauseButtons.pause", "Pause" );
-        this.stepText = SimStrings.get( "PlayPauseButtons.step", "Step" );
+        this.rewindText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.rewind", "Rewind" );
+        this.backText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.back", "Back" );
+        this.playText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.play", "Play" );
+        this.pauseText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.pause", "Pause" );
+        this.stepText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.step", "Step" );
         this.buttonView.rewindLabel.text = rewindText;
         TextFieldUtils.resizeText( this.buttonView.rewindLabel, TextFieldAutoSize.RIGHT );
         this.buttonView.stepBackLabel.text = backText;

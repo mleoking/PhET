@@ -8,7 +8,7 @@
 // 4: transparent disk for dragging ball, to set position
 // 5: transparent arrow head, for dragging velocity arrow, to set velocity, on top
 
-package {
+package edu.colorado.phet.collisionlab {
 import flash.display.*;
 import flash.events.*;
 import flash.text.*;

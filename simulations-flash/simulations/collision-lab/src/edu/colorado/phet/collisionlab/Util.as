@@ -1,6 +1,6 @@
 //General utilities.  Useful for all sims
 
-package {
+package edu.colorado.phet.collisionlab {
 import flash.events.*;
 import flash.display.Sprite;
 import flash.geom.*;
@@ -21,7 +21,7 @@ public class Util extends Sprite {
     }//end of setXYPostion()
 
     public static function testFunction(): void {
-        trace( "Util.testFunction() called." );
+        trace( "edu.colorado.phet.collisionlab.Util.testFunction() called." );
     }
 
     //Will not work with rotated Sprites

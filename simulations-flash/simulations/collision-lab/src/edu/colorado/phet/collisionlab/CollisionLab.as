@@ -2,7 +2,7 @@
 //source code resides in /collision-lab
 //main class instance
 
-package {
+package edu.colorado.phet.collisionlab {
 
 import edu.colorado.phet.flashcommon.SimStrings;
 
