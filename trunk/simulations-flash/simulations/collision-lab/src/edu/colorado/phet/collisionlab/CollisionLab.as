@@ -4,6 +4,9 @@
 
 package edu.colorado.phet.collisionlab {
 
+import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.control.Tab;
+import edu.colorado.phet.collisionlab.control.TabBar;
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import flash.display.*;
@@ -19,6 +22,13 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         this.stageW = 950;//this.stage.stageWidth;
         this.stageH = 700;//this.stage.stageHeight;
         introModule.attach( this );
+        var tabBar: TabBar = new TabBar( CollisionLabConstants.BACKGROUND_COLOR, 0xFFFFFF );
+        var introTab: Tab = new Tab( "Introduction", tabBar );
+        tabBar.addTab( introTab );
+        var advancedTab: Tab = new Tab( "Advanced", tabBar );
+        tabBar.addTab( advancedTab );
+        tabBar.selectedTab = introTab;
+        addChild( tabBar );
     }//end of constructor
 
 }//end of class
