@@ -46,7 +46,7 @@ public class MainView extends Sprite {
         //this.myDataTable.x = 60;
         var paddingForTabs: Number = 10;
         this.myTableView.y += paddingForTabs;
-        this.myDataTable.y = 0.75 * this.stageH + paddingForTabs;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
+        this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;//this.myTableView.canvas.height + 1.0*this.myTableView.playButtons.height;
         this.myDataTable.x = this.myTableView.width / 2;
         this.controlPanel.background.width = 170;
         this.controlPanel.background.height = 330;
