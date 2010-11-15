@@ -42,30 +42,41 @@ public class InteractiveSymbolNode extends PNode {
 
     // Controls the interactivity of this node, and modifications to it are
     // monitored by the node itself in order to change its appearance.
-    private final Property<Boolean> interactiveProperty;
+    private final Property<Boolean> interactiveProtonCountProperty;
+    private final Property<Boolean> interactiveMassProperty;
+    private final Property<Boolean> interactiveChargeProperty;
 
-    public InteractiveSymbolNode( boolean interactive, final boolean showCharge ) {
-        interactiveProperty = new Property<Boolean>( interactive );
+    /**
+     * Constructor for version where everything is interactive.
+     */
+    public InteractiveSymbolNode( final boolean showCharge ) {
+        this( true, true, true, showCharge );
+    }
+
+    /**
+     * Primary constructor.
+     */
+    public InteractiveSymbolNode( boolean interactiveProtonCount, boolean interactiveMass, boolean interactiveCharge, final boolean showCharge ) {
+
+        interactiveProtonCountProperty = new Property<Boolean>( interactiveProtonCount );
+        interactiveMassProperty = new Property<Boolean>( interactiveMass );
+        interactiveChargeProperty = new Property<Boolean>( interactiveCharge );
 
         final PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
                 new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
-        final PText symbol = new PText() {
-            {
+        final PText symbol = new PText() {{
                 setFont( SYMBOL_FONT );
-            }
-        };
+        }};
         addChild( symbol );
 
-        final PText elementName = new PText() {
-            {
+        final PText elementName = new PText() {{
                 setFont( ELEMENT_NAME_FONT );
                 setTextPaint( Color.red );
-            }
-        };
+        }};
         addChild( elementName );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.red ) );
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProtonCountProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.red ) );
         protonValueNode.setScale( SPINNER_HEIGHT / protonValueNode.getFullBoundsReference().height );
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
@@ -83,13 +94,13 @@ public class InteractiveSymbolNode extends PNode {
             }
         } );
 
-        final ValueNode massValueNode = new ValueNode( massProperty, 0, 50, 1, interactiveProperty,
+        final ValueNode massValueNode = new ValueNode( massProperty, 0, 50, 1, interactiveMassProperty,
                 ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
         massValueNode.setScale( SPINNER_HEIGHT / massValueNode.getFullBoundsReference().height );
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
-        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, interactiveProperty, new SignedIntegerFormat(), new Function0<Color>() {
+        ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, interactiveChargeProperty, new SignedIntegerFormat(), new Function0<Color>() {
                 public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign
@@ -132,7 +143,7 @@ public class InteractiveSymbolNode extends PNode {
     }
 
     public void displayAnswer( AtomValue answer ) {
-        interactiveProperty.setValue( false );
+        interactiveProtonCountProperty.setValue( false );
         protonCountProperty.setValue( answer.getProtons() );
         massProperty.setValue( answer.getMassNumber() );
         chargeProperty.setValue( answer.getCharge() );
