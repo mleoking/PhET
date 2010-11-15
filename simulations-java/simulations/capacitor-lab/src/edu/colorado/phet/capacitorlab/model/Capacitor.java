@@ -323,20 +323,20 @@ public class Capacitor {
     }
     
     /**
-     * Does a Shape intersect the top plate?
+     * Does a Shape intersect the top plate shape?
      * @param shape
      * @return
      */
-    public boolean topPlateIntersects( Shape shape ) {
+    public boolean intersectsTopPlateShape( Shape shape ) {
         return ShapeUtils.intersects( shape, shapeFactory.createTopPlateShapeOccluded() );
     }
     
     /**
-     * Does a shape intersect the bottom plate?
+     * Does a shape intersect the bottom plate shape?
      * @param shape
      * @return
      */
-    public boolean bottomPlateIntersects( Shape shape ) {
+    public boolean intersectsBottomPlateShape( Shape shape ) {
         return ShapeUtils.intersects( shape, shapeFactory.createBottomPlateShapeOccluded() );
     }
     
