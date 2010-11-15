@@ -2,25 +2,24 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomApplication;
-import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
-import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * This class represents that atom in the model.  It supplies static
  * information such as the position of the atom, as well as dynamic
- * information such as the number of protons present.
+ * information such as the number of protons present.  This class contains and
+ * tracks instances of subatomic particles, rather than just the numbers of
+ * such particles.
  */
-public class Atom extends SimpleObservable implements IAtom{
+public class Atom extends SimpleAtom {
 
     private static Random RAND = new Random();
 
@@ -32,66 +31,6 @@ public class Atom extends SimpleObservable implements IAtom{
     public static final double ELECTRON_SHELL_1_RADIUS = 34;
     public static final double ELECTRON_SHELL_2_RADIUS = 102;
 
-    // Map of proton numbers to element symbols.
-    private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
-        put(0, new AtomName( BuildAnAtomStrings.ELEMENT_NONE_NAME));//for an unbuilt or empty atom
-        put(1, new AtomName( BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME));
-        put(2, new AtomName( BuildAnAtomStrings.ELEMENT_HELIUM_NAME));
-        put(3, new AtomName( BuildAnAtomStrings.ELEMENT_LITHIUM_NAME));
-        put(4, new AtomName( BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME));
-        put(5, new AtomName( BuildAnAtomStrings.ELEMENT_BORON_NAME));
-        put(6, new AtomName( BuildAnAtomStrings.ELEMENT_CARBON_NAME));
-        put(7, new AtomName( BuildAnAtomStrings.ELEMENT_NITROGEN_NAME));
-        put(8, new AtomName( BuildAnAtomStrings.ELEMENT_OXYGEN_NAME));
-        put(9, new AtomName( BuildAnAtomStrings.ELEMENT_FLUORINE_NAME));
-        put(10, new AtomName(BuildAnAtomStrings.ELEMENT_NEON_NAME));
-        put(11, new AtomName(BuildAnAtomStrings.ELEMENT_SODIUM_NAME));
-        put(12, new AtomName(BuildAnAtomStrings.ELEMENT_MAGNESIUM_NAME));
-        put(13, new AtomName(BuildAnAtomStrings.ELEMENT_ALUMINUM_NAME));
-        put(14, new AtomName(BuildAnAtomStrings.ELEMENT_SILICON_NAME));
-        put(15, new AtomName(BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME));
-        put(16, new AtomName(BuildAnAtomStrings.ELEMENT_SULPHER_NAME));
-        put(17, new AtomName(BuildAnAtomStrings.ELEMENT_CHLORINE_NAME));
-        put(18, new AtomName(BuildAnAtomStrings.ELEMENT_ARGON_NAME));
-        put(19, new AtomName(BuildAnAtomStrings.ELEMENT_POTASSIUM_NAME));
-        put(20, new AtomName(BuildAnAtomStrings.ELEMENT_CALCIUM_NAME));
-    }};
-
-    // List of stable isotopes for the first 2 rows of the periodic table
-    // See the table and notes at https://docs.google.com/document/edit?id=1VGGhLUetiwijbDneU-U6BPrjRlkI0rt939zk8Y4AuA4&authkey=CMLM4ZUC&hl=en#
-    private static final ArrayList<Isotope> stableIsotopes = new ArrayList<Isotope>() {{
-        //H
-        add( new Isotope( 1, 0 ) );
-        add( new Isotope( 2, 1 ) );
-        //He
-        add( new Isotope( 3, 1 ) );
-        add( new Isotope( 4, 2 ) );
-        //Li
-        add( new Isotope( 6, 3 ) );
-        add( new Isotope( 7, 4 ) );
-        //Be
-        add( new Isotope( 9, 5 ) );
-        //B
-        add( new Isotope( 10, 5 ) );
-        add( new Isotope( 11, 6 ) );
-        //C
-        add( new Isotope( 12, 6 ) );
-        add( new Isotope( 13, 7 ) );
-        //N
-        add( new Isotope( 14, 7 ) );
-        add( new Isotope( 15, 8 ) );
-        //O
-        add( new Isotope( 16, 8 ) );
-        add( new Isotope( 17, 9 ) );
-        add( new Isotope( 18, 10 ) );
-        //F
-        add( new Isotope( 19, 10 ) );
-        //Ne
-        add( new Isotope( 20, 10 ) );
-        add( new Isotope( 21, 11 ) );
-        add( new Isotope( 22, 12 ) );
-    }};
-
     // Position in model space.
     private final Point2D position = new Point2D.Double();
 
@@ -100,29 +39,17 @@ public class Atom extends SimpleObservable implements IAtom{
 
     // List of the subatomic particles that are currently in the nucleus.
     // Note that the electrons are maintained in the shells.
-    private final ArrayList<Proton> protons = new ArrayList<Proton>();
-    private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
+    public final ArrayList<Proton> protons = new ArrayList<Proton>();
+    public final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
 
     // Shells for containing electrons.
     private final ElectronShell electronShell1 = new ElectronShell( ELECTRON_SHELL_1_RADIUS, 2 );
     private final ElectronShell electronShell2 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
-    // Electron shell 3 is (at least initially) only used for the game, and is never shown in the main tab.  Thus, its
 
     // Observer for electron shells.
     private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
         public void update() {
             checkAndReconfigureShells();
-        }
-    };
-
-    // Listener for events where the user grabs the particle, which is interpreted as
-    // removal from the atom.
-    private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
-        @Override
-        public void grabbedByUser( SubatomicParticle particle ) {
-            // The user has picked up this particle, so we assume
-            // that it is essentially removed from the atom.
-            removeParticle( particle );
         }
     };
 
@@ -160,6 +87,15 @@ public class Atom extends SimpleObservable implements IAtom{
     // reworked.
     int count = 0;
     Random random = new Random();
+
+    protected final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
+                @Override
+                public void grabbedByUser( SubatomicParticle particle ) {
+                    // The user has picked up this particle, so we assume
+                    // that it is essentially removed from the atom.
+                    removeParticle( particle );
+                }
+            };
     private void stepInTime( double simulationTimeChange ) {
         if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
             count++;
@@ -181,7 +117,7 @@ public class Atom extends SimpleObservable implements IAtom{
     }
 
     /**Returns the removed particle.*/
-    private SubatomicParticle removeParticle( SubatomicParticle particle ) {
+    public SubatomicParticle removeParticle( SubatomicParticle particle ) {
         protons.remove( particle );
         neutrons.remove( particle );
         particle.removeListener( particleRemovalListener );
@@ -274,49 +210,6 @@ public class Atom extends SimpleObservable implements IAtom{
         return position;
     }
 
-    public int getNumProtons(){
-        return protons.size();
-    }
-
-    public int getAtomicMassNumber(){
-        return protons.size() + neutrons.size();
-    }
-
-    public int getCharge() {
-        return protons.size() - getNumElectrons() ;
-    }
-
-    public String getFormattedCharge(){
-        if (getCharge() <= 0){
-            return "" + getCharge();
-        }
-        else{
-            return "+" + getCharge();
-        }
-    }
-
-    public static String getName(int protonCount){
-        return mapNumProtonsToName.get( protonCount ).name;
-    }
-
-    public static String getSymbol(int protonCount){
-        if ( protonCount == 0 ) {
-            return BuildAnAtomStrings.ELEMENT_NONE_SYMBOL;
-        }
-        else {
-            return PeriodicTableNode.getElementAbbreviation( protonCount );
-        }
-    }
-
-    public String getName(){
-        assert mapNumProtonsToName.containsKey( getNumProtons() );
-        return getName( getNumProtons() );
-    }
-
-    public String getSymbol(){
-        return getSymbol( getNumProtons() );
-    }
-
     public void addProton( final Proton proton,boolean moveImmediately ) {
         assert !protons.contains( proton );
 
@@ -328,7 +221,9 @@ public class Atom extends SimpleObservable implements IAtom{
         reconfigureNucleus(moveImmediately);
 
         proton.addListener( particleRemovalListener );
-        notifyObservers();
+
+        // Update count in super class.  This sends out the change notification.
+        setNumProtons( protons.size() );
     }
 
     public void addNeutron( final Neutron neutron,boolean moveImmediately ) {
@@ -342,24 +237,26 @@ public class Atom extends SimpleObservable implements IAtom{
         reconfigureNucleus(moveImmediately );
 
         neutron.addListener( particleRemovalListener );
-        notifyObservers();
+
+        // Update count in super class.  This sends out the change notification.
+        setNumNeutrons( neutrons.size() );
     }
 
     public void addElectron( final Electron electron,boolean moveImmediately ) {
         if ( !electronShell1.isFull() ) {
             electronShell1.addElectron( electron, moveImmediately );
-            notifyObservers();
         }
         else if ( !electronShell2.isFull() ) {
             electronShell2.addElectron( electron, moveImmediately );
-            notifyObservers();
         } else {
             // Too many electrons.  The sim should be designed such that this
             // does not occur.  If it does, it should be debugged.
             assert false;
         }
-    }
 
+        // Update count in super class.  This sends out the change notification.
+        setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+    }
 
     /**
      * Distribute the nucleons in the nucleus in such a way that the nucleus
@@ -554,19 +451,6 @@ public class Atom extends SimpleObservable implements IAtom{
         return nucleons;
     }
 
-    public boolean isStable() {
-        //taken from the table at https://docs.google.com/document/edit?id=1VGGhLUetiwijbDneU-U6BPrjRlkI0rt939zk8Y4AuA4&authkey=CMLM4ZUC&hl=en#
-        return getAtomicMassNumber() == 0 || stableIsotopes.contains( new Isotope( getAtomicMassNumber(), neutrons.size() ) );
-    }
-
-    public int getNumNeutrons() {
-        return neutrons.size();
-    }
-
-    public int getNumElectrons() {
-        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
-    }
-
     public ArrayList<Electron> getElectrons(){
         ArrayList<Electron> allElectrons = new ArrayList<Electron>( );
         allElectrons.addAll( electronShell1.getElectrons() );
@@ -574,24 +458,8 @@ public class Atom extends SimpleObservable implements IAtom{
         return allElectrons;
     }
 
-    public int getNumParticles() {
-        return getAtomicMassNumber()+getNumElectrons();
-    }
-
     public boolean containsElectron( Electron electron ) {
         return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron);
-    }
-
-    public SubatomicParticle getProton( int i ) {
-        return protons.get( i );
-    }
-
-    public SubatomicParticle getNeutron( int i ) {
-        return neutrons.get( i );
-    }
-
-    public AtomValue toAtomValue() {
-        return new AtomValue(getNumProtons(), getNumNeutrons(),getNumElectrons() );
     }
 
     //For the game mode
@@ -626,59 +494,5 @@ public class Atom extends SimpleObservable implements IAtom{
 
     public boolean containsNeutron( Neutron neutron ) {
         return neutrons.contains( neutron );
-    }
-
-    /**
-     * Structure that contains both the chemical symbol and textual name for
-     * an atom.
-     *
-     * @author John Blanco
-     */
-    private static class AtomName{
-        public final String name;
-        public AtomName( String name ) {
-            this.name = name;
-        }
-    }
-
-    private static class Isotope {
-        public final int massNumber;
-        public final int neutronNumber;
-        //Regenerate equals and hashcode if you change the contents of the isotope
-
-        public Isotope( int massNumber, int neutronNumber ) {
-            this.massNumber = massNumber;
-            this.neutronNumber = neutronNumber;
-        }
-
-        //Autogenerated
-
-        @Override
-        public boolean equals( Object o ) {
-            if ( this == o ) {
-                return true;
-            }
-            if ( o == null || getClass() != o.getClass() ) {
-                return false;
-            }
-
-            Isotope isotope = (Isotope) o;
-
-            if ( massNumber != isotope.massNumber ) {
-                return false;
-            }
-            if ( neutronNumber != isotope.neutronNumber ) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = massNumber;
-            result = 31 * result + neutronNumber;
-            return result;
-        }
     }
 }

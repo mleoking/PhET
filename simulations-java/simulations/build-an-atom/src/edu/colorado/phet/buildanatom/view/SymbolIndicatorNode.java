@@ -7,6 +7,7 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -27,7 +28,7 @@ public class SymbolIndicatorNode extends PNode {
     public static final Font NUMBER_FONT = new PhetFont( 20, true );
     public static final Font ELEMENT_NAME_FONT = new PhetFont( 12, true );
 
-    private final Atom atom;
+    private final SimpleAtom atom;
     private final PText symbol;
     private final PText protonCount;
     private final PNode boundingBox;
@@ -35,7 +36,7 @@ public class SymbolIndicatorNode extends PNode {
     private final PText chargeNode;
     private final PText elementName;
 
-    public SymbolIndicatorNode( final Atom atom, boolean showElementName) {
+    public SymbolIndicatorNode( final SimpleAtom atom, boolean showElementName) {
         //has to be big enough to hold Ne with 2 digit numbers on both sides
         double width = 83;
         double height = 83;
