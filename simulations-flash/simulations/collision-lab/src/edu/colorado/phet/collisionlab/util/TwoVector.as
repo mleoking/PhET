@@ -1,7 +1,7 @@
 //TwoVector.  Simple 2-component real vector
 //AS3 has built-in Vector Class, so named my class differently
 
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.util {
 
 public class TwoVector {
     private var xComponent: Number;

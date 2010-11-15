@@ -3,31 +3,32 @@
 //each has header row + row for each ball
 //partial data table has column for ball number, col for mass, and col for mass slider
 
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.control {
+import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.util.Util;
+import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
-
 import edu.colorado.phet.flashcommon.TextFieldUtils;
+
+import fl.controls.*;
+import fl.events.*;
 
 import flash.display.*;
 import flash.events.*;
-
-import fl.events.*;
-import fl.controls.*;
-
 import flash.text.*;
 
 public class DataTable extends Sprite {
     var myModel: Model;
     var myMainView: MainView;
     var nbrBalls: int;
-    var maxNbrBalls: int;
     var canvas: Sprite;			//canvas holds several rowCanvases, full data table
     var invisibleBorder: Sprite;	//draggable border
     var rowCanvas_arr: Array;	//array of Sprites, each holds one row of textFields
     var colWidth: int;			//width of column in pix
     var rowHeight: int;			//height of row in pix
     var rowWidth: int;			//width of row in pix, used to set borderwidth
-    var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
+    public var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
     //var toggleButton:Button;	//button to toggle full or partial data display
     var addBallButton: NiceButton;		//button to add ball, originally on Control Panel
     var removeBallButton: NiceButton; 	//button to remove ball, originally on Control Panel
@@ -63,20 +64,19 @@ public class DataTable extends Sprite {
         this.myModel = myModel;
         this.myModel.registerView( this );
         this.myMainView = myMainView;
-        this.maxNbrBalls = this.myModel.maxNbrBalls;
         this.nbrBalls = this.myModel.nbrBalls;
         this.nbrColumns = 8;
         this.colWidth = 60;
         this.rowHeight = 27;
-        this.rowCanvas_arr = new Array( this.maxNbrBalls + 1 ); //header row + row for each ball
-        this.text_arr = new Array( this.maxNbrBalls + 1 );	//rows
-        this.massSlider_arr = new Array( this.maxNbrBalls + 1 );
+        this.rowCanvas_arr = new Array( CollisionLabConstants.MAX_BALLS + 1 ); //header row + row for each ball
+        this.text_arr = new Array( CollisionLabConstants.MAX_BALLS + 1 );	//rows
+        this.massSlider_arr = new Array( CollisionLabConstants.MAX_BALLS + 1 );
         this.tFormat = new TextFormat();
         this.tFormat.font = "Arial";
         this.tFormat.size = 14;
         this.tFormat.align = TextFormatAlign.CENTER;
         //create textfields for full data table and mass sliders for partial data table
-        for ( var i: int = 0; i < this.maxNbrBalls + 1; i++ ) {  //header row + row for each ball
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {  //header row + row for each ball
             this.rowCanvas_arr[i] = new Sprite();
             this.text_arr[i] = new Array( this.nbrColumns );
             if ( i > 0 ) {
@@ -130,7 +130,7 @@ public class DataTable extends Sprite {
         //this.x = 60;
 
         //layout textFields in full data table
-        for ( var i: int = 0; i < this.maxNbrBalls + 1; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
             this.canvas.addChild( this.rowCanvas_arr[i] );
 
             if ( i > 0 ) {
@@ -186,22 +186,22 @@ public class DataTable extends Sprite {
 
     //following function to be altered during internationalization
     public function initializeStrings(): void {
-        this.addBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.addBall", "Add Ball" );
-        this.removeBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.removeBall", "Remove Ball" );
+        this.addBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.addBall", "Add Ball" );
+        this.removeBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.removeBall", "Remove Ball" );
         this.addBallButton.setLabel( this.addBall_str );
         this.removeBallButton.setLabel( this.removeBall_str );
-        this.moreData_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.moreData", "More Data" );
-        this.lessData_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.lessData", "Less Data" );
+        this.moreData_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.moreData", "More Data" );
+        this.lessData_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.lessData", "Less Data" );
         this.moreDataButton.setLabel( this.moreData_str );
         this.lessDataButton.setLabel( this.lessData_str );
-        this.ball_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.ball", "ball" );
-        this.mass_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.mass", "mass" );
-        this.x_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.x", "x" );
-        this.y_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.y", "y" );
-        this.Vx_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.vx", "Vx" );
-        this.Vy_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.vy", "Vy" );
-        this.Px_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.px", "Px" );
-        this.Py_str = SimStrings.get( "edu.colorado.phet.collisionlab.DataTable.py", "Py" );
+        this.ball_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.ball", "ball" );
+        this.mass_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.mass", "mass" );
+        this.x_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.x", "x" );
+        this.y_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.y", "y" );
+        this.Vx_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.vx", "Vx" );
+        this.Vy_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.vy", "Vy" );
+        this.Px_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.px", "Px" );
+        this.Py_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.py", "Py" );
 
 
     }//end of initializeString()
@@ -255,7 +255,7 @@ public class DataTable extends Sprite {
         this.text_arr[0][6].text = Px_str;
         this.text_arr[0][7].text = Py_str;
         this.tFormat.bold = true;
-        for ( var i: int = 0; i < this.maxNbrBalls + 1; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
             if ( i != 0 ) {this.text_arr[i][0].text = i;}
             for ( var j: int = 0; j < this.nbrColumns; j++ ) {
                 if ( i == 0 || j == 0 ) {
@@ -320,7 +320,7 @@ public class DataTable extends Sprite {
         this.drawBorder( this.nbrBalls );
         //hide all but 1st two columns for partial
         //this.drawBorder(this.nbrBalls, 4.5*this.colWidth)
-        for ( var i: int = 0; i < this.maxNbrBalls + 1; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
             if ( i > 0 ) {
                 this.massSlider_arr[i - 1].visible = tOrF;
             }
@@ -333,14 +333,14 @@ public class DataTable extends Sprite {
     public function setNbrDisplayedRows(): void {
         this.nbrBalls = this.myModel.nbrBalls;
         this.drawBorder( this.nbrBalls );
-        for ( var i: int = 0; i < this.maxNbrBalls + 1; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
             this.rowCanvas_arr[i].visible = i < this.nbrBalls + 1;
         }//end for(i)
     }//end setNbrDisplayedRows
 
     //ball	mass	x	y	vx	vy	px	py
     public function createTextChangeListeners(): void {
-        for ( var i: int = 1; i < this.maxNbrBalls + 1; i++ ) {
+        for ( var i: int = 1; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
             for ( var j: int = 1; j < this.nbrColumns; j++ ) {
                 //this.currentBody = i;
                 if ( j == 1 ) {
@@ -474,7 +474,7 @@ public class DataTable extends Sprite {
     }
 
     private function resetMassSliders(): void {  //called when reset button on Control panel
-        for ( var i: int = 0; i < this.maxNbrBalls; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             this.massSlider_arr[i].value = this.myModel.ball_arr[i].getMass();
             this.myMainView.myTableView.ballImage_arr[i].drawLayer1();  //redraw ballImage for new diameter
             this.myMainView.myTableView.ballImage_arr[i].drawLayer1a(); //redraw ballImage for new diameter
@@ -530,7 +530,7 @@ public class DataTable extends Sprite {
                 this.myMainView.myTableView.CM.visible = true;
             }
         }
-        this.addBallButton_sp.visible = this.nbrBalls != this.maxNbrBalls;
+        this.addBallButton_sp.visible = this.nbrBalls != CollisionLabConstants.MAX_BALLS;
     }//end checkBallNbrLimits()
 
     public function update(): void {
@@ -540,7 +540,7 @@ public class DataTable extends Sprite {
         var mass: Number;
         //        var nbrPlaces: int = 3  //number of places right of decimal pt displayed
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
-            for ( i = 1; i < this.maxNbrBalls + 1; i++ ) {  //skip header row
+            for ( i = 1; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {  //skip header row
                 for ( j = 0; j < this.nbrColumns; j++ ) {
                     if ( j == 0 ) {
                         //do nothing
@@ -605,7 +605,7 @@ public class DataTable extends Sprite {
         }//end if(!manualUpdating)
 
         if ( sliderUpdating ) {
-            for ( i = 0; i < this.maxNbrBalls; i++ ) {
+            for ( i = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
                 mass = this.myModel.ball_arr[i].getMass();
                 this.text_arr[i + 1][1].text = this.round( mass, 1 );
             }
@@ -616,7 +616,7 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( i = 1; i < this.maxNbrBalls + 1; i++ ) {  //skip header row
+        for ( i = 1; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {  //skip header row
             mass = this.myModel.ball_arr[i - 1].getMass();
             xVel = this.myModel.ball_arr[i - 1].velocity.getX();
             yVel = this.myModel.ball_arr[i - 1].velocity.getY();

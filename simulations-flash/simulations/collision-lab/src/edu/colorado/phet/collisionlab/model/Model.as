@@ -1,46 +1,45 @@
 //The Model for Collision Lab
-package edu.colorado.phet.collisionlab {
-import edu.colorado.phet.collisionlab.Ball;
+package edu.colorado.phet.collisionlab.model {
+
+import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.util.TwoVector;
 
 import flash.events.*;
-import flash.utils.*;
 import flash.geom.*;
+import flash.utils.*;
 
 public class Model {
-    var nbrBalls: int;  		//current nbr of interacting balls
-    var maxNbrBalls: int;	//maximum nbr of interacting balls (5?)
-    var ball_arr: Array;		//array of balls
+    public var nbrBalls: int;  		//current nbr of interacting balls
+    public var ball_arr: Array;		//array of balls
     var startingPos: Array;	//array of initial positions of balls, ResetAll Button
     var startingVel: Array;	//array of initial velocities of balls, ResetAll Button
-    var initPos: Array;		//array of initial positions of balls, after reset, to repeat expt
-    var initVel: Array;		//array of initial velocities of balls, after reset, to repeat expt
-    var CM: Point;			//center-of-mass of system
+    public var initPos: Array;		//array of initial positions of balls, after reset, to repeat expt
+    public var initVel: Array;		//array of initial velocities of balls, after reset, to repeat expt
+    public var CM: Point;			//center-of-mass of system
     var massBall1: Number;	//initial mass of ball 1 (0 index in ball_arr)
     var massBall2: Number;	//initial mass of ball 2 (1 index in ball_arr)
-    var borderOn: Boolean;	//if true, balls elastically reflect from border
-    var borderWidth: Number;	//length of horizontal border in meters
-    var borderHeight: Number;	//current length of vertical border in meters, depends on oneDMode
-    var oneDBorderHeight: Number;
-    var twoDBorderHeight: Number;
-    var e: Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
-    var time: Number;		//simulation time in seconds = real time
+    public var borderOn: Boolean;	//if true, balls elastically reflect from border
+    public var borderWidth: Number;	//length of horizontal border in meters
+    public var borderHeight: Number;	//current length of vertical border in meters, depends on oneDMode
+    public var e: Number;			//elasticity = 0 to 1: 0 = perfectly inelastic, 1 = perfectly elastic
+    public var time: Number;		//simulation time in seconds = real time
     var lastTime: Number;	//time of previous step
     var timeStep: Number;	//time step in seconds
     var msTimer: Timer;		//millisecond timer
     var colliding: Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
     var playing: Boolean;	//true if motion is playing, false if paused
-    var singleStepping: Boolean; //true if singleStepping forward or backward
-    var soundOn: Boolean;	//true if sound enabled
-    var sounding: Boolean;	//true if click sound is to be played, click sound during collision
-    var nbrBallsChanged: Boolean;  //true if number of balls is changed
-    var atInitialConfig: Boolean;  //true if t = 0;
+    public var singleStepping: Boolean; //true if singleStepping forward or backward
+    public var soundOn: Boolean;	//true if sound enabled
+    public var sounding: Boolean;	//true if click sound is to be played, click sound during collision
+    public var nbrBallsChanged: Boolean;  //true if number of balls is changed
+    public var atInitialConfig: Boolean;  //true if t = 0;
     var starting: Boolean;	//true if playing and 1st step not yet taken, used to step time-based vs. frame-based animation;
     var reversing: Boolean;	//false if going forward in time, true if going backward
-    var resetting: Boolean;	//true if in process of resetting all (Reset All button on Control Panel);
-    var oneDMode: Boolean;	//true if motions restricted to 1D
+    public var resetting: Boolean;	//true if in process of resetting all (Reset All button on Control Panel);
+    public var oneDMode: Boolean;	//true if motions restricted to 1D
     //var realTimer:Timer;	//real timer, used to maintain time-based updates
     var timeHolder: int;		//scatch for hold results of getTimer
-    var timeRate: Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
+    public var timeRate: Number;	//0 to 1: to slow down or speed up action, 1 = realtime, 0 = paused
     var updateRate: int;		//number of time steps between graphics updates
     var frameCount: int;		//when frameCount reaches frameRate, update graphics
     //var colliders:Array;	//2D array of ij pairs: value = 1 if pair colliding, 0 if not colliding.
@@ -51,17 +50,14 @@ public class Model {
 
     public function Model() {
         this.borderOn = true;
-        this.borderWidth = 3.2;	//units are meters
-        this.oneDBorderHeight = 0.8;
-        this.twoDBorderHeight = 2.0;
-        this.borderHeight = twoDBorderHeight;
+        this.borderWidth = CollisionLabConstants.BORDER_WIDTH;	//units are meters
+        this.borderHeight = CollisionLabConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup
         this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-        this.maxNbrBalls = 5;
         this.massBall1 = 0.5;
         this.massBall2 = 1.5;
         this.oneDMode = false;
         this.CM = new Point();
-        this.ball_arr = new Array( this.maxNbrBalls );  //only first nbrBalls elements of array are used
+        this.ball_arr = new Array( CollisionLabConstants.MAX_BALLS );  //only first nbrBalls elements of array are used
         this.createInitialBallData();
         this.initializeBalls();
         //this.setCenterOfMass();
@@ -87,7 +83,7 @@ public class Model {
         if ( !this.playing ) {
             this.atInitialConfig = true;
         }
-        if ( this.nbrBalls < this.maxNbrBalls ) {
+        if ( this.nbrBalls < CollisionLabConstants.MAX_BALLS ) {
             this.nbrBalls += 1;
             if ( this.oneDMode ) {
                 for ( var i: int = 0; i < this.nbrBalls; i++ ) {
@@ -143,8 +139,8 @@ public class Model {
 
     //called once, at startup
     public function createInitialBallData(): void {
-        this.startingPos = new Array( this.maxNbrBalls );
-        this.startingVel = new Array( this.maxNbrBalls );
+        this.startingPos = new Array( CollisionLabConstants.MAX_BALLS );
+        this.startingVel = new Array( CollisionLabConstants.MAX_BALLS );
         startingPos[0] = new TwoVector( 1.0, 0 );
         startingPos[1] = new TwoVector( 2.0, +0.5 );
         startingPos[2] = new TwoVector( 1, -0.5 );
@@ -164,13 +160,13 @@ public class Model {
         this.resetting = false;
         this.soundOn = false;
         this.sounding = false;
-        this.initPos = new Array( this.maxNbrBalls );
-        this.initVel = new Array( this.maxNbrBalls );
-        for ( var i: int = 0; i < this.maxNbrBalls; i++ ) {
+        this.initPos = new Array( CollisionLabConstants.MAX_BALLS );
+        this.initVel = new Array( CollisionLabConstants.MAX_BALLS );
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             initPos[i] = startingPos[i].clone();
             initVel[i] = startingVel[i].clone();
         }
-        for ( i = 0; i < this.maxNbrBalls; i++ ) {
+        for ( i = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             //new Ball(mass, position, velocity);
             this.ball_arr[i] = new Ball( 1.0, initPos[i].clone(), initVel[i].clone() );
         }
@@ -193,7 +189,7 @@ public class Model {
         this.resetting = true;
         this.setOneDMode( false );
         this.setReflectingBorder( true );
-        for ( var i: int = 0; i < this.maxNbrBalls; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             //new Ball(mass, position, velocity);
             this.ball_arr[i].setBall( 1.0, startingPos[i].clone(), startingVel[i].clone() );
             this.setMass( i, 1.0 );
@@ -216,7 +212,7 @@ public class Model {
     public function setOneDMode( tOrF: Boolean ): void {
         this.oneDMode = tOrF;
         if ( this.oneDMode ) {
-            this.borderHeight = this.oneDBorderHeight;  // border heigh in meters; reflecting border is resized to give visual clue that 1D mode is ON.
+            this.borderHeight = CollisionLabConstants.BORDER_HEIGHT_1D;  // border heigh in meters; reflecting border is resized to give visual clue that 1D mode is ON.
             for ( var i: int = 0; i < this.nbrBalls; i++ ) {
                 this.setY( i, 0 );
                 this.setVY( i, 0 );
@@ -224,7 +220,7 @@ public class Model {
             this.separateAllBalls();
         }
         else { //if 2D mode
-            this.borderHeight = this.twoDBorderHeight; //border height in meters
+            this.borderHeight = CollisionLabConstants.BORDER_HEIGHT_2D; //border height in meters
             //this.initializePositions();  //back to 2D
         }
         //trace("Model.setOneDMode: "+tOrF);
@@ -441,7 +437,7 @@ public class Model {
             this.lastTime = this.time;
         }
         if ( this.nbrCollisionsInThisTimeStep > 1 ) {
-            trace( "edu.colorado.phet.collisionlab.Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
+            trace( "edu.colorado.phet.collisionlab.model.Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
         }
     }//end of singleStep()
 
@@ -541,7 +537,7 @@ public class Model {
                     var dist: Number = Math.sqrt( (xj - xi) * (xj - xi) + (yj - yi) * (yj - yi) );
                     var distMin: Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
                     if ( dist <= distMin ) {
-                        trace( "edu.colorado.phet.collisionlab.Model: Ball " + i + " and " + j + " overlap at round " + cntr );
+                        trace( "edu.colorado.phet.collisionlab.model.Model: Ball " + i + " and " + j + " overlap at round " + cntr );
                         separateBalls( i, j );
                     }
                 }//for(j=..)

@@ -1,4 +1,5 @@
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.util {
+
 import flash.display.*;
 import flash.events.*;
 import flash.text.TextFormat;

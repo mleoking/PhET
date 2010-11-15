@@ -1,6 +1,9 @@
 //Draws paths(trajectories) of balls in TableView
 //Version 1, no good handling of multiple events in same timeStep
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.model.Model;
+
 import flash.display.*;
 
 public class Trajectories extends Sprite {
@@ -20,7 +23,7 @@ public class Trajectories extends Sprite {
         this.myModel = myModel;
         this.myTableView = myTableView;
         this.pixelsPerMeter = this.myTableView.pixelsPerMeter;
-        this.maxNbrPaths = this.myModel.maxNbrBalls;
+        this.maxNbrPaths = CollisionLabConstants.MAX_BALLS;
         this.borderHeight = this.myModel.borderHeight;
         this.nbrPaths = this.myModel.nbrBalls;
         this.path_arr = new Array( this.maxNbrPaths );

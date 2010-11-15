@@ -1,17 +1,16 @@
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.control {
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.util.Util;
+import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
+import fl.events.*;
+import fl.managers.StyleManager;
+
 import flash.display.*;
 import flash.events.*;
-
-import fl.events.*;
-
 import flash.text.*;
-import flash.ui.*;
-
-import fl.controls.*;
-import fl.managers.StyleManager;
 
 //List of strings in this class for internationalization:
 //This class ControlPanel associated with library movieclip controlPanel
@@ -39,7 +38,6 @@ public class ControlPanel extends Sprite {
     private var myModel: Model;
     private var myMainView: MainView;
     private var nbrBalls;
-    //private var maxNbrBalls;
     private var tFormat: TextFormat;
     private var resetButton: NiceButton;
     public var showCMOn: Boolean;
@@ -50,9 +48,7 @@ public class ControlPanel extends Sprite {
         this.myMainView = myMainView;
         this.myMainView.addChild( this );
         this.nbrBalls = this.myModel.nbrBalls;
-        //this.maxNbrBalls = this.myModel.maxNbrBalls;
         this.tFormat = new TextFormat();
-        //this.myModel.registerView(this);
         //this.changeNbrBallButtons = new ChangeNbrBallButtons();
         this.initialize();
         this.initializeComponents();
@@ -111,23 +107,23 @@ public class ControlPanel extends Sprite {
     //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.1d", "1 Dimension", oneD_txt, oneD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.2d", "2 Dimensions", twoD_txt, twoD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showVelocities", "Velocity Vectors", showVelocities_label, showVelocities_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showMomentumVectors", "Momentum Vectors", showMomentumVectors_label, showMomentumVectors_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showCenterOfMass", "Center of Mass", showCM_label, showCM_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.reflectingBorder", "Reflecting Border", reflectingBorder_label, reflectingBorder_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.momentaDiagram", "Momenta Diagram", showMomenta_label, showMomenta_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showPaths", "Show Paths", showPaths_label, showPaths_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.sound", "Sound", sound_label, sound_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", oneD_txt, oneD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", twoD_txt, twoD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showVelocities", "Velocity Vectors", showVelocities_label, showVelocities_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", showMomentumVectors_label, showMomentumVectors_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", showCM_label, showCM_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.reflectingBorder", "Reflecting Border", reflectingBorder_label, reflectingBorder_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.momentaDiagram", "Momenta Diagram", showMomenta_label, showMomenta_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showPaths", "Show Paths", showPaths_label, showPaths_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.sound", "Sound", sound_label, sound_cb );
 
-        resetButton.setLabel( SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.resetAll", "Reset All" ) );
+        resetButton.setLabel( SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.resetAll", "Reset All" ) );
         // this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
         //this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
         //this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
-        this.elasticityLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.elasticity", "Elasticity" );
-        this.zeroPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.zeroPercent", "0%" );
-        this.oneHundredPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.oneHundredPercent", "100%" );
+        this.elasticityLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.elasticity", "Elasticity" );
+        this.zeroPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.zeroPercent", "0%" );
+        this.oneHundredPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.oneHundredPercent", "100%" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()

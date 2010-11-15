@@ -1,4 +1,7 @@
 package edu.colorado.phet.collisionlab {
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.view.MainView;
+
 import flash.display.DisplayObjectContainer;
 
 public class IntroModule {
