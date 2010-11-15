@@ -1,4 +1,4 @@
-package {
+package edu.colorado.phet.collisionlab {
 import flash.display.DisplayObjectContainer;
 
 public class AdvancedModule {

@@ -1,5 +1,7 @@
 //The Model for Collision Lab
-package {
+package edu.colorado.phet.collisionlab {
+import edu.colorado.phet.collisionlab.Ball;
+
 import flash.events.*;
 import flash.utils.*;
 import flash.geom.*;
@@ -439,7 +441,7 @@ public class Model {
             this.lastTime = this.time;
         }
         if ( this.nbrCollisionsInThisTimeStep > 1 ) {
-            trace( "Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
+            trace( "edu.colorado.phet.collisionlab.Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
         }
     }//end of singleStep()
 
@@ -539,7 +541,7 @@ public class Model {
                     var dist: Number = Math.sqrt( (xj - xi) * (xj - xi) + (yj - yi) * (yj - yi) );
                     var distMin: Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
                     if ( dist <= distMin ) {
-                        trace( "Model: Ball " + i + " and " + j + " overlap at round " + cntr );
+                        trace( "edu.colorado.phet.collisionlab.Model: Ball " + i + " and " + j + " overlap at round " + cntr );
                         separateBalls( i, j );
                     }
                 }//for(j=..)

@@ -1,6 +1,6 @@
 //ball object in the Model for Collision Lab
 
-package {
+package edu.colorado.phet.collisionlab {
 //import statements go here
 
 public class Ball {

@@ -1,5 +1,5 @@
 //MainView contains all views, acts as mediator, communication hub for views
-package {
+package edu.colorado.phet.collisionlab {
 import edu.colorado.phet.flashcommon.FlashCommonCS4;
 
 import flash.display.*;

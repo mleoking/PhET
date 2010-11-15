@@ -1,4 +1,4 @@
-package {
+package edu.colorado.phet.collisionlab {
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.events.*;

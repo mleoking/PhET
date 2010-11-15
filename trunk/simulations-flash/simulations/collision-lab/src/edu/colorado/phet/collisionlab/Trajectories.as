@@ -1,6 +1,6 @@
 //Draws paths(trajectories) of balls in TableView
 //Version 1, no good handling of multiple events in same timeStep
-package {
+package edu.colorado.phet.collisionlab {
 import flash.display.*;
 
 public class Trajectories extends Sprite {

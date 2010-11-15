@@ -1,4 +1,4 @@
-package {
+package edu.colorado.phet.collisionlab {
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
@@ -111,23 +111,23 @@ public class ControlPanel extends Sprite {
     //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.1d", "1 Dimension", oneD_txt, oneD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.2d", "2 Dimensions", twoD_txt, twoD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showVelocities", "Velocity Vectors", showVelocities_label, showVelocities_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showMomentumVectors", "Momentum Vectors", showMomentumVectors_label, showMomentumVectors_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showCenterOfMass", "Center of Mass", showCM_label, showCM_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.reflectingBorder", "Reflecting Border", reflectingBorder_label, reflectingBorder_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.momentaDiagram", "Momenta Diagram", showMomenta_label, showMomenta_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showPaths", "Show Paths", showPaths_label, showPaths_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sound_label, sound_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.1d", "1 Dimension", oneD_txt, oneD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.2d", "2 Dimensions", twoD_txt, twoD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showVelocities", "Velocity Vectors", showVelocities_label, showVelocities_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showMomentumVectors", "Momentum Vectors", showMomentumVectors_label, showMomentumVectors_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showCenterOfMass", "Center of Mass", showCM_label, showCM_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.reflectingBorder", "Reflecting Border", reflectingBorder_label, reflectingBorder_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.momentaDiagram", "Momenta Diagram", showMomenta_label, showMomenta_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.showPaths", "Show Paths", showPaths_label, showPaths_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.ControlPanel.sound", "Sound", sound_label, sound_cb );
 
-        resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
+        resetButton.setLabel( SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.resetAll", "Reset All" ) );
         // this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
         //this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
         //this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
-        this.elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
-        this.zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "0%" );
-        this.oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "100%" );
+        this.elasticityLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.elasticity", "Elasticity" );
+        this.zeroPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.zeroPercent", "0%" );
+        this.oneHundredPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.ControlPanel.oneHundredPercent", "100%" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()
