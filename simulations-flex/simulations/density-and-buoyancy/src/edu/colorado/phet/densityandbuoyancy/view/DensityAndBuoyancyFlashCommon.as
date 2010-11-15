@@ -25,7 +25,7 @@ public class DensityAndBuoyancyFlashCommon extends UIComponent {
             else {
                 root.stage.transform.colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
             }
-        }
+        };
 
         common.addLoadListener( positionButtons );
         stage.addEventListener( Event.RESIZE, function( evt: Event ): void {
