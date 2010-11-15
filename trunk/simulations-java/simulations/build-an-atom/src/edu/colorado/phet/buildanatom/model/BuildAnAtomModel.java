@@ -74,7 +74,7 @@ public class BuildAnAtomModel {
     }
 
     /**
-     * Construct the model and move the particles immediately into their positions.
+     * Construct the model based on the atom description.
      */
     public BuildAnAtomModel( BuildAnAtomClock clock, AtomValue atomValue, boolean moveImmediately ) {
         this( clock, atomValue );
