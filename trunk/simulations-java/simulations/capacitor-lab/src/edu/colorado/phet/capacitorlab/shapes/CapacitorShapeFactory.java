@@ -10,6 +10,9 @@ import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D capacitor model.
+ * All of these shapes are 2D projections of pseudo-3D boxes.
+ * These shapes are subtracted using constructive area geometry to account for 
+ * occlusion that occurs in our pseudo-3D view.
  * All Shapes are in the global view coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -24,42 +27,12 @@ public class CapacitorShapeFactory {
         this.boxShapeFactory = new BoxShapeFactory( mvt );
     }
     
-    /**
-     * Creates the bounding shape of the visible portions of the top plate.
-     * Nothing occludes the top plate.
-     * @return
-     */
-    public Shape createTopPlateShapeOccluded() {
-        return createTopPlateShape();
-    }
-    
-    /**
-     * Creates the bounding shape of the visible portions of the bottom plate.
-     * The bottom plate may be partially occluded by the top plate and/or dielectric.
-     * @return
-     */
-    public Shape createBottomPlateShapeOccluded() {
-        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShapeOccluded(), createDielectricShape() );
-    }
+    //----------------------------------------------------------------------------------------
+    // unoccluded shapes
+    //----------------------------------------------------------------------------------------
     
     /*
-     * Creates the bounding shape of the visible portion of the dielectric between the plates.
-     * This may be partially occluded by the top plate.
-     */
-    public Shape createDielectricBetweenPlatesShapeOccluded() {
-        return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
-    }
-    
-    /*
-     * Creates the bounding shape of the visible portion of the air between the plates.
-     * This may be partially occluded by the dielectric and top plate.
-     */
-    public Shape createAirBetweenPlatesShapeOccluded() {
-        return ShapeUtils.subtract( createAirBetweenPlateShape(), createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
-    }
-    
-    /*
-     * Creates the bounding shape of the top plate.
+     * Top plate
      * @return
      */
     private Shape createTopPlateShape() {
@@ -67,7 +40,7 @@ public class CapacitorShapeFactory {
     }
     
     /**
-     * Creates the bounding shape of the bottom plate.
+     * Bottom plate
      * @return
      */
     public Shape createBottomPlateShape() {
@@ -75,7 +48,7 @@ public class CapacitorShapeFactory {
     }
     
     /*
-     * Creates the bounding shape of the dielectric.
+     * Dielectric
      * @return
      */
     private Shape createDielectricShape() {
@@ -86,7 +59,7 @@ public class CapacitorShapeFactory {
     }
     
     /*
-     * Creates the bounding shape of the area between the capacitor plates.
+     * Volume between the capacitor plates
      * @return
      */
     private Shape createBetweenPlatesShape() {
@@ -100,7 +73,7 @@ public class CapacitorShapeFactory {
     }
     
     /*
-     * Creates the bounding shape of the portion of the dielectric that is between the capacitor plates.
+     * Portion of the dielectric that is between the capacitor plates
      * @return
      */
     private Shape createDielectricBetweenPlatesShape() {
@@ -108,22 +81,64 @@ public class CapacitorShapeFactory {
     }
     
     /*
-     * Creates the bounding shape of the air that is between the capacitor plates.
+     * Air that is between the capacitor plates
      * @return
      */
     private Shape createAirBetweenPlateShape() {
         return ShapeUtils.subtract( createDielectricShape(), createBetweenPlatesShape() );
     }
     
+    //----------------------------------------------------------------------------------------
+    // occluded shapes
+    //----------------------------------------------------------------------------------------
+    
+    /**
+     * Visible portions of the top plate.
+     * Nothing occludes the top plate.
+     * @return
+     */
+    public Shape createTopPlateShapeOccluded() {
+        return createTopPlateShape();
+    }
+    
+    /**
+     * Visible portions of the bottom plate.
+     * May be partially occluded by the top plate and/or dielectric.
+     * @return
+     */
+    public Shape createBottomPlateShapeOccluded() {
+        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShapeOccluded(), createDielectricShape() );
+    }
+    
     /*
-     * Creates the bounding shape of a plate, relative to a specified origin.
+     * Visible portion of the dielectric between the plates.
+     * May be partially occluded by the top plate.
+     */
+    public Shape createDielectricBetweenPlatesShapeOccluded() {
+        return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
+    }
+    
+    /*
+     * Visible portion of air between the plates.
+     * May be partially occluded by the dielectric and top plate.
+     */
+    public Shape createAirBetweenPlatesShapeOccluded() {
+        return ShapeUtils.subtract( createAirBetweenPlateShape(), createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
+    }
+    
+    //----------------------------------------------------------------------------------------
+    // general shapes
+    //----------------------------------------------------------------------------------------
+    
+    /*
+     * A capacitor plate, relative to a specified origin.
      */
     private Shape createPlateShape( double x, double y, double z ) {
         return createBoxShape( x, y, z, capacitor.getPlateSideLength(), capacitor.getPlateThickness(), capacitor.getPlateSideLength() );
     }
     
     /*
-     * Creates the bounding shape of a box, relative to a specific origin.
+     * A box, relative to a specific origin.
      */
     private Shape createBoxShape( double x, double y, double z, double width, double height, double depth ) {
         Shape topShape = boxShapeFactory.createTopFace( x, y, z, width, height, depth );
