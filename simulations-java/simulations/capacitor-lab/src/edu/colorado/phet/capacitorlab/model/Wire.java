@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
