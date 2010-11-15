@@ -1,5 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.Function0;
@@ -54,5 +55,9 @@ public class Particle {
 
     public void removeRemovalListener( Function0 function0 ) {
         listeners.remove( function0 );
+    }
+
+    public Point2D getPosition() {
+        return new Point2D.Double( getX(), getY() );
     }
 }
