@@ -7,7 +7,6 @@ QUESTIONS FOR NOAH
 - when should the dielectric be transparent?
 - any special consideration with the glass dielectric, which is always transparent?
 - should be put a dashed box around the E-field measurement shape?
-- top plate should never be transparent, confuses issue of E-field measurement
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
@@ -19,6 +18,9 @@ DESIGN ISSUES
 - should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
+- remove portion of bottom wire that is occluded by battery
+- remove transparency from the top plate
+- remove dielectric transparency for voltmeter and E-field detector
 - address stroke issue in WireSegment.createShape
 - WireNode gets shapes from Wire, which has a Shape property, this pattern is different
 - hack in BottomWire
