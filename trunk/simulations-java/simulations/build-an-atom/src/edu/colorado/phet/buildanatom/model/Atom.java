@@ -289,17 +289,17 @@ public class Atom extends SimpleAtom {
 
     @Override
     public void setNumProtons( int numProtons ) {
-        if ( numProtons > protons.size() ){
+        if ( numProtons > protons.size() ) {
             // Attempt to get protons from the repository to add to this
             // atom until we have enough or run out.
-            for ( int i = 0; i < numProtons - protons.size(); i++ ){
+            for ( int i = 0; i < numProtons - protons.size(); i++ ) {
                 Neutron neutron = subatomicParticleRepository.getNeutron();
-                if ( neutron != null ){
+                if ( neutron != null ) {
                     addNeutron( neutron, true );
                 }
-                else{
+                else {
                     assert false;
-                    System.err.println("Error: Not enough protons available to allow set operation to succeed.");
+                    System.err.println( "Error: Not enough protons available to allow set operation to succeed." );
                     continue;
                 }
             }
@@ -409,106 +409,10 @@ public class Atom extends SimpleAtom {
                     level++;
                     placementRadius += nucleonRadius * 1.3 / level;
                     placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
-//                    if( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
-//                        placementAngle += RAND.nextDouble() * 2 * Math.PI;
-//                    }
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
             }
-
-            // Shuffle the location of some of the nucleons in order to
-            // minimize the appearance of "clumpiness".
-            /*
-            for ( int i = 0; i < nucleons.size() / 2; i++ ) {
-                Proton mostClumpedProton = null;
-                for ( Proton proton : protons ) {
-                    if ( mostClumpedProton == null || getClumpFactor( proton, nucleons ) > getClumpFactor( mostClumpedProton, nucleons ) ) {
-                        // This nucleon is more "clumpy".
-                        mostClumpedProton = proton;
-                    }
-                }
-                Neutron mostClumpedNeutron = null;
-                for ( Neutron neutron : neutrons ) {
-                    if ( mostClumpedNeutron == null || getClumpFactor( neutron, nucleons ) > getClumpFactor( mostClumpedNeutron, nucleons ) ) {
-                        // This nucleon is more "clumpy".
-                        mostClumpedNeutron = neutron;
-                    }
-                }
-                if (mostClumpedProton != null && mostClumpedNeutron != null){
-                    // Swap the two most clumped.
-                    swap(nucleons, nucleons.indexOf( mostClumpedProton ), nucleons.indexOf( mostClumpedNeutron ) );
-                }
-            }
-            */
-
-            // TODO: There are several different attempts at reducing the
-            // clumpiness that are commented out below.  This should be
-            // cleaned up once the nucleus appearance is deemed acceptable.
-
-            //            if (nucleons.size() > 10){
-            //                // Swap some particles in order to create a more random and
-            //                // less clumpy appearance.
-            //                for (int i = 0; i < nucleons.size() / 2; i++){
-            //                    int index1 = RAND.nextInt( nucleons.size() );
-            //                    int index2 = RAND.nextInt( nucleons.size() );
-            //                    if (index1 == index2){
-            //                        // Some thing, don't bother swapping.
-            //                        continue;
-            //                    }
-            //                    swap(nucleons, index1, index2);
-            //                    System.out.println("Swapping " + index1 + " and " + index2);
-            //                }
-            //            }
-
-            // Move the nucleons around a bit in order to avoid looking too "clumpy".
-            //            ArrayList<Proton> sortedProtons = new ArrayList<Proton>( protons );
-            //            ArrayList<Neutron> sortedNeutrons = new ArrayList<Neutron>( neutrons );
-            //            Collections.sort( sortedProtons, new Comparator<SubatomicParticle>(){
-            //                public int compare( SubatomicParticle p1, SubatomicParticle p2 ) {
-            //                    return Double.compare( getClumpFactor( p2, nucleons ), getClumpFactor( p1, nucleons ));
-            //                }
-            //            });
-            //            Collections.sort( sortedNeutrons, new Comparator<SubatomicParticle>(){
-            //                public int compare( SubatomicParticle p1, SubatomicParticle p2 ) {
-            //                    return Double.compare( getClumpFactor( p2, nucleons ), getClumpFactor( p1, nucleons ));
-            //                }
-            //            });
-            //            System.out.println("Sorted neutrons:");
-            //            for ( Neutron neutron : sortedNeutrons ) {
-            //                System.out.println("Clump factor: " + getClumpFactor( neutron, nucleons ));
-            //            }
-            //            System.out.println("Sorted protons:");
-            //            for ( Proton proton : sortedProtons ) {
-            //                System.out.println("Clump factor: " + getClumpFactor( proton, nucleons ));
-            //            }
-            //            for (int i = 0; i < Math.min( 3, Math.min( protons.size(), neutrons.size() ) ); i++){
-            //                Proton proton = sortedProtons.get( i );
-            //                Neutron neutron = sortedNeutrons.get( i );
-            //                if (getClumpFactor( proton, nucleons ) > (double)MAX_CLUMP_FACTOR / 3 || getClumpFactor( neutron, nucleons ) > (double)MAX_CLUMP_FACTOR / 3){
-            //                    // Swap these two locations to reduce the "clumpiness".
-            //                    System.out.println("Swapping a proton & and neutron, clump factors are: " + getClumpFactor( proton, nucleons ) + " and "+ getClumpFactor( neutron, nucleons ));
-            //                    swap( nucleons, nucleons.indexOf( proton ), nucleons.indexOf( neutron ) );
-            //                }
-            //            }
-
-
-            //            double origClump = getClumpiness( nucleons );
-            //            for ( int i = 0; i < 10; i++ ) {
-            //                double clumpiness = getClumpiness( nucleons );
-            //                int particle1 = random.nextInt( nucleons.size() );
-            //                int particle2 = random.nextInt( nucleons.size() );
-            //                swap( nucleons, particle1, particle2 );
-            //                double newClumpiness = getClumpiness( nucleons );
-            //                if ( newClumpiness < clumpiness ) {
-            //                    //keep it
-            //                }
-            //                else {
-            //                    swap( nucleons, particle1, particle2 );
-            //                }
-            //            }
-            //            double finalClump = getClumpiness( nucleons );
-            //            System.out.println( "origClump = " + origClump + ", final clump = " + finalClump );
         }
 
         //If the particles shouldn't be animating, they should immediately move to their destination
@@ -544,27 +448,27 @@ public class Atom extends SimpleAtom {
     }
 
     //For the game mode
-    public ArrayList<SubatomicParticle> setState( AtomValue answer,BuildAnAtomModel model,boolean moveImmediately) {//provide the model to draw free particles from
-        ArrayList<SubatomicParticle> removedParticles=new ArrayList<SubatomicParticle>( );
-        while(getNumProtons()>answer.getProtons()){
+    public ArrayList<SubatomicParticle> setState( AtomValue answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
+        ArrayList<SubatomicParticle> removedParticles = new ArrayList<SubatomicParticle>();
+        while ( getNumProtons() > answer.getProtons() ) {
             removedParticles.add( removeProton() );
         }
-        while(getNumProtons()<answer.getProtons()){
-            addProton( model.getFreeProton(),moveImmediately);
+        while ( getNumProtons() < answer.getProtons() ) {
+            addProton( model.getFreeProton(), moveImmediately );
         }
 
-        while(getNumNeutrons()>answer.getNeutrons()){
-            removedParticles.add( removeNeutron());
+        while ( getNumNeutrons() > answer.getNeutrons() ) {
+            removedParticles.add( removeNeutron() );
         }
-        while(getNumNeutrons()<answer.getNeutrons()){
-            addNeutron( model.getFreeNeutron(),moveImmediately);
+        while ( getNumNeutrons() < answer.getNeutrons() ) {
+            addNeutron( model.getFreeNeutron(), moveImmediately );
         }
 
-        while(getNumElectrons()>answer.getElectrons()){
+        while ( getNumElectrons() > answer.getElectrons() ) {
             removedParticles.add( removeElectron() );
         }
-        while(getNumElectrons()<answer.getElectrons()){
-            addElectron( model.getFreeElectron(),moveImmediately);
+        while ( getNumElectrons() < answer.getElectrons() ) {
+            addElectron( model.getFreeElectron(), moveImmediately );
         }
         return removedParticles;
     }
