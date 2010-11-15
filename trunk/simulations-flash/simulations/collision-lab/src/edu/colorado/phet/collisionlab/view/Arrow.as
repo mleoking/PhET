@@ -1,5 +1,8 @@
 //general class for arrow graphic, used as momentum arrow and as ball arrow
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.util.TwoVector;
+import edu.colorado.phet.collisionlab.util.Util;
+
 import flash.display.*;
 import flash.text.*;
 

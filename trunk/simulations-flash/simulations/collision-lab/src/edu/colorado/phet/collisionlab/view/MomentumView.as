@@ -1,17 +1,16 @@
-package edu.colorado.phet.collisionlab {
-import edu.colorado.phet.collisionlab.Arrow;
+package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.flashcommon.SimStrings;
-
 import edu.colorado.phet.flashcommon.TextFieldUtils;
+
+import fl.controls.*;
+import fl.events.*;
 
 import flash.display.*;
 import flash.events.*;
-
-import fl.events.*;
-
 import flash.text.*;
-
-import fl.controls.*;
 
 public class MomentumView extends Sprite {
     var myModel: Model;
@@ -92,9 +91,9 @@ public class MomentumView extends Sprite {
     }
 
     public function initializeStrings(): void {
-        this.momenta_str = SimStrings.get( "edu.colorado.phet.collisionlab.MomentumView.momenta", "Momenta" );
-        this.tipToTail_str = SimStrings.get( "edu.colorado.phet.collisionlab.MomentumView.tipToTail", "tip-to-tail" );
-        this.tot_str = SimStrings.get( "edu.colorado.phet.collisionlab.MomentumView.total", "tot" );
+        this.momenta_str = SimStrings.get( "edu.colorado.phet.collisionlab.view.MomentumView.momenta", "Momenta" );
+        this.tipToTail_str = SimStrings.get( "edu.colorado.phet.collisionlab.view.MomentumView.tipToTail", "tip-to-tail" );
+        this.tot_str = SimStrings.get( "edu.colorado.phet.collisionlab.view.MomentumView.total", "tot" );
     }//end of initializeStrings()
 
     public function drawBorder(): void {
@@ -254,7 +253,7 @@ public class MomentumView extends Sprite {
     //    }
 
     private function setScaleOfArrows( scale: Number ): void {
-        var maxN: int = this.myModel.maxNbrBalls;
+        var maxN: int = CollisionLabConstants.MAX_BALLS;
         for ( var i: int = 0; i < maxN; i++ ) {
             this.momentum_arr[i].setScale( scale );
         }
@@ -264,7 +263,7 @@ public class MomentumView extends Sprite {
 
     //called once, at startUp
     private function drawArrows(): void {
-        var maxN: int = this.myModel.maxNbrBalls;
+        var maxN: int = CollisionLabConstants.MAX_BALLS;
         for ( var i: int = 0; i < maxN; i++ ) {
             this.momentum_arr[i] = new Arrow( i );
             this.momentum_arr[i].setShaftWidth( 8 );
@@ -277,7 +276,7 @@ public class MomentumView extends Sprite {
         }
         //trace("this.momentum_arr[0].parent"+this.momentum_arr[0].parent);
 
-        this.totMomentum = new Arrow( maxN );  //index of total momentum is N = maxNbrBalls
+        this.totMomentum = new Arrow( maxN );  //index of total momentum is N = CollisionLabConstants.MAX_BALLS
         this.totMomentum.setText( tot_str );
         this.totMomentum.setColor( 0xff8800 );	//tot momentum arrow is orange
         this.totMomentum.setShaftWidth( 4 );
@@ -323,7 +322,7 @@ public class MomentumView extends Sprite {
 
     //needed to set initial visibility of momentum arrows
     private function startUp(): void {
-        var maxN: int = this.myModel.maxNbrBalls;
+        var maxN: int = CollisionLabConstants.MAX_BALLS;
         var N: int = this.myModel.nbrBalls;
         var i: int;
         for ( i = 0; i < N; i++ ) {
@@ -343,7 +342,7 @@ public class MomentumView extends Sprite {
         var N: int = this.myModel.nbrBalls;
         var i: int;
         if ( this.myModel.nbrBallsChanged ) {
-            var maxN: int = this.myModel.maxNbrBalls;
+            var maxN: int = CollisionLabConstants.MAX_BALLS;
             for ( i = 0; i < N; i++ ) {
                 this.momentum_arr[i].visible = true;
             }

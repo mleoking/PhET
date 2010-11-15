@@ -1,11 +1,11 @@
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.control {
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
 import flash.events.*;
 import flash.text.*;
-
-import edu.colorado.phet.flashcommon.SimStrings;
 
 public class PlayPauseButtons extends Sprite {
     var myModel: Model;
@@ -48,11 +48,11 @@ public class PlayPauseButtons extends Sprite {
 
     //must be altered when internationalizing
     public function initializeLabels(): void {
-        this.rewindText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.rewind", "Rewind" );
-        this.backText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.back", "Back" );
-        this.playText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.play", "Play" );
-        this.pauseText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.pause", "Pause" );
-        this.stepText = SimStrings.get( "edu.colorado.phet.collisionlab.PlayPauseButtons.step", "Step" );
+        this.rewindText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.rewind", "Rewind" );
+        this.backText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.back", "Back" );
+        this.playText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.play", "Play" );
+        this.pauseText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.pause", "Pause" );
+        this.stepText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.step", "Step" );
         this.buttonView.rewindLabel.text = rewindText;
         TextFieldUtils.resizeText( this.buttonView.rewindLabel, TextFieldAutoSize.RIGHT );
         this.buttonView.stepBackLabel.text = backText;

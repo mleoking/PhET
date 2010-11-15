@@ -1,26 +1,27 @@
 //View of "Pool Table" containing balls
-package edu.colorado.phet.collisionlab {
-import edu.colorado.phet.collisionlab.BallImage;
+package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.control.PlayPauseButtons;
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.flashcommon.SimStrings;
+
+import fl.controls.*;
+import fl.events.*;
 
 import flash.display.*;
 import flash.events.*;
-
-import fl.events.*;
-
 import flash.text.*;
-
-import fl.controls.*;
 
 public class TableView extends Sprite {
     var myModel: Model;
     var myMainView: MainView;			//mediator and container of views
     var canvas: Sprite;					//background on which everything is placed
-    var myTrajectories: Trajectories;	//Sprite showing trajectories (paths) of balls
-    var CM: CenterOfMass;				//library symbol
+    public var myTrajectories: Trajectories;	//Sprite showing trajectories (paths) of balls
+    public var CM: CenterOfMass;				//library symbol
     var showingPaths: Boolean;			//true if paths are shown
-    var playButtons: PlayPauseButtons;	//class to hold library symbol, contains dynamic text strings
-    var timeRate_slider: Slider;			//adjusts rate at which time passes
+    public var playButtons: PlayPauseButtons;	//class to hold library symbol, contains dynamic text strings
+    public var timeRate_slider: Slider;			//adjusts rate at which time passes
     var border: Sprite;					//reflecting border
     var invisibleBorder: Sprite;			//handle for dragging
     var borderColor: uint;				//color of border 0xrrggbb
@@ -28,7 +29,7 @@ public class TableView extends Sprite {
     var totKEText: TextField;			//label showing total KE of particles
     var timeRateText: TextField;			//label above timeRate slider
     var pixelsPerMeter: int;				//scale of view
-    var ballImage_arr: Array;					//array of ball images
+    public var ballImage_arr: Array;					//array of ball images
     var ballLabels: Array;				//array of ball labels: 1, 2, 3, ...
     var ballColor_arr: Array;			//array of uint for colors of balls
     var xOffset: Number;					//x of upper left corner of canvas
@@ -111,7 +112,7 @@ public class TableView extends Sprite {
 
         this.timeText.text = getTimeText( this.myModel.time.toFixed( 2 ) );
         this.totKEText.text = getKEText( this.myModel.getTotalKE().toFixed( 2 ) );
-        this.timeRateText.text = SimStrings.get( "edu.colorado.phet.collisionlab.TableView.timeRate", "Time Rate" );
+        this.timeRateText.text = SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.timeRate", "Time Rate" );
 
         //position Time Label
         //this.timeText.width=165;//to improve support for i18n
@@ -141,8 +142,8 @@ public class TableView extends Sprite {
     public function reDrawBorder(): void {
         this.drawBorder();
         if ( this.myModel.oneDMode ) {
-            var oneDH: Number = this.myModel.oneDBorderHeight / 2;
-            var twoDH: Number = this.myModel.twoDBorderHeight / 2;
+            var oneDH: Number = CollisionLabConstants.BORDER_HEIGHT_1D / 2;
+            var twoDH: Number = CollisionLabConstants.BORDER_HEIGHT_2D / 2;
             this.canvas.y = yOffset + this.pixelsPerMeter * (twoDH - oneDH);
         }
         else {
@@ -203,7 +204,7 @@ public class TableView extends Sprite {
     public function makeTimeRateLabel(): void {
         //following two strings should be set by internationalizer
         this.timeRateText = new TextField();
-        this.timeRateText.text = SimStrings.get( "edu.colorado.phet.collisionlab.TableView.timeRate", "Time Rate" );
+        this.timeRateText.text = SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.timeRate", "Time Rate" );
         this.timeRateText.selectable = false;
         //			this.timeRateText.autoSize = TextFieldAutoSize.RIGHT;
         var tFormat: TextFormat = new TextFormat();
@@ -244,9 +245,8 @@ public class TableView extends Sprite {
 
     //called once, at startup
     public function createBallImages(): void {
-        var maxNbrBalls: int = this.myModel.maxNbrBalls;
-        this.ballImage_arr = new Array( maxNbrBalls );
-        for ( var i: int = 0; i < maxNbrBalls; i++ ) {
+        this.ballImage_arr = new Array( CollisionLabConstants.MAX_BALLS );
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             this.ballImage_arr[i] = new BallImage( this.myModel, i, this );
             ballImage_arr[i].x = this.pixelsPerMeter * this.myModel.ball_arr[i].position.getX();
             ballImage_arr[i].y = this.pixelsPerMeter * this.myModel.ball_arr[i].position.getY();
@@ -259,8 +259,7 @@ public class TableView extends Sprite {
 
     //show velocity arrows on ball images
     public function showArrowsOnBallImages( tOrF: Boolean ): void {
-        var maxNbrBalls: int = this.myModel.maxNbrBalls;
-        for ( var i: int = 0; i < maxNbrBalls; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             if ( tOrF ) {
                 this.ballImage_arr[i].showArrow( true );
             }
@@ -272,8 +271,7 @@ public class TableView extends Sprite {
 
     //show Momentum arrows on ball images
     public function showPArrowsOnBallImages( tOrF: Boolean ): void {
-        var maxNbrBalls: int = this.myModel.maxNbrBalls;
-        for ( var i: int = 0; i < maxNbrBalls; i++ ) {
+        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
             if ( tOrF ) {
                 this.ballImage_arr[i].showPArrow( true );
             }
@@ -290,7 +288,7 @@ public class TableView extends Sprite {
         //trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
         var nbrBalls: int = this.myModel.nbrBalls;
         //trace("TableView.update() called. nbrBalls = "+nbrBalls);
-        var maxBalls: int = this.myModel.maxNbrBalls;
+        var maxBalls: int = CollisionLabConstants.MAX_BALLS;
 
         if ( this.myModel.nbrBallsChanged ) {
             for ( var i: int = 0; i < nbrBalls; i++ ) {
@@ -328,11 +326,11 @@ public class TableView extends Sprite {
     }//end update();
 
     function getKEText( keValue: String ): String {
-        return SimStrings.get( "edu.colorado.phet.collisionlab.TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
+        return SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
     }
 
     function getTimeText( time: String ): String {
-        return SimStrings.get( "edu.colorado.phet.collisionlab.TableView.time", "Time = {0} s", [time] );
+        return SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.time", "Time = {0} s", [time] );
     }
 }//end of class
 

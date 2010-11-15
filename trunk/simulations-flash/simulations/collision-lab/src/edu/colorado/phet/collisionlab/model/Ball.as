@@ -1,14 +1,16 @@
 //ball object in the Model for Collision Lab
 
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.model {
+import edu.colorado.phet.collisionlab.util.TwoVector;
+
 //import statements go here
 
 public class Ball {
-    private var mass: Number;
-    private var radius: Number;
-    var position: TwoVector;
-    var velocity: TwoVector;
-    var momentum: TwoVector;
+    public var mass: Number;
+    public var radius: Number;
+    public var position: TwoVector;
+    public var velocity: TwoVector;
+    public var momentum: TwoVector;
 
     public function Ball( mass: Number, position: TwoVector, velocity: TwoVector ) {
         this.mass = mass;

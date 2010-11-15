@@ -1,5 +1,9 @@
 //MainView contains all views, acts as mediator, communication hub for views
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.control.ControlPanel;
+import edu.colorado.phet.collisionlab.control.DataTable;
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.util.SoundMaker;
 import edu.colorado.phet.flashcommon.FlashCommonCS4;
 
 import flash.display.*;
@@ -7,10 +11,10 @@ import flash.events.Event;
 
 public class MainView extends Sprite {
     var myModel: Model;
-    var myTableView: TableView;
-    var myDataTable: DataTable;
-    var controlPanel: ControlPanel;
-    var momentumView: MomentumView;
+    public var myTableView: TableView;
+    public var myDataTable: DataTable;
+    public var controlPanel: ControlPanel;
+    public var momentumView: MomentumView;
     var mySoundMaker: SoundMaker;
     var phetLogo: Sprite;
     var stageH: Number;

@@ -8,12 +8,17 @@
 // 4: transparent disk for dragging ball, to set position
 // 5: transparent arrow head, for dragging velocity arrow, to set velocity, on top
 
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.control.DataTable;
+import edu.colorado.phet.collisionlab.model.Ball;
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.util.TwoVector;
+
 import flash.display.*;
 import flash.events.*;
-import flash.text.*;
 import flash.filters.*;
 import flash.geom.Point;
+import flash.text.*;
 
 public class BallImage extends Sprite {
     var myModel: Model;

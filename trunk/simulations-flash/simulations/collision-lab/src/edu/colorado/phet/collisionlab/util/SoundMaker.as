@@ -1,4 +1,7 @@
-package edu.colorado.phet.collisionlab {
+package edu.colorado.phet.collisionlab.util {
+import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.view.MainView;
+
 import flash.media.Sound;
 
 public class SoundMaker {
