@@ -144,21 +144,27 @@ public class Atom extends SimpleAtom {
      * Remove an arbitrary proton.
      */
     public SubatomicParticle removeProton(){
-        return removeParticle( protons.get( 0 ) );
+        SubatomicParticle particle = removeParticle( protons.get( 0 ) );
+        super.setNumProtons( protons.size() );
+        return particle;
     }
 
     /**
      * Remove an arbitrary neutron.
      */
     public SubatomicParticle removeNeutron(){
-        return removeParticle( neutrons.get( 0 ) );
+        SubatomicParticle particle = removeParticle( neutrons.get( 0 ) );
+        super.setNumNeutrons( neutrons.size() );
+        return particle;
     }
 
     /**
      * Remove an arbitrary electron.
      */
     public Electron removeElectron(){
-        return electronShell1.removeElectron();
+        Electron electron = electronShell1.removeElectron(); // Outer electrons move to inner shell automatically.
+        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+        return electron;
     }
 
     /**
