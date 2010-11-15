@@ -99,18 +99,20 @@ public class ProblemSet {
     };
     private static final ArrayList<ProblemType> LEVEL_2_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
         {
-            add( ProblemType.SCHEMATIC_TO_SYMBOL );
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
             add( ProblemType.SYMBOL_TO_COUNTS );
-            add( ProblemType.COUNTS_TO_SYMBOL );
+            add( ProblemType.COUNTS_TO_SYMBOL_MASS );
+            add( ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
         {
-            add( ProblemType.SCHEMATIC_TO_SYMBOL );
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_ALL );
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
             add( ProblemType.SYMBOL_TO_COUNTS );
-            add( ProblemType.COUNTS_TO_SYMBOL );
+            add( ProblemType.COUNTS_TO_SYMBOL_ALL );
         }
     };
 
@@ -196,14 +198,26 @@ public class ProblemSet {
         case SYMBOL_TO_SCHEMATIC:
             problem = new SymbolToSchematicProblem( model, atomValue );
             break;
-        case SCHEMATIC_TO_SYMBOL:
-            problem = new SchematicToSymbolProblem( model, atomValue );
+        case SCHEMATIC_TO_SYMBOL_ALL:
+            problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
+            break;
+        case SCHEMATIC_TO_SYMBOL_MASS:
+            problem = new SchematicToSymbolProblem( model, atomValue, false, true, false );
+            break;
+        case SCHEMATIC_TO_SYMBOL_PROTON_COUNT:
+            problem = new SchematicToSymbolProblem( model, atomValue, true, false, false );
             break;
         case SYMBOL_TO_COUNTS:
             problem = new SymbolToCountsProblem( model, atomValue );
             break;
-        case COUNTS_TO_SYMBOL:
-            problem = new CountsToSymbolProblem( model, atomValue );
+        case COUNTS_TO_SYMBOL_ALL:
+            problem = new CountsToSymbolProblem( model, atomValue, true, true, true );
+            break;
+        case COUNTS_TO_SYMBOL_MASS:
+            problem = new CountsToSymbolProblem( model, atomValue, false, true, false );
+            break;
+        case COUNTS_TO_SYMBOL_PROTON_COUNT:
+            problem = new CountsToSymbolProblem( model, atomValue, true, false, false );
             break;
         case SCHEMATIC_TO_ELEMENT:
             problem = new SchematicToElementProblem( model, atomValue );
@@ -226,7 +240,7 @@ public class ProblemSet {
      * @return
      */
     private boolean isSchematicProbType( ProblemType problemType ){
-        return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT || problemType == ProblemType.SCHEMATIC_TO_SYMBOL || problemType == ProblemType.SYMBOL_TO_SCHEMATIC);
+        return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT || problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL || problemType == ProblemType.SYMBOL_TO_SCHEMATIC);
     }
 
     /**

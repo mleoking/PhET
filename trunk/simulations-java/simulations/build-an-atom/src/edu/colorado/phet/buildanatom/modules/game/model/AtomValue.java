@@ -2,9 +2,12 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.model.*;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
+import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.model.Neutron;
+import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 
 /**
  * Represents one row from the table defined in the design doc (see pools for level 1-3)
@@ -55,7 +58,7 @@ public class AtomValue {
         return true;
     }
 
-    public Atom toAtom(BuildAnAtomClock clock) {
+    public SimpleAtom toAtom(BuildAnAtomClock clock) {
         if ( protons < 0 ) {
             System.out.println( "protons = "+protons );
         }

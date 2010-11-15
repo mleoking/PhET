@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -42,7 +42,7 @@ public class ChargePairingGraphNode extends PNode {
     /**
      * Constructor.
      */
-    public ChargePairingGraphNode( final Atom atom ) {
+    public ChargePairingGraphNode( final SimpleAtom atom ) {
 
         addChild( chargeCancellationEnclosingBox );
 

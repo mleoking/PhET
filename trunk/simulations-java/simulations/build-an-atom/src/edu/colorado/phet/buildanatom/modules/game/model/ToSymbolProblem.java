@@ -1,8 +1,5 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.modules.game.view.ToSymbolProblemView;
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
-import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
  * Base class for all problems where the user is adjusting an interactive
@@ -12,7 +9,28 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
  * @author John Blanco
  */
 public abstract class ToSymbolProblem extends Problem {
-    public ToSymbolProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
+
+    private final boolean configurableProtonCount;
+    protected boolean isConfigurableProtonCount() {
+        return configurableProtonCount;
+    }
+
+    protected boolean isConfigurableMass() {
+        return configurableMass;
+    }
+
+    protected boolean isConfigurableCharge() {
+        return configurableCharge;
+    }
+
+    private final boolean configurableMass;
+    private final boolean configurableCharge;
+
+    public ToSymbolProblem( BuildAnAtomGameModel model, AtomValue atomValue, boolean configurableProtonCount,
+            boolean configurableMass, boolean configurableCharge ){
         super( model, atomValue );
+        this.configurableProtonCount = configurableProtonCount;
+        this.configurableMass = configurableMass;
+        this.configurableCharge = configurableCharge;
     }
 }

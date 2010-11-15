@@ -132,13 +132,13 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         case SYMBOL_TO_SCHEMATIC:
             allowed = symbolToSchematicProblemAllowed.isSelected();
             break;
-        case SCHEMATIC_TO_SYMBOL:
+        case SCHEMATIC_TO_SYMBOL_ALL:
             allowed = schematicToSymbolProblemAllowed.isSelected();
             break;
         case SYMBOL_TO_COUNTS:
             allowed = symbolToCountsProblemAllowed.isSelected();
             break;
-        case COUNTS_TO_SYMBOL:
+        case COUNTS_TO_SYMBOL_ALL:
             allowed = countsToSymbolProblemAllowed.isSelected();
             break;
         case SCHEMATIC_TO_ELEMENT:
