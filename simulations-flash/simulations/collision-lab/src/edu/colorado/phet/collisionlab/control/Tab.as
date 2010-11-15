@@ -14,7 +14,7 @@ public class Tab extends Sprite {
         this.tabBar = tabBar;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.LEFT;
-        textField.text = " " + title + " ";
+        textField.text = " " + title + " "; // cheap and scalable way to pad it
         textField.selectable = false;
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 20;
