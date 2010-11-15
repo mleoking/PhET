@@ -57,7 +57,7 @@ public class DielectricCanvas extends CLCanvas {
     private final VoltmeterView voltmeter;
     private final EFieldDetectorView eFieldDetector;
     
-    private final ArrayList<PNode> capacitorTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
+    private final ArrayList<PNode> dielectricTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
     
     // controls
     private final PlateChargeControlNode plateChargeControNode;
@@ -135,9 +135,9 @@ public class DielectricCanvas extends CLCanvas {
         }
 
         // nodes whose visibility causes the capacitor to become transparent
-        capacitorTransparencyNodes = new ArrayList<PNode>();
-        addCapacitorTransparencyNode( capacitorNode.getEFieldNode() );
-        addCapacitorTransparencyNode( eFieldDetector.getBodyNode() );
+        dielectricTransparencyNodes = new ArrayList<PNode>();
+        addDielectricTransparencyNode( capacitorNode.getEFieldNode() );
+        addDielectricTransparencyNode( eFieldDetector.getBodyNode() );
         
         // static layout
         {
@@ -275,24 +275,24 @@ public class DielectricCanvas extends CLCanvas {
     }
     
     /*
-     * When certain nodes are visible, the physical parts of the capacitor become transparent.
-     * Call this method add a node to the "visibility watch list".  If any one of the nodes on
-     * this list is visible, the capacitor is transparent; if none of the nodes is visible, 
-     * the capacitor is opaque.
+     * When certain nodes are visible, the dielectric becomes transparent.
+     * Call this method to add a node to the "visibility watch list".  If any one of the nodes on
+     * this list is visible, the dielectric is transparent; if none of the nodes is visible, 
+     * the dielectric is opaque.
      */
-    private void addCapacitorTransparencyNode( PNode node ) {
-        capacitorTransparencyNodes.add( node );
+    private void addDielectricTransparencyNode( PNode node ) {
+        dielectricTransparencyNodes.add( node );
         node.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
                     boolean transparent = false;
-                    for ( PNode node : capacitorTransparencyNodes ) {
+                    for ( PNode node : dielectricTransparencyNodes ) {
                         if ( node.getVisible() ) {
                             transparent = true;
                             break;
                         }
                     }
-                    capacitorNode.setOpaque( !transparent );
+                    capacitorNode.setDielectricOpaque( !transparent );
                 }
             }
         } );
