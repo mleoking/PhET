@@ -34,7 +34,7 @@ MEDUIUM PRIORITY
 LOW PRIORITY
 - clean up CCKStrategyWithRounding
 - gradient paint on plate top surfaces (not on edges)
-- round the end of the wire that connects to the top plate
+- round the ends of wires
 - use a gradient paint for wires to give them a 3D look
 - use of Polarity enum is a little incorrect, it's not really polarity
 - some model code is unused, remove it?
