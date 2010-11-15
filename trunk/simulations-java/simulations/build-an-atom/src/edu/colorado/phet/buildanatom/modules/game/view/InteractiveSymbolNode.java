@@ -36,9 +36,9 @@ public class InteractiveSymbolNode extends PNode {
     private static final double SPINNER_EDGE_OFFSET = 5;
     private static final double SPINNER_HEIGHT = WIDTH * 0.175;
 
-    private final Property<Integer> massProperty = new Property<Integer>( 0 );
-    private final Property<Integer> protonCountProperty = new Property<Integer>( 0 );
-    private final Property<Integer> chargeProperty = new Property<Integer>( 0 );
+    private final Property<Integer> massProperty;
+    private final Property<Integer> protonCountProperty;
+    private final Property<Integer> chargeProperty;
 
     // Controls the interactivity of this node, and modifications to it are
     // monitored by the node itself in order to change its appearance.
@@ -48,12 +48,22 @@ public class InteractiveSymbolNode extends PNode {
 
     /**
      * Primary constructor.
+     * @param atomValue - Atom that is being portrayed.
+     * @param interactiveProtonCount
+     * @param interactiveMass
+     * @param interactiveCharge
      */
-    public InteractiveSymbolNode( boolean interactiveProtonCount, boolean interactiveMass, boolean interactiveCharge, final boolean showCharge ) {
+    public InteractiveSymbolNode( AtomValue atomValue, boolean interactiveProtonCount, boolean interactiveMass, boolean interactiveCharge ) {
 
         interactiveProtonCountProperty = new Property<Boolean>( interactiveProtonCount );
         interactiveMassProperty = new Property<Boolean>( interactiveMass );
         interactiveChargeProperty = new Property<Boolean>( interactiveCharge );
+
+        // For each property in this node, set the value to zero if it is
+        // interactive or to the correct value if it is not.
+        protonCountProperty = new Property<Integer>( interactiveProtonCount ? 0 : atomValue.getProtons() );
+        massProperty = new Property<Integer>( interactiveMass ? 0 : atomValue.getMassNumber() );
+        chargeProperty = new Property<Integer>( interactiveCharge ? 0 :atomValue.getCharge() );
 
         final PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
                 new BasicStroke( 3 ), Color.black );
@@ -121,7 +131,6 @@ public class InteractiveSymbolNode extends PNode {
             }
         };
         addChild( chargeValueNode );
-        chargeValueNode.setVisible( showCharge );
     }
 
     /**

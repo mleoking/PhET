@@ -24,8 +24,8 @@ public class ToSymbolProblemView extends ProblemView {
     public ToSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem ) {
         super( model, canvas, problem );
 
-        interactiveSymbolNode = new InteractiveSymbolNode( problem.isConfigurableProtonCount(),
-                problem.isConfigurableMass(), problem.isConfigurableCharge(), true );
+        interactiveSymbolNode = new InteractiveSymbolNode( problem.getAnswer(), problem.isConfigurableProtonCount(),
+                problem.isConfigurableMass(), problem.isConfigurableCharge() );
         interactiveSymbolNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 enableCheckButton();
