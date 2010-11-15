@@ -7,7 +7,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
@@ -32,18 +31,18 @@ public class BoxShapeFactory {
      *         /                /
      *       p3 --------------p2
      */
-    public Shape createTopFace( double width, double height, double depth, Point3D origin ) {
+    public Shape createTopFace( double x, double y, double z, double width, double height, double depth ) {
         // points
-        Point2D p0 = mvt.modelToView( origin.getX() - ( width / 2 ), origin.getY(), origin.getZ() + ( depth / 2 ) );
-        Point2D p1 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY(), origin.getZ() + ( depth / 2 ) );
-        Point2D p2 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY(), origin.getZ() - ( depth / 2 ) );
-        Point2D p3 = mvt.modelToView( origin.getX() - ( width / 2 ), origin.getY(), origin.getZ() - ( depth / 2 ) );
+        Point2D p0 = mvt.modelToView( x - ( width / 2 ), y, z + ( depth / 2 ) );
+        Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z + ( depth / 2 ) );
+        Point2D p2 = mvt.modelToView( x + ( width / 2 ), y, z - ( depth / 2 ) );
+        Point2D p3 = mvt.modelToView( x - ( width / 2 ), y, z - ( depth / 2 ) );
         // shape
         return createFace( p0, p1, p2, p3 );
     }
     
     public Shape createTopFace( double width, double height, double depth ) {
-        return createTopFace( width, height, depth, new Point3D.Double( 0, 0, 0 ) );
+        return createTopFace( 0, 0, 0, width, height, depth );
     }
     
     /**
@@ -54,18 +53,18 @@ public class BoxShapeFactory {
      *     |                 |
      *    p3 --------------- p2
      */
-    public Shape createFrontFace( double width, double height, double depth, Point3D origin ) {
+    public Shape createFrontFace( double x, double y, double z, double width, double height, double depth ) {
         // points
-        Point2D p0 = mvt.modelToView( origin.getX() - ( width / 2 ), origin.getY(), origin.getZ() - ( depth / 2 ) );
-        Point2D p1 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY(), origin.getZ() - ( depth / 2 ) );
-        Point2D p2 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY() + height, origin.getZ() - ( depth / 2 ) );
-        Point2D p3 = mvt.modelToView( origin.getX() - ( width / 2 ), origin.getY() + height, origin.getZ() - ( depth / 2 ) );
+        Point2D p0 = mvt.modelToView( x - ( width / 2 ), y, z - ( depth / 2 ) );
+        Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z - ( depth / 2 ) );
+        Point2D p2 = mvt.modelToView( x + ( width / 2 ), y + height, z - ( depth / 2 ) );
+        Point2D p3 = mvt.modelToView( x - ( width / 2 ), y + height, z - ( depth / 2 ) );
         // shape
         return createFace( p0, p1, p2, p3 );
     }
     
     public Shape createFrontFace( double width, double height, double depth ) {
-        return createFrontFace( width, height, depth, new Point3D.Double( 0, 0, 0 ) );
+        return createFrontFace( 0, 0, 0, width, height, depth );
     }
     
     
@@ -83,18 +82,18 @@ public class BoxShapeFactory {
      *         | /
      *         p3
      */
-    public Shape createSideFace( double width, double height, double depth, Point3D origin  ) {
+    public Shape createSideFace( double x, double y, double z, double width, double height, double depth  ) {
         // points
-        Point2D p0 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY(), origin.getZ() - ( depth / 2 ) );
-        Point2D p1 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY(), origin.getZ() + ( depth / 2 ) );
-        Point2D p2 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY() + height, origin.getZ() + ( depth / 2 ) );
-        Point2D p3 = mvt.modelToView( origin.getX() + ( width / 2 ), origin.getY() + height, origin.getZ() - ( depth / 2 ) );
+        Point2D p0 = mvt.modelToView( x + ( width / 2 ), y, z - ( depth / 2 ) );
+        Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z + ( depth / 2 ) );
+        Point2D p2 = mvt.modelToView( x + ( width / 2 ), y + height, z + ( depth / 2 ) );
+        Point2D p3 = mvt.modelToView( x + ( width / 2 ), y + height, z - ( depth / 2 ) );
         // path
         return createFace( p0, p1, p2, p3 );
     }
     
     public Shape createSideFace( double width, double height, double depth ) {
-        return createSideFace( width, height, depth, new Point3D.Double( 0, 0, 0 ) );
+        return createSideFace( 0, 0, 0, width, height, depth );
     }
     
     /*

@@ -67,7 +67,7 @@ public class ShapesDebugNode extends PComposite {
             final Capacitor capacitor = model.getCapacitor();
             final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
             
-            final ShapeNode topPlateNode = new ShapeNode( shapeFactory.createTopPlateShape() );
+            final ShapeNode topPlateNode = new ShapeNode( shapeFactory.createTopPlateShapeOccluded() );
             addChild( topPlateNode );
             
             final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShapeOccluded() );
@@ -91,7 +91,7 @@ public class ShapesDebugNode extends PComposite {
                 }
                 
                 private void updateShapes() {
-                    topPlateNode.setPathTo( shapeFactory.createTopPlateShape() );
+                    topPlateNode.setPathTo( shapeFactory.createTopPlateShapeOccluded() );
                     bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
                 }
             } );

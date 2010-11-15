@@ -3,11 +3,10 @@
 package edu.colorado.phet.capacitorlab.shapes;
 
 import java.awt.Shape;
-import java.awt.geom.Area;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D capacitor model.
@@ -26,29 +25,12 @@ public class CapacitorShapeFactory {
     }
     
     /**
-     * Creates the bounding shape of the top plate.
+     * Creates the bounding shape of the visible portions of the top plate.
+     * Nothing occludes the top plate.
      * @return
      */
-    public Shape createTopPlateShape() {
-        return createPlateShape( capacitor.getTopPlateCenter() );
-    }
-    
-    /**
-     * Creates the bounding shape of the bottom plate.
-     * @return
-     */
-    private Shape createBottomPlateShape() {
-        Point3D origin = new Point3D.Double( capacitor.getX(), capacitor.getY() + ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ() );
-        return createPlateShape( origin );
-    }
-    
-    /**
-     * Creates the bounding shape of the dielectric.
-     * @return
-     */
-    private Shape createDielectricShape() {
-        Point3D origin = new Point3D.Double( capacitor.getX() + capacitor.getDielectricOffset(), capacitor.getY() - ( capacitor.getDielectricHeight() / 2 ), capacitor.getZ() );
-        return createBoxShape( capacitor.getPlateSideLength(), capacitor.getDielectricHeight(), capacitor.getPlateSideLength(), origin );
+    public Shape createTopPlateShapeOccluded() {
+        return createTopPlateShape();
     }
     
     /**
@@ -57,46 +39,96 @@ public class CapacitorShapeFactory {
      * @return
      */
     public Shape createBottomPlateShapeOccluded() {
-        Shape bottomPlateShape = createBottomPlateShape();
-        Shape topPlateShape = createTopPlateShape();
-        Shape dielectricShape = createDielectricShapeOccluded();
-        // Subtract any portion of the top plate and dielectric that overlaps the bottom plate.
-        Area area = new Area( bottomPlateShape );
-        area.subtract( new Area( topPlateShape ) );
-        area.subtract( new Area( dielectricShape ) );
-        return area;
+        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShapeOccluded(), createDielectricShape() );
+    }
+    
+    /*
+     * Creates the bounding shape of the visible portion of the dielectric between the plates.
+     * This may be partially occluded by the top plate.
+     */
+    public Shape createDielectricBetweenPlatesShapeOccluded() {
+        return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
+    }
+    
+    /*
+     * Creates the bounding shape of the visible portion of the air between the plates.
+     * This may be partially occluded by the dielectric and top plate.
+     */
+    public Shape createAirBetweenPlatesShapeOccluded() {
+        return ShapeUtils.subtract( createAirBetweenPlateShape(), createDielectricBetweenPlatesShape(), createTopPlateShapeOccluded() );
+    }
+    
+    /*
+     * Creates the bounding shape of the top plate.
+     * @return
+     */
+    private Shape createTopPlateShape() {
+        return createPlateShape( capacitor.getX(), capacitor.getTopPlateCenter().getY(), capacitor.getZ() );
     }
     
     /**
-     * Creates the bounding shape of the the visible portions of the dielectric.
-     * The dielectric may be partially occluded by the top plate.
+     * Creates the bounding shape of the bottom plate.
+     * @return
      */
-    public Shape createDielectricShapeOccluded() {
-        Shape dielectricShape = createDielectricShape();
-        Shape topShape = createTopPlateShape();
-        // Subtract any portion of the top plate that overlaps the dielectric.
-        Area area = new Area( dielectricShape );
-        area.subtract( new Area( topShape ) );
-        return area;
+    public Shape createBottomPlateShape() {
+        return createPlateShape( capacitor.getX(), capacitor.getY() + ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ() );
     }
     
     /*
-     * Creates a plate shape relative to a specified origin.
+     * Creates the bounding shape of the dielectric.
+     * @return
      */
-    private Shape createPlateShape( Point3D origin ) {
-        return createBoxShape( capacitor.getPlateSideLength(), capacitor.getPlateThickness(), capacitor.getPlateSideLength(), origin );
+    private Shape createDielectricShape() {
+        double x = capacitor.getX() + capacitor.getDielectricOffset();
+        double y = capacitor.getY() - ( capacitor.getDielectricHeight() / 2 );
+        double z = capacitor.getZ();
+        return createBoxShape( x, y, z, capacitor.getPlateSideLength(), capacitor.getDielectricHeight(), capacitor.getPlateSideLength() );
     }
     
     /*
-     * Creates a box shape relative to a specific origin.
+     * Creates the bounding shape of the area between the capacitor plates.
+     * @return
      */
-    private Shape createBoxShape( double width, double height, double depth, Point3D origin ) {
-        Shape topShape = boxShapeFactory.createTopFace( width, height, depth, origin );
-        Shape frontShape = boxShapeFactory.createFrontFace( width, height, depth, origin );
-        Shape sideShape = boxShapeFactory.createSideFace( width, height, depth, origin );
-        Area area = new Area( topShape );
-        area.add( new Area( frontShape ) );
-        area.add( new Area( sideShape ) );
-        return area;
+    private Shape createBetweenPlatesShape() {
+        double x = capacitor.getX();
+        double y = capacitor.getY() + ( capacitor.getPlateSeparation() / 2 );
+        double z = capacitor.getZ();
+        double width = capacitor.getPlateSideLength();
+        double height = capacitor.getPlateSeparation();
+        double depth = width;
+        return createBoxShape( x, y, z, width, height, depth );
+    }
+    
+    /*
+     * Creates the bounding shape of the portion of the dielectric that is between the capacitor plates.
+     * @return
+     */
+    private Shape createDielectricBetweenPlatesShape() {
+        return ShapeUtils.subtract( createDielectricShape(), createBetweenPlatesShape() );
+    }
+    
+    /*
+     * Creates the bounding shape of the air that is between the capacitor plates.
+     * @return
+     */
+    private Shape createAirBetweenPlateShape() {
+        return ShapeUtils.subtract( createDielectricShape(), createBetweenPlatesShape() );
+    }
+    
+    /*
+     * Creates the bounding shape of a plate, relative to a specified origin.
+     */
+    private Shape createPlateShape( double x, double y, double z ) {
+        return createBoxShape( x, y, z, capacitor.getPlateSideLength(), capacitor.getPlateThickness(), capacitor.getPlateSideLength() );
+    }
+    
+    /*
+     * Creates the bounding shape of a box, relative to a specific origin.
+     */
+    private Shape createBoxShape( double x, double y, double z, double width, double height, double depth ) {
+        Shape topShape = boxShapeFactory.createTopFace( x, y, z, width, height, depth );
+        Shape frontShape = boxShapeFactory.createFrontFace( x, y, z, width, height, depth );
+        Shape sideShape = boxShapeFactory.createSideFace( x, y, z, width, height, depth );
+        return ShapeUtils.add( topShape, frontShape, sideShape );
     }
 }

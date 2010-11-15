@@ -1,3 +1,7 @@
+11/15/10 clean up CapacitorShapeFactory, add methods needed for E-field Detector
+11/15/10 add ShapeUtils.add and subtract
+11/15/10 remove Point3D from BoxShapeFactory interface
+11/15/10 subtract portion of bottom wire occluded by bottom plate
 11/15/10 refinements in CapacitorShapeFactory
 11/12/10 shape of bottom wire subtracts dielectric and top plate shapes (bottom plate is OK)
 11/12/10 implement Capacitor.topPlateIntersects(Shape) and bottomPlateIntersects(Shape), voltmeter probes can now touch the plates

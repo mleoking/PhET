@@ -164,8 +164,7 @@ public class Wire {
         
         @Override
         /*
-         * Subtract any part of the wire that is occluded by the top plate or dielectric.
-         * Occlusion by the bottom plate is OK because the wire and bottom plate have the same potential.
+         * Subtract any part of the wire that is occluded by the bottom plate.
          */
         protected Shape createShape() {
             Shape shape = null;
@@ -178,10 +177,7 @@ public class Wire {
                 shape = wireShape;
             }
             else {
-                Area area = new Area( wireShape );
-                area.subtract( new Area( capacitorShapeFactory.createTopPlateShape() ) );
-                area.subtract( new Area( capacitorShapeFactory.createDielectricShapeOccluded() ) );
-                shape = area;
+                shape = ShapeUtils.subtract( wireShape, capacitorShapeFactory.createBottomPlateShape() );
             }
             return shape;
         }

@@ -27,4 +27,32 @@ public class ShapeUtils {
         area1.intersect( area2 );
         return !area1.isEmpty();
     }
+    
+    /**
+     * Adds a variable number of shapes to a primary shape.
+     * @param primaryShape
+     * @param shapes
+     * @return
+     */
+    public static final Shape add( Shape primaryShape, Shape... shapes ) {
+        Area area = new Area( primaryShape );
+        for ( Shape shape : shapes ) {
+            area.add( new Area( shape ) );
+        }
+        return area;
+    }
+    
+    /**
+     * Subtracts a variable number of shapes from a primary shape.
+     * @param primaryShape
+     * @param shapes
+     * @return
+     */
+    public static final Shape subtract( Shape primaryShape, Shape... shapes ) {
+        Area area = new Area( primaryShape );
+        for ( Shape shape : shapes ) {
+            area.subtract( new Area( shape ) );
+        }
+        return area;
+    }
 }

@@ -328,7 +328,7 @@ public class Capacitor {
      * @return
      */
     public boolean topPlateIntersects( Shape shape ) {
-        return ShapeUtils.intersects( shape, shapeFactory.createTopPlateShape() );
+        return ShapeUtils.intersects( shape, shapeFactory.createTopPlateShapeOccluded() );
     }
     
     /**
