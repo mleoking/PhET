@@ -11,15 +11,15 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 public abstract class ToSymbolProblem extends Problem {
 
     private final boolean configurableProtonCount;
-    protected boolean isConfigurableProtonCount() {
+    public boolean isConfigurableProtonCount() {
         return configurableProtonCount;
     }
 
-    protected boolean isConfigurableMass() {
+    public boolean isConfigurableMass() {
         return configurableMass;
     }
 
-    protected boolean isConfigurableCharge() {
+    public boolean isConfigurableCharge() {
         return configurableCharge;
     }
 
