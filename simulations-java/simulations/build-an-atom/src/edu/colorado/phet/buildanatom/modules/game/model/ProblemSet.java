@@ -240,7 +240,11 @@ public class ProblemSet {
      * @return
      */
     private boolean isSchematicProbType( ProblemType problemType ){
-        return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT || problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL || problemType == ProblemType.SYMBOL_TO_SCHEMATIC);
+        return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT ||
+                 problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL ||
+                 problemType == ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ||
+                 problemType == ProblemType.SCHEMATIC_TO_SYMBOL_MASS ||
+                 problemType == ProblemType.SYMBOL_TO_SCHEMATIC );
     }
 
     /**
