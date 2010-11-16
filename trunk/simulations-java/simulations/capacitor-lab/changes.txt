@@ -1,3 +1,5 @@
+# 0.00.45 (46217) Nov 16, 2010
+11/16/10 dev version with minor fixes and internal changes
 11/15/10 move createBoxShape to BoxShapeFactory
 11/15/10 hide debug shapes for battery and wires when battery is disconnected
 11/15/10 don't measure voltage at battery or wires unless the battery is connected 
