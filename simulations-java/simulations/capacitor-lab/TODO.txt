@@ -15,7 +15,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
-- debug node uses WireShapeFactory.createShape, which does not have the subtraction used in BottomWire.createShape and TopWire.createShape
 - better encapsulation of measurements based on 2D projection of Shapes, move out of model (Capacitor, BatteryCapacitorCircuit) and into a strategy pattern
 - hack in BottomWire
 
