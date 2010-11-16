@@ -176,7 +176,13 @@ public class Atom extends SimpleAtom {
      * Remove an arbitrary electron.
      */
     public Electron removeElectron(){
-        Electron electron = electronShell1.removeElectron(); // Outer electrons move to inner shell automatically.
+        Electron electron = null;
+        if ( electronShell2.getNumElectrons() > 0 ){
+            electron = electronShell2.removeElectron();
+        }
+        else {
+            electron = electronShell1.removeElectron();
+        }
         super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
         return electron;
     }
