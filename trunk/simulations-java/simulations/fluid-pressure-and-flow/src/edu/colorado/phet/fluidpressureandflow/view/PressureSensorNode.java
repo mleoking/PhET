@@ -83,6 +83,6 @@ public class PressureSensorNode extends PNode {
     }
 
     private String getText() {
-        return "" + new DecimalFormat( "0.00" ).format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " "+units.getValue().getName();
+        return "" + units.getValue().getDecimalFormat().format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " "+units.getValue().getAbbreviation();
     }
 }
