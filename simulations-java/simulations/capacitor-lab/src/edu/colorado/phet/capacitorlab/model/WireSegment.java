@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -58,11 +57,11 @@ public class WireSegment {
         
         public BatteryTopWireSegment( final Battery battery, Point2D endPoint ) {
             super( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ), endPoint );
-            battery.addBatteryChangeListener( new BatteryChangeAdapter() {
-                public void polarityChanged() {
+            battery.addPolarityObserver( new SimpleObserver() {
+                public void update() {
                     setStartPoint( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ) );
                 }
-            });
+            } );
         }
     }
     
@@ -73,8 +72,8 @@ public class WireSegment {
         
         public BatteryBottomWireSegment( final Battery battery, Point2D endPoint ) {
             super( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ), endPoint );
-            battery.addBatteryChangeListener( new BatteryChangeAdapter() {
-                public void polarityChanged() {
+            battery.addPolarityObserver( new SimpleObserver() {
+                public void update() {
                     setStartPoint( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ) );
                 }
             });

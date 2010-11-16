@@ -8,9 +8,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -23,35 +23,19 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class BatteryNode extends PhetPNode {
     
-    private final Battery battery;
-    private final PImage imageNode;
-    private final VoltageSliderNode sliderNode;
-    
     public BatteryNode( final Battery battery, boolean dev, DoubleRange voltageRange ) {
         
-        this.battery = battery;
-        battery.addBatteryChangeListener( new BatteryChangeAdapter() {
-            @Override
-            public void voltageChanged() {
-                updateNode();
-            }
-            @Override
-            public void polarityChanged() {
-                updateNode();
-            }
-        });
-        
         // battery image, scaled to match model dimensions
-        imageNode = new PImage( CLImages.BATTERY_UP );
+        final PImage imageNode = new PImage( CLImages.BATTERY_UP );
         addChild( imageNode );
         
         // voltage slider
         double trackLength = 0.60 * imageNode.getFullBoundsReference().getHeight();
-        sliderNode = new VoltageSliderNode( voltageRange, trackLength );
+        final VoltageSliderNode sliderNode = new VoltageSliderNode( voltageRange, trackLength );
         addChild( sliderNode );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateModel();
+                battery.setVoltage( sliderNode.getVoltage() );
             }
         });
         
@@ -63,22 +47,21 @@ public class BatteryNode extends PhetPNode {
         y = imageNode.getYOffset() + 60; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
         
-        updateNode();
-    }
-    
-    private void updateNode() {
-        // slider
-        sliderNode.setVoltage( battery.getVoltage() );
-        // image
-        if ( battery.getPolarity() == Polarity.POSITIVE ) {
-            imageNode.setImage( CLImages.BATTERY_UP );
-        }
-        else {
-            imageNode.setImage( CLImages.BATTERY_DOWN );
-        }
-    }
-    
-    private void updateModel() {
-        battery.setVoltage( sliderNode.getVoltage() );
+        // observe model
+        battery.addVoltageObserver( new SimpleObserver() {
+            public void update() {
+                sliderNode.setVoltage( battery.getVoltage() );
+            }
+        } );
+        battery.addPolarityObserver( new SimpleObserver() {
+            public void update() {
+                if ( battery.getPolarity() == Polarity.POSITIVE ) {
+                    imageNode.setImage( CLImages.BATTERY_UP );
+                }
+                else {
+                    imageNode.setImage( CLImages.BATTERY_DOWN );
+                }
+            }
+        } );
     }
 }

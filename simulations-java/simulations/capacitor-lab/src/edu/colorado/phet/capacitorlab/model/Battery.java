@@ -3,13 +3,12 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
-import java.util.EventListener;
-
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Simple model of a DC battery.
@@ -24,17 +23,21 @@ public class Battery {
     private final BatteryShapeFactory shapeFactory;
     
     // mutable properties
-    private double voltage;
-    private Polarity polarity;
-    
-    private final EventListenerList listeners;
+    private final Property<Double> voltageProperty;
+    private final Property<Polarity> polarityProperty;
     
     public Battery( Point3D location, double voltage, ModelViewTransform mvt ) {
+        
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
-        this.voltage = voltage;
-        this.polarity = getPolarity( voltage );
+        this.voltageProperty = new Property<Double>( voltage );
+        this.polarityProperty = new Property<Polarity>( getPolarity( voltage ) );
         this.shapeFactory = new BatteryShapeFactory( this, mvt );
-        listeners = new EventListenerList();
+        
+        voltageProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setPolarity( getPolarity( getVoltage() ) );
+            }
+        } );
     }
     
     public Point3D getLocationReference() {
@@ -60,30 +63,31 @@ public class Battery {
      * @param voltage
      */
     public void setVoltage( double voltage ) {
-        if ( voltage != this.voltage ) {
-            this.voltage = voltage;
-            fireVoltageChanged();
-            setPolarity( getPolarity( voltage ) );
-        }
+        voltageProperty.setValue( voltage );
     }
     
     public double getVoltage() {
-        return voltage;
+        return voltageProperty.getValue();
+    }
+    
+    public void addVoltageObserver( SimpleObserver o ) {
+        voltageProperty.addObserver( o );
     }
     
     private void setPolarity( Polarity polarity ) {
-        if ( polarity != this.polarity ) {
-            this.polarity = polarity;
-            firePolarityChanged();
-        }
+        polarityProperty.setValue( polarity );
     }
     
     public Polarity getPolarity() {
-        return polarity;
+        return polarityProperty.getValue();
     }
     
     private static Polarity getPolarity( double voltage ) {
         return ( voltage >= 0 ) ? Polarity.POSITIVE : Polarity.NEGATIVE;
+    }
+    
+    public void addPolarityObserver( SimpleObserver o ) {
+        polarityProperty.addObserver( o );
     }
     
     public boolean topTerminalIntersects( Shape shape ) {
@@ -106,35 +110,5 @@ public class Battery {
      */
     public double getBottomTerminalYOffset() {
         return ( shapeFactory.getBodySizeReference().getHeight() / 2 );
-    }
-    
-    public interface BatteryChangeListener extends EventListener {
-        public void voltageChanged();
-        public void polarityChanged();
-    }
-    
-    public static class BatteryChangeAdapter implements BatteryChangeListener {
-        public void voltageChanged() {}
-        public void polarityChanged() {}
-    }
-    
-    public void addBatteryChangeListener( BatteryChangeListener listener ) {
-        listeners.add( BatteryChangeListener.class, listener );
-    }
-    
-    public void removeBatteryChangeListener( BatteryChangeListener listener ) {
-        listeners.remove( BatteryChangeListener.class, listener );
-    }
-    
-    private void fireVoltageChanged() {
-        for ( BatteryChangeListener listener : listeners.getListeners( BatteryChangeListener.class ) ) {
-            listener.voltageChanged();
-        }
-    }
-    
-    private void firePolarityChanged() {
-        for ( BatteryChangeListener listener : listeners.getListeners( BatteryChangeListener.class ) ) {
-            listener.polarityChanged();
-        }
     }
 }
