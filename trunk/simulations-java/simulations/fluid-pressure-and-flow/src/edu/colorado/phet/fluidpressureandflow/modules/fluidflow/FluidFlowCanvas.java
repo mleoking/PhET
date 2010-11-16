@@ -2,6 +2,7 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -64,6 +65,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 return null;
             }
         } );
+
+        addControls( new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
