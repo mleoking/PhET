@@ -54,7 +54,6 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         // position if moved after that).
         setLocationRelativeTo(null);
 
-        setPreferredSize( new Dimension( 300, 500 ) );
         setLayout( new GridLayout( 11, 1 ) );
         for ( JCheckBox checkBox : checkBoxList ){
             add( checkBox );
