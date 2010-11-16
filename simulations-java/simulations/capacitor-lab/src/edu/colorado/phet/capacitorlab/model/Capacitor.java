@@ -3,14 +3,13 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
-import java.util.EventListener;
-
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a capacitor.
@@ -27,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public class Capacitor {
     
-    private final EventListenerList listeners;
     private final ModelViewTransform mvt;
     private final CapacitorShapeFactory shapeFactory;
     
@@ -35,25 +33,45 @@ public class Capacitor {
     private final Point3D location; // location of the capacitor's geometric center (meters)
     private final double plateThickness; // thickness of the plates (meters)
     
-    // mutable properties
-    private double plateSideLength; // length of one side of a plate (meters)
-    private double plateSeparation; // distance between the plates (meters)
-    private DielectricMaterial dielectricMaterial; // insulator between the plates
-    private double dielectricOffset; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
+    // observable properties
+    private final Property<Double> plateSideLengthProperty; // length of one side of a plate (meters)
+    private final Property<Double> plateSeparationProperty; // distance between the plates (meters)
+    private final Property<DielectricMaterial> dielectricMaterialProperty; // insulator between the plates
+    private final Property<Double> dielectricOffsetProperty; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
+    
+    // observable properties, derived
+    private final Property<Double> airCapacitanceProperty; // C_air, Farads
+    private final Property<Double> dielectricCapacitanceProperty; // C_dielectric, Farads
+    private final Property<Double> totalCapacitanceProperty; // C_total, Farads
 
     public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, ModelViewTransform mvt ) {
         
-        listeners = new EventListenerList();
         this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );
         
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.plateThickness = CLConstants.PLATE_THICKNESS;
         
-        this.plateSideLength = plateSideLength;
-        this.plateSeparation = plateSeparation;
-        this.dielectricMaterial = dielectricMaterial;
-        this.dielectricOffset = dielectricOffset;
+        this.plateSideLengthProperty = new Property<Double>( plateSideLength );
+        this.plateSeparationProperty = new Property<Double>( plateSeparation );
+        this.dielectricMaterialProperty = new Property<DielectricMaterial>( dielectricMaterial );
+        this.dielectricOffsetProperty = new Property<Double>( dielectricOffset );
+        
+        // derived
+        this.airCapacitanceProperty = new Property<Double>( 0d );
+        this.dielectricCapacitanceProperty = new Property<Double>( 0d );
+        this.totalCapacitanceProperty = new Property<Double>( 0d );
+        
+        // if the physical properties change, derive capacitance.
+        SimpleObserver o = new SimpleObserver() {
+            public void update() {
+                updateCapacitance();
+            }
+        };
+        plateSideLengthProperty.addObserver( o );
+        plateSeparationProperty.addObserver( o );
+        dielectricMaterialProperty.addObserver( o );
+        dielectricOffsetProperty.addObserver( o );
     }
     
     /**
@@ -96,11 +114,7 @@ public class Capacitor {
         if ( ! ( plateSideLength > 0 ) ) {
             throw new IllegalArgumentException( "plateSideLength must be > 0: " + plateSideLength );
         }
-        if ( plateSideLength != this.plateSideLength ) {
-            this.plateSideLength = plateSideLength;
-            firePlateSizeChanged();
-            fireCapacitanceChanged();
-        }
+        plateSideLengthProperty.setValue( plateSideLength );
     }
     
     /**
@@ -110,7 +124,11 @@ public class Capacitor {
      * @param return length, in meters
      */
     public double getPlateSideLength() {
-        return plateSideLength;
+        return plateSideLengthProperty.getValue();
+    }
+    
+    public void addPlateSideLengthObserver( SimpleObserver o ) {
+        plateSideLengthProperty.addObserver( o );
     }
     
     /**
@@ -124,11 +142,7 @@ public class Capacitor {
         if ( !( plateSeparation > 0 ) ) {
             throw new IllegalArgumentException( "plateSeparation must be > 0: " + plateSeparation );
         }
-        if ( plateSeparation != this.plateSeparation ) {
-            this.plateSeparation = plateSeparation;
-            firePlateSeparationChanged();
-            fireCapacitanceChanged();
-        }
+        plateSeparationProperty.setValue( plateSeparation );
     }
     
     /**
@@ -138,7 +152,11 @@ public class Capacitor {
      * return distance, in meters.
      */
     public double getPlateSeparation() {
-        return plateSeparation;
+        return plateSeparationProperty.getValue();
+    }
+    
+    public void addPlateSeparationObserver( SimpleObserver o ) {
+        plateSeparationProperty.addObserver( o );
     }
     
     /**
@@ -147,7 +165,7 @@ public class Capacitor {
      * @return
      */
     public Point3D getTopPlateCenter() {
-        return new Point3D.Double( getX(), getY() - ( plateSeparation / 2 ) - plateThickness, getZ() );
+        return new Point3D.Double( getX(), getY() - ( getPlateSeparation() / 2 ) - plateThickness, getZ() );
     }
     
     /**
@@ -156,7 +174,7 @@ public class Capacitor {
      * @return
      */
     public Point3D getBottomPlateCenter() {
-        return new Point3D.Double( getX(), getY() + ( plateSeparation / 2 ) + plateThickness, getZ());
+        return new Point3D.Double( getX(), getY() + ( getPlateSeparation() / 2 ) + plateThickness, getZ());
     }
     
     /**
@@ -167,11 +185,7 @@ public class Capacitor {
         if ( dielectricMaterial == null ) {
             throw new IllegalArgumentException( "dielectricMaterial must be non-null" );
         }
-        if ( dielectricMaterial != this.dielectricMaterial ) { /* yes, referential equality */
-            this.dielectricMaterial = dielectricMaterial;
-            fireDielectricMaterialChanged();
-            fireCapacitanceChanged();
-        }
+        dielectricMaterialProperty.setValue( dielectricMaterial );
     }
     
     /**
@@ -179,7 +193,11 @@ public class Capacitor {
      * @return
      */
     public DielectricMaterial getDielectricMaterial() {
-        return dielectricMaterial;
+        return dielectricMaterialProperty.getValue();
+    }
+    
+    public void addDielectricMaterialObserver( SimpleObserver o ) {
+        dielectricMaterialProperty.addObserver( o );
     }
     
     /**
@@ -189,7 +207,7 @@ public class Capacitor {
      * @return dielectric constant, dimensionless
      */
     public double getDielectricConstant() {
-        return dielectricMaterial.getDielectricConstant();
+        return getDielectricMaterial().getDielectricConstant();
     }
     
     /**
@@ -197,7 +215,7 @@ public class Capacitor {
      * @return
      */
     public double getDielectricHeight() {
-        return plateSeparation;
+        return getPlateSeparation();
     }
     
     /**
@@ -205,7 +223,7 @@ public class Capacitor {
      * @return
      */
     public double getDiectricWidth() {
-        return plateSideLength;
+        return getPlateSideLength();
     }
     
     /**
@@ -216,11 +234,10 @@ public class Capacitor {
      * @param dielectricOffset offset, in meters.
      */
     public void setDielectricOffset( double dielectricOffset ) {
-        if ( dielectricOffset != this.dielectricOffset ) {
-            this.dielectricOffset = dielectricOffset;
-            fireDielectricOffsetChanged();
-            fireCapacitanceChanged();
+        if ( !( dielectricOffset >= 0 ) ) {
+            throw new IllegalArgumentException( "dielectricOffset must be >= 0: " + dielectricOffset );
         }
+        dielectricOffsetProperty.setValue( dielectricOffset );
     }
     
     /**
@@ -229,7 +246,11 @@ public class Capacitor {
      * @return offset, in meters.
      */
     public double getDielectricOffset() {
-        return dielectricOffset;
+        return dielectricOffsetProperty.getValue();
+    }
+    
+    public void addDielectricOffsetObserver( SimpleObserver o ) {
+        dielectricOffsetProperty.addObserver( o );
     }
     
     /**
@@ -239,7 +260,7 @@ public class Capacitor {
      * @return area in meters^2
      */
     public double getPlateArea() {
-        return plateSideLength * plateSideLength;
+        return getPlateSideLength() * getPlateSideLength();
     }
     
     /**
@@ -267,6 +288,16 @@ public class Capacitor {
         return area;
     }
     
+    /*
+     * Updates the derived properties that are related to capacitance.
+     * Note that there is order dependency here, total must be set last.
+     */
+    private void updateCapacitance() {
+        airCapacitanceProperty.setValue( getCapacitance( CLConstants.EPSILON_AIR, getAirContactArea(), getPlateSeparation() ) );
+        dielectricCapacitanceProperty.setValue( getCapacitance( getDielectricConstant(), getDielectricContactArea(), getPlateSeparation() ) );
+        totalCapacitanceProperty.setValue( getAirCapacitance() + getDieletricCapacitance() );
+    }
+    
     /**
      * Gets the total capacitance.
      * For the general case of a moveable dielectric, the capacitor is treated as 2 capacitors in parallel.
@@ -276,7 +307,11 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getTotalCapacitance() {
-        return getAirCapacitance() + getDieletricCapacitance();
+        return totalCapacitanceProperty.getValue();
+    }
+    
+    public void addTotalCapacitanceObserver( SimpleObserver o ) {
+        totalCapacitanceProperty.addObserver( o );
     }
     
     /**
@@ -286,7 +321,11 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getAirCapacitance() {
-        return getCapacitance( CLConstants.EPSILON_AIR, getAirContactArea(), getPlateSeparation() );
+        return airCapacitanceProperty.getValue();
+    }
+    
+    public void addAirCapacitanceObserver( SimpleObserver o ) {
+        airCapacitanceProperty.addObserver( o );
     }
     
     /**
@@ -296,7 +335,11 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getDieletricCapacitance() {
-        return getCapacitance( dielectricMaterial.getDielectricConstant(), getDielectricContactArea(), getPlateSeparation() );
+        return dielectricCapacitanceProperty.getValue();
+    }
+    
+    public void addDielectricCapacitanceObserver( SimpleObserver o ) {
+        dielectricCapacitanceProperty.addObserver( o );
     }
     
     /*
@@ -357,63 +400,5 @@ public class Capacitor {
      */
     public boolean isInsideAirBetweenPlatesShape( Point3D p ) {
         return shapeFactory.createAirBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
-    }
-
-    /**
-     * Interface implemented by listeners who are interested in capacitor changes.
-     * Includes separate notification for each mutable property, plus capacitance.
-     */
-    public interface CapacitorChangeListener extends EventListener {
-        public void plateSizeChanged();
-        public void plateSeparationChanged();
-        public void dielectricMaterialChanged();
-        public void dielectricOffsetChanged();
-        public void capacitanceChanged();
-    }
-    
-    public static class CapacitorChangeAdapter implements CapacitorChangeListener {
-        public void plateSizeChanged() {}
-        public void plateSeparationChanged() {}
-        public void dielectricMaterialChanged() {}
-        public void dielectricOffsetChanged() {}
-        public void capacitanceChanged() {}
-    }
-    
-    public void addCapacitorChangeListener( CapacitorChangeListener listener ) {
-        listeners.add( CapacitorChangeListener.class, listener );
-    }
-    
-    public void removeCapacitorChangeListener( CapacitorChangeListener listener ) {
-        listeners.remove( CapacitorChangeListener.class, listener );
-    }
-    
-    private void firePlateSizeChanged() {
-        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
-            listener.plateSizeChanged();
-        }
-    }
-    
-    private void firePlateSeparationChanged() {
-        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
-            listener.plateSeparationChanged();
-        }
-    }
-    
-    private void fireDielectricMaterialChanged() {
-        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
-            listener.dielectricMaterialChanged();
-        }
-    }
-    
-    private void fireDielectricOffsetChanged() {
-        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
-            listener.dielectricOffsetChanged();
-        }
-    }
-    
-    private void fireCapacitanceChanged() {
-        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
-            listener.capacitanceChanged();
-        }
     }
 }

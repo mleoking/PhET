@@ -8,9 +8,9 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
@@ -52,21 +52,6 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.PLATE_AREA, millimetersSquared, CLStrings.MILLIMETERS_SQUARED );
         
-        // watch for model changes
-        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            
-            @Override
-            public void plateSizeChanged() {
-                updateDisplay();
-                updateOffset();
-            }
-            
-            @Override
-            public void plateSeparationChanged() {
-                updateOffset();
-            }
-        });
-
         // rendering order
         addChild( lineNode );
         addChild( arrowNode );
@@ -86,9 +71,18 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         y = lineNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
         
-        // initial state
-        updateDisplay();
-        updateOffset();
+        // watch for model changes
+        capacitor.addPlateSideLengthObserver( new SimpleObserver() {
+            public void update() {
+                updateDisplay();
+                updateOffset();
+            }
+        } );
+        capacitor.addPlateSeparationObserver( new SimpleObserver() {
+            public void update() {
+                updateOffset();
+            }
+        } );
     }
     
     private void updateDisplay() {

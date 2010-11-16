@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -88,9 +87,8 @@ public class WireSegment {
         
         public CapacitorTopWireSegment( Point2D startPoint, final Capacitor capacitor ) {
             super( startPoint, new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
-            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-                @Override
-                public void plateSeparationChanged() {
+            capacitor.addPlateSeparationObserver( new SimpleObserver() {
+                public void update() {
                     setEndPoint( new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
                 }
             } );
@@ -104,9 +102,8 @@ public class WireSegment {
         
         public CapacitorBottomWireSegment( Point2D startPoint, final Capacitor capacitor ) {
             super( startPoint, new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
-            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-                @Override
-                public void plateSeparationChanged() {
+            capacitor.addPlateSeparationObserver( new SimpleObserver() {
+                public void update() {
                     setEndPoint( new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
                 }
             } );

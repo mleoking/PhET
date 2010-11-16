@@ -8,7 +8,6 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
@@ -69,28 +68,16 @@ public class VoltageShapesDebugNode extends PComposite {
             final PPath bottomPlateNode = new PhetPPath( shapeFactory.createBottomPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( bottomPlateNode );
             
-            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-
-                @Override
-                public void plateSizeChanged() {
-                     updateShapes();
-                }
-
-                @Override
-                public void plateSeparationChanged() {
-                    updateShapes();
-                }
-                
-                @Override
-                public void dielectricOffsetChanged() {
-                    updateShapes();
-                }
-                
-                private void updateShapes() {
+            // set plate shapes to match model
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
                     topPlateNode.setPathTo( shapeFactory.createTopPlateShapeOccluded() );
                     bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
                 }
-            } );
+            };
+            capacitor.addPlateSideLengthObserver( o );
+            capacitor.addPlateSeparationObserver( o );
+            capacitor.addDielectricOffsetObserver( o );
         }
         
         // wires

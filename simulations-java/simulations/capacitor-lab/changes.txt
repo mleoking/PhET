@@ -1,3 +1,4 @@
+11/15/10 convert Capacitor model element to Property<T>
 11/15/10 convert Battery model element to Property<T>
 # 0.00.44 (46188) Nov 15, 2010
 11/15/10 use Wire.getShape in WireShapeFactory, so that we're displaying the same shapes used in the voltage model
