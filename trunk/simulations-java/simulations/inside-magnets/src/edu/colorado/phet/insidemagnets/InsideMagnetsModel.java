@@ -21,9 +21,10 @@ public class InsideMagnetsModel {
     private IClock clock = new ConstantDtClock( 30 );
     private double time = 0;
     private ImmutableVector2D J = new ImmutableVector2D( 1, 1 );
-    private ImmutableVector2D B = new ImmutableVector2D( 0, 0 );//Externally applied magnetic field
+    private Property<ImmutableVector2D> externalMagneticField = new Property<ImmutableVector2D>( new ImmutableVector2D( 2.1, 0 ) );//Externally applied magnetic field
     double Ka = 1.5;         /* anisotropy strength for aniso- boundaries.	 */
     int kdt = 10;             /* number of steps taken before re-drawing spins.   */
+    private Property<Double> temperature = new Property<Double>( 1.0/2.0 );//Beta = 1/temperature
     private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
 
     public InsideMagnetsModel() {
@@ -53,10 +54,9 @@ public class InsideMagnetsModel {
         double dtI;        /* time step divided by rotational inertia. */
         double dtg;        /* time step multiplied by damping.  */
         double domega;    /* change in rotational speed of a site. */
-        double beta = 2;//Beta = 1/temperature
 
         double gam = 1.0;            /* damping of Langevin dynamics. passed to difeq.*/
-        double sigtau = Math.sqrt( 2.0 * gam * Irot / beta );
+        double sigtau = Math.sqrt( 2.0 * gam * Irot * temperature.getValue() );
         sigomega = sigtau * Math.sqrt( dt ) / Irot;
         dtI = dt / Irot;
         dtg = dt * gam;
@@ -77,9 +77,9 @@ public class InsideMagnetsModel {
                 gy = sum.getY();
 
                 gx *= J.getX();
-                gx -= B.getX() + getLattice().getValue( x, y ).bx;  /* applied and demagnetization fields. */
+                gx -= externalMagneticField.getValue().getX() + getLattice().getValue( x, y ).bx;  /* applied and demagnetization fields. */
                 gy *= J.getY();
-                gy -= B.getY() + getLattice().getValue( x, y ).by;
+                gy -= externalMagneticField.getValue().getY() + getLattice().getValue( x, y ).by;
 
                 //TODO: add boundary conditions
                 double sx = tmpSpins[x][y].getX();
@@ -141,9 +141,9 @@ The tmp arrays hold positions at t+0.5*dt.          */
 
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
                 for ( int y = 0; y < getLatticeHeight(); y++ ) {
-                    ImmutableVector2D spinVector = new ImmutableVector2D(  tmpSpins[x][y].getX(),tmpSpins[x][y].getY()).getNormalizedInstance();
-                    getLattice().getValue( x,y ).sx = spinVector.getX();
-                    getLattice().getValue( x,y ).sy = spinVector.getY();
+                    ImmutableVector2D spinVector = new ImmutableVector2D( tmpSpins[x][y].getX(), tmpSpins[x][y].getY() ).getNormalizedInstance();
+                    getLattice().getValue( x, y ).sx = spinVector.getX();
+                    getLattice().getValue( x, y ).sy = spinVector.getY();
                 }
             }
 
@@ -176,10 +176,11 @@ The tmp arrays hold positions at t+0.5*dt.          */
     }
 
     private ImmutableVector2D getSpin( int x, int y ) {
-        if (!getLattice().containsPoint( new Point( x,y ) ) ){
-            System.out.println( "off the lattice: x = " + x+", y = "+y );
-            return new ImmutableVector2D(  );
-        }else{
+        if ( !getLattice().containsPoint( new Point( x, y ) ) ) {
+            System.out.println( "off the lattice: x = " + x + ", y = " + y );
+            return new ImmutableVector2D();
+        }
+        else {
             return getLattice().getValue( new Point( x, y ) ).getSpinVector();
         }
     }
@@ -221,5 +222,13 @@ The tmp arrays hold positions at t+0.5*dt.          */
 
     public Lattice<Cell> getLattice() {
         return latticeProperty.getValue();
+    }
+
+    public Property<ImmutableVector2D> getExternalMagneticField() {
+        return externalMagneticField;
+    }
+
+    public Property<Double> getTemperature() {
+        return temperature;
     }
 }
