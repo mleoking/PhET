@@ -221,8 +221,8 @@ public class Atom extends SimpleAtom {
         electronShell2.reset();
         electronShell1.reset();
 
-        // Call into the base class.  This will ultimately cause any change
-        // notifications to be sent out.
+        // Call into the base class.  This will ultimately cause any resulting
+        // change notifications to be sent out.
         super.reset();
     }
 
