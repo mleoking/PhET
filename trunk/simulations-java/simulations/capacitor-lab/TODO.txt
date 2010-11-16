@@ -14,15 +14,19 @@ DESIGN ISSUES
 - should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
+- with wires removed, voltmeter displays "?V" when probe is over the area where invisible wire is
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model (Capacitor, BatteryCapacitorCircuit) and into a strategy pattern
 - hack in BottomWire
+- max spacing between dielectric charges is too large, it's > DielectricTotalChargeNode.SPACING_BETWEEN_PAIRS
 
 MEDUIUM PRIORITY
+- convert DielectricMaterial to Property<T>
+- convert BatteryCapacitorCircuit to Property<T>
+- convert CapacitorNode to Property<T>
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect, collapse to ChangeListener?
-- decide whether to use Property<T> or EventListener
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working

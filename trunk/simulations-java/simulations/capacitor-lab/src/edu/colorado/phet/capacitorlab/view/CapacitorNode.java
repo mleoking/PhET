@@ -10,10 +10,10 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -36,24 +36,6 @@ public class CapacitorNode extends PhetPNode {
     public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
         
         this.circuit = circuit;
-        this.circuit.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
-
-            @Override
-            public void dielectricOffsetChanged() {
-                updateDielectricOffset();
-            }
-
-            @Override
-            public void plateSeparationChanged() {
-                updateGeometry();
-            }
-
-            @Override
-            public void plateSizeChanged() {
-                updateGeometry();
-            }
-        });
-        
         this.mvt = mvt;
         this.listeners = new EventListenerList();
         
@@ -69,9 +51,15 @@ public class CapacitorNode extends PhetPNode {
         addChild( dielectricNode ); // dielectric between the plates
         addChild( topPlateNode );
         
-        // default state
-        updateGeometry();
-        updateDielectricColor();
+        // update geometry when dimensions change
+        SimpleObserver o = new SimpleObserver() {
+            public void update() {
+                updateGeometry();
+            }
+        };
+        circuit.getCapacitor().addPlateSideLengthObserver( o );
+        circuit.getCapacitor().addPlateSeparationObserver( o );
+        circuit.getCapacitor().addDielectricOffsetObserver( o );
     }
     
     /**
@@ -169,10 +157,6 @@ public class CapacitorNode extends PhetPNode {
         double y = -circuit.getCapacitor().getDielectricHeight() / 2;
         double z = 0;
         dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
-    }
-    
-    private void updateDielectricColor() {
-        dielectricNode.setColor( circuit.getCapacitor().getDielectricMaterial().getColor() );
     }
     
     public interface CapacitorNodeChangeListener extends EventListener {

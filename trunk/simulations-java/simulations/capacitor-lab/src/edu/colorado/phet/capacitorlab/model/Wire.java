@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
@@ -135,25 +134,15 @@ public class Wire {
             this.batteryShapeFactory = new BatteryShapeFactory( battery, mvt );
             this.capacitorShapeFactory = new CapacitorShapeFactory( capacitor, mvt );
             
-            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-                
-                @Override
-                public void plateSizeChanged() {
+            // adjust when dimensions of capacitor change
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
                     setShape( createShape() );
                 }
-                
-                @Override
-                public void plateSeparationChanged() {
-                    setShape( createShape() );
-                }
-                
-                @Override
-                public void dielectricOffsetChanged() {
-                    setShape( createShape() );
-                }
-            });
-            
-            setShape( createShape() ); // require because of hack in createShape
+            };
+            capacitor.addPlateSideLengthObserver( o );
+            capacitor.addPlateSeparationObserver( o );
+            capacitor.addDielectricOffsetObserver( o );
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
@@ -175,11 +164,8 @@ public class Wire {
         protected Shape createShape() {
             Shape shape = null;
             Shape wireShape = super.createShape();
+            // HACK: null check required because createShape is called in the superclass constructor.
             if ( capacitorShapeFactory == null ) {
-                /*
-                 * HACK: Null check required because createShape is called in the superclass constructor.
-                 * A call to setShape at the end of the constructor is required for proper construction.
-                 */
                 shape = wireShape;
             }
             else {

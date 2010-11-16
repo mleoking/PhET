@@ -7,8 +7,8 @@ import java.awt.Cursor;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 
 /**
@@ -28,14 +28,6 @@ public class DielectricNode extends BoxNode {
     public DielectricNode( final BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, DoubleRange valueRange ) {
         super( mvt, circuit.getCapacitor().getDielectricMaterial().getColor() );
         
-        // change color when dielectric material changes
-        circuit.getCapacitor().addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            @Override
-            public void dielectricMaterialChanged() {
-                setColor( circuit.getCapacitor().getDielectricMaterial().getColor() );
-            }
-        } );
-        
         // dielectric is directly draggable
         addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
         addInputEventListener( new DielectricOffsetDragHandler( this, circuit.getCapacitor(), mvt, valueRange ) );
@@ -45,6 +37,13 @@ public class DielectricNode extends BoxNode {
         
         excessChargeNode = new DielectricExcessChargeNode( circuit, mvt, dev );
         addChild( excessChargeNode );
+        
+        // change color when dielectric material changes
+        circuit.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
+            public void update() {
+                setColor( circuit.getCapacitor().getDielectricMaterial().getColor() );
+            }
+        });
     }
     
     public void setDielectricChargeView( DielectricChargeView dielectricChargeView ) {

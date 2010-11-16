@@ -8,9 +8,9 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
@@ -48,21 +48,6 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.OFFSET, millimeters, CLStrings.MILLIMETERS );
         
-        // update when related model properties change
-        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            
-            @Override
-            public void dielectricOffsetChanged() {
-                updateValueDisplay();
-                updateOffset();
-            }
-            
-            @Override
-            public void plateSizeChanged() {
-                updateOffset();
-            }
-        });
-        
         // rendering order
         addChild( lineNode );
         addChild( arrowNode );
@@ -79,8 +64,18 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         y = arrowNode.getFullBoundsReference().getMaxY();
         valueNode.setOffset( x, y );
         
-        updateValueDisplay();
-        updateOffset();
+        // update when related model properties change
+        capacitor.addDielectricOffsetObserver( new SimpleObserver() {
+            public void update() {
+                updateValueDisplay();
+                updateOffset();
+            }
+        } );
+        capacitor.addPlateSideLengthObserver( new SimpleObserver() {
+            public void update() {
+                updateOffset();
+            }
+        } );
     }
     
     private void updateValueDisplay() {

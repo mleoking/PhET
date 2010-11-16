@@ -8,9 +8,9 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
@@ -48,21 +48,6 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getPlateSeparation() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.SEPARATION, millimeters, CLStrings.MILLIMETERS );
         
-        // update when related model properties change
-        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            
-            @Override
-            public void plateSeparationChanged() {
-                updateValueDisplay();
-                updateOffset();
-            }
-
-            @Override
-            public void plateSizeChanged() {
-                updateOffset();
-            }
-        });
-        
         // rendering order
         addChild( lineNode );
         addChild( arrowNode );
@@ -79,8 +64,18 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         y = arrowNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
         
-        updateValueDisplay();
-        updateOffset();
+        // update when related model properties change
+        capacitor.addPlateSeparationObserver( new SimpleObserver() {
+            public void update() {
+                updateValueDisplay();
+                updateOffset();
+            }
+        } );
+        capacitor.addPlateSideLengthObserver( new SimpleObserver() {
+            public void update() {
+                updateOffset();
+            }
+        } );
     }
     
     private void updateValueDisplay() {

@@ -8,10 +8,10 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -44,29 +44,16 @@ public class EFieldShapesDebugNode extends PComposite {
             final PPath airBetweenPlatesNode = new PhetPPath( shapeFactory.createAirBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( airBetweenPlatesNode );
             
-            capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-
-                @Override
-                public void plateSizeChanged() {
-                     updateShapes();
-                }
-
-                @Override
-                public void plateSeparationChanged() {
-                    updateShapes();
-                }
-                
-                @Override
-                public void dielectricOffsetChanged() {
-                    updateShapes();
-                }
-                
-                private void updateShapes() {
+            // set shapes to match model
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
                     dielectricBetweenPlatesNode.setPathTo( shapeFactory.createDielectricBetweenPlatesShapeOccluded() );
                     airBetweenPlatesNode.setPathTo( shapeFactory.createAirBetweenPlatesShapeOccluded() );
                 }
-            } );
+            };
+            capacitor.addPlateSideLengthObserver( o );
+            capacitor.addPlateSeparationObserver( o );
+            capacitor.addDielectricOffsetObserver( o );
         }
     }
-
 }

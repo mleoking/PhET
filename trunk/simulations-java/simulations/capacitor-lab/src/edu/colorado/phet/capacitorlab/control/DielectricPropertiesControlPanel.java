@@ -11,13 +11,13 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
@@ -41,12 +41,6 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         super( CLStrings.DIELECTRIC );
         
         this.capacitor = model.getCapacitor();
-        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-            @Override
-            public void dielectricMaterialChanged() {
-                handleDielectricMaterialChanged();
-            }
-        });
         
         previousMaterial = capacitor.getDielectricMaterial();
         customDielectricChangeListener = new CustomDielectricChangeListener() {
@@ -91,8 +85,12 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
-        // default state
-        handleDielectricMaterialChanged();
+        // observer model
+        capacitor.addDielectricMaterialObserver( new SimpleObserver() {
+            public void update() {
+                handleDielectricMaterialChanged();
+            }
+        });
     }
     
     private void handleDielectricMaterialChanged() {

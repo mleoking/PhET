@@ -8,7 +8,6 @@ import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
@@ -60,20 +59,6 @@ public class BatteryCapacitorCircuit {
         this.currentAmplitude = 0;
         this.previousVoltage = getPlatesVoltage();
         
-        // respond to capacitor changes
-        capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
-
-            @Override
-            public void capacitanceChanged() {
-                handleCapacitanceChanged();
-            }
-            
-            @Override
-            public void dielectricMaterialChanged() {
-                handleDielectricMaterialChanged();
-            }
-        });
-        
         // change listener to be used with custom dielectric materials
         customDielectric = null;
         customDielectricChangeListener = new CustomDielectricChangeListener() {
@@ -101,6 +86,18 @@ public class BatteryCapacitorCircuit {
         battery.addVoltageObserver( new SimpleObserver() {
             public void update() {
                 handleBatteryVoltageChanged();
+            }
+        } );
+        
+        // respond to capacitor changes
+        capacitor.addTotalCapacitanceObserver( new SimpleObserver() {
+            public void update() {
+                handleCapacitanceChanged();
+            }
+        } );
+        capacitor.addDielectricMaterialObserver( new SimpleObserver() {
+            public void update() {
+                handleDielectricMaterialChanged();
             }
         } );
     }
