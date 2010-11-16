@@ -50,6 +50,7 @@ public class Atom extends SimpleAtom {
     private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
         public void update() {
             checkAndReconfigureShells();
+            updateElectronCount();
         }
     };
 
@@ -183,8 +184,14 @@ public class Atom extends SimpleAtom {
      * if an electron was removed from shell 1 while there were electrons
      * present in shell 2.
      */
-    protected void checkAndReconfigureShells() {
-        checkAndReconfigureShells( electronShell1, electronShell2);
+    private void checkAndReconfigureShells() {
+        checkAndReconfigureShells( electronShell1, electronShell2 );
+    }
+
+    private void updateElectronCount(){
+        // Update the count of electrons maintained in the super class.  This
+        // will cause any needed change notifications to be sent out.
+        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
     }
 
     private void checkAndReconfigureShells( ElectronShell inner, ElectronShell outer ) {
@@ -344,20 +351,21 @@ public class Atom extends SimpleAtom {
         super.setNumNeutrons( neutrons.size() );
     }
 
-    public void addElectron( final Electron electron,boolean moveImmediately ) {
+    public void addElectron( final Electron electron, boolean moveImmediately ) {
         if ( !electronShell1.isFull() ) {
             electronShell1.addElectron( electron, moveImmediately );
         }
         else if ( !electronShell2.isFull() ) {
             electronShell2.addElectron( electron, moveImmediately );
-        } else {
+        }
+        else {
             // Too many electrons.  The sim should be designed such that this
             // does not occur.  If it does, it should be debugged.
             assert false;
         }
 
         // Update count in super class.  This sends out the change notification.
-        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+        updateElectronCount();
     }
 
     /**
