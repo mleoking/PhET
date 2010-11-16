@@ -8,7 +8,6 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
@@ -52,9 +51,8 @@ public class VoltageShapesDebugNode extends PComposite {
             addChild( topTerminalNode );
             
             // set top terminal shape to match polarity
-            battery.addBatteryChangeListener( new BatteryChangeAdapter() {
-                @Override
-                public void polarityChanged() {
+            battery.addPolarityObserver( new SimpleObserver() {
+                public void update() {
                     topTerminalNode.setPathTo( shapeFactory.createTopTerminalShape() );
                 }
             } );

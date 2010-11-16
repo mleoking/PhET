@@ -8,7 +8,6 @@ import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
@@ -17,6 +16,7 @@ import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Physical model of a circuit with a battery connected to a capacitor.
@@ -60,14 +60,6 @@ public class BatteryCapacitorCircuit {
         this.currentAmplitude = 0;
         this.previousVoltage = getPlatesVoltage();
         
-        // respond to battery changes
-        battery.addBatteryChangeListener( new BatteryChangeAdapter() {
-            @Override
-            public void voltageChanged() {
-                handleBatteryVoltageChanged();
-            }
-        });
-        
         // respond to capacitor changes
         capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
 
@@ -104,6 +96,13 @@ public class BatteryCapacitorCircuit {
         // Create the wires
         topWire = new TopWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
         bottomWire = new BottomWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
+        
+        // respond to battery voltage changes
+        battery.addVoltageObserver( new SimpleObserver() {
+            public void update() {
+                handleBatteryVoltageChanged();
+            }
+        } );
     }
 
     //----------------------------------------------------------------------------------
