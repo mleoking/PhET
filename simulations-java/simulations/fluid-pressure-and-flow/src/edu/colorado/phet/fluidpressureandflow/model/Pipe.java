@@ -18,13 +18,7 @@ public class Pipe {
     private ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
 
     public Pipe() {
-        pipePositions.add( new PipePosition( -6, -3, -1 ) );
-        pipePositions.add( new PipePosition( -4, -3, -1 ) );
-        pipePositions.add( new PipePosition( -2, -3, -1 ) );
-        pipePositions.add( new PipePosition( 0, -3, -1 ) );
-        pipePositions.add( new PipePosition( 2, -3, -1 ) );
-        pipePositions.add( new PipePosition( 4, -3, -1 ) );
-        pipePositions.add( new PipePosition( 6, -3, -1 ) );
+        reset();
     }
 
     public ArrayList<PipePosition> getPipePositions() {
@@ -169,5 +163,16 @@ public class Pipe {
 
     public Point2D getBottomRight() {
         return new Point2D.Double( getMaxX(), getPipePositions().get( getPipePositions().size() - 1 ).getBottom().getY() );
+    }
+
+    public void reset() {
+        pipePositions.clear();
+        pipePositions.add( new PipePosition( -6, -3, -1 ) );
+        pipePositions.add( new PipePosition( -4, -3, -1 ) );
+        pipePositions.add( new PipePosition( -2, -3, -1 ) );
+        pipePositions.add( new PipePosition( 0, -3, -1 ) );
+        pipePositions.add( new PipePosition( 2, -3, -1 ) );
+        pipePositions.add( new PipePosition( 4, -3, -1 ) );
+        pipePositions.add( new PipePosition( 6, -3, -1 ) );
     }
 }

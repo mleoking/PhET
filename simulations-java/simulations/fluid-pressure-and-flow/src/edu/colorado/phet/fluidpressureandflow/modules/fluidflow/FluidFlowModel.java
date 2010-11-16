@@ -165,4 +165,14 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         }
         foodColorings.add( foodColoring );
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        pipe.reset();
+        velocitySensor.reset();
+        dropperOnProperty.reset();
+        dropperOnProperty.reset();
+        //TODO: remove particle and food coloring
+    }
 }
