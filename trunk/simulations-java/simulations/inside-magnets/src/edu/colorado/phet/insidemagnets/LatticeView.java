@@ -26,12 +26,14 @@ public class LatticeView extends PNode {
                     final ImmutableVector2D displayValue = lattice.getValue( location ).getScaledInstance( 50 );
 
                     final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(), displayValue.toPoint2D(), 10, 10, 4, 0.5, true );
+                    arrowNode.setPaint( Color.white );
                     arrowNode.setOffset( viewLocation.getX() - displayValue.getX() / 2, viewLocation.getY() - displayValue.getY() / 2 );
                     addChild( arrowNode );
 
-                    final PhetPPath cellCenter = new PhetPPath( new Rectangle2D.Double( -1, -1, 2, 2 ), Color.red );
-                    cellCenter.setOffset( viewLocation );
-                    addChild( cellCenter );
+                    //Draw the cell center for debugging purposes
+//                    final PhetPPath cellCenter = new PhetPPath( new Rectangle2D.Double( -1, -1, 2, 2 ), Color.red );
+//                    cellCenter.setOffset( viewLocation );
+//                    addChild( cellCenter );
                 }
             }
         } );
