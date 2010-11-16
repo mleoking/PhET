@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.greenhouse.controlpanel;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,8 +9,6 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -19,20 +16,15 @@ import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
@@ -313,62 +305,5 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     
     private BufferedImage createImageFromMolecule(Molecule molecule){
         return new MoleculeNode(molecule, MVT).getImage();
-    }
-    
-    // ------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
-
-    /**
-     * This class combines an icon and a radio button on to a panel in the way
-     * that is needed for this simulation.
-     */
-    private static class RadioButtonWithIconPanel extends HorizontalLayoutPanel {
-        
-        // Font to use for labels.
-        private static final Font LABEL_FONT = new PhetFont(14);
-        
-        // Fixed height for the panels.
-        private static final int PREFERRED_HEIGHT = 42;  // In pixels.
-        
-        private JRadioButton button;
-
-        /**
-         * Constructor.
-         * 
-         * @param buttonText
-         * @param toolTipText TODO
-         * @param imageName
-         */
-        public RadioButtonWithIconPanel(String buttonText, String toolTipText, BufferedImage image,
-                double imageScalingFactor){
-            
-            // Create and add the button.
-            button = new JRadioButton(buttonText);
-            button.setFont(LABEL_FONT);
-            button.setToolTipText( toolTipText );
-            add(button);
-            
-            setPreferredSize( new Dimension(getPreferredSize().width, PREFERRED_HEIGHT ) );
-            
-            // Create and add the image.
-            BufferedImage scaledImage = BufferedImageUtils.multiScale( image, imageScalingFactor );
-            ImageIcon imageIcon = new ImageIcon( scaledImage );
-            JLabel iconImageLabel = new JLabel( imageIcon );
-            iconImageLabel.setToolTipText( toolTipText );
-            add( iconImageLabel );
-            
-            // Add a listener to the image that essentially makes it so that
-            // clicking on the image is the same as clicking on the button.
-            iconImageLabel.addMouseListener( new MouseAdapter(){
-                public void mouseReleased(MouseEvent e) {
-                    button.doClick();
-                }
-            });
-        }
-        
-        public JRadioButton getButton(){
-            return button;
-        }
     }
 }
