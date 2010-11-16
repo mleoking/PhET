@@ -19,6 +19,8 @@ import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
+import edu.colorado.phet.capacitorlab.shapes.EFieldShapesDebugNode;
+import edu.colorado.phet.capacitorlab.shapes.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;

@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.module.dielectric;
+package edu.colorado.phet.capacitorlab.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,10 +9,7 @@ import java.awt.Stroke;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.Battery.BatteryChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
-import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
