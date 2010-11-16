@@ -150,7 +150,7 @@ public class Atom extends SimpleAtom {
             super.setNumNeutrons( neutrons.size() );
         }
         particle.removeListener( nucleonRemovalListener );
-        reconfigureNucleus( true );
+        reconfigureNucleus( false );
         return particleFound ? particle : null;
     }
 
