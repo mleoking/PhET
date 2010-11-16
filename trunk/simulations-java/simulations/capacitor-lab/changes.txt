@@ -1,4 +1,3 @@
-# 0.00.44 (46178) Nov 15, 2010
 11/15/10 use Wire.getShape in WireShapeFactory, so that we're displaying the same shapes used in the voltage model
 11/15/10 use CAP_BUTT for wire strokes, adjust battery terminal connection points
 11/15/10 put all dev stuff in new developer package
