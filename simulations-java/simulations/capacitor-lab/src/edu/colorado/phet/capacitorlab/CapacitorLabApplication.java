@@ -7,8 +7,8 @@ import java.awt.Frame;
 import javax.swing.Box;
 import javax.swing.JMenu;
 
-import edu.colorado.phet.capacitorlab.control.EFieldShapesDebugMenuItem;
-import edu.colorado.phet.capacitorlab.control.VoltageShapesDebugMenuItem;
+import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugMenuItem;
+import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugMenuItem;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
 import edu.colorado.phet.common.phetcommon.application.Module;

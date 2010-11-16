@@ -1,15 +1,17 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.shapes;
+package edu.colorado.phet.capacitorlab.developer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -23,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class EFieldShapesDebugNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 2f );
-    private static final Color STROKE_COLOR = Color.BLUE;
+    private static final Color STROKE_COLOR = CLPaints.EFIELD_SHAPES;
     
     public EFieldShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
         

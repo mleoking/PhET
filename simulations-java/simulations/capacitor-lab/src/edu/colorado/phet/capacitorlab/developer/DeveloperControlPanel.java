@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.control;
+package edu.colorado.phet.capacitorlab.developer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

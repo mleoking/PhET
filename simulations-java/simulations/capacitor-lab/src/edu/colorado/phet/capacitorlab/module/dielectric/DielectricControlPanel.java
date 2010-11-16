@@ -6,10 +6,10 @@ import java.awt.Frame;
 
 import javax.swing.JPanel;
 
-import edu.colorado.phet.capacitorlab.control.DeveloperControlPanel;
 import edu.colorado.phet.capacitorlab.control.DielectricPropertiesControlPanel;
 import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
 import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
+import edu.colorado.phet.capacitorlab.developer.DeveloperControlPanel;
 import edu.colorado.phet.capacitorlab.module.CLControlPanel;
 import edu.colorado.phet.common.phetcommon.application.Module;
 

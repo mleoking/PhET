@@ -1,3 +1,5 @@
+11/15/10 put all dev stuff in new developer package
+11/15/10 indicate color of shape strokes by setting foreground of developer menu items
 11/15/10 enable/disable shape debug via developer menu items
 11/15/10 remove portion of bottom wire that is occluded by battery
 11/15/10 add battery terminal offsets to shape model, for more precise wire connections
