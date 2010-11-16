@@ -74,7 +74,7 @@ public class ButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
 
     /**
-     * Construct a gradient button node.
+     * Construct a button node.
      *
      * @param label - Text that will appear on the button.
      * @param fontSize - Size of font for the label text.
@@ -88,7 +88,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     /**
-     * Construct a gradient button node.
+     * Construct a button node.
      *
      * @param label - Text that will appear on the button.
      * @param fontSize - Size of font for the label text.
@@ -236,8 +236,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     /**
-     * Constructor for creating a default gradient button with only the label
-     * specified.
+     * Constructor for creating a default button with only the label specified.
      *
      * @param label - Text that will appear on button.
      */
