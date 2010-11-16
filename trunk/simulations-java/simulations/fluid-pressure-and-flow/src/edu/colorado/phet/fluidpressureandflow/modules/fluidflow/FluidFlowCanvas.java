@@ -40,8 +40,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 return null;//TODO: better support for void
             }
         } );
-        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
-        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+//        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor0(), module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+//        addChild( new PressureSensorNode( transform, module.getFluidPressureAndFlowModel().getPressureSensor1(), module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor() ) );
 
         final DropperNode dropperNode = new DropperNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getDropperOnProperty() );
