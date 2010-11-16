@@ -34,6 +34,7 @@ public class Wire {
     private final double thickness;
     private final WireShapeFactory shapeFactory;
 
+    // observable properties
     private final Property<Shape> shapeProperty; // Shape in view coordinates!
     private final Property<Double> voltageProperty;
 
