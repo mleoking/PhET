@@ -274,7 +274,7 @@ public class BuildAnAtomModel {
     }
 
     public void setState( AtomValue answer, boolean moveImmediately ) {
-        ArrayList<SubatomicParticle> removedParticles = getAtom().setState( answer, this, moveImmediately );// Add new particles into the atom
+        ArrayList<SubatomicParticle> removedParticles = getAtom().setState( answer, this, moveImmediately );
         for ( SubatomicParticle particle : removedParticles ) {
             if ( particle instanceof Proton ) {
                 protonBucket.addParticle( particle, moveImmediately );
