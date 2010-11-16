@@ -32,7 +32,7 @@ public class PressureSensorNode extends PNode {
         this.pressureSensor = pressureSensor;
         this.units = units;
         double hotSpotRadius = 3;
-        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius*2, hotSpotRadius*2 ), Color.red ) );
+        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
         final PText textNode = new PText( getText() ) {{
             setFont( new PhetFont( 18, true ) );
         }};
@@ -58,9 +58,18 @@ public class PressureSensorNode extends PNode {
                 final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
                 Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
                                                                newDragPosition.getY() - relativeGrabPoint.getY() );
-                pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), pool.getMinY() ) );//not allowed to go to negative Potential Energy
-                if ( pressureSensor.getPosition().getY() < 0 ) {
-                    pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX() ), pressureSensor.getY() );//todo: use pool dimensions
+                //TODO: refactor
+                if ( pool != null ) {
+                    pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), pool.getMinY() ) );//not allowed to go to negative Potential Energy
+                    if ( pressureSensor.getPosition().getY() < 0 ) {
+                        pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX() ), pressureSensor.getY() );//todo: use pool dimensions
+                    }
+                }
+                else {
+                    pressureSensor.setPosition( modelLocation.getX(), modelLocation.getY() );//not allowed to go to negative Potential Energy
+                    if ( pressureSensor.getPosition().getY() < 0 ) {
+                        pressureSensor.setPosition( modelLocation.getX(), pressureSensor.getY() );//todo: use pool dimensions
+                    }
                 }
             }
 
@@ -76,7 +85,7 @@ public class PressureSensorNode extends PNode {
         final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
                 textNode.setText( getText() );
-                textNode.setOffset( -textNode.getFullBounds().getWidth()/2,-textNode.getFullBounds().getHeight() );
+                textNode.setOffset( -textNode.getFullBounds().getWidth() / 2, -textNode.getFullBounds().getHeight() );
             }
         };
         pressureSensor.addPressureObserver( updateText );
@@ -84,6 +93,6 @@ public class PressureSensorNode extends PNode {
     }
 
     private String getText() {
-        return "" + units.getValue().getDecimalFormat().format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " "+units.getValue().getAbbreviation();
+        return "" + units.getValue().getDecimalFormat().format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " " + units.getValue().getAbbreviation();
     }
 }

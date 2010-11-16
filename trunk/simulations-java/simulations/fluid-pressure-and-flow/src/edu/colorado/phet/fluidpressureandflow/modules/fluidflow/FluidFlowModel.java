@@ -1,5 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,8 +9,10 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
+import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 
 /**
@@ -75,6 +78,22 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 }
             }
         } );
+        addPressureSensor( new PressureSensor( this, 1, 0 ) );
+        addPressureSensor( new PressureSensor( this, -4, 1 ) );
+    }
+
+    @Override
+    public double getPressure( Point2D position ) {
+        ImmutableVector2D velocity = getVelocity( position.getX(), position.getY() );
+        double vSquared = velocity.getMagnitudeSq();
+        double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
+        if ( pipe.getShape().contains( position ) ) {
+            double pressure = K - 0.5 * getLiquidDensity() * vSquared - getLiquidDensity() * getGravity() * position.getY();
+            return pressure;
+        }
+        else {
+            return super.getPressure( position );
+        }
     }
 
     /**
@@ -121,6 +140,11 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         else {
             return new ImmutableVector2D();
         }
+    }
+
+    public void addFluidChangeObserver( SimpleObserver updatePressure ) {
+        super.addFluidChangeObserver( updatePressure );
+        pipe.addShapeChangeListener( updatePressure );
     }
 
     public VelocitySensor getVelocitySensor() {

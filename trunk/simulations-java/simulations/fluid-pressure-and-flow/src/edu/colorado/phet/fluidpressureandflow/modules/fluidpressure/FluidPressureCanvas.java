@@ -32,14 +32,14 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
         addChild( new PhetPPath( transform.createTransformedShape( module.getFluidPressureAndFlowModel().getPool().getShape() ), Color.lightGray ) );//so earth doesn't bleed through transparent pool
-        addChild( new PoolHeightReadoutNode( transform, module.getFluidPressureAndFlowModel().getPool() ,module.getFluidPressureAndFlowModel().getDistanceUnitProperty()) );
+        addChild( new PoolHeightReadoutNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getDistanceUnitProperty() ) );
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         }
 
         //Some nodes go behind the pool so that it looks like they submerge
         addChild( new FluidPressureAndFlowRulerNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getRulerVisibleProperty() ) );
-        final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool() );
+        final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getLiquidDensityProperty() );
 
         addChild( poolNode );
         // Control Panel
@@ -63,7 +63,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
 
         final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
         final Property<Boolean> gravityControlVisible = new Property<Boolean>( true );
-        final SliderControl fluidDensityControl = new SliderControl( FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getPool().getLiquidDensityProperty(), new HashMap<Double, TickLabel>() {{
+        final SliderControl fluidDensityControl = new SliderControl( FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getLiquidDensityProperty(), new HashMap<Double, TickLabel>() {{
             put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
             put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
             put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
