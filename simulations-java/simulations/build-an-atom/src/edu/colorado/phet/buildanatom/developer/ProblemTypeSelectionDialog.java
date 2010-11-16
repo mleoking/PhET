@@ -46,13 +46,9 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
      * intended for direct invocation.
      */
     private ProblemTypeSelectionDialog(Frame parent) {
-        super(parent, "Select Allowed Problem Types");
+        super( parent, "Select Allowed Problem Types" );
 
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-        // Center the window on the screen (initially - it will retain its
-        // position if moved after that).
-        setLocationRelativeTo(null);
+        setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 
         setLayout( new GridLayout( 11, 1 ) );
         for ( JCheckBox checkBox : checkBoxList ){
@@ -75,6 +71,7 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         }});
         add( buttonPanel );
         pack();
+        setLocation( parent.getX(), parent.getHeight() / 2 + parent.getY() - getHeight() / 2 );
     }
 
     // Get the instance of this singleton.
