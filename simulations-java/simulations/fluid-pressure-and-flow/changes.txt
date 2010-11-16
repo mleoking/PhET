@@ -1,3 +1,4 @@
+Improved pressure units and readout
 Added initial support for different units
 Added a gravity control
 Added particle model for food coloring
