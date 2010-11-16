@@ -16,14 +16,14 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class LatticeView extends PNode {
-    public LatticeView( final ModelViewTransform2D modelViewTransform2D, final Property<Lattice<ImmutableVector2D>> latticeProperty ) {
+    public LatticeView( final ModelViewTransform2D modelViewTransform2D, final Property<Lattice<Cell>> latticeProperty ) {
         latticeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 removeAllChildren();
-                Lattice<ImmutableVector2D> lattice = latticeProperty.getValue();
+                Lattice<Cell> lattice = latticeProperty.getValue();
                 for ( Point location : lattice.getLocations() ) {
                     Point viewLocation = modelViewTransform2D.modelToView( location );
-                    final ImmutableVector2D displayValue = lattice.getValue( location ).getScaledInstance( 50 );
+                    final ImmutableVector2D displayValue = lattice.getValue( location ).getSpinVector();
 
                     final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(), displayValue.toPoint2D(), 10, 10, 4, 0.5, true );
                     arrowNode.setPaint( Color.white );
