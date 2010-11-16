@@ -92,7 +92,7 @@ double Ka;	     /* anisotropy strength for aniso- boundaries.	 */
 int kdt;             /* number of steps taken before re-drawing spins.   */
 double dt; 	     /* the time integration step.			 */
 double *t; 	     /* the current time.  (updated).			 */
-double *mx,*my,*mz;  /* FM or AFM: magnetization (updated).		 */
+double *mx,*my,*mz;  /* double pointers tor total magnetization, for the large red arrow		 */
 
 {
   extern double *oldx, *oldy; /* previous spin state. */
