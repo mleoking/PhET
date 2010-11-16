@@ -104,7 +104,7 @@ public class CapacitorShapeFactory {
     //----------------------------------------------------------------------------------------
     
     /**
-     * Visible portions of the top plate.
+     * Visible portion of the top plate.
      * Nothing occludes the top plate.
      * @return
      */
@@ -113,7 +113,7 @@ public class CapacitorShapeFactory {
     }
     
     /**
-     * Visible portions of the bottom plate.
+     * Visible portion of the bottom plate.
      * May be partially occluded by the top plate and/or dielectric.
      * @return
      */
