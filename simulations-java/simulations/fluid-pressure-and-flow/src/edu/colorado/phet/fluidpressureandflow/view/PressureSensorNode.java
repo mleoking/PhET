@@ -32,11 +32,12 @@ public class PressureSensorNode extends PNode {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         this.units = units;
-        addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
-        final PText child = new PText( getText() ) {{
+        double hotSpotRadius = 3;
+        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius*2, hotSpotRadius*2 ), Color.red ) );
+        final PText textNode = new PText( getText() ) {{
             setFont( new PhetFont( 18, true ) );
         }};
-        addChild( child );
+        addChild( textNode );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             private Point2D.Double relativeGrabPoint;
@@ -75,7 +76,8 @@ public class PressureSensorNode extends PNode {
         } );
         final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
-                child.setText( getText() );
+                textNode.setText( getText() );
+                textNode.setOffset( -textNode.getFullBounds().getWidth()/2,-textNode.getFullBounds().getHeight() );
             }
         };
         pressureSensor.addPressureObserver( updateText );
