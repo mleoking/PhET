@@ -233,4 +233,10 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
     public AtomValue toAtomValue() {
         return new AtomValue(getNumProtons(), getNumNeutrons(),getNumElectrons() );
     }
+
+    public void reset(){
+        setNumProtons( 0 );
+        setNumNeutrons( 0 );
+        setNumElectrons( 0 );
+    }
 }

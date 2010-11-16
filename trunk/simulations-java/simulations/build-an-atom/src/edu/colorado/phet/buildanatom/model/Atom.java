@@ -205,6 +205,7 @@ public class Atom extends SimpleAtom {
         }
     }
 
+    @Override
     public void reset() {
         for ( Proton proton : protons ) {
             proton.removeListener( nucleonRemovalListener );
@@ -219,7 +220,10 @@ public class Atom extends SimpleAtom {
         // inner shells during reset.
         electronShell2.reset();
         electronShell1.reset();
-        notifyObservers();
+
+        // Call into the base class.  This will ultimately cause any change
+        // notifications to be sent out.
+        super.reset();
     }
 
     public ArrayList<ElectronShell> getElectronShells() {
