@@ -2,7 +2,6 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
@@ -20,22 +19,15 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     @Override
     public double getPressure( Point2D position ) {
-        if ( position.getY() > 0 ) {
-            return getPressureFunction().evaluate( position.getY() );
+        if ( position.getY() < 0 ) {
+            return getStandardAirPressure() + getLiquidDensity() * getGravity() * Math.abs( 0 - position.getY() );
         }
         else {
-            return getStandardAirPressure() + pool.getLiquidDensity() * getGravity() * Math.abs( 0 - position.getY() );
+            return super.getPressure( position );
         }
     }
 
     public Pool getPool() {
         return pool;
     }
-
-    @Override
-    public void addFluidChangeObserver( SimpleObserver updatePressure ) {
-        super.addFluidChangeObserver( updatePressure );
-        pool.addDensityListener( updatePressure );
-    }
-
 }

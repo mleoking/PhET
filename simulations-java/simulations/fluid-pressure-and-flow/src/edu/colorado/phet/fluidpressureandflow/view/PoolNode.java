@@ -1,28 +1,28 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * @author Sam Reid
  */
 public class PoolNode extends PNode {
-    public PoolNode( final ModelViewTransform2D transform2D, final Pool pool ) {
+    private final Property<Double> liquidDensity;
+
+    public PoolNode( final ModelViewTransform2D transform2D, final Pool pool, Property<Double> liquidDensity ) {
+        this.liquidDensity = liquidDensity;
         final PhetPPath path = new PhetPPath( transform2D.createTransformedShape( pool.getShape() ), createPaint( transform2D, pool ) );
         addChild( path );
         setPickable( false );
         setChildrenPickable( false );
-        pool.addDensityListener( new SimpleObserver() {
+        liquidDensity.addObserver( new SimpleObserver() {
             public void update() {
                 path.setPaint( createPaint( transform2D, pool ) );
             }
@@ -42,7 +42,7 @@ public class PoolNode extends PNode {
         Function.LinearFunction bBottom = new Function.LinearFunction( 1000, 1500, 158, 173 - x );
         Function.LinearFunction aBottom = new Function.LinearFunction( 1000, 1500, 173, 188 + x );
 
-        final double d = pool.getLiquidDensity();
+        final double d = liquidDensity.getValue();
         Color topColor = new Color( (int) rTop.evaluate( d ), (int) gTop.evaluate( d ), (int) bTop.evaluate( d ), (int) aTop.evaluate( d ) );
         Color bottomColor = new Color( (int) rBottom.evaluate( d ), (int) gBottom.evaluate( d ), (int) bBottom.evaluate( d ), (int) aBottom.evaluate( d ) );
         double yBottom = transform2D.modelToViewYDouble( -pool.getHeight() );//fade color halfway down

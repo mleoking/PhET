@@ -29,6 +29,7 @@ public class FluidPressureAndFlowModel {
     public final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
     public final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
     private ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
+    private Property<Double> liquidDensityProperty = new Property<Double>( 1000.0 );//SI
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );
@@ -38,13 +39,25 @@ public class FluidPressureAndFlowModel {
         return clock;
     }
 
+    //Return pressure of the air
     public double getPressure( Point2D position ) {
-        return 0;
+        if ( position.getY() >= 0 ) {
+            return getPressureFunction().evaluate( position.getY() );
+        }
+        else {
+            return 0.0;
+        }
     }
 
+    /**
+     * Add a listener to identify when the fluid has changed, for purposes of updating pressure sensors.
+     *
+     * @param updatePressure the listener to add
+     */
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
         gravityProperty.addObserver( updatePressure );
         standardAirPressure.addObserver( updatePressure );
+        liquidDensityProperty.addObserver( updatePressure );
     }
 
     public Property<Double> getGravityProperty() {
@@ -74,4 +87,21 @@ public class FluidPressureAndFlowModel {
     public Property<Units.Unit> getDistanceUnitProperty() {
         return distanceUnitProperty;
     }
+
+    public void setLiquidDensity( double value ) {
+        liquidDensityProperty.setValue( value );
+    }
+
+    public void addDensityListener( SimpleObserver simpleObserver ) {
+        liquidDensityProperty.addObserver( simpleObserver );
+    }
+
+    public double getLiquidDensity() {
+        return liquidDensityProperty.getValue();
+    }
+
+    public Property<Double> getLiquidDensityProperty() {
+        return liquidDensityProperty;
+    }
+
 }
