@@ -14,7 +14,6 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -99,26 +98,22 @@ public class VoltageShapesDebugNode extends PComposite {
         // wires
         {
             final Wire topWire = model.getTopWire();
-            final WireShapeFactory topShapeFactory = new WireShapeFactory( topWire, mvt );
-            
-            final Wire bottomWire = model.getBottomWire();
-            final WireShapeFactory bottomShapeFactory = new WireShapeFactory( bottomWire, mvt );
-            
-            final PPath topWireNode = new PhetPPath( topShapeFactory.createShape(), STROKE, STROKE_COLOR );
+            final PPath topWireNode = new PhetPPath( topWire.getShape(), STROKE, STROKE_COLOR );
             addChild( topWireNode );
             
-            final PPath bottomWireNode = new PhetPPath( bottomShapeFactory.createShape(), STROKE, STROKE_COLOR );
+            final Wire bottomWire = model.getBottomWire();
+            final PPath bottomWireNode = new PhetPPath( bottomWire.getShape(), STROKE, STROKE_COLOR );
             addChild( bottomWireNode );
             
             topWire.addShapeObserver( new SimpleObserver() {
                 public void update() {
-                    topWireNode.setPathTo( topShapeFactory.createShape() );
+                    topWireNode.setPathTo( topWire.getShape() );
                 }
             } );
             
             bottomWire.addShapeObserver( new SimpleObserver() {
                 public void update() {
-                    bottomWireNode.setPathTo( bottomShapeFactory.createShape() );
+                    bottomWireNode.setPathTo( bottomWire.getShape() );
                 }
             } );
         }
