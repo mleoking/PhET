@@ -43,7 +43,7 @@ public class WireShapeFactory {
          * CAP_SQUARE ensures that the joints between segments will look correct.
          * But it makes the termination ends of the wires a tad longer than desired.
          */
-        Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER );
+        Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
         Shape s = new Area( stroke.createStrokedShape( line ) );
         return mvt.modelToView( s );
     }

@@ -1,3 +1,4 @@
+11/15/10 use CAP_BUTT for wire strokes, adjust battery terminal connection points
 11/15/10 put all dev stuff in new developer package
 11/15/10 indicate color of shape strokes by setting foreground of developer menu items
 11/15/10 enable/disable shape debug via developer menu items

@@ -29,9 +29,9 @@ public class BatteryShapeFactory {
     private static final PDimension BODY_SIZE = new PDimension( 0.0065, 0.01425 );
     private static final PDimension POSITIVE_TERMINAL_SIZE = new PDimension( 0.0025, 0.0014 );
     private static final double POSITIVE_TERMINAL_CORNER_RADIUS = 0.0005;
-    private static final double POSITIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.00025;
+    private static final double POSITIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.000505;
     private static final PDimension NEGATIVE_TERMINAL_SIZE = new PDimension( 0.0035, 0.0009 );
-    private static final double NEGATIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.00075;
+    private static final double NEGATIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.00105;
     
     private final Battery battery;
     private final ModelViewTransform mvt;

@@ -19,8 +19,12 @@ public class WireSegment {
     private final Property<Point2D> startPointProperty, endPointProperty;
 
     public WireSegment( Point2D startPoint, Point2D endPoint ) {
-        this.startPointProperty = new Property<Point2D>( new Point2D.Double( startPoint.getX(), startPoint.getY() ) );
-        this.endPointProperty = new Property<Point2D>( new Point2D.Double( endPoint.getX(), endPoint.getY() ) );
+        this( startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY() );
+    }
+        
+    public WireSegment( double startX, double startY, double endX, double endY ) {
+        this.startPointProperty = new Property<Point2D>( new Point2D.Double( startX, startY ) );
+        this.endPointProperty = new Property<Point2D>( new Point2D.Double( endX, endY ) );
     }
     
     public void addStartPointObserver( SimpleObserver o ) {
