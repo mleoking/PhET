@@ -167,8 +167,10 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
     }
 
     public void setNumNeutrons( int numNeutrons ) {
-        this.numNeutrons = numNeutrons;
-        notifyObservers();
+        if ( this.numNeutrons != numNeutrons ){
+            this.numNeutrons = numNeutrons;
+            notifyObservers();
+        }
     }
 
     public int getNumElectrons() {
@@ -176,8 +178,10 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
     }
 
     public void setNumElectrons( int numElectrons ) {
-        this.numElectrons = numElectrons;
-        notifyObservers();
+        if ( this.numElectrons != numElectrons ){
+            this.numElectrons = numElectrons;
+            notifyObservers();
+        }
     }
 
     public int getNumProtons() {
@@ -185,8 +189,10 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
     }
 
     public void setNumProtons( int numProtons ) {
-        this.numProtons = numProtons;
-        notifyObservers();
+        if ( this.numProtons != numProtons ){
+            this.numProtons = numProtons;
+            notifyObservers();
+        }
     }
 
     public int getAtomicMassNumber() {
