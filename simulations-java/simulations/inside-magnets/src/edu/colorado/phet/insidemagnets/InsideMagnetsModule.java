@@ -16,6 +16,7 @@ public class InsideMagnetsModule extends Module {
         super( "Inside Magnets", model.getClock() );
         this.insideMagnetsModel = model;
         setSimulationPanel( new InsideMagnetsCanvas( this ) );
+        getModulePanel().setLogoPanel( null );
     }
 
     public InsideMagnetsModel getInsideMagnetsModel() {
