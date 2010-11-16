@@ -19,7 +19,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - better encapsulation of measuring strategy based on 2D projection of Shapes
-- address stroke issue in WireShapeFactory.createSegmentShape
 - WireNode gets shapes from Wire, which has a Shape property, this pattern is different
 - hack in BottomWire
 

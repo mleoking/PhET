@@ -104,15 +104,16 @@ public class Wire {
     public static class TopWire extends Wire {
 
         public TopWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
-            super( createSegments( battery, capacitor ), thickness, mvt );
+            super( createSegments( battery, capacitor, thickness ), thickness, mvt );
         }
 
-        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {
+        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
             final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
+            final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
             ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
                 add( new BatteryTopWireSegment( battery, leftCorner ) );
-                add( new WireSegment( leftCorner, rightCorner ) );
+                add( new WireSegment( leftCorner.getX() - t, leftCorner.getY() + t, rightCorner.getX() + t, rightCorner.getY() + t ) );
                 add( new CapacitorTopWireSegment( rightCorner, capacitor ) );
             }};
             return segments;
@@ -128,7 +129,7 @@ public class Wire {
         private final CapacitorShapeFactory capacitorShapeFactory;
         
         public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
-            super( createSegments( battery, capacitor ), thickness, mvt );
+            super( createSegments( battery, capacitor, thickness ), thickness, mvt );
             
             this.batteryShapeFactory = new BatteryShapeFactory( battery, mvt );
             this.capacitorShapeFactory = new CapacitorShapeFactory( capacitor, mvt );
@@ -154,12 +155,13 @@ public class Wire {
             setShape( createShape() ); // require because of hack in createShape
         }
 
-        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor ) {
+        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
             final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
+            final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
             ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
                 add( new BatteryBottomWireSegment( battery, leftCorner ) );
-                add( new WireSegment( leftCorner, rightCorner ) );
+                add( new WireSegment( leftCorner.getX() - t, leftCorner.getY() + t, rightCorner.getX() + t, rightCorner.getY() + t ) );
                 add( new CapacitorBottomWireSegment( rightCorner, capacitor ) );
             }};
             return segments;
