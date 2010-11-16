@@ -4,13 +4,13 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -22,21 +22,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class EFieldShapesDebugNode extends PComposite {
     
-    private static class ShapeNode extends PPath {
-        
-        private static final Stroke STROKE = new BasicStroke( 2f );
-        private static final Color STROKE_COLOR = Color.YELLOW;
-        
-        public ShapeNode( Shape shape ) {
-            this( shape, STROKE_COLOR );
-        }
-        
-        public ShapeNode( Shape shape, Color strokeColor ) {
-            super( shape );
-            setStroke( STROKE );
-            setStrokePaint( strokeColor );
-        }
-    }
+    private static final Stroke STROKE = new BasicStroke( 2f );
+    private static final Color STROKE_COLOR = Color.BLUE;
     
     public EFieldShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
         
@@ -49,10 +36,10 @@ public class EFieldShapesDebugNode extends PComposite {
             final Capacitor capacitor = model.getCapacitor();
             final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
             
-            final ShapeNode dielectricBetweenPlatesNode = new ShapeNode( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), Color.RED );
+            final PPath dielectricBetweenPlatesNode = new PhetPPath( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( dielectricBetweenPlatesNode );
             
-            final ShapeNode airBetweenPlatesNode = new ShapeNode( shapeFactory.createAirBetweenPlatesShapeOccluded(), Color.RED );
+            final PPath airBetweenPlatesNode = new PhetPPath( shapeFactory.createAirBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( airBetweenPlatesNode );
             
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {

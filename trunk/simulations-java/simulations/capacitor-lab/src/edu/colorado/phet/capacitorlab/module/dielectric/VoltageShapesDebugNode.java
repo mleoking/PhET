@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.model.*;
@@ -13,7 +12,9 @@ import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeAdapter;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -25,21 +26,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class VoltageShapesDebugNode extends PComposite {
     
-    private static class ShapeNode extends PPath {
-        
-        private static final Stroke STROKE = new BasicStroke( 2f );
-        private static final Color STROKE_COLOR = Color.YELLOW;
-        
-        public ShapeNode( Shape shape ) {
-            this( shape, STROKE_COLOR );
-        }
-        
-        public ShapeNode( Shape shape, Color strokeColor ) {
-            super( shape );
-            setStroke( STROKE );
-            setStrokePaint( strokeColor );
-        }
-    }
+    private static final boolean SHOW_BATTERY_BODY = false;
+    
+    private static final Stroke STROKE = new BasicStroke( 2f );
+    private static final Color STROKE_COLOR = Color.RED;
     
     public VoltageShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
         
@@ -52,10 +42,12 @@ public class VoltageShapesDebugNode extends PComposite {
             final Battery battery = model.getBattery();
             final BatteryShapeFactory shapeFactory = new BatteryShapeFactory( battery, mvt );
             
-            ShapeNode bodyNode = new ShapeNode( shapeFactory.createBodyShape() );
-            addChild( bodyNode );
+            if ( SHOW_BATTERY_BODY ) {
+                PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
+                addChild( bodyNode );
+            }
 
-            final ShapeNode topTerminalNode = new ShapeNode( shapeFactory.createTopTerminalShape() );
+            final PPath topTerminalNode = new PhetPPath( shapeFactory.createTopTerminalShape(), STROKE, STROKE_COLOR );
             addChild( topTerminalNode );
             
             // set top terminal shape to match polarity
@@ -72,10 +64,10 @@ public class VoltageShapesDebugNode extends PComposite {
             final Capacitor capacitor = model.getCapacitor();
             final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
             
-            final ShapeNode topPlateNode = new ShapeNode( shapeFactory.createTopPlateShapeOccluded() );
+            final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( topPlateNode );
             
-            final ShapeNode bottomPlateNode = new ShapeNode( shapeFactory.createBottomPlateShapeOccluded() );
+            final PPath bottomPlateNode = new PhetPPath( shapeFactory.createBottomPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( bottomPlateNode );
             
             capacitor.addCapacitorChangeListener( new CapacitorChangeAdapter() {
@@ -102,15 +94,42 @@ public class VoltageShapesDebugNode extends PComposite {
             } );
         }
         
+        // wires
+        {
+            final Wire topWire = model.getTopWire();
+            final WireShapeFactory topShapeFactory = new WireShapeFactory( topWire, mvt );
+            
+            final Wire bottomWire = model.getBottomWire();
+            final WireShapeFactory bottomShapeFactory = new WireShapeFactory( bottomWire, mvt );
+            
+            final PPath topWireNode = new PhetPPath( topShapeFactory.createShape(), STROKE, STROKE_COLOR );
+            addChild( topWireNode );
+            
+            final PPath bottomWireNode = new PhetPPath( bottomShapeFactory.createShape(), STROKE, STROKE_COLOR );
+            addChild( bottomWireNode );
+            
+            topWire.addShapeObserver( new SimpleObserver() {
+                public void update() {
+                    topWireNode.setPathTo( topShapeFactory.createShape() );
+                }
+            } );
+            
+            bottomWire.addShapeObserver( new SimpleObserver() {
+                public void update() {
+                    bottomWireNode.setPathTo( bottomShapeFactory.createShape() );
+                }
+            } );
+        }
+        
         // voltmeter
         {
             final Voltmeter voltmeter = model.getVoltmeter();
             final VoltmeterShapeFactory shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
             
-            final ShapeNode positiveTipNode = new ShapeNode( shapeFactory.getPositiveProbeTipShape() );
+            final PPath positiveTipNode = new PhetPPath( shapeFactory.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
             
-            final ShapeNode negativeTipNode = new ShapeNode( shapeFactory.getNegativeProbeTipShape() );
+            final PPath negativeTipNode = new PhetPPath( shapeFactory.getNegativeProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( negativeTipNode );
             
             // set shape to match positive probe location
