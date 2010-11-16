@@ -1,3 +1,4 @@
+Added problem types where user only has to fill in one portion of the symbol rather than all of them.
 Fixed: problem type dialog window is too small
 Enlarged "Game Over" node to match the newly enlarged "Game Settings" node.
 # 1.00.10 (45979) Nov 11, 2010
