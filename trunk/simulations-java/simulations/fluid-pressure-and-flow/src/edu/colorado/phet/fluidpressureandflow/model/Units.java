@@ -8,24 +8,30 @@ import edu.colorado.phet.common.phetcommon.math.Function;
  * @author Sam Reid
  */
 public class Units {
+    public static Unit ATMOSPHERE = new LinearUnit( "Atmospheres", "atm", 9.8692E-6, new DecimalFormat( "0.00" ) );//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
+    public static Unit PASCAL = new LinearUnit( "Pascal", "Pa", 1, new DecimalFormat( "0" ) );
+    public static Unit PSI = new LinearUnit( "Pounds per square inch", "psi", 145.04E-6, new DecimalFormat( "0.00" ) );
+
+    public static Unit METERS = new LinearUnit( "Meters", "m", 1, new DecimalFormat( "0.0" ) );
+    public static Unit FEET = new LinearUnit( "Feet", "ft", 3.2808399, new DecimalFormat( "0.0" ) );
+
     public double feetToMeters( double feet ) {
         return feet * 0.3048;
     }
 
-    public static interface PressureUnit {
+    public static interface Unit {
         double siToUnit( double value );
 
         double toSI( double value );
-        String getName();
-        String getAbbreviation();
-        public DecimalFormat getDecimalFormat() ;
 
-        public static PressureUnit ATMOSPHERE = new LinearUnit( "Atmospheres", "atm", 9.8692E-6,new DecimalFormat("0.00" ));//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
-        public static PressureUnit PASCAL = new LinearUnit( "Pascal", "Pa", 1,new DecimalFormat("0" ) );
-        public static PressureUnit PSI = new LinearUnit( "Pounds per square inch", "psi", 145.04E-6,new DecimalFormat("0.00" ) );
+        String getName();
+
+        String getAbbreviation();
+
+        public DecimalFormat getDecimalFormat();
     }
 
-    public static class LinearUnit implements PressureUnit {
+    public static class LinearUnit implements Unit {
         Function.LinearFunction linearFunction;
         private final String name;
         private final String abbreviation;

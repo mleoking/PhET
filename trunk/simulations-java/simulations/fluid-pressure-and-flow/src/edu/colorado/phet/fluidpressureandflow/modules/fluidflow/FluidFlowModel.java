@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 
 /**
@@ -138,9 +137,5 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
             foodColoringObserver.apply( foodColoring );
         }
         foodColorings.add( foodColoring );
-    }
-
-    public Property<Units.PressureUnit> getPressureUnitProperty() {
-        return pressureUnitProperty;
     }
 }
