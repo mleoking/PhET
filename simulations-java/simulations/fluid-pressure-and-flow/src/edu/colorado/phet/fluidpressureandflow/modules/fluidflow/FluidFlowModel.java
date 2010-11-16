@@ -91,6 +91,9 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
             double pressure = K - 0.5 * getLiquidDensity() * vSquared - getLiquidDensity() * getGravity() * position.getY();
             return pressure;
         }
+        else if ( position.getY() < 0 ) {
+            return Double.NaN;
+        }
         else {
             return super.getPressure( position );
         }
