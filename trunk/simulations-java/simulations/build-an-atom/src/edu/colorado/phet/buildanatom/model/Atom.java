@@ -96,20 +96,21 @@ public class Atom extends SimpleAtom {
         this.subatomicParticleRepository = subatomicParticleRepository;
     }
 
+    protected final SubatomicParticle.Adapter nucleonRemovalListener = new SubatomicParticle.Adapter() {
+                @Override
+                public void grabbedByUser( SubatomicParticle particle ) {
+                    // The user has picked up this particle, which instantly
+                    // removes it from the nucleus.
+                    removeNucleon( particle );
+                }
+            };
+
     // TODO: This is a quick implementation of animation for unstable nuclei,
     // done for interviews.  If the animation feature is kept, this should be
     // reworked.
     int count = 0;
     Random random = new Random();
 
-    protected final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
-                @Override
-                public void grabbedByUser( SubatomicParticle particle ) {
-                    // The user has picked up this particle, so we assume
-                    // that it is essentially removed from the atom.
-                    removeParticle( particle );
-                }
-            };
     private void stepInTime( double simulationTimeChange ) {
         if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
             count++;
@@ -130,21 +131,31 @@ public class Atom extends SimpleAtom {
         }
     }
 
-    /**Returns the removed particle.*/
-    public SubatomicParticle removeParticle( SubatomicParticle particle ) {
-        protons.remove( particle );
-        neutrons.remove( particle );
-        particle.removeListener( particleRemovalListener );
-        reconfigureNucleus(true);
-        notifyObservers();
-        return particle;
+    /**
+     * Remove the specified nucleon from the nucleus of the atom.  Returns the
+     * removed particle if it is found in the nucleus, and null if not.
+     */
+    public SubatomicParticle removeNucleon( SubatomicParticle particle ) {
+        assert !( particle instanceof Electron ); // This method cannot be used to remove electrons.
+        boolean particleFound = false;
+        if ( particle instanceof Proton && protons.contains( particle )){
+            protons.remove( particle );
+            super.setNumProtons( protons.size() );
+        }
+        else if ( particle instanceof Neutron && neutrons.contains( particle )){
+            neutrons.remove( particle );
+            super.setNumNeutrons( neutrons.size() );
+        }
+        particle.removeListener( nucleonRemovalListener );
+        reconfigureNucleus( true );
+        return particleFound ? particle : null;
     }
 
     /**
      * Remove an arbitrary proton.
      */
     public SubatomicParticle removeProton(){
-        SubatomicParticle particle = removeParticle( protons.get( 0 ) );
+        SubatomicParticle particle = removeNucleon( protons.get( 0 ) );
         super.setNumProtons( protons.size() );
         return particle;
     }
@@ -153,7 +164,7 @@ public class Atom extends SimpleAtom {
      * Remove an arbitrary neutron.
      */
     public SubatomicParticle removeNeutron(){
-        SubatomicParticle particle = removeParticle( neutrons.get( 0 ) );
+        SubatomicParticle particle = removeNucleon( neutrons.get( 0 ) );
         super.setNumNeutrons( neutrons.size() );
         return particle;
     }
@@ -196,10 +207,10 @@ public class Atom extends SimpleAtom {
 
     public void reset() {
         for ( Proton proton : protons ) {
-            proton.removeListener( particleRemovalListener );
+            proton.removeListener( nucleonRemovalListener );
         }
         for ( Neutron neutron : neutrons ) {
-            neutron.removeListener( particleRemovalListener );
+            neutron.removeListener( nucleonRemovalListener );
         }
         protons.clear();
         neutrons.clear();
@@ -240,7 +251,7 @@ public class Atom extends SimpleAtom {
         // new nucleon.
         reconfigureNucleus(moveImmediately);
 
-        proton.addListener( particleRemovalListener );
+        proton.addListener( nucleonRemovalListener );
 
         // Update count in super class.  This sends out the change notification.
         super.setNumProtons( protons.size() );
@@ -323,7 +334,7 @@ public class Atom extends SimpleAtom {
         // new nucleon.
         reconfigureNucleus(moveImmediately );
 
-        neutron.addListener( particleRemovalListener );
+        neutron.addListener( nucleonRemovalListener );
 
         // Update count in super class.  This sends out the change notification.
         super.setNumNeutrons( neutrons.size() );
