@@ -1,3 +1,5 @@
+Centerd pressure readouts
+Increased hotspot size on pressure readouts
 Added a "10 ft" label inside the pool
 Converted circles to double-headed arrows for pipe control nodes
 Improved pressure units and readout
