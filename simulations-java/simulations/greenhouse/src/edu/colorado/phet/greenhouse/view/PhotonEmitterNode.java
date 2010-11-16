@@ -40,42 +40,42 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * that setting its offset based on the photon emission point in the model
  * should position it correctly.  This makes some assumptions about the
  * direction of photon emission.
- * 
+ *
  * @author John Blanco
  */
 public class PhotonEmitterNode extends PNode {
-	
+
     // ------------------------------------------------------------------------
     // Class Data
     // ------------------------------------------------------------------------
 
 	private static final Font LABEL_FONT = new PhetFont(24);
-	
+
 	private static int SLIDER_RANGE = 100;
-	
-	enum ImageType { FLASHLIGHT, HEAT_LAMP };
-	
+
+	enum ImageType { FLASHLIGHT, HEAT_LAMP, UV_LIGHT, MICROWAVE_ANNTENNA };
+
 	// ------------------------------------------------------------------------
 	// Instance Data
 	// ------------------------------------------------------------------------
-	
-	private PImage photonEmitterImage;
-	private PhotonAbsorptionModel model;
-	private PNode emitterImageLayer;
-	private PNode emissionControlSliderLayer;
-	private double emitterImageWidth;
 
-    private JRadioButton infraredPhotonRadioButton;
-    private JRadioButton visiblePhotonRadioButton;
-    private IntensitySlider emissionRateControlSlider;
-    private PSwing selectionPanelPSwing;
+	private PImage photonEmitterImage;
+	private final PhotonAbsorptionModel model;
+	private final PNode emitterImageLayer;
+	private final PNode emissionControlSliderLayer;
+	private final double emitterImageWidth;
+
+    private final JRadioButton infraredPhotonRadioButton;
+    private final JRadioButton visiblePhotonRadioButton;
+    private final IntensitySlider emissionRateControlSlider;
+    private final PSwing selectionPanelPSwing;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param imageWidth - Width of the emitter image in screen coords.  The
 	 * height will be based on the aspect ratio of the image.  The size of
 	 * the control box is independent of this - its size is based on the
@@ -85,10 +85,10 @@ public class PhotonEmitterNode extends PNode {
 	 * @param model
 	 */
 	public PhotonEmitterNode(double imageWidth, ModelViewTransform2D mvt, final PhotonAbsorptionModel model) {
-		
+
 		this.model = model;
 		this.emitterImageWidth = imageWidth;
-		
+
 		// Listen to the model for events that may cause this node to change
 		// state.
 		model.addListener( new PhotonAbsorptionModel.Adapter() {
@@ -107,7 +107,7 @@ public class PhotonEmitterNode extends PNode {
                 updateEmissionControlSlider();
             }
 		});
-		
+
 		// Create the layers on which the other nodes will be placed.
 		PNode everythingElseLayer = new PNode();
 		addChild( everythingElseLayer );
@@ -115,10 +115,10 @@ public class PhotonEmitterNode extends PNode {
 		addChild( emitterImageLayer );
 		emissionControlSliderLayer = new PNode();
 		addChild( emissionControlSliderLayer );
-		
+
 		// Add the initial image.
 		updateImage( emitterImageWidth );
-		
+
 		// Add the slider that will control the rate of photon emission.
 		Dimension emissionControlSliderSize = new Dimension(100, 30);  // This may be adjusted as needed for best look.
 		emissionRateControlSlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, emissionControlSliderSize );
@@ -142,7 +142,7 @@ public class PhotonEmitterNode extends PNode {
 		        }
 		    }
 		});
-		
+
 		PSwing emissionRateControlSliderPSwing = new PSwing( emissionRateControlSlider );
 		PBounds emitterImageBounds = photonEmitterImage.getFullBoundsReference();
 		emissionRateControlSliderPSwing.setOffset(
@@ -150,16 +150,16 @@ public class PhotonEmitterNode extends PNode {
 		        emitterImageBounds.getCenterY() - emissionRateControlSliderPSwing.getFullBoundsReference().getHeight() / 2);
 
         emissionControlSliderLayer.addChild( emissionRateControlSliderPSwing );
-        
+
         // Do the initial update of the emission control slider.
         updateEmissionControlSlider();
-		
+
 		// Calculate the vertical distance between the center of the
 		// emitter image and the control box.  This is a function of the
 		// flashlight width.  The multiplier is arbitrary and can be adjusted
 		// as desired.
 		double distanceBetweeImageAndControl = emitterImageWidth * 0.6;
-		
+
 		JPanel infraredButtonPanel = new JPanel();
         infraredPhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Infrared" ) );
         infraredPhotonRadioButton.setFont(LABEL_FONT);
@@ -171,7 +171,7 @@ public class PhotonEmitterNode extends PNode {
         });
         infraredButtonPanel.add( infraredPhotonRadioButton );
         infraredButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "photon-660.png" ) ) ) );
-        
+
         JPanel visibleButtonPanel = new JPanel();
         visiblePhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Visible" ) );
         visiblePhotonRadioButton.setFont(LABEL_FONT);
@@ -183,7 +183,7 @@ public class PhotonEmitterNode extends PNode {
         });
         visibleButtonPanel.add( visiblePhotonRadioButton );
         visibleButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "thin2.png" ) ) ) );
-        
+
 		ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( infraredPhotonRadioButton );
         buttonGroup.add( visiblePhotonRadioButton );
@@ -199,12 +199,12 @@ public class PhotonEmitterNode extends PNode {
         layout.addComponent( infraredButtonPanel, row++, column );
         layout.addComponent( visibleButtonPanel, row++, column );
         layout.addComponent( emissionRateControlSlider, row++, column );
-		
+
 		selectionPanelPSwing = new PSwing(emissionTypeSelectionPanel);
 		selectionPanelPSwing.setOffset(
 				photonEmitterImage.getFullBoundsReference().getCenterX() - selectionPanelPSwing.getFullBoundsReference().width / 2,
 				photonEmitterImage.getFullBoundsReference().getCenterY() + distanceBetweeImageAndControl - selectionPanelPSwing.getFullBoundsReference().height / 2);
-		
+
 		// Create the "connecting rod" that will visually connect the
 		// selection panel to the flashlight image.
 		Rectangle2D connectingRodShape = new Rectangle2D.Double(0, 0, emitterImageWidth * 0.1, distanceBetweeImageAndControl);
@@ -218,16 +218,16 @@ public class PhotonEmitterNode extends PNode {
 		// layering.
 		everythingElseLayer.addChild(connectingRod);
 		everythingElseLayer.addChild(selectionPanelPSwing);
-		
+
 		// Perform any initialization that is dependent upon the model state.
 		updateFrequencySelectButtons();
 		updateEmissionControlSlider();
 	}
-		
+
 	// ------------------------------------------------------------------------
 	// Methods
 	// ------------------------------------------------------------------------
-	
+
 	private void updateFrequencySelectButtons(){
 	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
 	        if (!infraredPhotonRadioButton.isSelected()){
@@ -240,16 +240,16 @@ public class PhotonEmitterNode extends PNode {
 	        }
 	    }
 	}
-	
+
 	/**
 	 * Set the appropriate image based on the current setting for the
 	 * wavelength of the emitted photons.
 	 */
 	private void updateImage(double flashlightWidth){
-	    
+
 	    // Clear any existing image.
 	    emitterImageLayer.removeAllChildren();
-	    
+
 	    // Create the flashlight image node, setting the offset such that the
         // center right side of the image is the origin.  This assumes that
         // photons will be emitted horizontally to the right.
@@ -259,28 +259,31 @@ public class PhotonEmitterNode extends PNode {
 	    else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.sunlightWavelength){
 	        photonEmitterImage = new PImage(GreenhouseResources.getImage("flashlight2.png"));
 	    }
+	    else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
+	        photonEmitterImage = new PImage(GreenhouseResources.getImage("uv_light.png"));
+	    }
         photonEmitterImage.scale(flashlightWidth / photonEmitterImage.getFullBoundsReference().width);
         photonEmitterImage.setOffset(-flashlightWidth, -photonEmitterImage.getFullBoundsReference().height / 2);
-        
+
         emitterImageLayer.addChild(photonEmitterImage);
 	}
-	
+
 	private void updateEmissionControlSlider(){
 
 	    // Adjust the position of the slider.  Note that we do a conversion
 	    // between period and frequency and map it into the slider's range.
 	    int mappedFrequency;
 	    if (model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
-	        mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / 
-	                model.getPhotonEmissionPeriod() * (double) SLIDER_RANGE);
+	        mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET /
+	                model.getPhotonEmissionPeriod() * SLIDER_RANGE);
 	    }
 	    else{
-            mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / 
-                    model.getPhotonEmissionPeriod() * (double) SLIDER_RANGE);
+            mappedFrequency = (int)Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET /
+                    model.getPhotonEmissionPeriod() * SLIDER_RANGE);
 	    }
-	    
+
 	    emissionRateControlSlider.setValue( mappedFrequency );
-	    
+
 	    // Set the color of the slider.
 	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
 	        emissionRateControlSlider.setColor( Color.RED );
