@@ -81,18 +81,18 @@ void  LangevinStep(N,x,y,nbrs,sx,sy,omega,J,Bx,By,bx,by,Ka,bc,kdt,dt,t,mx,my,mz)
    XY rotor spins, and redraws them in their new positions.
 */
 int N,bc;            /* Number of sites in system,  boundary conditions. */
-float *x,*y;         /* site locations, for spin drawing.                */
-int **nbrs;          /* N x 4 nearest neighbor table.                    */
-double *sx,*sy;      /* spin components.  				 */
-double *omega;       /* sz is replaced by angular speed omega.  	 */
-double J[3];         /* Exchange couplings, J<0 == FM,  J>0 == AFM.	 */
-double Bx,By;	     /* applied magnetic field components.		 */
-double *bx,*by;      /* demagnetization field components at sites.	 */
-double Ka;	     /* anisotropy strength for aniso- boundaries.	 */
-int kdt;             /* number of steps taken before re-drawing spins.   */
-double dt; 	     /* the time integration step.			 */
-double *t; 	     /* the current time.  (updated).			 */
-double *mx,*my,*mz;  /* double pointers tor total magnetization, for the large red arrow		 */
+DONE: float *x,*y;         /* site locations, for spin drawing.                */
+DONE: int **nbrs;          /* N x 4 nearest neighbor table.                    */
+DONE: double *sx,*sy;      /* spin components.  				 */
+DONE: double *omega;       /* sz is replaced by angular speed omega.  	 */
+DONE: double J[3];         /* Exchange couplings, J<0 == FM (ferromagnet, parallel spins for lower energy),  J>0 == AFM (antiferrmagnetic).	 */
+DONE: double Bx,By;	     /* applied magnetic field components.		 */
+DONE: double *bx,*by;      /* demagnetization field components at sites.	 */
+DONE: double Ka;	     /* anisotropy strength for aniso- boundaries.	 Helps the spins line up with the long axis of the magnet shape*/
+DONE: int kdt;             /* number of steps taken before re-drawing spins.   */
+DONE: double dt; 	     /* the time integration step.			 */
+DONE: double *t; 	     /* the current time.  (updated).			 */
+DONE: double *mx,*my,*mz;  /* double pointers tor total magnetization, for the large red arrow		 */
 
 {
   extern double *oldx, *oldy; /* previous spin state. */
