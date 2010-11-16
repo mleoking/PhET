@@ -1,3 +1,5 @@
+11/15/10 hide debug shapes for battery and wires when battery is disconnected
+11/15/10 don't measure voltage at battery or wires unless the battery is connected 
 11/15/10 convert Capacitor model element to Property<T>
 11/15/10 convert Battery model element to Property<T>
 # 0.00.44 (46188) Nov 15, 2010
