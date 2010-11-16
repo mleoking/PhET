@@ -1,6 +1,6 @@
 //View of "Pool Table" containing balls
 package edu.colorado.phet.collisionlab.view {
-import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.control.PlayPauseButtons;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
@@ -14,26 +14,27 @@ import flash.events.*;
 import flash.text.*;
 
 public class TableView extends Sprite {
-    var myModel: Model;
-    var myMainView: MainView;			//mediator and container of views
-    var canvas: Sprite;					//background on which everything is placed
-    public var myTrajectories: Trajectories;	//Sprite showing trajectories (paths) of balls
-    public var CM: CenterOfMass;				//library symbol
-    var showingPaths: Boolean;			//true if paths are shown
-    public var playButtons: PlayPauseButtons;	//class to hold library symbol, contains dynamic text strings
-    public var timeRate_slider: Slider;			//adjusts rate at which time passes
-    var border: Sprite;					//reflecting border
-    var invisibleBorder: Sprite;			//handle for dragging
-    var borderColor: uint;				//color of border 0xrrggbb
-    var timeText: TextField;				//label containing current time
-    var totKEText: TextField;			//label showing total KE of particles
-    var timeRateText: TextField;			//label above timeRate slider
-    var pixelsPerMeter: int;				//scale of view
+    public var myTrajectories: Trajectories;  //Sprite showing trajectories (paths) of balls
+    public var CM: CenterOfMass;              //library symbol
+    public var playButtons: PlayPauseButtons; //class to hold library symbol, contains dynamic text strings
+    public var timeRate_slider: Slider;       //adjusts rate at which time passes
     public var ballImage_arr: Array;					//array of ball images
-    var ballLabels: Array;				//array of ball labels: 1, 2, 3, ...
-    var ballColor_arr: Array;			//array of uint for colors of balls
-    var xOffset: Number;					//x of upper left corner of canvas
-    var yOffset: Number;					//y of upper left corner of canvas
+    public var ballLayer: Sprite; // holds all of the balls
+    public var showingPaths: Boolean;                //true if paths are shown
+    public var myMainView: MainView;			      //mediator and container of views
+    public var canvas: Sprite;					      //background on which everything is placed
+    public var ballColor_arr: Array;			//array of uint for colors of balls
+
+    private var myModel: Model;
+    private var border: Sprite;                       //reflecting border
+    private var invisibleBorder: Sprite;              //handle for dragging
+    private var borderColor: uint;                    //color of border 0xrrggbb
+    private var timeText: TextField;                  //label containing current time
+    private var totKEText: TextField;                 //label showing total KE of particles
+    private var timeRateText: TextField;			//label above timeRate slider
+    private var ballLabels: Array;				//array of ball labels: 1, 2, 3, ...
+    private var xOffset: Number;					//x of upper left corner of canvas
+    private var yOffset: Number;					//y of upper left corner of canvas
 
     public function TableView( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
@@ -59,7 +60,6 @@ public class TableView extends Sprite {
         this.makeTimeRateLabel();
         this.canvas.addChild( this.timeRate_slider );
         this.myModel.registerView( this );
-        this.pixelsPerMeter = 200;
         this.showingPaths = false;
         this.myTrajectories = new Trajectories( this.myModel, this );
         //this.canvas.addChild(this.myTrajectories);
@@ -68,6 +68,8 @@ public class TableView extends Sprite {
         this.ballColor_arr = new Array( 10 );  //start with 10 colors
         this.createBallColors();
         //this.createBallImages2();
+        ballLayer = new Sprite();
+        this.canvas.addChild( ballLayer );
         this.createBallImages();
         this.canvas.addChild( this.CM );
         if ( this.myModel.nbrBalls == 1 ) {
@@ -81,8 +83,8 @@ public class TableView extends Sprite {
     }//end of constructor
 
     public function drawBorder(): void {
-        var W: Number = this.myModel.borderWidth * this.pixelsPerMeter;
-        var H: Number = this.myModel.borderHeight * this.pixelsPerMeter;
+        var W: Number = this.myModel.borderWidth * CLConstants.PIXELS_PER_METER;
+        var H: Number = this.myModel.borderHeight * CLConstants.PIXELS_PER_METER;
         var thickness: Number = 6;  //border thickness in pixels
         var del: Number = thickness / 2;
         //trace("width: "+W+"    height: "+H);
@@ -142,9 +144,9 @@ public class TableView extends Sprite {
     public function reDrawBorder(): void {
         this.drawBorder();
         if ( this.myModel.oneDMode ) {
-            var oneDH: Number = CollisionLabConstants.BORDER_HEIGHT_1D / 2;
-            var twoDH: Number = CollisionLabConstants.BORDER_HEIGHT_2D / 2;
-            this.canvas.y = yOffset + this.pixelsPerMeter * (twoDH - oneDH);
+            var oneDH: Number = CLConstants.BORDER_HEIGHT_1D / 2;
+            var twoDH: Number = CLConstants.BORDER_HEIGHT_2D / 2;
+            this.canvas.y = yOffset + CLConstants.PIXELS_PER_METER * (twoDH - oneDH);
         }
         else {
             this.canvas.y = yOffset;
@@ -154,8 +156,8 @@ public class TableView extends Sprite {
 
     //invisible border is grabbable
     public function drawInvisibleBorder(): void {  //grayed-out border when Reflecting Border is OFF
-        var W: Number = this.myModel.borderWidth * this.pixelsPerMeter;
-        var H: Number = this.myModel.borderHeight * this.pixelsPerMeter;
+        var W: Number = this.myModel.borderWidth * CLConstants.PIXELS_PER_METER;
+        var H: Number = this.myModel.borderHeight * CLConstants.PIXELS_PER_METER;
         var thickness: Number = 6;  //border thickness in pixels
         var del: Number = thickness / 2;
         //trace("width: "+W+"    height: "+H);
@@ -245,11 +247,12 @@ public class TableView extends Sprite {
 
     //called once, at startup
     public function createBallImages(): void {
-        this.ballImage_arr = new Array( CollisionLabConstants.MAX_BALLS );
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
-            this.ballImage_arr[i] = new BallImage( this.myModel, i, this );
-            ballImage_arr[i].x = this.pixelsPerMeter * this.myModel.ball_arr[i].position.getX();
-            ballImage_arr[i].y = this.pixelsPerMeter * this.myModel.ball_arr[i].position.getY();
+        this.ballImage_arr = new Array( CLConstants.MAX_BALLS );
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
+            var ballImage: BallImage = new BallImage( this.myModel, i, this );
+            this.ballImage_arr[i] = ballImage;
+            ballImage.x = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getX();
+            ballImage.y = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getY();
             if ( i >= this.myModel.nbrBalls ) {
                 ballImage_arr[i].visible = false;
             }
@@ -259,7 +262,7 @@ public class TableView extends Sprite {
 
     //show velocity arrows on ball images
     public function showArrowsOnBallImages( tOrF: Boolean ): void {
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             if ( tOrF ) {
                 this.ballImage_arr[i].showArrow( true );
             }
@@ -271,7 +274,7 @@ public class TableView extends Sprite {
 
     //show Momentum arrows on ball images
     public function showPArrowsOnBallImages( tOrF: Boolean ): void {
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             if ( tOrF ) {
                 this.ballImage_arr[i].showPArrow( true );
             }
@@ -283,29 +286,22 @@ public class TableView extends Sprite {
 
 
     public function update(): void {
-        //trace("TableView.update() called at time = "+this.myModel.time);
-        //trace("TableView.showingPaths: "+this.showingPaths);
-        //trace("TableView.myModel.atInitialConfig: "+this.myModel.atInitialConfig);
-        var nbrBalls: int = this.myModel.nbrBalls;
-        //trace("TableView.update() called. nbrBalls = "+nbrBalls);
-        var maxBalls: int = CollisionLabConstants.MAX_BALLS;
-
         if ( this.myModel.nbrBallsChanged ) {
-            for ( var i: int = 0; i < nbrBalls; i++ ) {
+            for ( var i: int = 0; i < myModel.nbrBalls; i++ ) {
                 this.ballImage_arr[i].visible = true;
             }
-            for ( i = nbrBalls; i < maxBalls; i++ ) {
+            for ( i = myModel.nbrBalls; i < CLConstants.MAX_BALLS; i++ ) {
                 this.ballImage_arr[i].visible = false;
             }
             this.myTrajectories.updateNbrPaths();
             this.myTrajectories.erasePaths();
-        }//end if()
+        }
 
 
         var yMax: Number = this.myModel.borderHeight / 2;  //recall origin is set at y = borderHeight/2
-        for ( i = 0; i < nbrBalls; i++ ) {
-            ballImage_arr[i].x = this.pixelsPerMeter * this.myModel.ball_arr[i].position.getX();
-            ballImage_arr[i].y = this.pixelsPerMeter * (yMax - this.myModel.ball_arr[i].position.getY());
+        for ( i = 0; i < myModel.nbrBalls; i++ ) {
+            ballImage_arr[i].x = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getX();
+            ballImage_arr[i].y = CLConstants.PIXELS_PER_METER * (yMax - this.myModel.ball_arr[i].position.getY());
             ballImage_arr[i].updateVelocityArrow();
         }
 
@@ -321,9 +317,9 @@ public class TableView extends Sprite {
         this.timeText.text = getTimeText( this.myModel.time.toFixed( 2 ) );
         this.totKEText.text = getKEText( this.myModel.getTotalKE().toFixed( 2 ) );
 
-        this.CM.x = this.pixelsPerMeter * this.myModel.CM.x;
-        this.CM.y = this.pixelsPerMeter * (yMax - this.myModel.CM.y);
-    }//end update();
+        this.CM.x = CLConstants.PIXELS_PER_METER * this.myModel.CM.x;
+        this.CM.y = CLConstants.PIXELS_PER_METER * (yMax - this.myModel.CM.y);
+    }
 
     function getKEText( keValue: String ): String {
         return SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
