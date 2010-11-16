@@ -152,10 +152,7 @@ public class CapacitorShapeFactory {
      * A box, relative to a specific origin.
      */
     private Shape createBoxShape( double x, double y, double z, double width, double height, double depth ) {
-        Shape topShape = boxShapeFactory.createTopFace( x, y, z, width, height, depth );
-        Shape frontShape = boxShapeFactory.createFrontFace( x, y, z, width, height, depth );
-        Shape sideShape = boxShapeFactory.createSideFace( x, y, z, width, height, depth );
-        return ShapeUtils.add( topShape, frontShape, sideShape );
+        return boxShapeFactory.createBoxShape( x, y, z, width, height, depth );
     }
     
     /*
