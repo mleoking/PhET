@@ -22,4 +22,7 @@ public class InsideMagnetsModule extends Module {
     public InsideMagnetsModel getInsideMagnetsModel() {
         return insideMagnetsModel;
     }
+
+    public void resetAll() {
+    }
 }
