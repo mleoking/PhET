@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.view;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -26,9 +25,9 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class PressureSensorNode extends PNode {
     ModelViewTransform2D transform;
     private PressureSensor pressureSensor;
-    private final Property<Units.PressureUnit> units;
+    private final Property<Units.Unit> units;
 
-    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.PressureUnit> units ) {
+    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.Unit> units ) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         this.units = units;

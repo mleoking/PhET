@@ -26,7 +26,8 @@ public class FluidPressureAndFlowModel {
     public static final Double EARTH_GRAVITY = 9.8;
     public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0;
     public static final Double JUPITER_GRAVITY = EARTH_GRAVITY * 2.364;
-    public final Property<Units.PressureUnit> pressureUnitProperty = new Property<Units.PressureUnit>( Units.PressureUnit.ATMOSPHERE );
+    public final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
+    public final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
     private ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
 
     public void addPressureSensor( PressureSensor sensor ) {
@@ -50,7 +51,7 @@ public class FluidPressureAndFlowModel {
         return gravityProperty;
     }
 
-    public Property<Units.PressureUnit> getPressureUnitProperty() {
+    public Property<Units.Unit> getPressureUnitProperty() {
         return pressureUnitProperty;
     }
 
@@ -68,5 +69,9 @@ public class FluidPressureAndFlowModel {
 
     public PressureSensor[] getPressureSensors() {
         return pressureSensors.toArray( new PressureSensor[0] );
+    }
+
+    public Property<Units.Unit> getDistanceUnitProperty() {
+        return distanceUnitProperty;
     }
 }

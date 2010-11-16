@@ -68,18 +68,18 @@ public class FluidPressureAndFlowControlPanel<T extends FluidPressureAndFlowMode
         panel.setBackground( BACKGROUND );
         addControl( panel );
         addControlFullWidth( new CheckBox( "Ruler", module.getRulerVisibleProperty() ) );
-//        addControlFullWidth( new WorkEnergyCheckBox( "Energy Pie Chart", module.getShowPieChartProperty() ) );
-//        addControlFullWidth( new WorkEnergyCheckBox( "Energy Bar Chart", module.getShowEnergyBarChartProperty() ) );
-//        addControlFullWidth( new WorkEnergyCheckBox( "Ruler", module.getShowRulerProperty() ) );
 
         addControlFullWidth( new PhetTitledPanel( "Units" ) {{
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             setBackground( BACKGROUND );
             setForeground( FOREGROUND );
 
-            add( new RadioButton( "atmospheres (atm)", new IsSelectedProperty<Units.PressureUnit>( Units.PressureUnit.ATMOSPHERE, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
-            add( new RadioButton( "Pascals (Pa)", new IsSelectedProperty<Units.PressureUnit>( Units.PressureUnit.PASCAL, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
-            add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new IsSelectedProperty<Units.PressureUnit>( Units.PressureUnit.PSI, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
+            add( new RadioButton( "atmospheres (atm)", new IsSelectedProperty<Units.Unit>( Units.ATMOSPHERE, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
+            add( new RadioButton( "Pascals (Pa)", new IsSelectedProperty<Units.Unit>( Units.PASCAL, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
+            add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new IsSelectedProperty<Units.Unit>( Units.PSI, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) ) );
+            add( new JSeparator() );
+            add( new RadioButton( "feet (ft)", new IsSelectedProperty<Units.Unit>( Units.FEET, module.getFluidPressureAndFlowModel().getDistanceUnitProperty() ) ) );
+            add( new RadioButton( "meters (m)", new IsSelectedProperty<Units.Unit>( Units.METERS, module.getFluidPressureAndFlowModel().getDistanceUnitProperty() ) ) );
         }} );
         setBackground( BACKGROUND );
     }
