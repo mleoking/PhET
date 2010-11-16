@@ -26,6 +26,7 @@ public class InsideMagnetsModel {
     private int kdt = 10;             /* number of steps taken before re-drawing spins.   */
     private Property<Double> temperature = new Property<Double>( 0.01 );//Beta = 1/temperature
     private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
+    private Property<ImmutableVector2D> netMagnetizationProperty=new Property<ImmutableVector2D>( new ImmutableVector2D( ));
 
     public InsideMagnetsModel() {
         this.latticeProperty = new Property<Lattice<Cell>>( new Lattice<Cell>( 20, 10, new Function0<Cell>() {
@@ -168,6 +169,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
             /* at this point, everything corresponds to the values at t+dt. */
         }
 
+        netMagnetizationProperty.setValue( getNetMagnetization() );
         return getLattice();
     }
 
@@ -244,8 +246,23 @@ The tmp arrays hold positions at t+0.5*dt.          */
                 sumy += ty;
             }
         }
-        getLattice().getValue( xobs,yobs ).bx = D*sumx;
-        getLattice().getValue( xobs,yobs ).by = D*sumy;
+        getLattice().getValue( xobs, yobs ).bx = D * sumx;
+        getLattice().getValue( xobs, yobs ).by = D * sumy;
         return;
+    }
+
+    private ImmutableVector2D getNetMagnetization() {
+        ImmutableVector2D sum = new ImmutableVector2D( 0, 0 );
+        for ( int x = 0; x < getLatticeWidth(); x++ ) {
+            for ( int y = 0; y < getLatticeHeight(); y++ ) {
+                sum = sum.getAddedInstance( getLattice().getValue( x, y ).getSpinVector() );
+            }
+        }
+        sum = sum.getScaledInstance( 1.0 / ( getLatticeWidth() * getLatticeHeight() ) ).getScaledInstance( getLatticeWidth() );
+        return sum;
+    }
+
+    public Property<ImmutableVector2D> getNetMagnetizationProperty() {
+        return netMagnetizationProperty;
     }
 }
