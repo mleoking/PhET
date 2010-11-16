@@ -182,8 +182,8 @@ public class BuildAnAtomStrings {
     public static final String GAME_COMPLETE_THE_MODEL = getString( "game.completeTheModel" );
     public static final String GAME_FIND_THE_ELEMENT = getString( "game.findTheElement" );
     public static final String GAME_COMPLETE_THE_SYMBOL_ALL = getString( "game.completeTheSymbol" );
-    public static final String GAME_COMPLETE_THE_SYMBOL_PROTON_COUNT = getString( "game.completeTheSymbolProtonCount" );
-    public static final String GAME_COMPLETE_THE_SYMBOL_MASS = getString( "game.completeTheSymbolMass" );
+    public static final String GAME_COMPLETE_THE_SYMBOL_PROTON_COUNT = getString( "game.howManyProtons" );
+    public static final String GAME_COMPLETE_THE_SYMBOL_MASS = getString( "game.whatIsTheMassNumber" );
     public static final String GAME_NEUTRAL_ATOM = getString( "game.neutralAtom" );
     public static final String GAME_ION = getString( "game.ion" );
     public static final String IS_IT = getString( "game.isIt");
