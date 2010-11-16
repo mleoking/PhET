@@ -16,17 +16,6 @@ public class ElectronShell extends SimpleObservable {
     private final HashMap<Point2D, Electron> shellLocations = new HashMap<Point2D, Electron>();
     private final int electronCapacity;
 
-    // Listener for events where the user grabs the particle, which is interpreted as
-    // removal from the bucket.
-    private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
-        @Override
-        public void grabbedByUser( SubatomicParticle particle ) {
-            // The user has picked up this particle, so we assume
-            // that they want to remove it.
-            removeElectron( (Electron)particle );
-        }
-    };
-
     /**
      * Constructor.
      */
@@ -40,6 +29,17 @@ public class ElectronShell extends SimpleObservable {
             shellLocations.put( new Point2D.Double( this.radius * Math.cos( angle ), this.radius * Math.sin( angle ) ), null );
         }
     }
+
+    // Listener for events where the user grabs the particle, which is interpreted as
+    // removal from the shell.
+    private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
+        @Override
+        public void grabbedByUser( SubatomicParticle particle ) {
+            // The user has picked up this particle, so we assume
+            // that they want to remove it.
+            removeElectron( (Electron) particle );
+        }
+    };
 
     /**
      * Return the first Point2D key associated with the specified particle.
