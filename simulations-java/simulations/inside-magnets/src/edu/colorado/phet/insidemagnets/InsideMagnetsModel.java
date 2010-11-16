@@ -20,11 +20,11 @@ public class InsideMagnetsModel {
     private Property<Lattice<Cell>> latticeProperty;
     private IClock clock = new ConstantDtClock( 30 );
     private double time = 0;
-    private ImmutableVector2D J = new ImmutableVector2D( 1, 1 );
+    private ImmutableVector2D J = new ImmutableVector2D( -1, -1 );
     private Property<ImmutableVector2D> externalMagneticField = new Property<ImmutableVector2D>( new ImmutableVector2D( 2.1, 0 ) );//Externally applied magnetic field
     double Ka = 1.5;         /* anisotropy strength for aniso- boundaries.	 */
     int kdt = 10;             /* number of steps taken before re-drawing spins.   */
-    private Property<Double> temperature = new Property<Double>( 1.0/2.0 );//Beta = 1/temperature
+    private Property<Double> temperature = new Property<Double>( 0.01 );//Beta = 1/temperature
     private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
 
     public InsideMagnetsModel() {
@@ -44,12 +44,11 @@ public class InsideMagnetsModel {
 //   Each site has in-plane coordinates (sx,sy), and rotational speed omega.
 //   The outputted omega array is omega advanced one time step dt, for
 //   Langevin dynamics.  The sx and sy arrays are not modified.
-    private void torque( ImmutableVector2D[][] tmpSpins, double dt ) {
+    private void torque( double dt ) {
         //  int i,nbr1,nbr2,nbr3,nbr4;
 
         double Irot = 1;//rotational inertia
         double KK = 0.0;    /* boundary anisotropy term. */
-        double gx, gy;     /* Hamiltonian XY field acting on a spin.  */
         double sigomega;  /* variance of the random velocity changes.	   */
         double dtI;        /* time step divided by rotational inertia. */
         double dtg;        /* time step multiplied by damping.  */
@@ -64,26 +63,21 @@ public class InsideMagnetsModel {
 //  if(bc==2 || bc==3)
         KK = 2.0 * Ka; /* for anisotropic edge forces. */
 
-
         for ( int x = 0; x < getLatticeWidth(); x++ ) {
             for ( int y = 0; y < getLatticeHeight(); y++ ) {
 //                ArrayList<Cell> neighborCells = getLattice().getNeighborValues( new Point( x, y ) );
                 ArrayList<Point> neighborCells = getLattice().getNeighborCells( new Point( x, y ) );
                 ImmutableVector2D sum = new ImmutableVector2D( 0, 0 );
                 for ( Point neighborCell : neighborCells ) {
-                    sum = tmpSpins[neighborCell.x][neighborCell.y];
+                    sum = getLattice().getValue( neighborCell ).getSpinVector().getAddedInstance( sum );
                 }
-                gx = sum.getX();
-                gy = sum.getY();
 
-                gx *= J.getX();
-                gx -= externalMagneticField.getValue().getX() + getLattice().getValue( x, y ).bx;  /* applied and demagnetization fields. */
-                gy *= J.getY();
-                gy -= externalMagneticField.getValue().getY() + getLattice().getValue( x, y ).by;
+                double gx = sum.getX()*J.getX() - externalMagneticField.getValue().getX() - getLattice().getValue( x, y ).bx;
+                double gy = sum.getY()*J.getY() - externalMagneticField.getValue().getY() - getLattice().getValue( x, y ).by;
 
                 //TODO: add boundary conditions
-                double sx = tmpSpins[x][y].getX();
-                double sy = tmpSpins[x][y].getY();
+                double sx = getLattice().getValue( x, y ).getSpinVector().getX();
+                double sy = getLattice().getValue( x, y ).getSpinVector().getY();
                 double omega = getLattice().getValue( x, y ).omega;
                 domega = ( gx * sy - gy * sx ) * dtI;  /* is multiplied by dt, divided by Irot. */
 
@@ -129,19 +123,30 @@ public class InsideMagnetsModel {
 
             /* First do a position update over half a time step.
 The tmp arrays hold positions at t+0.5*dt.          */
-            ImmutableVector2D[][] tmpSpins = new ImmutableVector2D[getLatticeWidth()][getLatticeHeight()];
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
                 for ( int y = 0; y < getLatticeHeight(); y++ ) {
-                    tmpSpins[x][y] = new ImmutableVector2D( getSpin( x, y ).getX() - dt2 * getOmega( x, y ) * getSpin( x, y ).getY(),
-                                                            getSpin( x, y ).getY() + dt2 * getOmega( x, y ) * getSpin( x, y ).getX() );
+                    final double tmpSx = getSpin( x, y ).getX() - dt2 * getOmega( x, y ) * getSpin( x, y ).getY();
+                    final double tmpSy = getSpin( x, y ).getY() + dt2 * getOmega( x, y ) * getSpin( x, y ).getX();
+                    getLattice().getValue( x, y ).sx = tmpSx;
+                    getLattice().getValue( x, y ).sy = tmpSy;
                 }
             }
 
-            torque( tmpSpins, dt );
+            torque( dt );
 
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
                 for ( int y = 0; y < getLatticeHeight(); y++ ) {
-                    ImmutableVector2D spinVector = new ImmutableVector2D( tmpSpins[x][y].getX(), tmpSpins[x][y].getY() ).getNormalizedInstance();
+                    final double tmpSx = getSpin( x, y ).getX() - dt2 * getOmega( x, y ) * getSpin( x, y ).getY();
+                    final double tmpSy = getSpin( x, y ).getY() + dt2 * getOmega( x, y ) * getSpin( x, y ).getX();
+                    getLattice().getValue( x, y ).sx = tmpSx;
+                    getLattice().getValue( x, y ).sy = tmpSy;
+                }
+            }
+
+            //Normalize the spin vectors
+            for ( int x = 0; x < getLatticeWidth(); x++ ) {
+                for ( int y = 0; y < getLatticeHeight(); y++ ) {
+                    ImmutableVector2D spinVector = getLattice().getValue( x, y ).getSpinVector().getNormalizedInstance();
                     getLattice().getValue( x, y ).sx = spinVector.getX();
                     getLattice().getValue( x, y ).sy = spinVector.getY();
                 }

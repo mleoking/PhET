@@ -21,7 +21,8 @@ public class Cell {
     double omega;
 
     public Cell() {
-        ImmutableVector2D vector = new ImmutableVector2D( random.nextDouble()*2-1,random.nextDouble()*2-1 ).getNormalizedInstance();
+//        ImmutableVector2D vector = new ImmutableVector2D( random.nextDouble()*2-1,random.nextDouble()*2-1 ).getNormalizedInstance();
+        ImmutableVector2D vector = new ImmutableVector2D( 1,0).getNormalizedInstance();
         sx = vector.getX();
         sy = vector.getY();
     }
