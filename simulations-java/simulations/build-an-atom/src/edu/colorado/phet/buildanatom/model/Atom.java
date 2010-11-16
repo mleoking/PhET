@@ -140,10 +140,12 @@ public class Atom extends SimpleAtom {
         assert !( particle instanceof Electron ); // This method cannot be used to remove electrons.
         boolean particleFound = false;
         if ( particle instanceof Proton && protons.contains( particle )){
+            particleFound = true;
             protons.remove( particle );
             super.setNumProtons( protons.size() );
         }
         else if ( particle instanceof Neutron && neutrons.contains( particle )){
+            particleFound = true;
             neutrons.remove( particle );
             super.setNumNeutrons( neutrons.size() );
         }
