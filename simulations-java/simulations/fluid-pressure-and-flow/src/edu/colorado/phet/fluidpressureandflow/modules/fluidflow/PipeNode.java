@@ -1,12 +1,12 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.PipePosition;
@@ -34,8 +34,13 @@ public class PipeNode extends PNode {
 
     public static class GrabHandle extends PNode {
         public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint ) {
-            double grabHandleRadius = 10;
-            addChild( new PhetPPath( new Ellipse2D.Double( -grabHandleRadius, -grabHandleRadius, grabHandleRadius * 2, grabHandleRadius * 2 ), Color.green ) {{
+//            double grabHandleRadius = 10;
+//            addChild( new PhetPPath( new Ellipse2D.Double( -grabHandleRadius, -grabHandleRadius, grabHandleRadius * 2, grabHandleRadius * 2 ), Color.green ) {{
+            double arrowLength = 20;
+            addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8) {{
+                setPaint( Color.green );
+                setStroke( new BasicStroke( 1 ) );
+                setStrokePaint( Color.black );
                 controlPoint.addObserver( new SimpleObserver() {
                     public void update() {
                         setOffset( transform.modelToView( controlPoint.getPoint() ) );

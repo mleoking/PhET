@@ -1,3 +1,4 @@
+Converted circles to double-headed arrows for pipe control nodes
 Improved pressure units and readout
 Added initial support for different units
 Added a gravity control
