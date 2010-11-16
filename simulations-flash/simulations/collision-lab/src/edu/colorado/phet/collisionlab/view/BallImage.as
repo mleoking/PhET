@@ -9,6 +9,7 @@
 // 5: transparent arrow head, for dragging velocity arrow, to set velocity, on top
 
 package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.control.DataTable;
 import edu.colorado.phet.collisionlab.model.Ball;
 import edu.colorado.phet.collisionlab.model.Model;
@@ -25,7 +26,6 @@ public class BallImage extends Sprite {
     var myTableView: TableView;
     var myBall: Ball;
     var ballIndex: int;			//index labels ball 1, 2, 3,
-    var pixelsPerMeter: int;
     var ballBody: Sprite;
     var pArrowImage: Arrow;				//momentum arrow, not grabable
     var vArrowImage: Arrow;				//velocity arrow, not grabable
@@ -37,9 +37,6 @@ public class BallImage extends Sprite {
     var tFormat2: TextFormat;			//format for ball position and velocity readouts
     var tFieldBallNbr: TextField;		//label = ball number
     var outline: GlowFilter;				//outline for ball number text for better visibility
-
-    //var tFieldPosition:TextField;		//label showing x, y coords of ball during dragging
-    //var tFieldVelocity:TextField;		//label showing v_x, v_y during dragging
     var xEqString: String;				//"x = "  All text must be programmatically set for internationalization
     var yEqString: String;				//"y = "
 
@@ -48,7 +45,6 @@ public class BallImage extends Sprite {
         this.myModel = myModel;
         this.myTableView = myTableView;
         this.ballIndex = indx;
-        this.pixelsPerMeter = this.myTableView.pixelsPerMeter;
         this.myBall = this.myModel.ball_arr[this.ballIndex];
         this.ballBody = new Sprite();
         this.vArrowImage = new Arrow( indx );
@@ -124,7 +120,7 @@ public class BallImage extends Sprite {
         g.clear();
         g.lineStyle( 1, 0x000000, 1, false );
         g.beginFill( currentColor );
-        g.drawCircle( 0, 0, r * pixelsPerMeter );
+        g.drawCircle( 0, 0, r * CLConstants.PIXELS_PER_METER );
         g.endFill();
     }//end of drawLayer1()
 
@@ -168,7 +164,7 @@ public class BallImage extends Sprite {
         var r: Number = this.myBall.getRadius();
         g.clear();
         g.beginFill( currentColor, alpha1 );
-        g.drawCircle( 0, 0, r * pixelsPerMeter );
+        g.drawCircle( 0, 0, r * CLConstants.PIXELS_PER_METER );
         g.endFill();
     }//end of drawLayer4()
 
@@ -245,7 +241,7 @@ public class BallImage extends Sprite {
             if ( clickOffset != null ) {  //if dragging
                 //adjust x position
                 thisBallImage.x = theStage.mouseX - clickOffset.x;
-                ballX = thisBallImage.x / pixelsPerMeter;
+                ballX = thisBallImage.x / CLConstants.PIXELS_PER_METER;
                 //edges of border, beyond which center of ball may not go
                 var leftEdge: Number = thisBallImage.myBall.getRadius();
                 var rightEdge: Number = W - thisBallImage.myBall.getRadius();
@@ -265,7 +261,7 @@ public class BallImage extends Sprite {
                 //if not in 1DMode, adjust y position
                 if ( !thisBallImage.myModel.oneDMode ) {
                     thisBallImage.y = theStage.mouseY - clickOffset.y;
-                    ballY = H / 2 - thisBallImage.y / pixelsPerMeter;
+                    ballY = H / 2 - thisBallImage.y / CLConstants.PIXELS_PER_METER;
                     if ( modelRef.borderOn ) {
                         if ( ballY < bottomEdge ) {
                             ballY = bottomEdge;
@@ -424,7 +420,7 @@ public class BallImage extends Sprite {
 
 
     public function setVisibilityOfArrowHeadIndicator(): void {
-        var ballRadiusInPix: Number = this.pixelsPerMeter * this.myBall.getRadius();
+        var ballRadiusInPix: Number = CLConstants.PIXELS_PER_METER * this.myBall.getRadius();
         var velInPix: Number = this.vArrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y);
         //var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
         //trace("distInPix: "+distInPix+"   r:"+rInPix);

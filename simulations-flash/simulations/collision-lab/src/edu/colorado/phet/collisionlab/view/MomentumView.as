@@ -1,5 +1,5 @@
 package edu.colorado.phet.collisionlab.view {
-import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.flashcommon.SimStrings;
@@ -253,7 +253,7 @@ public class MomentumView extends Sprite {
     //    }
 
     private function setScaleOfArrows( scale: Number ): void {
-        var maxN: int = CollisionLabConstants.MAX_BALLS;
+        var maxN: int = CLConstants.MAX_BALLS;
         for ( var i: int = 0; i < maxN; i++ ) {
             this.momentum_arr[i].setScale( scale );
         }
@@ -263,7 +263,7 @@ public class MomentumView extends Sprite {
 
     //called once, at startUp
     private function drawArrows(): void {
-        var maxN: int = CollisionLabConstants.MAX_BALLS;
+        var maxN: int = CLConstants.MAX_BALLS;
         for ( var i: int = 0; i < maxN; i++ ) {
             this.momentum_arr[i] = new Arrow( i );
             this.momentum_arr[i].setShaftWidth( 8 );
@@ -322,7 +322,7 @@ public class MomentumView extends Sprite {
 
     //needed to set initial visibility of momentum arrows
     private function startUp(): void {
-        var maxN: int = CollisionLabConstants.MAX_BALLS;
+        var maxN: int = CLConstants.MAX_BALLS;
         var N: int = this.myModel.nbrBalls;
         var i: int;
         for ( i = 0; i < N; i++ ) {
@@ -342,7 +342,7 @@ public class MomentumView extends Sprite {
         var N: int = this.myModel.nbrBalls;
         var i: int;
         if ( this.myModel.nbrBallsChanged ) {
-            var maxN: int = CollisionLabConstants.MAX_BALLS;
+            var maxN: int = CLConstants.MAX_BALLS;
             for ( i = 0; i < N; i++ ) {
                 this.momentum_arr[i].visible = true;
             }

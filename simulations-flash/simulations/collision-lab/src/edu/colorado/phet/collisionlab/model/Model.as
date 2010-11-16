@@ -1,7 +1,7 @@
 //The Model for Collision Lab
 package edu.colorado.phet.collisionlab.model {
 
-import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.util.TwoVector;
 
 import flash.events.*;
@@ -50,14 +50,14 @@ public class Model {
 
     public function Model() {
         this.borderOn = true;
-        this.borderWidth = CollisionLabConstants.BORDER_WIDTH;	//units are meters
-        this.borderHeight = CollisionLabConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup
+        this.borderWidth = CLConstants.BORDER_WIDTH;	//units are meters
+        this.borderHeight = CLConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup
         this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
         this.massBall1 = 0.5;
         this.massBall2 = 1.5;
         this.oneDMode = false;
         this.CM = new Point();
-        this.ball_arr = new Array( CollisionLabConstants.MAX_BALLS );  //only first nbrBalls elements of array are used
+        this.ball_arr = new Array( CLConstants.MAX_BALLS );  //only first nbrBalls elements of array are used
         this.createInitialBallData();
         this.initializeBalls();
         //this.setCenterOfMass();
@@ -83,7 +83,7 @@ public class Model {
         if ( !this.playing ) {
             this.atInitialConfig = true;
         }
-        if ( this.nbrBalls < CollisionLabConstants.MAX_BALLS ) {
+        if ( this.nbrBalls < CLConstants.MAX_BALLS ) {
             this.nbrBalls += 1;
             if ( this.oneDMode ) {
                 for ( var i: int = 0; i < this.nbrBalls; i++ ) {
@@ -139,8 +139,8 @@ public class Model {
 
     //called once, at startup
     public function createInitialBallData(): void {
-        this.startingPos = new Array( CollisionLabConstants.MAX_BALLS );
-        this.startingVel = new Array( CollisionLabConstants.MAX_BALLS );
+        this.startingPos = new Array( CLConstants.MAX_BALLS );
+        this.startingVel = new Array( CLConstants.MAX_BALLS );
         startingPos[0] = new TwoVector( 1.0, 0 );
         startingPos[1] = new TwoVector( 2.0, +0.5 );
         startingPos[2] = new TwoVector( 1, -0.5 );
@@ -160,13 +160,13 @@ public class Model {
         this.resetting = false;
         this.soundOn = false;
         this.sounding = false;
-        this.initPos = new Array( CollisionLabConstants.MAX_BALLS );
-        this.initVel = new Array( CollisionLabConstants.MAX_BALLS );
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+        this.initPos = new Array( CLConstants.MAX_BALLS );
+        this.initVel = new Array( CLConstants.MAX_BALLS );
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             initPos[i] = startingPos[i].clone();
             initVel[i] = startingVel[i].clone();
         }
-        for ( i = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+        for ( i = 0; i < CLConstants.MAX_BALLS; i++ ) {
             //new Ball(mass, position, velocity);
             this.ball_arr[i] = new Ball( 1.0, initPos[i].clone(), initVel[i].clone() );
         }
@@ -189,7 +189,7 @@ public class Model {
         this.resetting = true;
         this.setOneDMode( false );
         this.setReflectingBorder( true );
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             //new Ball(mass, position, velocity);
             this.ball_arr[i].setBall( 1.0, startingPos[i].clone(), startingVel[i].clone() );
             this.setMass( i, 1.0 );
@@ -212,7 +212,7 @@ public class Model {
     public function setOneDMode( tOrF: Boolean ): void {
         this.oneDMode = tOrF;
         if ( this.oneDMode ) {
-            this.borderHeight = CollisionLabConstants.BORDER_HEIGHT_1D;  // border heigh in meters; reflecting border is resized to give visual clue that 1D mode is ON.
+            this.borderHeight = CLConstants.BORDER_HEIGHT_1D;  // border heigh in meters; reflecting border is resized to give visual clue that 1D mode is ON.
             for ( var i: int = 0; i < this.nbrBalls; i++ ) {
                 this.setY( i, 0 );
                 this.setVY( i, 0 );
@@ -220,7 +220,7 @@ public class Model {
             this.separateAllBalls();
         }
         else { //if 2D mode
-            this.borderHeight = CollisionLabConstants.BORDER_HEIGHT_2D; //border height in meters
+            this.borderHeight = CLConstants.BORDER_HEIGHT_2D; //border height in meters
             //this.initializePositions();  //back to 2D
         }
         //trace("Model.setOneDMode: "+tOrF);

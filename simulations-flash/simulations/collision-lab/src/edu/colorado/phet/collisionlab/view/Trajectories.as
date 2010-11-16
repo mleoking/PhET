@@ -1,7 +1,7 @@
 //Draws paths(trajectories) of balls in TableView
 //Version 1, no good handling of multiple events in same timeStep
 package edu.colorado.phet.collisionlab.view {
-import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 
 import flash.display.*;
@@ -9,7 +9,6 @@ import flash.display.*;
 public class Trajectories extends Sprite {
     var myModel: Model;
     var myTableView: TableView;
-    var pixelsPerMeter: int;
     var borderHeight: Number;//height of Table in meters
     var maxNbrPaths: int;	//maximum nbr of paths shown = maximum nbr of balls
     var nbrPaths: int;		//current nbr of paths shown = current nbr of balls
@@ -22,8 +21,7 @@ public class Trajectories extends Sprite {
     public function Trajectories( myModel: Model, myTableView: TableView ) {
         this.myModel = myModel;
         this.myTableView = myTableView;
-        this.pixelsPerMeter = this.myTableView.pixelsPerMeter;
-        this.maxNbrPaths = CollisionLabConstants.MAX_BALLS;
+        this.maxNbrPaths = CLConstants.MAX_BALLS;
         this.borderHeight = this.myModel.borderHeight;
         this.nbrPaths = this.myModel.nbrBalls;
         this.path_arr = new Array( this.maxNbrPaths );
@@ -89,8 +87,8 @@ public class Trajectories extends Sprite {
         for ( var i: int = 0; i < this.nbrPaths; i++ ) {
             var g: Graphics = this.path_arr[i].graphics;
             g.lineStyle( 1, 0x000000 );
-            var screenX: Number = this.pixelsPerMeter * myModel.ball_arr[i].position.getX();
-            var screenY: Number = this.pixelsPerMeter * (this.borderHeight / 2 - myModel.ball_arr[i].position.getY());
+            var screenX: Number = CLConstants.PIXELS_PER_METER * myModel.ball_arr[i].position.getX();
+            var screenY: Number = CLConstants.PIXELS_PER_METER * (this.borderHeight / 2 - myModel.ball_arr[i].position.getY());
             g.moveTo( screenX, screenY );
         }
     }
@@ -110,8 +108,8 @@ public class Trajectories extends Sprite {
             var g: Graphics = this.path_arr[i].graphics;
             g.lineStyle( 2, this.currentColor, this.currentAlpha );
             //trace("Trajectories.drawStep() called.");
-            var screenX: Number = this.pixelsPerMeter * this.myModel.ball_arr[i].position.getX();
-            var screenY: Number = this.pixelsPerMeter * (this.borderHeight / 2 - this.myModel.ball_arr[i].position.getY());
+            var screenX: Number = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getX();
+            var screenY: Number = CLConstants.PIXELS_PER_METER * (this.borderHeight / 2 - this.myModel.ball_arr[i].position.getY());
             //trace("Trajectories.pixelsPerMeter: "+pixelsPerMeter);
             //trace("i: "+i+"   scrnX: "+screenX+"   scrnY: "+screenY);
             g.lineTo( screenX, screenY );

@@ -4,7 +4,7 @@
 //partial data table has column for ball number, col for mass, and col for mass slider
 
 package edu.colorado.phet.collisionlab.control {
-import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.collisionlab.view.MainView;
@@ -68,15 +68,15 @@ public class DataTable extends Sprite {
         this.nbrColumns = 8;
         this.colWidth = 60;
         this.rowHeight = 27;
-        this.rowCanvas_arr = new Array( CollisionLabConstants.MAX_BALLS + 1 ); //header row + row for each ball
-        this.text_arr = new Array( CollisionLabConstants.MAX_BALLS + 1 );	//rows
-        this.massSlider_arr = new Array( CollisionLabConstants.MAX_BALLS + 1 );
+        this.rowCanvas_arr = new Array( CLConstants.MAX_BALLS + 1 ); //header row + row for each ball
+        this.text_arr = new Array( CLConstants.MAX_BALLS + 1 );	//rows
+        this.massSlider_arr = new Array( CLConstants.MAX_BALLS + 1 );
         this.tFormat = new TextFormat();
         this.tFormat.font = "Arial";
         this.tFormat.size = 14;
         this.tFormat.align = TextFormatAlign.CENTER;
         //create textfields for full data table and mass sliders for partial data table
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {  //header row + row for each ball
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {  //header row + row for each ball
             this.rowCanvas_arr[i] = new Sprite();
             this.text_arr[i] = new Array( this.nbrColumns );
             if ( i > 0 ) {
@@ -130,7 +130,7 @@ public class DataTable extends Sprite {
         //this.x = 60;
 
         //layout textFields in full data table
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             this.canvas.addChild( this.rowCanvas_arr[i] );
 
             if ( i > 0 ) {
@@ -255,7 +255,7 @@ public class DataTable extends Sprite {
         this.text_arr[0][6].text = Px_str;
         this.text_arr[0][7].text = Py_str;
         this.tFormat.bold = true;
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             if ( i != 0 ) {this.text_arr[i][0].text = i;}
             for ( var j: int = 0; j < this.nbrColumns; j++ ) {
                 if ( i == 0 || j == 0 ) {
@@ -320,7 +320,7 @@ public class DataTable extends Sprite {
         this.drawBorder( this.nbrBalls );
         //hide all but 1st two columns for partial
         //this.drawBorder(this.nbrBalls, 4.5*this.colWidth)
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             if ( i > 0 ) {
                 this.massSlider_arr[i - 1].visible = tOrF;
             }
@@ -333,14 +333,14 @@ public class DataTable extends Sprite {
     public function setNbrDisplayedRows(): void {
         this.nbrBalls = this.myModel.nbrBalls;
         this.drawBorder( this.nbrBalls );
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             this.rowCanvas_arr[i].visible = i < this.nbrBalls + 1;
         }//end for(i)
     }//end setNbrDisplayedRows
 
     //ball	mass	x	y	vx	vy	px	py
     public function createTextChangeListeners(): void {
-        for ( var i: int = 1; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {
+        for ( var i: int = 1; i < CLConstants.MAX_BALLS + 1; i++ ) {
             for ( var j: int = 1; j < this.nbrColumns; j++ ) {
                 //this.currentBody = i;
                 if ( j == 1 ) {
@@ -474,7 +474,7 @@ public class DataTable extends Sprite {
     }
 
     private function resetMassSliders(): void {  //called when reset button on Control panel
-        for ( var i: int = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             this.massSlider_arr[i].value = this.myModel.ball_arr[i].getMass();
             this.myMainView.myTableView.ballImage_arr[i].drawLayer1();  //redraw ballImage for new diameter
             this.myMainView.myTableView.ballImage_arr[i].drawLayer1a(); //redraw ballImage for new diameter
@@ -530,7 +530,7 @@ public class DataTable extends Sprite {
                 this.myMainView.myTableView.CM.visible = true;
             }
         }
-        this.addBallButton_sp.visible = this.nbrBalls != CollisionLabConstants.MAX_BALLS;
+        this.addBallButton_sp.visible = this.nbrBalls != CLConstants.MAX_BALLS;
     }//end checkBallNbrLimits()
 
     public function update(): void {
@@ -540,7 +540,7 @@ public class DataTable extends Sprite {
         var mass: Number;
         //        var nbrPlaces: int = 3  //number of places right of decimal pt displayed
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
-            for ( i = 1; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {  //skip header row
+            for ( i = 1; i < CLConstants.MAX_BALLS + 1; i++ ) {  //skip header row
                 for ( j = 0; j < this.nbrColumns; j++ ) {
                     if ( j == 0 ) {
                         //do nothing
@@ -605,7 +605,7 @@ public class DataTable extends Sprite {
         }//end if(!manualUpdating)
 
         if ( sliderUpdating ) {
-            for ( i = 0; i < CollisionLabConstants.MAX_BALLS; i++ ) {
+            for ( i = 0; i < CLConstants.MAX_BALLS; i++ ) {
                 mass = this.myModel.ball_arr[i].getMass();
                 this.text_arr[i + 1][1].text = this.round( mass, 1 );
             }
@@ -616,7 +616,7 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( i = 1; i < CollisionLabConstants.MAX_BALLS + 1; i++ ) {  //skip header row
+        for ( i = 1; i < CLConstants.MAX_BALLS + 1; i++ ) {  //skip header row
             mass = this.myModel.ball_arr[i - 1].getMass();
             xVel = this.myModel.ball_arr[i - 1].velocity.getX();
             yVel = this.myModel.ball_arr[i - 1].velocity.getY();
