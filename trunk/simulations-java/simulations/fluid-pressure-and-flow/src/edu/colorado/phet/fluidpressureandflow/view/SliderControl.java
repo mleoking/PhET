@@ -19,8 +19,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( double min,double max,final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
-        final PSwing pswing = new PSwing( new LinearValueControl( min,max, property.getValue(), "Fluid density", "0.00", "kg/m^3" ) {
+    public SliderControl( String title,String units,double min,double max,final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
+        final PSwing pswing = new PSwing( new LinearValueControl( min,max, property.getValue(), title, "0.00", units ) {
             {
                 setTickLabels( new Hashtable() {{
                     for ( Double s : tickLabels.keySet() ) {
