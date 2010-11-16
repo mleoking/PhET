@@ -2,7 +2,6 @@ package edu.colorado.phet.insidemagnets;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -17,9 +16,15 @@ import edu.colorado.phet.common.phetcommon.util.Function0;
  * @author Sam Reid
  */
 public class InsideMagnetsModel {
+    Random random = new Random();
     private Property<Lattice<Cell>> latticeProperty;
     private IClock clock = new ConstantDtClock( 30 );
     private double time = 0;
+    private ImmutableVector2D J = new ImmutableVector2D( 1, 1 );
+    private ImmutableVector2D B = new ImmutableVector2D( 0, 0 );//Externally applied magnetic field
+    double Ka = 1.5;         /* anisotropy strength for aniso- boundaries.	 */
+    int kdt = 10;             /* number of steps taken before re-drawing spins.   */
+    private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
 
     public InsideMagnetsModel() {
         this.latticeProperty = new Property<Lattice<Cell>>( new Lattice<Cell>( 20, 10, new Function0<Cell>() {
@@ -34,33 +39,149 @@ public class InsideMagnetsModel {
         } );
     }
 
+    //   Applies the torque equation of motion for XY rotor model spins.
+//   Each site has in-plane coordinates (sx,sy), and rotational speed omega.
+//   The outputted omega array is omega advanced one time step dt, for
+//   Langevin dynamics.  The sx and sy arrays are not modified.
+    private void torque( ImmutableVector2D[][] tmpSpins, double dt ) {
+        //  int i,nbr1,nbr2,nbr3,nbr4;
+
+        double Irot = 1;//rotational inertia
+        double KK = 0.0;    /* boundary anisotropy term. */
+        double gx, gy;     /* Hamiltonian XY field acting on a spin.  */
+        double sigomega;  /* variance of the random velocity changes.	   */
+        double dtI;        /* time step divided by rotational inertia. */
+        double dtg;        /* time step multiplied by damping.  */
+        double domega;    /* change in rotational speed of a site. */
+        double beta = 2;//Beta = 1/temperature
+
+        double gam = 1.0;            /* damping of Langevin dynamics. passed to difeq.*/
+        double sigtau = Math.sqrt( 2.0 * gam * Irot / beta );
+        sigomega = sigtau * Math.sqrt( dt ) / Irot;
+        dtI = dt / Irot;
+        dtg = dt * gam;
+
+//  if(bc==2 || bc==3)
+        KK = 2.0 * Ka; /* for anisotropic edge forces. */
+
+
+        for ( int x = 0; x < getLatticeWidth(); x++ ) {
+            for ( int y = 0; y < getLatticeHeight(); y++ ) {
+//                ArrayList<Cell> neighborCells = getLattice().getNeighborValues( new Point( x, y ) );
+                ArrayList<Point> neighborCells = getLattice().getNeighborCells( new Point( x, y ) );
+                ImmutableVector2D sum = new ImmutableVector2D( 0, 0 );
+                for ( Point neighborCell : neighborCells ) {
+                    sum = tmpSpins[neighborCell.x][neighborCell.y];
+                }
+                gx = sum.getX();
+                gy = sum.getY();
+
+                gx *= J.getX();
+                gx -= B.getX() + getLattice().getValue( x, y ).bx;  /* applied and demagnetization fields. */
+                gy *= J.getY();
+                gy -= B.getY() + getLattice().getValue( x, y ).by;
+
+                //TODO: add boundary conditions
+                double sx = tmpSpins[x][y].getX();
+                double sy = tmpSpins[x][y].getY();
+                double omega = getLattice().getValue( x, y ).omega;
+                domega = ( gx * sy - gy * sx ) * dtI;  /* is multiplied by dt, divided by Irot. */
+
+                /* if(i==1 || i==2) printf("torque: domega[%d]= %17.10e\n",i,domega); */
+                double rangauss = random.nextGaussian();
+                if ( gam > 0.001 )  /* include Langevin terms in acceleration equation. */ {
+                    domega += sigomega * rangauss - dtg * omega;
+                }
+
+                getLattice().getValue( x, y ).omega += domega; /* advance the velocity forward one time step. */
+            }
+        }
+    }
+///*
+
     private ImmutableVector2D randomVector() {
         return new ImmutableVector2D( random.nextDouble() * 2 - 1, random.nextDouble() * 2 - 1 );
     }
 
     public void update( double dt ) {
         latticeProperty.setValue( updateLattice( latticeProperty.getValue(), dt ) );
+        latticeProperty.notifyObservers();
         this.time = time + dt;
     }
 
-    Random random = new Random();
-
-//    private Lattice<Cell> updateLatticeRandom( Lattice<Cell> value, double dt ) {
-//        Lattice<Cell> newLattice = new Lattice<ImmutableVector2D>( value.getWidth(), value.getHeight(), new Function0<ImmutableVector2D>() {
-//            public ImmutableVector2D apply() {
-//                return randomVector();
-//            }
-//        } );
-//        return newLattice;
-//    }
-
     private Lattice<Cell> updateLattice( Lattice<Cell> previousLattice, double dt ) {
-        HashMap<Point, Cell> map = new HashMap<Point, Cell>();
-        for ( Point point : previousLattice.getLocations() ) {
-            map.put( point, getNewLatticeValue( point, previousLattice, dt ) );
+
+//          extern double *oldx, *oldy; /* previous spin state. */
+//  extern double *tmpx, *tmpy; /* intermediate state.  */
+        double dt2;
+        int i, idt;
+        double r;
+
+        dt2 = 0.5 * dt;
+
+//  for(i=0; i<N; i++)  /* save old state, for erasing old state spins. */
+//  {
+//    oldx[i]=sx[i];
+//    oldy[i]=sy[i];
+//  }
+
+        for ( idt = 0; idt < kdt; idt++ ) {
+
+            /* First do a position update over half a time step.
+The tmp arrays hold positions at t+0.5*dt.          */
+            ImmutableVector2D[][] tmpSpins = new ImmutableVector2D[getLatticeWidth()][getLatticeHeight()];
+            for ( int x = 0; x < getLatticeWidth(); x++ ) {
+                for ( int y = 0; y < getLatticeHeight(); y++ ) {
+                    tmpSpins[x][y] = new ImmutableVector2D( getSpin( x, y ).getX() - dt2 * getOmega( x, y ) * getSpin( x, y ).getY(),
+                                                            getSpin( x, y ).getY() + dt2 * getOmega( x, y ) * getSpin( x, y ).getX() );
+                }
+            }
+
+            torque( tmpSpins, dt );
+
+            for ( int x = 0; x < getLatticeWidth(); x++ ) {
+                for ( int y = 0; y < getLatticeHeight(); y++ ) {
+                    ImmutableVector2D spinVector = new ImmutableVector2D(  tmpSpins[x][y].getX(),tmpSpins[x][y].getY()).getNormalizedInstance();
+                    getLattice().getValue( x,y ).sx = spinVector.getX();
+                    getLattice().getValue( x,y ).sy = spinVector.getY();
+                }
+            }
+
+            /* Next is to find the new angular speeds on the sites, after
+  a time interval of dt. The outputted omega is omega(t+dt). */
+
+//  /* Let the positions propagate for another half time step. */
+//     for(i=0; i<N; i++)
+//     {
+//       sx[i]=tmpx[i]-dt2*omega[i]*tmpy[i];
+//       sy[i]=tmpy[i]+dt2*omega[i]*tmpx[i];
+//     }
+//
+
+//  /* loop to rescale to unit length. */
+//     for(i=0; i<N; i++)
+//     {
+//       r=1.0/sqrt(sx[i]*sx[i]+sy[i]*sy[i]);
+//       sx[i] *= r;
+//       sy[i] *= r;
+//     }
+
+            /* at this point, everything corresponds to the values at t+dt. */
         }
-        Lattice<Cell> newLattice = new Lattice<Cell>( previousLattice.getWidth(), previousLattice.getHeight(), map );
-        return newLattice;
+        return getLattice();
+    }
+
+    private double getOmega( int x, int y ) {
+        return getLattice().getValue( new Point( x, y ) ).omega;
+    }
+
+    private ImmutableVector2D getSpin( int x, int y ) {
+        if (!getLattice().containsPoint( new Point( x,y ) ) ){
+            System.out.println( "off the lattice: x = " + x+", y = "+y );
+            return new ImmutableVector2D(  );
+        }else{
+            return getLattice().getValue( new Point( x, y ) ).getSpinVector();
+        }
     }
 
     private Cell getNewLatticeValue( Point cell, Lattice<Cell> previousLattice, double dt ) {
@@ -96,5 +217,9 @@ public class InsideMagnetsModel {
 
     public int getLatticeHeight() {
         return latticeProperty.getValue().getHeight();
+    }
+
+    public Lattice<Cell> getLattice() {
+        return latticeProperty.getValue();
     }
 }
