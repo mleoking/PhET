@@ -22,8 +22,8 @@ public class InsideMagnetsModel {
     private double time = 0;
     private ImmutableVector2D J = new ImmutableVector2D( -1, -1 );
     private Property<ImmutableVector2D> externalMagneticField = new Property<ImmutableVector2D>( new ImmutableVector2D( 2.1, 0 ) );//Externally applied magnetic field
-    double Ka = 1.5;         /* anisotropy strength for aniso- boundaries.	 */
-    int kdt = 10;             /* number of steps taken before re-drawing spins.   */
+    private double Ka = 1.5;         /* anisotropy strength for aniso- boundaries.	 */
+    private int kdt = 10;             /* number of steps taken before re-drawing spins.   */
     private Property<Double> temperature = new Property<Double>( 0.01 );//Beta = 1/temperature
     private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
 
@@ -72,8 +72,8 @@ public class InsideMagnetsModel {
                     sum = getLattice().getValue( neighborCell ).getSpinVector().getAddedInstance( sum );
                 }
 
-                double gx = sum.getX()*J.getX() - externalMagneticField.getValue().getX() - getLattice().getValue( x, y ).bx;
-                double gy = sum.getY()*J.getY() - externalMagneticField.getValue().getY() - getLattice().getValue( x, y ).by;
+                double gx = sum.getX() * J.getX() - externalMagneticField.getValue().getX() - getLattice().getValue( x, y ).bx;
+                double gy = sum.getY() * J.getY() - externalMagneticField.getValue().getY() - getLattice().getValue( x, y ).by;
 
                 //TODO: add boundary conditions
                 double sx = getLattice().getValue( x, y ).getSpinVector().getX();
@@ -99,28 +99,22 @@ public class InsideMagnetsModel {
 
     public void update( double dt ) {
         latticeProperty.setValue( updateLattice( latticeProperty.getValue(), dt ) );
+
         latticeProperty.notifyObservers();
         this.time = time + dt;
     }
 
     private Lattice<Cell> updateLattice( Lattice<Cell> previousLattice, double dt ) {
 
-//          extern double *oldx, *oldy; /* previous spin state. */
-//  extern double *tmpx, *tmpy; /* intermediate state.  */
-        double dt2;
-        int i, idt;
-        double r;
+        //Update the dipole field everywhere in the lattice
+        for ( int x = 0; x < getLatticeWidth(); x++ ) {
+            for ( int y = 0; y < getLatticeHeight(); y++ ) {
+                dipole_field( x, y );
+            }
+        }
 
-        dt2 = 0.5 * dt;
-
-//  for(i=0; i<N; i++)  /* save old state, for erasing old state spins. */
-//  {
-//    oldx[i]=sx[i];
-//    oldy[i]=sy[i];
-//  }
-
-        for ( idt = 0; idt < kdt; idt++ ) {
-
+        double dt2 = 0.5 * dt;
+        for ( int idt = 0; idt < kdt; idt++ ) {
             /* First do a position update over half a time step.
 The tmp arrays hold positions at t+0.5*dt.          */
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
@@ -173,6 +167,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
 
             /* at this point, everything corresponds to the values at t+dt. */
         }
+
         return getLattice();
     }
 
@@ -188,25 +183,6 @@ The tmp arrays hold positions at t+0.5*dt.          */
         else {
             return getLattice().getValue( new Point( x, y ) ).getSpinVector();
         }
-    }
-
-    private Cell getNewLatticeValue( Point cell, Lattice<Cell> previousLattice, double dt ) {
-        return new Cell();
-//        if ( cell.getX() == 0 && cell.getY() == 0 ) {
-//            return new ImmutableVector2D( 0, Math.cos( time * 2 ) * 3 );
-//        }
-//        else if (cell.getY() == 0 && cell.getX() == previousLattice.getWidth()/2){
-//            return new ImmutableVector2D( Math.sin( time * 3 ) * 3 ,0);
-//        }
-//        else {
-//            ArrayList<ImmutableVector2D> neighbors = previousLattice.getNeighborValues( cell );
-//            ImmutableVector2D sum = new ImmutableVector2D();
-//            for ( ImmutableVector2D neighbor : neighbors ) {
-//                sum = sum.getAddedInstance( neighbor );
-//            }
-//            final ImmutableVector2D scaledInstance = sum.getScaledInstance( 1.0 / neighbors.size() );
-//            return scaledInstance.getAddedInstance( randomVector().getScaledInstance( 0.1 ));
-//        }
     }
 
     public Property<Lattice<Cell>> getLatticeProperty() {
@@ -235,5 +211,41 @@ The tmp arrays hold positions at t+0.5*dt.          */
 
     public Property<Double> getTemperature() {
         return temperature;
+    }
+
+    /*
+   Calculates the total magnetic field (bx,by) due to all dipoles,
+   as would be measured at an observer's position (xobs,yobs).
+   D is a parameter related to the magnitudes of the dipoles,
+   that determines the relative size of magnetic field they generate.
+*/
+    void dipole_field( int xobs, int yobs ) {
+
+        double rx, ry, r, r2, r5;
+        double dot, tx, ty, sumx, sumy;
+        sumx = sumy = 0.0;
+        double D = 0.5;
+
+        for ( int x = 0; x < getLatticeWidth(); x++ ) {
+            for ( int y = 0; y < getLatticeHeight(); y++ ) {
+                Cell cell = getLattice().getValue( x, y );
+
+                /* all distances in units of a lattice constant. */
+                rx = (double) ( xobs - x );
+                ry = (double) ( yobs - y );
+                r2 = rx * rx + ry * ry;
+                if ( r2 < 0.1 ) { continue;  /*  avoids the i=j term.   */ }
+                r = Math.sqrt( r2 );
+                r5 = 1.0 / ( r2 * r2 * r );
+                dot = rx * cell.getSpinVector().getX() + ry * cell.getSpinVector().getY();
+                tx = r5 * ( 3.0 * dot * rx - r2 * cell.getSpinVector().getX() ); /* term of one dipole. */
+                ty = r5 * ( 3.0 * dot * ry - r2 * cell.getSpinVector().getY() );
+                sumx += tx;
+                sumy += ty;
+            }
+        }
+        getLattice().getValue( xobs,yobs ).bx = D*sumx;
+        getLattice().getValue( xobs,yobs ).by = D*sumy;
+        return;
     }
 }
