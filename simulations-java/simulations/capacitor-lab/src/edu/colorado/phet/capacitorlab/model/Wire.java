@@ -167,10 +167,10 @@ public class Wire {
             return segments;
         }
         
-        @Override
         /*
          * Subtract any part of the wire that is occluded by the battery or bottom plate.
          */
+        @Override
         protected Shape createShape() {
             Shape shape = null;
             Shape wireShape = super.createShape();
