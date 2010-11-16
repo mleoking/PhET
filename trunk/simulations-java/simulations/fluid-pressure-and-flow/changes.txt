@@ -1,3 +1,4 @@
+Hid pipe entry points to left and right for when sim is shortened vertically
 Centerd pressure readouts
 Increased hotspot size on pressure readouts
 Added a "10 ft" label inside the pool

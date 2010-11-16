@@ -158,4 +158,16 @@ public class Pipe {
     public Point2D getTopLeft() {
         return new Point2D.Double( getMinX(), getPipePositions().get( 0 ).getTop().getY() );
     }
+
+    public Point2D getBottomLeft() {
+        return new Point2D.Double( getMinX(), getPipePositions().get( 0 ).getBottom().getY() );
+    }
+
+    public Point2D getTopRight() {
+        return new Point2D.Double( getMaxX(), getPipePositions().get( getPipePositions().size() - 1 ).getTop().getY() );
+    }
+
+    public Point2D getBottomRight() {
+        return new Point2D.Double( getMaxX(), getPipePositions().get( getPipePositions().size() - 1 ).getBottom().getY() );
+    }
 }

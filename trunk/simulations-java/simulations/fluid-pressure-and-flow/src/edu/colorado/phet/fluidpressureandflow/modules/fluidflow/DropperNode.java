@@ -27,7 +27,6 @@ public class DropperNode extends PNode {
         pipe.addShapeChangeListener( new SimpleObserver() {
             public void update() {
                 final Point2D pipeTopLeft = transform.modelToView( pipe.getTopLeft() );
-                System.out.println( "pipeTopLeft = " + pipeTopLeft );
                 setOffset( Math.max( pipeTopLeft.getX(), 0 ), pipeTopLeft.getY() - getFullBounds().getHeight() );
             }
         } );
