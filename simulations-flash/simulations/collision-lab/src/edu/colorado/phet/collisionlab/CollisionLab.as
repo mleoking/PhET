@@ -4,7 +4,7 @@
 
 package edu.colorado.phet.collisionlab {
 
-import edu.colorado.phet.collisionlab.constants.CollisionLabConstants;
+import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.control.Tab;
 import edu.colorado.phet.collisionlab.control.TabBar;
 import edu.colorado.phet.flashcommon.SimStrings;
@@ -22,7 +22,7 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         //stage width and height hard-coded for now
         this.stageW = 950;//this.stage.stageWidth;
         this.stageH = 700;//this.stage.stageHeight;
-        var tabBar: TabBar = new TabBar( CollisionLabConstants.BACKGROUND_COLOR, 0xFFFFBB );
+        var tabBar: TabBar = new TabBar( CLConstants.BACKGROUND_COLOR, 0xFFFFBB );
 
         var introHolder: Sprite = new Sprite();
         addChild( introHolder );
