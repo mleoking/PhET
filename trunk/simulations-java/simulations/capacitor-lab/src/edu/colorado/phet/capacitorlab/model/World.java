@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class World {
     
+    // observable properties
     private final Property<Rectangle2D> bounds; // meters
     
     public World() {

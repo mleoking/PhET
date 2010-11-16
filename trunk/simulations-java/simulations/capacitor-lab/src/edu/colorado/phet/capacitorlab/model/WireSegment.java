@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class WireSegment {
 
+    // observable properties
     private final Property<Point2D> startPointProperty, endPointProperty;
 
     public WireSegment( Point2D startPoint, Point2D endPoint ) {
