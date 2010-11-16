@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.view;
+package edu.colorado.phet.capacitorlab.developer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,7 +35,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ModelValuesPanel extends JPanel {
+/* package private */ class ModelValuesPanel extends JPanel {
     
     private static final Font VALUE_DISPLAY_FONT = new PhetFont( 10 );
     
