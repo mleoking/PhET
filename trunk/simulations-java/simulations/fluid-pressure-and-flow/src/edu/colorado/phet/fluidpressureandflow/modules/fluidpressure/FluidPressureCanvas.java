@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -59,17 +58,15 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
             } );
         }} );
 
-        final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
-        final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
         final SliderControl fluidDensityControl = new SliderControl( "Fluid Density", "kg/m^3", FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getLiquidDensityProperty(), new HashMap<Double, TickLabel>() {{
             put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
             put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
             put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
         }} ) {{
             setOffset( poolNode.getFullBounds().getMinX() - getFullBounds().getWidth() - 2, poolNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
-            fluidDensityControlVisible.addObserver( new SimpleObserver() {
+            module.getFluidDensityControlVisible().addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( fluidDensityControlVisible.getValue() );
+                    setVisible( module.getFluidDensityControlVisible().getValue() );
                 }
             } );
         }};
@@ -79,9 +76,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
             put( FluidPressureAndFlowModel.MOON_GRAVITY, new TickLabel( "Moon" ) );
             put( FluidPressureAndFlowModel.JUPITER_GRAVITY, new TickLabel( "Jupiter" ) );
         }} ) {{
-            gravityControlVisible.addObserver( new SimpleObserver() {
+            module.getGravityControlVisible().addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( gravityControlVisible.getValue() );
+                    setVisible( module.getGravityControlVisible().getValue() );
                 }
             } );
         }};
@@ -89,13 +86,13 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( gravityControl );
         addChild( fluidDensityControl );
 
-        final ButtonExpander fluidDensityExpander = new ButtonExpander( "Fluid Density >", "Fluid Density <", fluidDensityControlVisible ) {{
+        final ButtonExpander fluidDensityExpander = new ButtonExpander( "Fluid Density >", "Fluid Density <", module.getFluidDensityControlVisible() ) {{
             setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
         }};
         addChild( fluidDensityExpander );
         gravityControl.setOffset( fluidDensityExpander.getFullBounds().getMinX(), fluidDensityExpander.getFullBounds().getY() - gravityControl.getFullBounds().getHeight() - 20 );
 
-        final ButtonExpander gravityExpander = new ButtonExpander( "Gravity >", "Gravity <", gravityControlVisible ) {{
+        final ButtonExpander gravityExpander = new ButtonExpander( "Gravity >", "Gravity <", module.getGravityControlVisible() ) {{
             setOffset( gravityControl.getFullBounds().getX(), gravityControl.getFullBounds().getY() - getFullBounds().getHeight() );
         }};
         addChild( gravityExpander );

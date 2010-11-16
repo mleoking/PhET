@@ -31,4 +31,9 @@ public class VelocitySensor extends Sensor {
     public Property<ImmutableVector2D> getVelocity() {
         return velocity;
     }
+
+    public void reset() {
+        super.reset();
+        velocity.reset();
+    }
 }

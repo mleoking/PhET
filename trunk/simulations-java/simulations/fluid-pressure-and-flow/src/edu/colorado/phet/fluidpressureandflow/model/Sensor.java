@@ -38,4 +38,9 @@ public class Sensor {
         xProperty.addObserver( updatePosition );
         yProperty.addObserver( updatePosition );
     }
+
+    public void reset() {
+        xProperty.reset();
+        yProperty.reset();
+    }
 }
