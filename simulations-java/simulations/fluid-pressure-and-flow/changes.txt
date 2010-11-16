@@ -1,3 +1,5 @@
+Fixed: Gravity slider should have correct title and units
+Fixed: Gravity slider should be minimizable
 Fixed: pressure gauges should read values in the pipe
 Fixed: pressure gauges should read atmosphere when in atmosphere
 Fixed: pressure gauges should update when pipe change
