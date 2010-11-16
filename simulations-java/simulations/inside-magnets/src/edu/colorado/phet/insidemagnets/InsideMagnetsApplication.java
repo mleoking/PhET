@@ -10,10 +10,10 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class InsideMagnetsApplication extends PiccoloPhetApplication {
     public InsideMagnetsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new InsideMagnetsModule("test") );
+        addModule( new InsideMagnetsModule() );
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "work-energy", InsideMagnetsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, "inside-magnets", InsideMagnetsApplication.class );
     }
 }
