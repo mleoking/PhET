@@ -93,6 +93,11 @@ public class PressureSensorNode extends PNode {
     }
 
     private String getText() {
-        return "" + units.getValue().getDecimalFormat().format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " " + units.getValue().getAbbreviation();
+        if ( Double.isNaN( pressureSensor.getPressure() ) ) {
+            return "? "+units.getValue().getAbbreviation();
+        }
+        else {
+            return "" + units.getValue().getDecimalFormat().format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " " + units.getValue().getAbbreviation();
+        }
     }
 }

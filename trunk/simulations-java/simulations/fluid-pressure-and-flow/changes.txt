@@ -1,3 +1,4 @@
+Fixed: Pressure gauges should read "?" when underground
 Fixed: Gravity slider should have correct title and units
 Fixed: Gravity slider should be minimizable
 Fixed: pressure gauges should read values in the pipe
