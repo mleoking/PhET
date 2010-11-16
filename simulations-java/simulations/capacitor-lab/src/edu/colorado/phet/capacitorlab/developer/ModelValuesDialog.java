@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.view;
+package edu.colorado.phet.capacitorlab.developer;
 
 import java.awt.Frame;
 
@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ModelValuesDialog extends PaintImmediateDialog {
+/* package private */ class ModelValuesDialog extends PaintImmediateDialog {
     
     private final ModelValuesPanel panel;
     
