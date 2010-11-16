@@ -7,6 +7,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
@@ -94,6 +95,16 @@ public class BoxShapeFactory {
     
     public Shape createSideFace( double width, double height, double depth ) {
         return createSideFace( 0, 0, 0, width, height, depth );
+    }
+    
+    /*
+     * A complete box, relative to a specific origin.
+     */
+    public Shape createBoxShape( double x, double y, double z, double width, double height, double depth ) {
+        Shape topShape = createTopFace( x, y, z, width, height, depth );
+        Shape frontShape = createFrontFace( x, y, z, width, height, depth );
+        Shape sideShape = createSideFace( x, y, z, width, height, depth );
+        return ShapeUtils.add( topShape, frontShape, sideShape );
     }
     
     /*
