@@ -224,20 +224,20 @@ public class BatteryCapacitorCircuit {
      */
     private double getVoltage( Shape s ) {
         double voltage = Double.NaN;
-        if ( topWire.intersects( s ) ) {
+        if ( isBatteryConnected() && topWire.intersects( s ) ) {
             voltage = topWire.getVoltage();
         }
-        else if ( bottomWire.intersects( s ) ) {
+        else if ( isBatteryConnected() && bottomWire.intersects( s ) ) {
             voltage = bottomWire.getVoltage();
+        }
+        if ( isBatteryConnected() && battery.topTerminalIntersects( s ) ) {
+            voltage = battery.getVoltage();
         }
         else if ( capacitor.intersectsTopPlateShape( s ) ) {
             voltage = getPlatesVoltage();
         }
         else if ( capacitor.intersectsBottomPlateShape( s ) ) {
             voltage = 0;
-        }
-        else if ( battery.topTerminalIntersects( s ) ) {
-            voltage = battery.getVoltage();
         }
         return voltage;
     }
