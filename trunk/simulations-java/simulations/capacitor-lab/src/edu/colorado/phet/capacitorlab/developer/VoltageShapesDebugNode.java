@@ -8,6 +8,7 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
@@ -39,20 +40,30 @@ public class VoltageShapesDebugNode extends PComposite {
         // battery
         {
             final Battery battery = model.getBattery();
+            final BatteryCapacitorCircuit circuit = model.getCircuit();
             final BatteryShapeFactory shapeFactory = new BatteryShapeFactory( battery, mvt );
             
+            final PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
             if ( SHOW_BATTERY_BODY ) {
-                PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
                 addChild( bodyNode );
             }
+            bodyNode.setVisible( circuit.isBatteryConnected() );
 
             final PPath topTerminalNode = new PhetPPath( shapeFactory.createTopTerminalShape(), STROKE, STROKE_COLOR );
             addChild( topTerminalNode );
+            topTerminalNode.setVisible( circuit.isBatteryConnected() );
             
             // set top terminal shape to match polarity
             battery.addPolarityObserver( new SimpleObserver() {
                 public void update() {
                     topTerminalNode.setPathTo( shapeFactory.createTopTerminalShape() );
+                }
+            } );
+            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
+                @Override
+                public void batteryConnectedChanged() {
+                    bodyNode.setVisible( circuit.isBatteryConnected() );
+                    topTerminalNode.setVisible( circuit.isBatteryConnected() );
                 }
             } );
         }
@@ -82,13 +93,17 @@ public class VoltageShapesDebugNode extends PComposite {
         
         // wires
         {
+            final BatteryCapacitorCircuit circuit = model.getCircuit();
+            
             final Wire topWire = model.getTopWire();
             final PPath topWireNode = new PhetPPath( topWire.getShape(), STROKE, STROKE_COLOR );
             addChild( topWireNode );
+            topWireNode.setVisible( circuit.isBatteryConnected() );
             
             final Wire bottomWire = model.getBottomWire();
             final PPath bottomWireNode = new PhetPPath( bottomWire.getShape(), STROKE, STROKE_COLOR );
             addChild( bottomWireNode );
+            bottomWireNode.setVisible( circuit.isBatteryConnected() );
             
             topWire.addShapeObserver( new SimpleObserver() {
                 public void update() {
@@ -99,6 +114,14 @@ public class VoltageShapesDebugNode extends PComposite {
             bottomWire.addShapeObserver( new SimpleObserver() {
                 public void update() {
                     bottomWireNode.setPathTo( bottomWire.getShape() );
+                }
+            } );
+            
+            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
+                @Override
+                public void batteryConnectedChanged() {
+                    topWireNode.setVisible( circuit.isBatteryConnected() );
+                    bottomWireNode.setVisible( circuit.isBatteryConnected() );
                 }
             } );
         }
