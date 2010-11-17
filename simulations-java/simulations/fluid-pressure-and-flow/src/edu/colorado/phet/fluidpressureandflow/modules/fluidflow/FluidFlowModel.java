@@ -24,7 +24,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private Random random = new Random();
     private ArrayList<Function1<Particle, Void>> particleAddedObservers = new ArrayList<Function1<Particle, Void>>();
     private ArrayList<Function1<FoodColoring, Void>> foodColoringObservers = new ArrayList<Function1<FoodColoring, Void>>();
-    private VelocitySensor velocitySensor = new VelocitySensor( 0, 0, this );
+    private VelocitySensor velocitySensor0 = new VelocitySensor( 0, 0, this );
+    private VelocitySensor velocitySensor1 = new VelocitySensor( -1, 1, this );
     private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
@@ -146,8 +147,12 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         pipe.addShapeChangeListener( updatePressure );
     }
 
-    public VelocitySensor getVelocitySensor() {
-        return velocitySensor;
+    public VelocitySensor getVelocitySensor0() {
+        return velocitySensor0;
+    }
+
+    public VelocitySensor getVelocitySensor1() {
+        return velocitySensor1;
     }
 
     public Property<Boolean> getDropperOnProperty() {
@@ -166,7 +171,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     public void reset() {
         super.reset();
         pipe.reset();
-        velocitySensor.reset();
+        velocitySensor0.reset();
         dropperOnProperty.reset();
         dropperOnProperty.reset();
         //TODO: remove particle and food coloring
