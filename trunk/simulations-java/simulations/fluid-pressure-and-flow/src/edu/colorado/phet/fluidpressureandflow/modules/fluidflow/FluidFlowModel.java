@@ -178,7 +178,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     }
 
     public void addDrop() {
-        final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe );
+        double dropRadius = 0.1;
+        final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe, dropRadius );
         particles.add( newParticle );
         for ( Function1<Particle, Void> particleAddedObserver : particleAddedObservers ) {
             particleAddedObserver.apply( newParticle );

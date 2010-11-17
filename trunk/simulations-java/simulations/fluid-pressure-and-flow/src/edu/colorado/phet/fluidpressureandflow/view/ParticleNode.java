@@ -14,7 +14,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ParticleNode extends PNode {
     public ParticleNode( final ModelViewTransform2D transform, final Particle p ) {
-        addChild( new PhetPPath( new Ellipse2D.Double( -10, -10, 20, 20 ), Color.red ) );
+        double viewRadius = transform.modelToViewDifferentialXDouble( p.getRadius() );
+        addChild( new PhetPPath( new Ellipse2D.Double( -viewRadius, -viewRadius, viewRadius*2, viewRadius*2), Color.red ) );
         p.addObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( p.getX(), p.getY() ) );
