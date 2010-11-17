@@ -4,6 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -11,13 +13,15 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.Function0;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * @author Sam Reid
  */
 public class InsideMagnetsModel {
     Random random = new Random();
-    private Property<Lattice<Cell>> latticeProperty;
+    private Lattice<Cell> lattice;
     private IClock clock = new ConstantDtClock( 30 );
     private double time = 0;
     private ImmutableVector2D J = new ImmutableVector2D( -1, -1 );
@@ -27,13 +31,14 @@ public class InsideMagnetsModel {
     private Property<Double> temperature = new Property<Double>( 0.01 );//Beta = 1/temperature
     private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
     private Property<ImmutableVector2D> netMagnetizationProperty=new Property<ImmutableVector2D>( new ImmutableVector2D( ));
+    private SimpleObservable stepListeners=new SimpleObservable();
 
     public InsideMagnetsModel() {
-        this.latticeProperty = new Property<Lattice<Cell>>( new Lattice<Cell>( 20, 10, new Function0<Cell>() {
+        lattice = new Lattice<Cell>( 20, 10, new Function0<Cell>() {
             public Cell apply() {
                 return new Cell();
             }
-        } ) );
+        } );
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 update( clockEvent.getSimulationTimeChange() );
@@ -46,27 +51,15 @@ public class InsideMagnetsModel {
 //   The outputted omega array is omega advanced one time step dt, for
 //   Langevin dynamics.  The sx and sy arrays are not modified.
     private void torque( double dt ) {
-        //  int i,nbr1,nbr2,nbr3,nbr4;
-
         double Irot = 1;//rotational inertia
-        double KK = 0.0;    /* boundary anisotropy term. */
-        double sigomega;  /* variance of the random velocity changes.	   */
-        double dtI;        /* time step divided by rotational inertia. */
-        double dtg;        /* time step multiplied by damping.  */
-        double domega;    /* change in rotational speed of a site. */
-
         double gam = 1.0;            /* damping of Langevin dynamics. passed to difeq.*/
         double sigtau = Math.sqrt( 2.0 * gam * Irot * temperature.getValue() );
-        sigomega = sigtau * Math.sqrt( dt ) / Irot;
-        dtI = dt / Irot;
-        dtg = dt * gam;
-
-//  if(bc==2 || bc==3)
-        KK = 2.0 * Ka; /* for anisotropic edge forces. */
+        double sigomega = sigtau * Math.sqrt( dt ) / Irot;/* variance of the random velocity changes.	   */
+        double dtI = dt / Irot;/* time step divided by rotational inertia. */
+        double dtg = dt * gam;/* time step multiplied by damping.  */
 
         for ( int x = 0; x < getLatticeWidth(); x++ ) {
             for ( int y = 0; y < getLatticeHeight(); y++ ) {
-//                ArrayList<Cell> neighborCells = getLattice().getNeighborValues( new Point( x, y ) );
                 ArrayList<Point> neighborCells = getLattice().getNeighborCells( new Point( x, y ) );
                 ImmutableVector2D sum = new ImmutableVector2D( 0, 0 );
                 for ( Point neighborCell : neighborCells ) {
@@ -80,9 +73,8 @@ public class InsideMagnetsModel {
                 double sx = getLattice().getValue( x, y ).getSpinVector().getX();
                 double sy = getLattice().getValue( x, y ).getSpinVector().getY();
                 double omega = getLattice().getValue( x, y ).omega;
-                domega = ( gx * sy - gy * sx ) * dtI;  /* is multiplied by dt, divided by Irot. */
+                double domega = ( gx * sy - gy * sx ) * dtI;  /* is multiplied by dt, divided by Irot. *//* change in rotational speed of a site. */
 
-                /* if(i==1 || i==2) printf("torque: domega[%d]= %17.10e\n",i,domega); */
                 double rangauss = random.nextGaussian();
                 if ( gam > 0.001 )  /* include Langevin terms in acceleration equation. */ {
                     domega += sigomega * rangauss - dtg * omega;
@@ -92,21 +84,14 @@ public class InsideMagnetsModel {
             }
         }
     }
-///*
-
-    private ImmutableVector2D randomVector() {
-        return new ImmutableVector2D( random.nextDouble() * 2 - 1, random.nextDouble() * 2 - 1 );
-    }
 
     public void update( double dt ) {
-        latticeProperty.setValue( updateLattice( latticeProperty.getValue(), dt ) );
-
-        latticeProperty.notifyObservers();
+        updateLattice( dt );
         this.time = time + dt;
+        stepListeners.notifyObservers();
     }
 
-    private Lattice<Cell> updateLattice( Lattice<Cell> previousLattice, double dt ) {
-
+    private void updateLattice( double dt ) {
         //Update the dipole field everywhere in the lattice
         for ( int x = 0; x < getLatticeWidth(); x++ ) {
             for ( int y = 0; y < getLatticeHeight(); y++ ) {
@@ -170,7 +155,6 @@ The tmp arrays hold positions at t+0.5*dt.          */
         }
 
         netMagnetizationProperty.setValue( getNetMagnetization() );
-        return getLattice();
     }
 
     private double getOmega( int x, int y ) {
@@ -187,24 +171,20 @@ The tmp arrays hold positions at t+0.5*dt.          */
         }
     }
 
-    public Property<Lattice<Cell>> getLatticeProperty() {
-        return latticeProperty;
-    }
-
     public IClock getClock() {
         return clock;
     }
 
     public int getLatticeWidth() {
-        return latticeProperty.getValue().getWidth();
+        return lattice.getWidth();
     }
 
     public int getLatticeHeight() {
-        return latticeProperty.getValue().getHeight();
+        return lattice.getHeight();
     }
 
     public Lattice<Cell> getLattice() {
-        return latticeProperty.getValue();
+        return lattice;
     }
 
     public Property<ImmutableVector2D> getExternalMagneticField() {
@@ -264,5 +244,9 @@ The tmp arrays hold positions at t+0.5*dt.          */
 
     public Property<ImmutableVector2D> getNetMagnetizationProperty() {
         return netMagnetizationProperty;
+    }
+
+    public void addStepListener( SimpleObserver simpleObserver ) {
+        stepListeners.addObserver(simpleObserver);
     }
 }
