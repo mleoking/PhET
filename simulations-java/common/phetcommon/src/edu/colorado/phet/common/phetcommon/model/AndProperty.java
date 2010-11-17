@@ -4,7 +4,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Returns a boolean AND over Property arguments
+ * Returns a boolean AND over Property arguments.  This provides read-only access;
+ * calling setValue on this AndProperty doesn't propagate back to the original properties.
  *
  * @author Sam Reid
  */
