@@ -27,7 +27,7 @@ public class Model {
     var timeStep: Number;	//time step in seconds
     var msTimer: Timer;		//millisecond timer
     var colliding: Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
-    var playing: Boolean;	//true if motion is playing, false if paused
+    public var playing: Boolean;	//true if motion is playing, false if paused
     public var singleStepping: Boolean; //true if singleStepping forward or backward
     public var soundOn: Boolean;	//true if sound enabled
     public var sounding: Boolean;	//true if click sound is to be played, click sound during collision
