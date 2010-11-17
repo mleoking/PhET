@@ -18,10 +18,11 @@ public class Particle {
     private ArrayList<Function0> listeners = new ArrayList<Function0>();
     private double radius;
 
-    public Particle( double x, double fractionUpPipe, Pipe container) {
-        this(x,fractionUpPipe, container,0.1);
+    public Particle( double x, double fractionUpPipe, Pipe container ) {
+        this( x, fractionUpPipe, container, 0.1 );
     }
-    public Particle( double x, double fractionUpPipe, Pipe container,double radius ) {
+
+    public Particle( double x, double fractionUpPipe, Pipe container, double radius ) {
         this.x = x;
         this.fractionUpPipe = fractionUpPipe;
         this.container = container;
