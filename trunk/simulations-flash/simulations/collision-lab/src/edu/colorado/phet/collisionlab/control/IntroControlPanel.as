@@ -3,7 +3,6 @@ import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.MainView;
 
 import fl.controls.CheckBox;
-import fl.controls.RadioButton;
 import fl.controls.Slider;
 
 import flash.display.MovieClip;
@@ -22,10 +21,6 @@ public class IntroControlPanel extends ControlPanel {
 
     override public function get sub_cmIcon(): CenterOfMass { return cmIcon; }
 
-    override public function get sub_oneD_rb(): RadioButton { return oneD_rb; }
-
-    override public function get sub_twoD_rb(): RadioButton { return twoD_rb; }
-
     override public function get sub_showVelocities_cb(): CheckBox { return showVelocities_cb; }
 
     override public function get sub_showMomentumVectors_cb(): CheckBox { return showMomentumVectors_cb; }
@@ -41,10 +36,6 @@ public class IntroControlPanel extends ControlPanel {
     override public function get sub_sound_cb(): CheckBox { return sound_cb; }
 
     override public function get sub_elasticitySlider(): Slider { return elasticitySlider; }
-
-    override public function get sub_oneD_txt(): TextField { return oneD_txt; }
-
-    override public function get sub_twoD_txt(): TextField { return twoD_txt; }
 
     override public function get sub_showVelocities_label(): TextField { return showVelocities_label; }
 

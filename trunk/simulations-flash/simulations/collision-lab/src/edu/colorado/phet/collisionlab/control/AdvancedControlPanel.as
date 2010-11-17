@@ -1,13 +1,16 @@
 package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.MainView;
+import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import fl.controls.CheckBox;
 import fl.controls.RadioButton;
 import fl.controls.Slider;
 
 import flash.display.MovieClip;
+import flash.events.MouseEvent;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 
 //This class is associated with Flash Library Symbol controlPanel, so "this" is the controlPanel Library Symbol
 
@@ -16,15 +19,39 @@ public class AdvancedControlPanel extends ControlPanel {
         super( myModel, myMainView );
     }
 
+
+    override protected function resetAll(): void {
+        super.resetAll();
+
+        this.sub_twoD_rb.selected = true;
+    }
+
+    override public function initializeComponents(): void {
+        super.initializeComponents();
+
+        this.sub_oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_oneD_rb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {switchToOneDimension()} );
+        this.sub_twoD_rb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {switchToTwoDimensions()} );
+    }
+
+
+    override public function initializeStrings(): void {
+        super.initializeStrings();
+
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
+    }
+
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }
 
     override public function get sub_background(): MovieClip { return background; }
 
     override public function get sub_cmIcon(): CenterOfMass { return cmIcon; }
 
-    override public function get sub_oneD_rb(): RadioButton { return oneD_rb; }
+    public function get sub_oneD_rb(): RadioButton { return oneD_rb; }
 
-    override public function get sub_twoD_rb(): RadioButton { return twoD_rb; }
+    public function get sub_twoD_rb(): RadioButton { return twoD_rb; }
 
     override public function get sub_showVelocities_cb(): CheckBox { return showVelocities_cb; }
 
@@ -42,9 +69,9 @@ public class AdvancedControlPanel extends ControlPanel {
 
     override public function get sub_elasticitySlider(): Slider { return elasticitySlider; }
 
-    override public function get sub_oneD_txt(): TextField { return oneD_txt; }
+    public function get sub_oneD_txt(): TextField { return oneD_txt; }
 
-    override public function get sub_twoD_txt(): TextField { return twoD_txt; }
+    public function get sub_twoD_txt(): TextField { return twoD_txt; }
 
     override public function get sub_showVelocities_label(): TextField { return showVelocities_label; }
 

@@ -5,18 +5,24 @@ import edu.colorado.phet.collisionlab.view.MainView;
 
 import flash.display.DisplayObjectContainer;
 
-public class IntroModule {
+public class IntroModule extends CollisionLabModule {
     var myModel: Model;
     var myMainView: MainView;
 
     public function IntroModule() {
         myModel = new Model();
-        myMainView = new IntroView( myModel, 950, 700 );
+        myMainView = new IntroView( myModel, this, 950, 700 );
     }
 
-    public function attach( parent: DisplayObjectContainer ): void {
+    override public function resetAll(): void {
+        myMainView.controlPanel.switchToOneDimension();
+    }
+
+    override public function attach( parent: DisplayObjectContainer ): void {
         parent.addChild( myMainView );
         myMainView.initialize();
+
+        myMainView.controlPanel.switchToOneDimension();
     }
 }
 }

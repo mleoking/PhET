@@ -6,8 +6,6 @@ import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import fl.controls.CheckBox;
-import fl.controls.RadioButton;
-import fl.controls.RadioButtonGroup;
 import fl.controls.Slider;
 import fl.events.*;
 import fl.managers.StyleManager;
@@ -46,9 +44,6 @@ public class ControlPanel extends Sprite {
     private var resetButton: NiceButton;
     public var showCMOn: Boolean;
 
-    private static var groupName: String = "pad";
-
-
     public function ControlPanel( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         this.myMainView = myMainView;
@@ -85,24 +80,12 @@ public class ControlPanel extends Sprite {
 
         initializeStrings();
 
-        // make the radio buttons have different groups across different tabs TODO: fix this, not working?!? egad!
-        var oneDimensionRadioButton: RadioButton = this.sub_oneD_rb;
-        var twoDimensionRadioButton: RadioButton = this.sub_twoD_rb;
-        var group: RadioButtonGroup = new RadioButtonGroup( groupName );
-        trace( groupName );
-        groupName += "Pad";
-        oneDimensionRadioButton.group = group;
-        twoDimensionRadioButton.group = group;
 
-        this.sub_oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.sub_twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showMomentumVectors_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.sub_oneD_rb.addEventListener( MouseEvent.CLICK, oneDModeOn );
-        this.sub_twoD_rb.addEventListener( MouseEvent.CLICK, oneDModeOff );
         this.sub_showVelocities_cb.addEventListener( MouseEvent.CLICK, showVelocityArrows );
         this.sub_showMomentumVectors_cb.addEventListener( MouseEvent.CLICK, showMomentumArrows );
         this.sub_showCM_cb.addEventListener( MouseEvent.CLICK, showCM );
@@ -122,8 +105,6 @@ public class ControlPanel extends Sprite {
     //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
@@ -143,7 +124,7 @@ public class ControlPanel extends Sprite {
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()
 
-    public function oneDModeOn( evt: MouseEvent ): void {
+    public function switchToOneDimension(): void {
         this.myModel.setOneDMode( true );
         this.myMainView.myTableView.myTrajectories.setBorderHeight();
         this.myMainView.myTableView.myTrajectories.erasePaths();
@@ -151,7 +132,7 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.reDrawBorder();
     }
 
-    public function oneDModeOff( evt: MouseEvent ): void {
+    public function switchToTwoDimensions(): void {
         this.myModel.setOneDMode( false );
         this.myMainView.myTableView.myTrajectories.setBorderHeight();
         this.myMainView.myTableView.reDrawBorder();
@@ -164,12 +145,11 @@ public class ControlPanel extends Sprite {
         this.myMainView.momentumView.visible = evt.target.selected;
     }
 
-    private function resetAll(): void {
+    protected function resetAll(): void {
         this.myModel.resetAll();
         this.myMainView.myTableView.reDrawBorder();
         this.myMainView.myDataTable.checkBallNbrLimits();
         this.myMainView.myTableView.playButtons.resetAllCalled();
-        this.sub_twoD_rb.selected = true;
         this.sub_showVelocities_cb.selected = true;
         this.myMainView.myTableView.showArrowsOnBallImages( true );
         this.sub_showMomentumVectors_cb.selected = false;
@@ -198,6 +178,8 @@ public class ControlPanel extends Sprite {
         this.sub_elasticitySlider.value = 1;
         this.myModel.setElasticity( 1 );
         this.sub_elasticityValueLabel.text = this.myModel.e.toFixed( 2 );
+
+        myMainView.module.resetAll(); // TODO: convert to where this is the main reset
     }
 
     public function showVelocityArrows( evt: MouseEvent ): void {
@@ -270,9 +252,9 @@ public class ControlPanel extends Sprite {
 
     public function get sub_cmIcon(): CenterOfMass { throw new Error( "abstract" ); }
 
-    public function get sub_oneD_rb(): RadioButton { throw new Error( "abstract" ); }
+    //public function get sub_oneD_rb(): RadioButton { throw new Error( "abstract" ); }
 
-    public function get sub_twoD_rb(): RadioButton { throw new Error( "abstract" ); }
+    //public function get sub_twoD_rb(): RadioButton { throw new Error( "abstract" ); }
 
     public function get sub_showVelocities_cb(): CheckBox { throw new Error( "abstract" ); }
 
@@ -290,9 +272,9 @@ public class ControlPanel extends Sprite {
 
     public function get sub_elasticitySlider(): Slider { throw new Error( "abstract" ); }
 
-    public function get sub_oneD_txt(): TextField { throw new Error( "abstract" ); }
+    //public function get sub_oneD_txt(): TextField { throw new Error( "abstract" ); }
 
-    public function get sub_twoD_txt(): TextField { throw new Error( "abstract" ); }
+    //public function get sub_twoD_txt(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_showVelocities_label(): TextField { throw new Error( "abstract" ); }
 
