@@ -6,11 +6,9 @@ import edu.colorado.phet.collisionlab.view.MainView;
 import flash.display.DisplayObjectContainer;
 
 public class AdvancedModule extends CollisionLabModule {
-    var myModel: Model;
     var myMainView: MainView;
 
     public function AdvancedModule() {
-        myModel = new Model();
         myMainView = new AdvancedView( myModel, this, 950, 700 );
     }
 

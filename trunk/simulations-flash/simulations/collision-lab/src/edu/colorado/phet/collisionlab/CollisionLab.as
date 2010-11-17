@@ -45,10 +45,14 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
             if ( tabBar.selectedTab == introTab ) {
                 introHolder.visible = true;
                 advancedHolder.visible = false;
+                introModule.onShow();
+                advancedModule.onHide();
             }
             else { // advanced tab
                 introHolder.visible = false;
                 advancedHolder.visible = true;
+                introModule.onHide();
+                advancedModule.onShow();
             }
         } );
         addChild( tabBar );
