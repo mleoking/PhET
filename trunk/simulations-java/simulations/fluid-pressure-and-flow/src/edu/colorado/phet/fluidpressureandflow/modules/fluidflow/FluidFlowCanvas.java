@@ -81,7 +81,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new ResetButton( module ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
         }} );
-        addControls( controlPanelNode, new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
+        addControls( new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
+
+        //Some nodes go behind the pool so that it looks like they submerge
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
+        addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), rulerModelOrigin ) );
+        addChild( new EnglishRuler( transform, module.getYardStickVisibleProperty(), rulerModelOrigin ) );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {

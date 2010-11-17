@@ -30,10 +30,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         }
-
         //Some nodes go behind the pool so that it looks like they submerge
-        addChild( new MeterStick( transform, module.getFluidPressureAndFlowModel().getPool(), module.getMeterStickVisibleProperty() ) );
-        addChild( new EnglishRuler( transform, module.getFluidPressureAndFlowModel().getPool(), module.getYardStickVisibleProperty() ) );
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( module.getFluidPressureAndFlowModel().getPool().getMinX(), module.getFluidPressureAndFlowModel().getPool().getMinY() );
+        addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), rulerModelOrigin ) );
+        addChild( new EnglishRuler( transform, module.getYardStickVisibleProperty(), rulerModelOrigin ) );
+
         final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getLiquidDensityProperty() );
 
         addChild( poolNode );
@@ -46,6 +47,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new ResetButton( module ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
         }} );
-        addControls( controlPanelNode, new Point2D.Double( poolNode.getFullBounds().getMinX(), poolNode.getFullBounds().getMaxY() ) );
+        addControls( new Point2D.Double( poolNode.getFullBounds().getMinX(), poolNode.getFullBounds().getMaxY() ) );
     }
+
 }
