@@ -1,1 +1,2 @@
+Added model from "rotor" implementation
 # 0.00.01 (46197) Nov 15, 2010
