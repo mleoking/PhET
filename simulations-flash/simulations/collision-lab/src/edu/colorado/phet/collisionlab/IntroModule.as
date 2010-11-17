@@ -24,5 +24,9 @@ public class IntroModule extends CollisionLabModule {
 
         myMainView.controlPanel.switchToOneDimension();
     }
+
+    override public function allowAddRemoveBalls(): Boolean {
+        return false;
+    }
 }
 }

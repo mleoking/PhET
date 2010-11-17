@@ -116,8 +116,10 @@ public class DataTable extends Sprite {
         this.lessDataButton = new NiceButton( this.lessDataButton_sp, 90, toggleDataButton );
         this.initializeStrings();
         //don't put buttons on canvas, since want buttons stationary when canvas resizes
-        this.addChild( this.addBallButton_sp );
-        this.addChild( this.removeBallButton_sp );
+        if ( myMainView.module.allowAddRemoveBalls() ) {
+            this.addChild( this.addBallButton_sp );
+            this.addChild( this.removeBallButton_sp );
+        }
         this.addChild( this.moreDataButton_sp );
         this.addChild( this.lessDataButton_sp );
         this.lessDataButton_sp.visible = false;

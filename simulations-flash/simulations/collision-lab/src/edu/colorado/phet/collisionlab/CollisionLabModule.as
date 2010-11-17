@@ -9,5 +9,9 @@ public class CollisionLabModule {
     public function resetAll(): void { throw new Error( "abstract" ); } // TODO: called from control panel. should be handled mainly here?
 
     public function attach( parent: DisplayObjectContainer ): void { throw new Error( "abstract" ); }
+
+    public function allowAddRemoveBalls(): Boolean {
+        return true;
+    }
 }
 }
