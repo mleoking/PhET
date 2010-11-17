@@ -34,12 +34,11 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     private final PNode rootNode;
     private final FluidPressureAndFlowModule<T> module;
 
-    public FluidPressureAndFlowCanvas( final FluidPressureAndFlowModule module ) {
+    public FluidPressureAndFlowCanvas( final FluidPressureAndFlowModule module, ModelViewTransform2D transform ) {
         this.module = module;
+        this.transform = transform;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
-        double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
-        double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
-        transform = new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true );
+
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );

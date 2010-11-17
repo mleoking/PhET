@@ -2,8 +2,11 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 
@@ -13,8 +16,11 @@ import edu.colorado.phet.fluidpressureandflow.view.*;
 public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
     private FluidPressureModule module;
 
+    private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
+    private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
+
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( module );
+        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
         this.module = module;
 
         addChild( new GroundNode( transform ) );

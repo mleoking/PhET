@@ -1,3 +1,4 @@
+Centered pipe on flow tab
 Added reset all
 Fixed: Pressure gauges should read "?" when underground
 Fixed: Gravity slider should have correct title and units
