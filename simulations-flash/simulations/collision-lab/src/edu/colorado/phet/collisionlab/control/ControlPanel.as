@@ -5,8 +5,10 @@ import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
+import fl.controls.CheckBox;
 import fl.controls.RadioButton;
 import fl.controls.RadioButtonGroup;
+import fl.controls.Slider;
 import fl.events.*;
 import fl.managers.StyleManager;
 
@@ -64,16 +66,16 @@ public class ControlPanel extends Sprite {
         //this.changeNbrBallButtons.removeBallButton.addEventListener(MouseEvent.MOUSE_DOWN, removeBall);
         //this.changeNbrBallButtons.addBallButton.buttonMode = true;
         //this.changeNbrBallButtons.removeBallButton.buttonMode = true;
-        this.resetButton = new NiceButton( this.resetButton_sp, 80, resetAll );
+        this.resetButton = new NiceButton( this.sub_resetButton_sp, 80, resetAll );
         //var nbrString:String = String(this.nbrBalls);
         //this.changeNbrBallButtons.nbrReadout.text = nbrString;
-        this.elasticityValueLabel.text = "1.00";
+        this.sub_elasticityValueLabel.text = "1.00";
         //this.background.border.buttonMode = true;
         //if(this.myModel.nbrBalls == 1){
         //this.changeNbrBallButtons.removeBallButton.visible = false;
         //}
         this.showCMOn = true;
-        Util.makePanelDraggableWithBorder( this, this.background.border );
+        Util.makePanelDraggableWithBorder( this, this.sub_background.border );
     }
 
     public function initializeComponents(): void {
@@ -84,32 +86,32 @@ public class ControlPanel extends Sprite {
         initializeStrings();
 
         // make the radio buttons have different groups across different tabs TODO: fix this, not working?!? egad!
-        var oneDimensionRadioButton: RadioButton = this.oneD_rb;
-        var twoDimensionRadioButton: RadioButton = this.twoD_rb;
+        var oneDimensionRadioButton: RadioButton = this.sub_oneD_rb;
+        var twoDimensionRadioButton: RadioButton = this.sub_twoD_rb;
         var group: RadioButtonGroup = new RadioButtonGroup( groupName );
         trace( groupName );
         groupName += "Pad";
         oneDimensionRadioButton.group = group;
         twoDimensionRadioButton.group = group;
 
-        this.oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.showMomentumVectors_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.oneD_rb.addEventListener( MouseEvent.CLICK, oneDModeOn );
-        this.twoD_rb.addEventListener( MouseEvent.CLICK, oneDModeOff );
-        this.showVelocities_cb.addEventListener( MouseEvent.CLICK, showVelocityArrows );
-        this.showMomentumVectors_cb.addEventListener( MouseEvent.CLICK, showMomentumArrows );
-        this.showCM_cb.addEventListener( MouseEvent.CLICK, showCM );
-        this.reflectingBorder_cb.addEventListener( MouseEvent.CLICK, borderOnOrOff );
-        this.showMomenta_cb.addEventListener( MouseEvent.CLICK, momentaDiagramOnOrOff );
-        this.showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
-        this.sound_cb.addEventListener( MouseEvent.CLICK, soundOnOrOff );
+        this.sub_oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_showMomentumVectors_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_oneD_rb.addEventListener( MouseEvent.CLICK, oneDModeOn );
+        this.sub_twoD_rb.addEventListener( MouseEvent.CLICK, oneDModeOff );
+        this.sub_showVelocities_cb.addEventListener( MouseEvent.CLICK, showVelocityArrows );
+        this.sub_showMomentumVectors_cb.addEventListener( MouseEvent.CLICK, showMomentumArrows );
+        this.sub_showCM_cb.addEventListener( MouseEvent.CLICK, showCM );
+        this.sub_reflectingBorder_cb.addEventListener( MouseEvent.CLICK, borderOnOrOff );
+        this.sub_showMomenta_cb.addEventListener( MouseEvent.CLICK, momentaDiagramOnOrOff );
+        this.sub_showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
+        this.sub_sound_cb.addEventListener( MouseEvent.CLICK, soundOnOrOff );
         //this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
-        this.elasticitySlider.addEventListener( SliderEvent.CHANGE, setElasticity );
+        this.sub_elasticitySlider.addEventListener( SliderEvent.CHANGE, setElasticity );
 
     }
 
@@ -120,23 +122,23 @@ public class ControlPanel extends Sprite {
     //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", oneD_txt, oneD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", twoD_txt, twoD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showVelocities", "Velocity Vectors", showVelocities_label, showVelocities_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", showMomentumVectors_label, showMomentumVectors_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", showCM_label, showCM_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.reflectingBorder", "Reflecting Border", reflectingBorder_label, reflectingBorder_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.momentaDiagram", "Momenta Diagram", showMomenta_label, showMomenta_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showPaths", "Show Paths", showPaths_label, showPaths_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.sound", "Sound", sound_label, sound_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
 
         resetButton.setLabel( SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.resetAll", "Reset All" ) );
         // this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
         //this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
         //this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
-        this.elasticityLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.elasticity", "Elasticity" );
-        this.zeroPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.zeroPercent", "0%" );
-        this.oneHundredPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.oneHundredPercent", "100%" );
+        this.sub_elasticityLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.elasticity", "Elasticity" );
+        this.sub_zeroPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.zeroPercent", "0%" );
+        this.sub_oneHundredPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.oneHundredPercent", "100%" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()
@@ -167,20 +169,20 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.reDrawBorder();
         this.myMainView.myDataTable.checkBallNbrLimits();
         this.myMainView.myTableView.playButtons.resetAllCalled();
-        this.twoD_rb.selected = true;
-        this.showVelocities_cb.selected = true;
+        this.sub_twoD_rb.selected = true;
+        this.sub_showVelocities_cb.selected = true;
         this.myMainView.myTableView.showArrowsOnBallImages( true );
-        this.showMomentumVectors_cb.selected = false;
+        this.sub_showMomentumVectors_cb.selected = false;
         this.myMainView.myTableView.showPArrowsOnBallImages( false );
-        this.showCM_cb.selected = true;
+        this.sub_showCM_cb.selected = true;
         this.myMainView.myTableView.CM.visible = true;
-        this.reflectingBorder_cb.selected = true;
+        this.sub_reflectingBorder_cb.selected = true;
         //this.myModel.setReflectingBorder(true); //done in Model.resetAll();
-        this.showMomenta_cb.selected = false;
+        this.sub_showMomenta_cb.selected = false;
         this.myMainView.momentumView.visible = false;
-        this.showPaths_cb.selected = false;
+        this.sub_showPaths_cb.selected = false;
         this.myMainView.myTableView.myTrajectories.pathsOff();
-        this.sound_cb.selected = false;
+        this.sub_sound_cb.selected = false;
         this.myModel.soundOn = false;
         //var nbrBalls_str:String = String(this.myModel.nbrBalls);
         //this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
@@ -193,9 +195,9 @@ public class ControlPanel extends Sprite {
         //this.timeRateSlider.value = 0.5;
         //this.myModel.setTimeRate(0.5);
         this.myMainView.myTableView.timeRate_slider.value = this.myModel.timeRate;
-        this.elasticitySlider.value = 1;
+        this.sub_elasticitySlider.value = 1;
         this.myModel.setElasticity( 1 );
-        this.elasticityValueLabel.text = this.myModel.e.toFixed( 2 );
+        this.sub_elasticityValueLabel.text = this.myModel.e.toFixed( 2 );
     }
 
     public function showVelocityArrows( evt: MouseEvent ): void {
@@ -209,7 +211,7 @@ public class ControlPanel extends Sprite {
 
     private function showCM( evt: MouseEvent ): void {
         this.showCMOn = evt.target.selected;
-        this.cmIcon.visible = evt.target.selected;
+        this.sub_cmIcon.visible = evt.target.selected;
         if ( myModel.nbrBalls > 1 ) {
             this.myMainView.myTableView.CM.visible = evt.target.selected;
         }
@@ -249,7 +251,7 @@ public class ControlPanel extends Sprite {
         trace( "elasticity = " + evt.target.value )
         this.myModel.setElasticity( evt.target.value );
         var e_str: String = this.myModel.e.toFixed( 2 );//String(evt.target.value);
-        this.elasticityValueLabel.text = e_str;
+        this.sub_elasticityValueLabel.text = e_str;
         //trace("e slider: "+evt.target.value);
     }
 
@@ -257,6 +259,62 @@ public class ControlPanel extends Sprite {
     public function update(): void {
 
     }
+
+    /******************************
+     * All of these should be implemented by subclasses
+     */
+
+    public function get sub_resetButton_sp(): MovieClip { throw new Error( "abstract" ); }
+
+    public function get sub_background(): MovieClip { throw new Error( "abstract" ); }
+
+    public function get sub_cmIcon(): CenterOfMass { throw new Error( "abstract" ); }
+
+    public function get sub_oneD_rb(): RadioButton { throw new Error( "abstract" ); }
+
+    public function get sub_twoD_rb(): RadioButton { throw new Error( "abstract" ); }
+
+    public function get sub_showVelocities_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_showMomentumVectors_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_showCM_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_reflectingBorder_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_showPaths_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_showMomenta_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_sound_cb(): CheckBox { throw new Error( "abstract" ); }
+
+    public function get sub_elasticitySlider(): Slider { throw new Error( "abstract" ); }
+
+    public function get sub_oneD_txt(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_twoD_txt(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_showVelocities_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_showMomentumVectors_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_showCM_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_reflectingBorder_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_showMomenta_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_showPaths_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_sound_label(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_elasticityValueLabel(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_elasticityLabel(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_zeroPercentLabel(): TextField { throw new Error( "abstract" ); }
+
+    public function get sub_oneHundredPercentLabel(): TextField { throw new Error( "abstract" ); }
 
 }//end of class
 }//end of package
