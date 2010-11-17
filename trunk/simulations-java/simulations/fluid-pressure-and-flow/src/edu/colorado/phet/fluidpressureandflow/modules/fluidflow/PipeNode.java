@@ -76,7 +76,7 @@ public class PipeNode extends PNode {
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( getParent() );
                         final double dy = transform.viewToModelDifferential( delta ).getY();
-                        if ( controlPoint.distance( oppositeControlPoint ) > 0.5 || movingAway(dy)) {
+                        if ( controlPoint.distance( oppositeControlPoint ) > 0.5 || movingAway( dy ) ) {
                             controlPoint.translate( 0, dy );
                         }
                     }

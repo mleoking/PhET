@@ -25,7 +25,7 @@ public class BucketNode extends PNode {
                 }
             } );
         }} );
-        pswing.setOffset( image.getFullBounds().getWidth(), image.getFullBounds().getHeight()-pswing.getFullBounds().getHeight());
-        addChild( pswing);
+        pswing.setOffset( image.getFullBounds().getWidth(), image.getFullBounds().getHeight() - pswing.getFullBounds().getHeight() );
+        addChild( pswing );
     }
 }

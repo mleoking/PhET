@@ -175,4 +175,21 @@ public class Pipe {
         pipePositions.add( new PipePosition( 4, -3, -1 ) );
         pipePositions.add( new PipePosition( 6, -3, -1 ) );
     }
+
+    /**
+     * Gets the x velocity of a particle, incorporating vertical effects.  If this effect is ignored, then when there is a large
+     * slope in the pipe, particles closer to the edge move much faster (which is physicially incorrect).
+     *
+     * @return
+     */
+    public double getTweakedVx( double x, double y ) {
+        ImmutableVector2D velocity = getVelocity( x, y );
+        ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
+        final double vx = getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() );
+        return vx;
+    }
+
+    public ImmutableVector2D getTweakedVelocity( double x, double y ) {
+        return new ImmutableVector2D( getTweakedVx( x, y ), getVelocity( x, y ).getY() );
+    }
 }

@@ -104,10 +104,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
      * @return
      */
     private boolean updateParticle( double dt, Particle particle ) {
-        double x = particle.getX();
-        ImmutableVector2D velocity = pipe.getVelocity( particle.getX(), particle.getY() );
-        ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
-        double x2 = x + ( pipe.getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() ) ) * dt;
+        double x2 = particle.getX() + pipe.getTweakedVx( particle.getX(), particle.getY() ) * dt;
         if ( x2 >= pipe.getMaxX() ) {
             return true;
         }
@@ -135,7 +132,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
 
     public ImmutableVector2D getVelocity( double x, double y ) {
         if ( pipe.contains( x, y ) ) {
-            return pipe.getVelocity( x, y );//assumes velocity same at all y along a specified x
+            return pipe.getTweakedVelocity( x, y );//assumes velocity same at all y along a specified x
         }
         else {
             return new ImmutableVector2D();
