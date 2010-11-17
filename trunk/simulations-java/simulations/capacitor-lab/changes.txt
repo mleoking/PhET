@@ -1,3 +1,4 @@
+# 0.00.46 (46242) Nov 16, 2010
 11/16/10 fix background for check boxes in E-Field Detector on Windows
 # 0.00.45 (46217) Nov 16, 2010
 11/16/10 dev version with minor fixes and internal changes
