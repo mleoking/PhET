@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 
@@ -19,12 +19,14 @@ import org.lwjgl.util.Dimension;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -41,6 +43,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
     private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
+    private static final double EDGE_TO_ARROW_DISTANCE = 20;
+    private static final double TOP_TO_ARROW_DISTANCE = 30;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -53,8 +57,27 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     public QuadEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ){
 
         // Create the main background shape.
-        PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, PANEL_SIZE.getWidth(),
+        final PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, PANEL_SIZE.getWidth(),
                 PANEL_SIZE.getHeight(), 10, 10), BACKGROUND_COLOR );
+
+        // Add the title.
+        backgroundNode.addChild( new PText("Photon Energy"){{
+            setFont( new PhetFont( 33 ) );
+            setOffset( PANEL_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2, 10 );
+        }});
+
+        // Add the arrows on the right and left sides.
+        // TODO: i18n
+        EnergyArrow leftArrowNode = new EnergyArrow( "Lower", true ){{
+           setOffset( EDGE_TO_ARROW_DISTANCE, TOP_TO_ARROW_DISTANCE );
+        }};
+        backgroundNode.addChild( leftArrowNode );
+        // TODO: i18n
+        EnergyArrow rightArrowNode = new EnergyArrow( "Higher", false ){{
+           setOffset( backgroundNode.getFullBoundsReference().width - getFullBoundsReference().getMaxX() - EDGE_TO_ARROW_DISTANCE,
+                   TOP_TO_ARROW_DISTANCE );
+        }};
+        backgroundNode.addChild( rightArrowNode );
 
         // Add the radio buttons that set the emission frequency.
         JPanel buttonPanel = new JPanel();
@@ -194,6 +217,41 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         private double mapWavelengthToNormalizedXPos( double wavelength ){
             return 1 - Math.log( wavelength / MIN_WAVELENGTH ) / Math.log( MAX_WAVELENGTH / MIN_WAVELENGTH );
+        }
+    }
+
+    private static class EnergyArrow extends PNode {
+
+        private static final double ARROW_LENGTH = 60;
+        private static final double ARROW_HEAD_HEIGHT = 15;
+        private static final double ARROW_HEAD_WIDTH = 30;
+        private static final double ARROW_TAIL_WIDTH = 10;
+
+        public EnergyArrow( String captionText, boolean pointsLeft ){
+
+            PText caption = new PText( captionText );
+            caption.setFont( new PhetFont( 18, true ) );
+            addChild( caption );
+
+            Point2D headPoint, tailPoint;
+            if ( pointsLeft ){
+                // Arrow points to the left.
+                headPoint = new Point2D.Double(0, 0);
+                tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
+                caption.setOffset( ARROW_HEAD_HEIGHT + 10, ARROW_TAIL_WIDTH );
+            }
+            else{
+                // Must point to the right.
+                headPoint = new Point2D.Double(ARROW_LENGTH, 0);
+                tailPoint = new Point2D.Double(0, 0);
+                caption.setOffset( headPoint.getX() - ARROW_HEAD_HEIGHT - caption.getFullBoundsReference().width - 10,
+                        ARROW_TAIL_WIDTH );
+            }
+            ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
+                setPaint( Color.WHITE );
+                setStroke( new BasicStroke( 3 ) );
+            }};
+            addChild( arrowNode );
         }
     }
 }
