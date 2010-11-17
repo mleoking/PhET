@@ -16,11 +16,16 @@ public class Particle {
     private final Pipe container;
     private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
     private ArrayList<Function0> listeners = new ArrayList<Function0>();
+    private double radius;
 
-    public Particle( double x, double fractionUpPipe, Pipe container ) {
+    public Particle( double x, double fractionUpPipe, Pipe container) {
+        this(x,fractionUpPipe, container,0.1);
+    }
+    public Particle( double x, double fractionUpPipe, Pipe container,double radius ) {
         this.x = x;
         this.fractionUpPipe = fractionUpPipe;
         this.container = container;
+        this.radius = radius;
     }
 
     public double getX() {
@@ -59,5 +64,9 @@ public class Particle {
 
     public Point2D getPosition() {
         return new Point2D.Double( getX(), getY() );
+    }
+
+    public double getRadius() {
+        return radius;
     }
 }
