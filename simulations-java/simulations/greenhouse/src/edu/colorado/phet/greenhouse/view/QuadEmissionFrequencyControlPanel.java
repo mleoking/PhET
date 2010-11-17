@@ -11,6 +11,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import org.lwjgl.util.Dimension;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
@@ -19,18 +21,21 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * This is a control panel that is intended for use in the control panel and
+ * that allows the setting of 4 different emission frequencies.
  *
  * @author John Blanco
  */
 public class QuadEmissionFrequencyControlPanel extends PNode {
 
-    private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
-    public static final double REMOVE_ME = 200;
+    private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    public static final Dimension PANEL_SIZE = new Dimension( 800, 150 );
 
     public QuadEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ){
 
         // Create the main background shape.
-        PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, 800, 150, 10, 10), BACKGROUND_COLOR );
+        PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, PANEL_SIZE.getWidth(),
+                PANEL_SIZE.getHeight(), 10, 10), BACKGROUND_COLOR );
 
         // Add the radio buttons that set the emission frequency.
         JPanel buttonPanel = new JPanel();
@@ -44,6 +49,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         buttonPanel.add( new WavelengthSelectButton( "Ultraviolet", model, GreenhouseConfig.uvWavelength ) );
 
         PSwing buttonPanelNode = new PSwing( buttonPanel );
+        buttonPanelNode.setOffset( PANEL_SIZE.getWidth() / 2 - buttonPanelNode.getFullBoundsReference().width / 2,
+                PANEL_SIZE.getHeight() - buttonPanelNode.getFullBounds().height );
 
         // Add everything in the needed order.
         addChild( backgroundNode );
