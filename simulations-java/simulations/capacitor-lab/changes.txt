@@ -1,3 +1,4 @@
+11/16/10 fix background for check boxes in E-Field Detector on Windows
 # 0.00.45 (46217) Nov 16, 2010
 11/16/10 dev version with minor fixes and internal changes
 11/15/10 move createBoxShape to BoxShapeFactory
