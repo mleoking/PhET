@@ -17,7 +17,7 @@ public class ParticleNode extends PNode {
         addChild( new PhetPPath( new Ellipse2D.Double( -10, -10, 20, 20 ), Color.red ) );
         p.addObserver( new SimpleObserver() {
             public void update() {
-                setOffset(  transform.modelToView( p.getX(), p.getY() ));
+                setOffset( transform.modelToView( p.getX(), p.getY() ) );
             }
         } );
     }

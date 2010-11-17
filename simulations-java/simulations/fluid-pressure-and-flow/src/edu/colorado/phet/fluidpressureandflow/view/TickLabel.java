@@ -5,8 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
-* @author Sam Reid
-*/
+ * @author Sam Reid
+ */
 public class TickLabel extends JLabel {
     public TickLabel( String label ) {
         super( label );

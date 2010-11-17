@@ -2,11 +2,9 @@ package edu.colorado.phet.fluidpressureandflow.view;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModel;
 
 /**
  * @author Sam Reid

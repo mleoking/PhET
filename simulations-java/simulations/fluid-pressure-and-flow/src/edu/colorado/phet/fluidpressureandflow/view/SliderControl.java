@@ -9,7 +9,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -19,8 +18,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( String title,String units,double min,double max,final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
-        final PSwing pswing = new PSwing( new LinearValueControl( min,max, property.getValue(), title, "0.00", units ) {
+    public SliderControl( String title, String units, double min, double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
+        final PSwing pswing = new PSwing( new LinearValueControl( min, max, property.getValue(), title, "0.00", units ) {
             {
                 setTickLabels( new Hashtable() {{
                     for ( Double s : tickLabels.keySet() ) {

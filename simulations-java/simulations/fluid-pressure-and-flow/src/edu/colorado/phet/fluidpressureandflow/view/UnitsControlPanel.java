@@ -13,7 +13,7 @@ import edu.colorado.phet.fluidpressureandflow.model.Units;
  */
 public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends PhetTitledPanel {
 
-    public UnitsControlPanel(FluidPressureAndFlowModule<T> module) {
+    public UnitsControlPanel( FluidPressureAndFlowModule<T> module ) {
         super( "Units" );
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         setBackground( FluidPressureControlPanel.BACKGROUND );

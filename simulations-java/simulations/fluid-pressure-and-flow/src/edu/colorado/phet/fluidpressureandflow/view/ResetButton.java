@@ -8,16 +8,16 @@ import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.umd.cs.piccolo.PNode;
 
 /**
-* @author Sam Reid
-*/
+ * @author Sam Reid
+ */
 public class ResetButton extends PNode {
     public ResetButton( final FluidPressureAndFlowModule module ) {
         addChild( new ButtonNode( "Reset all", (int) ( FluidPressureControlPanel.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.BACKGROUND, FluidPressureControlPanel.FOREGROUND ) {{
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.resetAll();
-            }
-        } );
-    }} );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.resetAll();
+                }
+            } );
+        }} );
     }
 }

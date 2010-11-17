@@ -8,7 +8,7 @@ import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 public class FluidFlowModule extends FluidPressureAndFlowModule<FluidFlowModel> {
     public FluidFlowModule() {
         super( "Flow", new FluidFlowModel() );
-        setSimulationPanel( new FluidFlowCanvas(this) );
+        setSimulationPanel( new FluidFlowCanvas( this ) );
     }
 
     public FluidFlowModel getFluidFlowModel() {
