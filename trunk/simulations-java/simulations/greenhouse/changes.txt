@@ -1,3 +1,6 @@
+Created the spectrum representation for the control panel in Molecules & Light
+Added the control panel for controlling the photon emitter in Molecules & Light
+Added the new photon emitter types for Molecules & Light (UV & Microwave)
 # 3.01.02 (45790) Nov 7, 2010
 > Fixed a bug that prevented photons from reflecting from ice
 # 3.01.01 (45785) Nov 5, 2010
