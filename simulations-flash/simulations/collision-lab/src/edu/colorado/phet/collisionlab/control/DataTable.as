@@ -188,22 +188,22 @@ public class DataTable extends Sprite {
 
     //following function to be altered during internationalization
     public function initializeStrings(): void {
-        this.addBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.addBall", "Add Ball" );
-        this.removeBall_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.removeBall", "Remove Ball" );
+        this.addBall_str = SimStrings.get( "DataTable.addBall", "Add Ball" );
+        this.removeBall_str = SimStrings.get( "DataTable.removeBall", "Remove Ball" );
         this.addBallButton.setLabel( this.addBall_str );
         this.removeBallButton.setLabel( this.removeBall_str );
-        this.moreData_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.moreData", "More Data" );
-        this.lessData_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.lessData", "Less Data" );
+        this.moreData_str = SimStrings.get( "DataTable.moreData", "More Data" );
+        this.lessData_str = SimStrings.get( "DataTable.lessData", "Less Data" );
         this.moreDataButton.setLabel( this.moreData_str );
         this.lessDataButton.setLabel( this.lessData_str );
-        this.ball_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.ball", "ball" );
-        this.mass_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.mass", "mass" );
-        this.x_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.x", "x" );
-        this.y_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.y", "y" );
-        this.Vx_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.vx", "Vx" );
-        this.Vy_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.vy", "Vy" );
-        this.Px_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.px", "Px" );
-        this.Py_str = SimStrings.get( "edu.colorado.phet.collisionlab.control.DataTable.py", "Py" );
+        this.ball_str = SimStrings.get( "DataTable.ball", "ball" );
+        this.mass_str = SimStrings.get( "DataTable.mass", "mass" );
+        this.x_str = SimStrings.get( "DataTable.x", "x" );
+        this.y_str = SimStrings.get( "DataTable.y", "y" );
+        this.Vx_str = SimStrings.get( "DataTable.vx", "Vx" );
+        this.Vy_str = SimStrings.get( "DataTable.vy", "Vy" );
+        this.Px_str = SimStrings.get( "DataTable.px", "Px" );
+        this.Py_str = SimStrings.get( "DataTable.py", "Py" );
 
 
     }//end of initializeString()

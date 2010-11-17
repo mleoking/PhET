@@ -114,7 +114,7 @@ public class TableView extends Sprite {
 
         this.timeText.text = getTimeText( this.myModel.time.toFixed( 2 ) );
         this.totKEText.text = getKEText( this.myModel.getTotalKE().toFixed( 2 ) );
-        this.timeRateText.text = SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.timeRate", "Time Rate" );
+        this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Time Rate" );
 
         //position Time Label
         //this.timeText.width=165;//to improve support for i18n
@@ -206,7 +206,7 @@ public class TableView extends Sprite {
     public function makeTimeRateLabel(): void {
         //following two strings should be set by internationalizer
         this.timeRateText = new TextField();
-        this.timeRateText.text = SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.timeRate", "Time Rate" );
+        this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Time Rate" );
         this.timeRateText.selectable = false;
         //			this.timeRateText.autoSize = TextFieldAutoSize.RIGHT;
         var tFormat: TextFormat = new TextFormat();
@@ -322,11 +322,11 @@ public class TableView extends Sprite {
     }
 
     function getKEText( keValue: String ): String {
-        return SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
+        return SimStrings.get( "TableView.kineticEnergy", "Kinetic Energy = {0} J", [keValue] );
     }
 
     function getTimeText( time: String ): String {
-        return SimStrings.get( "edu.colorado.phet.collisionlab.view.TableView.time", "Time = {0} s", [time] );
+        return SimStrings.get( "TableView.time", "Time = {0} s", [time] );
     }
 }//end of class
 

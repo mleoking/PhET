@@ -48,11 +48,11 @@ public class PlayPauseButtons extends Sprite {
 
     //must be altered when internationalizing
     public function initializeLabels(): void {
-        this.rewindText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.rewind", "Rewind" );
-        this.backText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.back", "Back" );
-        this.playText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.play", "Play" );
-        this.pauseText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.pause", "Pause" );
-        this.stepText = SimStrings.get( "edu.colorado.phet.collisionlab.control.PlayPauseButtons.step", "Step" );
+        this.rewindText = SimStrings.get( "PlayPauseButtons.rewind", "Rewind" );
+        this.backText = SimStrings.get( "PlayPauseButtons.back", "Back" );
+        this.playText = SimStrings.get( "PlayPauseButtons.play", "Play" );
+        this.pauseText = SimStrings.get( "PlayPauseButtons.pause", "Pause" );
+        this.stepText = SimStrings.get( "PlayPauseButtons.step", "Step" );
         this.buttonView.rewindLabel.text = rewindText;
         TextFieldUtils.resizeText( this.buttonView.rewindLabel, TextFieldAutoSize.RIGHT );
         this.buttonView.stepBackLabel.text = backText;

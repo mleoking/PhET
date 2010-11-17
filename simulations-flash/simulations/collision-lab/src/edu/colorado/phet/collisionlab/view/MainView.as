@@ -40,8 +40,8 @@ public class MainView extends Sprite {
         this.myTableView.y += paddingForTabs;
         this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
         this.myDataTable.x = this.myTableView.width / 2;
-        this.controlPanel.sub_background.width = 170;
-        this.controlPanel.sub_background.height = 330;
+        //this.controlPanel.sub_background.width = 170;
+        //this.controlPanel.sub_background.height = 330;
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
         this.controlPanel.y = 30 + paddingForTabs;
         this.phetLogo.x = 0;

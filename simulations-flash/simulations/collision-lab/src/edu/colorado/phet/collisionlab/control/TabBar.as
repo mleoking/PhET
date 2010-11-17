@@ -27,7 +27,8 @@ public class TabBar extends Sprite {
         graphics.clear();
         //graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( disabledColor );
-        graphics.drawRect( tabHolder.width, 0, 950, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
+        //graphics.drawRect( tabHolder.width, 0, 950, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
+        graphics.drawRect( -2000, 0, 5000, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
     }
 
     public function set selectedTab( tab: Tab ): void {

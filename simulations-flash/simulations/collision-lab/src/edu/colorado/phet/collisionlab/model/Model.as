@@ -3,7 +3,6 @@ package edu.colorado.phet.collisionlab.model {
 
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.util.TwoVector;
-import edu.colorado.phet.collisionlab.view.MainView;
 
 import flash.events.*;
 import flash.geom.*;
@@ -438,7 +437,7 @@ public class Model {
             this.lastTime = this.time;
         }
         if ( this.nbrCollisionsInThisTimeStep > 1 ) {
-            trace( "edu.colorado.phet.collisionlab.model.Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
+            trace( "Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
         }
     }//end of singleStep()
 
@@ -538,7 +537,7 @@ public class Model {
                     var dist: Number = Math.sqrt( (xj - xi) * (xj - xi) + (yj - yi) * (yj - yi) );
                     var distMin: Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
                     if ( dist <= distMin ) {
-                        trace( "edu.colorado.phet.collisionlab.model.Model: Ball " + i + " and " + j + " overlap at round " + cntr );
+                        trace( "Model: Ball " + i + " and " + j + " overlap at round " + cntr );
                         separateBalls( i, j );
                     }
                 }//for(j=..)
