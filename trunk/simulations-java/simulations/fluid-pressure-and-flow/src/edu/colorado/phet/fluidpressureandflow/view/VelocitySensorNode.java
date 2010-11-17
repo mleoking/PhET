@@ -34,7 +34,7 @@ public class VelocitySensorNode extends PNode {
         final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(), new Point2D.Double( 0, 1 ), 10, 10, 5, 0.5, true ) {{
             setPaint( Color.red );
             setStroke( new BasicStroke( 1 ) );
-            setStrokePaint( Color.white );
+            setStrokePaint( Color.black );
         }};
 
         addChild( arrowNode );

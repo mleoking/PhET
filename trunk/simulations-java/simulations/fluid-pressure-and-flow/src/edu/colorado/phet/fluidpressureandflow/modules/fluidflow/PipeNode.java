@@ -20,11 +20,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class PipeNode extends PNode {
+    private Color waterColor=new Color( 122,197,213 );
+
     public PipeNode( final ModelViewTransform2D transform, final Pipe pipe ) {
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
         final PhetPPath leftCoupling = new PhetPPath( Color.gray );
         final PhetPPath rightCoupling = new PhetPPath( Color.gray );
-        addChild( new PhetPPath( Color.blue, new BasicStroke( 1 ), Color.black ) {{
+        addChild( new PhetPPath( waterColor, new BasicStroke( 1 ), Color.black ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.createTransformedShape( pipe.getShape() ) );
