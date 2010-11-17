@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -51,7 +52,12 @@ public class PipeNode extends PNode {
     }
 
     public static class GrabHandle extends PNode {
-        public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint ) {
+        private ControlPoint controlPoint;
+        private ControlPoint oppositeControlPoint;
+
+        public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint, final ControlPoint oppositeControlPoint ) {
+            this.controlPoint = controlPoint;
+            this.oppositeControlPoint = oppositeControlPoint;
 //            double grabHandleRadius = 10;
 //            addChild( new PhetPPath( new Ellipse2D.Double( -grabHandleRadius, -grabHandleRadius, grabHandleRadius * 2, grabHandleRadius * 2 ), Color.green ) {{
             double arrowLength = 20;
@@ -69,10 +75,17 @@ public class PipeNode extends PNode {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        controlPoint.translate( 0, transform.viewToModelDifferential( delta ).getY() );
+                        final double dy = transform.viewToModelDifferential( delta ).getY();
+                        if ( controlPoint.distance( oppositeControlPoint ) > 0.5 || movingAway(dy)) {
+                            controlPoint.translate( 0, dy );
+                        }
                     }
                 } );
             }} );
+        }
+
+        private boolean movingAway( double dy ) {
+            return MathUtil.getSign( controlPoint.getPoint().getY() - oppositeControlPoint.getPoint().getY() ) == MathUtil.getSign( dy );
         }
     }
 
@@ -82,11 +95,13 @@ public class PipeNode extends PNode {
         void translate( double x, double y );
 
         void addObserver( SimpleObserver observer );
+
+        double distance( ControlPoint controlPoint );
     }
 
     public static class PipePositionControl extends PNode {
         public PipePositionControl( final ModelViewTransform2D transform, final PipePosition pipePosition ) {
-            addChild( new GrabHandle( transform, new ControlPoint() {
+            final ControlPoint topControlPoint = new ControlPoint() {
                 public Point2D getPoint() {
                     return pipePosition.getTop();
                 }
@@ -98,8 +113,12 @@ public class PipeNode extends PNode {
                 public void addObserver( SimpleObserver observer ) {
                     pipePosition.addObserver( observer );
                 }
-            } ) );
-            addChild( new GrabHandle( transform, new ControlPoint() {
+
+                public double distance( ControlPoint controlPoint ) {
+                    return getPoint().distance( controlPoint.getPoint() );
+                }
+            };
+            final ControlPoint bottomControlPoint = new ControlPoint() {
                 public Point2D getPoint() {
                     return pipePosition.getBottom();
                 }
@@ -111,7 +130,13 @@ public class PipeNode extends PNode {
                 public void addObserver( SimpleObserver observer ) {
                     pipePosition.addObserver( observer );
                 }
-            } ) );
+
+                public double distance( ControlPoint controlPoint ) {
+                    return getPoint().distance( controlPoint.getPoint() );
+                }
+            };
+            addChild( new GrabHandle( transform, bottomControlPoint, topControlPoint ) );
+            addChild( new GrabHandle( transform, topControlPoint, bottomControlPoint ) );
         }
     }
 }
