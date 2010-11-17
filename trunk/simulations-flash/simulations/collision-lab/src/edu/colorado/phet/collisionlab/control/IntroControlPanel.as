@@ -1,7 +1,6 @@
 package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.MainView;
-
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import fl.controls.CheckBox;
@@ -40,8 +39,8 @@ public class IntroControlPanel extends ControlPanel {
 
     override public function initializeStrings(): void {
         super.initializeStrings();
-        
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showValues", "Show Values", sub_showValues_label, sub_showValues_cb );
+
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showValues", "Show Values", sub_showValues_label, sub_showValues_cb );
     }
 
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }

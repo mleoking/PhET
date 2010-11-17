@@ -50,10 +50,10 @@ public class AdvancedControlPanel extends ControlPanel {
     override public function initializeStrings(): void {
         super.initializeStrings();
 
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
     }
 
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }

@@ -21,7 +21,7 @@ public class Util extends Sprite {
     }//end of setXYPostion()
 
     public static function testFunction(): void {
-        trace( "edu.colorado.phet.collisionlab.util.Util.testFunction() called." );
+        trace( "Util.testFunction() called." );
     }
 
     //Will not work with rotated Sprites

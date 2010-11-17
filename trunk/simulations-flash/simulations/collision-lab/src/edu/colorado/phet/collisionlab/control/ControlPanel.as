@@ -103,19 +103,19 @@ public class ControlPanel extends Sprite {
     //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
 
-        resetButton.setLabel( SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.resetAll", "Reset All" ) );
+        resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
         // this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
         //this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
         //this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
-        this.sub_elasticityLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.elasticity", "Elasticity" );
-        this.sub_zeroPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.zeroPercent", "0%" );
-        this.sub_oneHundredPercentLabel.text = SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.oneHundredPercent", "100%" );
+        this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
+        this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "0%" );
+        this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "100%" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()

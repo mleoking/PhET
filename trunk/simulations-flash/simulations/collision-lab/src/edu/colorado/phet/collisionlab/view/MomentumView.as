@@ -91,9 +91,9 @@ public class MomentumView extends Sprite {
     }
 
     public function initializeStrings(): void {
-        this.momenta_str = SimStrings.get( "edu.colorado.phet.collisionlab.view.MomentumView.momenta", "Momenta" );
-        this.tipToTail_str = SimStrings.get( "edu.colorado.phet.collisionlab.view.MomentumView.tipToTail", "tip-to-tail" );
-        this.tot_str = SimStrings.get( "edu.colorado.phet.collisionlab.view.MomentumView.total", "tot" );
+        this.momenta_str = SimStrings.get( "MomentumView.momenta", "Momenta" );
+        this.tipToTail_str = SimStrings.get( "MomentumView.tipToTail", "tip-to-tail" );
+        this.tot_str = SimStrings.get( "MomentumView.total", "tot" );
     }//end of initializeStrings()
 
     public function drawBorder(): void {
