@@ -8,7 +8,7 @@ Fixed: pressure gauges should read atmosphere when in atmosphere
 Fixed: pressure gauges should update when pipe change
 Added units for meters/feet
 Hid pipe entry points to left and right for when sim is shortened vertically
-Centerd pressure readouts
+Centered pressure readouts
 Increased hotspot size on pressure readouts
 Added a "10 ft" label inside the pool
 Converted circles to double-headed arrows for pipe control nodes
