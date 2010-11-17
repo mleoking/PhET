@@ -45,7 +45,7 @@ public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
         }} );
 
         final Property<Double> temperature = module.getInsideMagnetsModel().getTemperature();
-        add( new LinearValueControl(0.01,2, temperature.getValue(), "Temperature" ,"0.00","K"){{
+        add( new LinearValueControl( 0.01, 2, temperature.getValue(), "Temperature", "0.00", "K" ) {{
             temperature.addObserver( new SimpleObserver() {
                 public void update() {
                     setValue( temperature.getValue() );
@@ -56,9 +56,9 @@ public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
                     temperature.setValue( getValue() );
                 }
             } );
-        }});
+        }} );
 
-        add(new JCheckBox( "Show Magnetization",module.getShowMagnetizationProperty().getValue() ){{
+        add( new JCheckBox( "Show Magnetization", module.getShowMagnetizationProperty().getValue() ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.getShowMagnetizationProperty().setValue( isSelected() );
@@ -69,6 +69,6 @@ public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
                     setSelected( module.getShowMagnetizationProperty().getValue() );
                 }
             } );
-        }});
+        }} );
     }
 }

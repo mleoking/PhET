@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.util.Function0;
-import edu.colorado.phet.glaciers.model.Debris;
 
 /**
  * @author Sam Reid
@@ -48,11 +47,11 @@ public class Lattice<T> {
         return map.get( location );
     }
 
-    public T getValue(int x,int y){
-        if (!map.containsKey( new Point(x,y ))){
-            System.out.println( "looked off lattice: x = " + x+", y = "+y );
+    public T getValue( int x, int y ) {
+        if ( !map.containsKey( new Point( x, y ) ) ) {
+            System.out.println( "looked off lattice: x = " + x + ", y = " + y );
         }
-        return map.get( new Point(x,y ));
+        return map.get( new Point( x, y ) );
     }
 
     public ArrayList<Point> getNeighborCells( Point point ) {
