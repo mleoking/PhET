@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class Cell {
-    private static Random random = new Random(  );
+    private static Random random = new Random();
     //Spin vector components
     double sx;
     double sy;
@@ -22,7 +22,7 @@ public class Cell {
 
     public Cell() {
 //        ImmutableVector2D vector = new ImmutableVector2D( random.nextDouble()*2-1,random.nextDouble()*2-1 ).getNormalizedInstance();
-        ImmutableVector2D vector = new ImmutableVector2D( 1,0).getNormalizedInstance();
+        ImmutableVector2D vector = new ImmutableVector2D( 1, 0 ).getNormalizedInstance();
         sx = vector.getX();
         sy = vector.getY();
     }

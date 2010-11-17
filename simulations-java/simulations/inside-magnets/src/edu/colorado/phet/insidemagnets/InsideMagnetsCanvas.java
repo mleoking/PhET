@@ -42,7 +42,7 @@ public class InsideMagnetsCanvas extends PhetPCanvas {
         setBorder( null );
 
         addChild( new LatticeView( transform, module.getInsideMagnetsModel() ) );
-        addChild( new NetMagnetizationField( transform, module.getInsideMagnetsModel() ){{
+        addChild( new NetMagnetizationField( transform, module.getInsideMagnetsModel() ) {{
             module.getShowMagnetizationProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( module.getShowMagnetizationProperty().getValue() );
