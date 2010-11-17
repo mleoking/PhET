@@ -74,14 +74,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     public void addControls( final PNode controlPanelNode,final Point2D layoutPoint ) {
 //
 //        //Reset all button
-        addChild( new ButtonNode( "Reset all", (int) ( FluidPressureControlPanel.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.BACKGROUND, FluidPressureControlPanel.FOREGROUND ) {{
-            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.resetAll();
-                }
-            } );
-        }} );
+
 
         final SliderControl fluidDensityControl = new SliderControl( "Fluid Density", "kg/m^3", FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getLiquidDensityProperty(), new HashMap<Double, TickLabel>() {{
             put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
@@ -108,7 +101,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
             } );
         }};
 
-        addChild( gravityControl );
+
         addChild( fluidDensityControl );
 
         final ButtonExpander fluidDensityExpander = new ButtonExpander( "Fluid Density >", "Fluid Density <", module.getFluidDensityControlVisible() ) {{
@@ -120,6 +113,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         final ButtonExpander gravityExpander = new ButtonExpander( "Gravity >", "Gravity <", module.getGravityControlVisible() ) {{
             setOffset( gravityControl.getFullBounds().getX(), gravityControl.getFullBounds().getY() - getFullBounds().getHeight() );
         }};
-        addChild( gravityExpander );
+//        addChild( gravityExpander );
+//        addChild( gravityControl );
     }
 }

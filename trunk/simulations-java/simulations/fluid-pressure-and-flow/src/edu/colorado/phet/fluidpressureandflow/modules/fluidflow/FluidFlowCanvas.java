@@ -29,7 +29,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
-        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2+pipeCenterY, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
+        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
@@ -78,6 +78,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
         }};
         addChild( controlPanelNode );
+        addChild( new ResetButton( module ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
+        }} );
         addControls( controlPanelNode, new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
     }
 
