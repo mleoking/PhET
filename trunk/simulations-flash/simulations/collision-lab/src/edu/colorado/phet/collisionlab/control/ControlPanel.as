@@ -84,14 +84,12 @@ public class ControlPanel extends Sprite {
         this.sub_showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showMomentumVectors_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showVelocities_cb.addEventListener( MouseEvent.CLICK, showVelocityArrows );
         this.sub_showMomentumVectors_cb.addEventListener( MouseEvent.CLICK, showMomentumArrows );
         this.sub_showCM_cb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
             showCM( e.target.selected );
         } );
         this.sub_showMomenta_cb.addEventListener( MouseEvent.CLICK, momentaDiagramOnOrOff );
-        this.sub_showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
         this.sub_sound_cb.addEventListener( MouseEvent.CLICK, soundOnOrOff );
         //this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
         this.sub_elasticitySlider.addEventListener( SliderEvent.CHANGE, setElasticity );
@@ -109,7 +107,6 @@ public class ControlPanel extends Sprite {
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
 
         resetButton.setLabel( SimStrings.get( "edu.colorado.phet.collisionlab.control.ControlPanel.resetAll", "Reset All" ) );
@@ -157,7 +154,6 @@ public class ControlPanel extends Sprite {
         //this.myModel.setReflectingBorder(true); //done in Model.resetAll();
         this.sub_showMomenta_cb.selected = false;
         this.myMainView.momentumView.visible = false;
-        this.sub_showPaths_cb.selected = false;
         this.myMainView.myTableView.myTrajectories.pathsOff();
         this.sub_sound_cb.selected = false;
         this.myModel.soundOn = false;
@@ -263,8 +259,6 @@ public class ControlPanel extends Sprite {
 
     public function get sub_showCM_cb(): CheckBox { throw new Error( "abstract" ); }
 
-    public function get sub_showPaths_cb(): CheckBox { throw new Error( "abstract" ); }
-
     public function get sub_showMomenta_cb(): CheckBox { throw new Error( "abstract" ); }
 
     public function get sub_sound_cb(): CheckBox { throw new Error( "abstract" ); }
@@ -282,8 +276,6 @@ public class ControlPanel extends Sprite {
     public function get sub_showCM_label(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_showMomenta_label(): TextField { throw new Error( "abstract" ); }
-
-    public function get sub_showPaths_label(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_sound_label(): TextField { throw new Error( "abstract" ); }
 

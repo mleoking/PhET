@@ -35,6 +35,7 @@
     <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
 	<string key="ControlPanel.momentaDiagram" value="Momenta Diagram"/>
     <string key="ControlPanel.showPaths" value="Show Paths"/>
+    <string key="ControlPanel.showValues" value="Show Values"/>
     <string key="ControlPanel.sound" value="Sound"/>
     <string key="ControlPanel.elasticity" value="Elasticity"/>
     <string key="ControlPanel.zeroPercent" value="0%"/>
