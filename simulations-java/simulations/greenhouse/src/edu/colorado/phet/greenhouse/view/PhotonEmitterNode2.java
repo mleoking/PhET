@@ -144,6 +144,9 @@ public class PhotonEmitterNode2 extends PNode {
         else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
             photonEmitterImage = new PImage(GreenhouseResources.getImage("uv_light.png"));
         }
+        else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength){
+            photonEmitterImage = new PImage(GreenhouseResources.getImage("microwave_antenna.png"));
+        }
 
         photonEmitterImage.scale( flashlightWidth / photonEmitterImage.getFullBoundsReference().width );
         photonEmitterImage.setOffset( -flashlightWidth, -photonEmitterImage.getFullBoundsReference().height / 2 );
@@ -235,6 +238,9 @@ public class PhotonEmitterNode2 extends PNode {
             }
             else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength ) {
                 emissionRateControlSlider.setColor( new Color( 200, 0, 200) );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength ) {
+                emissionRateControlSlider.setColor( new Color( 200, 200, 200) );
             }
             else {
                 System.err.println( getClass().getName() + "- Error: Unrecognized photon." );
