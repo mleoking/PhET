@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
@@ -28,7 +29,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
-//        addChild( new PhetPPath( transform.createTransformedShape( module.getFluidPressureAndFlowModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
 
         addChild( new PipeNode( transform, module.getFluidFlowModel().getPipe() ) );
         particleLayer = new PNode();
@@ -75,12 +75,23 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new ResetButton( module ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
         }} );
-        addControls( new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
+
+        addChild( new FluidDensityControl<FluidFlowModel>( module ) {{
+            setOffset( 0, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
 
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
         addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), rulerModelOrigin ) );
         addChild( new EnglishRuler( transform, module.getYardStickVisibleProperty(), rulerModelOrigin ) );
+
+        addChild( new FloatingClockControlNode( module.getClock(), new Function1<Double, String>() {
+            public String apply( Double time ) {
+                return (int) ( time / 1.00 ) + " sec";
+            }
+        } ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {

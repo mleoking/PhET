@@ -47,7 +47,10 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new ResetButton( module ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
         }} );
-        addControls( new Point2D.Double( poolNode.getFullBounds().getMinX(), poolNode.getFullBounds().getMaxY() ) );
-    }
 
+        final Point2D.Double layoutPoint = new Point2D.Double( poolNode.getFullBounds().getMinX(), poolNode.getFullBounds().getMaxY() );
+        addChild( new FluidDensityControl<FluidPressureModel>( module ) {{
+            setOffset( layoutPoint.getX() - getFullBounds().getWidth() - 2, layoutPoint.getY() - getFullBounds().getHeight() );
+        }} );
+    }
 }

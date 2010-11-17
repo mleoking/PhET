@@ -1,3 +1,4 @@
+Fluid-flow: Added clock controls to play area
 Fluid-flow: Fixed: Velocity and pressure sensor should use the same model as is used for particles velocity
 Fluid-flow: Fixed: Shouldn't be able to drag pipe control points within a threshold distance of each other
 Fluid-flow: Added images for dropper and bucket
