@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
@@ -82,30 +83,6 @@ public class FluidPressureAndFlowControlPanel<T extends FluidPressureAndFlowMode
             add( new RadioButton( "meters (m)", new IsSelectedProperty<Units.Unit>( Units.METERS, module.getFluidPressureAndFlowModel().getDistanceUnitProperty() ) ) );
         }} );
         setBackground( BACKGROUND );
-    }
-
-    /**
-     * This adapter class converts an enumeration property to a boolean property indicating true if the specified element is selected.
-     * It is used to map the enumeration property types into radio button handlers.
-     *
-     * @param <T>
-     */
-    private static class IsSelectedProperty<T> extends Property<Boolean> {
-        public IsSelectedProperty( final T a, final Property<T> p ) {
-            super( p.getValue() == a );
-            p.addObserver( new SimpleObserver() {
-                public void update() {
-                    setValue( p.getValue().equals( a ) );
-                }
-            } );
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( getValue() ) {
-                        p.setValue( a );
-                    }
-                }
-            } );
-        }
     }
 
     private void addControlFullWidth( JComponent component ) {

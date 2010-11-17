@@ -1,3 +1,4 @@
+Added a ruler with English units
 Centered pipe on flow tab
 Added reset all
 Fixed: Pressure gauges should read "?" when underground
