@@ -1,5 +1,6 @@
 package edu.colorado.phet.collisionlab {
 import edu.colorado.phet.collisionlab.model.Model;
+import edu.colorado.phet.collisionlab.view.AdvancedView;
 import edu.colorado.phet.collisionlab.view.MainView;
 
 import flash.display.DisplayObjectContainer;
@@ -10,7 +11,7 @@ public class AdvancedModule {
 
     public function AdvancedModule() {
         myModel = new Model();
-        myMainView = new MainView( myModel, 950, 700 );
+        myMainView = new AdvancedView( myModel, 950, 700 );
     }
 
     public function attach( parent: DisplayObjectContainer ): void {

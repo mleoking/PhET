@@ -29,7 +29,7 @@ public class MainView extends Sprite {
         this.addChild( this.phetLogo );
         this.myTableView = new TableView( myModel, this );
         this.myDataTable = new DataTable( myModel, this );
-        this.controlPanel = new ControlPanel( myModel, this );
+        this.controlPanel = createControlPanel( myModel, this );
         this.momentumView = new MomentumView( myModel, this );
         this.mySoundMaker = new SoundMaker( myModel, this );
         this.myModel.resetAll();
@@ -37,14 +37,18 @@ public class MainView extends Sprite {
         this.myTableView.y += paddingForTabs;
         this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
         this.myDataTable.x = this.myTableView.width / 2;
-        this.controlPanel.background.width = 170;
-        this.controlPanel.background.height = 330;
+        this.controlPanel.sub_background.width = 170;
+        this.controlPanel.sub_background.height = 330;
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
         this.controlPanel.y = 30 + paddingForTabs;
         this.phetLogo.x = 0;
         this.phetLogo.y = this.stageH - this.phetLogo.height - 35; // our flashcommon buttons now below logo.
         this.momentumView.visible = false;
 
+    }
+
+    public function createControlPanel( myModel: Model, myMainView: MainView ): ControlPanel {
+        throw new Error( "abstract" );
     }
 }
 }
