@@ -58,7 +58,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Create the main background shape.
         final PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, PANEL_SIZE.getWidth(),
-                PANEL_SIZE.getHeight(), 10, 10), BACKGROUND_COLOR );
+                PANEL_SIZE.getHeight(), 20, 20), BACKGROUND_COLOR );
 
         // Add the title.
         backgroundNode.addChild( new PText("Photon Energy"){{
