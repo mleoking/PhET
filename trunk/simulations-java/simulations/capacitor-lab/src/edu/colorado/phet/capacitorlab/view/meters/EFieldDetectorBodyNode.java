@@ -212,7 +212,6 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         private final JCheckBox plateCheckBox, dielectricCheckBox, sumCheckBox;
 
         public ShowVectorsPanel( final EFieldDetector detector ) {
-            setOpaque( false );
             setBackground( BODY_COLOR );
 
             JLabel showVectorsLabel = new JLabel( CLStrings.SHOW_VECTORS );
@@ -220,6 +219,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             showVectorsLabel.setForeground( CONTROL_COLOR );
 
             plateCheckBox = new JCheckBox( CLStrings.PLATE );
+            plateCheckBox.setOpaque( false );
             plateCheckBox.setFont( CONTROL_FONT );
             plateCheckBox.setForeground( CLPaints.PLATE_EFIELD_VECTOR );
             plateCheckBox.setSelected( detector.isPlateVisible() );
@@ -231,6 +231,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             } );
 
             dielectricCheckBox = new JCheckBox( CLStrings.DIELECTRIC );
+            dielectricCheckBox.setOpaque( false );
             dielectricCheckBox.setFont( CONTROL_FONT );
             dielectricCheckBox.setForeground( CLPaints.DIELECTRIC_EFIELD_VECTOR );
             dielectricCheckBox.setSelected( detector.isDielectricVisible() );
@@ -242,6 +243,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             } );
 
             sumCheckBox = new JCheckBox( CLStrings.SUM );
+            sumCheckBox.setOpaque( false );
             sumCheckBox.setFont( CONTROL_FONT );
             sumCheckBox.setForeground( CLPaints.SUM_EFIELD_VECTOR );
             sumCheckBox.setSelected( detector.isSumVectorVisible() );
