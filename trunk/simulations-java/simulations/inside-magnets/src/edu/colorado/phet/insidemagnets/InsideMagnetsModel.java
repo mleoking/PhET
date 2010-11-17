@@ -4,8 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -18,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * @author Sam Reid
+ * @author Gary Wysin
  */
 public class InsideMagnetsModel {
     Random random = new Random();
@@ -26,12 +25,9 @@ public class InsideMagnetsModel {
     private double time = 0;
     private ImmutableVector2D J = new ImmutableVector2D( -1, -1 );
     private Property<ImmutableVector2D> externalMagneticField = new Property<ImmutableVector2D>( new ImmutableVector2D( 2.1, 0 ) );//Externally applied magnetic field
-    private double Ka = 1.5;         /* anisotropy strength for aniso- boundaries.	 */
-    private int kdt = 10;             /* number of steps taken before re-drawing spins.   */
     private Property<Double> temperature = new Property<Double>( 0.01 );//Beta = 1/temperature
-    private ImmutableVector2D m = new ImmutableVector2D( 0, 0 );//total magnetization
-    private Property<ImmutableVector2D> netMagnetizationProperty=new Property<ImmutableVector2D>( new ImmutableVector2D( ));
-    private SimpleObservable stepListeners=new SimpleObservable();
+    private Property<ImmutableVector2D> netMagnetizationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    private SimpleObservable stepListeners = new SimpleObservable();
 
     public InsideMagnetsModel() {
         lattice = new Lattice<Cell>( 20, 10, new Function0<Cell>() {
@@ -100,6 +96,7 @@ public class InsideMagnetsModel {
         }
 
         double dt2 = 0.5 * dt;
+        int kdt = 10;//number of steps before redrawing spins
         for ( int idt = 0; idt < kdt; idt++ ) {
             /* First do a position update over half a time step.
 The tmp arrays hold positions at t+0.5*dt.          */
@@ -114,6 +111,10 @@ The tmp arrays hold positions at t+0.5*dt.          */
 
             torque( dt );
 
+            /* Next is to find the new angular speeds on the sites, after
+  a time interval of dt. The outputted omega is omega(t+dt). */
+
+//  /* Let the positions propagate for another half time step. */
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
                 for ( int y = 0; y < getLatticeHeight(); y++ ) {
                     final double tmpSx = getSpin( x, y ).getX() - dt2 * getOmega( x, y ) * getSpin( x, y ).getY();
@@ -131,26 +132,6 @@ The tmp arrays hold positions at t+0.5*dt.          */
                     getLattice().getValue( x, y ).sy = spinVector.getY();
                 }
             }
-
-            /* Next is to find the new angular speeds on the sites, after
-  a time interval of dt. The outputted omega is omega(t+dt). */
-
-//  /* Let the positions propagate for another half time step. */
-//     for(i=0; i<N; i++)
-//     {
-//       sx[i]=tmpx[i]-dt2*omega[i]*tmpy[i];
-//       sy[i]=tmpy[i]+dt2*omega[i]*tmpx[i];
-//     }
-//
-
-//  /* loop to rescale to unit length. */
-//     for(i=0; i<N; i++)
-//     {
-//       r=1.0/sqrt(sx[i]*sx[i]+sy[i]*sy[i]);
-//       sx[i] *= r;
-//       sy[i] *= r;
-//     }
-
             /* at this point, everything corresponds to the values at t+dt. */
         }
 
@@ -247,6 +228,6 @@ The tmp arrays hold positions at t+0.5*dt.          */
     }
 
     public void addStepListener( SimpleObserver simpleObserver ) {
-        stepListeners.addObserver(simpleObserver);
+        stepListeners.addObserver( simpleObserver );
     }
 }
