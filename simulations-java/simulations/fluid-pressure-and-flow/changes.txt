@@ -1,3 +1,4 @@
+Fluid-flow: Moved reset all button to bottom right so it doesn't overlap the pipe
 Added a ruler with English units
 Centered pipe on flow tab
 Added reset all
