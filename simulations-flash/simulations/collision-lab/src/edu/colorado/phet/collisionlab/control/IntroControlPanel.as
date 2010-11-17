@@ -15,6 +15,20 @@ public class IntroControlPanel extends ControlPanel {
         super( myModel, myMainView );
     }
 
+
+    override protected function resetAll(): void {
+        super.resetAll();
+
+        this.sub_showCM_cb.selected = false;
+    }
+
+
+    override public function initializeComponents(): void {
+        super.initializeComponents();
+
+        this.sub_showCM_cb.selected = false;
+    }
+
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }
 
     override public function get sub_background(): MovieClip { return background; }
