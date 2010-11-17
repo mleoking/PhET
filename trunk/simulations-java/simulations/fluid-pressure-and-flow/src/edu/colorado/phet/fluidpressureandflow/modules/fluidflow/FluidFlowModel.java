@@ -33,11 +33,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
             @Override
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 if ( dropperOnProperty.getValue() ) {
-                    final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe );
-                    particles.add( newParticle );
-                    for ( Function1<Particle, Void> particleAddedObserver : particleAddedObservers ) {
-                        particleAddedObserver.apply( newParticle );
-                    }
+                    addDrop();
                 }
 
                 //UPDATE PARTICLES
@@ -174,5 +170,13 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         dropperOnProperty.reset();
         dropperOnProperty.reset();
         //TODO: remove particle and food coloring
+    }
+
+    public void addDrop() {
+        final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe );
+        particles.add( newParticle );
+        for ( Function1<Particle, Void> particleAddedObserver : particleAddedObservers ) {
+            particleAddedObserver.apply( newParticle );
+        }
     }
 }
