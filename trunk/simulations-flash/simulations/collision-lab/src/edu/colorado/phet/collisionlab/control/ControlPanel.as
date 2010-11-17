@@ -84,12 +84,10 @@ public class ControlPanel extends Sprite {
         this.sub_showVelocities_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showMomentumVectors_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showCM_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.sub_reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showVelocities_cb.addEventListener( MouseEvent.CLICK, showVelocityArrows );
         this.sub_showMomentumVectors_cb.addEventListener( MouseEvent.CLICK, showMomentumArrows );
         this.sub_showCM_cb.addEventListener( MouseEvent.CLICK, showCM );
-        this.sub_reflectingBorder_cb.addEventListener( MouseEvent.CLICK, borderOnOrOff );
         this.sub_showMomenta_cb.addEventListener( MouseEvent.CLICK, momentaDiagramOnOrOff );
         this.sub_showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
         this.sub_sound_cb.addEventListener( MouseEvent.CLICK, soundOnOrOff );
@@ -108,7 +106,6 @@ public class ControlPanel extends Sprite {
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
@@ -156,7 +153,6 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.showPArrowsOnBallImages( false );
         this.sub_showCM_cb.selected = true;
         this.myMainView.myTableView.CM.visible = true;
-        this.sub_reflectingBorder_cb.selected = true;
         //this.myModel.setReflectingBorder(true); //done in Model.resetAll();
         this.sub_showMomenta_cb.selected = false;
         this.myMainView.momentumView.visible = false;
@@ -203,9 +199,13 @@ public class ControlPanel extends Sprite {
         //trace("this.showCMOn: "+this.showCMOn);
     }
 
-    private function borderOnOrOff( evt: MouseEvent ): void {
-        this.myModel.setReflectingBorder( evt.target.selected );
+    public function setBorderExists( visible: Boolean ): void {
+        this.myModel.setReflectingBorder( visible );
         this.myMainView.myTableView.drawBorder();
+    }
+
+    private function borderOnOrOff( evt: MouseEvent ): void {
+
         //trace("ControlPanel.borderOnOrOff: " + evt.target.selected);
     }
 
@@ -262,8 +262,6 @@ public class ControlPanel extends Sprite {
 
     public function get sub_showCM_cb(): CheckBox { throw new Error( "abstract" ); }
 
-    public function get sub_reflectingBorder_cb(): CheckBox { throw new Error( "abstract" ); }
-
     public function get sub_showPaths_cb(): CheckBox { throw new Error( "abstract" ); }
 
     public function get sub_showMomenta_cb(): CheckBox { throw new Error( "abstract" ); }
@@ -281,8 +279,6 @@ public class ControlPanel extends Sprite {
     public function get sub_showMomentumVectors_label(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_showCM_label(): TextField { throw new Error( "abstract" ); }
-
-    public function get sub_reflectingBorder_label(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_showMomenta_label(): TextField { throw new Error( "abstract" ); }
 

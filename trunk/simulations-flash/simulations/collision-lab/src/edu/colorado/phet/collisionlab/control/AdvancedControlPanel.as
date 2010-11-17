@@ -24,6 +24,7 @@ public class AdvancedControlPanel extends ControlPanel {
         super.resetAll();
 
         this.sub_twoD_rb.selected = true;
+        this.sub_reflectingBorder_cb.selected = true;
     }
 
     override public function initializeComponents(): void {
@@ -33,6 +34,11 @@ public class AdvancedControlPanel extends ControlPanel {
         this.sub_twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_oneD_rb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {switchToOneDimension()} );
         this.sub_twoD_rb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {switchToTwoDimensions()} );
+
+        this.sub_reflectingBorder_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_reflectingBorder_cb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
+            setBorderExists( e.target.selected );
+        } );
     }
 
 
@@ -41,6 +47,7 @@ public class AdvancedControlPanel extends ControlPanel {
 
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
         TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
     }
 
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }
@@ -59,7 +66,7 @@ public class AdvancedControlPanel extends ControlPanel {
 
     override public function get sub_showCM_cb(): CheckBox { return showCM_cb; }
 
-    override public function get sub_reflectingBorder_cb(): CheckBox { return reflectingBorder_cb; }
+    public function get sub_reflectingBorder_cb(): CheckBox { return reflectingBorder_cb; }
 
     override public function get sub_showPaths_cb(): CheckBox { return showPaths_cb; }
 
@@ -79,7 +86,7 @@ public class AdvancedControlPanel extends ControlPanel {
 
     override public function get sub_showCM_label(): TextField { return showCM_label; }
 
-    override public function get sub_reflectingBorder_label(): TextField { return reflectingBorder_label; }
+    public function get sub_reflectingBorder_label(): TextField { return reflectingBorder_label; }
 
     override public function get sub_showMomenta_label(): TextField { return showMomenta_label; }
 

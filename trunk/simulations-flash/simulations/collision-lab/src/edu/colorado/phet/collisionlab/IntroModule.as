@@ -13,6 +13,7 @@ public class IntroModule extends CollisionLabModule {
 
     override public function resetAll(): void {
         myMainView.controlPanel.switchToOneDimension();
+        myMainView.controlPanel.setBorderExists( false );
     }
 
     override public function attach( parent: DisplayObjectContainer ): void {
@@ -20,6 +21,7 @@ public class IntroModule extends CollisionLabModule {
         myMainView.initialize();
 
         myMainView.controlPanel.switchToOneDimension();
+        myMainView.controlPanel.setBorderExists( false );
     }
 
     override public function allowAddRemoveBalls(): Boolean {
