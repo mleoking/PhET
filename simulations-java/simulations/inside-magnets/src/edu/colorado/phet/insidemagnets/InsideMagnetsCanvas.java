@@ -41,7 +41,7 @@ public class InsideMagnetsCanvas extends PhetPCanvas {
         setBorder( null );
 
         addChild( new LatticeView( transform, module.getInsideMagnetsModel() ) );
-        addChild( new NetMagnetizationField(transform,module.getInsideMagnetsModel()) );
+        addChild( new NetMagnetizationField( transform, module.getInsideMagnetsModel() ) );
 
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
             final PSwing controlPanelPSwing = new PSwing( new InsideMagnetsControlPanel( module ) );
