@@ -14,10 +14,12 @@ import javax.swing.JRadioButton;
 import org.lwjgl.util.Dimension;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -28,8 +30,20 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class QuadEmissionFrequencyControlPanel extends PNode {
 
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
     private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
-    public static final Dimension PANEL_SIZE = new Dimension( 800, 150 );
+    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
+
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
 
     public QuadEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ){
 
@@ -52,10 +66,25 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         buttonPanelNode.setOffset( PANEL_SIZE.getWidth() / 2 - buttonPanelNode.getFullBoundsReference().width / 2,
                 PANEL_SIZE.getHeight() - buttonPanelNode.getFullBounds().height );
 
+        // Create the node that represents the spectrum.
+        SpectrumNode spectrumNode = new SpectrumNode( (int) ( PANEL_SIZE.getWidth() * 0.9 ),
+                (int) ( PANEL_SIZE.getHeight() * 0.2 ) );
+        spectrumNode.setOffset( PANEL_SIZE.getWidth() / 2 - spectrumNode.getFullBoundsReference().width / 2,
+                PANEL_SIZE.getHeight() / 2 - spectrumNode.getFullBoundsReference().height / 2 );
+
         // Add everything in the needed order.
         addChild( backgroundNode );
         backgroundNode.addChild( buttonPanelNode );
+        addChild( spectrumNode );
     }
+
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
 
     /**
      * Convenience class for the radio buttons that select the wavelength.
@@ -84,4 +113,26 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             setSelected( model.getEmittedPhotonWavelength() == wavelength );
         }
     }
+
+    /**
+     * Class the defines the spectrum that is shown on this control panel.
+     *
+     * @author John Blanco
+     */
+    public static class SpectrumNode extends PNode {
+
+        public SpectrumNode( int width, int height ){
+            PImage spectrumImageNode = new PImage( SpectrumImageFactory.createHorizontalSpectrum( width, height, 10, 1000 ) );
+
+            // The spectrum image factory creates a spectrum by default that
+            // is oriented from short to long wavelengths, and we need the
+            // opposite, so we flip it here.
+            spectrumImageNode.rotate( Math.PI );
+            spectrumImageNode.setOffset( width, height );
+
+            addChild( spectrumImageNode );
+        }
+    }
+
+
 }
