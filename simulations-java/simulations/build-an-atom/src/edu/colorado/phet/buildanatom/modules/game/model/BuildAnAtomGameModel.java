@@ -100,7 +100,7 @@ public class BuildAnAtomGameModel {
             add( new AtomValue( 6, 6, 6 ) );
             add( new AtomValue( 7, 7, 7 ) );
             add( new AtomValue( 8, 8, 8 ) );
-            add( new AtomValue( 9, 9, 9 ) );
+            add( new AtomValue( 9, 10, 9 ) );
             add( new AtomValue( 10, 10, 10 ) );
             add( new AtomValue( 11, 12, 11 ) );
             add( new AtomValue( 12, 12, 12 ) );
