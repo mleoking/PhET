@@ -1,6 +1,5 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 
 /**

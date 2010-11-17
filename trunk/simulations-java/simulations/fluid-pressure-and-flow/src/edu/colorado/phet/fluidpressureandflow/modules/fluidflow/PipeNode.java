@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class PipeNode extends PNode {
-    private Color waterColor=new Color( 122,197,213 );
+    private Color waterColor = new Color( 122, 197, 213 );
 
     public PipeNode( final ModelViewTransform2D transform, final Pipe pipe ) {
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe

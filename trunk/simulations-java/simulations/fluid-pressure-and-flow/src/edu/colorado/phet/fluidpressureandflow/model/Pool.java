@@ -3,9 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.model;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
 /**
  * @author Sam Reid
  */

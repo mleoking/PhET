@@ -10,8 +10,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
-* @author Sam Reid
-*/
+ * @author Sam Reid
+ */
 public class RadioButton extends JRadioButton {
     public RadioButton( String label, final Property<Boolean> property ) {
         super( label, property.getValue() );

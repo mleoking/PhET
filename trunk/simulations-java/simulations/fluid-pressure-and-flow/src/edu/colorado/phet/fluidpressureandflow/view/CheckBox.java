@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
-* @author Sam Reid
-*/
+ * @author Sam Reid
+ */
 public class CheckBox extends JCheckBox {
     public CheckBox( String label, final Property<Boolean> property ) {
         super( label, property.getValue() );

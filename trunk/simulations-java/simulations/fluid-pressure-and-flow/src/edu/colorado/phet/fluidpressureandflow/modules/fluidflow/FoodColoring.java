@@ -74,7 +74,7 @@ public class FoodColoring {
         path.closePath();
         final GeneralPath generalPath = path.getGeneralPath();
         Area area = new Area( generalPath );
-        area.intersect( new Area(pipe.getShape() ));//make sure fluid doesn't get outside the pipe
+        area.intersect( new Area( pipe.getShape() ) );//make sure fluid doesn't get outside the pipe
         return area;
     }
 
