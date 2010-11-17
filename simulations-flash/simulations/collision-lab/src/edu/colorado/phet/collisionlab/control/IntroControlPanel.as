@@ -2,11 +2,15 @@ package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.MainView;
 
+import edu.colorado.phet.flashcommon.TextFieldUtils;
+
 import fl.controls.CheckBox;
 import fl.controls.Slider;
 
 import flash.display.MovieClip;
+import flash.events.MouseEvent;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 
 //This class is associated with Flash Library Symbol introControlPanel, so "this" is the controlPanel Library Symbol
 
@@ -20,6 +24,7 @@ public class IntroControlPanel extends ControlPanel {
         super.resetAll();
 
         this.sub_showCM_cb.selected = false;
+        this.sub_showValues_cb.selected = false;
     }
 
 
@@ -27,6 +32,16 @@ public class IntroControlPanel extends ControlPanel {
         super.initializeComponents();
 
         this.sub_showCM_cb.selected = false;
+
+        this.sub_showValues_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_showValues_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
+    }
+
+
+    override public function initializeStrings(): void {
+        super.initializeStrings();
+        
+        TextFieldUtils.initLabelButtonI18NLeft( "edu.colorado.phet.collisionlab.control.ControlPanel.showValues", "Show Values", sub_showValues_label, sub_showValues_cb );
     }
 
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }
@@ -41,7 +56,7 @@ public class IntroControlPanel extends ControlPanel {
 
     override public function get sub_showCM_cb(): CheckBox { return showCM_cb; }
 
-    override public function get sub_showPaths_cb(): CheckBox { return showPaths_cb; }
+    public function get sub_showValues_cb(): CheckBox { return showValues_cb; }
 
     override public function get sub_showMomenta_cb(): CheckBox { return showMomenta_cb; }
 
@@ -57,7 +72,7 @@ public class IntroControlPanel extends ControlPanel {
 
     override public function get sub_showMomenta_label(): TextField { return showMomenta_label; }
 
-    override public function get sub_showPaths_label(): TextField { return showPaths_label; }
+    public function get sub_showValues_label(): TextField { return showValues_label; }
 
     override public function get sub_sound_label(): TextField { return sound_label; }
 
