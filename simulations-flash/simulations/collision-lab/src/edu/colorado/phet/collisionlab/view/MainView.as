@@ -1,5 +1,6 @@
 //MainView contains all views, acts as mediator, communication hub for views
 package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.CollisionLabModule;
 import edu.colorado.phet.collisionlab.control.ControlPanel;
 import edu.colorado.phet.collisionlab.control.DataTable;
 import edu.colorado.phet.collisionlab.model.Model;
@@ -13,15 +14,17 @@ public class MainView extends Sprite {
     public var myDataTable: DataTable;
     public var controlPanel: ControlPanel;
     public var momentumView: MomentumView;
+    public var module: CollisionLabModule;
     var mySoundMaker: SoundMaker;
     var phetLogo: Sprite;
     var stageH: Number;
     var stageW: Number;
 
-    public function MainView( myModel: Model, stageW: Number, stageH: Number ) {
-        this.stageH = stageH;
-        this.stageW = stageW;
+    public function MainView( myModel: Model, module: CollisionLabModule, stageW: Number, stageH: Number ) {
         this.myModel = myModel;
+        this.module = module;
+        this.stageW = stageW;
+        this.stageH = stageH;
     }
 
     public function initialize(): void {
