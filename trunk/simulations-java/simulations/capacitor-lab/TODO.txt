@@ -14,11 +14,9 @@ DESIGN ISSUES
 - should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
-- battery and positive terminal shapes should be cylinders
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
 - hack in BottomWire
-- max spacing between dielectric charges is too large, it's > DielectricTotalChargeNode.SPACING_BETWEEN_PAIRS
 
 MEDUIUM PRIORITY
 - convert DielectricMaterial to Property<T>
@@ -40,6 +38,7 @@ LOW PRIORITY
 
 LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
+- battery and positive terminal shapes should be cylinders (but rectangles is good enough)
 
 GENERAL BUGS
 - #2521, dragging HTMLNode leaves artifacts

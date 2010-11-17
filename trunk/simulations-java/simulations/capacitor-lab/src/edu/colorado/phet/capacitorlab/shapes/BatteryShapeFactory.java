@@ -60,6 +60,7 @@ public class BatteryShapeFactory {
     
     /**
      * Gets the shape of the battery's body in the world coordinate frame.
+     * Origin at the center.
      * @return
      */
     public Shape createBodyShape() {
