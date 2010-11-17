@@ -47,7 +47,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         }
-        addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor() ) );
+        addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor0() ) );
+        addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor1() ) );
 
         final DropperNode dropperNode = new DropperNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getDropperOnProperty(), new SimpleObserver() {
             public void update() {

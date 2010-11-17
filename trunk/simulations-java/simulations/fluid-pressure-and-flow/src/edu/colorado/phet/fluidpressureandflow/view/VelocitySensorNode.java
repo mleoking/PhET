@@ -24,8 +24,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class VelocitySensorNode extends PNode {
     private final VelocitySensor pressureSensor;
 
-    public VelocitySensorNode( final ModelViewTransform2D transform, final VelocitySensor pressureSensor ) {
-        this.pressureSensor = pressureSensor;
+    public VelocitySensorNode( final ModelViewTransform2D transform, final VelocitySensor velocitySensor ) {
+        this.pressureSensor = velocitySensor;
         addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
         final PText child = new PText( getText() ) {{
             setFont( new PhetFont( 18, true ) );
@@ -49,7 +49,7 @@ public class VelocitySensorNode extends PNode {
 
             private void updateGrabPoint( PInputEvent event ) {
                 Point2D viewStartingPoint = event.getPositionRelativeTo( getParent() );
-                Point2D viewCoordinateOfObject = transform.modelToView( pressureSensor.getX(), pressureSensor.getY() );
+                Point2D viewCoordinateOfObject = transform.modelToView( velocitySensor.getX(), velocitySensor.getY() );
                 relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
             }
 
@@ -60,25 +60,25 @@ public class VelocitySensorNode extends PNode {
                 final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
                 Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
                                                                newDragPosition.getY() - relativeGrabPoint.getY() );
-                pressureSensor.setPosition( modelLocation.getX(), modelLocation.getY() );
+                velocitySensor.setPosition( modelLocation.getX(), modelLocation.getY() );
             }
 
             public void mouseReleased( PInputEvent event ) {
                 relativeGrabPoint = null;
             }
         } );
-        pressureSensor.addPositionObserver( new SimpleObserver() {
+        velocitySensor.addPositionObserver( new SimpleObserver() {
             public void update() {
-                setOffset( transform.modelToView( pressureSensor.getPosition() ) );
+                setOffset( transform.modelToView( velocitySensor.getPosition() ) );
             }
         } );
-        pressureSensor.addVelocityObserver( new SimpleObserver() {
+        velocitySensor.addVelocityObserver( new SimpleObserver() {
             public void update() {
                 child.setText( getText() );
 
                 child.setOffset( -child.getFullBounds().getWidth() / 2, 0 );//Center the text under the the hot spot
 
-                ImmutableVector2D velocity = pressureSensor.getVelocity().getValue();
+                ImmutableVector2D velocity = velocitySensor.getVelocity().getValue();
                 ImmutableVector2D viewVelocity = new ImmutableVector2D( transform.modelToViewDifferentialDouble( velocity.toPoint2D() ) );
                 double velocityScale = 0.2;
                 Point2D tip = viewVelocity.getScaledInstance( velocityScale ).toPoint2D();
