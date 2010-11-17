@@ -73,7 +73,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             }
         } );
 
-        addControls( new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
+        // Control Panel
+        final ControlPanel controlPanelNode = new ControlPanel( new FluidFlowControlPanel<FluidFlowModel>( module ) ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
+        }};
+        addChild( controlPanelNode );
+        addControls( controlPanelNode, new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() ) );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
