@@ -3,6 +3,7 @@ package edu.colorado.phet.collisionlab.model {
 
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.util.TwoVector;
+import edu.colorado.phet.collisionlab.view.MainView;
 
 import flash.events.*;
 import flash.geom.*;

@@ -27,8 +27,6 @@ public class IntroControlPanel extends ControlPanel {
 
     override public function get sub_showCM_cb(): CheckBox { return showCM_cb; }
 
-    override public function get sub_reflectingBorder_cb(): CheckBox { return reflectingBorder_cb; }
-
     override public function get sub_showPaths_cb(): CheckBox { return showPaths_cb; }
 
     override public function get sub_showMomenta_cb(): CheckBox { return showMomenta_cb; }
@@ -42,8 +40,6 @@ public class IntroControlPanel extends ControlPanel {
     override public function get sub_showMomentumVectors_label(): TextField { return showMomentumVectors_label; }
 
     override public function get sub_showCM_label(): TextField { return showCM_label; }
-
-    override public function get sub_reflectingBorder_label(): TextField { return reflectingBorder_label; }
 
     override public function get sub_showMomenta_label(): TextField { return showMomenta_label; }
 
