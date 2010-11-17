@@ -87,7 +87,9 @@ public class ControlPanel extends Sprite {
         this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showVelocities_cb.addEventListener( MouseEvent.CLICK, showVelocityArrows );
         this.sub_showMomentumVectors_cb.addEventListener( MouseEvent.CLICK, showMomentumArrows );
-        this.sub_showCM_cb.addEventListener( MouseEvent.CLICK, showCM );
+        this.sub_showCM_cb.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
+            showCM( e.target.selected );
+        } );
         this.sub_showMomenta_cb.addEventListener( MouseEvent.CLICK, momentaDiagramOnOrOff );
         this.sub_showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
         this.sub_sound_cb.addEventListener( MouseEvent.CLICK, soundOnOrOff );
@@ -151,7 +153,6 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.showArrowsOnBallImages( true );
         this.sub_showMomentumVectors_cb.selected = false;
         this.myMainView.myTableView.showPArrowsOnBallImages( false );
-        this.sub_showCM_cb.selected = true;
         this.myMainView.myTableView.CM.visible = true;
         //this.myModel.setReflectingBorder(true); //done in Model.resetAll();
         this.sub_showMomenta_cb.selected = false;
@@ -187,11 +188,11 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.showPArrowsOnBallImages( evt.target.selected );
     }
 
-    private function showCM( evt: MouseEvent ): void {
-        this.showCMOn = evt.target.selected;
-        this.sub_cmIcon.visible = evt.target.selected;
+    public function showCM( visible: Boolean ): void {
+        this.showCMOn = visible;
+        this.sub_cmIcon.visible = visible;
         if ( myModel.nbrBalls > 1 ) {
-            this.myMainView.myTableView.CM.visible = evt.target.selected;
+            this.myMainView.myTableView.CM.visible = visible;
         }
         else {
             this.myMainView.myTableView.CM.visible = false;

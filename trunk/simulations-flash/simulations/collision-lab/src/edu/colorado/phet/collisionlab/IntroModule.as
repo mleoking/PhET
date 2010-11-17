@@ -14,6 +14,8 @@ public class IntroModule extends CollisionLabModule {
     override public function resetAll(): void {
         myMainView.controlPanel.switchToOneDimension();
         myMainView.controlPanel.setBorderExists( false );
+        myMainView.controlPanel.showCM( false );
+        myMainView.controlPanel.sub_showCM_cb.selected = false;
     }
 
     override public function attach( parent: DisplayObjectContainer ): void {
@@ -22,6 +24,8 @@ public class IntroModule extends CollisionLabModule {
 
         myMainView.controlPanel.switchToOneDimension();
         myMainView.controlPanel.setBorderExists( false );
+        myMainView.controlPanel.showCM( false );
+        myMainView.controlPanel.sub_showCM_cb.selected = false; // for some reason, it has to be here instead of other places
     }
 
     override public function allowAddRemoveBalls(): Boolean {

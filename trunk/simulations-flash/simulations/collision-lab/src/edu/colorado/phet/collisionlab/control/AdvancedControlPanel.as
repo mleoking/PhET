@@ -25,6 +25,7 @@ public class AdvancedControlPanel extends ControlPanel {
 
         this.sub_twoD_rb.selected = true;
         this.sub_reflectingBorder_cb.selected = true;
+        this.sub_showCM_cb.selected = true;
     }
 
     override public function initializeComponents(): void {
