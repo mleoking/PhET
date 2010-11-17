@@ -2,25 +2,22 @@ package edu.colorado.phet.insidemagnets;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
 public class LatticeView extends PNode {
-    public LatticeView( final ModelViewTransform2D modelViewTransform2D, final Property<Lattice<Cell>> latticeProperty ) {
-        latticeProperty.addObserver( new SimpleObserver() {
+    public LatticeView( final ModelViewTransform2D modelViewTransform2D, final InsideMagnetsModel model ) {
+        model.addStepListener( new SimpleObserver() {
             public void update() {
                 removeAllChildren();
-                Lattice<Cell> lattice = latticeProperty.getValue();
+                Lattice<Cell> lattice = model.getLattice();
                 for ( Point location : lattice.getLocations() ) {
                     Point viewLocation = modelViewTransform2D.modelToView( location );
                     final ImmutableVector2D displayValue = lattice.getValue( location ).getSpinVector().getScaledInstance( 30 );
