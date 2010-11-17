@@ -2,23 +2,29 @@
 
 package edu.colorado.phet.greenhouse.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.HashMap;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import org.lwjgl.util.Dimension;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -67,7 +73,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Create the node that represents the spectrum.
         SpectrumNode spectrumNode = new SpectrumNode( (int) ( PANEL_SIZE.getWidth() * 0.9 ),
-                (int) ( PANEL_SIZE.getHeight() * 0.2 ) );
+                (int) ( PANEL_SIZE.getHeight() * 0.3 ), model );
         spectrumNode.setOffset( PANEL_SIZE.getWidth() / 2 - spectrumNode.getFullBoundsReference().width / 2,
                 PANEL_SIZE.getHeight() / 2 - spectrumNode.getFullBoundsReference().height / 2 );
 
@@ -122,21 +128,72 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         private static final double MIN_WAVELENGTH = 1E-10; // In meters.
         private static final double MAX_WAVELENGTH = 10; // In meters
-        private static final double WAVELENGTH_RANGE = MAX_WAVELENGTH - MIN_WAVELENGTH;
+        private static final double SPECTRUM_HEIGHT_PROPORTION = 0.8;
 
-        public SpectrumNode( int width, int height ){
-            PImage spectrumImageNode = new PImage( MySpectrumImageFactory.createHorizontalSpectrum( width, height,
-                    MIN_WAVELENGTH * 1E9, MAX_WAVELENGTH * 1E9) );
+        // Static data structure that maps the frequency values used in the
+        // model to frequency ranges depicted on this spectrum.
+        private static final HashMap<Double, DoubleRange> mapFreqToRange = new HashMap<Double, DoubleRange>(){{
+            put( GreenhouseConfig.microWavelength, new DoubleRange(1E-3, 1));
+            put( GreenhouseConfig.irWavelength, new DoubleRange(780E-9, 1E-3));
+            put( GreenhouseConfig.sunlightWavelength, new DoubleRange(380E-9, 780E-9));
+            put( GreenhouseConfig.uvWavelength, new DoubleRange(1E-9, 380E-9));
+        }};
+
+        private final PhotonAbsorptionModel model;
+        private final PPath markerNode = new PhetPPath( new BasicStroke( 5 ), Color.WHITE );
+        private final PImage spectrumImageNode;
+        private final double height;
+
+        /**
+         * Constructor.
+         */
+        public SpectrumNode( int width, int height, PhotonAbsorptionModel model ){
+
+            this.model = model;
+            this.height = height;
+
+            model.addListener( new PhotonAbsorptionModel.Adapter(){
+                @Override
+                public void emittedPhotonWavelengthChanged() {
+                    updateMarker();
+                }
+            });
+
+            spectrumImageNode = new PImage( MySpectrumImageFactory.createHorizontalSpectrum( width,
+                    (int)( height * SPECTRUM_HEIGHT_PROPORTION ), MIN_WAVELENGTH * 1E9, MAX_WAVELENGTH * 1E9) );
 
             // The spectrum image factory creates a spectrum by default that
             // is oriented from short to long wavelengths, and we need the
             // opposite, so we flip it here.
-            spectrumImageNode.rotate( Math.PI );
-            spectrumImageNode.setOffset( width, height );
+            spectrumImageNode.rotateAboutPoint( Math.PI, spectrumImageNode.getFullBoundsReference().getCenter2D() );
 
             addChild( spectrumImageNode );
+            addChild( markerNode );
+
+            updateMarker();
+        }
+
+        /**
+         * Update the marker, which reflects the currently selected band of
+         * the spectrum.
+         */
+        private void updateMarker(){
+            double wavelengthSetting = model.getEmittedPhotonWavelength();
+            DoubleRange wavelengthRange = mapFreqToRange.get( wavelengthSetting );
+            double minY = spectrumImageNode.getFullBoundsReference().getMaxY();
+            double maxY = height;
+            double minX = mapWavelengthToNormalizedXPos( wavelengthRange.getMin() ) * spectrumImageNode.getFullBoundsReference().width;
+            double maxX = mapWavelengthToNormalizedXPos( wavelengthRange.getMax() ) * spectrumImageNode.getFullBoundsReference().width;
+            DoubleGeneralPath markerPath = new DoubleGeneralPath();
+            markerPath.moveTo( minX, minY );
+            markerPath.lineTo( minX, maxY );
+            markerPath.lineTo( maxX, maxY );
+            markerPath.lineTo( maxX, minY );
+            markerNode.setPathTo( markerPath.getGeneralPath() );
+        }
+
+        private double mapWavelengthToNormalizedXPos( double wavelength ){
+            return 1 - Math.log( wavelength / MIN_WAVELENGTH ) / Math.log( MAX_WAVELENGTH / MIN_WAVELENGTH );
         }
     }
-
-
 }
