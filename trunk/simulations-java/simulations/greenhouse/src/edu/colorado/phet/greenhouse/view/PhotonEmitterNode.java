@@ -53,8 +53,6 @@ public class PhotonEmitterNode extends PNode {
 
 	private static int SLIDER_RANGE = 100;
 
-	enum ImageType { FLASHLIGHT, HEAT_LAMP, UV_LIGHT, MICROWAVE_ANNTENNA };
-
 	// ------------------------------------------------------------------------
 	// Instance Data
 	// ------------------------------------------------------------------------
@@ -254,13 +252,13 @@ public class PhotonEmitterNode extends PNode {
         // center right side of the image is the origin.  This assumes that
         // photons will be emitted horizontally to the right.
 	    if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
-	        photonEmitterImage = new PImage(GreenhouseResources.getImage("heat_lamp.png"));
+	        photonEmitterImage = new PImage(GreenhouseResources.getImage("heat-lamp.png"));
 	    }
 	    else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.sunlightWavelength){
 	        photonEmitterImage = new PImage(GreenhouseResources.getImage("flashlight2.png"));
 	    }
 	    else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
-	        photonEmitterImage = new PImage(GreenhouseResources.getImage("uv_light.png"));
+	        photonEmitterImage = new PImage(GreenhouseResources.getImage("uv-light.png"));
 	    }
         photonEmitterImage.scale(flashlightWidth / photonEmitterImage.getFullBoundsReference().width);
         photonEmitterImage.setOffset(-flashlightWidth, -photonEmitterImage.getFullBoundsReference().height / 2);
