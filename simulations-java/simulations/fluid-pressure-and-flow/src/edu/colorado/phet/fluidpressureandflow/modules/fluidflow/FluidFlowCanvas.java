@@ -57,7 +57,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         } );
         addChild( dropperNode );
         addChild( new BucketNode( module ) {{
-            setOffset( dropperNode.getFullBounds().getMaxX() + 5, dropperNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+            setOffset( dropperNode.getFullBounds().getMaxX() + 25, dropperNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
 
         module.getFluidFlowModel().addFoodColoringObserver( new Function1<FoodColoring, Void>() {
