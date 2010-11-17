@@ -14,7 +14,6 @@ import javax.swing.JRadioButton;
 import org.lwjgl.util.Dimension;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
@@ -115,14 +114,19 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     }
 
     /**
-     * Class the defines the spectrum that is shown on this control panel.
+     * Class that defines the spectrum that is shown on this control panel.
      *
      * @author John Blanco
      */
     public static class SpectrumNode extends PNode {
 
+        private static final double MIN_WAVELENGTH = 1E-10; // In meters.
+        private static final double MAX_WAVELENGTH = 10; // In meters
+        private static final double WAVELENGTH_RANGE = MAX_WAVELENGTH - MIN_WAVELENGTH;
+
         public SpectrumNode( int width, int height ){
-            PImage spectrumImageNode = new PImage( SpectrumImageFactory.createHorizontalSpectrum( width, height, 10, 1000 ) );
+            PImage spectrumImageNode = new PImage( MySpectrumImageFactory.createHorizontalSpectrum( width, height,
+                    MIN_WAVELENGTH * 1E9, MAX_WAVELENGTH * 1E9) );
 
             // The spectrum image factory creates a spectrum by default that
             // is oriented from short to long wavelengths, and we need the
