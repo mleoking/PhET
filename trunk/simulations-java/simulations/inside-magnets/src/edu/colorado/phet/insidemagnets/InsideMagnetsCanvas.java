@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -41,7 +42,13 @@ public class InsideMagnetsCanvas extends PhetPCanvas {
         setBorder( null );
 
         addChild( new LatticeView( transform, module.getInsideMagnetsModel() ) );
-        addChild( new NetMagnetizationField( transform, module.getInsideMagnetsModel() ) );
+        addChild( new NetMagnetizationField( transform, module.getInsideMagnetsModel() ){{
+            module.getShowMagnetizationProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( module.getShowMagnetizationProperty().getValue() );
+                }
+            } );
+        }} );
 
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
             final PSwing controlPanelPSwing = new PSwing( new InsideMagnetsControlPanel( module ) );
