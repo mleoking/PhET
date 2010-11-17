@@ -1,12 +1,16 @@
 package edu.colorado.phet.insidemagnets;
 
+import javax.swing.text.html.parser.AttributeList;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * @author Sam Reid
  */
 public class InsideMagnetsModule extends Module {
     private InsideMagnetsModel insideMagnetsModel;
+    private Property<Boolean> showMagnetizationProperty=new Property<Boolean>( false );
 
     public InsideMagnetsModule() {
         this( new InsideMagnetsModel() );
@@ -24,5 +28,9 @@ public class InsideMagnetsModule extends Module {
     }
 
     public void resetAll() {
+    }
+
+    public Property<Boolean> getShowMagnetizationProperty() {
+        return showMagnetizationProperty;
     }
 }

@@ -1,5 +1,9 @@
 package edu.colorado.phet.insidemagnets;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -50,6 +54,19 @@ public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     temperature.setValue( getValue() );
+                }
+            } );
+        }});
+
+        add(new JCheckBox( "Show Magnetization",module.getShowMagnetizationProperty().getValue() ){{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.getShowMagnetizationProperty().setValue( isSelected() );
+                }
+            } );
+            module.getShowMagnetizationProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setSelected( module.getShowMagnetizationProperty().getValue() );
                 }
             } );
         }});
