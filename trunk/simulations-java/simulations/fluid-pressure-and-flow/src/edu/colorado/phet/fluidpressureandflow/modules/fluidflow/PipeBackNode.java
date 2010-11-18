@@ -46,7 +46,6 @@ public class PipeBackNode extends PNode {
         final PhetPPath rightExtension = new PhetPPath( Color.blue );
 
         final BufferedImage pipeLeftBackImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-back.png" );
-        final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-front.png" );
 
         addChild( new PImage( pipeLeftBackImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
@@ -94,17 +93,6 @@ public class PipeBackNode extends PNode {
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
                     setPaint( PoolNode.getBottomColor( fluidDensity.getValue() ) );
-                }
-            } );
-        }} );
-
-        addChild( new PImage( pipeLeftFrontImage ) {{
-            pipe.addShapeChangeListener( new SimpleObserver() {
-                public void update() {
-                    double sy = getPipeLeftViewHeight() / pipeOpeningHeight;
-                    setTransform( AffineTransform.getScaleInstance( sx, sy ) );
-                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
                 }
             } );
         }} );

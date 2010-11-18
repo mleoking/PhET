@@ -1,3 +1,4 @@
+Fixed: Pipe top and bottom edges in wrong z-ordering
 # 0.00.04 (46343) Nov 18, 2010
 Fixed: Fluid density slider should change fluid color
 Fixed: pipe grab handles can get dissociated from the mouse
