@@ -21,7 +21,7 @@ public interface Function {
     }
 
     public static class PowerFunction implements Function {
-        private double power;
+        private final double power;
 
         public PowerFunction( double power ) {
             this.power = power;
@@ -29,6 +29,24 @@ public interface Function {
 
         public double evaluate( double x ) {
             return Math.pow( x, power );
+        }
+
+        public Function createInverse() {
+            throw new RuntimeException( "Not yet implemented" );
+        }
+    }
+
+    public static class ExponentialGrowthFunction implements Function {
+        private final double base;
+        private final double multiplier;
+
+        public ExponentialGrowthFunction( double base, double multiplier ) {
+            this.base = base;
+            this.multiplier = multiplier;
+        }
+
+        public double evaluate( double x ) {
+            return multiplier * Math.pow( base, x );
         }
 
         public Function createInverse() {
@@ -120,6 +138,7 @@ public interface Function {
             update();
         }
 
+        @Override
         public String toString() {
             return "Linear Function, [" + minInput + "," + maxInput + "]->[" + minOutput + "," + maxOutput + "]";
         }
