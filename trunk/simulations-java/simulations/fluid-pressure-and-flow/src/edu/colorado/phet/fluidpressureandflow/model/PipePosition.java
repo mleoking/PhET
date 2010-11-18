@@ -46,7 +46,8 @@ public class PipePosition {
     public double getHeight() {
         return getTop().getY() - getBottom().getY();
     }
-    public void reset(){
+
+    public void reset() {
         top.reset();
         bottom.reset();
     }
