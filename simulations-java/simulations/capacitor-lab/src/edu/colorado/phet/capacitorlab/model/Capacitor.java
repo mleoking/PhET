@@ -32,10 +32,9 @@ public class Capacitor {
     
     // immutable properties
     private final Point3D location; // location of the capacitor's geometric center (meters)
-    private final double plateThickness; // thickness of the plates (meters)
     
     // observable properties
-    private final Property<Double> plateSideLengthProperty; // length of one side of a plate (meters)
+    private final Property<Dimension3D> plateSizeProperty; // size of a plate (meters)
     private final Property<Double> plateSeparationProperty; // distance between the plates (meters)
     private final Property<DielectricMaterial> dielectricMaterialProperty; // insulator between the plates
     private final Property<Double> dielectricOffsetProperty; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
@@ -45,15 +44,14 @@ public class Capacitor {
     private final Property<Double> dielectricCapacitanceProperty; // C_dielectric, Farads
     private final Property<Double> totalCapacitanceProperty; // C_total, Farads
 
-    public Capacitor( Point3D location, double plateSideLength, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, ModelViewTransform mvt ) {
+    public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, ModelViewTransform mvt ) {
         
         this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );
         
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
-        this.plateThickness = CLConstants.PLATE_THICKNESS;
         
-        this.plateSideLengthProperty = new Property<Double>( plateSideLength );
+        this.plateSizeProperty = new Property<Dimension3D>( new Dimension3D( plateWidth, CLConstants.PLATE_HEIGHT, plateWidth ) ); // plates are square
         this.plateSeparationProperty = new Property<Double>( plateSeparation );
         this.dielectricMaterialProperty = new Property<DielectricMaterial>( dielectricMaterial );
         this.dielectricOffsetProperty = new Property<Double>( dielectricOffset );
@@ -69,7 +67,7 @@ public class Capacitor {
                 updateCapacitance();
             }
         };
-        plateSideLengthProperty.addObserver( o );
+        plateSizeProperty.addObserver( o );
         plateSeparationProperty.addObserver( o );
         dielectricMaterialProperty.addObserver( o );
         dielectricOffsetProperty.addObserver( o );
@@ -97,25 +95,28 @@ public class Capacitor {
     }
     
     /**
-     * Gets the thickness of the plates.
-     * 
-     * @param thickness, in meters
+     * Gets the plate size.
+     * @return
      */
-    public double getPlateThickness() {
-        return plateThickness;
+    public Dimension3D getPlateSize() {
+        return new Dimension3D( plateSizeProperty.getValue() );
     }
     
     /**
-     * Sets the length of a plate's side. Plates are square, so all sides have equal length.
+     * Sets the plate width. 
      * (design doc symbol: L)
+     * <p>
+     * Only the plate width settable.
+     * Plates are square, the plate depth is identical to the width.
+     * And the height (thickness) is constant.
      * 
-     * @param plateSideLength meters
+     * @param plateWidth meters
      */
-    public void setPlateSideLength( double plateSideLength ) {
-        if ( ! ( plateSideLength > 0 ) ) {
-            throw new IllegalArgumentException( "plateSideLength must be > 0: " + plateSideLength );
+    public void setPlateWidth( double plateWidth ) {
+        if ( ! ( plateWidth > 0 ) ) {
+            throw new IllegalArgumentException( "plateWidth must be > 0: " + plateWidth );
         }
-        plateSideLengthProperty.setValue( plateSideLength );
+        plateSizeProperty.setValue( new Dimension3D( plateWidth, plateSizeProperty.getValue().getHeight(), plateWidth ) );
     }
     
     /**
@@ -124,12 +125,25 @@ public class Capacitor {
      * 
      * @param return length, in meters
      */
-    public double getPlateSideLength() {
-        return plateSideLengthProperty.getValue();
+    public double getPlateWidth() {
+        return plateSizeProperty.getValue().getWidth();
     }
     
-    public void addPlateSideLengthObserver( SimpleObserver o ) {
-        plateSideLengthProperty.addObserver( o );
+    /**
+     * Gets the height (thickness) of the plates.
+     * 
+     * @param thickness, in meters
+     */
+    public double getPlateHeight() {
+        return plateSizeProperty.getValue().getHeight();
+    }
+    
+    public double getPlateDepth() {
+        return plateSizeProperty.getValue().getDepth();
+    }
+    
+    public void addPlateSizeObserver( SimpleObserver o ) {
+        plateSizeProperty.addObserver( o );
     }
     
     /**
@@ -161,20 +175,12 @@ public class Capacitor {
     }
     
     /**
-     * Convenience method for getting plate size.
-     * @return
-     */
-    public Dimension3D getPlateSize() {
-        return new Dimension3D( getPlateSideLength(), getPlateThickness(), getPlateSideLength() );
-    }
-    
-    /**
      * Convenience method for determining the outside center of the top plate.
      * This is a wire attachment point.
      * @return
      */
     public Point3D getTopPlateCenter() {
-        return new Point3D.Double( getX(), getY() - ( getPlateSeparation() / 2 ) - plateThickness, getZ() );
+        return new Point3D.Double( getX(), getY() - ( getPlateSeparation() / 2 ) - getPlateHeight(), getZ() );
     }
     
     /**
@@ -183,7 +189,7 @@ public class Capacitor {
      * @return
      */
     public Point3D getBottomPlateCenter() {
-        return new Point3D.Double( getX(), getY() + ( getPlateSeparation() / 2 ) + plateThickness, getZ());
+        return new Point3D.Double( getX(), getY() + ( getPlateSeparation() / 2 ) + getPlateHeight(), getZ());
     }
     
     /**
@@ -224,7 +230,7 @@ public class Capacitor {
      * @return
      */
     public Dimension3D getDielectricSize() {
-        return new Dimension3D( getPlateSideLength(), getPlateSeparation(), getPlateSideLength() );
+        return new Dimension3D( getPlateWidth(), getPlateSeparation(), getPlateDepth() );
     }
     
     /**
@@ -261,7 +267,7 @@ public class Capacitor {
      * @return area in meters^2
      */
     public double getPlateArea() {
-        return getPlateSideLength() * getPlateSideLength();
+        return getPlateWidth() * getPlateDepth();
     }
     
     /**
@@ -282,7 +288,7 @@ public class Capacitor {
      */
     public double getDielectricContactArea() {
         double absoluteOffset = Math.abs( getDielectricOffset() );
-        double area = getPlateSideLength() * ( getPlateSideLength() - absoluteOffset ); // side * front
+        double area = ( getPlateWidth() - absoluteOffset ) * getPlateDepth(); // front * side
         if ( area < 0 ) {
             area = 0;
         }

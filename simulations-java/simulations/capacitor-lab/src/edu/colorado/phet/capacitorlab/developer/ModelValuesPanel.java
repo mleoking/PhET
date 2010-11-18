@@ -259,7 +259,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
         /* user settings */
         V_battery.setValue( battery.getVoltage() );
         Q_disconnected.setValue( circuit.getDisconnectedPlateCharge() );
-        L.setValue( capacitor.getPlateSideLength() );
+        L.setValue( capacitor.getPlateWidth() );
         d.setValue( capacitor.getPlateSeparation() );
         offset.setValue( capacitor.getDielectricOffset() );
         epsilon_dielectric.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );

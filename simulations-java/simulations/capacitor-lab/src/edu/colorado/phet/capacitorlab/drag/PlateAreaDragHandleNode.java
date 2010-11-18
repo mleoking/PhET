@@ -72,7 +72,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         valueNode.setOffset( x, y );
         
         // watch for model changes
-        capacitor.addPlateSideLengthObserver( new SimpleObserver() {
+        capacitor.addPlateSizeObserver( new SimpleObserver() {
             public void update() {
                 updateDisplay();
                 updateOffset();
@@ -91,9 +91,9 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     }
     
     private void updateOffset() {
-        double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateSideLength() / 2 );
-        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateThickness();
-        double z = capacitor.getLocationReference().getZ() - ( capacitor.getPlateSideLength() / 2 );
+        double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateWidth() / 2 );
+        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();
+        double z = capacitor.getLocationReference().getZ() - ( capacitor.getPlateDepth() / 2 );
         Point2D handleLocation = mvt.modelToView( x, y, z );
         setOffset( handleLocation );
     }

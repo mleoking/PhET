@@ -32,7 +32,7 @@ public class IntroductionModule extends DielectricModule {
     @Override
     public void reset() {
         super.reset();
-        setDielectricOffset( CLConstants.PLATE_SIZE_RANGE.getMax() + 1 ); // move dielectric outside plates
+        setDielectricOffset( CLConstants.PLATE_WIDTH_RANGE.getMax() + 1 ); // move dielectric outside plates
         setEFieldDetectorDielectricVisible( false );
         setEFieldDetectorSumVisible( false );
     }

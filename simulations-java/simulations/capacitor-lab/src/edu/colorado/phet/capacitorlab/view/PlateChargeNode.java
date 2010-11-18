@@ -112,7 +112,7 @@ public abstract class PlateChargeNode extends PhetPNode {
             final double zMargin = mvt.viewToModelDelta( new PositiveChargeNode().getFullBoundsReference().getWidth(), 0 ).getX();
             
             final double contactWidth = getContactWidth(); // contact between plate and dielectric
-            final double plateDepth = circuit.getCapacitor().getPlateSideLength() - ( 2 * zMargin );
+            final double plateDepth = circuit.getCapacitor().getPlateDepth() - ( 2 * zMargin );
             
             // grid dimensions
             Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, contactWidth, plateDepth );
@@ -182,13 +182,13 @@ public abstract class PlateChargeNode extends PhetPNode {
         
         // Gets the x offset (relative to the plate's origin) of the portion of the plate that is in contact with the dielectric.
         public double getContactXOrigin() {
-            return -( getCircuit().getCapacitor().getPlateSideLength() / 2 ) + getCircuit().getCapacitor().getDielectricOffset();
+            return -( getCircuit().getCapacitor().getPlateWidth() / 2 ) + getCircuit().getCapacitor().getDielectricOffset();
         }
         
         // Gets the width of the portion of the plate that is in contact with the dielectric.
         protected double getContactWidth() {
             Capacitor capacitor = getCircuit().getCapacitor();
-            return Math.max( 0, capacitor.getPlateSideLength() - capacitor.getDielectricOffset() );
+            return Math.max( 0, capacitor.getPlateWidth() - capacitor.getDielectricOffset() );
         }
     }
     
@@ -209,13 +209,13 @@ public abstract class PlateChargeNode extends PhetPNode {
         
         // Gets the x offset (relative to the plate origin) of the portion of the plate that is in contact with air.
         public double getContactXOrigin() {
-            return -getCircuit().getCapacitor().getPlateSideLength() / 2;
+            return -getCircuit().getCapacitor().getPlateWidth() / 2;
         }
         
         // Gets the width of the portion of the plate that is in contact with air.
         public double getContactWidth() {
             Capacitor capacitor = getCircuit().getCapacitor();
-            return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateSideLength() );
+            return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateWidth() );
         }
     }
 }

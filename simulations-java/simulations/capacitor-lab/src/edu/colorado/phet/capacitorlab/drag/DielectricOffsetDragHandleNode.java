@@ -71,7 +71,7 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
                 updateOffset();
             }
         } );
-        capacitor.addPlateSideLengthObserver( new SimpleObserver() {
+        capacitor.addPlateSizeObserver( new SimpleObserver() {
             public void update() {
                 updateOffset();
             }
@@ -84,7 +84,7 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
     }
     
     private void updateOffset() {
-        double x = capacitor.getLocationReference().getX() + ( capacitor.getPlateSideLength() / 2 ) + capacitor.getDielectricOffset();
+        double x = capacitor.getLocationReference().getX() + ( capacitor.getPlateWidth() / 2 ) + capacitor.getDielectricOffset();
         double y = capacitor.getLocationReference().getY();
         double z = 0;
         Point2D handleLocation = mvt.modelToView( x, y, z );

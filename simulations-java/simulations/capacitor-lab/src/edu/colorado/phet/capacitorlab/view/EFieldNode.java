@@ -75,7 +75,7 @@ public class EFieldNode extends PhetPNode {
         if ( lineSpacing > 0 ) {
             
             // relevant model values
-            final double plateWidth = circuit.getCapacitor().getPlateSideLength();
+            final double plateWidth = circuit.getCapacitor().getPlateWidth();
             final double plateDepth = plateWidth;
             final double plateSeparation = circuit.getCapacitor().getPlateSeparation();
             
@@ -124,7 +124,7 @@ public class EFieldNode extends PhetPNode {
      */
     private double getLineSpacing( double effectiveEField ) {
         final int numberOfLines = getNumberOfLines( effectiveEField );
-        return BatteryCapacitorCircuit.getMinPlateSideLength() / Math.sqrt( numberOfLines ); // assumes a square plate!;
+        return BatteryCapacitorCircuit.getMinPlateWidth() / Math.sqrt( numberOfLines ); // assumes a square plate!;
     }
     
     /*

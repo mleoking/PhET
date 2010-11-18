@@ -86,7 +86,7 @@ public class VoltageShapesDebugNode extends PComposite {
                     bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
                 }
             };
-            capacitor.addPlateSideLengthObserver( o );
+            capacitor.addPlateSizeObserver( o );
             capacitor.addPlateSeparationObserver( o );
             capacitor.addDielectricOffsetObserver( o );
         }
