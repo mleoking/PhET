@@ -8,6 +8,7 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
 import edu.colorado.phet.capacitorlab.shapes.BoxShapeFactory;
+import edu.colorado.phet.capacitorlab.util.Dimension3D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -27,26 +28,25 @@ public abstract class BoxNode extends PhetPNode {
 
     private final BoxShapeFactory shapeFactory;
     private final PPath topNode, frontNode, sideNode;
-    private double width, depth, height;
+    private Dimension3D size;
     
-    public BoxNode( ModelViewTransform mvt, Color color, double width, double height, double depth ) {
+    public BoxNode( ModelViewTransform mvt, Color color, Dimension3D size ) {
         
         this.shapeFactory = new BoxShapeFactory( mvt );
+        this.size = new Dimension3D( size );
         
-        topNode = new PhetPPath( shapeFactory.createTopFace( width, height, depth ), getTopColor( color ), STROKE, STROKE_COLOR );
-        frontNode = new PhetPPath( shapeFactory.createFrontFace( width, height, depth ), getFrontColor( color ), STROKE, STROKE_COLOR );
-        sideNode = new PhetPPath( shapeFactory.createSideFace( width, height, depth ), getSideColor( color ), STROKE, STROKE_COLOR );
+        topNode = new PhetPPath( shapeFactory.createTopFace( size ), getTopColor( color ), STROKE, STROKE_COLOR );
+        frontNode = new PhetPPath( shapeFactory.createFrontFace( size ), getFrontColor( color ), STROKE, STROKE_COLOR );
+        sideNode = new PhetPPath( shapeFactory.createSideFace( size ), getSideColor( color ), STROKE, STROKE_COLOR );
         
         addChild( topNode );
         addChild( frontNode );
         addChild( sideNode );
     }
     
-    public void setSize( double width, double height, double depth ) {
-        if ( width != this.width || height != this.height || depth != this.depth ) {
-            this.width = width;
-            this.height = height;
-            this.depth = depth;
+    public void setSize( Dimension3D size ) {
+        if ( !size.equals( this.size ) ) {
+            this.size = new Dimension3D( size );
             updateShapes();
         }
     }
@@ -58,9 +58,9 @@ public abstract class BoxNode extends PhetPNode {
     }
     
     private void updateShapes() {
-        topNode.setPathTo( shapeFactory.createTopFace( width, height, depth ) );
-        frontNode.setPathTo( shapeFactory.createFrontFace( width, height, depth ) );
-        sideNode.setPathTo( shapeFactory.createSideFace( width, height, depth ) );
+        topNode.setPathTo( shapeFactory.createTopFace( size ) );
+        frontNode.setPathTo( shapeFactory.createFrontFace( size ) );
+        sideNode.setPathTo( shapeFactory.createSideFace( size ) );
     }
     
     private Color getTopColor( Color baseColor ) {

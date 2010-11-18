@@ -6,6 +6,7 @@ import java.awt.Shape;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
+import edu.colorado.phet.capacitorlab.util.Dimension3D;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -160,6 +161,14 @@ public class Capacitor {
     }
     
     /**
+     * Convenience method for getting plate size.
+     * @return
+     */
+    public Dimension3D getPlateSize() {
+        return new Dimension3D( getPlateSideLength(), getPlateThickness(), getPlateSideLength() );
+    }
+    
+    /**
      * Convenience method for determining the outside center of the top plate.
      * This is a wire attachment point.
      * @return
@@ -211,19 +220,11 @@ public class Capacitor {
     }
     
     /**
-     * Convenience method for getting the dielectric height.
+     * Convenience method for getting dielectric size.
      * @return
      */
-    public double getDielectricHeight() {
-        return getPlateSeparation();
-    }
-    
-    /**
-     * Convenience method for getting the dielectric width;
-     * @return
-     */
-    public double getDiectricWidth() {
-        return getPlateSideLength();
+    public Dimension3D getDielectricSize() {
+        return new Dimension3D( getPlateSideLength(), getPlateSeparation(), getPlateSideLength() );
     }
     
     /**
@@ -254,7 +255,7 @@ public class Capacitor {
     }
     
     /**
-     * Gets the area of one plate's inside surface.
+     * Gets the 2D area of one plate's top (or bottom) surfaces.
      * (design doc symbol: A)
      * 
      * @return area in meters^2

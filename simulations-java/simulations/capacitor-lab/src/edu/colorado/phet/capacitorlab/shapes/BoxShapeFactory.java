@@ -7,6 +7,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.util.Dimension3D;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
 /**
@@ -42,8 +43,8 @@ public class BoxShapeFactory {
         return createFace( p0, p1, p2, p3 );
     }
     
-    public Shape createTopFace( double width, double height, double depth ) {
-        return createTopFace( 0, 0, 0, width, height, depth );
+    public Shape createTopFace( Dimension3D size ) {
+        return createTopFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
     
     /**
@@ -64,8 +65,8 @@ public class BoxShapeFactory {
         return createFace( p0, p1, p2, p3 );
     }
     
-    public Shape createFrontFace( double width, double height, double depth ) {
-        return createFrontFace( 0, 0, 0, width, height, depth );
+    public Shape createFrontFace( Dimension3D size ) {
+        return createFrontFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
     
     
@@ -93,8 +94,8 @@ public class BoxShapeFactory {
         return createFace( p0, p1, p2, p3 );
     }
     
-    public Shape createSideFace( double width, double height, double depth ) {
-        return createSideFace( 0, 0, 0, width, height, depth );
+    public Shape createSideFace( Dimension3D size ) {
+        return createSideFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
     
     /*

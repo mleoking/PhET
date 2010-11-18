@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.util.Dimension3D;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
 /**
@@ -37,7 +38,7 @@ public class CapacitorShapeFactory {
      * @return
      */
     private Shape createTopPlateShape() {
-        return createPlateShape( capacitor.getX(), capacitor.getTopPlateCenter().getY(), capacitor.getZ() );
+        return createBoxShape( capacitor.getX(), capacitor.getTopPlateCenter().getY(), capacitor.getZ(), capacitor.getPlateSize() );
     }
     
     /**
@@ -45,7 +46,7 @@ public class CapacitorShapeFactory {
      * @return
      */
     public Shape createBottomPlateShape() {
-        return createPlateShape( capacitor.getX(), capacitor.getY() + ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ() );
+        return createBoxShape( capacitor.getX(), capacitor.getY() + ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getPlateSize() );
     }
     
     /*
@@ -53,10 +54,8 @@ public class CapacitorShapeFactory {
      * @return
      */
     private Shape createDielectricShape() {
-        double x = capacitor.getX() + capacitor.getDielectricOffset();
-        double y = capacitor.getY() - ( capacitor.getDielectricHeight() / 2 );
-        double z = capacitor.getZ();
-        return createBoxShape( x, y, z, capacitor.getPlateSideLength(), capacitor.getDielectricHeight(), capacitor.getPlateSideLength() );
+        return createBoxShape( capacitor.getX() + capacitor.getDielectricOffset(), 
+                capacitor.getY() - ( capacitor.getDielectricSize().getHeight() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
     }
     
     /*
@@ -64,13 +63,7 @@ public class CapacitorShapeFactory {
      * @return
      */
     private Shape createBetweenPlatesShape() {
-        double x = capacitor.getX();
-        double y = capacitor.getY() - ( capacitor.getPlateSeparation() / 2 );
-        double z = capacitor.getZ();
-        double width = capacitor.getPlateSideLength();
-        double height = capacitor.getPlateSeparation();
-        double depth = width;
-        return createBoxShape( x, y, z, width, height, depth );
+        return createBoxShape( capacitor.getX(), capacitor.getY() - ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getPlateSize() );
     }
     
     /*
@@ -142,17 +135,10 @@ public class CapacitorShapeFactory {
     //----------------------------------------------------------------------------------------
     
     /*
-     * A capacitor plate, relative to a specified origin.
-     */
-    private Shape createPlateShape( double x, double y, double z ) {
-        return createBoxShape( x, y, z, capacitor.getPlateSideLength(), capacitor.getPlateThickness(), capacitor.getPlateSideLength() );
-    }
-    
-    /*
      * A box, relative to a specific origin.
      */
-    private Shape createBoxShape( double x, double y, double z, double width, double height, double depth ) {
-        return boxShapeFactory.createBoxShape( x, y, z, width, height, depth );
+    private Shape createBoxShape( double x, double y, double z, Dimension3D size ) {
+        return boxShapeFactory.createBoxShape( x, y, z, size.getWidth(), size.getHeight(), size.getDepth() );
     }
     
     /*
