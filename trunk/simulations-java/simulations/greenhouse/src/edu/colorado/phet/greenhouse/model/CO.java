@@ -61,7 +61,7 @@ public class CO extends Molecule {
 
     @Override
     public MoleculeID getMoleculeID() {
-        return MoleculeID.CO2;
+        return MoleculeID.CO;
     }
 
     /* (non-Javadoc)

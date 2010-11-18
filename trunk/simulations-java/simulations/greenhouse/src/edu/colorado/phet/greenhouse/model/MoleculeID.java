@@ -6,14 +6,16 @@ package edu.colorado.phet.greenhouse.model;
 /**
  * Identifiers used to refer to the various types of molecules supported in
  * the Photon Absorption module.
- * 
+ *
  * @author John Blanco
  */
 public enum MoleculeID {
     CH4,
+    CO,
     CO2,
     H2O,
     N2,
     N2O,
+    NO2,
     O2
 }
