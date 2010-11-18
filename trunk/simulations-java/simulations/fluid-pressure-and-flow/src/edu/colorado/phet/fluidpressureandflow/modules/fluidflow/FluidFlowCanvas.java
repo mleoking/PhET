@@ -30,11 +30,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
 
-        addChild( new PipeNode( transform, module.getFluidFlowModel().getPipe() ) );
+        addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe() ) );
         particleLayer = new PNode();
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
         addChild( particleLayer );
+        addChild( new PipeFrontNode( transform, module.getFluidFlowModel().getPipe() ) );
         for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
             addParticleNode( p );
         }
