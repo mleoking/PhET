@@ -20,7 +20,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private PNode particleLayer;
     private PNode foodColoringLayer;
 
-    private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
+    private static final double modelHeight = Pool.DEFAULT_HEIGHT * 3.2;
     private static final double pipeCenterY = -2;
     private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
