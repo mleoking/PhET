@@ -47,8 +47,14 @@ public class Model {
     var view_arr: Array;		//views of this model
     var nbrViews: int;		//number of views
 
+    public var extendedBorder: Boolean;
 
-    public function Model() {
+
+    /**
+     * @param extendedBorder Whether or not the border should be expanded to very large horizontally
+     */
+    public function Model( extendedBorder: Boolean ) {
+        this.extendedBorder = extendedBorder;
         this.borderOn = true;
         this.borderWidth = CLConstants.BORDER_WIDTH;	//units are meters
         this.borderHeight = CLConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup

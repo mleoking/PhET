@@ -10,12 +10,14 @@ public class CollisionLabModule {
     private var lastPlaying: Boolean = false;
 
     public function CollisionLabModule() {
-        myModel = new Model();
+        myModel = createModel();
     }
 
     public function resetAll(): void { throw new Error( "abstract" ); } // TODO: called from control panel. should be handled mainly here?
 
     public function attach( parent: DisplayObjectContainer ): void { throw new Error( "abstract" ); }
+
+    public function createModel(): Model { throw new Error( "abstract" ); }
 
     public function onHide(): void {
         lastPlaying = myModel.playing;

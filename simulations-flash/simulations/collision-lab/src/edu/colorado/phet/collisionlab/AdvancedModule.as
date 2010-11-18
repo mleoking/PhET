@@ -1,4 +1,5 @@
 package edu.colorado.phet.collisionlab {
+import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.AdvancedView;
 import edu.colorado.phet.collisionlab.view.MainView;
 
@@ -18,6 +19,10 @@ public class AdvancedModule extends CollisionLabModule {
     override public function attach( parent: DisplayObjectContainer ): void {
         parent.addChild( myMainView );
         myMainView.initialize();
+    }
+
+    override public function createModel(): Model {
+        return new Model( false );
     }
 }
 }
