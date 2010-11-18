@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.CH4;
+import edu.colorado.phet.greenhouse.model.CO;
 import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
@@ -94,7 +95,7 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
                 // TODO: i18n
                 "CO",
                 "Carbon Monoxide",
-                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
+                createImageFromMolecule( new CO() ), PhotonTarget.SINGLE_CO_MOLECULE, MOLECULE_SCALING_FACTOR );
         coSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( coSelector, constraints );
 
