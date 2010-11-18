@@ -62,11 +62,13 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
 
     private final PhotonAbsorptionModel model;
 
-    private final RadioButtonWithIconPanel co2Selector;
-    private final RadioButtonWithIconPanel h2oSelector;
-    private final RadioButtonWithIconPanel ch4Selector;
+    private final RadioButtonWithIconPanel coSelector;
     private final RadioButtonWithIconPanel n2Selector;
     private final RadioButtonWithIconPanel o2Selector;
+    private final RadioButtonWithIconPanel co2Selector;
+    private final RadioButtonWithIconPanel h2oSelector;
+    private final RadioButtonWithIconPanel no2Selector;
+    private final RadioButtonWithIconPanel o3Selector;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -87,27 +89,14 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         GridBagConstraints constraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         addControlFullWidth( atmosphericGasesPanel );
 
-        // Add buttons for selecting greenhouse gas.
-        ch4Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CH4" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Methane" ),
+        // Add buttons for selecting the molecule.
+        coSelector = createAndAttachSelectorPanel(
+                // TODO: i18n
+                "CO",
+                "Carbon Monoxide",
                 createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
-        ch4Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add( ch4Selector, constraints );
-
-        co2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CO2" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CarbonDioxide" ),
-                createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
-        co2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add( co2Selector, constraints );
-
-        h2oSelector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.H2O" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Water" ),
-                createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
-        h2oSelector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add( h2oSelector, constraints );
+        coSelector.setFont( LABEL_FONT );
+        atmosphericGasesPanel.add( coSelector, constraints );
 
         n2Selector = createAndAttachSelectorPanel(
                 GreenhouseResources.getString( "PhotonAbsorptionControlPanel.N2" ),
@@ -123,14 +112,45 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( o2Selector, constraints );
 
+        co2Selector = createAndAttachSelectorPanel(
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CO2" ),
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CarbonDioxide" ),
+                createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
+        co2Selector.setFont( LABEL_FONT );
+        atmosphericGasesPanel.add( co2Selector, constraints );
+
+        h2oSelector = createAndAttachSelectorPanel(
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.H2O" ),
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Water" ),
+                createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
+        h2oSelector.setFont( LABEL_FONT );
+        atmosphericGasesPanel.add( h2oSelector, constraints );
+
+        no2Selector = createAndAttachSelectorPanel(
+                // TODO: i18n
+                "NO2",
+                "Nitrogen Dioxide",
+                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
+        no2Selector.setFont( LABEL_FONT );
+        atmosphericGasesPanel.add( no2Selector, constraints );
+
+        o3Selector = createAndAttachSelectorPanel(
+                // TODO: i18n
+                "O3",
+                "Ozone",
+                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
+        o3Selector.setFont( LABEL_FONT );
+        atmosphericGasesPanel.add( o3Selector, constraints );
 
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( co2Selector.getButton() );
-        buttonGroup.add( h2oSelector.getButton() );
-        buttonGroup.add( ch4Selector.getButton() );
+        buttonGroup.add( coSelector.getButton() );
         buttonGroup.add( n2Selector.getButton() );
         buttonGroup.add( o2Selector.getButton() );
+        buttonGroup.add( co2Selector.getButton() );
+        buttonGroup.add( h2oSelector.getButton() );
+        buttonGroup.add( no2Selector.getButton() );
+        buttonGroup.add( o3Selector.getButton() );
 
         // Add the reset all button.
         addControlFullWidth( createVerticalSpacingPanel( 5 ) );
