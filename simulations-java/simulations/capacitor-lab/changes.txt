@@ -1,3 +1,4 @@
+11/17/10 implement Battery.reset and Capacitor.reset, use them in DielectricModel.reset
 11/17/10 replace Capacitor.plateThickness and plateSideLengthProperty with Capacitor.plateSizeProperty
 11/17/10 terminology change: plateThickness -> plateHeight
 11/17/10 terminology change: plateSideLength or plateSize -> plateWidth

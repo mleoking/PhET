@@ -73,6 +73,13 @@ public class Capacitor {
         dielectricOffsetProperty.addObserver( o );
     }
     
+    public void reset() {
+        plateSizeProperty.reset();
+        plateSeparationProperty.reset();
+        dielectricMaterialProperty.reset();
+        dielectricOffsetProperty.reset();
+    }
+    
     /**
      * Gets the capacitor's location in model coordinates.
      * 

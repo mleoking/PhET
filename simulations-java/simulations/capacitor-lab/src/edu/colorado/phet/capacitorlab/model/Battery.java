@@ -22,8 +22,10 @@ public class Battery {
     private final Point3D location;
     private final BatteryShapeFactory shapeFactory;
     
-    // mutable properties
+    // settable properties
     private final Property<Double> voltageProperty;
+    
+    // derived properties
     private final Property<Polarity> polarityProperty;
     
     public Battery( Point3D location, double voltage, ModelViewTransform mvt ) {
@@ -38,6 +40,10 @@ public class Battery {
                 setPolarity( getPolarity( getVoltage() ) );
             }
         } );
+    }
+    
+    public void reset() {
+        voltageProperty.reset();
     }
     
     public Point3D getLocationReference() {
