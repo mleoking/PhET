@@ -99,7 +99,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         foodColoringLayer.addChild( node );
         p.addRemovalListener( new SimpleObserver() {
             public void update() {
-                particleLayer.removeChild( node );
+                foodColoringLayer.removeChild( node );
                 p.removeRemovalListener( this );
             }
         } );
