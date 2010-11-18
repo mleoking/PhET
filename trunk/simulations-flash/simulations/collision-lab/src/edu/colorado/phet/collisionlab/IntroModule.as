@@ -1,4 +1,5 @@
 package edu.colorado.phet.collisionlab {
+import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.IntroView;
 import edu.colorado.phet.collisionlab.view.MainView;
 
@@ -30,6 +31,10 @@ public class IntroModule extends CollisionLabModule {
 
     override public function allowAddRemoveBalls(): Boolean {
         return false;
+    }
+
+    override public function createModel(): Model {
+        return new Model( true );
     }
 }
 }

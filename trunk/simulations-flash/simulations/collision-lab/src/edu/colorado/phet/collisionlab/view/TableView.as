@@ -98,13 +98,25 @@ public class TableView extends Sprite {
         }
         //        var x0: Number = 0;
         //        var y0: Number = 0;
-        g.beginFill( 0xccffcc );
-        g.moveTo( -del, -del );
-        g.lineTo( W + del, -del );
-        g.lineTo( W + del, +H + del );
-        g.lineTo( -del, +H + del );
-        g.lineTo( -del, -del );
-        g.endFill();
+        if ( this.myModel.extendedBorder ) {
+            const largeConst: Number = 5000;
+            g.beginFill( 0xccffcc );
+            g.moveTo( -largeConst, -del );
+            g.lineTo( largeConst, -del );
+            g.lineTo( largeConst, +H + del );
+            g.lineTo( -largeConst, +H + del );
+            g.lineTo( -largeConst, -del );
+            g.endFill();
+        }
+        else {
+            g.beginFill( 0xccffcc );
+            g.moveTo( -del, -del );
+            g.lineTo( W + del, -del );
+            g.lineTo( W + del, +H + del );
+            g.lineTo( -del, +H + del );
+            g.lineTo( -del, -del );
+            g.endFill();
+        }
 
         //position playButtons
         this.playButtons.x = W / 2;
