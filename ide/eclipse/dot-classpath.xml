@@ -140,6 +140,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/energy-skate-park/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/faraday/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/faraday/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/fluid-pressure-and-flow/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/fluid-pressure-and-flow/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/forces-1d/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/forces-1d/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/fourier/src"/>
@@ -156,6 +158,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/hydrogen-atom/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/ideal-gas/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/ideal-gas/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/inside-magnets/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/inside-magnets/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/java-common-strings/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/java-common-strings/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/lasers/src"/>
