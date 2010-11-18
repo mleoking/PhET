@@ -38,6 +38,15 @@ public class Pipe {
     }
 
     public Shape getShape() {
+        ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
+        double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
+        pipePositions.add( new PipePosition( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
+        pipePositions.addAll( this.pipePositions );
+        pipePositions.add( new PipePosition( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
+        return getShape( pipePositions );
+    }
+
+    public Shape getShape( ArrayList<PipePosition> pipePositions ) {
         DoubleGeneralPath path = new DoubleGeneralPath( pipePositions.get( 0 ).getTop() );
         for ( PipePosition pipePosition : pipePositions.subList( 1, pipePositions.size() ) ) {
             path.lineTo( pipePosition.getTop() );
@@ -90,8 +99,8 @@ public class Pipe {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
-        if (list.size()==0){
-            throw new RuntimeException( "No pipe segments before x= "+x );
+        if ( list.size() == 0 ) {
+            throw new RuntimeException( "No pipe segments before x= " + x );
         }
         return list.get( 0 );
     }
@@ -184,7 +193,7 @@ public class Pipe {
 //        pipePositions.add( new PipePosition( 6, -3, -1 ) );
 
         for ( int i = 0; i < pipePositions.size(); i++ ) {
-            PipePosition pipePosition =  pipePositions.get( i );
+            PipePosition pipePosition = pipePositions.get( i );
             pipePosition.reset();
 
         }
