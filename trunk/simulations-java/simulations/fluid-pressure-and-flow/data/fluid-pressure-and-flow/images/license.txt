@@ -1,2 +1,3 @@
 bucket microsoft clip art
 dropper microsoft clip art
+pipe-* microsoft clip art
