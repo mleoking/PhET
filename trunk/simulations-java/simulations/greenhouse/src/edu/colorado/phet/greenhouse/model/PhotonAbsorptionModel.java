@@ -63,7 +63,8 @@ public class PhotonAbsorptionModel {
 
     // Choices of targets for the photons.
     public enum PhotonTarget { SINGLE_CO_MOLECULE, SINGLE_CO2_MOLECULE, SINGLE_H2O_MOLECULE, SINGLE_CH4_MOLECULE,
-        SINGLE_N2O_MOLECULE, SINGLE_N2_MOLECULE, SINGLE_NO2_MOLECULE, SINGLE_O2_MOLECULE, CONFIGURABLE_ATMOSPHERE };
+        SINGLE_N2O_MOLECULE, SINGLE_N2_MOLECULE, SINGLE_NO2_MOLECULE, SINGLE_O2_MOLECULE, SINGLE_O3_MOLECULE,
+        CONFIGURABLE_ATMOSPHERE };
 
     // Minimum and defaults for photon emission periods.  Note that the max is
     // assumed to be infinity.
@@ -272,6 +273,10 @@ public class PhotonAbsorptionModel {
                 break;
             case SINGLE_O2_MOLECULE:
                 newMolecule = new O2(SINGLE_MOLECULE_LOCATION);
+                activeMolecules.add( newMolecule );
+                break;
+            case SINGLE_O3_MOLECULE:
+                newMolecule = new O3(SINGLE_MOLECULE_LOCATION);
                 activeMolecules.add( newMolecule );
                 break;
             case SINGLE_NO2_MOLECULE:

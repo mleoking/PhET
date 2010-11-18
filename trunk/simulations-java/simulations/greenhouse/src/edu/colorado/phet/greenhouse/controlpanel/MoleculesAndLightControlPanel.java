@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.CH4;
 import edu.colorado.phet.greenhouse.model.CO;
 import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
@@ -31,6 +30,7 @@ import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.N2;
 import edu.colorado.phet.greenhouse.model.NO2;
 import edu.colorado.phet.greenhouse.model.O2;
+import edu.colorado.phet.greenhouse.model.O3;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
@@ -140,7 +140,7 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
                 // TODO: i18n
                 "O3",
                 "Ozone",
-                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
+                createImageFromMolecule( new O3() ), PhotonTarget.SINGLE_O3_MOLECULE, MOLECULE_SCALING_FACTOR );
         o3Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( o3Selector, constraints );
 
