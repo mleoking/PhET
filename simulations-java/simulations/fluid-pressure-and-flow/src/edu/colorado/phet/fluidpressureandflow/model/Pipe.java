@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -38,12 +39,16 @@ public class Pipe {
     }
 
     public Shape getShape() {
+        return getShape( getAugmentedPipePositionArray() );
+    }
+
+    private ArrayList<PipePosition> getAugmentedPipePositionArray() {
         ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
         double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
         pipePositions.add( new PipePosition( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
         pipePositions.addAll( this.pipePositions );
         pipePositions.add( new PipePosition( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
-        return getShape( pipePositions );
+        return pipePositions;
     }
 
     public Shape getShape( ArrayList<PipePosition> pipePositions ) {
@@ -59,6 +64,37 @@ public class Pipe {
             path.lineTo( pipePosition.getBottom() );
         }
         return path.getGeneralPath();
+    }
+
+    public Shape getPath( Function1<PipePosition, Point2D> getter ) {
+        ArrayList<PipePosition> pipePositions = getAugmentedPipePositionArray();
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        for ( int i = 0; i < pipePositions.size(); i++ ) {
+            PipePosition pipePosition = pipePositions.get( i );
+            if ( i == 0 ) {
+                path.moveTo( getter.apply( pipePosition ) );
+            }
+            else {
+                path.lineTo( getter.apply( pipePosition ) );
+            }
+        }
+        return path.getGeneralPath();
+    }
+
+    public Shape getTopPath() {
+        return getPath( new Function1<PipePosition, Point2D>() {
+            public Point2D apply( PipePosition pipePosition ) {
+                return pipePosition.getTop();
+            }
+        } );
+    }
+
+    public Shape getBottomPath() {
+        return getPath( new Function1<PipePosition, Point2D>() {
+            public Point2D apply( PipePosition pipePosition ) {
+                return pipePosition.getBottom();
+            }
+        } );
     }
 
     /**
@@ -216,4 +252,5 @@ public class Pipe {
     public ImmutableVector2D getTweakedVelocity( double x, double y ) {
         return new ImmutableVector2D( getTweakedVx( x, y ), getVelocity( x, y ).getY() );
     }
+
 }
