@@ -1,3 +1,4 @@
+11/17/10 make dielectric transparent when voltmeter is selected so bottom plate can be touched through the battery
 11/17/10 reset custom dielectric material in model.reset
 11/17/10 convert DielectricMaterial to Property<T>
 11/17/10 implement Battery.reset and Capacitor.reset, use them in DielectricModel.reset
