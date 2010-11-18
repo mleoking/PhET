@@ -2,6 +2,12 @@ TODO list for capacitor-lab
 
 DEADLINES
 
+QUESTIONS FOR TEAM
+- is 2D projection measurement scheme OK?
+- how should dielectric charges move?
+- what else needs to be done for 1.00?
+- team needs to make some decisions about Multiple Capacitors tab
+
 QUESTIONS FOR NOAH
 
 NOAH P ACTION ITEMS
