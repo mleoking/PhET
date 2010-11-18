@@ -26,14 +26,16 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private ArrayList<Function1<FoodColoring, Void>> foodColoringObservers = new ArrayList<Function1<FoodColoring, Void>>();
     private VelocitySensor velocitySensor0 = new VelocitySensor( 3.8871813435433333, 2.776627608771319, this );
     private VelocitySensor velocitySensor1 = new VelocitySensor( 3.8871813435433333, 2.776627608771319, this );
-    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
+//    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
+    private Property<Double> dropperRateProperty = new Property<Double>( 10.0 );//percent probability to drop in each frame
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
     public FluidFlowModel() {
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                if ( dropperOnProperty.getValue() ) {
+                double value = dropperRateProperty.getValue()/100.0;
+                if (random.nextDouble()<value){
                     addDrop();
                 }
 
@@ -158,8 +160,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         return velocitySensor1;
     }
 
-    public Property<Boolean> getDropperOnProperty() {
-        return dropperOnProperty;
+    public Property<Double> getDropperRateProperty() {
+        return dropperRateProperty;
     }
 
     public void pourFoodColoring() {
@@ -182,7 +184,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         pipe.reset();
         velocitySensor0.reset();
         velocitySensor1.reset();
-        dropperOnProperty.reset();
+        dropperRateProperty.reset();
         //TODO: remove particle and food coloring
     }
 

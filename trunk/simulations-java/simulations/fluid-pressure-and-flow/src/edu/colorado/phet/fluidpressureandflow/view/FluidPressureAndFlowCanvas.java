@@ -39,7 +39,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         setBorder( null );
     }
 
-    protected static void makeTransparent( JComponent component ) {
+    public static void makeTransparent( JComponent component ) {
         if ( !( component instanceof JTextComponent ) ) {
             component.setBackground( new Color( 0, 0, 0, 0 ) );
             component.setOpaque( false );
