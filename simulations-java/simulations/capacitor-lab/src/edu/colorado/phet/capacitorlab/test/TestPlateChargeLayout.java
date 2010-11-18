@@ -4,18 +4,18 @@ package edu.colorado.phet.capacitorlab.test;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.EventListener;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy;
-import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
+import edu.colorado.phet.capacitorlab.view.PlusNode;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -45,75 +45,46 @@ public class TestPlateChargeLayout extends JFrame {
     // Model
     //==============================================================================
     
-    public interface ModelChangeListener extends EventListener {
-        public void numberOfChargesChanged();
-        public void plateSizeChanged();
-    }
-    
     public static class TestModel {
         
-        private final EventListenerList listeners;
-        private int numberOfCharges;
-        private int plateWidth, plateHeight;
+        private final Property<Integer> numberOfChargesProperty;
+        private final Property<Dimension> plateSizeProperty;
         
         public TestModel() {
-            listeners = new EventListenerList();
-            numberOfCharges = NUMBER_OF_CHARGES_RANGE.getDefault();
-            plateWidth = PLATE_WIDTH_RANGE.getDefault();
-            plateHeight = PLATE_HEIGHT_RANGE.getDefault();
+            numberOfChargesProperty = new Property<Integer>( NUMBER_OF_CHARGES_RANGE.getDefault() );
+            plateSizeProperty = new Property<Dimension>( new Dimension( PLATE_WIDTH_RANGE.getDefault(), PLATE_HEIGHT_RANGE.getDefault() ) );
+        }
+        
+        public void addNumberOfChargesObserver( SimpleObserver o ) {
+            numberOfChargesProperty.addObserver( o );
         }
         
         public void setNumberOfCharges( int numberOfCharges ) {
-            if ( numberOfCharges != this.numberOfCharges ) {
-                this.numberOfCharges = numberOfCharges;
-                fireNumberOfChargesChanged();
-            }
+            numberOfChargesProperty.setValue( numberOfCharges );
         }
         
         public int getNumberOfCharges() {
-            return numberOfCharges;
+            return numberOfChargesProperty.getValue();
+        }
+        
+        public void addPlateSizeObserver( SimpleObserver o ) {
+            plateSizeProperty.addObserver( o );
         }
         
         public void setPlateWidth( int plateWidth ) {
-            if ( plateWidth != this.plateWidth ) {
-                this.plateWidth = plateWidth;
-                firePlateSizeChanged();
-            }
+            plateSizeProperty.setValue( new Dimension( plateWidth, getPlateHeight() ) );
         }
         
         public void setPlateHeight( int plateHeight ) {
-            if ( plateHeight != this.plateHeight ) {
-                this.plateHeight = plateHeight;
-                firePlateSizeChanged();
-            }
+            plateSizeProperty.setValue( new Dimension( getPlateWidth(), plateHeight ) );
         }
         
         public int getPlateWidth() {
-            return plateWidth;
+            return plateSizeProperty.getValue().width;
         }
         
         public int getPlateHeight() {
-            return plateHeight;
-        }
-        
-        public void addModelChangeListener( ModelChangeListener listener ) {
-            listeners.add( ModelChangeListener.class, listener );
-        }
-        
-        public void removeModelChangeListener( ModelChangeListener listener ) {
-            listeners.remove( ModelChangeListener.class, listener );
-        }
-        
-        private void fireNumberOfChargesChanged() {
-            for ( ModelChangeListener listener : listeners.getListeners( ModelChangeListener.class ) ) {
-                listener.numberOfChargesChanged();
-            }
-        }
-        
-        private void firePlateSizeChanged() {
-            for ( ModelChangeListener listener : listeners.getListeners( ModelChangeListener.class ) ) {
-                listener.plateSizeChanged();
-            }
+            return plateSizeProperty.getValue().height;
         }
     }
     
@@ -159,28 +130,19 @@ public class TestPlateChargeLayout extends JFrame {
             
             // model change listener
             this.model = model;
-            model.addModelChangeListener( new ModelChangeListener() {
-
-                public void plateSizeChanged() {
-                    update();
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
+                    updatePlate();
+                    updateCharges();
                 }
-                
-                public void numberOfChargesChanged() {
-                    update();
-                }
-            });
-            
-            update();
+            };
+            model.addNumberOfChargesObserver( o );
+            model.addPlateSizeObserver( o );
         }
         
         // convenience method for adding nodes to the canvas
         public void addChild( PNode child ) {
             getLayer().addChild( child );
-        }
-        
-        private void update() {
-            updatePlate();
-            updateCharges();
         }
         
         /*
@@ -288,13 +250,13 @@ public class TestPlateChargeLayout extends JFrame {
             add( plateHeightControl, row++, column );
             
             // model change listener
-            model.addModelChangeListener( new ModelChangeListener() {
-
-                public void numberOfChargesChanged() {
+            model.addNumberOfChargesObserver( new SimpleObserver() {
+                public void update() {
                     numberOfChargesControl.setValue( model.getNumberOfCharges() );
                 }
-
-                public void plateSizeChanged() {
+            } );
+            model.addPlateSizeObserver( new SimpleObserver() {
+                public void update() {
                     plateWidthControl.setValue( model.getPlateWidth() );
                     plateHeightControl.setValue( model.getPlateHeight() );
                 }
