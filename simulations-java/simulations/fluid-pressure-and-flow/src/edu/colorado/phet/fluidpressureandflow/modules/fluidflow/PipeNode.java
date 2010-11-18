@@ -1,8 +1,10 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -10,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.PipePosition;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -22,11 +26,38 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PipeNode extends PNode {
     private Color waterColor = new Color( 122, 197, 213 );
+    private Pipe pipe;
+    private ModelViewTransform2D transform;
+    private int PIPE_LEFT_OFFSET = 78;
+    double sx = 0.4;
+
+    private static final double pipeOpeningPixelYTop = 58;
+    private static final double pipeOpeningPixelYBottom = 375;
+    private static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
 
     public PipeNode( final ModelViewTransform2D transform, final Pipe pipe ) {
+        this.pipe = pipe;
+        this.transform = transform;
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
-        final PhetPPath leftCoupling = new PhetPPath( Color.gray );
-        final PhetPPath rightCoupling = new PhetPPath( Color.gray );
+
+        final BufferedImage pipeImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-repeat.png" );
+        final PhetPPath leftExtension = new PhetPPath();
+        final PhetPPath rightExtension = new PhetPPath();
+
+        final BufferedImage pipeLeftBackImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-back.png" );
+        final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-front.png" );
+        final BufferedImage pipeRightImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-right.png" );
+        addChild( new PImage( pipeLeftBackImage ) {{
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    double sy = getPipeLeftViewHeight() / pipeOpeningHeight;
+                    setTransform( AffineTransform.getScaleInstance( sx, sy ) );
+                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
+                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
+                }
+            } );
+        }} );
+
         addChild( new PhetPPath( waterColor, new BasicStroke( 1 ), Color.black ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
@@ -34,21 +65,59 @@ public class PipeNode extends PNode {
 
                     double length = 10000;
                     final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-                    final Point2D bottomLeft = transform.modelToViewDouble( pipe.getBottomLeft() );
-                    leftCoupling.setPathTo( new Rectangle2D.Double( topLeft.getX() - length, topLeft.getY(), length, bottomLeft.getY() - topLeft.getY() ) );
+                    final double leftPipeHeight = getPipeLeftViewHeight();
+                    leftExtension.setPathTo( new Rectangle2D.Double( topLeft.getX() - length, topLeft.getY(), length, leftPipeHeight ) );
+                    leftExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, topLeft.getY(), pipeImage.getWidth(), leftPipeHeight ) ) );
 
                     final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
                     final Point2D bottomRight = transform.modelToViewDouble( pipe.getBottomRight() );
-                    rightCoupling.setPathTo( new Rectangle2D.Double( topRight.getX(), topRight.getY(), length, bottomRight.getY() - topRight.getY() ) );
+                    final double rightPipeHeight = bottomRight.getY() - topRight.getY();
+                    rightExtension.setPathTo( new Rectangle2D.Double( topRight.getX(), topRight.getY(), length, rightPipeHeight ) );
+                    rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, topRight.getY(), pipeImage.getWidth(), rightPipeHeight ) ) );
                 }
             } );
         }} );
         //Left coupling
-        addChild( leftCoupling );
-        addChild( rightCoupling );
+        addChild( leftExtension );
+        addChild( rightExtension );
+
+        addChild( new PImage( pipeLeftFrontImage ) {{
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    double sy = getPipeLeftViewHeight() / pipeOpeningHeight;
+                    setTransform( AffineTransform.getScaleInstance( sx, sy ) );
+                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
+                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
+                }
+            } );
+        }} );
+
+        addChild( new PImage( pipeRightImage ) {{
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    double sy = getPipeRightViewHeight() / pipeOpeningHeight;
+                    setTransform( AffineTransform.getScaleInstance( sx, sy ) );
+                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopRight() );
+                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
+                }
+            } );
+        }} );
+
         for ( PipePosition pipePosition : pipe.getPipePositions() ) {
             addChild( new PipePositionControl( transform, pipePosition ) );
         }
+    }
+
+    public double getPipeLeftViewHeight() {
+        final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
+        final Point2D bottomLeft = transform.modelToViewDouble( pipe.getBottomLeft() );
+        return bottomLeft.getY() - topLeft.getY();
+    }
+
+    public double getPipeRightViewHeight() {
+        final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
+        final Point2D bottomRight = transform.modelToViewDouble( pipe.getBottomRight() );
+        return bottomRight.getY() - topRight.getY();
     }
 
     public static class GrabHandle extends PNode {
