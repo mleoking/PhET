@@ -71,7 +71,7 @@ public class CapacitorNode extends PhetPNode {
         float transparency = ( opaque ) ? 1f : TRANSPARENCY;
         /*
          * Some dielectric materials are naturally transparent.
-         * Modify dielectric transparency only if its not already transparent. 
+         * Modify dielectric transparency only if it's not already transparent. 
          */
         if ( circuit.getCapacitor().getDielectricMaterial().isOpaque() ) {
             dielectricNode.setTransparency( transparency );
