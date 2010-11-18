@@ -13,7 +13,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.controlpanel.MoleculesAndLightControlPanel;
-import edu.colorado.phet.greenhouse.controlpanel.PhotonAbsorptionControlPanel;
 import edu.colorado.phet.greenhouse.developer.PhotonAbsorptionParamsDlg;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.view.MoleculesAndLightCanvas;
@@ -64,7 +63,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
         setLogoPanel( null );
 
         // Physical model
-        model = new PhotonAbsorptionModel( (ConstantDtClock) getClock() );
+        model = new PhotonAbsorptionModel( (ConstantDtClock) getClock(), PhotonAbsorptionModel.PhotonTarget.SINGLE_CO_MOLECULE );
 
         // Canvas
         canvas = new MoleculesAndLightCanvas( model );
