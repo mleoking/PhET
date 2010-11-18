@@ -24,8 +24,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private Random random = new Random();
     private ArrayList<Function1<Particle, Void>> particleAddedObservers = new ArrayList<Function1<Particle, Void>>();
     private ArrayList<Function1<FoodColoring, Void>> foodColoringObservers = new ArrayList<Function1<FoodColoring, Void>>();
-    private VelocitySensor velocitySensor0 = new VelocitySensor( 3.8871813435433333, 2.776627608771319, this );
-    private VelocitySensor velocitySensor1 = new VelocitySensor( 3.8871813435433333, 2.776627608771319, this );
+    private VelocitySensor velocitySensor0 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
+    private VelocitySensor velocitySensor1 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
 //    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
     private Property<Double> dropperRateProperty = new Property<Double>( 10.0 );//percent probability to drop in each frame
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
@@ -73,8 +73,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 }
             }
         } );
-        addPressureSensor( new PressureSensor( this, 3.8753840027845436,3.071051890010442 ) );
-        addPressureSensor( new PressureSensor( this, 3.8753840027845436,3.071051890010442 ) );
+        addPressureSensor( new PressureSensor( this, 3.9444705882352933,1.1882302540898015 ) );
+        addPressureSensor( new PressureSensor( this, 3.9444705882352933,1.1882302540898015 ) );
     }
 
     private void removeFoodColoring( FoodColoring foodColoring ) {
