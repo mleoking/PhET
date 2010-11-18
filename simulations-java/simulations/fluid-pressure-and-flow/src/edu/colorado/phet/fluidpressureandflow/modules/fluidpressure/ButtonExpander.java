@@ -19,7 +19,7 @@ public class ButtonExpander extends PNode {
         //Show and hide expand/collapse buttons based on state
         //Expand button
         addChild( new PSwing( new JButton( expandText ) {{
-            setFont( new PhetFont(18,true));
+            setFont( new PhetFont( 18, true ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     expanded.setValue( true );
@@ -34,7 +34,7 @@ public class ButtonExpander extends PNode {
         }} );
         //Collapse button
         addChild( new PSwing( new JButton( collapseText ) {{
-            setFont( new PhetFont(18,true));
+            setFont( new PhetFont( 18, true ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     expanded.setValue( false );

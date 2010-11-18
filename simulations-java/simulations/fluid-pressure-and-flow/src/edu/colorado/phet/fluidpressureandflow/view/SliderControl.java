@@ -29,7 +29,7 @@ public class SliderControl extends PNode {
                 }} );
                 setMajorTicksVisible( false );
                 setMinorTicksVisible( false );
-                setFont( new PhetFont(16,true) );
+                setFont( new PhetFont( 16, true ) );
                 FluidPressureCanvas.makeTransparent( this );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {

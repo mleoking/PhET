@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
-import edu.colorado.phet.fluidpressureandflow.model.PipePosition;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -84,21 +83,6 @@ public class PipeBackNode extends PNode {
                 }
             } );
         }} );
-        addChild( new PhetPPath( new BasicStroke( 5 ), new Color( 165, 91, 0 ) ) {{
-            pipe.addShapeChangeListener( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.createTransformedShape( pipe.getTopPath() ) );
-                }
-            } );
-        }} );
-
-        addChild( new PhetPPath( new BasicStroke( 5 ), new Color( 0, 51, 91 ) ) {{
-            pipe.addShapeChangeListener( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.createTransformedShape( pipe.getBottomPath() ) );
-                }
-            } );
-        }} );
 
         addChild( new PImage( pipeLeftFrontImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
@@ -131,8 +115,6 @@ public class PipeBackNode extends PNode {
         public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint, final ControlPoint oppositeControlPoint ) {
             this.controlPoint = controlPoint;
             this.oppositeControlPoint = oppositeControlPoint;
-//            double grabHandleRadius = 10;
-//            addChild( new PhetPPath( new Ellipse2D.Double( -grabHandleRadius, -grabHandleRadius, grabHandleRadius * 2, grabHandleRadius * 2 ), Color.green ) {{
             double arrowLength = 20;
             addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
                 setPaint( Color.green );
