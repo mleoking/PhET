@@ -107,11 +107,11 @@ public class CapacitorShapeFactory {
     
     /**
      * Visible portion of the bottom plate.
-     * May be partially occluded by the top plate and/or dielectric.
+     * May be partially occluded by the top plate.
      * @return
      */
     public Shape createBottomPlateShapeOccluded() {
-        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShape(), createDielectricShape() );
+        return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShape() );
     }
     
     /**

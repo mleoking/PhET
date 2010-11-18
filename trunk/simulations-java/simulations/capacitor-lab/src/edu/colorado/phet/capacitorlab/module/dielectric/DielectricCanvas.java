@@ -147,6 +147,7 @@ public class DielectricCanvas extends CLCanvas {
         // nodes whose visibility causes the capacitor to become transparent
         dielectricTransparencyNodes = new ArrayList<PNode>();
         addDielectricTransparencyNode( capacitorNode.getEFieldNode() );
+        addDielectricTransparencyNode( voltmeter.getBodyNode() );
         addDielectricTransparencyNode( eFieldDetector.getBodyNode() );
         
         // static layout
