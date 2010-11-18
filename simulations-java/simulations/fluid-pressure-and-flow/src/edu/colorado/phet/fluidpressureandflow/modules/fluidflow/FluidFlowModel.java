@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
@@ -22,8 +22,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private Pipe pipe = new Pipe();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private Random random = new Random();
-    private ArrayList<Function1<Particle, Void>> particleAddedObservers = new ArrayList<Function1<Particle, Void>>();
-    private ArrayList<Function1<FoodColoring, Void>> foodColoringObservers = new ArrayList<Function1<FoodColoring, Void>>();
+    private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
+    private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
     private VelocitySensor velocitySensor0 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
     private VelocitySensor velocitySensor1 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
 //    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
@@ -130,11 +130,11 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         return particles.toArray( new Particle[0] );
     }
 
-    public void addParticleAddedObserver( Function1<Particle, Void> listener ) {
+    public void addParticleAddedObserver( VoidFunction1<Particle> listener ) {
         particleAddedObservers.add( listener );
     }
 
-    public void addFoodColoringObserver( Function1<FoodColoring, Void> listener ) {
+    public void addFoodColoringObserver( VoidFunction1<FoodColoring> listener ) {
         foodColoringObservers.add( listener );
     }
 
@@ -166,7 +166,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
 
     public void pourFoodColoring() {
         final FoodColoring foodColoring = new FoodColoring( pipe.getMinX() + 1E-6, 0.75, pipe );
-        for ( Function1<FoodColoring, Void> foodColoringObserver : foodColoringObservers ) {
+        for ( VoidFunction1<FoodColoring> foodColoringObserver : foodColoringObservers ) {
             foodColoringObserver.apply( foodColoring );
         }
         foodColorings.add( foodColoring );
@@ -192,7 +192,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         double dropRadius = 0.1;
         final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe, dropRadius );
         particles.add( newParticle );
-        for ( Function1<Particle, Void> particleAddedObserver : particleAddedObservers ) {
+        for ( VoidFunction1<Particle> particleAddedObserver : particleAddedObservers ) {
             particleAddedObserver.apply( newParticle );
         }
     }

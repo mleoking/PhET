@@ -6,9 +6,9 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.AndProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
@@ -42,10 +42,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
             addParticleNode( p );
         }
-        module.getFluidFlowModel().addParticleAddedObserver( new Function1<Particle, Void>() {
-            public Void apply( Particle particle ) {
+        module.getFluidFlowModel().addParticleAddedObserver( new VoidFunction1<Particle>() {
+            public void apply( Particle particle ) {
                 addParticleNode( particle );
-                return null;//TODO: better support for void
             }
         } );
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
@@ -71,10 +70,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 //            setOffset( dropperNode.getFullBounds().getMaxX() + 25, dropperNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 //        }} );
 
-        module.getFluidFlowModel().addFoodColoringObserver( new Function1<FoodColoring, Void>() {
-            public Void apply( FoodColoring foodColoring ) {
+        model.addFoodColoringObserver( new VoidFunction1<FoodColoring>() {
+            public void apply( FoodColoring foodColoring ) {
                 addFoodColoringNode( foodColoring );
-                return null;
             }
         } );
 
@@ -140,13 +138,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private void addParticleNode( final Particle p ) {
         final ParticleNode node = new ParticleNode( transform, p );
         particleLayer.addChild( node );
-        p.addRemovalListener( new Function0() {
-            public Object apply() {
+        p.addRemovalListener( new SimpleObserver() {
+            public void update() {
                 particleLayer.removeChild( node );
                 p.removeRemovalListener( this );
-                return null;//TODO: better interface so we don't have to do this
             }
         } );
     }
-
 }

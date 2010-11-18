@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 
@@ -15,7 +14,7 @@ public class Particle {
     private double fractionUpPipe;
     private final Pipe container;
     private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
-    private ArrayList<Function0> listeners = new ArrayList<Function0>();
+    private ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
     private double radius;
 
     public Particle( double x, double fractionUpPipe, Pipe container ) {
@@ -50,17 +49,17 @@ public class Particle {
     }
 
     public void notifyRemoved() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            listeners.get( i ).apply();
+        for ( int i = 0; i < removalListeners.size(); i++ ) {
+            removalListeners.get( i ).update();
         }
     }
 
-    public void addRemovalListener( Function0 removalListener ) {
-        listeners.add( removalListener );
+    public void addRemovalListener( SimpleObserver removalListener ) {
+        removalListeners.add( removalListener );
     }
 
-    public void removeRemovalListener( Function0 function0 ) {
-        listeners.remove( function0 );
+    public void removeRemovalListener( SimpleObserver removalListener ) {
+        removalListeners.remove( removalListener );
     }
 
     public Point2D getPosition() {
