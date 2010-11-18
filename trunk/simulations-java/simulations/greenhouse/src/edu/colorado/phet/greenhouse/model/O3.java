@@ -28,12 +28,12 @@ public class O3 extends Molecule {
     private static final double OXYGEN_OXYGEN_BOND_LENGTH = 180;
     private static final double INITIAL_MOLECULE_ANGLE = 104.5;
     private static final double INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2 * OxygenAtom.MASS *
-        OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE ) / (OxygenAtom.MASS *
-        2 * OxygenAtom.MASS);
+            OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE ) / ( OxygenAtom.MASS *
+            2 * OxygenAtom.MASS );
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET -
-        OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE );
+            OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE );
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = OXYGEN_OXYGEN_BOND_LENGTH *
-        Math.sin( INITIAL_MOLECULE_ANGLE );
+            Math.sin( INITIAL_MOLECULE_ANGLE );
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -53,16 +53,16 @@ public class O3 extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public O3(Point2D inititialCenterOfGravityPos){
+    public O3( Point2D inititialCenterOfGravityPos ) {
 
         // Create the bond structure.  O3 has a type of bond where each O-O
         // has essentially 1.5 bonds, so we randomly choose one side to show
         // two bonds and another to show one.
-        if ( RAND.nextBoolean() ){
+        if ( RAND.nextBoolean() ) {
             leftOxygenOxygenBond = new AtomicBond( centerOxygenAtom, leftOxygenAtom, 1 );
             rightOxygenOxygenBond = new AtomicBond( centerOxygenAtom, rightOxygenAtom, 2 );
         }
-        else{
+        else {
             leftOxygenOxygenBond = new AtomicBond( centerOxygenAtom, leftOxygenAtom, 2 );
             rightOxygenOxygenBond = new AtomicBond( centerOxygenAtom, rightOxygenAtom, 1 );
         }
@@ -84,8 +84,8 @@ public class O3 extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public O3(){
-        this(new Point2D.Double(0, 0));
+    public O3() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -97,25 +97,25 @@ public class O3 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(centerOxygenAtom, new PDimension(0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(leftOxygenAtom, new PDimension(INITIAL_OXYGEN_HORIZONTAL_OFFSET,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(rightOxygenAtom, new PDimension(-INITIAL_OXYGEN_HORIZONTAL_OFFSET,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put( centerOxygenAtom, new PDimension( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
+        atomCogOffsets.put( leftOxygenAtom, new PDimension( INITIAL_OXYGEN_HORIZONTAL_OFFSET,
+                -INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        atomCogOffsets.put( rightOxygenAtom, new PDimension( -INITIAL_OXYGEN_HORIZONTAL_OFFSET,
+                -INITIAL_OXYGEN_VERTICAL_OFFSET ) );
     }
 
     @Override
-    protected void updateOscillationFormation(double oscillationRadians){
+    protected void updateOscillationFormation( double oscillationRadians ) {
         // TODO: This is temporary until we work out what the real oscillation
         // should look like.
         double multFactor = Math.sin( oscillationRadians );
         double maxHydrogenDisplacement = 20;
         double maxOxygenDisplacement = 5;
-        atomCogOffsets.put(centerOxygenAtom, new PDimension(0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement));
-        atomCogOffsets.put(leftOxygenAtom, new PDimension(INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
-        atomCogOffsets.put(rightOxygenAtom, new PDimension(-INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
+        atomCogOffsets.put( centerOxygenAtom, new PDimension( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
+        atomCogOffsets.put( leftOxygenAtom, new PDimension( INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        atomCogOffsets.put( rightOxygenAtom, new PDimension( -INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
     }
 
     @Override
