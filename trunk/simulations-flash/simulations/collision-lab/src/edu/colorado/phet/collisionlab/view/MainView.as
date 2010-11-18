@@ -3,10 +3,13 @@ package edu.colorado.phet.collisionlab.view {
 import edu.colorado.phet.collisionlab.CollisionLabModule;
 import edu.colorado.phet.collisionlab.control.ControlPanel;
 import edu.colorado.phet.collisionlab.control.DataTable;
+import edu.colorado.phet.collisionlab.control.NiceButton;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.SoundMaker;
+import edu.colorado.phet.flashcommon.SimStrings;
 
 import flash.display.*;
+import flash.geom.Point;
 
 public class MainView extends Sprite {
     var myModel: Model;
@@ -15,6 +18,7 @@ public class MainView extends Sprite {
     public var controlPanel: ControlPanel;
     public var momentumView: MomentumView;
     public var module: CollisionLabModule;
+    public var returnBallsButtonSprite: Sprite;
     var mySoundMaker: SoundMaker;
     var phetLogo: Sprite;
     var stageH: Number;
@@ -48,6 +52,62 @@ public class MainView extends Sprite {
         this.phetLogo.y = this.stageH - this.phetLogo.height - 35; // our flashcommon buttons now below logo.
         this.momentumView.visible = false;
 
+        returnBallsButtonSprite = new DataTableButtonBody();
+        var returnBallsButton: * = new NiceButton( returnBallsButtonSprite, 110, function(): void {
+            returnBallsButtonSprite.visible = false;
+            myModel.returnBalls();
+        } );
+        returnBallsButtonSprite.visible = false;
+        returnBallsButton.setLabel( SimStrings.get( "TableView.returnBalls", "Return Balls" ) );
+        addChild( returnBallsButtonSprite );
+        returnBallsButtonSprite.x = 330;
+        returnBallsButtonSprite.y = myTableView.y + 230;
+
+        myModel.registerView( this ); // get update() called
+    }
+
+    public function update(): void {
+        // we need to handle detecting where the actual bounds are in our stage pixels
+        var idealWidth: Number = 950;
+        var idealHeight: Number = 700;
+        var idealRatio: Number = idealWidth / idealHeight;
+        var ratio: Number = stage.stageWidth / stage.stageHeight;
+        var leftBound: Number;
+        var rightBound: Number;
+        var topBound: Number;
+        var bottomBound: Number;
+        if ( ratio < idealRatio ) {
+            // width-constrained
+            leftBound = 0;
+            rightBound = idealWidth;
+            topBound = (idealHeight / 2) * (1 - idealRatio / ratio);
+            bottomBound = (idealHeight / 2) * (1 + idealRatio / ratio);
+        }
+        else {
+            // height-constrained
+            topBound = 0;
+            bottomBound = idealHeight;
+            leftBound = (idealWidth / 2) * (1 - ratio / idealRatio);
+            rightBound = (idealWidth / 2) * (1 + ratio / idealRatio);
+        }
+
+        // then make sure at least one ball is inside the area
+        var allOutside: Boolean = true;
+        for ( var i: Number = 0; i < myModel.nbrBalls; i++ ) {
+            var ball: BallImage = myTableView.ballImage_arr[i];
+            var location: Point = ball.parent.localToGlobal( new Point( ball.x, ball.y ) ); // snag the ball's global coordinates
+            var toTheLeft: Boolean = location.x < leftBound;
+            var toTheRight: Boolean = location.x > rightBound;
+            var toTheTop: Boolean = location.y < topBound;
+            var toTheBottom: Boolean = location.y > bottomBound;
+            if ( toTheLeft || toTheRight || toTheTop || toTheBottom ) {
+                //trace( i, "outside", toTheLeft, toTheRight, toTheTop, toTheBottom );
+            }
+            else {
+                allOutside = false;
+            }
+        }
+        returnBallsButtonSprite.visible = allOutside;
     }
 
     public function createControlPanel( myModel: Model, myMainView: MainView ): ControlPanel {

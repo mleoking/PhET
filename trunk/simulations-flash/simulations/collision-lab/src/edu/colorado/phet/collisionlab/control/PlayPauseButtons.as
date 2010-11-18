@@ -24,6 +24,7 @@ public class PlayPauseButtons extends Sprite {
         this.initializeButtons();
         this.initializeLabels();
         this.paused = true;
+        myModel.registerView( this );
     }//end of constructor
 
     public function initializeButtons(): void {
@@ -82,19 +83,26 @@ public class PlayPauseButtons extends Sprite {
 
     public function playPause( evt: MouseEvent ): void {
         if ( paused ) {
-            this.paused = false;
-            this.buttonView.myPlayPauseButton.gotoAndStop( 2 );
-            setPauseText();
+            setToPlaying();
             //                resizeText( txtField:TextField, alignment:String ):void {  //get an error when Object = textField
             this.myModel.startMotion()
         }
         else {
-            this.paused = true;
-            this.buttonView.myPlayPauseButton.gotoAndStop( 1 );
-            setPlayText();
+            setToPaused();
             this.myModel.stopMotion();
         }
+    }
 
+    private function setToPaused(): void {
+        this.paused = true;
+        this.buttonView.myPlayPauseButton.gotoAndStop( 1 );
+        setPlayText();
+    }
+
+    private function setToPlaying(): void {
+        this.paused = false;
+        this.buttonView.myPlayPauseButton.gotoAndStop( 2 );
+        setPauseText();
     }
 
     public function step( evt: MouseEvent ): void {
@@ -118,6 +126,16 @@ public class PlayPauseButtons extends Sprite {
         this.myModel.singleStepping = false;
     }
 
+    public function update(): void { // called when model changes (basically)
+
+        // sync the state to the model
+        if ( paused && myModel.playing ) {
+            setToPlaying();
+        }
+        if ( !paused && !myModel.playing ) {
+            setToPaused();
+        }
+    }
 
 }//end of class
 }//end of package
