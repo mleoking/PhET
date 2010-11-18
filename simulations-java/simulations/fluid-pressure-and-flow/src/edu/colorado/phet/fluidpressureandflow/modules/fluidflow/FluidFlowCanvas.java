@@ -25,7 +25,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
-        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY+0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
+        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
@@ -51,15 +51,22 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor0() ) );
         addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor1() ) );
 
-        final DropperNode dropperNode = new DropperNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getDropperOnProperty(), new SimpleObserver() {
-            public void update() {
-                module.getFluidFlowModel().addDrop();
-            }
-        } );
+        final FluidFlowModel model = module.getFluidFlowModel();
+        final DropperNode dropperNode = new DropperNode( transform, model.getPipe(), model.getDropperRateProperty(),
+                                                         new SimpleObserver() {
+                                                             public void update() {
+                                                                 model.addDrop();
+                                                             }
+                                                         },
+                                                         new SimpleObserver() {
+                                                             public void update() {
+                                                                 model.pourFoodColoring();
+                                                             }
+                                                         } );
         addChild( dropperNode );
-        addChild( new BucketNode( module ) {{
-            setOffset( dropperNode.getFullBounds().getMaxX() + 25, dropperNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
-        }} );
+//        addChild( new BucketNode( module ) {{
+//            setOffset( dropperNode.getFullBounds().getMaxX() + 25, dropperNode.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+//        }} );
 
         module.getFluidFlowModel().addFoodColoringObserver( new Function1<FoodColoring, Void>() {
             public Void apply( FoodColoring foodColoring ) {

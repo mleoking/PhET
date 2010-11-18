@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class FoodColoringNode extends PNode {
     public FoodColoringNode( final ModelViewTransform2D transform, final FoodColoring foodColoring ) {
-        addChild( new PhetPPath( Color.green ) {{
+        addChild( new PhetPPath( Color.red) {{
             foodColoring.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.createTransformedShape( foodColoring.getShape() ) );
