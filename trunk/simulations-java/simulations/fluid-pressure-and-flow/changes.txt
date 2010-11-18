@@ -1,3 +1,4 @@
+# 0.00.03 (46334) Nov 18, 2010
 Fixed: Multiple clocks are running, caused by wiring up to new clock control panel
 Fixed: Second tab clock always running
 Fluid-flow: Fixed locations of sensors on startup so they display good initial values
