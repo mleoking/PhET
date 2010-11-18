@@ -26,8 +26,7 @@ public class DielectricNode extends BoxNode {
     private DielectricChargeView dielectricChargeView;
 
     public DielectricNode( final BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev, DoubleRange valueRange ) {
-        super( mvt, circuit.getCapacitor().getDielectricMaterial().getColor(), 
-                circuit.getCapacitor().getPlateSideLength(), circuit.getCapacitor().getDielectricHeight(), circuit.getCapacitor().getPlateSideLength() );
+        super( mvt, circuit.getCapacitor().getDielectricMaterial().getColor(), circuit.getCapacitor().getDielectricSize() );
         
         // dielectric is directly draggable
         addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );

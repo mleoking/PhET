@@ -76,8 +76,8 @@ public class DielectricExcessChargeNode extends PhetPNode {
         
         Capacitor capacitor = circuit.getCapacitor();
         final double excessCharge = circuit.getExcessDielectricPlateCharge();
-        final double dielectricWidth = capacitor.getDiectricWidth();
-        final double dielectricDepth = dielectricWidth;
+        final double dielectricWidth = capacitor.getDielectricSize().getWidth();
+        final double dielectricDepth = capacitor.getDielectricSize().getDepth();
         final double contactWidth = Math.max( 0, dielectricWidth - capacitor.getDielectricOffset() ); // contact between plate and dielectric
 
         if ( excessCharge != 0 && contactWidth > 0 ) {
@@ -108,7 +108,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 double y = yMargin;
                 double z = -( dielectricDepth / 2 );
                 topChargeNode.setOffset( mvt.modelToView( x, y, z ) );
-                y = capacitor.getDielectricHeight() - yMargin;
+                y = capacitor.getDielectricSize().getHeight() - yMargin;
                 bottomChargeNode.setOffset( mvt.modelToView( x, y, z ) );
             }
 
@@ -129,7 +129,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
                     double z = ( -dielectricDepth / 2 ) + zOffset + ( i * dz );
                     Point2D topOffset = mvt.modelToView( x, y, z );
                     topChargeNode.setOffset( topOffset );
-                    y = capacitor.getDielectricHeight() - yMargin;
+                    y = capacitor.getDielectricSize().getHeight() - yMargin;
                     Point2D bottomOffset = mvt.modelToView( x, y, z );
                     bottomChargeNode.setOffset( bottomOffset );
                 }

@@ -91,7 +91,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
         
         // rows and columns
         final double dielectricWidth = circuit.getCapacitor().getPlateSideLength();
-        final double dielectricHeight = circuit.getCapacitor().getDielectricHeight();
+        final double dielectricHeight = circuit.getCapacitor().getDielectricSize().getHeight();
         final double dielectricDepth = dielectricWidth;
         final int rows = (int) ( dielectricHeight / spacingBetweenPairs );
         final int columns = (int) ( dielectricWidth / spacingBetweenPairs );

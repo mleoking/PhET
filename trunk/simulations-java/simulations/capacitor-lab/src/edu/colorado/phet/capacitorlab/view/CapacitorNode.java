@@ -126,27 +126,21 @@ public class CapacitorNode extends PhetPNode {
     
     private void updateGeometry() {
         
-        // model-to-view transform
         Capacitor capacitor = circuit.getCapacitor();
-        final double plateWidth = capacitor.getPlateSideLength();
-        final double plateHeight = capacitor.getPlateThickness();
-        final double plateDepth = plateWidth;
-        final double plateSeparation = capacitor.getPlateSeparation();
-        final double dielectricHeight = capacitor.getDielectricHeight();
         
         // geometry
-        topPlateNode.setSize( plateWidth, plateHeight, plateDepth );
-        bottomPlateNode.setSize( plateWidth, plateHeight, plateDepth );
-        dielectricNode.setSize( plateWidth, dielectricHeight, plateDepth );
+        topPlateNode.setSize( capacitor.getPlateSize() );
+        bottomPlateNode.setSize( capacitor.getPlateSize() );
+        dielectricNode.setSize( capacitor.getDielectricSize() );
         
         // layout nodes with zero dielectric offset
         double x = 0;
-        double y = -( plateSeparation / 2 ) - plateHeight;
+        double y = -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateSize().getHeight();
         double z = 0;
         topPlateNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
-        y = -dielectricHeight / 2;
+        y = -capacitor.getDielectricSize().getHeight() / 2;
         dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
-        y = plateSeparation / 2;
+        y = capacitor.getPlateSeparation() / 2;
         bottomPlateNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
 
         // adjust the dielectric offset
@@ -155,7 +149,7 @@ public class CapacitorNode extends PhetPNode {
     
     private void updateDielectricOffset() {
         double x = circuit.getCapacitor().getDielectricOffset();
-        double y = -circuit.getCapacitor().getDielectricHeight() / 2;
+        double y = -circuit.getCapacitor().getDielectricSize().getHeight() / 2;
         double z = 0;
         dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
     }
