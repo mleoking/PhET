@@ -2,12 +2,6 @@ TODO list for capacitor-lab
 
 DEADLINES
 
-QUESTIONS FOR TEAM
-- is 2D projection measurement scheme OK?
-- how should dielectric charges move?
-- what else needs to be done for 1.00?
-- team needs to make some decisions about Multiple Capacitors tab
-
 QUESTIONS FOR NOAH
 
 NOAH P ACTION ITEMS
@@ -17,9 +11,11 @@ NOAH P ACTION ITEMS
 
 DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
-- should only the negative dielectric charges move in the "Show all charges" view?
 
 HIGH PRIORITY
+- start E-Field Detector zoom level at max magnification, appropriate for battery
+- make only negative charges move in dielectric "Show all charges" view
+- review startup defaults with Noah
 - bug: changing dielectric constant doesn't change E-field view when battery is disconnected
 - regression test to see what's broken
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
