@@ -102,8 +102,8 @@ public class TableView extends Sprite {
             const largeConst: Number = 5000;
             g.beginFill( 0xccffcc );
             g.moveTo( -largeConst, -del );
-            g.lineTo( largeConst, -del );
-            g.lineTo( largeConst, +H + del );
+            g.lineTo( W + largeConst, -del );
+            g.lineTo( W + largeConst, +H + del );
             g.lineTo( -largeConst, +H + del );
             g.lineTo( -largeConst, -del );
             g.endFill();

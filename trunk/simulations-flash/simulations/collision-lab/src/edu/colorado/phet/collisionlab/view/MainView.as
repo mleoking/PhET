@@ -39,7 +39,7 @@ public class MainView extends Sprite {
         var paddingForTabs: Number = 10; // we need to add padding at the top for the new tab bar
         this.myTableView.y += paddingForTabs;
         this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
-        this.myDataTable.x = this.myTableView.width / 2;
+        this.myDataTable.x = 330; // hardcoded for now, since we have different widths of play areas...
         //this.controlPanel.sub_background.width = 170;
         //this.controlPanel.sub_background.height = 330;
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
