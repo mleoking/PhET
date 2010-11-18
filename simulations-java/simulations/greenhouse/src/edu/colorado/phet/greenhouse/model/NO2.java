@@ -24,15 +24,15 @@ public class NO2 extends Molecule {
     // longer than real life.  The algebraic calculations are intended to make
     // it so that the bond length and/or the angle could be changed and the
     // correct center of gravity will be maintained.
-    private static final double NITROGEN_OXYGEN_BOND_LENGTH = 150;
-    private static final double INITIAL_OXYGEN_NITROGEN_ANGLE = 104.5;
+    private static final double NITROGEN_OXYGEN_BOND_LENGTH = 180;
+    private static final double INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE = 104.5;
     private static final double INITIAL_NITROGEN_VERTICAL_OFFSET = 2 * OxygenAtom.MASS *
-        NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_ANGLE ) / (NitrogenAtom.MASS *
-        2 * HydrogenAtom.MASS);
+        NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE ) / (NitrogenAtom.MASS *
+        2 * OxygenAtom.MASS);
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_NITROGEN_VERTICAL_OFFSET -
-        NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_ANGLE );
+        NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = NITROGEN_OXYGEN_BOND_LENGTH *
-        Math.sin( INITIAL_OXYGEN_NITROGEN_ANGLE );
+        Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
 
     // ------------------------------------------------------------------------
     // Instance Data
