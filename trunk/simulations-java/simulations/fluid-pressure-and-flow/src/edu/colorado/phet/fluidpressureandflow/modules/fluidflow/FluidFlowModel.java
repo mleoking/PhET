@@ -26,7 +26,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
     private VelocitySensor velocitySensor0 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
     private VelocitySensor velocitySensor1 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
-//    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
+    //    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
     private Property<Double> dropperRateProperty = new Property<Double>( 10.0 );//percent probability to drop in each frame
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
@@ -34,8 +34,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                double value = dropperRateProperty.getValue()/100.0;
-                if (random.nextDouble()<value){
+                double value = dropperRateProperty.getValue() / 100.0;
+                if ( random.nextDouble() < value ) {
                     addDrop();
                 }
 
@@ -59,13 +59,17 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 {
                     ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
                     for ( int i = 0; i < foodColorings.size(); i++ ) {
+                        boolean canRemove = true;
                         FoodColoring foodColoring = foodColorings.get( i );
                         ArrayList<Particle> p = foodColoring.getParticles();
                         for ( Particle particle : p ) {
                             boolean remove = updateParticle( dt, particle );
-                            //todo: handle removes
+                            canRemove = canRemove && remove;//only remove if all particles have exited
                         }
                         foodColoring.notifyObservers();
+                        if ( canRemove ) {
+                            toRemove.add( foodColoring );
+                        }
                     }
                     for ( int i = 0; i < toRemove.size(); i++ ) {
                         removeFoodColoring( toRemove.get( i ) );
@@ -73,8 +77,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 }
             }
         } );
-        addPressureSensor( new PressureSensor( this, 3.9444705882352933,1.1882302540898015 ) );
-        addPressureSensor( new PressureSensor( this, 3.9444705882352933,1.1882302540898015 ) );
+        addPressureSensor( new PressureSensor( this, 3.9444705882352933, 1.1882302540898015 ) );
+        addPressureSensor( new PressureSensor( this, 3.9444705882352933, 1.1882302540898015 ) );
     }
 
     private void removeFoodColoring( FoodColoring foodColoring ) {
