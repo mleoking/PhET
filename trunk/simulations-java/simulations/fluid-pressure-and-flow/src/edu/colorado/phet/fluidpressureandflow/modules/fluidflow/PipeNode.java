@@ -66,7 +66,7 @@ public class PipeNode extends PNode {
                     rightExtension.setPathTo( new Rectangle2D.Double( 0, 0, length, pipeLeftBackImage.getHeight() ) );
                     rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
                     rightExtension.setTransform( AffineTransform.getScaleInstance( 1, syRight ) );
-                    rightExtension.setOffset( topRight.getX(), topRight.getY() - pipeOpeningPixelYTop * syRight);
+                    rightExtension.setOffset( topRight.getX(), topRight.getY() - pipeOpeningPixelYTop * syRight );
                 }
             } );
         }} );
@@ -75,10 +75,25 @@ public class PipeNode extends PNode {
         addChild( leftExtension );
         addChild( rightExtension );
 
-        addChild( new PhetPPath( waterColor, new BasicStroke( 1 ), Color.black ) {{
+        addChild( new PhetPPath( waterColor ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.createTransformedShape( pipe.getShape() ) );
+                }
+            } );
+        }} );
+        addChild( new PhetPPath( new BasicStroke( 5 ), new Color( 165, 91, 0 ) ) {{
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.createTransformedShape( pipe.getTopPath() ) );
+                }
+            } );
+        }} );
+
+        addChild( new PhetPPath( new BasicStroke( 5 ), new Color( 0,51,91) ) {{
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.createTransformedShape( pipe.getBottomPath() ) );
                 }
             } );
         }} );
