@@ -26,7 +26,8 @@ public class VelocitySensorNode extends PNode {
 
     public VelocitySensorNode( final ModelViewTransform2D transform, final VelocitySensor velocitySensor ) {
         this.pressureSensor = velocitySensor;
-        addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.red ) );
+        double hotSpotRadius = PressureSensorNode.hotSpotRadius;
+        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
         final PText child = new PText( getText() ) {{
             setFont( new PhetFont( 18, true ) );
         }};
