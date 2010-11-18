@@ -245,9 +245,9 @@ public class AdminSimPage extends AdminPage {
 
             sortCategories();
 
-            add( new ListView( "categories", myCategories ) {
-                protected void populateItem( ListItem item ) {
-                    final Category category = (Category) item.getModel().getObject();
+            add( new ListView<Category>( "categories", myCategories ) {
+                protected void populateItem( ListItem<Category> item ) {
+                    final Category category = item.getModelObject();
                     item.add( new Label( "category-english", new ResourceModel( category.getNavLocation( getNavMenu() ).getLocalizationKey() ) ) );
                     item.add( new Link( "category-remove" ) {
                         public void onClick() {
@@ -310,7 +310,7 @@ public class AdminSimPage extends AdminPage {
                     }
 
                     if ( ok ) {
-                        category.addSimulation( sim );
+                        category.addSimulationToStart( sim );
                         session.update( sim );
                         session.update( category );
                         CategoryChangeHandler.notifySimulationChange( category, sim );

@@ -88,9 +88,14 @@ public class Category implements Serializable, IntId {
         return "new";
     }
 
-    public void addSimulation( Simulation simulation ) {
+    public void addSimulationToEnd( Simulation simulation ) {
         simulation.getCategories().add( this );
         getSimulations().add( simulation );
+    }
+
+    public void addSimulationToStart( Simulation simulation ) {
+        simulation.getCategories().add( this );
+        getSimulations().add( 0, simulation );
     }
 
     public void removeSimulation( Simulation simulation ) {
