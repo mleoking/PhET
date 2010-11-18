@@ -26,12 +26,12 @@ public class PressureSensorNode extends PNode {
     ModelViewTransform2D transform;
     private PressureSensor pressureSensor;
     private final Property<Units.Unit> units;
+    public static final double hotSpotRadius = 3;
 
     public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.Unit> units ) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         this.units = units;
-        double hotSpotRadius = 3;
         addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
         final PText textNode = new PText( getText() ) {{
             setFont( new PhetFont( 18, true ) );
