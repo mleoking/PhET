@@ -28,7 +28,7 @@ public class PipeNode extends PNode {
     private Color waterColor = new Color( 122, 197, 213 );
     private Pipe pipe;
     private ModelViewTransform2D transform;
-    private int PIPE_LEFT_OFFSET = 78;
+    private int PIPE_LEFT_OFFSET = 72;
     double sx = 0.4;
 
     private static final double pipeOpeningPixelYTop = 58;
@@ -40,9 +40,9 @@ public class PipeNode extends PNode {
         this.transform = transform;
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
 
-        final BufferedImage pipeImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-repeat.png" );
-        final PhetPPath leftExtension = new PhetPPath();
-        final PhetPPath rightExtension = new PhetPPath();
+        final BufferedImage pipeImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-middle.png" );
+        final PhetPPath leftExtension = new PhetPPath( Color.blue );
+        final PhetPPath rightExtension = new PhetPPath( Color.blue );
 
         final BufferedImage pipeLeftBackImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-back.png" );
         final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-front.png" );
@@ -50,36 +50,38 @@ public class PipeNode extends PNode {
         addChild( new PImage( pipeLeftBackImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    double sy = getPipeLeftViewHeight() / pipeOpeningHeight;
-                    setTransform( AffineTransform.getScaleInstance( sx, sy ) );
+                    double syLeft = getPipeLeftViewHeight() / pipeOpeningHeight;
+                    double syRight = getPipeRightViewHeight() / pipeOpeningHeight;
+                    setTransform( AffineTransform.getScaleInstance( sx, syLeft ) );
                     final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
+                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
+
+                    double length = 10000;
+                    leftExtension.setPathTo( new Rectangle2D.Double( topLeft.getX() - length, 0, length, pipeLeftBackImage.getHeight() ) );
+                    leftExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
+                    leftExtension.setTransform( AffineTransform.getScaleInstance( 1, syLeft ) );
+                    leftExtension.setOffset( 0, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
+
+                    final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
+                    rightExtension.setPathTo( new Rectangle2D.Double( 0, 0, length, pipeLeftBackImage.getHeight() ) );
+                    rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
+                    rightExtension.setTransform( AffineTransform.getScaleInstance( 1, syRight ) );
+                    rightExtension.setOffset( topRight.getX(), topRight.getY() - pipeOpeningPixelYTop * syRight);
                 }
             } );
         }} );
+
+        //extensions
+        addChild( leftExtension );
+        addChild( rightExtension );
 
         addChild( new PhetPPath( waterColor, new BasicStroke( 1 ), Color.black ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.createTransformedShape( pipe.getShape() ) );
-
-                    double length = 10000;
-                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-                    final double leftPipeHeight = getPipeLeftViewHeight();
-                    leftExtension.setPathTo( new Rectangle2D.Double( topLeft.getX() - length, topLeft.getY(), length, leftPipeHeight ) );
-                    leftExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, topLeft.getY(), pipeImage.getWidth(), leftPipeHeight ) ) );
-
-                    final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
-                    final Point2D bottomRight = transform.modelToViewDouble( pipe.getBottomRight() );
-                    final double rightPipeHeight = bottomRight.getY() - topRight.getY();
-                    rightExtension.setPathTo( new Rectangle2D.Double( topRight.getX(), topRight.getY(), length, rightPipeHeight ) );
-                    rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, topRight.getY(), pipeImage.getWidth(), rightPipeHeight ) ) );
                 }
             } );
         }} );
-        //Left coupling
-        addChild( leftExtension );
-        addChild( rightExtension );
 
         addChild( new PImage( pipeLeftFrontImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
