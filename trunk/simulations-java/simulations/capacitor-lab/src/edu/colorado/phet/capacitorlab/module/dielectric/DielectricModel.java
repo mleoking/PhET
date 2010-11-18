@@ -18,6 +18,7 @@ public class DielectricModel {
     
     // static properties
     private final World world;
+    private final CustomDielectricMaterial customDielectricMaterial;
     private final DielectricMaterial[] dielectricMaterials;
     private final BatteryCapacitorCircuit circuit;
     private final EFieldDetector eFieldDetector;
@@ -27,7 +28,7 @@ public class DielectricModel {
         
         world = new World();
         
-        CustomDielectricMaterial customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+        customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, new Teflon(), new Paper(), new Glass() };
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
@@ -83,16 +84,9 @@ public class DielectricModel {
     public void reset() {
         getBattery().reset();
         getCapacitor().reset();
+        customDielectricMaterial.reset();
         eFieldDetector.reset();
         voltmeter.reset();
-        // circuit
-        getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
-        //XXX replace this block with getCapacitor().getDielectricMaterial().reset()
-        {
-            DielectricMaterial material = getCapacitor().getDielectricMaterial();
-            if ( material instanceof CustomDielectricMaterial ) {
-                ( (CustomDielectricMaterial) material ).setDielectricConstant( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
-            }
-        }
+        getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED ); //XXX replace with getCircuit().reset()
     }
 }

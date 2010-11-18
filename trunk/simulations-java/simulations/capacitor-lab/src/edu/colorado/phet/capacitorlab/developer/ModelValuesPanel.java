@@ -19,13 +19,12 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Panel that displays all "raw" model values.
@@ -58,8 +57,8 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
     private final ValueDisplay E_effective, E_plates_air, E_plates_diectric, E_air, E_dielectric;
     private final ValueDisplay U;
     
-    private CustomDielectricMaterial customDielectric;
-    private CustomDielectricChangeListener customDielectricChangeListener;
+    private DielectricMaterial dielectricMaterial;
+    private final SimpleObserver dielectricConstantObserver;
     private BatteryCapacitorCircuitChangeListener circuitChangeListener;
 
     public ModelValuesPanel( DielectricModel model ) {
@@ -98,8 +97,9 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
         };
         model.getCircuit().addBatteryCapacitorCircuitChangeListener( circuitChangeListener );
         
-        customDielectricChangeListener = new CustomDielectricChangeListener() {
-            public void dielectricConstantChanged() {
+        this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
+        dielectricConstantObserver = new SimpleObserver() {
+            public void update() {
                 updateValues();
             }
         };
@@ -232,7 +232,16 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.WEST );
         
-        updateDielectricListener();
+        // observe dielectric
+        dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
+        
+        // observe capacitor
+        model.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
+            public void update() {
+                updateDielectricObserver();
+            }
+        });
+        
         updateValues();
     }
     
@@ -241,10 +250,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
      */
     public void cleanup() {
         model.getCircuit().removeBatteryCapacitorCircuitChangeListener( circuitChangeListener );
-        if ( customDielectric != null ) {
-            customDielectric.removeCustomDielectricChangeListener( customDielectricChangeListener );
-            customDielectric = null;
-        }
+        dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
     }
     
     /*
@@ -295,20 +301,12 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
     }
     
     /*
-     * Manages change notification for custom dielectrics.
+     * Rewire dielectric constant observer.
      */
-    private void updateDielectricListener() {
-        // unregister for notification from previous custom dielectric
-        if ( customDielectric != null ) {
-            customDielectric.removeCustomDielectricChangeListener( customDielectricChangeListener );
-            customDielectric = null;
-        }
-        // register for notification from current custom dielectric
-        DielectricMaterial material = model.getCapacitor().getDielectricMaterial();
-        if ( material instanceof CustomDielectricMaterial ) {
-            customDielectric = (CustomDielectricMaterial) material;
-            customDielectric.addCustomDielectricChangeListener( customDielectricChangeListener );
-        }
+    private void updateDielectricObserver() {
+        this.dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
+        this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
+        this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
     }
     
     /*
