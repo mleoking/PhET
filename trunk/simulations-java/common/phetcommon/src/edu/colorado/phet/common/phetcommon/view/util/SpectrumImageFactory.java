@@ -11,10 +11,13 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 
@@ -25,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumImageFactory {
+public abstract class SpectrumImageFactory {
 
     // Default range for wavelength
     private static final double DEFAULT_MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
@@ -40,11 +43,19 @@ public class SpectrumImageFactory {
     }
 
     /**
+     * @param maxWavelength
+     * @param minWavelength
+     * @param steps
+     *
+     */
+    protected abstract Function getWavelengthFunction( int steps, double minWavelength, double maxWavelength );
+
+    /**
      * Creates a horizontal image for the visible spectrum.
      *
      * @see createSpectrum
      */
-    public static Image createHorizontalSpectrum( int width, int height ) {
+    public Image createHorizontalSpectrum( int width, int height ) {
         return createHorizontalSpectrum( width, height, DEFAULT_MIN_WAVELENGTH, DEFAULT_MAX_WAVELENGTH );
     }
 
@@ -54,7 +65,7 @@ public class SpectrumImageFactory {
      *
      * @see createSpectrum
      */
-    public static Image createHorizontalSpectrum( int width, int height, double minWavelength, double maxWavelength ) {
+    public Image createHorizontalSpectrum( int width, int height, double minWavelength, double maxWavelength ) {
         return createHorizontalSpectrum( width, height, minWavelength, maxWavelength, DEFAULT_UV_COLOR, DEFAULT_IR_COLOR );
     }
 
@@ -64,7 +75,7 @@ public class SpectrumImageFactory {
      *
      * @see creatSpectrum
      */
-    public static Image createHorizontalSpectrum( int width, int height, double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
+    public Image createHorizontalSpectrum( int width, int height, double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
         return createSpectrum( width, height, SwingConstants.HORIZONTAL, minWavelength, maxWavelength, uvColor, irColor );
     }
 
@@ -73,7 +84,7 @@ public class SpectrumImageFactory {
      *
      * @see createSpectrum
      */
-    public static Image createVerticalSpectrum( int width, int height ) {
+    public Image createVerticalSpectrum( int width, int height ) {
         return createVerticalSpectrum( width, height, DEFAULT_MIN_WAVELENGTH, DEFAULT_MAX_WAVELENGTH );
     }
 
@@ -83,7 +94,7 @@ public class SpectrumImageFactory {
      *
      * @see createSpectrum
      */
-    public static Image createVerticalSpectrum( int width, int height, double minWavelength, double maxWavelength ) {
+    public Image createVerticalSpectrum( int width, int height, double minWavelength, double maxWavelength ) {
         return createVerticalSpectrum( width, height, minWavelength, maxWavelength, DEFAULT_UV_COLOR, DEFAULT_IR_COLOR );
     }
 
@@ -93,7 +104,7 @@ public class SpectrumImageFactory {
      *
      * @see createSpectrum
      */
-    public static Image createVerticalSpectrum( int width, int height, double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
+    public Image createVerticalSpectrum( int width, int height, double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
         return createSpectrum( width, height, SwingConstants.VERTICAL, minWavelength, maxWavelength, uvColor, irColor );
     }
 
@@ -113,8 +124,8 @@ public class SpectrumImageFactory {
      * @param irColor       color used for IR wavelengths
      * @return Image
      */
-    public static Image createSpectrum( int width, int height, int orientation,
-                                        double minWavelength, double maxWavelength, Color uvColor, Color irColor ) {
+    public Image createSpectrum( int width, int height, int orientation, double minWavelength, double maxWavelength,
+            Color uvColor, Color irColor ) {
 
         if ( width <= 0 || height <= 0 ) {
             throw new IllegalArgumentException( "width and height must both be > 0" );
@@ -130,14 +141,14 @@ public class SpectrumImageFactory {
         }
 
         int steps = ( ( orientation == SwingUtilities.HORIZONTAL ) ? width : height );
-        Function linearFunction = new Function.LinearFunction( 0, steps, minWavelength, maxWavelength );
+        Function wavelengthFunction = getWavelengthFunction( steps, minWavelength, maxWavelength );
 
         BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();
 
         for ( int i = 0; i < steps; i++ ) {
 
-            double wavelength = linearFunction.evaluate( i );
+            double wavelength = wavelengthFunction.evaluate( i );
 
             Color color = null;
             if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
@@ -161,5 +172,28 @@ public class SpectrumImageFactory {
         g2.dispose();
 
         return image;
+    }
+
+    /**
+     * Creates a version of the spectrum image factory that uses linear values
+     * for the independent axis (e.g. x axis for a horizontal image).
+     */
+    public static class LinearSpectrumImageFactory extends SpectrumImageFactory {
+        @Override
+        protected Function getWavelengthFunction( int steps, double minWavelength, double maxWavelength ) {
+            return new Function.LinearFunction( 0, steps, minWavelength, maxWavelength );
+        }
+    }
+
+    /**
+     * Creates a version of the spectrum image factory that uses exponential
+     * values for the independent axis (e.g. x axis for a horizontal image).
+     */
+    public static class ExponentialGrowthSpectrumImageFactory extends SpectrumImageFactory {
+        @Override
+        protected Function getWavelengthFunction( int steps, double minWavelength, double maxWavelength ) {
+          double base = Math.pow( maxWavelength / minWavelength, 1 / (double)(steps - 1) );
+          return new Function.ExponentialGrowthFunction( base, minWavelength );
+        }
     }
 }
