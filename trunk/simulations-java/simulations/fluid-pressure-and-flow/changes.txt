@@ -1,3 +1,4 @@
+Fixed: Fluid density slider should change fluid color
 Fixed: pipe grab handles can get dissociated from the mouse
 Fixed: particles should fit within pipe
 Fixed: velocity and pressure hot spots are different sizes

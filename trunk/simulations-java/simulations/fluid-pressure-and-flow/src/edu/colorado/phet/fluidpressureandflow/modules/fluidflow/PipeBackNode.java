@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
+import edu.colorado.phet.fluidpressureandflow.view.PoolNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -34,7 +36,7 @@ public class PipeBackNode extends PNode {
     private static final double pipeOpeningPixelYBottom = 375;
     public static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
 
-    public PipeBackNode( final ModelViewTransform2D transform, final Pipe pipe ) {
+    public PipeBackNode( final ModelViewTransform2D transform, final Pipe pipe, final Property<Double> fluidDensity ) {
         this.pipe = pipe;
         this.transform = transform;
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
@@ -74,10 +76,24 @@ public class PipeBackNode extends PNode {
         addChild( leftExtension );
         addChild( rightExtension );
 
+
+        //Background so the semi-transparent water color looks correct
+        addChild( new PhetPPath( Color.white ) {{
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.createTransformedShape( pipe.getShape() ) );
+                }
+            } );
+        }} );
         addChild( new PhetPPath( waterColor ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.createTransformedShape( pipe.getShape() ) );
+                }
+            } );
+            fluidDensity.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPaint( PoolNode.getBottomColor( fluidDensity.getValue() ) );
                 }
             } );
         }} );

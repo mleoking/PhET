@@ -31,22 +31,26 @@ public class PoolNode extends PNode {
 
     //must be transparent so objects can submerge
     private GradientPaint createPaint( ModelViewTransform2D transform2D, Pool pool ) {
-        int x = 14;
-        Function.LinearFunction rTop = new Function.LinearFunction( 1000, 1500, 90, 105 - x );
-        Function.LinearFunction gTop = new Function.LinearFunction( 1000, 1500, 212, 227 - x );
-        Function.LinearFunction bTop = new Function.LinearFunction( 1000, 1500, 238, 255 - x );
-        Function.LinearFunction aTop = new Function.LinearFunction( 1000, 1500, 158, 158 + x );
-
-        Function.LinearFunction rBottom = new Function.LinearFunction( 1000, 1500, 35, 50 - x );
-        Function.LinearFunction gBottom = new Function.LinearFunction( 1000, 1500, 136, 151 - x );
-        Function.LinearFunction bBottom = new Function.LinearFunction( 1000, 1500, 158, 173 - x );
-        Function.LinearFunction aBottom = new Function.LinearFunction( 1000, 1500, 173, 188 + x );
-
-        final double d = liquidDensity.getValue();
-        Color topColor = new Color( (int) rTop.evaluate( d ), (int) gTop.evaluate( d ), (int) bTop.evaluate( d ), (int) aTop.evaluate( d ) );
-        Color bottomColor = new Color( (int) rBottom.evaluate( d ), (int) gBottom.evaluate( d ), (int) bBottom.evaluate( d ), (int) aBottom.evaluate( d ) );
+        Color topColor = getTopColor( liquidDensity.getValue() );
+        Color bottomColor = getBottomColor( liquidDensity.getValue() );
         double yBottom = transform2D.modelToViewYDouble( -pool.getHeight() );//fade color halfway down
         double yTop = transform2D.modelToViewYDouble( 0 );
         return new GradientPaint( 0, (float) yTop, topColor, 0, (float) yBottom, bottomColor );
+    }
+
+    public static Color getBottomColor( double d ) {
+        Function.LinearFunction r = new Function.LinearFunction( 1000, 1500, 35, 15 );
+        Function.LinearFunction g = new Function.LinearFunction( 1000, 1500, 136, 120 );
+        Function.LinearFunction b = new Function.LinearFunction( 1000, 1500, 158, 140 );
+        Function.LinearFunction a = new Function.LinearFunction( 1000, 1500, 173, 174 );
+        return new Color( (int) r.evaluate( d ), (int) g.evaluate( d ), (int) b.evaluate( d ), (int) a.evaluate( d ) );
+    }
+
+    public static Color getTopColor( double d ) {
+        Function.LinearFunction rTop = new Function.LinearFunction( 1000, 1500, 90, 91 );
+        Function.LinearFunction gTop = new Function.LinearFunction( 1000, 1500, 212, 213 );
+        Function.LinearFunction bTop = new Function.LinearFunction( 1000, 1500, 238, 241 );
+        Function.LinearFunction aTop = new Function.LinearFunction( 1000, 1500, 158, 172 );
+        return new Color( (int) rTop.evaluate( d ), (int) gTop.evaluate( d ), (int) bTop.evaluate( d ), (int) aTop.evaluate( d ) );
     }
 }
