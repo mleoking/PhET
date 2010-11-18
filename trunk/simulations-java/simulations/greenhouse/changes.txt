@@ -1,3 +1,4 @@
+Added CO, NO2, and O3 to the Molecules & Light sim.
 > Fixed: Photons were disappearing before traveling out of view on the Photon Absorption tab.
 Created the spectrum representation for the control panel in Molecules & Light
 Added the control panel for controlling the photon emitter in Molecules & Light
