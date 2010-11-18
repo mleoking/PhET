@@ -22,20 +22,22 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * The back part (in z-ordering) of the pipe graphics
+ *
  * @author Sam Reid
  */
-public class PipeNode extends PNode {
+public class PipeBackNode extends PNode {
     private Color waterColor = new Color( 122, 197, 213 );
     private Pipe pipe;
     private ModelViewTransform2D transform;
-    private int PIPE_LEFT_OFFSET = 72;
-    double sx = 0.4;
+    public static int PIPE_LEFT_OFFSET = 72;
+    static double sx = 0.4;
 
-    private static final double pipeOpeningPixelYTop = 58;
+    public static final double pipeOpeningPixelYTop = 58;
     private static final double pipeOpeningPixelYBottom = 375;
-    private static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
+    public static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
 
-    public PipeNode( final ModelViewTransform2D transform, final Pipe pipe ) {
+    public PipeBackNode( final ModelViewTransform2D transform, final Pipe pipe ) {
         this.pipe = pipe;
         this.transform = transform;
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
@@ -46,7 +48,7 @@ public class PipeNode extends PNode {
 
         final BufferedImage pipeLeftBackImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-back.png" );
         final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-front.png" );
-        final BufferedImage pipeRightImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-right.png" );
+
         addChild( new PImage( pipeLeftBackImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
@@ -90,7 +92,7 @@ public class PipeNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( new BasicStroke( 5 ), new Color( 0,51,91) ) {{
+        addChild( new PhetPPath( new BasicStroke( 5 ), new Color( 0, 51, 91 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.createTransformedShape( pipe.getBottomPath() ) );
@@ -104,17 +106,6 @@ public class PipeNode extends PNode {
                     double sy = getPipeLeftViewHeight() / pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( sx, sy ) );
                     final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-                    setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
-                }
-            } );
-        }} );
-
-        addChild( new PImage( pipeRightImage ) {{
-            pipe.addShapeChangeListener( new SimpleObserver() {
-                public void update() {
-                    double sy = getPipeRightViewHeight() / pipeOpeningHeight;
-                    setTransform( AffineTransform.getScaleInstance( sx, sy ) );
-                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopRight() );
                     setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * sy );
                 }
             } );
