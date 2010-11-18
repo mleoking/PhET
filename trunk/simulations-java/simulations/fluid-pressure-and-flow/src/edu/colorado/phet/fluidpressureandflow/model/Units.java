@@ -1,6 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.model;
 
 import java.text.DecimalFormat;
+import java.text.FieldPosition;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 
@@ -8,7 +9,18 @@ import edu.colorado.phet.common.phetcommon.math.Function;
  * @author Sam Reid
  */
 public class Units {
-    public static Unit ATMOSPHERE = new LinearUnit( "Atmospheres", "atm", 9.8692E-6, new DecimalFormat( "0.00" ) );//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
+    public static Unit ATMOSPHERE = new LinearUnit( "Atmospheres", "atm", 9.8692E-6, new DecimalFormat( "0.0000" ) {
+        @Override
+        public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
+            final StringBuffer answer = super.format( number, result, fieldPosition );
+            if ( answer.toString().equals( "1.0000" ) || number >= 1 ) {
+                return new StringBuffer( new DecimalFormat( "0.00" ).format( number ) );//Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude
+            }
+            else {
+                return answer;
+            }
+        }
+    } );//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
     public static Unit PASCAL = new LinearUnit( "Pascal", "Pa", 1, new DecimalFormat( "0" ) );
     public static Unit PSI = new LinearUnit( "Pounds per square inch", "psi", 145.04E-6, new DecimalFormat( "0.00" ) );
 
@@ -32,7 +44,7 @@ public class Units {
     }
 
     public static class LinearUnit implements Unit {
-        Function.LinearFunction linearFunction;
+        private final Function.LinearFunction linearFunction;
         private final String name;
         private final String abbreviation;
         private final DecimalFormat decimalFormat;
