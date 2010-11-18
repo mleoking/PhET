@@ -121,6 +121,7 @@ public class PhotonAbsorptionModel {
     private final ArrayList<Photon> photons = new ArrayList<Photon>();
     private double photonWavelength = GreenhouseConfig.sunlightWavelength;
     private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
+    private final PhotonTarget initialPhotonTarget;
     private PhotonTarget photonTarget = null;
 
     // Variables that control periodic photon emission.
@@ -145,15 +146,21 @@ public class PhotonAbsorptionModel {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public PhotonAbsorptionModel(ConstantDtClock clock){
+    public PhotonAbsorptionModel( ConstantDtClock clock ) {
+        this( clock, DEFAULT_PHOTON_TARGET );
+    }
+
+    public PhotonAbsorptionModel( ConstantDtClock clock, PhotonTarget initialPhotonTarget ) {
+
+        this.initialPhotonTarget = initialPhotonTarget;
 
         // Listen to the clock in order to step this model.
-        clock.addClockListener(new ClockAdapter(){
+        clock.addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                stepInTime(clockEvent.getSimulationTimeChange());
+                stepInTime( clockEvent.getSimulationTimeChange() );
             }
-        });
+        } );
 
         // Note: It is expected that this model will be reset as part of the
         // initialization sequence, so additional initialization is performed
@@ -178,7 +185,7 @@ public class PhotonAbsorptionModel {
         }
 
         // Set default values.
-        setPhotonTarget( DEFAULT_PHOTON_TARGET );
+        setPhotonTarget( initialPhotonTarget );
         setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
         setPhotonEmissionPeriod( DEFAULT_PHOTON_EMISSION_PERIOD );
 
