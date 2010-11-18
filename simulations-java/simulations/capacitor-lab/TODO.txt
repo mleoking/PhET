@@ -16,7 +16,7 @@ DESIGN ISSUES
 HIGH PRIORITY
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
-- hack in BottomWire
+- hack in BottomWire.createShape
 
 MEDUIUM PRIORITY
 - convert DielectricMaterial to Property<T>

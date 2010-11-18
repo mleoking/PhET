@@ -95,7 +95,7 @@ public class Wire {
     }
     
     protected Shape createShape() {
-        return shapeFactory.createShape();
+        return shapeFactory.createWireShape();
     }
 
     /**

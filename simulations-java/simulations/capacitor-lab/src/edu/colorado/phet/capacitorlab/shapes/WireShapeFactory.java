@@ -28,22 +28,18 @@ public class WireShapeFactory {
         this.mvt = mvt;
     }
     
-    public Shape createShape() {
+    public Shape createWireShape() {
         Area area = new Area();
         for ( WireSegment segment : wire.getSegmentsReference() ) {
-            Shape s = createSegmentShape( segment, wire.getThickness() );
+            Shape s = createWireSegmentShape( segment, wire.getThickness() );
             area.add( new Area( s ) );
         }
         return area;
     }
     
-    private Shape createSegmentShape( WireSegment segment, double thickness ) {
+    private Shape createWireSegmentShape( WireSegment segment, double thickness ) {
         Line2D line = new Line2D.Double( segment.getStartPoint(), segment.getEndPoint() );
-        /* TODO:
-         * CAP_SQUARE ensures that the joints between segments will look correct.
-         * But it makes the termination ends of the wires a tad longer than desired.
-         */
-        Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+        Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ); // use CAP_BUTT so that ends are accurate
         Shape s = new Area( stroke.createStrokedShape( line ) );
         return mvt.modelToView( s );
     }
