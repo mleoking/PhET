@@ -54,8 +54,11 @@ public class ButtonNode extends PhetPNode {
     private static final double COLOR_SCALING_FACTOR = 0.5;
     private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
     private static final Color SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f );
-    private static final Color DISABLED_BUTTON_COLOR = Color.GRAY;
-    private static final Color DISABLED_TEXT_COLOR = Color.LIGHT_GRAY;
+    private static final Color DISABLED_SHADOW_COLOR = new Color( 0f, 0f, 0f, 0f );
+    private static final Color DISABLED_BUTTON_COLOR = Color.LIGHT_GRAY;
+    private static final Color DISABLED_TEXT_COLOR = Color.GRAY;
+    private static final Color STROKE_COLOR = Color.BLACK;
+    private static final Color DISABLED_STROKE_COLOR = DISABLED_TEXT_COLOR;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -68,6 +71,7 @@ public class ButtonNode extends PhetPNode {
     private boolean _enabled = true;
     private final Paint _mouseNotOverGradient;
     private Color _textColor = DEFAULT_TEXT_COLOR;
+    private final PPath _buttonShadow;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -123,18 +127,18 @@ public class ButtonNode extends PhetPNode {
 
         _button = new PPath( buttonShape );
         _button.setPaint( _mouseNotOverGradient );
+        _button.setStrokePaint( STROKE_COLOR );
         _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
 
-        // Create the shadow node.
-        PPath buttonShadow = new PPath( buttonShape );
-        buttonShadow.setPaint( SHADOW_COLOR );
-        buttonShadow.setPickable( false );
-        buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
-        buttonShadow.setStroke( null );
+        _buttonShadow = new PPath( buttonShape );
+        _buttonShadow.setPaint( SHADOW_COLOR );
+        _buttonShadow.setPickable( false );
+        _buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
+        _buttonShadow.setStroke( null );
 
         // Add the children to the node in the appropriate order so that they
         // appear as desired.
-        addChild( buttonShadow );
+        addChild( _buttonShadow );
         addChild( _button );
         _button.addChild( _htmlLabelNode ); // icon is a child of the button so we don't have to move it separately
 
@@ -278,12 +282,16 @@ public class ButtonNode extends PhetPNode {
             if ( enabled ) {
                 // Restore original colors.
                 _button.setPaint( getMouseNotOverGradient() );
+                _button.setStrokePaint( STROKE_COLOR );
                 _htmlLabelNode.setHTMLColor( _textColor );
+                _buttonShadow.setPaint( SHADOW_COLOR );
             }
             else {
                 // Set the colors to make the button appear disabled.
                 _button.setPaint( getDisabledGradient() );
+                _button.setStrokePaint( DISABLED_STROKE_COLOR );
                 _htmlLabelNode.setHTMLColor( DISABLED_TEXT_COLOR );
+                _buttonShadow.setPaint( DISABLED_SHADOW_COLOR );
             }
             setPickable( enabled );
             setChildrenPickable( enabled );
