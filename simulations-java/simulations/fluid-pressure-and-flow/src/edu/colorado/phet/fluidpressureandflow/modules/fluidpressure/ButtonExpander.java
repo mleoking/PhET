@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -18,6 +19,7 @@ public class ButtonExpander extends PNode {
         //Show and hide expand/collapse buttons based on state
         //Expand button
         addChild( new PSwing( new JButton( expandText ) {{
+            setFont( new PhetFont(18,true));
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     expanded.setValue( true );
@@ -32,6 +34,7 @@ public class ButtonExpander extends PNode {
         }} );
         //Collapse button
         addChild( new PSwing( new JButton( collapseText ) {{
+            setFont( new PhetFont(18,true));
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     expanded.setValue( false );

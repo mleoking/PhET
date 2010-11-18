@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -28,6 +29,7 @@ public class SliderControl extends PNode {
                 }} );
                 setMajorTicksVisible( false );
                 setMinorTicksVisible( false );
+                setFont( new PhetFont(16,true) );
                 FluidPressureCanvas.makeTransparent( this );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {

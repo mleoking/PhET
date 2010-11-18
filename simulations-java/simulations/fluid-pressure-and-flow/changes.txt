@@ -1,3 +1,4 @@
+Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude
 Fluid-flow: Moved grab handles to front layer
 Fluid-flow: Restart clock on reset
 Fluid-flow: Fixed: Reset all crashes the sim if particles are present
