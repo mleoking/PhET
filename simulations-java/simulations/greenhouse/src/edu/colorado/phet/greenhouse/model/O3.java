@@ -3,6 +3,7 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -41,21 +42,37 @@ public class O3 extends Molecule {
     private final OxygenAtom centerOxygenAtom = new OxygenAtom();
     private final OxygenAtom leftOxygenAtom = new OxygenAtom();
     private final OxygenAtom rightOxygenAtom = new OxygenAtom();
-    private final AtomicBond leftOxygenOxygenBond = new AtomicBond( centerOxygenAtom, leftOxygenAtom, 1 );
-    private final AtomicBond rightOxygenBond2 = new AtomicBond( centerOxygenAtom, rightOxygenAtom, 1 );
+    private final AtomicBond leftOxygenOxygenBond;
+    private final AtomicBond rightOxygenOxygenBond;
+
+    // Random variable used to control the side on which the delocalized bond
+    // is depicted.
+    private static final Random RAND = new Random();
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
     public O3(Point2D inititialCenterOfGravityPos){
-        // Configure the base class.  It would be better to do this through
-        // nested constructors, but I (jblanco) wasn't sure how to do this.
+
+        // Create the bond structure.  O3 has a type of bond where each O-O
+        // has essentially 1.5 bonds, so we randomly choose one side to show
+        // two bonds and another to show one.
+        if ( RAND.nextBoolean() ){
+            leftOxygenOxygenBond = new AtomicBond( centerOxygenAtom, leftOxygenAtom, 1 );
+            rightOxygenOxygenBond = new AtomicBond( centerOxygenAtom, rightOxygenAtom, 2 );
+        }
+        else{
+            leftOxygenOxygenBond = new AtomicBond( centerOxygenAtom, leftOxygenAtom, 2 );
+            rightOxygenOxygenBond = new AtomicBond( centerOxygenAtom, rightOxygenAtom, 1 );
+        }
+
+        // Add the atoms.
         addAtom( centerOxygenAtom );
         addAtom( leftOxygenAtom );
         addAtom( rightOxygenAtom );
         addAtomicBond( leftOxygenOxygenBond );
-        addAtomicBond( rightOxygenBond2 );
+        addAtomicBond( rightOxygenOxygenBond );
 
         // Set up the photon wavelengths to absorb.
         addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
