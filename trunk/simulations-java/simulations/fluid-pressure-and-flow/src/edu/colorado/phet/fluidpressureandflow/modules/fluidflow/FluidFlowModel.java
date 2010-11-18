@@ -33,7 +33,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
     public FluidFlowModel() {
         getClock().addClockListener( new ClockAdapter() {
             @Override
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
+            public void clockTicked( ClockEvent clockEvent ) {
                 double value = dropperRateProperty.getValue()/100.0;
                 if (random.nextDouble()<value){
                     addDrop();
