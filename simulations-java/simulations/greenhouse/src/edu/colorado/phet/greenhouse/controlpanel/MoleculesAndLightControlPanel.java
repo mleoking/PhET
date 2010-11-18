@@ -93,9 +93,8 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
 
         // Add buttons for selecting the molecule.
         coSelector = createAndAttachSelectorPanel(
-                // TODO: i18n
-                "CO",
-                "Carbon Monoxide",
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CO" ),
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CarbonMonoxide" ),
                 createImageFromMolecule( new CO() ), PhotonTarget.SINGLE_CO_MOLECULE, MOLECULE_SCALING_FACTOR );
         coSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( coSelector, constraints );
@@ -129,17 +128,15 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         atmosphericGasesPanel.add( h2oSelector, constraints );
 
         no2Selector = createAndAttachSelectorPanel(
-                // TODO: i18n
-                "NO2",
-                "Nitrogen Dioxide",
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.NO2" ),
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.NitrogenDioxide" ),
                 createImageFromMolecule( new NO2() ), PhotonTarget.SINGLE_NO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         no2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( no2Selector, constraints );
 
         o3Selector = createAndAttachSelectorPanel(
-                // TODO: i18n
-                "O3",
-                "Ozone",
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.O3" ),
+                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Ozone" ),
                 createImageFromMolecule( new O3() ), PhotonTarget.SINGLE_O3_MOLECULE, MOLECULE_SCALING_FACTOR );
         o3Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( o3Selector, constraints );
