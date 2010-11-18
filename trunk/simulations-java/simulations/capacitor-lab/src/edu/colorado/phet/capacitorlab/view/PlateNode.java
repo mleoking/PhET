@@ -34,7 +34,7 @@ public abstract class PlateNode extends BoxNode {
     }
     
     public PlateNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
-        super( mvt, CLPaints.PLATE );
+        super( mvt, CLPaints.PLATE, circuit.getCapacitor().getPlateSideLength(), circuit.getCapacitor().getPlateThickness(), circuit.getCapacitor().getPlateSideLength() );
         
         this.dielectricPlateChargeNode = new DielectricPlateChargeNode( circuit, mvt, polarity );
         addChild( dielectricPlateChargeNode );

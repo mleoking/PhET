@@ -29,10 +29,6 @@ public abstract class BoxNode extends PhetPNode {
     private final PPath topNode, frontNode, sideNode;
     private double width, depth, height;
     
-    public BoxNode( ModelViewTransform mvt, Color color ) {
-        this( mvt, color, 1, 1, 1 );
-    }
-    
     public BoxNode( ModelViewTransform mvt, Color color, double width, double height, double depth ) {
         
         this.shapeFactory = new BoxShapeFactory( mvt );

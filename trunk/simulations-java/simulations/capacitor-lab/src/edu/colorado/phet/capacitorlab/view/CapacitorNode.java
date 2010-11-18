@@ -128,19 +128,20 @@ public class CapacitorNode extends PhetPNode {
         
         // model-to-view transform
         Capacitor capacitor = circuit.getCapacitor();
-        final double plateSize = capacitor.getPlateSideLength();
-        final double plateThickness = capacitor.getPlateThickness();
+        final double plateWidth = capacitor.getPlateSideLength();
+        final double plateHeight = capacitor.getPlateThickness();
+        final double plateDepth = plateWidth;
         final double plateSeparation = capacitor.getPlateSeparation();
         final double dielectricHeight = capacitor.getDielectricHeight();
         
         // geometry
-        topPlateNode.setSize( plateSize, plateThickness, plateSize );
-        bottomPlateNode.setSize( plateSize, plateThickness, plateSize );
-        dielectricNode.setSize( plateSize, dielectricHeight, plateSize );
+        topPlateNode.setSize( plateWidth, plateHeight, plateDepth );
+        bottomPlateNode.setSize( plateWidth, plateHeight, plateDepth );
+        dielectricNode.setSize( plateWidth, dielectricHeight, plateDepth );
         
         // layout nodes with zero dielectric offset
         double x = 0;
-        double y = -( plateSeparation / 2 ) - plateThickness;
+        double y = -( plateSeparation / 2 ) - plateHeight;
         double z = 0;
         topPlateNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
         y = -dielectricHeight / 2;
