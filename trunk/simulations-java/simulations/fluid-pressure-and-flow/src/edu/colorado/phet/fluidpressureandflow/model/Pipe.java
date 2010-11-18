@@ -18,7 +18,13 @@ public class Pipe {
     private ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
 
     public Pipe() {
-        reset();
+        pipePositions.add( new PipePosition( -6, -3, -1 ) );
+        pipePositions.add( new PipePosition( -4, -3, -1 ) );
+        pipePositions.add( new PipePosition( -2, -3, -1 ) );
+        pipePositions.add( new PipePosition( 0, -3, -1 ) );
+        pipePositions.add( new PipePosition( 2, -3, -1 ) );
+        pipePositions.add( new PipePosition( 4, -3, -1 ) );
+        pipePositions.add( new PipePosition( 6, -3, -1 ) );
     }
 
     public ArrayList<PipePosition> getPipePositions() {
@@ -84,6 +90,9 @@ public class Pipe {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
+        if (list.size()==0){
+            throw new RuntimeException( "No pipe segments before x= "+x );
+        }
         return list.get( 0 );
     }
 
@@ -166,14 +175,20 @@ public class Pipe {
     }
 
     public void reset() {
-        pipePositions.clear();
-        pipePositions.add( new PipePosition( -6, -3, -1 ) );
-        pipePositions.add( new PipePosition( -4, -3, -1 ) );
-        pipePositions.add( new PipePosition( -2, -3, -1 ) );
-        pipePositions.add( new PipePosition( 0, -3, -1 ) );
-        pipePositions.add( new PipePosition( 2, -3, -1 ) );
-        pipePositions.add( new PipePosition( 4, -3, -1 ) );
-        pipePositions.add( new PipePosition( 6, -3, -1 ) );
+//        pipePositions.add( new PipePosition( -6, -3, -1 ) );
+//        pipePositions.add( new PipePosition( -4, -3, -1 ) );
+//        pipePositions.add( new PipePosition( -2, -3, -1 ) );
+//        pipePositions.add( new PipePosition( 0, -3, -1 ) );
+//        pipePositions.add( new PipePosition( 2, -3, -1 ) );
+//        pipePositions.add( new PipePosition( 4, -3, -1 ) );
+//        pipePositions.add( new PipePosition( 6, -3, -1 ) );
+
+        for ( int i = 0; i < pipePositions.size(); i++ ) {
+            PipePosition pipePosition =  pipePositions.get( i );
+            pipePosition.reset();
+
+        }
+
     }
 
     /**

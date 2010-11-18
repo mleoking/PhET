@@ -49,9 +49,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                         }
                     }
                     for ( int i = 0; i < toRemove.size(); i++ ) {
-                        Particle particle = toRemove.get( i );
-                        particles.remove( particle );
-                        particle.notifyRemoved();
+                        removeParticle( toRemove.get( i ) );
                     }
                 }
 
@@ -68,15 +66,23 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                         foodColoring.notifyObservers();
                     }
                     for ( int i = 0; i < toRemove.size(); i++ ) {
-                        FoodColoring particle = toRemove.get( i );
-                        foodColorings.remove( particle );
-                        particle.notifyRemoved();
+                        removeFoodColoring( toRemove.get( i ) );
                     }
                 }
             }
         } );
         addPressureSensor( new PressureSensor( this, 1, 0 ) );
         addPressureSensor( new PressureSensor( this, -4, 1 ) );
+    }
+
+    private void removeFoodColoring( FoodColoring foodColoring ) {
+        foodColorings.remove( foodColoring );
+        foodColoring.notifyRemoved();
+    }
+
+    private void removeParticle( Particle particle ) {
+        particles.remove( particle );
+        particle.notifyRemoved();
     }
 
     @Override
@@ -166,10 +172,16 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
 
     @Override
     public void reset() {
+        while ( particles.size() > 0 ) {
+            removeParticle( particles.get( 0 ) );
+        }
+        while ( foodColorings.size() > 0 ) {
+            removeFoodColoring( foodColorings.get( 0 ) );
+        }
         super.reset();
         pipe.reset();
         velocitySensor0.reset();
-        dropperOnProperty.reset();
+        velocitySensor1.reset();
         dropperOnProperty.reset();
         //TODO: remove particle and food coloring
     }

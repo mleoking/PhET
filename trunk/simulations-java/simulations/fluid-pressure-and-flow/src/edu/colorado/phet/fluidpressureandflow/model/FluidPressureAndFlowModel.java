@@ -107,12 +107,12 @@ public class FluidPressureAndFlowModel {
     public void reset() {
         gravityProperty.reset();
         standardAirPressure.reset();
-        clock.resetSimulationTime();
         pressureUnitProperty.reset();
         distanceUnitProperty.reset();
         liquidDensityProperty.reset();
         for ( PressureSensor pressureSensor : pressureSensors ) {
             pressureSensor.reset();
         }
+        clock.resetSimulationTime();
     }
 }
