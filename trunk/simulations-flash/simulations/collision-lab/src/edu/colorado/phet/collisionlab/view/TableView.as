@@ -98,7 +98,7 @@ public class TableView extends Sprite {
         }
         //        var x0: Number = 0;
         //        var y0: Number = 0;
-        if ( this.myModel.extendedBorder ) {
+        if ( this.myModel.isIntro ) {
             const largeConst: Number = 5000;
             g.beginFill( 0xccffcc );
             g.moveTo( -largeConst, -del );
