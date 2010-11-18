@@ -3,6 +3,7 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -34,6 +35,10 @@ public class NO2 extends Molecule {
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = NITROGEN_OXYGEN_BOND_LENGTH *
         Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
 
+    // Random variable used to control the side on which the delocalized bond
+    // is depicted.
+    private static final Random RAND = new Random();
+
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
@@ -41,16 +46,28 @@ public class NO2 extends Molecule {
     private final NitrogenAtom nitrogenAtom = new NitrogenAtom();
     private final OxygenAtom oxygenAtom1 = new OxygenAtom();
     private final OxygenAtom oxygenAtom2 = new OxygenAtom();
-    private final AtomicBond nitrogenOxygenBond1 = new AtomicBond( nitrogenAtom, oxygenAtom1, 1 );
-    private final AtomicBond nitrogenOxygenBond2 = new AtomicBond( nitrogenAtom, oxygenAtom2, 1 );
+    private final AtomicBond nitrogenOxygenBond1;
+    private final AtomicBond nitrogenOxygenBond2;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
     public NO2(Point2D inititialCenterOfGravityPos){
-        // Configure the base class.  It would be better to do this through
-        // nested constructors, but I (jblanco) wasn't sure how to do this.
+
+        // Create the bond structure.  NO2 has a type of bond where each N-O
+        // has essentially 1.5 bonds, so we randomly choose one side to show
+        // two bonds and another to show one.
+        if ( RAND.nextBoolean() ){
+            nitrogenOxygenBond1 = new AtomicBond( nitrogenAtom, oxygenAtom1, 1 );
+            nitrogenOxygenBond2 = new AtomicBond( nitrogenAtom, oxygenAtom2, 2 );
+        }
+        else{
+            nitrogenOxygenBond1 = new AtomicBond( nitrogenAtom, oxygenAtom1, 2 );
+            nitrogenOxygenBond2 = new AtomicBond( nitrogenAtom, oxygenAtom2, 1 );
+        }
+
+        // Add the atoms.
         addAtom( nitrogenAtom );
         addAtom( oxygenAtom1 );
         addAtom( oxygenAtom2 );
