@@ -3,6 +3,9 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.AndProperty;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -93,11 +96,32 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), rulerModelOrigin ) );
         addChild( new EnglishRuler( transform, module.getYardStickVisibleProperty(), rulerModelOrigin ) );
 
-        addChild( new FloatingClockControlNode( module.getClock(), new Function1<Double, String>() {
+        Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
+            module.addListener( new Module.Listener() {
+                public void activated() {
+                    setValue( true );
+                }
+
+                public void deactivated() {
+                    setValue( false );
+                }
+            } );
+        }};
+
+        Property<Boolean> clockRunning = new Property<Boolean>( true );
+        //wire up the clock to be running if the module is active and if the clock control button has been pressed
+        new AndProperty( clockRunning, moduleActive ) {{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    model.getClock().setRunning( getValue() );
+                }
+            } );
+        }};
+        addChild( new FloatingClockControlNode( clockRunning, new Function1<Double, String>() {
             public String apply( Double time ) {
                 return (int) ( time / 1.00 ) + " sec";
             }
-        } ) {{
+        }, module.getClock() ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
     }

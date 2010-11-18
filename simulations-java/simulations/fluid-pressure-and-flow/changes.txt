@@ -1,3 +1,5 @@
+Fixed: Multiple clocks are running, caused by wiring up to new clock control panel
+Fixed: Second tab clock always running
 Fluid-flow: Fixed locations of sensors on startup so they display good initial values
 Fluid-flow: Fixed crash on reset all
 Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude

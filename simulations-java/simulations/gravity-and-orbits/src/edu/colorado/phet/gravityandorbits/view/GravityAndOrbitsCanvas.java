@@ -125,11 +125,18 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
+        final Property<Boolean> clockRunning = new Property<Boolean>( true ){{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    model.getClock().setRunning( getValue() );
+                }
+            } );
+        }};
+        addChild( new FloatingClockControlNode( clockRunning, new Function1<Double, String>() {
             public String apply( Double time ) {
                 return (int) ( time / 86400 ) + " Earth Days";
             }
-        } ) {{
+        } ,model.getClock()) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 
