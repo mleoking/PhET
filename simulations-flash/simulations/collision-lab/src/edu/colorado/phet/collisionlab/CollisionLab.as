@@ -36,9 +36,9 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         advancedModule.attach( advancedHolder );
         advancedHolder.visible = false;
 
-        var introTab: Tab = new Tab( "Introduction", tabBar );
+        var introTab: Tab = new Tab( SimStrings.get( "introductionTab", "Introduction" ), tabBar );
         tabBar.addTab( introTab );
-        var advancedTab: Tab = new Tab( "Advanced", tabBar );
+        var advancedTab: Tab = new Tab( SimStrings.get( "advancedTab", "Advanced" ), tabBar );
         tabBar.addTab( advancedTab );
         tabBar.selectedTab = introTab;
         tabBar.addListener( function(): void {

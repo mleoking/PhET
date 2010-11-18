@@ -143,8 +143,14 @@ public class Model {
     public function createInitialBallData(): void {
         this.startingPos = new Array( CLConstants.MAX_BALLS );
         this.startingVel = new Array( CLConstants.MAX_BALLS );
-        startingPos[0] = new TwoVector( 1.0, 0 );
-        startingPos[1] = new TwoVector( 2.0, +0.5 );
+        if ( isIntro ) {
+            startingPos[0] = new TwoVector( 1.0, 0 );
+            startingPos[1] = new TwoVector( 2.0, 0 );
+        }
+        else {
+            startingPos[0] = new TwoVector( 1.0, 0 );
+            startingPos[1] = new TwoVector( 2.0, +0.5 );
+        }
         startingPos[2] = new TwoVector( 1, -0.5 );
         startingPos[3] = new TwoVector( 2.2, -1.2 );
         startingPos[4] = new TwoVector( 1.2, +0.8 );
@@ -193,19 +199,15 @@ public class Model {
     }
 
     public function resetAll(): void {
-        //trace("Model.resetAll() called");
         this.resetting = true;
         this.setOneDMode( false );
         this.setReflectingBorder( true );
         for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
-            //new Ball(mass, position, velocity);
             this.ball_arr[i].setBall( 1.0, startingPos[i].clone(), startingVel[i].clone() );
             this.setMass( i, 1.0 );
         }
         this.ball_arr[0].setMass( this.massBall1 );
         this.ball_arr[1].setMass( this.massBall2 );
-        //trace("Model.resetAll() called. startingVel[0].yComponent = " + startingVel[0].getY());
-        //trace("Model.ball_arr[0].velocity.getY() = "+ this.ball_arr[0].velocity.getY());
         this.nbrBalls = 2;
         this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
         this.timeRate = 0.5;
@@ -215,7 +217,16 @@ public class Model {
         this.updateViews();
         this.nbrBallsChanged = false;
         this.resetting = false;
-    }//end resetAll()
+    }
+
+    public function returnBalls(): void {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
+            ball_arr[i].setBall( ball_arr[i].mass, startingPos[i].clone(), startingVel[i].clone() );
+        }
+        stopMotion();
+        separateAllBalls();
+        updateViews();
+    }
 
     public function setOneDMode( tOrF: Boolean ): void {
         this.oneDMode = tOrF;
@@ -229,28 +240,21 @@ public class Model {
         }
         else { //if 2D mode
             this.borderHeight = CLConstants.BORDER_HEIGHT_2D; //border height in meters
-            //this.initializePositions();  //back to 2D
         }
-        //trace("Model.setOneDMode: "+tOrF);
     }
 
     //called whenever reset button pushed by user or when nbrBalls changes
     public function initializePositions(): void {
-        //trace("Model.initializePositions() called");
         this.atInitialConfig = true;
         this.starting = true;
         for ( var i: int = 0; i < this.nbrBalls; i++ ) {
-            //new Ball(mass, position, velocity);
             this.ball_arr[i].position = initPos[i].clone();
             this.ball_arr[i].velocity = initVel[i].clone();
             if ( this.oneDMode ) {
                 this.setY( i, 0 );
                 this.setVY( i, 0 );
             }
-            //this.ball_arr[i].position.initializeXLastYLast();
-            //this.ball_arr[i].velocity.initializeXLastYLast();
         }
-        //trace("myModel.ball_arr[0].position.getX(): "+this.ball_arr[0].position.getX());
         this.time = 0;
         this.setCenterOfMass();
         this.updateViews();
@@ -274,12 +278,10 @@ public class Model {
 
     public function setTimeRate( rate: Number ): void {
         this.timeRate = rate;
-        //trace("Model.timeRate: "+timeRate);
     }
 
     public function setElasticity( e: Number ): void {
         this.e = e;
-        //trace("Model:elasticity: "+this.e);
     }
 
     public function setX( indx: int, xPos: Number ): void {
@@ -297,7 +299,6 @@ public class Model {
             this.setTimeToZero();
         }
         this.setCenterOfMass();
-        //trace("playing: " + playing);
         if ( !playing ) {this.updateViews();}  //when playing, singleStep() controls updateVeiws
     }
 
@@ -349,12 +350,10 @@ public class Model {
             this.initVel[indx].setY( yVel );
             this.setTimeToZero();
         }
-        //trace("Model.setVY() called. yVel = "+ yVel);
         if ( !playing ) {
-            //trace("Model.setVY updateViews() called.");
             this.updateViews();
         }
-    }//end setVY
+    }
 
     public function setVXVY( indx: int, xVel: Number, yVel: Number ): void {
         if ( isNaN( xVel ) ) {
@@ -378,7 +377,7 @@ public class Model {
         //need function without event argument
         this.singleStep();
         evt.updateAfterEvent();
-    }//stepForward
+    }
 
     public function singleStep(): void {
         this.nbrCollisionsInThisTimeStep = 0;
@@ -401,11 +400,9 @@ public class Model {
                 dt = this.timeStep;
             }
         }
-        //trace("Model.singleStep(). this.time = "+this.time+",   dt = "+dt);
         if ( starting ) {
             this.starting = false;
         }
-        //trace("timeRate: "+this.timeRate);
         dt *= this.timeRate;
         if ( reversing ) {
             dt *= -1;
@@ -414,32 +411,24 @@ public class Model {
             this.lastTime = this.time; //should this be here or at end of method?
         }
         this.time += dt;
-        //trace("Model.singleStep()  dt = "+dt+"   this.time = "+this.time);
         for ( var i: int = 0; i < this.nbrBalls; i++ ) {
             var x: Number = this.ball_arr[i].position.getX();
             var y: Number = this.ball_arr[i].position.getY();
             var vX: Number = this.ball_arr[i].velocity.getX();
             var vY: Number = this.ball_arr[i].velocity.getY();
-            //            var xLast: Number = x;	//previous value of x before update
-            //            var yLast: Number = y;	//previous value of y before update
             x += vX * dt;
             y += vY * dt;
-            //this.ball_arr[i].position.setXY(x,y);
             this.setXY( i, x, y );
             //reflect at borders
-            //            var radius: Number = this.ball_arr[i].getRadius();
             checkAndProcessWallCollision( i, x, y, vX, vY );
-        }//for loop
+        }
         this.timeHolder = getTimer();
 
         this.detectCollision();
         this.frameCount += 1;
         if ( this.frameCount == this.updateRate ) {
-            //var interval:int = getTimer() - this.timeHolder;
-            //trace("getTimer()"+ interval);
             this.frameCount = 0;
             this.updateViews();
-            //this.timeHolder = getTimer();
         }
         if ( reversing ) {
             this.lastTime = this.time;
@@ -447,7 +436,7 @@ public class Model {
         if ( this.nbrCollisionsInThisTimeStep > 1 ) {
             trace( "Model.nbrCollisionsInThisTimeStep = " + this.nbrCollisionsInThisTimeStep )
         }
-    }//end of singleStep()
+    }
 
     //move forward one Frame = several steps
     public function singleFrame(): void {
