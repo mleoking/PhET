@@ -9,7 +9,6 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial.CustomDielectricChangeListener;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
 import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -38,12 +37,12 @@ public class BatteryCapacitorCircuit {
     private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
+    private final SimpleObserver dielectricConstantObserver;
     
     // mutable instance data
     private boolean batteryConnected;
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
-    private CustomDielectricMaterial customDielectric;
-    private CustomDielectricChangeListener customDielectricChangeListener;
+    private DielectricMaterial dielectricMaterial;
     private double currentAmplitude; // dV/dt, rate of voltage change
     private double previousVoltage;
 
@@ -53,23 +52,20 @@ public class BatteryCapacitorCircuit {
         this.listeners = new EventListenerList();
         this.battery = battery;
         this.capacitor = capacitor;
-        this.batteryConnected = batteryConnected;
-        
-        this.disconnectedPlateCharge = getTotalPlateCharge();
-        this.currentAmplitude = 0;
-        this.previousVoltage = getPlatesVoltage();
-        
-        // change listener to be used with custom dielectric materials
-        customDielectric = null;
-        customDielectricChangeListener = new CustomDielectricChangeListener() {
-            public void dielectricConstantChanged() {
+        this.dielectricConstantObserver = new SimpleObserver() {
+            public void update() {
                 fireCapacitanceChanged();
                 fireChargeChanged();
                 fireEfieldChanged();
                 fireEnergyChanged();
             }
         };
-        updateCustomDielectric();
+        
+        this.batteryConnected = batteryConnected;
+        this.disconnectedPlateCharge = getTotalPlateCharge();
+        this.dielectricMaterial = capacitor.getDielectricMaterial();
+        this.currentAmplitude = 0;
+        this.previousVoltage = getPlatesVoltage();
         
         // update current amplitude on each clock tick
         clock.addClockListener( new ClockAdapter() {
@@ -82,24 +78,30 @@ public class BatteryCapacitorCircuit {
         topWire = new TopWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
         bottomWire = new BottomWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
         
-        // respond to battery voltage changes
-        battery.addVoltageObserver( new SimpleObserver() {
-            public void update() {
-                handleBatteryVoltageChanged();
-            }
-        } );
-        
-        // respond to capacitor changes
-        capacitor.addTotalCapacitanceObserver( new SimpleObserver() {
-            public void update() {
-                handleCapacitanceChanged();
-            }
-        } );
-        capacitor.addDielectricMaterialObserver( new SimpleObserver() {
-            public void update() {
-                handleDielectricMaterialChanged();
-            }
-        } );
+        // observe properties
+        {
+            // observe dielectric
+            dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
+
+            // observe battery
+            battery.addVoltageObserver( new SimpleObserver() {
+                public void update() {
+                    handleBatteryVoltageChanged();
+                }
+            } );
+
+            // observe capacitor
+            capacitor.addTotalCapacitanceObserver( new SimpleObserver() {
+                public void update() {
+                    handleCapacitanceChanged();
+                }
+            } );
+            capacitor.addDielectricMaterialObserver( new SimpleObserver() {
+                public void update() {
+                    handleDielectricMaterialChanged();
+                }
+            } );
+        }
     }
 
     //----------------------------------------------------------------------------------
@@ -657,24 +659,16 @@ public class BatteryCapacitorCircuit {
     }
 
     private void handleDielectricMaterialChanged() {
-        updateCustomDielectric();
+        updateDielectricObserver();
     }
     
     /*
-     * Manages change notification for custom dielectrics.
+     * Rewire dielectric observer.
      */
-    private void updateCustomDielectric() {
-        // unregister for notification from previous custom dielectric
-        if ( customDielectric != null ) {
-            customDielectric.removeCustomDielectricChangeListener( customDielectricChangeListener );
-            customDielectric = null;
-        }
-        // register for notification from current custom dielectric
-        DielectricMaterial material = capacitor.getDielectricMaterial();
-        if ( material instanceof CustomDielectricMaterial ) {
-            customDielectric = (CustomDielectricMaterial) material;
-            customDielectric.addCustomDielectricChangeListener( customDielectricChangeListener );
-        }
+    private void updateDielectricObserver() {
+        this.dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
+        this.dielectricMaterial = capacitor.getDielectricMaterial();
+        this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
     }
 
     //----------------------------------------------------------------------------------
