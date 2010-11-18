@@ -47,14 +47,10 @@ public class Model {
     var view_arr: Array;		//views of this model
     var nbrViews: int;		//number of views
 
-    public var extendedBorder: Boolean;
+    public var isIntro: Boolean;
 
-
-    /**
-     * @param extendedBorder Whether or not the border should be expanded to very large horizontally
-     */
-    public function Model( extendedBorder: Boolean ) {
-        this.extendedBorder = extendedBorder;
+    public function Model( isIntro: Boolean ) {
+        this.isIntro = isIntro;
         this.borderOn = true;
         this.borderWidth = CLConstants.BORDER_WIDTH;	//units are meters
         this.borderHeight = CLConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup
@@ -152,8 +148,14 @@ public class Model {
         startingPos[2] = new TwoVector( 1, -0.5 );
         startingPos[3] = new TwoVector( 2.2, -1.2 );
         startingPos[4] = new TwoVector( 1.2, +0.8 );
-        startingVel[0] = new TwoVector( 1, 0.3 );
-        startingVel[1] = new TwoVector( -0.5, -0.5 );
+        if ( isIntro ) {
+            startingVel[0] = new TwoVector( 1, 0 );
+            startingVel[1] = new TwoVector( 0, 0 );
+        }
+        else {
+            startingVel[0] = new TwoVector( 1, 0.3 );
+            startingVel[1] = new TwoVector( -0.5, -0.5 );
+        }
         startingVel[2] = new TwoVector( -0.5, -0.25 );
         startingVel[3] = new TwoVector( 1.1, 0.2 );
         startingVel[4] = new TwoVector( -1.1, 0 );
