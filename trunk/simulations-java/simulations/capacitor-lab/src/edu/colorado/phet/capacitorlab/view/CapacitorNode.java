@@ -57,7 +57,7 @@ public class CapacitorNode extends PhetPNode {
                 updateGeometry();
             }
         };
-        circuit.getCapacitor().addPlateSideLengthObserver( o );
+        circuit.getCapacitor().addPlateSizeObserver( o );
         circuit.getCapacitor().addPlateSeparationObserver( o );
         circuit.getCapacitor().addDielectricOffsetObserver( o );
     }

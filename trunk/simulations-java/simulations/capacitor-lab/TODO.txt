@@ -19,6 +19,7 @@ HIGH PRIORITY
 - hack in BottomWire.createShape
 
 MEDUIUM PRIORITY
+- Battery.reset, Capacitor.reset, remove calls from DielectricModel.reset
 - convert DielectricMaterial to Property<T>
 - convert CapacitorNode to Property<T>
 - convert BatteryCapacitorCircuit to Property<T>, BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect

@@ -63,7 +63,7 @@ public class CapacitorShapeFactory {
      * @return
      */
     private Shape createBetweenPlatesShape() {
-        return createBoxShape( capacitor.getX(), capacitor.getY() - ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getPlateSize() );
+        return createBoxShape( capacitor.getX(), capacitor.getY() - ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
     }
     
     /*
@@ -71,7 +71,7 @@ public class CapacitorShapeFactory {
      * @return
      */
     private Shape createDielectricBetweenPlatesShape() {
-        if ( capacitor.getDielectricOffset() >= capacitor.getPlateSideLength() ) {
+        if ( capacitor.getDielectricOffset() >= capacitor.getPlateWidth() ) {
             return createEmptyShape();
         }
         else {

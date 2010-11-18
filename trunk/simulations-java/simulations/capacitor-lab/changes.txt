@@ -1,3 +1,6 @@
+11/17/10 replace Capacitor.plateThickness and plateSideLengthProperty with Capacitor.plateSizeProperty
+11/17/10 terminology change: plateThickness -> plateHeight
+11/17/10 terminology change: plateSideLength or plateSize -> plateWidth
 11/17/10 add Dimension3D to simplify many interfaces related to shapes
 11/17/10 remove bogus BoxNode constructor, insure complete initialization of plate and dielectric nodes
 11/17/10 fix max spacing between dielectric charges, adjust spacing function exponent so that behavior is unchanged with battery voltage range

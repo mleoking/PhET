@@ -140,7 +140,7 @@ public class Wire {
                     setShape( createShape() );
                 }
             };
-            capacitor.addPlateSideLengthObserver( o );
+            capacitor.addPlateSizeObserver( o );
             capacitor.addPlateSeparationObserver( o );
             capacitor.addDielectricOffsetObserver( o );
         }

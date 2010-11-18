@@ -37,7 +37,7 @@ import edu.umd.cs.piccolo.util.PDimension;
     protected void startDrag(PInputEvent event) {
         super.startDrag( event );
         double xMouse = event.getPositionRelativeTo( dragNode.getParent() ).getX();
-        double xOrigin = mvt.modelToViewDelta( -( capacitor.getPlateSideLength() / 2 ), 0, 0 ).getX();
+        double xOrigin = mvt.modelToViewDelta( -( capacitor.getPlateWidth() / 2 ), 0, 0 ).getX();
         clickXOffset = xMouse - xOrigin;
     }
     
@@ -58,7 +58,7 @@ import edu.umd.cs.piccolo.util.PDimension;
             else if ( xModel < valueRange.getMin() ) {
                 xModel = valueRange.getMin();
             }
-            capacitor.setPlateSideLength( xModel );
+            capacitor.setPlateWidth( xModel );
         }
     }
 }

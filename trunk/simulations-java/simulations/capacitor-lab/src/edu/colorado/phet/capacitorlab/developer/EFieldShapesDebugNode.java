@@ -51,7 +51,7 @@ public class EFieldShapesDebugNode extends PComposite {
                     airBetweenPlatesNode.setPathTo( shapeFactory.createAirBetweenPlatesShapeOccluded() );
                 }
             };
-            capacitor.addPlateSideLengthObserver( o );
+            capacitor.addPlateSizeObserver( o );
             capacitor.addPlateSeparationObserver( o );
             capacitor.addDielectricOffsetObserver( o );
         }

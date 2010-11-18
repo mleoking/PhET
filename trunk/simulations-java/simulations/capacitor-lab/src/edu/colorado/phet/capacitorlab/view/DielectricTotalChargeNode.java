@@ -90,9 +90,9 @@ public class DielectricTotalChargeNode extends PhetPNode {
         final double spacingBetweenPairs = mvt.viewToModelDelta( SPACING_BETWEEN_PAIRS, 0 ).getX();
         
         // rows and columns
-        final double dielectricWidth = circuit.getCapacitor().getPlateSideLength();
+        final double dielectricWidth = circuit.getCapacitor().getDielectricSize().getWidth();
         final double dielectricHeight = circuit.getCapacitor().getDielectricSize().getHeight();
-        final double dielectricDepth = dielectricWidth;
+        final double dielectricDepth = circuit.getCapacitor().getDielectricSize().getDepth();
         final int rows = (int) ( dielectricHeight / spacingBetweenPairs );
         final int columns = (int) ( dielectricWidth / spacingBetweenPairs );
         
