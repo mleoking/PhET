@@ -212,7 +212,7 @@ public class AdminCategoryPage extends AdminPage {
                     public boolean run( Session session ) {
                         Category cat = (Category) session.load( Category.class, category.getId() );
                         Simulation sim = (Simulation) session.load( Simulation.class, item.getId() );
-                        cat.addSimulation( sim );
+                        cat.addSimulationToEnd( sim );
                         session.update( cat );
                         session.update( sim );
                         CategoryChangeHandler.notifySimulationChange( cat, sim );
