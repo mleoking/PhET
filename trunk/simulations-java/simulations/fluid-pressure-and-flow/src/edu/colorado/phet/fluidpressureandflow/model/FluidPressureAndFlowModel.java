@@ -114,5 +114,6 @@ public class FluidPressureAndFlowModel {
             pressureSensor.reset();
         }
         clock.resetSimulationTime();
+        clock.start();
     }
 }
