@@ -29,6 +29,7 @@ import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.N2;
+import edu.colorado.phet.greenhouse.model.NO2;
 import edu.colorado.phet.greenhouse.model.O2;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
@@ -131,7 +132,7 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
                 // TODO: i18n
                 "NO2",
                 "Nitrogen Dioxide",
-                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
+                createImageFromMolecule( new NO2() ), PhotonTarget.SINGLE_NO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         no2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( no2Selector, constraints );
 
