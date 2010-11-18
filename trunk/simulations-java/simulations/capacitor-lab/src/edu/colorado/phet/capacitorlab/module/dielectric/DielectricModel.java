@@ -19,8 +19,6 @@ public class DielectricModel {
     // static properties
     private final World world;
     private final DielectricMaterial[] dielectricMaterials;
-    private final CustomDielectricMaterial customDielectricMaterial;
-    private final DielectricMaterial defaultDielectricMaterial;
     private final BatteryCapacitorCircuit circuit;
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
@@ -29,13 +27,12 @@ public class DielectricModel {
         
         world = new World();
         
-        customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+        CustomDielectricMaterial customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, new Teflon(), new Paper(), new Glass() };
-        defaultDielectricMaterial = customDielectricMaterial;
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
         final Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
-                defaultDielectricMaterial, CLConstants.PLATE_WIDTH_RANGE.getDefault() /* dielectricOffset */, mvt );
+                customDielectricMaterial, CLConstants.PLATE_WIDTH_RANGE.getDefault() /* dielectricOffset */, mvt );
         circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, mvt );
         
         eFieldDetector = new EFieldDetector( circuit, world, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION, CLConstants.EFIELD_DETECTOR_VISIBLE,
@@ -84,19 +81,18 @@ public class DielectricModel {
     }
 
     public void reset() {
-        // battery
-        getBattery().setVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getDefault() );
-        // capacitor
-        getCapacitor().setPlateWidth( CLConstants.PLATE_WIDTH_RANGE.getDefault() );
-        getCapacitor().setPlateSeparation( CLConstants.PLATE_SEPARATION_RANGE.getDefault() );
-        customDielectricMaterial.setDielectricConstant( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
-        getCapacitor().setDielectricMaterial( defaultDielectricMaterial );
-        getCapacitor().setDielectricOffset( CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault() );
+        getBattery().reset();
+        getCapacitor().reset();
+        eFieldDetector.reset();
+        voltmeter.reset();
         // circuit
         getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED );
-        // E-field detector
-        eFieldDetector.reset();
-        // voltmeter
-        voltmeter.reset();
+        //XXX replace this block with getCapacitor().getDielectricMaterial().reset()
+        {
+            DielectricMaterial material = getCapacitor().getDielectricMaterial();
+            if ( material instanceof CustomDielectricMaterial ) {
+                ( (CustomDielectricMaterial) material ).setDielectricConstant( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+            }
+        }
     }
 }
