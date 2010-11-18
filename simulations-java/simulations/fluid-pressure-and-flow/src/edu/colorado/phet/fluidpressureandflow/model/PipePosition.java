@@ -35,6 +35,10 @@ public class PipePosition {
         top.setValue( new ImmutableVector2D( getTop().getX() + dx, getTop().getY() + dy ) );
     }
 
+    public void setTop( double x, double y ) {
+        top.setValue( new ImmutableVector2D( x, y ) );
+    }
+
     public void translateBottom( double dx, double dy ) {
         bottom.setValue( new ImmutableVector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
     }
@@ -50,5 +54,9 @@ public class PipePosition {
     public void reset() {
         top.reset();
         bottom.reset();
+    }
+
+    public void setBottom( double x, double y ) {
+        bottom.setValue( new ImmutableVector2D( x, y ) );
     }
 }

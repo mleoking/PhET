@@ -28,6 +28,14 @@ public class PipePositionControl extends PNode {
             public double distance( PipeBackNode.ControlPoint controlPoint ) {
                 return getPoint().distance( controlPoint.getPoint() );
             }
+
+            public void setPosition( double x, double y ) {
+                pipePosition.setTop( x, y );
+            }
+
+            public boolean isTop() {
+                return true;
+            }
         };
         final PipeBackNode.ControlPoint bottomControlPoint = new PipeBackNode.ControlPoint() {
             public Point2D getPoint() {
@@ -44,6 +52,14 @@ public class PipePositionControl extends PNode {
 
             public double distance( PipeBackNode.ControlPoint controlPoint ) {
                 return getPoint().distance( controlPoint.getPoint() );
+            }
+
+            public void setPosition( double x, double y ) {
+                pipePosition.setBottom(x,y);
+            }
+
+            public boolean isTop() {
+                return false;
             }
         };
         addChild( new PipeBackNode.GrabHandle( transform, bottomControlPoint, topControlPoint ) );

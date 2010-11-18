@@ -62,13 +62,13 @@ public class PressureSensorNode extends PNode {
                 if ( pool != null ) {
                     pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), pool.getMinY() ) );//not allowed to go to negative Potential Energy
                     if ( pressureSensor.getPosition().getY() < 0 ) {
-                        pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX() ), pressureSensor.getY() );//todo: use pool dimensions
+                        pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX() ), pressureSensor.getY() );
                     }
                 }
                 else {
                     pressureSensor.setPosition( modelLocation.getX(), modelLocation.getY() );//not allowed to go to negative Potential Energy
                     if ( pressureSensor.getPosition().getY() < 0 ) {
-                        pressureSensor.setPosition( modelLocation.getX(), pressureSensor.getY() );//todo: use pool dimensions
+                        pressureSensor.setPosition( modelLocation.getX(), pressureSensor.getY() );
                     }
                 }
             }

@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -18,7 +17,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * The back part (in z-ordering) of the pipe graphics
@@ -109,12 +107,7 @@ public class PipeBackNode extends PNode {
     }
 
     public static class GrabHandle extends PNode {
-        private ControlPoint controlPoint;
-        private ControlPoint oppositeControlPoint;
-
         public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint, final ControlPoint oppositeControlPoint ) {
-            this.controlPoint = controlPoint;
-            this.oppositeControlPoint = oppositeControlPoint;
             double arrowLength = 20;
             addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
                 setPaint( Color.green );
@@ -127,20 +120,45 @@ public class PipeBackNode extends PNode {
                 } );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PBasicInputEventHandler() {
-                    @Override
+                    private Point2D.Double relativeGrabPoint;
+
+                    public void mousePressed( PInputEvent event ) {
+                        updateGrabPoint( event );
+                    }
+
+                    private void updateGrabPoint( PInputEvent event ) {
+                        Point2D viewStartingPoint = event.getPositionRelativeTo( getParent() );
+                        Point2D viewCoordinateOfObject = transform.modelToView( controlPoint.getPoint().getX(), controlPoint.getPoint().getY() );
+                        relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
+                    }
+
                     public void mouseDragged( PInputEvent event ) {
-                        PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        final double dy = transform.viewToModelDifferential( delta ).getY();
-                        if ( controlPoint.distance( oppositeControlPoint ) > 0.5 || movingAway( dy ) ) {
-                            controlPoint.translate( 0, dy );
+                        if ( relativeGrabPoint == null ) {
+                            updateGrabPoint( event );
                         }
+                        final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
+                        Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
+                                                                       newDragPosition.getY() - relativeGrabPoint.getY() );
+
+                        //Todo: this could be factored out better
+                        if ( controlPoint.isTop() ) {
+                            if ( modelLocation.getY() - oppositeControlPoint.getPoint().getY() < 0.5 ) {
+                                modelLocation.setLocation( modelLocation.getX(), oppositeControlPoint.getPoint().getY() + 0.5 );
+                            }
+                        }
+                        else {
+                            if ( modelLocation.getY() - oppositeControlPoint.getPoint().getY() > -0.5 ) {
+                                modelLocation.setLocation( modelLocation.getX(), oppositeControlPoint.getPoint().getY() - 0.5 );
+                            }
+                        }
+                        controlPoint.setPosition( controlPoint.getPoint().getX(), modelLocation.getY() );//not allowed to go to negative Potential Energy
+                    }
+
+                    public void mouseReleased( PInputEvent event ) {
+                        relativeGrabPoint = null;
                     }
                 } );
             }} );
-        }
-
-        private boolean movingAway( double dy ) {
-            return MathUtil.getSign( controlPoint.getPoint().getY() - oppositeControlPoint.getPoint().getY() ) == MathUtil.getSign( dy );
         }
     }
 
@@ -152,6 +170,10 @@ public class PipeBackNode extends PNode {
         void addObserver( SimpleObserver observer );
 
         double distance( ControlPoint controlPoint );
+
+        void setPosition( double x, double y );
+
+        boolean isTop();
     }
 
 }
