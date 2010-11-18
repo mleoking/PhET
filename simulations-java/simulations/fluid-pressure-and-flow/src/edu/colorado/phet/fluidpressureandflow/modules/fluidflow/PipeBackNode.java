@@ -110,10 +110,6 @@ public class PipeBackNode extends PNode {
                 }
             } );
         }} );
-
-        for ( PipePosition pipePosition : pipe.getPipePositions() ) {
-            addChild( new PipePositionControl( transform, pipePosition ) );
-        }
     }
 
     public double getPipeLeftViewHeight() {
@@ -176,44 +172,4 @@ public class PipeBackNode extends PNode {
         double distance( ControlPoint controlPoint );
     }
 
-    public static class PipePositionControl extends PNode {
-        public PipePositionControl( final ModelViewTransform2D transform, final PipePosition pipePosition ) {
-            final ControlPoint topControlPoint = new ControlPoint() {
-                public Point2D getPoint() {
-                    return pipePosition.getTop();
-                }
-
-                public void translate( double x, double y ) {
-                    pipePosition.translateTop( x, y );
-                }
-
-                public void addObserver( SimpleObserver observer ) {
-                    pipePosition.addObserver( observer );
-                }
-
-                public double distance( ControlPoint controlPoint ) {
-                    return getPoint().distance( controlPoint.getPoint() );
-                }
-            };
-            final ControlPoint bottomControlPoint = new ControlPoint() {
-                public Point2D getPoint() {
-                    return pipePosition.getBottom();
-                }
-
-                public void translate( double x, double y ) {
-                    pipePosition.translateBottom( x, y );
-                }
-
-                public void addObserver( SimpleObserver observer ) {
-                    pipePosition.addObserver( observer );
-                }
-
-                public double distance( ControlPoint controlPoint ) {
-                    return getPoint().distance( controlPoint.getPoint() );
-                }
-            };
-            addChild( new GrabHandle( transform, bottomControlPoint, topControlPoint ) );
-            addChild( new GrabHandle( transform, topControlPoint, bottomControlPoint ) );
-        }
-    }
 }
