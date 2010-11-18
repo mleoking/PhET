@@ -1,3 +1,4 @@
+Fixed: colored fluid not being removed from model/view
 converted from Function<T,Void> to VoidFunction<T>
 # 0.00.03 (46334) Nov 18, 2010
 Fixed: Multiple clocks are running, caused by wiring up to new clock control panel

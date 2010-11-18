@@ -116,7 +116,6 @@ public class Pipe {
         return new PipePosition( x, bottom, top );
     }
 
-    //TODO consolidate with above
     public double fractionToLocation( double x, double fraction ) {
         PipePosition position = getPipePosition( x );
         return new Function.LinearFunction( 0, 1, position.getBottom().getY(), position.getTop().getY() ).evaluate( fraction );
