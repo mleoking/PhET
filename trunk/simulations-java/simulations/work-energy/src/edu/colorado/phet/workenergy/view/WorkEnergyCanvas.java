@@ -11,7 +11,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -75,14 +77,21 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new FloatingClockControlNode( model.getClock(), new Function1<Double, String>() {
+        final Property<Boolean> clockRunning = new Property<Boolean>( true ){{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    model.getClock().setRunning( getValue() );
+                }
+            } );
+        }};
+        addChild( new FloatingClockControlNode( clockRunning, new Function1<Double, String>() {
 
             DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
 
             public String apply( Double aDouble ) {
                 return decimalFormat.format( aDouble ) + " seconds";
             }
-        } ) {{
+        },model.getClock() ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
             final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, "0.00", model.getClock() ) {{
                 makeTransparent( this );

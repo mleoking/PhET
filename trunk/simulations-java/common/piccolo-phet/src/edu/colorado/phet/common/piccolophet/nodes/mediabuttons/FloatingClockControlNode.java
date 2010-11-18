@@ -2,10 +2,12 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -20,28 +22,20 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
-    public FloatingClockControlNode( final IClock clock,
-                                     final Function1<Double, String> getTimeReadout ) {//The function used for displaying the time readout
+    public FloatingClockControlNode( final Property<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
+                                     final Function1<Double, String> getTimeReadout,//The function used for displaying the time readout
+                                     final IClock clock ) {//only used for time display
         playPauseButton = new PlayPauseButton( 80 ) {{
             final Listener updatePlayPauseButtons = new Listener() {
                 public void playbackStateChanged() {
-                    if ( isPlaying() ) {
-                        clock.start();
-                    }
-                    else {
-                        clock.pause();
-                    }
+                    clockRunning.setValue( isPlaying() );
                 }
             };
             addListener( updatePlayPauseButtons );
             updatePlayPauseButtons.playbackStateChanged();
-            clock.addClockListener( new ClockAdapter() {
-                public void clockStarted( ClockEvent clockEvent ) {
-                    setPlaying( clock.isRunning() );
-                }
-
-                public void clockPaused( ClockEvent clockEvent ) {
-                    setPlaying( clock.isRunning() );
+            clockRunning.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPlaying( clockRunning.getValue() );
                 }
             } );
         }};
@@ -53,13 +47,8 @@ public class FloatingClockControlNode extends PNode {
                         setEnabled( !playPauseButton.isPlaying() );
                     }
                 };
-                clock.addClockListener( new ClockAdapter() {
-                    public void clockStarted( ClockEvent clockEvent ) {
-                        updateEnabled.playbackStateChanged();
-                    }
-
-                    @Override
-                    public void clockPaused( ClockEvent clockEvent ) {
+                clockRunning.addObserver( new SimpleObserver() {
+                    public void update() {
                         updateEnabled.playbackStateChanged();
                     }
                 } );
