@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -186,6 +186,10 @@ public class ModelViewTransform {
             this.width = width;
             this.height = height;
         }
+        
+        public Dimension2DDouble( Dimension2D size ) {
+            this( size.getWidth(), size.getHeight() );
+        }
 
         @Override
         public double getWidth() {
@@ -201,6 +205,19 @@ public class ModelViewTransform {
         public void setSize( double width, double height ) {
             this.width = width;
             this.height = height;
+        }
+        
+        @Override
+        public String toString() {
+            final StringBuffer result = new StringBuffer();
+            result.append( super.toString().replaceAll( ".*\\.", "" ) ); // abbreviate the class name
+            result.append( '[' );
+            result.append( "width=" );
+            result.append( width );
+            result.append( ",height=" );
+            result.append( height );
+            result.append( ']' );
+            return result.toString();
         }
     }
 }
