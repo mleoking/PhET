@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.World;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -32,7 +32,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
     
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
-    public EFieldDetectorProbeNode( final EFieldDetector detector, World world, final ModelViewTransform mvt, boolean dev ) {
+    public EFieldDetectorProbeNode( final EFieldDetector detector, World world, final CLModelViewTransform3D mvt, boolean dev ) {
         super();
         
         PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
@@ -71,11 +71,11 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         private final PNode probeNode;
         private final EFieldDetector detector;
         private final World world;
-        private final ModelViewTransform mvt;
+        private final CLModelViewTransform3D mvt;
         
         private double clickXOffset, clickYOffset;
         
-        public ProbeDragHandler( PNode probeNode, EFieldDetector detector, World world, ModelViewTransform mvt ) {
+        public ProbeDragHandler( PNode probeNode, EFieldDetector detector, World world, CLModelViewTransform3D mvt ) {
             this.probeNode = probeNode;
             this.detector = detector;
             this.world = world;

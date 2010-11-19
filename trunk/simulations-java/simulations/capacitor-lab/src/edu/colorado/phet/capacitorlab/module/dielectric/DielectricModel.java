@@ -24,7 +24,7 @@ public class DielectricModel {
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
     
-    public DielectricModel( CLClock clock, ModelViewTransform mvt ) {
+    public DielectricModel( CLClock clock, CLModelViewTransform3D mvt ) {
         
         world = new World();
         

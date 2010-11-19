@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -27,10 +27,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DielectricExcessChargeNode extends PhetPNode {
     
     private final BatteryCapacitorCircuit circuit;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
 
-    public DielectricExcessChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
+    public DielectricExcessChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, boolean dev ) {
         
         this.circuit = circuit;
         this.mvt = mvt;

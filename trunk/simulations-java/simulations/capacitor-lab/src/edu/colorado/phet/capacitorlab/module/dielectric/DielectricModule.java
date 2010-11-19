@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 import java.awt.Frame;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLModule;
 
 /**
@@ -26,7 +26,7 @@ public class DielectricModule extends CLModule {
     protected DielectricModule( String title, Frame parentFrame, boolean dev ) {
         super( title );
         
-        ModelViewTransform mvt = new ModelViewTransform();
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         
         model = new DielectricModel( getCLClock(), mvt);
         

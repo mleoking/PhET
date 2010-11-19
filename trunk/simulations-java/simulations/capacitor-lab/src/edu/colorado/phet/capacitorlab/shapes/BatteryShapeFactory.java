@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -34,9 +34,9 @@ public class BatteryShapeFactory {
     private static final double NEGATIVE_TERMINAL_Y_OFFSET = -( BODY_SIZE.getHeight() / 2 ) + 0.00105;
     
     private final Battery battery;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     
-    public BatteryShapeFactory( Battery battery, ModelViewTransform mvt ) {
+    public BatteryShapeFactory( Battery battery, CLModelViewTransform3D mvt ) {
         this.battery = battery;
         this.mvt = mvt;
     }

@@ -19,7 +19,7 @@ import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
@@ -38,7 +38,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class DielectricCanvas extends CLCanvas {
     
     private final DielectricModel model;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     
     // circuit
     private final CapacitorNode capacitorNode;
@@ -72,7 +72,7 @@ public class DielectricCanvas extends CLCanvas {
     private WireNode topWireNode;
     private WireNode bottomWireNode;
 
-    public DielectricCanvas( final DielectricModel model, ModelViewTransform mvt, boolean dev ) {
+    public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, boolean dev ) {
         
         this.model = model;
         model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {

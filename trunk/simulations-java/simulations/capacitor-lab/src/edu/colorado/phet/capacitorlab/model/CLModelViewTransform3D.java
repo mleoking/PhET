@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ModelViewTransform {
+public class CLModelViewTransform3D {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -39,7 +39,7 @@ public class ModelViewTransform {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ModelViewTransform() {
+    public CLModelViewTransform3D() {
         this( CLConstants.MVT_SCALE, CLConstants.MVT_PITCH, CLConstants.MVT_YAW );
     }
     
@@ -51,7 +51,7 @@ public class ModelViewTransform {
      * @param pitch rotation about the horizontal (x) axis, sign determined using the right-hand rule (radians)
      * @param yaw rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)
      */
-    public ModelViewTransform( double scale, double pitch, double yaw ) {
+    public CLModelViewTransform3D( double scale, double pitch, double yaw ) {
         
         modelToViewTransform2D = new AffineTransform();
         modelToViewTransform2D.scale( scale, scale );

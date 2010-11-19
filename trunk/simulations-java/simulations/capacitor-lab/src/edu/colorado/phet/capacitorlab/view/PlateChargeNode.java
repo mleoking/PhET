@@ -7,7 +7,7 @@ import java.awt.Dimension;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
@@ -29,12 +29,12 @@ public abstract class PlateChargeNode extends PhetPNode {
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
     
     private final BatteryCapacitorCircuit circuit;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final Polarity polarity;
     private final PNode parentNode; // parent node for charges
     private final IPlateChargeGridSizeStrategy gridSizeStrategy;
 
-    public PlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
+    public PlateChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, Polarity polarity ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
@@ -171,7 +171,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
-        public DielectricPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
+        public DielectricPlateChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, Polarity polarity ) {
             super( circuit, mvt, polarity );
         }
         
@@ -198,7 +198,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class AirPlateChargeNode extends PlateChargeNode {
 
-        public AirPlateChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, Polarity polarity ) {
+        public AirPlateChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, Polarity polarity ) {
             super( circuit, mvt, polarity );
         }
         

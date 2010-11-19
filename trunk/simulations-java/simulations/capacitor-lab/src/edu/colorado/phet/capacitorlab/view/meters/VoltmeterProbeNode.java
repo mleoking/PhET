@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
 import edu.colorado.phet.capacitorlab.model.World;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
@@ -27,7 +27,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
 
     public static class PositiveVoltmeterProbeNode extends VoltmeterProbeNode {
         
-        public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
+        public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, World world, final CLModelViewTransform3D mvt ) {
             super( CLImages.RED_VOLTMETER_PROBE, voltmeter, world, mvt );
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
@@ -47,7 +47,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
 
     public static class NegativeVoltmeterProbeNode extends VoltmeterProbeNode {
         
-        public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
+        public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, World world, final CLModelViewTransform3D mvt ) {
             super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, world, mvt );
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
                 public void update() {
@@ -69,7 +69,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     private final VoltmeterShapeFactory shapeFactory;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
-    public VoltmeterProbeNode( Image image, final Voltmeter voltmeter, World world, final ModelViewTransform mvt ) {
+    public VoltmeterProbeNode( Image image, final Voltmeter voltmeter, World world, final CLModelViewTransform3D mvt ) {
         
         this.voltmeter = voltmeter;
         this.shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
@@ -109,11 +109,11 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
         
         private final VoltmeterProbeNode probeNode;
         private final World world;
-        private final ModelViewTransform mvt;
+        private final CLModelViewTransform3D mvt;
         
         private double clickXOffset, clickYOffset;
         
-        public ProbeDragHandler( VoltmeterProbeNode probeNode, World world, ModelViewTransform mvt ) {
+        public ProbeDragHandler( VoltmeterProbeNode probeNode, World world, CLModelViewTransform3D mvt ) {
             this.probeNode = probeNode;
             this.world = world;
             this.mvt = mvt;

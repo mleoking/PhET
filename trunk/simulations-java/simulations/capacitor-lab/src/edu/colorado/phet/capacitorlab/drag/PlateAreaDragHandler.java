@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.drag;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -21,12 +21,12 @@ import edu.umd.cs.piccolo.util.PDimension;
     
     private final PNode dragNode;
     private final Capacitor capacitor;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final DoubleRange valueRange;
     
     private double clickXOffset; // x-offset of mouse click from dragNode's origin, in parent node's coordinate frame
     
-    public PlateAreaDragHandler( PNode dragNode, Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+    public PlateAreaDragHandler( PNode dragNode, Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
         this.capacitor = capacitor;
         this.mvt = mvt;

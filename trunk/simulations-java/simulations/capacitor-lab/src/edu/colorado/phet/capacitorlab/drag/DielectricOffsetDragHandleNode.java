@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,10 +29,10 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( LINE_LENGTH, 0 );
     
     private final Capacitor capacitor;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final DragHandleValueNode valueNode;
     
-    public DielectricOffsetDragHandleNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+    public DielectricOffsetDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
         
         this.capacitor = capacitor;
         this.mvt = mvt;

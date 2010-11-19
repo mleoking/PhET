@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.util.Dimension3D;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
@@ -19,9 +19,9 @@ import edu.colorado.phet.capacitorlab.util.ShapeUtils;
  */
 public class BoxShapeFactory {
     
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     
-    public BoxShapeFactory( ModelViewTransform mvt ) {
+    public BoxShapeFactory( CLModelViewTransform3D mvt ) {
         this.mvt = mvt;
     }
     
