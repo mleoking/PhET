@@ -57,7 +57,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Color TITLE_COLOR = Color.WHITE;
     
-    private static final Color BODY_COLOR = Color.BLACK;
+    private static final Color BODY_COLOR = new Color( 75, 75, 75 );
     private static final double BODY_CORNER_RADIUS = 15;
     private static final int BODY_X_MARGIN = 5;
     private static final int BODY_Y_MARGIN = 5;

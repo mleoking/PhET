@@ -1,3 +1,5 @@
+11/19/10 make E-Field Detector wire gray, to distinguish it from black voltmeter wire
+11/19/10 make E-Field Detector body dark gray, so that black voltmeter wire is visible on top of it
 # 0.00.47 (46404) Nov 19, 2010
 11/19/10 adjust default location of voltmeter body and probes
 11/19/10 rename ModelViewTransform to CLModelViewTransform3D because there are way too many ModelViewTransform implementations in PhET
