@@ -77,6 +77,25 @@ public class ButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
 
     /**
+     * Constructor for creating a default button with only the label specified.
+     *
+     * @param label - Text that will appear on button.
+     */
+    public ButtonNode( String label ) {
+        this( label, FONT_SIZE, ENABLED_FILL_COLOR_DEFAULT );
+    }
+
+    /**
+     * Constructor for creating a button assuming the default font size & color.
+     *
+     * @param label
+     * @param buttonColor
+     */
+    public ButtonNode( String label, Color buttonColor ) {
+        this( label, FONT_SIZE, buttonColor );
+    }
+    
+    /**
      * Construct a button node.
      *
      * @param label - Text that will appear on the button.
@@ -127,7 +146,7 @@ public class ButtonNode extends PhetPNode {
         _button = new PPath( buttonShape );
         _button.setPaint( _mouseNotOverGradient );
         _button.setStrokePaint( ENABLED_STROKE_COLOR );
-        _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
+        _button.addInputEventListener( new CursorHandler() ); // Does the hand cursor thing.
 
         _buttonShadow = new PPath( buttonShape );
         _buttonShadow.setPaint( ENABLED_SHADOW_COLOR );
@@ -135,8 +154,7 @@ public class ButtonNode extends PhetPNode {
         _buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
         _buttonShadow.setStroke( null );
 
-        // Add the children to the node in the appropriate order so that they
-        // appear as desired.
+        // Add the children to the node in the appropriate order so that they appear as desired.
         addChild( _buttonShadow );
         addChild( _button );
         _button.addChild( _htmlLabelNode ); // icon is a child of the button so we don't have to move it separately
@@ -236,25 +254,6 @@ public class ButtonNode extends PhetPNode {
 
     protected PPath getButton() {
         return _button;
-    }
-
-    /**
-     * Constructor for creating a default button with only the label specified.
-     *
-     * @param label - Text that will appear on button.
-     */
-    public ButtonNode( String label ) {
-        this( label, FONT_SIZE, ENABLED_FILL_COLOR_DEFAULT );
-    }
-
-    /**
-     * Constructor for creating a button assuming the default font size & color.
-     *
-     * @param label
-     * @param buttonColor
-     */
-    public ButtonNode( String label, Color buttonColor ) {
-        this( label, FONT_SIZE, buttonColor );
     }
 
     public void addActionListener( ActionListener listener ) {
