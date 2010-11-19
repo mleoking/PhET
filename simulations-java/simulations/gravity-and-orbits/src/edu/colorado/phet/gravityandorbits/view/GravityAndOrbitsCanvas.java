@@ -116,7 +116,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Reset all button
-        addChild( new ButtonNode( "Reset all", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.BACKGROUND, GravityAndOrbitsControlPanel.FOREGROUND ) {{
+        addChild( new ButtonNode( "Reset all", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
