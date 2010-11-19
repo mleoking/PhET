@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.view.FluidPressureAndFlowCanvas;
@@ -29,7 +29,7 @@ public class DropperNode extends PNode {
     PhetFont font = new PhetFont( 16, true );
     PhetFont tickFont = new PhetFont( 16, false );
 
-    public DropperNode( final ModelViewTransform2D transform, final Pipe pipe, final Property<Double> dropperRateProperty, final SimpleObserver waterDropped, final SimpleObserver pour ) {
+    public DropperNode( final ModelViewTransform transform, final Pipe pipe, final Property<Double> dropperRateProperty, final SimpleObserver waterDropped, final SimpleObserver pour ) {
         final PImage image = new PImage( RESOURCES.getImage( "dropper.png" ) );
         image.scale( 0.8 );
         addChild( image );

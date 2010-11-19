@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
@@ -20,10 +20,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class PipeFrontNode extends PNode {
-    private final ModelViewTransform2D transform;
+    private final ModelViewTransform transform;
     private final Pipe pipe;
 
-    public PipeFrontNode( final ModelViewTransform2D transform, final Pipe pipe ) {
+    public PipeFrontNode( final ModelViewTransform transform, final Pipe pipe ) {
         this.transform = transform;
         this.pipe = pipe;
 
@@ -51,7 +51,7 @@ public class PipeFrontNode extends PNode {
                 public void update() {
                     double sy = getPipeLeftViewHeight() / PipeBackNode.pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( PipeBackNode.sx, sy ) );
-                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
+                    final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
                     setOffset( topLeft.getX() - pipeLeftFrontImage.getWidth() + PipeBackNode.PIPE_LEFT_OFFSET / PipeBackNode.sx, topLeft.getY() - PipeBackNode.pipeOpeningPixelYTop * sy );
                 }
             } );
@@ -63,7 +63,7 @@ public class PipeFrontNode extends PNode {
                 public void update() {
                     double sy = getPipeRightViewHeight() / PipeBackNode.pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( PipeBackNode.sx, sy ) );
-                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopRight() );
+                    final Point2D topLeft = transform.modelToView( pipe.getTopRight() );
                     setOffset( topLeft.getX() - pipeRightImage.getWidth() + PipeBackNode.PIPE_LEFT_OFFSET / PipeBackNode.sx, topLeft.getY() - PipeBackNode.pipeOpeningPixelYTop * sy );
                 }
             } );
@@ -75,14 +75,14 @@ public class PipeFrontNode extends PNode {
     }
 
     public double getPipeRightViewHeight() {
-        final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
-        final Point2D bottomRight = transform.modelToViewDouble( pipe.getBottomRight() );
+        final Point2D topRight = transform.modelToView( pipe.getTopRight() );
+        final Point2D bottomRight = transform.modelToView( pipe.getBottomRight() );
         return bottomRight.getY() - topRight.getY();
     }
 
     public double getPipeLeftViewHeight() {
-        final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-        final Point2D bottomLeft = transform.modelToViewDouble( pipe.getBottomLeft() );
+        final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
+        final Point2D bottomLeft = transform.modelToView( pipe.getBottomLeft() );
         return bottomLeft.getY() - topLeft.getY();
     }
 }

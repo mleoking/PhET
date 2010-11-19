@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.AndProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
@@ -23,11 +23,12 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( module, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.65 ), scale, true ) );
+        super( module, ModelViewTransform.getSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.65 ), scale ) );
+        //super( module, new ModelViewTransform( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.65 ), scale, true ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
-        addChild( new PhetPPath(transform.createTransformedShape( new Ellipse2D.Double(-2,-2,4,4) )) );
+        addChild( new PhetPPath( transform.createTransformedShape( new Ellipse2D.Double( -2, -2, 4, 4 ) ) ) );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );

@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class PoolHeightReadoutNode extends PNode {
-    public PoolHeightReadoutNode( ModelViewTransform2D transform, final Pool pool, final Property<Units.Unit> distanceUnitProperty ) {
+    public PoolHeightReadoutNode( ModelViewTransform transform, final Pool pool, final Property<Units.Unit> distanceUnitProperty ) {
         final double dw = 5;
         final PhetPPath background = new PhetPPath( Color.white );
         PNode heightReadout = new PNode() {{

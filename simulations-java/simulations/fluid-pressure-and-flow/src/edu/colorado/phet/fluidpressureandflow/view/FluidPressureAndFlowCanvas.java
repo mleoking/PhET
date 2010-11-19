@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
@@ -22,12 +22,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> extends PhetPCanvas {
-    protected final ModelViewTransform2D transform;
+    protected final ModelViewTransform transform;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private final PNode rootNode;
     private final FluidPressureAndFlowModule<T> module;
 
-    public FluidPressureAndFlowCanvas( final FluidPressureAndFlowModule module, ModelViewTransform2D transform ) {
+    public FluidPressureAndFlowCanvas( final FluidPressureAndFlowModule module, ModelViewTransform transform ) {
         this.module = module;
         this.transform = transform;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );

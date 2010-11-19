@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class VelocitySensorNode extends PNode {
     private final VelocitySensor pressureSensor;
 
-    public VelocitySensorNode( final ModelViewTransform2D transform, final VelocitySensor velocitySensor ) {
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor ) {
         this.pressureSensor = velocitySensor;
         double hotSpotRadius = PressureSensorNode.hotSpotRadius;
         addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
@@ -80,7 +80,7 @@ public class VelocitySensorNode extends PNode {
                 child.setOffset( -child.getFullBounds().getWidth() / 2, 0 );//Center the text under the the hot spot
 
                 ImmutableVector2D velocity = velocitySensor.getVelocity().getValue();
-                ImmutableVector2D viewVelocity = new ImmutableVector2D( transform.modelToViewDifferentialDouble( velocity.toPoint2D() ) );
+                ImmutableVector2D viewVelocity = transform.modelToViewDelta( velocity );
                 double velocityScale = 0.2;
                 Point2D tip = viewVelocity.getScaledInstance( velocityScale ).toPoint2D();
                 Point2D tail = viewVelocity.getScaledInstance( -1 * velocityScale ).toPoint2D();
