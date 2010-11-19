@@ -176,7 +176,9 @@ public class ButtonNode extends PhetPNode {
 
             public void setFocus( boolean focus ) {
                 this.focus = focus;
-                _buttonNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+                if ( _enabled ) {
+                     _buttonNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+                }
             }
             
             public void setArmed( boolean armed ) {
