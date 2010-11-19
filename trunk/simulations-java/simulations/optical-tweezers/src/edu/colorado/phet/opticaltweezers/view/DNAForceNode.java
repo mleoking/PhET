@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
@@ -31,14 +31,14 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     private Bead _bead;
     private DNAStrand _dnaStrand;
     private Fluid _fluid;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAForceNode( Bead bead, DNAStrand dnaStrand, Fluid fluid, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public DNAForceNode( Bead bead, DNAStrand dnaStrand, Fluid fluid, OTModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.DNA_FORCE_COLOR );
         
         _bead = bead;

@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.opticaltweezers.model.AbstractEnzyme;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -44,7 +44,7 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     private AbstractEnzyme _enzyme;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     
     private PNode _innerNode;
     
@@ -52,7 +52,7 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
             
-    public AbstractEnzymeNode( AbstractEnzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
+    public AbstractEnzymeNode( AbstractEnzyme enzyme, OTModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
         super();
         
         setPickable( false );

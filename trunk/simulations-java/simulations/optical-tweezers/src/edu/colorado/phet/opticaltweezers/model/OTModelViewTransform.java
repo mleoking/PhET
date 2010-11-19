@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2010, University of Colorado */
 
 package edu.colorado.phet.opticaltweezers.model;
 
@@ -7,13 +7,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
- * ModelViewTransform provides the transforms between model and view coordinate systems.
+ * Provides the transforms between model and view coordinate systems.
  * In this simulation, all nodes are children of PhetPCanvas' worldNode.
  * So the view coordinates are in the coordinate system of the worldNode.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ModelViewTransform {
+public class OTModelViewTransform {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -33,7 +33,7 @@ public class ModelViewTransform {
      * 
      * @param scale scale for mapping from model to view
      */
-    public ModelViewTransform( double scale ) {
+    public OTModelViewTransform( double scale ) {
         this( scale, 0, 0 );
     }
     
@@ -44,7 +44,7 @@ public class ModelViewTransform {
      * @param xOffset x offset for mapping from model to view
      * @param yOffset y offset for mapping from model to view
      */
-    public ModelViewTransform( double scale, double xOffset, double yOffset ) {
+    public OTModelViewTransform( double scale, double xOffset, double yOffset ) {
         
         _modelToViewTransform = new AffineTransform();
         _modelToViewTransform.scale( scale, scale );

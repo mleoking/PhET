@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -36,7 +36,7 @@ public class LaserOutlineNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public LaserOutlineNode( Laser laser, ModelViewTransform modelViewTransform ) {
+    public LaserOutlineNode( Laser laser, OTModelViewTransform modelViewTransform ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -50,7 +50,7 @@ public class LaserOutlineNode extends PhetPNode {
      * The shape is calculated in model coordinates, then transformed to view coordinates.
      * The node returned has it's origin at its geometric center.
      */
-    private PNode createOutlineNode( Laser laser, ModelViewTransform modelViewTransform ) {
+    private PNode createOutlineNode( Laser laser, OTModelViewTransform modelViewTransform ) {
         
         // Shape is symmetric, calculate points for one quarter of the outline, 1 point for each 1 nm
         final int numberOfPoints = (int) laser.getDistanceFromObjectiveToWaist();

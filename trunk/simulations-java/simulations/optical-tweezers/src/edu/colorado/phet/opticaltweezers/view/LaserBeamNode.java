@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ScaleAlphaImageOpARGB;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -40,7 +40,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     private Laser _laser;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private PImage _gradientNode;
     private ScaleAlphaImageOpARGB _imageOp;
     private BufferedImage _maxPowerGradientImage; // gradient for the max power, this image is not modified
@@ -56,7 +56,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
      * @param laser
      * @param modelViewTransform
      */
-    public LaserBeamNode( Laser laser, ModelViewTransform modelViewTransform ) {
+    public LaserBeamNode( Laser laser, OTModelViewTransform modelViewTransform ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

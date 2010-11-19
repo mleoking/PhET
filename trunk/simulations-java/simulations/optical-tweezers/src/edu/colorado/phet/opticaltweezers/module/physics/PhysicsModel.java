@@ -22,7 +22,7 @@ public class PhysicsModel extends OTAbstractModel {
     private final Laser _laser;
     private final Bead _bead;
     
-    private final ModelViewTransform _modelViewTransform;
+    private final OTModelViewTransform _modelViewTransform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,7 +76,7 @@ public class PhysicsModel extends OTAbstractModel {
                  PhysicsDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          addModelElement( _bead );
 
-         _modelViewTransform = new ModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
+         _modelViewTransform = new OTModelViewTransform( PhysicsDefaults.MODEL_TO_VIEW_SCALE );
     }
     
     //----------------------------------------------------------------------------
@@ -99,7 +99,7 @@ public class PhysicsModel extends OTAbstractModel {
         return _bead;
     }
     
-    public ModelViewTransform getModelViewTransform() {
+    public OTModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
     }
 }

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.MicroscopeSlide;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -66,7 +66,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
     
     private final MicroscopeSlide _microscopeSlide;
     private final Fluid _fluid;
-    private final ModelViewTransform _modelViewTransform;
+    private final OTModelViewTransform _modelViewTransform;
     private double _worldWidth;
     
     // parts of the microscope slide
@@ -83,7 +83,7 @@ public class MicroscopeSlideNode extends PhetPNode implements Observer {
      * @param microscopeSlide
      * @param modelViewTransform
      */
-    public MicroscopeSlideNode( MicroscopeSlide microscopeSlide, Fluid fluid, ModelViewTransform modelViewTransform, double vectorReferenceMagnitude ) {
+    public MicroscopeSlideNode( MicroscopeSlide microscopeSlide, Fluid fluid, OTModelViewTransform modelViewTransform, double vectorReferenceMagnitude ) {
         super();
          
         setPickable( false );

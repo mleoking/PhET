@@ -73,7 +73,7 @@ public class DNACanvas extends OTAbstractCanvas {
         Laser laser = model.getLaser();
         DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
-        ModelViewTransform modelViewTransform = model.getModelViewTransform();
+        OTModelViewTransform modelViewTransform = model.getModelViewTransform();
         
         setBackground( OTConstants.CANVAS_BACKGROUND );
         
@@ -288,7 +288,7 @@ public class DNACanvas extends OTAbstractCanvas {
             Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
             Rectangle2D laserBounds = _laserNode.getFullBoundsReference();
             if ( !worldBounds.intersects( laserBounds ) ) {
-                ModelViewTransform modelViewTransform = _model.getModelViewTransform();
+                OTModelViewTransform modelViewTransform = _model.getModelViewTransform();
                 double xModel = modelViewTransform.viewToModel( worldSize.getWidth() / 2 );
                 double yModel = laser.getPositionReference().getY();
                 laser.setPosition( xModel, yModel );
@@ -321,7 +321,7 @@ public class DNACanvas extends OTAbstractCanvas {
         PBounds b = _returnBeadButtonWrapper.getFullBoundsReference();
         double x = b.getX() + ( b.getWidth() / 2 );
         double y = b.getY() + ( b.getHeight() / 2 );
-        ModelViewTransform modelViewTransform = _model.getModelViewTransform();
+        OTModelViewTransform modelViewTransform = _model.getModelViewTransform();
         Point2D p = modelViewTransform.viewToModel( x, y );
         
         // Move the bead to the button's position

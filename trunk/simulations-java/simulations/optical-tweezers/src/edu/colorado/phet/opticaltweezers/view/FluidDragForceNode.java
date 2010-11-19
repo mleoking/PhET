@@ -12,7 +12,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
@@ -28,14 +28,14 @@ public class FluidDragForceNode extends AbstractForceNode implements Observer {
     
     private Fluid _fluid;
     private Bead _bead;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public FluidDragForceNode( Fluid fluid, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public FluidDragForceNode( Fluid fluid, Bead bead, OTModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.FLUID_DRAG_FORCE_COLOR );
         
         _fluid = fluid;
