@@ -34,6 +34,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
             addChild( new VelocitySensorNode( transform, velocitySensor ) );
         }
 
+        addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower() ) );
+
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
         final ControlPanel controlPanelNode = new ControlPanel( new FluidFlowControlPanel<WaterTowerModel>( module ) ) {{

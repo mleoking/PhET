@@ -70,7 +70,7 @@ public class VelocitySensorNode extends PNode {
         } );
         velocitySensor.addPositionObserver( new SimpleObserver() {
             public void update() {
-                setOffset( transform.modelToView( velocitySensor.getPosition() ) );
+                setOffset( transform.modelToView( velocitySensor.getLocation().toPoint2D() ) );
             }
         } );
         velocitySensor.addVelocityObserver( new SimpleObserver() {

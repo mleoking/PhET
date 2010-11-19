@@ -1,7 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.model;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -9,38 +8,37 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public class Sensor {
-    protected Property<Double> xProperty;
-    protected Property<Double> yProperty;
+    protected Property<ImmutableVector2D> locationProperty;
 
     public Sensor( double x, double y ) {
-        this.xProperty = new Property<Double>( x );
-        this.yProperty = new Property<Double>( y );
+        this.locationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
     }
 
     public double getX() {
-        return xProperty.getValue();
+        return getLocation().getX();
+    }
+
+    public ImmutableVector2D getLocation() {
+        return locationProperty.getValue();
     }
 
     public double getY() {
-        return yProperty.getValue();
+        return getLocation().getY();
     }
 
     public void setPosition( double x, double y ) {
-        xProperty.setValue( x );
-        yProperty.setValue( y );
-    }
-
-    public Point2D getPosition() {
-        return new Point2D.Double( getX(), getY() );
+        locationProperty.setValue( new ImmutableVector2D( x, y ) );
     }
 
     public void addPositionObserver( SimpleObserver updatePosition ) {
-        xProperty.addObserver( updatePosition );
-        yProperty.addObserver( updatePosition );
+        locationProperty.addObserver( updatePosition );
     }
 
     public void reset() {
-        xProperty.reset();
-        yProperty.reset();
+        locationProperty.reset();
+    }
+
+    public Property<ImmutableVector2D> getLocationProperty() {
+        return locationProperty;
     }
 }

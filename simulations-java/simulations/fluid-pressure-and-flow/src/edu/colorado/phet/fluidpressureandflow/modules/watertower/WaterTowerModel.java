@@ -11,6 +11,8 @@ import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
  */
 public class WaterTowerModel extends FluidPressureAndFlowModel implements VelocitySensor.Context {
 
+    private WaterTower waterTower = new WaterTower();
+
     public WaterTowerModel() {
         addPressureSensor( new PressureSensor( this, 0, 0 ) );
         addVelocitySensor( new VelocitySensor( this, 0, 0 ) );
@@ -22,5 +24,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
     public void addVelocityUpdateListener( SimpleObserver observer ) {
 
+    }
+
+    public WaterTower getWaterTower() {
+        return waterTower;
     }
 }

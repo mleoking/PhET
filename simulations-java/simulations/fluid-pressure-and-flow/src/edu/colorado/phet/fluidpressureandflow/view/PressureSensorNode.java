@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -15,8 +16,6 @@ import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -44,48 +43,22 @@ public class PressureSensorNode extends PNode {
         }};
         addChild( textNode );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            private Point2D.Double relativeGrabPoint;
-
-            public void mousePressed( PInputEvent event ) {
-                updateGrabPoint( event );
-            }
-
-            private void updateGrabPoint( PInputEvent event ) {
-                Point2D viewStartingPoint = event.getPositionRelativeTo( getParent() );
-                Point2D viewCoordinateOfObject = transform.modelToView( pressureSensor.getX(), pressureSensor.getY() );
-                relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
-            }
-
-            public void mouseDragged( PInputEvent event ) {
-                if ( relativeGrabPoint == null ) {
-                    updateGrabPoint( event );
-                }
-                final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
-                Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
-                                                               newDragPosition.getY() - relativeGrabPoint.getY() );
-                //TODO: refactor
+        addInputEventListener( new RelativeDragHandler( this, transform, pressureSensor.getLocationProperty(), new Function1<Point2D, Point2D>() {
+            //TODO: Factor pool to subclass or general constraint method
+            public Point2D apply( Point2D point2D ) {
                 if ( pool != null ) {
-                    pressureSensor.setPosition( modelLocation.getX(), Math.max( modelLocation.getY(), pool.getMinY() ) );//not allowed to go to negative Potential Energy
-                    if ( pressureSensor.getPosition().getY() < 0 ) {
-                        pressureSensor.setPosition( MathUtil.clamp( pool.getMinX(), modelLocation.getX(), pool.getMaxX() ), pressureSensor.getY() );
+                    final Point2D.Double pt = new Point2D.Double( point2D.getX(), Math.max( point2D.getY(), pool.getMinY() ) );
+                    if ( pt.getY() < 0 ) {
+                        pt.setLocation( MathUtil.clamp( pool.getMinX(), pt.getX(), pool.getMaxX() ), pt.getY() );
                     }
+                    return pt;//not allowed to go to negative Potential Energy
                 }
-                else {
-                    pressureSensor.setPosition( modelLocation.getX(), modelLocation.getY() );//not allowed to go to negative Potential Energy
-                    if ( pressureSensor.getPosition().getY() < 0 ) {
-                        pressureSensor.setPosition( modelLocation.getX(), pressureSensor.getY() );
-                    }
-                }
+                else { return point2D; }
             }
-
-            public void mouseReleased( PInputEvent event ) {
-                relativeGrabPoint = null;
-            }
-        } );
+        } ) );
         pressureSensor.addPositionObserver( new SimpleObserver() {
             public void update() {
-                setOffset( transform.modelToView( pressureSensor.getPosition() ) );
+                setOffset( transform.modelToView( pressureSensor.getLocation().toPoint2D() ) );
             }
         } );
         final SimpleObserver updateText = new SimpleObserver() {
