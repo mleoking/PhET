@@ -1,6 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -17,10 +18,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
     private FluidPressureModule module;
 
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
-    private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
+        super( module, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight, true ) );
+        System.out.println( "STAGE_SIZE = " + STAGE_SIZE );
+        System.out.println( "STAGE_SIZE/2 = " + STAGE_SIZE.getWidth()/2+", "+STAGE_SIZE.height/2 );
+        System.out.println( "transform.modelToViewDouble( 0,0 ); = " + transform.modelToViewDouble( 0, 0 ));
         this.module = module;
 
         addChild( new GroundNode( transform ) );
@@ -52,5 +55,8 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new FluidDensityControl<FluidPressureModel>( module ) {{
             setOffset( layoutPoint.getX() - getFullBounds().getWidth() - 2, layoutPoint.getY() - getFullBounds().getHeight() );
         }} );
+
+        addChild( new PhetPPath( transform.createTransformedShape( new Ellipse2D.Double( -2, -2, 4, 4 ) ) ) );
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ) ) );
     }
 }
