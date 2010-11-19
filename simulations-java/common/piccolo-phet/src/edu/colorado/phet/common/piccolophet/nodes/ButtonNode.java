@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -36,29 +37,27 @@ public class ButtonNode extends PhetPNode {
     // Class Data
     //------------------------------------------------------------------------
 
-    // Constants that control the amount of padding (or space) around the text
-    // on each side of the button.
+    // padding (or margin) around the button text
     private static final double VERTICAL_PADDING_FACTOR = 1.1;
     private static final double HORIZONTAL_PADDING_FACTOR = 1.1;
 
-    // Constant that controls where the shadow shows up and how far the button
-    // translates when pushed.
-    protected static final int SHADOW_OFFSET = 3;
-
-    // Defaults for values that might not be specified at construction.
-    private static final Color DEFAULT_COLOR = Color.GRAY;
-    private static final int DEFAULT_FONT_SIZE = 14;
-    private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
-
-    // Constants that control various visual aspects of the button.
+    // general button properties
+    private static final int FONT_SIZE = 14;
     private static final double COLOR_SCALING_FACTOR = 0.5;
     private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
-    private static final Color SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f );
-    private static final Color DISABLED_SHADOW_COLOR = new Color( 0f, 0f, 0f, 0f );
-    private static final Color DISABLED_BUTTON_COLOR = Color.LIGHT_GRAY;
-    private static final Color DISABLED_TEXT_COLOR = Color.GRAY;
-    private static final Color STROKE_COLOR = Color.BLACK;
-    private static final Color DISABLED_STROKE_COLOR = DISABLED_TEXT_COLOR;
+    protected static final int SHADOW_OFFSET = 3;
+    
+    // button enabled properties
+    private static final Color ENABLED_TEXT_COLOR = Color.BLACK;
+    private static final Color ENABLED_FILL_COLOR_DEFAULT = Color.GRAY;
+    private static final Color ENABLED_STROKE_COLOR = Color.BLACK;
+    private static final Color ENABLED_SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f ); // transparent so that it's invisible
+    
+    // button disabled properties
+    private static final Color DISABLED_TEXT_COLOR = UIManager.getColor( "Button.disabledText" ); // same as Swing JButton
+    private static final Color DISABLED_FILL_COLOR = new Color( 210, 210, 210 );
+    private static final Color DISABLED_STROKE_COLOR = new Color( 190, 190, 190 );
+    private static final Color DISABLED_SHADOW_COLOR = new Color( 0, 0, 0, 0 );
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -70,7 +69,7 @@ public class ButtonNode extends PhetPNode {
     private final PPath _button;
     private boolean _enabled = true;
     private final Paint _mouseNotOverGradient;
-    private Color _textColor = DEFAULT_TEXT_COLOR;
+    private Color _textColor = ENABLED_TEXT_COLOR;
     private final PPath _buttonShadow;
 
     //------------------------------------------------------------------------
@@ -100,7 +99,7 @@ public class ButtonNode extends PhetPNode {
      * be created.
      */
     public ButtonNode( String label, int fontSize, Color buttonColor ) {
-        this( createHtmlLabelNode( label, fontSize, DEFAULT_TEXT_COLOR ), buttonColor );
+        this( createHtmlLabelNode( label, fontSize, ENABLED_TEXT_COLOR ), buttonColor );
     }
 
     //Assumes the PNode has an offset of (0,0)
@@ -127,11 +126,11 @@ public class ButtonNode extends PhetPNode {
 
         _button = new PPath( buttonShape );
         _button.setPaint( _mouseNotOverGradient );
-        _button.setStrokePaint( STROKE_COLOR );
+        _button.setStrokePaint( ENABLED_STROKE_COLOR );
         _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
 
         _buttonShadow = new PPath( buttonShape );
-        _buttonShadow.setPaint( SHADOW_COLOR );
+        _buttonShadow.setPaint( ENABLED_SHADOW_COLOR );
         _buttonShadow.setPickable( false );
         _buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
         _buttonShadow.setStroke( null );
@@ -228,11 +227,11 @@ public class ButtonNode extends PhetPNode {
 
     private Paint getDisabledGradient() {
         return useGradient() ? new GradientPaint( (float) getIconWidth() / 2, 0f,
-                getBrighterColor( DISABLED_BUTTON_COLOR ),
+                getBrighterColor( DISABLED_FILL_COLOR ),
                 (float) getIconWidth() * 0.5f, (float) getIconHeight(),
-                DISABLED_BUTTON_COLOR )
+                DISABLED_FILL_COLOR )
                 :
-                (Paint) DISABLED_BUTTON_COLOR;
+                (Paint) DISABLED_FILL_COLOR;
     }
 
     protected PPath getButton() {
@@ -245,7 +244,7 @@ public class ButtonNode extends PhetPNode {
      * @param label - Text that will appear on button.
      */
     public ButtonNode( String label ) {
-        this( label, DEFAULT_FONT_SIZE, DEFAULT_COLOR );
+        this( label, FONT_SIZE, ENABLED_FILL_COLOR_DEFAULT );
     }
 
     /**
@@ -255,7 +254,7 @@ public class ButtonNode extends PhetPNode {
      * @param buttonColor
      */
     public ButtonNode( String label, Color buttonColor ) {
-        this( label, DEFAULT_FONT_SIZE, buttonColor );
+        this( label, FONT_SIZE, buttonColor );
     }
 
     public void addActionListener( ActionListener listener ) {
@@ -282,9 +281,9 @@ public class ButtonNode extends PhetPNode {
             if ( enabled ) {
                 // Restore original colors.
                 _button.setPaint( getMouseNotOverGradient() );
-                _button.setStrokePaint( STROKE_COLOR );
+                _button.setStrokePaint( ENABLED_STROKE_COLOR );
                 _htmlLabelNode.setHTMLColor( _textColor );
-                _buttonShadow.setPaint( SHADOW_COLOR );
+                _buttonShadow.setPaint( ENABLED_SHADOW_COLOR );
             }
             else {
                 // Set the colors to make the button appear disabled.
