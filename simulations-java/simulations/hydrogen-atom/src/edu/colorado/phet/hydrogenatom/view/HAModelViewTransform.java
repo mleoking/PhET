@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2010, University of Colorado */
 
 package edu.colorado.phet.hydrogenatom.view;
 
@@ -25,12 +16,12 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ModelViewTransform {
+public class HAModelViewTransform {
 
     private static AffineTransform _transform;
     
     /* Not intended for instantiation */
-    private ModelViewTransform() {}
+    private HAModelViewTransform() {}
     
     /**
      * Maps a point from model to view coordinates.

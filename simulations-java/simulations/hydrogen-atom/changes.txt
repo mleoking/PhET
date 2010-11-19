@@ -1,3 +1,4 @@
+11/19/10 rename ModelViewTransform to HAModelViewTransform
 # 1.09.00 (38004) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.08.01 (37358) Dec 11, 2009

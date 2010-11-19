@@ -11,7 +11,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -114,6 +114,6 @@ public class PhotonNode extends PhetPNode implements Observer {
     
     private void update() {
         setRotation( _photon.getOrientation() );
-        setOffset( ModelViewTransform.transform( _photon.getPositionRef() ) );
+        setOffset( HAModelViewTransform.transform( _photon.getPositionRef() ) );
     }
 }

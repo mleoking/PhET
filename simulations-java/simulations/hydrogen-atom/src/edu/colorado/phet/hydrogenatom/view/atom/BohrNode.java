@@ -20,7 +20,7 @@ import java.util.Observer;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.BohrModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
@@ -70,7 +70,7 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
         int groundState = BohrModel.getGroundState();
         int numberOfStates = BohrModel.getNumberOfStates();
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-            double radius = ModelViewTransform.transform( BohrModel.getOrbitRadius( state ) );
+            double radius = HAModelViewTransform.transform( BohrModel.getOrbitRadius( state ) );
             PNode orbitNode = OrbitNodeFactory.createOrbitNode( radius );
             addChild( orbitNode );
             _orbitNodes.add( orbitNode );
@@ -99,7 +99,7 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
         }
         
         Point2D atomPosition = _atom.getPositionRef();
-        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        Point2D nodePosition = HAModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
         _protonNode.setOffset( 0, 0 );
@@ -121,8 +121,8 @@ public class BohrNode extends AbstractHydrogenAtomNode implements Observer {
                 // the electron has moved
                 Point2D electronOffset = _atom.getElectronOffsetRef();
                 // treat coordinates as distances, since _electronNode is a child node
-                double nodeX = ModelViewTransform.transform( electronOffset.getX() );
-                double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+                double nodeX = HAModelViewTransform.transform( electronOffset.getX() );
+                double nodeY = HAModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
             if ( arg == AbstractHydrogenAtom.PROPERTY_ELECTRON_STATE ) {

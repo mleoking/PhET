@@ -16,7 +16,7 @@ import java.awt.Color;
 import java.awt.Stroke;
 
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglieViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
@@ -191,7 +191,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
 
             // Create the orbit
-            double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
+            double radius = HAModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
             PPath orbitNode = OrbitNodeFactory.createOrbitNodeProjection( radius, ORBIT_Y_SCALE );
             addChild( orbitNode );
 
@@ -233,7 +233,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         int groundState = getAtom().getGroundState();
         int numberOfStates = getAtom().getNumberOfStates();
         for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-            double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
+            double radius = HAModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
             Wireframe3DNode orbitNode = create3DOrbitNode( radius, _viewMatrix, _orbitVerticies );
             _staticNode.addChild( orbitNode );
         }
@@ -334,7 +334,7 @@ public class DeBroglieHeight3DNode extends AbstractDeBroglieViewStrategy {
         
         int numberOfVerticies = verticies.length;
         double deltaAngle = ( 2 * Math.PI ) / numberOfVerticies;
-        double radius = ModelViewTransform.transform( atom.getElectronOrbitRadius() );;
+        double radius = HAModelViewTransform.transform( atom.getElectronOrbitRadius() );;
         
         for ( int i = 0; i < numberOfVerticies; i++ ) {
             double angle = i * deltaAngle;

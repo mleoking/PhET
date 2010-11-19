@@ -22,7 +22,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -66,7 +66,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         
         PImage puddingNode = HAResources.getImageNode( HAConstants.IMAGE_PLUM_PUDDING );
         double imageHeight = puddingNode.getHeight();
-        double atomHeight = 2 * ModelViewTransform.transform( atom.getRadius() );
+        double atomHeight = 2 * HAModelViewTransform.transform( atom.getRadius() );
         double imageScale = atomHeight / imageHeight;
         puddingNode.scale( imageScale );
         
@@ -94,7 +94,7 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
         puddingNode.setOffset( -pb.getWidth()/2, -pb.getHeight()/2 );
         
         Point2D atomPosition = _atom.getPositionRef();
-        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        Point2D nodePosition = HAModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
         update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET );
@@ -115,8 +115,8 @@ public class PlumPuddingNode extends AbstractHydrogenAtomNode implements Observe
                 // the electron has moved
                 Point2D electronOffset = _atom.getElectronOffsetRef();
                 // treat coordinates as distances, since _electronNode is a child node
-                double nodeX = ModelViewTransform.transform( electronOffset.getX() );
-                double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+                double nodeX = HAModelViewTransform.transform( electronOffset.getX() );
+                double nodeY = HAModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_IONIZED ) {
