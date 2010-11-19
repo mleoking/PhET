@@ -369,7 +369,7 @@ public class ButtonNode extends PhetPNode {
         canvas.addScreenChild( testButton06 );
         canvas.addScreenChild( testButton07 );
 
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame( "ButtonNode.main" );
         frame.setContentPane( canvas );
         frame.setSize( 400, 450 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
