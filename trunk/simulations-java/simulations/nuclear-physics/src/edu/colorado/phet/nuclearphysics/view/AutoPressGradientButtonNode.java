@@ -47,7 +47,7 @@ public class AutoPressGradientButtonNode extends ButtonNode {
             public void actionPerformed( ActionEvent e ) {
             	// Make the button look like it is pressed.
     			PPath button = getButton();
-        		button.setPaint( getArmedGradient() );
+        		button.setPaint( createArmedGradient() );
     			button.setOffset(SHADOW_OFFSET, SHADOW_OFFSET);
         		buttonState = BUTTON_PRESSED;
         		PRE_PRESS_HIGHLIGHT_TIMER.stop();
@@ -59,7 +59,7 @@ public class AutoPressGradientButtonNode extends ButtonNode {
             public void actionPerformed( ActionEvent e ) {
             	// Make the button look like it is highlighted but not pressed.
     			PPath button = getButton();
-        		button.setPaint( getMouseOverGradient() );
+        		button.setPaint( createMouseOverGradient() );
     			button.setOffset(0, 0);
         		buttonState = BUTTON_POST_PRESS_HIGHLIGHTED;
         		PRESS_TIMER.stop();
@@ -71,7 +71,7 @@ public class AutoPressGradientButtonNode extends ButtonNode {
             public void actionPerformed( ActionEvent e ) {
             	// Make the button look like it is neither pressed nor highlighted.
     			PPath button = getButton();
-        		button.setPaint( getMouseNotOverGradient() );
+        		button.setPaint( createMouseNotOverGradient() );
     			button.setOffset(0, 0);
         		buttonState = BUTTON_IDLE;
         		POST_PRESS_HIGHLIGHT_TIMER.stop();
@@ -83,7 +83,7 @@ public class AutoPressGradientButtonNode extends ButtonNode {
 		if (buttonState == BUTTON_IDLE){
 			// Make the button look like it is highlighted.
 			PPath button = getButton();
-			button.setPaint( getMouseOverGradient() );
+			button.setPaint( createMouseOverGradient() );
 			
 			// Start the timer for the next step.
 	        PRE_PRESS_HIGHLIGHT_TIMER.start();

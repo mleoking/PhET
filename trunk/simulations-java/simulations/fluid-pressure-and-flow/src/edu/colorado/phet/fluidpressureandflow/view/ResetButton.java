@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ResetButton extends PNode {
     public ResetButton( final FluidPressureAndFlowModule module ) {
-        addChild( new ButtonNode( "Reset all", (int) ( FluidPressureControlPanel.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.BACKGROUND, FluidPressureControlPanel.FOREGROUND ) {{
+        addChild( new ButtonNode( "Reset all", (int) ( FluidPressureControlPanel.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.resetAll();

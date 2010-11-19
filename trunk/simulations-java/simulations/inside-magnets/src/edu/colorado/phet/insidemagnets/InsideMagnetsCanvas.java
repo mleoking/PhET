@@ -59,7 +59,7 @@ public class InsideMagnetsCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Reset all button
-        addChild( new ButtonNode( "Reset all", (int) ( CONTROL_FONT.getSize() * 1.3 ), BACKGROUND, FOREGROUND ) {{
+        addChild( new ButtonNode( "Reset all", (int) ( CONTROL_FONT.getSize() * 1.3 ), FOREGROUND, BACKGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
