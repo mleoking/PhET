@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -30,7 +30,7 @@ public class Test3DTransform extends JFrame {
     
     public Test3DTransform() {
         
-        ModelViewTransform mvt = new ModelViewTransform( MVT_SCALE, PITCH, YAW );
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D( MVT_SCALE, PITCH, YAW );
         
         /*
          * Model-to-view transform that defines the top face of a capacitor plate.

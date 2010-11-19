@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Capacitor {
     
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final CapacitorShapeFactory shapeFactory;
     private final SimpleObserver physicalPropertiesObserver;
     
@@ -45,7 +45,7 @@ public class Capacitor {
     private final Property<Double> dielectricCapacitanceProperty; // C_dielectric, Farads
     private final Property<Double> totalCapacitanceProperty; // C_total, Farads
 
-    public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, ModelViewTransform mvt ) {
+    public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
         
         this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );

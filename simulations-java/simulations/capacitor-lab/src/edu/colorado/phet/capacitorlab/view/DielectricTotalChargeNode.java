@@ -3,7 +3,7 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -29,10 +29,10 @@ public class DielectricTotalChargeNode extends PhetPNode {
     private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1/7d;
     
     private final BatteryCapacitorCircuit circuit;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
 
-    public DielectricTotalChargeNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
+    public DielectricTotalChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, boolean dev ) {
         
         this.circuit = circuit;
         this.mvt = mvt;

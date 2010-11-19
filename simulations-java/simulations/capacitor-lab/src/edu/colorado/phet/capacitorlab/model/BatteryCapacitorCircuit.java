@@ -46,7 +46,7 @@ public class BatteryCapacitorCircuit {
     private double currentAmplitude; // dV/dt, rate of voltage change
     private double previousVoltage;
 
-    public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, ModelViewTransform mvt ) {
+    public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
         
         this.clock = clock;
         this.listeners = new EventListenerList();
@@ -349,7 +349,7 @@ public class BatteryCapacitorCircuit {
      * @return charge, in Coulombs
      */
     public static double getMaxPlateCharge() {
-        ModelViewTransform mvt = new ModelViewTransform();
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(), 
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
@@ -363,7 +363,7 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public static double getMaxExcessDielectricPlateCharge() {
-        ModelViewTransform mvt = new ModelViewTransform();
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(), 
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
@@ -548,7 +548,7 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public static double getMaxEffectiveEfield() {
-        ModelViewTransform mvt = new ModelViewTransform();
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(), 
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
@@ -563,7 +563,7 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public static double getMaxDielectricEField() {
-        ModelViewTransform mvt = new ModelViewTransform();
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );
@@ -579,7 +579,7 @@ public class BatteryCapacitorCircuit {
      * @return
      */
     public static double getMaxPlatesDielectricEFieldWithBattery() {
-        ModelViewTransform mvt = new ModelViewTransform();
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );

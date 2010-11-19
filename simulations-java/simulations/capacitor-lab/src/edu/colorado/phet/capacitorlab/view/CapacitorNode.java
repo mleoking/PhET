@@ -9,7 +9,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
@@ -27,13 +27,13 @@ public class CapacitorNode extends PhetPNode {
     private final static float TRANSPARENCY = 0.75f;
 
     private final BatteryCapacitorCircuit circuit;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     private final EFieldNode eFieldNode;
     private final EventListenerList listeners;
     
-    public CapacitorNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt, boolean dev ) {
+    public CapacitorNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, boolean dev ) {
         
         this.circuit = circuit;
         this.mvt = mvt;

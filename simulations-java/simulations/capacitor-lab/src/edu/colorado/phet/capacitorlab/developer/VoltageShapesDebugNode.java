@@ -31,7 +31,7 @@ public class VoltageShapesDebugNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = CLPaints.VOLTAGE_SHAPES;
     
-    public VoltageShapesDebugNode( final DielectricModel model, final ModelViewTransform mvt ) {
+    public VoltageShapesDebugNode( final DielectricModel model, final CLModelViewTransform3D mvt ) {
         
         // nothing interactive here
         setPickable( false );

@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -28,10 +28,10 @@ public class EFieldNode extends PhetPNode {
     public static enum Direction { UP, DOWN };
     
     private final BatteryCapacitorCircuit circuit; 
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
 
-    public EFieldNode( BatteryCapacitorCircuit circuit, ModelViewTransform mvt ) {
+    public EFieldNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
         this.circuit = circuit;
         this.mvt = mvt;
         

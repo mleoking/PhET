@@ -8,7 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Wire;
 import edu.colorado.phet.capacitorlab.model.WireSegment;
 
@@ -21,9 +21,9 @@ import edu.colorado.phet.capacitorlab.model.WireSegment;
 public class WireShapeFactory {
 
     private final Wire wire;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     
-    public WireShapeFactory( Wire wire, ModelViewTransform mvt ) {
+    public WireShapeFactory( Wire wire, CLModelViewTransform3D mvt ) {
         this.wire = wire;
         this.mvt = mvt;
     }

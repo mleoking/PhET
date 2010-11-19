@@ -28,7 +28,7 @@ public class Battery {
     // derived properties
     private final Property<Polarity> polarityProperty;
     
-    public Battery( Point3D location, double voltage, ModelViewTransform mvt ) {
+    public Battery( Point3D location, double voltage, CLModelViewTransform3D mvt ) {
         
         this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
         this.voltageProperty = new Property<Double>( voltage );

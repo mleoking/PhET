@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,13 +29,13 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
     
     private final Capacitor capacitor;
-    private final ModelViewTransform mvt;
+    private final CLModelViewTransform3D mvt;
     private final DragHandleArrowNode arrowNode;
     private final DragHandleLineNode lineNode;
     private final DragHandleValueNode valueNode;
     private final PlateAreaDragHandler dragHandler;
     
-    public PlateAreaDragHandleNode( final Capacitor capacitor, ModelViewTransform mvt, DoubleRange valueRange ) {
+    public PlateAreaDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
         
         this.capacitor = capacitor;
         this.mvt = mvt;

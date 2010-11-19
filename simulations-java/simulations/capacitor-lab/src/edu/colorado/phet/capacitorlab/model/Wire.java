@@ -37,7 +37,7 @@ public class Wire {
     private final Property<Shape> shapeProperty; // Shape in view coordinates!
     private final Property<Double> voltageProperty;
 
-    public Wire( ArrayList<WireSegment> segments, double thickness, ModelViewTransform mvt ) {
+    public Wire( ArrayList<WireSegment> segments, double thickness, CLModelViewTransform3D mvt ) {
         assert ( segments != null && segments.size() > 0 );
         assert ( thickness > 0 );
 
@@ -103,7 +103,7 @@ public class Wire {
      */
     public static class TopWire extends Wire {
 
-        public TopWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
+        public TopWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
         }
 
@@ -128,7 +128,7 @@ public class Wire {
         private final BatteryShapeFactory batteryShapeFactory;
         private final CapacitorShapeFactory capacitorShapeFactory;
         
-        public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, ModelViewTransform mvt ) {
+        public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
             
             this.batteryShapeFactory = new BatteryShapeFactory( battery, mvt );

@@ -6,7 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 
-import edu.colorado.phet.capacitorlab.model.ModelViewTransform;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.shapes.BoxShapeFactory;
 import edu.colorado.phet.capacitorlab.util.Dimension3D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -30,7 +30,7 @@ public abstract class BoxNode extends PhetPNode {
     private final PPath topNode, frontNode, sideNode;
     private Dimension3D size;
     
-    public BoxNode( ModelViewTransform mvt, Color color, Dimension3D size ) {
+    public BoxNode( CLModelViewTransform3D mvt, Color color, Dimension3D size ) {
         
         this.shapeFactory = new BoxShapeFactory( mvt );
         this.size = new Dimension3D( size );
