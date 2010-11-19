@@ -38,7 +38,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
         addChild( imageNode );
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-        double y = -( 0.078 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
+        double y = -( 0.083 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
         imageNode.setOffset( x, y );
         
         connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() + y ); // connect wire to bottom center

@@ -26,7 +26,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
     
     private static final int SPACING_BETWEEN_PAIRS = 45; // view coordinates
     private static final DoubleRange NEGATIVE_CHARGE_OFFSET = new DoubleRange( 0, SPACING_BETWEEN_PAIRS / 2 ); // view coordinates
-    private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1/7d;
+    private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1/4d;
     
     private final BatteryCapacitorCircuit circuit;
     private final CLModelViewTransform3D mvt;
