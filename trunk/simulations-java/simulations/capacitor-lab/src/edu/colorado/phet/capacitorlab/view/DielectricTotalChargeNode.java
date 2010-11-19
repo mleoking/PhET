@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DielectricTotalChargeNode extends PhetPNode {
     
     private static final int SPACING_BETWEEN_PAIRS = 45; // view coordinates
-    private static final DoubleRange SPACING_BETWEEN_CHARGES = new DoubleRange( 0, SPACING_BETWEEN_PAIRS / 2 ); // view coordinates
+    private static final DoubleRange NEGATIVE_CHARGE_OFFSET = new DoubleRange( 0, SPACING_BETWEEN_PAIRS / 2 ); // view coordinates
     private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1/7d;
     
     private final BatteryCapacitorCircuit circuit;
@@ -82,9 +82,9 @@ public class DielectricTotalChargeNode extends PhetPNode {
         // remove existing charges
         parentNode.removeAllChildren();
         
-        // spacing between charges
+        // offset of negative charges
         final double eField = circuit.getDielectricEField();
-        final double spacingBetweenCharges = getSpacingBetweenCharges( eField );
+        final double negativeChargeOffset = getNegativeChargeOffset( eField );
         
         // spacing between pairs
         final double spacingBetweenPairs = mvt.viewToModelDelta( SPACING_BETWEEN_PAIRS, 0 ).getX();
@@ -124,10 +124,10 @@ public class DielectricTotalChargeNode extends PhetPNode {
 
                     // spacing between charges
                     if ( x <= xPlateEdge ) {
-                        pairNode.setSpacing( spacingBetweenCharges, polarity );
+                        pairNode.setNegativeChargeOffset( negativeChargeOffset, polarity );
                     }
                     else {
-                        pairNode.setSpacing( SPACING_BETWEEN_CHARGES.getMin(), polarity );
+                        pairNode.setNegativeChargeOffset( NEGATIVE_CHARGE_OFFSET.getMin(), polarity );
                     }
                 }
                 
@@ -145,10 +145,10 @@ public class DielectricTotalChargeNode extends PhetPNode {
                     
                     // spacing between charges
                     if ( circuit.getCapacitor().getDielectricOffset() == 0 ) {
-                        pairNode.setSpacing( spacingBetweenCharges, polarity );
+                        pairNode.setNegativeChargeOffset( negativeChargeOffset, polarity );
                     }
                     else {
-                        pairNode.setSpacing( SPACING_BETWEEN_CHARGES.getMin(), polarity );
+                        pairNode.setNegativeChargeOffset( NEGATIVE_CHARGE_OFFSET.getMin(), polarity );
                     } 
                 }
             }
@@ -156,13 +156,13 @@ public class DielectricTotalChargeNode extends PhetPNode {
     }
     
     /*
-     * Spacing between charges is non-linearly proportion to the E-field.
+     * Offset of negative charges is non-linearly proportion to the E-field.
      */
-    private double getSpacingBetweenCharges( double eField ) {
+    private double getNegativeChargeOffset( double eField ) {
         double absEField = Math.abs( eField );
         double maxEField = BatteryCapacitorCircuit.getMaxDielectricEField();
         double percent = Math.pow( absEField / maxEField, SPACING_BETWEEN_CHARGES_EXPONENT );
-        return SPACING_BETWEEN_CHARGES.getMin() + ( percent * SPACING_BETWEEN_CHARGES.getLength() );
+        return NEGATIVE_CHARGE_OFFSET.getMin() + ( percent * NEGATIVE_CHARGE_OFFSET.getLength() );
     }
     
     /*
@@ -181,10 +181,9 @@ public class DielectricTotalChargeNode extends PhetPNode {
             addChild( negativeNode ); // put negative charge on top, so we can see it when they overlap
         }
         
-        public void setSpacing( double spacing, Polarity polarity ) {
-            double yOffset = ( polarity == Polarity.POSITIVE ) ? -( spacing / 2 ) : ( spacing / 2 );
-            positiveNode.setOffset( positiveNode.getXOffset(), yOffset );
-            negativeNode.setOffset( negativeNode.getXOffset(), -yOffset );
+        public void setNegativeChargeOffset( double offset, Polarity polarity ) {
+            double yOffset = ( polarity == Polarity.POSITIVE ) ? offset : -offset;
+            negativeNode.setOffset( negativeNode.getXOffset(), yOffset );
         }
     }
 }
