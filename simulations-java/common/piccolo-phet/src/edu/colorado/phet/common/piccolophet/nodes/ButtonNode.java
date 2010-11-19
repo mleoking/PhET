@@ -45,7 +45,7 @@ public class ButtonNode extends PhetPNode {
     private static final int FONT_STYLE = Font.BOLD;
     private static final double COLOR_SCALING_FACTOR = 0.5;
     private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
-    protected static final int SHADOW_OFFSET = 3;
+    private static final int SHADOW_OFFSET = 3;
     
     // button enabled properties
     private static final Color ENABLED_TEXT_COLOR = Color.BLACK;
@@ -270,6 +270,10 @@ public class ButtonNode extends PhetPNode {
 
     protected PPath getButton() {
         return _buttonNode;
+    }
+    
+    protected int getShadowOffset() {
+        return SHADOW_OFFSET;
     }
 
     public void addActionListener( ActionListener listener ) {
