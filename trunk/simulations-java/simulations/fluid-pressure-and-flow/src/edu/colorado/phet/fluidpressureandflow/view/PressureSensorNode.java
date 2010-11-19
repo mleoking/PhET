@@ -28,6 +28,13 @@ public class PressureSensorNode extends PNode {
     private final Property<Units.Unit> units;
     public static final double hotSpotRadius = 3;
 
+    /**
+     *
+     * @param transform
+     * @param pressureSensor
+     * @param pool the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
+     * @param units
+     */
     public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.Unit> units ) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;

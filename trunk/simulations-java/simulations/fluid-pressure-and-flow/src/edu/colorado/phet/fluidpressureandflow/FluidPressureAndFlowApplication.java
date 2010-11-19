@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModule;
+import edu.colorado.phet.fluidpressureandflow.modules.watertower.WaterTowerModule;
 
 /**
  * @author Sam Reid
@@ -16,6 +17,7 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
         super( config );
         addModule( new FluidPressureModule() );
         addModule( new FluidFlowModule() );
+        addModule( new WaterTowerModule() );
     }
 
     public static void main( String[] args ) {

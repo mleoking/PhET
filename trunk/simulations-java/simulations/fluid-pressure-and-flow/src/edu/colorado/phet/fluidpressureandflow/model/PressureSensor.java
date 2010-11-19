@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class PressureSensor extends Sensor {
     private Property<Double> pressureProperty = new Property<Double>( 0.0 );
 
+    //TODO: redesign so that this takes a Function<Point2D,Double> or equivalent (must be listenable)
     public PressureSensor( final FluidPressureAndFlowModel context, double x, double y ) {
         super( x, y );
         final SimpleObserver updatePressure = new SimpleObserver() {
