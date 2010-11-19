@@ -574,17 +574,17 @@ public class BatteryCapacitorCircuit {
     }
     
     /**
-     * Gets the maximum E-field due to the plates in the capacitor volume that contains the dielectric (E_plates_dielectric).
+     * Gets the maximum E-field due to the plates in the capacitor volume that 
+     * contains the dielectric (E_plates_dielectric), with the battery connected.
      * @return
      */
-    public static double getMaxPlatesDielectricEField() {
+    public static double getMaxPlatesDielectricEFieldWithBattery() {
         ModelViewTransform mvt = new ModelViewTransform();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );
-        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */, mvt );
-        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
+        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax(), mvt );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */, mvt );
         return circuit.getPlatesDielectricEField();
     }
     

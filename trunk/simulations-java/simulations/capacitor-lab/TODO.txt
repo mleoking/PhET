@@ -13,7 +13,6 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- start E-Field Detector zoom level at max magnification, appropriate for battery
 - make only negative charges move in dielectric "Show all charges" view
 - review startup defaults with Noah
 - bug: changing dielectric constant doesn't change E-field view when battery is disconnected
