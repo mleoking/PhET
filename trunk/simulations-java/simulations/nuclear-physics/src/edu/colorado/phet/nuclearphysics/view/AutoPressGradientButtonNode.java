@@ -48,7 +48,7 @@ public class AutoPressGradientButtonNode extends ButtonNode {
             	// Make the button look like it is pressed.
     			PPath button = getButton();
         		button.setPaint( createArmedGradient() );
-    			button.setOffset(SHADOW_OFFSET, SHADOW_OFFSET);
+    			button.setOffset( getShadowOffset(), getShadowOffset() );
         		buttonState = BUTTON_PRESSED;
         		PRE_PRESS_HIGHLIGHT_TIMER.stop();
         		PRESS_TIMER.start();
