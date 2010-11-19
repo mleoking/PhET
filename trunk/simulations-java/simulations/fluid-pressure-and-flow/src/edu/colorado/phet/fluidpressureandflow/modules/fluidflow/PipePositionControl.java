@@ -55,7 +55,7 @@ public class PipePositionControl extends PNode {
             }
 
             public void setPosition( double x, double y ) {
-                pipePosition.setBottom(x,y);
+                pipePosition.setBottom( x, y );
             }
 
             public boolean isTop() {

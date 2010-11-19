@@ -30,6 +30,7 @@ public class PoolNode extends PNode {
     }
 
     //must be transparent so objects can submerge
+
     private GradientPaint createPaint( ModelViewTransform2D transform2D, Pool pool ) {
         Color topColor = getTopColor( liquidDensity.getValue() );
         Color bottomColor = getBottomColor( liquidDensity.getValue() );

@@ -18,14 +18,12 @@ import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 /**
  * @author Sam Reid
  */
-public class FluidFlowModel extends FluidPressureAndFlowModel {
+public class FluidFlowModel extends FluidPressureAndFlowModel implements VelocitySensor.Context {
     private Pipe pipe = new Pipe();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private Random random = new Random();
     private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
     private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
-    private VelocitySensor velocitySensor0 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
-    private VelocitySensor velocitySensor1 = new VelocitySensor( 3.9444705882352933, 0.973501677688827, this );
     //    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
     private Property<Double> dropperRateProperty = new Property<Double>( 10.0 );//percent probability to drop in each frame
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
@@ -77,8 +75,12 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
                 }
             }
         } );
+
+        // TODO: handle creation of sensors when one is dragged off of the "pile"
         addPressureSensor( new PressureSensor( this, 3.9444705882352933, 1.1882302540898015 ) );
         addPressureSensor( new PressureSensor( this, 3.9444705882352933, 1.1882302540898015 ) );
+        addVelocitySensor( new VelocitySensor( this, 3.9444705882352933, 0.973501677688827 ) );
+        addVelocitySensor( new VelocitySensor( this, 3.9444705882352933, 0.973501677688827 ) );
     }
 
     private void removeFoodColoring( FoodColoring foodColoring ) {
@@ -151,17 +153,13 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         }
     }
 
+    public void addVelocityUpdateListener( SimpleObserver observer ) {
+        getPipe().addShapeChangeListener( observer );
+    }
+
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
         super.addFluidChangeObserver( updatePressure );
         pipe.addShapeChangeListener( updatePressure );
-    }
-
-    public VelocitySensor getVelocitySensor0() {
-        return velocitySensor0;
-    }
-
-    public VelocitySensor getVelocitySensor1() {
-        return velocitySensor1;
     }
 
     public Property<Double> getDropperRateProperty() {
@@ -186,8 +184,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel {
         }
         super.reset();
         pipe.reset();
-        velocitySensor0.reset();
-        velocitySensor1.reset();
         dropperRateProperty.reset();
         //TODO: remove particle and food coloring
     }
