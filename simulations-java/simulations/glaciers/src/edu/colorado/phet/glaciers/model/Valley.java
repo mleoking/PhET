@@ -5,7 +5,7 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 
 
 /**
@@ -219,7 +219,7 @@ public class Valley {
      * @param dx
      * @return GeneralPath
      */
-    public GeneralPath createValleyFloorPath( ModelViewTransform mvt, double minX, double maxX, double dx ) {
+    public GeneralPath createValleyFloorPath( GlaciersModelViewTransform mvt, double minX, double maxX, double dx ) {
         GeneralPath path = new GeneralPath();
         double elevation = 0;
         Point2D pModel = new Point2D.Double();

@@ -6,7 +6,7 @@ import java.awt.Image;
 
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.TracerFlag;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -22,7 +22,7 @@ public class TracerFlagNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+    public TracerFlagNode( TracerFlag tracerFlag, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan ) {
         super( tracerFlag, mvt, trashCan );
         _tracerFlag = tracerFlag;
         PImage imageNode = new PImage( GlaciersImages.TRACER_FLAG );

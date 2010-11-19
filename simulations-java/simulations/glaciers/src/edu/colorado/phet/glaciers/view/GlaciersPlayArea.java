@@ -90,7 +90,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     private final CoordinatesNode _coordinatesNode;
     private final ELAValueNode _elaValueNode;
     private final HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for updating & removing tools
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
     private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
     private final HashMap _debrisMap; // key=Debris, value=DebrisNode, used for removing debris nodes when their model elements are deleted
@@ -116,7 +116,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _model.addDebrisProducerListener( this ); // manage nodes when debris is added/removed
         _model.addIceRippleProducerListener( this ); // manage nodes when ripples are added/removed
 
-        _mvt = new ModelViewTransform( 
+        _mvt = new GlaciersModelViewTransform( 
                 GlaciersConstants.MVT_X_SCALE, GlaciersConstants.MVT_Y_SCALE, 
                 GlaciersConstants.MVT_X_OFFSET, GlaciersConstants.MVT_Y_OFFSET, 
                 GlaciersConstants.MVT_FLIP_SIGN_X, GlaciersConstants.MVT_FLIP_SIGN_Y );

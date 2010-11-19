@@ -52,7 +52,7 @@ public class ElevationAxisNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private final PComposite _parentNode;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final double _minElevation, _maxElevation;
     private final boolean _tickLabelOnLeft;
     private boolean _englishUnits;
@@ -72,7 +72,7 @@ public class ElevationAxisNode extends PComposite {
      * @param tickLabelOnLeft  true for label to left of tick, false for label to right of tick
      * @param englishUnits true for English units, false for metric units
      */
-    public ElevationAxisNode( ModelViewTransform mvt, DoubleRange elevationRange, boolean tickLabelOnLeft, boolean englishUnits ) {
+    public ElevationAxisNode( GlaciersModelViewTransform mvt, DoubleRange elevationRange, boolean tickLabelOnLeft, boolean englishUnits ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -164,7 +164,7 @@ public class ElevationAxisNode extends PComposite {
      * Create a vertical axis.
      * The axis is automatically positioned in the view coordinate system.
      */
-    private static PNode createAxis( double x, double minElevation, double maxElevation, ModelViewTransform mvt ) {
+    private static PNode createAxis( double x, double minElevation, double maxElevation, GlaciersModelViewTransform mvt ) {
 
         // bottom of axis
         Point2D pBottomModel = new Point2D.Double( x, minElevation );

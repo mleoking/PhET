@@ -23,11 +23,11 @@ public class CoordinatesNode extends PhetPNode {
     
     private static final Color AXIS_COLOR = Color.BLACK;
 
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
     private final DistanceAxisNode _distanceAxisNode;
     
-    public CoordinatesNode( GlaciersModel model, ModelViewTransform mvt, boolean englishUnits ) {
+    public CoordinatesNode( GlaciersModel model, GlaciersModelViewTransform mvt, boolean englishUnits ) {
         _mvt = mvt;
         _leftElevationAxisNode = new ElevationAxisNode( mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, false, englishUnits );
         addChild( _leftElevationAxisNode );

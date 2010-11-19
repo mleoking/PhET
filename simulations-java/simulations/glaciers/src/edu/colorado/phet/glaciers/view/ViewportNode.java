@@ -28,13 +28,13 @@ public class ViewportNode extends PPath {
     //----------------------------------------------------------------------------
     
     private final Viewport _viewport;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ViewportNode( Viewport viewport, float strokeWidth, ModelViewTransform mvt ) {
+    public ViewportNode( Viewport viewport, float strokeWidth, GlaciersModelViewTransform mvt ) {
         super();
         
         _viewport = viewport;

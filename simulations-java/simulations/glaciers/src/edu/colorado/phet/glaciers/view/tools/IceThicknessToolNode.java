@@ -21,7 +21,7 @@ import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListene
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.util.UnitsConverter;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -60,7 +60,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
+    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( iceThicknessTool, mvt, trashCan );
         
         _iceThicknessTool = iceThicknessTool;

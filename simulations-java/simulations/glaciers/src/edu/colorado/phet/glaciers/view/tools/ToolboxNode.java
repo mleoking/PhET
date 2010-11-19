@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -78,7 +78,7 @@ public class ToolboxNode extends PNode {
      * @param toolProducer
      * @param mvt
      */
-    public ToolboxNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
+    public ToolboxNode( IToolProducer toolProducer, GlaciersModelViewTransform mvt ) {
         super();
         
         // list of node to be passed to layout method

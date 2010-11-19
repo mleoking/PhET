@@ -25,7 +25,7 @@ import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
 import edu.colorado.phet.glaciers.util.UnitsConverter;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -64,7 +64,7 @@ public class ThermometerNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ThermometerNode( Thermometer thermometer, Glacier glacier, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+    public ThermometerNode( Thermometer thermometer, Glacier glacier, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan ) {
         super( thermometer, mvt, trashCan );
         
         _thermometer = thermometer;

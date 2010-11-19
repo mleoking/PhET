@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import junit.framework.TestCase;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 
 /**
  * ZModelViewTransformTester is the JUnit test for ModelViewTransform.
@@ -15,34 +15,34 @@ import edu.colorado.phet.glaciers.view.ModelViewTransform;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ZModelViewTransformTester extends TestCase {
+public class ZGlaciersModelViewTransformTester extends TestCase {
     
     //----------------------------------------------------------------------------
     // Fixtures
     //----------------------------------------------------------------------------
     
-    private ModelViewTransform _mvtIdentity; // identity transform
-    private ModelViewTransform _mvtPositiveScale; // positive scaling
-    private ModelViewTransform _mvtNegativeScale; // negative scaling
-    private ModelViewTransform _mvtPositiveTranslation; // positive translation
-    private ModelViewTransform _mvtNegativeTranslation; // negative translation
-    private ModelViewTransform _mvtReflection; // reflection transform
-    private ModelViewTransform _mvtFlipSign; // flip sign of x,y coordinates
-    private ModelViewTransform _mvtCombination;
+    private GlaciersModelViewTransform _mvtIdentity; // identity transform
+    private GlaciersModelViewTransform _mvtPositiveScale; // positive scaling
+    private GlaciersModelViewTransform _mvtNegativeScale; // negative scaling
+    private GlaciersModelViewTransform _mvtPositiveTranslation; // positive translation
+    private GlaciersModelViewTransform _mvtNegativeTranslation; // negative translation
+    private GlaciersModelViewTransform _mvtReflection; // reflection transform
+    private GlaciersModelViewTransform _mvtFlipSign; // flip sign of x,y coordinates
+    private GlaciersModelViewTransform _mvtCombination;
     
     //----------------------------------------------------------------------------
     // setup
     //----------------------------------------------------------------------------
     
     public void setUp() {
-        _mvtIdentity = new ModelViewTransform( 1, 1, 0, 0 );
-        _mvtPositiveScale = new ModelViewTransform( 2, 3, 0, 0 );
-        _mvtNegativeScale = new ModelViewTransform( -2, -3, 0, 0 );
-        _mvtPositiveTranslation = new ModelViewTransform( 1, 1, 10, 20 );
-        _mvtNegativeTranslation = new ModelViewTransform( 1, 1, -10, -20 );
-        _mvtReflection = new ModelViewTransform( 1, -1, 0, 0 );
-        _mvtFlipSign = new ModelViewTransform( 1, 1, 10, 20, true, true );
-        _mvtCombination = new ModelViewTransform( 2, -3, 10, 20 );
+        _mvtIdentity = new GlaciersModelViewTransform( 1, 1, 0, 0 );
+        _mvtPositiveScale = new GlaciersModelViewTransform( 2, 3, 0, 0 );
+        _mvtNegativeScale = new GlaciersModelViewTransform( -2, -3, 0, 0 );
+        _mvtPositiveTranslation = new GlaciersModelViewTransform( 1, 1, 10, 20 );
+        _mvtNegativeTranslation = new GlaciersModelViewTransform( 1, 1, -10, -20 );
+        _mvtReflection = new GlaciersModelViewTransform( 1, -1, 0, 0 );
+        _mvtFlipSign = new GlaciersModelViewTransform( 1, 1, 10, 20, true, true );
+        _mvtCombination = new GlaciersModelViewTransform( 2, -3, 10, 20 );
     }
     
     //----------------------------------------------------------------------------

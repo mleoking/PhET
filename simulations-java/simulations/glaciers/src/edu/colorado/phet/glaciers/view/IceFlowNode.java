@@ -48,7 +48,7 @@ public class IceFlowNode extends PComposite {
     
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final PNode _parentNode;
     private boolean _isDirty;
     
@@ -56,7 +56,7 @@ public class IceFlowNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceFlowNode( Glacier glacier, ModelViewTransform mvt ) {
+    public IceFlowNode( Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         
         setPickable( false );

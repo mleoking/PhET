@@ -39,7 +39,7 @@ public class SnowPatchNode extends PComposite {
     
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     
     private final GeneralPath _crossSectionPath, _surfacePath;
     private final PPath _crossSectionNode, _surfaceNode;
@@ -49,7 +49,7 @@ public class SnowPatchNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SnowPatchNode( Glacier glacier, ModelViewTransform mvt ) {
+    public SnowPatchNode( Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

@@ -22,7 +22,7 @@ public class ValleyFloorWorkaroundNode extends PPath {
 
     public static final double MIN_X = -4500;
     
-    public ValleyFloorWorkaroundNode( Valley valley, ModelViewTransform mvt ) {
+    public ValleyFloorWorkaroundNode( Valley valley, GlaciersModelViewTransform mvt ) {
         
         GeneralPath path = new GeneralPath();
         Point2D pModel = new Point2D.Double();
