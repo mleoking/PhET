@@ -7,4 +7,15 @@ package edu.colorado.phet.common.phetcommon.util;
  */
 public interface Function1<U, T> {
     T apply( U u );
+
+    /**
+     * Identity function that returns its input.
+     *
+     * @param <U>
+     */
+    public static class Identity<U> implements Function1<U, U> {
+        public U apply( U u ) {
+            return u;
+        }
+    }
 }
