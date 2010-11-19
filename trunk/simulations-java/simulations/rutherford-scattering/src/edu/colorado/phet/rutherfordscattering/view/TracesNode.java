@@ -163,7 +163,7 @@ public class TracesNode extends PhetPNode implements ParticleListener, Observer 
     public void particleAdded( ParticleEvent event ) {
         AlphaParticle alphaParticle = event.getParticle();
         alphaParticle.addObserver( this );
-        Point2D p = ModelViewTransform.transform( alphaParticle.getPositionRef() );
+        Point2D p = RSModelViewTransform.transform( alphaParticle.getPositionRef() );
         GeneralPath path = new GeneralPath();
         path.moveTo( (float) p.getX(), (float) p.getY() );
         _pathMap.put( alphaParticle, path );
@@ -194,7 +194,7 @@ public class TracesNode extends PhetPNode implements ParticleListener, Observer 
             AlphaParticle alphaParticle = (AlphaParticle) o;
             GeneralPath path = (GeneralPath) _pathMap.get( alphaParticle );
             if ( path != null ) {
-                Point2D p = ModelViewTransform.transform( alphaParticle.getPositionRef() );
+                Point2D p = RSModelViewTransform.transform( alphaParticle.getPositionRef() );
                 path.lineTo( (float) p.getX(), (float) p.getY() );
             }
         }

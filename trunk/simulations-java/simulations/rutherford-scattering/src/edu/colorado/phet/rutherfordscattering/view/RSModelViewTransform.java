@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2010, University of Colorado */
 
 package edu.colorado.phet.rutherfordscattering.view;
 
@@ -8,19 +8,17 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 
 /**
- * ModelViewTransform is the transform between model coordinates 
- * and the view coordinates of the AnimationBoxNode.
- * The origin of the model coordinate system is at the bottom-center
- * of the AnimationBoxNode.
+ * Transform between model coordinates and the view coordinates of the AnimationBoxNode.
+ * The origin of the model coordinate system is at the bottom-center of the AnimationBoxNode.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ModelViewTransform {
+public class RSModelViewTransform {
 
     private static AffineTransform _transform;
     
     /* Not intended for instantiation */
-    private ModelViewTransform() {}
+    private RSModelViewTransform() {}
     
     /**
      * Maps a point from model to view coordinates.

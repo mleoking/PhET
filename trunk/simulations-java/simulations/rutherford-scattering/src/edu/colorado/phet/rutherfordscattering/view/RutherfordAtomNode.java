@@ -93,7 +93,7 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
         _outlineModeEnabled = false;
         
         Point2D atomPosition = atom.getPositionRef();
-        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        Point2D nodePosition = RSModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
         updateNucleus();
@@ -164,8 +164,8 @@ public class RutherfordAtomNode extends PhetPNode implements Observer {
     private void updateElectronOffset() {
         Point2D electronOffset = _atom.getElectronOffsetRef();
         // treat coordinates as distances, since _electronNode is a child node
-        double nodeX = ModelViewTransform.transform( electronOffset.getX() );
-        double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+        double nodeX = RSModelViewTransform.transform( electronOffset.getX() );
+        double nodeY = RSModelViewTransform.transform( electronOffset.getY() );
         _electronNode.setOffset( nodeX, nodeY );
     }
     
