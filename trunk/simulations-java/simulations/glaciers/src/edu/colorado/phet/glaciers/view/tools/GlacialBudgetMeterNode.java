@@ -25,7 +25,7 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.util.UnitsConverter;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -65,7 +65,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
+    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( glacialBudgetMeter, mvt, trashCan );
         
         _glacialBudgetMeter = glacialBudgetMeter;

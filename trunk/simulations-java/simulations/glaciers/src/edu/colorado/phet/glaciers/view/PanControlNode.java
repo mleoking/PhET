@@ -31,7 +31,7 @@ public class PanControlNode extends PImage {
     
     private final Viewport _birdsEyeViewport;
     private final Viewport _zoomedViewport;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final double _zoomedViewportMaxX;
     
     //----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ public class PanControlNode extends PImage {
      * Constructor that allows the zoomed viewport to be dragged 
      * across the full width of the birds-eye viewport.
      */
-    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
+    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, GlaciersModelViewTransform mvt ) {
         this( birdsEyeViewport, zoomedViewport, mvt, X_UNDEFINED );
     }
     
@@ -55,7 +55,7 @@ public class PanControlNode extends PImage {
      * @param mvt
      * @param zoomedViewportMaxX
      */
-    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double zoomedViewportMaxX ) {
+    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, GlaciersModelViewTransform mvt, double zoomedViewportMaxX ) {
         super( GlaciersImages.PAN_CHARACTER );
         
         _birdsEyeViewport = birdsEyeViewport;

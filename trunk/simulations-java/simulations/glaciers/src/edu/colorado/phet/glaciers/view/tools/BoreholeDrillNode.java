@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -34,7 +34,7 @@ public class BoreholeDrillNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BoreholeDrillNode( final BoreholeDrill boreholeDrill, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+    public BoreholeDrillNode( final BoreholeDrill boreholeDrill, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan ) {
         super( boreholeDrill, mvt, trashCan );
         
         PNode drillNode = new DrillNode();

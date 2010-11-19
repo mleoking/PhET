@@ -23,7 +23,7 @@ import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.util.UnitsConverter;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -57,7 +57,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
+    public GPSReceiverNode( GPSReceiver gps, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         super( gps, mvt, trashCan );
         
         _gps = gps;

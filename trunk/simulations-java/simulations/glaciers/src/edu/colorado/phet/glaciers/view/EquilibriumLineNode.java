@@ -41,7 +41,7 @@ public class EquilibriumLineNode extends PhetPNode {
     
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final Point2D _pModel, _pView; // reusable points
     private final PPath _pathNode;
     private final GeneralPath _path;
@@ -50,7 +50,7 @@ public class EquilibriumLineNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public EquilibriumLineNode( Glacier glacier, ModelViewTransform mvt ) {
+    public EquilibriumLineNode( Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         
         setPickable( false );

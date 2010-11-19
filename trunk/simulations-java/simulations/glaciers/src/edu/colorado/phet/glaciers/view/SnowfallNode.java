@@ -48,7 +48,7 @@ public class SnowfallNode extends PhetPNode {
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
     private final ClimateListener _climateListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final Rectangle2D _worldBounds; // world bounds in model coordinates (meters x meters)
     private final PPath _pathNode;
     private final GeneralPath _path;
@@ -58,7 +58,7 @@ public class SnowfallNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SnowfallNode( Glacier glacier, ModelViewTransform mvt ) {
+    public SnowfallNode( Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

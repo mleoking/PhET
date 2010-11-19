@@ -34,7 +34,7 @@ public class BoreholeNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private final Borehole _borehole;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final BoreholeListener _boreholeListener;
     private final GeneralPath _path;
     private final PPath _pathNode;
@@ -44,7 +44,7 @@ public class BoreholeNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BoreholeNode( Borehole borehole, ModelViewTransform mvt ) {
+    public BoreholeNode( Borehole borehole, GlaciersModelViewTransform mvt ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

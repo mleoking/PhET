@@ -58,7 +58,7 @@ public class DistanceAxisNode extends PComposite {
     
     private final PComposite _parentNode;
     private final Valley _valley;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private double _minX, _maxX; // x range, in meters
     private boolean _isDirty; // does the axis need to be rebuilt when it becomes visible?
     private boolean _englishUnits;
@@ -74,7 +74,7 @@ public class DistanceAxisNode extends PComposite {
      * @param mvt
      * @param englishUnits true for English units, false for metric units
      */
-    public DistanceAxisNode( Valley valley, ModelViewTransform mvt, boolean englishUnits ) {
+    public DistanceAxisNode( Valley valley, GlaciersModelViewTransform mvt, boolean englishUnits ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -183,7 +183,7 @@ public class DistanceAxisNode extends PComposite {
      * Create a curve that follows the valley contour.
      * The curve is automatically positioned in the view coordinate system.
      */
-    private static PNode createAxis( Valley valley, ModelViewTransform mvt, double minX, double maxX, double dx ) {
+    private static PNode createAxis( Valley valley, GlaciersModelViewTransform mvt, double minX, double maxX, double dx ) {
 
         // path
         GeneralPath axisPath = valley.createValleyFloorPath( mvt, minX, maxX, dx );

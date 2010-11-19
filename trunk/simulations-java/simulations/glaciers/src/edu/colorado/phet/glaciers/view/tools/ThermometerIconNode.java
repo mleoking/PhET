@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToolIconNode;
 
 /**
@@ -14,7 +14,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
  */
 public class ThermometerIconNode extends InteractiveToolIconNode {
     
-    public ThermometerIconNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
+    public ThermometerIconNode( IToolProducer toolProducer, GlaciersModelViewTransform mvt ) {
         super( ThermometerNode.createImage(), toolProducer, mvt );
     }
     

@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -109,7 +109,7 @@ public abstract class AbstractToolIconNode extends PNode {
     protected static abstract class InteractiveToolIconNode extends AbstractToolIconNode {
 
         private final IToolProducer _toolProducer;
-        private final ModelViewTransform _mvt;
+        private final GlaciersModelViewTransform _mvt;
         private final Point2D _pModel, _pView; // reusable point for model-view transforms
 
         /**
@@ -119,7 +119,7 @@ public abstract class AbstractToolIconNode extends PNode {
          * @param toolProducer object capable of creating tools
          * @param mvt model-view transform, used to convert mouse position to tool position
          */
-        public InteractiveToolIconNode( Image image, IToolProducer toolProducer, ModelViewTransform mvt ) { 
+        public InteractiveToolIconNode( Image image, IToolProducer toolProducer, GlaciersModelViewTransform mvt ) { 
             this( image, null /* text */, toolProducer, mvt );
         }
         
@@ -131,7 +131,7 @@ public abstract class AbstractToolIconNode extends PNode {
          * @param toolProducer object capable of creating tools
          * @param mvt model-view transform, used to convert mouse position to tool position
          */
-        public InteractiveToolIconNode( Image image, String text, IToolProducer toolProducer, ModelViewTransform mvt ) {
+        public InteractiveToolIconNode( Image image, String text, IToolProducer toolProducer, GlaciersModelViewTransform mvt ) {
             super( image, text );
 
             _toolProducer = toolProducer;

@@ -3,7 +3,7 @@
 package edu.colorado.phet.glaciers.view.tools;
 
 import edu.colorado.phet.glaciers.model.*;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.GlaciersModelViewTransform;
 
 /**
  * ToolNodeFactory uses the Factory design pattern to create tool nodes.
@@ -22,7 +22,7 @@ public class ToolNodeFactory {
      * @param mvt
      * @return
      */
-    public static AbstractToolNode createNode( AbstractTool tool, GlaciersModel model, ModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
+    public static AbstractToolNode createNode( AbstractTool tool, GlaciersModel model, GlaciersModelViewTransform mvt, TrashCanDelegate trashCan, boolean englishUnits ) {
         AbstractToolNode node = null;
         if ( tool instanceof Thermometer ) {
             node = new ThermometerNode( (Thermometer) tool, model.getGlacier(), mvt, trashCan );

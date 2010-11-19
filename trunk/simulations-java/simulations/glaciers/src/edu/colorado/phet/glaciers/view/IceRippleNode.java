@@ -29,11 +29,11 @@ public class IceRippleNode extends PComposite {
     private final IceRipple _ripple;
     private final GlacierListener _glacierListener;
     private final IceRippleListener _rippleListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final Point2D _pView;
     private final PPath _topArcNode, _bottomArcNode;
     
-    public IceRippleNode( IceRipple ripple, Glacier glacier, ModelViewTransform mvt ) {
+    public IceRippleNode( IceRipple ripple, Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

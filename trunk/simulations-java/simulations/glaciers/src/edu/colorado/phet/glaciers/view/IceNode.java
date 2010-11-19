@@ -31,7 +31,7 @@ public class IceNode extends PComposite {
     
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     
     private final GeneralPath _crossSectionPath;
     private final PPath _crossSectionNode;
@@ -43,7 +43,7 @@ public class IceNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceNode( Glacier glacier, ModelViewTransform mvt ) {
+    public IceNode( Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         
         setPickable( false );

@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ModelViewTransform {
+public class GlaciersModelViewTransform {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -35,7 +35,7 @@ public class ModelViewTransform {
      * @param flipSignX if true, flip the sign on the x component
      * @param flipSignY if true, flip the sign on the y component
      */
-    public ModelViewTransform( double xScale, double yScale, double xOffset, double yOffset, boolean flipSignX, boolean flipSignY ) {
+    public GlaciersModelViewTransform( double xScale, double yScale, double xOffset, double yOffset, boolean flipSignX, boolean flipSignY ) {
         
         _flipSignX = flipSignX;
         _flipSignY = flipSignY;
@@ -49,7 +49,7 @@ public class ModelViewTransform {
         _viewToModelTransform.scale( 1d / xScale, 1d / yScale );
     }
     
-    public ModelViewTransform( double xScale, double yScale, double xOffset, double yOffset ) {
+    public GlaciersModelViewTransform( double xScale, double yScale, double xOffset, double yOffset ) {
         this( xScale, yScale, xOffset, yOffset, false, false );
     }
     

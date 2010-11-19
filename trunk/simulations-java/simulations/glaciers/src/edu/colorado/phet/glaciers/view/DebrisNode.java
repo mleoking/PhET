@@ -44,14 +44,14 @@ public class DebrisNode extends PComposite {
     private final Glacier _glacier;
     private BoulderNode _boulderNode;
     private final DebrisListener _debrisListener;
-    private final ModelViewTransform _mvt;
+    private final GlaciersModelViewTransform _mvt;
     private final Point2D _pModel, _pView;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DebrisNode( Debris debris, Glacier glacier, ModelViewTransform mvt ) {
+    public DebrisNode( Debris debris, Glacier glacier, GlaciersModelViewTransform mvt ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
