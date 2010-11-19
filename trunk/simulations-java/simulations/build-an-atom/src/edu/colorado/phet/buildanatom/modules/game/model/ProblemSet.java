@@ -91,13 +91,13 @@ public class ProblemSet {
     }
 
     // Lists that define the problem types that can be used at a given level.
-    private static final ArrayList<ProblemType> LEVEL_1_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
+    private static final ArrayList<ProblemType> LEVEL_1_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_ELEMENT );
             add( ProblemType.COUNTS_TO_ELEMENT );
         }
     };
-    private static final ArrayList<ProblemType> LEVEL_2_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
+    private static final ArrayList<ProblemType> LEVEL_2_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
@@ -107,7 +107,17 @@ public class ProblemSet {
             add( ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT );
         }
     };
-    private static final ArrayList<ProblemType> LEVEL_3_ALL_PROB_TYPES = new ArrayList<ProblemType>() {
+    private static final ArrayList<ProblemType> LEVEL_3_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
+        {
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
+            add( ProblemType.SYMBOL_TO_SCHEMATIC );
+            add( ProblemType.SYMBOL_TO_COUNTS );
+            add( ProblemType.COUNTS_TO_SYMBOL_MASS );
+            add( ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT );
+        }
+    };
+    private static final ArrayList<ProblemType> LEVEL_4_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_SYMBOL_ALL );
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
@@ -141,18 +151,21 @@ public class ProblemSet {
         ArrayList<ProblemType> problemTypes;
         switch ( level ) {
         case 1:
-            problemTypes = LEVEL_1_ALL_PROB_TYPES;
+            problemTypes = LEVEL_1_ALLOWED_PROB_TYPES;
             break;
         case 2:
-            problemTypes = LEVEL_2_ALL_PROB_TYPES;
+            problemTypes = LEVEL_2_ALLOWED_PROB_TYPES;
             break;
         case 3:
-            problemTypes = LEVEL_3_ALL_PROB_TYPES;
+            problemTypes = LEVEL_3_ALLOWED_PROB_TYPES;
+            break;
+        case 4:
+            problemTypes = LEVEL_4_ALLOWED_PROB_TYPES;
             break;
         default:
             System.err.println( getClass().getName() + " - Error: Undefined game level." );
             assert false;
-            problemTypes = LEVEL_1_ALL_PROB_TYPES; // Arbitrary.
+            problemTypes = LEVEL_1_ALLOWED_PROB_TYPES; // Arbitrary.
             break;
         }
         return problemTypes;
