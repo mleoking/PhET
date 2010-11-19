@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class PressureSensorNode extends PNode {
-    ModelViewTransform2D transform;
+    ModelViewTransform transform;
     private PressureSensor pressureSensor;
     private final Property<Units.Unit> units;
     public static final double hotSpotRadius = 3;
@@ -34,7 +34,7 @@ public class PressureSensorNode extends PNode {
      * @param pool           the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
      * @param units
      */
-    public PressureSensorNode( final ModelViewTransform2D transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.Unit> units ) {
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.Unit> units ) {
         this.transform = transform;
         this.pressureSensor = pressureSensor;
         this.units = units;

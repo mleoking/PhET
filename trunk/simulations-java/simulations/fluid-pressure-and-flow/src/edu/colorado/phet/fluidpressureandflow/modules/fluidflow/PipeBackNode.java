@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class PipeBackNode extends PNode {
     private Color waterColor = new Color( 122, 197, 213 );
     private Pipe pipe;
-    private ModelViewTransform2D transform;
+    private ModelViewTransform transform;
     public static int PIPE_LEFT_OFFSET = 72;
     static double sx = 0.4;
 
@@ -36,7 +36,7 @@ public class PipeBackNode extends PNode {
     private static final double pipeOpeningPixelYBottom = 375;
     public static final double pipeOpeningHeight = pipeOpeningPixelYBottom - pipeOpeningPixelYTop;
 
-    public PipeBackNode( final ModelViewTransform2D transform, final Pipe pipe, final Property<Double> fluidDensity ) {
+    public PipeBackNode( final ModelViewTransform transform, final Pipe pipe, final Property<Double> fluidDensity ) {
         this.pipe = pipe;
         this.transform = transform;
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
@@ -53,7 +53,7 @@ public class PipeBackNode extends PNode {
                     double syLeft = getPipeLeftViewHeight() / pipeOpeningHeight;
                     double syRight = getPipeRightViewHeight() / pipeOpeningHeight;
                     setTransform( AffineTransform.getScaleInstance( sx, syLeft ) );
-                    final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
+                    final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
                     setOffset( topLeft.getX() - pipeLeftBackImage.getWidth() + PIPE_LEFT_OFFSET / sx, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
 
                     double length = 10000;
@@ -62,7 +62,7 @@ public class PipeBackNode extends PNode {
                     leftExtension.setTransform( AffineTransform.getScaleInstance( 1, syLeft ) );
                     leftExtension.setOffset( 0, topLeft.getY() - pipeOpeningPixelYTop * syLeft );
 
-                    final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
+                    final Point2D topRight = transform.modelToView( pipe.getTopRight() );
                     rightExtension.setPathTo( new Rectangle2D.Double( 0, 0, length, pipeLeftBackImage.getHeight() ) );
                     rightExtension.setPaint( new TexturePaint( pipeImage, new Rectangle2D.Double( 0, 0, pipeImage.getWidth(), pipeLeftBackImage.getHeight() ) ) );
                     rightExtension.setTransform( AffineTransform.getScaleInstance( 1, syRight ) );
@@ -99,19 +99,19 @@ public class PipeBackNode extends PNode {
     }
 
     public double getPipeLeftViewHeight() {
-        final Point2D topLeft = transform.modelToViewDouble( pipe.getTopLeft() );
-        final Point2D bottomLeft = transform.modelToViewDouble( pipe.getBottomLeft() );
+        final Point2D topLeft = transform.modelToView( pipe.getTopLeft() );
+        final Point2D bottomLeft = transform.modelToView( pipe.getBottomLeft() );
         return bottomLeft.getY() - topLeft.getY();
     }
 
     public double getPipeRightViewHeight() {
-        final Point2D topRight = transform.modelToViewDouble( pipe.getTopRight() );
-        final Point2D bottomRight = transform.modelToViewDouble( pipe.getBottomRight() );
+        final Point2D topRight = transform.modelToView( pipe.getTopRight() );
+        final Point2D bottomRight = transform.modelToView( pipe.getBottomRight() );
         return bottomRight.getY() - topRight.getY();
     }
 
     public static class GrabHandle extends PNode {
-        public GrabHandle( final ModelViewTransform2D transform, final ControlPoint controlPoint, final ControlPoint oppositeControlPoint ) {
+        public GrabHandle( final ModelViewTransform transform, final ControlPoint controlPoint, final ControlPoint oppositeControlPoint ) {
             double arrowLength = 20;
             addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
                 setPaint( Color.green );

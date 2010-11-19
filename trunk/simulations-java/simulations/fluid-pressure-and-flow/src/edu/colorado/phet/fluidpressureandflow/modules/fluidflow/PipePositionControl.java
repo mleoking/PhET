@@ -3,7 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fluidpressureandflow.model.PipePosition;
 import edu.umd.cs.piccolo.PNode;
 
@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PipePositionControl extends PNode {
-    public PipePositionControl( final ModelViewTransform2D transform, final PipePosition pipePosition ) {
+    public PipePositionControl( final ModelViewTransform transform, final PipePosition pipePosition ) {
         final PipeBackNode.ControlPoint topControlPoint = new PipeBackNode.ControlPoint() {
             public Point2D getPoint() {
                 return pipePosition.getTop();
