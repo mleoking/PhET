@@ -20,7 +20,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
@@ -77,7 +77,7 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
         }
 
         Point2D atomPosition = _atom.getPositionRef();
-        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        Point2D nodePosition = HAModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
         
         update( _atom, AbstractHydrogenAtom.PROPERTY_ELECTRON_OFFSET );
@@ -98,8 +98,8 @@ public class SolarSystemNode extends AbstractHydrogenAtomNode implements Observe
                 // the electron has moved
                 Point2D electronOffset = _atom.getElectronOffset();
                 // treat coordinates as distances, since _electronNode is a child node
-                double nodeX = ModelViewTransform.transform( electronOffset.getX() );
-                double nodeY = ModelViewTransform.transform( electronOffset.getY() );
+                double nodeX = HAModelViewTransform.transform( electronOffset.getX() );
+                double nodeY = HAModelViewTransform.transform( electronOffset.getY() );
                 _electronNode.setOffset( nodeX, nodeY );
             }
             else if ( arg == AbstractHydrogenAtom.PROPERTY_ATOM_DESTROYED ) {

@@ -19,7 +19,7 @@ import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -77,7 +77,7 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
         }
         
         Point2D atomPosition = atom.getPositionRef();
-        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        Point2D nodePosition = HAModelViewTransform.transform( atomPosition );
         setOffset( nodePosition );
     }
     
@@ -167,7 +167,7 @@ public class DeBroglieNode extends AbstractHydrogenAtomNode implements Observer 
             int groundState = getAtom().getGroundState();
             int numberOfStates = getAtom().getNumberOfStates();
             for ( int state = groundState; state < ( groundState + numberOfStates ); state++ ) {
-                double radius = ModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
+                double radius = HAModelViewTransform.transform( getAtom().getOrbitRadius( state ) );
                 PNode orbitNode = OrbitNodeFactory.createOrbitNode( radius );
                 addChild( orbitNode );
             }

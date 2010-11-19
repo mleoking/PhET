@@ -18,7 +18,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -132,6 +132,6 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
         if ( ROTATE_TO_ORIENTATION ) {
         setRotation( _alphaParticle.getOrientation() );
         }
-        setOffset( ModelViewTransform.transform( _alphaParticle.getPositionRef() ) );
+        setOffset( HAModelViewTransform.transform( _alphaParticle.getPositionRef() ) );
     }
 }

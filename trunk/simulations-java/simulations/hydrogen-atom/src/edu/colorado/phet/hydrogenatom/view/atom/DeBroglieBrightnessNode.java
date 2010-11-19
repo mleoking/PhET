@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.umd.cs.piccolo.PNode;
@@ -81,7 +81,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         
         // Create the maximum number of objects we'll need to draw the larges orbit
         int maxState = DeBroglieModel.getGroundState() + DeBroglieModel.getNumberOfStates() - 1;
-        double maxRadius = ModelViewTransform.transform( DeBroglieModel.getOrbitRadius( maxState ) );
+        double maxRadius = HAModelViewTransform.transform( DeBroglieModel.getOrbitRadius( maxState ) );
         int maxPolygons = calculateNumberOfPolygons( maxRadius );
         createReusablePolygons( maxPolygons );
         
@@ -118,7 +118,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         // Update the ring's geometry when the electron's state changes.
         if ( state != _previousState ) {
             _previousState = state;
-            double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
+            double radius = HAModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
             int numberOfPolygons = calculateNumberOfPolygons( radius );
             updateRingGeometry( numberOfPolygons );
         }
@@ -146,7 +146,7 @@ public class DeBroglieBrightnessNode extends AbstractDeBroglie2DViewStrategy {
         _ringNode.removeAllChildren();
         _polygons.clear();
 
-        double radius = ModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
+        double radius = HAModelViewTransform.transform( getAtom().getElectronOrbitRadius() );
         
         if ( numberOfPolygons > _pathNodes.length ) {
             System.err.println( "WARNING: DebroglieBrightnessNode.updateRingGeometry needed to allocate more objects to create ring geometry" );

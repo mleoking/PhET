@@ -20,7 +20,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -58,13 +58,13 @@ public class BilliardBallNode extends AbstractHydrogenAtomNode implements Observ
         _atom = atom;
         _atom.addObserver( this );
         
-        double radius = ModelViewTransform.transform( _atom.getRadius() );
+        double radius = HAModelViewTransform.transform( _atom.getRadius() );
         double diameter = 2 * radius;
         Paint roundGradient = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), COLOR );
         PNode billiardBallNode = new SphericalNode( diameter, roundGradient, true /* convertToImage */ );
         addChild( billiardBallNode );
 
-        setOffset( ModelViewTransform.transform( _atom.getPositionRef() ) );
+        setOffset( HAModelViewTransform.transform( _atom.getPositionRef() ) );
     }
     
     //----------------------------------------------------------------------------

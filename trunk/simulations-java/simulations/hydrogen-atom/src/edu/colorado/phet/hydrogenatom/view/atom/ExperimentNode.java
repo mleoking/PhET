@@ -19,7 +19,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.hydrogenatom.model.ExperimentModel;
-import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
+import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -62,7 +62,7 @@ public class ExperimentNode extends PhetPNode implements Observer {
         addChild( boxNode );
         addChild( textNode );
         
-        setOffset( ModelViewTransform.transform( _atom.getPositionRef() ) );
+        setOffset( HAModelViewTransform.transform( _atom.getPositionRef() ) );
     }
     
     /**
