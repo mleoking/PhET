@@ -21,7 +21,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( module, ModelViewTransform.getSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.75 ), scale ) );
+        super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.75 ), scale ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );

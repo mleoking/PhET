@@ -11,7 +11,7 @@ public class TestModelViewTransform extends TestCase {
     public static double EPSILON = 0.000001;
 
     public void testIdentity() {
-        ModelViewTransform t = ModelViewTransform.getIdentity();
+        ModelViewTransform t = ModelViewTransform.createIdentity();
         ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
         assertEpsilonEquals( zero, t.modelToView( zero ) );
         assertEpsilonEquals( zero, t.viewToModel( zero ) );
@@ -28,7 +28,7 @@ public class TestModelViewTransform extends TestCase {
         int tX = 3;
         int tY = 5;
         int m = 2;
-        ModelViewTransform t = ModelViewTransform.getOffsetScaleMapping( new Point2D.Double( tX, tY ), m );
+        ModelViewTransform t = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( tX, tY ), m );
         int aX = -3;
         int aY = 7;
         ImmutableVector2D a = new ImmutableVector2D( aX, aY );
@@ -41,7 +41,7 @@ public class TestModelViewTransform extends TestCase {
     }
 
     public void testRectangleMapping() {
-        ModelViewTransform t = ModelViewTransform.getRectangleMapping(
+        ModelViewTransform t = ModelViewTransform.createRectangleMapping(
                 new Rectangle2D.Double( -1, 1, 4, 2 ),
                 new Rectangle2D.Double( 4, 7, 8, 1 )
         );
@@ -49,7 +49,7 @@ public class TestModelViewTransform extends TestCase {
     }
 
     public void testSinglePointScaleInvertedYMapping() {
-        ModelViewTransform t1 = ModelViewTransform.getSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 40, 30 ), 2 );
+        ModelViewTransform t1 = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 40, 30 ), 2 );
         assertEpsilonEquals( t1.modelToView( new ImmutableVector2D() ), new ImmutableVector2D( 40, 30 ) );
         assertEpsilonEquals( t1.viewToModel( new ImmutableVector2D( 40, 30 ) ), new ImmutableVector2D() ); // test inverted case
         assertEpsilonEquals( t1.modelToView( new ImmutableVector2D( 10, 10 ) ), new ImmutableVector2D( 60, 10 ) );

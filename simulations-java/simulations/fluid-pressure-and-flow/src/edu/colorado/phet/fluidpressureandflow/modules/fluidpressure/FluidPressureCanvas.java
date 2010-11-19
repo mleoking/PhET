@@ -18,7 +18,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
 
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( module, ModelViewTransform.getSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ) );
+        super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ) );
         this.module = module;
 
         addChild( new GroundNode( transform ) );
