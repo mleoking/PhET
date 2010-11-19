@@ -61,7 +61,7 @@ public class Property<T> extends SimpleObservable {
         }
     }
 
-    public T getDefaultValue() {
+    protected T getDefaultValue() {
         return defaultValue;
     }
 }

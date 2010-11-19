@@ -1,3 +1,4 @@
+11-19-2010: made Property<T>.getDefaultValue() protected so it doesn't appear in code completion
 11-19-2010: added identity function that returns its input
 11-19-2010: added ModelViewTransform see #123
 11-17-2010: added NotProperty
