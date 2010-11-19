@@ -16,17 +16,19 @@ public class GameSettingsStateView extends StateView {
 
     public GameSettingsStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameSettingsState(), gameCanvas );
-        panel = new GameSettingsPanel( new IntegerRange( 1, BuildAnAtomGameModel.MAX_LEVELS ) ){{
-            setTimerOn( model.getTimerEnabledProperty().getValue() );
-            setSoundOn( model.getSoundEnabledProperty().getValue() );
-            setLevel( model.getLevelProperty().getValue() );
-            addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
-                @Override
-                public void startButtonPressed() {
-                    model.startGame( panel.getLevel(), panel.isTimerOn(), panel.isSoundOn() );
-                }
-            } );
-        }};
+        panel = new GameSettingsPanel( new IntegerRange( 1, BuildAnAtomGameModel.MAX_LEVELS ) ) {
+            {
+                setTimerOn( model.getTimerEnabledProperty().getValue() );
+                setSoundOn( model.getSoundEnabledProperty().getValue() );
+                setLevel( model.getLevelProperty().getValue() );
+                addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
+                    @Override
+                    public void startButtonPressed() {
+                        model.startGame( panel.getLevel(), panel.isTimerOn(), panel.isSoundOn() );
+                    }
+                } );
+            }
+        };
         gameSettingsNode = new PSwing( panel );
         gameSettingsNode.scale( 1.5 );
     }

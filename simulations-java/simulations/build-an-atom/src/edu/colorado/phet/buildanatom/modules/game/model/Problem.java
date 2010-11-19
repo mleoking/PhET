@@ -1,10 +1,17 @@
-package edu.colorado.phet.buildanatom.modules.game.model;
+/* Copyright 2010, University of Colorado */
 
+package edu.colorado.phet.buildanatom.modules.game.model;
 
 /**
  * Represents one of the Problems in the game, formerly called Challenge.
+ * The problems are generally ones where the user needs to venture a guess
+ * about an atom's configuration.
+ *
+ *  @author John Blanco
+ *  @author Sam Reid
  */
 public abstract class Problem extends State {
+
     private final AtomValue atom;
     private int numGuesses = 0;
     private int score = 0;
