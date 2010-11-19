@@ -16,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -86,60 +87,62 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
 
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
-        PhetTitledPanel atmosphericGasesPanel = new PhetTitledPanel( GreenhouseResources.getString( "PhotonAbsorptionControlPanel.AtmosphericGasesTitle" ) );
+        PhetTitledPanel atmosphericGasesPanel = new PhetTitledPanel( GreenhouseResources.getString( "ControlPanel.Molecule" ) );
         atmosphericGasesPanel.setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         addControlFullWidth( atmosphericGasesPanel );
 
         // Add buttons for selecting the molecule.
         coSelector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CO" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CarbonMonoxide" ),
+                GreenhouseResources.getString( "ControlPanel.CO" ),
+                GreenhouseResources.getString( "ControlPanel.CarbonMonoxide" ),
                 createImageFromMolecule( new CO() ), PhotonTarget.SINGLE_CO_MOLECULE, MOLECULE_SCALING_FACTOR );
         coSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( coSelector, constraints );
 
         n2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.N2" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Nitrogen" ),
+                GreenhouseResources.getString( "ControlPanel.N2" ),
+                GreenhouseResources.getString( "ControlPanel.Nitrogen" ),
                 createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
         n2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( n2Selector, constraints );
 
         o2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.O2" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Oxygen" ),
+                GreenhouseResources.getString( "ControlPanel.O2" ),
+                GreenhouseResources.getString( "ControlPanel.Oxygen" ),
                 createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
         o2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( o2Selector, constraints );
 
         co2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CO2" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.CarbonDioxide" ),
+                GreenhouseResources.getString( "ControlPanel.CO2" ),
+                GreenhouseResources.getString( "ControlPanel.CarbonDioxide" ),
                 createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         co2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( co2Selector, constraints );
 
         h2oSelector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.H2O" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Water" ),
+                GreenhouseResources.getString( "ControlPanel.H2O" ),
+                GreenhouseResources.getString( "ControlPanel.Water" ),
                 createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
         h2oSelector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( h2oSelector, constraints );
 
         no2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.NO2" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.NitrogenDioxide" ),
+                GreenhouseResources.getString( "ControlPanel.NO2" ),
+                GreenhouseResources.getString( "ControlPanel.NitrogenDioxide" ),
                 createImageFromMolecule( new NO2() ), PhotonTarget.SINGLE_NO2_MOLECULE, MOLECULE_SCALING_FACTOR );
         no2Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( no2Selector, constraints );
 
         o3Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.O3" ),
-                GreenhouseResources.getString( "PhotonAbsorptionControlPanel.Ozone" ),
+                GreenhouseResources.getString( "ControlPanel.O3" ),
+                GreenhouseResources.getString( "ControlPanel.Ozone" ),
                 createImageFromMolecule( new O3() ), PhotonTarget.SINGLE_O3_MOLECULE, MOLECULE_SCALING_FACTOR );
         o3Selector.setFont( LABEL_FONT );
         atmosphericGasesPanel.add( o3Selector, constraints );
+
+        atmosphericGasesPanel.add( new MoleculeSelector( "Blah", "BS", createImageFromMolecule( new O3() ), PhotonTarget.SINGLE_O3_MOLECULE ), constraints );
 
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -211,5 +214,27 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
 
     private BufferedImage createImageFromMolecule( Molecule molecule ) {
         return new MoleculeNode( molecule, MVT ).getImage();
+    }
+
+    /**
+     * Class that defines a radio button that contains the name, symbol, and
+     * an icon for a molecule.
+     *
+     * @author John Blanco
+     */
+    private class MoleculeSelector extends JPanel {
+
+        private final JRadioButton radioButton = new JRadioButton();
+
+        public MoleculeSelector( String moleculeName, String moleculeSymbol, BufferedImage image, final PhotonTarget photonTarget ){
+            radioButton.setFont( new PhetFont(14) );
+            radioButton.setText( moleculeName );
+            add( radioButton );
+
+        }
+
+        protected JRadioButton getRadioButton() {
+            return radioButton;
+        }
     }
 }
