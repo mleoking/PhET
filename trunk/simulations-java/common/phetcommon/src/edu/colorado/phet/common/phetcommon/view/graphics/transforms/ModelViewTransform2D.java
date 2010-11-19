@@ -85,11 +85,11 @@ public class ModelViewTransform2D {
         this(mp1,mp2,vp1,vp2);
         this.invertY=invertY;
     }
-    
+
     /**
      * Somewhat simplified constructor that assumes that the aspect ratio is
      * maintained in all cases.
-     * 
+     *
      * @param mp1 - Point in the model
      * @param vp1 - Corresponding point in the view
      * @param scale - Scale from model to view
@@ -185,7 +185,7 @@ public class ModelViewTransform2D {
     public int modelToViewDifferentialY( double dy ) {
         return modelToViewDifferential( 0, dy ).y;
     }
-    
+
     public Point2D viewToModelDifferential( Dimension2D delta ) {
         return viewToModelDifferential( delta.getWidth(),delta.getHeight() );
     }
@@ -305,6 +305,7 @@ public class ModelViewTransform2D {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m11 = -viewBounds.getHeight() / modelBounds.getHeight();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
+        //double m12 = viewBounds.getY() - m11 * modelBounds.getMaxY();
         double m12 = viewBounds.getY() + viewBounds.getHeight() / modelBounds.getHeight() * ( modelBounds.getY() + modelBounds.getHeight() );
         return new AffineTransform( m00, 0, 0, m11, m02, m12 );
     }

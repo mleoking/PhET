@@ -1,3 +1,4 @@
+11-19-2010: added ModelViewTransform see #123
 11-17-2010: added NotProperty
 11-17-2010: added AndProperty and IsSelectedProperty extensions of Property<T>
 11-15-2010: added machine generated equals and hashcode for linear function
