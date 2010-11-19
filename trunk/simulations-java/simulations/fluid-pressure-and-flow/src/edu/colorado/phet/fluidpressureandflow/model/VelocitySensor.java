@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModel;
 
 /**
  * @author Sam Reid

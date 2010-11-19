@@ -30,7 +30,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
         super( module, ModelViewTransform.getRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ) );
-        //super( module, new ModelViewTransform( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );

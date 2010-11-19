@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
