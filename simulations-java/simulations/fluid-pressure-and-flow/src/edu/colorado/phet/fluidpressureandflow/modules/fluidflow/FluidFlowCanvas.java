@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,7 +34,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
 
-        addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe(),module.getFluidFlowModel().getLiquidDensityProperty() ) );
+        addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getLiquidDensityProperty() ) );
         particleLayer = new PNode();
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
@@ -50,8 +51,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         }
-        addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor0() ) );
-        addChild( new VelocitySensorNode( transform, module.getFluidFlowModel().getVelocitySensor1() ) );
+        for ( VelocitySensor sensor : module.getFluidFlowModel().getVelocitySensors() ) {
+            addChild( new VelocitySensorNode( transform, sensor ) );
+        }
 
         final FluidFlowModel model = module.getFluidFlowModel();
         final DropperNode dropperNode = new DropperNode( transform, model.getPipe(), model.getDropperRateProperty(),

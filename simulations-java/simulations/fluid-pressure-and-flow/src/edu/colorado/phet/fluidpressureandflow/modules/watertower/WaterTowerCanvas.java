@@ -5,10 +5,8 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.view.FluidPressureAndFlowCanvas;
-import edu.colorado.phet.fluidpressureandflow.view.GroundNode;
-import edu.colorado.phet.fluidpressureandflow.view.PressureSensorNode;
-import edu.colorado.phet.fluidpressureandflow.view.SkyNode;
+import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.view.*;
 
 /**
  * @author Sam Reid
@@ -26,6 +24,10 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+        }
+
+        for ( VelocitySensor velocitySensor : module.getFluidPressureAndFlowModel().getVelocitySensors() ) {
+            addChild( new VelocitySensorNode( transform, velocitySensor ) );
         }
 
     }

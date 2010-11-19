@@ -30,10 +30,15 @@ public class FluidPressureAndFlowModel {
     public final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
     public final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
     private ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
+    private ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
     private Property<Double> liquidDensityProperty = new Property<Double>( 1000.0 );//SI
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );
+    }
+
+    public void addVelocitySensor( VelocitySensor sensor ) {
+        velocitySensors.add( sensor );
     }
 
     public ConstantDtClock getClock() {
@@ -41,6 +46,7 @@ public class FluidPressureAndFlowModel {
     }
 
     //Return pressure of the air
+
     public double getPressure( Point2D position ) {
         if ( position.getY() >= 0 ) {
             return getPressureFunction().evaluate( position.getY() );
@@ -85,6 +91,10 @@ public class FluidPressureAndFlowModel {
         return pressureSensors.toArray( new PressureSensor[0] );
     }
 
+    public VelocitySensor[] getVelocitySensors() {
+        return velocitySensors.toArray( new VelocitySensor[0] );
+    }
+
     public Property<Units.Unit> getDistanceUnitProperty() {
         return distanceUnitProperty;
     }
@@ -111,6 +121,9 @@ public class FluidPressureAndFlowModel {
         pressureUnitProperty.reset();
         distanceUnitProperty.reset();
         liquidDensityProperty.reset();
+        for ( VelocitySensor velocitySensor : velocitySensors ) {
+            velocitySensor.reset();
+        }
         for ( PressureSensor pressureSensor : pressureSensors ) {
             pressureSensor.reset();
         }

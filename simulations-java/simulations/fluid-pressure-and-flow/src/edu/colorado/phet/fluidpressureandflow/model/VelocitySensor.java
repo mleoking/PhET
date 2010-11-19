@@ -9,10 +9,10 @@ import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModel;
  * @author Sam Reid
  */
 public class VelocitySensor extends Sensor {
-    private final FluidFlowModel context;
+    private final Context context;
     private final Property<ImmutableVector2D> velocity = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
-    public VelocitySensor( final double x, final double y, final FluidFlowModel context ) {
+    public VelocitySensor( final Context context, final double x, final double y ) {
         super( x, y );
         this.context = context;
         final SimpleObserver updateVelocity = new SimpleObserver() {
@@ -21,7 +21,7 @@ public class VelocitySensor extends Sensor {
             }
         };
         addPositionObserver( updateVelocity );
-        context.getPipe().addShapeChangeListener( updateVelocity );//pipe could change underneath the velocity sensor
+        context.addVelocityUpdateListener( updateVelocity ); //pipe could change underneath the velocity sensor
     }
 
     public void addVelocityObserver( SimpleObserver observer ) {
@@ -35,5 +35,11 @@ public class VelocitySensor extends Sensor {
     public void reset() {
         super.reset();
         velocity.reset();
+    }
+
+    public static interface Context {
+        public ImmutableVector2D getVelocity( double x, double y );
+
+        public void addVelocityUpdateListener( SimpleObserver observer );
     }
 }
