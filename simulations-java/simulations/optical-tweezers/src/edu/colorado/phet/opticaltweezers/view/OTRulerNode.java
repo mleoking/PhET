@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -43,7 +43,7 @@ public class OTRulerNode extends RulerNode implements Observer {
     
     private int _majorTickInterval;
     private Laser _laser;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private PPath _dragBoundsNode;
     private Dimension2D _worldSize;
     private double _xOffsetFudgeFactor;
@@ -61,7 +61,7 @@ public class OTRulerNode extends RulerNode implements Observer {
      * @param modelWorldTransform
      * @param dragBoundsNode
      */
-    public OTRulerNode( int majorTickInterval, int minorTicksBetweenMajors, Laser laser, ModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
+    public OTRulerNode( int majorTickInterval, int minorTicksBetweenMajors, Laser laser, OTModelViewTransform modelWorldTransform, PPath dragBoundsNode ) {
         super( DEFAULT_WORLD_SIZE.getWidth(), HEIGHT, null, OTResources.getString( "units.position" ), minorTicksBetweenMajors, FONT_SIZE );
         
         setUnitsAssociatedMajorTickLabel( "0" ); // attach units to the tick mark labeled "0"

@@ -31,7 +31,7 @@ public class MotorsModel extends OTAbstractModel implements Observer {
     private final EnzymeB _enzymeB;
     private final LaserPositionController _laserPositionController;
     
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -164,7 +164,7 @@ public class MotorsModel extends OTAbstractModel implements Observer {
          _laserPositionController = new LaserPositionController( _laser, _dnaStrandBead );
          addModelElement( _laserPositionController );
          
-         _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
+         _modelViewTransform = new OTModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
          
          resetDNA();
     }
@@ -213,7 +213,7 @@ public class MotorsModel extends OTAbstractModel implements Observer {
         return _laserPositionController;
     }
     
-    public ModelViewTransform getModelViewTransform() {
+    public OTModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
     }
     

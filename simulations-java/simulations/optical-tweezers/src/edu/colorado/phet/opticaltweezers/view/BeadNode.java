@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNo
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -48,7 +48,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     //----------------------------------------------------------------------------
     
     private Bead _bead;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     private DragNotificationHandler _dragNotificationHandler;
     
@@ -79,7 +79,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
      * @param modelViewTransform
      * @param dragBoundsNode
      */
-    public BeadNode( Bead bead, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
+    public BeadNode( Bead bead, OTModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
         super( true /* convertToImage */);
 
         setStroke( STROKE );

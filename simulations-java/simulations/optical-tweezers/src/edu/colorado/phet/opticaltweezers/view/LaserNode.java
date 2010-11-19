@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.control.LaserControlPanel;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -60,7 +60,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     //----------------------------------------------------------------------------
     
     private Laser _laser;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     
     private Point2D _pModel; // reusable point
     
@@ -86,7 +86,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
      * @param modelViewTransform
      * @param dragBoundsNode
      */
-    public LaserNode( Laser laser, ModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
+    public LaserNode( Laser laser, OTModelViewTransform modelViewTransform, PNode dragBoundsNode ) {
         super();
         
         _laser = laser;

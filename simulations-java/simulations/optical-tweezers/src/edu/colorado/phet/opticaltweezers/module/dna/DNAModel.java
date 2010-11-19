@@ -23,7 +23,7 @@ public class DNAModel extends OTAbstractModel {
     private final Bead _bead;
     private final DNAStrand _dnaStrand;
     
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -95,7 +95,7 @@ public class DNAModel extends OTAbstractModel {
          addModelElement( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
 
-         _modelViewTransform = new ModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
+         _modelViewTransform = new OTModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
     }
     
     //----------------------------------------------------------------------------
@@ -122,7 +122,7 @@ public class DNAModel extends OTAbstractModel {
         return _dnaStrand;
     }
     
-    public ModelViewTransform getModelViewTransform() {
+    public OTModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
     }
 }

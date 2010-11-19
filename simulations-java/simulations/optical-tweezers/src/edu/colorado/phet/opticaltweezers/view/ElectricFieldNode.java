@@ -9,7 +9,7 @@ import java.util.*;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -41,7 +41,7 @@ public class ElectricFieldNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     private final Laser _laser;
-    private final ModelViewTransform _modelViewTransform;
+    private final OTModelViewTransform _modelViewTransform;
     
     private final PNode _vectorNodesParent;
     private final List _vectorNodes; // array of ElectricFieldVectorNode
@@ -58,7 +58,7 @@ public class ElectricFieldNode extends PhetPNode implements Observer {
      * @param laser
      * @param modelViewTransform
      */
-    public ElectricFieldNode( Laser laser, ModelViewTransform modelViewTransform ) {
+    public ElectricFieldNode( Laser laser, OTModelViewTransform modelViewTransform ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

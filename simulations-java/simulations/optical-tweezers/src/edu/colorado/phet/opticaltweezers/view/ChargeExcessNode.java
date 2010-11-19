@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.view;
 
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -30,7 +30,7 @@ public class ChargeExcessNode extends AbstractChargeNode {
      * @param laser
      * @param modelViewTransform
      */
-    public ChargeExcessNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
+    public ChargeExcessNode( Bead bead, Laser laser, OTModelViewTransform modelViewTransform ) {
         super( bead, laser, modelViewTransform );
     }
     
@@ -41,7 +41,7 @@ public class ChargeExcessNode extends AbstractChargeNode {
      */
     protected void initialize() {
         
-        ModelViewTransform modelViewTransform = getModelViewTransform();
+        OTModelViewTransform modelViewTransform = getModelViewTransform();
         final double size = modelViewTransform.modelToView( MAX_CHARGE_SIZE );
         final double strokeWidth = modelViewTransform.modelToView( MAX_CHARGE_STROKE_WIDTH );
         

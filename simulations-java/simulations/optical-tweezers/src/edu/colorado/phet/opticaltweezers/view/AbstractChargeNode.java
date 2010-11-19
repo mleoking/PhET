@@ -13,7 +13,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -39,7 +39,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     
     private Bead _bead;
     private Laser _laser;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     private double _maxElectricFieldX;
     
@@ -47,7 +47,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractChargeNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform ) {
+    public AbstractChargeNode( Bead bead, Laser laser, OTModelViewTransform modelViewTransform ) {
         super();
         
         setPickable( false );
@@ -95,7 +95,7 @@ public abstract class AbstractChargeNode extends PhetPNode implements Observer {
         return _laser;
     }
     
-    protected ModelViewTransform getModelViewTransform() {
+    protected OTModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
     }
     

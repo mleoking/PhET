@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -51,7 +51,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
      * @param modelViewTransform
      * @param chargeMotionScaleRange
      */
-    public ChargeDistributionNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform, DoubleRange chargeMotionScaleRange ) {
+    public ChargeDistributionNode( Bead bead, Laser laser, OTModelViewTransform modelViewTransform, DoubleRange chargeMotionScaleRange ) {
         super( bead, laser, modelViewTransform );
         assert( GRID_SIZE > 1 );
         _chargeMotionScaleRange = chargeMotionScaleRange;
@@ -68,7 +68,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
     protected void initialize() {
         
         Bead bead = getBead();
-        ModelViewTransform modelViewTransform = getModelViewTransform();
+        OTModelViewTransform modelViewTransform = getModelViewTransform();
         final double beadDiameter = modelViewTransform.modelToView( bead.getDiameter() );
         final double chargeSize = modelViewTransform.modelToView( CHARGE_SIZE );
         final double strokeWidth = modelViewTransform.modelToView( CHARGE_STROKE_WIDTH );
@@ -140,7 +140,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
     private void layoutPositiveCharges() {
         
         Bead bead = getBead();
-        ModelViewTransform modelViewTransform = getModelViewTransform();
+        OTModelViewTransform modelViewTransform = getModelViewTransform();
         final double beadDiameter = modelViewTransform.modelToView( bead.getDiameter() );
         final double margin = modelViewTransform.modelToView( MARGIN );
         final double chargeSize = modelViewTransform.modelToView( CHARGE_SIZE );
@@ -173,7 +173,7 @@ public class ChargeDistributionNode extends AbstractChargeNode {
     private void layoutNegativeCharges() {
         
         Bead bead = getBead();
-        ModelViewTransform modelViewTransform = getModelViewTransform();
+        OTModelViewTransform modelViewTransform = getModelViewTransform();
         
         final double electricFieldX = bead.getElectricFieldX();
         final double scale = getChargeScale( electricFieldX ) * _chargeMotionScale;

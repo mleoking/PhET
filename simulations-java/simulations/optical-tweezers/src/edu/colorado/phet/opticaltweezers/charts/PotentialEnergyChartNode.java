@@ -22,7 +22,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.control.CloseButtonNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.colorado.phet.opticaltweezers.view.BeadNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -50,7 +50,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
     
     private Laser _laser;
     private Bead _bead;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private double _sampleWidth;
     
     private PotentialEnergyPlot _plot;
@@ -72,7 +72,7 @@ public class PotentialEnergyChartNode extends PhetPNode implements Observer {
      * @param maxPosition
      * @param sampleWidth
      */
-    public PotentialEnergyChartNode( Bead bead, Laser laser, ModelViewTransform modelViewTransform, double sampleWidth ) {
+    public PotentialEnergyChartNode( Bead bead, Laser laser, OTModelViewTransform modelViewTransform, double sampleWidth ) {
         super();
         
         _bead = bead;

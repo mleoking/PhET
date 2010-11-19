@@ -12,7 +12,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
+import edu.colorado.phet.opticaltweezers.model.OTModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
@@ -28,14 +28,14 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     
     private Laser _laser;
     private Bead _bead;
-    private ModelViewTransform _modelViewTransform;
+    private OTModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TrapForceNode( Laser laser, Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public TrapForceNode( Laser laser, Bead bead, OTModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.TRAP_FORCE_COLOR );
         
         _laser = laser;
