@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JFrame;
-import javax.swing.UIManager;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -55,7 +54,7 @@ public class ButtonNode extends PhetPNode {
     private static final Color ENABLED_SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f ); // transparent so that it's invisible
     
     // button disabled properties
-    private static final Color DISABLED_TEXT_COLOR = UIManager.getColor( "Button.disabledText" ); // same as Swing JButton
+    private static final Color DISABLED_TEXT_COLOR = new Color( 180, 180, 180 );
     private static final Color DISABLED_BACKGROUND_COLOR = new Color( 210, 210, 210 );
     private static final Color DISABLED_STROKE_COLOR = new Color( 190, 190, 190 );
     private static final Color DISABLED_SHADOW_COLOR = new Color( 0, 0, 0, 0 );
