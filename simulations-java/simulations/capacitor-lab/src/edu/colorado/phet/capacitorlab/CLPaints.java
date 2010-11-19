@@ -48,7 +48,7 @@ public class CLPaints {
     public static final Color SUM_EFIELD_VECTOR = Color.GREEN;
     
     // wires
-    public static final Color EFIELD_DETECTOR_WIRE = Color.BLACK;
+    public static final Color EFIELD_DETECTOR_WIRE = new Color( 129, 129, 129 );
     public static final Color VOLTMETER_POSITIVE_WIRE = Color.RED;
     public static final Color VOLTMETER_NEGATIVE_WIRE = Color.BLACK;
     

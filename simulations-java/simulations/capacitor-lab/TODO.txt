@@ -3,6 +3,11 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
+- E-field probe crosshair become lost on dense E-Field, change crosshairs color?
+- change body color of E-Field Detector so that black wires crossing it are visible?
+- make E-Field Detector automatically set proper zoom level when it becomes visible?
+- make E-Field probe wire gray to match probe and differentiate from voltmeter negative probe wire?
+- colorblind issues?
 
 NOAH P ACTION ITEMS
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
