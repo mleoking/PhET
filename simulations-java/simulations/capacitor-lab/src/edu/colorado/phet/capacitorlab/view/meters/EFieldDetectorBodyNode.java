@@ -66,7 +66,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     
     private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
-    private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEField();
+    private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEFieldWithBattery(); // reference for the max magnification
     private static final double VECTOR_REFERENCE_LENGTH = 3 * VECTOR_DISPLAY_SIZE.getHeight();
     private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
@@ -78,7 +78,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     private static final Color CONTROL_COLOR = Color.WHITE;
     
     private static final int ZOOM_FACTOR = 5;
-    private static final IntegerRange ZOOM_LEVEL_RANGE = new IntegerRange( 0, 4, 2 );
+    private static final IntegerRange ZOOM_LEVEL_RANGE = new IntegerRange( 0, 4, 4 ); // start fully zoomed in
     
     private final PSwing showVectorsPSwing;
     private final VectorDisplayNode vectorDisplayNode;
@@ -546,7 +546,6 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             setOpaque( false );
             
             this.zoomLevelRange = new IntegerRange( zoomLevelRange );
-            this.zoomLevel = zoomLevelRange.getDefault();
             
             JLabel label = new JLabel( CLStrings.ZOOM );
             label.setFont( CONTROL_FONT );
@@ -573,6 +572,9 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             add( label, row++, column );
             add( zoomInButton, row, column++ );
             add( zoomOutButton, row, column++ );
+            
+            // default state
+            setZoomLevel( zoomLevelRange.getDefault() );
         }
         
         private void setZoomLevel( int zoomLevel ) {
