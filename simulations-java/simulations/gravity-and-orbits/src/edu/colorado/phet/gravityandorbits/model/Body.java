@@ -15,7 +15,7 @@ public class Body {
     private final Property<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
     private final Property<ImmutableVector2D> forceProperty;
-    private final Property<Double> massProperty;
+    private final PublicProperty<Double> massProperty;
     private final Property<Double> diameterProperty;
     private final String name;
     private final Color color;
@@ -33,7 +33,7 @@ public class Body {
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        massProperty = new Property<Double>( mass );
+        massProperty = new PublicProperty<Double>( mass );
         diameterProperty = new Property<Double>( diameter );
         density = mass / getVolume();
     }
@@ -158,7 +158,7 @@ public class Body {
         return velocityProperty;
     }
 
-    public Property<Double> getMassProperty() {
+    public PublicProperty<Double> getMassProperty() {
         return massProperty;
     }
 
