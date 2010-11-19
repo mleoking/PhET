@@ -32,7 +32,7 @@ public class PipeFrontNode extends PNode {
         addChild( new PhetPPath( edgeStroke, new Color( 165, 91, 0 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    setPathTo( AffineTransform.getTranslateInstance( 0, -edgeOffset ).createTransformedShape( transform.createTransformedShape( pipe.getTopPath() ) ) );
+                    setPathTo( AffineTransform.getTranslateInstance( 0, -edgeOffset ).createTransformedShape( transform.modelToView( pipe.getTopPath() ) ) );
                 }
             } );
         }} );
@@ -40,7 +40,7 @@ public class PipeFrontNode extends PNode {
         addChild( new PhetPPath( edgeStroke, new Color( 0, 51, 91 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    setPathTo( AffineTransform.getTranslateInstance( 0, +edgeOffset ).createTransformedShape( transform.createTransformedShape( pipe.getBottomPath() ) ) );
+                    setPathTo( AffineTransform.getTranslateInstance( 0, +edgeOffset ).createTransformedShape( transform.modelToView( pipe.getBottomPath() ) ) );
                 }
             } );
         }} );

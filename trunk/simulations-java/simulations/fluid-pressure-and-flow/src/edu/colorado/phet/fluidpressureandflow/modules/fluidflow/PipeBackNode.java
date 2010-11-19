@@ -80,14 +80,14 @@ public class PipeBackNode extends PNode {
         addChild( new PhetPPath( Color.white ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.createTransformedShape( pipe.getShape() ) );
+                    setPathTo( transform.modelToView( pipe.getShape() ) );
                 }
             } );
         }} );
         addChild( new PhetPPath( waterColor ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.createTransformedShape( pipe.getShape() ) );
+                    setPathTo( transform.modelToView( pipe.getShape() ) );
                 }
             } );
             fluidDensity.addObserver( new SimpleObserver() {

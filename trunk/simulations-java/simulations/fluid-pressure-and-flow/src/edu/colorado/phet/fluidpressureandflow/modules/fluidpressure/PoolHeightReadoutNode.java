@@ -39,7 +39,7 @@ public class PoolHeightReadoutNode extends PNode {
             addChild( background );
             addChild( text );
         }};
-        Rectangle2D bounds = transform.createTransformedShape( pool.getShape() ).getBounds2D();
+        Rectangle2D bounds = transform.modelToView( pool.getShape() ).getBounds2D();
         heightReadout.setOffset( bounds.getCenterX() - heightReadout.getFullBounds().getWidth() / 2, bounds.getY() + dw + 5 );
         addChild( heightReadout );
     }

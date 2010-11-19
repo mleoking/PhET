@@ -16,7 +16,7 @@ public class FoodColoringNode extends PNode {
         addChild( new PhetPPath( Color.red ) {{
             foodColoring.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.createTransformedShape( foodColoring.getShape() ) );
+                    setPathTo( transform.modelToView( foodColoring.getShape() ) );
                 }
             } );
         }} );
