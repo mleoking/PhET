@@ -49,7 +49,7 @@ public class PlumPuddingAtomNode extends BufferedPNode {
         setChildrenPickable( false );
         
         Point2D atomPosition = atom.getPositionRef();
-        Point2D nodePosition = ModelViewTransform.transform( atomPosition );
+        Point2D nodePosition = RSModelViewTransform.transform( atomPosition );
         setOffset( nodePosition.getX() - getFullBounds().getWidth() / 2, nodePosition.getY() - getFullBounds().getHeight() / 2 );
     }
 
@@ -64,7 +64,7 @@ public class PlumPuddingAtomNode extends BufferedPNode {
         Image puddingImage = RSResources.getImage(  "plumPudding.png" );
         PImage puddingNode = new PImage( puddingImage );
         final double imageDiameter = Math.max( puddingNode.getWidth(), puddingNode.getHeight() );
-        final double atomDiameter = 2 * ModelViewTransform.transform( atom.getRadius() );
+        final double atomDiameter = 2 * RSModelViewTransform.transform( atom.getRadius() );
         final double imageScale = atomDiameter / imageDiameter;
         puddingNode.scale( imageScale );
         puddingNode.setOffset( -puddingNode.getFullBounds().getWidth() / 2, -puddingNode.getFullBounds().getHeight() / 2 );

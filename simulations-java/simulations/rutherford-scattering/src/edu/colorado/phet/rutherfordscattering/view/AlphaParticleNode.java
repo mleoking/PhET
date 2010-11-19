@@ -113,6 +113,6 @@ public class AlphaParticleNode extends PhetPNode implements Observer {
         if ( ROTATE_TO_ORIENTATION ) {
             setRotation( _alphaParticle.getOrientation() );
         }
-        setOffset( ModelViewTransform.transform( _alphaParticle.getPositionRef() ) );
+        setOffset( RSModelViewTransform.transform( _alphaParticle.getPositionRef() ) );
     }
 }
