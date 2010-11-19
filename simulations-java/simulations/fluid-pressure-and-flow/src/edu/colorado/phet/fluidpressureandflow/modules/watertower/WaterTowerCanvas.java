@@ -1,7 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.modules.watertower;
 
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.AndProperty;
@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
@@ -19,15 +19,15 @@ import edu.colorado.phet.fluidpressureandflow.view.*;
  * @author Sam Reid
  */
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
-    private static final double modelHeight = Pool.DEFAULT_HEIGHT * 3.2;
-    private static final double pipeCenterY = -2;
-    private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
+    private static final double modelHeight = 10;
+    private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( module, new ModelViewTransform2D( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), true ) );
+        super( module, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.65 ), scale, true ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
+        addChild( new PhetPPath(transform.createTransformedShape( new Ellipse2D.Double(-2,-2,4,4) )) );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
