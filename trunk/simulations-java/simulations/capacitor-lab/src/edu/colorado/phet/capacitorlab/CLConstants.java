@@ -68,7 +68,7 @@ public class CLConstants {
     
     public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX should probably start somewhere outside the capacitor
     
-    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX for now...
+    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
     
     //----------------------------------------------------------------------------
@@ -103,8 +103,8 @@ public class CLConstants {
     public static final Point2D CAPACITANCE_METER_LOCATION = new Point2D.Double( 600, 25 );
     public static final Point2D CHARGE_METER_LOCATION = new Point2D.Double( 750, 25 );
     public static final Point2D ENERGY_METER_LOCATION = new Point2D.Double( 900, 25 );
-    public static final Point2D VOLTMETER_BODY_LOCATION = new Point2D.Double( 750, 325 );
-    public static final Point2D EFIELD_DETECTOR_BODY_LOCATION = new Point2D.Double( 650, 600 );
+    public static final Point2D VOLTMETER_BODY_LOCATION = new Point2D.Double( 850, 350 );
+    public static final Point2D EFIELD_DETECTOR_BODY_LOCATION = new Point2D.Double( 650, 615 );
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = true; 
