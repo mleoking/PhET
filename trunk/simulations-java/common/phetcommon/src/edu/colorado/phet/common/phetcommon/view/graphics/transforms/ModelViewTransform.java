@@ -22,35 +22,35 @@ public class ModelViewTransform {
     * Factory methods
     *----------------------------------------------------------------------------*/
 
-    public static ModelViewTransform getIdentity() {
+    public static ModelViewTransform createIdentity() {
         return new ModelViewTransform( new AffineTransform() );
     }
 
-    public static ModelViewTransform getOffsetScaleMapping( Point2D.Double offset, double scale ) {
+    public static ModelViewTransform createOffsetScaleMapping( Point2D.Double offset, double scale ) {
         return new ModelViewTransform( new AffineTransform( scale, 0, 0, scale, offset.getX(), offset.getY() ) );
     }
 
-    public static ModelViewTransform getOffsetScaleMapping( Point2D.Double offset, double xScale, double yScale ) {
+    public static ModelViewTransform createOffsetScaleMapping( Point2D.Double offset, double xScale, double yScale ) {
         return new ModelViewTransform( new AffineTransform( xScale, 0, 0, yScale, offset.getX(), offset.getY() ) );
     }
 
-    public static ModelViewTransform getSinglePointScaleMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double xScale, double yScale ) {
+    public static ModelViewTransform createSinglePointScaleMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double xScale, double yScale ) {
         // mx * scale + ox = vx
         // my * scale + oy = vy
         double offsetX = viewPoint.getX() - modelPoint.getX() * xScale;
         double offsetY = viewPoint.getY() - modelPoint.getY() * yScale;
-        return getOffsetScaleMapping( new Point2D.Double( offsetX, offsetY ), xScale, yScale );
+        return createOffsetScaleMapping( new Point2D.Double( offsetX, offsetY ), xScale, yScale );
     }
 
-    public static ModelViewTransform getSinglePointScaleMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double scale ) {
-        return getSinglePointScaleMapping( modelPoint, viewPoint, scale, scale );
+    public static ModelViewTransform createSinglePointScaleMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double scale ) {
+        return createSinglePointScaleMapping( modelPoint, viewPoint, scale, scale );
     }
 
-    public static ModelViewTransform getSinglePointScaleInvertedYMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double scale ) {
-        return getSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
+    public static ModelViewTransform createSinglePointScaleInvertedYMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double scale ) {
+        return createSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
     }
 
-    public static ModelViewTransform getRectangleMapping( Rectangle2D.Double modelBounds, Rectangle2D.Double viewBounds ) {
+    public static ModelViewTransform createRectangleMapping( Rectangle2D.Double modelBounds, Rectangle2D.Double viewBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
         double m11 = viewBounds.getHeight() / modelBounds.getHeight();
@@ -58,7 +58,7 @@ public class ModelViewTransform {
         return new ModelViewTransform( new AffineTransform( m00, 0, 0, m11, m02, m12 ) );
     }
 
-    public static ModelViewTransform getRectangleInvertedYMapping( Rectangle2D.Double modelBounds, Rectangle2D.Double viewBounds ) {
+    public static ModelViewTransform createRectangleInvertedYMapping( Rectangle2D.Double modelBounds, Rectangle2D.Double viewBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
         double m11 = -viewBounds.getHeight() / modelBounds.getHeight();
@@ -67,7 +67,10 @@ public class ModelViewTransform {
         return new ModelViewTransform( new AffineTransform( m00, 0, 0, m11, m02, m12 ) );
     }
 
-
+    /*---------------------------------------------------------------------------*
+     * Accessors
+     *---------------------------------------------------------------------------*/
+    
     /**
      * Returns a defensive copy of the AffineTransform in the ModelViewTransform.
      *
