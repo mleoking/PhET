@@ -18,7 +18,7 @@ public class PoolNode extends PNode {
 
     public PoolNode( final ModelViewTransform transform2D, final Pool pool, Property<Double> liquidDensity ) {
         this.liquidDensity = liquidDensity;
-        final PhetPPath path = new PhetPPath( transform2D.createTransformedShape( pool.getShape() ), createPaint( transform2D, pool ) );
+        final PhetPPath path = new PhetPPath( transform2D.modelToView( pool.getShape() ), createPaint( transform2D, pool ) );
         addChild( path );
         setPickable( false );
         setChildrenPickable( false );

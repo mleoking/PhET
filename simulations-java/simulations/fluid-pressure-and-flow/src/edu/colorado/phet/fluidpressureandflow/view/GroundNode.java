@@ -18,7 +18,7 @@ public class GroundNode extends PNode {
         Color bottomColor = new Color( 103, 162, 87 );
         double yBottom = transform2D.modelToViewY( -2 );//fade color 1 meter down
         double yTop = transform2D.modelToViewY( 0 );//fade color 1 meter down
-        final Shape viewShape = transform2D.createTransformedShape( new Rectangle2D.Double( -groundWidth, -groundHeight, groundWidth * 2, groundHeight ) );
+        final Shape viewShape = transform2D.modelToView( new Rectangle2D.Double( -groundWidth, -groundHeight, groundWidth * 2, groundHeight ) );
         PhetPPath path = new PhetPPath( viewShape, new GradientPaint( 0, (float) yTop, topColor, 0, (float) yBottom, bottomColor ), new BasicStroke( 1 ), Color.gray );
         addChild( path );
     }

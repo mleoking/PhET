@@ -18,7 +18,7 @@ public class SkyNode extends PNode {
         Color bottomColor = new Color( 208, 236, 251 );
         double yBottom = transform2D.modelToViewY( 0 );
         double yTop = transform2D.modelToViewY( 11 );
-        final Shape viewShape = transform2D.createTransformedShape( new Rectangle2D.Double( -skyWidth, 0, skyWidth * 2, skyHeight ) );
+        final Shape viewShape = transform2D.modelToView( new Rectangle2D.Double( -skyWidth, 0, skyWidth * 2, skyHeight ) );
         PhetPPath path = new PhetPPath( viewShape, new GradientPaint( 0, (float) yTop, topColor, 0, (float) yBottom, bottomColor ) );
         addChild( path );
     }

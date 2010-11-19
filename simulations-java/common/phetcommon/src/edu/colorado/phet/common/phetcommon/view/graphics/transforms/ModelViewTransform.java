@@ -1,14 +1,14 @@
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
+ * Provides a mapping between model and view coordinates.  Convenience constructors and methods around AffineTransform.
+ *
+ * @author Jon Olson
  * @author Sam Reid
  */
 public class ModelViewTransform {
@@ -67,8 +67,18 @@ public class ModelViewTransform {
         return new ModelViewTransform( new AffineTransform( m00, 0, 0, m11, m02, m12 ) );
     }
 
+
+    /**
+     * Returns a defensive copy of the AffineTransform in the ModelViewTransform.
+     *
+     * @return
+     */
+    public AffineTransform getTransform() {
+        return new AffineTransform( transform );
+    }
+
     /*---------------------------------------------------------------------------*
-    * Transformation methods
+    * Model To View transforms
     *----------------------------------------------------------------------------*/
 
     public Point2D modelToView( Point2D pt ) {
@@ -78,6 +88,48 @@ public class ModelViewTransform {
     public ImmutableVector2D modelToView( ImmutableVector2D vector2D ) {
         return new ImmutableVector2D( transform.transform( vector2D.toPoint2D(), null ) );
     }
+
+    public Point2D modelToViewDelta( Point2D delta ) {
+        return transform.deltaTransform( delta, null );
+    }
+
+    public ImmutableVector2D modelToViewDelta( ImmutableVector2D delta ) {
+        return new ImmutableVector2D( modelToViewDelta( delta.toPoint2D() ) );
+    }
+
+    public Shape modelToView( Shape shape ) {
+        return transform.createTransformedShape( shape );
+    }
+
+
+    public double modelToViewX( double x ) {
+        return modelToView( new Point2D.Double( x, 0 ) ).getX();
+    }
+
+    public double modelToViewY( double y ) {
+        return modelToView( 0, y ).getY();
+    }
+
+    public Point2D modelToView( double x, double y ) {
+        return modelToView( new Point2D.Double( x, y ) );
+    }
+
+    public double modelToViewDeltaX( double x ) {
+        return modelToViewDelta( new Point2D.Double( x, 0 ) ).getX();
+    }
+
+    public double modelToViewDeltaY( double y ) {
+        return modelToViewDelta( new Point2D.Double( 0, y ) ).getY();
+    }
+
+    public Dimension2D modelToViewDelta( Dimension2D delta ) {
+        final Point2D pt = modelToViewDelta( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
+        return new Dimension2DDouble( pt.getX(), pt.getY() );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * View to Model transforms
+    *----------------------------------------------------------------------------*/
 
     public Point2D viewToModel( Point2D pt ) {
         try {
@@ -105,56 +157,50 @@ public class ModelViewTransform {
         return new ImmutableVector2D( viewToModelDelta( delta.toPoint2D() ) );
     }
 
-    public Point2D modelToViewDelta( Point2D delta ) {
-        return transform.deltaTransform( delta, null );
-    }
-
-    public ImmutableVector2D modelToViewDelta( ImmutableVector2D delta ) {
-        return new ImmutableVector2D( modelToViewDelta( delta.toPoint2D() ) );
-    }
-
-    public Shape createTransformedShape( Shape shape ) {
-        return transform.createTransformedShape( shape );
-    }
-
-    /**
-     * Returns a defensive copy of the AffineTransform in the ModelViewTransform.
-     *
-     * @return
-     */
-    public AffineTransform getTransform() {
-        return new AffineTransform( transform );
-    }
-
-    public double modelToViewX( double x ) {
-        return modelToView( new Point2D.Double( x, 0 ) ).getX();
-    }
 
     public double viewToModelX( double x ) {
-        return viewToModel( new Point2D.Double( x, 0 ) ).getX();
-    }
-
-    public double modelToViewY( double y ) {
-        return modelToView( new Point2D.Double( 0, y ) ).getY();
+        return viewToModel( x, 0 ).getX();
     }
 
     public double viewToModelY( double y ) {
-        return viewToModel( new Point2D.Double( 0, y ) ).getY();
-    }
-
-    public Point2D modelToView( double x, double y ) {
-        return modelToView( new Point2D.Double( x, y ) );
+        return viewToModel( 0, y ).getY();
     }
 
     public Point2D viewToModel( double x, double y ) {
         return viewToModel( new Point2D.Double( x, y ) );
     }
 
-    public double modelToViewDeltaX( double x ) {
-        return modelToViewDelta( new Point2D.Double( x, 0 ) ).getX();
+    public Dimension2D viewToModelDelta( Dimension2D delta ) {
+        final Point2D pt = viewToModelDelta( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
+        return new Dimension2DDouble( pt.getX(), pt.getY() );
     }
 
-    public double modelToViewDeltaY( double y ) {
-        return modelToViewDelta( new Point2D.Double( 0, y ) ).getY();
+    /**
+     * Inner implementation of Dimension2D since one is not provided by awt.
+     */
+    public static class Dimension2DDouble extends Dimension2D {
+        public double width;
+        public double height;
+
+        public Dimension2DDouble( double width, double height ) {
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public double getWidth() {
+            return width;
+        }
+
+        @Override
+        public double getHeight() {
+            return height;
+        }
+
+        @Override
+        public void setSize( double width, double height ) {
+            this.width = width;
+            this.height = height;
+        }
     }
 }
