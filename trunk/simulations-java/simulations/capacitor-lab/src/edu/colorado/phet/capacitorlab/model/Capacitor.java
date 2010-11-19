@@ -29,6 +29,7 @@ public class Capacitor {
     
     private final ModelViewTransform mvt;
     private final CapacitorShapeFactory shapeFactory;
+    private final SimpleObserver physicalPropertiesObserver;
     
     // immutable properties
     private final Point3D location; // location of the capacitor's geometric center (meters)
@@ -60,17 +61,20 @@ public class Capacitor {
         this.airCapacitanceProperty = new Property<Double>( 0d );
         this.dielectricCapacitanceProperty = new Property<Double>( 0d );
         this.totalCapacitanceProperty = new Property<Double>( 0d );
-        
-        // if the physical properties change, derive capacitance.
-        SimpleObserver o = new SimpleObserver() {
-            public void update() {
-                updateCapacitance();
-            }
-        };
-        plateSizeProperty.addObserver( o );
-        plateSeparationProperty.addObserver( o );
-        dielectricMaterialProperty.addObserver( o );
-        dielectricOffsetProperty.addObserver( o );
+
+        // if physical properties change, derive capacitance properties
+        {
+            physicalPropertiesObserver = new SimpleObserver() {
+                public void update() {
+                    updateCapacitance();
+                }
+            };
+            plateSizeProperty.addObserver( physicalPropertiesObserver );
+            plateSeparationProperty.addObserver( physicalPropertiesObserver );
+            dielectricOffsetProperty.addObserver( physicalPropertiesObserver );
+            dielectricMaterialProperty.addObserver( physicalPropertiesObserver );
+            dielectricMaterialProperty.getValue().addDielectricConstantObserver( physicalPropertiesObserver );
+        }
     }
     
     public void reset() {
@@ -207,7 +211,9 @@ public class Capacitor {
         if ( dielectricMaterial == null ) {
             throw new IllegalArgumentException( "dielectricMaterial must be non-null" );
         }
+        dielectricMaterialProperty.getValue().removeDielectricConstantObserver( physicalPropertiesObserver );
         dielectricMaterialProperty.setValue( dielectricMaterial );
+        dielectricMaterialProperty.getValue().addDielectricConstantObserver( physicalPropertiesObserver );
     }
     
     /**

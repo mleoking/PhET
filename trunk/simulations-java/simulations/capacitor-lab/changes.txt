@@ -1,3 +1,4 @@
+11/18/10 fix: derive capacitance properties when custom dielectric constant changes
 11/18/10 make only negative charges move in dielectric "Show all charges" view
 11/18/10 start E-Field Detector zoom level at max magnification, appropriate for battery
 11/17/10 make dielectric transparent when voltmeter is selected so bottom plate can be touched through the battery
