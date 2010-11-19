@@ -99,12 +99,7 @@ public class ProblemSet {
     };
     private static final ArrayList<ProblemType> LEVEL_2_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
-            add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
-            add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
-            add( ProblemType.SYMBOL_TO_SCHEMATIC );
-            add( ProblemType.SYMBOL_TO_COUNTS );
-            add( ProblemType.COUNTS_TO_SYMBOL_MASS );
-            add( ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT );
+            add( ProblemType.SCHEMATIC_TO_MASS_QEUSTION );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
@@ -234,6 +229,9 @@ public class ProblemSet {
             break;
         case SCHEMATIC_TO_ELEMENT:
             problem = new SchematicToElementProblem( model, atomValue );
+            break;
+        case SCHEMATIC_TO_MASS_QEUSTION:
+            problem = new SchematicToMassQuestionProblem( model, atomValue );
             break;
         case COUNTS_TO_ELEMENT:
             problem = new CountsToElementProblem( model, atomValue );

@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -13,6 +14,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
@@ -25,6 +27,15 @@ import edu.umd.cs.piccolo.nodes.PText;
 public abstract class ProblemView extends StateView {
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Point2D BUTTON_OFFSET = new Point2D.Double( 720, 550 );
+
+    // Transform used by all problem views that present a schematic on the
+    // left side.
+    public static final ModelViewTransform2D SCHEMATIC_PROBLEM_MVT = new ModelViewTransform2D(
+                    new Point2D.Double( 0, 0 ),
+                    new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.27 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
+                    2.0,
+                    true );
+
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;
     private final PNode resultNode = new PNode();

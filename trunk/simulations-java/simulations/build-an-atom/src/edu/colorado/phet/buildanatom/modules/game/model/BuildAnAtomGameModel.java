@@ -102,14 +102,14 @@ public class BuildAnAtomGameModel {
             add( new AtomValue( 8, 8, 8 ) );
             add( new AtomValue( 9, 10, 9 ) );
             add( new AtomValue( 10, 10, 10 ) );
-            add( new AtomValue( 11, 12, 11 ) );
-            add( new AtomValue( 12, 12, 12 ) );
-            add( new AtomValue( 13, 14, 13 ) );
-            add( new AtomValue( 14, 14, 14 ) );
-            add( new AtomValue( 15, 16, 15 ) );
-            add( new AtomValue( 16, 16, 16 ) );
-            add( new AtomValue( 17, 18, 17 ) );
-            add( new AtomValue( 18, 22, 18 ) );
+//            add( new AtomValue( 11, 12, 11 ) );
+//            add( new AtomValue( 12, 12, 12 ) );
+//            add( new AtomValue( 13, 14, 13 ) );
+//            add( new AtomValue( 14, 14, 14 ) );
+//            add( new AtomValue( 15, 16, 15 ) );
+//            add( new AtomValue( 16, 16, 16 ) );
+//            add( new AtomValue( 17, 18, 17 ) );
+//            add( new AtomValue( 18, 22, 18 ) );
         }} );
         put( 3, new ArrayList<AtomValue>() {{
             add( new AtomValue( 1, 0, 1 ) );

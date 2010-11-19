@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.buildanatom.developer;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -29,15 +28,16 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
     private final ArrayList<ProblemTypeCheckBox> checkBoxList = new ArrayList<ProblemTypeCheckBox>() {{
-        add( new ProblemTypeCheckBox( "Symbol To Schematic Problem Allowed", ProblemType.SYMBOL_TO_SCHEMATIC ) );
         add( new ProblemTypeCheckBox( "Schematic To Symbol All Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_ALL ) );
         add( new ProblemTypeCheckBox( "Schematic To Symbol Mass Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_MASS ) );
         add( new ProblemTypeCheckBox( "Schematic To Symbol Proton Count Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ) );
+        add( new ProblemTypeCheckBox( "Schematic To Element Problem Allowed", ProblemType.SCHEMATIC_TO_ELEMENT ) );
+        add( new ProblemTypeCheckBox( "Schematic To Mass Question Problem Allowed", ProblemType.SCHEMATIC_TO_MASS_QEUSTION ) );
+        add( new ProblemTypeCheckBox( "Symbol To Schematic Problem Allowed", ProblemType.SYMBOL_TO_SCHEMATIC ) );
         add( new ProblemTypeCheckBox( "Symbol To Counts Problem Allowed", ProblemType.SYMBOL_TO_COUNTS ) );
         add( new ProblemTypeCheckBox( "Counts To Symbol All Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_ALL ) );
         add( new ProblemTypeCheckBox( "Counts To Symbol Mass Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_MASS ) );
         add( new ProblemTypeCheckBox( "Counts To Symbol Proton Count Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT ) );
-        add( new ProblemTypeCheckBox( "Schematic To Element Problem Allowed", ProblemType.SCHEMATIC_TO_ELEMENT ) );
         add( new ProblemTypeCheckBox( "Counts To Element Problem Allowed", ProblemType.COUNTS_TO_ELEMENT ) );
     }};
 
