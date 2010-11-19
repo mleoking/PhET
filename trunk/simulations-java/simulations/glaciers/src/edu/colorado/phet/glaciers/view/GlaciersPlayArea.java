@@ -116,7 +116,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _model.addDebrisProducerListener( this ); // manage nodes when debris is added/removed
         _model.addIceRippleProducerListener( this ); // manage nodes when ripples are added/removed
 
-        _mvt = new GlaciersModelViewTransform();
+        _mvt = new ModelViewTransform( 
+                GlaciersConstants.MVT_X_SCALE, GlaciersConstants.MVT_Y_SCALE, 
+                GlaciersConstants.MVT_X_OFFSET, GlaciersConstants.MVT_Y_OFFSET, 
+                GlaciersConstants.MVT_FLIP_SIGN_X, GlaciersConstants.MVT_FLIP_SIGN_Y );
         
         _toolsMap = new HashMap();
         _boreholesMap = new HashMap();

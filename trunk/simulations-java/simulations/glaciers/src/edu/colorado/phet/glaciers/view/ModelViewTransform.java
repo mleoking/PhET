@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.glaciers.view;
 
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * ModelViewTransform provides the transforms between model and view coordinate systems.
+ * Transforms between model and view coordinate systems.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -51,13 +51,6 @@ public class ModelViewTransform {
     
     public ModelViewTransform( double xScale, double yScale, double xOffset, double yOffset ) {
         this( xScale, yScale, xOffset, yOffset, false, false );
-    }
-    
-    /**
-     * Constructs an identity transform.
-     */
-    public ModelViewTransform() {
-        this( 1, 1, 0, 0, false, false );
     }
     
     //----------------------------------------------------------------------------
