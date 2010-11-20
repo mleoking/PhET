@@ -59,4 +59,12 @@ public class PipePosition {
     public void setBottom( double x, double y ) {
         bottom.setValue( new ImmutableVector2D( x, y ) );
     }
+
+    public Property<ImmutableVector2D> getTopProperty() {
+        return top;
+    }
+
+    public Property<ImmutableVector2D> getBottomProperty() {
+        return bottom;
+    }
 }
