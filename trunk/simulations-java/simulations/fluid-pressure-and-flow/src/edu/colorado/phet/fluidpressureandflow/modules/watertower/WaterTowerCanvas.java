@@ -17,14 +17,16 @@ import edu.colorado.phet.fluidpressureandflow.view.*;
  * @author Sam Reid
  */
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
-    private static final double modelHeight = 10;
+    private static final double modelHeight = 50;
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height * 0.75 ), scale ) );
+        super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ) );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
+
+        addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower() ) );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
@@ -33,8 +35,6 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         for ( VelocitySensor velocitySensor : module.getFluidPressureAndFlowModel().getVelocitySensors() ) {
             addChild( new VelocitySensorNode( transform, velocitySensor ) );
         }
-
-        addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower() ) );
 
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
