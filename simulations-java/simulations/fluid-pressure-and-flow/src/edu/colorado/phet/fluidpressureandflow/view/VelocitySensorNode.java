@@ -14,8 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -41,33 +39,8 @@ public class VelocitySensorNode extends PNode {
         addChild( arrowNode );
         addChild( child );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            private Point2D.Double relativeGrabPoint;
+        addInputEventListener( new RelativeDragHandler( this, transform, pressureSensor.getLocationProperty() ) );
 
-            public void mousePressed( PInputEvent event ) {
-                updateGrabPoint( event );
-            }
-
-            private void updateGrabPoint( PInputEvent event ) {
-                Point2D viewStartingPoint = event.getPositionRelativeTo( getParent() );
-                Point2D viewCoordinateOfObject = transform.modelToView( velocitySensor.getX(), velocitySensor.getY() );
-                relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
-            }
-
-            public void mouseDragged( PInputEvent event ) {
-                if ( relativeGrabPoint == null ) {
-                    updateGrabPoint( event );
-                }
-                final Point2D newDragPosition = event.getPositionRelativeTo( getParent() );
-                Point2D modelLocation = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
-                                                               newDragPosition.getY() - relativeGrabPoint.getY() );
-                velocitySensor.setPosition( modelLocation.getX(), modelLocation.getY() );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                relativeGrabPoint = null;
-            }
-        } );
         velocitySensor.addPositionObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( velocitySensor.getLocation().toPoint2D() ) );
