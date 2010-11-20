@@ -8,7 +8,8 @@ import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * View for the problem that presents a schematic view of an atom and asks
@@ -19,7 +20,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SchematicToMassQuestionView extends ProblemView {
 
     private final SchematicAtomNode gameAtomModelNode;
-    private final PText question;
+    private final EntryPanel question;
+    private final Property<Integer> massNumberProperty;
 
     /**
      * Constructor.
@@ -33,7 +35,18 @@ public class SchematicToMassQuestionView extends ProblemView {
             setChildrenPickable( false );
         }};
 
-        question = new PText("What is the mass number?");
+        massNumberProperty = new Property<Integer>( 0 );
+        massNumberProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                // Any change to the mass property indicates that the user
+                // has entered something, so therefore it is time to enable
+                // the "Check Guess" button.
+                enableCheckButton();
+            }
+        }, false );
+
+        question = new EntryPanel("What is the mass number?", massNumberProperty);
+        question.setSpinnerX( question.getLabelWidth() + 5 );
         question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
     }
 
@@ -53,18 +66,30 @@ public class SchematicToMassQuestionView extends ProblemView {
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
-        // TODO Auto-generated method stub
-
+        massNumberProperty.setValue( answer.getMassNumber() );
+        question.setEditable( false );
     }
 
     @Override
     protected AtomValue getGuess() {
-        return null;
+        // For the particular case of this problem type, the guess is a little
+        // tricky, because this is supposed to return the configuration of the
+        // atom that was guessed, but the user has only input a mass value and
+        // nothing else.  So basically, if the mass value is correct, we
+        // return the matching atom, and if not, we return a null atom.
+        AtomValue answer = null;
+        if ( getProblem().getAnswer().getMassNumber() == massNumberProperty.getValue() ){
+            answer = getProblem().getAnswer();
+        }
+        else{
+            answer = new AtomValue( 0, 0, 0 );
+        }
+        return answer;
     }
 
     @Override
     protected void setGuessEditable( boolean guessEditable ) {
-        // TODO Auto-generated method stub
-
+        // TODO: Need to implement.
+        System.err.println( getClass().getName() + " - Error: Need to implement this!" );
     }
 }
