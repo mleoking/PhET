@@ -111,7 +111,7 @@ public class PipeBackNode extends PNode {
     }
 
     public static class GrabHandle extends PNode {
-        public GrabHandle( final ModelViewTransform transform, final ControlPoint controlPoint, final ControlPoint oppositeControlPoint ) {
+        public GrabHandle( final ModelViewTransform transform, final ControlPoint controlPoint, final Function1<Point2D, Point2D> constraint ) {
             double arrowLength = 20;
             addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
                 setPaint( Color.green );
@@ -124,22 +124,24 @@ public class PipeBackNode extends PNode {
                 } );
                 addInputEventListener( new CursorHandler() );
 
-                addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, new Function1<Point2D, Point2D>() {
-                    public Point2D apply( Point2D modelLocation ) {
-                        //Todo: this could be factored out better
-                        if ( controlPoint.isTop ) {
-                            if ( modelLocation.getY() - oppositeControlPoint.getPoint().getY() < 0.5 ) {
-                                modelLocation.setLocation( modelLocation.getX(), oppositeControlPoint.getPoint().getY() + 0.5 );
-                            }
-                        }
-                        else {
-                            if ( modelLocation.getY() - oppositeControlPoint.getPoint().getY() > -0.5 ) {
-                                modelLocation.setLocation( modelLocation.getX(), oppositeControlPoint.getPoint().getY() - 0.5 );
-                            }
-                        }
-                        return new Point2D.Double( controlPoint.getPoint().getX(), modelLocation.getY() );//not allowed to go to negative Potential Energy
-                    }
-                } ) );
+                addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, constraint ) );
+
+//                addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, new Function1<Point2D, Point2D>() {
+//                    public Point2D apply( Point2D modelLocation ) {
+//                        //Todo: this could be factored out better
+//                        if ( controlPoint.isTop ) {
+//                            if ( modelLocation.getY() - oppositeControlPoint.getPoint().getY() < 0.5 ) {
+//                                modelLocation.setLocation( modelLocation.getX(), oppositeControlPoint.getPoint().getY() + 0.5 );
+//                            }
+//                        }
+//                        else {
+//                            if ( modelLocation.getY() - oppositeControlPoint.getPoint().getY() > -0.5 ) {
+//                                modelLocation.setLocation( modelLocation.getX(), oppositeControlPoint.getPoint().getY() - 0.5 );
+//                            }
+//                        }
+//                        return new Point2D.Double( controlPoint.getPoint().getX(), modelLocation.getY() );//not allowed to go to negative Potential Energy
+//                    }
+//                } ) );
             }} );
         }
     }
