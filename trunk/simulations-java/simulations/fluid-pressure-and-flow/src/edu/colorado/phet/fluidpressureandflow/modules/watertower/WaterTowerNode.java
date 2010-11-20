@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class WaterTowerNode extends PNode {
     public WaterTowerNode( final ModelViewTransform transform, final WaterTower waterTower ) {
-        addChild( new PhetPPath( Color.gray ) {{ // tank
+        addChild( new PhetPPath( Color.gray, new BasicStroke( 5 ), Color.darkGray ) {{ // tank
             addInputEventListener( new RelativeDragHandler( this, transform, waterTower.getTankBottomCenter(), new Function1<Point2D, Point2D>() {
                 public Point2D apply( Point2D modelLocation ) {
                     if ( modelLocation.getY() < 0 ) {
@@ -27,7 +27,7 @@ public class WaterTowerNode extends PNode {
             } ) );
             waterTower.getTankBottomCenter().addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( waterTower.getTank() ) );
+                    setPathTo( transform.modelToView( waterTower.getTankShape() ) );
                 }
             } );
             addInputEventListener( new CursorHandler() );
@@ -39,6 +39,17 @@ public class WaterTowerNode extends PNode {
                     setPathTo( transform.modelToView( waterTower.getSupportShape() ) );
                 }
             } );
+        }} );
+
+        addChild( new PhetPPath( Color.blue ) {{
+            final SimpleObserver updateWaterLocation = new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.modelToView( waterTower.getWaterShape() ) );
+                }
+            };
+            waterTower.getTankBottomCenter().addObserver( updateWaterLocation );
+            waterTower.getFluidVolumeProperty().addObserver( updateWaterLocation );
+            setPickable( false );
         }} );
     }
 }

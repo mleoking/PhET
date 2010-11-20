@@ -13,12 +13,14 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class WaterTower {
-    private Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    private Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 20 ) );
     private static double TANK_RADIUS = 5;
     private static double TANK_HEIGHT = 15;
     private static final int LEG_EXTENSION = 3;
+    private static double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
+    private Property<Double> fluidVolumeProperty = new Property<Double>( tankVolume );//meters cubed
 
-    public Rectangle2D.Double getTank() {
+    public Rectangle2D.Double getTankShape() {
         return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, TANK_HEIGHT );
     }
 
@@ -58,5 +60,21 @@ public class WaterTower {
     private void addLine( DoubleGeneralPath path, Point2D.Double a, Point2D.Double b ) {
         path.moveTo( a );
         path.lineTo( b );
+    }
+
+    public Property<Double> getFluidVolumeProperty() {
+        return fluidVolumeProperty;
+    }
+
+    public Shape getWaterShape() {
+        return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, getWaterHeight() );
+    }
+
+    private double getWaterHeight() {
+        return fluidVolumeProperty.getValue() / Math.PI / TANK_RADIUS / TANK_RADIUS;
+    }
+
+    public Point2D getHoleLocation() {
+        return new Point2D.Double( tankBottomCenter.getValue().getX() + TANK_RADIUS, tankBottomCenter.getValue().getY() );
     }
 }

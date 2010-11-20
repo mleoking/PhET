@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.AndProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
@@ -27,6 +28,19 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         addChild( new SkyNode( transform ) );
 
         addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower() ) );
+
+        module.getFluidPressureAndFlowModel().addDropAddedListener( new VoidFunction1<WaterDrop>() {
+            public void apply( final WaterDrop waterDrop ) {
+                addChild( new WaterDropNode( transform, waterDrop ) {{
+                    final WaterDropNode waterDropNode = this;
+                    waterDrop.addRemovalListener( new SimpleObserver() {
+                        public void update() {
+                            WaterTowerCanvas.this.removeChild( waterDropNode );
+                        }
+                    } );
+                }} );
+            }
+        } );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
