@@ -32,5 +32,13 @@ public class WaterTowerNode extends PNode {
             } );
             addInputEventListener( new CursorHandler() );
         }} );
+
+        addChild( new PhetPPath( Color.black ) {{
+            waterTower.getTankBottomCenter().addObserver( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.modelToView( waterTower.getSupportShape() ) );
+                }
+            } );
+        }} );
     }
 }
