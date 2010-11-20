@@ -10,11 +10,11 @@ import com.jme.math.Vector2f;
 /**
 * @author Sam Reid
 */
-public class ControlPoint2 {
-    Property<ImmutableVector2D> point;
-    boolean isTop;
+public class ControlPoint {
+    public final Property<ImmutableVector2D> point;
+    public final boolean isTop;
 
-    public ControlPoint2( Property<ImmutableVector2D> point, boolean top ) {
+    public ControlPoint( Property<ImmutableVector2D> point, boolean top ) {
         this.point = point;
         isTop = top;
     }

@@ -9,8 +9,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PipePositionControl extends PNode {
     public PipePositionControl( final ModelViewTransform transform, final PipePosition pipePosition ) {
-        ControlPoint2 top = new ControlPoint2( pipePosition.getTopProperty(), true );
-        ControlPoint2 bottom = new ControlPoint2( pipePosition.getBottomProperty(), false );
+        ControlPoint top = new ControlPoint( pipePosition.getTopProperty(), true );
+        ControlPoint bottom = new ControlPoint( pipePosition.getBottomProperty(), false );
 
         addChild( new PipeBackNode.GrabHandle( transform, bottom, top ) );
         addChild( new PipeBackNode.GrabHandle( transform, top, bottom ) );
