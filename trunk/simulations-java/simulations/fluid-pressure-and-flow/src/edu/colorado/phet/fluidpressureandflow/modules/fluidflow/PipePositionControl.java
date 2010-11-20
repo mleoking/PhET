@@ -11,14 +11,16 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PipePositionControl extends PNode {
+    private double DISTANCE_THRESHOLD = 0.5;
+
     public PipePositionControl( final ModelViewTransform transform, final PipePosition pipePosition ) {
         final ControlPoint top = new ControlPoint( pipePosition.getTopProperty(), true );
         final ControlPoint bottom = new ControlPoint( pipePosition.getBottomProperty(), false );
 
         Function1<Point2D, Point2D> bottomConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D bottomLocation ) {
-                if ( bottomLocation.getY() > top.getPoint().getY() - 0.5 ) {
-                    bottomLocation.setLocation( bottomLocation.getX(), top.getPoint().getY() - 0.5 );
+                if ( bottomLocation.getY() > top.getPoint().getY() - DISTANCE_THRESHOLD ) {
+                    bottomLocation.setLocation( bottomLocation.getX(), top.getPoint().getY() - DISTANCE_THRESHOLD );
                 }
                 return new Point2D.Double( bottom.getPoint().getX(), bottomLocation.getY() );
             }
@@ -26,8 +28,8 @@ public class PipePositionControl extends PNode {
 
         Function1<Point2D, Point2D> topConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D topLocation ) {
-                if ( topLocation.getY() < bottom.getPoint().getY() + 0.5 ) {
-                    topLocation.setLocation( topLocation.getX(), bottom.getPoint().getY() + 0.5 );
+                if ( topLocation.getY() < bottom.getPoint().getY() + DISTANCE_THRESHOLD ) {
+                    topLocation.setLocation( topLocation.getX(), bottom.getPoint().getY() + DISTANCE_THRESHOLD );
                 }
                 return new Point2D.Double( top.getPoint().getX(), topLocation.getY() );
             }
