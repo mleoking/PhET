@@ -22,13 +22,14 @@ public class Voltmeter {
     
     // observable properties
     private final Property<Boolean> visibleProperty;
-    private final Property<Point3D> positiveProbeLocationProperty, negativeProbeLocationProperty;
+    private final Property<Point3D> bodyLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty;
     
     // derived observable properties
     private final Property<Double> valueProperty;
 
-    public Voltmeter( BatteryCapacitorCircuit circuit, final World world, CLModelViewTransform3D mvt, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
-       
+    public Voltmeter( BatteryCapacitorCircuit circuit, final World world, CLModelViewTransform3D mvt, 
+            boolean visible, Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
+        
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
             @Override
@@ -40,15 +41,17 @@ public class Voltmeter {
         this.world = world;
         this.shapeFactory = new VoltmeterShapeFactory( this, mvt );
         this.visibleProperty = new Property<Boolean>( visible );
+        this.bodyLocationProperty = new Property<Point3D>( bodyLocation );
         this.positiveProbeLocationProperty = new Property<Point3D>( positiveProbeLocation );
         this.negativeProbeLocationProperty = new Property<Point3D>( negativeProbeLocation );
         this.valueProperty = new Property<Double>( 0d ); // will be properly initialized by updateValue
         
         // observers
         {
-            // keep the probes inside the world bounds
+            // keep the body and probes inside the world bounds
             world.addBoundsObserver( new SimpleObserver() {
                 public void update() {
+                    setBodyLocation( world.getConstrainedLocation( getBodyLocationReference() ) );
                     setPositiveProbeLocation( world.getConstrainedLocation( getPositiveProbeLocationReference() ) );
                     setNegativeProbeLocation( world.getConstrainedLocation( getNegativeProbeLocationReference() ) );
                 }
@@ -80,6 +83,7 @@ public class Voltmeter {
     
     public void reset() {
         visibleProperty.reset();
+        bodyLocationProperty.reset();
         positiveProbeLocationProperty.reset();
         negativeProbeLocationProperty.reset();
         // value property updates other properties are reset
@@ -97,6 +101,18 @@ public class Voltmeter {
     
     public void addVisibleObserver( SimpleObserver o ) {
         visibleProperty.addObserver( o );
+    }
+    
+    public Point3D getBodyLocationReference() {
+        return bodyLocationProperty.getValue();
+    }
+    
+    public void setBodyLocation( Point3D location ) {
+        bodyLocationProperty.setValue( world.getConstrainedLocation( location ) );
+    }
+    
+    public void addBodyLocationObserver( SimpleObserver o ) {
+        bodyLocationProperty.addObserver( o );
     }
     
     public Point3D getPositiveProbeLocationReference() {

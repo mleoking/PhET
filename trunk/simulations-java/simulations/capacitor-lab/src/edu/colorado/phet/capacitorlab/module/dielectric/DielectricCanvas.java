@@ -211,7 +211,6 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.setOffset( CLConstants.CAPACITANCE_METER_LOCATION );
         chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
         energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
-        voltmeter.getBodyNode().setOffset( CLConstants.VOLTMETER_BODY_LOCATION );
         eFieldDetector.getBodyNode().setOffset( CLConstants.EFIELD_DETECTOR_BODY_LOCATION );
     }
     
@@ -291,7 +290,6 @@ public class DielectricCanvas extends CLCanvas {
         keepInsideCanvas( capacitanceMeterNode );
         keepInsideCanvas( chargeMeterNode );
         keepInsideCanvas( energyMeterNode );
-        keepInsideCanvas( voltmeter.getBodyNode() );
         keepInsideCanvas( eFieldDetector.getBodyNode() );
     }
 }

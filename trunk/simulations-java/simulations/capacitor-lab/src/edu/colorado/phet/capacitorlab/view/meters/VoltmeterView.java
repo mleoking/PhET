@@ -29,7 +29,7 @@ public class VoltmeterView {
     private final ProbeWireNode positiveWireNode, negativeWireNode;
     
     public VoltmeterView( final Voltmeter voltmeter, CLModelViewTransform3D mvt, PNode dragBoundsNode, boolean dev ) {
-        bodyNode = new VoltmeterBodyNode( voltmeter, dragBoundsNode );
+        bodyNode = new VoltmeterBodyNode( voltmeter, mvt );
         positiveProbeNode = new PositiveVoltmeterProbeNode( voltmeter, mvt );
         negativeProbeNode = new NegativeVoltmeterProbeNode( voltmeter, mvt );
         positiveWireNode = new ProbeWireNode( bodyNode, positiveProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
