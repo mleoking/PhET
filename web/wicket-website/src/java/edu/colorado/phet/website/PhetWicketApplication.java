@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.*;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -54,6 +53,7 @@ import edu.colorado.phet.website.newsletter.SubscribeLandingPage;
 import edu.colorado.phet.website.newsletter.UnsubscribeLandingPage;
 import edu.colorado.phet.website.notification.NotificationHandler;
 import edu.colorado.phet.website.services.PhetInfoServicePage;
+import edu.colorado.phet.website.services.SchedulerService;
 import edu.colorado.phet.website.services.SimJarRedirectPage;
 import edu.colorado.phet.website.templates.StaticPage;
 import edu.colorado.phet.website.test.NestedFormTest;
@@ -95,7 +95,7 @@ public class PhetWicketApplication extends WebApplication {
         setupJulSfl4j();
 
         if ( getConfigurationType().equals( Application.DEPLOYMENT ) ) {
-            Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.WARN );
+//            Logger.getLogger( "edu.colorado.phet.website" ).setLevel( Level.WARN );
         }
         // do not override development. instead use log4j.properties debugging level. -JO
 //        else {
@@ -187,9 +187,6 @@ public class PhetWicketApplication extends WebApplication {
         }
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
-        // removing temporary redirection. browsers should cache for only a few hours: http://stackoverflow.com/questions/1683303/301-redirect-with-htaccess-and-cache-how-to-delete-old-cache
-        //mountBookmarkablePage( "index.php", TempIndexPage.class );
-
         mountBookmarkablePage( "admin/main", AdminMainPage.class );
         mountBookmarkablePage( "admin/deploy", DeployProjectPage.class );
         mountBookmarkablePage( "admin/deploy-translation", DeployTranslationPage.class );
@@ -236,6 +233,8 @@ public class PhetWicketApplication extends WebApplication {
         NotificationHandler.initialize( websiteProperties );
 
         SearchUtils.initialize();
+
+        SchedulerService.initialize( this, PhetLocalizer.get() ); // start up cron4j jobs
 
         BuildLocalProperties.initFromPropertiesFile( getWebsiteProperties().getBuildLocalPropertiesFile() );
 
@@ -455,7 +454,7 @@ public class PhetWicketApplication extends WebApplication {
     protected void onDestroy() {
         try {
             logger.info( "Shutting down PhetWicketApplication" );
-            NotificationHandler.destroy();
+            SchedulerService.destroy(); // stop cron4j jobs first
             SearchUtils.destroy();
 
             logger.info( HibernateUtils.getInstance().getCache().getClass().getCanonicalName() );

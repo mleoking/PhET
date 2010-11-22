@@ -270,7 +270,7 @@ public class TranslateEntityPanel extends PhetPanel {
     @Override
     protected void onAfterRender() {
         super.onAfterRender();
-        logger.info( "TranslateEntityPanel Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
+        logger.debug( "TranslateEntityPanel Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
     }
 
 }

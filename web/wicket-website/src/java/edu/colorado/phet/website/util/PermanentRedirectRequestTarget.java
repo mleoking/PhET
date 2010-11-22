@@ -35,7 +35,7 @@ public class PermanentRedirectRequestTarget extends RedirectRequestTarget {
 
     @Override
     public void respond( RequestCycle requestCycle ) {
-        logger.info( "redirecting to " + url );
+        logger.debug( "redirecting to " + url );
 
         WebResponse response = (WebResponse) requestCycle.getResponse();
         response.reset();
@@ -44,7 +44,7 @@ public class PermanentRedirectRequestTarget extends RedirectRequestTarget {
 
         int status = HttpServletResponse.SC_MOVED_PERMANENTLY;
 
-        logger.info( "status: " + status );
+        logger.debug( "status: " + status );
         httpResponse.setStatus( status );
 
         String location;
@@ -62,7 +62,7 @@ public class PermanentRedirectRequestTarget extends RedirectRequestTarget {
 
         response.setHeader( "Location", location );
 
-        logger.info( "location: " + location );
+        logger.debug( "location: " + location );
 
     }
 

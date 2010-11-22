@@ -1,6 +1,8 @@
 package edu.colorado.phet.website.newsletter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
@@ -15,10 +17,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.Result;
+import edu.colorado.phet.website.util.*;
 
 /**
  * The panel which represents the main content portion of the home (index) page
@@ -28,6 +27,12 @@ public class InitialSubscribePanel extends PhetPanel {
     private FeedbackPanel feedback;
 
     private static Logger logger = Logger.getLogger( InitialSubscribePanel.class );
+
+    private static Map<String, Integer> ipAttempts = new HashMap<String, Integer>();
+    private static Map<String, Integer> emailAttempts = new HashMap<String, Integer>();
+
+    private static final int MAX_IP_ATTEMPTS = 20; // max number of times an IP can try subscribing in an hour
+    private static final int MAX_EMAIL_ATTEMPTS = 2; // max number of times an exact email address can be subscribed to in an hour
 
     // TODO: add security measures like limiting # of times per IP / user
 
@@ -58,9 +63,35 @@ public class InitialSubscribePanel extends PhetPanel {
                 }
 
                 public void validate( Form<?> form ) {
-                    String emailAddress = emailTextField.getInput().toString();
+                    String emailAddress = emailTextField.getInput();
                     if ( !PhetUser.isValidEmail( emailAddress ) ) {
                         error( emailTextField, "newsletter.validation.email" );
+                    }
+                    String ip = PhetRequestCycle.get().getWebRequest().getHttpServletRequest().getRemoteAddr();
+                    Integer i;
+                    Integer j;
+                    synchronized ( this ) {
+                        i = ipAttempts.get( ip );
+                        j = emailAttempts.get( emailAddress );
+                    }
+                    if ( i == null ) {
+                        i = 1;
+                    }
+                    else {
+                        i += 1;
+                    }
+                    if ( j == null ) {
+                        j = 1;
+                    }
+                    else {
+                        j += 1;
+                    }
+                    synchronized ( this ) {
+                        ipAttempts.put( ip, i );
+                        emailAttempts.put( emailAddress, j );
+                    }
+                    if ( i > MAX_IP_ATTEMPTS || j > MAX_EMAIL_ATTEMPTS ) {
+                        error( emailTextField, "newsletter.validation.attempts" );
                     }
                 }
             } );
@@ -86,7 +117,7 @@ public class InitialSubscribePanel extends PhetPanel {
                     }
                     else if ( users.size() == 1 ) {
                         user = (PhetUser) users.get( 0 );
-                        user.setConfirmationKey( NewsletterUtils.generateConfirmationKey() );
+                        user.setConfirmationKey( PhetUser.generateConfirmationKey() );
                         session.update( user );
                     }
                     else {
@@ -116,5 +147,14 @@ public class InitialSubscribePanel extends PhetPanel {
                 setResponsePage( ErrorPage.class );
             }
         }
+    }
+
+    /**
+     * Called from SchedulerService on a regular time interval. As of creation, this will be an hour
+     */
+    public static synchronized void resetSecurity() {
+        logger.info( "resetting subscription form anti-spam cache" );
+        ipAttempts = new HashMap<String, Integer>();
+        emailAttempts = new HashMap<String, Integer>();
     }
 }

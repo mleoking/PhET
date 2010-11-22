@@ -42,8 +42,6 @@ public class SearchUtils {
     private static IndexWriter writer = null;
     private static Thread indexerThread = null;
 
-    private static Scheduler indexScheduler;
-
     private static boolean indexing = false;
 
     /**
@@ -61,15 +59,6 @@ public class SearchUtils {
             directory = FSDirectory.open( new File( "/tmp/testindex" ) );
 
             reindex( app, localizer );
-
-            indexScheduler = new Scheduler();
-            indexScheduler.schedule( "59 23 * * *", new Runnable() {
-                public void run() {
-                    reindex( app, localizer );
-                }
-            } );
-
-            indexScheduler.start();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -78,9 +67,6 @@ public class SearchUtils {
 
     public static synchronized void destroy() {
         try {
-            if ( indexScheduler != null ) {
-                indexScheduler.stop();
-            }
             if ( indexerThread != null ) {
                 indexerThread.interrupt();
             }

@@ -20,6 +20,7 @@ public class NewStrings {
         checkString( session, "newsletter.subscribe.submit", "Subscribe" );
         checkString( session, "newsletter.validation.email.Required", "An email address is required" );
         checkString( session, "newsletter.validation.email", "A valid email address is required" );
+        checkString( session, "newsletter.validation.attempts", "Too many newsletter attempts have been made. Please try again later" );
         session.close();
     }
 

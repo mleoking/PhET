@@ -52,31 +52,4 @@ public class NewsletterUtils {
 
     }
 
-    /**
-     * Lookup user from key, otherwise return null
-     * <p/>
-     * Assumes that it is within a transaction
-     *
-     * @param session
-     * @param subscribeKey
-     * @return
-     */
-    public static PhetUser getUserFromConfirmationKey( Session session, String confirmationKey ) {
-        List list = session.createQuery( "select u from PhetUser as u where u.confirmationKey = :key" ).setString( "key", confirmationKey ).list();
-        if ( list.size() == 0 ) {
-            return null;
-        }
-        else if ( list.size() == 1 ) {
-            return (PhetUser) list.get( 0 );
-        }
-        else {
-            throw new RuntimeException( "Multiple users with same newsletter key" );
-        }
-    }
-
-    private static Random random = new Random();
-
-    public static synchronized String generateConfirmationKey() {
-        return Long.toHexString( random.nextLong() ) + "-" + Long.toHexString( System.currentTimeMillis() );
-    }
 }
