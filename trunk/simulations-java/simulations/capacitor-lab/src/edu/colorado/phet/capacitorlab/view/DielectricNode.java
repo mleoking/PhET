@@ -66,6 +66,10 @@ public class DielectricNode extends BoxNode {
         dielectricChargeViewProperty.addObserver( o );
     }
     
+    public Property<DielectricChargeView> getDielectricChargeViewProperty() {
+        return dielectricChargeViewProperty;
+    }
+    
     public void setDielectricChargeView( DielectricChargeView dielectricChargeView ) {
         dielectricChargeViewProperty.setValue( dielectricChargeView );
     }
