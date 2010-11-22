@@ -21,6 +21,14 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
     public SchematicToChargeQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         // i18n
         super( model, gameCanvas, problem, "<html>What is the<br>total charge?", -50, 50, new SignedIntegerFormat() );
+
+        if ( problem.getAnswer().isNeutral() ){
+            // If the atom is neutral, the user should be able to press the
+            // guess button right away.  The intent is to avoid this situation
+            // if possible, but it may come up at some point that neutral
+            // atoms must be used, so we need to handle this case.
+            setGuessEditable( true );
+        }
     }
 
     @Override
