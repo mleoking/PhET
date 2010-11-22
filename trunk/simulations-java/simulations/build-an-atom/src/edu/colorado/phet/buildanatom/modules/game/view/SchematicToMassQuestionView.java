@@ -2,9 +2,14 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
+import edu.colorado.phet.common.phetcommon.util.Function0;
 
 /**
  * View for the problem that presents a schematic view of an atom and asks
@@ -19,7 +24,7 @@ public class SchematicToMassQuestionView extends SchematicToQuestionView {
      */
     public SchematicToMassQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         // i18n
-        super( model, gameCanvas, problem, "<html>What is the<br>mass number?" );
+        super( model, gameCanvas, problem, "<html>What is the<br>mass number?", 0, 100, new DecimalFormat( "0" ), new Function0.Constant<Color>( Color.black ) );
     }
 
     @Override
