@@ -49,7 +49,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
             addChild( plusNode );
         }
         
-        detector.addProbeLocationListener( new SimpleObserver() {
+        detector.addProbeLocationObserver( new SimpleObserver() {
             public void update() {
                 setOffset( mvt.modelToView( detector.getProbeLocationReference() ) );
             }

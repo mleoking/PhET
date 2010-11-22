@@ -68,6 +68,7 @@ public class CLConstants {
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     public static final double PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
     
+    public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
     public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX should probably start somewhere outside the capacitor
     
     public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
@@ -106,7 +107,6 @@ public class CLConstants {
     public static final Point2D CAPACITANCE_METER_LOCATION = new Point2D.Double( 600, 25 );
     public static final Point2D CHARGE_METER_LOCATION = new Point2D.Double( 750, 25 );
     public static final Point2D ENERGY_METER_LOCATION = new Point2D.Double( 900, 25 );
-    public static final Point2D EFIELD_DETECTOR_BODY_LOCATION = new Point2D.Double( 650, 615 );
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = true; 

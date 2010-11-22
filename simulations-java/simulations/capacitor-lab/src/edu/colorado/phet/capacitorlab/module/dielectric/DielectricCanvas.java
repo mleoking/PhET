@@ -100,7 +100,7 @@ public class DielectricCanvas extends CLCanvas {
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt, playAreaBoundsNode, dev );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, playAreaBoundsNode, dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, dev );
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         
@@ -201,17 +201,18 @@ public class DielectricCanvas extends CLCanvas {
     public void reset() {
         // battery connectivity
         updateBatteryConnectivity();
-        /// visibility of various nodes
-        capacitanceMeterNode.setVisible( CLConstants.CAPACITANCE_METER_VISIBLE );
-        chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
-        energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
-        // dielectric charge view
+        // capacitor view
         capacitorNode.reset();
-        // meter locations
-        capacitanceMeterNode.setOffset( CLConstants.CAPACITANCE_METER_LOCATION );
-        chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
-        energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
-        eFieldDetector.getBodyNode().setOffset( CLConstants.EFIELD_DETECTOR_BODY_LOCATION );
+        // meter locations & visibility
+        {
+            //TODO move these properties into model
+            capacitanceMeterNode.setOffset( CLConstants.CAPACITANCE_METER_LOCATION );
+            chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
+            energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
+            capacitanceMeterNode.setVisible( CLConstants.CAPACITANCE_METER_VISIBLE );
+            chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
+            energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
+        }
     }
     
     public void setEFieldShapesVisible( boolean enabled ) {

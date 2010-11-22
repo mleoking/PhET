@@ -28,7 +28,7 @@ public class Voltmeter {
     private final Property<Double> valueProperty;
 
     public Voltmeter( BatteryCapacitorCircuit circuit, final World world, CLModelViewTransform3D mvt, 
-            boolean visible, Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
+            Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
