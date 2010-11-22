@@ -74,7 +74,6 @@
 	<classpathentry kind="src" path="simulations-java/contrib/beanshell/asm/src"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/beanshell/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/commons-collections/commons-collections.jar"/>
-	<classpathentry kind="src" path="simulations-java/contrib/java2doverlay/src"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jfreechart/lib/jfreechart.jar" sourcepath="simulations-java/contrib/jfreechart/jfreechart-src.zip"/>
@@ -82,16 +81,6 @@
 	<classpathentry kind="src" path="simulations-java/contrib/Jama/src"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jdom/jdom.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/javaws/jnlp.jar"/>
-	<classpathentry excluding="com/jmex/swt/input/|com/jmex/swt/lwjgl/|jmetest/util/" kind="src" path="simulations-java/contrib/jmonkeyengine/src"/>
-	<classpathentry kind="src" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/native"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/jme-colladabinding.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/jogl/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/jogl/jogl.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/jorbis/jorbis-0.0.17.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/jinput.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl_util_applet.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/log4j/log4j-1.2.16.jar"/>
@@ -126,8 +115,6 @@
 	<classpathentry kind="src" path="simulations-java/simulations/color-vision/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/conductivity/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/conductivity/data"/>
-    <classpathentry kind="src" path="simulations-java/simulations/density/src"/>
-	<classpathentry kind="src" path="simulations-java/simulations/density/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/discharge-lamps/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/discharge-lamps/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/eating-and-exercise/src"/>
