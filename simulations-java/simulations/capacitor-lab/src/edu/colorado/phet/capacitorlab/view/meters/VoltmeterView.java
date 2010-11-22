@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
-import edu.colorado.phet.capacitorlab.model.World;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterProbeNode.NegativeVoltmeterProbeNode;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterProbeNode.PositiveVoltmeterProbeNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,10 +28,10 @@ public class VoltmeterView {
     private final VoltmeterProbeNode positiveProbeNode, negativeProbeNode;
     private final ProbeWireNode positiveWireNode, negativeWireNode;
     
-    public VoltmeterView( final Voltmeter voltmeter, World world, CLModelViewTransform3D mvt, PNode dragBoundsNode, boolean dev ) {
+    public VoltmeterView( final Voltmeter voltmeter, CLModelViewTransform3D mvt, PNode dragBoundsNode, boolean dev ) {
         bodyNode = new VoltmeterBodyNode( voltmeter, dragBoundsNode );
-        positiveProbeNode = new PositiveVoltmeterProbeNode( voltmeter, world, mvt );
-        negativeProbeNode = new NegativeVoltmeterProbeNode( voltmeter, world, mvt );
+        positiveProbeNode = new PositiveVoltmeterProbeNode( voltmeter, mvt );
+        negativeProbeNode = new NegativeVoltmeterProbeNode( voltmeter, mvt );
         positiveWireNode = new ProbeWireNode( bodyNode, positiveProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
                 bodyNode.getPositiveConnectionOffset(), positiveProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_POSITIVE_WIRE );
         negativeWireNode = new ProbeWireNode( bodyNode, negativeProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
