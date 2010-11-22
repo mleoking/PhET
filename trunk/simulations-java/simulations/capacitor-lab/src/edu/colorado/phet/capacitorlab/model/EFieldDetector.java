@@ -19,7 +19,7 @@ public class EFieldDetector {
     
     // observable properties
     private final Property<Boolean> visibleProperty;
-    private final Property<Point3D> probeLocationProperty;
+    private final Property<Point3D> bodyLocationProperty, probeLocationProperty;
     private final Property<Boolean> plateVisibleProperty, dielectricVisibleProperty, sumVisibleProperty, valuesVisibleProperty;
     
     // derived observable properties
@@ -27,7 +27,8 @@ public class EFieldDetector {
     private final Property<Double> dielectricVectorProperty; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
     private final Property<Double> sumVectorProperty; // effective (net) field between the plates (E_effective)
     
-    public EFieldDetector( BatteryCapacitorCircuit circuit, final World world, Point3D probeLocation, boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
+    public EFieldDetector( BatteryCapacitorCircuit circuit, final World world, Point3D bodyLocation, Point3D probeLocation, 
+            boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
@@ -40,6 +41,7 @@ public class EFieldDetector {
         this.world = world;
         
         this.visibleProperty = new Property<Boolean>( visible );
+        this.bodyLocationProperty = new Property<Point3D>( new Point3D.Double( bodyLocation ) );
         this.probeLocationProperty = new Property<Point3D>( new Point3D.Double( probeLocation ) );
         
         this.plateVectorProperty = new Property<Double>( 0d );
@@ -53,9 +55,10 @@ public class EFieldDetector {
 
         // observers
         {
-            // keep the probe inside the world bounds
+            // keep the body and probe inside the world bounds
             world.addBoundsObserver( new SimpleObserver() {
                 public void update() {
+                    setBodyLocation( world.getConstrainedLocation( getBodyLocationReference() ) );
                     setProbeLocation( world.getConstrainedLocation( getProbeLocation() ) );
                 }
             } );
@@ -71,6 +74,7 @@ public class EFieldDetector {
     
     public void reset() {
         visibleProperty.reset();
+        bodyLocationProperty.reset();
         probeLocationProperty.reset();
         plateVisibleProperty.reset();
         dielectricVisibleProperty.reset();
@@ -91,8 +95,16 @@ public class EFieldDetector {
         visibleProperty.addObserver( o );
     }
     
-    public void addProbeLocationListener( SimpleObserver o ) {
-        probeLocationProperty.addObserver( o );
+    public Point3D getBodyLocationReference() {
+        return bodyLocationProperty.getValue();
+    }
+    
+    public void setBodyLocation( Point3D location ) {
+        bodyLocationProperty.setValue( world.getConstrainedLocation( location ) );
+    }
+    
+    public void addBodyLocationObserver( SimpleObserver o ) {
+        bodyLocationProperty.addObserver( o );
     }
     
     public void setProbeLocation( Point3D location ) {
@@ -107,7 +119,11 @@ public class EFieldDetector {
         return probeLocationProperty.getValue();
     }
     
-    public void addPlateVectorListener( SimpleObserver o ) {
+    public void addProbeLocationObserver( SimpleObserver o ) {
+        probeLocationProperty.addObserver( o );
+    }
+    
+    public void addPlateVectorObserver( SimpleObserver o ) {
         plateVectorProperty.addObserver( o );
     }
     
@@ -115,7 +131,7 @@ public class EFieldDetector {
         return plateVectorProperty.getValue();
     }
     
-    public void addDielectricVectorListener( SimpleObserver o ) {
+    public void addDielectricVectorObserver( SimpleObserver o ) {
         dielectricVectorProperty.addObserver( o );
     }
     
@@ -123,7 +139,7 @@ public class EFieldDetector {
         return dielectricVectorProperty.getValue();
     }
     
-    public void addSumVectorListener( SimpleObserver o ) {
+    public void addSumVectorObserver( SimpleObserver o ) {
         sumVectorProperty.addObserver( o );
     }
     
@@ -131,7 +147,7 @@ public class EFieldDetector {
         return sumVectorProperty.getValue();
     }
     
-    public void addPlateVisibleListener( SimpleObserver o ) {
+    public void addPlateVisibleObserver( SimpleObserver o ) {
         plateVisibleProperty.addObserver( o );
     }
     
@@ -143,7 +159,7 @@ public class EFieldDetector {
         return plateVisibleProperty.getValue();
     }
     
-    public void addDielectricVisibleListener( SimpleObserver o ) {
+    public void addDielectricVisibleObserver( SimpleObserver o ) {
         dielectricVisibleProperty.addObserver( o );
     }
     
@@ -155,7 +171,7 @@ public class EFieldDetector {
         return dielectricVisibleProperty.getValue();
     }
     
-    public void addSumVisibleListener( SimpleObserver o ) {
+    public void addSumVisibleObserver( SimpleObserver o ) {
         sumVisibleProperty.addObserver( o );
     }
     
@@ -167,7 +183,7 @@ public class EFieldDetector {
         return sumVisibleProperty.getValue();
     }
     
-    public void addValuesVisibleListener( SimpleObserver o ) {
+    public void addValuesVisibleObserver( SimpleObserver o ) {
         valuesVisibleProperty.addObserver( o );
     }
     
