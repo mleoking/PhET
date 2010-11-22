@@ -105,8 +105,8 @@ public class TranslationMainPage extends TranslationPage {
                 logger.info( "Created translation: " + ret[0] + " based on " + translation );
 
                 PageParameters params = new PageParameters();
-                params.put( "translationId", ret[0].getId() );
-                params.put( "translationLocale", LocaleUtils.localeToString( ret[0].getLocale() ) );
+                params.put( TranslationEditPage.TRANSLATION_ID, ret[0].getId() );
+                params.put( TranslationEditPage.TRANSLATION_LOCALE, LocaleUtils.localeToString( ret[0].getLocale() ) );
 
                 setResponsePage( TranslationEditPage.class, params );
             }
@@ -152,8 +152,8 @@ public class TranslationMainPage extends TranslationPage {
 
             if ( success ) {
                 PageParameters params = new PageParameters();
-                params.put( "translationId", ret[0].getId() );
-                params.put( "translationLocale", LocaleUtils.localeToString( localeChoice.getLocale() ) );
+                params.put( TranslationEditPage.TRANSLATION_ID, ret[0].getId() );
+                params.put( TranslationEditPage.TRANSLATION_LOCALE, LocaleUtils.localeToString( localeChoice.getLocale() ) );
 
                 setResponsePage( TranslationEditPage.class, params );
             }

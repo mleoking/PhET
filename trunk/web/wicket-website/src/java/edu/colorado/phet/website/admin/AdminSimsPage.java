@@ -70,14 +70,14 @@ public class AdminSimsPage extends AdminPage {
             }
         } );
 
-        ListView simulationList = new ListView( "simulation-list", simulations ) {
-            protected void populateItem( ListItem item ) {
-                final Simulation simulation = (Simulation) item.getModel().getObject();
+        ListView<Simulation> simulationList = new ListView<Simulation>( "simulation-list", simulations ) {
+            protected void populateItem( ListItem<Simulation> item ) {
+                final Simulation simulation = item.getModelObject();
                 LocalizedSimulation lsim = englishSims.get( simulation );
                 Link simLink = new Link( "simulation-link" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
-                        params.put( "simulationId", simulation.getId() );
+                        params.put( AdminSimPage.SIMULATION_ID, simulation.getId() );
                         setResponsePage( AdminSimPage.class, params );
                     }
                 };
@@ -86,7 +86,7 @@ public class AdminSimsPage extends AdminPage {
                 Link projectLink = new Link( "project-link" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
-                        params.put( "projectId", simulation.getProject().getId() );
+                        params.put( AdminProjectPage.PROJECT_ID, simulation.getProject().getId() );
                         setResponsePage( AdminProjectPage.class, params );
                     }
                 };

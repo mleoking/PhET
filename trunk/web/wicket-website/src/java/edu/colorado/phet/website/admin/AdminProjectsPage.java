@@ -51,7 +51,7 @@ public class AdminProjectsPage extends AdminPage {
                 Link projectLink = new Link( "project-link" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
-                        params.put( "projectId", project.getId() );
+                        params.put( AdminProjectPage.PROJECT_ID, project.getId() );
                         setResponsePage( AdminProjectPage.class, params );
                     }
                 };

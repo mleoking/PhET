@@ -28,6 +28,7 @@ import edu.colorado.phet.website.menu.NavMenu;
 import edu.colorado.phet.website.panels.LogInOutPanel;
 import edu.colorado.phet.website.panels.SearchPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.HibernateTask;
 import edu.colorado.phet.website.util.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
@@ -60,16 +61,16 @@ public abstract class PhetPage extends WebPage implements Stylable {
 
         initStart = System.currentTimeMillis();
 
-        if ( parameters.get( "locale" ) != null ) {
-            myLocale = (Locale) parameters.get( "locale" );
+        if ( parameters.get( TranslationUrlStrategy.LOCALE ) != null ) {
+            myLocale = (Locale) parameters.get( TranslationUrlStrategy.LOCALE );
         }
         else {
             // try again with localeString, but use english as default
-            myLocale = LocaleUtils.stringToLocale( parameters.getString( "localeString", "en" ) );
+            myLocale = LocaleUtils.stringToLocale( parameters.getString( TranslationUrlStrategy.LOCALE_STRING, "en" ) );
         }
 
-        if ( parameters.getString( "prefixString" ) != null ) {
-            prefix = parameters.getString( "prefixString" );
+        if ( parameters.getString( TranslationUrlStrategy.PREFIX_STRING ) != null ) {
+            prefix = parameters.getString( TranslationUrlStrategy.PREFIX_STRING );
         }
         else {
             prefix = "/" + LocaleUtils.localeToString( myLocale ) + "/";
@@ -79,10 +80,10 @@ public abstract class PhetPage extends WebPage implements Stylable {
             prefix = "/";
         }
 
-        path = parameters.getString( "path" );
+        path = parameters.getString( TranslationUrlStrategy.PATH );
 
         // should usually default to null
-        variation = parameters.getString( "variation" );
+        variation = parameters.getString( TranslationUrlStrategy.VARIATION );
 
         Session wicketSession = getSession();
         wicketSession.setLocale( myLocale );

@@ -39,6 +39,7 @@ public abstract class PhetMenuPage extends PhetPage {
     private boolean addedSocialIcons = false;
     private Collection<NavLocation> navLocations;
 
+    public static final String NAV_LOCATIONS = "navLocations";
     private static final Logger logger = Logger.getLogger( PhetMenuPage.class.getName() );
 
     public PhetMenuPage( PageParameters parameters ) {
@@ -123,7 +124,7 @@ public abstract class PhetMenuPage extends PhetPage {
      * @param parameters Initial page parameters
      */
     private void checkNavLocationParameters( PageParameters parameters ) {
-        Object locations = parameters.get( "navLocations" );
+        Object locations = parameters.get( NAV_LOCATIONS );
         if ( locations != null ) {
             Collection<NavLocation> defaultLocations = (Collection<NavLocation>) locations;
             if ( logger.isDebugEnabled() ) {

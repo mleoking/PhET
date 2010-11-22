@@ -536,14 +536,7 @@ public class ContributionEditPanel extends PhetPanel {
             } );
 
             if ( success ) {
-                //PageParameters params = new PageParameters();
-                //params.add( "contribution", Integer.toString( ids[0] ) );
-                //setResponsePage( new RedirectPage( new ContributionSuccessPage( params ) ) );
                 setResponsePage( new RedirectPage( ContributionSuccessPage.getLinker( ids[0] ).getRawUrl( context, getPhetCycle() ) ) );
-
-                // should redirect us. not the pretty way, however it passes in all of the correct page parameters
-                // and reduces the dependencies
-//                ContributionBrowsePage.getLinker().getLink( "id", context, getPhetCycle() ).onClick();
             }
 
         }

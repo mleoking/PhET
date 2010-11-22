@@ -9,6 +9,7 @@ import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 
 public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
@@ -40,15 +41,15 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         PageParameters params = new PageParameters( requestParameters.getParameters() );
         String requestPath = requestParameters.getPath();
         String strippedPath = stripPath( requestPath );
-        params.add( "fullPath", requestPath );
-        params.add( "path", strippedPath );
-        params.add( "localeString", prefix );
-        params.add( "prefixString", "/" + prefix + "/" );
+        params.add( TranslationUrlStrategy.FULL_PATH, requestPath );
+        params.add( TranslationUrlStrategy.PATH, strippedPath );
+        params.add( TranslationUrlStrategy.LOCALE_STRING, prefix );
+        params.add( TranslationUrlStrategy.PREFIX_STRING, "/" + prefix + "/" );
         if ( prefix.equals( "error" ) ) {
-            params.put( "locale", PhetWicketApplication.getDefaultLocale() );
+            params.put( TranslationUrlStrategy.LOCALE, PhetWicketApplication.getDefaultLocale() );
         }
         else {
-            params.put( "locale", LocaleUtils.stringToLocale( prefix ) );
+            params.put( TranslationUrlStrategy.LOCALE, LocaleUtils.stringToLocale( prefix ) );
         }
         Class toClass = mapper.getMappedClass( strippedPath, params );
         return new BookmarkablePageRequestTarget( toClass, params );
@@ -66,7 +67,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
                 return path;
             }
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             return path;
         }
     }

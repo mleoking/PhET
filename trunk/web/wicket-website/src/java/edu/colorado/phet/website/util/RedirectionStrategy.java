@@ -25,6 +25,7 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionFile;
+import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 
 /**
  * Handles redirecting all of the old-site URLs to the new URLs. They will then be sent out with 301 (permanent)
@@ -750,14 +751,14 @@ public class RedirectionStrategy implements IRequestTargetUrlCodingStrategy {
     private static String redirectRunOffline( Map parameters ) {
         // http://phet.colorado.edu/admin/get-run-offline.php?sim_id=84&locale=en
 
-        if ( !parameters.containsKey( "sim_id" ) || !parameters.containsKey( "locale" ) ) {
+        if ( !parameters.containsKey( "sim_id" ) || !parameters.containsKey( TranslationUrlStrategy.LOCALE ) ) {
             return NOT_FOUND;
         }
 
         final int simId = Integer.parseInt( ( (String[]) parameters.get( "sim_id" ) )[0] );
 
-        final Locale locale = parameters.get( "locale" ) == null ? PhetWicketApplication.getDefaultLocale() :
-                              LocaleUtils.stringToLocale( ( (String[]) parameters.get( "locale" ) )[0] );
+        final Locale locale = parameters.get( TranslationUrlStrategy.LOCALE ) == null ? PhetWicketApplication.getDefaultLocale() :
+                              LocaleUtils.stringToLocale( ( (String[]) parameters.get( TranslationUrlStrategy.LOCALE ) )[0] );
         final StringBuffer ret = new StringBuffer();
         boolean success = HibernateUtils.wrapSession( new HibernateTask() {
             public boolean run( Session session ) {

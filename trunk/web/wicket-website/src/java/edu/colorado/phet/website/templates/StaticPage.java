@@ -17,6 +17,7 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.RawBodyLabel;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
@@ -28,7 +29,7 @@ public class StaticPage extends PhetRegularPage {
         super( parameters );
 
         try {
-            String path = parameters.getString( "path" );
+            String path = parameters.getString( TranslationUrlStrategy.PATH );
 
             final Class panelClass = panelMap.get( path );
 

@@ -42,10 +42,12 @@ public class AdminCategoryPage extends AdminPage {
     private Label autoLabel;
     private Label alphaLabel;
 
+    public static final String CATEGORY_ID = "categoryId";
+
     public AdminCategoryPage( PageParameters parameters ) {
         super( parameters );
 
-        final int categoryId = parameters.getInt( "categoryId" );
+        final int categoryId = parameters.getInt( CATEGORY_ID );
 
         simulations = new LinkedList<Simulation>();
         allSimulations = new LinkedList<Simulation>();
@@ -279,5 +281,4 @@ public class AdminCategoryPage extends AdminPage {
             }
         } );
     }
-
 }
