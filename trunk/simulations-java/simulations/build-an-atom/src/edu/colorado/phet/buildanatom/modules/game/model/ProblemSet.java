@@ -100,6 +100,7 @@ public class ProblemSet {
     private static final ArrayList<ProblemType> LEVEL_2_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_MASS_QEUSTION );
+            add( ProblemType.SCHEMATIC_TO_PROTON_COUNT_QEUSTION );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
@@ -203,20 +204,8 @@ public class ProblemSet {
     private Problem createProblem( BuildAnAtomGameModel model, ProblemType problemType, AtomValue atomValue ) {
         Problem problem = null;
         switch ( problemType ) {
-        case SYMBOL_TO_SCHEMATIC:
-            problem = new SymbolToSchematicProblem( model, atomValue );
-            break;
-        case SCHEMATIC_TO_SYMBOL_ALL:
-            problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
-            break;
-        case SCHEMATIC_TO_SYMBOL_MASS:
-            problem = new SchematicToSymbolProblem( model, atomValue, false, true, false );
-            break;
-        case SCHEMATIC_TO_SYMBOL_PROTON_COUNT:
-            problem = new SchematicToSymbolProblem( model, atomValue, true, false, false );
-            break;
-        case SYMBOL_TO_COUNTS:
-            problem = new SymbolToCountsProblem( model, atomValue );
+        case COUNTS_TO_ELEMENT:
+            problem = new CountsToElementProblem( model, atomValue );
             break;
         case COUNTS_TO_SYMBOL_ALL:
             problem = new CountsToSymbolProblem( model, atomValue, true, true, true );
@@ -233,8 +222,23 @@ public class ProblemSet {
         case SCHEMATIC_TO_MASS_QEUSTION:
             problem = new SchematicToMassQuestionProblem( model, atomValue );
             break;
-        case COUNTS_TO_ELEMENT:
-            problem = new CountsToElementProblem( model, atomValue );
+        case SCHEMATIC_TO_PROTON_COUNT_QEUSTION:
+            problem = new SchematicToProtonCountQuestionProblem( model, atomValue );
+            break;
+        case SCHEMATIC_TO_SYMBOL_ALL:
+            problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
+            break;
+        case SCHEMATIC_TO_SYMBOL_MASS:
+            problem = new SchematicToSymbolProblem( model, atomValue, false, true, false );
+            break;
+        case SCHEMATIC_TO_SYMBOL_PROTON_COUNT:
+            problem = new SchematicToSymbolProblem( model, atomValue, true, false, false );
+            break;
+        case SYMBOL_TO_COUNTS:
+            problem = new SymbolToCountsProblem( model, atomValue );
+            break;
+        case SYMBOL_TO_SCHEMATIC:
+            problem = new SymbolToSchematicProblem( model, atomValue );
             break;
         default:
             System.err.println( getClass().getName() + " - Error: Request to create unknown problem type." );
@@ -253,6 +257,7 @@ public class ProblemSet {
     private boolean isSchematicProbType( ProblemType problemType ){
         return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT ||
                  problemType == ProblemType.SCHEMATIC_TO_MASS_QEUSTION ||
+                 problemType == ProblemType.SCHEMATIC_TO_PROTON_COUNT_QEUSTION ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_MASS ||
