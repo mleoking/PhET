@@ -5,8 +5,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 
-import com.jme.math.Vector2f;
-
 /**
 * @author Sam Reid
 */
