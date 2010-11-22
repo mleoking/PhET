@@ -7,22 +7,22 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
 import edu.colorado.phet.capacitorlab.view.DoubleDisplayNode;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -51,9 +51,9 @@ public class VoltmeterBodyNode extends PhetPNode {
 
     private final DoubleDisplayNode displayNode;
     private final PPath displayBackgroundNode;
-    private final Point2D positiveConnectionOffset, negativeConnectionOffset; // offsets for connection points of wire that attach probes to body
+    private final Point2D positiveConnectionOffset, negativeConnectionOffset; // offsets for connection points of wires that attach probes to body
     
-    public VoltmeterBodyNode( final Voltmeter voltmeter, PNode dragBoundsNode ) {
+    public VoltmeterBodyNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
         
         // body of the meter
         PImage imageNode = new PImage( BODY_IMAGE );
@@ -84,35 +84,37 @@ public class VoltmeterBodyNode extends PhetPNode {
         addChild( displayBackgroundNode );
         
         // digital display
-        displayNode = new DoubleDisplayNode( Double.NaN, "", DISPLAY_VALUE_FORMAT, CLStrings.VOLTS, CLStrings.PATTERN_LABEL_VALUE_UNITS, CLStrings.VOLTS_UNKNOWN );
+        displayNode = new DoubleDisplayNode( voltmeter.getValue(), "", DISPLAY_VALUE_FORMAT, CLStrings.VOLTS, CLStrings.PATTERN_LABEL_VALUE_UNITS, CLStrings.VOLTS_UNKNOWN );
         displayNode.setFont( DISPLAY_FONT );
         displayNode.setHTMLColor( DISPLAY_TEXT_COLOR );
         addChild( displayNode );
         
-        // display right justified
-        displayNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    updateLayout();
-                }
-            }
-        });
-        
-        PBounds b = imageNode.getFullBounds();
-        positiveConnectionOffset = new Point2D.Double( b.getWidth() / 4, b.getMaxY() ); // bottom left
-        negativeConnectionOffset = new Point2D.Double( 3 * b.getWidth() / 4, b.getMaxY() ); // bottom right
+        // offsets for connection points of wires that attach probes to body
+        PBounds imageBounds = imageNode.getFullBoundsReference();
+        positiveConnectionOffset = new Point2D.Double( imageBounds.getWidth() / 4, imageBounds.getMaxY() ); // bottom left
+        negativeConnectionOffset = new Point2D.Double( 3 * imageBounds.getWidth() / 4, imageBounds.getMaxY() ); // bottom right
         
         // interactivity
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
+        addInputEventListener( new VoltmeterBodyDragHandler( this, voltmeter, mvt ) );
         
-        // observe model value
-        voltmeter.addValueObserver( new SimpleObserver() {
-            public void update() {
-                displayNode.setValue( voltmeter.getValue() );
-                updateLayout();
-            }
-        } );
+        // observers
+        {
+            // update display when value changes
+            voltmeter.addValueObserver( new SimpleObserver() {
+                public void update() {
+                    displayNode.setValue( voltmeter.getValue() );
+                    updateLayout();
+                }
+            } );
+            
+            // update location
+            voltmeter.addBodyLocationObserver( new SimpleObserver() {
+                public void update() {
+                    setOffset( mvt.modelToView( voltmeter.getBodyLocationReference() ) );
+                }
+            } );
+        }
     }
     
     public Point2D getPositiveConnectionOffset() {
@@ -127,5 +129,39 @@ public class VoltmeterBodyNode extends PhetPNode {
         double x = displayBackgroundNode.getFullBoundsReference().getMaxX() - displayNode.getFullBoundsReference().getWidth() - 4;
         double y = displayBackgroundNode.getFullBoundsReference().getMaxY() - displayNode.getFullBoundsReference().getHeight() - 1;
         displayNode.setOffset( x, y );
+    }
+    
+    private static class VoltmeterBodyDragHandler extends PDragSequenceEventHandler {
+        
+        private final PNode dragNode;
+        private final Voltmeter voltmeter;
+        private final CLModelViewTransform3D mvt;
+        
+        private double clickXOffset, clickYOffset;
+        
+        public VoltmeterBodyDragHandler( PNode dragNode, Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
+            this.dragNode = dragNode;
+            this.voltmeter = voltmeter;
+            this.mvt = mvt;
+        }
+        
+        @Override
+        protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            Point2D pOrigin = mvt.modelToViewDelta( voltmeter.getBodyLocationReference() );
+            clickXOffset = pMouse.getX() - pOrigin.getX();
+            clickYOffset = pMouse.getY() - pOrigin.getY();
+        }
+        
+        @Override
+        protected void drag( final PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double xView = pMouse.getX() - clickXOffset;
+            double yView = pMouse.getY() - clickYOffset;
+            Point3D pModel = new Point3D.Double( mvt.viewToModel( xView, yView ) );
+            voltmeter.setBodyLocation( pModel );
+        }
     }
 }

@@ -1,3 +1,4 @@
+11/22/10 add voltmeter body location to model, constrain to world bounds in model
 11/22/10 remove duplicate drag constraints in model & view, consolidate model, provide constraint utility in World
 11/22/10 use observer pattern in setting of dielectric transparency
 11/22/10 move some responsibilities from CapacitorNode to DielectricNode
