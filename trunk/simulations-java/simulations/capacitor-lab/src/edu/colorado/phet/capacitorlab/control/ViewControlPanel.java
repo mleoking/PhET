@@ -3,14 +3,11 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -25,19 +22,9 @@ public class ViewControlPanel extends PhetTitledPanel {
     public ViewControlPanel( final CapacitorNode capacitorNode ) {
         super( CLStrings.VIEW );
         
-        final JCheckBox plateChargesCheckBox = new JCheckBox( CLStrings.PLATE_CHARGES );
-        plateChargesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                capacitorNode.setPlateChargeVisible( plateChargesCheckBox.isSelected() );
-            }
-        });
-        
-        final JCheckBox electricFieldLinesCheckBox = new JCheckBox( CLStrings.ELECTRIC_FIELD_LINES );
-        electricFieldLinesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                capacitorNode.setEFieldVisible( electricFieldLinesCheckBox.isSelected() );
-            }
-        });
+        // check boxes
+        JCheckBox plateChargesCheckBox = new BooleanPropertyCheckBox( CLStrings.PLATE_CHARGES, capacitorNode.getPlateChargeVisibileProperty() );
+        JCheckBox electricFieldLinesCheckBox = new BooleanPropertyCheckBox( CLStrings.ELECTRIC_FIELD_LINES, capacitorNode.getEFieldVisibleProperty() );
         
         // layout
         GridPanel innerPanel = new GridPanel();
@@ -49,20 +36,5 @@ public class ViewControlPanel extends PhetTitledPanel {
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
-
-        // observers
-        {
-            capacitorNode.addPlateChargeVisibleObserver( new SimpleObserver() {
-                public void update() {
-                    plateChargesCheckBox.setSelected( capacitorNode.isPlateChargeVisible() );
-                }
-            });
-            
-            capacitorNode.addEFieldVisibleObserver( new SimpleObserver() {
-                public void update() {
-                    electricFieldLinesCheckBox.setSelected( capacitorNode.isEFieldVisible() );
-                }
-            });
-        }
     }
 }
