@@ -1,3 +1,4 @@
+Moved pool height readout to the side
 Removed phet logo from control panel based on CM's recommendation
 Use phetcommon text for "reset all" string
 Fixed: sensor nodes occluded by control panel
