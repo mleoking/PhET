@@ -252,6 +252,7 @@ public class ProblemSet {
      */
     private boolean isSchematicProbType( ProblemType problemType ){
         return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT ||
+                 problemType == ProblemType.SCHEMATIC_TO_MASS_QEUSTION ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_MASS ||
