@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode.CapacitorNodeChangeAdapter;
+import edu.colorado.phet.capacitorlab.view.DielectricNode;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
@@ -25,39 +25,28 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
  */
 public class DielectricChargesControl extends JPanel {
     
-    private final CapacitorNode capacitorNode;
-    private final JRadioButton hideAllRadioButton, showAllRadioButton, showExcessRadioButton;
-
-    public DielectricChargesControl( final CapacitorNode capacitorNode ) {
-        
-        this.capacitorNode = capacitorNode;
-        capacitorNode.addCapacitorNodeChangeListener( new CapacitorNodeChangeAdapter() {
-            @Override
-            public void dielectricChargeViewChanged() {
-                update();
-            }
-        });
+    public DielectricChargesControl( final DielectricNode dielectricNode ) {
         
         JLabel chargesLabel = new JLabel( CLStrings.DIELECTRIC_CHARGES );
         
-        hideAllRadioButton = new JRadioButton( CLStrings.HIDE_ALL_CHARGES );
+        final JRadioButton hideAllRadioButton = new JRadioButton( CLStrings.HIDE_ALL_CHARGES );
         hideAllRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                capacitorNode.setDielectricChargeView( DielectricChargeView.NONE );
+                dielectricNode.setDielectricChargeView( DielectricChargeView.NONE );
             }
         } );
          
-        showAllRadioButton = new JRadioButton( CLStrings.SHOW_ALL_CHARGES );
+        final JRadioButton showAllRadioButton = new JRadioButton( CLStrings.SHOW_ALL_CHARGES );
         showAllRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                capacitorNode.setDielectricChargeView( DielectricChargeView.ALL );
+                dielectricNode.setDielectricChargeView( DielectricChargeView.TOTAL );
             }
         } );
         
-        showExcessRadioButton = new JRadioButton( CLStrings.SHOW_EXCESS_CHARGES );
+        final JRadioButton showExcessRadioButton = new JRadioButton( CLStrings.SHOW_EXCESS_CHARGES );
         showExcessRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                capacitorNode.setDielectricChargeView( DielectricChargeView.EXCESS );
+                dielectricNode.setDielectricChargeView( DielectricChargeView.EXCESS );
             }
         } );
         
@@ -79,13 +68,15 @@ public class DielectricChargesControl extends JPanel {
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
-        // default state
-        update();
-    }
-    
-    private void update() {
-        hideAllRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.NONE );
-        showAllRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.ALL );
-        showExcessRadioButton.setSelected( capacitorNode.getDielectricChargeView() == DielectricChargeView.EXCESS );
+        // observers
+        {
+            dielectricNode.addDielectricChargeViewObserver( new SimpleObserver() {
+                public void update() {
+                    hideAllRadioButton.setSelected( dielectricNode.getDielectricChargeView() == DielectricChargeView.NONE );
+                    showAllRadioButton.setSelected( dielectricNode.getDielectricChargeView() == DielectricChargeView.TOTAL );
+                    showExcessRadioButton.setSelected( dielectricNode.getDielectricChargeView() == DielectricChargeView.EXCESS );
+                }
+            } );
+        }
     }
 }

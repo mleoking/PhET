@@ -5,9 +5,6 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.AddWiresButtonNode;
@@ -21,12 +18,10 @@ import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
-import edu.colorado.phet.capacitorlab.view.BatteryNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
-import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
-import edu.colorado.phet.capacitorlab.view.WireNode;
+import edu.colorado.phet.capacitorlab.view.*;
 import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -62,8 +57,6 @@ public class DielectricCanvas extends CLCanvas {
     // debug
     private final PNode voltageShapesDebugNode, eFieldShapesDebugNode;
     
-    private final ArrayList<PNode> dielectricTransparencyNodes; // if any of these nodes is visible, the capacitor should be transparent
-    
     // controls
     private final PlateChargeControlNode plateChargeControNode;
     
@@ -84,8 +77,8 @@ public class DielectricCanvas extends CLCanvas {
         
         this.mvt = mvt;
         
-        batteryNode = new BatteryNode( model.getBattery(), dev, CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit(), mvt, dev );
+        batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
+        capacitorNode = new CapacitorNode( model.getCircuit(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
@@ -144,12 +137,6 @@ public class DielectricCanvas extends CLCanvas {
         addChild( voltageShapesDebugNode );
         addChild( eFieldShapesDebugNode );
 
-        // nodes whose visibility causes the capacitor to become transparent
-        dielectricTransparencyNodes = new ArrayList<PNode>();
-        addDielectricTransparencyNode( capacitorNode.getEFieldNode() );
-        addDielectricTransparencyNode( voltmeter.getBodyNode() );
-        addDielectricTransparencyNode( eFieldDetector.getBodyNode() );
-        
         // static layout
         {
             Point2D pView = null;
@@ -190,6 +177,20 @@ public class DielectricCanvas extends CLCanvas {
             plateChargeControNode.setOffset( pView  );
         }
         
+        // observers 
+        {
+            // things whose visibility causes the dielectric to become transparent
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
+                    boolean transparent = capacitorNode.isEFieldVisible() || model.getVoltmeter().isVisible() || model.getEFieldDetector().isVisible();
+                    capacitorNode.getDielectricNode().setOpaque( !transparent );
+                }
+            };
+            capacitorNode.addEFieldVisibleObserver( o );
+            model.getVoltmeter().addVisibleObserver( o );
+            model.getEFieldDetector().addVisibleObserver( o );
+        }
+        
         // default state
         reset();
     }
@@ -201,10 +202,8 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.setVisible( CLConstants.CAPACITANCE_METER_VISIBLE );
         chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
         energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
-        capacitorNode.setPlateChargeVisible( CLConstants.PLATE_CHARGES_VISIBLE );
-        capacitorNode.setEFieldVisible( CLConstants.EFIELD_VISIBLE );
         // dielectric charge view
-        capacitorNode.setDielectricChargeView( CLConstants.DIELECTRIC_CHARGE_VIEW );
+        capacitorNode.reset();
         // meter locations
         capacitanceMeterNode.setOffset( CLConstants.CAPACITANCE_METER_LOCATION );
         chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
@@ -291,29 +290,5 @@ public class DielectricCanvas extends CLCanvas {
         keepInsideCanvas( energyMeterNode );
         keepInsideCanvas( voltmeter.getBodyNode() );
         keepInsideCanvas( eFieldDetector.getBodyNode() );
-    }
-    
-    /*
-     * When certain nodes are visible, the dielectric becomes transparent.
-     * Call this method to add a node to the "visibility watch list".  If any one of the nodes on
-     * this list is visible, the dielectric is transparent; if none of the nodes is visible, 
-     * the dielectric is opaque.
-     */
-    private void addDielectricTransparencyNode( PNode node ) {
-        dielectricTransparencyNodes.add( node );
-        node.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PNode.PROPERTY_VISIBLE ) ) {
-                    boolean transparent = false;
-                    for ( PNode node : dielectricTransparencyNodes ) {
-                        if ( node.getVisible() ) {
-                            transparent = true;
-                            break;
-                        }
-                    }
-                    capacitorNode.setDielectricOpaque( !transparent );
-                }
-            }
-        } );
     }
 }

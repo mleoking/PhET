@@ -1,3 +1,7 @@
+11/22/10 use observer pattern in setting of dielectric transparency
+11/22/10 move some responsibilities from CapacitorNode to DielectricNode
+11/22/10 convert CapacitorNode and DielectricNode to Property<T>
+11/22/10 remove obsolete dev parameters in various view constructors
 # 0.00.49 (46408) Nov 19, 2010
 11/19/10 try E-Field probe image with gray outline around crosshairs (origin adjustment required)
 11/19/10 change scaling exponent to 1/4 for dielectric charge offset

@@ -18,7 +18,6 @@ DESIGN ISSUES
 HIGH PRIORITY
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
-- convert CapacitorNode to Property<T>
 - convert BatteryCapacitorCircuit to Property<T>, BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect
 - hack in BottomWire.createShape
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
