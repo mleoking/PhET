@@ -7,10 +7,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -25,14 +22,16 @@ public class SubscribeLandingPage extends PhetMenuPage {
 
         final String confirmationKey = parameters.getString( "key" );
 
-        final PhetUser[] user = new PhetUser[1];
+        final Result<PhetUser> userResult = new Result<PhetUser>();
 
         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                user[0] = NewsletterUtils.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
-                if ( user[0] != null ) {
-                    user[0].setReceiveEmail( true );
-                    session.update( user[0] );
+                PhetUser user = NewsletterUtils.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
+                userResult.setValue( user );
+                if ( user != null ) {
+                    user.setReceiveEmail( true );
+                    user.setConfirmed( true );
+                    session.update( user );
                     return true;
                 }
                 else {
