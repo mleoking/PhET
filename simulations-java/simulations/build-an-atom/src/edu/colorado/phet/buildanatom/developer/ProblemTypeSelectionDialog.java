@@ -33,6 +33,7 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
         add( new ProblemTypeCheckBox( "Schematic To Symbol Proton Count Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ) );
         add( new ProblemTypeCheckBox( "Schematic To Element Problem Allowed", ProblemType.SCHEMATIC_TO_ELEMENT ) );
         add( new ProblemTypeCheckBox( "Schematic To Mass Question Problem Allowed", ProblemType.SCHEMATIC_TO_MASS_QEUSTION ) );
+        add( new ProblemTypeCheckBox( "Schematic To Proton Count Question Problem Allowed", ProblemType.SCHEMATIC_TO_PROTON_COUNT_QEUSTION ) );
         add( new ProblemTypeCheckBox( "Symbol To Schematic Problem Allowed", ProblemType.SYMBOL_TO_SCHEMATIC ) );
         add( new ProblemTypeCheckBox( "Symbol To Counts Problem Allowed", ProblemType.SYMBOL_TO_COUNTS ) );
         add( new ProblemTypeCheckBox( "Counts To Symbol All Problem Allowed", ProblemType.COUNTS_TO_SYMBOL_ALL ) );
