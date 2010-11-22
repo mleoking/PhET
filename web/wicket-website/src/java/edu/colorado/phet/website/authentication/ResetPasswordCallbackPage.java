@@ -35,7 +35,7 @@ public class ResetPasswordCallbackPage extends PhetMenuPage {
         // for now, if a step here fails we will just go to the error page
         PhetUser user = lookupUserForResetPasswordKey( parameters.getString( "key" ) );
         if ( user == null ) {
-            throw new RestartResponseAtInterceptPageException( ErrorPage.class );
+            ErrorPage.redirectToErrorPage();
         }
 
         add( new ChangePasswordPanel( "reset-password-callback-panel", getPageContext(), user, false ) );

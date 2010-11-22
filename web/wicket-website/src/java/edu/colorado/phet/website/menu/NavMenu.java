@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.menu;
 
+import java.io.Serializable;
 import java.util.*;
 
 import org.apache.log4j.Logger;
@@ -46,7 +47,7 @@ import edu.colorado.phet.website.util.links.Linkable;
  * Initializes and handles the navigation locations (NavLocation)s. Builds from the database during startup, and then
  * uses events to keep the locations synchronized with any possible category changes.
  */
-public class NavMenu {
+public class NavMenu implements Serializable {
 
     /**
      * Map of nav location key => nav location, for fast lookup

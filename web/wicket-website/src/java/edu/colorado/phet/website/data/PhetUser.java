@@ -9,13 +9,19 @@ import java.util.regex.Pattern;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.data.util.IntId;
+import edu.colorado.phet.website.newsletter.NewsletterUtils;
 
+/**
+ * User account for the PhET website.
+ */
 public class PhetUser implements Serializable, IntId {
 
     private int id;
     private String email;
     private String hashedPassword;
-    private boolean teamMember;
+    private boolean teamMember = false;
+    private boolean newsletterOnlyAccount;
+    private boolean confirmed = false;
     private Set translations = new HashSet();
 
     private String name;
@@ -35,8 +41,10 @@ public class PhetUser implements Serializable, IntId {
     private String phone2;
     private String fax;
 
-    private boolean receiveEmail = true;
-    private boolean receiveWebsiteNotifications = false;
+    private String confirmationKey; // key that is used for subscribing or unsubscribing to email. will be reset on each subscribe/unsubscribe operation
+
+    private boolean receiveEmail = true; // for receiving newsletters
+    private boolean receiveWebsiteNotifications = false; // for receiving internal (team-member) only notifications
 
     public static List<String> getDescriptionOptions() {
         return Arrays.asList(
@@ -62,8 +70,12 @@ public class PhetUser implements Serializable, IntId {
         return ( id * 475165 ) % 2567;
     }
 
+    public static boolean isValidEmail( String email ) {
+        return Pattern.matches( "^.+@.+\\.[a-z]+$", email );
+    }
+
     public static String validateEmail( String email ) {
-        if ( !Pattern.matches( "^.+@.+\\.[a-z]+$", email ) ) {
+        if ( !isValidEmail( email ) ) {
             return "validation.email";
         }
         return null;
@@ -76,6 +88,13 @@ public class PhetUser implements Serializable, IntId {
     // TODO: don't allow users with the same email address!
 
     public PhetUser() {
+
+    }
+
+    public PhetUser( String email, boolean newsletterOnly ) {
+        setEmail( email );
+        setConfirmationKey( NewsletterUtils.generateConfirmationKey() );
+        setNewsletterOnlyAccount( newsletterOnly );
     }
 
     public int getId() {
@@ -113,6 +132,22 @@ public class PhetUser implements Serializable, IntId {
 
     public void setTeamMember( boolean teamMember ) {
         this.teamMember = teamMember;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed( boolean confirmed ) {
+        this.confirmed = confirmed;
+    }
+
+    public boolean isNewsletterOnlyAccount() {
+        return newsletterOnlyAccount;
+    }
+
+    public void setNewsletterOnlyAccount( boolean newsletterOnlyAccount ) {
+        this.newsletterOnlyAccount = newsletterOnlyAccount;
     }
 
     public Set getTranslations() {
@@ -225,6 +260,14 @@ public class PhetUser implements Serializable, IntId {
 
     public void setFax( String fax ) {
         this.fax = fax;
+    }
+
+    public String getConfirmationKey() {
+        return confirmationKey;
+    }
+
+    public void setConfirmationKey( String confirmationKey ) {
+        this.confirmationKey = confirmationKey;
     }
 
     public boolean isReceiveEmail() {
