@@ -45,8 +45,7 @@ public class SchematicToMassQuestionView extends ProblemView {
             }
         }, false );
 
-        question = new EntryPanel("What is the mass number?", massNumberProperty);
-        question.setSpinnerX( question.getLabelWidth() + 5 );
+        question = new EntryPanel("<html>What is the<br>mass number?<html>", massNumberProperty);
         question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
     }
 
