@@ -37,25 +37,26 @@ public class CLConstants {
     // Model
     //----------------------------------------------------------------------------
     
+    public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
+    
+    // world
     public static final double WORLD_DRAG_MARGIN = 0.001; // meters
     
+    // battery
     public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // Volts
     public static final double BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD = 0.1; // Volts
     public static final boolean BATTERY_CONNECTED = true;
     
+    // capacitor
     public static final Point3D CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
     public static final DoubleRange PLATE_WIDTH_RANGE = new DoubleRange( 0.01, 0.02, 0.01 ); // meters
     public static final double PLATE_HEIGHT = 0.0005; // meters
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 0.005, 0.01, 0.01 ); // meters
     
+    // dielectric
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5, 5 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_WIDTH_RANGE.getMax(), PLATE_WIDTH_RANGE.getDefault() ); // meters
-    
-    public static final double WIRE_THICKNESS = 0.0005; // meters
-    public static final double WIRE_EXTENT = 0.016; // how far a wire extends beyond a capactor's origin in meters
-
-    public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
     
     // dielectric constants (dimensionless)
     public static final double EPSILON_VACUUM = 1;
@@ -64,8 +65,13 @@ public class CLConstants {
     public static final double EPSILON_PAPER = 3.5;
     public static final double EPSILON_TEFLON = 2.1;
     
+    // wire
+    public static final double WIRE_THICKNESS = 0.0005; // meters
+    public static final double WIRE_EXTENT = 0.016; // how far a wire extends beyond a capactor's origin in meters
+
+    // Plate Charge control
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
-    public static final double PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
+    public static final double PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
     
     // Capacitance meter
     public static final Point3D CAPACITANCE_METER_LOCATION = new Point3D.Double( 0.04, 0.0017, 0 );
@@ -83,8 +89,12 @@ public class CLConstants {
     public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
     public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX should probably start somewhere outside the capacitor
     public static final boolean EFIELD_DETECTOR_VISIBLE = false;
+    public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_VALUES_VISIBLE = true;
     
-    // voltmeter
+    // Voltmeter
     public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
     public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
@@ -114,7 +124,7 @@ public class CLConstants {
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = true; 
     public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
-    public static final Dimension MINUS_CHARGE_SIZE = new Dimension( 7, 2 );
+    public static final Dimension NEGATIVE_CHARGE_SIZE = new Dimension( 7, 2 );
     
     // dielectric charges
     public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.TOTAL;
@@ -123,10 +133,4 @@ public class CLConstants {
     public static final boolean EFIELD_VISIBLE = false;
     public static final DoubleRange EFIELD_SPACING_RANGE = new DoubleRange( PLATE_WIDTH_RANGE.getMin() / 15, PLATE_WIDTH_RANGE.getMin() / 2 ); // meters
     public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 900 ); // number of lines on smallest plate
-    
-    // E-field detector
-    public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
-    public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
-    public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
-    public static final boolean EFIELD_VALUES_VISIBLE = true;
 }
