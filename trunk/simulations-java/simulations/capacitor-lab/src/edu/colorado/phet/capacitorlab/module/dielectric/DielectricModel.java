@@ -35,7 +35,7 @@ public class DielectricModel {
         dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, new Teflon(), new Paper(), new Glass() };
         
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
-        final Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
+        Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(), 
                 customDielectricMaterial, CLConstants.PLATE_WIDTH_RANGE.getDefault() /* dielectricOffset */, mvt );
         circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, mvt );
         
@@ -50,10 +50,8 @@ public class DielectricModel {
         voltmeter = new Voltmeter( circuit, world, mvt, 
                 CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
                 CLConstants.VOLTMETER_VISIBLE );
-        
-        // default state
-        reset();
     }
+    
     public World getWorld() {
         return world;
     }
@@ -107,6 +105,8 @@ public class DielectricModel {
         getCapacitor().reset();
         customDielectricMaterial.reset();
         capacitanceMeter.reset();
+        plateChargeMeter.reset();
+        storedEnergyMeter.reset();
         eFieldDetector.reset();
         voltmeter.reset();
         getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED ); //XXX replace with getCircuit().reset()
