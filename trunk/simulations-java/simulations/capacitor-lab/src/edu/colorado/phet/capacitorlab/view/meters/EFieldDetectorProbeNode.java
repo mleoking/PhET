@@ -6,9 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
-import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.World;
+import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -32,7 +31,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
     
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
-    public EFieldDetectorProbeNode( final EFieldDetector detector, World world, final CLModelViewTransform3D mvt, boolean dev ) {
+    public EFieldDetectorProbeNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, boolean dev ) {
         super();
         
         PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
@@ -59,7 +58,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         });
         
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new ProbeDragHandler( this, detector, world, mvt ) );
+        addInputEventListener( new ProbeDragHandler( this, detector, mvt ) );
     }
     
     public Point2D getConnectionOffset() {
@@ -70,15 +69,13 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         
         private final PNode probeNode;
         private final EFieldDetector detector;
-        private final World world;
         private final CLModelViewTransform3D mvt;
         
         private double clickXOffset, clickYOffset;
         
-        public ProbeDragHandler( PNode probeNode, EFieldDetector detector, World world, CLModelViewTransform3D mvt ) {
+        public ProbeDragHandler( PNode probeNode, EFieldDetector detector, CLModelViewTransform3D mvt ) {
             this.probeNode = probeNode;
             this.detector = detector;
-            this.world = world;
             this.mvt = mvt;
         }
         
@@ -98,10 +95,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
             double xView = pMouse.getX() - clickXOffset;
             double yView = pMouse.getY() - clickYOffset;
             Point3D pModel = new Point3D.Double( mvt.viewToModel( xView, yView ) );
-            // prevent probe from being dragged outside world bounds
-            if ( world.contains( pModel ) ) {
-                detector.setProbeLocation( pModel );
-            }
+            detector.setProbeLocation( pModel );
         }
     }
 }

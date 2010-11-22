@@ -53,14 +53,14 @@ public class EFieldDetector {
 
         // observers
         {
+            // keep the probe inside the world bounds
             world.addBoundsObserver( new SimpleObserver() {
                 public void update() {
-                    if ( !world.isBoundsEmpty() ) {
-                        constrainProbeLocation();
-                    }
+                    setProbeLocation( world.getConstrainedLocation( getProbeLocation() ) );
                 }
             } );
 
+            // update vectors when the probe moves
             probeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     updateVectors();
@@ -95,8 +95,8 @@ public class EFieldDetector {
         probeLocationProperty.addObserver( o );
     }
     
-    public void setProbeLocation( Point3D probeLocation ) {
-        probeLocationProperty.setValue( new Point3D.Double( probeLocation ) );
+    public void setProbeLocation( Point3D location ) {
+        probeLocationProperty.setValue( world.getConstrainedLocation( location ) );
     }
     
     public Point3D getProbeLocation() {
@@ -184,37 +184,5 @@ public class EFieldDetector {
         plateVectorProperty.setValue( circuit.getPlatesDielectricEFieldAt( probeLocationProperty.getValue() ) );
         dielectricVectorProperty.setValue( circuit.getDielectricEFieldAt( probeLocationProperty.getValue() ) );
         sumVectorProperty.setValue( circuit.getEffectiveEFieldAt( probeLocationProperty.getValue() ) );
-    }
-    
-    /*
-     * Ensures that the probe remains inside the world bounds.
-     */
-    private void constrainProbeLocation() {
-        Point3D eFieldProbeLocation = getProbeLocationReference();
-        if ( !world.contains( eFieldProbeLocation ) ) {
-            
-            // adjust x coordinate
-            double newX = eFieldProbeLocation.getX();
-            if ( eFieldProbeLocation.getX() < world.getBoundsReference().getX() ) {
-                newX = world.getBoundsReference().getX();
-            }
-            else if ( eFieldProbeLocation.getX() > world.getBoundsReference().getMaxX() ) {
-                newX = world.getBoundsReference().getMaxX();
-            }
-            
-            // adjust y coordinate
-            double newY = eFieldProbeLocation.getY();
-            if ( eFieldProbeLocation.getY() < world.getBoundsReference().getY() ) {
-                newY = world.getBoundsReference().getY();
-            }
-            else if ( eFieldProbeLocation.getY() > world.getBoundsReference().getMaxY() ) {
-                newY = world.getBoundsReference().getMaxY();
-            }
-            
-            // z is fixed
-            final double z = eFieldProbeLocation.getZ();
-            
-            setProbeLocation( new Point3D.Double( newX, newY, z ) );
-        }
     }
 }

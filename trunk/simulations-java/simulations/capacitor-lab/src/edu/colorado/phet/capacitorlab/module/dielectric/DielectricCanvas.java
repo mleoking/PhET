@@ -18,7 +18,10 @@ import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
-import edu.colorado.phet.capacitorlab.view.*;
+import edu.colorado.phet.capacitorlab.view.BatteryNode;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
+import edu.colorado.phet.capacitorlab.view.WireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -96,8 +99,8 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCircuit(), playAreaBoundsNode );
         chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
         energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
-        voltmeter = new VoltmeterView( model.getVoltmeter(), model.getWorld(), mvt, playAreaBoundsNode, dev );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), model.getWorld(), mvt, playAreaBoundsNode, dev );
+        voltmeter = new VoltmeterView( model.getVoltmeter(), mvt, playAreaBoundsNode, dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, playAreaBoundsNode, dev );
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
         

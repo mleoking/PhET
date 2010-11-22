@@ -44,16 +44,25 @@ public class Voltmeter {
         this.negativeProbeLocationProperty = new Property<Point3D>( negativeProbeLocation );
         this.valueProperty = new Property<Double>( 0d ); // will be properly initialized by updateValue
         
-        world.addBoundsObserver( new SimpleObserver() {
-            public void update() {
-                if ( !world.isBoundsEmpty() ) {
-                    constrainProbeLocation( Voltmeter.this.positiveProbeLocationProperty );
-                    constrainProbeLocation( Voltmeter.this.negativeProbeLocationProperty );
+        // observers
+        {
+            // keep the probes inside the world bounds
+            world.addBoundsObserver( new SimpleObserver() {
+                public void update() {
+                    setPositiveProbeLocation( world.getConstrainedLocation( getPositiveProbeLocationReference() ) );
+                    setNegativeProbeLocation( world.getConstrainedLocation( getNegativeProbeLocationReference() ) );
                 }
-            }
-        } );
-        
-        updateValue();
+            } );
+            
+            // update value when probes move
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
+                    updateValue();
+                }
+            };
+            positiveProbeLocationProperty.addObserver( o );
+            negativeProbeLocationProperty.addObserver( o );
+        }
     }
     
     private void updateValue() {
@@ -95,10 +104,7 @@ public class Voltmeter {
     }
     
     public void setPositiveProbeLocation( Point3D location ) {
-        if ( !location.equals( getPositiveProbeLocationReference() )) {
-            this.positiveProbeLocationProperty.setValue( new Point3D.Double( location ) );
-            updateValue();
-        }
+        positiveProbeLocationProperty.setValue( world.getConstrainedLocation( location ) );
     }
     
     public void addPositiveProbeLocationObserver( SimpleObserver o ) {
@@ -110,10 +116,7 @@ public class Voltmeter {
     }
     
     public void setNegativeProbeLocation( Point3D location ) {
-        if ( !location.equals( getNegativeProbeLocationReference() )) {
-            this.negativeProbeLocationProperty.setValue( new Point3D.Double( location ) );
-            updateValue();
-        }
+        negativeProbeLocationProperty.setValue( world.getConstrainedLocation( location ) );
     }
     
     public void addNegativeProbeLocationObserver( SimpleObserver o ) {
@@ -125,40 +128,10 @@ public class Voltmeter {
     }
     
     public void setValue( double value ) {
-        if ( value != getValue() ) {
-            this.valueProperty.setValue( value );
-        }
+        valueProperty.setValue( value );
     }
     
     public void addValueObserver( SimpleObserver o ) {
         valueProperty.addObserver( o );
-    }
-    
-    private void constrainProbeLocation( Property<Point3D> probeLocation ) {
-        if ( !world.contains( probeLocation.getValue() ) ) {
-            
-            // adjust x coordinate
-            double newX = probeLocation.getValue().getX();
-            if ( probeLocation.getValue().getX() < world.getBoundsReference().getX() ) {
-                newX = world.getBoundsReference().getX();
-            }
-            else if ( probeLocation.getValue().getX() > world.getBoundsReference().getMaxX() ) {
-                newX = world.getBoundsReference().getMaxX();
-            }
-            
-            // adjust y coordinate
-            double newY = probeLocation.getValue().getY();
-            if ( probeLocation.getValue().getY() < world.getBoundsReference().getY() ) {
-                newY = world.getBoundsReference().getY();
-            }
-            else if ( probeLocation.getValue().getY() > world.getBoundsReference().getMaxY() ) {
-                newY = world.getBoundsReference().getMaxY();
-            }
-            
-            // z is fixed
-            final double z = probeLocation.getValue().getZ();
-            
-            probeLocation.setValue( new Point3D.Double( newX, newY, z ) );
-        }
     }
 }

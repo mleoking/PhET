@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
-import edu.colorado.phet.capacitorlab.model.World;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,8 +26,8 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
 
     public static class PositiveVoltmeterProbeNode extends VoltmeterProbeNode {
         
-        public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, World world, final CLModelViewTransform3D mvt ) {
-            super( CLImages.RED_VOLTMETER_PROBE, voltmeter, world, mvt );
+        public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
+            super( CLImages.RED_VOLTMETER_PROBE, voltmeter, mvt );
             voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( voltmeter.getPositiveProbeLocationReference() ) );
@@ -47,8 +46,8 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
 
     public static class NegativeVoltmeterProbeNode extends VoltmeterProbeNode {
         
-        public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, World world, final CLModelViewTransform3D mvt ) {
-            super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, world, mvt );
+        public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
+            super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, mvt );
             voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( voltmeter.getNegativeProbeLocationReference() ) );
@@ -69,7 +68,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     private final VoltmeterShapeFactory shapeFactory;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
-    public VoltmeterProbeNode( Image image, final Voltmeter voltmeter, World world, final CLModelViewTransform3D mvt ) {
+    public VoltmeterProbeNode( Image image, final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
         
         this.voltmeter = voltmeter;
         this.shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
@@ -86,7 +85,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
         rotate( -mvt.getYaw() );
         
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new ProbeDragHandler( this, world, mvt ) );
+        addInputEventListener( new ProbeDragHandler( this, mvt ) );
     }
     
     protected Voltmeter getVoltmeter() {
@@ -108,14 +107,12 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     private static class ProbeDragHandler extends PDragSequenceEventHandler {
         
         private final VoltmeterProbeNode probeNode;
-        private final World world;
         private final CLModelViewTransform3D mvt;
         
         private double clickXOffset, clickYOffset;
         
-        public ProbeDragHandler( VoltmeterProbeNode probeNode, World world, CLModelViewTransform3D mvt ) {
+        public ProbeDragHandler( VoltmeterProbeNode probeNode, CLModelViewTransform3D mvt ) {
             this.probeNode = probeNode;
-            this.world = world;
             this.mvt = mvt;
         }
         
@@ -135,10 +132,7 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
             double xView = pMouse.getX() - clickXOffset;
             double yView = pMouse.getY() - clickYOffset;
             Point3D pModel = new Point3D.Double( mvt.viewToModel( xView, yView ) );
-            // prevent probe from being dragged outside world bounds
-            if ( world.contains( pModel ) ) {
-                probeNode.setProbeLocation( pModel );
-            }
+            probeNode.setProbeLocation( pModel );
         }
     }
 }

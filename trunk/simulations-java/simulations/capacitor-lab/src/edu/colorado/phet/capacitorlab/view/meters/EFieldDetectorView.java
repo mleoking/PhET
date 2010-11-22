@@ -5,9 +5,8 @@ package edu.colorado.phet.capacitorlab.view.meters;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
-import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.World;
+import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 
@@ -27,9 +26,9 @@ public class EFieldDetectorView {
     private final EFieldDetectorProbeNode probeNode;
     private final ProbeWireNode wireNode;
     
-    public EFieldDetectorView( final EFieldDetector detector, World world, CLModelViewTransform3D mvt, PNode dragBoundsNode, boolean dev ) {
+    public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, PNode dragBoundsNode, boolean dev ) {
         bodyNode = new EFieldDetectorBodyNode( detector, dragBoundsNode );
-        probeNode = new EFieldDetectorProbeNode( detector, world, mvt, dev );
+        probeNode = new EFieldDetectorProbeNode( detector, mvt, dev );
         wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
                 bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );
         
