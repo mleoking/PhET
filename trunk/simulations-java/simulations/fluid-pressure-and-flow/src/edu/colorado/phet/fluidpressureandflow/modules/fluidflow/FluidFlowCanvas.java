@@ -116,7 +116,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         }};
         addChild( new FloatingClockControlNode( clockRunning, new Function1<Double, String>() {
             public String apply( Double time ) {
-                return (int) ( time / 1.00 ) + " sec";
+//                return (int) ( time / 1.00 ) + " sec";
+                return "";
             }
         }, module.getClock() ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
