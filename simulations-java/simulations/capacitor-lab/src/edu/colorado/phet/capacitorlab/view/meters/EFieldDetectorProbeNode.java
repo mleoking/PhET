@@ -13,9 +13,6 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -58,45 +55,20 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         });
         
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new ProbeDragHandler( this, detector, mvt ) );
+        addInputEventListener( new CLModelElementDragHandler( this, mvt ) {
+            
+            protected Point3D getModelLocation() {
+                return detector.getProbeLocationReference();
+            }
+            
+            protected void setModelLocation( Point3D location ) {
+                detector.setProbeLocation( location );
+            }
+        });
     }
     
     public Point2D getConnectionOffset() {
         return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
-    }
-    
-    private static class ProbeDragHandler extends PDragSequenceEventHandler {
-        
-        private final PNode probeNode;
-        private final EFieldDetector detector;
-        private final CLModelViewTransform3D mvt;
-        
-        private double clickXOffset, clickYOffset;
-        
-        public ProbeDragHandler( PNode probeNode, EFieldDetector detector, CLModelViewTransform3D mvt ) {
-            this.probeNode = probeNode;
-            this.detector = detector;
-            this.mvt = mvt;
-        }
-        
-        @Override
-        protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
-            Point2D pOrigin = mvt.modelToViewDelta( detector.getProbeLocationReference() );
-            clickXOffset = pMouse.getX() - pOrigin.getX();
-            clickYOffset = pMouse.getY() - pOrigin.getY();
-        }
-        
-        @Override
-        protected void drag( final PInputEvent event ) {
-            super.drag( event );
-            Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
-            double xView = pMouse.getX() - clickXOffset;
-            double yView = pMouse.getY() - clickYOffset;
-            Point3D pModel = new Point3D.Double( mvt.viewToModel( xView, yView ) );
-            detector.setProbeLocation( pModel );
-        }
     }
 }
 
