@@ -12,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
@@ -68,7 +69,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Reset all button
-        addChild( new ButtonNode( "Reset all", (int) ( WorkEnergyControlPanel.CONTROL_FONT.getSize() * 1.3 ), WorkEnergyControlPanel.FOREGROUND, WorkEnergyControlPanel.BACKGROUND ) {{
+        addChild( new ButtonNode( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), (int) ( WorkEnergyControlPanel.CONTROL_FONT.getSize() * 1.3 ), WorkEnergyControlPanel.FOREGROUND, WorkEnergyControlPanel.BACKGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

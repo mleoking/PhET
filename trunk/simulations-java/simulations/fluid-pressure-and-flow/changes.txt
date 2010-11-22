@@ -1,3 +1,4 @@
+Use phetcommon text for "reset all" string
 Fixed: sensor nodes occluded by control panel
 Fixed: Fluid Density button and associated control fall off left edge of play area
 Added water tower and water drops
