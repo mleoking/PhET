@@ -50,7 +50,7 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
         setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 
-        setLayout( new GridLayout( 11, 1 ) );
+        setLayout( new GridLayout( checkBoxList.size() + 1, 1 ) );
         for ( JCheckBox checkBox : checkBoxList ){
             add( checkBox );
         }
