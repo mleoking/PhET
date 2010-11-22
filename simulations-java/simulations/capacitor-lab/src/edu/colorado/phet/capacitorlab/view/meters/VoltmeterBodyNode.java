@@ -11,9 +11,9 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
-import edu.colorado.phet.capacitorlab.view.CLLocationDragHandler;
 import edu.colorado.phet.capacitorlab.view.DoubleDisplayNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -95,7 +95,7 @@ public class VoltmeterBodyNode extends PhetPNode {
         
         // interactivity
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new CLLocationDragHandler( this, mvt ) {
+        addInputEventListener( new LocationDragHandler( this, mvt ) {
             
             protected Point3D getModelLocation() {
                 return voltmeter.getBodyLocationReference();

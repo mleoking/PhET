@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.view;
+package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.geom.Point2D;
 
@@ -15,14 +15,14 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class CLLocationDragHandler extends PDragSequenceEventHandler {
+public abstract class LocationDragHandler extends PDragSequenceEventHandler {
     
     private final PNode dragNode;
     private final CLModelViewTransform3D mvt;
     
     private double clickXOffset, clickYOffset;
     
-    public CLLocationDragHandler( PNode dragNode, CLModelViewTransform3D mvt ) {
+    public LocationDragHandler( PNode dragNode, CLModelViewTransform3D mvt ) {
         this.dragNode = dragNode;
         this.mvt = mvt;
     }

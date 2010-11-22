@@ -6,9 +6,9 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
+import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.capacitorlab.view.CLLocationDragHandler;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -56,7 +56,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         });
         
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new CLLocationDragHandler( this, mvt ) {
+        addInputEventListener( new LocationDragHandler( this, mvt ) {
             
             protected Point3D getModelLocation() {
                 return detector.getProbeLocationReference();
