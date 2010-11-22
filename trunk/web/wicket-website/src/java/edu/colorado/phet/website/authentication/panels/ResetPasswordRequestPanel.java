@@ -152,7 +152,7 @@ public class ResetPasswordRequestPanel extends PhetPanel {
     private void checkSecurity() {
         if ( !allowHost( getPhetCycle().getRemoteHost() ) ) {
             // they have had too many requests. deny.
-            throw new RestartResponseAtInterceptPageException( ErrorPage.class );
+            ErrorPage.redirectToErrorPage();
         }
     }
 

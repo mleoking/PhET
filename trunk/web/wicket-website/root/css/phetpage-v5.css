@@ -225,3 +225,7 @@ div.copyright {
     font-size: 12px;
     padding-top: 5px;
 }
+
+.feedback-errors span {
+    color: red;
+}

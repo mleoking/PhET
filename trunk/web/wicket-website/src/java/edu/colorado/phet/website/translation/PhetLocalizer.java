@@ -14,13 +14,14 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.panels.ChangePasswordPanel;
 import edu.colorado.phet.website.data.Translation;
+import edu.colorado.phet.website.newsletter.InitialSubscribePanel;
 import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.templates.Stylable;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.StringUtils;
 
 /**
- * Wrapper over the wicket Localizer so we can properly look up translated strings based on either locale or a specific
+ * Result over the wicket Localizer so we can properly look up translated strings based on either locale or a specific
  * translation ID. Additionally correctly handles caching behavior, and seamlessly returning English strings if a
  * string isn't translated into the desired language.
  */
@@ -246,7 +247,7 @@ public class PhetLocalizer extends Localizer {
      */
     private String mapStrings( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) {
         //TODO: move the logic into the respective panels.
-        if ( key.endsWith( "Required" ) && component.findParent( ContributionEditPanel.class )!=null ) {
+        if ( key.endsWith( "Required" ) && component.findParent( ContributionEditPanel.class ) != null ) {
             if ( key.equals( "authors.Required" ) ) {
                 return "contribution.edit.authors.Required";
             }
@@ -262,8 +263,12 @@ public class PhetLocalizer extends Localizer {
             else if ( key.equals( "keywords.Required" ) ) {
                 return "contribution.edit.keywords.Required";
             }
-        }else if (key.endsWith( "Required" ) &&component.findParent( ChangePasswordPanel.class )!=null){
+        }
+        else if ( key.endsWith( "Required" ) && component.findParent( ChangePasswordPanel.class ) != null ) {
             return "changePassword.validation.newPasswordBlank";
+        }
+        else if ( key.endsWith( "Required" ) && component.findParent( InitialSubscribePanel.class ) != null ) {
+            return "newsletter.validation.email.Required";
         }
         return key;
     }

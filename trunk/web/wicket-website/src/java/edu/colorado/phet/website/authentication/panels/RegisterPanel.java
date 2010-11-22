@@ -131,25 +131,23 @@ public class RegisterPanel extends PhetPanel {
                         // TODO: add option to reset password for an existing account?
                     }
                     else {
-                        PhetUser user = new PhetUser();
-                        user.setTeamMember( false );
+                        PhetUser user = new PhetUser( email, false );
                         user.setName( nom );
                         user.setOrganization( org );
                         user.setDescription( desc );
-                        user.setEmail( email );
                         user.setPassword( pass );
                         session.save( user );
                     }
 
                     tx.commit();
                 }
-                catch( RuntimeException e ) {
+                catch ( RuntimeException e ) {
                     logger.warn( e );
                     if ( tx != null && tx.isActive() ) {
                         try {
                             tx.rollback();
                         }
-                        catch( HibernateException e1 ) {
+                        catch ( HibernateException e1 ) {
                             logger.error( "ERROR: Error rolling back transaction", e1 );
                         }
                         throw e;

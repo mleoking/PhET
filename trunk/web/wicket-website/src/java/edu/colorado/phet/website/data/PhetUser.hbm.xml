@@ -10,8 +10,10 @@
         <property name="email"/>
         <!--Before 6-25-2010, the hashed password was called "password" instead of "hashedPassword", therefore, 
         we need this mapping to maintain compatibility with the pre-existing database entries.-->
-        <property name="hashedPassword" column="password" />
+        <property name="hashedPassword" column="password"/>
         <property name="teamMember"/>
+        <property name="confirmed"/>
+        <property name="newsletterOnlyAccount"/>
         <set name="translations" table="user_translation_mapping">
             <key column="user_id"/>
             <many-to-many class="edu.colorado.phet.website.data.Translation" column="translation_id"/>
@@ -29,6 +31,7 @@
         <property name="phone1"/>
         <property name="phone2"/>
         <property name="fax"/>
+        <property name="confirmationKey"/>
         <property name="receiveEmail"/>
         <property name="receiveWebsiteNotifications"/>
     </class>

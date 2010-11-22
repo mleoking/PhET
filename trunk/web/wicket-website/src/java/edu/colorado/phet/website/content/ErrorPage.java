@@ -1,6 +1,7 @@
 package edu.colorado.phet.website.content;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.Linkers;
@@ -8,6 +9,11 @@ import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 
 public class ErrorPage extends PhetMenuPage {
+
+    public static void redirectToErrorPage() {
+        throw new RestartResponseAtInterceptPageException( ErrorPage.class );
+    }
+
     public ErrorPage( PageParameters parameters ) {
         super( parameters );
 
