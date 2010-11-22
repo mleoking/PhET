@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class BatteryNode extends PhetPNode {
     
-    public BatteryNode( final Battery battery, boolean dev, DoubleRange voltageRange ) {
+    public BatteryNode( final Battery battery, DoubleRange voltageRange ) {
         
         // battery image, scaled to match model dimensions
         final PImage imageNode = new PImage( CLImages.BATTERY_UP );

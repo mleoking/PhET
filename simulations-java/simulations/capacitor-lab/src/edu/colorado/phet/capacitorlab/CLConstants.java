@@ -112,7 +112,7 @@ public class CLConstants {
     public static final Dimension MINUS_CHARGE_SIZE = new Dimension( 7, 2 );
     
     // dielectric charges
-    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.ALL;
+    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.TOTAL;
     
     // E-field
     public static final boolean EFIELD_VISIBLE = false;

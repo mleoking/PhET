@@ -2,20 +2,16 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.util.EventListener;
-
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a capacitor.
@@ -24,25 +20,28 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class CapacitorNode extends PhetPNode {
     
-    private final static float TRANSPARENCY = 0.75f;
-
     private final BatteryCapacitorCircuit circuit;
     private final CLModelViewTransform3D mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     private final EFieldNode eFieldNode;
-    private final EventListenerList listeners;
     
-    public CapacitorNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, boolean dev ) {
+    // observable properties
+    private final Property<Boolean> plateChargeVisibleProperty, eFieldVisibleProperty;
+    
+    public CapacitorNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, 
+            boolean plateChargeVisible, boolean eFieldVisible, DielectricChargeView dielectricChargeView ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
-        this.listeners = new EventListenerList();
+        
+        plateChargeVisibleProperty = new Property<Boolean>( plateChargeVisible );
+        eFieldVisibleProperty = new Property<Boolean>( eFieldVisible );
         
         // child nodes
         topPlateNode = new TopPlateNode( circuit, mvt );
         bottomPlateNode = new BottomPlateNode( circuit, mvt );
-        dielectricNode = new DielectricNode( circuit, mvt, dev, CLConstants.DIELECTRIC_OFFSET_RANGE );
+        dielectricNode = new DielectricNode( circuit, mvt, CLConstants.DIELECTRIC_OFFSET_RANGE, dielectricChargeView );
         eFieldNode = new EFieldNode( circuit, mvt );
         
         // rendering order
@@ -51,77 +50,69 @@ public class CapacitorNode extends PhetPNode {
         addChild( dielectricNode ); // dielectric between the plates
         addChild( topPlateNode );
         
-        // update geometry when dimensions change
-        SimpleObserver o = new SimpleObserver() {
-            public void update() {
-                updateGeometry();
-            }
-        };
-        circuit.getCapacitor().addPlateSizeObserver( o );
-        circuit.getCapacitor().addPlateSeparationObserver( o );
-        circuit.getCapacitor().addDielectricOffsetObserver( o );
+        // observers
+        {
+            // update geometry when dimensions change
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
+                    updateGeometry();
+                }
+            };
+            circuit.getCapacitor().addPlateSizeObserver( o );
+            circuit.getCapacitor().addPlateSeparationObserver( o );
+            circuit.getCapacitor().addDielectricOffsetObserver( o );
+            
+            plateChargeVisibleProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    topPlateNode.setChargeVisible( isPlateChargeVisible() );
+                    bottomPlateNode.setChargeVisible( isPlateChargeVisible() );
+                }
+            } );
+            
+            eFieldVisibleProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    eFieldNode.setVisible( isEFieldVisible() );
+                }
+            } );
+        }
     }
     
-    /**
-     * Controls the opacity of the dielectric.
-     * This is needed because the dielectric must be transparent to see E-field.
-     * @param opaque
-     */
-    public void setDielectricOpaque( boolean opaque ) {
-        float transparency = ( opaque ) ? 1f : TRANSPARENCY;
-        /*
-         * Some dielectric materials are naturally transparent.
-         * Modify dielectric transparency only if it's not already transparent. 
-         */
-        if ( circuit.getCapacitor().getDielectricMaterial().isOpaque() ) {
-            dielectricNode.setTransparency( transparency );
-        }
+    public void reset() {
+        plateChargeVisibleProperty.reset();
+        eFieldVisibleProperty.reset();
+        dielectricNode.reset();
+    }
+    
+    public DielectricNode getDielectricNode() {
+        return dielectricNode;
     }
     
     public void setDielectricVisible( boolean visible ) {
         dielectricNode.setVisible( visible );
     }
     
+    public void addPlateChargeVisibleObserver( SimpleObserver o ) {
+        plateChargeVisibleProperty.addObserver( o );
+    }
+    
     public void setPlateChargeVisible( boolean visible ) {
-        if ( visible != topPlateNode.isChargeVisible() ) {
-            topPlateNode.setChargeVisible( visible );
-            bottomPlateNode.setChargeVisible( visible );
-            firePlateChargeVisibleChanged();
-        }
+        plateChargeVisibleProperty.setValue( visible );
     }
     
     public boolean isPlateChargeVisible() {
-        return topPlateNode.isChargeVisible();
+        return plateChargeVisibleProperty.getValue();
     }
     
-    public void setDielectricChargeView( DielectricChargeView view ) {
-        if ( !view.equals( dielectricNode.getDielectricChargeView() ) ) {
-            dielectricNode.setDielectricChargeView( view );
-            fireDielectricChargeViewChanged();
-        }
-    }
-    
-    public DielectricChargeView getDielectricChargeView() {
-        return dielectricNode.getDielectricChargeView();
+    public void addEFieldVisibleObserver( SimpleObserver o ) {
+        eFieldVisibleProperty.addObserver( o );
     }
     
     public void setEFieldVisible( boolean visible ) {
-        if ( visible != eFieldNode.isVisible() ) {
-            eFieldNode.setVisible( visible );
-            fireEFieldVisibleChanged();
-        }
+        eFieldVisibleProperty.setValue( visible );
     }
     
     public boolean isEFieldVisible() {
-        return eFieldNode.isVisible();
-    }
-    
-    /**
-     * Provides so we can watch visibility using a PropertyChangeListener. 
-     * @return
-     */
-    public PNode getEFieldNode() {
-        return eFieldNode;
+        return eFieldVisibleProperty.getValue();
     }
     
     private void updateGeometry() {
@@ -152,43 +143,5 @@ public class CapacitorNode extends PhetPNode {
         double y = -circuit.getCapacitor().getDielectricSize().getHeight() / 2;
         double z = 0;
         dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
-    }
-    
-    public interface CapacitorNodeChangeListener extends EventListener {
-        public void plateChargeVisibleChanged();
-        public void eFieldVisibleChanged();
-        public void dielectricChargeViewChanged();
-    }
-    
-    public static class CapacitorNodeChangeAdapter implements CapacitorNodeChangeListener {
-        public void plateChargeVisibleChanged() {}
-        public void eFieldVisibleChanged() {}
-        public void dielectricChargeViewChanged() {}
-    }
-    
-    public void addCapacitorNodeChangeListener( CapacitorNodeChangeListener listener ) {
-        listeners.add( CapacitorNodeChangeListener.class, listener );
-    }
-    
-    public void removeCapacitorNodeChangeListener( CapacitorNodeChangeListener listener ) {
-        listeners.remove( CapacitorNodeChangeListener.class, listener );
-    }
-    
-    private void firePlateChargeVisibleChanged() {
-        for ( CapacitorNodeChangeListener listener : listeners.getListeners( CapacitorNodeChangeListener.class ) ) {
-            listener.plateChargeVisibleChanged();
-        }
-    }
-    
-    private void fireEFieldVisibleChanged() {
-        for ( CapacitorNodeChangeListener listener : listeners.getListeners( CapacitorNodeChangeListener.class ) ) {
-            listener.eFieldVisibleChanged();
-        }
-    }
-    
-    private void fireDielectricChargeViewChanged() {
-        for ( CapacitorNodeChangeListener listener : listeners.getListeners( CapacitorNodeChangeListener.class ) ) {
-            listener.dielectricChargeViewChanged();
-        }
     }
 }

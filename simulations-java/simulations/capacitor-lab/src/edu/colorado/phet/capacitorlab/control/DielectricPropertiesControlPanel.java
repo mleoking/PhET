@@ -64,7 +64,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             }
         } );
         
-        chargesControl = new DielectricChargesControl( capacitorNode );
+        chargesControl = new DielectricChargesControl( capacitorNode.getDielectricNode() );
         
         // layout
         GridPanel innerPanel = new GridPanel();

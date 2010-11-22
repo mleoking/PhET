@@ -32,7 +32,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
 
-    public DielectricTotalChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, boolean dev ) {
+    public DielectricTotalChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
         
         this.circuit = circuit;
         this.mvt = mvt;
