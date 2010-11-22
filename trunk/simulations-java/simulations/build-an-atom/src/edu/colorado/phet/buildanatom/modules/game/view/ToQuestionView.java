@@ -57,8 +57,8 @@ public abstract class ToQuestionView extends ProblemView {
 
     @Override
     protected void setGuessEditable( boolean guessEditable ) {
-        // TODO: Need to implement.
-        System.err.println( getClass().getName() + " - Error: Need to implement this!" );
+        question.setPickable( guessEditable );
+        question.setChildrenPickable( guessEditable );
     }
 
     protected EntryPanel getQuestion(){
