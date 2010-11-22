@@ -1,6 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.model;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -34,7 +35,15 @@ public class Pool {
         return getShape().getBounds2D().getMaxX();
     }
 
+    public double getMaxY() {
+        return getShape().getBounds2D().getMaxY();
+    }
+
     public double getMinY() {
-        return -getHeight();
+        return -getHeight();   //TODO: why is this different than other implementations of getMin.()?
+    }
+
+    public Point2D getTopRight() {
+        return new Point2D.Double( getMaxX(), getMaxY());
     }
 }
