@@ -34,6 +34,10 @@ public class EntryPanel extends PNode {
     }
 
     public EntryPanel( String labelText, final Property<Integer> property, int min, int max ) {
+        this( labelText, property, min, max, ValueNode.DEFAULT_NUMBER_FORMAT );
+    }
+
+    public EntryPanel( String labelText, final Property<Integer> property, int min, int max, NumberFormat numberFormat ) {
 
         label = new HTMLNode("Dummy Text") {{
             setFont( FONT );
@@ -55,7 +59,7 @@ public class EntryPanel extends PNode {
         } );
 
         editable = new Property<Boolean>( true );
-        valueNode = new ValueNode( property, min, max, 1, editable, ValueNode.DEFAULT_NUMBER_FORMAT, ValueNode.DEFAULT_COLOR_FUNCTION );
+        valueNode = new ValueNode( property, min, max, 1, editable, numberFormat, ValueNode.DEFAULT_COLOR_FUNCTION );
         valueNode.setScale( spinnerHeight / valueNode.getFullBoundsReference().height * 0.9 );
         valueNode.setOffset( label.getFullBoundsReference().width + 15,
                 label.getFullBounds().getHeight() - valueNode.getFullBounds().getHeight() );

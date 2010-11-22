@@ -3,6 +3,8 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 
+import java.text.NumberFormat;
+
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -22,9 +24,10 @@ public abstract class ToQuestionView extends ProblemView {
 
     /**
      * Constructor.
+     * @param numberFormat TODO
      */
     public ToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem,
-            String questionText, int minValue, int maxValue ) {
+            String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
 
         super( model, gameCanvas, problem );
 

@@ -99,12 +99,14 @@ public class ProblemSet {
     };
     private static final ArrayList<ProblemType> LEVEL_2_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
-            add( ProblemType.SCHEMATIC_TO_MASS_QEUSTION );
-            add( ProblemType.SCHEMATIC_TO_PROTON_COUNT_QEUSTION );
+            add( ProblemType.SCHEMATIC_TO_CHARGE_QUESTION );
+            add( ProblemType.SCHEMATIC_TO_MASS_QUESTION );
+            add( ProblemType.SCHEMATIC_TO_PROTON_COUNT_QUESTION );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
@@ -219,10 +221,13 @@ public class ProblemSet {
         case SCHEMATIC_TO_ELEMENT:
             problem = new SchematicToElementProblem( model, atomValue );
             break;
-        case SCHEMATIC_TO_MASS_QEUSTION:
+        case SCHEMATIC_TO_CHARGE_QUESTION:
+            problem = new SchematicToChargeQuestionProblem( model, atomValue );
+            break;
+        case SCHEMATIC_TO_MASS_QUESTION:
             problem = new SchematicToMassQuestionProblem( model, atomValue );
             break;
-        case SCHEMATIC_TO_PROTON_COUNT_QEUSTION:
+        case SCHEMATIC_TO_PROTON_COUNT_QUESTION:
             problem = new SchematicToProtonCountQuestionProblem( model, atomValue );
             break;
         case SCHEMATIC_TO_SYMBOL_ALL:
@@ -256,8 +261,9 @@ public class ProblemSet {
      */
     private boolean isSchematicProbType( ProblemType problemType ){
         return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT ||
-                 problemType == ProblemType.SCHEMATIC_TO_MASS_QEUSTION ||
-                 problemType == ProblemType.SCHEMATIC_TO_PROTON_COUNT_QEUSTION ||
+                 problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ||
+                 problemType == ProblemType.SCHEMATIC_TO_MASS_QUESTION ||
+                 problemType == ProblemType.SCHEMATIC_TO_PROTON_COUNT_QUESTION ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_MASS ||
