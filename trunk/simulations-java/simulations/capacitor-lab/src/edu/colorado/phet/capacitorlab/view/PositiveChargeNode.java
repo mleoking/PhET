@@ -9,6 +9,6 @@ import edu.colorado.phet.capacitorlab.CLPaints;
 public class PositiveChargeNode extends PlusNode {
 
     public PositiveChargeNode() {
-        super( CLConstants.MINUS_CHARGE_SIZE.width, CLConstants.MINUS_CHARGE_SIZE.height, CLPaints.POSITIVE_CHARGE );
+        super( CLConstants.NEGATIVE_CHARGE_SIZE.width, CLConstants.NEGATIVE_CHARGE_SIZE.height, CLPaints.POSITIVE_CHARGE );
     }
 }

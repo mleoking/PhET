@@ -240,7 +240,7 @@ public class PlateChargeControlNode extends PhetPNode {
                 }
                 
                 // snap to zero if knob is release and value is close enough to zero
-                if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD ) {
+                if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
                     charge = 0;
                 }
                 
