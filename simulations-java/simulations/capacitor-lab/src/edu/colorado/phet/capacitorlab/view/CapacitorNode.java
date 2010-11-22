@@ -95,6 +95,10 @@ public class CapacitorNode extends PhetPNode {
         plateChargeVisibleProperty.addObserver( o );
     }
     
+    public Property<Boolean> getPlateChargeVisibileProperty() {
+        return plateChargeVisibleProperty;
+    }
+    
     public void setPlateChargeVisible( boolean visible ) {
         plateChargeVisibleProperty.setValue( visible );
     }
@@ -105,6 +109,10 @@ public class CapacitorNode extends PhetPNode {
     
     public void addEFieldVisibleObserver( SimpleObserver o ) {
         eFieldVisibleProperty.addObserver( o );
+    }
+    
+    public Property<Boolean> getEFieldVisibleProperty() {
+        return eFieldVisibleProperty;
     }
     
     public void setEFieldVisible( boolean visible ) {

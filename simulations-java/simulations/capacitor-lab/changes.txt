@@ -1,3 +1,4 @@
+11/22/10 use BooleanPropertyCheckBox to simplify View control panel
 11/22/10 add BooleanPropertyCheckBox to simplify check boxes in control panels
 11/22/10 add model elements for bar meters
 11/22/10 add E-field detector body location to model, constrain to world bounds in model
