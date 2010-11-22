@@ -94,15 +94,15 @@ public class InitialSubscribePanel extends PhetPanel {
                         user = new PhetUser( emailAddress, true );
                         session.save( user );
                     }
-                    confirmationKeyResult.setObject( user.getConfirmationKey() );
+                    confirmationKeyResult.setValue( user.getConfirmationKey() );
                     return true;
                 }
             } );
             if ( success ) {
-                boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( emailAddress, confirmationKeyResult.getObject() );
+                boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( emailAddress, confirmationKeyResult.getValue() );
                 if ( emailSuccess ) {
                     PageParameters params = new PageParameters();
-                    params.put( "key", confirmationKeyResult.getObject() );
+                    params.put( "key", confirmationKeyResult.getValue() );
                     setResponsePage( InitialSubscribeConfirmPage.class, params );
                 }
                 else {

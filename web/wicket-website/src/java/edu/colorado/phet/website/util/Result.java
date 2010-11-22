@@ -8,20 +8,20 @@ package edu.colorado.phet.website.util;
  * @param <T>
  */
 public class Result<T> {
-    private T object;
+    private T value;
 
     public Result() {
     }
 
-    public Result( T object ) {
-        this.object = object;
+    public Result( T value ) {
+        this.value = value;
     }
 
-    public void setObject( T object ) {
-        this.object = object;
+    public void setValue( T value ) {
+        this.value = value;
     }
 
-    public T getObject() {
-        return object;
+    public T getValue() {
+        return value;
     }
 }
