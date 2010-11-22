@@ -1,3 +1,4 @@
+11/22/10 rename CLModelElementDragHandler to CLLocationDragHandler, move to view package
 11/22/10 consolidate duplicate drag handler code in base class CLModelElementDragHandler
 11/22/10 add voltmeter body location to model, constrain to world bounds in model
 11/22/10 remove duplicate drag constraints in model & view, consolidate model, provide constraint utility in World
