@@ -6,9 +6,11 @@ QUESTIONS FOR NOAH
 - colorblind issues?
 
 NOAH P ACTION ITEMS
-- consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
+- need a different label for "Add/Remove Wires", not appropriate in Multiple Capacitors
+- need a different check box and label for "Plate Charge" and "Plate Charge (top)" meter, not appropriate in Multiple Capacitors
+- any problems with "Capacitance" or "Stored Energy" meter labels for Multiple Capacitors? 
 - review Multiple Capacitors tab design and decide which features are unnecessary (Remove Wires, E-Field Lines, E-Field Detector)
-- need a different name for "Remove Wires" in Multiple Capacitors tab
+- consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
 
 DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
