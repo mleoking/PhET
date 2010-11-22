@@ -26,7 +26,7 @@ public class BooleanPropertyCheckBox extends JCheckBox {
             }
         } );
         
-        // udpate the check box when the model changes
+        // update the check box when the model changes
         booleanProperty.addObserver( new SimpleObserver() {
             public void update() {
                 setSelected( booleanProperty.getValue() );
