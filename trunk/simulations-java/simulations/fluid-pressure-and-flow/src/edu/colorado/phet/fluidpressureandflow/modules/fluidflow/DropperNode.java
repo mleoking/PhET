@@ -44,19 +44,6 @@ public class DropperNode extends PNode {
                     }
                 } );
             }} );
-            add( new JButton( "Drop" ) {{
-                setFont( font );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        waterDropped.update();
-                    }
-                } );
-                dropperRateProperty.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setEnabled( dropperRateProperty.getValue() == 0 );
-                    }
-                } );
-            }} );
             add(
                     new JSlider( JSlider.HORIZONTAL, 0, 100, 4 ) {{
                         setFont( font );
