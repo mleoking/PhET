@@ -6,8 +6,14 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.resonance.view {
-public class ResonanceCanvas {
+import mx.containers.Canvas;
+import mx.controls.Button;
+
+public class ResonanceCanvas extends Canvas {
     public function ResonanceCanvas() {
+        var button: Button = new Button();
+        button.label = "Hello there";
+        addChild( button );
     }
 
     public function init(): void {
