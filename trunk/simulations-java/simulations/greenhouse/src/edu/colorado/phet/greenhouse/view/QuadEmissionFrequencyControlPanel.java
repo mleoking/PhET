@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +14,6 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
-import org.lwjgl.util.Dimension;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
