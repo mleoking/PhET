@@ -20,11 +20,14 @@ public class AdminEditProfilePage extends AdminPage {
 
     private PhetUser user;
 
+    public static String USER_ID = "userId";
+    public static String USER_EMAIL = "userEmail";
+
     public AdminEditProfilePage( PageParameters parameters ) {
         super( parameters );
 
-        final String userParam = parameters.getString( "userId" );
-        final String userEmail = parameters.getString( "userEmail" );
+        final String userParam = parameters.getString( USER_ID );
+        final String userEmail = parameters.getString( USER_EMAIL );
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
@@ -86,10 +89,10 @@ public class AdminEditProfilePage extends AdminPage {
         public void onClick() {
             PageParameters params = new PageParameters();
             if ( userEmail == null ) {
-                params.add( "userId", String.valueOf( userId ) );
+                params.add( USER_ID, String.valueOf( userId ) );
             }
             else {
-                params.add( "userEmail", userEmail );
+                params.add( USER_EMAIL, userEmail );
             }
             setResponsePage( AdminEditProfilePage.class, params );
         }

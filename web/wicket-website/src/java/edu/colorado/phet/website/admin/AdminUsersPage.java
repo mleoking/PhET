@@ -37,9 +37,9 @@ public class AdminUsersPage extends AdminPage {
             }
         } );
 
-        add( new ListView( "member", teamMembers ) {
-            protected void populateItem( ListItem item ) {
-                PhetUser user = (PhetUser) item.getModel().getObject();
+        add( new ListView<PhetUser>( "member", teamMembers ) {
+            protected void populateItem( ListItem<PhetUser> item ) {
+                PhetUser user = item.getModelObject();
                 Link link = AdminEditProfilePage.getLinker( user ).getLink( "member-link", getPageContext(), getPhetCycle() );
                 item.add( link );
                 link.add( new Label( "email", user.getEmail() ) );
@@ -64,7 +64,7 @@ public class AdminUsersPage extends AdminPage {
         @Override
         protected void onSubmit() {
             PageParameters params = new PageParameters();
-            params.add( "userEmail", emailField.getModelObject().toString() );
+            params.add( AdminEditProfilePage.USER_EMAIL, emailField.getModelObject().toString() );
             setResponsePage( AdminEditProfilePage.class, params );
         }
     }

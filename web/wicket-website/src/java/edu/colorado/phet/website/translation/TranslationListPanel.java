@@ -138,8 +138,8 @@ public class TranslationListPanel extends PhetPanel {
                 item.add( new Link( "edit" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
-                        params.put( "translationId", translation.getId() );
-                        params.put( "translationLocale", LocaleUtils.localeToString( translation.getLocale() ) );
+                        params.put( TranslationEditPage.TRANSLATION_ID, translation.getId() );
+                        params.put( TranslationEditPage.TRANSLATION_LOCALE, LocaleUtils.localeToString( translation.getLocale() ) );
                         setResponsePage( TranslationEditPage.class, params );
                     }
                 } );
@@ -203,7 +203,7 @@ public class TranslationListPanel extends PhetPanel {
 
                                     return EmailUtils.sendMessage( message );
                                 }
-                                catch( MessagingException e ) {
+                                catch ( MessagingException e ) {
                                     e.printStackTrace();
                                     return false; // failure
                                 }

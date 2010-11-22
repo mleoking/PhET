@@ -102,7 +102,7 @@ public class InitialSubscribePanel extends PhetPanel {
                 boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( emailAddress, confirmationKeyResult.getValue() );
                 if ( emailSuccess ) {
                     PageParameters params = new PageParameters();
-                    params.put( "key", confirmationKeyResult.getValue() );
+                    params.put( InitialSubscribeConfirmPage.KEY, confirmationKeyResult.getValue() );
                     setResponsePage( InitialSubscribeConfirmPage.class, params );
                 }
                 else {

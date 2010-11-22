@@ -24,13 +24,15 @@ public class TranslationEditPage extends TranslationPage {
     private Locale testLocale;
     private String selectedEntityName = null;
 
+    public static final String TRANSLATION_ID = "translationId";
+    public static final String TRANSLATION_LOCALE = "translationLocale";
     private static final Logger logger = Logger.getLogger( TranslationEditPage.class.getName() );
 
     public TranslationEditPage( PageParameters parameters ) {
         super( parameters );
 
-        testLocale = LocaleUtils.stringToLocale( parameters.getString( "translationLocale" ) );
-        translationId = parameters.getInt( "translationId" );
+        testLocale = LocaleUtils.stringToLocale( parameters.getString( TRANSLATION_LOCALE ) );
+        translationId = parameters.getInt( TRANSLATION_ID );
 
         Session session = getHibernateSession();
         Transaction tx = null;
@@ -48,16 +50,16 @@ public class TranslationEditPage extends TranslationPage {
 
             tx.commit();
         }
-        catch( AuthorizationException e ) {
+        catch ( AuthorizationException e ) {
             setResponsePage( AccessDeniedPage.class );
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;

@@ -20,6 +20,12 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
     private PhetUrlMapper mapper;
 
+    public static final String FULL_PATH = "fullPath";
+    public static final String PATH = "path";
+    public static final String LOCALE_STRING = "localeString";
+    public static final String PREFIX_STRING = "prefixString";
+    public static final String LOCALE = "locale";
+    public static final String VARIATION = "variation";
     private static final Logger logger = Logger.getLogger( TranslationUrlStrategy.class.getName() );
 
     public TranslationUrlStrategy( String prefix, PhetUrlMapper mapper ) {
@@ -74,12 +80,12 @@ public class TranslationUrlStrategy implements IRequestTargetUrlCodingStrategy {
             locale = LocaleUtils.stringToLocale( "en" );
         }
 
-        params.add( "fullPath", basePath );
-        params.add( "path", path );
-        params.add( "localeString", LocaleUtils.localeToString( locale ) );
-        params.add( "prefixString", "/" + prefix + "/" + String.valueOf( translationId ) + "/" );
-        params.put( "locale", locale );
-        params.add( "variation", String.valueOf( translationId ) );
+        params.add( FULL_PATH, basePath );
+        params.add( PATH, path );
+        params.add( LOCALE_STRING, LocaleUtils.localeToString( locale ) );
+        params.add( PREFIX_STRING, "/" + prefix + "/" + String.valueOf( translationId ) + "/" );
+        params.put( LOCALE, locale );
+        params.add( VARIATION, String.valueOf( translationId ) );
         Class toClass = mapper.getMappedClass( path, params );
         return new BookmarkablePageRequestTarget( toClass, params );
     }

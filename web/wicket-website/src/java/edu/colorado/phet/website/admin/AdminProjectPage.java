@@ -36,13 +36,15 @@ public class AdminProjectPage extends AdminPage {
 
     private List<Simulation> simulations = new LinkedList<Simulation>();
 
-    private static final Logger logger = Logger.getLogger( AdminProjectPage.class.getName() );
     private AdminProjectPage.ProjectForm projectForm;
+
+    public static final String PROJECT_ID = "projectId";
+    private static final Logger logger = Logger.getLogger( AdminProjectPage.class.getName() );
 
     public AdminProjectPage( PageParameters parameters ) {
         super( parameters );
 
-        projectId = parameters.getInt( "projectId" );
+        projectId = parameters.getInt( PROJECT_ID );
 
         // fill in project, simulation list and status string
         HibernateUtils.wrapTransaction( getHibernateSession(), new StartTask() );
@@ -85,7 +87,7 @@ public class AdminProjectPage extends AdminPage {
                 title.setDefaultModel( new Model( getTitleString() ) );
 
                 PageParameters params = new PageParameters();
-                params.put( "projectId", projectId );
+                params.put( PROJECT_ID, projectId );
                 setResponsePage( AdminProjectPage.class, params );
             }
         } );

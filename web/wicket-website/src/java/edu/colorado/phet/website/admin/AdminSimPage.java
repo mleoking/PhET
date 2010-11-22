@@ -44,7 +44,7 @@ public class AdminSimPage extends AdminPage {
     public AdminSimPage( PageParameters parameters ) {
         super( parameters );
 
-        int simulationId = parameters.getInt( "simulationId" );
+        int simulationId = parameters.getInt( SIMULATION_ID );
 
         List<TeachersGuide> guides = new LinkedList<TeachersGuide>();
 
@@ -131,9 +131,9 @@ public class AdminSimPage extends AdminPage {
 
         add( new ModifyTranslationForm( "add-set-translation" ) );
 
-        add( new ListView( "translation-list", localizedSimulations ) {
-            protected void populateItem( ListItem item ) {
-                final LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+        add( new ListView<LocalizedSimulation>( "translation-list", localizedSimulations ) {
+            protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                final LocalizedSimulation lsim = item.getModelObject();
                 item.add( new Label( "locale", LocaleUtils.localeToString( lsim.getLocale() ) ) );
                 item.add( new Label( "lang-en", lsim.getLocale().getDisplayName( english ) ) );
                 item.add( new Label( "lang-locale", lsim.getLocale().getDisplayName( lsim.getLocale() ) ) );
@@ -750,6 +750,8 @@ public class AdminSimPage extends AdminPage {
         }
     }
 
+    public static final String SIMULATION_ID = "simulationId";
+
     private static abstract class CheckBoxForm extends Form {
         private CheckBox checkbox;
 
@@ -811,10 +813,10 @@ public class AdminSimPage extends AdminPage {
         public ModifyTranslationForm( String id ) {
             super( id );
 
-            localeField = new StringTextField( "locale", new Model( "" ) );
+            localeField = new StringTextField( "locale", new Model<String>( "" ) );
             localeField.setEscapeModelStrings( false );
             add( localeField );
-            titleField = new StringTextField( "title", new Model( "" ) );
+            titleField = new StringTextField( "title", new Model<String>( "" ) );
             add( titleField );
         }
 

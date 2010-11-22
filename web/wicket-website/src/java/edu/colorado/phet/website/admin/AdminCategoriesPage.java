@@ -66,7 +66,7 @@ public class AdminCategoriesPage extends AdminPage {
                 Link categoryLink = new Link( "category-link" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
-                        params.put( "categoryId", category.getId() );
+                        params.put( AdminCategoryPage.CATEGORY_ID, category.getId() );
                         setResponsePage( AdminCategoryPage.class, params );
                     }
                 };
@@ -160,7 +160,7 @@ public class AdminCategoriesPage extends AdminPage {
 
                 // redirect to the new category so we can edit it
                 PageParameters params = new PageParameters();
-                params.put( "categoryId", cats[0].getId() );
+                params.put( AdminCategoryPage.CATEGORY_ID, cats[0].getId() );
                 setResponsePage( AdminCategoryPage.class, params );
             }
         }
