@@ -16,7 +16,6 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- add meter body bounds to model
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
 - convert BatteryCapacitorCircuit to Property<T>, BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect
@@ -32,6 +31,7 @@ MEDUIUM PRIORITY
 - add circuit construction to Multiple Capacitors tab after everything else is working
 
 LOW PRIORITY
+- add meter body bounds to model
 - clean up CCKStrategyWithRounding
 - gradient paint on plate top surfaces (not on edges)
 - round the ends of wires
