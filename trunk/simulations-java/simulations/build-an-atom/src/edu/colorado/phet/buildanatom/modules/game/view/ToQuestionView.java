@@ -1,0 +1,67 @@
+/* Copyright 2010, University of Colorado */
+
+package edu.colorado.phet.buildanatom.modules.game.view;
+
+import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.Problem;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
+/**
+ * Base class for all problem views that present a single fill-in-the-blank
+ * type of question on the right side (e.g. What is the charge?).
+ *
+ * @author John Blanco
+ */
+public abstract class ToQuestionView extends ProblemView {
+
+    private final EntryPanel question;
+    private final Property<Integer> answerProperty;
+
+    /**
+     * Constructor.
+     */
+    public ToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem, String questionText ) {
+        super( model, gameCanvas, problem );
+
+        answerProperty = new Property<Integer>( 0 );
+        answerProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                // Any change to the property indicates that the user has
+                // entered something, so therefore it is time to enable the
+                // "Check Guess" button.
+                enableCheckButton();
+            }
+        }, false );
+
+        question = new EntryPanel( questionText, answerProperty);
+        question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        addChild( question );
+    }
+
+    @Override
+    public void teardown() {
+        super.teardown();
+        removeChild( question );
+    }
+
+    @Override
+    protected void setGuessEditable( boolean guessEditable ) {
+        // TODO: Need to implement.
+        System.err.println( getClass().getName() + " - Error: Need to implement this!" );
+    }
+
+    protected EntryPanel getQuestion(){
+        return question;
+    }
+
+    protected Property<Integer> getAnswerProperty(){
+        return answerProperty;
+    }
+}
