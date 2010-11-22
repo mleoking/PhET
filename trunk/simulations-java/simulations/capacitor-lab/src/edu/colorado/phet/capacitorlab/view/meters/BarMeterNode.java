@@ -15,9 +15,9 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.BarMeter;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.view.CLLocationDragHandler;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -175,7 +175,7 @@ public abstract class BarMeterNode extends PhetPNode {
             }
         });
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new CLLocationDragHandler( this, mvt ) {
+        addInputEventListener( new LocationDragHandler( this, mvt ) {
             
             protected Point3D getModelLocation() {
                 return meter.getLocationReference();

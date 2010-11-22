@@ -23,10 +23,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.capacitorlab.view.CLLocationDragHandler;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -189,7 +189,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
         // interactivity
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new CLLocationDragHandler( this, mvt ) {
+        addInputEventListener( new LocationDragHandler( this, mvt ) {
             
             protected Point3D getModelLocation() {
                 return detector.getBodyLocationReference();
