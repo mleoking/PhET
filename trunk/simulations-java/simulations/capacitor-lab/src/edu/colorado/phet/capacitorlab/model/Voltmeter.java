@@ -23,6 +23,8 @@ public class Voltmeter {
     // observable properties
     private final Property<Boolean> visibleProperty;
     private final Property<Point3D> positiveProbeLocationProperty, negativeProbeLocationProperty;
+    
+    // derived observable properties
     private final Property<Double> valueProperty;
 
     public Voltmeter( BatteryCapacitorCircuit circuit, final World world, CLModelViewTransform3D mvt, boolean visible, Point3D positiveProbeLocation, Point3D negativeProbeLocation ) {
