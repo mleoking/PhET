@@ -52,8 +52,8 @@ public class DielectricCanvas extends CLCanvas {
     
     // meters
     private final CapacitanceMeterNode capacitanceMeterNode;
-    private final PlateChargeMeterNode chargeMeterNode;
-    private final StoredEnergyMeterNode energyMeterNode;
+    private final PlateChargeMeterNode plateChargeMeterNode;
+    private final StoredEnergyMeterNode storedEnergyMeterNode;
     private final VoltmeterView voltmeter;
     private final EFieldDetectorView eFieldDetector;
     
@@ -96,10 +96,10 @@ public class DielectricCanvas extends CLCanvas {
         playAreaBoundsNode.setStroke( null );
         addChild( playAreaBoundsNode );
         
-        capacitanceMeterNode = new CapacitanceMeterNode( model.getCircuit(), playAreaBoundsNode );
-        chargeMeterNode = new PlateChargeMeterNode( model.getCircuit(), playAreaBoundsNode );
-        energyMeterNode = new StoredEnergyMeterNode( model.getCircuit(), playAreaBoundsNode );
-        voltmeter = new VoltmeterView( model.getVoltmeter(), mvt, playAreaBoundsNode, dev );
+        capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt );
+        plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
+        storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
+        voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, dev );
         
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
@@ -127,8 +127,8 @@ public class DielectricCanvas extends CLCanvas {
         addChild( removeWiresButtonNode );
         addChild( plateChargeControNode );
         addChild( capacitanceMeterNode );
-        addChild( chargeMeterNode );
-        addChild( energyMeterNode );
+        addChild( plateChargeMeterNode );
+        addChild( storedEnergyMeterNode );
         addChild( eFieldDetector.getBodyNode() );
         addChild( eFieldDetector.getWireNode() );
         addChild( eFieldDetector.getProbeNode() );
@@ -203,16 +203,6 @@ public class DielectricCanvas extends CLCanvas {
         updateBatteryConnectivity();
         // capacitor view
         capacitorNode.reset();
-        // meter locations & visibility
-        {
-            //TODO move these properties into model
-            capacitanceMeterNode.setOffset( CLConstants.CAPACITANCE_METER_LOCATION );
-            chargeMeterNode.setOffset( CLConstants.CHARGE_METER_LOCATION );
-            energyMeterNode.setOffset( CLConstants.ENERGY_METER_LOCATION );
-            capacitanceMeterNode.setVisible( CLConstants.CAPACITANCE_METER_VISIBLE );
-            chargeMeterNode.setVisible( CLConstants.CHARGE_METER_VISIBLE );
-            energyMeterNode.setVisible( CLConstants.ENERGY_METER_VISIBLE );
-        }
     }
     
     public void setEFieldShapesVisible( boolean enabled ) {
@@ -228,7 +218,7 @@ public class DielectricCanvas extends CLCanvas {
     }
     
     public PNode getChargeMeterNode() {
-        return chargeMeterNode;
+        return plateChargeMeterNode;
     }
     
     public PNode getCapacitanceMeterNode() {
@@ -236,7 +226,7 @@ public class DielectricCanvas extends CLCanvas {
     }
     
     public PNode getEnergyMeterNode() {
-        return energyMeterNode;
+        return storedEnergyMeterNode;
     }
     
     public VoltmeterView getVoltMeter() {
@@ -289,8 +279,8 @@ public class DielectricCanvas extends CLCanvas {
         
         // If anything draggable is outside the canvas and doesn't have an associated model element, move it inside.
         keepInsideCanvas( capacitanceMeterNode );
-        keepInsideCanvas( chargeMeterNode );
-        keepInsideCanvas( energyMeterNode );
+        keepInsideCanvas( plateChargeMeterNode );
+        keepInsideCanvas( storedEnergyMeterNode );
         keepInsideCanvas( eFieldDetector.getBodyNode() );
     }
 }

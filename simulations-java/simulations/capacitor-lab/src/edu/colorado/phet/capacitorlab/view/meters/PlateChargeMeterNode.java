@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.Color;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.PlateChargeMeter;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Meter that displays charge on the capacitor plates. 
@@ -19,31 +17,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PlateChargeMeterNode extends BarMeterNode {
 
-    private static final Color POSITIVE_BAR_COLOR = CLPaints.POSITIVE_CHARGE;
-    private static final Color NEGATIVE_BAR_COLOR = CLPaints.NEGATIVE_CHARGE;
     private static final String VALUE_MANTISSA_PATTERN = "0.00";
     private static final int VALUE_EXPONENT = CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT;
     private static final String UNITS = CLStrings.COULOMBS;
     
-    private final BatteryCapacitorCircuit circuit;
-    
-    public PlateChargeMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
-        super( dragBoundsNode, POSITIVE_BAR_COLOR, CLStrings.PLATE_CHARGE_TOP, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 ); 
-        
-        this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new  BatteryCapacitorCircuitChangeAdapter() {
-            @Override
-            public void chargeChanged() {
-                update();
+    public PlateChargeMeterNode( final PlateChargeMeter meter, final CLModelViewTransform3D mvt ) {
+        super( meter, mvt, CLPaints.POSITIVE_CHARGE, CLStrings.PLATE_CHARGE_TOP, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS ); 
+        meter.addValueObserver( new SimpleObserver() {
+            public void update() {
+                setBarColor( ( meter.getValue() >= 0 ) ? CLPaints.POSITIVE_CHARGE : CLPaints.NEGATIVE_CHARGE );
             }
-        });
-        
-        update();
-    }
-    
-    private void update() {
-        double value = circuit.getTotalPlateCharge();
-        setValue( Math.abs( value ) );
-        setBarColor( ( value < 0 ) ? NEGATIVE_BAR_COLOR : POSITIVE_BAR_COLOR );
+        } );
     }
 }

@@ -17,7 +17,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - add meter body bounds to model
-- add model elements with value and visibility properties for bar meters
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
 - convert BatteryCapacitorCircuit to Property<T>, BatteryCapacitorCircuitChangeListeners is inefficient/incomplete/incorrect

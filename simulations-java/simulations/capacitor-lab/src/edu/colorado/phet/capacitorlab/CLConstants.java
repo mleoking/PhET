@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab;
 
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -68,12 +67,28 @@ public class CLConstants {
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     public static final double PLATE_CHARGE_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
     
+    // Capacitance meter
+    public static final Point3D CAPACITANCE_METER_LOCATION = new Point3D.Double( 0.04, 0.0017, 0 );
+    public static final boolean CAPACITANCE_METER_VISIBLE = false;
+    
+    // Plate Charge meter
+    public static final Point3D PLATE_CHARGE_METER_LOCATION = new Point3D.Double( 0.05, 0.0017, 0 );
+    public static final boolean PLATE_CHARGE_METER_VISIBLE = false;
+    
+    // Stored Energy meter
+    public static final Point3D STORED_ENERGY_METER_LOCATION = new Point3D.Double( 0.06, 0.0017, 0 );
+    public static final boolean STORED_ENERGY_METER_VISIBLE = false;
+    
+    // E-Field detector
     public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
     public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX should probably start somewhere outside the capacitor
+    public static final boolean EFIELD_DETECTOR_VISIBLE = false;
     
+    // voltmeter
     public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
     public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
+    public static final boolean VOLTMETER_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // View
@@ -95,18 +110,6 @@ public class CLConstants {
     public static final int CAPACITANCE_METER_VALUE_EXPONENT = -13;
     public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -10;
     public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -10;
-    
-    // visibility of meters
-    public static final boolean CAPACITANCE_METER_VISIBLE = false;
-    public static final boolean CHARGE_METER_VISIBLE = false;
-    public static final boolean ENERGY_METER_VISIBLE = false;
-    public static final boolean VOLTMETER_VISIBLE = false;//XXX should be false by default
-    public static final boolean EFIELD_DETECTOR_VISIBLE = false;
-    
-    // default meter locations, view coordinates
-    public static final Point2D CAPACITANCE_METER_LOCATION = new Point2D.Double( 600, 25 );
-    public static final Point2D CHARGE_METER_LOCATION = new Point2D.Double( 750, 25 );
-    public static final Point2D ENERGY_METER_LOCATION = new Point2D.Double( 900, 25 );
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = true; 
