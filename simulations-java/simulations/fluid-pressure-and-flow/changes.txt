@@ -1,3 +1,4 @@
+Removed dropper "drop" button
 Removed time readout
 Moved pool height readout to the side
 Removed phet logo from control panel based on CM's recommendation
