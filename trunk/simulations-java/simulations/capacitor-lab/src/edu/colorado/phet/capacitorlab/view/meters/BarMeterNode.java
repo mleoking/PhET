@@ -15,13 +15,16 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.BarMeter;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.view.CLLocationDragHandler;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -88,20 +91,20 @@ public abstract class BarMeterNode extends PhetPNode {
     /**
      * Constructor.
      * 
-     * @param dragBoundsNode constrains the dragging to these bounds
+     * @param meter model element for the meter
      * @param title title displayed below the meter
      * @param barColor color used to fill the bar
      * @param valueMantissaPattern pattern used to format the mantissa of the value displayed below the meter
      * @param exponent exponent of the value display and max label
      * @param units units
      */
-    public BarMeterNode( PNode dragBoundsNode, Color barColor, String title, String valueMantissaPattern, int exponent, String units, double value ) {
+    public BarMeterNode( final BarMeter meter, final CLModelViewTransform3D mvt, Color barColor, String title, String valueMantissaPattern, int exponent, String units ) {
         
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
         
-        this.value = value;
+        this.value = meter.getValue();
         this.exponent = exponent;
         
         // track
@@ -157,8 +160,6 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( zoomButton );
         
         // interactivity
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new BoundedDragHandler( this, dragBoundsNode ) );
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
@@ -173,12 +174,47 @@ public abstract class BarMeterNode extends PhetPNode {
                 }
             }
         });
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new CLLocationDragHandler( this, mvt ) {
+            
+            protected Point3D getModelLocation() {
+                return meter.getLocationReference();
+            }
+            
+            protected void setModelLocation( Point3D location ) {
+                meter.setLocation( location );
+            }
+        });
         
         // layout
         updateLayout();
         
         updateExponent();
         updateZoomButtonEnabled();
+
+        // observers
+        {
+            // value
+            meter.addValueObserver( new SimpleObserver() {
+                public void update() {
+                    setValue( meter.getValue() );
+                }
+            } );
+            
+            // visibility
+            meter.addVisibleObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( meter.isVisible() );
+                }
+            } );
+            
+            // location
+            meter.addLocationObserver( new SimpleObserver() {
+                public void update() {
+                    setOffset( mvt.modelToView( meter.getLocationReference() ) );
+                }
+            } );
+        }
     }
     
     private void updateLayout() {
@@ -244,12 +280,12 @@ public abstract class BarMeterNode extends PhetPNode {
         }
     }
     
-    /**
+    /*
      * Sets the value displayed by the meter.
      * Updates the bar and the value below the meter.
      * @param value
      */
-    protected void setValue( double value ) {
+    private void setValue( double value ) {
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }

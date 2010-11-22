@@ -95,6 +95,10 @@ public class EFieldDetector {
         visibleProperty.addObserver( o );
     }
     
+    public Property<Boolean> getVisibleProperty() {
+        return visibleProperty;
+    }
+    
     public Point3D getBodyLocationReference() {
         return bodyLocationProperty.getValue();
     }

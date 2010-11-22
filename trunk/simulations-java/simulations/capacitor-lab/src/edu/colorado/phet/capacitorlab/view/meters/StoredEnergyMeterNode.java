@@ -5,9 +5,8 @@ package edu.colorado.phet.capacitorlab.view.meters;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.StoredEnergyMeter;
 
 /**
  * Meter that displays stored energy. 
@@ -21,23 +20,7 @@ public class StoredEnergyMeterNode extends BarMeterNode {
     private static final int VALUE_EXPONENT = CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT;
     private static final String UNITS = CLStrings.JOULES;
     
-    private final BatteryCapacitorCircuit circuit;    
-    
-    public StoredEnergyMeterNode( BatteryCapacitorCircuit circuit, PNode dragBoundsNode ) {
-        super( dragBoundsNode, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS, 0 );
-        
-        this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-            @Override
-            public void energyChanged() {
-                update();
-            }
-        });
-        
-        update();
-    }
-    
-    private void update() {
-        setValue( circuit.getStoredEnergy() );
+    public StoredEnergyMeterNode( StoredEnergyMeter meter, final CLModelViewTransform3D mvt ) {
+        super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, VALUE_MANTISSA_PATTERN, VALUE_EXPONENT, UNITS );
     }
 }
