@@ -31,7 +31,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
 
     private JCheckBoxMenuItem problemDialogVisibleControl;
 
-    public static final Property<Boolean> animateUnstableNucleusProperty = new Property<Boolean>( false );
+    public static final Property<Boolean> animateUnstableNucleusProperty = new Property<Boolean>( true );
 
     ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.createInstance( getPhetFrame() );
 
