@@ -1,3 +1,4 @@
+Fixed: Fluid Density button and associated control fall off left edge of play area
 Added water tower and water drops
 Factored out RelativeDragHandler
 # 0.00.05 (46345) Nov 18, 2010
