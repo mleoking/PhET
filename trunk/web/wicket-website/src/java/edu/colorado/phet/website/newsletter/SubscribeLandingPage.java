@@ -11,6 +11,9 @@ import edu.colorado.phet.website.util.*;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
+/**
+ * Where the user lands when they click on the "confirm subscription" link from the confirmation email
+ */
 public class SubscribeLandingPage extends PhetMenuPage {
 
     private static Logger logger = Logger.getLogger( SubscribeLandingPage.class );
@@ -26,7 +29,7 @@ public class SubscribeLandingPage extends PhetMenuPage {
 
         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                PhetUser user = NewsletterUtils.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
+                PhetUser user = PhetUser.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
                 userResult.setValue( user );
                 if ( user != null ) {
                     user.setReceiveEmail( true );

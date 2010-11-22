@@ -281,13 +281,13 @@ public class StringUtils {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -298,6 +298,7 @@ public class StringUtils {
     }
 
     public static boolean setString( Session session, String key, String value, int translationId ) {
+        // TODO: log which user changed this? go to locations.
         logger.info( "Request to set string with key=" + key + " and value=" + value );
         if ( value == null ) {
             return false;
@@ -337,13 +338,13 @@ public class StringUtils {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;

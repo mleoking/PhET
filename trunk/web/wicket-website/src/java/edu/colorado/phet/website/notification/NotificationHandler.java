@@ -1,10 +1,11 @@
 package edu.colorado.phet.website.notification;
 
-import it.sauronsoftware.cron4j.Scheduler;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.util.*;
-
-import javax.mail.*;
+import javax.mail.BodyPart;
 
 import org.apache.log4j.Logger;
 import org.hibernate.event.PostInsertEvent;
@@ -27,8 +28,6 @@ import edu.colorado.phet.website.util.HibernateUtils;
  * Handles email notification of events that should be reviewed by the PhET team
  */
 public class NotificationHandler {
-    private static Scheduler notificationScheduler;
-
     /**
      * We need to grab the mail handler configuration from the server parameters
      */
@@ -43,20 +42,6 @@ public class NotificationHandler {
             logger.warn( "Was unable to find mail server credentials. Will not start the notification handler" );
             return;
         }
-
-        if ( notificationScheduler != null ) {
-            // don't initialize first
-            return;
-        }
-
-        notificationScheduler = new Scheduler();
-        notificationScheduler.schedule( "59 23 * * fri", new Runnable() {
-            public void run() {
-                sendNotifications();
-            }
-        } );
-
-        notificationScheduler.start();
 
         HibernateEventListener.addListener( ContributionNomination.class, new AbstractChangeListener() {
             @Override
@@ -83,12 +68,6 @@ public class NotificationHandler {
                 NotificationEventType.onContributionComment( (ContributionComment) object );
             }
         } );
-    }
-
-    public static synchronized void destroy() {
-        if ( notificationScheduler != null ) {
-            notificationScheduler.stop();
-        }
     }
 
     public static void sendNotifications() {

@@ -1,15 +1,13 @@
 package edu.colorado.phet.website.data;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
+
+import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.data.util.IntId;
-import edu.colorado.phet.website.newsletter.NewsletterUtils;
 
 /**
  * User account for the PhET website.
@@ -46,6 +44,11 @@ public class PhetUser implements Serializable, IntId {
     private boolean receiveEmail = true; // for receiving newsletters
     private boolean receiveWebsiteNotifications = false; // for receiving internal (team-member) only notifications
 
+    private static Random random = new Random(); // for computing things like the confirmation keys
+
+    /**
+     * @return An array of possible options for the 'description' field. Older descriptions may exist from legacy data.
+     */
     public static List<String> getDescriptionOptions() {
         return Arrays.asList(
                 "I am a teacher who uses PhET in my classes",
@@ -55,6 +58,35 @@ public class PhetUser implements Serializable, IntId {
                 "I am just interested in physics",
                 "Other"
         );
+    }
+
+    /**
+     * Lookup user from key, otherwise return null
+     * <p/>
+     * Assumes that it is within a transaction
+     *
+     * @param session
+     * @param subscribeKey
+     * @return
+     */
+    public static PhetUser getUserFromConfirmationKey( Session session, String confirmationKey ) {
+        List list = session.createQuery( "select u from PhetUser as u where u.confirmationKey = :key" ).setString( "key", confirmationKey ).list();
+        if ( list.size() == 0 ) {
+            return null;
+        }
+        else if ( list.size() == 1 ) {
+            return (PhetUser) list.get( 0 );
+        }
+        else {
+            throw new RuntimeException( "Multiple users with same newsletter key" );
+        }
+    }
+
+    /**
+     * @return A new confirmation key that is suitable for setting a user's confirmationKey
+     */
+    public static synchronized String generateConfirmationKey() {
+        return Long.toHexString( random.nextLong() ) + "-" + Long.toHexString( System.currentTimeMillis() );
     }
 
     @Override
@@ -93,7 +125,7 @@ public class PhetUser implements Serializable, IntId {
 
     public PhetUser( String email, boolean newsletterOnly ) {
         setEmail( email );
-        setConfirmationKey( NewsletterUtils.generateConfirmationKey() );
+        setConfirmationKey( generateConfirmationKey() );
         setNewsletterOnlyAccount( newsletterOnly );
     }
 

@@ -416,6 +416,7 @@ public class HibernateUtils {
      * @return Success (false if task.run returns false OR a runtime exception occurs).
      */
     public static boolean wrapTransaction( Session session, HibernateTask task ) {
+        // TODO: are there any good generic solutions for returning 1 other result? or 2 others? etc.
         Transaction tx = null;
         boolean ret;
         try {
