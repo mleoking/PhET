@@ -33,8 +33,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Meter that displays charge on the capacitor plates. 
- * Origin is at the upper-left corner of the "track" that the bar moves in.
+ * Control for applying charge to the capacitor plates.
+ * This control is activated when the battery is disconnected.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
