@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.NumberFormat;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -18,12 +19,22 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 public class EntryPanel extends PNode {
+
+    private static final int DEFAULT_MIN = 0;
+    private static final int DEFAULT_MAX = 30;
+    public static final NumberFormat DEFAULT_NUMBER_FORMAT = ValueNode.DEFAULT_NUMBER_FORMAT;
+    public static final Function0<Color> DEFAULT_COLOR_FUNCTION = new Function0.Constant<Color>( Color.black );
     private final static Font FONT = new PhetFont( 30 );
     private final HTMLNode label;
     private final ValueNode valueNode;
     private final Property<Boolean> editable;
 
     public EntryPanel( String labelText, final Property<Integer> property ) {
+        this( labelText, property, DEFAULT_MIN, DEFAULT_MAX );
+    }
+
+    public EntryPanel( String labelText, final Property<Integer> property, int min, int max ) {
+
         label = new HTMLNode("Dummy Text") {{
             setFont( FONT );
         }};
@@ -44,7 +55,7 @@ public class EntryPanel extends PNode {
         } );
 
         editable = new Property<Boolean>( true );
-        valueNode = new ValueNode( property, 0, 30, 1, editable, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
+        valueNode = new ValueNode( property, min, max, 1, editable, ValueNode.DEFAULT_NUMBER_FORMAT, ValueNode.DEFAULT_COLOR_FUNCTION );
         valueNode.setScale( spinnerHeight / valueNode.getFullBoundsReference().height * 0.9 );
         valueNode.setOffset( label.getFullBoundsReference().width + 15,
                 label.getFullBounds().getHeight() - valueNode.getFullBounds().getHeight() );
@@ -68,5 +79,17 @@ public class EntryPanel extends PNode {
 
     public void setEditable( boolean b ) {
         editable.setValue( b );
+    }
+
+    /**
+     * Set a color function for the portion of this panel that displays the
+     * values (often in a spinner, but also sometimes as simple text).  This
+     * function will control how the value is colorized.
+     *
+     * @param colorFunction
+     */
+    public void setValueColorFunction( Function0<Color> colorFunction ){
+        // Just pass this through to the value node.
+        valueNode.setColorFunction( colorFunction );
     }
 }

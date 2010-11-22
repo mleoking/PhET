@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -22,7 +23,9 @@ public abstract class ToQuestionView extends ProblemView {
     /**
      * Constructor.
      */
-    public ToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem, String questionText ) {
+    public ToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem,
+            String questionText, int minValue, int maxValue ) {
+
         super( model, gameCanvas, problem );
 
         answerProperty = new Property<Integer>( 0 );
@@ -35,8 +38,9 @@ public abstract class ToQuestionView extends ProblemView {
             }
         }, false );
 
-        question = new EntryPanel( questionText, answerProperty);
-        question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
+        question = new EntryPanel( questionText, answerProperty, minValue, maxValue );
+        question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2,
+                BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
     }
 
     @Override

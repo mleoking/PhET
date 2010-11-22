@@ -2,9 +2,13 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import java.awt.Color;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
+import edu.colorado.phet.common.phetcommon.util.Function0;
 
 /**
  * View for the problem that presents a schematic view of an atom and asks
@@ -19,7 +23,10 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
      */
     public SchematicToProtonCountQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         // i18n
-        super( model, gameCanvas, problem, "<html>What is the<br>proton count?" );
+        super( model, gameCanvas, problem, "<html>What is the<br>proton count?", 0, 100, new DecimalFormat( "0" ), new Function0.Constant<Color>( Color.red ) );
+
+        // Display the value in red.
+        getQuestion().setValueColorFunction( new Function0.Constant<Color>( Color.RED ) );
     }
 
     @Override

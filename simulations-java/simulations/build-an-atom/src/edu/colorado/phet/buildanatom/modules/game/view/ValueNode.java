@@ -20,7 +20,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This node is a combination of a spinner and a piece of text, and is
- * settable to display either one or the other.
+ * settable to display either one or the other, but never both at the same
+ * time.  Note that the piece of text is NOT a label for the spinner, just
+ * something that can be shown in its place.
  */
 public class ValueNode extends PNode {
 
@@ -30,12 +32,15 @@ public class ValueNode extends PNode {
     public static final Font NUMBER_FONT = new PhetFont( 14, true );
 
     public static final NumberFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat( "0" );
+    public static final Function0<Color> DEFAULT_COLOR_FUNCTION = new Function0.Constant<Color>( Color.BLACK );
     private final PText text = new PText( "0" );
     private final JSpinner spinner;
     private final SimpleObserver updateReadouts;
+    private Function0<Color> colorFunction;
 
     public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize,
             final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
+        this.colorFunction = colorFunction;
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
             {
                 addChangeListener( new ChangeListener() {
@@ -53,12 +58,12 @@ public class ValueNode extends PNode {
                 spinner.setValue( numericProperty.getValue() );
                 try {
                     //Try to set the text color to red for protons, but be prepared to fail due to type unsafety
-                    ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setForeground( colorFunction.apply() );
+                    ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setForeground( ValueNode.this.colorFunction.apply() );
                 }
                 catch ( Exception e ) {
                     System.out.println( "ignoring = " + e );
                 }
-                text.setTextPaint( colorFunction.apply() );
+                text.setTextPaint( ValueNode.this.colorFunction.apply() );
                 text.setText( numberFormat.format( numericProperty.getValue() ) );
             }
         };
@@ -91,5 +96,9 @@ public class ValueNode extends PNode {
 
     public JComponent getSpinnerEditor() {
         return spinner.getEditor();
+    }
+
+    public void setColorFunction( Function0<Color> colorFunction ) {
+        this.colorFunction = colorFunction;
     }
 }
