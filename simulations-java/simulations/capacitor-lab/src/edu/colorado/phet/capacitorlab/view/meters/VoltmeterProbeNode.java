@@ -9,7 +9,6 @@ import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
-import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -24,13 +23,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public abstract class VoltmeterProbeNode extends PhetPNode {
 
     private final Voltmeter voltmeter;
-    private final VoltmeterShapeFactory shapeFactory;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     
     public VoltmeterProbeNode( Image image, Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
         
         this.voltmeter = voltmeter;
-        this.shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
         
         PImage imageNode = new PImage( image );
         addChild( imageNode );
@@ -51,10 +48,6 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
     
     protected Voltmeter getVoltmeter() {
         return voltmeter;
-    }
-    
-    protected VoltmeterShapeFactory getShapeFactory() {
-        return shapeFactory;
     }
     
     public Point2D getConnectionOffset() {
