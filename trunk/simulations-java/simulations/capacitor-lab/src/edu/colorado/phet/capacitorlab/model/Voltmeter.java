@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -31,9 +33,8 @@ public class Voltmeter {
             Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
         
         this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-            @Override
-            public void efieldChanged() {
+        circuit.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
                 updateValue();
             }
         });

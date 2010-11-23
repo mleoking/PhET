@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,9 +33,8 @@ public class EFieldDetector {
             boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-            @Override
-            public void efieldChanged() {
+        circuit.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
                 updateVectors();
             }
         });

@@ -4,12 +4,14 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.Dimension;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Polarity;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -41,14 +43,13 @@ public abstract class PlateChargeNode extends PhetPNode {
         this.polarity = polarity;
         this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
         
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-            @Override
-            public void chargeChanged() {
+        circuit.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
                 if ( isVisible() ) {
                     update();
                 }
             }
-        });
+        } );
         
         parentNode = new PComposite();
         addChild( parentNode );

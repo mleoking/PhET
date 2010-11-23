@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Polarity;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -40,21 +42,8 @@ public class DielectricTotalChargeNode extends PhetPNode {
         this.parentNode = new PComposite();
         addChild( parentNode );
         
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-            @Override
-            public void capacitanceChanged() {
-                if ( isVisible() ) {
-                    update();
-                }
-            }
-            @Override
-            public void voltageChanged() {
-                if ( isVisible() ) {
-                    update();
-                }
-            }
-            @Override
-            public void efieldChanged() {
+        circuit.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
                 if ( isVisible() ) {
                     update();
                 }

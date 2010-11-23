@@ -6,9 +6,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeAdapter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
@@ -59,9 +61,8 @@ public class VoltageShapesDebugNode extends PComposite {
                     topTerminalNode.setPathTo( shapeFactory.createTopTerminalShape() );
                 }
             } );
-            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-                @Override
-                public void batteryConnectedChanged() {
+            circuit.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
                     bodyNode.setVisible( circuit.isBatteryConnected() );
                     topTerminalNode.setVisible( circuit.isBatteryConnected() );
                 }
@@ -117,9 +118,8 @@ public class VoltageShapesDebugNode extends PComposite {
                 }
             } );
             
-            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeAdapter() {
-                @Override
-                public void batteryConnectedChanged() {
+            circuit.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
                     topWireNode.setVisible( circuit.isBatteryConnected() );
                     bottomWireNode.setVisible( circuit.isBatteryConnected() );
                 }
