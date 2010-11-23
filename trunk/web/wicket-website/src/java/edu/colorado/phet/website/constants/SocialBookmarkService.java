@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.constants;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import edu.colorado.phet.website.util.links.RawLinker;
  * Model of a social bookmarking service (like sharing for Facebook, tweeting links, or the more classic delicious /
  * digg models). They have two main things: an icon and a way to get a link to bookmark a specific URL.
  */
-public abstract class SocialBookmarkService {
+public abstract class SocialBookmarkService implements Serializable {
     /**
      * @return Path to image icon. Relative from server root. Starts with slash
      */
