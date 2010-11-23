@@ -7,15 +7,13 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.hibernate.Result;
-import edu.colorado.phet.website.util.hibernate.Task;
-import edu.colorado.phet.website.util.hibernate.TaskException;
+import edu.colorado.phet.website.util.hibernate.*;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -33,11 +31,13 @@ public class ConfirmEmailLandingPage extends PhetMenuPage {
 
         final String confirmationKey = parameters.getString( "key" );
         final String destination = parameters.getString( "destination" );
+        final HibernateResult<Boolean> wasConfirmed = new HibernateResult<Boolean>();
 
         Result<PhetUser> userResult = HibernateUtils.resultTransaction( getHibernateSession(), new Task<PhetUser>() {
             public PhetUser run( Session session ) {
                 PhetUser user = PhetUser.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
                 if ( user != null ) {
+                    wasConfirmed.setValue( user.isConfirmed() );
                     user.setConfirmed( true );
                     session.update( user );
                     return user;
@@ -54,6 +54,11 @@ public class ConfirmEmailLandingPage extends PhetMenuPage {
             }
             else {
                 emailSuccess = NewsletterUtils.sendUserWelcomeEmail( getPageContext(), userResult.value );
+
+                if ( !wasConfirmed.getValue() ) {
+                    // only sign in the user if they were not confirmed before. this should happen at most once per user 
+                    PhetSession.get().signInWithoutPassword( getPhetCycle(), userResult.value.getId() );
+                }
             }
             if ( !emailSuccess ) {
                 // we are still OK if email fails, since this only lets them know about the success. Don't fail out.

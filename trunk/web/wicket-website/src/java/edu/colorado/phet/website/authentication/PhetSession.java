@@ -15,6 +15,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.hibernate.Result;
 import edu.colorado.phet.website.util.hibernate.Task;
+import edu.colorado.phet.website.util.hibernate.VoidTask;
 
 public class PhetSession extends WebSession {
 
@@ -54,6 +55,16 @@ public class PhetSession extends WebSession {
         final PhetUser user = getAuthenticatedUser( currentCycle, username, password );
         setUser( user );
         return isSignedIn();
+    }
+
+    public boolean signInWithoutPassword( PhetRequestCycle currentCycle, final int userId ) {
+        return HibernateUtils.wrapCatchTransaction( currentCycle.getHibernateSession(), new VoidTask() {
+            public Void run( org.hibernate.Session session ) {
+                PhetUser user = (PhetUser) session.load( PhetUser.class, userId );
+                setUser( user );
+                return null;
+            }
+        } ) && isSignedIn(); // note: relying on order of evaulation L->R. says OK: http://java.sun.com/docs/books/jls/second_edition/html/expressions.doc.html
     }
 
     public boolean isSignedIn() {
