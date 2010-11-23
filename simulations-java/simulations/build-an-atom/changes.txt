@@ -1,4 +1,5 @@
-Added problem types with schematic of atom on left and single question on right.
+Added problem types with particle counts on left and single questions on right.
+Added problem types with schematic of atom on left and single questions on right.
 Turned on animation of unstable nuclei by default.  Still able to turn off in developer dialog.
 # 1.00.11 (46233) Nov 16, 2010
 11/16/10 Deploying with mods to game behavior
