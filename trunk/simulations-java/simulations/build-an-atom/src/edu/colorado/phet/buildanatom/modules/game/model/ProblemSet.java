@@ -179,23 +179,45 @@ public class ProblemSet {
      * @return
      */
     private Problem generateProblem( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ) {
+
+        // Get a list of all possible problem types for the current level.
         ArrayList<ProblemType> possibleProbTypes = getAllProblemTypesForLevel( model.getLevelProperty().getValue() );
+
+        // Filter the prob types based on the developer dialog setting.
         possibleProbTypes = filterProblemTypes( possibleProbTypes );
+
         if ( possibleProbTypes.size() == 0 ) {
             // There are no problem types enabled that match this level's
             // constraints.
             System.err.println( getClass().getName() + " - Warning: No problem types enabled for level " + model.getLevelProperty().getValue() );
             return null;
         }
+
+        // Randomly pick a problem type.
         ProblemType problemType = possibleProbTypes.get( RAND.nextInt( possibleProbTypes.size() ) );
+
+        // Pick an atom value from the list of those remaining.  This is where
+        // constraints between problem types and atom values are handled.
         AtomValue atomValue;
         if ( isSchematicProbType( problemType ) ) {
             // Need to limit size of atom value.
-            atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
+            if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ){
+                // Should only choose a charged atom.
+                atomValue = availableAtomValues.getRandomChargedAtomValue( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
+            }
+            else{
+                atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
+            }
         }
         else {
-            atomValue = availableAtomValues.getRandomAtomValue();
+            if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ){
+                atomValue = availableAtomValues.getRandomChargedAtomValue( Integer.MAX_VALUE );
+            }
+            else{
+                atomValue = availableAtomValues.getRandomAtomValue();
+            }
         }
+        availableAtomValues.removeAtomValue( atomValue );
         return createProblem( model, problemType, atomValue );
     }
 
@@ -295,9 +317,21 @@ public class ProblemSet {
             assert remainingAtomValues.size() > 0;
             int index = AVP_RAND.nextInt( remainingAtomValues.size() );
             AtomValue atomValue = remainingAtomValues.get( index );
-            usedAtomValues.add( atomValue );
-            remainingAtomValues.remove( index );
             return atomValue;
+        }
+
+        /**
+         * Remove the specified atom value from the list of those available.
+         *
+         * @param atomValueToRemove
+         * @return true if value found, false if not.
+         */
+        public boolean removeAtomValue( AtomValue atomValueToRemove ){
+            if ( remainingAtomValues.remove( atomValueToRemove ) ){
+                usedAtomValues.add( atomValueToRemove );
+                return true;
+            }
+            return false; // Didn't find the value on the list.
         }
 
         /**
@@ -317,8 +351,8 @@ public class ProblemSet {
             }
             if ( allowableAtomValues.size() == 0){
                 // There were none available on the list of unused atoms, so
-                // add some from the list of used atoms.
-                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, returning previously used atom value." );
+                // add them from the list of used atoms instead.
+                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, searching previously used atom value." );
                 for ( AtomValue av : usedAtomValues ){
                     if (av.getProtons() <= maxProtons){
                         allowableAtomValues.add( av );
@@ -326,14 +360,50 @@ public class ProblemSet {
                 }
             }
 
+            // Choose a value from the list.
             AtomValue atomValue = null;
             if ( allowableAtomValues.size() > 0 ){
                 atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
-                remainingAtomValues.remove( atomValue );
-                usedAtomValues.add( atomValue );
             }
             else{
                 System.err.println( getClass().getName() + " - Error: No atoms found below specified size threshold." );
+            }
+            return atomValue;
+        }
+
+        /**
+         * Get an atom value from the pool that is charged, i.e. non-neutral.  If
+         * no such atoms are on the list of available remaining ones, choose one
+         * from the list of used atoms.
+         */
+        public AtomValue getRandomChargedAtomValue( int maxProtons ){
+
+            // Make a list of the atoms that are charged.
+            ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
+            for ( AtomValue av : remainingAtomValues ){
+                if ( !av.isNeutral() && av.getProtons() < maxProtons ){
+                    allowableAtomValues.add( av );
+                }
+            }
+            if ( allowableAtomValues.size() == 0){
+                // There were none available on the list of unused atoms, so
+                // add them from the list of used atoms instead.
+                System.err.println( getClass().getName() + " - Warning: No remaining charged atoms values available, searching previously used atom value." );
+                for ( AtomValue av : usedAtomValues ){
+                    if ( !av.isNeutral() && av.getProtons() < maxProtons ){
+                        allowableAtomValues.add( av );
+                    }
+                }
+            }
+
+            // Choose a value from the list.
+            AtomValue atomValue = null;
+            if ( allowableAtomValues.size() > 0 ){
+                atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
+            }
+            else{
+                System.err.println( getClass().getName() + " - Error: No charged atoms found, returning a neutral atom." );
+                atomValue = getRandomAtomValue();
             }
             return atomValue;
         }
