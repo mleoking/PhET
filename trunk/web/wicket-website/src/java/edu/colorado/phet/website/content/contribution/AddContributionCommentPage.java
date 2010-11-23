@@ -18,10 +18,10 @@ import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -88,7 +88,7 @@ public class AddContributionCommentPage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/submit-comment$", AddContributionCommentPage.class, new String[]{} );
+        mapper.addMap( "^contributions/submit-comment$", AddContributionCommentPage.class, new String[] { } );
     }
 
     public static RawLinkable getLinker( final int contributionId, final String text ) {
@@ -98,7 +98,7 @@ public class AddContributionCommentPage extends PhetRegularPage {
                 try {
                     return "contributions/submit-comment?contribution_id=" + contributionId + "&text=" + URLEncoder.encode( text, "UTF-8" );
                 }
-                catch( UnsupportedEncodingException e ) {
+                catch ( UnsupportedEncodingException e ) {
                     e.printStackTrace();
                     throw new RuntimeException( e );
                 }

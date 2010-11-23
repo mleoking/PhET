@@ -17,7 +17,7 @@ public class ResetPasswordRequest implements Serializable, IntId {
     public ResetPasswordRequest() {
     }
 
-    public ResetPasswordRequest( PhetUser phetUser, Date timestamp, String key) {
+    public ResetPasswordRequest( PhetUser phetUser, Date timestamp, String key ) {
         this.phetUser = phetUser;
         this.timestamp = timestamp;
         this.key = key;

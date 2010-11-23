@@ -267,10 +267,10 @@ public class WebsiteTranslationDeployServer {
                 simNames.add( simName );
             }
 
-            return simNames.toArray( new String[]{} );
+            return simNames.toArray( new String[] { } );
 
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             throw new RuntimeException( e );
         }
     }

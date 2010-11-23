@@ -16,7 +16,7 @@ public class DonatePanel extends PhetPanel {
 
         add( new SmallOrangeButtonBorder( "small-orange", context ) );
 
-        add( new LocalizedText( "donate-questions", "donate.questions", new Object[]{
+        add( new LocalizedText( "donate-questions", "donate.questions", new Object[] {
                 "<a href=\"mailto:Kathryn.Dessau@colorado.edu\">Kathryn.Dessau@colorado.edu</a>"
         } ) );
 

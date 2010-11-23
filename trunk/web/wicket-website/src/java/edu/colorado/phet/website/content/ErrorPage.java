@@ -19,7 +19,7 @@ public class ErrorPage extends PhetMenuPage {
 
         setTitle( getLocalizer().getString( "error.internalError", this ) );
 
-        add( new LocalizedText( "errorMessage", "error.internalError.message", new Object[]{
+        add( new LocalizedText( "errorMessage", "error.internalError.message", new Object[] {
                 Linkers.getHelpLink( "PhET Website Error", getPageContext(), getPhetCycle() )
         } ) );
 

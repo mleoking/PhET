@@ -19,7 +19,7 @@ public class NotFoundPage extends PhetMenuPage {
 
         setTitle( getLocalizer().getString( "error.pageNotFound", this ) );
 
-        add( new LocalizedText( "errorMessage", "error.pageNotFound.message", new Object[]{
+        add( new LocalizedText( "errorMessage", "error.pageNotFound.message", new Object[] {
                 Linkers.getHelpLink( "PhET Website Page Not Found", getPageContext(), getPhetCycle() )
         } ) );
 

@@ -90,21 +90,21 @@ public abstract class ObjectComponentThread extends ComponentThread {
     @Override
     public void run() {
         startListening();
-        
+
         try {
             error = !process();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             logger.error( "IOException", e );
             error = true;
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
             e.printStackTrace();
             logger.error( "InterruptedException", e );
             error = true;
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             e.printStackTrace();
             logger.error( "RuntimeException", e );
             error = true;

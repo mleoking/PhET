@@ -22,7 +22,7 @@ public class ResearchPanel extends PhetPanel {
 
         add( new LocalizedText( "research-top", "research.top" ) );
 
-        add( new LocalizedText( "research-intro", "research.intro", new Object[]{
+        add( new LocalizedText( "research-intro", "research.intro", new Object[] {
                 Linkers.PHET_DESIGN_PROCESS_PDF.getHref( context, getPhetCycle() ),
                 Linkers.PHET_LOOK_AND_FEEL_PDF.getHref( context, getPhetCycle() ),
                 "href=\"#pub_1\""

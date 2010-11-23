@@ -62,7 +62,7 @@ public class CategoryPage extends PhetRegularPage {
         NavLocation location = (NavLocation) viewPanel.getCacheParameter( "location" );
         initializeLocation( location );
 
-        setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "simulationDisplay.title", this ), new Object[]{
+        setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "simulationDisplay.title", this ), new Object[] {
                 getPhetLocalizer().getString( location.getLocalizationKey(), this )
         } ) );
 
@@ -70,8 +70,8 @@ public class CategoryPage extends PhetRegularPage {
 
     public static void addToMapper( PhetUrlMapper mapper ) {
         // WARNING: don't change without also changing the old URL redirection
-        mapper.addMap( "^simulations(/index)?$", CategoryPage.class, new String[]{"query-string"} );
-        mapper.addMap( "^simulations/category/(.+?)(/index)?$", CategoryPage.class, new String[]{"categories", "query-string"} );
+        mapper.addMap( "^simulations(/index)?$", CategoryPage.class, new String[] { "query-string" } );
+        mapper.addMap( "^simulations/category/(.+?)(/index)?$", CategoryPage.class, new String[] { "categories", "query-string" } );
     }
 
     public static RawLinkable getLinker() {

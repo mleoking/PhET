@@ -18,9 +18,9 @@ import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.IndexLetterLinks;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 public class SimulationListViewPanel extends PhetPanel {
 

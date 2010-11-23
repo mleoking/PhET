@@ -23,11 +23,11 @@ public class RunOurSimulationsPanel extends PhetPanel {
         add( new LocalizedText( "get-phet-install-header", "get-phet.install.header" ) );
         add( new LocalizedText( "get-phet-offline-header", "get-phet.offline.header" ) );
 
-        add( new LocalizedText( "get-phet-install-howToGet", "get-phet.install.howToGet", new Object[]{
+        add( new LocalizedText( "get-phet-install-howToGet", "get-phet.install.howToGet", new Object[] {
                 FullInstallPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "get-phet-offline-howToGet", "get-phet.offline.howToGet", new Object[]{
+        add( new LocalizedText( "get-phet-offline-howToGet", "get-phet.offline.howToGet", new Object[] {
                 OneAtATimePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 

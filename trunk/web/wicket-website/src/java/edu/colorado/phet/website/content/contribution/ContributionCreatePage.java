@@ -32,7 +32,7 @@ public class ContributionCreatePage extends PhetRegularPage {
                 ContributionGuidelinesPanel.getLinker().getHref( getPageContext(), getPhetCycle() ),
                 Linkers.CONTRIBUTION_GUIDELINES_PDF.getHref( getPageContext(), getPhetCycle() )
         } ) );
-        
+
         hideSocialBookmarkButtons();
 
     }

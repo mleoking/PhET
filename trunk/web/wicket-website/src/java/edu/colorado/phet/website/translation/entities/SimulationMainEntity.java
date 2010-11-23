@@ -9,9 +9,9 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.simulation.SimulationMainPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class SimulationMainEntity extends TranslationEntity {
 
@@ -55,7 +55,7 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationDisplay.thumbnailView" );
 
         addString( "changelog.backToSimulation" );
-        
+
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
 
@@ -69,13 +69,13 @@ public class SimulationMainEntity extends TranslationEntity {
 
                     tx.commit();
                 }
-                catch( RuntimeException e ) {
+                catch ( RuntimeException e ) {
                     logger.warn( "Exception: " + e );
                     if ( tx != null && tx.isActive() ) {
                         try {
                             tx.rollback();
                         }
-                        catch( HibernateException e1 ) {
+                        catch ( HibernateException e1 ) {
                             logger.error( "ERROR: Error rolling back transaction", e1 );
                         }
                         throw e;

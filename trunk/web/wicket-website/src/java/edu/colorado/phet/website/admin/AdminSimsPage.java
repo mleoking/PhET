@@ -51,13 +51,13 @@ public class AdminSimsPage extends AdminPage {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -113,7 +113,7 @@ public class AdminSimsPage extends AdminPage {
                                 simulations.remove( simulation );
                             }
                         }
-                        catch( RuntimeException e ) {
+                        catch ( RuntimeException e ) {
                             e.printStackTrace();
                         }
                     }

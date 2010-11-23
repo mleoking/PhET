@@ -13,7 +13,10 @@ import edu.colorado.phet.website.content.NotFoundPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.HtmlUtils;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
@@ -50,11 +53,11 @@ public class ContributionNominationSuccessPage extends PhetMenuPage {
 
         initializeLocation( getNavMenu().getLocationByKey( "teacherIdeas" ) );
 
-        add( new LocalizedText( "success", "contribution.nomination.success", new Object[]{
+        add( new LocalizedText( "success", "contribution.nomination.success", new Object[] {
                 HtmlUtils.encode( contribution.getTitle() )
         } ) );
 
-        add( new LocalizedText( "nomination-redirection", "contribution.nomination.successRedirection", new Object[]{
+        add( new LocalizedText( "nomination-redirection", "contribution.nomination.successRedirection", new Object[] {
                 ContributionPage.getLinker( contributionId ).getHref( getPageContext(), getPhetCycle() ),
                 REDIRECTION_DELAY_SECONDS
         } ) );
@@ -63,7 +66,7 @@ public class ContributionNominationSuccessPage extends PhetMenuPage {
         redirector.add( new AttributeModifier( "content", true, new Model<String>( REDIRECTION_DELAY_SECONDS + ";url=" + ContributionPage.getLinker( contributionId ).getRawUrl( getPageContext(), getPhetCycle() ) ) ) );
         add( redirector );
 
-        setTitle( StringUtils.messageFormat( PhetLocalizer.get().getString( "contribution.nomination.success", this ), new Object[]{
+        setTitle( StringUtils.messageFormat( PhetLocalizer.get().getString( "contribution.nomination.success", this ), new Object[] {
                 HtmlUtils.encode( contribution.getTitle() )
         } ) );
 
@@ -72,7 +75,7 @@ public class ContributionNominationSuccessPage extends PhetMenuPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^contributions/nomination-success/([^/]+)$", ContributionNominationSuccessPage.class, new String[]{"contribution"} );
+        mapper.addMap( "^contributions/nomination-success/([^/]+)$", ContributionNominationSuccessPage.class, new String[] { "contribution" } );
     }
 
     public static RawLinkable getLinker( final int contributionId ) {

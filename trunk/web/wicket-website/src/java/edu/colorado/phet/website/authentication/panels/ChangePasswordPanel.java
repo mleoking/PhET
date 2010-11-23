@@ -15,9 +15,9 @@ import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 /**
  * Allows changing the password of any user. Has the option of requiring that user's password to be confirmed.
@@ -76,7 +76,7 @@ public class ChangePasswordPanel extends PhetPanel {
                 // verify the user's current password
                 add( new AbstractFormValidator() {
                     public FormComponent[] getDependentFormComponents() {
-                        return new FormComponent[]{currentPasswordTextField};
+                        return new FormComponent[] { currentPasswordTextField };
                     }
 
                     public void validate( Form<?> form ) {
@@ -98,7 +98,7 @@ public class ChangePasswordPanel extends PhetPanel {
             // make sure the user's new password matches
             add( new AbstractFormValidator() {
                 public FormComponent[] getDependentFormComponents() {
-                    return new FormComponent[]{newPasswordTextField, confirmNewPasswordTextField};
+                    return new FormComponent[] { newPasswordTextField, confirmNewPasswordTextField };
                 }
 
                 public void validate( Form<?> form ) {

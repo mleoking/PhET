@@ -27,7 +27,9 @@ import edu.colorado.phet.website.data.contribution.ContributionType;
 import edu.colorado.phet.website.data.contribution.Level;
 import edu.colorado.phet.website.data.contribution.Type;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.HtmlUtils;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 

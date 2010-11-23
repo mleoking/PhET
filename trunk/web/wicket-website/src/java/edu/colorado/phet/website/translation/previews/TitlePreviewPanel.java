@@ -11,8 +11,8 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class TitlePreviewPanel extends PhetPanel {
 
@@ -32,13 +32,13 @@ public class TitlePreviewPanel extends PhetPanel {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -48,7 +48,7 @@ public class TitlePreviewPanel extends PhetPanel {
         NavLocation location = getNavMenu().getLocationByKey( "motion" );
 
         add( new Label( "home", new ResourceModel( "home.title" ) ) );
-        add( new Label( "simulationPage", new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), "Electricity", "Magnetism", "Faraday's Law"} ) ) );
-        add( new Label( "simulationDisplay", new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) ) );
+        add( new Label( "simulationPage", new StringResourceModel( "simulationPage.title", this, null, new String[] { simulation.getTitle(), "Electricity", "Magnetism", "Faraday's Law" } ) ) );
+        add( new Label( "simulationDisplay", new StringResourceModel( "simulationDisplay.title", this, null, new Object[] { new StringResourceModel( location.getLocalizationKey(), this, null ) } ) ) );
     }
 }

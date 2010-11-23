@@ -8,8 +8,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.website.components.RawLink;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class IndexLetterLinks extends PhetPanel {
     public IndexLetterLinks( String id, PageContext context, List<String> letters ) {

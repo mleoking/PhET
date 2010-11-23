@@ -46,7 +46,7 @@ public class DeployTranslationPage extends AdminPage {
                 return;
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -63,7 +63,7 @@ public class DeployTranslationPage extends AdminPage {
         }
         else {
             boolean ok;
-            synchronized( usedLock ) {
+            synchronized ( usedLock ) {
                 ok = !usedDirs.contains( translationDir );
                 if ( ok ) {
                     usedDirs.add( translationDir );
@@ -108,7 +108,7 @@ public class DeployTranslationPage extends AdminPage {
                 try {
                     FileUtils.writeString( new File( translationDir, "error.txt" ), "errored at " + new Date() );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }

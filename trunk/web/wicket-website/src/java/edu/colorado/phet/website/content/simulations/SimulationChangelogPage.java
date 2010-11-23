@@ -25,7 +25,10 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.simulation.SimulationChangelogPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.HtmlUtils;
+import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
@@ -57,13 +60,13 @@ public class SimulationChangelogPage extends PhetMenuPage {
             }
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -77,11 +80,11 @@ public class SimulationChangelogPage extends PhetMenuPage {
         boolean displayDev = PhetSession.get().isSignedIn() && PhetSession.get().getUser().isTeamMember();
         add( new SimulationChangelogPanel( "simulation-changelog-panel", simulation, getPageContext(), displayDev ) );
 
-        setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.title", this ), new Object[]{
+        setTitle( StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.title", this ), new Object[] {
                 HtmlUtils.encode( simulation.getTitle() )
         } ) );
 
-        add( new RawLabel( "changelog-header", StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.header", this ), new Object[]{
+        add( new RawLabel( "changelog-header", StringUtils.messageFormat( getPhetLocalizer().getString( "changelog.header", this ), new Object[] {
                 HtmlUtils.encode( simulation.getTitle() )
         } ) ) );
 
@@ -95,7 +98,7 @@ public class SimulationChangelogPage extends PhetMenuPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^simulation/([^/]+)/changelog", SimulationChangelogPage.class, new String[]{"simulation"} );
+        mapper.addMap( "^simulation/([^/]+)/changelog", SimulationChangelogPage.class, new String[] { "simulation" } );
     }
 
     public static AbstractLinker getLinker( final String projectName, final String simulationName ) {

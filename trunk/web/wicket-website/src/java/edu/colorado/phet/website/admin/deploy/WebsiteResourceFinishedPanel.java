@@ -17,8 +17,8 @@ import edu.colorado.phet.website.panels.ComponentThread;
 import edu.colorado.phet.website.panels.ComponentThreadStatusPanel;
 import edu.colorado.phet.website.panels.LoggerComponentThread;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class WebsiteResourceFinishedPanel extends PhetPanel {
 

@@ -3,8 +3,8 @@ package edu.colorado.phet.website;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.StringUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Contains strings that have been added since the last production deployment. If strings by those key names don't exist

@@ -42,7 +42,7 @@ public class HtmlUtils {
 
     /**
      * Encodes a string into an HTML-escaped version (attribute version, skips ampersands).
-     *
+     * <p/>
      * Escaping other things is just to appease the Nessus monster. This will cause jibberish for <>'s.
      *
      * @param s String to encode

@@ -14,11 +14,11 @@ public class AboutContactPanel extends PhetPanel {
     public AboutContactPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( new LocalizedText( "about-contact-licensingText", "about.contact.licensingText", new Object[]{
+        add( new LocalizedText( "about-contact-licensingText", "about.contact.licensingText", new Object[] {
                 AboutLicensingPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "about-contact-correspondence", "about.contact.correspondence", new Object[]{
+        add( new LocalizedText( "about-contact-correspondence", "about.contact.correspondence", new Object[] {
                 Linkers.PHET_HELP_LINK,
                 DonatePanel.getLinker().getHref( context, getPhetCycle() )
         } ) );

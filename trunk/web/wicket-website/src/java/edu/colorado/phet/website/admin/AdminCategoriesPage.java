@@ -21,9 +21,9 @@ import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.StringUtils;
 
 /**
  * Shows a list of categories to edit, along with a few other options

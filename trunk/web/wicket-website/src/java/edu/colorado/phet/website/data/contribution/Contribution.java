@@ -235,7 +235,7 @@ public class Contribution implements Serializable, DataListener, IntId {
         try {
             createZipFile();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             logger.error( "unable to recreate zip file for contribution " + id, e );
         }
