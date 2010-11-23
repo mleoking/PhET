@@ -29,6 +29,9 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
             // atoms must be used, so we need to handle this case.
             enableCheckButton();
         }
+
+        // Cause positive charge to be colored red, negative to be blue.
+        getQuestion().setValueColorFunction( new ChargeColorFunction( getGuessProperty() ) );
     }
 
     @Override
