@@ -25,6 +25,7 @@ HIGH PRIORITY
 - regression test to see what's broken
 
 MEDUIUM PRIORITY
+- generalize BatteryCapacitorCircuit to handle multiple capacitors and wires 
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working
