@@ -10,13 +10,13 @@ import java.io.Serializable;
  *
  * @param <T>
  */
-public class Result<T> implements Serializable {
+public class HibernateResult<T> implements Serializable {
     private T value;
 
-    public Result() {
+    public HibernateResult() {
     }
 
-    public Result( T value ) {
+    public HibernateResult( T value ) {
         this.value = value;
     }
 

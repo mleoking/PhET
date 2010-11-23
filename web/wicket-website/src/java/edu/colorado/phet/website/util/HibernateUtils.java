@@ -201,7 +201,7 @@ public class HibernateUtils {
         throw new RuntimeException( "WARNING: matches more than 3 simulations!" );
     }
 
-    public static final String[] SIM_TITLE_IGNORE_WORDS = {"The", "La", "El"};
+    public static final String[] SIM_TITLE_IGNORE_WORDS = { "The", "La", "El" };
 
     public static String getLeadingSimCharacter( String name, Locale locale ) {
         String str = name;
@@ -434,7 +434,7 @@ public class HibernateUtils {
                 //logger.warn( "tx not active", new RuntimeException( "exception made for stack trace" ) );
             }
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             ret = false;
             logger.warn( "Exception", e );
             if ( tx != null && tx.isActive() ) {
@@ -442,7 +442,7 @@ public class HibernateUtils {
                     logger.warn( "Attempting to roll back" );
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction!", e1 );
                 }
                 throw e;
@@ -450,5 +450,40 @@ public class HibernateUtils {
         }
         return ret;
     }
+
+//    public static<T> boolean wrapTransaction( Session session, Task<T> task ) {
+//        Transaction tx = null;
+//        T ret;
+//        try {
+//            tx = session.beginTransaction();
+//            tx.setTimeout( 600 );
+//
+//            ret = task.run( session );
+//
+//            //logger.debug( "tx isactive: " + tx.isActive() );
+//            //logger.debug( "tx wascommited: " + tx.wasCommitted() );
+//            if ( tx.isActive() ) {
+//                tx.commit();
+//            }
+//            else {
+//                //logger.warn( "tx not active", new RuntimeException( "exception made for stack trace" ) );
+//            }
+//        }
+//        catch( RuntimeException e ) {
+//            ret = false;
+//            logger.warn( "Exception", e );
+//            if ( tx != null && tx.isActive() ) {
+//                try {
+//                    logger.warn( "Attempting to roll back" );
+//                    tx.rollback();
+//                }
+//                catch( HibernateException e1 ) {
+//                    logger.error( "ERROR: Error rolling back transaction!", e1 );
+//                }
+//                throw e;
+//            }
+//        }
+//        return ret;
+//    }
 
 }

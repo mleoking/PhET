@@ -112,7 +112,7 @@ public class InitialSubscribePanel extends PhetPanel {
         protected void onSubmit() {
             // TODO: fill in
             final String emailAddress = emailTextField.getInput();
-            final Result<String> confirmationKeyResult = new Result<String>();
+            final HibernateResult<String> confirmationKeyResult = new HibernateResult<String>();
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {
                     List users = session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", emailAddress ).list();
