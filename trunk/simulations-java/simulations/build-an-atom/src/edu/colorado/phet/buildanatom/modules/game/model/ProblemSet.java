@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
@@ -124,6 +125,14 @@ public class ProblemSet {
         }
     };
 
+    // Data structure that maps lists of problem type to the various game levels.
+    private static final HashMap<Integer, ArrayList<ProblemType>> mapLevelToProbTypes = new HashMap<Integer, ArrayList<ProblemType>>(){{
+        put(1, LEVEL_1_ALLOWED_PROB_TYPES);
+        put(2, LEVEL_2_ALLOWED_PROB_TYPES);
+        put(3, LEVEL_3_ALLOWED_PROB_TYPES);
+        put(4, LEVEL_4_ALLOWED_PROB_TYPES);
+    }};
+
     /**
      * Filter the given set of problem types based on the settings of the
      * developer dialog.
@@ -143,33 +152,6 @@ public class ProblemSet {
     }
 
     /**
-     * Get all of the problems types that are allowed for the specified level.
-     */
-    private ArrayList<ProblemType> getAllProblemTypesForLevel( int level ) {
-        ArrayList<ProblemType> problemTypes;
-        switch ( level ) {
-        case 1:
-            problemTypes = LEVEL_1_ALLOWED_PROB_TYPES;
-            break;
-        case 2:
-            problemTypes = LEVEL_2_ALLOWED_PROB_TYPES;
-            break;
-        case 3:
-            problemTypes = LEVEL_3_ALLOWED_PROB_TYPES;
-            break;
-        case 4:
-            problemTypes = LEVEL_4_ALLOWED_PROB_TYPES;
-            break;
-        default:
-            System.err.println( getClass().getName() + " - Error: Undefined game level." );
-            assert false;
-            problemTypes = LEVEL_1_ALLOWED_PROB_TYPES; // Arbitrary.
-            break;
-        }
-        return problemTypes;
-    }
-
-    /**
      * Generate a single problem given the model (which contains the current
      * level setting) and a pool of atoms values that can be used for the
      * problem.
@@ -181,7 +163,7 @@ public class ProblemSet {
     private Problem generateProblem( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ) {
 
         // Get a list of all possible problem types for the current level.
-        ArrayList<ProblemType> possibleProbTypes = getAllProblemTypesForLevel( model.getLevelProperty().getValue() );
+        ArrayList<ProblemType> possibleProbTypes = mapLevelToProbTypes.get( model.getLevelProperty().getValue() );
 
         // Filter the prob types based on the developer dialog setting.
         possibleProbTypes = filterProblemTypes( possibleProbTypes );
