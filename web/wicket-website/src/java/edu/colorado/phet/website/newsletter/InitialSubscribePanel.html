@@ -13,14 +13,16 @@
 
 <wicket:panel>
     <div wicket:message="dir:language.dir">
-        <h1>Subscribe to the Newsletter</h1>
+        <h1>
+            <wicket:message key="newsletter.subscribeTo">Subscribe to the Newsletter</wicket:message>
+        </h1>
 
-        <p>
+        <p wicket:id="pleaseSignUp">
             Please sign up if you would like to receive the PhET Newsletter. Once you have submitted your email address,
             you should receive a confirmation of your subscription via email.
         </p>
 
-        <p>
+        <p wicket:id="pastEditions">
             <a href="#">Here are some past editions</a> of the PhET Newsletter to give you an idea of what you will
             receive.
         </p>

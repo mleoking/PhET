@@ -121,6 +121,8 @@ public class RegisterPanel extends PhetPanel {
                 errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.description", this, "Please pick a description" );
             }
 
+            PhetUser user = null;
+
             // TODO: a bunch of refactoring and cleanup around here
             if ( !error ) {
                 Transaction tx = null;
@@ -132,7 +134,7 @@ public class RegisterPanel extends PhetPanel {
                         if ( users.size() > 1 ) {
                             throw new RuntimeException( "More than one user for email " + email );
                         }
-                        PhetUser user = (PhetUser) users.get( 0 );
+                        user = (PhetUser) users.get( 0 );
                         if ( !user.isNewsletterOnlyAccount() && !user.isConfirmed() ) {
                             error = true;
                             errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.emailUsed", this, "That email address is already in use" );
@@ -152,7 +154,7 @@ public class RegisterPanel extends PhetPanel {
                         }
                     }
                     else {
-                        PhetUser user = new PhetUser( email, false );
+                        user = new PhetUser( email, false );
                         confirmationKey = user.getConfirmationKey();
                         user.setName( nom );
                         user.setOrganization( org );
@@ -192,7 +194,7 @@ public class RegisterPanel extends PhetPanel {
             }
             else {
                 errorModel.setObject( "" );
-                setResponsePage( ConfirmEmailSentPage.class );
+                setResponsePage( ConfirmEmailSentPage.class, ConfirmEmailSentPage.getParameters( user ) );
 //                PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() );
 //                if ( destination != null ) {
 //                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );

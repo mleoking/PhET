@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -13,18 +14,18 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
+import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.ErrorPage;
+import edu.colorado.phet.website.content.about.AboutNewsPanel;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.util.hibernate.HibernateResult;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.Result;
+import edu.colorado.phet.website.util.hibernate.Task;
+import edu.colorado.phet.website.util.hibernate.TaskException;
 
-/**
- * The panel which represents the main content portion of the home (index) page
- */
 public class InitialSubscribePanel extends PhetPanel {
 
     private FeedbackPanel feedback;
@@ -50,6 +51,12 @@ public class InitialSubscribePanel extends PhetPanel {
         feedback = new FeedbackPanel( "feedback" );
         feedback.setVisible( false );
         add( feedback );
+
+        add( new LocalizedText( "pleaseSignUp", "newsletter.pleaseSignUp" ) );
+
+        add( new LocalizedText( "pastEditions", "newsletter.pastEditions", new Object[] {
+                AboutNewsPanel.getLinker().getHref( context, getPhetCycle() )
+        } ) );
     }
 
     private class SubscribeForm extends Form {
@@ -113,15 +120,14 @@ public class InitialSubscribePanel extends PhetPanel {
 
         @Override
         protected void onSubmit() {
-            // TODO: fill in
             final String emailAddress = emailTextField.getInput();
-            final HibernateResult<String> confirmationKeyResult = new HibernateResult<String>();
-            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-                public boolean run( Session session ) {
+
+            final Result<PhetUser> userResult = HibernateUtils.resultTransaction( getHibernateSession(), new Task<PhetUser>() {
+                public PhetUser run( Session session ) {
                     List users = session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", emailAddress ).list();
                     PhetUser user;
                     if ( users.size() > 1 ) {
-                        throw new RuntimeException( "More than 1 user for an email address." );
+                        throw new TaskException( "More than 1 user for an email address.", Level.ERROR );
                     }
                     else if ( users.size() == 1 ) {
                         user = (PhetUser) users.get( 0 );
@@ -135,14 +141,14 @@ public class InitialSubscribePanel extends PhetPanel {
                         user.setReceiveEmail( true );
                         session.save( user );
                     }
-                    confirmationKeyResult.setValue( user.getConfirmationKey() );
-                    return true;
+                    return user;
                 }
             } );
-            if ( success ) {
-                boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( context, emailAddress, confirmationKeyResult.getValue() );
+
+            if ( userResult.success ) {
+                boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( context, emailAddress, userResult.value.getConfirmationKey() );
                 if ( emailSuccess ) {
-                    setResponsePage( ConfirmEmailSentPage.class );
+                    setResponsePage( ConfirmEmailSentPage.class, ConfirmEmailSentPage.getParameters( userResult.value ) );
                 }
                 else {
                     // sending the email failed

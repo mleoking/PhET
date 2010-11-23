@@ -18,7 +18,7 @@ public class InitialSubscribePage extends PhetMenuPage {
 
     public InitialSubscribePage( PageParameters parameters ) {
         super( parameters );
-        setTitle( "Subscribe to PhET" ); // TODO: i18nize
+        setTitle( getLocalizer().getString( "newsletter.subscribe.title", this ) );
 
         add( new InitialSubscribePanel( "main-panel", getPageContext() ) );
 

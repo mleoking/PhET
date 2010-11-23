@@ -13,11 +13,18 @@
 
 <wicket:panel>
     <div wicket:message="dir:language.dir">
-        <h1>Email Confirmation Delivered</h1>
+        <h1>
+            <wicket:message key="newsletter.awaitingConfirmation">Awaiting Email Confirmation</wicket:message>
+        </h1>
 
-        <p>
-            In the email, please click on the link or copy and paste it into a browser in order to confirm your
-            email.
+        <p wicket:id="toFinish">
+            To finish creating your account, we've sent a confirmation email to @EMAIL@. In the Email, please click on
+            the link or copy and paste it into a browser in order to confirm your email.
+        </p>
+
+        <p wicket:id="trouble">
+            If you don't receive the email momentarily, please make sure your email filter allows emails sent from
+            @PHETHELP@. For additional help, please email @PHETHELP@.
         </p>
     </div>
 </wicket:panel>
