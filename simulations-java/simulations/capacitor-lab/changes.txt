@@ -1,3 +1,4 @@
+11/23/10 replace circuit's complicated listener interface with ChangeListener; a bit wasteful, but in practice most things need to update when anything changes
 11/22/10 fix Reset All for bar meters
 11/22/10 use Property<T> access to simplify DielectricChargesControl
 11/22/10 use BooleanPropertyCheckBox to simplify View control panel

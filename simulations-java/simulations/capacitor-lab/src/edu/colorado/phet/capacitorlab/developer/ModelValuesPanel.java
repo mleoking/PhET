@@ -14,11 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -59,43 +63,17 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     
     private DielectricMaterial dielectricMaterial;
     private final SimpleObserver dielectricConstantObserver;
-    private BatteryCapacitorCircuitChangeListener circuitChangeListener;
+    private final ChangeListener circuitChangeListener;
 
     public ModelValuesPanel( DielectricModel model ) {
         
         this.model = model;
-        circuitChangeListener = new BatteryCapacitorCircuitChangeListener() {
-            
-            public void batteryConnectedChanged() {
+        circuitChangeListener = new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
                 updateValues();
-            }
-            
-            public void chargeChanged() {
-                updateValues();
-            }
-            
-            public void capacitanceChanged() {
-                updateValues();
-            }
-            
-            public void efieldChanged() {
-                updateValues();
-            }
-            
-            public void energyChanged() {
-                updateValues();
-                
-            }
-            
-            public void voltageChanged() {
-                updateValues();
-            }
-            
-            public void currentChanged() {
-                // do nothing, current is not shown in this panel.
             }
         };
-        model.getCircuit().addBatteryCapacitorCircuitChangeListener( circuitChangeListener );
+        model.getCircuit().addChangeListener( circuitChangeListener );
         
         this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
         dielectricConstantObserver = new SimpleObserver() {
@@ -249,7 +227,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      * Unregister for notifications.
      */
     public void cleanup() {
-        model.getCircuit().removeBatteryCapacitorCircuitChangeListener( circuitChangeListener );
+        model.getCircuit().removeChangeListener( circuitChangeListener );
         dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
     }
     
