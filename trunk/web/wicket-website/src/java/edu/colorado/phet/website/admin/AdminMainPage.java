@@ -166,9 +166,13 @@ public class AdminMainPage extends AdminPage {
                 final List<PhetUser> users = new LinkedList<PhetUser>();
                 HibernateUtils.wrapCatchTransaction( getHibernateSession(), new VoidTask() {
                     public Void run( Session session ) {
-                        users.add( (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", "olsonsjc@gmail.com" ).uniqueResult() );
-
-                        // TODO: add in all users.
+                        List list = session.createQuery( "select u from PhetUser as u" ).list();
+                        for ( Object o : list ) {
+                            PhetUser user = (PhetUser) o;
+                            if ( user.isConfirmed() && user.isReceiveEmail() ) {
+                                users.add( user );
+                            }
+                        }
 
                         for ( PhetUser user : users ) {
                             // if user doesn't have a good confirmation key for unsubscribing, generate one
