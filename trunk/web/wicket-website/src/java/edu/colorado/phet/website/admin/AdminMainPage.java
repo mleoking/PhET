@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
@@ -31,6 +30,8 @@ import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.transfer.TransferData;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class AdminMainPage extends AdminPage {
 

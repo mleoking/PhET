@@ -62,6 +62,7 @@ import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.translation.TranslationMainPage;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Main entry and configuration point for the Wicket-based PhET website. Initializes pages (and the mappings), along

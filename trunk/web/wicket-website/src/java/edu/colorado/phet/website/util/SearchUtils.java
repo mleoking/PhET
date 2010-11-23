@@ -1,7 +1,5 @@
 package edu.colorado.phet.website.util;
 
-import it.sauronsoftware.cron4j.Scheduler;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -29,6 +27,8 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class SearchUtils {
 

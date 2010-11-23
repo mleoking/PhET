@@ -26,6 +26,8 @@ import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionFile;
 import edu.colorado.phet.website.translation.TranslationUrlStrategy;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Handles redirecting all of the old-site URLs to the new URLs. They will then be sent out with 301 (permanent)

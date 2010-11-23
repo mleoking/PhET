@@ -16,7 +16,7 @@ import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Used for holding lists of simulations, etc.

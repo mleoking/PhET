@@ -17,8 +17,8 @@ import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.components.RawBodyLabel;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 

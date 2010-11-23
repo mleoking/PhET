@@ -17,6 +17,8 @@ import edu.colorado.phet.website.components.LocalizedLabel;
 import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Includes static functions (with their own transaction handling) that handle setting and getting of localization strings

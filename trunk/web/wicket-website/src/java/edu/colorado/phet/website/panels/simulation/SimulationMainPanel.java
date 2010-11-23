@@ -45,6 +45,8 @@ import edu.colorado.phet.website.panels.SimSponsorPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionBrowsePanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 import static edu.colorado.phet.website.util.HtmlUtils.encode;
 

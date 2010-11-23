@@ -14,8 +14,8 @@ import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.content.contribution.ContributionEditPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 /**

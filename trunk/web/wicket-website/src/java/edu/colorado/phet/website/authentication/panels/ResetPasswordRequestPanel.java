@@ -5,7 +5,6 @@ import java.util.*;
 import javax.mail.MessagingException;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.TextField;
@@ -15,8 +14,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.PhetWicketApplication;
-import edu.colorado.phet.website.WebsiteProperties;
 import edu.colorado.phet.website.authentication.ResetPasswordCallbackPage;
 import edu.colorado.phet.website.authentication.ResetPasswordRequestSuccessPage;
 import edu.colorado.phet.website.constants.WebsiteConstants;
@@ -25,6 +22,8 @@ import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.ResetPasswordRequest;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * @author Sam Reid

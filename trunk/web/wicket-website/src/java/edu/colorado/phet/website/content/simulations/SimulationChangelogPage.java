@@ -26,6 +26,7 @@ import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.simulation.SimulationChangelogPanel;
 import edu.colorado.phet.website.templates.PhetMenuPage;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 
 public class SimulationChangelogPage extends PhetMenuPage {

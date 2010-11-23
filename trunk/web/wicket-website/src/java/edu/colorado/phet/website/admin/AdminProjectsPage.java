@@ -19,8 +19,8 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.Project;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Shows a list of all projects. Also presents the user with operations that can be done to all projects.

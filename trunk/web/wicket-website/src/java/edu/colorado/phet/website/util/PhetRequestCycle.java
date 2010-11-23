@@ -11,6 +11,7 @@ import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.PhetWicketApplication;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * A request cycle is created for each HTTP request, and is available at any point from pages or components by calling

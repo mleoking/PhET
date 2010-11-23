@@ -15,8 +15,8 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.translation.TranslationEntityString;
 import edu.colorado.phet.website.translation.entities.TranslationEntity;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class AdminOrphanStringReport extends AdminPage {
     public AdminOrphanStringReport( PageParameters parameters ) {

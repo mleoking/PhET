@@ -23,8 +23,8 @@ import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.util.XMLUtils;
 import edu.colorado.phet.website.data.util.IntId;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.RawLinkable;
 import edu.colorado.phet.website.util.links.RawLinker;
 

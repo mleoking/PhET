@@ -22,8 +22,8 @@ import edu.colorado.phet.website.panels.lists.CategoryOrderItem;
 import edu.colorado.phet.website.panels.lists.JustOrderList;
 import edu.colorado.phet.website.panels.lists.OrderList;
 import edu.colorado.phet.website.panels.lists.SimOrderItem;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.StringUtils;
 
 public class AdminCategoryPage extends AdminPage {

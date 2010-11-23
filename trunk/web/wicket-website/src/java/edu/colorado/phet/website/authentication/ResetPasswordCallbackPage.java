@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.panels.ChangePasswordPanel;
@@ -12,8 +11,8 @@ import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.ResetPasswordRequest;
 import edu.colorado.phet.website.templates.PhetMenuPage;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.links.AbstractLinker;

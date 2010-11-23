@@ -18,6 +18,9 @@ import edu.colorado.phet.website.content.ErrorPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateResult;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * The panel which represents the main content portion of the home (index) page

@@ -8,8 +8,8 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.data.Project;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class AdminProjectConsistencyReport extends AdminPage {
     public AdminProjectConsistencyReport( PageParameters parameters ) {
