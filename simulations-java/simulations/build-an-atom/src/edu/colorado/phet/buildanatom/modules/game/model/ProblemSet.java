@@ -112,7 +112,6 @@ public class ProblemSet {
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
             add( ProblemType.COUNTS_TO_SYMBOL_MASS );
-            add( ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_4_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
