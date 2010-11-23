@@ -34,10 +34,13 @@ public class InitialSubscribePanel extends PhetPanel {
     private static final int MAX_IP_ATTEMPTS = 20; // max number of times an IP can try subscribing in an hour
     private static final int MAX_EMAIL_ATTEMPTS = 2; // max number of times an exact email address can be subscribed to in an hour
 
+    private final PageContext context;
+
     // TODO: add security measures like limiting # of times per IP / user
 
     public InitialSubscribePanel( String id, PageContext context ) {
         super( id, context );
+        this.context = context; // TODO: evaluate whether context should be part of PhetPanel, since it is serializable
 
         add( new SubscribeForm( "subscribe-form" ) );
 
@@ -130,7 +133,7 @@ public class InitialSubscribePanel extends PhetPanel {
                 }
             } );
             if ( success ) {
-                boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( emailAddress, confirmationKeyResult.getValue() );
+                boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( context, emailAddress, confirmationKeyResult.getValue() );
                 if ( emailSuccess ) {
                     PageParameters params = new PageParameters();
                     params.put( InitialSubscribeConfirmPage.KEY, confirmationKeyResult.getValue() );

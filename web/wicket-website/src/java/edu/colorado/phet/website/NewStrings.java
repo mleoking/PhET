@@ -21,6 +21,8 @@ public class NewStrings {
         checkString( session, "newsletter.validation.email.Required", "An email address is required" );
         checkString( session, "newsletter.validation.email", "A valid email address is required" );
         checkString( session, "newsletter.validation.attempts", "Too many newsletter attempts have been made. Please try again later" );
+        checkString( session, "newsletter.nowSubscribed", "{0} is now subscribed to the PhET newsletter." );
+        checkString( session, "newsletter.nowUnsubscribed", "{0} is now unsubscribed from the PhET newsletter." );
         session.close();
     }
 
