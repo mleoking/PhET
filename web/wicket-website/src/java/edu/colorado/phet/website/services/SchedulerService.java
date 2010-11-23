@@ -21,13 +21,13 @@ public class SchedulerService {
 
     public static synchronized void initialize( final PhetWicketApplication app, final PhetLocalizer localizer ) {
         masterScheduler = new Scheduler();
-        masterScheduler.schedule( "59 23 * * *", new Runnable() {
+        masterScheduler.schedule( "15 23 * * *", new Runnable() {
             public void run() {
                 logger.info( "Running SearchUtils.reindex" );
                 SearchUtils.reindex( app, localizer );
             }
         } );
-        masterScheduler.schedule( "59 * * * *", new Runnable() {
+        masterScheduler.schedule( "32 * * * *", new Runnable() {
             public void run() {
                 logger.info( "Running InitialSubscribePanel.resetSecurity" );
                 InitialSubscribePanel.resetSecurity();
