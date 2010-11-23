@@ -15,7 +15,7 @@ import edu.colorado.phet.capacitorlab.util.ShapeUtils;
  * All of these shapes are 2D projections of pseudo-3D boxes.
  * These shapes are subtracted using constructive area geometry to account for 
  * occlusion that occurs in our pseudo-3D view.
- * Shapes are in the global view coordinate frame, everything else is in model coordinates.
+ * Shapes are in the global view coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

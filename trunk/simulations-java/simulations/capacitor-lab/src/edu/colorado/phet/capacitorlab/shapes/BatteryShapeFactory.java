@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D battery model.
- * Shapes are in the global view coordinate frame, everything else is in model coordinates.
+ * Shapes are in the global view coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
