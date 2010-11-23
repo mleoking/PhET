@@ -49,6 +49,8 @@ public class UnsubscribeLandingPage extends PhetMenuPage {
             ErrorPage.redirectToErrorPage();
         }
 
+        logger.info( userResult.getValue().getEmail() + " unsubscribed" );
+
         add( new UnsubscribeLandingPanel( "main-panel", getPageContext(), userResult.getValue() ) );
 
         hideSocialBookmarkButtons();

@@ -67,10 +67,11 @@ public class InitialSubscribePanel extends PhetPanel {
 
                 public void validate( Form<?> form ) {
                     String emailAddress = emailTextField.getInput();
+                    String ip = PhetRequestCycle.get().getWebRequest().getHttpServletRequest().getRemoteAddr();
                     if ( !PhetUser.isValidEmail( emailAddress ) ) {
                         error( emailTextField, "newsletter.validation.email" );
+                        logger.info( "bad email entered: " + emailAddress + ", with IP: " + ip );
                     }
-                    String ip = PhetRequestCycle.get().getWebRequest().getHttpServletRequest().getRemoteAddr();
                     Integer i;
                     Integer j;
                     synchronized ( this ) {
@@ -95,6 +96,7 @@ public class InitialSubscribePanel extends PhetPanel {
                     }
                     if ( i > MAX_IP_ATTEMPTS || j > MAX_EMAIL_ATTEMPTS ) {
                         error( emailTextField, "newsletter.validation.attempts" );
+                        logger.info( "too many subscription attempts made. ip: " + ip + ", email: " + emailAddress + ", ip attempts: " + i + ", email attempts: " + j );
                     }
                 }
             } );
@@ -109,7 +111,7 @@ public class InitialSubscribePanel extends PhetPanel {
         @Override
         protected void onSubmit() {
             // TODO: fill in
-            final String emailAddress = emailTextField.getInput().toString();
+            final String emailAddress = emailTextField.getInput();
             final Result<String> confirmationKeyResult = new Result<String>();
             boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                 public boolean run( Session session ) {

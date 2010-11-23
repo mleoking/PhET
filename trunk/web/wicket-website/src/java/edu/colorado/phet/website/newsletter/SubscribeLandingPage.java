@@ -54,6 +54,8 @@ public class SubscribeLandingPage extends PhetMenuPage {
             ErrorPage.redirectToErrorPage();
         }
 
+        logger.info( userResult.getValue().getEmail() + " subscribed" );
+
         add( new SubscribeLandingPanel( "main-panel", getPageContext(), userResult.getValue() ) );
 
         hideSocialBookmarkButtons();
