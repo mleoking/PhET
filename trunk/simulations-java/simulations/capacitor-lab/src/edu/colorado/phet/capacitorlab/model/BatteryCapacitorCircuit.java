@@ -3,9 +3,8 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
+import java.util.EventListener;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
@@ -55,7 +54,7 @@ public class BatteryCapacitorCircuit {
         this.capacitor = capacitor;
         this.dielectricConstantObserver = new SimpleObserver() {
             public void update() {
-                fireChanged();
+                fireCircuitChanged();
             }
         };
         
@@ -161,7 +160,7 @@ public class BatteryCapacitorCircuit {
             }
             this.batteryConnected = connected;
             updateWireVoltages();
-            fireChanged();
+            fireCircuitChanged();
         }
     }
 
@@ -255,7 +254,7 @@ public class BatteryCapacitorCircuit {
         if ( disconnectedPlateCharge != this.disconnectedPlateCharge ) {
             this.disconnectedPlateCharge = disconnectedPlateCharge;
             if ( !isBatteryConnected() ) {
-                fireChanged();
+                fireCircuitChanged();
             }
         }
     }
@@ -611,7 +610,7 @@ public class BatteryCapacitorCircuit {
     private void setCurrentAmplitude( double currentAmplitude ) {
         if ( currentAmplitude != this.getCurrentAmplitude() ) {
             this.currentAmplitude = currentAmplitude;
-            fireChanged();
+            fireCircuitChanged();
         }
     }
     
@@ -635,13 +634,13 @@ public class BatteryCapacitorCircuit {
     private void handleBatteryVoltageChanged() {
         if ( isBatteryConnected() ) {
             updateWireVoltages();
-            fireChanged();
+            fireCircuitChanged();
         }
     }
     
     private void handleCapacitanceChanged() {
         updateWireVoltages();
-        fireChanged();
+        fireCircuitChanged();
     }
 
     private void handleDielectricMaterialChanged() {
@@ -660,7 +659,7 @@ public class BatteryCapacitorCircuit {
     //----------------------------------------------------------------------------------
     //
     // Notification mechanism.
-    // Any change to the circuit results in a ChangeListener notification, with 
+    // Any change to the circuit results in a circuitChanged notification, with 
     // no information about what has changed.  This may seem wasteful, but in 
     // practice most things need to be changed when anything changes.  So this 
     // simplifies the programming at the expense of some unneeded computation.
@@ -669,18 +668,21 @@ public class BatteryCapacitorCircuit {
     //
     //----------------------------------------------------------------------------------
     
-    public void addChangeListener( ChangeListener listener ) {
-        listeners.add(  ChangeListener.class, listener );
+    public interface BatteryCapacitorCirucitChangeListener extends EventListener {
+        public void circuitChanged();
     }
     
-    public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove(  ChangeListener.class, listener );
+    public void addBatteryCapacitorCirucitChangeListener( BatteryCapacitorCirucitChangeListener listener ) {
+        listeners.add(  BatteryCapacitorCirucitChangeListener.class, listener );
     }
     
-    public void fireChanged() {
-        ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
-            listener.stateChanged( event );
+    public void removeBatteryCapacitorCirucitChangeListener( BatteryCapacitorCirucitChangeListener listener ) {
+        listeners.remove(  BatteryCapacitorCirucitChangeListener.class, listener );
+    }
+    
+    public void fireCircuitChanged() {
+        for ( BatteryCapacitorCirucitChangeListener listener : listeners.getListeners( BatteryCapacitorCirucitChangeListener.class ) ) {
+            listener.circuitChanged();
         }
     }
 }
