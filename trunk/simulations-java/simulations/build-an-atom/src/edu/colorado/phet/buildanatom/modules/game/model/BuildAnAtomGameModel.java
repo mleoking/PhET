@@ -89,11 +89,17 @@ public class BuildAnAtomGameModel {
             add( new AtomValue( 10, 10, 10 ) );
         }} );
         put( 2, new ArrayList<AtomValue>() {{
+            add( new AtomValue( 1, 0, 0 ) );
             add( new AtomValue( 1, 0, 1 ) );
+            add( new AtomValue( 1, 0, 2 ) );
+            add( new AtomValue( 1, 1, 0 ) );
             add( new AtomValue( 1, 1, 1 ) );
+            add( new AtomValue( 1, 1, 2 ) );
             add( new AtomValue( 2, 1, 2 ) );
             add( new AtomValue( 2, 2, 2 ) );
+            add( new AtomValue( 3, 3, 2 ) );
             add( new AtomValue( 3, 3, 3 ) );
+            add( new AtomValue( 3, 4, 2 ) );
             add( new AtomValue( 3, 4, 3 ) );
             add( new AtomValue( 4, 5, 4 ) );
             add( new AtomValue( 5, 6, 5 ) );
