@@ -22,11 +22,11 @@ public class StayConnectedPanel extends PhetPanel {
         } ) );
         add( new LocalizedText( "blog-text", "home.blogText" ) );
 
-        add( new LocalizedText( "newsletter-instructions", "stayConnected.newsletterInstructions", new Object[]{
+        add( new LocalizedText( "newsletter-instructions", "stayConnected.newsletterInstructions", new Object[] {
                 SignInPage.getLinker( getFullPath( context ) ).getHref( context, getPhetCycle() ),
                 RegisterPage.getLinker( getFullPath( context ) ).getHref( context, getPhetCycle() ),
                 EditProfilePage.getLinker( getFullPath( context ) ).getHref( context, getPhetCycle() )
-        }));
+        } ) );
     }
 
     public static String getKey() {

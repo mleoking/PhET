@@ -10,10 +10,10 @@ import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -56,7 +56,7 @@ public class ContributionPage extends PhetRegularPage {
 
     public static void addToMapper( PhetUrlMapper mapper ) {
         // WARNING: don't change without also changing the old URL redirection
-        mapper.addMap( "^contributions/view/([^/]+)$", ContributionPage.class, new String[]{"contribution"} );
+        mapper.addMap( "^contributions/view/([^/]+)$", ContributionPage.class, new String[] { "contribution" } );
     }
 
     public static RawLinkable getLinker( final int contributionId ) {

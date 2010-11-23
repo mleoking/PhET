@@ -21,28 +21,28 @@ public class TranslationUtilityPanel extends PhetPanel {
         String mailString = "<a " + new Linkers.HelpMailer( "Translation Utility" ).getHref( context, getPhetCycle() ) +
                             "><span class=\"red\">" + WebsiteConstants.HELP_EMAIL + "</span></a>";
 
-        add( new LocalizedText( "checkAlreadyTranslated", "translationUtility.checkAlreadyTranslated", new Object[]{
+        add( new LocalizedText( "checkAlreadyTranslated", "translationUtility.checkAlreadyTranslated", new Object[] {
                 TranslatedSimsPage.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "step-download", "translationUtility.general.download", new Object[]{
+        add( new LocalizedText( "step-download", "translationUtility.general.download", new Object[] {
                 Linkers.PHET_TRANSLATION_UTILITY_JAR.getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "step-selectLanguage", "translationUtility.general.selectLanguage", new Object[]{
+        add( new LocalizedText( "step-selectLanguage", "translationUtility.general.selectLanguage", new Object[] {
                 mailString
         } ) );
 
-        add( new LocalizedText( "example-hydrogen", "translationUtility.example.downloadHydrogen", new Object[]{
+        add( new LocalizedText( "example-hydrogen", "translationUtility.example.downloadHydrogen", new Object[] {
                 SimulationPage.getLinker( "hydrogen-atom", "hydrogen-atom" ).getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "common-howTo", "translationUtility.common.howTo", new Object[]{
+        add( new LocalizedText( "common-howTo", "translationUtility.common.howTo", new Object[] {
                 Linkers.JAVA_COMMON_STRINGS_JAR.getHref( context, getPhetCycle() ),
                 Linkers.FLASH_COMMON_STRINGS_JAR.getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "bug-reports", "translationUtility.bugReports.whatToDo", new Object[]{
+        add( new LocalizedText( "bug-reports", "translationUtility.bugReports.whatToDo", new Object[] {
                 mailString
         } ) );
     }

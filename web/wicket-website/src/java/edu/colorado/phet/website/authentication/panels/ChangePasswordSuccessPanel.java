@@ -17,7 +17,7 @@ public class ChangePasswordSuccessPanel extends PhetPanel {
     public static String getUrl() {
         return "change-password-success";
     }
-    
+
     public static RawLinkable getLinker() {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {

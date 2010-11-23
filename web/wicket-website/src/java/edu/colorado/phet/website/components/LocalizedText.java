@@ -57,7 +57,7 @@ public class LocalizedText extends WebComponent {
             try {
                 body = StringUtils.messageFormat( body, args, getLocale() );
             }
-            catch( RuntimeException e ) {
+            catch ( RuntimeException e ) {
                 logger.warn( "message-format error" );
                 body = "*error*";
             }

@@ -51,7 +51,7 @@ public class SearchResultsPanel extends PhetPanel {
         } );
 
         if ( query != null ) {
-            add( new LocalizedText( "search-query", "search.query", new Object[]{lsims.size() + contributions.size(), query} ) );
+            add( new LocalizedText( "search-query", "search.query", new Object[] { lsims.size() + contributions.size(), query } ) );
         }
         else {
             add( new InvisibleComponent( "search-query" ) );

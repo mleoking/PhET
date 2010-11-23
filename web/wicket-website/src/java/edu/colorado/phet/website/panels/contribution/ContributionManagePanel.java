@@ -12,9 +12,9 @@ import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 public class ContributionManagePanel extends PhetPanel {
 

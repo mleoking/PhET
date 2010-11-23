@@ -34,7 +34,7 @@ public class WebsiteResourceDeployReverter implements IProguardKeepClass {
                     try {
                         logger.info( "Ignoring: " + testFile.getCanonicalPath() );
                     }
-                    catch( IOException e ) {
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
                     continue;
@@ -48,7 +48,7 @@ public class WebsiteResourceDeployReverter implements IProguardKeepClass {
 
                         FileUtils.copyToDir( backupFile, liveSimDir );
                     }
-                    catch( IOException e ) {
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
                 }

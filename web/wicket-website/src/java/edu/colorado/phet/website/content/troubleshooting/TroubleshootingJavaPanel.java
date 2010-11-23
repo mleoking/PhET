@@ -19,23 +19,23 @@ public class TroubleshootingJavaPanel extends PhetPanel {
         add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
 
-        add( new LocalizedText( "intro", "troubleshooting.java.intro", new Object[]{
+        add( new LocalizedText( "intro", "troubleshooting.java.intro", new Object[] {
                 new Linkers.HelpMailer().getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "troubleshooting-java-q1-answer", "troubleshooting.java.q1.answer", new Object[]{
+        add( new LocalizedText( "troubleshooting-java-q1-answer", "troubleshooting.java.q1.answer", new Object[] {
                 "<img style=\"float: left;\" src=\"/images/unhappy-mac-jnlp-logo-small.jpg\" alt=\"Unhappy JNLP Mac Logo\"/>"
         } ) );
 
-        add( new LocalizedText( "troubleshooting-java-q2-answer", "troubleshooting.java.q2.answer", new Object[]{
+        add( new LocalizedText( "troubleshooting-java-q2-answer", "troubleshooting.java.q2.answer", new Object[] {
                 "<a href=\"http://www.java.com/en/index.jsp\"><img src=\"/images/java-jump.gif\" alt=\"Java Jump\"/></a>"
         } ) );
 
-        add( new LocalizedText( "troubleshooting-java-q3-answer", "troubleshooting.java.q3.answer", new Object[]{
+        add( new LocalizedText( "troubleshooting-java-q3-answer", "troubleshooting.java.q3.answer", new Object[] {
                 Linkers.PHET_HELP_LINK
         } ) );
 
-        add( new LocalizedText( "troubleshooting-java-q4-answer", "troubleshooting.java.q4.answer", new Object[]{
+        add( new LocalizedText( "troubleshooting-java-q4-answer", "troubleshooting.java.q4.answer", new Object[] {
                 "http://www.apple.com/java/",
                 "href=\"#q1\""
         } ) );

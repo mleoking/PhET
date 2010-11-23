@@ -18,7 +18,7 @@ public class TroubleshootingFlashPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( CSS.TROUBLESHOOTING ) );
 
-        add( new LocalizedText( "troubleshooting-flash-intro", "troubleshooting.flash.intro", new Object[]{
+        add( new LocalizedText( "troubleshooting-flash-intro", "troubleshooting.flash.intro", new Object[] {
                 Linkers.PHET_HELP_LINK
         } ) );
 

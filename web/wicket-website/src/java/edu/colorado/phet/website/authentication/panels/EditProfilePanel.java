@@ -19,9 +19,9 @@ import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 public class EditProfilePanel extends PhetPanel {
 
@@ -34,7 +34,7 @@ public class EditProfilePanel extends PhetPanel {
     private static final Logger logger = Logger.getLogger( EditProfilePanel.class.getName() );
 
     public EditProfilePanel( String id, PageContext context, String destination ) {
-        this( id, context, PhetSession.get().getUser(), destination);
+        this( id, context, PhetSession.get().getUser(), destination );
     }
 
     public EditProfilePanel( String id, PageContext context, PhetUser user, String destination ) {

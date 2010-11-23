@@ -12,10 +12,10 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.simulation.SimulationDisplayPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetUrlMapper;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -51,7 +51,7 @@ public class SimsByKeywordPage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^simulations/keyword/([^/]+)$", SimsByKeywordPage.class, new String[]{"keyword"} );
+        mapper.addMap( "^simulations/keyword/([^/]+)$", SimsByKeywordPage.class, new String[] { "keyword" } );
     }
 
     public static RawLinkable getLinker( final String keyword ) {

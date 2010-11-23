@@ -92,7 +92,7 @@ public class TransferData {
                             file.getParentFile().mkdirs();
                             writeBlobToFile( blob, file );
                         }
-                        catch( IOException e ) {
+                        catch ( IOException e ) {
                             e.printStackTrace();
                             logger.error( e );
                             return false;
@@ -175,7 +175,7 @@ public class TransferData {
                     FileUtils.writeString( htaccess, "ForceType application/octet-stream\n" +
                                                      "Header set Content-Disposition attachment\n" );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     logger.error( e );
                     return false;
                 }
@@ -350,7 +350,7 @@ public class TransferData {
                             file.getParentFile().mkdirs();
                             writeBlobToFile( blob, file );
                         }
-                        catch( IOException e ) {
+                        catch ( IOException e ) {
                             e.printStackTrace();
                             logger.error( e );
                             return false;
@@ -545,7 +545,7 @@ public class TransferData {
                             contribution.createZipFile();
                         }
                     }
-                    catch( IOException e ) {
+                    catch ( IOException e ) {
                         e.printStackTrace();
                         logger.warn( "contribution zipping", e );
                         return false;

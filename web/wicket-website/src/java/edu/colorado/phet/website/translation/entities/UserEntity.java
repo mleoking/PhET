@@ -72,7 +72,7 @@ public class UserEntity extends TranslationEntity {
         addString( "changePassword.validation.incorrectPassword" );
         addString( "changePassword.title" );
         addString( "changePassword.header" );
-        
+
         addString( "resetPasswordRequest.title" );
         addString( "resetPasswordRequest.submit" );
         addString( "resetPasswordRequest.emailAddress" );

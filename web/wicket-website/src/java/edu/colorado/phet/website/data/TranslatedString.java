@@ -32,7 +32,7 @@ public class TranslatedString implements Serializable, IntId {
 
     @Override
     public boolean equals( Object o ) {
-        if( this == o ) {
+        if ( this == o ) {
             return true;
         }
         return ( o instanceof TranslatedString ) && id == ( (TranslatedString) o ).id;

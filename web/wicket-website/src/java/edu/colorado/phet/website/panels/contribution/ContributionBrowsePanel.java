@@ -27,9 +27,9 @@ import edu.colorado.phet.website.data.contribution.ContributionType;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.WicketUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class ContributionBrowsePanel extends PhetPanel {
 

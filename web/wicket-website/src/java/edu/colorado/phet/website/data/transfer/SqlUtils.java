@@ -36,17 +36,17 @@ public class SqlUtils {
                 }
             }
         }
-        catch( ClassNotFoundException e ) {
+        catch ( ClassNotFoundException e ) {
             e.printStackTrace();
             logger.warn( "sqlutils", e );
             success = false;
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             logger.warn( "sqlutils", e );
             success = false;
         }
-        catch( SQLException e ) {
+        catch ( SQLException e ) {
             e.printStackTrace();
             logger.warn( "sqlutils", e );
             success = false;

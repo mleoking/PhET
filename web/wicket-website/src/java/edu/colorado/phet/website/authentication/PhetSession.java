@@ -11,9 +11,9 @@ import org.apache.wicket.protocol.http.WebSession;
 import org.hibernate.Query;
 
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class PhetSession extends WebSession {
 
@@ -88,11 +88,11 @@ public class PhetSession extends WebSession {
             digest.update( ( password + "_phetx1225" ).getBytes( "UTF-8" ) );
             bytes = digest.digest();
         }
-        catch( NoSuchAlgorithmException e ) {
+        catch ( NoSuchAlgorithmException e ) {
             e.printStackTrace();
             throw new RuntimeException( "No such algorithm", e );
         }
-        catch( UnsupportedEncodingException e ) {
+        catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -110,8 +110,8 @@ public class PhetSession extends WebSession {
     }
 
     private static String byteToHex( byte b ) {
-        char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-        char[] array = {hexDigit[( b >> 4 ) & 0x0f], hexDigit[b & 0x0f]};
+        char hexDigit[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        char[] array = { hexDigit[( b >> 4 ) & 0x0f], hexDigit[b & 0x0f] };
         return new String( array );
     }
 

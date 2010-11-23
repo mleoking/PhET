@@ -7,7 +7,7 @@ import edu.colorado.phet.website.components.StaticImage;
 import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.constants.Images;
 import edu.colorado.phet.website.content.about.AboutSponsorsPanel;
-import edu.colorado.phet.website.data.*;
+import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.data.util.IChangeListener;
 import edu.colorado.phet.website.util.PageContext;

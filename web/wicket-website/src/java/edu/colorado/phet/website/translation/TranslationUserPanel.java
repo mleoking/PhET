@@ -18,9 +18,9 @@ import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 public class TranslationUserPanel extends PhetPanel {
 
@@ -93,7 +93,7 @@ public class TranslationUserPanel extends PhetPanel {
 
             add( new AjaxButton( "submit-button", this ) {
                 protected void onSubmit( AjaxRequestTarget target, Form form ) {
-                    final PhetUser[] phetUsers = new PhetUser[]{null};
+                    final PhetUser[] phetUsers = new PhetUser[] { null };
 
                     final String email = userField.getModelObject().toString();
 

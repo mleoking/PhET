@@ -12,8 +12,8 @@ import edu.colorado.phet.website.constants.CSS;
 import edu.colorado.phet.website.content.simulations.SimulationPage;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class SimulationIndexPanel extends PhetPanel {
     private List<String> letters;

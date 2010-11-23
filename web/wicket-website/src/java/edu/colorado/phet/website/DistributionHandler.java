@@ -1,11 +1,7 @@
 package edu.colorado.phet.website;
 
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 
-import edu.colorado.phet.website.components.InvisibleComponent;
-import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.content.DonatePanel;
 import edu.colorado.phet.website.content.ResearchPanel;
 import edu.colorado.phet.website.content.about.*;
@@ -16,7 +12,6 @@ import edu.colorado.phet.website.content.troubleshooting.TroubleshootingJavascri
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.LocalizedSimulation;
-import edu.colorado.phet.website.panels.SearchPanel;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 
 /**

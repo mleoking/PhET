@@ -14,9 +14,9 @@ import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.content.contribution.ContributionEditPage;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 
 /**
  * A small control panel that is displayed above a contribution if a user is logged in as a PhET team member. Useful for

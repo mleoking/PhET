@@ -124,7 +124,7 @@ public abstract class EventDependency {
      * @return A convenience listener that will invalidate the cache entry upon any insert, update or delete events
      */
     protected final IChangeListener getAnyChangeInvalidator() {
-        synchronized( this ) {
+        synchronized ( this ) {
             if ( anyChangeListener == null ) {
                 anyChangeListener = new IChangeListener() {
                     public void onInsert( Object object, PostInsertEvent event ) {

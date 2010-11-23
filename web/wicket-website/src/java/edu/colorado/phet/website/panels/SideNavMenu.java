@@ -2,7 +2,6 @@ package edu.colorado.phet.website.panels;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenuList;

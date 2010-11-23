@@ -44,7 +44,7 @@ public class DeployResourcePage extends AdminPage {
                 return;
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -71,7 +71,7 @@ public class DeployResourcePage extends AdminPage {
         }
         else {
             boolean ok;
-            synchronized( usedLock ) {
+            synchronized ( usedLock ) {
                 ok = !usedDirs.contains( resourceTmpDir );
                 if ( ok ) {
                     usedDirs.add( resourceTmpDir );
@@ -136,7 +136,7 @@ public class DeployResourcePage extends AdminPage {
                 try {
                     FileUtils.writeString( new File( resourceTmpDir, "error.txt" ), "errored at " + new Date() );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
@@ -201,7 +201,7 @@ public class DeployResourcePage extends AdminPage {
             try {
                 FileUtils.writeString( new File( resourceTmpDir, "error.txt" ), "errored at " + new Date() );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }

@@ -17,10 +17,10 @@ import edu.colorado.phet.website.cache.InstallerCache;
 import edu.colorado.phet.website.components.RawBodyLabel;
 import edu.colorado.phet.website.data.Project;
 import edu.colorado.phet.website.data.Simulation;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Replacement phet-info service
@@ -49,7 +49,7 @@ public class PhetInfoServicePage extends WebPage {
         try {
             outDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         }
-        catch( ParserConfigurationException e ) {
+        catch ( ParserConfigurationException e ) {
             logger.warn( "unable to create a document" );
             e.printStackTrace();
             return;
@@ -75,11 +75,11 @@ public class PhetInfoServicePage extends WebPage {
                 writeInstallerUpdateResponse( outDocument, root, element );
             }
         }
-        catch( TransformerException e ) {
+        catch ( TransformerException e ) {
             e.printStackTrace();
             overallSuccess = false;
         }
-        catch( ParserConfigurationException e ) {
+        catch ( ParserConfigurationException e ) {
             e.printStackTrace();
             overallSuccess = false;
         }
@@ -90,7 +90,7 @@ public class PhetInfoServicePage extends WebPage {
         try {
             add( new RawBodyLabel( "response", XMLUtils.toString( outDocument ) ) );
         }
-        catch( TransformerException e ) {
+        catch ( TransformerException e ) {
             logger.error( "error converting XML into a string" );
             e.printStackTrace();
         }

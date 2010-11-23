@@ -31,9 +31,9 @@ import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.*;
 import edu.colorado.phet.website.data.util.CategoryChangeHandler;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.StringUtils;
 
 public class AdminSimPage extends AdminPage {
     private Simulation simulation = null;
@@ -88,13 +88,13 @@ public class AdminSimPage extends AdminPage {
 
             tx.commit();
         }
-        catch( RuntimeException e ) {
+        catch ( RuntimeException e ) {
             logger.warn( "Exception: " + e );
             if ( tx != null && tx.isActive() ) {
                 try {
                     tx.rollback();
                 }
-                catch( HibernateException e1 ) {
+                catch ( HibernateException e1 ) {
                     logger.error( "ERROR: Error rolling back transaction", e1 );
                 }
                 throw e;
@@ -645,7 +645,7 @@ public class AdminSimPage extends AdminPage {
                     }
                 }
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
 
@@ -798,7 +798,7 @@ public class AdminSimPage extends AdminPage {
                     }
                 } );
             }
-            catch( NumberFormatException e ) {
+            catch ( NumberFormatException e ) {
                 // silent failure
             }
 
@@ -895,7 +895,7 @@ public class AdminSimPage extends AdminPage {
                             fup.writeTo( file );
                             guide.setSize( (int) file.length() );
                         }
-                        catch( IOException e ) {
+                        catch ( IOException e ) {
                             e.printStackTrace();
                             logger.warn( e );
                             return false;

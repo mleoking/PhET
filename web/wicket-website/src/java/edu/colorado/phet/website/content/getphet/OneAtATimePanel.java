@@ -14,9 +14,9 @@ import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.panels.PhetPanel;
+import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
-import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 
@@ -48,7 +48,7 @@ public class OneAtATimePanel extends PhetPanel {
 
         //add( TroubleshootingMainPanel.getLinker().getLink( "tech-support-link", context ) );
 
-        add( new LocalizedText( "running-sims", "get-phet.one-at-a-time.runningSims", new Object[]{
+        add( new LocalizedText( "running-sims", "get-phet.one-at-a-time.runningSims", new Object[] {
                 TroubleshootingMainPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 

@@ -36,7 +36,7 @@ public class SearchResultsPage extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^search$", SearchResultsPage.class, new String[]{null, "q"} );
+        mapper.addMap( "^search$", SearchResultsPage.class, new String[] { null, "q" } );
     }
 
     public static RawLinkable getLinker( final String query ) {
@@ -46,7 +46,7 @@ public class SearchResultsPage extends PhetRegularPage {
                     try {
                         return "search?q=" + URLEncoder.encode( query, "UTF-8" );
                     }
-                    catch( UnsupportedEncodingException e ) {
+                    catch ( UnsupportedEncodingException e ) {
                         e.printStackTrace();
                         logger.error( e );
                         return "";

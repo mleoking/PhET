@@ -11,10 +11,10 @@ import edu.colorado.phet.website.panels.contribution.ContributionEditPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionMainPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionSearchPanel;
 import edu.colorado.phet.website.translation.PhetPanelFactory;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
-import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class ContributeEntity extends TranslationEntity {
     public ContributeEntity() {

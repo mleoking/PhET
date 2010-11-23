@@ -19,7 +19,7 @@ public class AdminNewInstallerPage extends PhetPage {
     public AdminNewInstallerPage( PageParameters parameters ) {
         super( parameters );
 
-        synchronized( lock ) {
+        synchronized ( lock ) {
 
             if ( getPhetCycle().isLocalRequest() ) {
                 String timestampString = parameters.getString( "timestamp" );

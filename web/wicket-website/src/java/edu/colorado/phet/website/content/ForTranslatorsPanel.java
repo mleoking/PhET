@@ -33,16 +33,16 @@ public class ForTranslatorsPanel extends PhetPanel {
         }
         else {
             //add( TranslationMainPage.getLinker().getLink( "translate-website", context, getPhetCycle() ) );
-            add( new LocalizedText( "translate-website", "forTranslators.websiteText", new Object[]{
+            add( new LocalizedText( "translate-website", "forTranslators.websiteText", new Object[] {
                     TranslationMainPage.getLinker().getHref( context, getPhetCycle() )
             } ) );
         }
 
-        add( new LocalizedText( "forTranslators-simulationsTranslatable", "forTranslators.simulationsTranslatable", new Object[]{
+        add( new LocalizedText( "forTranslators-simulationsTranslatable", "forTranslators.simulationsTranslatable", new Object[] {
                 TranslationUtilityPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 
-        add( new LocalizedText( "forTranslators-translatingMission", "forTranslators.translatingMission", new Object[]{
+        add( new LocalizedText( "forTranslators-translatingMission", "forTranslators.translatingMission", new Object[] {
                 AboutMainPanel.getLinker().getHref( context, getPhetCycle() )
         } ) );
 

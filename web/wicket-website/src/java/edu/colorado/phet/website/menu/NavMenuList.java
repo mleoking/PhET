@@ -2,7 +2,6 @@ package edu.colorado.phet.website.menu;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;

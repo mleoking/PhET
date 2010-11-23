@@ -29,7 +29,9 @@ import edu.colorado.phet.website.constants.WebsiteConstants;
 import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.transfer.TransferData;
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.EmailUtils;
+import edu.colorado.phet.website.util.SearchUtils;
+import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
@@ -86,7 +88,7 @@ public class AdminMainPage extends AdminPage {
                     message.addReplyTo( "phethelp@colorado.edu" );
                     EmailUtils.sendMessage( message );
                 }
-                catch( MessagingException e ) {
+                catch ( MessagingException e ) {
                     e.printStackTrace();
                 }
             }
@@ -106,7 +108,7 @@ public class AdminMainPage extends AdminPage {
                     File jarFile = new File( tmpDir, "sim2_zh_TW.jar" );
                     ( new PhetJarSigner( BuildLocalProperties.getInstance() ) ).signJar( jarFile );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
