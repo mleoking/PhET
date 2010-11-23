@@ -8,10 +8,8 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCirucitChangeListener;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.activities.FadeOutActivity;
@@ -99,8 +97,8 @@ public class CurrentIndicatorNode extends PhetPNode {
         minusNode.setOffset( x, y );
         
         // listeners
-        circuit.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
+        circuit.addBatteryCapacitorCirucitChangeListener( new BatteryCapacitorCirucitChangeListener() {
+            public void circuitChanged() {
                 if ( isVisible() ) {
                     updateTransparency();
                     updateOrientation();

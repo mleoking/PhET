@@ -6,9 +6,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.AddWiresButtonNode;
 import edu.colorado.phet.capacitorlab.control.PlateChargeControlNode;
@@ -18,6 +15,7 @@ import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCirucitChangeListener;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
@@ -73,8 +71,8 @@ public class DielectricCanvas extends CLCanvas {
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, boolean dev ) {
         
         this.model = model;
-        model.getCircuit().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
+        model.getCircuit().addBatteryCapacitorCirucitChangeListener( new BatteryCapacitorCirucitChangeListener() {
+            public void circuitChanged() {
                 updateBatteryConnectivity();
             }
         } );

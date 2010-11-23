@@ -16,7 +16,6 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
-- only update things that are visible
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
 - hack in BottomWire.createShape
@@ -27,6 +26,7 @@ HIGH PRIORITY
 
 MEDUIUM PRIORITY
 - convert BatteryCapacitorCircuit to Property<T>?
+- only update things that are visible, do this in the model wherever possible by observing visibleProperty
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working

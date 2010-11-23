@@ -14,15 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCirucitChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -63,17 +59,17 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     
     private DielectricMaterial dielectricMaterial;
     private final SimpleObserver dielectricConstantObserver;
-    private final ChangeListener circuitChangeListener;
+    private final BatteryCapacitorCirucitChangeListener circuitChangeListener;
 
     public ModelValuesPanel( DielectricModel model ) {
         
         this.model = model;
-        circuitChangeListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
+        circuitChangeListener = new BatteryCapacitorCirucitChangeListener() {
+            public void circuitChanged() {
                 updateValues();
             }
         };
-        model.getCircuit().addChangeListener( circuitChangeListener );
+        model.getCircuit().addBatteryCapacitorCirucitChangeListener( circuitChangeListener );
         
         this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
         dielectricConstantObserver = new SimpleObserver() {
@@ -227,7 +223,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      * Unregister for notifications.
      */
     public void cleanup() {
-        model.getCircuit().removeChangeListener( circuitChangeListener );
+        model.getCircuit().removeBatteryCapacitorCirucitChangeListener( circuitChangeListener );
         dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
     }
     
