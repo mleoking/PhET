@@ -48,13 +48,6 @@ public class MassIndicatorNode extends PNode {
             setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
             setTextPaint( Color.BLACK );
         }};
-        addChild( readoutPText );
-        atom.addObserver( new SimpleObserver() {
-            public void update() {
-                readoutPText.setText( atom.getAtomicMassNumber() + "" );
-                readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY()-readoutPText.getFullBounds().getHeight()/2);
-            }
-        } );
 
         //from 9/30/2010 meeting
         //will students think the atom on the scale is an electron?
@@ -120,5 +113,16 @@ public class MassIndicatorNode extends PNode {
         readout.setOffset(
                 weighScaleImageNode.getFullBoundsReference().getCenterX() - readout.getFullBoundsReference().width / 2,
                 weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 2.5);
+
+        // Add the test to the readout.
+        final SimpleObserver readoutUpdater = new SimpleObserver() {
+            public void update() {
+                readoutPText.setText( atom.getAtomicMassNumber() + "" );
+                readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY()-readoutPText.getFullBounds().getHeight()/2);
+            }
+        };
+        atom.addObserver( readoutUpdater );
+        readoutUpdater.update();
+        addChild( readoutPText );
     }
 }
