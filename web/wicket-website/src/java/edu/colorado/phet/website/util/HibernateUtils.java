@@ -451,39 +451,69 @@ public class HibernateUtils {
         return ret;
     }
 
-//    public static<T> boolean wrapTransaction( Session session, Task<T> task ) {
-//        Transaction tx = null;
-//        T ret;
-//        try {
-//            tx = session.beginTransaction();
-//            tx.setTimeout( 600 );
-//
-//            ret = task.run( session );
-//
-//            //logger.debug( "tx isactive: " + tx.isActive() );
-//            //logger.debug( "tx wascommited: " + tx.wasCommitted() );
-//            if ( tx.isActive() ) {
-//                tx.commit();
-//            }
-//            else {
-//                //logger.warn( "tx not active", new RuntimeException( "exception made for stack trace" ) );
-//            }
-//        }
-//        catch( RuntimeException e ) {
-//            ret = false;
-//            logger.warn( "Exception", e );
-//            if ( tx != null && tx.isActive() ) {
-//                try {
-//                    logger.warn( "Attempting to roll back" );
-//                    tx.rollback();
-//                }
-//                catch( HibernateException e1 ) {
-//                    logger.error( "ERROR: Error rolling back transaction!", e1 );
-//                }
-//                throw e;
-//            }
-//        }
-//        return ret;
-//    }
+    public static void tryRollback( Transaction tx ) {
+        if ( tx != null && tx.isActive() ) {
+            try {
+                logger.info( "Attempting to roll back" );
+                tx.rollback();
+            }
+            catch ( HibernateException e1 ) {
+                logger.error( "ERROR: Error rolling back transaction!", e1 );
+                throw e1;
+            }
+        }
+    }
+
+    public static <T> Result<T> resultTransaction( Session session, Task<T> task ) {
+        return transactionCore( session, task, true );
+    }
+
+    public static <T> Result<T> resultCatchTransaction( Session session, Task<T> task ) {
+        return transactionCore( session, task, false );
+    }
+
+    public static boolean wrapTransaction( Session session, VoidTask task ) {
+        return transactionCore( session, task, true ).success;
+    }
+
+    public static boolean wrapCatchTransaction( Session session, VoidTask task ) {
+        return transactionCore( session, task, false ).success;
+    }
+
+    private static <T> Result<T> transactionCore( Session session, Task<T> task, boolean throwHibernateExceptions ) {
+        Transaction tx = null;
+        T ret = null;
+        try {
+            tx = session.beginTransaction();
+            tx.setTimeout( 600 );
+
+            ret = task.run( session );
+
+            //logger.debug( "tx isactive: " + tx.isActive() );
+            //logger.debug( "tx wascommited: " + tx.wasCommitted() );
+            if ( tx.isActive() ) {
+                tx.commit();
+            }
+            else {
+                //logger.warn( "tx not active", new RuntimeException( "exception made for stack trace" ) );
+            }
+            return new Result<T>( true, ret, null );
+        }
+        catch ( TaskException e ) {
+            logger.warn( e );
+            tryRollback( tx );
+            return new Result<T>( false, ret, e );
+        }
+        catch ( RuntimeException e ) {
+            logger.warn( e );
+            tryRollback( tx );
+            if ( throwHibernateExceptions ) {
+                throw e;
+            }
+            else {
+                return new Result<T>( false, ret, e );
+            }
+        }
+    }
 
 }

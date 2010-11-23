@@ -25,26 +25,22 @@ public class SubscribeLandingPage extends PhetMenuPage {
 
         final String confirmationKey = parameters.getString( "key" );
 
-        final HibernateResult<PhetUser> userResult = new HibernateResult<PhetUser>();
-
-        boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-            public boolean run( Session session ) {
+        Result<PhetUser> userResult = HibernateUtils.resultTransaction( getHibernateSession(), new Task<PhetUser>() {
+            public PhetUser run( Session session ) {
                 PhetUser user = PhetUser.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
-                userResult.setValue( user );
                 if ( user != null ) {
                     user.setReceiveEmail( true );
                     user.setConfirmed( true );
                     session.update( user );
-                    return true;
+                    return user;
                 }
                 else {
-                    logger.warn( "user not found for confirmationKey: " + confirmationKey );
-                    return false;
+                    throw new TaskException( "user not found for confirmationKey: " + confirmationKey );
                 }
             }
         } );
-        if ( success ) {
-            boolean emailSuccess = NewsletterUtils.sendNewsletterWelcomeEmail( getPageContext(), userResult.getValue() );
+        if ( userResult.success ) {
+            boolean emailSuccess = NewsletterUtils.sendNewsletterWelcomeEmail( getPageContext(), userResult.value );
             if ( !emailSuccess ) {
                 // we are still OK if email fails, since this only lets them know about the success. Don't fail out.
                 //ErrorPage.redirectToErrorPage();
@@ -54,9 +50,9 @@ public class SubscribeLandingPage extends PhetMenuPage {
             ErrorPage.redirectToErrorPage();
         }
 
-        logger.info( userResult.getValue().getEmail() + " subscribed" );
+        logger.info( userResult.value.getEmail() + " subscribed" );
 
-        add( new SubscribeLandingPanel( "main-panel", getPageContext(), userResult.getValue() ) );
+        add( new SubscribeLandingPanel( "main-panel", getPageContext(), userResult.value ) );
 
         hideSocialBookmarkButtons();
     }
