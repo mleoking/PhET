@@ -43,11 +43,18 @@ public class SubscribeLandingPage extends PhetMenuPage {
                 }
             }
         } );
-        if ( !success ) {
+        if ( success ) {
+            boolean emailSuccess = NewsletterUtils.sendNewsletterWelcomeEmail( getPageContext(), userResult.getValue() );
+            if ( !emailSuccess ) {
+                // we are still OK if email fails, since this only lets them know about the success. Don't fail out.
+                //ErrorPage.redirectToErrorPage();
+            }
+        }
+        else {
             ErrorPage.redirectToErrorPage();
         }
 
-        add( new SubscribeLandingPanel( "main-panel", getPageContext() ) );
+        add( new SubscribeLandingPanel( "main-panel", getPageContext(), userResult.getValue() ) );
 
         hideSocialBookmarkButtons();
     }
