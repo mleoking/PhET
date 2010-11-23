@@ -29,7 +29,7 @@ public abstract class BarMeter {
         // constrain location to world bounds
         world.addBoundsObserver( new SimpleObserver() {
             public void update() {
-                setLocation( world.getConstrainedLocation( getLocationReference() ) );
+                setLocation( getLocationReference() );
             }
         });
     }
