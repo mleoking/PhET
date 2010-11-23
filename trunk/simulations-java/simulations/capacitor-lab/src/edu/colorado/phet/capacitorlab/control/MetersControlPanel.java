@@ -7,7 +7,7 @@ import java.awt.BorderLayout;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -19,23 +19,23 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
  */
 public class MetersControlPanel extends PhetTitledPanel {
     
-    public MetersControlPanel( DielectricModel model ) {
+    public MetersControlPanel( CapacitanceMeter capacitanceMeter, PlateChargeMeter plateChangeMeter, StoredEnergyMeter storedEnergyMeter, Voltmeter voltmeter, EFieldDetector eFieldDetector ) {
         super( CLStrings.METERS );
         
         // check boxes
-        JCheckBox capacitanceCheckBox = new BooleanPropertyCheckBox( CLStrings.CAPACITANCE, model.getCapacitanceMeter().getVisibleProperty() );
-        JCheckBox chargeCheckBox = new BooleanPropertyCheckBox( CLStrings.PLATE_CHARGE, model.getPlateChargeMeter().getVisibleProperty() );
-        JCheckBox energyCheckBox = new BooleanPropertyCheckBox( CLStrings.STORED_ENERGY, model.getStoredEnergyMeter().getVisibleProperty() );
-        JCheckBox voltmeterCheckBox = new BooleanPropertyCheckBox( CLStrings.VOLTMETER, model.getVoltmeter().getVisibleProperty() );
-        JCheckBox eFieldDetectorCheckBox = new BooleanPropertyCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR, model.getEFieldDetector().getVisibleProperty() );
+        JCheckBox capacitanceCheckBox = new BooleanPropertyCheckBox( CLStrings.CAPACITANCE, capacitanceMeter.getVisibleProperty() );
+        JCheckBox plateChargeCheckBox = new BooleanPropertyCheckBox( CLStrings.PLATE_CHARGE, plateChangeMeter.getVisibleProperty() );
+        JCheckBox storedEnergyCheckBox = new BooleanPropertyCheckBox( CLStrings.STORED_ENERGY, storedEnergyMeter.getVisibleProperty() );
+        JCheckBox voltmeterCheckBox = new BooleanPropertyCheckBox( CLStrings.VOLTMETER, voltmeter.getVisibleProperty() );
+        JCheckBox eFieldDetectorCheckBox = new BooleanPropertyCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR, eFieldDetector.getVisibleProperty() );
         
         // layout
         GridPanel innerPanel = new GridPanel();
         innerPanel.setAnchor( Anchor.WEST );
         innerPanel.setGridX( 0 ); // one column
         innerPanel.add( capacitanceCheckBox );
-        innerPanel.add( chargeCheckBox );
-        innerPanel.add( energyCheckBox );
+        innerPanel.add( plateChargeCheckBox );
+        innerPanel.add( storedEnergyCheckBox );
         innerPanel.add( voltmeterCheckBox );
         innerPanel.add( eFieldDetectorCheckBox );
         

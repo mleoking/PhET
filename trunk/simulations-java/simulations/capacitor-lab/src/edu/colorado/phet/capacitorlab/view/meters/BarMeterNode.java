@@ -163,7 +163,7 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                BarMeterNode.this.setVisible( false );
+                meter.setVisible( false );
             }
         });
         zoomButton.addInputEventListener( new PBasicInputEventHandler() {

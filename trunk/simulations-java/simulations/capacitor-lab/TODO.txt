@@ -19,7 +19,6 @@ HIGH PRIORITY
 - only update things that are visible
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - better encapsulation of ShapeFactory approach to measurement, move out of model and into a strategy pattern
-- convert BatteryCapacitorCircuit to Property<T>?
 - hack in BottomWire.createShape
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - get new E-field probe image, crosshairs need to be visible on a dense E-Field
@@ -27,6 +26,7 @@ HIGH PRIORITY
 - regression test to see what's broken
 
 MEDUIUM PRIORITY
+- convert BatteryCapacitorCircuit to Property<T>?
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working
