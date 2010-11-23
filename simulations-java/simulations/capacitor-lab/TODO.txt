@@ -25,13 +25,13 @@ HIGH PRIORITY
 - regression test to see what's broken
 
 MEDUIUM PRIORITY
-- convert BatteryCapacitorCircuit to Property<T>?
-- only update things that are visible, do this in the model wherever possible by observing visibleProperty
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working
 
 LOW PRIORITY
+- convert BatteryCapacitorCircuit to Property<T>?
+- only update things that are visible, do this in the model wherever possible by observing visibleProperty
 - add meter body bounds to model
 - clean up CCKStrategyWithRounding
 - gradient paint on plate top surfaces (not on edges)

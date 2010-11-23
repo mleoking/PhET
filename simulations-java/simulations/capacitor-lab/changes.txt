@@ -1,3 +1,4 @@
+11/23/10 remove redundant location constraint code from view, this is now handled in model
 11/23/10 replace ChangeListener.stateChanged with BatteryCapacitorCircuitChangeListener.circuitChanged so that uses are easily identified by IDE
 11/23/10 generalize interfaces by eliminating module-specific params (type DielectricCanvas, DielectricModel)
 11/23/10 replace circuit's complicated listener interface with ChangeListener; a bit wasteful, but in practice most things need to update when anything changes

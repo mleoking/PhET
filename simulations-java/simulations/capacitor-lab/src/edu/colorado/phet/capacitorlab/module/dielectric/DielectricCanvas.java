@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.control.AddWiresButtonNode;
@@ -26,7 +25,6 @@ import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Canvas for the "Dielectric" module.
@@ -41,6 +39,7 @@ public class DielectricCanvas extends CLCanvas {
     // circuit
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
+    private final WireNode topWireNode, bottomWireNode;
     private final AddWiresButtonNode addWiresButtonNode;
     private final RemoveWiresButtonNode removeWiresButtonNode;
     private final CurrentIndicatorNode topCurrentIndicatorNode, bottomCurrentIndicatorNode;
@@ -64,9 +63,6 @@ public class DielectricCanvas extends CLCanvas {
     private final PlateChargeControlNode plateChargeControNode;
     
     // bounds of the play area, for constraining dragging to within the play area
-    private final PPath playAreaBoundsNode;
-    private WireNode topWireNode;
-    private WireNode bottomWireNode;
 
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, boolean dev ) {
         
@@ -90,10 +86,6 @@ public class DielectricCanvas extends CLCanvas {
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_WIDTH_RANGE );
-        
-        playAreaBoundsNode = new PPath();
-        playAreaBoundsNode.setStroke( null );
-        addChild( playAreaBoundsNode );
         
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt );
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
@@ -271,15 +263,5 @@ public class DielectricCanvas extends CLCanvas {
         // adjust the model bounds
         Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
         model.getWorld().setBounds( 0, 0, p.getX(), p.getY() );
-        
-        // Adjust play area bounds so that things aren't dragged off the canvas.
-        final double margin = 0;
-        playAreaBoundsNode.setPathTo( new Rectangle2D.Double( margin, margin, worldSize.getWidth() - ( 2 * margin ), worldSize.getHeight() - ( 2 * margin ) ) );
-        
-        // If anything draggable is outside the canvas and doesn't have an associated model element, move it inside.
-        keepInsideCanvas( capacitanceMeterNode );
-        keepInsideCanvas( plateChargeMeterNode );
-        keepInsideCanvas( storedEnergyMeterNode );
-        keepInsideCanvas( eFieldDetector.getBodyNode() );
     }
 }
