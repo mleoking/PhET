@@ -33,6 +33,10 @@ public class NewStrings {
         checkString( session, "newsletter.pleaseSignUp", "Please sign up if you would like to receive the PhET Newsletter. Once you have submitted your email address, you should receive a confirmation of your subscription via email." );
         checkString( session, "newsletter.subscribeTo", "Subscribe to the Newsletter" );
         checkString( session, "newsletter.subscribe.title", "Subscribe to PhET" );
+        checkString( session, "newsletter.confirmedEmail.title", "Confirmed PhET Email" );
+        checkString( session, "newsletter.confirmedEmail", "Email Confirmed" );
+        checkString( session, "newsletter.unsubscribed.title", "Unsubscribed to PhET Newsletters" );
+        checkString( session, "newsletter.unsubscribed", "Unsubscribed from PhET Newsletter" );
         session.close();
     }
 

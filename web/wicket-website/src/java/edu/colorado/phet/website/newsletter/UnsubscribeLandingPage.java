@@ -24,8 +24,7 @@ public class UnsubscribeLandingPage extends PhetMenuPage {
 
     public UnsubscribeLandingPage( PageParameters parameters ) {
         super( parameters );
-        //setTitle( getLocalizer().getString( "resetPasswordCallback.title", this ) );
-        setTitle( "Unsubscribed to PhET Newsletters" ); // TODO: i18nize
+        setTitle( getLocalizer().getString( "newsletter.unsubscribed.title", this ) );
 
         final String confirmationKey = parameters.getString( "key" );
 

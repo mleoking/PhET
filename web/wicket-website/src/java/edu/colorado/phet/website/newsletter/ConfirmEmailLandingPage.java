@@ -27,7 +27,7 @@ public class ConfirmEmailLandingPage extends PhetMenuPage {
     public ConfirmEmailLandingPage( PageParameters parameters ) {
         super( parameters );
         //setTitle( getLocalizer().getString( "resetPasswordCallback.title", this ) );
-        setTitle( "Confirmed PhET Email" ); // TODO: i18nize
+        setTitle( getLocalizer().getString( "newsletter.confirmedEmail.title", this ) );
 
         final String confirmationKey = parameters.getString( "key" );
         final String destination = parameters.getString( "destination" );
