@@ -2,12 +2,15 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Voltmeter model.
@@ -15,6 +18,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Voltmeter {
+    
+    // size of the probe tips, determined by visual inspection of the associated image files
+    private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 ); // meters
     
     private final BatteryCapacitorCircuit circuit;
     private final World world;
@@ -156,5 +162,9 @@ public class Voltmeter {
     
     public VoltmeterShapeFactory getShapeFactory() {
         return shapeFactory;
+    }
+    
+    public Dimension2D getProbeTipSizeReference() {
+        return PROBE_TIP_SIZE;
     }
 }
