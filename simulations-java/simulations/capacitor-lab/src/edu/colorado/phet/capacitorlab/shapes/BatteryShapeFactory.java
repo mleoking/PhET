@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D battery model.
- * All Shapes are in the global view coordinate frame.
+ * Shapes are in the global view coordinate frame, everything else is in model coordinates.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -49,6 +49,11 @@ public class BatteryShapeFactory {
         return POSITIVE_TERMINAL_SIZE;
     }
     
+    /**
+     * Gets the offset of the top terminal from the battery's origin, in model coordinates (meters).
+     * This offset depends on the polarity.
+     * @return
+     */
     public double getTopTerminalYOffset() {
         if ( battery.getPolarity() == Polarity.POSITIVE ) {
             return POSITIVE_TERMINAL_Y_OFFSET;
@@ -56,6 +61,15 @@ public class BatteryShapeFactory {
         else {
             return NEGATIVE_TERMINAL_Y_OFFSET;
         }
+    }
+    
+    /**
+     * Gets the offset of the bottom terminal from the battery's origin, in model coordinates (meters).
+     * We don't need to account for the polarity since the bottom terminal is never visible.
+     * @return
+     */
+    public double getBottomTerminalYOffset() {
+        return BODY_SIZE.getHeight() / 2;
     }
     
     /**

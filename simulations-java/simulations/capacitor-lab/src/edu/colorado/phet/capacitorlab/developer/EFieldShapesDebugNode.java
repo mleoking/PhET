@@ -36,7 +36,7 @@ public class EFieldShapesDebugNode extends PComposite {
         // capacitor
         {
             final Capacitor capacitor = model.getCapacitor();
-            final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
+            final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
             
             final PPath dielectricBetweenPlatesNode = new PhetPPath( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( dielectricBetweenPlatesNode );

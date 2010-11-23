@@ -41,7 +41,7 @@ public class VoltageShapesDebugNode extends PComposite {
         {
             final Battery battery = model.getBattery();
             final BatteryCapacitorCircuit circuit = model.getCircuit();
-            final BatteryShapeFactory shapeFactory = new BatteryShapeFactory( battery, mvt );
+            final BatteryShapeFactory shapeFactory = battery.getShapeFactory();
             
             final PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
             if ( SHOW_BATTERY_BODY ) {
@@ -70,7 +70,7 @@ public class VoltageShapesDebugNode extends PComposite {
         // capacitor
         {
             final Capacitor capacitor = model.getCapacitor();
-            final CapacitorShapeFactory shapeFactory = new CapacitorShapeFactory( capacitor, mvt );
+            final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
             
             final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( topPlateNode );
@@ -127,7 +127,7 @@ public class VoltageShapesDebugNode extends PComposite {
         // voltmeter
         {
             final Voltmeter voltmeter = model.getVoltmeter();
-            final VoltmeterShapeFactory shapeFactory = new VoltmeterShapeFactory( voltmeter, mvt );
+            final VoltmeterShapeFactory shapeFactory = voltmeter.getShapeFactory();
             
             final PPath positiveTipNode = new PhetPPath( shapeFactory.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
