@@ -3,15 +3,13 @@
 package edu.colorado.phet.gravityandorbits.model;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
 public class GravityAndOrbitsModel {
 
@@ -35,33 +33,47 @@ public class GravityAndOrbitsModel {
     public final Body moon = new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white );
 
     private final GravityAndOrbitsClock clock;
-    private ArrayList<SimpleObserver> modelStepListeners=new ArrayList<SimpleObserver>( );
+    private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
     public boolean teacherMode;
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
         super();
         this.clock = clock;
-        clock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                super.simulationTimeChanged( clockEvent );
-//                if (teacherMode) return;
+
+        final VoidFunction1<Double> stepModel = new VoidFunction1<Double>() {
+            public void apply( Double dt ) {
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     add( sun.toBodyState() );
                     add( planet.toBodyState() );
                     if ( moonProperty.getValue() ) {
                         add( moon.toBodyState() );
                     }
-                }} ).getNextState( clockEvent.getSimulationTimeChange(), 10 );
+                }} ).getNextState( dt, 10 );
                 sun.updateBodyStateFromModel( newState.getBodyState( 0 ) );
                 planet.updateBodyStateFromModel( newState.getBodyState( 1 ) );
                 if ( moonProperty.getValue() ) {
                     moon.updateBodyStateFromModel( newState.getBodyState( 2 ) );
                 }
+            }
+        };
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+//                if (teacherMode) return;
+                final double dt = clockEvent.getSimulationTimeChange();
+                stepModel.apply( dt );
                 for ( SimpleObserver modelStepListener : modelStepListeners ) {
                     modelStepListener.update();
                 }
             }
         } );
+        final SimpleObserver updatePhysics = new SimpleObserver() {
+            public void update() {
+                stepModel.apply( 0.0 );
+            }
+        };
+        sun.getPositionProperty().addObserver( updatePhysics );
+        planet.getPositionProperty().addObserver( updatePhysics );
+        moon.getPositionProperty().addObserver( updatePhysics );
     }
 
     public GravityAndOrbitsClock getClock() {
@@ -89,6 +101,6 @@ public class GravityAndOrbitsModel {
     }
 
     public void addModelSteppedListener( SimpleObserver simpleObserver ) {
-        modelStepListeners.add(simpleObserver);
+        modelStepListeners.add( simpleObserver );
     }
 }
