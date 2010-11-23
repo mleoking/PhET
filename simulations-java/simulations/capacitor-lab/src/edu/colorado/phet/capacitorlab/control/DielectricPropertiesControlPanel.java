@@ -12,8 +12,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.capacitorlab.view.DielectricNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -36,10 +35,10 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     
     private DielectricMaterial material;
 
-    public DielectricPropertiesControlPanel( DielectricModel model, CapacitorNode capacitorNode ) {
+    public DielectricPropertiesControlPanel( final Capacitor capacitor, DielectricMaterial[] dielectricMaterials, DielectricNode dielectricNode ) {
         super( CLStrings.DIELECTRIC );
         
-        this.capacitor = model.getCapacitor();
+        this.capacitor = capacitor;
         
         this.material = capacitor.getDielectricMaterial();
         dielectricConstantObserver = new SimpleObserver() {
@@ -48,7 +47,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             }
         };
         
-        materialControl = new DielectricMaterialControl( model.getDielectricMaterials(), model.getCapacitor().getDielectricMaterial() );
+        materialControl = new DielectricMaterialControl( dielectricMaterials, capacitor.getDielectricMaterial() );
         materialControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 capacitor.setDielectricMaterial( materialControl.getMaterial() );
@@ -64,7 +63,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             }
         } );
         
-        chargesControl = new DielectricChargesControl( capacitorNode.getDielectricNode() );
+        chargesControl = new DielectricChargesControl( dielectricNode );
         
         // layout
         GridPanel innerPanel = new GridPanel();
