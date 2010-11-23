@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -127,11 +126,13 @@ public class InitialSubscribePanel extends PhetPanel {
                     else if ( users.size() == 1 ) {
                         user = (PhetUser) users.get( 0 );
                         user.setConfirmationKey( PhetUser.generateConfirmationKey() );
+                        user.setReceiveEmail( true );
                         session.update( user );
                     }
                     else {
                         // brand new, create a newsletter-only and unconfirmed user
                         user = new PhetUser( emailAddress, true );
+                        user.setReceiveEmail( true );
                         session.save( user );
                     }
                     confirmationKeyResult.setValue( user.getConfirmationKey() );
@@ -141,9 +142,7 @@ public class InitialSubscribePanel extends PhetPanel {
             if ( success ) {
                 boolean emailSuccess = NewsletterUtils.sendConfirmSubscriptionEmail( context, emailAddress, confirmationKeyResult.getValue() );
                 if ( emailSuccess ) {
-                    PageParameters params = new PageParameters();
-                    params.put( InitialSubscribeConfirmPage.KEY, confirmationKeyResult.getValue() );
-                    setResponsePage( InitialSubscribeConfirmPage.class, params );
+                    setResponsePage( ConfirmEmailSentPage.class );
                 }
                 else {
                     // sending the email failed

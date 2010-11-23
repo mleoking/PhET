@@ -3,26 +3,22 @@ package edu.colorado.phet.website.authentication.panels;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StringPasswordTextField;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.newsletter.ConfirmEmailSentPage;
+import edu.colorado.phet.website.newsletter.NewsletterUtils;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.PhetRequestCycle;
 
 public class RegisterPanel extends PhetPanel {
 
@@ -36,7 +32,9 @@ public class RegisterPanel extends PhetPanel {
     private PasswordTextField password;
     private PasswordTextField passwordCopy;
     private DropDownChoice<String> description;
+    private CheckBox receiveEmail;
     private Model errorModel;
+    private PageContext context;
 
     private String destination = null;
 
@@ -46,6 +44,7 @@ public class RegisterPanel extends PhetPanel {
 
     public RegisterPanel( String id, PageContext context, String destination ) {
         super( id, context );
+        this.context = context;
 
         this.destination = destination;
 
@@ -70,6 +69,7 @@ public class RegisterPanel extends PhetPanel {
             add( username = new StringTextField( "username", new PropertyModel( properties, "username" ) ) );
             add( password = new StringPasswordTextField( "password", new PropertyModel( properties, "password" ) ) );
             add( passwordCopy = new StringPasswordTextField( "passwordCopy", new PropertyModel( properties, "passwordCopy" ) ) );
+            add( receiveEmail = new CheckBox( "receiveEmail", new PropertyModel<Boolean>( properties, "receiveEmail" ) ) );
 
             // so we can respond to the error messages
             password.setRequired( false );
@@ -88,6 +88,8 @@ public class RegisterPanel extends PhetPanel {
             String email = username.getModelObject().toString();
             String pass = password.getInput();
             String desc = description.getModelObject();
+            String confirmationKey = null;
+            boolean receiveNewsletters = receiveEmail.getModelObject();
 
             logger.debug( "name: " + nom );
             logger.debug( "org: " + org );
@@ -119,6 +121,7 @@ public class RegisterPanel extends PhetPanel {
                 errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.description", this, "Please pick a description" );
             }
 
+            // TODO: a bunch of refactoring and cleanup around here
             if ( !error ) {
                 Transaction tx = null;
                 try {
@@ -126,16 +129,36 @@ public class RegisterPanel extends PhetPanel {
 
                     List users = session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", email ).list();
                     if ( !users.isEmpty() ) {
-                        error = true;
-                        errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.emailUsed", this, "That email address is already in use" );
-                        // TODO: add option to reset password for an existing account?
+                        if ( users.size() > 1 ) {
+                            throw new RuntimeException( "More than one user for email " + email );
+                        }
+                        PhetUser user = (PhetUser) users.get( 0 );
+                        if ( !user.isNewsletterOnlyAccount() && !user.isConfirmed() ) {
+                            error = true;
+                            errorString += ERROR_SEPARATOR + getPhetLocalizer().getString( "validation.user.emailUsed", this, "That email address is already in use" );
+                        }
+                        else {
+                            // overwrite newsletter user! (but reset "confirmed")
+                            user.setNewsletterOnlyAccount( false );
+                            user.setConfirmed( false );
+                            user.setConfirmationKey( PhetUser.generateConfirmationKey() ); // regenerate
+                            confirmationKey = user.getConfirmationKey();
+                            user.setName( nom );
+                            user.setOrganization( org );
+                            user.setDescription( desc );
+                            user.setPassword( pass );
+                            user.setReceiveEmail( receiveNewsletters );
+                            session.update( user );
+                        }
                     }
                     else {
                         PhetUser user = new PhetUser( email, false );
+                        confirmationKey = user.getConfirmationKey();
                         user.setName( nom );
                         user.setOrganization( org );
                         user.setDescription( desc );
                         user.setPassword( pass );
+                        user.setReceiveEmail( receiveNewsletters );
                         session.save( user );
                     }
 
@@ -157,6 +180,10 @@ public class RegisterPanel extends PhetPanel {
                 }
             }
 
+            if ( !error ) {
+                error = !NewsletterUtils.sendConfirmRegisterEmail( context, email, confirmationKey, destination );
+            }
+
             if ( error ) {
                 logger.error( "Error registering" );
                 logger.error( "Reason: " + errorString );
@@ -165,15 +192,16 @@ public class RegisterPanel extends PhetPanel {
             }
             else {
                 errorModel.setObject( "" );
-                PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() );
-                if ( destination != null ) {
-                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
-                }
-                else {
-                    if ( !RegisterPanel.this.continueToOriginalDestination() ) {
-                        getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
-                    }
-                }
+                setResponsePage( ConfirmEmailSentPage.class );
+//                PhetSession.get().signIn( (PhetRequestCycle) getRequestCycle(), username.getModelObject().toString(), password.getInput() );
+//                if ( destination != null ) {
+//                    getRequestCycle().setRequestTarget( new RedirectRequestTarget( destination ) );
+//                }
+//                else {
+//                    if ( !RegisterPanel.this.continueToOriginalDestination() ) {
+//                        getRequestCycle().setRequestTarget( new RedirectRequestTarget( "/" ) );
+//                    }
+//                }
             }
         }
     }

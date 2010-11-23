@@ -12,8 +12,9 @@ import org.hibernate.Query;
 
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.util.PhetRequestCycle;
-import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.Result;
+import edu.colorado.phet.website.util.hibernate.Task;
 
 public class PhetSession extends WebSession {
 
@@ -60,20 +61,29 @@ public class PhetSession extends WebSession {
     }
 
     private PhetUser getAuthenticatedUser( PhetRequestCycle currentCycle, final String username, final String password ) {
-        final PhetUser[] user = new PhetUser[1];
-        HibernateUtils.wrapTransaction( currentCycle.getHibernateSession(), new HibernateTask() {
-            public boolean run( org.hibernate.Session session ) {
+        Result<PhetUser> result = HibernateUtils.resultCatchTransaction( currentCycle.getHibernateSession(), new Task<PhetUser>() {
+            public PhetUser run( org.hibernate.Session session ) {
                 String compatibleHash = compatibleHashPassword( password );
 
+                // TODO: possibly create an index for this operation?
                 Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and u.hashedPassword = :compatiblePassword)" );
                 query.setString( "email", username );
                 query.setString( "compatiblePassword", compatibleHash );
 
-                user[0] = (PhetUser) query.uniqueResult();
-                return true;
+                PhetUser user = (PhetUser) query.uniqueResult();
+                if ( user.getConfirmationKey() == null ) {
+                    // for old users without confirmation keys
+                    user.setConfirmationKey( PhetUser.generateConfirmationKey() );
+                    session.update( user );
+                }
+                if ( !user.isConfirmed() ) {
+                    logger.info( "User " + user.getEmail() + " has not confirmed their email" );
+                    return null; // will not log in an unconfirmed user
+                }
+                return user;
             }
         } );
-        return user[0];
+        return result.value;
     }
 
     public PhetUser getUser() {

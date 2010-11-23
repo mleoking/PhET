@@ -6,8 +6,8 @@ import edu.colorado.phet.website.util.PageContext;
 /**
  * The panel which represents the main content portion of the home (index) page
  */
-public class InitialSubscribeConfirmPanel extends PhetPanel {
-    public InitialSubscribeConfirmPanel( String id, PageContext context ) {
+public class ConfirmEmailSentPanel extends PhetPanel {
+    public ConfirmEmailSentPanel( String id, PageContext context ) {
         super( id, context );
     }
 }
