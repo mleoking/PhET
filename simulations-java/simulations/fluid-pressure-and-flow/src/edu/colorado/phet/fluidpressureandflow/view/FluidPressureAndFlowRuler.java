@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -10,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -37,5 +39,20 @@ public class FluidPressureAndFlowRuler extends PNode {
                 translate( delta.width, delta.height );
             }
         } );
+//        addChild( new PSwing( new JButton( new ImageIcon( PhetCommonResources.getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON ) )) {{
+//            addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    visible.setValue( false );
+//                }
+//            } );
+//        }} ){{
+        addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    visible.setValue( false );
+                }
+            } );
+            setOffset( rulerNode.getFullBounds().getOrigin().getX(), rulerNode.getFullBounds().getOrigin().getY() - getFullBounds().getHeight() );
+        }} );
     }
 }

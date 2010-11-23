@@ -1,3 +1,4 @@
+Added a "close" button to the ruler
 Removed dropper "drop" button
 Removed time readout
 Moved pool height readout to the side
