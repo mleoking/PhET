@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCirucitChangeListener;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -35,7 +35,7 @@ public class EFieldNode extends PhetPNode {
         this.circuit = circuit;
         this.mvt = mvt;
         
-        circuit.addBatteryCapacitorCirucitChangeListener( new BatteryCapacitorCirucitChangeListener() {
+        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
                 if ( isVisible() ) {
                     update();

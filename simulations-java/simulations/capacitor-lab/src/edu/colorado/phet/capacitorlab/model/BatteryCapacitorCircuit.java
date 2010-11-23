@@ -668,20 +668,20 @@ public class BatteryCapacitorCircuit {
     //
     //----------------------------------------------------------------------------------
     
-    public interface BatteryCapacitorCirucitChangeListener extends EventListener {
+    public interface BatteryCapacitorCircuitChangeListener extends EventListener {
         public void circuitChanged();
     }
     
-    public void addBatteryCapacitorCirucitChangeListener( BatteryCapacitorCirucitChangeListener listener ) {
-        listeners.add(  BatteryCapacitorCirucitChangeListener.class, listener );
+    public void addBatteryCapacitorCircuitChangeListener( BatteryCapacitorCircuitChangeListener listener ) {
+        listeners.add(  BatteryCapacitorCircuitChangeListener.class, listener );
     }
     
-    public void removeBatteryCapacitorCirucitChangeListener( BatteryCapacitorCirucitChangeListener listener ) {
-        listeners.remove(  BatteryCapacitorCirucitChangeListener.class, listener );
+    public void removeBatteryCapacitorCircuitChangeListener( BatteryCapacitorCircuitChangeListener listener ) {
+        listeners.remove(  BatteryCapacitorCircuitChangeListener.class, listener );
     }
     
     public void fireCircuitChanged() {
-        for ( BatteryCapacitorCirucitChangeListener listener : listeners.getListeners( BatteryCapacitorCirucitChangeListener.class ) ) {
+        for ( BatteryCapacitorCircuitChangeListener listener : listeners.getListeners( BatteryCapacitorCircuitChangeListener.class ) ) {
             listener.circuitChanged();
         }
     }
