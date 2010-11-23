@@ -57,8 +57,8 @@ public class EFieldDetector {
             // keep the body and probe inside the world bounds
             world.addBoundsObserver( new SimpleObserver() {
                 public void update() {
-                    setBodyLocation( world.getConstrainedLocation( getBodyLocationReference() ) );
-                    setProbeLocation( world.getConstrainedLocation( getProbeLocation() ) );
+                    setBodyLocation( getBodyLocationReference() );
+                    setProbeLocation( getProbeLocation() );
                 }
             } );
 

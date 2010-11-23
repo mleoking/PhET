@@ -50,9 +50,9 @@ public class Voltmeter {
             // keep the body and probes inside the world bounds
             world.addBoundsObserver( new SimpleObserver() {
                 public void update() {
-                    setBodyLocation( world.getConstrainedLocation( getBodyLocationReference() ) );
-                    setPositiveProbeLocation( world.getConstrainedLocation( getPositiveProbeLocationReference() ) );
-                    setNegativeProbeLocation( world.getConstrainedLocation( getNegativeProbeLocationReference() ) );
+                    setBodyLocation( getBodyLocationReference() );
+                    setPositiveProbeLocation( getPositiveProbeLocationReference() );
+                    setNegativeProbeLocation( getNegativeProbeLocationReference() );
                 }
             } );
             
