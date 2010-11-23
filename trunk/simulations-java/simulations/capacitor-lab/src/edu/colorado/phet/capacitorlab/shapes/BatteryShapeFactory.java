@@ -41,14 +41,6 @@ public class BatteryShapeFactory {
         this.mvt = mvt;
     }
     
-    public PDimension getBodySizeReference() {
-        return BODY_SIZE;
-    }
-    
-    public PDimension getPositiveProbeSizeReference() {
-        return POSITIVE_TERMINAL_SIZE;
-    }
-    
     /**
      * Gets the offset of the top terminal from the battery's origin, in model coordinates (meters).
      * This offset depends on the polarity.
