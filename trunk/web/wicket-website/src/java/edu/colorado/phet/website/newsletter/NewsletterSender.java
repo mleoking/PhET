@@ -72,7 +72,7 @@ public class NewsletterSender {
             sending = true;
         }
         for ( PhetUser user : users ) {
-            if ( user.isConfirmed() && user.isReceiveEmail() ) {
+            if ( user.isConfirmed() && user.isReceiveEmail() && PhetUser.isValidEmail( user.getEmail() ) ) {
                 sendNewsletter( user );
             }
         }

@@ -6,9 +6,6 @@ import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PageContext;
 
-/**
- * The panel which represents the main content portion of the home (index) page
- */
 public class UnsubscribeLandingPanel extends PhetPanel {
     public UnsubscribeLandingPanel( String id, PageContext context, PhetUser user ) {
         super( id, context );

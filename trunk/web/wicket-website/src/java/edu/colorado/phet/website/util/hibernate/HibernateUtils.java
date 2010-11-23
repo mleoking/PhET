@@ -521,6 +521,15 @@ public class HibernateUtils {
         }
     }
 
+    public static <T> Result<T> load( Session session, final Class clazz, final int id ) {
+        // TODO: more generic option from this?
+        return resultCatchTransaction( session, new Task<T>() {
+            public T run( Session session ) {
+                return (T) session.load( clazz, id );
+            }
+        } );
+    }
+
     public static <T> Result<T> resultSession( Task<T> task ) {
         return sessionCore( task, true );
     }
