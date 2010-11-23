@@ -96,7 +96,7 @@ public class Battery {
         polarityProperty.addObserver( o );
     }
     
-    public boolean topTerminalIntersects( Shape shape ) {
+    public boolean intersectsTopTerminal( Shape shape ) {
         return ShapeUtils.intersects( shapeFactory.createTopTerminalShape(), shape );
     }
     
