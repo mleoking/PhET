@@ -8,17 +8,17 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
 
 /**
- * View for the problem that presents a schematic view of an atom and asks
- * the user about the atom's overall charge.
+ * View for the problem that presents counts of an atom's constituent
+ * particles and asks the user about the overall charge.
  *
  * @author John Blanco
  */
-public class SchematicToChargeQuestionView extends SchematicToQuestionView {
+public class CountsToChargeQuestionView extends CountsToQuestionView {
 
     /**
      * Constructor.
      */
-    public SchematicToChargeQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public CountsToChargeQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
         // i18n
         super( model, gameCanvas, problem, "<html>What is the<br>total charge?", -50, 50, new SignedIntegerFormat() );
 
