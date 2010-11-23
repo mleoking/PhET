@@ -25,7 +25,7 @@ public class UnsubscribeLandingPage extends PhetMenuPage {
 
         final String confirmationKey = parameters.getString( "key" );
 
-        final Result<PhetUser> userResult = new Result<PhetUser>();
+        final HibernateResult<PhetUser> userResult = new HibernateResult<PhetUser>();
 
         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
