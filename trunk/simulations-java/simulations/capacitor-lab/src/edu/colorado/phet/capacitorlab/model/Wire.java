@@ -131,8 +131,8 @@ public class Wire {
         public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
             
-            this.batteryShapeFactory = new BatteryShapeFactory( battery, mvt );
-            this.capacitorShapeFactory = new CapacitorShapeFactory( capacitor, mvt );
+            this.batteryShapeFactory = battery.getShapeFactory();
+            this.capacitorShapeFactory = capacitor.getShapeFactory();
             
             // adjust when dimensions of capacitor change
             SimpleObserver o = new SimpleObserver() {
