@@ -104,16 +104,13 @@ public class ProblemSet {
             add( ProblemType.COUNTS_TO_MASS_QUESTION );
             add( ProblemType.SCHEMATIC_TO_CHARGE_QUESTION );
             add( ProblemType.SCHEMATIC_TO_MASS_QUESTION );
-            add( ProblemType.SCHEMATIC_TO_PROTON_COUNT_QUESTION );
         }
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
             add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
-            add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
             add( ProblemType.SYMBOL_TO_SCHEMATIC );
-            add( ProblemType.SYMBOL_TO_COUNTS );
             add( ProblemType.COUNTS_TO_SYMBOL_MASS );
             add( ProblemType.COUNTS_TO_SYMBOL_PROTON_COUNT );
         }
