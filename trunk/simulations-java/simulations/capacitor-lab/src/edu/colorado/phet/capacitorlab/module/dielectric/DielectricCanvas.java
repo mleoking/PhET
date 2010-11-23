@@ -98,10 +98,10 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
         
-        voltageShapesDebugNode = new VoltageShapesDebugNode( model, mvt );
+        voltageShapesDebugNode = new VoltageShapesDebugNode( model );
         voltageShapesDebugNode.setVisible( false );
         
-        eFieldShapesDebugNode = new EFieldShapesDebugNode( model, mvt );
+        eFieldShapesDebugNode = new EFieldShapesDebugNode( model );
         eFieldShapesDebugNode.setVisible( false );
         
         // rendering order

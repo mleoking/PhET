@@ -8,7 +8,6 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,7 +26,7 @@ public class EFieldShapesDebugNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = CLPaints.EFIELD_SHAPES;
     
-    public EFieldShapesDebugNode( final DielectricModel model, final CLModelViewTransform3D mvt ) {
+    public EFieldShapesDebugNode( final DielectricModel model ) {
         
         // nothing interactive here
         setPickable( false );
