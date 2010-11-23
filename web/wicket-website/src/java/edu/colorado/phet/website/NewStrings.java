@@ -3,7 +3,7 @@ package edu.colorado.phet.website;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.StringUtils;
 
 /**

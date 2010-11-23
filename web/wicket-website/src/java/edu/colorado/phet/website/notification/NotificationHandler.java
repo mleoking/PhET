@@ -21,8 +21,8 @@ import edu.colorado.phet.website.data.contribution.ContributionNomination;
 import edu.colorado.phet.website.data.util.AbstractChangeListener;
 import edu.colorado.phet.website.data.util.HibernateEventListener;
 import edu.colorado.phet.website.util.EmailUtils;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Handles email notification of events that should be reviewed by the PhET team

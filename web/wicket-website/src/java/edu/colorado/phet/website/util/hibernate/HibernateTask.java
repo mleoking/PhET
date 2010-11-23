@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.util;
+package edu.colorado.phet.website.util.hibernate;
 
 import org.hibernate.Session;
 

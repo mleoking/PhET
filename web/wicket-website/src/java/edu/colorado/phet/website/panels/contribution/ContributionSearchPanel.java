@@ -28,6 +28,8 @@ import edu.colorado.phet.website.data.contribution.Level;
 import edu.colorado.phet.website.data.contribution.Type;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Displays 4 multiple-choices boxes to select from simulations, types, levels, and languages, and has a text box to

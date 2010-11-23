@@ -14,8 +14,8 @@ import edu.colorado.phet.website.data.NotificationEvent;
 import edu.colorado.phet.website.data.contribution.Contribution;
 import edu.colorado.phet.website.data.contribution.ContributionComment;
 import edu.colorado.phet.website.data.contribution.ContributionNomination;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.HtmlUtils;
 
 public enum NotificationEventType {

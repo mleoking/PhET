@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import edu.colorado.phet.website.data.util.IntId;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.menu.NavMenu;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * A simulation category. 'All Sims' and 'Translated Sims' are not stored in these categories.

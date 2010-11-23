@@ -18,6 +18,8 @@ import edu.colorado.phet.website.panels.contribution.ContributionEmptyPanel;
 import edu.colorado.phet.website.panels.contribution.ContributionSearchPanel;
 import edu.colorado.phet.website.templates.PhetRegularPage;
 import edu.colorado.phet.website.util.*;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.links.AbstractLinker;
 import edu.colorado.phet.website.util.links.RawLinkable;
 

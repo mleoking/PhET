@@ -5,7 +5,7 @@ import org.hibernate.Cache;
 import org.hibernate.SessionFactory;
 
 import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 public class CacheUtils {
 

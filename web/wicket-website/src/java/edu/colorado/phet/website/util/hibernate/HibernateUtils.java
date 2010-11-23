@@ -1,4 +1,4 @@
-package edu.colorado.phet.website.util;
+package edu.colorado.phet.website.util.hibernate;
 
 import java.util.*;
 
@@ -14,6 +14,7 @@ import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.translation.PhetLocalizer;
+import edu.colorado.phet.website.util.StringUtils;
 
 /**
  * Collections of utility functions that mainly deal with the website's interaction with Hibernate
@@ -451,6 +452,10 @@ public class HibernateUtils {
         return ret;
     }
 
+    /*---------------------------------------------------------------------------*
+    * hibernate testing below
+    *----------------------------------------------------------------------------*/
+
     public static void tryRollback( Transaction tx ) {
         if ( tx != null && tx.isActive() ) {
             try {
@@ -514,6 +519,29 @@ public class HibernateUtils {
                 return new Result<T>( false, ret, e );
             }
         }
+    }
+
+    public static <T> Result<T> resultSession( Task<T> task ) {
+        return sessionCore( task, true );
+    }
+
+    public static <T> Result<T> resultCatchSession( Task<T> task ) {
+        return sessionCore( task, false );
+    }
+
+    public static boolean wrapSession( VoidTask task ) {
+        return sessionCore( task, true ).success;
+    }
+
+    public static boolean wrapCatchSession( VoidTask task ) {
+        return sessionCore( task, false ).success;
+    }
+
+    private static <T> Result<T> sessionCore( Task<T> task, boolean throwHibernateExceptions ) {
+        Session session = getInstance().openSession();
+        Result<T> ret = transactionCore( session, task, throwHibernateExceptions );
+        session.close();
+        return ret;
     }
 
 }

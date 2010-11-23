@@ -7,7 +7,6 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.HeaderContributor;
@@ -32,7 +31,6 @@ import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.constants.CSS;
-import edu.colorado.phet.website.content.contribution.ContributionPage;
 import edu.colorado.phet.website.content.contribution.ContributionSuccessPage;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.Simulation;
@@ -42,11 +40,9 @@ import edu.colorado.phet.website.panels.MultipleFileUploadPanel;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.lists.*;
 import edu.colorado.phet.website.translation.LocaleDropDownChoice;
-import edu.colorado.phet.website.translation.PhetLocalizer;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 import edu.colorado.phet.website.util.PageContext;
-import edu.colorado.phet.website.util.StringUtils;
 
 /**
  * This panel presents the user with a form that either creates a new contribution or modifies an existing one.

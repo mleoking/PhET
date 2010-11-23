@@ -21,8 +21,8 @@ import edu.colorado.phet.website.data.Simulation;
 import edu.colorado.phet.website.data.TeachersGuide;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.data.contribution.*;
-import edu.colorado.phet.website.util.HibernateTask;
-import edu.colorado.phet.website.util.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.HibernateTask;
+import edu.colorado.phet.website.util.hibernate.HibernateUtils;
 
 /**
  * Code to transfer the current MySQL data into the new PostgreSQL data
