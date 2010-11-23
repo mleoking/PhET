@@ -33,7 +33,7 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
-        getAnswerProperty().setValue( answer.getCharge() );
+        getGuessProperty().setValue( answer.getCharge() );
         getQuestion().setEditable( false );
     }
 
@@ -45,7 +45,7 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
         // nothing else.  So basically, if the charge value is correct, we
         // return the matching atom, and if not, we return a null atom.
         AtomValue answer = null;
-        if ( getProblem().getAnswer().getCharge() == getAnswerProperty().getValue() ){
+        if ( getProblem().getAnswer().getCharge() == getGuessProperty().getValue() ){
             answer = getProblem().getAnswer();
         }
         else{

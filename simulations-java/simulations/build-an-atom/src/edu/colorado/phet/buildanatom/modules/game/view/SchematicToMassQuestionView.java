@@ -26,7 +26,7 @@ public class SchematicToMassQuestionView extends SchematicToQuestionView {
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
-        getAnswerProperty().setValue( answer.getMassNumber() );
+        getGuessProperty().setValue( answer.getMassNumber() );
         getQuestion().setEditable( false );
     }
 
@@ -38,7 +38,7 @@ public class SchematicToMassQuestionView extends SchematicToQuestionView {
         // nothing else.  So basically, if the mass value is correct, we
         // return the matching atom, and if not, we return a null atom.
         AtomValue answer = null;
-        if ( getProblem().getAnswer().getMassNumber() == getAnswerProperty().getValue() ){
+        if ( getProblem().getAnswer().getMassNumber() == getGuessProperty().getValue() ){
             answer = getProblem().getAnswer();
         }
         else{

@@ -31,6 +31,8 @@ public abstract class SchematicToQuestionView extends ToQuestionView {
             setPickable( false );
             setChildrenPickable( false );
         }};
+
+        getQuestion().setValueColorFunction( new ChargeColorFunction( getGuessProperty() ) );
     }
 
     @Override
