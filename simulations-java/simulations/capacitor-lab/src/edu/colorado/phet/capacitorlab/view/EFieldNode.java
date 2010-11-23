@@ -123,7 +123,7 @@ public class EFieldNode extends PhetPNode {
      */
     private double getLineSpacing( double effectiveEField ) {
         final int numberOfLines = getNumberOfLines( effectiveEField );
-        return BatteryCapacitorCircuit.getMinPlateWidth() / Math.sqrt( numberOfLines ); // assumes a square plate!;
+        return CLConstants.PLATE_WIDTH_RANGE.getMin() / Math.sqrt( numberOfLines ); // assumes a square plate!;
     }
     
     /*
