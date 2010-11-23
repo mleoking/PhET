@@ -27,7 +27,7 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
             // guess button right away.  The intent is to avoid this situation
             // if possible, but it may come up at some point that neutral
             // atoms must be used, so we need to handle this case.
-            setGuessEditable( true );
+            enableCheckButton();
         }
     }
 
