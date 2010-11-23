@@ -16,6 +16,7 @@ public class NewStrings {
 
     public static void checkNewStrings() {
         Session session = HibernateUtils.getInstance().openSession();
+        checkString( session, "home.subscribeToNewsletter", "Subscribe to our newsletter" );
         checkString( session, "newsletter.subscribe.email", "Email Address:" );
         checkString( session, "newsletter.subscribe.submit", "Subscribe" );
         checkString( session, "newsletter.validation.email.Required", "An email address is required" );
@@ -39,6 +40,11 @@ public class NewStrings {
         checkString( session, "newsletter.unsubscribed", "Unsubscribed from PhET Newsletter" );
         session.close();
     }
+
+    /*---------------------------------------------------------------------------*
+    * deprecated strings:
+    * newsletter-instructions
+    *----------------------------------------------------------------------------*/
 
     private static void checkString( Session session, String key, String value ) {
         String result = StringUtils.getStringDirect( session, key, PhetWicketApplication.getDefaultLocale() );

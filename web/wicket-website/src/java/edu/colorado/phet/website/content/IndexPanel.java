@@ -19,6 +19,7 @@ import edu.colorado.phet.website.content.getphet.OneAtATimePanel;
 import edu.colorado.phet.website.content.getphet.RunOurSimulationsPanel;
 import edu.colorado.phet.website.content.simulations.CategoryPage;
 import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
+import edu.colorado.phet.website.newsletter.InitialSubscribePage;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.RotatorFallbackPanel;
 import edu.colorado.phet.website.panels.RotatorPanel;
@@ -58,6 +59,7 @@ public class IndexPanel extends PhetPanel {
                 "<img class=\"index-social-image\" src=\"/images/icons/social/twitter.png\" alt=\"Twitter icon\"/>"
         } ) );
         add( new LocalizedText( "blog-text", "home.blogText" ) );
+        add( InitialSubscribePage.getLinker().getLink( "subscribe-link", context, getPhetCycle() ) );
 
         add( new LocalizedText( "index-main-text", "home.subheader", new Object[] {
                 ResearchPanel.getLinker().getHref( context, getPhetCycle() )
