@@ -88,6 +88,7 @@ public class ChargeIndicatorNode extends PNode {
             }
         };
         atom.addObserver( updateText );
+        updateText.update();
         addChild( textNode );
 
         final PhetPPath arrowNode = new PhetPPath( Color.black );
