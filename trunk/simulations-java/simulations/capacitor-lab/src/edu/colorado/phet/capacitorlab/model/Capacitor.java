@@ -374,6 +374,10 @@ public class Capacitor {
         return epsilon * CLConstants.EPSILON_0 * A / d;
     }
     
+    public CapacitorShapeFactory getShapeFactory() {
+        return shapeFactory;
+    }
+    
     /**
      * Does a Shape intersect the top plate shape?
      * @param shape

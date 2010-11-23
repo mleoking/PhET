@@ -100,21 +100,7 @@ public class Battery {
         return ShapeUtils.intersects( shapeFactory.createTopTerminalShape(), shape );
     }
     
-    /**
-     * Gets the offset of the top terminal from the battery's origin.
-     * This offset depends on the polarity.
-     * @return
-     */
-    public double getTopTerminalYOffset() {
-        return shapeFactory.getTopTerminalYOffset();
-    }
-    
-    /**
-     * Gets the offset of the bottom terminal from the battery's origin.
-     * We don't need to account for the polarity since the bottom terminal is never visible.
-     * @return
-     */
-    public double getBottomTerminalYOffset() {
-        return ( shapeFactory.getBodySizeReference().getHeight() / 2 );
+    public BatteryShapeFactory getShapeFactory() {
+        return shapeFactory;
     }
 }

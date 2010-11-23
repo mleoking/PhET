@@ -153,4 +153,8 @@ public class Voltmeter {
     public void addValueObserver( SimpleObserver o ) {
         valueProperty.addObserver( o );
     }
+    
+    public VoltmeterShapeFactory getShapeFactory() {
+        return shapeFactory;
+    }
 }
