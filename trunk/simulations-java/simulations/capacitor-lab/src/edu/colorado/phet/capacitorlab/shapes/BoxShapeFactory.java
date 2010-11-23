@@ -12,7 +12,7 @@ import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
- * All Shapes are in the view coordinate frame.
+ * Shapes are in the view coordinate frame, everything else is in model coordinates.
  * Shapes for all faces corresponds to a box with its origin in the center of the top face.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
