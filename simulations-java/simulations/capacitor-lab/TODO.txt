@@ -16,6 +16,7 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
+- move constants from BatteryShapeFactory to Battery model element
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - hack in BottomWire.createShape
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
