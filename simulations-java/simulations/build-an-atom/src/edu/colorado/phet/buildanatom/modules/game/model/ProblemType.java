@@ -9,6 +9,8 @@ package edu.colorado.phet.buildanatom.modules.game.model;
  */
 public enum ProblemType {
     COUNTS_TO_ELEMENT,
+    COUNTS_TO_CHARGE_QUESTION,
+    COUNTS_TO_MASS_QUESTION,
     COUNTS_TO_SYMBOL_ALL,
     COUNTS_TO_SYMBOL_MASS,
     COUNTS_TO_SYMBOL_PROTON_COUNT,

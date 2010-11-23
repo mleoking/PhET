@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.modules.game.view.CountsToElementView;
-import edu.colorado.phet.buildanatom.modules.game.view.SchematicToElementView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 

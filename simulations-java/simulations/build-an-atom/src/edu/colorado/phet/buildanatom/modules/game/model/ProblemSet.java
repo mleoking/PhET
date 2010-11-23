@@ -100,6 +100,8 @@ public class ProblemSet {
     };
     private static final ArrayList<ProblemType> LEVEL_2_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
+            add( ProblemType.COUNTS_TO_CHARGE_QUESTION );
+            add( ProblemType.COUNTS_TO_MASS_QUESTION );
             add( ProblemType.SCHEMATIC_TO_CHARGE_QUESTION );
             add( ProblemType.SCHEMATIC_TO_MASS_QUESTION );
             add( ProblemType.SCHEMATIC_TO_PROTON_COUNT_QUESTION );
@@ -212,6 +214,12 @@ public class ProblemSet {
         switch ( problemType ) {
         case COUNTS_TO_ELEMENT:
             problem = new CountsToElementProblem( model, atomValue );
+            break;
+        case COUNTS_TO_CHARGE_QUESTION:
+            problem = new CountsToChargeQuestionProblem( model, atomValue );
+            break;
+        case COUNTS_TO_MASS_QUESTION:
+            problem = new CountsToMassQuestionProblem( model, atomValue );
             break;
         case COUNTS_TO_SYMBOL_ALL:
             problem = new CountsToSymbolProblem( model, atomValue, true, true, true );
