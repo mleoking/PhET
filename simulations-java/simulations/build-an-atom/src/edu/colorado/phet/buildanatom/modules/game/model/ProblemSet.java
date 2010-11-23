@@ -124,7 +124,7 @@ public class ProblemSet {
         }
     };
 
-    // Data structure that maps lists of problem type to the various game levels.
+    // Data structure that maps lists of problem types to the various game levels.
     private static final HashMap<Integer, ArrayList<ProblemType>> mapLevelToProbTypes = new HashMap<Integer, ArrayList<ProblemType>>(){{
         put(1, LEVEL_1_ALLOWED_PROB_TYPES);
         put(2, LEVEL_2_ALLOWED_PROB_TYPES);
@@ -182,7 +182,7 @@ public class ProblemSet {
         AtomValue atomValue;
         if ( isSchematicProbType( problemType ) ) {
             // Need to limit size of atom value.
-            if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ){
+            if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION || problemType == ProblemType.COUNTS_TO_CHARGE_QUESTION ){
                 // Should only choose a charged atom.
                 atomValue = availableAtomValues.getRandomChargedAtomValue( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
             }
@@ -190,7 +190,7 @@ public class ProblemSet {
                 atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
             }
         }
-        else {
+        else { // There are no constraints on the size of the atom.
             if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ){
                 atomValue = availableAtomValues.getRandomChargedAtomValue( Integer.MAX_VALUE );
             }
