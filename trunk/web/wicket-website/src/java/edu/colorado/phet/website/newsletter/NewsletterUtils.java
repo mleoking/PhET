@@ -60,10 +60,6 @@ public class NewsletterUtils {
         return sendSingleMessage( emailAddress, subject, body );
     }
 
-    public static boolean sendNewsletter( PhetUser user ) { // TODO: improve signature
-        return false; // TODO: reimplement as true success when done
-    }
-
     public static boolean sendNewsletterWelcomeEmail( PageContext context, PhetUser user ) {
         String subject = "PhET Newsletter Subscription Confirmation";
         String newsletterArchiveLink = EmailUtils.makeUrlAbsolute( AboutNewsPanel.getLinker().getRawUrl( context, PhetRequestCycle.get() ) );
@@ -102,6 +98,7 @@ public class NewsletterUtils {
     }
 
     private static boolean sendSingleMessage( String emailAddress, String subject, String body ) {
+        logger.info( "sending message '" + subject + "' to " + emailAddress );
         try {
             EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( subject, WebsiteConstants.HELP_EMAIL );
             message.setBody( body );

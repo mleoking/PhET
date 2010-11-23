@@ -505,12 +505,12 @@ public class HibernateUtils {
             return new Result<T>( true, ret, null );
         }
         catch ( TaskException e ) {
-            logger.log( e.level, e ); // log the TaskException at the desired level
+            logger.log( e.level, "exception: ", e ); // log the TaskException at the desired level
             tryRollback( tx );
             return new Result<T>( false, ret, e );
         }
         catch ( RuntimeException e ) {
-            logger.warn( e );
+            logger.warn( "exception: ", e );
             tryRollback( tx );
             if ( throwHibernateExceptions ) {
                 throw e;

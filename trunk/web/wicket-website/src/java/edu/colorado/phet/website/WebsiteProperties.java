@@ -18,6 +18,8 @@ public class WebsiteProperties {
     public static final String MAIL_USER = "mail-user";
     public static final String MAIL_PASSWORD = "mail-password";
 
+    public static final String NEWSLETTER_FILE = "newsletter-file";
+
     public WebsiteProperties( ServletContext servletContext ) {
         this.servletContext = servletContext;
     }
@@ -32,6 +34,10 @@ public class WebsiteProperties {
 
     public File getBuildLocalPropertiesFile() {
         return new File( getParameter( BUILD_LOCAL_PROPERTIES ) );
+    }
+
+    public File getNewsletterFile() {
+        return new File( getParameter( NEWSLETTER_FILE ) );
     }
 
     public String getPhetDownloadLocation() {

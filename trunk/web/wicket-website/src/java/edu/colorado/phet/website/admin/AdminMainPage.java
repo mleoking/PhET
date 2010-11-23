@@ -3,6 +3,7 @@ package edu.colorado.phet.website.admin;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -26,14 +27,17 @@ import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLabel;
 import edu.colorado.phet.website.components.StringTextField;
 import edu.colorado.phet.website.constants.WebsiteConstants;
+import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.transfer.TransferData;
+import edu.colorado.phet.website.newsletter.NewsletterSender;
 import edu.colorado.phet.website.translation.PhetLocalizer;
 import edu.colorado.phet.website.util.EmailUtils;
 import edu.colorado.phet.website.util.SearchUtils;
 import edu.colorado.phet.website.util.StringUtils;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.VoidTask;
 
 public class AdminMainPage extends AdminPage {
 
@@ -82,6 +86,7 @@ public class AdminMainPage extends AdminPage {
         add( new Link( "debug-email" ) {
             public void onClick() {
                 try {
+                    logger.info( "debugging email" );
                     EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( "Test Email \u8FD9\u4E2A\u7537\u5B69\u5B50\u6CA1\u6709\u53EA\u72D7", WebsiteConstants.PHET_NO_REPLY_EMAIL_ADDRESS );
                     message.setBody( "This is the body. Here is some unicode: \u4E00\u4E2A\u82F9\u679C\u7EA2\u8272\u7684" );
                     message.addRecipient( "olsonsjc@gmail.com" );
@@ -152,6 +157,30 @@ public class AdminMainPage extends AdminPage {
                 log4jLogger.removeAppender( appender );
 
                 System.out.println( "Logged:\n" + writer.toString() );
+            }
+        } );
+
+        add( new Link( "debug-newsletter" ) {
+            @Override
+            public void onClick() {
+                final List<PhetUser> users = new LinkedList<PhetUser>();
+                HibernateUtils.wrapCatchTransaction( getHibernateSession(), new VoidTask() {
+                    public Void run( Session session ) {
+                        users.add( (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", "olsonsjc@gmail.com" ).uniqueResult() );
+
+                        // TODO: add in all users.
+
+                        for ( PhetUser user : users ) {
+                            // if user doesn't have a good confirmation key for unsubscribing, generate one
+                            if ( user.getConfirmationKey() == null ) {
+                                user.setConfirmationKey( PhetUser.generateConfirmationKey() );
+                                session.update( user );
+                            }
+                        }
+                        return null;
+                    }
+                } );
+                new NewsletterSender().sendNewsletters( users );
             }
         } );
 
