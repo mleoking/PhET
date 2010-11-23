@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public abstract class ToQuestionView extends ProblemView {
 
     private final EntryPanel question;
-    private final Property<Integer> answerProperty;
+    private final Property<Integer> guessProperty;
 
     /**
      * Constructor.
@@ -30,8 +30,8 @@ public abstract class ToQuestionView extends ProblemView {
 
         super( model, gameCanvas, problem );
 
-        answerProperty = new Property<Integer>( 0 );
-        answerProperty.addObserver( new SimpleObserver() {
+        guessProperty = new Property<Integer>( 0 );
+        guessProperty.addObserver( new SimpleObserver() {
             public void update() {
                 // Any change to the property indicates that the user has
                 // entered something, so therefore it is time to enable the
@@ -40,7 +40,7 @@ public abstract class ToQuestionView extends ProblemView {
             }
         }, false );
 
-        question = new EntryPanel( questionText, answerProperty, minValue, maxValue, numberFormat );
+        question = new EntryPanel( questionText, guessProperty, minValue, maxValue, numberFormat );
         question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
     }
@@ -67,7 +67,7 @@ public abstract class ToQuestionView extends ProblemView {
         return question;
     }
 
-    protected Property<Integer> getAnswerProperty(){
-        return answerProperty;
+    protected Property<Integer> getGuessProperty(){
+        return guessProperty;
     }
 }
