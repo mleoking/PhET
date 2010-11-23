@@ -1,3 +1,5 @@
+# 1.00.12 (46503) Nov 23, 2010
+11/23/10 Deploying to dev for interviews on new game problems.
 Added problem types with particle counts on left and single questions on right.
 Added problem types with schematic of atom on left and single questions on right.
 Turned on animation of unstable nuclei by default.  Still able to turn off in developer dialog.
