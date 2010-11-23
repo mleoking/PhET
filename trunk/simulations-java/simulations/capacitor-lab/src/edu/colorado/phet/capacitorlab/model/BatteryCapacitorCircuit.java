@@ -107,18 +107,10 @@ public class BatteryCapacitorCircuit {
     //
     //----------------------------------------------------------------------------------
     
-    /**
-     * Gets the battery that is associated with this circuit.
-     * @return
-     */
     public Battery getBattery() {
         return battery;
     }
     
-    /**
-     * Gets the capacitor that is associated with this circuit.
-     * @return
-     */
     public Capacitor getCapacitor() {
         return capacitor;
     }
@@ -129,14 +121,6 @@ public class BatteryCapacitorCircuit {
 
     public Wire getBottomWire() {
         return bottomWire;
-    }
-    
-    /**
-     * Gets the minimum plate width (L), used for computing E-field density.
-     * @return
-     */
-    public static double getMinPlateWidth() {
-        return CLConstants.PLATE_WIDTH_RANGE.getMin();
     }
     
     //----------------------------------------------------------------------------------
@@ -644,16 +628,10 @@ public class BatteryCapacitorCircuit {
     }
 
     private void handleDielectricMaterialChanged() {
-        updateDielectricObserver();
-    }
-    
-    /*
-     * Rewire dielectric observer.
-     */
-    private void updateDielectricObserver() {
+        // rewire dielectric observer
         this.dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
         this.dielectricMaterial = capacitor.getDielectricMaterial();
-        this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
+        this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver ); // this triggers a notification
     }
 
     //----------------------------------------------------------------------------------
