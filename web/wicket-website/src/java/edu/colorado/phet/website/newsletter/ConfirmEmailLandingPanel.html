@@ -4,20 +4,26 @@
       xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title>[InitialSubscribeConfirmPanel]</title>
+    <title>[SubscribeLandingPanel]</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
+    <wicket:head>
+        <meta http-equiv="refresh" wicket:id="redirector"/>
+    </wicket:head>
 </head>
 <body>
 
 <wicket:panel>
     <div wicket:message="dir:language.dir">
-        <h1>Email Confirmation Delivered</h1>
+        <h1>Email Confirmed</h1>
 
-        <p>
-            In the email, please click on the link or copy and paste it into a browser in order to confirm your
-            subscription.
+        <p wicket:id="now-subscribed">
+            (insert email) is now subscribed to the PhET newsletter.
+        </p>
+
+        <p wicket:id="now-registered">
+            Thank you for registering! In a few seconds you will be redirected to your original page.
         </p>
     </div>
 </wicket:panel>

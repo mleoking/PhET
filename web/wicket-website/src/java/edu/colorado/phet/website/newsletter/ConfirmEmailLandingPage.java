@@ -1,5 +1,8 @@
 package edu.colorado.phet.website.newsletter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.hibernate.Session;
@@ -19,22 +22,22 @@ import edu.colorado.phet.website.util.links.RawLinkable;
 /**
  * Where the user lands when they click on the "confirm subscription" link from the confirmation email
  */
-public class SubscribeLandingPage extends PhetMenuPage {
+public class ConfirmEmailLandingPage extends PhetMenuPage {
 
-    private static Logger logger = Logger.getLogger( SubscribeLandingPage.class );
+    private static Logger logger = Logger.getLogger( ConfirmEmailLandingPage.class );
 
-    public SubscribeLandingPage( PageParameters parameters ) {
+    public ConfirmEmailLandingPage( PageParameters parameters ) {
         super( parameters );
         //setTitle( getLocalizer().getString( "resetPasswordCallback.title", this ) );
-        setTitle( "Subscribed to PhET Newsletter" ); // TODO: i18nize
+        setTitle( "Confirmed PhET Email" ); // TODO: i18nize
 
         final String confirmationKey = parameters.getString( "key" );
+        final String destination = parameters.getString( "destination" );
 
         Result<PhetUser> userResult = HibernateUtils.resultTransaction( getHibernateSession(), new Task<PhetUser>() {
             public PhetUser run( Session session ) {
                 PhetUser user = PhetUser.getUserFromConfirmationKey( getHibernateSession(), confirmationKey );
                 if ( user != null ) {
-                    user.setReceiveEmail( true );
                     user.setConfirmed( true );
                     session.update( user );
                     return user;
@@ -45,7 +48,13 @@ public class SubscribeLandingPage extends PhetMenuPage {
             }
         } );
         if ( userResult.success ) {
-            boolean emailSuccess = NewsletterUtils.sendNewsletterWelcomeEmail( getPageContext(), userResult.value );
+            boolean emailSuccess;
+            if ( userResult.value.isNewsletterOnlyAccount() ) {
+                emailSuccess = NewsletterUtils.sendNewsletterWelcomeEmail( getPageContext(), userResult.value );
+            }
+            else {
+                emailSuccess = NewsletterUtils.sendUserWelcomeEmail( getPageContext(), userResult.value );
+            }
             if ( !emailSuccess ) {
                 // we are still OK if email fails, since this only lets them know about the success. Don't fail out.
                 //ErrorPage.redirectToErrorPage();
@@ -57,19 +66,32 @@ public class SubscribeLandingPage extends PhetMenuPage {
 
         logger.info( userResult.value.getEmail() + " subscribed" );
 
-        add( new SubscribeLandingPanel( "main-panel", getPageContext(), userResult.value ) );
+        add( new ConfirmEmailLandingPanel( "main-panel", getPageContext(), userResult.value, destination ) );
 
         hideSocialBookmarkButtons();
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^confirm-subscription$", SubscribeLandingPage.class );//Wicket automatically strips the "?key=..."
+        mapper.addMap( "^confirm-email$", ConfirmEmailLandingPage.class );//Wicket automatically strips the "?key=..."
     }
 
     public static RawLinkable getLinker( final String key ) {
         return new AbstractLinker() {
             public String getSubUrl( PageContext context ) {
-                return "confirm-subscription?key=" + key;
+                return "confirm-email?key=" + key;
+            }
+        };
+    }
+
+    public static RawLinkable getLinker( final String key, final String destination ) {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                try {
+                    return "confirm-email?key=" + key + "&destination=" + URLEncoder.encode( destination, "UTF-8" );
+                }
+                catch ( UnsupportedEncodingException e ) {
+                    throw new RuntimeException( e ); // this really shouldn't happen
+                }
             }
         };
     }

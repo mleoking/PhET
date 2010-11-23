@@ -48,8 +48,8 @@ import edu.colorado.phet.website.content.workshops.UgandaWorkshopsPanel;
 import edu.colorado.phet.website.content.workshops.WorkshopsPanel;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.menu.NavMenu;
+import edu.colorado.phet.website.newsletter.ConfirmEmailLandingPage;
 import edu.colorado.phet.website.newsletter.InitialSubscribePage;
-import edu.colorado.phet.website.newsletter.SubscribeLandingPage;
 import edu.colorado.phet.website.newsletter.UnsubscribeLandingPage;
 import edu.colorado.phet.website.notification.NotificationHandler;
 import edu.colorado.phet.website.services.PhetInfoServicePage;
@@ -171,7 +171,7 @@ public class PhetWicketApplication extends WebApplication {
         ResetPasswordRequestSuccessPage.addToMapper( mapper );
         ResetPasswordCallbackPage.addToMapper( mapper );
         InitialSubscribePage.addToMapper( mapper );
-        SubscribeLandingPage.addToMapper( mapper );
+        ConfirmEmailLandingPage.addToMapper( mapper );
         UnsubscribeLandingPage.addToMapper( mapper );
 
         // don't error if a string isn't found
