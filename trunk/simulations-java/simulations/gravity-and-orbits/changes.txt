@@ -1,3 +1,5 @@
+Added a titled border around "show" panel in control panel
+Renamed and ordered "show" buttons in control panel
 Removed "to scale" button
 Initial support for different modes
 Fixed: force vectors do not update while the sim is paused

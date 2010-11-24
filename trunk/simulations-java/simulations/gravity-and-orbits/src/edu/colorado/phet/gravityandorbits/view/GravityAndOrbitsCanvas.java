@@ -79,9 +79,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        addChild( new TraceNode( model.getPlanet(), modelViewTransform2D, module.getTracesProperty() ) );
-        addChild( new TraceNode( model.getSun(), modelViewTransform2D, module.getTracesProperty() ) );
-        addChild( new TraceNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getTracesProperty(), module.getMoonProperty() ) ) );
+        addChild( new TraceNode( model.getPlanet(), modelViewTransform2D, module.getShowPathProperty() ) );
+        addChild( new TraceNode( model.getSun(), modelViewTransform2D, module.getShowPathProperty() ) );
+        addChild( new TraceNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), module.getMoonProperty() ) ) );
         addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, SUN_SIZER, -Math.PI / 4 ) );
         addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, PLANET_SIZER, -Math.PI / 4 ) );
         addChild( new BodyNode( model.getMoon(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, MOON_SIZER, -Math.PI / 4 - Math.PI / 2 ) {{
@@ -96,15 +96,15 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         Color VELOCITY_VECTOR_COLOR_FILL = Color.red;
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
-        addChild( new VectorNode( model.getPlanet(), modelViewTransform2D, module.getForcesProperty(), model.getPlanet().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
-        addChild( new VectorNode( model.getSun(), modelViewTransform2D, module.getForcesProperty(), model.getSun().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
-        addChild( new VectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getForcesProperty(), module.getMoonProperty() ), model.getMoon().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
-        addChild( new GrabbableVectorNode( model.getPlanet(), modelViewTransform2D, module.getVelocityProperty(), model.getPlanet().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
-        addChild( new GrabbableVectorNode( model.getSun(), modelViewTransform2D, module.getVelocityProperty(), model.getSun().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
-        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getVelocityProperty(), module.getMoonProperty() ), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
-        addChild( new MassReadoutNode( model.getSun(), modelViewTransform2D, module.getShowMassesProperty() ) );
-        addChild( new MassReadoutNode( model.getPlanet(), modelViewTransform2D, module.getShowMassesProperty() ) );
-        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowMassesProperty(), module.getMoonProperty() ) ) );
+        addChild( new VectorNode( model.getPlanet(), modelViewTransform2D, module.getShowGravityForceProperty(), model.getPlanet().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+        addChild( new VectorNode( model.getSun(), modelViewTransform2D, module.getShowGravityForceProperty(), model.getSun().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+        addChild( new VectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowGravityForceProperty(), module.getMoonProperty() ), model.getMoon().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+        addChild( new GrabbableVectorNode( model.getPlanet(), modelViewTransform2D, module.getShowVelocityProperty(), model.getPlanet().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+        addChild( new GrabbableVectorNode( model.getSun(), modelViewTransform2D, module.getShowVelocityProperty(), model.getSun().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowVelocityProperty(), module.getMoonProperty() ), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+        addChild( new MassReadoutNode( model.getSun(), modelViewTransform2D, module.getShowMassProperty() ) );
+        addChild( new MassReadoutNode( model.getPlanet(), modelViewTransform2D, module.getShowMassProperty() ) );
+        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowMassProperty(), module.getMoonProperty() ) ) );
 
         // Control Panel
         final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );

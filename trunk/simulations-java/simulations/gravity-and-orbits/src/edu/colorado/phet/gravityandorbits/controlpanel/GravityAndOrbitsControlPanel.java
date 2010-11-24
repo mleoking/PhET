@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -23,7 +25,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public static Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 18, true );
 
-    public GravityAndOrbitsControlPanel( GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
+    public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
         super();
 
         final LogoPanel panel = new LogoPanel();
@@ -33,12 +35,19 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         for ( GravityAndOrbitsMode mode : module.getModes() ) {
             addControlFullWidth( new GORadioButton( mode.getName(), new IsSelectedProperty<GravityAndOrbitsMode>( mode, module.getModeProperty() ) ) );
         }
-        addControlFullWidth( new JSeparator() );
 
-        addControlFullWidth( new GOCheckBox( "Forces", module.getForcesProperty() ) );
-        addControlFullWidth( new GOCheckBox( "Traces", module.getTracesProperty() ) );
-        addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
-        addControlFullWidth( new GOCheckBox( "Show Masses", module.getShowMassesProperty() ) );
+        addControlFullWidth( new VerticalLayoutPanel() {{
+            setBackground( BACKGROUND );
+            setOpaque( false );
+            setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), "Show" ) {{
+                setTitleColor( Color.white );
+                setTitleFont( CONTROL_FONT );
+            }} );
+            add( new GOCheckBox( "GravityForce", module.getShowGravityForceProperty() ) );
+            add( new GOCheckBox( "Velocity", module.getShowVelocityProperty() ) );
+            add( new GOCheckBox( "Mass", module.getShowMassProperty() ) );
+            add( new GOCheckBox( "Path", module.getShowPathProperty() ) );
+        }} );
         addControlFullWidth( new BodyMassControl( model.getSun(), model.getSun().getMassProperty().getDefaultValue() / 2, model.getSun().getMassProperty().getDefaultValue() * 2, "Large", "Very Large", GravityAndOrbitsCanvas.SUN_SIZER ) );
         addControlFullWidth( new BodyMassControl( model.getPlanet(), model.getPlanet().getMassProperty().getDefaultValue() / 2, model.getPlanet().getMassProperty().getDefaultValue() * 2, "Very Small", "Small", GravityAndOrbitsCanvas.PLANET_SIZER ) );
         addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );

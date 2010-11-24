@@ -17,10 +17,10 @@ public class GravityAndOrbitsModuleState implements Serializable {
     private GravityAndOrbitsModelState modelState;
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
-        forcesProperty = module.getForcesProperty().getValue();
-        tracesProperty = module.getTracesProperty().getValue();
-        velocityProperty = module.getVelocityProperty().getValue();
-        showMassesProperty = module.getShowMassesProperty().getValue();
+        forcesProperty = module.getShowGravityForceProperty().getValue();
+        tracesProperty = module.getShowPathProperty().getValue();
+        velocityProperty = module.getShowVelocityProperty().getValue();
+        showMassesProperty = module.getShowMassProperty().getValue();
         moonProperty = module.getMoonProperty().getValue();
         toScaleProperty = module.getToScaleProperty().getValue();
 
@@ -28,10 +28,10 @@ public class GravityAndOrbitsModuleState implements Serializable {
     }
 
     public void apply( GravityAndOrbitsModule gravityAndOrbitsModule ) {
-        gravityAndOrbitsModule.getForcesProperty().setValue( forcesProperty );
-        gravityAndOrbitsModule.getTracesProperty().setValue( tracesProperty );
-        gravityAndOrbitsModule.getVelocityProperty().setValue( velocityProperty );
-        gravityAndOrbitsModule.getShowMassesProperty().setValue( showMassesProperty );
+        gravityAndOrbitsModule.getShowGravityForceProperty().setValue( forcesProperty );
+        gravityAndOrbitsModule.getShowPathProperty().setValue( tracesProperty );
+        gravityAndOrbitsModule.getShowVelocityProperty().setValue( velocityProperty );
+        gravityAndOrbitsModule.getShowMassProperty().setValue( showMassesProperty );
         gravityAndOrbitsModule.getMoonProperty().setValue( moonProperty );
         gravityAndOrbitsModule.getToScaleProperty().setValue( toScaleProperty );
 
