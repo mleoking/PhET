@@ -15,9 +15,15 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PathNode extends PNode {
     private final PhetPPath phetPPath;
-    private boolean hasPath = false;
+    private boolean started = false;
+    private final Body body;
+    private final ModelViewTransform2D transform;
+    private final Property<Boolean> visible;
 
     public PathNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible ) {
+        this.body = body;
+        this.transform = transform;
+        this.visible = visible;
         phetPPath = new PhetPPath( new BasicStroke( 3 ), body.getColor() );
         addChild( phetPPath );
         visible.addObserver( new SimpleObserver() {
@@ -30,27 +36,40 @@ public class PathNode extends PNode {
         } );
         body.addPathListener( new Body.PathListener() {
             public void pointAdded( Body.PathPoint point ) {
-                if ( !visible.getValue() ) {
-                    return;
-                }
-                Point2D viewPoint = transform.modelToViewDouble( point.point.toPoint2D() );
-                if ( point.userControlled || !hasPath ) {
-                    phetPPath.moveTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
-                }
-                else {
-                    phetPPath.lineTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
-                }
-                hasPath = true;
+                updatePath();
+            }
+
+            public void pointRemoved( Body.PathPoint point ) {
+                updatePath();
             }
 
             public void cleared() {
-                reset();
+                updatePath();
             }
         } );
     }
 
+    private void updatePath() {
+        reset();
+
+        if ( !visible.getValue() ) {
+            return;
+        }
+        for ( int i = 0; i < body.getPath().size(); i++ ) {
+            Body.PathPoint point = body.getPath().get( i );
+            Point2D viewPoint = transform.modelToViewDouble( point.point.toPoint2D() );
+            if ( point.userControlled || !started ) {
+                phetPPath.moveTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
+            }
+            else {
+                phetPPath.lineTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
+            }
+            started = true;
+        }
+    }
+
     public void reset() {
         phetPPath.reset();
-        hasPath = false;
+        started = false;
     }
 }
