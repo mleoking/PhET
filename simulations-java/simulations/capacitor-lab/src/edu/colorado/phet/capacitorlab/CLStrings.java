@@ -62,6 +62,7 @@ public class CLStrings {
     public static final String ZOOM = getString( "zoom" );
     
     // MessageFormat patterns
+    public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE_UNITS = getString( "pattern.0label.1value.2units" );
     public static final String PATTERN_MATERIAL_CONSTANT = getString( "pattern.0material.1constant" );

@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.control;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -47,7 +48,7 @@ public class DielectricChargesControl extends JPanel {
     
     public DielectricChargesControl( final DielectricNode dielectricNode ) {
         
-        JLabel chargesLabel = new JLabel( CLStrings.DIELECTRIC_CHARGES );
+        JLabel chargesLabel = new JLabel( MessageFormat.format( CLStrings.PATTERN_LABEL, CLStrings.DIELECTRIC_CHARGES ) );
         
         JRadioButton hideAllRadioButton = new DielectricChargeViewRadioButton( CLStrings.HIDE_ALL_CHARGES, DielectricChargeView.NONE, dielectricNode.getDielectricChargeViewProperty() );
         JRadioButton showAllRadioButton = new DielectricChargeViewRadioButton( CLStrings.SHOW_ALL_CHARGES, DielectricChargeView.TOTAL, dielectricNode.getDielectricChargeViewProperty() );
