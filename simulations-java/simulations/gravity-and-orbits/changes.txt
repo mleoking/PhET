@@ -1,3 +1,4 @@
+Switched to colors in PhetColorScheme
 Added a titled border around "show" panel in control panel
 Renamed and ordered "show" buttons in control panel
 Removed "to scale" button
