@@ -80,9 +80,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        addChild( new PathNode( model.getPlanet(), modelViewTransform2D, module.getShowPathProperty() ) );
-        addChild( new PathNode( model.getSun(), modelViewTransform2D, module.getShowPathProperty() ) );
-        addChild( new PathNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), module.getMoonProperty() ) ) );
+        addChild( new PathNode2( model.getPlanet(), modelViewTransform2D, module.getShowPathProperty(),model.getPlanet().getColor() ) );
+        addChild( new PathNode2( model.getSun(), modelViewTransform2D, module.getShowPathProperty() ,model.getSun().getColor() ) );
+        addChild( new PathNode2( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), module.getMoonProperty() ) ,model.getMoon().getColor() ) );
         addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, SUN_SIZER, -Math.PI / 4 ) );
         addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, PLANET_SIZER, -Math.PI / 4 ) );
         addChild( new BodyNode( model.getMoon(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, MOON_SIZER, -Math.PI / 4 - Math.PI / 2 ) {{

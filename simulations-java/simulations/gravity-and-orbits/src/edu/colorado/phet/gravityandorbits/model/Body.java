@@ -124,10 +124,12 @@ public class Body {
 
     private void addPathPoint() {
         PathPoint pathPoint = new PathPoint( getPosition(), isUserControlled() );
-        System.out.println( "path.size() = " + path.size() );
         path.add( pathPoint );
         while ( path.size() > 2000 ) {//TODO: make this be 2 orbits after other free parameters are selected
             path.remove( 0 );
+            for ( PathListener listener : pathListeners ) {
+                listener.pointRemoved();
+            }
         }
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
@@ -221,7 +223,7 @@ public class Body {
     public static interface PathListener {
         public void pointAdded( PathPoint point );
 
-        public void pointRemoved( PathPoint point );
+        public void pointRemoved();
 
         public void cleared();
     }
