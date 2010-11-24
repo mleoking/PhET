@@ -11,8 +11,6 @@ import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
-import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -125,14 +123,14 @@ public class Wire {
      */
     public static class BottomWire extends Wire {
 
-        private final BatteryShapeFactory batteryShapeFactory;
-        private final CapacitorShapeFactory capacitorShapeFactory;
+        private final Battery battery;
+        private final Capacitor capacitor;
         
         public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
             
-            this.batteryShapeFactory = battery.getShapeFactory();
-            this.capacitorShapeFactory = capacitor.getShapeFactory();
+            this.battery = battery;
+            this.capacitor = capacitor;
             
             // adjust when dimensions of capacitor change
             SimpleObserver o = new SimpleObserver() {
@@ -164,11 +162,11 @@ public class Wire {
             Shape shape = null;
             Shape wireShape = super.createShape();
             // HACK: null check required because createShape is called in the superclass constructor.
-            if ( capacitorShapeFactory == null ) {
+            if ( battery == null || capacitor == null ) {
                 shape = wireShape;
             }
             else {
-                shape = ShapeUtils.subtract( wireShape, batteryShapeFactory.createBodyShape(), capacitorShapeFactory.createBottomPlateShape() );
+                shape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
             }
             return shape;
         }
