@@ -1,3 +1,4 @@
+11/23/10 handle "Label:" i18n using a single MessageFormat pattern
 11/23/10 move constants from BatteryShapeFactory to Battery model element, improve definition of positive terminal
 11/23/10 move constants from VoltmeterShapeFactory to Voltmeter model element
 11/23/10 add getShapeFactory to model elements, so that view is using the same factory instance as model
