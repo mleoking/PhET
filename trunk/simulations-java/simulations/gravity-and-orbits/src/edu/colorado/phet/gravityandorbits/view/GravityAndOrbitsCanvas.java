@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
@@ -91,10 +92,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 }
             } );
         }} );
-        Color FORCE_VECTOR_COLOR_FILL = Color.pink;
+        Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
         Color FORCE_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
-        Color VELOCITY_VECTOR_COLOR_FILL = Color.red;
+        Color VELOCITY_VECTOR_COLOR_FILL = PhetColorScheme.VELOCITY;
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
         addChild( new VectorNode( model.getPlanet(), modelViewTransform2D, module.getShowGravityForceProperty(), model.getPlanet().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         addChild( new VectorNode( model.getSun(), modelViewTransform2D, module.getShowGravityForceProperty(), model.getSun().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
