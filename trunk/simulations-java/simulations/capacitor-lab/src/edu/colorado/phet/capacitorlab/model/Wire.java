@@ -142,7 +142,6 @@ public class Wire {
             };
             capacitor.addPlateSizeObserver( o );
             capacitor.addPlateSeparationObserver( o );
-            capacitor.addDielectricOffsetObserver( o );
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
