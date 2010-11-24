@@ -24,6 +24,7 @@ public class Body {
     private boolean userControlled;
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
+    private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;
@@ -123,6 +124,11 @@ public class Body {
 
     private void addPathPoint() {
         PathPoint pathPoint = new PathPoint( getPosition(), isUserControlled() );
+        System.out.println( "path.size() = " + path.size() );
+        path.add( pathPoint );
+        while ( path.size() > 2000 ) {//TODO: make this be 2 orbits after other free parameters are selected
+            path.remove( 0 );
+        }
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
         }
@@ -198,6 +204,10 @@ public class Body {
         this.forceProperty.setValue( force );
     }
 
+    public ArrayList<PathPoint> getPath() {
+        return path;
+    }
+
     public static class PathPoint {
         public final ImmutableVector2D point;
         public final boolean userControlled;
@@ -210,6 +220,8 @@ public class Body {
 
     public static interface PathListener {
         public void pointAdded( PathPoint point );
+
+        public void pointRemoved( PathPoint point );
 
         public void cleared();
     }
