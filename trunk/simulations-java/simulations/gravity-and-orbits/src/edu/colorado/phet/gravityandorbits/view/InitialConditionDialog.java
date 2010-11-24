@@ -99,7 +99,7 @@ public class InitialConditionDialog extends JDialog {
             body.setMass( massControl.getValue() );
             body.setPosition( xControl.getValue(), yControl.getValue() );
             body.setVelocity( new ImmutableVector2D( vxControl.getValue(), vyControl.getValue() ) );
-            body.clearTrace();
+            body.clearPath();
             System.out.println( "updated body = " + body );
         }
 

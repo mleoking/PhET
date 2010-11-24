@@ -13,11 +13,11 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class TraceNode extends PNode {
+public class PathNode extends PNode {
     private final PhetPPath phetPPath;
-    private boolean hasTraces = false;
+    private boolean hasPath = false;
 
-    public TraceNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible ) {
+    public PathNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible ) {
         phetPPath = new PhetPPath( new BasicStroke( 3 ), body.getColor() );
         addChild( phetPPath );
         visible.addObserver( new SimpleObserver() {
@@ -28,22 +28,22 @@ public class TraceNode extends PNode {
                 }
             }
         } );
-        body.addTraceListener( new Body.TraceListener() {
-            public void traceAdded( Body.TracePoint trace ) {
+        body.addPathListener( new Body.PathListener() {
+            public void pointAdded( Body.PathPoint point ) {
                 if ( !visible.getValue() ) {
                     return;
                 }
-                Point2D viewPoint = transform.modelToViewDouble( trace.point.toPoint2D() );
-                if ( trace.userControlled || !hasTraces ) {
+                Point2D viewPoint = transform.modelToViewDouble( point.point.toPoint2D() );
+                if ( point.userControlled || !hasPath ) {
                     phetPPath.moveTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
                 }
                 else {
                     phetPPath.lineTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
                 }
-                hasTraces = true;
+                hasPath = true;
             }
 
-            public void traceCleared() {
+            public void cleared() {
                 reset();
             }
         } );
@@ -51,6 +51,6 @@ public class TraceNode extends PNode {
 
     public void reset() {
         phetPPath.reset();
-        hasTraces = false;
+        hasPath = false;
     }
 }

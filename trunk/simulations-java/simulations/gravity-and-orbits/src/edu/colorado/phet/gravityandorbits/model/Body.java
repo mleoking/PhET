@@ -23,7 +23,7 @@ public class Body {
     private final double density;
     private boolean userControlled;
 
-    private final ArrayList<TraceListener> traceListeners = new ArrayList<TraceListener>();
+    private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;
@@ -72,7 +72,7 @@ public class Body {
 
     public void translate( Point2D delta ) {
         translate( delta.getX(), delta.getY() );
-        addTracePoint();
+        addPathPoint();
     }
 
     public void translate( double dx, double dy ) {
@@ -118,19 +118,19 @@ public class Body {
         }
         accelerationProperty.setValue( bodyState.acceleration );
         forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
-        addTracePoint();
+        addPathPoint();
     }
 
-    private void addTracePoint() {
-        TracePoint trace = new TracePoint( getPosition(), isUserControlled() );
-        for ( TraceListener listener : traceListeners ) {
-            listener.traceAdded( trace );
+    private void addPathPoint() {
+        PathPoint pathPoint = new PathPoint( getPosition(), isUserControlled() );
+        for ( PathListener listener : pathListeners ) {
+            listener.pointAdded( pathPoint );
         }
     }
 
-    public void clearTrace() {
-        for ( TraceListener listener : traceListeners ) {
-            listener.traceCleared();
+    public void clearPath() {
+        for ( PathListener listener : pathListeners ) {
+            listener.cleared();
         }
     }
 
@@ -151,7 +151,7 @@ public class Body {
         forceProperty.reset();
         massProperty.reset();
         diameterProperty.reset();
-        clearTrace();
+        clearPath();
     }
 
     public Property<ImmutableVector2D> getVelocityProperty() {
@@ -170,12 +170,12 @@ public class Body {
         this.userControlled = b;
     }
 
-    public void addTraceListener( TraceListener listener ) {
-        traceListeners.add( listener );
+    public void addPathListener( PathListener listener ) {
+        pathListeners.add( listener );
     }
 
-    public void removeTraceListener( TraceListener listener ) {
-        traceListeners.remove( listener );
+    public void removePathListener( PathListener listener ) {
+        pathListeners.remove( listener );
     }
 
     public void setVelocity( ImmutableVector2D velocity ) {
@@ -198,20 +198,20 @@ public class Body {
         this.forceProperty.setValue( force );
     }
 
-    public static class TracePoint {
-        public ImmutableVector2D point;
+    public static class PathPoint {
+        public final ImmutableVector2D point;
         public final boolean userControlled;
 
-        public TracePoint( ImmutableVector2D point, boolean userControlled ) {
+        public PathPoint( ImmutableVector2D point, boolean userControlled ) {
             this.point = point;
             this.userControlled = userControlled;
         }
     }
 
-    public static interface TraceListener {
-        public void traceAdded( TracePoint trace );
+    public static interface PathListener {
+        public void pointAdded( PathPoint point );
 
-        public void traceCleared();
+        public void cleared();
     }
 
     @Override
