@@ -26,8 +26,8 @@ public class GravityAndOrbitsModelState implements Serializable {
         gravityAndOrbitsModel.getClock().setSimulationTime( simulationTime );
         gravityAndOrbitsModel.getClock().setPaused( paused );
 
-        sunState.apply(gravityAndOrbitsModel.getSun());
-        planetState.apply(gravityAndOrbitsModel.getPlanet());
-        moonState.apply(gravityAndOrbitsModel.getMoon());
+        sunState.apply( gravityAndOrbitsModel.getSun() );
+        planetState.apply( gravityAndOrbitsModel.getPlanet() );
+        moonState.apply( gravityAndOrbitsModel.getMoon() );
     }
 }

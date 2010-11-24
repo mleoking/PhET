@@ -126,7 +126,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        final Property<Boolean> clockRunning = new Property<Boolean>( true ){{
+        final Property<Boolean> clockRunning = new Property<Boolean>( true ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     model.getClock().setRunning( getValue() );
@@ -137,7 +137,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             public String apply( Double time ) {
                 return (int) ( time / 86400 ) + " Earth Days";
             }
-        } ,model.getClock()) {{
+        }, model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 

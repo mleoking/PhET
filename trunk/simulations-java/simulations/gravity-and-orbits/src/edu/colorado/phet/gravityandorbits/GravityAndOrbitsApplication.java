@@ -63,9 +63,9 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
             catch ( IOException e ) {
                 e.printStackTrace();
             }
-            if (Arrays.asList( commandLineArgs ).contains( "-history" )){//load and play back history
+            if ( Arrays.asList( commandLineArgs ).contains( "-history" ) ) {//load and play back history
                 int index = Arrays.asList( commandLineArgs ).indexOf( "-history" );
-                String historyFile = commandLineArgs[index+1];
+                String historyFile = commandLineArgs[index + 1];
                 SimHistoryPlayback.playHistory( this, new File( historyFile ) );
             }
         }
