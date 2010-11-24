@@ -1,3 +1,4 @@
+Removed "to scale" button
 Initial support for different modes
 Fixed: force vectors do not update while the sim is paused
 # 0.0.03 (45917) Nov 10, 2010

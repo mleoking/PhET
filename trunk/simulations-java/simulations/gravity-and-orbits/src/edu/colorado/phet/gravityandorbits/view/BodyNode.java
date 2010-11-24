@@ -97,7 +97,7 @@ public class BodyNode extends PNode {
         body.getDiameterProperty().addObserver( updateDiameter );
         toScaleProperty.addObserver( updateDiameter );
 
-        //Points to the sphere with a text indicator and line, for when it is too small to see (in "to scale" mode)
+        //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
         arrowIndicator = new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
             ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, labelAngle );
