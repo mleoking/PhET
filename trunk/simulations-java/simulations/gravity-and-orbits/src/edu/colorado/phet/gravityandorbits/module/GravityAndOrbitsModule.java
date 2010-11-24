@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.*;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -13,9 +12,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
-import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
-import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
-import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
 /**
@@ -35,6 +31,22 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<Boolean> showMassesProperty = new Property<Boolean>( false );
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
+
+    private final GravityAndOrbitsMode mySunAndPlanet = new GravityAndOrbitsMode( "My Sun & Planet" );
+    private final GravityAndOrbitsMode sunEarthAndMoon = new GravityAndOrbitsMode( "Sun, Earth & Moon" );
+    private final GravityAndOrbitsMode myPlanetAndSpaceStation = new GravityAndOrbitsMode( "My Planet & Space Station" );
+    private final GravityAndOrbitsMode earthAndSpaceStation = new GravityAndOrbitsMode( "Earth & Space Station" );
+    private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
+        add( mySunAndPlanet );
+        add( sunEarthAndMoon );
+        add( myPlanetAndSpaceStation );
+        add( earthAndSpaceStation );
+    }};
+    private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
+
+    public ArrayList<GravityAndOrbitsMode> getModes() {
+        return new ArrayList<GravityAndOrbitsMode>( modes );
+    }
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -118,5 +130,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         moonProperty.reset();
         toScaleProperty.reset();
         model.resetAll();
+    }
+
+    public Property<GravityAndOrbitsMode> getModeProperty() {
+        return modeProperty;
     }
 }
