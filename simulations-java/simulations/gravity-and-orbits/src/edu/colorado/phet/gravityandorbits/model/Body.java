@@ -2,7 +2,7 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -23,7 +23,7 @@ public class Body {
     private final double density;
     private boolean userControlled;
 
-    private final java.util.List<TraceListener> traceListeners = new LinkedList<TraceListener>();
+    private final ArrayList<TraceListener> traceListeners = new ArrayList<TraceListener>();
 
     public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
         this.name = name;

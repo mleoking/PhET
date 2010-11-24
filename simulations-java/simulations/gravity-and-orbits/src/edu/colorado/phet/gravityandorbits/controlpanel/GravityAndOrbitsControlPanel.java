@@ -6,10 +6,12 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
@@ -27,6 +29,12 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         final LogoPanel panel = new LogoPanel();
         panel.setBackground( BACKGROUND );
         addControl( panel );
+
+        for ( GravityAndOrbitsMode mode : module.getModes() ) {
+            addControlFullWidth( new GORadioButton( mode.getName(), new IsSelectedProperty<GravityAndOrbitsMode>( mode, module.getModeProperty() ) ) );
+        }
+        addControlFullWidth( new JSeparator() );
+
         addControlFullWidth( new GOCheckBox( "Forces", module.getForcesProperty() ) );
         addControlFullWidth( new GOCheckBox( "Traces", module.getTracesProperty() ) );
         addControlFullWidth( new GOCheckBox( "Velocity", module.getVelocityProperty() ) );
