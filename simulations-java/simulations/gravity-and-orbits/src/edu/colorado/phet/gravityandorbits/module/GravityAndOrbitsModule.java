@@ -25,10 +25,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
-    private Property<Boolean> forcesProperty = new Property<Boolean>( false );
-    private Property<Boolean> tracesProperty = new Property<Boolean>( false );
-    private Property<Boolean> velocityProperty = new Property<Boolean>( false );
-    private Property<Boolean> showMassesProperty = new Property<Boolean>( false );
+    private Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
+    private Property<Boolean> showPathProperty = new Property<Boolean>( false );
+    private Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
+    private Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
@@ -98,20 +98,20 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         clock.resetSimulationTime();
     }
 
-    public Property<Boolean> getForcesProperty() {
-        return forcesProperty;
+    public Property<Boolean> getShowGravityForceProperty() {
+        return showGravityForceProperty;
     }
 
-    public Property<Boolean> getTracesProperty() {
-        return tracesProperty;
+    public Property<Boolean> getShowPathProperty() {
+        return showPathProperty;
     }
 
-    public Property<Boolean> getVelocityProperty() {
-        return velocityProperty;
+    public Property<Boolean> getShowVelocityProperty() {
+        return showVelocityProperty;
     }
 
-    public Property<Boolean> getShowMassesProperty() {
-        return showMassesProperty;
+    public Property<Boolean> getShowMassProperty() {
+        return showMassProperty;
     }
 
     public Property<Boolean> getMoonProperty() {
@@ -123,10 +123,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     public void resetAll() {
-        forcesProperty.reset();
-        tracesProperty.reset();
-        velocityProperty.reset();
-        showMassesProperty.reset();
+        showGravityForceProperty.reset();
+        showPathProperty.reset();
+        showVelocityProperty.reset();
+        showMassProperty.reset();
         moonProperty.reset();
         toScaleProperty.reset();
         model.resetAll();
