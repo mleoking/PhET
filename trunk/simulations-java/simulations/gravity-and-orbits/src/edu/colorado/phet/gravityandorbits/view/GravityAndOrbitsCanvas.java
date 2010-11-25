@@ -10,8 +10,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.AndProperty;
@@ -38,18 +36,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Canvas template.
  */
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
-    private GravityAndOrbitsModel model;
     private PNode _rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
-    private ModelViewTransform2D modelViewTransform2D;
     public static final Function.LinearFunction SUN_SIZER = new Function.LinearFunction( 0, 1, 0, 15 );
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
     public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
-    public GravityAndOrbitsCanvas( JFrame parentFrame, final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
+    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
-        this.model = model;
 
         setBackground( GravityAndOrbitsConstants.CANVAS_BACKGROUND );
 
@@ -68,7 +63,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        modelViewTransform2D = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
+        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
 
         module.getMoonProperty().addObserver( new SimpleObserver() {
             public void update() {
