@@ -32,15 +32,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
-    private final GravityAndOrbitsMode mySunAndPlanet = new GravityAndOrbitsMode( "My Sun & Planet" );
-    private final GravityAndOrbitsMode sunEarthAndMoon = new GravityAndOrbitsMode( "Sun, Earth & Moon" );
-    private final GravityAndOrbitsMode myPlanetAndSpaceStation = new GravityAndOrbitsMode( "My Planet & Space Station" );
-    private final GravityAndOrbitsMode earthAndSpaceStation = new GravityAndOrbitsMode( "Earth & Space Station" );
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
-        add( mySunAndPlanet );
-        add( sunEarthAndMoon );
-        add( myPlanetAndSpaceStation );
-        add( earthAndSpaceStation );
+        add( new GravityAndOrbitsMode( "My Sun & Planet" ) );
+        add( new GravityAndOrbitsMode( "Sun, Earth & Moon" ) );
+        add( new GravityAndOrbitsMode( "My Planet & Space Station" ) );
+        add( new GravityAndOrbitsMode( "Earth & Space Station" ) );
     }};
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
@@ -63,7 +59,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         model = new GravityAndOrbitsModel( clock, moonProperty );
 
         // Canvas
-        canvas = new GravityAndOrbitsCanvas( parentFrame, model, this );
+        canvas = new GravityAndOrbitsCanvas( model, this );
         setSimulationPanel( canvas );
 
         setClockControlPanel( null );//clock panel appears in the canvas
