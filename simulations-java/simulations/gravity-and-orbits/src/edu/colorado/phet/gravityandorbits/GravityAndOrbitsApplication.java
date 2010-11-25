@@ -53,7 +53,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
         String[] commandLineArgs = config.getCommandLineArgs();
         if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ) ) {
-            gravityAndOrbitsModule.getGravityAndOrbitsModel().teacherMode = true;
+            gravityAndOrbitsModule.setTeacherMode( true );
             try {
                 new SimSharingTeacherClient( this, getPhetFrame() ).start();
             }

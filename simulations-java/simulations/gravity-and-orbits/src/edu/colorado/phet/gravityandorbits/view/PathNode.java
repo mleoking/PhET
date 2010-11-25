@@ -61,7 +61,9 @@ public class PathNode extends PNode {
             }
 
             public void pointRemoved() {
-                points.remove( 0 );
+                if ( points.size() > 0 ) {
+                    points.remove( 0 );
+                }
                 pathNode.repaint();
             }
 

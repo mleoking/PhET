@@ -8,10 +8,11 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
-import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
 /**
@@ -23,13 +24,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private GravityAndOrbitsModel model;
-    private GravityAndOrbitsCanvas canvas;
     private Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
     private Property<Boolean> showPathProperty = new Property<Boolean>( false );
     private Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private Property<Boolean> showMassProperty = new Property<Boolean>( false );
-    private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
@@ -48,19 +46,29 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GravityAndOrbitsModule( JFrame parentFrame, String[] commandLineArgs ) {
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs ) {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE
                + ": " + Arrays.asList( commandLineArgs )//For simsharing
                 ,
                new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
-        // Model
-        GravityAndOrbitsClock clock = (GravityAndOrbitsClock) getClock();
-        model = new GravityAndOrbitsModel( clock, moonProperty );
+        setSimulationPanel( new GravityAndOrbitsCanvas( modeProperty.getValue().getModel(), GravityAndOrbitsModule.this, modeProperty.getValue() ) );
 
-        // Canvas
-        canvas = new GravityAndOrbitsCanvas( model, this );
-        setSimulationPanel( canvas );
+        // Switch the entire canvas on mode switches
+        modeProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        setSimulationPanel( new GravityAndOrbitsCanvas( modeProperty.getValue().getModel(), GravityAndOrbitsModule.this, modeProperty.getValue() ) );
+                        phetFrame.invalidate();
+                        phetFrame.validate();
+                        phetFrame.doLayout();
+                    }
+                } );
+                updateClocks();
+            }
+        }, false );
+        updateClocks();
 
         setClockControlPanel( null );//clock panel appears in the canvas
 
@@ -73,13 +81,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         reset();
     }
 
-    public GravityAndOrbitsModel getGravityAndOrbitsModel() {
-        return model;
+    private void updateClocks() {
+        for ( GravityAndOrbitsMode mode : modes ) {
+            mode.setRunning( mode == modeProperty.getValue() );
+        }
     }
 
-    public GravityAndOrbitsCanvas getCanvas() {
-        return canvas;
-    }
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
@@ -88,10 +95,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // reset the clock
-        GravityAndOrbitsClock clock = model.getClock();
-        clock.resetSimulationTime();
+        for ( GravityAndOrbitsMode mode : modes ) {
+            mode.reset();
+        }
     }
 
     public Property<Boolean> getShowGravityForceProperty() {
@@ -110,10 +116,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return showMassProperty;
     }
 
-    public Property<Boolean> getMoonProperty() {
-        return moonProperty;
-    }
-
     public Property<Boolean> getToScaleProperty() {
         return toScaleProperty;
     }
@@ -123,12 +125,22 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         showPathProperty.reset();
         showVelocityProperty.reset();
         showMassProperty.reset();
-        moonProperty.reset();
         toScaleProperty.reset();
-        model.resetAll();
     }
 
     public Property<GravityAndOrbitsMode> getModeProperty() {
         return modeProperty;
+    }
+
+    public void setTeacherMode( boolean b ) {
+        for ( GravityAndOrbitsMode mode : modes ) {
+            mode.getModel().teacherMode = b;
+        }
+    }
+
+    public void addModelSteppedListener( SimpleObserver simpleObserver ) {
+        for ( GravityAndOrbitsMode mode : modes ) {
+            mode.getModel().addModelSteppedListener( simpleObserver );
+        }
     }
 }
