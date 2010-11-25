@@ -69,7 +69,7 @@ public class BodyNode extends PNode {
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
 //                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
                 boolean isMouseOverAfter = sphereNode.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
-                if ( parentComponent != null && body.isModifyable()) {
+                if ( parentComponent != null && body.isModifyable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
                             @Override

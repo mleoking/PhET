@@ -8,7 +8,6 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
-import edu.colorado.phet.gravityandorbits.view.VectorNode;
 
 /**
  * @author Sam Reid
@@ -21,7 +20,7 @@ public class GravityAndOrbitsMode {
     private double forceScale;
 
     //TODO: instead of passing in the module, how about passing in a minimal required interface?
-    public GravityAndOrbitsMode( String name,double forceScale ) {
+    public GravityAndOrbitsMode( String name, double forceScale ) {
         this.name = name;
         this.forceScale = forceScale;
 

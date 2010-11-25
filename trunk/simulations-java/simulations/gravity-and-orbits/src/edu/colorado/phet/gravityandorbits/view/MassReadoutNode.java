@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
-import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;

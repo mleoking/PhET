@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.gravityandorbits.model.Body;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -21,7 +22,7 @@ public class PathNode extends PNode {
     private final ModelViewTransform2D transform;
     private final Property<Boolean> visible;
     private ArrayList<Point> points = new ArrayList<Point>();//points in view space
-    private int MAX_TRACE_LENGTH = 2000;
+    public static int MAX_TRACE_LENGTH = (int) ( 365 / GravityAndOrbitsDefaults.NUMBER_DAYS_PER_TICK * 2 );//enough for 2 earth years
     private int[] xPrimitive = new int[MAX_TRACE_LENGTH];
     private int[] yPrimitive = new int[MAX_TRACE_LENGTH];
 
