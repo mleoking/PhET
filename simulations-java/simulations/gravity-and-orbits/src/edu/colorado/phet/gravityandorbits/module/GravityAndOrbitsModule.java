@@ -52,14 +52,18 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 ,
                new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
-        setSimulationPanel( new GravityAndOrbitsCanvas( modeProperty.getValue().getModel(), GravityAndOrbitsModule.this, modeProperty.getValue() ) );
+        for ( GravityAndOrbitsMode mode : modes ) {
+            mode.init(this );
+        }
+
+        setSimulationPanel( getMode().getCanvas() );
 
         // Switch the entire canvas on mode switches
         modeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        setSimulationPanel( new GravityAndOrbitsCanvas( modeProperty.getValue().getModel(), GravityAndOrbitsModule.this, modeProperty.getValue() ) );
+                        setSimulationPanel( getMode().getCanvas() );
                         phetFrame.invalidate();
                         phetFrame.validate();
                         phetFrame.doLayout();
@@ -81,9 +85,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         reset();
     }
 
+    private GravityAndOrbitsMode getMode() {
+        return modeProperty.getValue();
+    }
+
     private void updateClocks() {
         for ( GravityAndOrbitsMode mode : modes ) {
-            mode.setRunning( mode == modeProperty.getValue() );
+            mode.setRunning( mode == getMode() );
         }
     }
 
