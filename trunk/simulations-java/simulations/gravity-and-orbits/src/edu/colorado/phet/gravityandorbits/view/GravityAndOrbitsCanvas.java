@@ -80,9 +80,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        addChild( new PathNode2( model.getPlanet(), modelViewTransform2D, module.getShowPathProperty(), model.getPlanet().getColor() ) );
-        addChild( new PathNode2( model.getSun(), modelViewTransform2D, module.getShowPathProperty(), model.getSun().getColor() ) );
-        addChild( new PathNode2( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), module.getMoonProperty() ), model.getMoon().getColor() ) );
+        addChild( new PathNode( model.getPlanet(), modelViewTransform2D, module.getShowPathProperty(), model.getPlanet().getColor() ) );
+        addChild( new PathNode( model.getSun(), modelViewTransform2D, module.getShowPathProperty(), model.getSun().getColor() ) );
+        addChild( new PathNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), module.getMoonProperty() ), model.getMoon().getColor() ) );
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
         Color FORCE_VECTOR_COLOR_OUTLINE = Color.darkGray;
