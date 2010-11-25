@@ -68,7 +68,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new GOCheckBox( "Path", module.getShowPathProperty() ) );
         }} );
         for ( Body body : model.getBodies() ) {
-            if ( body.isMassEditable() ) {
+            if ( body.isModifyable() ) {
                 addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large", body.getSizer() ) );
             }
         }
