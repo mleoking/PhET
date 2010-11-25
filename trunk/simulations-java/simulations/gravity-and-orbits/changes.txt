@@ -1,3 +1,4 @@
+Fixed: forces not visible in Sun, Earth, Moon mode
 Switched to "one canvas per mode" paradigm
 Made velocity circles more like "my solar system"
 -added a 'v' to the circle

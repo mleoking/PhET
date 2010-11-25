@@ -43,7 +43,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
     public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
-    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode ) {
+    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
@@ -77,7 +77,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, modelViewTransform2D, module.getShowGravityForceProperty(), body.getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+            addChild( new VectorNode( body, modelViewTransform2D, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         }
         for ( Body body : model.getBodies() ) {
             addChild( new GrabbableVectorNode( body, modelViewTransform2D, module.getShowVelocityProperty(), body.getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
