@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 /**
  * @author Sam Reid
  */
-public class PathNode2 extends PNode {
+public class PathNode extends PNode {
     private final PNode pathNode;
     private final Body body;
     private final ModelViewTransform2D transform;
@@ -25,7 +25,7 @@ public class PathNode2 extends PNode {
     private int[] xPrimitive = new int[MAX_TRACE_LENGTH];
     private int[] yPrimitive = new int[MAX_TRACE_LENGTH];
 
-    public PathNode2( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible, final Color color ) {
+    public PathNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible, final Color color ) {
         this.body = body;
         this.transform = transform;
         this.visible = visible;
