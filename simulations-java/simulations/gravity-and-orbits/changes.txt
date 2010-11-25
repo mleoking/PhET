@@ -1,3 +1,4 @@
+Made trace disappear after 2 earth years
 Removed the phet logo to save vertical space on the control panel
 Fixed: In real modes, velocities should not be draggable
 Fixed: In real modes, bodies should not be draggable

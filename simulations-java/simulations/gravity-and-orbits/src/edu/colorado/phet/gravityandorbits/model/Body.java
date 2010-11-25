@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.gravityandorbits.view.PathNode;
 
 /**
  * @author Sam Reid
@@ -29,7 +30,7 @@ public class Body {
     private Function.LinearFunction sizer;
     private final boolean modifyable;
 
-    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer,boolean modifyable ) {
+    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, boolean modifyable ) {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
@@ -130,7 +131,7 @@ public class Body {
     private void addPathPoint() {
         PathPoint pathPoint = new PathPoint( getPosition(), isUserControlled() );
         path.add( pathPoint );
-        while ( path.size() > 2000 ) {//TODO: make this be 2 orbits after other free parameters are selected
+        while ( path.size() > PathNode.MAX_TRACE_LENGTH ) {//TODO: make this be 2 orbits after other free parameters are selected
             path.remove( 0 );
             for ( PathListener listener : pathListeners ) {
                 listener.pointRemoved();

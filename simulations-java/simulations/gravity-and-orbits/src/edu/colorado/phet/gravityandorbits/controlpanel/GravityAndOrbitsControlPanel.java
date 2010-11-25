@@ -8,7 +8,10 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
-import edu.colorado.phet.common.phetcommon.view.*;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.model.Body;

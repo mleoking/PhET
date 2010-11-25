@@ -56,7 +56,8 @@ public class GrabbableVectorNode extends VectorNode {
                 }
             } );
             grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?
-        }else{
+        }
+        else {
             grabArea.setVisible( false );
         }
         grabArea.moveToBack();
