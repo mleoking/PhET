@@ -32,6 +32,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
+    private static final double SUN_RADIUS = 6.955E8;
+    public static final double SUN_MASS = 1.989E30;
+
     public static final double FAKE_SUN_MASS = 2E29;
     public static final double FAKE_SUN_RADIUS = 6.955E8;
 
@@ -52,10 +55,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public static final double PLANET_MASS = 1E28;
     public static final double EARTH_MASS = 1E28;
 
-
     public static double MOON_MASS = 7.3477E22;
     private static final double MOON_RADIUS = 1737.1E3;
-    private final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED - 1.022E3;
+    private final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED + 1.022E3;
     private final double MOON_INITIAL_X = EARTH_ORBIT_RADIUS + 384399E3;
 
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
@@ -65,9 +67,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             addBody( new Body( "Moon", FAKE_MOON_INITIAL_X, 0, FAKE_MOON_RADIUS * 2, 0, FAKE_MOON_ORBITAL_SPEED, FAKE_MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
         }} );
         add( new GravityAndOrbitsMode( "Sun, Earth & Moon" ) {{
-            addBody( new Body( "Sun", 0, 0, FAKE_SUN_RADIUS * 2, 0, -0.045E4, FAKE_SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, false ) );
+            addBody( new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, -0.045E4, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, false ) );
             addBody( new Body( "Earth", EARTH_ORBIT_RADIUS, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false ) );
-            addBody( new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+            addBody( new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, -MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
         }} );
         add( new GravityAndOrbitsMode( "My Planet & Space Station" ) );
         add( new GravityAndOrbitsMode( "Earth & Space Station" ) );
