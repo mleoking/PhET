@@ -42,21 +42,22 @@ public class BodyNode extends PNode {
         addChild( sphereNode );
 
         final CursorHandler cursorHandler = new CursorHandler();
-        addInputEventListener( cursorHandler );
+        if ( body.isModifyable() ) {
+            addInputEventListener( cursorHandler );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    body.setUserControlled( true );
+                }
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                body.setUserControlled( true );
-            }
+                public void mouseDragged( PInputEvent event ) {
+                    body.translate( modelViewTransform2D.viewToModelDifferential( event.getDeltaRelativeTo( getParent() ) ) );
+                }
 
-            public void mouseDragged( PInputEvent event ) {
-                body.translate( modelViewTransform2D.viewToModelDifferential( event.getDeltaRelativeTo( getParent() ) ) );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                body.setUserControlled( false );
-            }
-        } );
+                public void mouseReleased( PInputEvent event ) {
+                    body.setUserControlled( false );
+                }
+            } );
+        }
         body.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
                 /* we need to determine whether the mouse is over the body both before and after the model change so
@@ -68,7 +69,7 @@ public class BodyNode extends PNode {
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
 //                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
                 boolean isMouseOverAfter = sphereNode.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
-                if ( parentComponent != null ) {
+                if ( parentComponent != null && body.isModifyable()) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
                             @Override

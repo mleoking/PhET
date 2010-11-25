@@ -27,14 +27,14 @@ public class Body {
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
     private Function.LinearFunction sizer;
-    private final boolean massEditable;
+    private final boolean modifyable;
 
-    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer,boolean massEditable ) {
+    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer,boolean modifyable ) {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
         this.sizer = sizer;
-        this.massEditable = massEditable;
+        this.modifyable = modifyable;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -219,8 +219,8 @@ public class Body {
         return sizer;
     }
 
-    public boolean isMassEditable() {
-        return massEditable;
+    public boolean isModifyable() {
+        return modifyable;
     }
 
     public static class PathPoint {
