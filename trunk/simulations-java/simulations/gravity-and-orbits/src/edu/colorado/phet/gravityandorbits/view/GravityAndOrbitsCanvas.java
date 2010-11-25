@@ -27,6 +27,7 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -42,7 +43,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
     public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
-    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module ) {
+    public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
@@ -65,19 +66,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
 
-        module.getMoonProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                if ( module.getMoonProperty().getValue() ) {
-                    model.getPlanet().resetAll();
-                    model.getMoon().resetAll();
-                    model.getSun().resetAll();
-                }
-            }
-        } );
-
         addChild( new PathNode( model.getPlanet(), modelViewTransform2D, module.getShowPathProperty(), model.getPlanet().getColor() ) );
         addChild( new PathNode( model.getSun(), modelViewTransform2D, module.getShowPathProperty(), model.getSun().getColor() ) );
-        addChild( new PathNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), module.getMoonProperty() ), model.getMoon().getColor() ) );
+        addChild( new PathNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowPathProperty(), mode.getMoonProperty() ), model.getMoon().getColor() ) );
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
         Color FORCE_VECTOR_COLOR_OUTLINE = Color.darkGray;
@@ -86,27 +77,27 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
         addChild( new VectorNode( model.getPlanet(), modelViewTransform2D, module.getShowGravityForceProperty(), model.getPlanet().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         addChild( new VectorNode( model.getSun(), modelViewTransform2D, module.getShowGravityForceProperty(), model.getSun().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
-        addChild( new VectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowGravityForceProperty(), module.getMoonProperty() ), model.getMoon().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+        addChild( new VectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowGravityForceProperty(), mode.getMoonProperty() ), model.getMoon().getForceProperty(), VectorNode.FORCE_SCALE, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         addChild( new GrabbableVectorNode( model.getPlanet(), modelViewTransform2D, module.getShowVelocityProperty(), model.getPlanet().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
         addChild( new GrabbableVectorNode( model.getSun(), modelViewTransform2D, module.getShowVelocityProperty(), model.getSun().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
-        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowVelocityProperty(), module.getMoonProperty() ), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+        addChild( new GrabbableVectorNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowVelocityProperty(), mode.getMoonProperty() ), model.getMoon().getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
 
         addChild( new BodyNode( model.getSun(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, SUN_SIZER, -Math.PI / 4 ) );
         addChild( new BodyNode( model.getPlanet(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, PLANET_SIZER, -Math.PI / 4 ) );
         addChild( new BodyNode( model.getMoon(), modelViewTransform2D, module.getToScaleProperty(), mousePositionProperty, this, MOON_SIZER, -Math.PI / 4 - Math.PI / 2 ) {{
-            module.getMoonProperty().addObserver( new SimpleObserver() {
+            mode.getMoonProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( module.getMoonProperty().getValue() );
+                    setVisible( mode.getMoonProperty().getValue() );
                 }
             } );
         }} );
 
         addChild( new MassReadoutNode( model.getSun(), modelViewTransform2D, module.getShowMassProperty() ) );
         addChild( new MassReadoutNode( model.getPlanet(), modelViewTransform2D, module.getShowMassProperty() ) );
-        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowMassProperty(), module.getMoonProperty() ) ) );
+        addChild( new MassReadoutNode( model.getMoon(), modelViewTransform2D, new AndProperty( module.getShowMassProperty(), mode.getMoonProperty() ) ) );
 
         // Control Panel
-        final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );
+        final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model, mode );
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
             final PSwing controlPanelPSwing = new PSwing( controlPanel );
             addChild( controlPanelPSwing );

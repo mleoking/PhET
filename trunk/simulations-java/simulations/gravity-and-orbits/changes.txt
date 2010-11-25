@@ -1,3 +1,4 @@
+Switched to "one canvas per mode" paradigm
 Made velocity circles more like "my solar system"
 -added a 'v' to the circle
 -made the circle gray

@@ -24,15 +24,15 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public static Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 18, true );
 
-    public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
+    public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model, GravityAndOrbitsMode mode ) {
         super();
 
         final LogoPanel panel = new LogoPanel();
         panel.setBackground( BACKGROUND );
         addControl( panel );
 
-        for ( GravityAndOrbitsMode mode : module.getModes() ) {
-            addControlFullWidth( new GORadioButton( mode.getName(), new IsSelectedProperty<GravityAndOrbitsMode>( mode, module.getModeProperty() ) ) );
+        for ( GravityAndOrbitsMode m : module.getModes() ) {
+            addControlFullWidth( new GORadioButton( m.getName(), new IsSelectedProperty<GravityAndOrbitsMode>( m, module.getModeProperty() ) ) );
         }
 
         addControlFullWidth( new VerticalLayoutPanel() {{
@@ -69,7 +69,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }} );
         addControlFullWidth( new BodyMassControl( model.getSun(), model.getSun().getMassProperty().getDefaultValue() / 2, model.getSun().getMassProperty().getDefaultValue() * 2, "Large", "Very Large", GravityAndOrbitsCanvas.SUN_SIZER ) );
         addControlFullWidth( new BodyMassControl( model.getPlanet(), model.getPlanet().getMassProperty().getDefaultValue() / 2, model.getPlanet().getMassProperty().getDefaultValue() * 2, "Very Small", "Small", GravityAndOrbitsCanvas.PLANET_SIZER ) );
-        addControlFullWidth( new GOCheckBox( "Moon", module.getMoonProperty() ) );
+        addControlFullWidth( new GOCheckBox( "Moon", mode.getMoonProperty() ) );
 
         setBackground( BACKGROUND );
 //        getContentPanel().setBackground( BACKGROUND );

@@ -36,14 +36,14 @@ public class SimSharingStudentClient {
         objectOutputStream = new ObjectOutputStream( new BufferedOutputStream( socket.getOutputStream() ) );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 
-        application.getGravityAndOrbitsModule().getGravityAndOrbitsModel().addModelSteppedListener( new SimpleObserver() {
+        application.getGravityAndOrbitsModule().addModelSteppedListener( new SimpleObserver() {
             public void update() {
                 updateSharing();
             }
         } );
         new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( application.getGravityAndOrbitsModule().getGravityAndOrbitsModel().getClock().isPaused() ) {
+                if ( application.getGravityAndOrbitsModule().getModeProperty().getValue().getModel().getClock().isPaused() ) {
                     updateSharing();
                 }
             }
