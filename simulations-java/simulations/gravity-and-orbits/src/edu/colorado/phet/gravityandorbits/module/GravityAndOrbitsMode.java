@@ -58,7 +58,7 @@ public class GravityAndOrbitsMode {
         return canvas;
     }
 
-    public void init(GravityAndOrbitsModule module) {
+    public void init( GravityAndOrbitsModule module ) {
         canvas = new GravityAndOrbitsCanvas( model, module, this );
     }
 }
