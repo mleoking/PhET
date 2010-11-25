@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
-import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
 /**
  * Module template.
@@ -53,7 +52,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
 
         for ( GravityAndOrbitsMode mode : modes ) {
-            mode.init(this );
+            mode.init( this );
         }
 
         setSimulationPanel( getMode().getCanvas() );
