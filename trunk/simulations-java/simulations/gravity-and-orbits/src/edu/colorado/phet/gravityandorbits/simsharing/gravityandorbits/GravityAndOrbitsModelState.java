@@ -17,17 +17,18 @@ public class GravityAndOrbitsModelState implements Serializable {
     public GravityAndOrbitsModelState( GravityAndOrbitsModel gravityAndOrbitsModel ) {
         simulationTime = gravityAndOrbitsModel.getClock().getSimulationTime();
         paused = gravityAndOrbitsModel.getClock().isPaused();
-        sunState = new PersistentBodyState( gravityAndOrbitsModel.getSun() );
-        planetState = new PersistentBodyState( gravityAndOrbitsModel.getPlanet() );
-        moonState = new PersistentBodyState( gravityAndOrbitsModel.getMoon() );
+        //TODO: enable multi-mode for sim-sharing
+//        sunState = new PersistentBodyState( gravityAndOrbitsModel.getSun() );
+//        planetState = new PersistentBodyState( gravityAndOrbitsModel.getPlanet() );
+//        moonState = new PersistentBodyState( gravityAndOrbitsModel.getMoon() );
     }
 
     public void apply( GravityAndOrbitsModel gravityAndOrbitsModel ) {
         gravityAndOrbitsModel.getClock().setSimulationTime( simulationTime );
         gravityAndOrbitsModel.getClock().setPaused( paused );
 
-        sunState.apply( gravityAndOrbitsModel.getSun() );
-        planetState.apply( gravityAndOrbitsModel.getPlanet() );
-        moonState.apply( gravityAndOrbitsModel.getMoon() );
+//        sunState.apply( gravityAndOrbitsModel.getSun() );
+//        planetState.apply( gravityAndOrbitsModel.getPlanet() );
+//        moonState.apply( gravityAndOrbitsModel.getMoon() );
     }
 }

@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
  * see http://www.fisica.uniud.it/~ercolessi/md/md/node21.html
@@ -44,7 +45,7 @@ public class ModelState {
             return new ImmutableVector2D();
         }
         else {
-            return getUnitVector( source, newTargetPosition ).getScaledInstance( GravityAndOrbitsModel.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
+            return getUnitVector( source, newTargetPosition ).getScaledInstance( GravityAndOrbitsModule.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
         }
     }
 

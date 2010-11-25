@@ -11,10 +11,10 @@ import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
 /**
  * Control panel template.
@@ -67,8 +67,11 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new GOCheckBox( "Mass", module.getShowMassProperty() ) );
             add( new GOCheckBox( "Path", module.getShowPathProperty() ) );
         }} );
-        addControlFullWidth( new BodyMassControl( model.getSun(), model.getSun().getMassProperty().getDefaultValue() / 2, model.getSun().getMassProperty().getDefaultValue() * 2, "Large", "Very Large", GravityAndOrbitsCanvas.SUN_SIZER ) );
-        addControlFullWidth( new BodyMassControl( model.getPlanet(), model.getPlanet().getMassProperty().getDefaultValue() / 2, model.getPlanet().getMassProperty().getDefaultValue() * 2, "Very Small", "Small", GravityAndOrbitsCanvas.PLANET_SIZER ) );
+        for ( Body body : model.getBodies() ) {
+            if ( body.isMassEditable() ) {
+                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large", body.getSizer() ) );
+            }
+        }
         addControlFullWidth( new GOCheckBox( "Moon", mode.getMoonProperty() ) );
 
         setBackground( BACKGROUND );

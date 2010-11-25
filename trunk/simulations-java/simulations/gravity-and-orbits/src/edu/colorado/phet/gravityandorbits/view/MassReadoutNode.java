@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -25,7 +26,7 @@ public class MassReadoutNode extends PNode {
             body.getMassProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     double massKG = body.getMass();
-                    double planetMasses = massKG / GravityAndOrbitsModel.PLANET_MASS;
+                    double planetMasses = massKG / GravityAndOrbitsModule.PLANET_MASS;
 //                    System.out.println( "planetMasses = " + planetMasses );
                     String text;
                     DecimalFormat decimalFormat = new DecimalFormat( "0" );

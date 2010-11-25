@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
@@ -21,15 +22,20 @@ public class GravityAndOrbitsMode {
     public GravityAndOrbitsMode( String name ) {
         this.name = name;
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ), moonProperty );
+
         getMoonProperty().addObserver( new SimpleObserver() {
             public void update() {
                 if ( getMoonProperty().getValue() ) {
-                    model.getPlanet().resetAll();
-                    model.getMoon().resetAll();
-                    model.getSun().resetAll();
+                    for ( Body body : model.getBodies() ) {
+                        body.resetAll();
+                    }
                 }
             }
         } );
+    }
+
+    public void addBody( Body body ) {
+        model.addBody( body );
     }
 
     public String getName() {
