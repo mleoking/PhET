@@ -1,3 +1,4 @@
+Fixed: In real modes, velocities should not be draggable
 Fixed: In real modes, bodies should not be draggable
 Fixed: forces not visible in Sun, Earth, Moon mode
 Switched to "one canvas per mode" paradigm

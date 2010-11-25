@@ -47,14 +47,18 @@ public class GrabbableVectorNode extends VectorNode {
         property.addObserver( updateGrabArea );
         body.getPositionProperty().addObserver( updateGrabArea );
         addChild( grabArea );
-        grabArea.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( getParent() );
-                Point2D modelDelta = modelViewTransform2D.viewToModelDifferential( delta );
-                body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
-            }
-        } );
-        grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?
+        if ( body.isModifyable() ) {
+            grabArea.addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    PDimension delta = event.getDeltaRelativeTo( getParent() );
+                    Point2D modelDelta = modelViewTransform2D.viewToModelDifferential( delta );
+                    body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
+                }
+            } );
+            grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?
+        }else{
+            grabArea.setVisible( false );
+        }
         grabArea.moveToBack();
     }
 }
