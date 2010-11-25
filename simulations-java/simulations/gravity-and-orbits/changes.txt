@@ -1,3 +1,8 @@
+Made velocity circles more like "my solar system"
+-added a 'v' to the circle
+-made the circle gray
+-made the vectors go behind planets
+-made the 'v' circle go behind vectors
 Added arrow icons next to arrow checkboxes
 Improved performance of path graphics
 Switched to colors in PhetColorScheme
