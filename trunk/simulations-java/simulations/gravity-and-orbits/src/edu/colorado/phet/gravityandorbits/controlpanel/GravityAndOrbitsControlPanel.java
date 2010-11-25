@@ -27,9 +27,9 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model, GravityAndOrbitsMode mode ) {
         super();
 
-        final LogoPanel panel = new LogoPanel();
-        panel.setBackground( BACKGROUND );
-        addControl( panel );
+//        final LogoPanel panel = new LogoPanel();
+//        panel.setBackground( BACKGROUND );
+//        addControl( panel );
 
         for ( GravityAndOrbitsMode m : module.getModes() ) {
             addControlFullWidth( new GORadioButton( m.getName(), new IsSelectedProperty<GravityAndOrbitsMode>( m, module.getModeProperty() ) ) );
