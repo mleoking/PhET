@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 
@@ -25,11 +26,15 @@ public class Body {
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
+    private Function.LinearFunction sizer;
+    private final boolean massEditable;
 
-    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight ) {
+    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer,boolean massEditable ) {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
+        this.sizer = sizer;
+        this.massEditable = massEditable;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -208,6 +213,14 @@ public class Body {
 
     public ArrayList<PathPoint> getPath() {
         return path;
+    }
+
+    public Function.LinearFunction getSizer() {
+        return sizer;
+    }
+
+    public boolean isMassEditable() {
+        return massEditable;
     }
 
     public static class PathPoint {

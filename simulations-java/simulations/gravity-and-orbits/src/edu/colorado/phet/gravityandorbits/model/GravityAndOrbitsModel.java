@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -13,24 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
 public class GravityAndOrbitsModel {
 
-    public static final double G = 6.67428E-11;
-
-    public static final double SUN_MASS = 2E29;
-    public static final double SUN_RADIUS = 6.955E8;
-
-    public static final double PLANET_RADIUS = 6.371E6;
-    public static final double PLANET_MASS = 1E28;
-    public static final double PLANET_ORBIT_RADIUS = 1.6E11;
-    public static final double PLANET_ORBITAL_SPEED = 0.9E4;
-
-    public static final double MOON_RADIUS = 1737.1E3;
-    public static final double MOON_MASS = 1E25;
-    public static final double MOON_INITIAL_X = 1.4E11;
-    public static final double MOON_ORBITAL_SPEED = 0.397E4;
-
-    public final Body sun = new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, -0.045E4, SUN_MASS, Color.yellow, Color.white );
-    public final Body planet = new Body( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, PLANET_ORBITAL_SPEED, PLANET_MASS, Color.magenta, Color.white );
-    public final Body moon = new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white );
+    private final ArrayList<Body> bodies = new ArrayList<Body>();
 
     private final GravityAndOrbitsClock clock;
     private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
@@ -43,16 +25,12 @@ public class GravityAndOrbitsModel {
         final VoidFunction1<Double> stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
-                    add( sun.toBodyState() );
-                    add( planet.toBodyState() );
-                    if ( moonProperty.getValue() ) {
-                        add( moon.toBodyState() );
+                    for ( Body body : bodies ) {
+                        add( body.toBodyState() );
                     }
                 }} ).getNextState( dt, 10 );
-                sun.updateBodyStateFromModel( newState.getBodyState( 0 ) );
-                planet.updateBodyStateFromModel( newState.getBodyState( 1 ) );
-                if ( moonProperty.getValue() ) {
-                    moon.updateBodyStateFromModel( newState.getBodyState( 2 ) );
+                for ( int i = 0; i < bodies.size(); i++ ) {
+                    bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
             }
         };
@@ -71,35 +49,32 @@ public class GravityAndOrbitsModel {
                 stepModel.apply( 0.0 );
             }
         };
-        sun.getPositionProperty().addObserver( updatePhysics );
-        planet.getPositionProperty().addObserver( updatePhysics );
-        moon.getPositionProperty().addObserver( updatePhysics );
+
+        for ( Body body : bodies ) {
+            body.getPositionProperty().addObserver( updatePhysics );
+        }
     }
 
     public GravityAndOrbitsClock getClock() {
         return clock;
     }
 
-    public Body getSun() {
-        return sun;
-    }
-
-    public Body getPlanet() {
-        return planet;
-    }
-
     public void resetAll() {
-        sun.resetAll();
-        planet.resetAll();
-        moon.resetAll();
+        for ( Body body : bodies ) {
+            body.resetAll();
+        }
         getClock().resetSimulationTime();
-    }
-
-    public Body getMoon() {
-        return moon;
     }
 
     public void addModelSteppedListener( SimpleObserver simpleObserver ) {
         modelStepListeners.add( simpleObserver );
+    }
+
+    public void addBody( Body body ) {
+        bodies.add( body );
+    }
+
+    public ArrayList<Body> getBodies() {
+        return new ArrayList<Body>( bodies );
     }
 }

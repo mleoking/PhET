@@ -17,11 +17,12 @@ public class InitialConditionDialog extends JDialog {
     public InitialConditionDialog( JFrame parentFrame, final GravityAndOrbitsModel model ) {
         super( parentFrame, false );
         setContentPane( new VerticalLayoutPanel() {{
-            final BodyConfigPanel sunPanel = new BodyConfigPanel( model.getSun() );
+
+            final BodyConfigPanel sunPanel = new BodyConfigPanel( model.getBodies().get( 0 ) );
             add( sunPanel );
-            final BodyConfigPanel planetPanel = new BodyConfigPanel( model.getPlanet() );
+            final BodyConfigPanel planetPanel = new BodyConfigPanel( model.getBodies().get( 1 ) );
             add( planetPanel );
-            final BodyConfigPanel moonPanel = new BodyConfigPanel( model.getMoon() );
+            final BodyConfigPanel moonPanel = new BodyConfigPanel( model.getBodies().get( 2 ) );
             add( moonPanel );
             add( new JButton( "Apply" ) {{
                 final ActionListener listener = new ActionListener() {
