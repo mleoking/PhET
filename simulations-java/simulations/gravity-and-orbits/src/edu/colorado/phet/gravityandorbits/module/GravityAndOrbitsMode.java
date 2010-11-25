@@ -8,6 +8,7 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
+import edu.colorado.phet.gravityandorbits.view.VectorNode;
 
 /**
  * @author Sam Reid
@@ -17,10 +18,13 @@ public class GravityAndOrbitsMode {
     private GravityAndOrbitsModel model;
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private GravityAndOrbitsCanvas canvas;
+    private double forceScale;
 
     //TODO: instead of passing in the module, how about passing in a minimal required interface?
-    public GravityAndOrbitsMode( String name ) {
+    public GravityAndOrbitsMode( String name,double forceScale ) {
         this.name = name;
+        this.forceScale = forceScale;
+
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ), moonProperty );
 
         getMoonProperty().addObserver( new SimpleObserver() {
@@ -65,6 +69,6 @@ public class GravityAndOrbitsMode {
     }
 
     public void init( GravityAndOrbitsModule module ) {
-        canvas = new GravityAndOrbitsCanvas( model, module, this );
+        canvas = new GravityAndOrbitsCanvas( model, module, this, forceScale );
     }
 }
