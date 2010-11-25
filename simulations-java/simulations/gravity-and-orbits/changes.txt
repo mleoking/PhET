@@ -1,3 +1,4 @@
+Added arrow icons next to arrow checkboxes
 Improved performance of path graphics
 Switched to colors in PhetColorScheme
 Added a titled border around "show" panel in control panel
