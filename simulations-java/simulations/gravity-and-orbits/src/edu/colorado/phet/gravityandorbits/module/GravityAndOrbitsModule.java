@@ -29,7 +29,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<Boolean> showPathProperty = new Property<Boolean>( false );
     private Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private Property<Boolean> showMassProperty = new Property<Boolean>( false );
-    private Property<Boolean> toScaleProperty = new Property<Boolean>( false );
 
     private static final double SUN_RADIUS = 6.955E8;
     private static final double SUN_MASS = 1.989E30;
@@ -138,10 +137,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     /**
      * Resets the module.
      */
-    public void reset() {
+    public void resetAll() {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.reset();
         }
+        showGravityForceProperty.reset();
+        showPathProperty.reset();
+        showVelocityProperty.reset();
+        showMassProperty.reset();
+        modeProperty.reset();
     }
 
     public Property<Boolean> getShowGravityForceProperty() {
@@ -158,18 +162,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Boolean> getShowMassProperty() {
         return showMassProperty;
-    }
-
-    public Property<Boolean> getToScaleProperty() {
-        return toScaleProperty;
-    }
-
-    public void resetAll() {
-        showGravityForceProperty.reset();
-        showPathProperty.reset();
-        showVelocityProperty.reset();
-        showMassProperty.reset();
-        toScaleProperty.reset();
     }
 
     public Property<GravityAndOrbitsMode> getModeProperty() {
