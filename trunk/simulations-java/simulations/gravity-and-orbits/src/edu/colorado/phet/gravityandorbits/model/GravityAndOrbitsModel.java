@@ -93,7 +93,6 @@ public class GravityAndOrbitsModel {
         planet.resetAll();
         moon.resetAll();
         getClock().resetSimulationTime();
-        getClock().start();
     }
 
     public Body getMoon() {
