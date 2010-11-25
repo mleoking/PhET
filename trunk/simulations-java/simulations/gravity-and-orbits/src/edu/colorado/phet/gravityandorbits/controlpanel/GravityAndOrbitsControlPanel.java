@@ -3,15 +3,14 @@
 package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
-import edu.colorado.phet.common.phetcommon.view.LogoPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
@@ -43,8 +42,28 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 setTitleColor( Color.white );
                 setTitleFont( CONTROL_FONT );
             }} );
-            add( new GOCheckBox( "GravityForce", module.getShowGravityForceProperty() ) );
-            add( new GOCheckBox( "Velocity", module.getShowVelocityProperty() ) );
+            setFillNone();
+            setAnchor( GridBagConstraints.WEST );
+
+            add( new JPanel( new GridLayout( 2, 2 ) ) {
+                {
+                    setBackground( BACKGROUND );
+                    setOpaque( false );
+
+                    add( new GOCheckBox( "Gravity Force", module.getShowGravityForceProperty() ) );
+                    addArrow( PhetColorScheme.GRAVITATIONAL_FORCE );
+                    add( new GOCheckBox( "Velocity", module.getShowVelocityProperty() ) );
+                    addArrow( PhetColorScheme.VELOCITY );
+                    setMaximumSize( getPreferredSize() );
+                }
+
+                private void addArrow( final Color color ) {
+                    add( new JLabel( new ImageIcon( new ArrowNode( new Point2D.Double(), new Point2D.Double( 65, 0 ), 15, 15, 5, 2, true ) {{
+                        setPaint( color );
+                        setStrokePaint( Color.darkGray );
+                    }}.toImage() ) ) );
+                }
+            } );
             add( new GOCheckBox( "Mass", module.getShowMassProperty() ) );
             add( new GOCheckBox( "Path", module.getShowPathProperty() ) );
         }} );
