@@ -96,7 +96,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             final PSwing controlPanelPSwing = new PSwing( controlPanel );
             addChild( controlPanelPSwing );
             addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.green ) );
-            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 20 );
         }};
         addChild( controlPanelNode );
 
