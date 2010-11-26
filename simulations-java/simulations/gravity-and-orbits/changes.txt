@@ -1,3 +1,4 @@
+Fixed: Path should only start after user presses "path", not from beginning of simulation
 Moved the "Moon" checkbox next to "My Sun & Planet" mode radio button, since that is the only mode in which it can be used
 Made mode radio buttons appear in the same place for all canvases
 Fixed: Reset all is broken

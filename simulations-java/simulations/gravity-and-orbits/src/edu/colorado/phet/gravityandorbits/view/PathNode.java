@@ -52,6 +52,9 @@ public class PathNode extends PNode {
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.getValue() );
+                body.clearPath();
+                points.clear();
+                pathNode.repaint();
             }
         } );
         body.addPathListener( new Body.PathListener() {
