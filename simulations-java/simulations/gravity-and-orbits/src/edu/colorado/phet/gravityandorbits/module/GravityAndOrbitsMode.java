@@ -2,8 +2,10 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -70,4 +72,13 @@ public class GravityAndOrbitsMode {
     public void init( GravityAndOrbitsModule module ) {
         canvas = new GravityAndOrbitsCanvas( model, module, this, forceScale );
     }
+
+    public JComponent newComponent( Property<GravityAndOrbitsMode> modeProperty ) {
+        return createRadioButton( modeProperty );
+    }
+
+    protected GORadioButton createRadioButton( Property<GravityAndOrbitsMode> modeProperty ) {
+        return new GORadioButton( getName(), new IsSelectedProperty<GravityAndOrbitsMode>( this, modeProperty ) );
+    }
+
 }

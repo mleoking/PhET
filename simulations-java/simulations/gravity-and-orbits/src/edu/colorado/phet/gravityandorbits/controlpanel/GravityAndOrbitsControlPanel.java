@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
@@ -30,12 +29,8 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model, GravityAndOrbitsMode mode ) {
         super();
 
-//        final LogoPanel panel = new LogoPanel();
-//        panel.setBackground( BACKGROUND );
-//        addControl( panel );
-
         for ( GravityAndOrbitsMode m : module.getModes() ) {
-            addControlFullWidth( new GORadioButton( m.getName(), new IsSelectedProperty<GravityAndOrbitsMode>( m, module.getModeProperty() ) ) );
+            addControlFullWidth( m.newComponent( module.getModeProperty() ) );
         }
 
         addControlFullWidth( new VerticalLayoutPanel() {{
@@ -75,10 +70,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large", body.getSizer() ) );
             }
         }
-        addControlFullWidth( new GOCheckBox( "Moon", mode.getMoonProperty() ) );
-
         setBackground( BACKGROUND );
-//        getContentPanel().setBackground( BACKGROUND );
     }
 
     private void addControlFullWidth( JComponent component ) {
