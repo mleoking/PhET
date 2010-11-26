@@ -143,6 +143,7 @@ public class Body {
     }
 
     public void clearPath() {
+        path.clear();
         for ( PathListener listener : pathListeners ) {
             listener.cleared();
         }
