@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -104,10 +102,6 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }
-
-        // Developer menu
-        JMenu developerMenu = frame.getDeveloperMenu();
-        // add items to the Developer menu here...
     }
 
     //----------------------------------------------------------------------------
