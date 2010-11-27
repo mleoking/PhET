@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -110,14 +109,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        final Property<Boolean> clockRunning = new Property<Boolean>( true ) {{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    model.getClock().setRunning( getValue() );
-                }
-            } );
-        }};
-        addChild( new FloatingClockControlNode( clockRunning, new Function1<Double, String>() {
+        addChild( new FloatingClockControlNode( mode.getClockRunningProperty(), new Function1<Double, String>() {
             public String apply( Double time ) {
                 return (int) ( time / 86400 ) + " Earth Days";
             }

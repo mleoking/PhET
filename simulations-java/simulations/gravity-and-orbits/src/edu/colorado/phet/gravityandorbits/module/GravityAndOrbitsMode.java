@@ -1,5 +1,7 @@
 package edu.colorado.phet.gravityandorbits.module;
 
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
@@ -20,11 +22,15 @@ public class GravityAndOrbitsMode {
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private GravityAndOrbitsCanvas canvas;
     private double forceScale;
+    private Property<Boolean> active;
+    private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
+    private final Property<Boolean> clockRunningProperty;
 
     //TODO: instead of passing in the module, how about passing in a minimal required interface?
-    public GravityAndOrbitsMode( String name, double forceScale ) {
+    public GravityAndOrbitsMode( String name, double forceScale, boolean active ) {
         this.name = name;
         this.forceScale = forceScale;
+        this.active = new Property<Boolean>( active );
 
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ), moonProperty );
 
@@ -37,6 +43,23 @@ public class GravityAndOrbitsMode {
                 }
             }
         } );
+
+        //Clock control panel
+        clockRunningProperty = new Property<Boolean>( false ) {{
+            final SimpleObserver updateClock = new SimpleObserver() {
+                public void update() {
+                    model.getClock().setRunning( isActive() && getValue() );
+                }
+            };
+            //This assumes that this code is the only place that changes whether the clock is running
+            //If another place called clock.start() or stop(), then this property wouldn't get a callback
+            addObserver( updateClock );
+            addModeActiveListener( updateClock );
+        }};
+    }
+
+    public GravityAndOrbitsClock getClock() {
+        return model.getClock();
     }
 
     public void addBody( Body body ) {
@@ -81,4 +104,19 @@ public class GravityAndOrbitsMode {
         return new GORadioButton( getName(), new IsSelectedProperty<GravityAndOrbitsMode>( this, modeProperty ) );
     }
 
+    public void setActive( boolean active ) {
+        this.active.setValue( active );
+    }
+
+    public void addModeActiveListener( SimpleObserver simpleObserver ) {
+        active.addObserver( simpleObserver );
+    }
+
+    public boolean isActive() {
+        return active.getValue();
+    }
+
+    public Property<Boolean> getClockRunningProperty() {
+        return clockRunningProperty;
+    }
 }

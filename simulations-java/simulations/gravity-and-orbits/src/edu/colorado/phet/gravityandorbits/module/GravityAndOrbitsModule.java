@@ -60,7 +60,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double MOON_INITIAL_X = EARTH_PERIHELION + MOON_PERIGEE;
 
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
-        add( new GravityAndOrbitsMode( "My Sun & Planet", VectorNode.FORCE_SCALE ) {
+        add( new GravityAndOrbitsMode( "My Sun & Planet", VectorNode.FORCE_SCALE, true ) {
             {
                 addBody( new Body( "Sun", 0, 0, FAKE_SUN_RADIUS * 2, 0, -0.045E4, FAKE_SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, true ) );
                 addBody( new Body( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, PLANET_ORBITAL_SPEED, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
@@ -77,13 +77,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 }};
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100 ) {{
+        add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100, false ) {{
             addBody( new Body( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, false ) );
             addBody( new Body( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false ) );
             addBody( new Body( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
         }} );
-        add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE ) );
-        add( new GravityAndOrbitsMode( "Earth & Space Station", VectorNode.FORCE_SCALE * 100 ) );
+        add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false ) );
+        add( new GravityAndOrbitsMode( "Earth & Space Station", VectorNode.FORCE_SCALE * 100, false ) );
     }};
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
@@ -118,10 +118,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                         phetFrame.doLayout();
                     }
                 } );
-                updateClocks();
+                updateActiveModule();
             }
         }, false );
-        updateClocks();
+        updateActiveModule();
 
         setClockControlPanel( null );//clock panel appears in the canvas
 
@@ -138,9 +138,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return modeProperty.getValue();
     }
 
-    private void updateClocks() {
+    private void updateActiveModule() {
         for ( GravityAndOrbitsMode mode : modes ) {
-            mode.setRunning( mode == getMode() );
+            mode.setActive( mode == getMode() );
         }
     }
 
