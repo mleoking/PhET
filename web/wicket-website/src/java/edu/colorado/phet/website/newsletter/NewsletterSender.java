@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeBodyPart;
 
 import org.apache.log4j.Logger;
 
@@ -27,6 +27,8 @@ public class NewsletterSender {
     private String subject;
     private String fromAddress;
     private String replyTo;
+
+    private List<File> images = new LinkedList<File>();
 
     private static boolean sending = false;
     private static final Object lock = new Object();
@@ -49,6 +51,14 @@ public class NewsletterSender {
             fromAddress = properties.getProperty( "fromAddress" );
             replyTo = properties.getProperty( "replyTo" );
             rawBody = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );
+
+            for ( String imageFilename : properties.getProperty( "images" ).split( " " ) ) {
+                File imageFile = new File( imageFilename );
+                if ( !imageFile.exists() ) {
+                    throw new FileNotFoundException( "image file not found: " + imageFilename );
+                }
+                images.add( imageFile );
+            }
         }
         catch ( FileNotFoundException e ) {
             logger.error( "message prep error: ", e );
@@ -92,6 +102,12 @@ public class NewsletterSender {
             message.setBody( body );
             message.addRecipient( user.getEmail().trim() );
             message.addReplyTo( replyTo );
+            for ( final File imageFile : images ) {
+                message.addBodyPart( new MimeBodyPart() {{
+                    setDataHandler( new DataHandler( new FileDataSource( imageFile ) ) );
+                    setHeader( "Content-ID", "<" + imageFile.getName() + ">" );
+                }} );
+            }
             return EmailUtils.sendMessage( message );
         }
         catch ( MessagingException e ) {
