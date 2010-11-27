@@ -26,6 +26,7 @@ public class FloatingClockControlNode extends PNode {
                                      final Function1<Double, String> getTimeReadout,//The function used for displaying the time readout
                                      final IClock clock ) {//only used for time display
         playPauseButton = new PlayPauseButton( 80 ) {{
+            setPlaying( clockRunning.getValue() );
             final Listener updatePlayPauseButtons = new Listener() {
                 public void playbackStateChanged() {
                     clockRunning.setValue( isPlaying() );
