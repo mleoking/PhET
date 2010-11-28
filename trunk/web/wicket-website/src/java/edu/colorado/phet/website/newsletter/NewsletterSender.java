@@ -28,7 +28,7 @@ public class NewsletterSender {
     private String fromAddress;
     private String replyTo;
 
-    private List<File> images = new LinkedList<File>();
+//    private List<File> images = new LinkedList<File>();
 
     private static boolean sending = false;
     private static final Object lock = new Object();
@@ -48,17 +48,17 @@ public class NewsletterSender {
                 in.close();
             }
             subject = properties.getProperty( "subject" );
-            fromAddress = properties.getProperty( "fromAddress" );
+            fromAddress = "olsonsjc@gmail.com";//properties.getProperty( "fromAddress" );
             replyTo = properties.getProperty( "replyTo" );
             rawBody = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );
 
-            for ( String imageFilename : properties.getProperty( "images" ).split( " " ) ) {
-                File imageFile = new File( imageFilename );
-                if ( !imageFile.exists() ) {
-                    throw new FileNotFoundException( "image file not found: " + imageFilename );
-                }
-                images.add( imageFile );
-            }
+//            for ( String imageFilename : properties.getProperty( "images" ).split( " " ) ) {
+//                File imageFile = new File( imageFilename );
+//                if ( !imageFile.exists() ) {
+//                    throw new FileNotFoundException( "image file not found: " + imageFilename );
+//                }
+//                images.add( imageFile );
+//            }
         }
         catch ( FileNotFoundException e ) {
             logger.error( "message prep error: ", e );
@@ -102,12 +102,12 @@ public class NewsletterSender {
             message.setBody( body );
             message.addRecipient( user.getEmail().trim() );
             message.addReplyTo( replyTo );
-            for ( final File imageFile : images ) {
-                message.addBodyPart( new MimeBodyPart() {{
-                    setDataHandler( new DataHandler( new FileDataSource( imageFile ) ) );
-                    setHeader( "Content-ID", "<" + imageFile.getName() + ">" );
-                }} );
-            }
+//            for ( final File imageFile : images ) {
+//                message.addBodyPart( new MimeBodyPart() {{
+//                    setDataHandler( new DataHandler( new FileDataSource( imageFile ) ) );
+//                    setHeader( "Content-ID", "<" + imageFile.getName() + ">" );
+//                }} );
+//            }
             return EmailUtils.sendMessage( message );
         }
         catch ( MessagingException e ) {

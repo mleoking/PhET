@@ -114,6 +114,7 @@ public class EmailUtils {
             props.put( "password", websiteProperties.getMailPassword() );
             props.put( "mail.smtp.auth", "true" );
             props.put( "mail.smtp.starttls.enable", "true" ); //necessary if you use cu or google, otherwise you receive an error:
+            props.put("mail.smtp.port", "587");
 
             Session session = Session.getInstance( props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {

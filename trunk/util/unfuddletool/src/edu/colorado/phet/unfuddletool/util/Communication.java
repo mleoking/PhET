@@ -1,10 +1,7 @@
 package edu.colorado.phet.unfuddletool.util;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +20,8 @@ import org.w3c.dom.NodeList;
 import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.Configuration;
 import edu.colorado.phet.unfuddletool.data.DateTime;
+
+import com.sun.net.ssl.HttpsURLConnection;
 
 public class Communication {
     private Communication() {
@@ -104,7 +103,7 @@ public class Communication {
     public static String getXMLResponse( String xmlString, String location, String auth ) {
 
         //System.out.println( "Requesting " + location );
-        String ret = rawHTTPRequest( xmlString, location, auth );
+        String ret = rawHttpsRequest( xmlString, location, auth );
         //System.out.println( "Received " + location );
         return ret;
 
@@ -277,7 +276,7 @@ public class Communication {
                 System.err.println( "----------------" );
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         finally {
@@ -285,7 +284,7 @@ public class Communication {
                 try {
                     socket.close();
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
@@ -294,15 +293,65 @@ public class Communication {
         return buf.toString();
     }
 
+    private static String rawHttpsRequest( String xml, String location, String auth ) {
+        try {
+            System.setProperty( "java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol" );
+            java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
+            String uri = "https://" + Configuration.getAccountName() + ".unfuddle.com/api/v1/" + location;
+            System.out.println( "trying: " + uri );
+            URL url = new URL( uri );
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setDoInput( true );
+            connection.setDoOutput( true );
+
+            connection.setRequestMethod( "GET" );
+            HttpURLConnection.setFollowRedirects( true );
+
+            connection.setRequestProperty( "Host", Configuration.getAccountName() + ".unfuddle.com" );
+            connection.setRequestProperty( "Authorization", "Basic " + encodeAuth( auth ) );
+            connection.setRequestProperty( "Accept", "application/xml" );
+            connection.setRequestProperty( "Content-length", String.valueOf( xml.length() ) );
+            connection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+//            connection.setRequestProperty( "Content-Type", "application/xml" );
+            connection.setRequestProperty( "User-Agent", "curl/7.16.4 (i486-pc-linux-gnu) libcurl/7.16.4 OpenSSL/0.9.8e zlib/1.2.3.3 libidn/1.0" );
+            connection.setRequestProperty( "Connection", "close" );
+
+            DataOutputStream output = new DataOutputStream( connection.getOutputStream() );
+            try {
+                output.writeBytes( xml );
+            }
+            finally {
+                output.close();
+            }
+
+            System.out.println( "code: " + connection.getResponseCode() );
+            System.out.println( "message: " + connection.getResponseMessage() );
+
+            DataInputStream input = new DataInputStream( connection.getInputStream() );
+            try {
+                for ( int c = input.read(); c != -1; c = input.read() ) {
+                    System.out.print( (char) c );
+                }
+            }
+            finally {
+                input.close();
+            }
+        }
+        catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static Element getTicketElementFromServer( int id ) {
         String xmlString = Communication.getXMLResponse( "<request></request>", "projects/" + Configuration.getProjectIdString() + "/tickets/" + String.valueOf( id ), Authentication.auth );
         try {
             return (Element) Communication.toDocument( xmlString ).getFirstChild();
         }
-        catch( TransformerException e ) {
+        catch ( TransformerException e ) {
             e.printStackTrace();
         }
-        catch( ParserConfigurationException e ) {
+        catch ( ParserConfigurationException e ) {
             e.printStackTrace();
         }
 
@@ -312,6 +361,7 @@ public class Communication {
     public static void main( String[] args ) {
         Authentication.auth = args[0];
 
-        System.out.println( rawHTTPRequest( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><start-date>2009/4/9</start-date><end-date>2010/1/1</end-date><limit>50</limit></request>", "projects/9404/activity", Authentication.auth ) );
+
+        System.out.println( rawHttpsRequest( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><start-date>2009/4/9</start-date><end-date>2010/1/1</end-date><limit>50</limit></request>", "projects/9404/activity", Authentication.auth ) );
     }
 }

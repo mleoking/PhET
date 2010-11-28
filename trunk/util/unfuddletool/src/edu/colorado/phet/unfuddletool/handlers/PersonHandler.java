@@ -35,7 +35,7 @@ public class PersonHandler {
     }
 
     public void refreshPeople() {
-        String xmlString = Communication.getXMLResponse( "<request></request>", "people", Authentication.auth );
+        String xmlString = Communication.getXMLResponse( "<request></request>", "projects/9404/people", Authentication.auth );
         try {
             people.clear();
 
