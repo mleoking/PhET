@@ -47,6 +47,10 @@ public class ToSymbolProblemView extends ProblemView {
         else if ( !problem.isConfigurableProtonCount() && problem.isConfigurableMass() && !problem.isConfigurableCharge() ){
             description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_MASS );
         }
+        else if ( !problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && problem.isConfigurableCharge() ){
+            // TODO: i18n
+            description = new ProblemDescriptionNode( "What is the charge?" );
+        }
         else {
             // Should not reach this code, debug if it does.
             System.err.println( getClass().getName() + " - Error: No problem description available for specified configuration." );
