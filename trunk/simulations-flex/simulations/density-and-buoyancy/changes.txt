@@ -1,3 +1,4 @@
+Buoyancy: Fixed oil/water bug with mode switching in intro tab.
 Buoyancy: Renamed "My Object" to "My Block"
 Buoyancy: Removed "A" and "B" from "material A" in 2-block mode.
 # 1.02.06 (46084) Nov 13, 2010

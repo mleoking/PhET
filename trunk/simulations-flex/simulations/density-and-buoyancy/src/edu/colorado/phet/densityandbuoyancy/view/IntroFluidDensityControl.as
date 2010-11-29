@@ -38,6 +38,16 @@ public class IntroFluidDensityControl extends DensityHBox {
         waterButton.label = "Water";
         addChild( waterButton );
 
+        // keep radio buttons synchronized with the fluid density
+        fluidDensity.addListener( function(): void {
+            if ( fluidDensity.value == Material.OLIVE_OIL.getDensity() ) {
+                oilButton.selected = true;
+            }
+            if ( fluidDensity.value == Material.WATER.getDensity() ) {
+                waterButton.selected = true;
+            }
+        } );
+
         setStyle( "paddingTop", 10 );
     }
 }
