@@ -6,9 +6,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.control.AddWiresButtonNode;
+import edu.colorado.phet.capacitorlab.control.ConnectBatteryButtonNode;
 import edu.colorado.phet.capacitorlab.control.PlateChargeControlNode;
-import edu.colorado.phet.capacitorlab.control.RemoveWiresButtonNode;
+import edu.colorado.phet.capacitorlab.control.DisconnectBatteryButtonNode;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
@@ -40,8 +40,8 @@ public class DielectricCanvas extends CLCanvas {
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
     private final WireNode topWireNode, bottomWireNode;
-    private final AddWiresButtonNode addWiresButtonNode;
-    private final RemoveWiresButtonNode removeWiresButtonNode;
+    private final ConnectBatteryButtonNode connectBatteryButtonNode;
+    private final DisconnectBatteryButtonNode disconnectBatteryButtonNode;
     private final CurrentIndicatorNode topCurrentIndicatorNode, bottomCurrentIndicatorNode;
     
     // drag handles
@@ -80,8 +80,8 @@ public class DielectricCanvas extends CLCanvas {
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
-        addWiresButtonNode = new AddWiresButtonNode( model.getCircuit() );
-        removeWiresButtonNode = new RemoveWiresButtonNode( model.getCircuit() );
+        connectBatteryButtonNode = new ConnectBatteryButtonNode( model.getCircuit() );
+        disconnectBatteryButtonNode = new DisconnectBatteryButtonNode( model.getCircuit() );
         
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
@@ -114,8 +114,8 @@ public class DielectricCanvas extends CLCanvas {
         addChild( dielectricOffsetDragHandleNode );
         addChild( plateSeparationDragHandleNode );
         addChild( plateAreaDragHandleNode );
-        addChild( addWiresButtonNode );
-        addChild( removeWiresButtonNode );
+        addChild( connectBatteryButtonNode );
+        addChild( disconnectBatteryButtonNode );
         addChild( plateChargeControNode );
         addChild( capacitanceMeterNode );
         addChild( plateChargeMeterNode );
@@ -157,14 +157,14 @@ public class DielectricCanvas extends CLCanvas {
             bottomCurrentIndicatorNode.setOffset( x, y );
             
             // "Add Wires" button
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( addWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - addWiresButtonNode.getFullBoundsReference().getHeight() - 10;
-            addWiresButtonNode.setOffset( x, y );
+            x = topWireNode.getFullBoundsReference().getCenterX() - ( connectBatteryButtonNode.getFullBoundsReference().getWidth() / 2 );
+            y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - connectBatteryButtonNode.getFullBoundsReference().getHeight() - 10;
+            connectBatteryButtonNode.setOffset( x, y );
             
             // "Remove Wires" button
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( removeWiresButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = addWiresButtonNode.getYOffset();
-            removeWiresButtonNode.setOffset( x, y );
+            x = topWireNode.getFullBoundsReference().getCenterX() - ( disconnectBatteryButtonNode.getFullBoundsReference().getWidth() / 2 );
+            y = connectBatteryButtonNode.getYOffset();
+            disconnectBatteryButtonNode.setOffset( x, y );
             
             // Plate Charge control
             pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
@@ -245,8 +245,8 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode.setVisible( isConnected );
         bottomCurrentIndicatorNode.setVisible( isConnected );
         // visible when battery is disconnected
-        addWiresButtonNode.setVisible( !isConnected );
-        removeWiresButtonNode.setVisible( isConnected );
+        connectBatteryButtonNode.setVisible( !isConnected );
+        disconnectBatteryButtonNode.setVisible( isConnected );
         plateChargeControNode.setVisible( !isConnected );
     }
     

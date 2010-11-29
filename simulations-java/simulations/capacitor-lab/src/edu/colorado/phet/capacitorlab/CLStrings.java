@@ -15,13 +15,14 @@ public class CLStrings {
     private CLStrings() {}
     
     // simple strings
-    public static final String ADD_WIRES = getString( "addWires" );
     public static final String CAPACITANCE = getString( "capacitance" );
+    public static final String CONNECT_BATTERY = getString( "connectBattery" );
     public static final String COULOMBS = getString( "coulombs" );
     public static final String CUSTOM = getString( "custom" );
     public static final String DIELECTRIC = getString( "dielectric" );
     public static final String DIELECTRIC_CHARGES = getString( "dielectricCharges" );
     public static final String DIELECTRIC_CONSTANT = getString( "dielectricConstant" );
+    public static final String DISCONNECT_BATTERY = getString( "disconnectBattery" );
     public static final String ELECTRIC_FIELD = getString( "electricField" );
     public static final String ELECTRIC_FIELD_DETECTOR = getString( "electricFieldDetector" );
     public static final String ELECTRIC_FIELD_LINES = getString( "electricFieldLines" );
@@ -45,7 +46,6 @@ public class CLStrings {
     public static final String PLATE_CHARGE = getString( "plateCharge" );
     public static final String PLATE_CHARGES = getString( "plateCharges" );
     public static final String PLATE_CHARGE_TOP = getString( "plateChargeTop" );
-    public static final String REMOVE_WIRES = getString( "removeWires" );
     public static final String SEPARATION = getString( "separation" );
     public static final String SHOW_ALL_CHARGES= getString( "showAllCharges" );
     public static final String SHOW_EXCESS_CHARGES = getString( "showExcessCharges" );

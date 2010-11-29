@@ -15,14 +15,14 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Button that removes the wires that connect the battery to the capacitor.
+ * Button that disconnects the battery from the capacitor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RemoveWiresButtonNode extends PhetPNode {
+public class DisconnectBatteryButtonNode extends PhetPNode {
     
-    public RemoveWiresButtonNode( final BatteryCapacitorCircuit circuit ) {
-        JButton button = new JButton( CLStrings.REMOVE_WIRES );
+    public DisconnectBatteryButtonNode( final BatteryCapacitorCircuit circuit ) {
+        JButton button = new JButton( CLStrings.DISCONNECT_BATTERY );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( false );
