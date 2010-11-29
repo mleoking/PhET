@@ -50,5 +50,6 @@ MIGRATE TO PHETCOMMON
 - PolygonUtils
 - ShapeUtils
 - Dimension3D
+- BooleanPropertyCheckBox
 
 --
