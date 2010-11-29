@@ -61,7 +61,7 @@ public class InteractiveSymbolNode extends PNode {
 
         // For each property in this node, set the value to zero if it is
         // interactive or to the correct value if it is not.
-        protonCountProperty = new Property<Integer>( interactiveProtonCount ? 0 : atomValue.getProtons() );
+        protonCountProperty = new Property<Integer>( interactiveProtonCount ? 0 : atomValue.getNumProtons() );
         massProperty = new Property<Integer>( interactiveMass ? 0 : atomValue.getMassNumber() );
         chargeProperty = new Property<Integer>( interactiveCharge ? 0 :atomValue.getCharge() );
 
@@ -154,7 +154,7 @@ public class InteractiveSymbolNode extends PNode {
         interactiveProtonCountProperty.setValue( false );
         interactiveMassProperty.setValue( false );
         interactiveChargeProperty.setValue( false );
-        protonCountProperty.setValue( answer.getProtons() );
+        protonCountProperty.setValue( answer.getNumProtons() );
         massProperty.setValue( answer.getMassNumber() );
         chargeProperty.setValue( answer.getCharge() );
     }

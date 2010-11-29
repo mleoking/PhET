@@ -25,8 +25,8 @@ public abstract class CountsToQuestionView extends ToQuestionView {
     public CountsToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem,
             String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
         super( model, gameCanvas, problem, questionText, minValue, maxValue, numberFormat );
-        particleCountNode = new ParticleCountNode( problem.getAnswer().getProtons(),
-                problem.getAnswer().getNeutrons(), problem.getAnswer().getElectrons() );
+        particleCountNode = new ParticleCountNode( problem.getAnswer().getNumProtons(),
+                problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
         particleCountNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width /4 - particleCountNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - particleCountNode.getFullBounds().getHeight() / 2 );

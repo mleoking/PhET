@@ -75,9 +75,9 @@ public class SymbolToCountsView extends ProblemView {
         }
 
         public void displayAnswer( AtomValue answer ) {
-            protonGuess.setValue( answer.getProtons() );
-            electronGuess.setValue( answer.getElectrons() );
-            neutronGuess.setValue( answer.getNeutrons() );
+            protonGuess.setValue( answer.getNumProtons() );
+            electronGuess.setValue( answer.getNumElectrons() );
+            neutronGuess.setValue( answer.getNumNeutrons() );
             protonEntryPanel.setEditable( false );
             neutronEntryPanel.setEditable( false );
             electronEntryPanel.setEditable(false);

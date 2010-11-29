@@ -92,7 +92,7 @@ public class BuildAnAtomModel {
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ), clock );
 
-        for ( int i = 0; i < atomValue.getElectrons(); i++ ) {
+        for ( int i = 0; i < atomValue.getNumElectrons(); i++ ) {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
             electron.addListener( new SubatomicParticle.Adapter() {
@@ -111,7 +111,7 @@ public class BuildAnAtomModel {
             } );
         }
 
-        for ( int i = 0; i < atomValue.getProtons(); i++ ) {
+        for ( int i = 0; i < atomValue.getNumProtons(); i++ ) {
             final Proton proton = new Proton( clock );
             protons.add( proton );
             proton.addListener( new SubatomicParticle.Adapter() {
@@ -130,7 +130,7 @@ public class BuildAnAtomModel {
             } );
         }
 
-        for ( int i = 0; i < atomValue.getNeutrons(); i++ ) {
+        for ( int i = 0; i < atomValue.getNumNeutrons(); i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
             neutron.addListener( new SubatomicParticle.Adapter() {

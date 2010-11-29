@@ -331,7 +331,7 @@ public class ProblemSet {
             // Make a list of the atoms that are small enough.
             ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
             for ( AtomValue av : remainingAtomValues ){
-                if (av.getProtons() <= maxProtons){
+                if (av.getNumProtons() <= maxProtons){
                     allowableAtomValues.add( av );
                 }
             }
@@ -340,7 +340,7 @@ public class ProblemSet {
                 // add them from the list of used atoms instead.
                 System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, searching previously used atom value." );
                 for ( AtomValue av : usedAtomValues ){
-                    if (av.getProtons() <= maxProtons){
+                    if (av.getNumProtons() <= maxProtons){
                         allowableAtomValues.add( av );
                     }
                 }
@@ -367,7 +367,7 @@ public class ProblemSet {
             // Make a list of the atoms that are charged.
             ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
             for ( AtomValue av : remainingAtomValues ){
-                if ( !av.isNeutral() && av.getProtons() < maxProtons ){
+                if ( !av.isNeutral() && av.getNumProtons() < maxProtons ){
                     allowableAtomValues.add( av );
                 }
             }
@@ -376,7 +376,7 @@ public class ProblemSet {
                 // add them from the list of used atoms instead.
                 System.err.println( getClass().getName() + " - Warning: No remaining charged atoms values available, searching previously used atom value." );
                 for ( AtomValue av : usedAtomValues ){
-                    if ( !av.isNeutral() && av.getProtons() < maxProtons ){
+                    if ( !av.isNeutral() && av.getNumProtons() < maxProtons ){
                         allowableAtomValues.add( av );
                     }
                 }
