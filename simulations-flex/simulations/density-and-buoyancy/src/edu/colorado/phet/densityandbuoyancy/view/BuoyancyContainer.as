@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -16,12 +17,12 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
     protected var buoyancyCanvas: BuoyancyCanvas;
 
-    public function BuoyancyContainer( extendedPool: Boolean,showExactLiquidColor:Boolean ) {
+    public function BuoyancyContainer( extendedPool: Boolean, showExactLiquidColor: Boolean ) {
         super();
 
         addBackground();
 
-        buoyancyCanvas = new BuoyancyCanvas( this, extendedPool,showExactLiquidColor );
+        buoyancyCanvas = new BuoyancyCanvas( this, extendedPool, showExactLiquidColor );
         addChild( buoyancyCanvas );
 
 
@@ -41,38 +42,24 @@ public class BuoyancyContainer extends AbstractDBContainer {
             arrowControlPanel.addChild( label );
         }
 
-        var gravityCheckbox: CheckBox = new CheckBox();
-        gravityCheckbox.label = FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' );
-        gravityCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.setGravityForceVisible( gravityCheckbox.selected );
-        } );
-        styleForceCheckbox( gravityCheckbox, DensityConstants.GRAVITY_COLOR );
-        arrowControlPanel.addChild( gravityCheckbox );
+        function attachForceCheckbox( label: String, property: BooleanProperty, color: int ): void {
+            var checkBox: CheckBox = new CheckBox();
+            checkBox.label = label;
+            checkBox.addEventListener( MouseEvent.CLICK, function(): void {
+                property.value = checkBox.selected;
+            } );
+            property.addListener( function(): void {
+                checkBox.selected = property.value;
+            } );
+            styleForceCheckbox( checkBox, color );
+            arrowControlPanel.addChild( checkBox );
+        }
 
-        var buoyancyCheckbox: CheckBox = new CheckBox();
-        buoyancyCheckbox.selected = buoyancyCanvas.buoyantForceVisible;
-        buoyancyCheckbox.label = FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' );
-        buoyancyCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.setBuoyancyForceVisible( buoyancyCheckbox.selected );
-        } );
-        styleForceCheckbox( buoyancyCheckbox, DensityConstants.BUOYANCY_COLOR );
-        arrowControlPanel.addChild( buoyancyCheckbox );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' ), buoyancyCanvas.gravityArrowsVisible, DensityConstants.GRAVITY_COLOR );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' ), buoyancyCanvas.buoyancyArrowsVisible, DensityConstants.BUOYANCY_COLOR );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.contact', 'Contact' ), buoyancyCanvas.contactArrowsVisible, DensityConstants.CONTACT_COLOR );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.fluidDrag', 'Fluid Drag' ), buoyancyCanvas.fluidDragArrowsVisible, DensityConstants.FLUID_DRAG_COLOR );
 
-        var contactCheckbox: CheckBox = new CheckBox();
-        contactCheckbox.label = FlexSimStrings.get( 'forceArrows.contact', 'Contact' );
-        contactCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.setContactForceVisible( contactCheckbox.selected );
-        } );
-        styleForceCheckbox( contactCheckbox, DensityConstants.CONTACT_COLOR );
-        arrowControlPanel.addChild( contactCheckbox );
-
-        var fluidDragCheckbox: CheckBox = new CheckBox();
-        fluidDragCheckbox.label = FlexSimStrings.get( 'forceArrows.fluidDrag', 'Fluid Drag' );
-        fluidDragCheckbox.addEventListener( MouseEvent.CLICK, function(): void {
-            buoyancyCanvas.setFluidDragForceVisible( fluidDragCheckbox.selected );
-        } );
-        styleForceCheckbox( fluidDragCheckbox, DensityConstants.FLUID_DRAG_COLOR );
-        arrowControlPanel.addChild( fluidDragCheckbox );
         addChild( arrowControlPanel );
 
         {
