@@ -5,6 +5,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.awt.Color;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -26,8 +27,7 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
      * Constructor.
      */
     public SchematicToProtonCountQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
-        // i18n
-        super( model, gameCanvas, problem, "<html>What is the<br>proton count?", 0, 100, new DecimalFormat( "0" ) );
+        super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_PROTON_COUNT_QUESTION, 0, 100, new DecimalFormat( "0" ) );
 
         // Display the value in red.
         getQuestion().setValueColorFunction( new Function0.Constant<Color>( Color.RED ) );

@@ -48,8 +48,7 @@ public class ToSymbolProblemView extends ProblemView {
             description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_MASS );
         }
         else if ( !problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && problem.isConfigurableCharge() ){
-            // TODO: i18n
-            description = new ProblemDescriptionNode( "What is the charge?" );
+            description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_CHARGE );
         }
         else {
             // Should not reach this code, debug if it does.

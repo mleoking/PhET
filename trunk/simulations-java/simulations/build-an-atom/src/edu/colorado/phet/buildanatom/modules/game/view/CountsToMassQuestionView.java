@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -20,8 +21,7 @@ public class CountsToMassQuestionView extends CountsToQuestionView {
      * Constructor.
      */
     public CountsToMassQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
-        // i18n
-        super( model, gameCanvas, problem, "<html>What is the<br>mass number?", 0, 100, new DecimalFormat( "0" ) );
+        super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_MASS_QUESTION, 0, 100, new DecimalFormat( "0" ) );
     }
 
     @Override

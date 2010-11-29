@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -19,8 +20,7 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
      * Constructor.
      */
     public SchematicToChargeQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
-        // i18n
-        super( model, gameCanvas, problem, "<html>What is the<br>total charge?", -50, 50, new SignedIntegerFormat() );
+        super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_CHARGE_QUESTION, -50, 50, new SignedIntegerFormat() );
 
         // Cause positive charge to be colored red, negative to be blue.
         getQuestion().setValueColorFunction( new ChargeColorFunction( getGuessProperty() ) );
