@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class StoredEnergyMeter extends BarMeter {
 
     public StoredEnergyMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
-        super( world, location, visible, circuit.getCapacitor().getTotalCapacitance() );
+        super( world, location, visible, circuit.getStoredEnergy() );
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
                 setValue( circuit.getStoredEnergy() );
