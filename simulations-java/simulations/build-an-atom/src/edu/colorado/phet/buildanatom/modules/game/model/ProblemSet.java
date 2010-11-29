@@ -110,6 +110,7 @@ public class ProblemSet {
         {
             add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
+            add( ProblemType.COUNTS_TO_SYMBOL_CHARGE );
             add( ProblemType.COUNTS_TO_SYMBOL_MASS );
         }
     };
@@ -207,6 +208,9 @@ public class ProblemSet {
             break;
         case COUNTS_TO_SYMBOL_ALL:
             problem = new CountsToSymbolProblem( model, atomValue, true, true, true );
+            break;
+        case COUNTS_TO_SYMBOL_CHARGE:
+            problem = new CountsToSymbolProblem( model, atomValue, false, false, true );
             break;
         case COUNTS_TO_SYMBOL_MASS:
             problem = new CountsToSymbolProblem( model, atomValue, false, true, false );
