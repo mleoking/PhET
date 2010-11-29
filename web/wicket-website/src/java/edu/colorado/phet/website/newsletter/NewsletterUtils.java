@@ -32,6 +32,22 @@ public class NewsletterUtils {
                "<a " + HIDDEN_STYLE + " href=\"" + link + "\">" + link + "</a> or copy and paste the text into your browser.</p>";
     }
 
+    public static String getNewsletterFooter( PageContext context, String confirmationKey ) {
+        String link = getUnsubscribeLink( context, confirmationKey );
+        return "<p style=\"font-size: 12px; color: #888888; margin: 0; padding: 20px 20px 0;\">\n" +
+               "                            You received this e-mail because you signed up at our website or emailed us at\n" +
+               "                            <a style=\"font-size: 12px; color: #888888\" href=\"mailto:phethelp@colorado.edu\">phethelp@colorado.edu</a>.\n" +
+               "                            To opt out of these newsletters, please click on this link:\n" +
+               "                            <a style=\"font-size: 12px; color: #888888\"\n" +
+               "                               href=\"" + link + "\">" + link + "</a>\n" +
+               "                            or copy and paste the text into your browser.\n" +
+               "                        </p>\n" +
+               "\n" +
+               "                        <p style=\"font-size: 12px; color: #888888; margin: 0; padding: 20px;\">\n" +
+               "                            PhET Interactive Simulations | University of Colorado 390 UCB | Boulder, CO 80309-0390\n" +
+               "                        </p>";
+    }
+
     public static boolean sendConfirmSubscriptionEmail( PageContext context, String emailAddress, String confirmationKey ) {
         String confirmLink = EmailUtils.makeUrlAbsolute( ConfirmEmailLandingPage.getLinker( confirmationKey ).getRawUrl( context, PhetRequestCycle.get() ) );
 
