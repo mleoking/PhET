@@ -61,10 +61,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         add( new GravityAndOrbitsMode( "My Sun & Planet", VectorNode.FORCE_SCALE, true ) {
+            private GravityAndOrbitsMode mode;
+
             {
                 addBody( new Body( "Sun", 0, 0, FAKE_SUN_RADIUS * 2, 0, -0.045E4, FAKE_SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, true ) );
                 addBody( new Body( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, PLANET_ORBITAL_SPEED, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
                 addBody( new Body( "Moon", FAKE_MOON_INITIAL_X, 0, FAKE_MOON_RADIUS * 2, 0, FAKE_MOON_ORBITAL_SPEED, FAKE_MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                mode = this;
             }
 
             @Override
@@ -73,7 +76,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                     setLayout( new BorderLayout() );
                     setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
                     add( createRadioButton( modeProperty ), BorderLayout.WEST );
-                    add( new GOCheckBox( "Moon", getMoonProperty() ), BorderLayout.EAST );
+                    final GOCheckBox moonCheckBox = new GOCheckBox( "Moon", getMoonProperty() );
+                    add( moonCheckBox, BorderLayout.EAST );
+
+                    // moon checkbox only visible when this mode is active
+                    mode.addModeActiveListener( new SimpleObserver() {
+                        public void update() {
+                            moonCheckBox.setVisible( mode.isActive() );
+                        }
+                    } );
                 }};
             }
         } );
