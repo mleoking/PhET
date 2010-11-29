@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class BarMeter {
     
+    private final BatteryCapacitorCircuit circuit;
     private final World world;
     
     // observable properties
@@ -20,11 +22,13 @@ public abstract class BarMeter {
     private final Property<Boolean> visibleProperty;
     private final Property<Double> valueProperty;
 
-    public BarMeter( final World world, Point3D location, boolean visible, double value ) {
+    public BarMeter( final BatteryCapacitorCircuit circuit, final World world, Point3D location, boolean visible ) {
+        
+        this.circuit = circuit;
         this.world = world;
         this.locationProperty = new Property<Point3D>( new Point3D.Double( location ) );
         this.visibleProperty = new Property<Boolean>( visible );
-        this.valueProperty = new Property<Double>( value );
+        this.valueProperty = new Property<Double>( getCircuitValue() );
         
         // constrain location to world bounds
         world.addBoundsObserver( new SimpleObserver() {
@@ -32,6 +36,22 @@ public abstract class BarMeter {
                 setLocation( getLocationReference() );
             }
         });
+        
+        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+            public void circuitChanged() {
+                setValue( getCircuitValue() );
+            }
+        });
+    }
+    
+    /**
+     * Subclasses implement this to get the value being measured from the circuit.
+     * @return
+     */
+    protected abstract double getCircuitValue();
+    
+    protected BatteryCapacitorCircuit getCircuit() {
+        return circuit;
     }
     
     public void reset() {
