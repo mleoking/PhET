@@ -1,3 +1,4 @@
+Buoyancy: Renamed "My Object" to "My Block"
 Buoyancy: Removed "A" and "B" from "material A" in 2-block mode.
 # 1.02.06 (46084) Nov 13, 2010
 Buoyancy: Fixed: On the first tab, when the user selects the 'oil' radio button, the fluid should visually change color
