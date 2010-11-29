@@ -16,6 +16,7 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
  * <li>the dielectric is not visible
  * <li>the dielectric controls are not visible
  * <li>the dielectric is fully outside the capacitor at all times
+ * <li>the E-Field Detector is simplified (fewer controls, fewer vectors visible)
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
