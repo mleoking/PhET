@@ -218,8 +218,13 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         }
     }
 
-    public void setShowVectorsPanelVisible( boolean visible ) {
-        showVectorsPSwing.setVisible( visible );
+    /**
+     * Calling this with true provides a simplified E-Field detector, with fewer controls.
+     * @param simplified
+     */
+    public void setSimplified( boolean simplified ) {
+        showVectorsPSwing.setVisible( !simplified );
+        vectorDisplayNode.setSimplified( simplified );
     }
 
     public Point2D getConnectionOffset() {
@@ -312,6 +317,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
         private double zoomMultiplier;
+        private boolean simplified;
 
         public VectorDisplayNode( final EFieldDetector detector ) {
 
@@ -321,6 +327,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             
             this.detector = detector;
             zoomMultiplier = 1;
+            simplified = false;
 
             // vectors
             plateVectorNode = new FieldVectorNode( CLPaints.PLATE_EFIELD_VECTOR );
@@ -380,6 +387,17 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             updateLayout();
         }
         
+        /**
+         * When the vector display is simplified, only the Plate vector is shown.
+         * @param simplified
+         */
+        public void setSimplified( boolean simplified ) {
+            if ( simplified != this.simplified ) {
+                this.simplified = simplified;
+                updateVisibility();
+            }
+        }
+        
         public void zoomIn() {
             zoomMultiplier *= ZOOM_FACTOR;
             updateVectors();
@@ -410,13 +428,13 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             plateValueNode.setVisible( detector.isPlateVisible() );
             plateValueNode.setValueVisible( detector.isValuesVisible() );
             
-            dielectricVectorNode.setVisible( detector.isDielectricVisible() );
-            dielectricValueNode.setVisible( detector.isDielectricVisible() );
-            dielectricValueNode.setValueVisible( detector.isValuesVisible() );
+            dielectricVectorNode.setVisible( detector.isDielectricVisible() && !simplified );
+            dielectricValueNode.setVisible( detector.isDielectricVisible() && !simplified );
+            dielectricValueNode.setValueVisible( detector.isValuesVisible() && !simplified );
             
-            sumVectorNode.setVisible( detector.isSumVectorVisible() );
-            sumValueNode.setVisible( detector.isSumVectorVisible() );
-            sumValueNode.setValueVisible( detector.isValuesVisible() );
+            sumVectorNode.setVisible( detector.isSumVectorVisible() && !simplified );
+            sumValueNode.setVisible( detector.isSumVectorVisible() && !simplified );
+            sumValueNode.setValueVisible( detector.isValuesVisible() && !simplified );
             
             updateLayout();
         }

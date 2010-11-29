@@ -57,7 +57,7 @@ public class EFieldDetectorView {
         return wireNode;
     }
     
-    public void setShowVectorsPanelVisible( boolean visible ) {
-        bodyNode.setShowVectorsPanelVisible( visible );
+    public void setSimplified( boolean simplified ) {
+        bodyNode.setSimplified( simplified );
     }
 }
