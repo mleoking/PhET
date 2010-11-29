@@ -26,7 +26,7 @@ public class WireNode extends PComposite {
 
     public WireNode( final Wire wire, final CLModelViewTransform3D mvt ) {
         
-        final PPath pathNode = new PhetPPath( mvt.modelToView( wire.getShape() ), WIRE_FILL_COLOR, WIRE_STROKE, WIRE_STROKE_COLOR );
+        final PPath pathNode = new PhetPPath( wire.getShape(), WIRE_FILL_COLOR, WIRE_STROKE, WIRE_STROKE_COLOR );
         addChild( pathNode );
         
         wire.addShapeObserver( new SimpleObserver() {

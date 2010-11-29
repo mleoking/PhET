@@ -176,16 +176,12 @@ public class Wire {
          */
         @Override
         protected Shape createShape() {
-            Shape shape = null;
             Shape wireShape = super.createShape();
             // HACK: null check required because createShape is called in the superclass constructor.
-            if ( battery == null || capacitor == null ) {
-                shape = wireShape;
+            if ( battery != null && capacitor != null ) {
+                wireShape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
             }
-            else {
-                shape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
-            }
-            return shape;
+            return wireShape;
         }
     }
 }
