@@ -1,3 +1,4 @@
+Fixed: Issue where charge was not updated when electrons were removed from outer shell.
 Fixed: Issue where charge and mass indicators were not reading correctly until something was added to the atom.
 # 1.00.12 (46503) Nov 23, 2010
 11/23/10 Deploying to dev for interviews on new game problems.
