@@ -1,4 +1,4 @@
-11/29/10 set default exponents on bar meters to be appropriate for startup configuration
+11/29/10 set default exponents on bar meters to be appropriate for startup configuration (10^-13 for all meters)
 11/29/10 move duplicated functionality into BarMeter base class
 11/29/10 fix: initialize Plate Charge meter and Stored Energy meter to correct values at startup
 11/29/10 decided that current "1/n" behavior of dielectric charge spacing is OK, test in interviews
