@@ -180,21 +180,10 @@ public class ProblemSet {
         AtomValue atomValue;
         if ( isSchematicProbType( problemType ) ) {
             // Need to limit size of atom value.
-            if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION || problemType == ProblemType.COUNTS_TO_CHARGE_QUESTION ){
-                // Should only choose a charged atom.
-                atomValue = availableAtomValues.getRandomChargedAtomValue( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
-            }
-            else{
-                atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
-            }
+            atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
         }
-        else { // There are no constraints on the size of the atom.
-            if ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ){
-                atomValue = availableAtomValues.getRandomChargedAtomValue( Integer.MAX_VALUE );
-            }
-            else{
-                atomValue = availableAtomValues.getRandomAtomValue();
-            }
+        else{
+            atomValue = availableAtomValues.getRandomAtomValue();
         }
         availableAtomValues.removeAtomValue( atomValue );
         return createProblem( model, problemType, atomValue );
@@ -360,6 +349,11 @@ public class ProblemSet {
          * Get an atom value from the pool that is charged, i.e. non-neutral.  If
          * no such atoms are on the list of available remaining ones, choose one
          * from the list of used atoms.
+         *
+         * TODO: By request of the Chem Team, the constraint of asking questions
+         * about charge only for charged atoms has been removed as of 11/29/2010.
+         * If this decision becomes permanent, the following routine can and
+         * should be removed.
          */
         public AtomValue getRandomChargedAtomValue( int maxProtons ){
 
