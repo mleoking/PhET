@@ -1,3 +1,4 @@
+11/29/10 decided that current "1/n" behavior of dielectric charge spacing is OK, test in interviews
 11/29/10 combine connect/disconnect battery buttons into one button, left justify with battery
 11/29/10 change "Add/Remove Wires" to "Connect/Disconnect Battery"
 11/29/10 fix: Plate Charge bar and overload indicator should be filled with blue when battery polarity flips
