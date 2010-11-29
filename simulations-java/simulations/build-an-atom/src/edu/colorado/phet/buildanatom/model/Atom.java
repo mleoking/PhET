@@ -67,10 +67,10 @@ public class Atom extends SimpleAtom {
         //to decide when an outer electron should fall
         electronShell1.addObserver( electronShellChangeObserver );
 
-        //Need to notify our observers when the number of electrons changes
+        // Need to watch for changes to the number of electrons.
         final SimpleObserver electronChangeAdapter = new SimpleObserver() {
             public void update() {
-                notifyObservers();
+                setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
             }
         };
         electronShell1.addObserver( electronChangeAdapter );
