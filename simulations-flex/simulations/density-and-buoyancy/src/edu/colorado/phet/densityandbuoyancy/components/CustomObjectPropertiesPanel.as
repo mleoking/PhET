@@ -60,7 +60,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             if ( comboBox.selectedItem.isCustom() ) {
                 if ( !densityObject.material.isCustom() ) {
                     // TODO: is customObject.cusom currently used? there is material.custom!
-                    densityObject.material = new Material( FlexSimStrings.get( "customObject.custom", "My Object" ), densityObject.density, true );
+                    densityObject.material = new Material( FlexSimStrings.get( "customObject.custom", "My Block" ), densityObject.density, true );
                 }
             }
             else {
