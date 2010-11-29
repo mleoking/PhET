@@ -15,6 +15,7 @@ DESIGN ISSUES
 - charge spacing moves too quickly when voltage gets close to zero due to 1/n scaling algorithm
 
 HIGH PRIORITY
+- collapse connect/disconnect battery buttons into one button
 - Plate Charge meter is initialized to incorrect value at startup
 - Stored Energy meter is initialized to incorrect value at startup
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
