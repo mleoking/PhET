@@ -16,7 +16,6 @@ DESIGN ISSUES
 HIGH PRIORITY
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - hack in BottomWire.createShape
-- E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - regression test to see what's broken
 - test for colorblind issues

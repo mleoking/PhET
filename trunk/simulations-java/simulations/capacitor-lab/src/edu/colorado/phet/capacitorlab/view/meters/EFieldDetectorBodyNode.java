@@ -219,7 +219,8 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     }
 
     /**
-     * Calling this with true provides a simplified E-Field detector, with fewer controls.
+     * Calling this with true provides a simplified E-Field detector, 
+     * with fewer controls and fewer visible vectors.
      * @param simplified
      */
     public void setSimplified( boolean simplified ) {
@@ -446,7 +447,12 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
             // vectors
             {
-                final double xSpacing = this.getBoundsReference().getWidth() / 4; // horizontal spacing between plate and dielectric vector centers
+                /*
+                 * Horizontal spacing between plate and dielectric vector centers.
+                 * This is zero for the simplified case, since only the Plate vector
+                 * is visible, and we want it to be horizontally centered in the display.
+                 */
+                final double xSpacing = simplified ? 0 : this.getBoundsReference().getWidth() / 4;
 
                 // plate vector is vertically centered
                 x = this.getBoundsReference().getCenterX() - xSpacing;
