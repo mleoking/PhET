@@ -1,3 +1,4 @@
+Buoyancy: Fixed reset all on intro tab: it was not resetting all content of other modes                                      
 Buoyancy: Fixed vector force checkboxes on reset
 Buoyancy: Requested feature to keep whatever fluid was selected in intro tab
 Buoyancy: Fixed oil/water bug with mode switching in intro tab.
