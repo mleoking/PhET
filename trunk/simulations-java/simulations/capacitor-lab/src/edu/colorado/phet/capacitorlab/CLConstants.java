@@ -118,8 +118,8 @@ public class CLConstants {
     
     // default exponents for the meters
     public static final int CAPACITANCE_METER_VALUE_EXPONENT = -13;
-    public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -10;
-    public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -10;
+    public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -13;
+    public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -13;
     
     // plate charges
     public static final boolean PLATE_CHARGES_VISIBLE = true; 
