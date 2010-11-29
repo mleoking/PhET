@@ -219,8 +219,8 @@ public class DielectricCanvas extends CLCanvas {
         return eFieldDetector;
     }
     
-    public void setEFieldDetectorShowVectorsPanelVisible( boolean visible ) {
-        eFieldDetector.setShowVectorsPanelVisible( visible );
+    public void setEFieldDetectorSimplified( boolean simplified ) {
+        eFieldDetector.setSimplified( simplified );
     }
     
     public void setDielectricVisible( boolean visible ) {
