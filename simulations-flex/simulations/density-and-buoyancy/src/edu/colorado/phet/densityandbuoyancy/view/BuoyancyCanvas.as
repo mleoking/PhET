@@ -58,6 +58,11 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     override public function resetAll(): void {
         super.resetAll();
+        sameMassMode.reset();
+        sameVolumeMode.reset();
+        sameDensityMode.reset();
+        playgroundModes.reset();
+
         defaultMode.reset();
         switchToDefaultMode();
         vectorValuesVisible.reset();
