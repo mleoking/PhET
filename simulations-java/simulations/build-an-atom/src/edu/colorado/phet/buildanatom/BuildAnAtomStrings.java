@@ -184,6 +184,10 @@ public class BuildAnAtomStrings {
     public static final String GAME_COMPLETE_THE_SYMBOL_ALL = getString( "game.completeTheSymbol" );
     public static final String GAME_COMPLETE_THE_SYMBOL_PROTON_COUNT = getString( "game.howManyProtons" );
     public static final String GAME_COMPLETE_THE_SYMBOL_MASS = getString( "game.whatIsTheMassNumber" );
+    public static final String GAME_COMPLETE_THE_SYMBOL_CHARGE = getString( "game.whatIsTheTotalCharge" );
+    public static final String GAME_ANSWER_THE_CHARGE_QUESTION = getString( "game.whatIsTheTotalChargeBr" );
+    public static final String GAME_ANSWER_THE_MASS_QUESTION = getString( "game.whatIsTheMassNumberBr" );
+    public static final String GAME_ANSWER_THE_PROTON_COUNT_QUESTION = getString( "game.howManyProtons" );
     public static final String GAME_NEUTRAL_ATOM = getString( "game.neutralAtom" );
     public static final String GAME_ION = getString( "game.ion" );
     public static final String IS_IT = getString( "game.isIt");
