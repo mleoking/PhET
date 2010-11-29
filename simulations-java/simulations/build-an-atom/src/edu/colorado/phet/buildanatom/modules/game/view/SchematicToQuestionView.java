@@ -31,6 +31,9 @@ public abstract class SchematicToQuestionView extends ToQuestionView {
             setPickable( false );
             setChildrenPickable( false );
         }};
+
+        // For this type of problem view, the check button is enabled right away.
+        enableCheckButton();
     }
 
     @Override
