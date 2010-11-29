@@ -6,9 +6,7 @@ QUESTIONS FOR NOAH
 - colorblind issues?
 
 NOAH P ACTION ITEMS
-- need a different label for "Add/Remove Wires", not appropriate in Multiple Capacitors
 - need a different check box and label for "Plate Charge" and "Plate Charge (top)" meter, not appropriate in Multiple Capacitors
-- any problems with "Capacitance" or "Stored Energy" meter labels for Multiple Capacitors? 
 - review Multiple Capacitors tab design and decide which features are unnecessary (Remove Wires, E-Field Lines, E-Field Detector)
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
 
@@ -17,6 +15,11 @@ DESIGN ISSUES
 - charge spacing moves too quickly when voltage gets close to zero due to 1/n scaling algorithm
 
 HIGH PRIORITY
+- change "Add/Remove Wires" to "Connect/Disconnect Battery"
+- Plate Charge meter should be filled with blue when battery polarity flips
+- Plate Charge meter overload indicator doesn't change color when battery polarity flips
+- Plate Charge meter is initialized to incorrect value at startup
+- Stored Energy meter is initialized to incorrect value at startup
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - hack in BottomWire.createShape
 - E-field detector for Intro tab: shrink width of vector display area, horizontally center Plate vector
