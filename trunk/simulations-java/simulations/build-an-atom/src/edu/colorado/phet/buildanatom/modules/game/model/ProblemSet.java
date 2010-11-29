@@ -3,7 +3,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -21,6 +20,7 @@ public class ProblemSet {
     public static final Random RAND = new Random();
 
     private final ArrayList<Problem> problems = new ArrayList<Problem>();
+    private ArrayList<ProblemType> availableProblemTypes = new ArrayList<ProblemType>();
     private int currentProblemIndex = 0;
 
     /**
@@ -47,9 +47,6 @@ public class ProblemSet {
                 addProblem( problem );
             }
         }
-
-        // Radomize the order of the problems within the set.
-        Collections.shuffle( problems );
 
         if (problems.size() == 0){
             System.err.println( getClass().getName() + " - Warning: Empty problem set, probably due to developer dialog settings." );
@@ -161,13 +158,16 @@ public class ProblemSet {
      */
     private Problem generateProblem( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ) {
 
-        // Get a list of all possible problem types for the current level.
-        ArrayList<ProblemType> possibleProbTypes = mapLevelToProbTypes.get( model.getLevelProperty().getValue() );
+        if ( availableProblemTypes.size() == 0 ){
+            // Reload the list of available problems with all possible problem
+            // types for the current level.
+            availableProblemTypes.addAll( mapLevelToProbTypes.get( model.getLevelProperty().getValue() ) );
 
-        // Filter the prob types based on the developer dialog setting.
-        possibleProbTypes = filterProblemTypes( possibleProbTypes );
+            // Filter the prob types based on the developer dialog setting.
+            availableProblemTypes = filterProblemTypes( availableProblemTypes );
+        }
 
-        if ( possibleProbTypes.size() == 0 ) {
+        if ( availableProblemTypes.size() == 0 ) {
             // There are no problem types enabled that match this level's
             // constraints.
             System.err.println( getClass().getName() + " - Warning: No problem types enabled for level " + model.getLevelProperty().getValue() );
@@ -175,7 +175,11 @@ public class ProblemSet {
         }
 
         // Randomly pick a problem type.
-        ProblemType problemType = possibleProbTypes.get( RAND.nextInt( possibleProbTypes.size() ) );
+        ProblemType problemType = availableProblemTypes.get( RAND.nextInt( availableProblemTypes.size() ) );
+
+        // Remove the chosen type from the list.  By doing this, we present
+        // the user with all different problem types before starting again.
+        availableProblemTypes.remove( problemType );
 
         // Pick an atom value from the list of those remaining.  This is where
         // constraints between problem types and atom values are handled.
