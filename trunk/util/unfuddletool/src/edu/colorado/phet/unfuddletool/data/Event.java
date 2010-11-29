@@ -144,6 +144,7 @@ public class Event {
     }
 
     public String getPersonName() {
+        if ( getPerson() == null ) { return null; }
         return getPerson().getName();
     }
 }
