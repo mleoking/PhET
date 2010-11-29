@@ -108,6 +108,7 @@ public class ProblemSet {
     };
     private static final ArrayList<ProblemType> LEVEL_3_ALLOWED_PROB_TYPES = new ArrayList<ProblemType>() {
         {
+            add( ProblemType.SCHEMATIC_TO_SYMBOL_CHARGE );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
             add( ProblemType.COUNTS_TO_SYMBOL_CHARGE );
@@ -233,6 +234,9 @@ public class ProblemSet {
         case SCHEMATIC_TO_SYMBOL_ALL:
             problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
             break;
+        case SCHEMATIC_TO_SYMBOL_CHARGE:
+            problem = new SchematicToSymbolProblem( model, atomValue, false, false, true );
+            break;
         case SCHEMATIC_TO_SYMBOL_MASS:
             problem = new SchematicToSymbolProblem( model, atomValue, false, true, false );
             break;
@@ -266,6 +270,7 @@ public class ProblemSet {
                  problemType == ProblemType.SCHEMATIC_TO_PROTON_COUNT_QUESTION ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ||
+                 problemType == ProblemType.SCHEMATIC_TO_SYMBOL_CHARGE ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_MASS ||
                  problemType == ProblemType.SYMBOL_TO_SCHEMATIC );
     }

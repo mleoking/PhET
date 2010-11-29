@@ -29,6 +29,7 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
     private final ArrayList<ProblemTypeCheckBox> checkBoxList = new ArrayList<ProblemTypeCheckBox>() {{
         add( new ProblemTypeCheckBox( "Schematic To Symbol All Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_ALL ) );
+        add( new ProblemTypeCheckBox( "Schematic To Symbol Charge Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_CHARGE ) );
         add( new ProblemTypeCheckBox( "Schematic To Symbol Mass Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_MASS ) );
         add( new ProblemTypeCheckBox( "Schematic To Symbol Proton Count Problem Allowed", ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ) );
         add( new ProblemTypeCheckBox( "Schematic To Element Problem Allowed", ProblemType.SCHEMATIC_TO_ELEMENT ) );
