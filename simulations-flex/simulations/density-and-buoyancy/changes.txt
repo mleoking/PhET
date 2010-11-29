@@ -1,3 +1,4 @@
+Buoyancy: Removed "A" and "B" from "material A" in 2-block mode.
 # 1.02.06 (46084) Nov 13, 2010
 Buoyancy: Fixed: On the first tab, when the user selects the 'oil' radio button, the fluid should visually change color
 Buoyancy: moved "oil" radio button to be before "water" radio button, to have the same ordering as on the slider in the 2nd tab
