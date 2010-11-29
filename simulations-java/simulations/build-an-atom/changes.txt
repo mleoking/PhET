@@ -1,3 +1,5 @@
+Changed the problems that contain spinners such that the "Check" button is enabled right away.  This allows the user to guess a value of 0.
+Removed problem types with symbol on left side from level 3.
 Fixed: Issue where charge was not updated when electrons were removed from outer shell.
 Fixed: Issue where charge and mass indicators were not reading correctly until something was added to the atom.
 # 1.00.12 (46503) Nov 23, 2010
