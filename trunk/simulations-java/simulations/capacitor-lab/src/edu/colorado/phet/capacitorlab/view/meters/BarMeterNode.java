@@ -280,12 +280,12 @@ public abstract class BarMeterNode extends PhetPNode {
         }
     }
     
-    /*
+    /**
      * Sets the value displayed by the meter.
      * Updates the bar and the value below the meter.
      * @param value
      */
-    private void setValue( double value ) {
+    protected void setValue( double value ) {
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
@@ -329,6 +329,7 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     protected void setBarColor( Color color ) {
         barNode.setPaint( color );
+        overloadIndicatorNode.setArrowFillColor( color );
     }
     
     /*
@@ -457,6 +458,7 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private static class OverloadIndicatorNode extends PComposite {
         
+        private final ArrowNode arrowNode;
         private double value, maxValue;
         
         public OverloadIndicatorNode( Color fillColor, double maxValue, double value ) {
@@ -469,7 +471,7 @@ public abstract class BarMeterNode extends PhetPNode {
             double headHeight = 0.6 * OVERLOAD_INDICATOR_HEIGHT;
             double headWidth = OVERLOAD_INDICATOR_WIDTH;
             double tailWidth = headWidth / 2;
-            ArrowNode arrowNode = new ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
+            arrowNode = new ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
             arrowNode.setPaint( fillColor );
             addChild( arrowNode );
             
@@ -488,6 +490,10 @@ public abstract class BarMeterNode extends PhetPNode {
                 this.maxValue = maxValue;
                 update();
             }
+        }
+        
+        public void setArrowFillColor( Color color ) {
+            arrowNode.setPaint( color );
         }
         
         private void update() {

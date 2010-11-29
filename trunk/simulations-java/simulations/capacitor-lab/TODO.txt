@@ -16,8 +16,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - change "Add/Remove Wires" to "Connect/Disconnect Battery"
-- Plate Charge meter should be filled with blue when battery polarity flips
-- Plate Charge meter overload indicator doesn't change color when battery polarity flips
 - Plate Charge meter is initialized to incorrect value at startup
 - Stored Energy meter is initialized to incorrect value at startup
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns

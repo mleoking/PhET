@@ -29,4 +29,9 @@ public class PlateChargeMeterNode extends BarMeterNode {
             }
         } );
     }
+    
+    @Override
+    protected void setValue( double value ) {
+        super.setValue( Math.abs( value ) );
+    }
 }

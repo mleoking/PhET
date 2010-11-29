@@ -16,7 +16,7 @@ public class PlateChargeMeter extends BarMeter {
         super( world, location, visible, circuit.getCapacitor().getTotalCapacitance() );
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
-                setValue( Math.abs( circuit.getTotalPlateCharge() ) );
+                setValue( circuit.getTotalPlateCharge() );
             }
         });
     }
