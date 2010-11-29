@@ -39,6 +39,9 @@ public class SymbolToCountsView extends ProblemView {
         });
 
         description.centerAbove(multiEntryPanel);
+
+        // For this problem view, the check button is enabled right away.
+        enableCheckButton();
     }
 
     public static class MultiEntryPanel extends PNode{
