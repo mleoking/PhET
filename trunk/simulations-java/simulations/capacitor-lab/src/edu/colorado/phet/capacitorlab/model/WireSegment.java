@@ -30,6 +30,10 @@ public class WireSegment {
         startPointProperty.addObserver( o );
     }
     
+    public void removeStartPointObserver( SimpleObserver o ) {
+        startPointProperty.removeObserver( o );
+    }
+    
     public Point2D getStartPoint() {
         return new Point2D.Double( startPointProperty.getValue().getX(), startPointProperty.getValue().getY() );
     }
@@ -40,6 +44,10 @@ public class WireSegment {
 
     public void addEndPointObserver( SimpleObserver o ) {
         endPointProperty.addObserver( o );
+    }
+    
+    public void removeEndPointObserver( SimpleObserver o ) {
+        endPointProperty.removeObserver( o );
     }
     
     public Point2D getEndPoint() {

@@ -30,6 +30,7 @@ public class Wire {
     private final ArrayList<WireSegment> segments;
     private final double thickness;
     private final WireShapeFactory shapeFactory;
+    private final SimpleObserver segmentObserver;
 
     // observable properties
     private final Property<Shape> shapeProperty; // Shape in view coordinates!
@@ -48,15 +49,31 @@ public class Wire {
 
         // when any segment changes, update the shape property
         {
-            SimpleObserver o = new SimpleObserver() {
+            segmentObserver = new SimpleObserver() {
                 public void update() {
                     setShape( createShape() );
                 }
             };
             for ( WireSegment segment : segments ) {
-                segment.addStartPointObserver( o );
-                segment.addEndPointObserver( o );
+                segment.addStartPointObserver( segmentObserver );
+                segment.addEndPointObserver( segmentObserver );
             }
+        }
+    }
+    
+    public void addSegment( WireSegment segment ) {
+        if ( !segments.contains( segment ) ) {
+            segments.add( segment );
+            segment.addStartPointObserver( segmentObserver );
+            segment.addEndPointObserver( segmentObserver );
+        }
+    }
+    
+    public void removeSegment( WireSegment segment ) {
+        if ( segments.contains( segment ) ) {
+            segments.remove( segment );
+            segment.removeStartPointObserver( segmentObserver );
+            segment.removeEndPointObserver( segmentObserver );
         }
     }
 

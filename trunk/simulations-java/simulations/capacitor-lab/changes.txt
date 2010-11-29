@@ -1,3 +1,4 @@
+11/29/10 add Wire.addSegment and removeSegment (thinking ahead to circuit construction)
 11/29/10 for Intro tab, center the Plate vector in the E-Field Detector's display area
 11/29/10 change EFieldDetectorBodyNode.setShowVectorsPanelVisible to setSimplified
 11/29/10 set default exponents on bar meters to be appropriate for startup configuration (10^-13 for all meters)
