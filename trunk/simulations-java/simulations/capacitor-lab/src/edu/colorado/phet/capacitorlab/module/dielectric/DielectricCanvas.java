@@ -6,9 +6,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.control.ConnectBatteryButtonNode;
+import edu.colorado.phet.capacitorlab.control.BatteryConnectionButtonNode;
 import edu.colorado.phet.capacitorlab.control.PlateChargeControlNode;
-import edu.colorado.phet.capacitorlab.control.DisconnectBatteryButtonNode;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
@@ -40,8 +39,7 @@ public class DielectricCanvas extends CLCanvas {
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
     private final WireNode topWireNode, bottomWireNode;
-    private final ConnectBatteryButtonNode connectBatteryButtonNode;
-    private final DisconnectBatteryButtonNode disconnectBatteryButtonNode;
+    private final BatteryConnectionButtonNode batteryConnectionButtonNode;
     private final CurrentIndicatorNode topCurrentIndicatorNode, bottomCurrentIndicatorNode;
     
     // drag handles
@@ -80,8 +78,7 @@ public class DielectricCanvas extends CLCanvas {
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
-        connectBatteryButtonNode = new ConnectBatteryButtonNode( model.getCircuit() );
-        disconnectBatteryButtonNode = new DisconnectBatteryButtonNode( model.getCircuit() );
+        batteryConnectionButtonNode = new BatteryConnectionButtonNode( model.getCircuit() );
         
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
@@ -114,8 +111,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( dielectricOffsetDragHandleNode );
         addChild( plateSeparationDragHandleNode );
         addChild( plateAreaDragHandleNode );
-        addChild( connectBatteryButtonNode );
-        addChild( disconnectBatteryButtonNode );
+        addChild( batteryConnectionButtonNode );
         addChild( plateChargeControNode );
         addChild( capacitanceMeterNode );
         addChild( plateChargeMeterNode );
@@ -156,15 +152,10 @@ public class DielectricCanvas extends CLCanvas {
             y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             bottomCurrentIndicatorNode.setOffset( x, y );
             
-            // "Add Wires" button
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( connectBatteryButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - connectBatteryButtonNode.getFullBoundsReference().getHeight() - 10;
-            connectBatteryButtonNode.setOffset( x, y );
-            
-            // "Remove Wires" button
-            x = topWireNode.getFullBoundsReference().getCenterX() - ( disconnectBatteryButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = connectBatteryButtonNode.getYOffset();
-            disconnectBatteryButtonNode.setOffset( x, y );
+            // Connect/Disconnect Battery button
+            x = batteryNode.getFullBoundsReference().getMinX();
+            y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - batteryConnectionButtonNode.getFullBoundsReference().getHeight() - 10;
+            batteryConnectionButtonNode.setOffset( x, y );
             
             // Plate Charge control
             pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
@@ -245,8 +236,6 @@ public class DielectricCanvas extends CLCanvas {
         topCurrentIndicatorNode.setVisible( isConnected );
         bottomCurrentIndicatorNode.setVisible( isConnected );
         // visible when battery is disconnected
-        connectBatteryButtonNode.setVisible( !isConnected );
-        disconnectBatteryButtonNode.setVisible( isConnected );
         plateChargeControNode.setVisible( !isConnected );
     }
     
