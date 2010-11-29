@@ -80,7 +80,6 @@ public class DensityModel {
 
     public function teardown(): void {
         clearDensityObjects();
-        fluidDensity.reset();
     }
 
     public function clearDensityObjects(): void {
