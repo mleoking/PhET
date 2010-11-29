@@ -1,7 +1,10 @@
 package edu.colorado.phet.unfuddletool.util;
 
 import java.io.*;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +15,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,7 +28,6 @@ import edu.colorado.phet.unfuddletool.Authentication;
 import edu.colorado.phet.unfuddletool.Configuration;
 import edu.colorado.phet.unfuddletool.data.DateTime;
 
-import com.sun.net.ssl.HttpsURLConnection;
 
 public class Communication {
     private Communication() {
@@ -295,47 +301,38 @@ public class Communication {
 
     private static String rawHttpsRequest( String xml, String location, String auth ) {
         try {
-            System.setProperty( "java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol" );
-            java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
-            String uri = "https://" + Configuration.getAccountName() + ".unfuddle.com/api/v1/" + location;
-            System.out.println( "trying: " + uri );
-            URL url = new URL( uri );
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoInput( true );
-            connection.setDoOutput( true );
+            String uri = "https://phet.unfuddle.com/api/v1/" + location;
 
-            connection.setRequestMethod( "GET" );
-            HttpURLConnection.setFollowRedirects( true );
+            org.apache.http.client.HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget = new HttpGet( uri );
+            httpget.addHeader( "Authorization", "Basic " + encodeAuth( auth ) );
+            httpget.addHeader( "Accept", "application/xml" );
+            httpget.addHeader( "User-Agent", "curl/7.16.4 (i486-pc-linux-gnu) libcurl/7.16.4 OpenSSL/0.9.8e zlib/1.2.3.3 libidn/1.0" );
 
-            connection.setRequestProperty( "Host", Configuration.getAccountName() + ".unfuddle.com" );
-            connection.setRequestProperty( "Authorization", "Basic " + encodeAuth( auth ) );
-            connection.setRequestProperty( "Accept", "application/xml" );
-            connection.setRequestProperty( "Content-length", String.valueOf( xml.length() ) );
-            connection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
-//            connection.setRequestProperty( "Content-Type", "application/xml" );
-            connection.setRequestProperty( "User-Agent", "curl/7.16.4 (i486-pc-linux-gnu) libcurl/7.16.4 OpenSSL/0.9.8e zlib/1.2.3.3 libidn/1.0" );
-            connection.setRequestProperty( "Connection", "close" );
+            StringBuilder buf = new StringBuilder();
 
-            DataOutputStream output = new DataOutputStream( connection.getOutputStream() );
             try {
-                output.writeBytes( xml );
-            }
-            finally {
-                output.close();
-            }
+                System.out.println( "executing: " + httpget.getRequestLine() );
+                HttpResponse response = httpclient.execute( httpget );
+                System.out.println( response.getStatusLine() );
+                System.out.println( response.getEntity().getContentLength() );
 
-            System.out.println( "code: " + connection.getResponseCode() );
-            System.out.println( "message: " + connection.getResponseMessage() );
-
-            DataInputStream input = new DataInputStream( connection.getInputStream() );
-            try {
-                for ( int c = input.read(); c != -1; c = input.read() ) {
-                    System.out.print( (char) c );
+                BufferedReader in = new BufferedReader( new InputStreamReader( response.getEntity().getContent() ) );
+                try {
+                    String line;
+                    while ( ( line = in.readLine() ) != null ) {
+                        buf.append( line ).append( "\n" );
+                    }
+                }
+                finally {
+                    in.close();
                 }
             }
             finally {
-                input.close();
+                //httpclient.getConnectionManager().shutdown();
             }
+
+            return buf.toString();
         }
         catch ( Exception e ) {
             e.printStackTrace();
@@ -360,7 +357,6 @@ public class Communication {
 
     public static void main( String[] args ) {
         Authentication.auth = args[0];
-
 
         System.out.println( rawHttpsRequest( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><request><start-date>2009/4/9</start-date><end-date>2010/1/1</end-date><limit>50</limit></request>", "projects/9404/activity", Authentication.auth ) );
     }
