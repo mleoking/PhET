@@ -48,7 +48,7 @@ public class NewsletterSender {
                 in.close();
             }
             subject = properties.getProperty( "subject" );
-            fromAddress = "olsonsjc@gmail.com";//properties.getProperty( "fromAddress" );
+            fromAddress = properties.getProperty( "fromAddress" );
             replyTo = properties.getProperty( "replyTo" );
             rawBody = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );
 
