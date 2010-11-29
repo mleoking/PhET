@@ -110,7 +110,6 @@ public class ProblemSet {
         {
             add( ProblemType.SCHEMATIC_TO_SYMBOL_MASS );
             add( ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT );
-            add( ProblemType.SYMBOL_TO_SCHEMATIC );
             add( ProblemType.COUNTS_TO_SYMBOL_MASS );
         }
     };
