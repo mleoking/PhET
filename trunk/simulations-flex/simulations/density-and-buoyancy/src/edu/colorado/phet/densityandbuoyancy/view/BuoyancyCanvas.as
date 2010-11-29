@@ -24,10 +24,10 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     public var playgroundModes: BuoyancyPlaygroundMode;
     private var mode: Mode;
 
-    private var gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
-    private var buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( false );
-    private var contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
-    private var fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    public const gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    public const buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    public const contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
+    public const fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
 
     public function BuoyancyCanvas( container: BuoyancyContainer, extendedPool: Boolean, showExactLiquidColor: Boolean ) {
@@ -122,28 +122,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         }
     }
 
-    public function setGravityForceVisible( selected: Boolean ): void {
-        gravityArrowsVisible.value = selected;
-    }
-
-    public function setBuoyancyForceVisible( selected: Boolean ): void {
-        buoyancyArrowsVisible.value = selected;
-    }
-
-    public function get buoyantForceVisible(): Boolean {
-        return buoyancyArrowsVisible.value;
-    }
-
-    public function setContactForceVisible( selected: Boolean ): void {
-        contactArrowsVisible.value = selected;
-    }
-
-    public function setFluidDragForceVisible( selected: Boolean ): void {
-        fluidDragArrowsVisible.value = selected;
-    }
-
     public function switchToOneObject(): void {
-        setMode( playgroundModes )
+        setMode( playgroundModes );
         playgroundModes.setOneObject();
     }
 

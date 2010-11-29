@@ -1,3 +1,4 @@
+Buoyancy: Fixed vector force checkboxes on reset
 Buoyancy: Requested feature to keep whatever fluid was selected in intro tab
 Buoyancy: Fixed oil/water bug with mode switching in intro tab.
 Buoyancy: Renamed "My Object" to "My Block"
