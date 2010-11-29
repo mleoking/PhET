@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
@@ -13,11 +12,11 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class CapacitanceMeter extends BarMeter {
 
     public CapacitanceMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
-        super( world, location, visible, circuit.getCapacitor().getTotalCapacitance() );
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
-            public void circuitChanged() {
-                setValue( circuit.getCapacitor().getTotalCapacitance() );
-            }
-        });
+        super( circuit, world, location, visible );
+    }
+    
+    @Override
+    protected double getCircuitValue() {
+        return getCircuit().getCapacitor().getTotalCapacitance();
     }
 }
