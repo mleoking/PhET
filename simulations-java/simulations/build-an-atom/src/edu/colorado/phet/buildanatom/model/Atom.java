@@ -487,24 +487,24 @@ public class Atom extends SimpleAtom {
     //For the game mode
     public ArrayList<SubatomicParticle> setState( AtomValue answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
         ArrayList<SubatomicParticle> removedParticles = new ArrayList<SubatomicParticle>();
-        while ( getNumProtons() > answer.getProtons() ) {
+        while ( getNumProtons() > answer.getNumProtons() ) {
             removedParticles.add( removeProton() );
         }
-        while ( getNumProtons() < answer.getProtons() ) {
+        while ( getNumProtons() < answer.getNumProtons() ) {
             addProton( model.getFreeProton(), moveImmediately );
         }
 
-        while ( getNumNeutrons() > answer.getNeutrons() ) {
+        while ( getNumNeutrons() > answer.getNumNeutrons() ) {
             removedParticles.add( removeNeutron() );
         }
-        while ( getNumNeutrons() < answer.getNeutrons() ) {
+        while ( getNumNeutrons() < answer.getNumNeutrons() ) {
             addNeutron( model.getFreeNeutron(), moveImmediately );
         }
 
-        while ( getNumElectrons() > answer.getElectrons() ) {
+        while ( getNumElectrons() > answer.getNumElectrons() ) {
             removedParticles.add( removeElectron() );
         }
-        while ( getNumElectrons() < answer.getElectrons() ) {
+        while ( getNumElectrons() < answer.getNumElectrons() ) {
             addElectron( model.getFreeElectron(), moveImmediately );
         }
         return removedParticles;

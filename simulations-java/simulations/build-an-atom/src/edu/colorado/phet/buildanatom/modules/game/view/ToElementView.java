@@ -70,14 +70,14 @@ public abstract class ToElementView extends ProblemView {
     protected AtomValue getGuess() {
         boolean userGuessMatchesAnswerNeutrality = gamePeriodicTable.doesAtomChargeMatchGuess( getProblem().getAnswer() );
         return new AtomValue( gamePeriodicTable.getGuessedNumberProtons(),
-                              getProblem().getAnswer().getNeutrons(),
-                              userGuessMatchesAnswerNeutrality ? getProblem().getAnswer().getElectrons() ://if they guessed the right neutrality, assume they got the number of electrons right
-                              getProblem().getAnswer().getElectrons() + 1 );//If they guessed the incorrect neutrality, then just return a number that differs from the correct # electrons
+                              getProblem().getAnswer().getNumNeutrons(),
+                              userGuessMatchesAnswerNeutrality ? getProblem().getAnswer().getNumElectrons() ://if they guessed the right neutrality, assume they got the number of electrons right
+                              getProblem().getAnswer().getNumElectrons() + 1 );//If they guessed the incorrect neutrality, then just return a number that differs from the correct # electrons
     }
 
     @Override
     protected void displayAnswer( AtomValue answer ) {
-        gamePeriodicTable.displayNumProtons( answer.getProtons() );
+        gamePeriodicTable.displayNumProtons( answer.getNumProtons() );
         gamePeriodicTable.setGuessNeutral( answer.isNeutral() );
     }
 

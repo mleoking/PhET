@@ -20,15 +20,15 @@ public class AtomValue {
         this.electrons = electrons;
     }
 
-    public int getProtons() {
+    public int getNumProtons() {
         return protons;
     }
 
-    public int getNeutrons() {
+    public int getNumNeutrons() {
         return neutrons;
     }
 
-    public int getElectrons() {
+    public int getNumElectrons() {
         return electrons;
     }
 
