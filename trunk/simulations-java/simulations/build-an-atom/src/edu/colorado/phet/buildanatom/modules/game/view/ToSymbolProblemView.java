@@ -55,6 +55,9 @@ public class ToSymbolProblemView extends ProblemView {
         }
 
         description.centerAbove( interactiveSymbolNode );
+
+        // For this type of problem view, the check button is enabled right away.
+        enableCheckButton();
     }
 
     @Override

@@ -30,6 +30,9 @@ public abstract class CountsToQuestionView extends ToQuestionView {
         particleCountNode.setOffset(
                 BuildAnAtomDefaults.STAGE_SIZE.width /4 - particleCountNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - particleCountNode.getFullBounds().getHeight() / 2 );
+
+        // For this type of problem view, the check button is enabled right away.
+        enableCheckButton();
     }
 
     @Override
