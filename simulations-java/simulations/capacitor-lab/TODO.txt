@@ -12,7 +12,6 @@ NOAH P ACTION ITEMS
 
 DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
-- charge spacing moves too quickly when voltage gets close to zero due to 1/n scaling algorithm
 
 HIGH PRIORITY
 - Plate Charge meter is initialized to incorrect value at startup
