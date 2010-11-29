@@ -1,3 +1,4 @@
+Internationalized strings for all recently added problem types.
 Added new problem types where the charge is entered into the symbol representation.
 Changed the problems that contain spinners such that the "Check" button is enabled right away.  This allows the user to guess a value of 0.
 Removed problem types with symbol on left side from level 3.
