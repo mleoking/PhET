@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeBodyPart;
 
 import org.apache.log4j.Logger;
 
@@ -97,7 +97,7 @@ public class NewsletterSender {
         try {
             EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( subject, fromAddress );
             String body = rawBody;
-            body = FileUtils.replaceAll( body, "@FOOTER@", NewsletterUtils.getUnsubscribeText( PageContext.getNewDefaultContext(), user.getConfirmationKey() ) );
+            body = FileUtils.replaceAll( body, "@FOOTER@", NewsletterUtils.getNewsletterFooter( PageContext.getNewDefaultContext(), user.getConfirmationKey() ) );
             body = FileUtils.replaceAll( body, "@NAME@", user.getName() );
             message.setBody( body );
             message.addRecipient( user.getEmail().trim() );
