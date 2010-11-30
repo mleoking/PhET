@@ -1,3 +1,5 @@
+11-29-2010: made ModelViewTransform and ImmutableVector2D use Point2D and Point2D.Double more appropriately
+11-29-2010: added ImmutableVector2D.getDistance
 11-19-2010: made Property<T>.getDefaultValue() protected so it doesn't appear in code completion
 11-19-2010: added identity function that returns its input
 11-19-2010: added ModelViewTransform see #123

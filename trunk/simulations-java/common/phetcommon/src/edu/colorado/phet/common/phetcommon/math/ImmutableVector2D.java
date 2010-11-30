@@ -143,7 +143,7 @@ public class ImmutableVector2D implements Serializable {
         return getScaledInstance( magnitude / getMagnitude() );
     }
 
-    public Point2D toPoint2D() {
+    public Point2D.Double toPoint2D() {
         return new Point2D.Double( x, y );
     }
 
@@ -151,12 +151,16 @@ public class ImmutableVector2D implements Serializable {
         return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
 
-    public Point2D getDestination( Point2D startPt ) {
+    public Point2D.Double getDestination( Point2D startPt ) {
         return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() );
     }
 
     public ImmutableVector2D getRotatedInstance( double angle ) {
         return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
+    }
+
+    public double getDistance(ImmutableVector2D immutableVector2D){
+        return getSubtractedInstance( immutableVector2D ).getMagnitude();
     }
 
     public static ImmutableVector2D parseAngleAndMagnitude( double r, double angle ) {
