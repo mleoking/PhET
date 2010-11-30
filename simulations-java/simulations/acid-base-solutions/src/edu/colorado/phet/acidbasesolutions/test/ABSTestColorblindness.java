@@ -40,7 +40,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ABSTestColorblindness extends PhetApplication {
 
-    public static class TestColorKeyNode extends PComposite {
+    private static class TestColorKeyNode extends PComposite {
 
         public TestColorKeyNode() {
             AqueousSolution solution = new PureWaterSolution();
@@ -52,9 +52,9 @@ public class ABSTestColorblindness extends PhetApplication {
         }
     }
     
-    public static class MoleculeImageNode extends PComposite {
+    private static class TestMoleculeImageNode extends PComposite {
         
-        public MoleculeImageNode( Image image, String name ) {
+        public TestMoleculeImageNode( Image image, String name ) {
             
             PImage imageNode = new PImage( image );
             addChild( imageNode );
@@ -69,11 +69,11 @@ public class ABSTestColorblindness extends PhetApplication {
         }
     }
     
-    public static class ColorBarNode extends PComposite {
+    private static class TestColorBarNode extends PComposite {
         
         private static final Dimension BAR_SIZE = new Dimension( 100, 25 );
 
-        public ColorBarNode( Color color, String name ) {
+        public TestColorBarNode( Color color, String name ) {
             
             PPath pathNode = new PPath( new Rectangle2D.Double( 0, 0, BAR_SIZE.width, BAR_SIZE.height ) );
             pathNode.setPaint( color );
@@ -91,7 +91,7 @@ public class ABSTestColorblindness extends PhetApplication {
         }
     }
     
-    public static class TestCanvas extends PhetPCanvas {
+    private static class TestCanvas extends PhetPCanvas {
 
         public TestCanvas() {
             
@@ -130,7 +130,7 @@ public class ABSTestColorblindness extends PhetApplication {
             {
                 double xOffset = 150;
                 double yOffset = colorKeyNode.getFullBoundsReference().getMaxY() + 10;
-                double yDelta = ColorBarNode.BAR_SIZE.getHeight() + 25;
+                double yDelta = TestColorBarNode.BAR_SIZE.getHeight() + 25;
                 
                 addColorBar( ABSColors.A_MINUS, ABSSymbols.A_MINUS, xOffset, yOffset );
                 yOffset += yDelta;
@@ -162,19 +162,19 @@ public class ABSTestColorblindness extends PhetApplication {
         }
         
         private void addMoleculeImage( Image image, String name, double xOffset, double yOffset ) {
-            PNode node = new MoleculeImageNode( image, name );
+            PNode node = new TestMoleculeImageNode( image, name );
             addChild( node );
             node.setOffset( xOffset, yOffset );
         }
         
         private void addColorBar( Color color, String name, double xOffset, double yOffset ) {
-            PNode node = new ColorBarNode( color, name );
+            PNode node = new TestColorBarNode( color, name );
             addChild( node );
             node.setOffset( xOffset, yOffset );
         }
     }
     
-    public static class TestModule extends PiccoloModule {
+    private static class TestModule extends PiccoloModule {
         public TestModule() {
             super( "TestModule", new ConstantDtClock( 40, 1 ), true /* startsPaused */ );
             setClockControlPanel( null );
