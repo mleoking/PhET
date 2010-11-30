@@ -1,5 +1,6 @@
 package edu.colorado.phet.website.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 import javax.mail.*;
@@ -11,7 +12,7 @@ import edu.colorado.phet.website.WebsiteProperties;
 public class EmailUtils {
 
     public static class MessageBuilder {
-        public MimeMessage build( Session session ) throws MessagingException {
+        public MimeMessage build( Session session ) throws MessagingException, UnsupportedEncodingException {
             return new MimeMessage( session );
         }
     }
@@ -19,9 +20,11 @@ public class EmailUtils {
     public static class GeneralEmailBuilder extends MessageBuilder {
         private String subject;
         private String fromAddress;
+        private String fromName;
         private List<String> recipients = new LinkedList<String>();
         private List<InternetAddress> replyTos = new LinkedList<InternetAddress>();
         private MimeBodyPart messageBodyPart;
+        private MimeBodyPart plainTextPart;
         private List<BodyPart> bodyParts = new LinkedList<BodyPart>(); // somewhat morbid!
 
         public GeneralEmailBuilder( String subject, String fromAddress ) {
@@ -30,10 +33,15 @@ public class EmailUtils {
         }
 
         @Override
-        public MimeMessage build( Session session ) throws MessagingException {
+        public MimeMessage build( Session session ) throws MessagingException, UnsupportedEncodingException {
             MimeMessage message = super.build( session );
 
-            message.setFrom( new InternetAddress( fromAddress ) );
+            if ( fromName == null ) {
+                message.setFrom( new InternetAddress( fromAddress ) );
+            }
+            else {
+                message.setFrom( new InternetAddress( fromAddress, fromName ) );
+            }
             message.setSubject( subject, "utf-8" );
 
             for ( String email : recipients ) {
@@ -44,7 +52,12 @@ public class EmailUtils {
                 message.setReplyTo( replyTos.toArray( new InternetAddress[replyTos.size()] ) );
             }
 
-            Multipart multipart = new MimeMultipart();
+            MimeMultipart multipart = new MimeMultipart();
+            if ( plainTextPart != null ) {
+                // we are sending a plain-text alternative in addition
+                multipart.addBodyPart( plainTextPart );
+                multipart.setSubType( "alternative" );
+            }
             multipart.addBodyPart( messageBodyPart );
 
             for ( BodyPart bodyPart : bodyParts ) {
@@ -75,12 +88,22 @@ public class EmailUtils {
             messageBodyPart.setText( body, "UTF-8", "html" );
         }
 
+        public void setPlainTextAlternative( String body ) throws MessagingException {
+            plainTextPart = new MimeBodyPart();
+
+            plainTextPart.setText( body );
+        }
+
         public void addBodyPart( BodyPart bodyPart ) {
             bodyParts.add( bodyPart );
         }
 
         public void addReplyTo( String email ) throws AddressException {
             replyTos.add( new InternetAddress( email ) );
+        }
+
+        public void setFromName( String fromName ) {
+            this.fromName = fromName;
         }
 
         /*---------------------------------------------------------------------------*
@@ -127,6 +150,9 @@ public class EmailUtils {
             return true; // success = true
         }
         catch ( MessagingException e ) {
+            e.printStackTrace();
+        }
+        catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
         }
 

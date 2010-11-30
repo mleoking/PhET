@@ -24,6 +24,7 @@ public class NewsletterSender {
     // TODO: add dev flag
 
     private String rawBody;
+    private String rawText;
     private String subject;
     private String fromAddress;
     private String replyTo;
@@ -51,6 +52,7 @@ public class NewsletterSender {
             fromAddress = properties.getProperty( "fromAddress" );
             replyTo = properties.getProperty( "replyTo" );
             rawBody = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );
+            rawText = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyPlainTextFile" ) ) );
 
 //            for ( String imageFilename : properties.getProperty( "images" ).split( " " ) ) {
 //                File imageFile = new File( imageFilename );
@@ -96,10 +98,16 @@ public class NewsletterSender {
         logger.info( "sending newsletter to " + user.getEmail() );
         try {
             EmailUtils.GeneralEmailBuilder message = new EmailUtils.GeneralEmailBuilder( subject, fromAddress );
+            message.setFromName( "PhET Interactive Simulations" );
+            String link = NewsletterUtils.getUnsubscribeLink( PageContext.getNewDefaultContext(), user.getConfirmationKey() );
             String body = rawBody;
-            body = FileUtils.replaceAll( body, "@FOOTER@", NewsletterUtils.getNewsletterFooter( PageContext.getNewDefaultContext(), user.getConfirmationKey() ) );
+            body = FileUtils.replaceAll( body, "@UNSUBSCRIBE@", link );
             body = FileUtils.replaceAll( body, "@NAME@", user.getName() );
+            String textBody = rawText;
+            textBody = FileUtils.replaceAll( textBody, "@UNSUBSCRIBE@", link );
+            textBody = FileUtils.replaceAll( textBody, "@NAME@", user.getName() );
             message.setBody( body );
+            message.setPlainTextAlternative( textBody );
             message.addRecipient( user.getEmail().trim() );
             message.addReplyTo( replyTo );
 //            for ( final File imageFile : images ) {
