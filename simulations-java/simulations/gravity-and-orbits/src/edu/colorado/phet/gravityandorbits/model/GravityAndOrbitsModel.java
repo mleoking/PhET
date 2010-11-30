@@ -28,7 +28,7 @@ public class GravityAndOrbitsModel {
                     for ( Body body : bodies ) {
                         add( body.toBodyState() );
                     }
-                }} ).getNextState( dt, 10 );
+                }} ).getNextState( dt, 1000 );
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
