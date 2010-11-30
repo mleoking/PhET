@@ -10,8 +10,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -118,30 +116,24 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
 
         add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
-            final SphereBody earth = new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false );
+            final SphereBody earth = new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, false );
 
             {
                 addBody( new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, false ) );
 
                 addBody( earth );
-                final SphereBody moon = new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false );
+                final SphereBody moon = new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, false );
                 addBody( moon );
-                getClock().addClockListener( new ClockAdapter() {
-                    @Override
-                    public void simulationTimeChanged( ClockEvent clockEvent ) {
-                        modeProperty.getValue().startZoom();
-                    }
-                } );
             }
 
             @Override
             public double getZoomScale() {
-                return 10;
+                return 1;
             }
 
             @Override
             public ImmutableVector2D getZoomOffset() {
-                return earth.getPosition();
+                return new ImmutableVector2D( 0, 0 );
             }
         } );
         add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
