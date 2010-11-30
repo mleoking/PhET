@@ -58,25 +58,29 @@ public class Camera {
         this.modelViewTransformProperty = new Property<ModelViewTransform>( createTransform() );
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( t <= 1 ) {
-                    t = t + 0.1;
-                    if ( t > 1 ) {
-                        t = 1;
-                    }
-                    final double x = functionLeft.evaluate( t );
-                    final double y = functionTop.evaluate( t );
-                    final double right = functionRight.evaluate( t );
-                    final double bottom = functionBottom.evaluate( t );
-
-                    final double w = right - x;
-                    final double h = bottom - y;
-//                    System.out.println( "x = " + x + ", y = " + y + ", w = " + w + ", h = " + h );
-                    modelRectangle = new Rectangle2D.Double( x, y, w, h );
-
-                    modelViewTransformProperty.setValue( createTransform() );
-                }
+                stepTimer();
             }
         } );
+    }
+
+    private void stepTimer() {
+        if ( t <= 1 ) {
+            t = t + 1;//TODO: set back to 0.1 or so
+            if ( t > 1 ) {
+                t = 1;
+            }
+            final double x = functionLeft.evaluate( t );
+            final double y = functionTop.evaluate( t );
+            final double right = functionRight.evaluate( t );
+            final double bottom = functionBottom.evaluate( t );
+
+            final double w = right - x;
+            final double h = bottom - y;
+//                    System.out.println( "x = " + x + ", y = " + y + ", w = " + w + ", h = " + h );
+            modelRectangle = new Rectangle2D.Double( x, y, w, h );
+
+            modelViewTransformProperty.setValue( createTransform() );
+        }
     }
 
     public void reset() {
@@ -99,5 +103,8 @@ public class Camera {
         this.functionBottom = new Function.LinearFunction( 0, 1, modelRectangle.getMaxY(), targetRectangle.getMaxY() );
         this.t = 0;
         timer.start();
+
+        //Automatically update the camera//TODO: remove this.
+        stepTimer();
     }
 }
