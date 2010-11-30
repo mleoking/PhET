@@ -22,7 +22,6 @@ HIGH PRIORITY
 - hack in BottomWire.createShape
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - regression test to see what's broken
-- test for colorblind issues
 
 MEDUIUM PRIORITY
 - generalize BatteryCapacitorCircuit to handle multiple capacitors and wires
