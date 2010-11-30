@@ -26,15 +26,15 @@ public class ModelViewTransform {
         return new ModelViewTransform( new AffineTransform() );
     }
 
-    public static ModelViewTransform createOffsetScaleMapping( Point2D.Double offset, double scale ) {
+    public static ModelViewTransform createOffsetScaleMapping( Point2D offset, double scale ) {
         return new ModelViewTransform( new AffineTransform( scale, 0, 0, scale, offset.getX(), offset.getY() ) );
     }
 
-    public static ModelViewTransform createOffsetScaleMapping( Point2D.Double offset, double xScale, double yScale ) {
+    public static ModelViewTransform createOffsetScaleMapping( Point2D offset, double xScale, double yScale ) {
         return new ModelViewTransform( new AffineTransform( xScale, 0, 0, yScale, offset.getX(), offset.getY() ) );
     }
 
-    public static ModelViewTransform createSinglePointScaleMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double xScale, double yScale ) {
+    public static ModelViewTransform createSinglePointScaleMapping( Point2D modelPoint, Point2D viewPoint, double xScale, double yScale ) {
         // mx * scale + ox = vx
         // my * scale + oy = vy
         double offsetX = viewPoint.getX() - modelPoint.getX() * xScale;
@@ -42,11 +42,11 @@ public class ModelViewTransform {
         return createOffsetScaleMapping( new Point2D.Double( offsetX, offsetY ), xScale, yScale );
     }
 
-    public static ModelViewTransform createSinglePointScaleMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double scale ) {
+    public static ModelViewTransform createSinglePointScaleMapping( Point2D modelPoint, Point2D viewPoint, double scale ) {
         return createSinglePointScaleMapping( modelPoint, viewPoint, scale, scale );
     }
 
-    public static ModelViewTransform createSinglePointScaleInvertedYMapping( Point2D.Double modelPoint, Point2D.Double viewPoint, double scale ) {
+    public static ModelViewTransform createSinglePointScaleInvertedYMapping( Point2D modelPoint, Point2D viewPoint, double scale ) {
         return createSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
     }
 
