@@ -229,7 +229,7 @@ public abstract class BarMeterNode extends PhetPNode {
         maxTickMarkNode.setOffset( x, y );
         // min tick mark at bottom of track
         x = -minTickMarkNode.getFullBoundsReference().getWidth();
-        y = trackNode.getFullBoundsReference().getMaxY() - minTickMarkNode.getFullBoundsReference().getHeight();
+        y = trackNode.getFullBoundsReference().getMaxY();
         minTickMarkNode.setOffset( x, y );
         // max label centered on max tick
         x = maxTickMarkNode.getFullBoundsReference().getMinX() - maxLabelNode.getFullBoundsReference().width - 2;
