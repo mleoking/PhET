@@ -1,5 +1,8 @@
 package edu.colorado.phet.gravityandorbits.module;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -7,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
@@ -25,6 +29,8 @@ public class GravityAndOrbitsMode {
     private Property<Boolean> active;
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     private final Property<Boolean> clockRunningProperty;
+    private final ModelViewTransform2D modelViewTransform = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.30, GravityAndOrbitsCanvas.STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
+    private Timer timer;
 
     //TODO: instead of passing in the module, how about passing in a minimal required interface?
     public GravityAndOrbitsMode( String name, double forceScale, boolean active ) {
@@ -56,6 +62,11 @@ public class GravityAndOrbitsMode {
             addObserver( updateClock );
             addModeActiveListener( updateClock );
         }};
+        timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+//                modelViewTransform.set
+            }
+        } );
     }
 
     public GravityAndOrbitsClock getClock() {
@@ -118,5 +129,14 @@ public class GravityAndOrbitsMode {
 
     public Property<Boolean> getClockRunningProperty() {
         return clockRunningProperty;
+    }
+
+    public ModelViewTransform2D getModelViewTransform() {
+        return modelViewTransform;
+    }
+
+    //Zoom from the original zoom (default for all views) to the correct zoom for this mode
+    public void startZoom() {
+        timer.start();
     }
 }
