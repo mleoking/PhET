@@ -40,32 +40,59 @@
         // Remove previous copy of web site.
         ripper_remove_website_copy();
 
-        // Rip the web site.
-        ripper_rip_website("KSU");
+        // Rip the web site as needed for the arabic local mirror installers.
+        ripper_rip_website("KSU_LOCAL_INSTALLER");
         //ripper_rip_website_subset();
         ripper_download_sims();
 
         // Log the time at which the rip completed.
         $rip_finish_time = exec("date");
-        flushing_echo("Rip completed at time $start_time");
+        flushing_echo("First of two rips completed at time $start_time");
+
+        // Make sure permissions of the ripped website are correct.
+        file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
+
+        // Move the individually translated jar files out of the sims directory
+        // so that they won't be included in the local mirror installers.
+        ripper_move_out_translated_jars();
+
+        // Create the marker file that will be used to identify when the
+        // sims are run from a full install (vs individual downloads).
+        installer_create_marker_file();
+
+        // Incorporate the timestamp information that indicates when this
+        // version of the installer was created.
+        installer_insert_installer_creation_time( DISTRIBUTION_TAG_KSU );
+
+        // Insert the distribution tag.
+        installer_insert_distribution_tag( DISTRIBUTION_TAG_KSU );
+
+        // Build the full set of local mirror installers.
+        installer_build_local_mirror_installers(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE);
+
+        // Remove this copy of the web site, since we are now done with it.
+        ripper_remove_website_copy();
+
+        // Now rip the web site as needed for the Arabic web mirror installer.
+        // It would obviously be much more efficient to replace only those
+        // items that are different between this and the previous rip, but
+        // that is a project for another day.
+        ripper_rip_website("KSU_WEB_INSTALLER");
+        ripper_download_sims();
+
+        // Log the time at which the rip completed.
+        $rip_finish_time = exec("date");
+        flushing_echo("Second of two rips completed at time $start_time");
 
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
 
         // Incorporate the timestamp information that indicates when this
         // version of the installer was created.
-        installer_create_marker_file();
         installer_insert_installer_creation_time( DISTRIBUTION_TAG_KSU );
 
         // Insert the distribution tag.
         installer_insert_distribution_tag( DISTRIBUTION_TAG_KSU );
-
-        // Move the individually translated jar files out of the sims directory
-        // so that they won't be included in the local mirror installers.
-        ripper_move_out_translated_jars();
-
-        // Build the full set of local mirror installers.
-        installer_build_local_mirror_installers(BITROCK_KSU_LOCAL_MIRROR_BUILDFILE);
 
         // Move the local mirror installers into the location within the ripped
         // web site where they need to be in order to be incorporated within
@@ -75,13 +102,6 @@
         rename( OUTPUT_DIR.LINUX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.LINUX_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.OSX_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.CD_ROM_INSTALLER_FILE_NAME );
-
-        // Remove the marker file, since we don't want it to be present in the
-        // web mirror.
-        installer_remove_marker_file();
-
-        // Restore the individually translated jar files.
-        ripper_restore_translated_jars();
 
         // Build the web mirror installer, meaning an installer that can be
         // used to set up a remotely hosted copy of the web site.

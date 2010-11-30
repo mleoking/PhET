@@ -83,9 +83,10 @@
     // User agent to use when ripping.  These are used to make the web site
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
-    define("RIPPER_USER_AGENT_PHET",  '"httrack-web-offline-en"');
-    define("RIPPER_USER_AGENT_YF",    '"httrack-web-mirror-yf"');
-    define("RIPPER_USER_AGENT_KSU",   '"httrack-web-mirror-ar"');
+    define("RIPPER_USER_AGENT_PHET",       '"httrack-web-offline-en"');
+    define("RIPPER_USER_AGENT_YF",         '"httrack-web-mirror-yf"');
+    define("RIPPER_USER_AGENT_KSU_LOCAL",  '"httrack-web-offline-ar"');
+    define("RIPPER_USER_AGENT_KSU_WEB",    '"httrack-web-mirror-ar"');
 
     // Definition of the filters, which specify what to include/exclude from
     // the rip.  These filters are meant to capture the entire web site as
@@ -107,7 +108,19 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
-    define("PHET_RIPPER_FILTER_KSU",
+    define("PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER",
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'files/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'newsletters/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/manage-activities'));
+    define("PHET_RIPPER_FILTER_KSU_WEB_INSTALLER",
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'files/*').' '.
@@ -211,14 +224,16 @@
     define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
     define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
     define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.RIPPER_OPTIONS);
-    define("RIPPER_ARGS_KSU", '"'.PHET_ARABIC_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU." -F ".RIPPER_USER_AGENT_KSU.RIPPER_OPTIONS);
+    define("RIPPER_ARGS_KSU_LOCAL_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_LOCAL.RIPPER_OPTIONS);
+    define("RIPPER_ARGS_KSU_WEB_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_WEB_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_WEB.RIPPER_OPTIONS);
     define("RIPPER_VERSION_ARGS", " --version");
 
     // Command-line args for a quicker, lighter, less complete rip of the web
     // site.  These exist primarily for testing purposes.
     define("RIPPER_ARGS_SUBSET_PHET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_PHET.' -j %q0 -%e0 -r10');
     define("RIPPER_ARGS_SUBSET_YF", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_YF.' -j %q0 -%e0 -r10');
-    define("RIPPER_ARGS_SUBSET_KSU", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_KSU.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_SUBSET_KSU_LOCAL_INSTALLER", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_KSU_LOCAL.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_SUBSET_KSU_WEB_INSTALLER", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT_KSU_WEB.' -j %q0 -%e0 -r10');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
