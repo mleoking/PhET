@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
@@ -42,7 +42,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setForeground( FOREGROUND );
                 setBackground( BACKGROUND );
             }} );
-            final BodyNode bodyNode = new BodyNode( body, new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true ),
+            final BodyNode bodyNode = new BodyNode( body, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ),
                                                     new Property<Boolean>( false ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, sizer, -Math.PI / 4 );
             add( new JLabel( "", new ImageIcon( bodyNode.sphereNodeToImage() ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );

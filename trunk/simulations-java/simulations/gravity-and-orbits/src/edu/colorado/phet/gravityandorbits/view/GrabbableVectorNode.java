@@ -1,13 +1,14 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,9 +25,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
-    public GrabbableVectorNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
+    public GrabbableVectorNode( final Body body, final ModelViewTransform ModelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
                                 final double scale, Color fill, Color outline ) {
-        super( body, modelViewTransform2D, visible, property, scale, fill, outline );
+        super( body, ModelViewTransform, visible, property, scale, fill, outline );
         final Point2D tip = getTip();
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 3 ), Color.lightGray ) {{
             final PNode parent = this;
@@ -51,7 +52,8 @@ public class GrabbableVectorNode extends VectorNode {
             grabArea.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     PDimension delta = event.getDeltaRelativeTo( getParent() );
-                    Point2D modelDelta = modelViewTransform2D.viewToModelDifferential( delta );
+                    final Dimension2D d = ModelViewTransform.viewToModelDelta( delta );
+                    Point2D modelDelta = new Point2D.Double( d.getWidth(), d.getHeight() );
                     body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
                 }
             } );

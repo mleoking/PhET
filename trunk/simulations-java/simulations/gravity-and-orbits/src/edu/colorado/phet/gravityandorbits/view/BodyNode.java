@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -22,16 +22,16 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class BodyNode extends PNode {
-    private ModelViewTransform2D modelViewTransform2D;
+    private ModelViewTransform ModelViewTransform;
     private Body body;
     private final Property<Boolean> toScaleProperty;
     private PNode arrowIndicator;
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
     private final BodyRenderer bodyRenderer;
 
-    public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> toScaleProperty,
+    public BodyNode( final Body body, final ModelViewTransform ModelViewTransform, final Property<Boolean> toScaleProperty,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
-        this.modelViewTransform2D = modelViewTransform2D;
+        this.ModelViewTransform = ModelViewTransform;
         this.body = body;
         this.toScaleProperty = toScaleProperty;
         this.sizer = sizer;
@@ -48,7 +48,8 @@ public class BodyNode extends PNode {
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    body.translate( modelViewTransform2D.viewToModelDifferential( event.getDeltaRelativeTo( getParent() ) ) );
+                    final ModelViewTransform.Dimension2DDouble delta = ModelViewTransform.viewToModel( event.getDeltaRelativeTo( getParent() ) );
+                    body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
                 }
 
                 public void mouseReleased( PInputEvent event ) {
@@ -64,8 +65,8 @@ public class BodyNode extends PNode {
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
-                setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
-//                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
+                setOffset( ModelViewTransform.modelToView( body.getPosition() ).toPoint2D() );
+//                System.out.println( "ModelViewTransform.modelToView( body.getPosition() ) = " + ModelViewTransform.modelToView( body.getPosition() ) );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 if ( parentComponent != null && body.isModifyable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
@@ -121,10 +122,10 @@ public class BodyNode extends PNode {
 
     private double getViewDiameter() {
         if ( toScaleProperty.getValue() ) {
-            return Math.max( modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() ), 2 );//anything less than 2 is not visible on the screen with default scaling
+            return Math.max( ModelViewTransform.modelToViewDeltaX( body.getDiameter() ), 2 );//anything less than 2 is not visible on the screen with default scaling
         }
         else {
-            final double viewDiameter = modelViewTransform2D.modelToViewDifferentialXDouble( body.getDiameter() );
+            final double viewDiameter = ModelViewTransform.modelToViewDeltaX( body.getDiameter() );
             final double newDiameter = sizer.evaluate( viewDiameter );
             return newDiameter;
         }

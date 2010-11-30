@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -70,7 +70,7 @@ public class ModelViewTransform {
     /*---------------------------------------------------------------------------*
      * Accessors
      *---------------------------------------------------------------------------*/
-    
+
     /**
      * Returns a defensive copy of the AffineTransform in the ModelViewTransform.
      *
@@ -178,6 +178,11 @@ public class ModelViewTransform {
         return new Dimension2DDouble( pt.getX(), pt.getY() );
     }
 
+    public Dimension2DDouble viewToModel( Dimension2D delta ) {
+        final Point2D point2D = viewToModel( delta.getWidth(), delta.getHeight() );
+        return new Dimension2DDouble( point2D.getX(), point2D.getY() );
+    }
+
     /**
      * Inner implementation of Dimension2D since one is not provided by awt.
      */
@@ -189,7 +194,7 @@ public class ModelViewTransform {
             this.width = width;
             this.height = height;
         }
-        
+
         public Dimension2DDouble( Dimension2D size ) {
             this( size.getWidth(), size.getHeight() );
         }
@@ -209,7 +214,7 @@ public class ModelViewTransform {
             this.width = width;
             this.height = height;
         }
-        
+
         @Override
         public String toString() {
             final StringBuffer result = new StringBuffer();
