@@ -7,12 +7,10 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
@@ -29,7 +27,7 @@ public class BodyNode extends PNode {
     private final Property<Boolean> toScaleProperty;
     private PNode arrowIndicator;
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
-    private final SphericalNode sphereNode;
+    private final BodyRenderer.SphereRenderer bodyRenderer;
 
     public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> toScaleProperty,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
@@ -38,8 +36,13 @@ public class BodyNode extends PNode {
         this.toScaleProperty = toScaleProperty;
         this.sizer = sizer;
         // Create and add the sphere node.
-        sphereNode = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
-        addChild( sphereNode );
+        bodyRenderer = new BodyRenderer.SphereRenderer( body, getViewDiameter() );
+        addChild( bodyRenderer );
+//        sphereNode = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
+//        addChild( sphereNode );
+
+//        imageNode = new PImage( GravityAndOrbitsResources.getImage( "space-station.png" ) );
+//        addChild( imageNode );
 
         final CursorHandler cursorHandler = new CursorHandler();
         if ( body.isModifyable() ) {
@@ -65,10 +68,10 @@ public class BodyNode extends PNode {
                  *
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
-                boolean isMouseOverBefore = sphereNode.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 setOffset( modelViewTransform2D.modelToView( body.getPosition() ) );
 //                System.out.println( "modelViewTransform2D.modelToView( body.getPosition() ) = " + modelViewTransform2D.modelToView( body.getPosition() ) );
-                boolean isMouseOverAfter = sphereNode.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 if ( parentComponent != null && body.isModifyable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
@@ -91,8 +94,7 @@ public class BodyNode extends PNode {
         } );
         final SimpleObserver updateDiameter = new SimpleObserver() {
             public void update() {
-                sphereNode.setDiameter( getViewDiameter() );
-                sphereNode.setPaint( createPaint( getViewDiameter() ) );
+                bodyRenderer.setDiameter( getViewDiameter() );
             }
         };
         body.getDiameterProperty().addObserver( updateDiameter );
@@ -133,15 +135,7 @@ public class BodyNode extends PNode {
         }
     }
 
-    private Paint createPaint( double diameter ) {// Create the gradient paint for the sphere in order to give it a 3D look.
-        Paint spherePaint = new RoundGradientPaint( diameter / 8, -diameter / 8,
-                                                    body.getHighlight(),
-                                                    new Point2D.Double( diameter / 4, diameter / 4 ),
-                                                    body.getColor() );
-        return spherePaint;
-    }
-
     public Image sphereNodeToImage() {
-        return sphereNode.toImage();
+        return bodyRenderer.toImage();
     }
 }
