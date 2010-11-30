@@ -95,9 +95,9 @@ public interface IPlateChargeGridSizeStrategy {
                 double alpha = Math.sqrt( numberOfObjects / width / height );
                 columns = (int) ( Math.round( width * alpha ) );
                 
-                // compute rows 2 ways, choose whichever results in a grid with numberOfObjects cells
-                int rows1 = (int) ( Math.round( height * alpha ) );
-                int rows2 = (int) Math.round( numberOfObjects / (double) columns );
+                // compute rows 2 ways, choose the best fit
+                final int rows1 = (int) ( Math.round( height * alpha ) );
+                final int rows2 = (int) Math.round( numberOfObjects / (double) columns );
                 if ( rows1 != rows2 ) {
                     int error1 = Math.abs( numberOfObjects - ( rows1 * columns ) );
                     int error2 = Math.abs( numberOfObjects - ( rows2 * columns ) );
