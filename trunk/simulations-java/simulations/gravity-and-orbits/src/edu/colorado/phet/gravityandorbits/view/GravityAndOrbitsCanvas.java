@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -39,7 +38,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     public static final Function.LinearFunction SUN_SIZER = new Function.LinearFunction( 0, 1, 0, 15 );
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
-    public static final Function.LinearFunction REAL_SIZER = new Function.LinearFunction( 0, 1, 0, 1);
+    public static final Function.LinearFunction REAL_SIZER = new Function.LinearFunction( 0, 1, 0, 1 );
     public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
@@ -109,11 +108,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new FloatingClockControlNode( mode.getClockRunningProperty(), new Function1<Double, String>() {
-            public String apply( Double time ) {
-                return (int) ( time / 86400 ) + " Earth Days";
-            }
-        }, model.getClock() ) {{
+        addChild( new FloatingClockControlNode( mode.getClockRunningProperty(), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 

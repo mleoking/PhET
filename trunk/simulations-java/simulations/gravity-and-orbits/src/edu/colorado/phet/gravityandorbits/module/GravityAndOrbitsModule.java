@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -67,9 +68,20 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double SPACE_STATION_SPEED = 7706;//see http://en.wikipedia.org/wiki/International_Space_Station
     private static final double SPACE_STATION_PERIGEE = 347000;//see http://en.wikipedia.org/wiki/International_Space_Station
 
+    private static final Function1<Double, String> days = new Function1<Double, String>() {
+        public String apply( Double time ) {
+            return (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_DAY ) + " Earth Days";
+        }
+    };
+    private static final Function1<Double, String> minutes = new Function1<Double, String>() {
+        public String apply( Double time ) {
+            return (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_MINUTE ) + " Earth Minutes";
+        }
+    };
+
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
-        add( new GravityAndOrbitsMode( "My Sun & Planet", VectorNode.FORCE_SCALE, true, camera ) {
+        add( new GravityAndOrbitsMode( "My Sun & Planet", VectorNode.FORCE_SCALE, true, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             private GravityAndOrbitsMode mode;
 
             {
@@ -107,7 +119,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100, false, camera ) {
+        add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
                 addBody( new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, false ) );
                 addBody( new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false ) );
@@ -124,7 +136,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera ) {
+        add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
                 addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
                 addBody( new ImageBody( "Space Station", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_RELATIVE_ORBITAL_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
@@ -140,7 +152,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( PLANET_ORBIT_RADIUS, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Earth & Space Station", VectorNode.FORCE_SCALE * 100, false, camera ) {
+        add( new GravityAndOrbitsMode( "Earth & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes ) {
             final ImageBody spaceStation = new ImageBody( "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0, SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, false );
 
             {
@@ -150,7 +162,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
             @Override
             public double getZoomScale() {
-                return 20000 * 0.8;
+                return 20000;
             }
 
             @Override
@@ -173,7 +185,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE
                + ": " + Arrays.asList( commandLineArgs )//For simsharing
                 ,
-               new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ) );
+               new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.DEFAULT_DT ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
 
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.init( this );
