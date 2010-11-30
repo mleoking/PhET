@@ -25,7 +25,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class BodyNode extends PNode {
     private Property<ModelViewTransform> modelViewTransform;
     private Body body;
-    private final Property<Boolean> toScaleProperty;
     private PNode arrowIndicator;
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
     private final BodyRenderer bodyRenderer;
@@ -34,7 +33,6 @@ public class BodyNode extends PNode {
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
-        this.toScaleProperty = toScaleProperty;
         this.sizer = sizer;
 
         bodyRenderer = body.createRenderer( getViewDiameter() );
@@ -99,7 +97,7 @@ public class BodyNode extends PNode {
         };
         body.getDiameterProperty().addObserver( updateDiameter );
         toScaleProperty.addObserver( updateDiameter );
-        modelViewTransform.addObserver(updateDiameter);
+        modelViewTransform.addObserver( updateDiameter );
 
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
         arrowIndicator = new PNode() {{
@@ -126,14 +124,9 @@ public class BodyNode extends PNode {
     }
 
     private double getViewDiameter() {
-        if ( toScaleProperty.getValue() ) {
-            return Math.max( modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() ), 2 );//anything less than 2 is not visible on the screen with default scaling
-        }
-        else {
-            final double viewDiameter = modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() );
-            final double newDiameter = sizer.evaluate( viewDiameter );
-            return newDiameter;
-        }
+        final double viewDiameter = modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() );
+        final double newDiameter = sizer.evaluate( viewDiameter );
+        return Math.max( newDiameter, 2 );
     }
 
     public Image sphereNodeToImage() {
