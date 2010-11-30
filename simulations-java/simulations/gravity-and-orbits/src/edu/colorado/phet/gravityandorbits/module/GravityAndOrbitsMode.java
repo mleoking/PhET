@@ -67,6 +67,8 @@ public class GravityAndOrbitsMode {
 //                modelViewTransform.set
             }
         } );
+//        rootNode.setTransform( modelViewTransform.getTransform() );
+
     }
 
     public GravityAndOrbitsClock getClock() {
