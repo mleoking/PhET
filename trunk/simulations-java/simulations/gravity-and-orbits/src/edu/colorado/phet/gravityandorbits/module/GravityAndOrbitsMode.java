@@ -31,27 +31,34 @@ public class GravityAndOrbitsMode {
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     private final Property<Boolean> clockRunningProperty;
 
-    private double scale = 1;
+    private Property<Double> scale = new Property<Double>( 1.0 );
     private double deltaScale = 0.1;
-    private double targetScale = 15;
+    private final double targetScale;
 
-    private ImmutableVector2D centerModelPoint = new ImmutableVector2D( 0, 0 );
+    private Property<ImmutableVector2D> centerModelPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
     private final double deltaTranslate = GravityAndOrbitsModule.PLANET_ORBIT_RADIUS / 60;
-    private final ImmutableVector2D targetCenterModelPoint = new ImmutableVector2D( GravityAndOrbitsModule.PLANET_ORBIT_RADIUS, 0 );
+    private final ImmutableVector2D targetCenterModelPoint;
 
     private final Property<ModelViewTransform> modelViewTransformProperty = new Property<ModelViewTransform>( createTransform() );
 
     private ModelViewTransform createTransform() {
-        return ModelViewTransform.createSinglePointScaleInvertedYMapping( centerModelPoint.toPoint2D(), new Point2D.Double( GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.30, GravityAndOrbitsCanvas.STAGE_SIZE.height * 0.5 ), 1.5E-9 * scale );
+        return ModelViewTransform.createSinglePointScaleInvertedYMapping( centerModelPoint.getValue().toPoint2D(), new Point2D.Double( GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.30, GravityAndOrbitsCanvas.STAGE_SIZE.height * 0.5 ), 1.5E-9 * scale.getValue() );
     }
 
     private Timer timer;
 
     //TODO: instead of passing in the module, how about passing in a minimal required interface?
+
     public GravityAndOrbitsMode( String name, double forceScale, boolean active ) {
+        this( name, forceScale, active, 1, new ImmutableVector2D( 0, 0 ) );
+    }
+
+    public GravityAndOrbitsMode( String name, double forceScale, boolean active, final double targetScale, final ImmutableVector2D targetCenterModelPoint ) {
         this.name = name;
         this.forceScale = forceScale;
         this.active = new Property<Boolean>( active );
+        this.targetScale = targetScale;
+        this.targetCenterModelPoint = targetCenterModelPoint;
 
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ), moonProperty );
 
@@ -79,12 +86,12 @@ public class GravityAndOrbitsMode {
         }};
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( Math.abs( scale - targetScale ) > deltaScale ) {
-                    scale = scale + deltaScale;
+                if ( Math.abs( scale.getValue() - targetScale ) > deltaScale ) {
+                    scale.setValue( scale.getValue() + deltaScale );
                 }
-                if ( centerModelPoint.getDistance( targetCenterModelPoint )>deltaTranslate){
-                    ImmutableVector2D d = targetCenterModelPoint.getSubtractedInstance( centerModelPoint );
-                    centerModelPoint = centerModelPoint.getAddedInstance( d.getNormalizedInstance().getScaledInstance(deltaTranslate ));
+                if ( centerModelPoint.getValue().getDistance( targetCenterModelPoint ) > deltaTranslate ) {
+                    ImmutableVector2D d = targetCenterModelPoint.getSubtractedInstance( centerModelPoint.getValue() );
+                    centerModelPoint.setValue( centerModelPoint.getValue().getAddedInstance( d.getNormalizedInstance().getScaledInstance( deltaTranslate * Math.pow( scale.getValue(), 3 ) ) ) );
                 }
 
                 modelViewTransformProperty.setValue( createTransform() );
@@ -112,6 +119,9 @@ public class GravityAndOrbitsMode {
         model.getClock().resetSimulationTime();// reset the clock
         moonProperty.reset();
         model.resetAll();
+        modelViewTransformProperty.reset();
+        scale.reset();
+        centerModelPoint.reset();
     }
 
     public Property<Boolean> getMoonProperty() {
