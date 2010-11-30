@@ -87,33 +87,36 @@ public interface IPlateChargeGridSizeStrategy {
      */
     public static class CCKStrategyWithRounding implements IPlateChargeGridSizeStrategy {
         
-        private static final boolean DEBUG_OUTPUT_ENABLED = false;
-
         public Dimension getGridSize( int numberOfObjects, double width, double height ) {
-            double alpha = Math.sqrt( numberOfObjects / width / height );
-            // casting here may result in some charges being thrown out, but that's OK
-            int columns = (int) ( Math.round( width * alpha ) );
-            int oldrows = (int) ( Math.round( height * alpha ) );
-            int rows = (int) Math.round( numberOfObjects / (double) columns );
-            if ( oldrows != rows ) {
-                int err1 = Math.abs( numberOfObjects - rows * columns );
-                int err2 = Math.abs( numberOfObjects - oldrows * columns );
-                if ( err2 < err1 ) {
-                    rows = oldrows; // choose whichever had the better behavior
+            int columns = 0;
+            int rows = 0;
+            if ( numberOfObjects > 0 ) {
+                
+                double alpha = Math.sqrt( numberOfObjects / width / height );
+                columns = (int) ( Math.round( width * alpha ) );
+                
+                int oldrows = (int) ( Math.round( height * alpha ) );
+                int newRows = (int) Math.round( numberOfObjects / (double) columns );
+                if ( oldrows != newRows ) {
+                    int newError = Math.abs( numberOfObjects - newRows * columns );
+                    int oldError = Math.abs( numberOfObjects - oldrows * columns );
+                    if ( oldError < newError ) {
+                        newRows = oldrows; // choose whichever had the better behavior
+                    }
                 }
-                if ( DEBUG_OUTPUT_ENABLED ) {
-                    boolean err1Wins = err1 < err2;
-                    System.out.println( "CCKGridSizeStrategyWithRounding.getGridSize err1Wins=" + err1Wins + " rows=" + rows + " oldrows=" + oldrows + " err1=" + err1 + " err2=" + err2 );
+                
+                if ( columns == 0 ) {
+                    columns = 1;
+                    newRows = numberOfObjects;
                 }
+                else if ( newRows == 0 ) {
+                    newRows = 1;
+                    columns = numberOfObjects;
+                }
+                
+                rows = newRows;
             }
-            if ( columns == 0 ) {
-                columns = 1;
-                rows = numberOfObjects;
-            }
-            else if ( rows <= 1 ) {
-                rows = 1;
-                columns = numberOfObjects;
-            }
+            assert( columns >= 0 && rows >=0 );
             return new Dimension( columns, rows );
         }
     }
