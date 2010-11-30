@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -62,10 +62,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        ModelViewTransform2D modelViewTransform2D = mode.getModelViewTransform();
+        ModelViewTransform ModelViewTransform = mode.getModelViewTransform();
 
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, modelViewTransform2D, module.getShowPathProperty(), body.getColor() ) );
+            addChild( new PathNode( body, ModelViewTransform, module.getShowPathProperty(), body.getColor() ) );
         }
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
@@ -75,17 +75,17 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, modelViewTransform2D, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+            addChild( new VectorNode( body, ModelViewTransform, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         }
         for ( Body body : model.getBodies() ) {
-            addChild( new GrabbableVectorNode( body, modelViewTransform2D, module.getShowVelocityProperty(), body.getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+            addChild( new GrabbableVectorNode( body, ModelViewTransform, module.getShowVelocityProperty(), body.getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
         }
 
         for ( Body body : model.getBodies() ) {
-            addChild( new BodyNode( body, modelViewTransform2D, new Property<Boolean>( false ), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 ) );
+            addChild( new BodyNode( body, ModelViewTransform, new Property<Boolean>( false ), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 ) );
         }
         for ( Body body : model.getBodies() ) {
-            addChild( new MassReadoutNode( body, modelViewTransform2D, module.getShowMassProperty() ) );
+            addChild( new MassReadoutNode( body, ModelViewTransform, module.getShowMassProperty() ) );
         }
 
         // Control Panel

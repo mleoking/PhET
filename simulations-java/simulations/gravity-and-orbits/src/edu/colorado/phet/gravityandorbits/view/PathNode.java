@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
 import edu.umd.cs.piccolo.PNode;
@@ -19,14 +19,14 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class PathNode extends PNode {
     private final PNode pathNode;
     private final Body body;
-    private final ModelViewTransform2D transform;
+    private final ModelViewTransform transform;
     private final Property<Boolean> visible;
     private ArrayList<Point> points = new ArrayList<Point>();//points in view space
     public static final int MAX_TRACE_LENGTH = (int) ( 365 / GravityAndOrbitsDefaults.NUMBER_DAYS_PER_TICK * 2 );//enough for 2 earth years
     private int[] xPrimitive = new int[MAX_TRACE_LENGTH];
     private int[] yPrimitive = new int[MAX_TRACE_LENGTH];
 
-    public PathNode( final Body body, final ModelViewTransform2D transform, final Property<Boolean> visible, final Color color ) {
+    public PathNode( final Body body, final ModelViewTransform transform, final Property<Boolean> visible, final Color color ) {
         this.body = body;
         this.transform = transform;
         this.visible = visible;
@@ -59,7 +59,7 @@ public class PathNode extends PNode {
         } );
         body.addPathListener( new Body.PathListener() {
             public void pointAdded( Body.PathPoint point ) {
-                Point2D pt = transform.modelToViewDouble( point.point.toPoint2D() );
+                Point2D pt = transform.modelToView( point.point.toPoint2D() );
                 points.add( new Point( (int) pt.getX(), (int) pt.getY() ) );
                 pathNode.repaint();
             }
