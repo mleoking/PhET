@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class MassReadoutNode extends PNode {
-    public MassReadoutNode( final Body body, final ModelViewTransform modelViewTransform, final Property<Boolean> visible ) {
+    public MassReadoutNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible ) {
         addChild( new PText( "1 million Planet masses" ) {{
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
@@ -45,12 +45,14 @@ public class MassReadoutNode extends PNode {
                 }
             } );
         }} );
-        body.getPositionProperty().addObserver( new SimpleObserver() {
+        final SimpleObserver updatePosition = new SimpleObserver() {
             public void update() {
-                final Point2D centroid = modelViewTransform.modelToView( new ImmutableVector2D( body.getPosition().getX(), body.getPosition().getY() + body.getRadius() ).toPoint2D() );
+                final Point2D centroid = modelViewTransform.getValue().modelToView( new ImmutableVector2D( body.getPosition().getX(), body.getPosition().getY() + body.getRadius() ).toPoint2D() );
                 setOffset( centroid.getX() - getFullBounds().getWidth() / 2, centroid.getY() + 5 );
             }
-        } );
+        };
+        body.getPositionProperty().addObserver( updatePosition );
+        modelViewTransform.addObserver( updatePosition );
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.getValue() );

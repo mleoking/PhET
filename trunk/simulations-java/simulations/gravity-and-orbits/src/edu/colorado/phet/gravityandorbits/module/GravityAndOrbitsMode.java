@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,7 +30,21 @@ public class GravityAndOrbitsMode {
     private Property<Boolean> active;
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     private final Property<Boolean> clockRunningProperty;
-    private final ModelViewTransform modelViewTransform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.30, GravityAndOrbitsCanvas.STAGE_SIZE.height * 0.5 ), 1.5E-9 );
+
+    private double scale = 1;
+    private double deltaScale = 0.1;
+    private double targetScale = 15;
+
+    private ImmutableVector2D centerModelPoint = new ImmutableVector2D( 0, 0 );
+    private final double deltaTranslate = GravityAndOrbitsModule.PLANET_ORBIT_RADIUS / 60;
+    private final ImmutableVector2D targetCenterModelPoint = new ImmutableVector2D( GravityAndOrbitsModule.PLANET_ORBIT_RADIUS, 0 );
+
+    private final Property<ModelViewTransform> modelViewTransformProperty = new Property<ModelViewTransform>( createTransform() );
+
+    private ModelViewTransform createTransform() {
+        return ModelViewTransform.createSinglePointScaleInvertedYMapping( centerModelPoint.toPoint2D(), new Point2D.Double( GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.30, GravityAndOrbitsCanvas.STAGE_SIZE.height * 0.5 ), 1.5E-9 * scale );
+    }
+
     private Timer timer;
 
     //TODO: instead of passing in the module, how about passing in a minimal required interface?
@@ -64,11 +79,17 @@ public class GravityAndOrbitsMode {
         }};
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                modelViewTransform.set
+                if ( Math.abs( scale - targetScale ) > deltaScale ) {
+                    scale = scale + deltaScale;
+                }
+                if ( centerModelPoint.getDistance( targetCenterModelPoint )>deltaTranslate){
+                    ImmutableVector2D d = targetCenterModelPoint.getSubtractedInstance( centerModelPoint );
+                    centerModelPoint = centerModelPoint.getAddedInstance( d.getNormalizedInstance().getScaledInstance(deltaTranslate ));
+                }
+
+                modelViewTransformProperty.setValue( createTransform() );
             }
         } );
-//        rootNode.setTransform( modelViewTransform.getTransform() );
-
     }
 
     public GravityAndOrbitsClock getClock() {
@@ -133,8 +154,8 @@ public class GravityAndOrbitsMode {
         return clockRunningProperty;
     }
 
-    public ModelViewTransform getModelViewTransform() {
-        return modelViewTransform;
+    public Property<ModelViewTransform> getModelViewTransformProperty() {
+        return modelViewTransformProperty;
     }
 
     //Zoom from the original zoom (default for all views) to the correct zoom for this mode

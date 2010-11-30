@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
-    public GrabbableVectorNode( final Body body, final ModelViewTransform modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
+    public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
                                 final double scale, Color fill, Color outline ) {
         super( body, modelViewTransform, visible, property, scale, fill, outline );
         final Point2D tip = getTip();
@@ -52,7 +52,7 @@ public class GrabbableVectorNode extends VectorNode {
             grabArea.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     PDimension delta = event.getDeltaRelativeTo( getParent() );
-                    final Dimension2D d = modelViewTransform.viewToModelDelta( delta );
+                    final Dimension2D d = modelViewTransform.getValue().viewToModelDelta( delta );
                     Point2D modelDelta = new Point2D.Double( d.getWidth(), d.getHeight() );
                     body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
                 }

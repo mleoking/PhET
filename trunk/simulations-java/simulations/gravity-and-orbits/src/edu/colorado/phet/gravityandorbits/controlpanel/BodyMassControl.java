@@ -42,7 +42,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setForeground( FOREGROUND );
                 setBackground( BACKGROUND );
             }} );
-            final BodyNode bodyNode = new BodyNode( body, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ),
+            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ) ),
                                                     new Property<Boolean>( false ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, sizer, -Math.PI / 4 );
             add( new JLabel( "", new ImageIcon( bodyNode.sphereNodeToImage() ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );

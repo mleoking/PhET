@@ -62,10 +62,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        ModelViewTransform modelViewTransform = mode.getModelViewTransform();
+        Property<ModelViewTransform> modelViewTransformProperty = mode.getModelViewTransformProperty();
 
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, modelViewTransform, module.getShowPathProperty(), body.getColor() ) );
+            addChild( new PathNode( body, modelViewTransformProperty, module.getShowPathProperty(), body.getColor() ) );
         }
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
@@ -75,17 +75,17 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, modelViewTransform, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+            addChild( new VectorNode( body, modelViewTransformProperty, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         }
         for ( Body body : model.getBodies() ) {
-            addChild( new GrabbableVectorNode( body, modelViewTransform, module.getShowVelocityProperty(), body.getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+            addChild( new GrabbableVectorNode( body, modelViewTransformProperty, module.getShowVelocityProperty(), body.getVelocityProperty(), VectorNode.VELOCITY_SCALE, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
         }
 
         for ( Body body : model.getBodies() ) {
-            addChild( new BodyNode( body, modelViewTransform, new Property<Boolean>( false ), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 ) );
+            addChild( new BodyNode( body, modelViewTransformProperty, new Property<Boolean>( false ), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 ) );
         }
         for ( Body body : model.getBodies() ) {
-            addChild( new MassReadoutNode( body, modelViewTransform, module.getShowMassProperty() ) );
+            addChild( new MassReadoutNode( body, modelViewTransformProperty, module.getShowMassProperty() ) );
         }
 
         // Control Panel

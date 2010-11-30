@@ -41,7 +41,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public static final double PLANET_MASS = 1E28;
     private static final double PLANET_RADIUS = 6.371E6;
-    private static final double PLANET_ORBIT_RADIUS = 1.6E11;
+    public static final double PLANET_ORBIT_RADIUS = 1.6E11;
     private static final double PLANET_ORBITAL_SPEED = 0.9E4;
 
     private static final double FAKE_MOON_RADIUS = 1737.1E3;
