@@ -62,6 +62,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double MOON_PERIGEE = 364397E3;
     private static final double MOON_INITIAL_X = EARTH_PERIHELION + MOON_PERIGEE;
 
+    private static final double SPACE_STATION_RADIUS = 109;//see http://en.wikipedia.org/wiki/International_Space_Station
+    private static final double SPACE_STATION_MASS = 369914;//see http://en.wikipedia.org/wiki/International_Space_Station
+    private static final double SPACE_STATION_SPEED = 7706;//see http://en.wikipedia.org/wiki/International_Space_Station
+    private static final double SPACE_STATION_PERIGEE = 347000;//see http://en.wikipedia.org/wiki/International_Space_Station
+
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
         add( new GravityAndOrbitsMode( "My Sun & Planet", VectorNode.FORCE_SCALE, true, camera ) {
@@ -122,7 +127,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera ) {
             {
                 addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
-                addBody( new ImageBody( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_RELATIVE_ORBITAL_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                addBody( new ImageBody( "Space Station", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_RELATIVE_ORBITAL_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
             }
 
             @Override
@@ -136,18 +141,21 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Earth & Space Station", VectorNode.FORCE_SCALE * 100, false, camera ) {
-            {
+            final ImageBody spaceStation = new ImageBody( "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0, SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, false );
 
+            {
+                addBody( new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, 0, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, true ) );
+                addBody( spaceStation );
             }
 
             @Override
             public double getZoomScale() {
-                return 15;
+                return 20000 * 0.8;
             }
 
             @Override
             public ImmutableVector2D getZoomOffset() {
-                return new ImmutableVector2D( EARTH_PERIHELION, 0 );
+                return spaceStation.getPosition();
             }
         } );
     }};
