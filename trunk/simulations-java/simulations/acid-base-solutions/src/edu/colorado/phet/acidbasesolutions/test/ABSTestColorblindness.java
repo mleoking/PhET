@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestColorblindness extends PhetApplication {
+public class ABSTestColorblindness extends PhetApplication {
 
     public static class TestColorKeyNode extends PComposite {
 
@@ -184,13 +184,13 @@ public class TestColorblindness extends PhetApplication {
         }
     }
 
-    public TestColorblindness( PhetApplicationConfig config ) {
+    public ABSTestColorblindness( PhetApplicationConfig config ) {
         super( config );
         addModule( new TestModule() );
         getPhetFrame().setTitle( "Acid-Base Solution colorblind test" );
     }
     
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT, TestColorblindness.class );
+        new PhetApplicationLauncher().launchSim( args, ABSConstants.PROJECT, ABSTestColorblindness.class );
     }
 }
