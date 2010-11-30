@@ -22,16 +22,16 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class BodyNode extends PNode {
-    private ModelViewTransform ModelViewTransform;
+    private ModelViewTransform modelViewTransform;
     private Body body;
     private final Property<Boolean> toScaleProperty;
     private PNode arrowIndicator;
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
     private final BodyRenderer bodyRenderer;
 
-    public BodyNode( final Body body, final ModelViewTransform ModelViewTransform, final Property<Boolean> toScaleProperty,
+    public BodyNode( final Body body, final ModelViewTransform modelViewTransform, final Property<Boolean> toScaleProperty,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
-        this.ModelViewTransform = ModelViewTransform;
+        this.modelViewTransform = modelViewTransform;
         this.body = body;
         this.toScaleProperty = toScaleProperty;
         this.sizer = sizer;
@@ -48,7 +48,7 @@ public class BodyNode extends PNode {
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    final ModelViewTransform.Dimension2DDouble delta = ModelViewTransform.viewToModel( event.getDeltaRelativeTo( getParent() ) );
+                    final ModelViewTransform.Dimension2DDouble delta = modelViewTransform.viewToModel( event.getDeltaRelativeTo( getParent() ) );
                     body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
                 }
 
@@ -65,7 +65,7 @@ public class BodyNode extends PNode {
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
-                setOffset( ModelViewTransform.modelToView( body.getPosition() ).toPoint2D() );
+                setOffset( modelViewTransform.modelToView( body.getPosition() ).toPoint2D() );
 //                System.out.println( "ModelViewTransform.modelToView( body.getPosition() ) = " + ModelViewTransform.modelToView( body.getPosition() ) );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 if ( parentComponent != null && body.isModifyable() ) {
@@ -95,6 +95,7 @@ public class BodyNode extends PNode {
         };
         body.getDiameterProperty().addObserver( updateDiameter );
         toScaleProperty.addObserver( updateDiameter );
+//        modelViewTransform.addObserver(updateDiameter);
 
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
         arrowIndicator = new PNode() {{
@@ -122,10 +123,10 @@ public class BodyNode extends PNode {
 
     private double getViewDiameter() {
         if ( toScaleProperty.getValue() ) {
-            return Math.max( ModelViewTransform.modelToViewDeltaX( body.getDiameter() ), 2 );//anything less than 2 is not visible on the screen with default scaling
+            return Math.max( modelViewTransform.modelToViewDeltaX( body.getDiameter() ), 2 );//anything less than 2 is not visible on the screen with default scaling
         }
         else {
-            final double viewDiameter = ModelViewTransform.modelToViewDeltaX( body.getDiameter() );
+            final double viewDiameter = modelViewTransform.modelToViewDeltaX( body.getDiameter() );
             final double newDiameter = sizer.evaluate( viewDiameter );
             return newDiameter;
         }
