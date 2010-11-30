@@ -134,6 +134,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                     }
                 } );
                 updateActiveModule();
+                modeProperty.getValue().startZoom();
             }
         }, false );
         updateActiveModule();

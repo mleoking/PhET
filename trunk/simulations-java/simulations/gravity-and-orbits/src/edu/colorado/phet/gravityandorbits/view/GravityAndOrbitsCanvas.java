@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -63,7 +62,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9, true );
+        ModelViewTransform2D modelViewTransform2D = mode.getModelViewTransform();
 
         for ( Body body : model.getBodies() ) {
             addChild( new PathNode( body, modelViewTransform2D, module.getShowPathProperty(), body.getColor() ) );
