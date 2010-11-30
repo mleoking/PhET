@@ -1,6 +1,7 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -48,7 +49,7 @@ public class BodyNode extends PNode {
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    final ModelViewTransform.Dimension2DDouble delta = modelViewTransform.getValue().viewToModel( event.getDeltaRelativeTo( getParent() ) );
+                    final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
                     body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
                 }
 
