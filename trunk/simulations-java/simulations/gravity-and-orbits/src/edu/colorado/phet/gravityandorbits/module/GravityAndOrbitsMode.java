@@ -1,8 +1,5 @@
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -21,44 +18,22 @@ import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 /**
  * @author Sam Reid
  */
-public class GravityAndOrbitsMode {
+public abstract class GravityAndOrbitsMode {
     private String name;
     private GravityAndOrbitsModel model;
     private Property<Boolean> moonProperty = new Property<Boolean>( false );
     private GravityAndOrbitsCanvas canvas;
     private double forceScale;
+    private final Camera camera;
     private Property<Boolean> active;
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     private final Property<Boolean> clockRunningProperty;
 
-    private Property<Double> scale = new Property<Double>( 1.0 );
-    private double deltaScale = 0.1;
-    private final double targetScale;
-
-    private Property<ImmutableVector2D> centerModelPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-    private final double deltaTranslate = GravityAndOrbitsModule.PLANET_ORBIT_RADIUS / 60;
-    private final ImmutableVector2D targetCenterModelPoint;
-
-    private final Property<ModelViewTransform> modelViewTransformProperty = new Property<ModelViewTransform>( createTransform() );
-
-    private ModelViewTransform createTransform() {
-        return ModelViewTransform.createSinglePointScaleInvertedYMapping( centerModelPoint.getValue().toPoint2D(), new Point2D.Double( GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.30, GravityAndOrbitsCanvas.STAGE_SIZE.height * 0.5 ), 1.5E-9 * scale.getValue() );
-    }
-
-    private Timer timer;
-
-    //TODO: instead of passing in the module, how about passing in a minimal required interface?
-
-    public GravityAndOrbitsMode( String name, double forceScale, boolean active ) {
-        this( name, forceScale, active, 1, new ImmutableVector2D( 0, 0 ) );
-    }
-
-    public GravityAndOrbitsMode( String name, double forceScale, boolean active, final double targetScale, final ImmutableVector2D targetCenterModelPoint ) {
+    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera ) {
         this.name = name;
         this.forceScale = forceScale;
+        this.camera = camera;
         this.active = new Property<Boolean>( active );
-        this.targetScale = targetScale;
-        this.targetCenterModelPoint = targetCenterModelPoint;
 
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ), moonProperty );
 
@@ -84,19 +59,6 @@ public class GravityAndOrbitsMode {
             addObserver( updateClock );
             addModeActiveListener( updateClock );
         }};
-        timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( Math.abs( scale.getValue() - targetScale ) > deltaScale ) {
-                    scale.setValue( scale.getValue() + deltaScale );
-                }
-                if ( centerModelPoint.getValue().getDistance( targetCenterModelPoint ) > deltaTranslate ) {
-                    ImmutableVector2D d = targetCenterModelPoint.getSubtractedInstance( centerModelPoint.getValue() );
-                    centerModelPoint.setValue( centerModelPoint.getValue().getAddedInstance( d.getNormalizedInstance().getScaledInstance( deltaTranslate * Math.pow( scale.getValue(), 3 ) ) ) );
-                }
-
-                modelViewTransformProperty.setValue( createTransform() );
-            }
-        } );
     }
 
     public GravityAndOrbitsClock getClock() {
@@ -119,9 +81,6 @@ public class GravityAndOrbitsMode {
         model.getClock().resetSimulationTime();// reset the clock
         moonProperty.reset();
         model.resetAll();
-        modelViewTransformProperty.reset();
-        scale.reset();
-        centerModelPoint.reset();
     }
 
     public Property<Boolean> getMoonProperty() {
@@ -165,11 +124,15 @@ public class GravityAndOrbitsMode {
     }
 
     public Property<ModelViewTransform> getModelViewTransformProperty() {
-        return modelViewTransformProperty;
+        return camera.getModelViewTransformProperty();
     }
 
     //Zoom from the original zoom (default for all views) to the correct zoom for this mode
     public void startZoom() {
-        timer.start();
+        camera.zoomTo( getZoomScale(), getZoomOffset() );
     }
+
+    public abstract double getZoomScale();
+
+    public abstract ImmutableVector2D getZoomOffset();
 }
