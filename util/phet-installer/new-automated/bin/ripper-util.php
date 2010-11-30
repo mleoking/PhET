@@ -43,8 +43,11 @@
         else if ($config == "YF"){
             $ripper_args = RIPPER_ARGS_YF;
         }
-        else if ($config == "KSU"){
-            $ripper_args = RIPPER_ARGS_KSU;
+        else if ($config == "KSU_LOCAL_INSTALLER"){
+            $ripper_args = RIPPER_ARGS_KSU_LOCAL_INSTALLER;
+        }
+        else if ($config == "KSU_WEB_INSTALLER"){
+            $ripper_args = RIPPER_ARGS_KSU_WEB_INSTALLER;
         }
         else {
             flushing_echo("ERROR: Unknown rip config ".$config.", assuming YF.");
