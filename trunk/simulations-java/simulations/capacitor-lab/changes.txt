@@ -1,3 +1,5 @@
+11/30/10 fix: zero tick mark is a little off on bar meters
+11/30/10 #2593, identify colorblind issues
 11/29/10 simplify BottomWire.createShape
 11/29/10 remove bogus mvt in WireNode initialization
 11/29/10 add Wire.addSegment and removeSegment (thinking ahead to circuit construction)
