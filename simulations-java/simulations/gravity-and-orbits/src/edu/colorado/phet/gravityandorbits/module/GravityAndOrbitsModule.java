@@ -57,7 +57,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private static final double MOON_MASS = 7.3477E22;
     private static final double MOON_RADIUS = 1737.1E3;
-    private static final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED_AT_PERIHELION + 1.022E3 * 1.04;
+    private static double MOON_RELATIVE_ORBITAL_SPEED = 1.022E3 * 1.04;
+    private static final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED_AT_PERIHELION + MOON_RELATIVE_ORBITAL_SPEED;
     private static final double MOON_PERIGEE = 364397E3;
     private static final double MOON_INITIAL_X = EARTH_PERIHELION + MOON_PERIGEE;
 
@@ -120,13 +121,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
         add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera ) {
             {
-                addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, PLANET_ORBITAL_SPEED, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
-                addBody( new ImageBody( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
+                addBody( new ImageBody( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_RELATIVE_ORBITAL_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
             }
 
             @Override
             public double getZoomScale() {
-                return 15;
+                return 11;
             }
 
             @Override
