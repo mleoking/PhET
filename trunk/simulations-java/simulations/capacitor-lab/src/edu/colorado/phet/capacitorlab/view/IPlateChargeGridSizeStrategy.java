@@ -14,6 +14,15 @@ import java.awt.Dimension;
  */
 public interface IPlateChargeGridSizeStrategy {
     
+    /**
+     * Gets the size of the grid.
+     * The number of cells in the grid may be more or less than numberOfObjects.
+     * 
+     * @param numberOfObjects number of objects to put on the plate
+     * @param width width of the plate
+     * @param height height of the plate
+     * @return
+     */
     public Dimension getGridSize( int numberOfObjects, double width, double height );
     
     /**
