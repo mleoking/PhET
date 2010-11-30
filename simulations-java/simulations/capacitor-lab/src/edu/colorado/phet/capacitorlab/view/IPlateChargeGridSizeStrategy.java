@@ -95,26 +95,27 @@ public interface IPlateChargeGridSizeStrategy {
                 double alpha = Math.sqrt( numberOfObjects / width / height );
                 columns = (int) ( Math.round( width * alpha ) );
                 
-                int oldrows = (int) ( Math.round( height * alpha ) );
-                int newRows = (int) Math.round( numberOfObjects / (double) columns );
-                if ( oldrows != newRows ) {
-                    int newError = Math.abs( numberOfObjects - newRows * columns );
-                    int oldError = Math.abs( numberOfObjects - oldrows * columns );
-                    if ( oldError < newError ) {
-                        newRows = oldrows; // choose whichever had the better behavior
-                    }
+                // compute rows 2 ways, choose whichever results in a grid with numberOfObjects cells
+                int rows1 = (int) ( Math.round( height * alpha ) );
+                int rows2 = (int) Math.round( numberOfObjects / (double) columns );
+                if ( rows1 != rows2 ) {
+                    int error1 = Math.abs( numberOfObjects - ( rows1 * columns ) );
+                    int error2 = Math.abs( numberOfObjects - ( rows2 * columns ) );
+                    rows = ( error1 < error2 ) ? rows1 : rows2;
+                }
+                else {
+                    rows = rows1;
                 }
                 
+                // handle boundary cases
                 if ( columns == 0 ) {
                     columns = 1;
-                    newRows = numberOfObjects;
+                    rows = numberOfObjects;
                 }
-                else if ( newRows == 0 ) {
-                    newRows = 1;
+                else if ( rows == 0 ) {
+                    rows = 1;
                     columns = numberOfObjects;
                 }
-                
-                rows = newRows;
             }
             assert( columns >= 0 && rows >=0 );
             return new Dimension( columns, rows );

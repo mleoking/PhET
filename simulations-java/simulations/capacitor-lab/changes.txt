@@ -1,3 +1,4 @@
+11/30/10 clean up CCKStrategyWithRounding, strategy for putting charges on plate surface
 11/30/10 fix: zero tick mark is a little off on bar meters
 11/30/10 #2593, identify colorblind issues
 11/29/10 simplify BottomWire.createShape
