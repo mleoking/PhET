@@ -27,7 +27,7 @@ public class BodyNode extends PNode {
     private final Property<Boolean> toScaleProperty;
     private PNode arrowIndicator;
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
-    private final BodyRenderer.SphereRenderer bodyRenderer;
+    private final BodyRenderer bodyRenderer;
 
     public BodyNode( final Body body, final ModelViewTransform2D modelViewTransform2D, final Property<Boolean> toScaleProperty,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
@@ -35,14 +35,9 @@ public class BodyNode extends PNode {
         this.body = body;
         this.toScaleProperty = toScaleProperty;
         this.sizer = sizer;
-        // Create and add the sphere node.
-        bodyRenderer = new BodyRenderer.SphereRenderer( body, getViewDiameter() );
-        addChild( bodyRenderer );
-//        sphereNode = new SphericalNode( getViewDiameter(), createPaint( getViewDiameter() ), false );
-//        addChild( sphereNode );
 
-//        imageNode = new PImage( GravityAndOrbitsResources.getImage( "space-station.png" ) );
-//        addChild( imageNode );
+        bodyRenderer = new BodyRenderer.ImageRenderer( body, getViewDiameter() );
+        addChild( bodyRenderer );
 
         final CursorHandler cursorHandler = new CursorHandler();
         if ( body.isModifyable() ) {

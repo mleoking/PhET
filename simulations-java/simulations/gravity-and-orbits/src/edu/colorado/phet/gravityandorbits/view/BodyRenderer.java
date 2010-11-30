@@ -1,12 +1,16 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This is the PNode that renders the content of a physical body, such as a planet or space station
@@ -44,6 +48,34 @@ public abstract class BodyRenderer extends PNode {
                                                         new Point2D.Double( diameter / 4, diameter / 4 ),
                                                         body.getColor() );
             return spherePaint;
+        }
+    }
+
+    public static class ImageRenderer extends BodyRenderer {
+        private final PImage imageNode;
+        private double viewDiameter;
+
+        public ImageRenderer( Body body, double viewDiameter ) {
+            super( body );
+
+            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( "space-station.png" ), 100 ) );
+            addChild( imageNode );
+            this.viewDiameter = viewDiameter;
+            updateViewDiameter();
+        }
+
+        @Override
+        public void setDiameter( double viewDiameter ) {
+            this.viewDiameter = viewDiameter;
+            updateViewDiameter();
+        }
+
+        private void updateViewDiameter() {
+            imageNode.setTransform( new AffineTransform() );
+            final double scale = viewDiameter / imageNode.getFullBounds().getWidth();
+            imageNode.setScale( scale );
+            //Make sure the image is centered on the body's center
+            imageNode.translate( -imageNode.getFullBounds().getWidth() / 2 / scale, -imageNode.getFullBounds().getHeight() / 2 / scale );
         }
     }
 }
