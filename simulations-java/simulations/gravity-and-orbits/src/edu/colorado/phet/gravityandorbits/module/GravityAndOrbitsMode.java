@@ -7,6 +7,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
@@ -28,14 +29,16 @@ public abstract class GravityAndOrbitsMode {
     private Property<Boolean> active;
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     private final Property<Boolean> clockRunningProperty;
+    private Function1<Double, String> timeFormatter;
 
-    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera ) {
+    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter ) {
         this.name = name;
         this.forceScale = forceScale;
         this.camera = camera;
         this.active = new Property<Boolean>( active );
+        this.timeFormatter = timeFormatter;
 
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.CLOCK_DT ), moonProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ), moonProperty );
 
         getMoonProperty().addObserver( new SimpleObserver() {
             public void update() {
@@ -135,4 +138,8 @@ public abstract class GravityAndOrbitsMode {
     public abstract double getZoomScale();
 
     public abstract ImmutableVector2D getZoomOffset();
+
+    public Function1<Double, String> getTimeFormatter() {
+        return timeFormatter;
+    }
 }
