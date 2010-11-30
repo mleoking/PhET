@@ -10,6 +10,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -58,10 +60,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private static final double MOON_MASS = 7.3477E22;
     private static final double MOON_RADIUS = 1737.1E3;
-    private static double MOON_RELATIVE_ORBITAL_SPEED = 1.022E3 * 1.04;
-    private static final double MOON_ORBITAL_SPEED = EARTH_ORBITAL_SPEED_AT_PERIHELION + MOON_RELATIVE_ORBITAL_SPEED;
-    private static final double MOON_PERIGEE = 364397E3;
-    private static final double MOON_INITIAL_X = EARTH_PERIHELION + MOON_PERIGEE;
+    private static final double MOON_EARTH_SPEED = 1.01E3;
+    private static final double MOON_SPEED = MOON_EARTH_SPEED;
+    private static final double MOON_PERIGEE = 391370E3;
+    private static final double MOON_X = EARTH_PERIHELION;
+    private static final double MOON_Y = MOON_PERIGEE;
 
     private static final double SPACE_STATION_RADIUS = 109;//see http://en.wikipedia.org/wiki/International_Space_Station
     private static final double SPACE_STATION_MASS = 369914;//see http://en.wikipedia.org/wiki/International_Space_Station
@@ -119,27 +122,38 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
+//        add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT/20, days ) {
         add( new GravityAndOrbitsMode( "Sun, Earth & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
+            final SphereBody earth = new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false );
+
             {
-                addBody( new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.SUN_SIZER, false ) );
-                addBody( new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false ) );
-                addBody( new SphereBody( "Moon", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_ORBITAL_SPEED, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                addBody( new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, false ) );
+
+                addBody( earth );
+                final SphereBody moon = new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, false );
+                addBody( moon );
+                getClock().addClockListener( new ClockAdapter() {
+                    @Override
+                    public void simulationTimeChanged( ClockEvent clockEvent ) {
+                        modeProperty.getValue().startZoom();
+                    }
+                } );
             }
 
             @Override
             public double getZoomScale() {
-                return 1;
+                return 10;
             }
 
             @Override
             public ImmutableVector2D getZoomOffset() {
-                return new ImmutableVector2D( 0, 0 );
+                return earth.getPosition();
             }
         } );
         add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
                 addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
-                addBody( new ImageBody( "Space Station", MOON_INITIAL_X, 0, MOON_RADIUS * 2, 0, MOON_RELATIVE_ORBITAL_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                addBody( new ImageBody( "Space Station", MOON_X, 0, MOON_RADIUS * 2, 0, MOON_EARTH_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
             }
 
             @Override
