@@ -2,9 +2,23 @@
     <ul>
     <?php     /* Widgetized sidebar, if you have the plugin installed. */
     if ( !function_exists( 'dynamic_sidebar' ) || !dynamic_sidebar( 'Sidebar Right' ) ) : ?>
-        <li class="boxr search">
-        <?php include ( TEMPLATEPATH . '/searchform.php' ); ?>
-        </li>
+        <?php
+            function startsWith( $haystack, $needle, $case = true ) {
+                if ( $case ) {
+                    return ( strcmp( substr( $haystack, 0, strlen( $needle ) ), $needle )===0 );
+                }
+                return ( strcasecmp( substr( $haystack, 0, strlen( $needle ) ), $needle )===0 );
+            }
+
+            // only show the search box if it is not a ripper
+            if( !startsWith( $_SERVER['HTTP_USER_AGENT'], 'httrack-web-offline', true)) {
+        ?>
+                <li class="boxr search">
+                <?php include ( TEMPLATEPATH . '/searchform.php' ); ?>
+                </li>
+        <?php
+            }
+        ?>
 
 
     <?php if ( is_404( ) || is_category( ) || is_day( ) || is_month( ) ||
