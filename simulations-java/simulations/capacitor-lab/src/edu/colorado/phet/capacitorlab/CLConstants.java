@@ -67,7 +67,7 @@ public class CLConstants {
     
     // wire
     public static final double WIRE_THICKNESS = 0.0005; // meters
-    public static final double WIRE_EXTENT = 0.016; // how far a wire extends beyond a capactor's origin in meters
+    public static final double WIRE_EXTENT = 0.016; // how far a wire extends above or below the battery's origin, in meters
 
     // Plate Charge control
     public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
