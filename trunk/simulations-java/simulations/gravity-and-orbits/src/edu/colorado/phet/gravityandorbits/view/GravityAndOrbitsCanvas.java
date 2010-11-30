@@ -39,6 +39,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     public static final Function.LinearFunction SUN_SIZER = new Function.LinearFunction( 0, 1, 0, 15 );
     public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
+    public static final Function.LinearFunction REAL_SIZER = new Function.LinearFunction( 0, 1, 0, 1);
     public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
