@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.PathNode;
 
 /**
  * @author Sam Reid
  */
-public class Body {
+public abstract class Body {
     private final Property<ImmutableVector2D> positionProperty;
     private final Property<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
@@ -224,6 +225,8 @@ public class Body {
     public boolean isModifyable() {
         return modifyable;
     }
+
+    public abstract BodyRenderer createRenderer( double viewDiameter );
 
     public static class PathPoint {
         public final ImmutableVector2D point;

@@ -36,7 +36,7 @@ public class BodyNode extends PNode {
         this.toScaleProperty = toScaleProperty;
         this.sizer = sizer;
 
-        bodyRenderer = new BodyRenderer.ImageRenderer( body, getViewDiameter() );
+        bodyRenderer = body.createRenderer( getViewDiameter() );
         addChild( bodyRenderer );
 
         final CursorHandler cursorHandler = new CursorHandler();
