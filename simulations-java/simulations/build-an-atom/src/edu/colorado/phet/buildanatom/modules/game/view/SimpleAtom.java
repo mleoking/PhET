@@ -39,18 +39,6 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
         this.numElectrons = numElectrons;
     }
 
-    /**
-     * Structure that contains both the chemical symbol and textual name for
-     * an atom.
-     * TODO: What's with this?  A wrapper for a string?  Fix it!
-     */
-    public static class AtomName{
-        public final String name;
-        public AtomName( String name ) {
-            this.name = name;
-        }
-    }
-
     private static class Isotope {
             public final int massNumber;
             public final int neutronNumber;
@@ -92,28 +80,28 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
             }
         }
 
-    private static final HashMap<Integer, AtomName> mapNumProtonsToName = new HashMap<Integer, AtomName>(){{
-            put(0, new AtomName( BuildAnAtomStrings.ELEMENT_NONE_NAME));//for an unbuilt or empty atom
-            put(1, new AtomName( BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME));
-            put(2, new AtomName( BuildAnAtomStrings.ELEMENT_HELIUM_NAME));
-            put(3, new AtomName( BuildAnAtomStrings.ELEMENT_LITHIUM_NAME));
-            put(4, new AtomName( BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME));
-            put(5, new AtomName( BuildAnAtomStrings.ELEMENT_BORON_NAME));
-            put(6, new AtomName( BuildAnAtomStrings.ELEMENT_CARBON_NAME));
-            put(7, new AtomName( BuildAnAtomStrings.ELEMENT_NITROGEN_NAME));
-            put(8, new AtomName( BuildAnAtomStrings.ELEMENT_OXYGEN_NAME));
-            put(9, new AtomName( BuildAnAtomStrings.ELEMENT_FLUORINE_NAME));
-            put(10, new AtomName(BuildAnAtomStrings.ELEMENT_NEON_NAME));
-            put(11, new AtomName(BuildAnAtomStrings.ELEMENT_SODIUM_NAME));
-            put(12, new AtomName(BuildAnAtomStrings.ELEMENT_MAGNESIUM_NAME));
-            put(13, new AtomName(BuildAnAtomStrings.ELEMENT_ALUMINUM_NAME));
-            put(14, new AtomName(BuildAnAtomStrings.ELEMENT_SILICON_NAME));
-            put(15, new AtomName(BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME));
-            put(16, new AtomName(BuildAnAtomStrings.ELEMENT_SULPHER_NAME));
-            put(17, new AtomName(BuildAnAtomStrings.ELEMENT_CHLORINE_NAME));
-            put(18, new AtomName(BuildAnAtomStrings.ELEMENT_ARGON_NAME));
-            put(19, new AtomName(BuildAnAtomStrings.ELEMENT_POTASSIUM_NAME));
-            put(20, new AtomName(BuildAnAtomStrings.ELEMENT_CALCIUM_NAME));
+    private static final HashMap<Integer, String> mapNumProtonsToName = new HashMap<Integer, String>(){{
+            put( 0, new String( BuildAnAtomStrings.ELEMENT_NONE_NAME ) );//for an unbuilt or empty atom
+            put( 1, new String( BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME ) );
+            put( 2, new String( BuildAnAtomStrings.ELEMENT_HELIUM_NAME ) );
+            put( 3, new String( BuildAnAtomStrings.ELEMENT_LITHIUM_NAME ) );
+            put( 4, new String( BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME ) );
+            put( 5, new String( BuildAnAtomStrings.ELEMENT_BORON_NAME ) );
+            put( 6, new String( BuildAnAtomStrings.ELEMENT_CARBON_NAME ) );
+            put( 7, new String( BuildAnAtomStrings.ELEMENT_NITROGEN_NAME ) );
+            put( 8, new String( BuildAnAtomStrings.ELEMENT_OXYGEN_NAME ) );
+            put( 9, new String( BuildAnAtomStrings.ELEMENT_FLUORINE_NAME ) );
+            put( 10, new String( BuildAnAtomStrings.ELEMENT_NEON_NAME ) );
+            put( 11, new String( BuildAnAtomStrings.ELEMENT_SODIUM_NAME ) );
+            put( 12, new String( BuildAnAtomStrings.ELEMENT_MAGNESIUM_NAME ) );
+            put( 13, new String( BuildAnAtomStrings.ELEMENT_ALUMINUM_NAME ) );
+            put( 14, new String( BuildAnAtomStrings.ELEMENT_SILICON_NAME ) );
+            put( 15, new String( BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME ) );
+            put( 16, new String( BuildAnAtomStrings.ELEMENT_SULPHER_NAME ) );
+            put( 17, new String( BuildAnAtomStrings.ELEMENT_CHLORINE_NAME ) );
+            put( 18, new String( BuildAnAtomStrings.ELEMENT_ARGON_NAME ) );
+            put( 19, new String( BuildAnAtomStrings.ELEMENT_POTASSIUM_NAME ) );
+            put( 20, new String( BuildAnAtomStrings.ELEMENT_CALCIUM_NAME ) );
         }};
 
     private static final ArrayList<Isotope> stableIsotopes = new ArrayList<Isotope>() {{
@@ -159,7 +147,7 @@ public class SimpleAtom extends SimpleObservable implements IAtom {
     }
 
     public static String getName( int protonCount ) {
-        return mapNumProtonsToName.get( protonCount ).name;
+        return mapNumProtonsToName.get( protonCount );
     }
 
     public int getNumNeutrons() {
