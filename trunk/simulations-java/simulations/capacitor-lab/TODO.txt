@@ -14,6 +14,7 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
+- zero tick mark is a little off on bar meters
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - hack in BottomWire.createShape
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
