@@ -183,6 +183,28 @@ public class ModelViewTransform {
         return new Dimension2DDouble( point2D.getX(), point2D.getY() );
     }
 
+    //Machine generated (and fine-tuned) equality test
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) {
+            return true;
+        }
+        if ( o == null ) {
+            return false;
+        }
+
+        if ( !transform.equals( ( (ModelViewTransform) o ).transform ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return transform.hashCode();
+    }
+
     /**
      * Inner implementation of Dimension2D since one is not provided by awt.
      */
