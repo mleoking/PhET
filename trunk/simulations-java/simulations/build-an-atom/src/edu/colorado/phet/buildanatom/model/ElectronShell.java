@@ -61,7 +61,7 @@ public class ElectronShell extends SimpleObservable {
      * @param point2d
      * @return
      */
-    public Electron getClosestElectron( Point2D point2d ) {//TODO: Consider sorting a list to attain closest electron
+    public Electron getClosestElectron( Point2D point2d ) {
         Electron closestElectron = null;
         for ( Electron candidateElectron : shellLocations.values() ) {
             if ( candidateElectron != null ) {

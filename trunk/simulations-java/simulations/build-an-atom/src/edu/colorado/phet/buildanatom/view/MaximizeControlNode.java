@@ -48,10 +48,6 @@ public class MaximizeControlNode extends PhetPNode {
     private static final Color LABEL_PAINT = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( 18, true );
 
-    // TODO: This is a temporary flag for working out where we want the label
-    // to be, and should be removed when the decision is finalized.
-    private static final boolean CENTER_LABEL = true;
-
     private final PDimension maximizedSize, minimizedSize;
     private final PNode managedNode;
     private final PPath backgroundNode;
@@ -97,13 +93,7 @@ public class MaximizeControlNode extends PhetPNode {
         double yOffset = Y_MARGIN;
         buttonNode.setOffset( maximizedSize.getWidth() - buttonNode.getFullBoundsReference().width - xOffset, yOffset );
         yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
-        if (CENTER_LABEL){
-            xOffset = maximizedSize.width / 2 - labelNode.getFullBoundsReference().width / 2;
-
-        }
-        else{
-            xOffset = buttonNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().width - X_SPACING;
-        }
+        xOffset = maximizedSize.width / 2 - labelNode.getFullBoundsReference().width / 2;
         labelNode.setOffset( xOffset, yOffset );
 
         // sizes
@@ -149,6 +139,6 @@ public class MaximizeControlNode extends PhetPNode {
     }
 
     public void reset() {
-        
+
     }
 }

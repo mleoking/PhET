@@ -32,8 +32,6 @@ public class ChargePairingGraphNode extends PNode {
     private static final double HORIZONTAL_INTER_ICON_SPACING = 3;
     private static final double THICKNESS_FACTOR = 0.3;
 
-    // TODO: Take this out when it is decided whether or not we want this.
-    private static final boolean SHOW_CHARGE_CANCELLING_ENCLOSING_BOX = true;
     private static final PPath chargeCancellationEnclosingBox = new PhetPPath( (Paint)null, new BasicStroke(1f), Color.BLACK );
 
     private final ArrayList<PositiveChargeIconNode> positiveChargeIconList = new ArrayList<PositiveChargeIconNode>();
@@ -120,13 +118,6 @@ public class ChargePairingGraphNode extends PNode {
         public ChargeIconNode( Shape symbol, Color foregroundColor, Color backgroundColor ) {
             PhetPPath symbolNode = new PhetPPath( symbol, foregroundColor, new BasicStroke( 1f ), Color.BLACK );
             symbolNode.setOffset( CHARGE_ICON_SIZE.getWidth() / 2, CHARGE_ICON_SIZE.getHeight() / 2 );
-            Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, CHARGE_ICON_SIZE.getWidth(),
-                    CHARGE_ICON_SIZE.getHeight() );
-            // TODO: Based on feedback from Kelly L, the bounding box around the charge
-            // icon was removed on 10/18/2010.  If this is accepted by the rest of the
-            // group, it should eventually be permanently removed.  For now, it is created
-            // but is invisible.
-            addChild( new PhetPPath( backgroundRect, new Color(0,0,0,0), new BasicStroke( 1 ), new Color(0,0,0,0) ) );
             addChild( symbolNode );
         }
     }
@@ -158,11 +149,11 @@ public class ChargePairingGraphNode extends PNode {
     }
 
     private void updateBoundingBox() {
-        // TODO: For rapid prototyping purposes, this is NOT positioned a 0,0,
+        // TODO: For rapid prototyping purposes, this is NOT positioned at 0,0,
         // but it should be if we end up keeping it.  This will require offsetting
         // the icon positions.
         int cancellingCharges = Math.min( positiveChargeIconList.size(), negativeChargeIconList.size() );
-        if ( SHOW_CHARGE_CANCELLING_ENCLOSING_BOX && cancellingCharges > 0 ) {
+        if ( cancellingCharges > 0 ) {
             // There are charges to enclose, so show the box and enclose it.
             chargeCancellationEnclosingBox.setVisible( true );
             RoundRectangle2D boxShape = new RoundRectangle2D.Double(
