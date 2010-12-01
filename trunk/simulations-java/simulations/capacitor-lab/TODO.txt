@@ -18,6 +18,7 @@ DESIGN ISSUES
 - colorblind: battery voltage slider thumb becomes same color as positive end of battery, hard to find (deuteranope and protanope)
 
 HIGH PRIORITY
+- more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape stuff out of Wire and into WireShapeFactory, to be consistent with all other patterns
 - hack in BottomWire.createShape
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
@@ -25,7 +26,6 @@ HIGH PRIORITY
 
 MEDUIUM PRIORITY
 - generalize BatteryCapacitorCircuit to handle multiple capacitors and wires
-- more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - all features in Multiple Capacitors tab
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working
