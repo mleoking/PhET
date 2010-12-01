@@ -26,6 +26,7 @@ public class VectorValueNode extends Sprite {
         textField.autoSize = TextFieldAutoSize.LEFT;
         textField.text = "";
         textField.selectable = false;
+        textField.textColor = arrowNode.color;
         addChild( textField );
         mouseEnabled = false;
         mouseChildren = false;
