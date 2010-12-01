@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -186,6 +187,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private static final double MIN_WAVELENGTH = 1E-10; // In meters.
         private static final double MAX_WAVELENGTH = 10; // In meters
         private static final double SPECTRUM_HEIGHT_PROPORTION = 0.5;
+        private static final Stroke MARKER_STROKE = new BasicStroke( 5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
+
 
         // Static data structure that maps the frequency values used in the
         // model to frequency ranges depicted on this spectrum.
@@ -197,7 +200,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         }};
 
         private final PhotonAbsorptionModel model;
-        private final PPath markerNode = new PhetPPath( new BasicStroke( 5 ), Color.WHITE );
+        private final PPath markerNode = new PhetPPath( MARKER_STROKE, Color.WHITE );
         private final PImage spectrumImageNode;
         private final double height;
         HashMap<Double, Double> mapWavelengthToXPos;
