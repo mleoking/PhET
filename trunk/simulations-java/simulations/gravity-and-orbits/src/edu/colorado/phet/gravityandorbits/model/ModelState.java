@@ -6,8 +6,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
- * see http://www.fisica.uniud.it/~ercolessi/md/md/node21.html
- *
  * @author Sam Reid
  */
 public class ModelState {

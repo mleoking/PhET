@@ -110,7 +110,6 @@ public class InitialConditionDialog extends JDialog {
     }
 
     public static class NumericControl extends JPanel {
-        //        private final LinearValueControl linearValueControl;
         private final JSpinner exponentSpinner;
         private JSpinner mantissaControl;
         private String title;

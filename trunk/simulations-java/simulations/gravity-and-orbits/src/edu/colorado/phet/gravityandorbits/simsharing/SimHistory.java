@@ -9,11 +9,10 @@ import java.util.ArrayList;
 public class SimHistory {
     private ArrayList<Object> states = new ArrayList<Object>();
     private ObjectOutputStream objectOutputStream;
-    private File dir;
 
     public SimHistory() {
         try {
-            dir = mkDirs( "simhistory/gravity-and-orbits" );
+            File dir = mkDirs( "simhistory/gravity-and-orbits" );
             objectOutputStream = new ObjectOutputStream( new FileOutputStream( new File( dir, "history-" + System.currentTimeMillis() + ".ser" ) ) );
         }
         catch ( IOException e ) {

@@ -11,10 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  */
 public class GravityAndOrbitsClock extends ConstantDtClock {
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
     public GravityAndOrbitsClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }

@@ -65,7 +65,6 @@ public class BodyNode extends PNode {
                  */
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 setOffset( modelViewTransform.getValue().modelToView( body.getPosition() ).toPoint2D() );
-//                System.out.println( "ModelViewTransform.modelToView( body.getPosition() ) = " + ModelViewTransform.modelToView( body.getPosition() ) );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 if ( parentComponent != null && body.isModifyable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {

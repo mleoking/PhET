@@ -26,7 +26,6 @@ public class MassReadoutNode extends PNode {
                 public void update() {
                     double massKG = body.getMass();
                     double planetMasses = massKG / GravityAndOrbitsModule.PLANET_MASS;
-//                    System.out.println( "planetMasses = " + planetMasses );
                     String text;
                     DecimalFormat decimalFormat = new DecimalFormat( "0" );
                     if ( planetMasses > 1E3 ) {

@@ -62,10 +62,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double MOON_X = EARTH_PERIHELION;
     private static final double MOON_Y = MOON_PERIGEE;
 
-    private static final double SPACE_STATION_RADIUS = 109;//see http://en.wikipedia.org/wiki/International_Space_Station
-    private static final double SPACE_STATION_MASS = 369914;//see http://en.wikipedia.org/wiki/International_Space_Station
-    private static final double SPACE_STATION_SPEED = 7706;//see http://en.wikipedia.org/wiki/International_Space_Station
-    private static final double SPACE_STATION_PERIGEE = 347000;//see http://en.wikipedia.org/wiki/International_Space_Station
+    //see http://en.wikipedia.org/wiki/International_Space_Station
+    private static final double SPACE_STATION_RADIUS = 109;
+    private static final double SPACE_STATION_MASS = 369914;
+    private static final double SPACE_STATION_SPEED = 7706;
+    private static final double SPACE_STATION_PERIGEE = 347000;
 
     private static final double FAKE_SPACE_STATION_RADIUS = 1737.1E3;
     private static final double FAKE_SPACE_STATION_MASS = 7.3477E22;
@@ -145,7 +146,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
                 addBody( new ImageBody( "Space Station", FAKE_SPACE_STATION_X, 0, FAKE_SPACE_STATION_RADIUS * 2, 0, FAKE_SPACE_STATION_SPEED * 7, FAKE_SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
-//                addBody( new ImageBody( "Space Station", PLANET_ORBIT_RADIUS + FAKE_SPACE_STATION_PERIGEE, 0, FAKE_SPACE_STATION_RADIUS * 2, 0, FAKE_SPACE_STATION_SPEED, FAKE_SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
             }
 
             @Override
@@ -183,10 +183,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return new ArrayList<GravityAndOrbitsMode>( modes );
     }
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
     public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs ) {
         super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE
                + ": " + Arrays.asList( commandLineArgs )//For simsharing
@@ -218,12 +214,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
         setClockControlPanel( null );//clock panel appears in the canvas
 
-        // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
-
-        // Set initial state
         reset();
     }
 
@@ -236,10 +226,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             mode.setActive( mode == getMode() );
         }
     }
-
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
 
     /**
      * Resets the module.

@@ -15,9 +15,7 @@ import java.awt.*;
 public class GravityAndOrbitsDefaults {
     public static final double SECONDS_PER_MINUTE = 60;
 
-    /* Not intended for instantiation */
-
-    private GravityAndOrbitsDefaults() {
+    private GravityAndOrbitsDefaults() {/* Not intended for instantiation */
     }
 
     // Clock
@@ -28,7 +26,5 @@ public class GravityAndOrbitsDefaults {
     public static final double DEFAULT_DT = NUMBER_DAYS_PER_TICK * SECONDS_PER_DAY;
     public static final int CLOCK_TIME_COLUMNS = 10;
 
-    // Model-view transform
     public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
-
 }

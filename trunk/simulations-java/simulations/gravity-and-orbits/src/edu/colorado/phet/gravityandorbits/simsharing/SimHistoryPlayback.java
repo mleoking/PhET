@@ -34,7 +34,7 @@ public class SimHistoryPlayback {
                         index = index + increment;
                     }
                     if ( index < 0 ) {
-                        increment = 1;                //go back in time after playing the recording
+                        increment = 1;//go back in time after playing the recording, just for testing
                         index = index + increment;
                     }
                 }
