@@ -65,7 +65,8 @@ public class Camera {
 
     private void stepTimer() {
         if ( t <= 1 ) {
-            t = t + 1;//TODO: set back to 0.1 or so
+            t = t + 0.08;
+//            t = t + 1;//TODO: set back to 0.1 or so
             if ( t > 1 ) {
                 t = 1;
             }
@@ -105,6 +106,6 @@ public class Camera {
         timer.start();
 
         //Automatically update the camera//TODO: remove this.
-        stepTimer();
+//        stepTimer();
     }
 }
