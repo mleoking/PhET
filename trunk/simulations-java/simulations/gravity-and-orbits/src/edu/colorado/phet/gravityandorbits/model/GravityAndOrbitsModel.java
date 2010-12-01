@@ -17,12 +17,13 @@ public class GravityAndOrbitsModel {
     private final GravityAndOrbitsClock clock;
     private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
     public boolean teacherMode;
+    private final VoidFunction1<Double> stepModel;
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
         super();
         this.clock = clock;
 
-        final VoidFunction1<Double> stepModel = new VoidFunction1<Double>() {
+        stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     for ( Body body : bodies ) {
@@ -44,15 +45,6 @@ public class GravityAndOrbitsModel {
                 }
             }
         } );
-        final SimpleObserver updatePhysics = new SimpleObserver() {
-            public void update() {
-                stepModel.apply( 0.0 );
-            }
-        };
-
-        for ( Body body : bodies ) {
-            body.getPositionProperty().addObserver( updatePhysics );
-        }
     }
 
     public GravityAndOrbitsClock getClock() {
@@ -72,6 +64,11 @@ public class GravityAndOrbitsModel {
 
     public void addBody( Body body ) {
         bodies.add( body );
+        body.getPositionProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                stepModel.apply( 0.0 );
+            }
+        } );
     }
 
     public ArrayList<Body> getBodies() {
