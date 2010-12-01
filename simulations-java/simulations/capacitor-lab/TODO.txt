@@ -18,22 +18,24 @@ DESIGN ISSUES
 - colorblind: battery voltage slider thumb becomes same color as positive end of battery, hard to find (deuteranope and protanope)
 
 HIGH PRIORITY
+- decide how to label the "Plate Charge" slider, meter and check box
+- resolve colorblind issues identified in #2593
+- integrate new E-Field Detector probe, with crosshairs that are visible on dense E-Field
+- publish 1.00
+
+MEDUIUM PRIORITY
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
-- small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
-- regression test to see what's broken
-
-MEDUIUM PRIORITY
 - charge and plate voltage should be a property of Capacitor (not BatteryCapacitorCircuit), set by BatteryCapacitorCircuit
 - too many things know about BatteryCapacitorCircuit
 - generalize BatteryCapacitorCircuit to handle multiple capacitors and wires
-- convert BatteryCapacitorCircuit to Property<T>, pre-computing all model values
-- all features in Multiple Capacitors tab
+- convert BatteryCapacitorCircuit to Property<T>, pre-compute all model values
 - do initial implementation of Multiple Capacitors tab with radio buttons for selecting completed circuits
 - add circuit construction to Multiple Capacitors tab after everything else is working
 
 LOW PRIORITY
+- small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - only update things that are visible, do this in the model wherever possible by observing visibleProperty
 - add meter body bounds to model so we can keep entire meter body constrained to world bounds when dragging
 - gradient paint on plate top surfaces (not on edges)
