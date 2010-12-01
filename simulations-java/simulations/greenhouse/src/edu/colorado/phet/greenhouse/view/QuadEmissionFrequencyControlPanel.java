@@ -94,16 +94,16 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Create a "panel" sort of node that contains all the selector
         // buttons and position it at the center bottom of this node.
         final PNode wavelengthSelectorPanelNode = new PNode();
+        double selectorSpacing = PANEL_SIZE.getWidth() / 5;
+        microwaveSelectorNode.setOffset( selectorSpacing - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
         wavelengthSelectorPanelNode.addChild( microwaveSelectorNode );
-        infraredSelectorNode.setOffset( microwaveSelectorNode.getFullBoundsReference().getMaxX(), 0 );
+        infraredSelectorNode.setOffset( selectorSpacing * 2 - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
         wavelengthSelectorPanelNode.addChild( infraredSelectorNode );
-        visibleLightSelectorNode.setOffset( infraredSelectorNode.getFullBoundsReference().getMaxX(), 0 );
+        visibleLightSelectorNode.setOffset( selectorSpacing * 3 - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
-        ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX(), 0 );
+        ultravioletSelectorNode.setOffset( selectorSpacing * 4 - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
-        wavelengthSelectorPanelNode.setOffset(
-                backgroundNode.getFullBoundsReference().getCenterX() - wavelengthSelectorPanelNode.getFullBoundsReference().width / 2,
-                backgroundNode.getFullBoundsReference().height - wavelengthSelectorPanelNode.getFullBoundsReference().height );
+        wavelengthSelectorPanelNode.setOffset( 0, backgroundNode.getFullBoundsReference().height - wavelengthSelectorPanelNode.getFullBoundsReference().height );
 
         // Create a structure that maps the wavelengths to the x positions of
         // their selectors.  This is needed by the spectrum node in order to
