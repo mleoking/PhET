@@ -145,7 +145,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
                 addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
-                addBody( new ImageBody( "Space Station", FAKE_SPACE_STATION_X, 0, FAKE_SPACE_STATION_RADIUS * 2, 0, FAKE_SPACE_STATION_SPEED * 7, FAKE_SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                addBody( new ImageBody( "Space Station", FAKE_SPACE_STATION_X, 0, FAKE_SPACE_STATION_RADIUS * 2, 0, FAKE_SPACE_STATION_SPEED * 7, FAKE_SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, true ) );
             }
 
             @Override
