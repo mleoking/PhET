@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.greenhouse.controlpanel;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -92,10 +95,10 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
 
         // Create and add a panel that will contain the buttons for selecting
         // the gas.
-        PhetTitledPanel atmosphericGasesPanel = new PhetTitledPanel( GreenhouseResources.getString( "ControlPanel.Molecule" ) );
-        atmosphericGasesPanel.setLayout( new GridBagLayout() );
+        PhetTitledPanel moleculeSelectionPanel = new PhetTitledPanel( GreenhouseResources.getString( "ControlPanel.Molecule" ) );
+        moleculeSelectionPanel.setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        addControlFullWidth( atmosphericGasesPanel );
+        addControlFullWidth( moleculeSelectionPanel );
 
         // Add buttons for selecting the molecule.
         /*
@@ -151,17 +154,51 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         atmosphericGasesPanel.add( o3Selector, constraints );
         */
 
-        atmosphericGasesPanel.add( new MoleculeSelector( "<html>Carbon Monoxide<br>CO</html>",
+        int interSelectorSpacing = 15;
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Carbon Monoxide<br>CO</html>",
                 createMoleculeImage( new CO(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_CO_MOLECULE ),
                 constraints );
 
-        atmosphericGasesPanel.add( new MoleculeSelector( "<html>Nitrogen<br>N<sub>2</sub></html>",
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Nitrogen<br>N<sub>2</sub></html>",
                 createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_N2_MOLECULE ),
                 constraints );
 
-        atmosphericGasesPanel.add( new MoleculeSelector( "<html>Oxygen<br>O<sub>2</sub></html>",
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Oxygen<br>O<sub>2</sub></html>",
                 createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_O2_MOLECULE ),
                 constraints );
+
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Carbon Dioxide<br>CO<sub>2</sub></html>",
+                createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_CO2_MOLECULE ),
+                constraints );
+
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Water<br>H<sub>2</sub>O</html>",
+                createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_H2O_MOLECULE ),
+                constraints );
+
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Nitrogen Dioxide<br>NO<sub>2</sub></html>",
+                createMoleculeImage( new NO2(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_NO2_MOLECULE ),
+                constraints );
+
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+        moleculeSelectionPanel.add( new SelectionPanelWithImage( "<html>Ozone<br>O<sub>3</sub></html>",
+                createMoleculeImage( new O3(), MOLECULE_SCALING_FACTOR ), PhotonTarget.SINGLE_O3_MOLECULE ),
+                constraints );
+
+        moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
 
         // Put all the buttons in a button group.
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -244,22 +281,37 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
     }
 
     /**
-     * Class that defines a radio button that contains the name, symbol, and
-     * an icon for a molecule.
+     * Class that defines a panel that has a radio button on the left and an
+     * image on the right.  This is designed to be fairly general, and
+     * therefore potentially reusable in other sims.
      *
      * @author John Blanco
      */
-    private class MoleculeSelector extends HorizontalLayoutPanel {
+    private class SelectionPanelWithImage extends JPanel {
+
+        private final GridBagConstraints selectorButtonConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private final GridBagConstraints imageConstraints = new GridBagConstraints( 1, 0, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         private final JRadioButton radioButton = new JRadioButton();
 
-        public MoleculeSelector( String moleculeNameAndSymbol, BufferedImage image, final PhotonTarget photonTarget ){
-            radioButton.setFont( new PhetFont(14) );
+        /**
+         * Constructor.
+         */
+        public SelectionPanelWithImage( String moleculeNameAndSymbol, BufferedImage image, final PhotonTarget photonTarget ){
+            setLayout( new GridBagLayout() );
             radioButton.setText( moleculeNameAndSymbol );
-            add( radioButton );
+            radioButton.setFont( new PhetFont(14) );
+            add( radioButton, selectorButtonConstraints );
             ImageIcon imageIcon = new ImageIcon( image );
             JLabel icon = new JLabel( imageIcon );
-            add( icon );
+            // Note: Had to put the icon on a panel of its own in order to get
+            // it to be all the way to the right.  Not sure why this was
+            // necessary, but we're talking about Java layout here, so it's
+            // hard to say.
+            JPanel iconPanel = new JPanel();
+            iconPanel.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
+            iconPanel.add( icon );
+            add( iconPanel, imageConstraints );
         }
 
         protected JRadioButton getRadioButton() {

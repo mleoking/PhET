@@ -35,6 +35,13 @@ class RadioButtonWithIconPanel extends HorizontalLayoutPanel {
     private final JRadioButton button;
 
     /**
+     * Constructor with default scaling factor.
+     */
+    public RadioButtonWithIconPanel(String buttonText, String toolTipText, BufferedImage image ){
+        this( buttonText, toolTipText, image, 1);
+    }
+
+    /**
      * Constructor.
      *
      * @param buttonText
