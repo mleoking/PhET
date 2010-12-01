@@ -10,7 +10,7 @@ import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
  */
 public class SphereBody extends Body {
     public SphereBody( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, boolean modifyable ) {
-        super( name, x, y, diameter, vx, vy, mass, color, highlight, sizer, modifyable );
+        super( name, x, y, diameter, vx, vy, mass, color, highlight, sizer, modifyable, sizer );
     }
 
     @Override
