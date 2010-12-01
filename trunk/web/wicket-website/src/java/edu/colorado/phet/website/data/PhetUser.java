@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.authentication.PhetSession;
@@ -45,6 +46,7 @@ public class PhetUser implements Serializable, IntId {
     private boolean receiveWebsiteNotifications = false; // for receiving internal (team-member) only notifications
 
     private static Random random = new Random(); // for computing things like the confirmation keys
+    private static Logger logger = Logger.getLogger( PhetUser.class );
 
     /**
      * @return An array of possible options for the 'description' field. Older descriptions may exist from legacy data.

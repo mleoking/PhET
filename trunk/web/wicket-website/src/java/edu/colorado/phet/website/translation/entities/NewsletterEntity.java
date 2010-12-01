@@ -32,6 +32,9 @@ public class NewsletterEntity extends TranslationEntity {
         addString( "newsletter.confirmedEmail" );
         addString( "newsletter.unsubscribed.title" );
         addString( "newsletter.unsubscribed" );
+        addString( "newsletter.pleaseCheckSubscribing" );
+        addString( "newsletter.pleaseCheckRegistering" );
+        addString( "newsletter.redirection" );
 
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {

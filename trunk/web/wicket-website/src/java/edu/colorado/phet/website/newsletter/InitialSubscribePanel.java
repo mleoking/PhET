@@ -53,10 +53,6 @@ public class InitialSubscribePanel extends PhetPanel {
         add( feedback );
 
         add( new LocalizedText( "pleaseSignUp", "newsletter.pleaseSignUp" ) );
-
-        add( new LocalizedText( "pastEditions", "newsletter.pastEditions", new Object[] {
-                AboutNewsPanel.getLinker().getHref( context, getPhetCycle() )
-        } ) );
     }
 
     private class SubscribeForm extends Form {

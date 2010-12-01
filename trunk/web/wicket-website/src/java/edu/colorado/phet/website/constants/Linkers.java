@@ -24,6 +24,14 @@ public class Linkers {
     public static final RawLinkable PHET_LOOK_AND_FEEL_PDF = new RawLinker( "/publications/PhET%20Look%20and%20Feel.pdf" );
     public static final RawLinkable CONTRIBUTION_GUIDELINES_PDF = new RawLinker( "/publications/activities-guide/contribution-guidelines.pdf" );
 
+    /*---------------------------------------------------------------------------*
+    * social
+    *----------------------------------------------------------------------------*/
+
+    // TODO: refactor front page to use these linkers
+    public static final RawLinkable FACEBOOK_PAGE = new RawLinker( "http://www.facebook.com/pages/PhET-Interactive-Simulations/161503243888932?v=wall" );
+    public static final RawLinkable TWITTER_PAGE = new RawLinker( "http://twitter.com/PhETSims" );
+    public static final RawLinkable BLOG = new RawLinker( "http://phet.colorado.edu/blog/" );
 
     /*---------------------------------------------------------------------------*
     * installers

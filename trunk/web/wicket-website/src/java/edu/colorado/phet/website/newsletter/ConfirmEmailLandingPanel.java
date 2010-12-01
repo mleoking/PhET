@@ -8,7 +8,6 @@ import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.data.PhetUser;
 import edu.colorado.phet.website.panels.PhetPanel;
-import edu.colorado.phet.website.util.HtmlUtils;
 import edu.colorado.phet.website.util.PageContext;
 
 public class ConfirmEmailLandingPanel extends PhetPanel {
@@ -19,9 +18,7 @@ public class ConfirmEmailLandingPanel extends PhetPanel {
         super( id, context );
 
         if ( user.isNewsletterOnlyAccount() ) {
-            add( new LocalizedText( "now-subscribed", "newsletter.nowSubscribed", new Object[] {
-                    HtmlUtils.encode( user.getEmail() )
-            } ) );
+            add( new LocalizedText( "now-subscribed", "newsletter.nowSubscribed" ) );
             add( new InvisibleComponent( "redirector" ) );
             add( new InvisibleComponent( "now-registered" ) );
         }
@@ -38,6 +35,13 @@ public class ConfirmEmailLandingPanel extends PhetPanel {
             }
 
             add( new LocalizedText( "now-registered", "newsletter.nowRegistered" ) );
+        }
+
+        if ( destination != null ) {
+            add( new LocalizedText( "redirection", "newsletter.redirection" ) );
+        }
+        else {
+            add( new InvisibleComponent( "redirection" ) );
         }
 
     }
