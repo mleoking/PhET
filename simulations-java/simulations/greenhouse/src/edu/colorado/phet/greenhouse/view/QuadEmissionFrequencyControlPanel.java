@@ -41,7 +41,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    private static final Color BACKGROUND_COLOR = new Color( 205, 198, 115 );
     private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
     private static final double EDGE_TO_ARROW_DISTANCE = 20;
     private static final double TOP_TO_ARROW_DISTANCE = 30;
@@ -92,7 +92,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         final PNode ultravioletSelectorNode = new WavelengthSelectButtonNode( "Ultraviolet", model, GreenhouseConfig.uvWavelength );
 
         // Create a "panel" sort of node that contains all the selector
-        // buttons and position it at the center bottom of this node.
+        // buttons, then position it at the center bottom of the main node.
         final PNode wavelengthSelectorPanelNode = new PNode();
         double selectorSpacing = PANEL_SIZE.getWidth() / 5;
         microwaveSelectorNode.setOffset( selectorSpacing - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
@@ -188,7 +188,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private static final double MAX_WAVELENGTH = 10; // In meters
         private static final double SPECTRUM_HEIGHT_PROPORTION = 0.5;
         private static final Stroke MARKER_STROKE = new BasicStroke( 5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
-
+        private static final Color MARKER_COLOR = new Color( 139, 129, 76 );
 
         // Static data structure that maps the frequency values used in the
         // model to frequency ranges depicted on this spectrum.
@@ -200,7 +200,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         }};
 
         private final PhotonAbsorptionModel model;
-        private final PPath markerNode = new PhetPPath( MARKER_STROKE, Color.WHITE );
+        private final PPath markerNode = new PhetPPath( MARKER_STROKE, MARKER_COLOR );
         private final PImage spectrumImageNode;
         private final double height;
         HashMap<Double, Double> mapWavelengthToXPos;
