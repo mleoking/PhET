@@ -177,7 +177,7 @@ public abstract class PlateChargeNode extends PhetPNode {
         }
         
         // Gets the x offset (relative to the plate's origin) of the portion of the plate that is in contact with the dielectric.
-        public double getContactXOrigin() {
+        protected double getContactXOrigin() {
             return -( getCircuit().getCapacitor().getPlateWidth() / 2 ) + getCircuit().getCapacitor().getDielectricOffset();
         }
         
@@ -199,17 +199,17 @@ public abstract class PlateChargeNode extends PhetPNode {
         }
         
         // Gets the portion of the plate charge due to air.
-        public double getPlateCharge() {
+        protected double getPlateCharge() {
             return getCircuit().getAirPlateCharge();
         }
         
         // Gets the x offset (relative to the plate origin) of the portion of the plate that is in contact with air.
-        public double getContactXOrigin() {
+        protected double getContactXOrigin() {
             return -getCircuit().getCapacitor().getPlateWidth() / 2;
         }
         
         // Gets the width of the portion of the plate that is in contact with air.
-        public double getContactWidth() {
+        protected double getContactWidth() {
             Capacitor capacitor = getCircuit().getCapacitor();
             return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateWidth() );
         }

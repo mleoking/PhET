@@ -19,7 +19,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
-- move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent pattern used elsewhere
+- move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - regression test to see what's broken
