@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -89,12 +90,15 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Nitrogen Dioxide<br>NO<sub>2</sub></html>", createMoleculeImage( new NO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_NO2_MOLECULE ));
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Ozone<br>O<sub>3</sub></html>", createMoleculeImage( new O3(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O3_MOLECULE ));
 
-        int interSelectorSpacing = 15;
-
         // Add the molecule selection panels to the main panel.
+
+        int interSelectorSpacing = 15;
+        ButtonGroup buttonGroup = new ButtonGroup();
+
         for ( MoleculeSelectorPanel moleculeSelector : moleculeSelectors ){
             moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
             moleculeSelectionPanel.add(  moleculeSelector, constraints );
+            buttonGroup.add( moleculeSelector.getRadioButton() ); // This prevent toggling when clicking same button twice.
         }
 
         moleculeSelectionPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );

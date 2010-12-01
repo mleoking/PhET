@@ -7,10 +7,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Box;
@@ -25,10 +24,11 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.CH4;
+import edu.colorado.phet.greenhouse.model.CO;
 import edu.colorado.phet.greenhouse.model.CO2;
 import edu.colorado.phet.greenhouse.model.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
@@ -69,14 +69,12 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
     private final PhotonAbsorptionModel model;
 
-    private final RadioButtonWithIconPanel co2Selector;
-    private final RadioButtonWithIconPanel h2oSelector;
-    private final RadioButtonWithIconPanel ch4Selector;
-    private final RadioButtonWithIconPanel n2Selector;
-    private final RadioButtonWithIconPanel o2Selector;
-    private final RadioButtonWithIconPanel atmosphereSelector;
-
     private final HashMap<MoleculeID, LinearValueControl> moleculeToSliderMap = new HashMap<MoleculeID, LinearValueControl>();
+
+    // The following data structure defines each of the gas selectors
+    // that will exist on this control panel.
+    private final ArrayList<MoleculeSelectorPanel> gasSelectors = new ArrayList<MoleculeSelectorPanel>();
+
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -109,46 +107,27 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         GridBagConstraints constraints=new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         addControlFullWidth(atmosphericGasesPanel);
 
+        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.CH4"), createMoleculeImage( new CO(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CH4_MOLECULE ));
+        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.CO2"), createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ));
+        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.H2O"), createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_H2O_MOLECULE ));
+        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.N2"), createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_N2_MOLECULE ));
+        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.O2"), createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ));
+        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.BuildAtmosphere"), BufferedImageUtils.multiScale( GreenhouseResources.getImage( "earth.png" ), PLANET_SCALING_FACTOR ), model, PhotonTarget.CONFIGURABLE_ATMOSPHERE ));
+
+        // Add the molecule selection panels to the main panel.
+        int interSelectorSpacing = 2;
+        ButtonGroup buttonGroup = new ButtonGroup();
+        for ( MoleculeSelectorPanel moleculeSelector : gasSelectors ){
+            atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+            atmosphericGasesPanel.add(  moleculeSelector, constraints );
+            buttonGroup.add( moleculeSelector.getRadioButton() ); // This prevent toggling when clicking same button twice.
+
+        }
+
+        atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
+
+
         // Add buttons for selecting greenhouse gas.
-        ch4Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString("ControlPanel.CH4"),
-                GreenhouseResources.getString("ControlPanel.Methane"),
-                createImageFromMolecule( new CH4() ), PhotonTarget.SINGLE_CH4_MOLECULE, MOLECULE_SCALING_FACTOR );
-        ch4Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(ch4Selector,constraints);
-
-        co2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString("ControlPanel.CO2"),
-                GreenhouseResources.getString("ControlPanel.CarbonDioxide"),
-                createImageFromMolecule( new CO2() ), PhotonTarget.SINGLE_CO2_MOLECULE, MOLECULE_SCALING_FACTOR );
-        co2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(co2Selector,constraints);
-
-        h2oSelector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString("ControlPanel.H2O"),
-                GreenhouseResources.getString("ControlPanel.Water"),
-                createImageFromMolecule( new H2O() ), PhotonTarget.SINGLE_H2O_MOLECULE, MOLECULE_SCALING_FACTOR );
-        h2oSelector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(h2oSelector,constraints);
-
-        n2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString("ControlPanel.N2"),
-                GreenhouseResources.getString("ControlPanel.Nitrogen"),
-                createImageFromMolecule( new N2() ), PhotonTarget.SINGLE_N2_MOLECULE, MOLECULE_SCALING_FACTOR );
-        n2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(n2Selector,constraints);
-
-        o2Selector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString("ControlPanel.O2"),
-                GreenhouseResources.getString("ControlPanel.Oxygen"),
-                createImageFromMolecule( new O2() ), PhotonTarget.SINGLE_O2_MOLECULE, MOLECULE_SCALING_FACTOR );
-        o2Selector.setFont( LABEL_FONT );
-        atmosphericGasesPanel.add(o2Selector,constraints);
-
-        atmosphereSelector = createAndAttachSelectorPanel(
-                GreenhouseResources.getString("ControlPanel.BuildAtmosphere"), null,
-                GreenhouseResources.getImage( "earth.png" ), PhotonTarget.CONFIGURABLE_ATMOSPHERE, PLANET_SCALING_FACTOR);
-        atmosphericGasesPanel.add(atmosphereSelector,constraints);
 
         // Create and add a panel that will contain the sliders for
         // configuring the atmosphere.
@@ -172,15 +151,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
                 atmosphereSliderPanel, MoleculeID.O2 );
 
         atmosphericGasesPanel.add( atmosphereSliderPanel ,constraints);
-
-        // Put all the buttons in a button group.
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( co2Selector.getButton() );
-        buttonGroup.add( h2oSelector.getButton() );
-        buttonGroup.add( ch4Selector.getButton() );
-        buttonGroup.add( n2Selector.getButton() );
-        buttonGroup.add( o2Selector.getButton() );
-        buttonGroup.add(atmosphereSelector.getButton());
 
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(5));
@@ -254,48 +224,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         panel.add( sliderPanel );
     }
 
-    /**
-     * Creates a selector panel with a radio button and an icon and "attaches"
-     * it to the model in the sense that it hooks it up to set the appropriate
-     * value when pressed and updates its state when the model sends
-     * notifications of changes.  This is a convenience method that exists in
-     * order to avoid duplication of code.
-     * @param toolTipText TODO
-     */
-    private RadioButtonWithIconPanel createAndAttachSelectorPanel(String text, String toolTipText,
-            BufferedImage image, final PhotonTarget photonTarget, double imageScaleFactor){
-
-        // Create the panel.
-        final RadioButtonWithIconPanel panel =  new RadioButtonWithIconPanel( text, toolTipText, image, imageScaleFactor );
-
-        // Listen to the button so that the specified value can be set in the
-        // model when the button is pressed.
-        panel.getButton().addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if (panel.getButton().isSelected()){
-                    model.setPhotonTarget( photonTarget );
-                }
-            }
-        });
-
-        // Listen to the model so that the button state can be updated when
-        // the model setting changes.
-        model.addListener( new PhotonAbsorptionModel.Adapter(){
-            @Override
-            public void photonTargetChanged() {
-                // The logic in these statements is a little hard to follow,
-                // but the basic idea is that if the state of the model
-                // doesn't match that of the button, update the button,
-                // otherwise leave the button alone.  This prevents a bunch
-                // of useless notifications from going to the model.
-                if ((model.getPhotonTarget() == photonTarget) != panel.getButton().isSelected()){
-                    panel.getButton().setSelected( model.getPhotonTarget() == photonTarget );
-                }
-            }
-        });
-        return panel;
-    }
-
     private JPanel createVerticalSpacingPanel(int space){
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
@@ -303,7 +231,15 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         return spacePanel;
     }
 
-    private BufferedImage createImageFromMolecule(Molecule molecule){
-        return new MoleculeNode(molecule, MVT).getImage();
+    /**
+     * Creates a buffered image of a molecule given an instance of a Molecule
+     * object.
+     *
+     * @param molecule
+     * @return
+     */
+    private BufferedImage createMoleculeImage( Molecule molecule, double scaleFactor ) {
+        BufferedImage unscaledMoleculeImage = new MoleculeNode( molecule, MVT ).getImage();
+        return BufferedImageUtils.multiScale( unscaledMoleculeImage, scaleFactor );
     }
 }

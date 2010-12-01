@@ -28,9 +28,9 @@ class MoleculeSelectorPanel extends SelectionPanelWithImage {
         // model when the button is pressed.
         getRadioButton().addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if ( getRadioButton().isSelected() ) {
+//                    if ( getRadioButton().isSelected() ) {
                         model.setPhotonTarget( photonTarget );
-                    }
+//                    }
                 }
             } );
 
