@@ -67,6 +67,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double SPACE_STATION_SPEED = 7706;//see http://en.wikipedia.org/wiki/International_Space_Station
     private static final double SPACE_STATION_PERIGEE = 347000;//see http://en.wikipedia.org/wiki/International_Space_Station
 
+    private static final double FAKE_SPACE_STATION_RADIUS = 1737.1E3;
+    private static final double FAKE_SPACE_STATION_MASS = 7.3477E22;
+    private static final double FAKE_SPACE_STATION_SPEED = 1.01E3;
+    private static final double FAKE_SPACE_STATION_X = 147098290E3;
+
     private static final Function1<Double, String> days = new Function1<Double, String>() {
         public String apply( Double time ) {
             return (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_DAY ) + " Earth Days";
@@ -128,7 +133,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
             @Override
             public double getZoomScale() {
-                return 1;
+                return 1.25;
             }
 
             @Override
@@ -139,7 +144,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         add( new GravityAndOrbitsMode( "My Planet & Space Station", VectorNode.FORCE_SCALE, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
                 addBody( new SphereBody( "Planet", PLANET_ORBIT_RADIUS, 0, PLANET_RADIUS * 2, 0, 0, PLANET_MASS, Color.magenta, Color.white, GravityAndOrbitsCanvas.PLANET_SIZER, true ) );
-                addBody( new ImageBody( "Space Station", MOON_X, 0, MOON_RADIUS * 2, 0, MOON_EARTH_SPEED * 7, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+                addBody( new ImageBody( "Space Station", FAKE_SPACE_STATION_X, 0, FAKE_SPACE_STATION_RADIUS * 2, 0, FAKE_SPACE_STATION_SPEED * 7, FAKE_SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
+//                addBody( new ImageBody( "Space Station", PLANET_ORBIT_RADIUS + FAKE_SPACE_STATION_PERIGEE, 0, FAKE_SPACE_STATION_RADIUS * 2, 0, FAKE_SPACE_STATION_SPEED, FAKE_SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.MOON_SIZER, false ) );
             }
 
             @Override
