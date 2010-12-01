@@ -131,7 +131,9 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
         // Create the rod that connects the emitter to the control panel.
         PNode connectingRod = new VerticalRodNode( 30,
-                Math.abs( photonEmitterNode.getFullBoundsReference().getCenterY() - photonEmissionControlPanel.getFullBoundsReference().getCenterY() ) );
+                Math.abs( photonEmitterNode.getFullBoundsReference().getCenterY() - photonEmissionControlPanel.getFullBoundsReference().getCenterY() ),
+                new Color( 205, 198, 115 ) );
+
         connectingRod.setOffset(
                 photonEmitterNode.getFullBoundsReference().getCenterX() - connectingRod.getFullBoundsReference().width / 2,
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
