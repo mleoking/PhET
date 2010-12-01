@@ -1,3 +1,8 @@
+Molecules & Light: Modified the color scheme for a more engaging look
+Molecules & Light: Added all molecules to the control panel
+Molecules & Light: Created the two-line molecule selector on the control panel.
+Molecules & Light: Added the visual connector between the spectrum range and the selector button.
+Molecules & Light: Make the lines from the ranges connect to the choice itself
 Added CO, NO2, and O3 to the Molecules & Light sim.
 > Fixed: Photons were disappearing before traveling out of view on the Photon Absorption tab.
 Created the spectrum representation for the control panel in Molecules & Light
