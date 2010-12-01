@@ -69,12 +69,12 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add the arrows on the right and left sides.
         // TODO: i18n
-        EnergyArrow leftArrowNode = new EnergyArrow( "Lower", true ){{
+        EnergyArrow leftArrowNode = new EnergyArrow( "Lower", EnergyArrow.Direction.POINTS_LEFT ){{
            setOffset( EDGE_TO_ARROW_DISTANCE, TOP_TO_ARROW_DISTANCE );
         }};
         backgroundNode.addChild( leftArrowNode );
         // TODO: i18n
-        EnergyArrow rightArrowNode = new EnergyArrow( "Higher", false ){{
+        EnergyArrow rightArrowNode = new EnergyArrow( "Higher", EnergyArrow.Direction.POINTS_RIGHT ){{
            setOffset( backgroundNode.getFullBoundsReference().width - getFullBoundsReference().getMaxX() - EDGE_TO_ARROW_DISTANCE,
                    TOP_TO_ARROW_DISTANCE );
         }};
@@ -123,7 +123,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add everything in the needed order.
         addChild( backgroundNode );
-//        backgroundNode.addChild( buttonPanelNode );
         backgroundNode.addChild( wavelengthSelectorPanelNode );
         addChild( spectrumNode );
     }
@@ -168,8 +167,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
      * Convenience class for the radio buttons that select the wavelength.
      */
     private static class WavelengthSelectButtonNode extends PNode {
-
-        private static final Font LABEL_FONT  = new PhetFont( 20 );
 
         public WavelengthSelectButtonNode( String text, final PhotonAbsorptionModel model, final double wavelength ){
             WavelengthSelectButton button = new WavelengthSelectButton( text, model, wavelength );
@@ -275,6 +272,12 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         }
     }
 
+    /**
+     * Class that defines the "energy arrow", which is an arrow on each side
+     * of the chart that indicates increasing or decreasin energy amounts.
+     *
+     * @author John Blanco
+     */
     private static class EnergyArrow extends PNode {
 
         private static final double ARROW_LENGTH = 60;
@@ -282,14 +285,16 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private static final double ARROW_HEAD_WIDTH = 30;
         private static final double ARROW_TAIL_WIDTH = 10;
 
-        public EnergyArrow( String captionText, boolean pointsLeft ){
+        public enum Direction { POINTS_LEFT, POINTS_RIGHT };
+
+        public EnergyArrow( String captionText, Direction direction ){
 
             PText caption = new PText( captionText );
             caption.setFont( new PhetFont( 18, true ) );
             addChild( caption );
 
             Point2D headPoint, tailPoint;
-            if ( pointsLeft ){
+            if ( direction == Direction.POINTS_LEFT ){
                 // Arrow points to the left.
                 headPoint = new Point2D.Double(0, 0);
                 tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
