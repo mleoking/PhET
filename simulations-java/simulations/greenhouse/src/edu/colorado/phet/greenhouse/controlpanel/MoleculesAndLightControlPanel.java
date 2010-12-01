@@ -45,7 +45,7 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
 
     // Model view transform used for creating images of the various molecules.
     // This is basically a null transform except that it flips the Y axis so
-    // that molecules are oriented the same as in the play area.
+    // that molecules on the panel are oriented the same as in the play area.
     private static final ModelViewTransform2D MVT =
             new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point( 0, 0 ), 1, true );
 
