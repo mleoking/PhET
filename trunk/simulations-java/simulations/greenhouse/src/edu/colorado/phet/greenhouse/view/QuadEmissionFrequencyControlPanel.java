@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -61,10 +60,12 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 PANEL_SIZE.getHeight(), 20, 20), BACKGROUND_COLOR );
 
         // Add the title.
-        backgroundNode.addChild( new PText("Photon Energy"){{
+        // TODO: i18n
+        PText title = new PText("Photon Energy"){{
             setFont( new PhetFont( 33 ) );
             setOffset( PANEL_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2, 10 );
-        }});
+        }};
+        backgroundNode.addChild( title );
 
         // Add the arrows on the right and left sides.
         // TODO: i18n
@@ -80,29 +81,50 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         backgroundNode.addChild( rightArrowNode );
 
         // Add the radio buttons that set the emission frequency.
-        JPanel buttonPanel = new JPanel();
         // TODO: i18n
-        buttonPanel.add( new WavelengthSelectButton( "Microwave", model, GreenhouseConfig.microWavelength ) );
+        final PNode microwaveSelectorNode = new WavelengthSelectButtonNode( "Microwave", model, GreenhouseConfig.microWavelength );
         // TODO: i18n
-        buttonPanel.add( new WavelengthSelectButton( "Infrared", model, GreenhouseConfig.irWavelength ) );
+        final PNode infraredSelectorNode = new WavelengthSelectButtonNode( "Infrared", model, GreenhouseConfig.irWavelength );
         // TODO: i18n
-        buttonPanel.add( new WavelengthSelectButton( "Visible", model, GreenhouseConfig.sunlightWavelength ) );
+        final PNode visibleLightSelectorNode = new WavelengthSelectButtonNode( "Visible", model, GreenhouseConfig.sunlightWavelength );
         // TODO: i18n
-        buttonPanel.add( new WavelengthSelectButton( "Ultraviolet", model, GreenhouseConfig.uvWavelength ) );
+        final PNode ultravioletSelectorNode = new WavelengthSelectButtonNode( "Ultraviolet", model, GreenhouseConfig.uvWavelength );
 
-        PSwing buttonPanelNode = new PSwing( buttonPanel );
-        buttonPanelNode.setOffset( PANEL_SIZE.getWidth() / 2 - buttonPanelNode.getFullBoundsReference().width / 2,
-                PANEL_SIZE.getHeight() - buttonPanelNode.getFullBounds().height );
+        // Create a "panel" sort of node that contains all the selector
+        // buttons and position it at the center bottom of this node.
+        final PNode wavelengthSelectorPanelNode = new PNode();
+        wavelengthSelectorPanelNode.addChild( microwaveSelectorNode );
+        infraredSelectorNode.setOffset( microwaveSelectorNode.getFullBoundsReference().getMaxX(), 0 );
+        wavelengthSelectorPanelNode.addChild( infraredSelectorNode );
+        visibleLightSelectorNode.setOffset( infraredSelectorNode.getFullBoundsReference().getMaxX(), 0 );
+        wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
+        ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX(), 0 );
+        wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
+        wavelengthSelectorPanelNode.setOffset(
+                backgroundNode.getFullBoundsReference().getCenterX() - wavelengthSelectorPanelNode.getFullBoundsReference().width / 2,
+                backgroundNode.getFullBoundsReference().height - wavelengthSelectorPanelNode.getFullBoundsReference().height );
+
+        // Create a structure that maps the wavelengths to the x positions of
+        // their selectors.  This is needed by the spectrum node in order to
+        // create a visual connection between the selection button and the
+        // selected range within the spectrum.
+        HashMap<Double, Double> mapWavelengthToXPos = new HashMap<Double, Double>(){{
+                put( GreenhouseConfig.microWavelength, wavelengthSelectorPanelNode.getXOffset() + microwaveSelectorNode.getFullBoundsReference().getCenterX() );
+                put( GreenhouseConfig.irWavelength, wavelengthSelectorPanelNode.getXOffset() + infraredSelectorNode.getFullBoundsReference().getCenterX() );
+                put( GreenhouseConfig.sunlightWavelength, wavelengthSelectorPanelNode.getXOffset() + visibleLightSelectorNode.getFullBoundsReference().getCenterX() );
+                put( GreenhouseConfig.uvWavelength, wavelengthSelectorPanelNode.getXOffset() + ultravioletSelectorNode.getFullBoundsReference().getCenterX() );
+        }};
 
         // Create the node that represents the spectrum.
         SpectrumNode spectrumNode = new SpectrumNode( (int) ( PANEL_SIZE.getWidth() * 0.9 ),
-                (int) ( PANEL_SIZE.getHeight() * 0.3 ), model );
+                (int) ( PANEL_SIZE.getHeight() * 0.5 ), model, mapWavelengthToXPos );
         spectrumNode.setOffset( PANEL_SIZE.getWidth() / 2 - spectrumNode.getFullBoundsReference().width / 2,
-                PANEL_SIZE.getHeight() / 2 - spectrumNode.getFullBoundsReference().height / 2 );
+                leftArrowNode.getFullBoundsReference().getMaxY() + 5 );
 
         // Add everything in the needed order.
         addChild( backgroundNode );
-        backgroundNode.addChild( buttonPanelNode );
+//        backgroundNode.addChild( buttonPanelNode );
+        backgroundNode.addChild( wavelengthSelectorPanelNode );
         addChild( spectrumNode );
     }
 
@@ -143,7 +165,22 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     }
 
     /**
+     * Convenience class for the radio buttons that select the wavelength.
+     */
+    private static class WavelengthSelectButtonNode extends PNode {
+
+        private static final Font LABEL_FONT  = new PhetFont( 20 );
+
+        public WavelengthSelectButtonNode( String text, final PhotonAbsorptionModel model, final double wavelength ){
+            WavelengthSelectButton button = new WavelengthSelectButton( text, model, wavelength );
+            addChild( new PSwing( button ));
+        }
+    }
+
+    /**
      * Class that defines the spectrum that is shown on this control panel.
+     * This consists of the spectrum and of a marker that exists below the
+     * actual spectrum that shows the currently selected range.
      *
      * @author John Blanco
      */
@@ -151,7 +188,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         private static final double MIN_WAVELENGTH = 1E-10; // In meters.
         private static final double MAX_WAVELENGTH = 10; // In meters
-        private static final double SPECTRUM_HEIGHT_PROPORTION = 0.8;
+        private static final double SPECTRUM_HEIGHT_PROPORTION = 0.5;
 
         // Static data structure that maps the frequency values used in the
         // model to frequency ranges depicted on this spectrum.
@@ -166,14 +203,17 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private final PPath markerNode = new PhetPPath( new BasicStroke( 5 ), Color.WHITE );
         private final PImage spectrumImageNode;
         private final double height;
+        HashMap<Double, Double> mapWavelengthToXPos;
 
         /**
          * Constructor.
+         * @param mapWavelengthToXPos TODO
          */
-        public SpectrumNode( int width, int height, PhotonAbsorptionModel model ){
+        public SpectrumNode( int width, int height, PhotonAbsorptionModel model, HashMap<Double, Double> mapWavelengthToXPos ){
 
             this.model = model;
             this.height = height;
+            this.mapWavelengthToXPos = mapWavelengthToXPos;
 
             model.addListener( new PhotonAbsorptionModel.Adapter(){
                 @Override
@@ -198,20 +238,35 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         /**
          * Update the marker, which reflects the currently selected band of
-         * the spectrum.
+         * the spectrum.  The marker consists of a spectrum range indicator
+         * and a line connecting it to the selector.
          */
         private void updateMarker(){
             double wavelengthSetting = model.getEmittedPhotonWavelength();
             DoubleRange wavelengthRange = mapFreqToRange.get( wavelengthSetting );
-            double minY = spectrumImageNode.getFullBoundsReference().getMaxY();
-            double maxY = height;
-            double minX = mapWavelengthToNormalizedXPos( wavelengthRange.getMin() ) * spectrumImageNode.getFullBoundsReference().width;
-            double maxX = mapWavelengthToNormalizedXPos( wavelengthRange.getMax() ) * spectrumImageNode.getFullBoundsReference().width;
+            double totalMarkerHeight = height - spectrumImageNode.getFullBoundsReference().height;
+
+            // Add the range indicator to the path.
+            double rangeIndicatorMinY = spectrumImageNode.getFullBoundsReference().getMaxY();
+            double rangeIndicatorMaxY = spectrumImageNode.getFullBoundsReference().getMaxY() + totalMarkerHeight / 3;
+            double rangeIndicatorMinX = mapWavelengthToNormalizedXPos( wavelengthRange.getMin() ) * spectrumImageNode.getFullBoundsReference().width;
+            double rangeIndicatorMaxX = mapWavelengthToNormalizedXPos( wavelengthRange.getMax() ) * spectrumImageNode.getFullBoundsReference().width;
             DoubleGeneralPath markerPath = new DoubleGeneralPath();
-            markerPath.moveTo( minX, minY );
-            markerPath.lineTo( minX, maxY );
-            markerPath.lineTo( maxX, maxY );
-            markerPath.lineTo( maxX, minY );
+            markerPath.moveTo( rangeIndicatorMinX, rangeIndicatorMinY );
+            markerPath.lineTo( rangeIndicatorMinX, rangeIndicatorMaxY );
+            markerPath.lineTo( rangeIndicatorMaxX, rangeIndicatorMaxY );
+            markerPath.lineTo( rangeIndicatorMaxX, rangeIndicatorMinY );
+
+            // Now add the line that connects the range indicator to the selector.
+            double rangeIndicatorMiddleX = rangeIndicatorMinX + ( ( rangeIndicatorMaxX - rangeIndicatorMinX  ) / 2 );
+            assert mapWavelengthToXPos.containsKey( model.getEmittedPhotonWavelength() ); // If not there, we can't draw the connecting line.
+            Point2D connectingLineEndPoint = parentToLocal( new Point2D.Double( mapWavelengthToXPos.get( model.getEmittedPhotonWavelength() ), 0 ) );
+            markerPath.moveTo( rangeIndicatorMiddleX, rangeIndicatorMaxY );
+            markerPath.lineTo( rangeIndicatorMiddleX, rangeIndicatorMaxY + totalMarkerHeight / 3 );
+            markerPath.lineTo( connectingLineEndPoint.getX(), rangeIndicatorMaxY + totalMarkerHeight / 3 );
+            markerPath.lineTo( connectingLineEndPoint.getX(), height );
+
+            // Set the node to the path that we just calculated.
             markerNode.setPathTo( markerPath.getGeneralPath() );
         }
 
