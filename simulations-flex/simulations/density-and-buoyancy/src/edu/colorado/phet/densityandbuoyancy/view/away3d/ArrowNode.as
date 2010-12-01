@@ -20,9 +20,11 @@ public class ArrowNode extends MyMesh {
     private var densityObject: DensityObject;
     private var tipVertex: Vertex;
     private var _vectorValueNode: VectorValueNode;
+    private var _color: *;
 
     public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, init: Object = null ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, init ) );
+        this._color = color;
         this.densityObject = densityObject;
         densityObject.getXProperty().addListener( updateLocation );
         densityObject.getYProperty().addListener( updateLocation );
@@ -109,6 +111,11 @@ public class ArrowNode extends MyMesh {
 
     public function get vectorValueNode(): VectorValueNode {
         return _vectorValueNode;
+    }
+
+
+    public function get color(): * {
+        return _color;
     }
 }
 }
