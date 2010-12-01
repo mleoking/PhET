@@ -1,3 +1,5 @@
+# 0.00.50 (46705) Dec 1, 2010
+12/1/10 dev version with lots of internal cleanup and a few fixes
 11/30/10 clean up CCKStrategyWithRounding, strategy for putting charges on plate surface
 11/30/10 fix: zero tick mark is a little off on bar meters
 11/30/10 #2593, identify colorblind issues
