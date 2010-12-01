@@ -20,7 +20,6 @@ import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAnd
 public class SimSharingStudentClient {
     int N = 1;
     int count = 0;
-    private final Socket socket;
     //    private final BufferedWriter bufferedWriter;
     private ObjectOutputStream objectOutputStream;
     private final GravityAndOrbitsApplication application;
@@ -32,7 +31,7 @@ public class SimSharingStudentClient {
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
         final boolean[] firstTime = { true };
-        socket = new Socket( SimSharingServer.HOST, SimSharingServer.STUDENT_PORT );
+        Socket socket = new Socket( SimSharingServer.HOST, SimSharingServer.STUDENT_PORT );
         objectOutputStream = new ObjectOutputStream( new BufferedOutputStream( socket.getOutputStream() ) );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
 

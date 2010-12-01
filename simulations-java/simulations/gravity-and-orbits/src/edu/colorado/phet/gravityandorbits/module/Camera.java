@@ -16,12 +16,7 @@ import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
  * @author Sam Reid
  */
 public class Camera {
-    //    private Property<Double> scale = new Property<Double>( 1.0 );
-    private double deltaScale = 0.75;
     private double targetScale;
-
-    //    private Property<ImmutableVector2D> centerModelPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-    private final double deltaTranslate = GravityAndOrbitsModule.PLANET_ORBIT_RADIUS / 20;
     private ImmutableVector2D targetCenterModelPoint;
 
     private final Property<ModelViewTransform> modelViewTransformProperty;
@@ -66,7 +61,6 @@ public class Camera {
     private void stepTimer() {
         if ( t <= 1 ) {
             t = t + 0.08;
-//            t = t + 1;//TODO: set back to 0.1 or so
             if ( t > 1 ) {
                 t = 1;
             }
@@ -77,7 +71,6 @@ public class Camera {
 
             final double w = right - x;
             final double h = bottom - y;
-//                    System.out.println( "x = " + x + ", y = " + y + ", w = " + w + ", h = " + h );
             modelRectangle = new Rectangle2D.Double( x, y, w, h );
 
             modelViewTransformProperty.setValue( createTransform() );
@@ -86,8 +79,6 @@ public class Camera {
 
     public void reset() {
         modelViewTransformProperty.reset();
-//        scale.reset();
-//        centerModelPoint.reset();
     }
 
     public Property<ModelViewTransform> getModelViewTransformProperty() {
@@ -105,7 +96,7 @@ public class Camera {
         this.t = 0;
         timer.start();
 
-        //Automatically update the camera//TODO: remove this.
-//        stepTimer();
+        //Automatically update the camera
+        //stepTimer();
     }
 }

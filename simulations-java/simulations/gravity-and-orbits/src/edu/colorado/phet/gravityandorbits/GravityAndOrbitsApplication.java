@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -23,23 +22,8 @@ import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
  */
 public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager persistenceManager;
     private GravityAndOrbitsModule gravityAndOrbitsModule;
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-
-    /**
-     * Sole constructor.
-     *
-     * @param config the configuration for this application
-     */
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
         gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() ) {{
@@ -83,18 +67,12 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public GravityAndOrbitsModule getGravityAndOrbitsModule() {
         return gravityAndOrbitsModule;
     }
-    /*
-     * Initializes the menubar.
-     */
 
     private void initMenubar() {
 
         // File->Save/Load
         final PhetFrame frame = getPhetFrame();
         frame.addFileSaveLoadMenuItems();
-        if ( persistenceManager == null ) {
-            persistenceManager = new XMLPersistenceManager( frame );
-        }
 
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
@@ -103,10 +81,6 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
             frame.addMenu( optionsMenu );
         }
     }
-
-    //----------------------------------------------------------------------------
-    // main
-    //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
         /* 

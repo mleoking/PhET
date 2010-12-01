@@ -51,7 +51,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
 
-        // stores the current position of the mouse
+        // stores the current position of the mouse so we can change to cursor hand when an object moves under the mouse
         final Property<ImmutableVector2D> mousePositionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         addMouseMotionListener( new MouseMotionListener() {
             public void mouseDragged( MouseEvent mouseEvent ) {

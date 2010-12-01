@@ -77,21 +77,4 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     private void addControlFullWidth( JComponent component ) {
         add( component );
     }
-
-    private void addControl( JComponent panel ) {
-        add( panel );
-    }
-
-    private double earthMassesToSI( double v ) {
-        return v * 5.9742E24;
-    }
-
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-
-    public void closeAllDialogs() {
-        //XXX close any dialogs created via the control panel
-    }
-
 }
