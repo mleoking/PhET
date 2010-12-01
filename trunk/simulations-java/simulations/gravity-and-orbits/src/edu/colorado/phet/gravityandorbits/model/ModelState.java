@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
+ * TODO: Refactor Body's forceProperty to always have the right value, but also need to find a way to share this code with ModelState’s update code?
+ *
  * @author Sam Reid
  */
 public class ModelState {
