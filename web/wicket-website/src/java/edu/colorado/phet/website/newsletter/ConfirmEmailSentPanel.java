@@ -15,15 +15,16 @@ public class ConfirmEmailSentPanel extends PhetPanel {
             add( new LocalizedText( "toFinish", "newsletter.toFinishSubscribing", new Object[] {
                     HtmlUtils.encode( user.getEmail() )
             } ) );
+            add( new LocalizedText( "pleaseCheck", "newsletter.pleaseCheckSubscribing"));
         }
         else {
             add( new LocalizedText( "toFinish", "newsletter.toFinishRegistering", new Object[] {
                     HtmlUtils.encode( user.getEmail() )
             } ) );
+            add( new LocalizedText( "pleaseCheck", "newsletter.pleaseCheckRegistering"));
         }
 
         add( new LocalizedText( "trouble", "newsletter.troubleshooting", new Object[] {
-                WebsiteConstants.HELP_EMAIL,
                 "<a href=\"mailto:" + WebsiteConstants.HELP_EMAIL + "\">" + WebsiteConstants.HELP_EMAIL + "</a>" // TODO: factor out somewhere
         } ) );
     }

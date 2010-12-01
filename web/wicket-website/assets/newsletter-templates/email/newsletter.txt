@@ -59,7 +59,6 @@ PhET Blog: http://phet.colorado.edu/blog/
 
 Donate to PhET: http://phet.colorado.edu/en/donate
 
-You received this e-mail because you signed up at our website or emailed us at phethelp@colorado.edu.
-To opt out of these newsletters, please click on this link: @UNSUBSCRIBE@, or copy and paste the text into your browser.
+To opt out of PhET newsletters, please click on this link: @UNSUBSCRIBE@, or copy and paste the text into your browser.
 
 PhET Interactive Simulations | University of Colorado 390 UCB | Boulder, CO 80309-0390

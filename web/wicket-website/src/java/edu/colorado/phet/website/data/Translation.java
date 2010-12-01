@@ -37,6 +37,10 @@ public class Translation implements Serializable, IntId {
         str.setTranslation( this );
     }
 
+    public void removeString( TranslatedString str ) {
+        translatedStrings.remove( str );
+    }
+
     public void addUser( PhetUser user ) {
         authorizedUsers.add( user );
         user.getTranslations().add( this );
