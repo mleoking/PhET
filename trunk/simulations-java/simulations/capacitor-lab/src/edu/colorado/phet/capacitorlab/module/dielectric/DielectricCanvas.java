@@ -65,12 +65,6 @@ public class DielectricCanvas extends CLCanvas {
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, boolean dev ) {
         
         this.model = model;
-        model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
-            public void circuitChanged() {
-                updateBatteryConnectivity();
-            }
-        } );
-        
         this.mvt = mvt;
         
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
@@ -164,6 +158,12 @@ public class DielectricCanvas extends CLCanvas {
         
         // observers 
         {
+            model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+                public void circuitChanged() {
+                    updateBatteryConnectivity();
+                }
+            } );
+
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {

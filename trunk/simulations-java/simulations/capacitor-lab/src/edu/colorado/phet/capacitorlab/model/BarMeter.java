@@ -30,18 +30,22 @@ public abstract class BarMeter {
         this.visibleProperty = new Property<Boolean>( visible );
         this.valueProperty = new Property<Double>( getCircuitValue() );
         
-        // constrain location to world bounds
-        world.addBoundsObserver( new SimpleObserver() {
-            public void update() {
-                setLocation( getLocationReference() );
-            }
-        });
-        
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
-            public void circuitChanged() {
-                setValue( getCircuitValue() );
-            }
-        });
+        // observers
+        {
+            // constrain location to world bounds
+            world.addBoundsObserver( new SimpleObserver() {
+                public void update() {
+                    setLocation( getLocationReference() );
+                }
+            } );
+
+            // change the value when the circuit changes
+            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+                public void circuitChanged() {
+                    setValue( getCircuitValue() );
+                }
+            } );
+        }
     }
     
     /**
