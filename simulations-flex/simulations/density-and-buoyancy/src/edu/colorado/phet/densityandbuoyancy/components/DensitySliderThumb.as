@@ -6,10 +6,12 @@ import mx.controls.sliderClasses.SliderThumb;
  * @author Sam Reid
  */
 public class DensitySliderThumb extends SliderThumb {
+    public static const SIZE: Number = MySliderThumb.SIZE / 2;
+
     public function DensitySliderThumb() {
         super();
-        this.width = MySliderThumb.SIZE / 2;
-        this.height = MySliderThumb.SIZE / 2;
+        this.width = SIZE;
+        this.height = SIZE;
     }
 }
 }
