@@ -20,7 +20,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - change thumb color on battery voltage slider to gray
-- change current amplitude model to Q_total/dt
 - integrate new E-Field Detector probe, with crosshairs that are visible on dense E-Field
 - resolve colorblind issues identified in #2593
 - publish 1.00
