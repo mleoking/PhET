@@ -16,14 +16,11 @@ DESIGN ISSUES
 - colorblind: red voltmeter probe and wire becomes black, can't distinguish from black probe and wire (deuteranope and protanope)
 - colorblind: red charges become black, less noticeable (deuteranope and protanope)
 - colorblind: bar in Plate Charge meter becomes black, can't see inside tick marks (deuteranope and protanope)
+- Dielectric label in E-Field Detector was confused for capacitor's dielectric by Kathy, it may also be air
 
 HIGH PRIORITY
 - change thumb color on battery voltage slider to gray
-- bug: When you change the size or separation of the capacitor with the battery attached.
-     The charge flow arrows should show flow on and off of the capacitor. 
-     The charge meter is working correctly, but the charge flow arrows are not showing up.
-     Anything that changes the amount of charge should trigger the charge flow arrows. 
-- bug: when dielectric is fully removed, its contribution to E-Field meter inside the plates should read 0 V/m (right now it reads 1 V/m or higher up to 4 V/m). 
+- change current amplitude model to Q_total/dt
 - integrate new E-Field Detector probe, with crosshairs that are visible on dense E-Field
 - resolve colorblind issues identified in #2593
 - publish 1.00
