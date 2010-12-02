@@ -1,17 +1,5 @@
 package edu.colorado.phet.reids.admin;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.reids.admin.jintellitype.JIntellitypeSupport;
-import edu.colorado.phet.reids.admin.util.FileUtils;
-import edu.colorado.phet.reids.admin.util.FrameSetup;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -24,9 +12,22 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.reids.admin.jintellitype.JIntellitypeSupport;
+import edu.colorado.phet.reids.admin.util.FileUtils;
+import edu.colorado.phet.reids.admin.util.FrameSetup;
+
 public class TimesheetApp {
-    public static Object[] columnNames = {"Start", "End", "Elapsed", "Category", "Notes", "Report"};
-    private JFrame frame = new JFrame("Timesheet App");
+    public static Object[] columnNames = { "Start", "End", "Elapsed", "Category", "Notes", "Report" };
+    private JFrame frame = new JFrame( "Timesheet App" );
     private TimesheetModel timesheetModel = new TimesheetModel();
     private ArrayList<File> recentFiles = new ArrayList<File>();
     private File currentFile;
@@ -37,210 +38,213 @@ public class TimesheetApp {
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
     private String TARGET_HOURS = "target.hours";
-    private JMenu fileMenu = new JMenu("File");
-    private File PREFERENCES_FILE = new File(System.getProperty("user.home", "."), ".timesheet/timesheet-app.properties");
+    private JMenu fileMenu = new JMenu( "File" );
+    private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), ".timesheet/timesheet-app.properties" );
     private final JTable table;
     private SelectionModel selectionModel = new SelectionModel();
-    private MutableInt targetHours = new MutableInt(0);
+    private MutableInt targetHours = new MutableInt( 0 );
 
     private void updateIconImage() throws IOException {
-        BufferedImage image = new PhetResources("timesheet").getImage((timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png"));
-        System.out.println("image = " + image);
-        frame.setIconImage(image);
+        BufferedImage image = new PhetResources( "timesheet" ).getImage( ( timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png" ) );
+        System.out.println( "image = " + image );
+        frame.setIconImage( image );
     }
 
     public TimesheetApp() throws IOException {
-        JIntellitypeSupport.init(new Runnable() {
+        JIntellitypeSupport.init( new Runnable() {
             public void run() {
-                System.out.println("Clocking in for Work");
+                System.out.println( "Clocking in for Work" );
                 timesheetModel.startNewTask();
             }
         }, new Runnable() {
             public void run() {
-                System.out.println("Clocking out for Home");
+                System.out.println( "Clocking out for Home" );
                 timesheetModel.clockOut();
                 try {
                     save();
                 }
-                catch (IOException e1) {
-                    JOptionPane.showMessageDialog(frame, e1.getMessage());
+                catch ( IOException e1 ) {
+                    JOptionPane.showMessageDialog( frame, e1.getMessage() );
                 }
             }
-        });
+        } );
 
         updateIconImage();
-        timesheetModel.addClockedInListener(new TimesheetModel.ClockedInListener() {
+        timesheetModel.addClockedInListener( new TimesheetModel.ClockedInListener() {
             public void clockedInChanged() {
                 try {
                     updateIconImage();
-                } catch (IOException e) {
+                }
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
-        });
+        } );
 
-        final DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, columnNames) {
-            public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 0 || columnIndex == 1) return Date.class;
-                if (columnIndex == 2) return Long.class;
-                if (columnIndex == 3) return String.class;
-                if (columnIndex == 4) return String.class;
-                if (columnIndex == 5) return Boolean.class;
-                return super.getColumnClass(columnIndex);
+        final DefaultTableModel tableModel = new DefaultTableModel( new Object[][] { }, columnNames ) {
+            public Class<?> getColumnClass( int columnIndex ) {
+                if ( columnIndex == 0 || columnIndex == 1 ) { return Date.class; }
+                if ( columnIndex == 2 ) { return Long.class; }
+                if ( columnIndex == 3 ) { return String.class; }
+                if ( columnIndex == 4 ) { return String.class; }
+                if ( columnIndex == 5 ) { return Boolean.class; }
+                return super.getColumnClass( columnIndex );
             }
         };
 
-        timesheetModel.addItemAddedListener(new TimesheetModel.ItemAddedListener() {
-            public void itemAdded(final Entry entry) {
-                tableModel.addRow(toRow(entry));
+        timesheetModel.addItemAddedListener( new TimesheetModel.ItemAddedListener() {
+            public void itemAdded( final Entry entry ) {
+                tableModel.addRow( toRow( entry ) );
                 final int rowCount = tableModel.getRowCount();
-                entry.addTimeListener(new TimesheetModel.TimeListener() {
+                entry.addTimeListener( new TimesheetModel.TimeListener() {
                     public void timeChanged() {
                         //update end and elapsed time
-                        tableModel.setValueAt(entry.getEndDate(), rowCount - 1, 1);
-                        tableModel.setValueAt(entry.getElapsedSeconds(), rowCount - 1, 2);
+                        tableModel.setValueAt( entry.getEndDate(), rowCount - 1, 1 );
+                        tableModel.setValueAt( entry.getElapsedSeconds(), rowCount - 1, 2 );
                     }
-                });
+                } );
             }
-        });
+        } );
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(new KeyEventPostProcessor() {
-            public boolean postProcessKeyEvent(KeyEvent e) {
-                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor( new KeyEventPostProcessor() {
+            public boolean postProcessKeyEvent( KeyEvent e ) {
+                if ( e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S ) {
                     try {
                         save();
                         return true;
                     }
-                    catch (IOException e1) {
+                    catch ( IOException e1 ) {
                         e1.printStackTrace();
                     }
                 }
                 return false;
             }
-        });
+        } );
 
-        tableModel.setColumnIdentifiers(columnNames);
+        tableModel.setColumnIdentifiers( columnNames );
 
-        table = new JTable(tableModel);
-        table.getColumnModel().getColumn(0).setPreferredWidth(70);
-        table.getColumnModel().getColumn(1).setPreferredWidth(70);
-        table.getColumnModel().getColumn(2).setPreferredWidth(30);
-        table.getColumnModel().getColumn(3).setPreferredWidth(60);
-        table.getColumnModel().getColumn(4).setPreferredWidth(400);
-        table.getColumnModel().getColumn(5).setPreferredWidth(10);
-        table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        table.setCellSelectionEnabled(false);
-        table.setColumnSelectionAllowed(false);
-        table.setRowSelectionAllowed(true);
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectionModel.setSelectedRows(table.getSelectedRows());
+        table = new JTable( tableModel );
+        table.getColumnModel().getColumn( 0 ).setPreferredWidth( 70 );
+        table.getColumnModel().getColumn( 1 ).setPreferredWidth( 70 );
+        table.getColumnModel().getColumn( 2 ).setPreferredWidth( 30 );
+        table.getColumnModel().getColumn( 3 ).setPreferredWidth( 60 );
+        table.getColumnModel().getColumn( 4 ).setPreferredWidth( 400 );
+        table.getColumnModel().getColumn( 5 ).setPreferredWidth( 10 );
+        table.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
+        table.setCellSelectionEnabled( false );
+        table.setColumnSelectionAllowed( false );
+        table.setRowSelectionAllowed( true );
+        table.getSelectionModel().addListSelectionListener( new ListSelectionListener() {
+            public void valueChanged( ListSelectionEvent e ) {
+                selectionModel.setSelectedRows( table.getSelectedRows() );
             }
-        });
-        table.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
-            protected void setValue(Object value) {
-                setText(Entry.LOAD_FORMAT.format(value));
+        } );
+        table.setDefaultRenderer( Date.class, new DefaultTableCellRenderer() {
+            protected void setValue( Object value ) {
+                setText( Entry.LOAD_FORMAT.format( value ) );
             }
-        });
-        table.setDefaultEditor(Date.class, new DateEditor());
-        table.setDefaultRenderer(Long.class, new DefaultTableCellRenderer() {
-            protected void setValue(Object value) {
-                long v = ((Long) value).longValue();
-                String text = Util.secondsToElapsedTimeString(v);
-                super.setValue(text);
+        } );
+        table.setDefaultEditor( Date.class, new DateEditor() );
+        table.setDefaultRenderer( Long.class, new DefaultTableCellRenderer() {
+            protected void setValue( Object value ) {
+                long v = ( (Long) value ).longValue();
+                String text = Util.secondsToElapsedTimeString( v );
+                super.setValue( text );
             }
-        });
-        table.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE && e.isControlDown()) {
-                    System.out.println("table.row() = " + table.getSelectedRow() + ", col = " + table.getSelectedColumn());
-                    tableModel.setValueAt(new Long(System.currentTimeMillis()), table.getSelectedRow(), table.getSelectedColumn());
+        } );
+        table.addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_SPACE && e.isControlDown() ) {
+                    System.out.println( "table.row() = " + table.getSelectedRow() + ", col = " + table.getSelectedColumn() );
+                    tableModel.setValueAt( new Long( System.currentTimeMillis() ), table.getSelectedRow(), table.getSelectedColumn() );
                 }
             }
-        });
-        table.getModel().addTableModelListener(new TableModelListener() {
-            public void tableChanged(TableModelEvent e) {
+        } );
+        table.getModel().addTableModelListener( new TableModelListener() {
+            public void tableChanged( TableModelEvent e ) {
                 int row = e.getFirstRow();
                 int column = e.getColumn();
-                if (row >= 0 && column >= 0) {
-                    Object data = table.getModel().getValueAt(row, column);
-                    if (column == 0) getEntry(row).setStartTime(parseStartTime(data));
-                    if (column == 1) getEntry(row).setEndTime(parseStartTime(data));
-                    if (column == 3) getEntry(row).setCategory(data.toString());
-                    if (column == 4) getEntry(row).setNotes(data.toString());
-                    if (column == 5) getEntry(row).setReport((Boolean) data);
+                if ( row >= 0 && column >= 0 ) {
+                    Object data = table.getModel().getValueAt( row, column );
+                    if ( column == 0 ) { getEntry( row ).setStartTime( parseStartTime( data ) ); }
+                    if ( column == 1 ) { getEntry( row ).setEndTime( parseStartTime( data ) ); }
+                    if ( column == 3 ) { getEntry( row ).setCategory( data.toString() ); }
+                    if ( column == 4 ) { getEntry( row ).setNotes( data.toString() ); }
+                    if ( column == 5 ) { getEntry( row ).setReport( (Boolean) data ); }
                 }
             }
-        });
-        table.addMouseListener(new MouseAdapter() {
+        } );
+        table.addMouseListener( new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-                int row = table.rowAtPoint(e.getPoint());
-                if (e.isControlDown()) {
-                    getEntry(row).setEndTime(Util.currentTimeSeconds());
+            public void mouseReleased( MouseEvent e ) {
+                int row = table.rowAtPoint( e.getPoint() );
+                if ( e.isControlDown() ) {
+                    getEntry( row ).setEndTime( Util.currentTimeSeconds() );
                 }
             }
-        });
+        } );
         JPanel contentPane = new JPanel();
-        contentPane.setLayout(new BorderLayout());
-        final JScrollPane scrollPane = new JScrollPane(table);
-        timesheetModel.addItemAddedListener(new TimesheetModel.ItemAddedListener() {
-            public void itemAdded(Entry entry) {
-                SwingUtilities.invokeLater(new Runnable() {
+        contentPane.setLayout( new BorderLayout() );
+        final JScrollPane scrollPane = new JScrollPane( table );
+        timesheetModel.addItemAddedListener( new TimesheetModel.ItemAddedListener() {
+            public void itemAdded( Entry entry ) {
+                SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+                        scrollPane.getVerticalScrollBar().setValue( scrollPane.getVerticalScrollBar().getMaximum() );
                     }
-                });
+                } );
             }
-        });
-        contentPane.add(scrollPane, BorderLayout.CENTER);
-        contentPane.add(new ControlPanel(timesheetModel, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        } );
+        contentPane.add( scrollPane, BorderLayout.CENTER );
+        contentPane.add( new ControlPanel( timesheetModel, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 try {
                     save();
-                } catch (IOException e1) {
+                }
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
         }, selectionModel, targetHours, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed( ActionEvent e ) {
                 try {
                     savePreferences();
-                } catch (IOException e1) {
+                }
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
-        }), BorderLayout.SOUTH);
-        frame.setContentPane(contentPane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        } ), BorderLayout.SOUTH );
+        frame.setContentPane( contentPane );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 //        table.setDefaultRenderer(Date.class, renderer);
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+        frame.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
                 try {
                     exit();
-                    SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            frame.setVisible(true);
+                            frame.setVisible( true );
                         }
-                    });
+                    } );
 
                 }
-                catch (IOException e1) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
-        });
+        } );
     }
 
     private void exit() throws IOException {
         savePreferences();
 
         //todo: save dialog, if changed
-        if (ifChangedAskToSaveOrCancel()) {
+        if ( ifChangedAskToSaveOrCancel() ) {
             return;
         }
         JIntellitypeSupport.close();
-        System.exit(0);
+        System.exit( 0 );
     }
 
     /**
@@ -250,11 +254,12 @@ public class TimesheetApp {
      * @throws IOException an exception if there was a problem saving
      */
     private boolean ifChangedAskToSaveOrCancel() throws IOException {
-        if (hasUnsavedChanges()) {
-            int option = JOptionPane.showConfirmDialog(frame, "You have made unsaved changes.  Save first?");
-            if (option == JOptionPane.OK_OPTION) {
+        if ( hasUnsavedChanges() ) {
+            int option = JOptionPane.showConfirmDialog( frame, "You have made unsaved changes.  Save first?" );
+            if ( option == JOptionPane.OK_OPTION ) {
                 save();
-            } else if (option == JOptionPane.CANCEL_OPTION) {
+            }
+            else if ( option == JOptionPane.CANCEL_OPTION ) {
                 return true;
             }
         }
@@ -265,123 +270,129 @@ public class TimesheetApp {
         return timesheetModel.isDirty();
     }
 
-    private long parseStartTime(Object data) {
-        if (data instanceof Date) {
-            return ((Date) data).getTime() / 1000;
-        } else if (data instanceof String) {
+    private long parseStartTime( Object data ) {
+        if ( data instanceof Date ) {
+            return ( (Date) data ).getTime() / 1000;
+        }
+        else if ( data instanceof String ) {
             String s = data.toString();
-            System.out.println("parsing string: " + s);
+            System.out.println( "parsing string: " + s );
             return 0;
-        } else {
+        }
+        else {
             return -1;
         }
     }
 
-    private Entry getEntry(int row) {
-        return timesheetModel.getEntry(row);
+    private Entry getEntry( int row ) {
+        return timesheetModel.getEntry( row );
     }
 
-    private Object[] toRow(Entry entry) {
-        return new Object[]{entry.getStartDate(), entry.getEndDate(), entry.getElapsedSeconds(), entry.getCategory(), entry.getNotes(), entry.isReport()};
+    private Object[] toRow( Entry entry ) {
+        return new Object[] { entry.getStartDate(), entry.getEndDate(), entry.getElapsedSeconds(), entry.getCategory(), entry.getNotes(), entry.isReport() };
     }
 
     public void load() throws IOException {
-        final JFileChooser jFileChooser = currentFile == null ? new JFileChooser() : new JFileChooser(currentFile.getParentFile());
-        int option = jFileChooser.showOpenDialog(frame);
-        if (option == JFileChooser.APPROVE_OPTION) {
+        final JFileChooser jFileChooser = currentFile == null ? new JFileChooser() : new JFileChooser( currentFile.getParentFile() );
+        int option = jFileChooser.showOpenDialog( frame );
+        if ( option == JFileChooser.APPROVE_OPTION ) {
             final File selectedFile = jFileChooser.getSelectedFile();
-            load(selectedFile);
-        } else {
-            System.out.println("TimesheetApp.load, didn't save");
+            load( selectedFile );
+        }
+        else {
+            System.out.println( "TimesheetApp.load, didn't save" );
         }
 
     }
 
-    private void load(File selectedFile) throws IOException {
+    private void load( File selectedFile ) throws IOException {
         currentFile = selectedFile;
-        timesheetModel.loadCSV(currentFile);
+        timesheetModel.loadCSV( currentFile );
 //        addCurrentToRecent();
-        frame.setTitle("Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]");
+        frame.setTitle( "Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]" );
         timesheetModel.setClean();
     }
 
     public void save() throws IOException {
-        if (table.getCellEditor() != null) {
+        if ( table.getCellEditor() != null ) {
             table.getCellEditor().stopCellEditing();
         }
         File selected = currentFile;
-        if (currentFile == null) {
+        if ( currentFile == null ) {
             selected = selectSaveFile();
         }
-        if (selected != null) {
-            save(selected);
-        } else {
-            System.out.println("didn't save");
+        if ( selected != null ) {
+            save( selected );
+        }
+        else {
+            System.out.println( "didn't save" );
         }
     }
 
     private File selectSaveFile() {
         File selected = null;
-        final JFileChooser chooser = currentFile == null ? new JFileChooser() : new JFileChooser(currentFile.getParentFile());
-        int val = chooser.showSaveDialog(frame);
-        if (val == JFileChooser.APPROVE_OPTION) {
+        final JFileChooser chooser = currentFile == null ? new JFileChooser() : new JFileChooser( currentFile.getParentFile() );
+        int val = chooser.showSaveDialog( frame );
+        if ( val == JFileChooser.APPROVE_OPTION ) {
             File file = chooser.getSelectedFile();
-            if (file.exists()) {
-                int option = JOptionPane.showConfirmDialog(frame, "File exists, overwrite?");
-                if (option == JOptionPane.YES_OPTION) {
+            if ( file.exists() ) {
+                int option = JOptionPane.showConfirmDialog( frame, "File exists, overwrite?" );
+                if ( option == JOptionPane.YES_OPTION ) {
                     selected = file;
                 }
-            } else {
+            }
+            else {
                 selected = file;
             }
         }
         return selected;
     }
 
-    private void save(File selected) throws IOException {
+    private void save( File selected ) throws IOException {
         this.currentFile = selected;
 //        addCurrentToRecent();
         currentFile.getParentFile().mkdirs();
         String s = timesheetModel.toCSV();
-        FileUtils.writeString(currentFile, s);
-        System.out.println("Saved to: " + currentFile.getAbsolutePath());
+        FileUtils.writeString( currentFile, s );
+        System.out.println( "Saved to: " + currentFile.getAbsolutePath() );
         timesheetModel.setClean();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+    public static void main( String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
                     new TimesheetApp().start();
-                } catch (IOException e) {
+                }
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
-        });
+        } );
     }
 
     private void savePreferences() throws IOException {
         Properties properties = new Properties();
-        properties.put(WINDOW_X, frame.getX() + "");
-        properties.put(WINDOW_Y, frame.getY() + "");
-        properties.put(WINDOW_WIDTH, frame.getWidth() + "");
-        properties.put(WINDOW_HEIGHT, frame.getHeight() + "");
+        properties.put( WINDOW_X, frame.getX() + "" );
+        properties.put( WINDOW_Y, frame.getY() + "" );
+        properties.put( WINDOW_WIDTH, frame.getWidth() + "" );
+        properties.put( WINDOW_HEIGHT, frame.getHeight() + "" );
 
-        properties.put(RECENT_FILES, getRecentFileListString());
-        properties.put(CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath());
-        properties.put(TARGET_HOURS, targetHours.getValue() + "");
+        properties.put( RECENT_FILES, getRecentFileListString() );
+        properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
+        properties.put( TARGET_HOURS, targetHours.getValue() + "" );
 
         PREFERENCES_FILE.getParentFile().mkdirs();
-        properties.store(new FileOutputStream(PREFERENCES_FILE), "auto-generated on " + new Date());
-        System.out.println("Stored prefs: " + properties);
+        properties.store( new FileOutputStream( PREFERENCES_FILE ), "auto-generated on " + new Date() );
+        System.out.println( "Stored prefs: " + properties );
     }
 
     private String getRecentFileListString() {
         String s = "";
-        for (int i = 0; i < recentFiles.size(); i++) {
-            File file = (File) recentFiles.get(i);
+        for ( int i = 0; i < recentFiles.size(); i++ ) {
+            File file = (File) recentFiles.get( i );
             s += file.getAbsolutePath();
-            if (i < recentFiles.size() - 1) {
+            if ( i < recentFiles.size() - 1 ) {
                 s += ",";
             }
         }
@@ -389,57 +400,57 @@ public class TimesheetApp {
     }
 
     private void loadPreferences() throws IOException {
-        if (!PREFERENCES_FILE.exists()) {
+        if ( !PREFERENCES_FILE.exists() ) {
             savePreferences();
         }
         Properties p = new Properties();
-        p.load(new FileInputStream(PREFERENCES_FILE));
+        p.load( new FileInputStream( PREFERENCES_FILE ) );
         Rectangle r = new Rectangle();
-        r.x = Integer.parseInt(p.getProperty(WINDOW_X, "100"));
-        r.y = Integer.parseInt(p.getProperty(WINDOW_Y, "100"));
-        r.width = Integer.parseInt(p.getProperty(WINDOW_WIDTH, "800"));
-        r.height = Integer.parseInt(p.getProperty(WINDOW_HEIGHT, "600"));
-        targetHours.setValue(Integer.parseInt(p.getProperty(TARGET_HOURS, "176")));
-        frame.setSize(r.width, r.height);
-        frame.setLocation(r.x, r.y);
+        r.x = Integer.parseInt( p.getProperty( WINDOW_X, "100" ) );
+        r.y = Integer.parseInt( p.getProperty( WINDOW_Y, "100" ) );
+        r.width = Integer.parseInt( p.getProperty( WINDOW_WIDTH, "800" ) );
+        r.height = Integer.parseInt( p.getProperty( WINDOW_HEIGHT, "600" ) );
+        targetHours.setValue( Integer.parseInt( p.getProperty( TARGET_HOURS, "176" ) ) );
+        frame.setSize( r.width, r.height );
+        frame.setLocation( r.x, r.y );
 
 
-        String recentFiles = p.getProperty(RECENT_FILES, "");
-        System.out.println("Loaded prefs from " + PREFERENCES_FILE.getAbsolutePath() + ", r=" + r + ", recent=" + recentFiles);
-        StringTokenizer stringTokenizer = new StringTokenizer(recentFiles, ",");
+        String recentFiles = p.getProperty( RECENT_FILES, "" );
+        System.out.println( "Loaded prefs from " + PREFERENCES_FILE.getAbsolutePath() + ", r=" + r + ", recent=" + recentFiles );
+        StringTokenizer stringTokenizer = new StringTokenizer( recentFiles, "," );
         this.recentFiles.clear();
-        while (stringTokenizer.hasMoreTokens()) {
-            final File file = new File(stringTokenizer.nextToken());
-            if (!this.recentFiles.contains(file)) {
-                this.recentFiles.add(file);
+        while ( stringTokenizer.hasMoreTokens() ) {
+            final File file = new File( stringTokenizer.nextToken() );
+            if ( !this.recentFiles.contains( file ) ) {
+                this.recentFiles.add( file );
             }
         }
 //        updateMenuWithRecent();
-        String currentFile = p.getProperty(CURRENT_FILE, "C:\\workingcopy\\samreid-unfuddle\\trunk\\phet-timesheet-2010.csv");
-        System.out.println("currentFile = " + currentFile);
-        if (new File(currentFile).exists()) {
-            load(new File(currentFile));
+        String currentFile = p.getProperty( CURRENT_FILE, "C:\\workingcopy\\samreid-unfuddle\\trunk\\phet-timesheet-2010.csv" );
+        System.out.println( "currentFile = " + currentFile );
+        if ( new File( currentFile ).exists() ) {
+            load( new File( currentFile ) );
         }
     }
 
     private void start() throws IOException {
         frame.pack();
-        new FrameSetup.CenteredWithInsets(200, 200).initialize(frame);
+        new FrameSetup.CenteredWithInsets( 200, 200 ).initialize( frame );
         loadPreferences();
-        frame.setVisible(true);
+        frame.setVisible( true );
     }
 
     public static class SelectionModel {
         private int[] selectedRows;
 
-        public void setSelectedRows(int[] selectedRows) {
+        public void setSelectedRows( int[] selectedRows ) {
             this.selectedRows = selectedRows;
         }
 
-        public TimesheetModel getSelection(TimesheetModel timesheetModel) {
+        public TimesheetModel getSelection( TimesheetModel timesheetModel ) {
             TimesheetModel selection = new TimesheetModel();
-            for (int selectedRow : selectedRows) {
-                selection.addEntry(timesheetModel.getEntry(selectedRow));
+            for ( int selectedRow : selectedRows ) {
+                selection.addEntry( timesheetModel.getEntry( selectedRow ) );
             }
             return selection;
         }

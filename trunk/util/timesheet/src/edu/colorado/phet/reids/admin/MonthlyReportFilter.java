@@ -17,7 +17,7 @@ public class MonthlyReportFilter {
     private ArrayList<String> allList;
 
     public MonthlyReportFilter() {
-        String categorieString = 
+        String categorieString =
                 "Accessibility\n" +
                 "Administrative/Documentation\n" +
                 "Build Process\n" +
@@ -47,88 +47,88 @@ public class MonthlyReportFilter {
                 "Website";
 
         categories = new ArrayList<String>();
-        StringTokenizer st = new StringTokenizer(categorieString, "\n");
-        while (st.hasMoreElements()) {
-            categories.add(st.nextToken());
+        StringTokenizer st = new StringTokenizer( categorieString, "\n" );
+        while ( st.hasMoreElements() ) {
+            categories.add( st.nextToken() );
         }
 
         sims = new ArrayList<String>();
-        File[] simRoots = new File[]{new File("C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations"), new File("C:\\workingcopy\\phet\\trunk\\simulations-flash\\simulations"),new File( "C:\\workingcopy\\phet\\trunk\\simulations-flex\\simulations")};
-        for (File simRoot : simRoots) {
-            for (File dir : simRoot.listFiles()) {
-                sims.add(dir.getName());
+        File[] simRoots = new File[] { new File( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flash\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flex\\simulations" ) };
+        for ( File simRoot : simRoots ) {
+            for ( File dir : simRoot.listFiles() ) {
+                sims.add( dir.getName() );
             }
         }
         allList = new ArrayList<String>();
-        allList.addAll(categories);
-        allList.addAll(sims);
-        allList.add("leave:sick:family");
-        allList.add("leave:sick:personal");
-        allList.add("leave:vacation");
+        allList.addAll( categories );
+        allList.addAll( sims );
+        allList.add( "leave:sick:family" );
+        allList.add( "leave:sick:personal" );
+        allList.add( "leave:vacation" );
     }
 
-    public TimesheetModel filter(TimesheetModel selection) {
+    public TimesheetModel filter( TimesheetModel selection ) {
         ArrayList<Entry> mapped = new ArrayList<Entry>();
-        for (int i = 0; i < selection.getEntryCount(); i++) {
-            mapped.add(map(selection.getEntry(i)));
+        for ( int i = 0; i < selection.getEntryCount(); i++ ) {
+            mapped.add( map( selection.getEntry( i ) ) );
         }
         TimesheetModel timesheetModel = new TimesheetModel();
-        for (Entry entry : mapped) {
-            timesheetModel.addEntry(entry);
+        for ( Entry entry : mapped ) {
+            timesheetModel.addEntry( entry );
         }
         return timesheetModel;
     }
 
-    private Entry map(Entry entry) {
-        return new Entry(entry.getStartSeconds(), entry.getEndSeconds(), mapCategory(entry.getCategory()), entry.getNotes(), entry.isReport(), entry.isRunning());
+    private Entry map( Entry entry ) {
+        return new Entry( entry.getStartSeconds(), entry.getEndSeconds(), mapCategory( entry.getCategory() ), entry.getNotes(), entry.isReport(), entry.isRunning() );
     }
 
-    private String mapCategory(String category) {
+    private String mapCategory( String category ) {
         //if it appears in the list and only differs by casing, whitespace or hyphenation, then use it
-        for (String elm : allList) {
-            if (matchesCategory(category, elm)) return elm;
+        for ( String elm : allList ) {
+            if ( matchesCategory( category, elm ) ) { return elm; }
         }
 
         //didn't match
-        if (category.equalsIgnoreCase("administrative")) return mapCategory("Administrative/Documentation");
-        if (category.equalsIgnoreCase("documentation")) return mapCategory("Administrative/Documentation");
-        if (category.equals("cck"))return mapCategory("circuit-construction-kit");
-        if (category.equals("timesheet")) return mapCategory("administrative");
-        if (category.equals("mailing lists")) return mapCategory("administrative");
-        if (category.equals("mailing-lists")) return mapCategory("administrative");
-        if (category.equals("phet-meeting")) return mapCategory("meetings");
-        if (category.equals("phet meeting")) return mapCategory("meetings");
-        if (category.equals("misc")) return mapCategory("miscellaneous");
-        if (category.equals("record-and-playback")) return mapCategory("common code");
-        if (category.equals("unfuddle-notifier")) return mapCategory("unfuddle");
-        if (category.equals("botany")) return mapCategory("misc");
-        if (category.equals("phetcommon")) return mapCategory("common code");
-        if (category.equals("maintenance")) return mapCategory("misc");
-        if (category.equals("ide")) return mapCategory("maintenance");
-        if (category.equals("logging")) return mapCategory("phetcommon");
-        if (category.equals("translation-utility")) return mapCategory("Translations");
-        if (category.equals("android")) return mapCategory("Miscellaneous");
-        if (category.equals("wicket-deploy")) return mapCategory("website");
-        if (category.equals("wicket-site")) return mapCategory("website");
-        if (category.equals("support")) return mapCategory("phet help");
-        if (category.equals("git")) return mapCategory("Respository, SVN, CVS");
-        if (category.equals("sbt")) return mapCategory("build process");
-        if (category.equals("newsletter")) return mapCategory("website");
-        if (category.equals("conference")) return mapCategory("meetings");
-        if (category.equals("flashcommon")) return mapCategory("Flash_Flash Common");
-        if (category.equals("flash-common")) return mapCategory("Flash_Flash Common");
-        if (category.equals("mobile")) return mapCategory("Miscellaneous");
-        if (category.equals("build-tools")) return mapCategory("Build Process");
-        if (category.equals("meeting")) return mapCategory("meetings");
-        if (category.equals("buoyancy")) return mapCategory("density-and-buoyancy");
+        if ( category.equalsIgnoreCase( "administrative" ) ) { return mapCategory( "Administrative/Documentation" ); }
+        if ( category.equalsIgnoreCase( "documentation" ) ) { return mapCategory( "Administrative/Documentation" ); }
+        if ( category.equals( "cck" ) ) { return mapCategory( "circuit-construction-kit" ); }
+        if ( category.equals( "timesheet" ) ) { return mapCategory( "administrative" ); }
+        if ( category.equals( "mailing lists" ) ) { return mapCategory( "administrative" ); }
+        if ( category.equals( "mailing-lists" ) ) { return mapCategory( "administrative" ); }
+        if ( category.equals( "phet-meeting" ) ) { return mapCategory( "meetings" ); }
+        if ( category.equals( "phet meeting" ) ) { return mapCategory( "meetings" ); }
+        if ( category.equals( "misc" ) ) { return mapCategory( "miscellaneous" ); }
+        if ( category.equals( "record-and-playback" ) ) { return mapCategory( "common code" ); }
+        if ( category.equals( "unfuddle-notifier" ) ) { return mapCategory( "unfuddle" ); }
+        if ( category.equals( "botany" ) ) { return mapCategory( "misc" ); }
+        if ( category.equals( "phetcommon" ) ) { return mapCategory( "common code" ); }
+        if ( category.equals( "maintenance" ) ) { return mapCategory( "misc" ); }
+        if ( category.equals( "ide" ) ) { return mapCategory( "maintenance" ); }
+        if ( category.equals( "logging" ) ) { return mapCategory( "phetcommon" ); }
+        if ( category.equals( "translation-utility" ) ) { return mapCategory( "Translations" ); }
+        if ( category.equals( "android" ) ) { return mapCategory( "Miscellaneous" ); }
+        if ( category.equals( "wicket-deploy" ) ) { return mapCategory( "website" ); }
+        if ( category.equals( "wicket-site" ) ) { return mapCategory( "website" ); }
+        if ( category.equals( "support" ) ) { return mapCategory( "phet help" ); }
+        if ( category.equals( "git" ) ) { return mapCategory( "Respository, SVN, CVS" ); }
+        if ( category.equals( "sbt" ) ) { return mapCategory( "build process" ); }
+        if ( category.equals( "newsletter" ) ) { return mapCategory( "website" ); }
+        if ( category.equals( "conference" ) ) { return mapCategory( "meetings" ); }
+        if ( category.equals( "flashcommon" ) ) { return mapCategory( "Flash_Flash Common" ); }
+        if ( category.equals( "flash-common" ) ) { return mapCategory( "Flash_Flash Common" ); }
+        if ( category.equals( "mobile" ) ) { return mapCategory( "Miscellaneous" ); }
+        if ( category.equals( "build-tools" ) ) { return mapCategory( "Build Process" ); }
+        if ( category.equals( "meeting" ) ) { return mapCategory( "meetings" ); }
+        if ( category.equals( "buoyancy" ) ) { return mapCategory( "density-and-buoyancy" ); }
 
-        System.out.println("No match found for category: " + category);
-        return "unknown: "+category;
+        System.out.println( "No match found for category: " + category );
+        return "unknown: " + category;
     }
 
-    private boolean matchesCategory(String documented, String standardized) {
-        String a = documented.replaceAll(" ", "").replaceAll("-", "").trim();
-        String b = standardized.replaceAll(" ", "").replaceAll("-", "").trim();
-        return a.equalsIgnoreCase(b);
+    private boolean matchesCategory( String documented, String standardized ) {
+        String a = documented.replaceAll( " ", "" ).replaceAll( "-", "" ).trim();
+        String b = standardized.replaceAll( " ", "" ).replaceAll( "-", "" ).trim();
+        return a.equalsIgnoreCase( b );
     }
 }
