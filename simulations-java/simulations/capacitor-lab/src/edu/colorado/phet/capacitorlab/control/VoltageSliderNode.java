@@ -47,7 +47,7 @@ public class VoltageSliderNode extends PhetPNode {
     private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
     
     // tick mark properties
-    private static final double TICK_MARK_LENGTH = 10;
+    private static final double TICK_MARK_LENGTH = 13;
     private static final Color TICK_MARK_COLOR = TRACK_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     
@@ -245,7 +245,7 @@ public class VoltageSliderNode extends PhetPNode {
             double x = 0;
             double y = 0;
             markNode.setOffset( x, y );
-            x = markNode.getFullBoundsReference().getWidth() + 10;
+            x = markNode.getFullBoundsReference().getWidth() + 5;
             y = ( markNode.getFullBoundsReference().getHeight() - labelNode.getFullBoundsReference().getHeight() ) / 2;
             labelNode.setOffset( x, y );
         }
