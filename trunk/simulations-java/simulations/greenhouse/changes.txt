@@ -1,3 +1,4 @@
+Molecules & Light: Made O3 break apart into O2 and O.  This is a prototype for testing breaking apart
 Molecules & Light: Modified the color scheme for a more engaging look
 Molecules & Light: Added all molecules to the control panel
 Molecules & Light: Created the two-line molecule selector on the control panel.

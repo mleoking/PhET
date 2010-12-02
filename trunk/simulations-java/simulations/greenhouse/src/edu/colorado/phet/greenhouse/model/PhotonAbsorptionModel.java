@@ -140,7 +140,38 @@ public class PhotonAbsorptionModel {
             photons.add( photon );
             notifyPhotonAdded( photon );
         }
+
+        @Override
+        public void brokeApart(Molecule molecule) {
+            removeOldTarget();
+
+            ArrayList<Molecule> constituents = molecule.getBreakApartConstituents();
+            for ( Molecule constituent : constituents ) {
+                activeMolecules.add( constituent );
+            }
+
+            finishAddingMolecules();
+        }
     };
+
+    private void finishAddingMolecules() {
+        // Send out notifications about the new molecule(s);
+        for (Molecule molecule : activeMolecules){
+            molecule.addListener( moleculePhotonEmissionListener );
+            notifyMoleculeAdded( molecule );
+        }
+
+        // Send out general notification about the change.
+        notifyPhotonTargetChanged();
+    }
+
+    private void removeOldTarget() {
+        ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( activeMolecules );
+        activeMolecules.clear();
+        for (Molecule molecule : copyOfMolecules){
+            notifyMoleculeRemoved( molecule );
+        }
+    }
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -229,7 +260,7 @@ public class PhotonAbsorptionModel {
             notifyPhotonRemoved( photon );
         }
         // Step the molecules.
-        for (Molecule molecule : activeMolecules){
+        for (Molecule molecule : new ArrayList<Molecule>( activeMolecules )){
             molecule.stepInTime( dt );
         }
     }
@@ -249,11 +280,7 @@ public class PhotonAbsorptionModel {
             this.photonTarget = photonTarget;
 
             // Remove the old photon target(s).
-            ArrayList<Molecule> copyOfMolecules = new ArrayList<Molecule>( activeMolecules );
-            activeMolecules.clear();
-            for (Molecule molecule : copyOfMolecules){
-                notifyMoleculeRemoved( molecule );
-            }
+            removeOldTarget();
 
             // Add the new photon target(s).
             Molecule newMolecule;
@@ -303,13 +330,7 @@ public class PhotonAbsorptionModel {
             // We use a higher emission speed for
 
             // Send out notifications about the new molecule(s);
-            for (Molecule molecule : activeMolecules){
-                molecule.addListener( moleculePhotonEmissionListener );
-                notifyMoleculeAdded( molecule );
-            }
-
-            // Send out general notification about the change.
-            notifyPhotonTargetChanged();
+            finishAddingMolecules();
         }
     }
 

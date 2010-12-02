@@ -3,8 +3,11 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -122,7 +125,39 @@ public class O3 extends Molecule {
     }
 
     @Override
+    public ArrayList<Molecule> getBreakApartConstituents() {
+        ArrayList<Molecule> all = new ArrayList<Molecule>(  );
+        for (int i=0;i<1;i++){//TODO: this code was for testing the angle ranges and can be removed when those parameters are decided
+            all.addAll( testOnce() );
+        }
+        return all;
+    }
+
+    private ArrayList<Molecule> testOnce() {
+        double angle = MathUtil.getSign( Math.random()-0.5 )*(Math.PI/4 + Math.random()*Math.PI/2);
+
+        final ImmutableVector2D velocity = Vector2D.parseAngleAndMagnitude( 2, angle );
+        return new ArrayList<Molecule>() {{
+            add( new O2() {{
+                setVelocity( velocity.getScaledInstance( 1*0.5));
+            }} );
+            add( new O() {{
+                setVelocity( velocity.getScaledInstance(-1 ));
+            }} );
+        }};
+    }
+
+    @Override
     public MoleculeID getMoleculeID() {
         return MoleculeID.NO2;
+    }
+
+    @Override
+    protected void breakApart() {
+        super.breakApart();
+        setVelocity( new Vector2D( 1, 1 ) );
+        for ( Listener listener : listeners ) {
+            listener.brokeApart(this );
+        }
     }
 }
