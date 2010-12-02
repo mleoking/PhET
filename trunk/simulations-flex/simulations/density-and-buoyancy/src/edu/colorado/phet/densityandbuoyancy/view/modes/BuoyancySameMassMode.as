@@ -19,6 +19,7 @@ public class BuoyancySameMassMode extends Mode {
         const volume: Number = mass / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
         woodBlock = Block.newBlockDensityMass( material.getDensity(), mass, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        woodBlock.name = "woodBlock";
 
         const brickMaterial: Material = Material.BRICK;
         const v2: Number = mass / material.getDensity();

@@ -35,10 +35,12 @@ public class DensityObject {
     private var _userControlled: Boolean = false;
 
     private var lastPosition: b2Vec2;
-//    private var velocity: b2Vec2 = new b2Vec2();
+    private var velocity: b2Vec2 = new b2Vec2();
     private var _inScene: BooleanProperty = new BooleanProperty( false );
     private const _nameVisible: BooleanProperty = new BooleanProperty( false );
     private var _name: String = "name";
+
+    private var shouldOverrideVelocity: Boolean = false;
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
@@ -257,20 +259,34 @@ public class DensityObject {
         throw new Error();
     }
 
-    public function modelStepped( dt: Number ): void {
-        //Estimate velocity for purposes of fluid drag calculation since body.GetLinearVelocity reflects an internal value, not a good final state (i.e. objects in contact may be at rest but report a nonzero velocity)
-//        velocity.x = (x.value - lastPosition.x) / dt;
-//        velocity.y = (y.value - lastPosition.y) / dt;
-
+    public function onFrameStep( dt: Number ): void {
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
         dragForceArrowModel.setValue( getDragForce().x, getDragForce().y );
         contactForceArrowModel.setValue( getNetContactForce().x, getNetContactForce().y );
+        mytrace( "FRAME" );
+
+        //Estimate velocity for purposes of fluid drag calculation since body.GetLinearVelocity reflects an internal value, not a good final state (i.e. objects in contact may be at rest but report a nonzero velocity)
+        velocity.x = DensityModel.STEPS_PER_FRAME * (x.value - lastPosition.x) / dt; // TODO: FIX so we don't have steps-per-frame here. No clue why
+        velocity.y = DensityModel.STEPS_PER_FRAME * (y.value - lastPosition.y) / dt;
+
+        mytrace( velocity.x + ", " + velocity.y );
 
         //Keep track of positions for velocity estimation
         lastPosition.x = x.value;
         lastPosition.y = y.value;
+
+        mytrace( "y: " + y.value );
+    }
+
+    public function beforeModelStep( dt: Number ): void {
+        mytrace( "STEP" );
+        if ( shouldOverrideVelocity ) {
+            shouldOverrideVelocity = false;
+            body.SetLinearVelocity( velocity.Copy() );
+            trace( "SET VELOCITY: " + velocity.x + ", " + velocity.y );
+        }
     }
 
     public function getMass(): Number {
@@ -290,13 +306,21 @@ public class DensityObject {
         this.submergedVolume = submergedVolume;
     }
 
+    private function mytrace( o: * ): void {
+        if ( name == "woodBlock" ) {
+            trace( o );
+        }
+    }
+
     public function getDragForce(): b2Vec2 {
         if ( _userControlled ) {
             return new b2Vec2();
         }
         else {
-            var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
-            dragForce.Multiply( -800 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
+            //var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
+            var dragForce: b2Vec2 = velocity.Copy();
+            //mytrace( dragForce.x + ", " + dragForce.y );
+            dragForce.Multiply( -600 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
             return dragForce;
         }
     }
@@ -363,8 +387,15 @@ public class DensityObject {
     }
 
     public function set userControlled( userControlled: Boolean ): void {
-        _userControlled = userControlled;
-        updateBox2DModel();
+        if ( userControlled != _userControlled ) {
+            _userControlled = userControlled;
+
+            if ( !userControlled ) {
+                shouldOverrideVelocity = true;
+            }
+
+            updateBox2DModel();
+        }
     }
 
     public function get userControlled(): Boolean {
