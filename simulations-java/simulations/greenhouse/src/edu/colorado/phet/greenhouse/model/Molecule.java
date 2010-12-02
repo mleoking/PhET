@@ -49,7 +49,7 @@ public abstract class Molecule {
     // Offsets for each atom from the molecule's center of gravity.
     protected final HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>();
 
-    private final ArrayList<Listener> listeners = new ArrayList<Listener>();
+    protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     // This is basically the location of the molecule, but it is specified as
     // the center of gravity since a molecule is a composite object.
@@ -66,12 +66,17 @@ public abstract class Molecule {
     // is.  The oscillation sequence is periodic over 0 to 2*pi.
     private double oscillationRadians = 0;
 
+    //PHOTON RE_EMISSION
     // Variables involved in the holding and re-emitting of photons.
     private double photonHoldCountdownTime = 0;
-    private double absorbtionHysteresisCountdownTime = 0;
-
     // Photon to be emitted when the photon hold timer expires.
     private Photon photonToEmit = null;
+
+    //BREAK APART
+    // Variables involved in the holding and re-emitting of photons.
+    private double breakApartCountdownTime = 0;
+
+    private double absorbtionHysteresisCountdownTime = 0;
 
     // The "pass through photon list" keeps track of photons that were not
     // absorbed due to random probability (essentially a simulation of quantum
@@ -161,9 +166,15 @@ public abstract class Molecule {
                 oscillationRadians = 0;
             }
 
+            breakApartCountdownTime -= dt;
+            if (breakApartCountdownTime<=0){
+                breakApartCountdownTime = 0;
+                breakApart();
+            }
+
             // Update the offset of the atoms based on the current oscillation
             // index.
-            updateOscillationFormation(oscillationRadians);
+            updateOscillationFormation( oscillationRadians );
 
             // Update the atom positions.
             updateAtomPositions();
@@ -178,6 +189,9 @@ public abstract class Molecule {
         setCenterOfGravityPos( centerOfGravity.getX() + velocity.getX() * dt, centerOfGravity.getY() + velocity.getY() * dt);
     }
 
+    protected void breakApart() {
+    }
+
     /**
      * Reset the molecule.  Any photons that have been absorbed are forgotten,
      * and any oscillation is reset.
@@ -188,6 +202,7 @@ public abstract class Molecule {
         photonToEmit = null;
         oscillationRadians = 0;
         photonHoldCountdownTime = 0;
+        breakApartCountdownTime = 0;
         absorbtionHysteresisCountdownTime = 0;
     }
 
@@ -302,9 +317,11 @@ public abstract class Molecule {
             // we decide probabalistically whether or not to actually do
             // it.  This essentially simulates the quantum nature of the
             // absorption.
-            if (RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability() ){
+
+            if (RAND.nextDouble()< SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability()){
                 absorbPhoton = true;
                 setPhotonAbsorbed( true );
+                startBreakApartTimer( photon );
                 startPhotonEmissionTimer( photon );
             }
             else{
@@ -351,6 +368,10 @@ public abstract class Molecule {
         this.photonToEmit = photonToEmit;
     }
 
+    protected void startBreakApartTimer( Photon photonToEmit ){
+        breakApartCountdownTime = MIN_PHOTON_HOLD_TIME;
+    }
+
     protected void emitPhoton( double wavelength ){
         Photon emittedPhoton = new Photon( wavelength, null );
         double emissionAngle = RAND.nextDouble() * Math.PI * 2;
@@ -394,6 +415,10 @@ public abstract class Molecule {
         }
     }
 
+    public void setVelocity( double vx, double vy ) {
+        setVelocity( new ImmutableVector2D( vx, vy ) );
+    }
+
     public void setVelocity( ImmutableVector2D newVelocity) {
         this.velocity.setValue( newVelocity );
     }
@@ -417,15 +442,23 @@ public abstract class Molecule {
         return RectangleUtils.union( atomRects );
     }
 
+    public ArrayList<Molecule> getBreakApartConstituents() {
+        return new ArrayList<Molecule>(  );
+    }
+
     //------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
     public interface Listener {
         void photonEmitted(Photon photon);
+        void brokeApart(Molecule molecule);
     }
 
     public static class Adapter implements Listener {
         public void photonEmitted(Photon photon) {}
+
+        public void brokeApart(Molecule molecule) {
+        }
     }
 }
