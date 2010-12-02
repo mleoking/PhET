@@ -70,7 +70,7 @@ public abstract class Molecule {
     // Variables involved in the holding and re-emitting of photons.
     private double photonHoldCountdownTime = 0;
     // Photon to be emitted when the photon hold timer expires.
-    private Photon photonToEmit = null;
+    protected Photon photonToEmit = null;
 
     //BREAK APART
     // Variables involved in the holding and re-emitting of photons.
@@ -335,18 +335,6 @@ public abstract class Molecule {
         }
 
         return absorbPhoton;
-    }
-
-    /**
-     * Decide whether or not to absorb the offered photon.
-     *
-     * @param photon - The photon offered for absorption.
-     * @return
-     */
-    public boolean queryAbsorbPhoton2( Photon photon ){
-        // By default, the photon is never absorbed.  This should be
-        // overridden in molecules that absorb photons.
-        return false;
     }
 
     protected void addAtom( Atom atom ){
