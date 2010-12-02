@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.greenhouse.model;
 
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -62,10 +61,6 @@ public abstract class Molecule {
     // not yet been re-emitted.
     private boolean photonAbsorbed = false;
 
-    // Variable that tracks where in the oscillation sequence this molecule
-    // is.  The oscillation sequence is periodic over 0 to 2*pi.
-    private double oscillationRadians = 0;
-
     //PHOTON RE_EMISSION
     // Variables involved in the holding and re-emitting of photons.
     private double photonHoldCountdownTime = 0;
@@ -93,6 +88,8 @@ public abstract class Molecule {
 
     // TODO: This is temp for prototyping.
     protected boolean rotateClockwise = false;
+
+    private PhotonAbsorptionReactionStrategy strategy = new VibrationStrategy( this );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -153,11 +150,8 @@ public abstract class Molecule {
     public void stepInTime(double dt){
 
         if (isPhotonAbsorbed()){
+            strategy.stepInTime(dt);
             // A photon has been captured, so we should be oscillating.
-            oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
-            if (oscillationRadians >= 2 * Math.PI){
-                oscillationRadians -= 2 * Math.PI;
-            }
 
             // See if it is time to re-emit the photon.
             photonHoldCountdownTime -= dt;
@@ -166,7 +160,7 @@ public abstract class Molecule {
                 emitPhoton();
                 setPhotonAbsorbed( false );
                 absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-                oscillationRadians = 0;
+                strategy.reset();
             }
 
             breakApartCountdownTime -= dt;
@@ -174,10 +168,6 @@ public abstract class Molecule {
                 breakApartCountdownTime = 0;
                 breakApart();
             }
-
-            // Update the offset of the atoms based on the current oscillation
-            // index.
-            updateOscillationFormation( oscillationRadians );
 
             // Update the atom positions.
             updateAtomPositions();
@@ -203,7 +193,7 @@ public abstract class Molecule {
     public void reset(){
         photonAbsorbed = false;
         photonToEmit = null;
-        oscillationRadians = 0;
+        strategy.reset();
         photonHoldCountdownTime = 0;
         breakApartCountdownTime = 0;
         absorbtionHysteresisCountdownTime = 0;
@@ -451,6 +441,83 @@ public abstract class Molecule {
         public void photonEmitted(Photon photon) {}
 
         public void brokeApart(Molecule molecule) {
+        }
+    }
+
+    //This strategy determines what happens to the molecule if and when it absorbs a photon
+    public static class PhotonAbsorptionReactionStrategy {
+        Molecule molecule;
+
+        public PhotonAbsorptionReactionStrategy( Molecule molecule ) {
+            this.molecule = molecule;
+        }
+
+        public void stepInTime( double dt ) {
+        }
+
+        public void reset() {
+        }
+    }
+
+    public static class VibrationStrategy extends PhotonAbsorptionReactionStrategy {
+        // Variable that tracks where in the oscillation sequence this molecule
+        // is.  The oscillation sequence is periodic over 0 to 2*pi.
+        private double oscillationRadians = 0;
+
+        public VibrationStrategy( Molecule molecule ) {
+            super( molecule );
+        }
+
+        @Override
+        public void stepInTime( double dt ) {
+            super.stepInTime( dt );
+            oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
+            if ( oscillationRadians >= 2 * Math.PI ) {
+                oscillationRadians -= 2 * Math.PI;
+            }
+            // Update the offset of the atoms based on the current oscillation
+            // index.
+            molecule.updateOscillationFormation( oscillationRadians );
+        }
+
+        @Override
+        public void reset() {
+            super.reset();
+            oscillationRadians = 0;
+        }
+    }
+
+    public static class RotationStrategy extends PhotonAbsorptionReactionStrategy {
+        // Variable that tracks where in the oscillation sequence this molecule
+        // is.  The oscillation sequence is periodic over 0 to 2*pi.
+        private double oscillationRadians = 0;
+
+        public RotationStrategy( Molecule molecule ) {
+            super( molecule );
+        }
+
+        @Override
+        public void stepInTime( double dt ) {
+            super.stepInTime( dt );
+            oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
+            if ( oscillationRadians >= 2 * Math.PI ) {
+                oscillationRadians -= 2 * Math.PI;
+            }
+            // Update the offset of the atoms based on the current oscillation
+            // index.
+            molecule.updateOscillationFormation( oscillationRadians );
+        }
+
+        @Override
+        public void reset() {
+            super.reset();
+            oscillationRadians = 0;
+        }
+    }
+
+    public static class NullStrategy extends PhotonAbsorptionReactionStrategy {
+        public NullStrategy( Molecule molecule ) {
+            super( molecule );
         }
     }
 }
