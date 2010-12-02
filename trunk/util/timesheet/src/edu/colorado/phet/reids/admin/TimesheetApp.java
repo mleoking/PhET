@@ -28,7 +28,7 @@ public class TimesheetApp {
     public static Object[] columnNames = {"Start", "End", "Elapsed", "Category", "Notes", "Report"};
     private JFrame frame = new JFrame("Timesheet App");
     private TimesheetModel timesheetModel = new TimesheetModel();
-    private ArrayList recentFiles = new ArrayList();
+    private ArrayList<File> recentFiles = new ArrayList<File>();
     private File currentFile;
     private String WINDOW_HEIGHT = "window.h";
     private String WINDOW_WIDTH = "window.w";
@@ -74,7 +74,7 @@ public class TimesheetApp {
                 try {
                     updateIconImage();
                 } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
                 }
             }
         });
@@ -122,7 +122,6 @@ public class TimesheetApp {
         tableModel.setColumnIdentifiers(columnNames);
 
         table = new JTable(tableModel);
-//        table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         table.getColumnModel().getColumn(0).setPreferredWidth(70);
         table.getColumnModel().getColumn(1).setPreferredWidth(70);
         table.getColumnModel().getColumn(2).setPreferredWidth(30);
@@ -177,7 +176,6 @@ public class TimesheetApp {
             @Override
             public void mouseReleased(MouseEvent e) {
                 int row = table.rowAtPoint(e.getPoint());
-                int col = table.columnAtPoint(e.getPoint());
                 if (e.isControlDown()) {
                     getEntry(row).setEndTime(Util.currentTimeSeconds());
                 }
@@ -201,7 +199,7 @@ public class TimesheetApp {
                 try {
                     save();
                 } catch (IOException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e1.printStackTrace();
                 }
             }
         }, selectionModel, targetHours, new ActionListener() {
@@ -235,7 +233,6 @@ public class TimesheetApp {
     }
 
     private void exit() throws IOException {
-        //save prefs
         savePreferences();
 
         //todo: save dialog, if changed
@@ -249,8 +246,8 @@ public class TimesheetApp {
     /**
      * return true if cancelled
      *
-     * @return
-     * @throws IOException
+     * @return true if cancelled
+     * @throws IOException an exception if there was a problem saving
      */
     private boolean ifChangedAskToSaveOrCancel() throws IOException {
         if (hasUnsavedChanges()) {
@@ -357,14 +354,13 @@ public class TimesheetApp {
                 try {
                     new TimesheetApp().start();
                 } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
                 }
             }
         });
     }
 
     private void savePreferences() throws IOException {
-//        System.out.println( "prefFile.getAbsolutePath() = " + prefFile.getAbsolutePath() );
         Properties properties = new Properties();
         properties.put(WINDOW_X, frame.getX() + "");
         properties.put(WINDOW_Y, frame.getY() + "");
@@ -393,7 +389,6 @@ public class TimesheetApp {
     }
 
     private void loadPreferences() throws IOException {
-
         if (!PREFERENCES_FILE.exists()) {
             savePreferences();
         }
