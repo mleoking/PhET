@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -73,9 +74,9 @@ public class CO2 extends Molecule {
     @Override
     protected void updateOscillationFormation(double oscillationRadians){
         double multFactor = Math.sin( oscillationRadians );
-        atomCogOffsets.put(carbonAtom, new PDimension(0, multFactor * CARBON_MAX_DEFLECTION));
-        atomCogOffsets.put(oxygenAtom1, new PDimension(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
-        atomCogOffsets.put(oxygenAtom2, new PDimension(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
+        atomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
+        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
+        atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
     }
     
     @Override
@@ -88,8 +89,8 @@ public class CO2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(carbonAtom, new PDimension(0, 0));
-        atomCogOffsets.put(oxygenAtom1, new PDimension(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
-        atomCogOffsets.put(oxygenAtom2, new PDimension(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        atomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
+        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
     }
 }

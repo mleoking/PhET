@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -84,14 +85,14 @@ public class CH4 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(carbonAtom, new PDimension(0, 0));
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        atomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
+        atomCogOffsets.put(hydrogenAtom1, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        atomCogOffsets.put(hydrogenAtom2, new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
-        atomCogOffsets.put(hydrogenAtom3, new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        atomCogOffsets.put(hydrogenAtom3, new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
-        atomCogOffsets.put(hydrogenAtom4, new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        atomCogOffsets.put(hydrogenAtom4, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
     }
 
@@ -100,27 +101,27 @@ public class CH4 extends Molecule {
         if (oscillationRadians != 0){
             double multFactor = Math.sin( oscillationRadians );
             atomCogOffsets.put(hydrogenAtom1, 
-                    new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                    new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
                             ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
             atomCogOffsets.put(hydrogenAtom2, 
-                    new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                    new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
                             ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
             atomCogOffsets.put(hydrogenAtom3, 
-                    new PDimension(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                    new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
                             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
             atomCogOffsets.put(hydrogenAtom4, 
-                    new PDimension(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
+                    new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
                             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
 
             // Position the carbon atom so that the center of mass of the
             // molecule remains the same.
             double carbonXPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * 
-                    (atomCogOffsets.get( hydrogenAtom1 ).getWidth() + atomCogOffsets.get( hydrogenAtom2 ).getWidth() + 
-                    atomCogOffsets.get( hydrogenAtom3 ).getWidth() + atomCogOffsets.get( hydrogenAtom4 ).getWidth());
+                    (atomCogOffsets.get( hydrogenAtom1 ).getX() + atomCogOffsets.get( hydrogenAtom2 ).getX() +
+                    atomCogOffsets.get( hydrogenAtom3 ).getX() + atomCogOffsets.get( hydrogenAtom4 ).getX());
             double carbonYPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) * 
-                    (atomCogOffsets.get( hydrogenAtom1 ).getHeight() + atomCogOffsets.get( hydrogenAtom2 ).getHeight() + 
-                    atomCogOffsets.get( hydrogenAtom3 ).getHeight() + atomCogOffsets.get( hydrogenAtom4 ).getHeight());
-            atomCogOffsets.put( carbonAtom, new PDimension(carbonXPos, carbonYPos) );
+                    (atomCogOffsets.get( hydrogenAtom1 ).getY() + atomCogOffsets.get( hydrogenAtom2 ).getY() +
+                    atomCogOffsets.get( hydrogenAtom3 ).getY() + atomCogOffsets.get( hydrogenAtom4 ).getY());
+            atomCogOffsets.put( carbonAtom, new Vector2D(carbonXPos, carbonYPos) );
         }
         else{
             initializeAtomOffsets();

@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -75,18 +76,18 @@ public class N2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(centerNitrogenAtom, new PDimension(0, 0));
-        atomCogOffsets.put(sideNitrogenAtom, new PDimension(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
-        atomCogOffsets.put(oxygenAtom, new PDimension(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
+        atomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, 0));
+        atomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
+        atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
     }
 
     @Override
     protected void updateOscillationFormation(double oscillationRadians){
         double multFactor = Math.sin( oscillationRadians );
-        atomCogOffsets.put(centerNitrogenAtom, new PDimension(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
-        atomCogOffsets.put(sideNitrogenAtom, new PDimension(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
+        atomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
+        atomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
                 -multFactor * MAX_SIDE_NITROGEN_DEFLECTION));
-        atomCogOffsets.put(oxygenAtom, new PDimension(INITIAL_NITROGEN_OXYGEN_DISTANCE,
+        atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE,
                 -multFactor * MAX_OXYGEN_DEFLECTION));
     }
     

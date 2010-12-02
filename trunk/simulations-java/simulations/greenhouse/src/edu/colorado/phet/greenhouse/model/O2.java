@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -59,8 +60,8 @@ public class O2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(oxygenAtom1, new PDimension(-INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
-        atomCogOffsets.put(oxygenAtom2, new PDimension(INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
+        atomCogOffsets.put(oxygenAtom1, new Vector2D(-INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
+        atomCogOffsets.put(oxygenAtom2, new Vector2D(INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
     }
     
     @Override

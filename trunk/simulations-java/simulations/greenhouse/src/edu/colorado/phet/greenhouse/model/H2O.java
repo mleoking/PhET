@@ -4,6 +4,7 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -80,10 +81,10 @@ public class H2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(oxygenAtom, new PDimension(0, INITIAL_OXYGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
+        atomCogOffsets.put(oxygenAtom, new Vector2D(0, INITIAL_OXYGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(hydrogenAtom1, new Vector2D(INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
+        atomCogOffsets.put(hydrogenAtom2, new Vector2D(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET));
     }
     
@@ -94,10 +95,10 @@ public class H2O extends Molecule {
         double multFactor = Math.sin( oscillationRadians );
         double maxHydrogenDisplacement = 20;
         double maxOxygenDisplacement = 5;
-        atomCogOffsets.put(oxygenAtom, new PDimension(0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement));
-        atomCogOffsets.put(hydrogenAtom1, new PDimension(INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+        atomCogOffsets.put(oxygenAtom, new Vector2D(0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement));
+        atomCogOffsets.put(hydrogenAtom1, new Vector2D(INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
-        atomCogOffsets.put(hydrogenAtom2, new PDimension(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+        atomCogOffsets.put(hydrogenAtom2, new Vector2D(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement));
     }
     

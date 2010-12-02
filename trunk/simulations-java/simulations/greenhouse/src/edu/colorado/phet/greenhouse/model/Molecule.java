@@ -47,7 +47,7 @@ public abstract class Molecule {
     protected final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
 
     // Offsets for each atom from the molecule's center of gravity.
-    protected final HashMap<Atom, Dimension2D> atomCogOffsets = new HashMap<Atom, Dimension2D>();
+    protected final HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>();
 
     private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
@@ -227,7 +227,7 @@ public abstract class Molecule {
      * @param wavelength
      */
     protected void addPhotonAbsorptionWavelength(double wavelength){
-        photonAbsorptionWavelengths.add( new Double(wavelength) );
+        photonAbsorptionWavelengths.add( wavelength );
     }
 
     /**
@@ -237,7 +237,8 @@ public abstract class Molecule {
      * is in the specified location.  The relative orientation of the atoms
      * that comprise the molecules will not be changed.
      *
-     * @param centerOfGravityPos
+     * @param x the x location to set
+     * @param y the y location to set
      */
     public void setCenterOfGravityPos( double x, double y ){
         this.centerOfGravity.setLocation( x, y );
@@ -293,8 +294,8 @@ public abstract class Molecule {
         boolean absorbPhoton = false;
         if (!isPhotonAbsorbed() &&
             getAbsorbtionHysteresisCountdownTime() <= 0 &&
-            photonAbsorptionWavelengths.contains( new Double(photon.getWavelength() ) ) &&
-            photon.getLocation().distance(getCenterOfGravityPos()) < PHOTON_ABSORPTION_DISTANCE &&
+            photonAbsorptionWavelengths.contains( photon.getWavelength() ) &&
+            photon.getLocation().distance( getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
             !isPhotonMarkedForPassThrough( photon ))
         {
             // All circumstances are correct for photon absorption, so now
@@ -381,9 +382,9 @@ public abstract class Molecule {
      */
     protected void updateAtomPositions(){
         for (Atom atom : atoms){
-            Dimension2D offset = atomCogOffsets.get( atom );
+            Vector2D offset = atomCogOffsets.get( atom );
             if (offset != null){
-                atom.setPosition( centerOfGravity.getX() + offset.getWidth(), centerOfGravity.getY() + offset.getHeight() );
+                atom.setPosition( centerOfGravity.getX() + offset.getX(), centerOfGravity.getY() + offset.getY() );
             }
             else{
                 // This shouldn't happen, and needs to be debugged if it does.
