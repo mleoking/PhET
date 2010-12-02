@@ -228,7 +228,7 @@ public class FileUtils {
         }
     }
 
-    public static void zip(File[]filenames,File dest){
+    public static void zip( File[] filenames, File dest ) {
         // These are the files to include in the ZIP file
 //        String[] filenames = new String[]{"filename1", "filename2"};
 
@@ -238,19 +238,19 @@ public class FileUtils {
         try {
             // Create the ZIP file
 //            String outFilename = "outfile.zip";
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest));
+            ZipOutputStream out = new ZipOutputStream( new FileOutputStream( dest ) );
 
             // Compress the files
-            for (int i=0; i<filenames.length; i++) {
-                FileInputStream in = new FileInputStream(filenames[i]);
+            for ( int i = 0; i < filenames.length; i++ ) {
+                FileInputStream in = new FileInputStream( filenames[i] );
 
                 // Add ZIP entry to output stream.
-                out.putNextEntry(new ZipEntry(filenames[i].getName()));//flattens packages
+                out.putNextEntry( new ZipEntry( filenames[i].getName() ) );//flattens packages
 
                 // Transfer bytes from the file to the ZIP file
                 int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
+                while ( ( len = in.read( buf ) ) > 0 ) {
+                    out.write( buf, 0, len );
                 }
 
                 // Complete the entry
@@ -260,8 +260,9 @@ public class FileUtils {
 
             // Complete the ZIP file
             out.close();
-        } catch (IOException e) {
-            e.printStackTrace(  );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
         }
 
     }
@@ -304,10 +305,10 @@ public class FileUtils {
             }
 //            System.out.println( localFileName + "\t" + numWritten );
         }
-        catch( FileNotFoundException f ) {
+        catch ( FileNotFoundException f ) {
             throw f;
         }
-        catch( Exception exception ) {
+        catch ( Exception exception ) {
             exception.printStackTrace();
         }
         finally {
@@ -319,7 +320,7 @@ public class FileUtils {
                     out.close();
                 }
             }
-            catch( IOException ioe ) {
+            catch ( IOException ioe ) {
             }
         }
     }

@@ -15,7 +15,7 @@ public class TestProperty {
 
     public void setName( String name ) {
         this.name = name;
-        if (this.name.equals( name )){
+        if ( this.name.equals( name ) ) {
             for ( SimpleObserver nameChangeListener : nameChangeListeners ) {
                 nameChangeListener.update();
             }

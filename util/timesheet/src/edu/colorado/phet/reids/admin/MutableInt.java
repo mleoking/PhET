@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 public class MutableInt extends SimpleObservable {
     private int value;
 
-    public MutableInt(int value) {
+    public MutableInt( int value ) {
         this.value = value;
     }
 
@@ -16,7 +16,7 @@ public class MutableInt extends SimpleObservable {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue( int value ) {
         this.value = value;
         notifyObservers();
     }
