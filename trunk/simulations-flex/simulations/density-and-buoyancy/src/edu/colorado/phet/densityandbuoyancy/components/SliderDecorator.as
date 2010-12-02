@@ -17,12 +17,13 @@ public class SliderDecorator extends UIComponent {
     private const sliderY: Number = 15;
     private const tickHeight: Number = 4;
 
-    public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/ ) {
+    public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
 
         slider = new HSlider();
         slider.showDataTip = false;
         slider.setStyle( "dataTipOffset", 0 );//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
+        slider.setStyle( "thumbOffset", thumbOffset );
 
         //The default NumberFormatter on slider uses Rounding.NONE, so to make sure it is compatible with the
         //numberformatter required in the rest of the sim, use full precision on the dataTipPrecision,

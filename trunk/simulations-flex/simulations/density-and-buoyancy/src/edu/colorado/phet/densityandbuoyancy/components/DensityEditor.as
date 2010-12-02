@@ -26,5 +26,9 @@ public class DensityEditor extends PropertyEditor {
     protected override function getSliderThumbClass(): Class {
         return DensitySliderThumb;
     }
+
+    protected override function getSliderThumbOffset(): Number {
+        return DensitySliderThumb.SIZE / 2;
+    }
 }
 }
