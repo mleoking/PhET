@@ -1,5 +1,6 @@
 package edu.colorado.phet.reids.admin;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
@@ -19,6 +20,10 @@ public class Util {
 
         String text = hours + ":" + padZero( minRemain ) + ":" + padZero( secRemain );
         return text;
+    }
+
+    public static String secondsToElapsedTimeDecimal( long sec ) {
+        return new DecimalFormat( "0.00" ).format( sec / 3600.0 );
     }
 
     private static String padZero( long minRemain ) {
