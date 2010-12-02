@@ -35,6 +35,7 @@ public class BatteryConnectionButtonNode extends PhetPNode {
             }
         });
         
+        // change button text to match battery state
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
                 button.setText( getText( circuit.isBatteryConnected() ) );
