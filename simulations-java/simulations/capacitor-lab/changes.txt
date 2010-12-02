@@ -1,3 +1,4 @@
+# 0.00.51 (46753) Dec 2, 2010
 12/2/10 make battery slider tick marks a little longer so that they extend past the slider thumb
 12/2/10 convert battery slider thumb to grayscale, to address colorblindness issue #2593
 12/2/10 try minor tick marks outside of the bar meters, to address colorblindness issue #2593
