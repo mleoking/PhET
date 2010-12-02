@@ -263,7 +263,7 @@ public class DensityObject {
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
-        dragForceArrowModel.setValue( getDragForce().x, getDragForce().y );
+        dragForceArrowModel.setValue( getViewDragForce().x, getViewDragForce().y );
         contactForceArrowModel.setValue( getNetContactForce().x, getNetContactForce().y );
         mytrace( "FRAME" );
 
@@ -312,7 +312,24 @@ public class DensityObject {
         }
     }
 
-    public function getDragForce(): b2Vec2 {
+    /**
+     * Return the drag force to be used in the physical update.
+     * @return
+     */
+    public function getPhysicalDragForce(): b2Vec2 {
+        return getDragForce( body.GetLinearVelocity() );
+    }
+
+    /**
+     * Return the drag force to be used in the view.  Showing the actual physical drag force yields creates this problem:
+     * When holding block A on top of Block b, with block b underwater, there is displayed a fluid drag force on block b, even though it is not moving.
+     * @return
+     */
+    public function getViewDragForce(): b2Vec2 {
+        return getDragForce( velocity );
+    }
+
+    public function getDragForce( velocity: b2Vec2 ): b2Vec2 {
         if ( _userControlled ) {
             return new b2Vec2();
         }
