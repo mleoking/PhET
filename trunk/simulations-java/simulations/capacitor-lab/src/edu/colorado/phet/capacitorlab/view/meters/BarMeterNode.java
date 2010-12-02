@@ -54,9 +54,10 @@ public abstract class BarMeterNode extends PhetPNode {
     // ticks
     private static final int NUMBER_OF_TICKS = 10;
     private static final double MAJOR_TICK_MARK_LENGTH = 5;
-    private static final double MINOR_TICK_MARK_LENGTH = 10;
+    private static final double MINOR_TICK_MARK_LENGTH = 5;
     private static final Color TICK_MARK_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
+    private static final boolean MINOR_TICKS_OUTSIDE = true; // true=ticks outside bar, false=ticks inside bar
     
     // range labels
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
@@ -116,15 +117,16 @@ public abstract class BarMeterNode extends PhetPNode {
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
         
-        // ticks inside the track
+        // minor ticks
         double deltaY = TRACK_SIZE.height / NUMBER_OF_TICKS;
         for ( int i = 0; i < NUMBER_OF_TICKS; i++ ) {
             TickMarkNode tickMarkNode = new TickMarkNode( MINOR_TICK_MARK_LENGTH );
             addChild( tickMarkNode );
-            tickMarkNode.setOffset( 0, ( i + 1 ) * deltaY );
+            double xOffset = MINOR_TICKS_OUTSIDE ? -MINOR_TICK_MARK_LENGTH : 0;
+            tickMarkNode.setOffset( xOffset, ( i + 1 ) * deltaY );
         }
         
-        // ticks outside the track, for min and max
+        // majors ticks, for min and max
         maxTickMarkNode = new TickMarkNode( MAJOR_TICK_MARK_LENGTH );
         addChild( maxTickMarkNode );
         minTickMarkNode = new TickMarkNode( MAJOR_TICK_MARK_LENGTH );
