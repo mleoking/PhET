@@ -50,26 +50,35 @@ public class Vector2D extends ImmutableVector2D {
         return this;
     }
 
+    @Override
     public void setX( double x ) {
         super.setX( x );
     }
 
+    @Override
     public void setY( double y ) {
         super.setY( y );
     }
 
+    // The reason that this seemingly redundant override exists is to make
+    // this method public.
+    @Override
     public void setComponents( double x, double y ) {
         super.setComponents( x, y );
+    }
+
+    public void setValue( ImmutableVector2D value ){
+        setComponents( value.getX(), value.getY() );
     }
 
     public void setMagnitudeAndAngle( double magnitude, double angle ) {
         setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude );
     }
-    
+
     public void setMagnitude( double magnitude ) {
         setMagnitudeAndAngle( magnitude, getAngle() );
     }
-    
+
     public void setAngle( double angle ) {
         setMagnitudeAndAngle( getMagnitude(), angle );
     }
