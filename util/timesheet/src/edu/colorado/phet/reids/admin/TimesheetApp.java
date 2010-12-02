@@ -21,9 +21,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.reids.admin.jintellitype.JIntellitypeSupport;
 import edu.colorado.phet.reids.admin.util.FileUtils;
-import edu.colorado.phet.reids.admin.util.FrameSetup;
 
 public class TimesheetApp {
     public static Object[] columnNames = { "Start", "End", "Elapsed", "Category", "Notes", "Report" };
