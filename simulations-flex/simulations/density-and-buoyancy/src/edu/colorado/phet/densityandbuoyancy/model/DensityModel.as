@@ -45,7 +45,7 @@ public class DensityModel {
     public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
     private var showExactLiquidColor: Boolean;
 
-    public function DensityModel( volume: Number, extendedPool: Boolean, showExactLiquidColor:Boolean = false ) {
+    public function DensityModel( volume: Number, extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
         this.volume = volume;
         this.showExactLiquidColor = showExactLiquidColor;
         this.waterHeight = volume / poolWidth / poolDepth;
@@ -158,7 +158,7 @@ public class DensityModel {
         return densityObjects;
     }
 
-    public function step(): void {
+    public function stepFrame(): void {
         DebugText.clear();
 
         for each( densityObject in densityObjects ) {
@@ -170,6 +170,8 @@ public class DensityModel {
             updateWaterHeight();
             var waterY: Number = -poolHeight + waterHeight;
             for each( var cuboid: Cuboid in getCuboids() ) {
+                cuboid.beforeModelStep( DT_PER_STEP / STEPS_PER_FRAME );
+
                 var body: b2Body = cuboid.getBody();
                 var submergedVolume: Number;
                 if ( waterY > cuboid.getTopY() ) {
@@ -212,7 +214,7 @@ public class DensityModel {
         //            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
         //        }
         for each( densityObject in densityObjects ) {
-            densityObject.modelStepped( DT_PER_FRAME );
+            densityObject.onFrameStep( DT_PER_FRAME );
         }
     }
 

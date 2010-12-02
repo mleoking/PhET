@@ -63,10 +63,10 @@ public class AbstractDBCanvas extends UIComponent {
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
     protected var extendedPool: Boolean;
 
-    public function AbstractDBCanvas( extendedPool: Boolean,showExactLiquidColor:Boolean=false ) {
+    public function AbstractDBCanvas( extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
         super();
         this.extendedPool = extendedPool;
-        _model = createModel(showExactLiquidColor);
+        _model = createModel( showExactLiquidColor );
 
         _model.addDensityObjectCreationListener( addDensityObject );
         waterVolumeIndicator = new WaterVolumeIndicator( _model );
@@ -76,7 +76,7 @@ public class AbstractDBCanvas extends UIComponent {
         percentHeight = 100;
     }
 
-    protected function createModel(showExactLiquidColor:Boolean): DensityModel {
+    protected function createModel( showExactLiquidColor: Boolean ): DensityModel {
         return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
 
@@ -140,14 +140,22 @@ public class AbstractDBCanvas extends UIComponent {
             if ( density == Material.OLIVE_OIL.getDensity() && model.getShowExactLiquidColor() ) {
                 waterMaterial = new ShadingColorMaterial( Material.OLIVE_OIL.tickColor, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
             }
-            else if ( density <= Material.WATER.getDensity() ) {
-                waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
-            }
             else {
-                var green: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
-                var blue: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
-                var alpha: Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
-                waterMaterial = new ShadingColorMaterial( uint( (green << 8) + blue ), {alpha: alpha} );
+                if ( density <= Material.WATER.getDensity() ) {
+                    waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
+                }
+                else {
+                    var green
+                            :
+                            uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
+                    var blue
+                            :
+                            uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
+                    var alpha
+                            :
+                            Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
+                    waterMaterial = new ShadingColorMaterial( uint( (green << 8) + blue ), {alpha: alpha} );
+                }
             }
             waterFront.material = waterMaterial;
             waterTop.material = waterMaterial;
@@ -221,7 +229,7 @@ public class AbstractDBCanvas extends UIComponent {
         if ( !_running ) {
             return;
         }
-        _model.step();
+        _model.stepFrame();
         if ( moving && selectedObject is Pickable ) {
             var pickable: Pickable = (selectedObject as Pickable);
             pickable.getBody().SetXForm( new b2Vec2( pickable.getBody().GetPosition().x, cachedY ), 0 );

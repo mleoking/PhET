@@ -51,8 +51,8 @@ public class Scale extends Cuboid {
         return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityConstants.format( mass )] );
     }
 
-    override public function modelStepped( dt: Number ): void {
-        super.modelStepped( dt );
+    override public function onFrameStep( dt: Number ): void {
+        super.onFrameStep( dt );
         for each ( var scaleReadoutListener: Function in scaleReadoutListeners ) {
             scaleReadoutListener();
         }

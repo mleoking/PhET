@@ -6,12 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
-import edu.colorado.phet.densityandbuoyancy.view.*;
-
 import away3d.cameras.Camera3D;
 import away3d.core.draw.ScreenVertex;
 
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.densityandbuoyancy.view.*;
 
 public class Away3DBlockLabelNode extends BlockLabelNode {
     private var mainViewport: Away3DViewport;
