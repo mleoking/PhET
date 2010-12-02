@@ -28,7 +28,7 @@ public class O extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public O(Point2D inititialCenterOfGravityPos){
+    public O( Point2D inititialCenterOfGravityPos ) {
 
         addAtom( oxygenAtom );
 
@@ -39,8 +39,8 @@ public class O extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public O(){
-        this(new Point2D.Double(0, 0));
+    public O() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -52,7 +52,7 @@ public class O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(oxygenAtom, new PDimension( 0, 0 ) );
+        atomCogOffsets.put( oxygenAtom, new PDimension( 0, 0 ) );
     }
 
     @Override
