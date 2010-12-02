@@ -17,6 +17,7 @@ public enum MoleculeID {
     N2,
     N2O,
     NO2,
+    O,
     O2,
     O3
 }
