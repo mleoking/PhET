@@ -61,6 +61,9 @@ public class H2O extends Molecule {
         addPhotonAbsorptionWavelength( GreenhouseConfig.microWavelength );
         addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
 
+//        addPhotonAbsorptionWavelength( GreenhouseConfig.microWavelength,new RotationStrategy(this ));
+//        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength,new VibrationStrategy(this) );
+
         // Set the initial offsets.
         initializeAtomOffsets();
 
