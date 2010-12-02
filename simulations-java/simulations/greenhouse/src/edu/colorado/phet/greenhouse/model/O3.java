@@ -5,6 +5,7 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -99,10 +100,10 @@ public class O3 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put( centerOxygenAtom, new PDimension( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
-        atomCogOffsets.put( leftOxygenAtom, new PDimension( INITIAL_OXYGEN_HORIZONTAL_OFFSET,
+        atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
+        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET ) );
-        atomCogOffsets.put( rightOxygenAtom, new PDimension( -INITIAL_OXYGEN_HORIZONTAL_OFFSET,
+        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET ) );
     }
 
@@ -113,10 +114,10 @@ public class O3 extends Molecule {
         double multFactor = Math.sin( oscillationRadians );
         double maxHydrogenDisplacement = 20;
         double maxOxygenDisplacement = 5;
-        atomCogOffsets.put( centerOxygenAtom, new PDimension( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
-        atomCogOffsets.put( leftOxygenAtom, new PDimension( INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+        atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
+        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-        atomCogOffsets.put( rightOxygenAtom, new PDimension( -INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
     }
 
