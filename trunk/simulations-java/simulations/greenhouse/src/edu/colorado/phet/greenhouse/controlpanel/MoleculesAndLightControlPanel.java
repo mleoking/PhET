@@ -84,7 +84,7 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         // TODO: i18n of each of these.
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Carbon Monoxide<br>CO</html>", createMoleculeImage( new CO(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO_MOLECULE ));
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Nitrogen<br>N<sub>2</sub></html>", createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_N2_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Oxyben<br>O<sub>2</sub></html>", createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Oxygen<br>O<sub>2</sub></html>", createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ));
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Carbon Dioxide<br>CO<sub>2</sub></html>", createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ));
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Water<br>H<sub>2</sub>O</html>", createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_H2O_MOLECULE ));
         moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Nitrogen Dioxide<br>NO<sub>2</sub></html>", createMoleculeImage( new NO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_NO2_MOLECULE ));
