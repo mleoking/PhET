@@ -197,7 +197,7 @@ public class DensityModel {
                 buoyancyForce.Multiply( DensityConstants.SCALE_BOX2D );
                 body.ApplyForce( buoyancyForce, body.GetPosition() );
 
-                const dragForce: b2Vec2 = cuboid.getDragForce().Copy();
+                const dragForce: b2Vec2 = cuboid.getPhysicalDragForce().Copy();
                 dragForce.Multiply( DensityConstants.SCALE_BOX2D );
                 body.ApplyForce( dragForce, body.GetPosition() );
             }
