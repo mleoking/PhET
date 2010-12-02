@@ -1,3 +1,4 @@
+Buoyancy: Fixed: scale velocity remains nonzero on reset after throwing the scale
 Buoyancy: Made vector value readouts the same color as the vector
 Buoyancy: Fixed reset all on intro tab: it was not resetting all content of other modes
 Buoyancy: Fixed vector force checkboxes on reset

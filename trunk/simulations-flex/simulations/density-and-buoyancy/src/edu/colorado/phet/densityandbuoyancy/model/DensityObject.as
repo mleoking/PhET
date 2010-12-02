@@ -363,6 +363,10 @@ public class DensityObject {
         x.reset();
         y.reset();
         _z.reset();
+        velocity.x = 0;
+        velocity.y = 0;
+        lastPosition.x = x.value;
+        lastPosition.y = y.value;
         updateBox2DModel();
     }
 
