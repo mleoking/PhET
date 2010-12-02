@@ -75,7 +75,9 @@ public class O3 extends Molecule {
         addAtomicBond( rightOxygenOxygenBond );
 
         // Set up the photon wavelengths to absorb.
+        addPhotonAbsorptionWavelength( GreenhouseConfig.microWavelength );
         addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        addPhotonAbsorptionWavelength( GreenhouseConfig.uvWavelength );
 
         // Set the initial offsets.
         initializeAtomOffsets();
