@@ -64,19 +64,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     public ModelValuesPanel( DielectricModel model ) {
         
         this.model = model;
-        circuitChangeListener = new BatteryCapacitorCircuitChangeListener() {
-            public void circuitChanged() {
-                updateValues();
-            }
-        };
-        model.getCircuit().addBatteryCapacitorCircuitChangeListener( circuitChangeListener );
         
         this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
-        dielectricConstantObserver = new SimpleObserver() {
-            public void update() {
-                updateValues();
-            }
-        };
         
         // instructions
         JLabel instructions = new JLabel( "= MOUSE OVER FOR DESCRIPTIONS =" );
@@ -206,15 +195,31 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.WEST );
         
-        // observe dielectric
-        dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
-        
-        // observe capacitor
-        model.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
-            public void update() {
-                updateDielectricObserver();
-            }
-        });
+        // observers
+        {
+            // circuit
+            circuitChangeListener = new BatteryCapacitorCircuitChangeListener() {
+                public void circuitChanged() {
+                    updateValues();
+                }
+            };
+            model.getCircuit().addBatteryCapacitorCircuitChangeListener( circuitChangeListener );
+
+            // dielectric constant
+            dielectricConstantObserver = new SimpleObserver() {
+                public void update() {
+                    updateValues();
+                }
+            };
+            dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
+
+            // capacitor
+            model.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
+                public void update() {
+                    updateDielectricObserver();
+                }
+            } );
+        }
         
         updateValues();
     }

@@ -1,3 +1,4 @@
+12/2/10 wire up all observers and listeners in the same place in source code, at the end of constructors
 # 0.00.50 (46705) Dec 1, 2010
 12/1/10 dev version with lots of internal cleanup and a few fixes
 11/30/10 clean up CCKStrategyWithRounding, strategy for putting charges on plate surface

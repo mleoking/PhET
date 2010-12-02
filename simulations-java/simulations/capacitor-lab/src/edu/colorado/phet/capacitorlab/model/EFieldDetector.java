@@ -31,11 +31,6 @@ public class EFieldDetector {
             boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
         
         this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
-            public void circuitChanged() {
-                updateVectors();
-            }
-        });
         
         this.world = world;
         
@@ -54,18 +49,25 @@ public class EFieldDetector {
 
         // observers
         {
+            // update vectors when the circuit changes
+            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+                public void circuitChanged() {
+                    updateVectors();
+                }
+            });
+            
+            // update vectors when the probe moves
+            probeLocationProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateVectors();
+                }
+            } );
+            
             // keep the body and probe inside the world bounds
             world.addBoundsObserver( new SimpleObserver() {
                 public void update() {
                     setBodyLocation( getBodyLocationReference() );
                     setProbeLocation( getProbeLocation() );
-                }
-            } );
-
-            // update vectors when the probe moves
-            probeLocationProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateVectors();
                 }
             } );
         }
