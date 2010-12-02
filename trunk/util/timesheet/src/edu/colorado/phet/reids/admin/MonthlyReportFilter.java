@@ -18,32 +18,36 @@ public class MonthlyReportFilter {
 
     public MonthlyReportFilter() {
         String categorieString =
-                "Accessibility\n" +
+//                "Accessibility\n" +
                 "Administrative/Documentation\n" +
                 "Build Process\n" +
-                "Conferences, Workshops & Booths\n" +
-                "Email\n" +
-                "Flash Build\n" +
-                "Flash Future\n" +
-                "Flash_Flash Common\n" +
-                "Installer\n" +
-                "Licensing\n" +
-                "Look & Feel\n" +
-                "Meetings\n" +
-                "Miscellaneous\n" +
-                "New Web Frameworks\n" +
-                "PhET Basic\n" +
-                "PhET Help\n" +
                 "Common Code\n" +
-                "Piccolo\n" +
-                "Respository, SVN, CVS\n" +
+                "Conferences, Workshops and Booths\n" +
+//                "Email\n" +
+                "Customer Support\n" +
+                "Environment/Maintenance/Tools\n" +
+//                "Flash Future\n" +
+//                "Flash_Flash Common\n" +
+                "Installer\n" +
+//                "Licensing\n" +
+//                "Look & Feel\n" +
+//                "Meetings\n" +
+                "Miscellaneous\n" +
+                "New Sim Investigations\n" +
+//                "New Web Frameworks\n" +
+//                "PhET Basic\n" +
+//                "PhET Help\n" +
+//                "Common Code\n" +
+//                "Piccolo\n" +
+//                "Respository, SVN, CVS\n" +
                 "Research, Surveys, Interviews & Observations\n" +
-                "Scala\n" +
-                "Statistics Database\n" +
-                "Testing & IOM\n" +
+//                "Scala\n" +
+                "Sim-sharing\n" +
+//                "Statistics Database\n" +
+//                "Testing & IOM\n" +
                 "Translations\n" +
                 "Unfuddle\n" +
-                "Sim Updates\n" +
+//                "Sim Updates\n" +
                 "Website";
 
         categories = new ArrayList<String>();
