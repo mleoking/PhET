@@ -91,6 +91,9 @@ public abstract class Molecule {
     // behavior, but works for the current purposes of this sim.
     private final ArrayList<Double> photonAbsorptionWavelengths = new ArrayList<Double>(2);
 
+    // TODO: This is temp for prototyping.
+    protected boolean rotateClockwise = false;
+
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -323,6 +326,7 @@ public abstract class Molecule {
                 setPhotonAbsorbed( true );
                 startBreakApartTimer( photon );
                 startPhotonEmissionTimer( photon );
+                rotateClockwise = RAND.nextBoolean();
             }
             else{
                 // Do NOT absorb it - mark it for pass through instead.

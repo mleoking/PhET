@@ -104,7 +104,12 @@ public class H2O extends Molecule {
                     -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
         }
         else if ( photonToEmit != null && photonToEmit.getWavelength() == GreenhouseConfig.microWavelength ) {
-            rotate( 0.8 );
+            if ( rotateClockwise ){
+                rotate( -0.8 );
+            }
+            else{
+                rotate( 0.8 );
+            }
         }
     }
 
