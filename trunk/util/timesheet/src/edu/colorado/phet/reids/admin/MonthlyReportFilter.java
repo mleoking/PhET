@@ -125,8 +125,12 @@ public class MonthlyReportFilter {
         if ( category.equals( "build-tools" ) ) { return mapCategory( "Build Process" ); }
         if ( category.equals( "meeting" ) ) { return mapCategory( "meetings" ); }
         if ( category.equals( "buoyancy" ) ) { return mapCategory( "density-and-buoyancy" ); }
+        if ( category.equals( "simsharing" ) ) { return mapCategory( "Sim-sharing" ); }
+        if ( category.equals( "blog" ) ) { return mapCategory( "Website" ); }
+        if ( category.equals( "sun-and-planet" ) ) { return mapCategory( "gravity-and-orbits" ); }
+        if ( category.equals( "design-patterns" ) ) { return mapCategory( "Common Code" ); }
 
-        System.out.println( "No match found for category: " + category );
+        System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
     }
 
