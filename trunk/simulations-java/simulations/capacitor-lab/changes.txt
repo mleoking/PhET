@@ -1,4 +1,6 @@
-12/2/10 try minor tick marks outside of the bar meters, so that colorblindness is not an issue
+12/2/10 make battery slider tick marks a little longer so that they extend past the slider thumb
+12/2/10 convert battery slider thumb to grayscale, to address colorblindness issue #2593
+12/2/10 try minor tick marks outside of the bar meters, to address colorblindness issue #2593
 12/2/10 change current indicator model from dV/dt to dQ/dt, so that changes to plate area and separation cause current flow
 12/2/10 wire up all observers and listeners in the same place in source code, at the end of constructors
 # 0.00.50 (46705) Dec 1, 2010
