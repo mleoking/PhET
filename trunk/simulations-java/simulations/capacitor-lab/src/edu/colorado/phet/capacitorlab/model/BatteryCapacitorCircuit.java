@@ -44,7 +44,7 @@ public class BatteryCapacitorCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private DielectricMaterial dielectricMaterial;
     private double currentAmplitude; // dV/dt, rate of voltage change
-    private double previousVoltage;
+    private double previousCharge;
 
     public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
         
@@ -62,7 +62,7 @@ public class BatteryCapacitorCircuit {
         this.disconnectedPlateCharge = getTotalPlateCharge();
         this.dielectricMaterial = capacitor.getDielectricMaterial();
         this.currentAmplitude = 0;
-        this.previousVoltage = getPlatesVoltage();
+        this.previousCharge = getTotalPlateCharge();
         
         // update current amplitude on each clock tick
         clock.addClockListener( new ClockAdapter() {
@@ -599,14 +599,14 @@ public class BatteryCapacitorCircuit {
     }
     
     /*
-     * Current amplitude is proportional to dV/dt, the change in voltage over time.
+     * Current amplitude is proportional to dQ/dt, the change in charge (Q_total) over time.
      */
     private void updateCurrentAmplitude() {
-        double V = getPlatesVoltage(); // use plates voltage so that this works when battery is disconnected
-        double dV = V - previousVoltage;
+        double Q = getTotalPlateCharge();
+        double dQ = Q - previousCharge;
         double dt = clock.getDt();
-        previousVoltage = V;
-        setCurrentAmplitude( dV / dt );
+        previousCharge = Q;
+        setCurrentAmplitude( dQ / dt );
     }
     
     //----------------------------------------------------------------------------------
