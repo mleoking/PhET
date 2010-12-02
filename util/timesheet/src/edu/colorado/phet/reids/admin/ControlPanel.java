@@ -49,7 +49,7 @@ public class ControlPanel extends JPanel {
         JButton filteredReport = new JButton( "Filtered Report" );
         filteredReport.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ReportFrame reportFrame = new ReportFrame( new MonthlyReportFilter().filter( selectionModel.getSelection( timesheetModel ) ) );
+                OrderedReportFrame reportFrame = new OrderedReportFrame( new MonthlyReportFilter().filter( selectionModel.getSelection( timesheetModel ) ) );
                 reportFrame.setVisible( true );
             }
         } );

@@ -12,11 +12,32 @@ import java.util.StringTokenizer;
  * To change this template use File | Settings | File Templates.
  */
 public class MonthlyReportFilter {
-    private ArrayList<String> categories;
     private ArrayList<String> sims;
     private ArrayList<String> allList;
 
     public MonthlyReportFilter() {
+        ArrayList<String> categories = getPredefinedCategories();
+
+        sims = new ArrayList<String>();
+        File[] simRoots = new File[] { new File( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flash\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flex\\simulations" ) };
+        for ( File simRoot : simRoots ) {
+            for ( File dir : simRoot.listFiles() ) {
+                sims.add( dir.getName() );
+            }
+        }
+        allList = new ArrayList<String>();
+        allList.addAll( categories );
+        allList.addAll( sims );
+        allList.add( "leave:sick:family" );
+        allList.add( "leave:sick:personal" );
+        allList.add( "leave:vacation" );
+    }
+
+    public ArrayList<String> getAllCategories() {
+        return allList;
+    }
+
+    public static ArrayList<String> getPredefinedCategories() {
         String categorieString =
 //                "Accessibility\n" +
                 "Administrative/Documentation\n" +
@@ -50,25 +71,12 @@ public class MonthlyReportFilter {
 //                "Sim Updates\n" +
                 "Website";
 
-        categories = new ArrayList<String>();
+        ArrayList<String> categories = new ArrayList<String>();
         StringTokenizer st = new StringTokenizer( categorieString, "\n" );
         while ( st.hasMoreElements() ) {
             categories.add( st.nextToken() );
         }
-
-        sims = new ArrayList<String>();
-        File[] simRoots = new File[] { new File( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flash\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flex\\simulations" ) };
-        for ( File simRoot : simRoots ) {
-            for ( File dir : simRoot.listFiles() ) {
-                sims.add( dir.getName() );
-            }
-        }
-        allList = new ArrayList<String>();
-        allList.addAll( categories );
-        allList.addAll( sims );
-        allList.add( "leave:sick:family" );
-        allList.add( "leave:sick:personal" );
-        allList.add( "leave:vacation" );
+        return categories;
     }
 
     public TimesheetModel filter( TimesheetModel selection ) {
@@ -129,6 +137,8 @@ public class MonthlyReportFilter {
         if ( category.equals( "blog" ) ) { return mapCategory( "Website" ); }
         if ( category.equals( "sun-and-planet" ) ) { return mapCategory( "gravity-and-orbits" ); }
         if ( category.equals( "design-patterns" ) ) { return mapCategory( "Common Code" ); }
+        if ( category.equals( "email" ) ) { return mapCategory( "Administrative/Documentation" ); }
+        if ( category.equals( "meetings" ) ) { return mapCategory( "Administrative/Documentation" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
