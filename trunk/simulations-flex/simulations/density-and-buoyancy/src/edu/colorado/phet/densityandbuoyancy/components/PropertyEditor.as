@@ -86,7 +86,7 @@ public class PropertyEditor extends GridRow {
     //The volume increases dramatically, making the object larger than the pool size.
     protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ): SliderDecorator {
         const slider: SliderDecorator = new SliderDecorator( dataTipClamp );
-        slider.sliderThumbClass = MySliderThumb;
+        slider.sliderThumbClass = getSliderThumbClass();
         slider.sliderWidth = sliderWidth;
         //        slider.sliderDataTipClass = InvisibleDataTip;//Hide the data tip since it can become disassociated from the model value
 
@@ -130,6 +130,10 @@ public class PropertyEditor extends GridRow {
         property.addListener( updateSlider );
 
         return slider;
+    }
+
+    protected function getSliderThumbClass(): Class {
+        return MySliderThumb;
     }
 
     private function addGridItem( displayObject: DisplayObject ): void {

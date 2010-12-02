@@ -22,5 +22,9 @@ public class DensityEditor extends PropertyEditor {
         slider.enabled = false; // direct density changes are now disabled
         return slider;
     }
+
+    protected override function getSliderThumbClass(): Class {
+        return DensitySliderThumb;
+    }
 }
 }
