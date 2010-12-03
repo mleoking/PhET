@@ -7,6 +7,7 @@ import java.util.Random;
 import edu.colorado.phet.buildanatom.BuildAnAtomApplication;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -18,6 +19,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * information such as the number of protons present.  This class contains and
  * tracks instances of subatomic particles, rather than just the numbers of
  * such particles.
+ *
+ * @author John Blanco
+ * @author Sam Reid
+ * @author Kevin Bacon
  */
 public class Atom extends SimpleAtom {
 
@@ -35,7 +40,7 @@ public class Atom extends SimpleAtom {
     private final Point2D position = new Point2D.Double();
 
     //The total translation of all nucleons, used for animating instability
-    private final Vector2D nucleusOffset = new Vector2D( 0, 0 );
+    private ImmutableVector2D unstableNucleusJitterVector = new Vector2D( 0, 0 );
 
     // List of the subatomic particles that are currently in the nucleus.
     // Note that the electrons are maintained in the shells.
@@ -57,6 +62,10 @@ public class Atom extends SimpleAtom {
     // Repository from which to draw particles if told to add them non-
     // specifically, i.e. "addProton()" instead of "addProton( Proton )".
     private SubatomicParticleRepository subatomicParticleRepository = new NullSubatomicParticleRepository();
+
+    // Used for animating the unstable nuclei.
+    private int animationCount = 0;
+    private boolean isAway = false;
 
     /**
      * Constructor.
@@ -98,38 +107,47 @@ public class Atom extends SimpleAtom {
     }
 
     protected final SubatomicParticle.Adapter nucleonRemovalListener = new SubatomicParticle.Adapter() {
-                @Override
-                public void grabbedByUser( SubatomicParticle particle ) {
-                    // The user has picked up this particle, which instantly
-                    // removes it from the nucleus.
-                    removeNucleon( particle );
-                }
-            };
-
-    // TODO: This is a quick implementation of animation for unstable nuclei,
-    // done for interviews.  If the animation feature is kept, this should be
-    // reworked.
-    int count = 0;
-    Random random = new Random();
+        @Override
+        public void grabbedByUser( SubatomicParticle particle ) {
+            // The user has picked up this particle, which instantly
+            // removes it from the nucleus.
+            removeNucleon( particle );
+        }
+    };
 
     private void stepInTime( double simulationTimeChange ) {
-        if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() ) {
-            count++;
-            if ( count % 4 == 0 ) {
-                updateNucleonOffsets( -1 );
-            }
-            else if ( count % 2 == 0){
-                nucleusOffset.setAngle( random.nextDouble() * Math.PI * 2 );
-                nucleusOffset.setMagnitude( random.nextDouble() * 5 );
-                updateNucleonOffsets( 1 );
-            }
+        animationCount++;
+        if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
+            // Jump away from the current location.
+            unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble()*5, RAND.nextDouble() * Math.PI * 2 );
+            jumpAway();
+        }
+        else if ( ( animationCount % 2 == 0 && isAway ) || ( isStable() && isAway ) ) {
+            jumpBack();
         }
     }
 
-    private void updateNucleonOffsets(double factor) {
+    /**
+     * Move the nucleus away from its current location.  Usually this is
+     * used in alternation with jumpBack.
+     */
+    private void jumpAway() {
+        translateNucleons( unstableNucleusJitterVector, true );
+    }
+
+    /**
+     * Move the nucleus back to the original location (with acknowledgments
+     * to Kevin Bacon).
+     */
+    private void jumpBack() {
+        translateNucleons( unstableNucleusJitterVector.getScaledInstance( -1 ), false );
+    }
+
+    private void translateNucleons( ImmutableVector2D motionVector, boolean away ) {
         for ( SubatomicParticle nucleon : getNucleons() ) {
-            nucleon.setPositionAndDestination( nucleusOffset.getScaledInstance( factor ).getDestination( nucleon.getDestination() ) );
+            nucleon.setPositionAndDestination( motionVector.getDestination( nucleon.getDestination() ) );
         }
+        isAway = away;
     }
 
     /**
@@ -382,6 +400,12 @@ public class Atom extends SimpleAtom {
      */
     public void reconfigureNucleus(boolean moveImmediately) {
 
+        if ( isAway ){
+            // This is necessary to keep things from getting off when
+            // animation of the unstable nucleus is occurring at the same
+            // time as a nucleus reconfiguration.
+            jumpBack();
+        }
         double nucleonRadius = Proton.RADIUS;
 
         // Get all the nucleons onto one list.  Add them alternately so that
