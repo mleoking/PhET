@@ -1,3 +1,4 @@
+Fixed: On level 4, use heavier atoms for non-schematic problems.
 Fixed nucleon layout for an isotope of lithium (was difficult to discern in game mode)
 Internal changes
 # 1.00.13 (46632) Nov 29, 2010
