@@ -3,18 +3,19 @@
 package edu.colorado.phet.capacitorlab.view.meters;
 
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.capacitorlab.view.PlusNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Probe for the E-Field Detector.
@@ -35,7 +36,7 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
         addChild( imageNode );
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
-        double y = -( 0.083 * imageNode.getFullBoundsReference().getHeight() ); // multiplier is dependent on where crosshairs appear in image file
+        double y = -14.5; // determined by visual inspection, dependent on where crosshairs appear in image file
         imageNode.setOffset( x, y );
         
         connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() + y ); // connect wire to bottom center
@@ -43,10 +44,13 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         // rotate after computing the connection offset
         rotate( -mvt.getYaw() );
         
-        // Put a '+' at origin to check that probe image is offset properly.
+        // Put a dot at origin to check that probe image is offset properly.
         if ( dev ) {
-            PlusNode plusNode = new PlusNode( 12, 2, Color.RED );
-            addChild( plusNode );
+            double diameter = 4;
+            PPath originNode = new PPath( new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter ) );
+            originNode.setStroke( null );
+            originNode.setPaint( Color.RED );
+            addChild( originNode );
         }
         
         detector.addProbeLocationObserver( new SimpleObserver() {
