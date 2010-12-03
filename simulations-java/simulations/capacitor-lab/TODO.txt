@@ -19,6 +19,7 @@ DESIGN ISSUES
 - Dielectric label in E-Field Detector was confused for capacitor's dielectric by Kathy, it may also be air
 
 HIGH PRIORITY
+- plate area drag handle is jerky
 - integrate new E-Field Detector probe, with crosshairs that are visible on dense E-Field
 - resolve colorblind issues identified in #2593
 - publish 1.00
