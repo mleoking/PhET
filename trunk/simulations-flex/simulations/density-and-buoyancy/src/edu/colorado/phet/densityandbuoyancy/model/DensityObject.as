@@ -306,8 +306,10 @@ public class DensityObject {
         this.submergedVolume = submergedVolume;
     }
 
+    private const debug: Boolean = false;
+
     private function mytrace( o: * ): void {
-        if ( name == "woodBlock" ) {
+        if ( name == "woodBlock" && debug ) {
             trace( o );
         }
     }
