@@ -36,9 +36,6 @@ public class PhetTabNavigator extends TabNavigator {
     }
 
     public function onApplicationComplete(): void {
-        for each ( var module: Module in modules ) {
-            module.init();
-        }
         runModule( 0 );
     }
 }

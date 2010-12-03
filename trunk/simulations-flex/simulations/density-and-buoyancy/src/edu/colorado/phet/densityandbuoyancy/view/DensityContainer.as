@@ -1,9 +1,11 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.flashcommon.StageHandler;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
 
+import flash.display.Stage;
 import flash.events.MouseEvent;
 
 import mx.controls.Label;
@@ -21,6 +23,8 @@ public class DensityContainer extends AbstractDBContainer {
 
     public function DensityContainer() {
         super();
+
+        const myThis: DensityContainer = this;
 
         addBackground();
 
@@ -41,33 +45,38 @@ public class DensityContainer extends AbstractDBContainer {
         } );
         customButton.selected = true;
         modeControlPanel.addChild( customButton );
-        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' ), false, function(): void {densityCanvas.switchToSameMass()} ) );
-        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' ), false, function(): void {densityCanvas.switchToSameVolume()} ) );
-        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' ), false, function(): void {densityCanvas.switchToSameDensity()} ) );
-        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' ), false, function(): void {densityCanvas.switchToMysteryObjects()} ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' ), false, function(): void {
+            densityCanvas.switchToSameMass()
+        } ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' ), false, function(): void {
+            densityCanvas.switchToSameVolume()
+        } ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' ), false, function(): void {
+            densityCanvas.switchToSameDensity()
+        } ) );
+        modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.mysteryObjects', 'Mystery' ), false, function(): void {
+            densityCanvas.switchToMysteryObjects()
+        } ) );
 
         addChild( modeControlPanel );
 
         addResetAll();
         addLogo();
-    }
 
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            // TODO: why multiple initialization functions? - JO
+            densityCanvas.init();
+            densityCanvas.doInit( myThis );
+            densityCanvas.switchToCustomObject();
 
-    override public function init(): void {
-        super.init();
+            densityCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
-        // TODO: why multiple initialization functions? - JO
-        densityCanvas.init();
-        densityCanvas.doInit( this );
-        densityCanvas.switchToCustomObject();
+            var densityAndBuoyancyFlashCommon: DensityAndBuoyancyFlashCommon = new DensityAndBuoyancyFlashCommon();
+            addChild( densityAndBuoyancyFlashCommon );
+            densityAndBuoyancyFlashCommon.init();
 
-        densityCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
-
-        var densityAndBuoyancyFlashCommon: DensityAndBuoyancyFlashCommon = new DensityAndBuoyancyFlashCommon();
-        addChild( densityAndBuoyancyFlashCommon );
-        densityAndBuoyancyFlashCommon.init();
-
-        densityCanvas.start();
+            densityCanvas.start();
+        } );
     }
 
     override public function pause(): void {

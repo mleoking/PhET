@@ -11,7 +11,10 @@ public class BuoyancyTabNavigator extends PhetTabNavigator {
 }
 
 import edu.colorado.phet.densityandbuoyancy.view.BuoyancyContainer;
+import edu.colorado.phet.flashcommon.StageHandler;
 import edu.colorado.phet.flexcommon.Module;
+
+import flash.display.Stage;
 
 class BuoyancyModule extends Module {
     private var container: BuoyancyContainer;
@@ -19,11 +22,9 @@ class BuoyancyModule extends Module {
     function BuoyancyModule( title: String, canvas: BuoyancyContainer ) {
         super( title, canvas );
         this.container = canvas;
-    }
-
-    override public function init(): void {
-        super.init();
-        container.init();
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            container.init();
+        } );
     }
 
     override public function get running(): Boolean {

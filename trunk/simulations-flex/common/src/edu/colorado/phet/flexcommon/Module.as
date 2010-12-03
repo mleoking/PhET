@@ -21,9 +21,6 @@ public class Module {
         return _component;
     }
 
-    public function init(): void {
-    }
-
     public function get running(): Boolean {
         throw new Error( "abstract method error" );
     }
