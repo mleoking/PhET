@@ -468,11 +468,19 @@ public class Atom extends SimpleAtom {
                 else {
                     // Move out to the next radius.
                     level++;
-                    placementRadius += nucleonRadius * 1.3 / level;
+                    placementRadius += nucleonRadius * 1.35 / level;
                     placementAngle += Math.PI / 8; // Arbitrary value chosen based on looks.
                     numAtThisRadius = (int) Math.floor( placementRadius * Math.PI / nucleonRadius );
                     placementAngleDelta = 2 * Math.PI / numAtThisRadius;
                 }
+            }
+
+            //WARNING: THIS IS A SPECIAL CASE FOR HANDLING A CERTAIN ISOTOPE OF LITHIUM
+            //Make this isotope of lithium look better, some of the neutrons overlap
+            //too much for discerning in the game mode
+            if ( nucleons.size() == 7 && neutrons.size() == 4 ) {
+                final Neutron neutron = neutrons.get( neutrons.size() - 1 );
+                neutron.setDestination( neutron.getDestination().getX(), neutron.getDestination().getY() - 3 );
             }
         }
 

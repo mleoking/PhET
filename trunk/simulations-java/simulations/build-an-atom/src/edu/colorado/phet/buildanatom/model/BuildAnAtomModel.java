@@ -191,18 +191,12 @@ public class BuildAnAtomModel {
 
         // Put all the particles back in the bucket.
         for ( Electron electron : electrons ) {
-            // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
-            //            atom.addElectron( electron);
             electronBucket.addParticle( electron, true );
         }
         for ( Proton proton : protons ) {
-            // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
-            //            atom.addProton( proton );
             protonBucket.addParticle( proton, true );
         }
         for ( Neutron neutron : neutrons ) {
-            // TODO: Get rid of commented out code when done debugging nucleus reconfiguration algorithm.
-            //            atom.addNeutron( neutron );
             neutronBucket.addParticle( neutron, true );
         }
     }
