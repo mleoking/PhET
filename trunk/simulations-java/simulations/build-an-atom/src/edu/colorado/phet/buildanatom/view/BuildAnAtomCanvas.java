@@ -190,9 +190,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         setFocusable( true );
         requestFocus();
 
-        //Start with the symbol, mass and charge windows minimized.
-        //TODO: the reason we didn't put these values for maximized = false above is because the layout code depends on the maximized size for each component.
-        //TODO: it would be nice to rewrite so that we can initialize values properly and still get the layout correct
+        // Minimize the indicator windows.  The layout needed to be done with
+        // them maximized, which is why we waited until now.
         resetWindowMaximization();
     }
 
