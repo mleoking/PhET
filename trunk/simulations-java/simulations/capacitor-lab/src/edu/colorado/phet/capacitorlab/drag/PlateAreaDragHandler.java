@@ -14,6 +14,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Drag handler for capacitor plate area property.
+ * This drag handle is attached to the front-left corner of the capacitor plate, and its 
+ * drag axis is the diagonal line from the front-left corner to the back-right corner of the plate.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
