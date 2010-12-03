@@ -1,11 +1,16 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2010, University of Colorado */
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
+import java.awt.Dimension;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -131,5 +136,30 @@ public class DoubleArrowNode extends PPath {
         m_overallShape.add( new Area(m_midToTip.getShape()) );
         m_overallShape.add( new Area(m_midToTail.getShape()) );
         setPathTo( m_overallShape );
+    }
+    
+    // test
+    public static void main( String[] args ) {
+        
+        // arrow
+        Point2D tailLocation = new Point2D.Double(0,0);
+        Point2D tipLocation = new Point2D.Double( 0, 400 );
+        double headHeight = 100;
+        double headWidth = 100;
+        double tailWidth = 50;
+        DoubleArrowNode node = new DoubleArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
+        node.setOffset( 250, 50 );
+        
+        // canvas
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 500, 500 ) );
+        canvas.getLayer().addChild( node );
+        
+        // frame
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
