@@ -10,7 +10,6 @@ import flash.events.MouseEvent;
 
 import mx.controls.Label;
 import mx.controls.RadioButton;
-import mx.events.FlexEvent;
 
 public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     private var count: Number = 0;
@@ -54,13 +53,12 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
             fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
             const updateFluidDensityControlLocation: Function = function(): void {
-                fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
+                fluidDensityControl.x = stage.stageWidth / 2 - fluidDensityControl.width / 2;
             };
-            addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
-            fluidDensityControl.addEventListener( FlexEvent.UPDATE_COMPLETE, updateFluidDensityControlLocation ); // listen to when our fluid control gets its size
-            updateFluidDensityControlLocation();
+            stage.addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
 
             addChild( fluidDensityControl );
+            updateFluidDensityControlLocation();
 
             buoyancyCanvas.playgroundModes.oneObject.addListener( function(): void {
                 oneObjectButton.selected = buoyancyCanvas.playgroundModes.oneObject.value
