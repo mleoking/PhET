@@ -26,9 +26,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class ParticleCountLegend extends PNode {
-    private static final double OFFSET_Y = 5;//vertical spacing between rows
-    private static final int MAX_PARTICLE_WIDTH = 15;//TODO: this should be based on the size of the particles, not hard coded
-    private static final int HORIZONTAL_SPACING = 2;//spacing between particles in rows
+    private static final double OFFSET_Y = 5;  // vertical spacing between rows
+    private static final double MAX_PARTICLE_WIDTH = Proton.RADIUS * 2 + 5;
+    private static final double HORIZONTAL_SPACING = 2; // spacing between particles in rows
 
     static interface Getter {
         int get();
