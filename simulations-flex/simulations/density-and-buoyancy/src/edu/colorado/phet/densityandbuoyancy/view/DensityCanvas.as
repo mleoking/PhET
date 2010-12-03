@@ -5,8 +5,9 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
+import edu.colorado.phet.flashcommon.StageHandler;
 
-import mx.containers.Canvas;
+import flash.display.Stage;
 
 public class DensityCanvas extends AbstractDBCanvas {
 
@@ -19,22 +20,22 @@ public class DensityCanvas extends AbstractDBCanvas {
     private var mysteryObjectsMode: MysteryObjectsMode;
     private var mode: Mode;
 
-    public function DensityCanvas() {
+    public function DensityCanvas( densityContainer: DensityContainer ) {
         super( false );
-    }
+        this._container = densityContainer;
+        const myThis: DensityCanvas = this;
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            customObjectMode = new CustomObjectMode( myThis );
+            sameMassMode = new DensitySameMassMode( myThis );
+            sameVolumeMode = new DensitySameVolumeMode( myThis );
+            sameDensityMode = new DensitySameDensityMode( myThis );
+            mysteryObjectsMode = new MysteryObjectsMode( myThis );
+            //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
+            setMode( customObjectMode );
 
-    public function doInit( densityCanvas: DensityContainer ): void {
-        this._container = densityCanvas;
-        customObjectMode = new CustomObjectMode( this );
-        sameMassMode = new DensitySameMassMode( this );
-        sameVolumeMode = new DensitySameVolumeMode( this );
-        sameDensityMode = new DensitySameDensityMode( this );
-        mysteryObjectsMode = new MysteryObjectsMode( this );
-        //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
-        setMode( customObjectMode );
-
-        var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
-        //        _densityCanvas.addChild(box2DDebug.getSprite());
+            var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
+            //        _densityCanvas.addChild(box2DDebug.getSprite());
+        } );
     }
 
     override public function resetAll(): void {
@@ -71,10 +72,6 @@ public class DensityCanvas extends AbstractDBCanvas {
 
     public function switchToMysteryObjects(): void {
         setMode( mysteryObjectsMode );
-    }
-
-    public function getDensityCanvas(): Canvas {
-        return _container;
     }
 
     override public function get container(): AbstractDBContainer {

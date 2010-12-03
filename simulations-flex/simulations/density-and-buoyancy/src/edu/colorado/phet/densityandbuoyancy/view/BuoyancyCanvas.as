@@ -11,6 +11,9 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
+import edu.colorado.phet.flashcommon.StageHandler;
+
+import flash.display.Stage;
 
 public class BuoyancyCanvas extends AbstractDBCanvas {
 
@@ -35,25 +38,25 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         this._container = container;
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
+
+        const myThis: BuoyancyCanvas = this;
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            sameMassMode = new BuoyancySameMassMode( myThis );
+            sameVolumeMode = new BuoyancySameVolumeMode( myThis );
+            sameDensityMode = new BuoyancySameDensityMode( myThis );
+            playgroundModes = new BuoyancyPlaygroundMode( myThis );
+            defaultMode = _container.getDefaultMode( myThis );
+            //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
+            setMode( defaultMode );
+
+            var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
+            //        addChild(box2DDebug.getSprite());
+        } );
     }
 
     override protected function createModel( showExactLiquidColor: Boolean ): DensityModel {
         //TODO: dynamically compute the volume of the submerged scale
         return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 - 2.46 ), extendedPool, showExactLiquidColor );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
-    }
-
-    override public function init(): void {
-        super.init();
-        sameMassMode = new BuoyancySameMassMode( this );
-        sameVolumeMode = new BuoyancySameVolumeMode( this );
-        sameDensityMode = new BuoyancySameDensityMode( this );
-        playgroundModes = new BuoyancyPlaygroundMode( this );
-        defaultMode = _container.getDefaultMode( this );
-        //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
-        setMode( defaultMode );
-
-        var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
-        //        addChild(box2DDebug.getSprite());
     }
 
     override public function resetAll(): void {

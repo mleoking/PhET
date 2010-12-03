@@ -99,7 +99,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
 
         StageHandler.addStageCreationListener( function( stage: Stage ): void {
             // TODO: why multiple initialization functions? - JO
-            buoyancyCanvas.init();
             buoyancyCanvas.switchToDefaultMode();
 
             buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
