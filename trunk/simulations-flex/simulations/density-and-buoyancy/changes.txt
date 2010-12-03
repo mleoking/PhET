@@ -1,3 +1,6 @@
+Added radio buttons for "My Block" and "Materials"
+Removed "My Block" from combo box
+Made combo box invisible when selecting "My Block"
 Fixed: fluid density slider can appear in the wrong location
 Refactored startup sequence to use StageHandler listener paradigm instead of separate init() calls.
 Made density slider thumb appear below the track

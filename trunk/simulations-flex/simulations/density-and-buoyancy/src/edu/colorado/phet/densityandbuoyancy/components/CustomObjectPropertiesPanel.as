@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.BlockLabelNode;
@@ -7,11 +8,12 @@ import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.display.Sprite;
+import flash.events.Event;
 
 import mx.containers.Grid;
 import mx.containers.HBox;
 import mx.controls.ComboBox;
-import mx.controls.Label;
+import mx.controls.RadioButton;
 import mx.controls.Spacer;
 import mx.core.UIComponent;
 import mx.events.ListEvent;
@@ -20,6 +22,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
     private var grid: Grid = new Grid();
     private var densityObject: DensityObject;
     private var comboBox: ComboBox;
+    private const myBlockSelected: BooleanProperty = new BooleanProperty( false );
 
     public function CustomObjectPropertiesPanel( densityObject: DensityObject, units: Units, sliderWidth: Number = 280 ) {
         super();
@@ -50,44 +53,64 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
 
         comboBox = new ComboBox();
-        const items: Array = Material.SELECTABLE_MATERIALS.concat( [Material.CUSTOM] );
+        const items: Array = Material.SELECTABLE_MATERIALS;
         comboBox.dataProvider = items;
         comboBox.rowCount = items.length;//Ensures there are no scroll bars in the combo box, see http://www.actionscript.org/forums/showthread.php3?t=218435
 
         comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
-        function listChangeListener(): void {
+        function updateBlockBasedOnComboBoxSelection(): void {
             trace( "comboBox.selectedItem=" + comboBox.selectedItem );
-            if ( comboBox.selectedItem.isCustom() ) {
-                if ( !densityObject.material.isCustom() ) {
-                    // TODO: is customObject.cusom currently used? there is material.custom!
-                    densityObject.material = new Material( FlexSimStrings.get( "customObject.custom", "My Block" ), densityObject.density, true );
-                }
-            }
-            else {
-                densityObject.material = Material( comboBox.selectedItem );
-            }
+            densityObject.material = Material( comboBox.selectedItem );
         }
 
         comboBox.selectedItem = densityObject.material;
 
-        comboBox.addEventListener( ListEvent.CHANGE, listChangeListener );
+        comboBox.addEventListener( ListEvent.CHANGE, updateBlockBasedOnComboBoxSelection );
         densityObject.addMaterialListener( function f(): void {
             if ( densityObject.material.isCustom() ) {
-                comboBox.selectedItem = Material.CUSTOM;
+                //Only update the combo box if material is non custom, because combo box should remember the last non-custom selection.
             }
             else {
                 comboBox.selectedItem = densityObject.material;
             }
         } );
 
-        var label: Label = new Label();
-        label.text = FlexSimStrings.get( "customObject.material", "Material" );
-        label.setStyle( DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD );
+        const radioButtonPanel: HBox = new HBox();
+        const myBlockName: String = FlexSimStrings.get( "customObject.custom", "My Block" );
 
-        var comboBoxPanel: HBox = new HBox();
-        comboBoxPanel.addChild( label );
-        comboBoxPanel.addChild( comboBox );
-        addChild( comboBoxPanel );
+        const materialRadioButton: RadioButton = new RadioButton();
+        materialRadioButton.selected = !myBlockSelected.value;
+        materialRadioButton.label = FlexSimStrings.get( "customObject.material", "Material" );
+        materialRadioButton.addEventListener( Event.CHANGE, function(): void {
+            myBlockSelected.value = false;
+        } );
+
+        const myBlockRadioButton: RadioButton = new RadioButton();
+        myBlockRadioButton.selected = myBlockSelected.value;
+        myBlockRadioButton.label = myBlockName;
+        myBlockRadioButton.addEventListener( Event.CHANGE, function(): void {
+            myBlockSelected.value = true;
+        } );
+        radioButtonPanel.addChild( myBlockRadioButton );
+        radioButtonPanel.addChild( materialRadioButton );
+
+        myBlockSelected.addListener( function(): void {
+            if ( myBlockSelected.value ) {
+                if ( !densityObject.material.isCustom() ) {
+                    // TODO: is customObject.custom currently used? there is material.custom!
+                    densityObject.material = new Material( myBlockName, densityObject.density, true );
+                }
+            }
+            else {
+                updateBlockBasedOnComboBoxSelection();
+            }
+        } );
+
+        addChild( radioButtonPanel );
+        myBlockSelected.addListener( function(): void {
+            comboBox.visible = !myBlockSelected.value;
+        } );
+        radioButtonPanel.addChild( comboBox );
 
         var sprite: Sprite = new BlockLabelNode( densityObject.name, densityObject.nameVisibleProperty );
         var uiComponent: UIComponent = new UIComponent();
@@ -95,9 +118,9 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         uiComponent.addChild( sprite );
         var spacer: Spacer = new Spacer();
         spacer.percentWidth = 100;
-        comboBoxPanel.percentWidth = 100;
-        comboBoxPanel.addChild( spacer );
-        comboBoxPanel.addChild( uiComponent );
+        radioButtonPanel.percentWidth = 100;
+        radioButtonPanel.addChild( spacer );
+        radioButtonPanel.addChild( uiComponent );
 
         addChild( grid );
     }
