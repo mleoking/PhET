@@ -1,3 +1,4 @@
+Started refactoring startup sequence to use StageHandler listener paradigm instead of separate init() calls.
 Made density slider thumb appear below the track
 Fixed: When holding block A on top of Block b, with block b underwater, there is displayed a fluid drag force on block b, even though it is not moving.
 Made density slider thumb half as big
