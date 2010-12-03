@@ -13,15 +13,11 @@ NOAH P ACTION ITEMS
 
 DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
-- colorblind: red voltmeter probe and wire becomes black, can't distinguish from black probe and wire (deuteranope and protanope)
-- colorblind: red charges become black, less noticeable (deuteranope and protanope)
-- colorblind: bar in Plate Charge meter becomes black, can't see inside tick marks (deuteranope and protanope)
 - Dielectric label in E-Field Detector was confused for capacitor's dielectric by Kathy, it may also be air
 
 HIGH PRIORITY
 - plate area drag handle is jerky
-- integrate new E-Field Detector probe, with crosshairs that are visible on dense E-Field
-- resolve colorblind issues identified in #2593
+- change circuit to be in a vacuum instead of air
 - publish 1.00
 
 MEDUIUM PRIORITY
