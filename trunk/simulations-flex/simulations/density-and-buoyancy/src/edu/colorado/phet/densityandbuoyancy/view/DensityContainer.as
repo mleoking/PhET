@@ -28,7 +28,7 @@ public class DensityContainer extends AbstractDBContainer {
 
         addBackground();
 
-        densityCanvas = new DensityCanvas();
+        densityCanvas = new DensityCanvas( myThis );
         addChild( densityCanvas );
 
         modeControlPanel = new DensityVBox();
@@ -64,11 +64,7 @@ public class DensityContainer extends AbstractDBContainer {
         addLogo();
 
         StageHandler.addStageCreationListener( function( stage: Stage ): void {
-            // TODO: why multiple initialization functions? - JO
-            densityCanvas.init();
-            densityCanvas.doInit( myThis );
             densityCanvas.switchToCustomObject();
-
             densityCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
             var densityAndBuoyancyFlashCommon: DensityAndBuoyancyFlashCommon = new DensityAndBuoyancyFlashCommon();

@@ -22,7 +22,9 @@ import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flashcommon.MathUtil;
+import edu.colorado.phet.flashcommon.StageHandler;
 
+import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -74,35 +76,35 @@ public class AbstractDBCanvas extends UIComponent {
 
         percentWidth = 100;
         percentHeight = 100;
+
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            initEngine();
+            initObjects();
+            initListeners();
+
+            addChild( mainViewport.view );
+
+            //Don't intercept mouse events in the overlay scene, though we're not sure why this was happening in the first place
+            overlayViewport.view.mouseEnabled = false;
+            overlayViewport.view.mouseChildren = false;
+
+            addChild( overlayViewport.view );
+            tickMarkSet = new TickMarkSet( _model );
+            addChild( tickMarkSet );
+
+            addChild( waterVolumeIndicator );
+
+            const bottle: Bottle = new Bottle();
+            //set the location of the bottle to be out of the way of the interactive objects
+            bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
+            bottle.y = -bottle.height * 1.5;
+            bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
+            mainViewport.scene.addChild( bottle );
+        } );
     }
 
     protected function createModel( showExactLiquidColor: Boolean ): DensityModel {
         return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ), extendedPool );
-    }
-
-    public function init(): void {
-        initEngine();
-        initObjects();
-        initListeners();
-
-        addChild( mainViewport.view );
-
-        //Don't intercept mouse events in the overlay scene, though we're not sure why this was happening in the first place
-        overlayViewport.view.mouseEnabled = false;
-        overlayViewport.view.mouseChildren = false;
-
-        addChild( overlayViewport.view );
-        tickMarkSet = new TickMarkSet( _model );
-        addChild( tickMarkSet );
-
-        addChild( waterVolumeIndicator );
-
-        const bottle: Bottle = new Bottle();
-        //set the location of the bottle to be out of the way of the interactive objects
-        bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
-        bottle.y = -bottle.height * 1.5;
-        bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
-        mainViewport.scene.addChild( bottle );
     }
 
     override protected function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
@@ -145,15 +147,9 @@ public class AbstractDBCanvas extends UIComponent {
                     waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
                 }
                 else {
-                    var green
-                            :
-                            uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
-                    var blue
-                            :
-                            uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
-                    var alpha
-                            :
-                            Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
+                    var green: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
+                    var blue: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
+                    var alpha: Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
                     waterMaterial = new ShadingColorMaterial( uint( (green << 8) + blue ), {alpha: alpha} );
                 }
             }
