@@ -357,47 +357,5 @@ public class ProblemSet {
             }
             return atomValue;
         }
-
-        /**
-         * Get an atom value from the pool that is charged, i.e. non-neutral.  If
-         * no such atoms are on the list of available remaining ones, choose one
-         * from the list of used atoms.
-         *
-         * TODO: By request of the Chem Team, the constraint of asking questions
-         * about charge only for charged atoms has been removed as of 11/29/2010.
-         * If this decision becomes permanent, the following routine can and
-         * should be removed.
-         */
-        public AtomValue getRandomChargedAtomValue( int maxProtons ){
-
-            // Make a list of the atoms that are charged.
-            ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
-            for ( AtomValue av : remainingAtomValues ){
-                if ( !av.isNeutral() && av.getNumProtons() < maxProtons ){
-                    allowableAtomValues.add( av );
-                }
-            }
-            if ( allowableAtomValues.size() == 0){
-                // There were none available on the list of unused atoms, so
-                // add them from the list of used atoms instead.
-                System.err.println( getClass().getName() + " - Warning: No remaining charged atoms values available, searching previously used atom value." );
-                for ( AtomValue av : usedAtomValues ){
-                    if ( !av.isNeutral() && av.getNumProtons() < maxProtons ){
-                        allowableAtomValues.add( av );
-                    }
-                }
-            }
-
-            // Choose a value from the list.
-            AtomValue atomValue = null;
-            if ( allowableAtomValues.size() > 0 ){
-                atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
-            }
-            else{
-                System.err.println( getClass().getName() + " - Error: No charged atoms found, returning a neutral atom." );
-                atomValue = getRandomAtomValue();
-            }
-            return atomValue;
-        }
     }
 }
