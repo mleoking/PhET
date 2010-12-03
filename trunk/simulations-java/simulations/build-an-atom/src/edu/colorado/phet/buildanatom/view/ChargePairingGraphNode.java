@@ -148,27 +148,24 @@ public class ChargePairingGraphNode extends PNode {
         }
     }
 
+    /**
+     * Update the box the bounds the set of charges that cancel each other
+     * out.  Note that this box has a negative offset so that the set of
+     * charge indicators is at the (0, 0) location.
+     */
     private void updateBoundingBox() {
-        // TODO: For rapid prototyping purposes, this is NOT positioned at 0,0,
-        // but it should be if we end up keeping it.  This will require offsetting
-        // the icon positions.
         int cancellingCharges = Math.min( positiveChargeIconList.size(), negativeChargeIconList.size() );
-        if ( cancellingCharges > 0 ) {
-            // There are charges to enclose, so show the box and enclose it.
-            chargeCancellationEnclosingBox.setVisible( true );
-            RoundRectangle2D boxShape = new RoundRectangle2D.Double(
-                    -HORIZONTAL_INTER_ICON_SPACING / 2,
-                    -VERTICAL_INTER_ICON_SPACING / 2,
-                    cancellingCharges * ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + cancellingCharges * HORIZONTAL_INTER_ICON_SPACING,
-                    ChargeIconNode.CHARGE_ICON_SIZE.getHeight() * 2 + VERTICAL_INTER_ICON_SPACING * 2,
-                    4,
-                    4 );
-            chargeCancellationEnclosingBox.setPathTo( boxShape );
-        }
-        else {
-            // No charges to enclose, so hide the box.
-            chargeCancellationEnclosingBox.setVisible( false );
-        }
+        chargeCancellationEnclosingBox.setVisible( cancellingCharges > 0 );
+
+        // Update the bounding box (whether or not it is visible).
+        RoundRectangle2D boxShape = new RoundRectangle2D.Double(
+                -HORIZONTAL_INTER_ICON_SPACING / 2,
+                -VERTICAL_INTER_ICON_SPACING / 2,
+                cancellingCharges * ChargeIconNode.CHARGE_ICON_SIZE.getWidth() + cancellingCharges * HORIZONTAL_INTER_ICON_SPACING,
+                ChargeIconNode.CHARGE_ICON_SIZE.getHeight() * 2 + VERTICAL_INTER_ICON_SPACING * 2,
+                4,
+                4 );
+        chargeCancellationEnclosingBox.setPathTo( boxShape );
     }
 
     private static Shape drawPlusSign( double width ) {
