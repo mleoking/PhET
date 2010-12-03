@@ -1,4 +1,4 @@
-12/3/10 remove unnecessary members from PlateAreaDragHandleNode
+12/3/10 convert members to local variables in PlateAreaDragHandleNode
 12/3/10 change dev shape for E-Field probe origin from a red "+" to a red dot, to accommodate new angled crosshairs
 12/3/10 new E-Field Probe image: crosshair are angled, crosshairs are gray so they're visible on dense black E-field
 12/3/10 put "Material:" label to the left of combo box, instead of above
