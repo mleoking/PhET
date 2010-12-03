@@ -30,10 +30,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
-    private final DragHandleArrowNode arrowNode;
-    private final DragHandleLineNode lineNode;
     private final DragHandleValueNode valueNode;
-    private final PlateAreaDragHandler dragHandler;
     
     public PlateAreaDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
         
@@ -41,12 +38,11 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         this.mvt = mvt;
         
         // arrow
-        arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
-        dragHandler = new PlateAreaDragHandler( this, capacitor, mvt, valueRange );
-        arrowNode.addInputEventListener( dragHandler );
+        DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
+        arrowNode.addInputEventListener( new PlateAreaDragHandler( this, capacitor, mvt, valueRange ) );
         
         // line
-        lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
+        DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
         
         // value
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
