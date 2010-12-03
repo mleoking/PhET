@@ -10,7 +10,7 @@ import mx.controls.sliderClasses.SliderThumb;
 import mx.core.UIComponent;
 
 public class SliderDecorator extends UIComponent {
-    private var slider: HSlider;
+    private var slider: MyHSlider;
 
     private var tickMarkSet: Sprite;
     private var ticks: Array = new Array();
@@ -20,7 +20,7 @@ public class SliderDecorator extends UIComponent {
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
 
-        slider = new HSlider();
+        slider = new MyHSlider();
         slider.showDataTip = false;
         slider.setStyle( "dataTipOffset", 0 );//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.setStyle( "thumbOffset", thumbOffset );
@@ -48,6 +48,7 @@ public class SliderDecorator extends UIComponent {
         this.height = slider.height + 20;
 
         enabled = true; // set the enabled style, and default to enabled
+        slider.doCommitProperties();
     }
 
     override public function set enabled( value: Boolean ): void {
@@ -63,12 +64,12 @@ public class SliderDecorator extends UIComponent {
                 slider.setStyle( "fillAlphas", [ 0.40, 0.20 ] ); // it seems like these alpha values are ignored?
                 slider.setStyle( "fillColors", [ 0x666666, 0x333333] );
             }
-        }
-        if ( value ) {
-            alpha = 1.0;
-        }
-        else {
-            alpha = 0.38;
+            if ( value ) {
+                slider.alpha = 1.0;
+            }
+            else {
+                slider.alpha = 0.38;
+            }
         }
     }
 
@@ -178,8 +179,14 @@ public class SliderDecorator extends UIComponent {
         return slider.minimum;
     }
 
+
+    public const changeListeners: Array = new Array();
+
     public function set value( value: Number ): void {
         slider.value = value;
+        for each ( var listener: Function in changeListeners ) {
+            listener();
+        }
     }
 
     public function get value(): Number {
@@ -188,6 +195,10 @@ public class SliderDecorator extends UIComponent {
 
     public function getThumbAt( i: int ): SliderThumb {
         return slider.getThumbAt( i );
+    }
+
+    public function getThumbCount(): Number {
+        return slider.thumbCount;
     }
 
     public function addTick( value: Number, color: uint = 0x000000, label: String = null ): void {
@@ -210,6 +221,10 @@ public class SliderDecorator extends UIComponent {
 
     public function set sliderDataTipClass( sliderDataTipClass: Class ): void {
         slider.sliderDataTipClass = sliderDataTipClass;
+    }
+
+    public function get myslider(): HSlider {
+        return slider;
     }
 }
 }
