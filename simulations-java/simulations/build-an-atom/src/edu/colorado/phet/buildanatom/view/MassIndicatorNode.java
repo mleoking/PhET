@@ -60,7 +60,8 @@ public class MassIndicatorNode extends PNode {
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
             atomNode.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, atom, electronShell, false ) );
         }
-        atomNode.addChild( new ElectronCloudNode( mvt, viewOrbitals, atom, false ) );
+
+        atomNode.addChild( new ElectronCloudNode( mvt, viewOrbitals, atom ) );
 
         double nucleusWidth=1;
         atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
@@ -124,5 +125,9 @@ public class MassIndicatorNode extends PNode {
         atom.addObserver( readoutUpdater );
         readoutUpdater.update();
         addChild( readoutPText );
+
+        // Prevent user from interacting with this readout node.
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }
