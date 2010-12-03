@@ -2,8 +2,10 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
+import edu.colorado.phet.flashcommon.StageHandler;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -47,25 +49,23 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
 
         addChild( modeControlPanel );
         oneObjectButton.selected = true;
-    }
 
-    override public function init(): void {
-        super.init();
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
+            fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 
-        const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
-        fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+            const updateFluidDensityControlLocation: Function = function(): void {
+                fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
+            };
+            addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
+            fluidDensityControl.addEventListener( FlexEvent.UPDATE_COMPLETE, updateFluidDensityControlLocation ); // listen to when our fluid control gets its size
+            updateFluidDensityControlLocation();
 
-        const updateFluidDensityControlLocation: Function = function(): void {
-            fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;
-        };
-        addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
-        fluidDensityControl.addEventListener( FlexEvent.UPDATE_COMPLETE, updateFluidDensityControlLocation ); // listen to when our fluid control gets its size
-        updateFluidDensityControlLocation();
+            addChild( fluidDensityControl );
 
-        addChild( fluidDensityControl );
-
-        buoyancyCanvas.playgroundModes.oneObject.addListener( function(): void {
-            oneObjectButton.selected = buoyancyCanvas.playgroundModes.oneObject.value
+            buoyancyCanvas.playgroundModes.oneObject.addListener( function(): void {
+                oneObjectButton.selected = buoyancyCanvas.playgroundModes.oneObject.value
+            } );
         } );
     }
 

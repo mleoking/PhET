@@ -3,8 +3,10 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
+import edu.colorado.phet.flashcommon.StageHandler;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import flash.display.Stage;
 import flash.events.MouseEvent;
 
 import mx.controls.CheckBox;
@@ -94,6 +96,16 @@ public class BuoyancyContainer extends AbstractDBContainer {
             } );
             arrowControlPanel.addChild( valueCheckBox );
         }
+
+        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+            // TODO: why multiple initialization functions? - JO
+            buoyancyCanvas.init();
+            buoyancyCanvas.switchToDefaultMode();
+
+            buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
+
+            buoyancyCanvas.start();
+        } );
     }
 
     private function styleForceCheckbox( gravityCheckbox: CheckBox, color: int ): void {
@@ -101,18 +113,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
         gravityCheckbox.setStyle( "color", color );
         gravityCheckbox.setStyle( "textRollOverColor", color );
         gravityCheckbox.setStyle( "textSelectedColor", color );
-    }
-
-    override public function init(): void {
-        super.init();
-
-        // TODO: why multiple initialization functions? - JO
-        buoyancyCanvas.init();
-        buoyancyCanvas.switchToDefaultMode();
-
-        buoyancyCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
-
-        buoyancyCanvas.start();
     }
 
     public function get running(): Boolean {
