@@ -27,12 +27,6 @@ public class AbstractDBContainer extends Canvas {
     public function resetAll(): void {
     }
 
-    /**
-     * Override in sub-classes
-     */
-    public function init(): void {
-    }
-
     public function AbstractDBContainer() {
         super();
         percentWidth = 100;
