@@ -8,20 +8,21 @@
 package edu.colorado.phet.flashcommon {
 import flash.display.Stage;
 
-public class StageHandler {
-    private static const listeners = new Array();
-    private static const stageHandler: StageHandler = new StageHandler();
+public class ApplicationLifecycle {
+    private static const listeners: Array = new Array();
+    private static const applicationLifecycle: ApplicationLifecycle = new ApplicationLifecycle();
     private static var notified: Boolean = false;
+    public static var stage: Stage;
 
-    public static function addStageCreationListener( f: Function ): void {
+    public static function addApplicationCompleteListener( f: Function ): void {
         listeners.push( f );
     }
 
-    public static function notifyListeners( stage: Stage ): void {
-        trace( stage );
+    public static function applicationComplete( _stage: Stage ): void {
+        stage = _stage;
         if ( !notified ) {
             for each ( var listener: Function in listeners ) {
-                listener( stage );
+                listener();
             }
             notified = true;
         }

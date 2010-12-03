@@ -1,8 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.flashcommon.StageHandler;
+import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
-
-import flash.display.Stage;
 
 import mx.containers.Canvas;
 
@@ -16,7 +14,7 @@ public class BuoyancyApplication extends Canvas {
         percentWidth = 100;
         percentHeight = 100;
 
-        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+        ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             buoyancyTabNavigator.onApplicationComplete();
 
             const tabHeight: Number = buoyancyTabNavigator.getTabAt( 0 ).height;

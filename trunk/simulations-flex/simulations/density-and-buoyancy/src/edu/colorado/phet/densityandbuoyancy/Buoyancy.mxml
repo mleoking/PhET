@@ -3,9 +3,9 @@
                 xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
                 layout="absolute" width="100%" height="100%"
                 frameRate="30"
-                applicationComplete="StageHandler.notifyListeners( stage );">
+                applicationComplete="ApplicationLifecycle.applicationComplete( stage );">
     <view:BuoyancyApplication id="buoyancyApplication"/>
     <mx:Script><![CDATA[
-        import edu.colorado.phet.flashcommon.StageHandler;
+        import edu.colorado.phet.flashcommon.ApplicationLifecycle;
         ]]></mx:Script>
 </mx:Application>

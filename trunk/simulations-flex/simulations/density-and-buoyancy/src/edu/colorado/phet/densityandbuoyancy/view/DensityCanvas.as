@@ -5,9 +5,7 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
-import edu.colorado.phet.flashcommon.StageHandler;
-
-import flash.display.Stage;
+import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 
 public class DensityCanvas extends AbstractDBCanvas {
 
@@ -24,7 +22,7 @@ public class DensityCanvas extends AbstractDBCanvas {
         super( false );
         this._container = densityContainer;
         const myThis: DensityCanvas = this;
-        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+        ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             customObjectMode = new CustomObjectMode( myThis );
             sameMassMode = new DensitySameMassMode( myThis );
             sameVolumeMode = new DensitySameVolumeMode( myThis );

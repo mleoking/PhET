@@ -21,10 +21,9 @@ import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
+import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flashcommon.MathUtil;
-import edu.colorado.phet.flashcommon.StageHandler;
 
-import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -77,7 +76,7 @@ public class AbstractDBCanvas extends UIComponent {
         percentWidth = 100;
         percentHeight = 100;
 
-        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+        ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             initEngine();
             initObjects();
             initListeners();
