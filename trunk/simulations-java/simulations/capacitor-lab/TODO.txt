@@ -3,7 +3,6 @@ TODO list for capacitor-lab
 DEADLINES
 
 QUESTIONS FOR NOAH
-- expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 NOAH P ACTION ITEMS
 - new E-Field Detector probe, with crosshairs that are visible on dense E-Field
@@ -13,7 +12,7 @@ NOAH P ACTION ITEMS
 
 DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
-- Dielectric label in E-Field Detector was confused for capacitor's dielectric by Kathy, it may also be air
+- expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
 - plate area drag handle is jerky
