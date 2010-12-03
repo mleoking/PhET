@@ -1,3 +1,5 @@
+/* Copyright 2010, University of Colorado */
+
 package edu.colorado.phet.buildanatom.view;
 
 import java.awt.Color;
@@ -42,13 +44,13 @@ public class ElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronCloudNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom, final boolean allowsUserInput ) {
+    public ElectronCloudNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom ) {
 
         // This representation only pays attention to the first two shells.
         // This may need to be changed if this is ever expanded to use more
         // shells.
-        electronShells.add(  atom.getElectronShells().get(0) );
-        electronShells.add(  atom.getElectronShells().get(1) );
+        electronShells.add( atom.getElectronShells().get( 0 ) );
+        electronShells.add( atom.getElectronShells().get( 1 ) );
 
         // Find the range of radii to display, assuming shells are already ordered from small to large
         final double minRadius = electronShells.get( 0 ).getRadius();
@@ -96,46 +98,43 @@ public class ElectronCloudNode extends PNode {
                 }
                 viewOrbitals.addObserver( updatePickable );
 
-                if ( allowsUserInput ) { // TODO: could factor into a subclass
-                    addInputEventListener( new CursorHandler() );
+                addInputEventListener( new CursorHandler() );
 
-                    //Make it possible to grab and manipulate electrons from the cloud representation, see related handling code in SubatomicParticleNode
-                    addInputEventListener( new PBasicInputEventHandler() {
-                        Electron grabbedElectron = null;
+                //Make it possible to grab and manipulate electrons from the cloud representation, see related handling code in SubatomicParticleNode
+                addInputEventListener( new PBasicInputEventHandler() {
+                    Electron grabbedElectron = null;
 
-                        @Override
-                        public void mousePressed( PInputEvent event ) {
-                            // Grab an electron out from one of the shells
-                            final Point2D position = mvt.viewToModel( event.getPositionRelativeTo( getParent() ) );
-                            grabbedElectron = atom.removeElectron();
-                            grabbedElectron.setUserControlled( true );
-                            grabbedElectron.setPositionAndDestination( position );
-                        }
+                    @Override
+                    public void mousePressed( PInputEvent event ) {
+                        // Grab an electron out from one of the shells
+                        final Point2D position = mvt.viewToModel( event.getPositionRelativeTo( getParent() ) );
+                        grabbedElectron = atom.removeElectron();
+                        grabbedElectron.setUserControlled( true );
+                        grabbedElectron.setPositionAndDestination( position );
+                    }
 
-                        @Override
-                        public void mouseDragged( PInputEvent event ) {
-                            PDimension delta = event.getDeltaRelativeTo( getParent() );
-                            grabbedElectron.translate( mvt.viewToModelDifferential( delta.width, delta.height ) );
-                            grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
-                        }
+                    @Override
+                    public void mouseDragged( PInputEvent event ) {
+                        PDimension delta = event.getDeltaRelativeTo( getParent() );
+                        grabbedElectron.translate( mvt.viewToModelDifferential( delta.width, delta.height ) );
+                        grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
+                    }
 
-                        @Override
-                        public void mouseReleased( PInputEvent event ) {
-                            grabbedElectron.setUserControlled( false );
-                            grabbedElectron = null;
-                        }
-                    } );
-                }
+                    @Override
+                    public void mouseReleased( PInputEvent event ) {
+                        grabbedElectron.setUserControlled( false );
+                        grabbedElectron = null;
+                    }
+                } );
             }
         };
-//        viewOrbitals.setValue( false );//Uncomment this line to set the default view to cloud
+
         addChild( electronCloudNode );
 
-                for ( ElectronShell electronShell : electronShells ) {
+        for ( ElectronShell electronShell : electronShells ) {
             electronShell.addObserver( shellObserver );
         }
     }
-
 
     private int getElectronCount() {
         int currentElectronCount = 0;

@@ -64,7 +64,7 @@ public class SchematicAtomNode extends PNode {
         for ( ElectronShell electronShell : model.getAtom().getElectronShells() ) {
             backLayer.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, model.getAtom(), electronShell, true ) );
         }
-        backLayer.addChild( new ElectronCloudNode( mvt, viewOrbitals, model.getAtom(), true ) );
+        backLayer.addChild( new ElectronCloudNode( mvt, viewOrbitals, model.getAtom() ) );
 
         // Add the electrons.
         for ( int i = 0; i < model.numElectrons(); i++ ) {
