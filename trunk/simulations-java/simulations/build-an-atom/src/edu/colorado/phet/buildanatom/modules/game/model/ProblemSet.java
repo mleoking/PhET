@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level.
@@ -189,8 +190,15 @@ public class ProblemSet {
             atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
         }
         else{
-            atomValue = availableAtomValues.getRandomAtomValue();
+            if (model.getLevelProperty().getValue()==4){
+                //On level 4, use heavier atoms for non-schematic problems.
+                atomValue = availableAtomValues.getRandomAtomValueMinSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
+            }
+            else{
+                atomValue = availableAtomValues.getRandomAtomValue();
+            }
         }
+
         availableAtomValues.removeAtomValue( atomValue );
         return createProblem( model, problemType, atomValue );
     }
@@ -327,12 +335,12 @@ public class ProblemSet {
          * If there are none that match the constraint, try the list of used
          * atoms.
          */
-        public AtomValue getRandomAtomValueMaxSize( int maxProtons ){
+        public AtomValue getRandomAtomValue( Function1<Integer,Boolean> condition){
 
             // Make a list of the atoms that are small enough.
             ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
             for ( AtomValue av : remainingAtomValues ){
-                if (av.getNumProtons() <= maxProtons){
+                if (condition.apply( av.getNumProtons() )){
                     allowableAtomValues.add( av );
                 }
             }
@@ -341,7 +349,7 @@ public class ProblemSet {
                 // add them from the list of used atoms instead.
                 System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, searching previously used atom value." );
                 for ( AtomValue av : usedAtomValues ){
-                    if (av.getNumProtons() <= maxProtons){
+                    if (condition.apply( av.getNumProtons() )){
                         allowableAtomValues.add( av );
                     }
                 }
@@ -356,6 +364,22 @@ public class ProblemSet {
                 System.err.println( getClass().getName() + " - Error: No atoms found below specified size threshold." );
             }
             return atomValue;
+        }
+
+        public AtomValue getRandomAtomValueMinSize( final int minProtons ){
+            return getRandomAtomValue( new Function1<Integer, Boolean>() {
+                public Boolean apply( Integer numProtons ) {
+                    return numProtons >= minProtons;
+                }
+            } );
+        }
+
+        public AtomValue getRandomAtomValueMaxSize( final int maxProtons ) {
+            return getRandomAtomValue( new Function1<Integer, Boolean>() {
+                public Boolean apply( Integer numProtons ) {
+                    return numProtons <= maxProtons;
+                }
+            } );
         }
     }
 }
