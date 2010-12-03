@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         double yMouse = event.getPositionRelativeTo( dragNode.getParent() ).getY();
-        double yOrigin = mvt.modelToView( 0, -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight(), 0 ).getY();
+        double yOrigin = mvt.modelToView( 0, -( capacitor.getPlateSeparation() / 2 ), 0 ).getY();
         clickYOffset = yMouse - yOrigin;
     }
 
