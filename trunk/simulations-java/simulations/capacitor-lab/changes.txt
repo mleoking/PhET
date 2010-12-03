@@ -1,3 +1,4 @@
+12/3/10 put "Material:" label to the left of combo box, instead of above
 # 0.00.51 (46753) Dec 2, 2010
 12/2/10 make battery slider tick marks a little longer so that they extend past the slider thumb
 12/2/10 convert battery slider thumb to grayscale, to address colorblindness issue #2593
