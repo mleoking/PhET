@@ -52,7 +52,7 @@ public class DielectricMaterialControl extends JPanel {
         GridPanel innerPanel = new GridPanel();
         innerPanel.setAnchor( Anchor.WEST );
         innerPanel.setFill( Fill.HORIZONTAL );
-        innerPanel.setGridX( 0 ); // one column
+        innerPanel.setGridY( 0 ); // one row
         innerPanel.add( label );
         innerPanel.add( comboBox );
         
