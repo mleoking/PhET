@@ -56,7 +56,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         // layout
         double x = 0;
         double y = 0;
-        double angle = ( ( Math.PI / 2 ) + mvt.getYaw() ) - ( mvt.getYaw() / 2 ); // aligned with diagonal of plate surface
+        double angle = ( Math.PI / 2 ) + ( mvt.getYaw() / 2 ); // aligned with diagonal of plate surface
         lineNode.setOffset( x, y );
         lineNode.setRotation( angle );
         x = lineNode.getFullBoundsReference().getMinX();
