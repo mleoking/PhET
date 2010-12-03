@@ -2,10 +2,9 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
-import edu.colorado.phet.flashcommon.StageHandler;
+import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
-import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -59,7 +58,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         addChild( modeControlPanel );
         sameMassButton.selected = true;
 
-        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+        ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             const fluidDensityControl: IntroFluidDensityControl = new IntroFluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
             fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
 

@@ -11,9 +11,7 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
-import edu.colorado.phet.flashcommon.StageHandler;
-
-import flash.display.Stage;
+import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 
 public class BuoyancyCanvas extends AbstractDBCanvas {
 
@@ -40,7 +38,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
 
         const myThis: BuoyancyCanvas = this;
-        StageHandler.addStageCreationListener( function( stage: Stage ): void {
+        ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             sameMassMode = new BuoyancySameMassMode( myThis );
             sameVolumeMode = new BuoyancySameVolumeMode( myThis );
             sameDensityMode = new BuoyancySameDensityMode( myThis );

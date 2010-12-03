@@ -29,8 +29,12 @@ public class CustomObjectPropertiesPanelWrapper {
         }
     }
 
-    public function get x(): Number {return customObjectPropertiesPanel.x;}
+    public function get x(): Number {
+        return customObjectPropertiesPanel.x;
+    }
 
-    public function get width(): Number {return customObjectPropertiesPanel.width;}
+    public function get width(): Number {
+        return customObjectPropertiesPanel.width;
+    }
 }
 }
