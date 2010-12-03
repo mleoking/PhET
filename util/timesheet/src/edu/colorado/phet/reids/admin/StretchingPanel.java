@@ -40,7 +40,7 @@ public class StretchingPanel extends JPanel {
         {
             button.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    timesheetModel.startNewEntry( "maintenance", "stretching & exercise" );
+                    timesheetModel.startNewEntry( timesheetModel.getLastEntry().getCategory(), "stretching & exercise" );
                 }
             } );
         }
@@ -61,7 +61,7 @@ public class StretchingPanel extends JPanel {
     }
 
     private boolean entryMatches( Entry entry ) {
-        return entry.getCategory().equals( "maintenance" ) && entry.getNotes().equals( "stretching & exercise" );
+        return entry.getNotes().equals( "stretching & exercise" );
     }
 
     public static void main( String[] args ) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
