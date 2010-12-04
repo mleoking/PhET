@@ -189,12 +189,12 @@ public class ProblemSet {
             // Need to limit size of atom value.
             atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
         }
-        else{
-            if (model.getLevelProperty().getValue()==4){
+        else {
+            if ( model.getLevelProperty().getValue() == 4 ) {
                 //On level 4, use heavier atoms for non-schematic problems.
-                atomValue = availableAtomValues.getRandomAtomValueMinSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
+                atomValue = availableAtomValues.getRandomAtomValueMinSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS + 1 );
             }
-            else{
+            else {
                 atomValue = availableAtomValues.getRandomAtomValue();
             }
         }
