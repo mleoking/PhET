@@ -15,7 +15,7 @@ DESIGN ISSUES
 - expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
-- bug: plate area drag handle is jerky
+- bug: plate area drag handle gets out of sync with mouse cursor location
 - change: make circuit be in a vacuum instead of air
 - publish 1.00
 
