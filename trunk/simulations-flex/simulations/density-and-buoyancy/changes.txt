@@ -1,3 +1,4 @@
+Fixed: vector label readouts should be offset to the sides
 Added radio buttons for "My Block" and "Materials"
 Removed "My Block" from combo box
 Made combo box invisible when selecting "My Block"

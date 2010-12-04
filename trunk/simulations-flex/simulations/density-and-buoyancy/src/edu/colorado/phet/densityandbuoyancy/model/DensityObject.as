@@ -25,6 +25,8 @@ public class DensityObject {
     private var buoyancyForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
     private var dragForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
     private var contactForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
+
+    private const _forceVectors = [gravityForceArrowModel,buoyancyForceArrowModel,dragForceArrowModel,contactForceArrowModel];
     private var model: DensityModel;
 
     private var body: b2Body;
@@ -41,6 +43,10 @@ public class DensityObject {
     private var _name: String = "name";
 
     private var shouldOverrideVelocity: Boolean = false;
+
+    public function get forceVectors(): Array {
+        return _forceVectors;
+    }
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
@@ -463,5 +469,6 @@ public class DensityObject {
     public function set name( value: String ): void {
         _name = value;
     }
+
 }
 }

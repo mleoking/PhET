@@ -7,6 +7,7 @@ import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
 import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
 
@@ -21,11 +22,15 @@ public class ArrowNode extends MyMesh {
     private var tipVertex: Vertex;
     private var _vectorValueNode: VectorValueNode;
     private var _color: *;
+    private var offsetX: NumericProperty;
+    private var labelOffsetX: Number;
 
-    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, init: Object = null ) {
-        super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, init ) );
+    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, labelOffsetX: Number ) {
+        super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, null ) );
         this._color = color;
         this.densityObject = densityObject;
+        this.offsetX = offsetX;
+        this.labelOffsetX = labelOffsetX;
         densityObject.getXProperty().addListener( updateLocation );
         densityObject.getYProperty().addListener( updateLocation );
         offset = numArrowNodes + 1;
@@ -45,11 +50,12 @@ public class ArrowNode extends MyMesh {
         updateVisibility();
         updateLocation();
 
-        this._vectorValueNode = new VectorValueNode( mainCamera, this, mainViewport, valueVisibilityProperty );
+        this._vectorValueNode = new VectorValueNode( mainCamera, this, mainViewport, valueVisibilityProperty, labelOffsetX );
+        offsetX.addListener( updateLocation );
     }
 
     private function updateLocation(): void {
-        this.x = densityObject.getX() * DensityModel.DISPLAY_SCALE;
+        this.x = densityObject.getX() * DensityModel.DISPLAY_SCALE + offsetX.value;
         this.y = densityObject.getY() * DensityModel.DISPLAY_SCALE;
     }
 

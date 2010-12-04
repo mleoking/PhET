@@ -17,11 +17,13 @@ public class VectorValueNode extends Sprite {
     private var textField: TextField;
     private var mainCamera: Camera3D;
     private var arrowNode: ArrowNode;
+    private var offsetX: Number;
 
-    public function VectorValueNode( mainCamera: Camera3D, arrowNode: ArrowNode, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty ) {
+    public function VectorValueNode( mainCamera: Camera3D, arrowNode: ArrowNode, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, offsetX: Number ) {
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
         this.arrowNode = arrowNode;
+        this.offsetX = offsetX;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.LEFT;
         textField.text = "";
@@ -57,8 +59,12 @@ public class VectorValueNode extends Sprite {
 
         try {
             var screenVertex: ScreenVertex = mainCamera.screen( arrowNode, arrowNode.tip );
-            this.x = screenVertex.x + mainViewport.view.x - textField.width / 2;
-            this.y = screenVertex.y + mainViewport.view.y + (arrowNode.arrowModel.y > 0 ? -textField.height * 1.2 : textField.height * 0.2);
+            var moreOffset = 0;
+            if ( offsetX < 0 ) {
+                moreOffset = -textField.width;
+            }
+            this.x = screenVertex.x + mainViewport.view.x + offsetX + moreOffset;
+            this.y = screenVertex.y + mainViewport.view.y - textField.height / 2;
         }
         catch( e: * ) {
             //null pointer exception before camera is used to render the screen once

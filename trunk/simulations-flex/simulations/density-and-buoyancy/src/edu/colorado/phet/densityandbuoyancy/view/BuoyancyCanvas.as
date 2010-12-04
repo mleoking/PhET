@@ -1,8 +1,10 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
@@ -116,16 +118,49 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
         if ( !(densityObjectNode is ScaleNode) ) {
-            const gravityNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getGravityForceArrowModel(), DensityConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
-            const buoyancyNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getBuoyancyForceArrowModel(), DensityConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
-            const contactForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
-            const dragForceNode: ArrowNode = new ArrowNode( densityObjectNode.getDensityObject(), densityObjectNode.getDensityObject().getDragForceArrowModel(), DensityConstants.FLUID_DRAG_COLOR, fluidDragArrowsVisible, mainCamera, mainViewport, vectorValuesVisible );
+
+            var densityObject: DensityObject = densityObjectNode.getDensityObject();
+            const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getGravityForceArrowModel(), densityObject, 15 ), 45 );
+            const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, -15 ), 45 );
+            const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getContactForceArrowModel(), densityObject, 30 ), -45 );
+            const dragForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getDragForceArrowModel(), DensityConstants.FLUID_DRAG_COLOR, fluidDragArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getDragForceArrowModel(), densityObject, 0 ), -45 );
 
             const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
             for each ( var arrowNode: ArrowNode in arrowList ) {
                 densityObjectNode.addArrowNode( arrowNode );
             }
         }
+    }
+
+    private function createOffset( arrowModel: ArrowModel, densityObject: DensityObject, dx: Number ): NumericProperty {
+        var offsetX: NumericProperty = new NumericProperty( "offsetX", "pixels", dx );
+
+//        function sameSign(y1:Number,y2:Number):Boolean{
+//            return y1*y2>10;//TODO: document me
+//        }
+//        //Check to see if the arrowModel in question has the same sign as any other arrowModel
+//        function sameSignAsAny():Boolean{
+//            for each ( var vector: ArrowModel in densityObject.forceVectors ) {
+//                if (vector != arrowModel){
+//                    if (sameSign(vector.y,arrowModel.y)) return true;
+//                }
+//            }
+//            return false;
+//        }
+//        function update(): void {
+//            if (sameSignAsAny()){
+//                offsetX.value = dx;
+//            }
+//            else{
+//                offsetX.value = 0;
+//            }
+//        }
+//
+//        densityObject.getGravityForceArrowModel().addListener( update );
+//        densityObject.getBuoyancyForceArrowModel().addListener( update );
+//        densityObject.getContactForceArrowModel().addListener( update );
+//        densityObject.getDragForceArrowModel().addListener( update );
+        return offsetX;
     }
 
     public function switchToOneObject(): void {
