@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
     private final CLModelViewTransform3D mvt;
     private final DoubleRange valueRange;
     
-    private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent node's coordinate frame
+    private double clickXOffset; // x offset of mouse click from dragNode's origin, in parent node's coordinate frame
     
     public PlateAreaDragHandler( PNode dragNode, Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
@@ -41,7 +41,6 @@ import edu.umd.cs.piccolo.util.PDimension;
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         Point2D pOrigin = mvt.modelToViewDelta( -( capacitor.getPlateWidth() / 2 ), 0, ( capacitor.getPlateWidth() / 2 ) );
         clickXOffset = pMouse.getX() - pOrigin.getX();
-        clickYOffset = pMouse.getY() - pOrigin.getY();
     }
     
     @Override
@@ -54,8 +53,7 @@ import edu.umd.cs.piccolo.util.PDimension;
         if ( ( dx < 0 && dy >= 0 ) || ( dx > 0 && dy <= 0 ) ) {
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             double xView = pMouse.getX() - clickXOffset;
-            double yView = pMouse.getY() - clickYOffset;
-            double xModel = 2 * mvt.viewToModelDelta( -xView, yView ).getX();
+            double xModel = 2 * mvt.viewToModelDelta( -xView, 0 ).getX();
             if ( xModel > valueRange.getMax() ) {
                 xModel = valueRange.getMax();
             }
