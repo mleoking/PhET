@@ -24,7 +24,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
     
-    private static final double LINE_LENGTH = 20;
+    private static final double LINE_LENGTH = 22;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
     
@@ -56,11 +56,12 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         // layout
         double x = 0;
         double y = 0;
-        double angle = ( Math.PI / 2 ) + ( mvt.getYaw() / 2 ); // aligned with diagonal of plate surface
+        final double angle = ( Math.PI / 2 ) + ( mvt.getYaw() / 2 ); // aligned with diagonal of plate surface
+        final double lineArrowSpacing = 2;
         lineNode.setOffset( x, y );
         lineNode.setRotation( angle );
-        x = lineNode.getFullBoundsReference().getMinX();
-        y = lineNode.getFullBoundsReference().getMaxY() + 2;
+        x = lineNode.getFullBoundsReference().getMinX() - lineArrowSpacing;
+        y = lineNode.getFullBoundsReference().getMaxY() + lineArrowSpacing;
         arrowNode.setOffset( x, y );
         arrowNode.setRotation( angle );
         x = lineNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth();
