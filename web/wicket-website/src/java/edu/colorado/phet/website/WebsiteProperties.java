@@ -20,6 +20,8 @@ public class WebsiteProperties {
 
     public static final String NEWSLETTER_FILE = "newsletter-file";
 
+    public static final String HTTPS_AVAILABLE = "https-available";
+
     public WebsiteProperties( ServletContext servletContext ) {
         this.servletContext = servletContext;
     }
@@ -62,6 +64,11 @@ public class WebsiteProperties {
 
     public String getMailPassword() {
         return getParameter( MAIL_PASSWORD );
+    }
+
+    public boolean isHttpsAvailable() {
+        String https = getParameter( HTTPS_AVAILABLE );
+        return https != null && https.equals( "yes" );
     }
 
     /**

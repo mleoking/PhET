@@ -47,6 +47,11 @@ public class RegisterPage extends PhetMenuPage {
                     throw new RuntimeException( e );
                 }
             }
+
+            @Override
+            public boolean requireHttpsIfAvailable() {
+                return true;
+            }
         };
     }
 

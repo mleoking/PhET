@@ -2,6 +2,7 @@ package edu.colorado.phet.website.util.links;
 
 import org.apache.wicket.markup.html.link.Link;
 
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.RawLink;
 import edu.colorado.phet.website.util.PageContext;
 import edu.colorado.phet.website.util.PhetRequestCycle;
@@ -25,6 +26,9 @@ public abstract class AbstractLinker implements RawLinkable {
     public abstract String getSubUrl( PageContext context );
 
     public String getRawUrl( PageContext context, PhetRequestCycle cycle ) {
+        if ( requireHttpsIfAvailable() && PhetWicketApplication.get().getWebsiteProperties().isHttpsAvailable() ) {
+            return "https://" + cycle.getServerName() + context.getPrefix() + getSubUrl( context );
+        }
         return context.getPrefix() + getSubUrl( context );
     }
 
@@ -38,6 +42,10 @@ public abstract class AbstractLinker implements RawLinkable {
 
     public String getDefaultRawUrl() {
         return getRawUrl( PageContext.getNewDefaultContext(), PhetRequestCycle.get() );
+    }
+
+    public boolean requireHttpsIfAvailable() {
+        return false;
     }
 
 }

@@ -217,8 +217,8 @@ public class EmailUtils {
      * @return Absolute URL if the above is met
      */
     public static String makeUrlAbsolute( String url ) {
-        String server = PhetRequestCycle.get().getWebRequest().getHttpServletRequest().getServerName();
-        String scheme = PhetRequestCycle.get().getWebRequest().getHttpServletRequest().getScheme(); // protocol
+        String server = PhetRequestCycle.get().getServerName();
+        String scheme = PhetRequestCycle.get().getScheme(); // protocol
         if ( url.startsWith( "/" ) ) {
             return scheme + "://" + server + url;
         }

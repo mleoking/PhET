@@ -160,6 +160,14 @@ public class PhetRequestCycle extends WebRequestCycle {
         }
     }
 
+    public String getServerName() {
+        return getHttpServletRequest().getServerName();
+    }
+
+    public String getScheme() {
+        return getHttpServletRequest().getScheme();
+    }
+
     public static PhetRequestCycle get() {
         return (PhetRequestCycle) WebRequestCycle.get();
     }
