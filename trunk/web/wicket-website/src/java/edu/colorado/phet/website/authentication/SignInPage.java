@@ -38,7 +38,12 @@ public class SignInPage extends PhetMenuPage {
 
     }
 
-
+    /**
+     * NOTE: Don't call if you're not in a request cycle
+     *
+     * @param destination Where to redirect the user to after they complete the sign-in
+     * @return
+     */
     public static RawLinkable getLinker( final String destination ) {
         return new AbstractLinker() {
             @Override
@@ -55,6 +60,11 @@ public class SignInPage extends PhetMenuPage {
                     e.printStackTrace();
                     throw new RuntimeException( e );
                 }
+            }
+
+            @Override
+            public boolean requireHttpsIfAvailable() {
+                return true;
             }
         };
     }
