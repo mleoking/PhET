@@ -35,9 +35,9 @@ public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
-        double xMouse = event.getPositionRelativeTo( dragNode.getParent() ).getX();
-        double xOrigin = mvt.modelToViewDelta( capacitor.getDielectricOffset(), 0, 0 ).getX();
-        clickXOffset = xMouse - xOrigin;
+        Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+        Point2D pOrigin = mvt.modelToViewDelta( capacitor.getDielectricOffset(), 0, 0 );
+        clickXOffset = pMouse.getX() - pOrigin.getX();
     }
 
     @Override
