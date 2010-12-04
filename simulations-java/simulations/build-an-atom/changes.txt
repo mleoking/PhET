@@ -1,3 +1,4 @@
+Fixed: On level 4, use atoms that are always heavier than lithium for non-schematic problems, instead of equal to or heavier.
 # 1.00.14 (46798) Dec 3, 2010
 12/3/10 Deploying to dev for testing and review - this is a release candidate for the first version with the game.
 Fixed: On level 4, use heavier atoms for non-schematic problems.
