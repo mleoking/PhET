@@ -15,7 +15,7 @@ DESIGN ISSUES
 - expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
-- bug: plate area drag handle is jerky, dashed line isn't aligned with arrow
+- bug: plate area drag handle is jerky
 - change: make circuit be in a vacuum instead of air
 - publish 1.00
 

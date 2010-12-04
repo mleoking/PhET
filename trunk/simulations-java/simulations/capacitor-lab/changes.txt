@@ -1,3 +1,4 @@
+12/3/10 fix: dashed line isn't perfectly aligned with arrow in plate area drag handle
 12/3/10 simplify computation of rotation angle for plate area drag handle
 12/3/10 fix: plate separation drag handle was off by the width of the plate, causing it to jump slightly when dragging started
 12/3/10 convert members to local variables in PlateAreaDragHandleNode
