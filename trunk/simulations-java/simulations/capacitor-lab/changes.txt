@@ -1,3 +1,4 @@
+# 0.00.52 (46811) Dec 3, 2010
 12/3/10 fix: plate area drag handle gets out of sync with mouse cursor
 12/3/10 fix: plate area drag handle behavior was jerky because some mouse events were being ignored
 12/3/10 fix: dashed line isn't perfectly aligned with arrow in plate area drag handle
