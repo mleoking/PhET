@@ -1,3 +1,4 @@
+12/3/10 fix: plate area drag handle gets out of sync with mouse cursor
 12/3/10 fix: plate area drag handle behavior was jerky because some mouse events were being ignored
 12/3/10 fix: dashed line isn't perfectly aligned with arrow in plate area drag handle
 12/3/10 simplify computation of rotation angle for plate area drag handle
