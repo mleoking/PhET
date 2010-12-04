@@ -84,7 +84,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
      * for a hypothetical capacitor plate width.
      */
     private double getModelX( Point2D pMouse, double samplePlateWidth ) {
-        Point2D pFront = mvt.modelToView( -samplePlateWidth / 2, 0, -samplePlateWidth / 2 );
-        return pMouse.getX() - pFront.getX() - clickXOffset;
+        Point2D pFrontLeftCorner = mvt.modelToView( -samplePlateWidth / 2, 0, -samplePlateWidth / 2 );
+        return pMouse.getX() - pFrontLeftCorner.getX() - clickXOffset;
     }
 }
