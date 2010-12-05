@@ -24,7 +24,6 @@ public class NewsletterEntity extends TranslationEntity {
         addString( "newsletter.troubleshooting" );
         addString( "newsletter.awaitingConfirmation" );
         addString( "newsletter.confirmEmailSent.title" );
-        addString( "newsletter.pastEditions" );
         addString( "newsletter.pleaseSignUp" );
         addString( "newsletter.subscribeTo" );
         addString( "newsletter.subscribe.title" );
