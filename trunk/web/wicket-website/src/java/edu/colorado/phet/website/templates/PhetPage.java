@@ -5,11 +5,13 @@ import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.Session;
+import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -48,6 +50,7 @@ public abstract class PhetPage extends WebPage implements Stylable {
     private String variation;
     private String title = null; // initialize as null
     private RawLabel titleLabel;
+    private StringBuilder debugText = new StringBuilder();
 
     private Long initStart;
 
@@ -88,14 +91,20 @@ public abstract class PhetPage extends WebPage implements Stylable {
         Session wicketSession = getSession();
         wicketSession.setLocale( myLocale );
 
-        logger.debug( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
-        logger.debug( "path of this page is: " + path );
-        logger.debug( "prefix of this page is: " + prefix );
-        logger.debug( "Session id is: " + wicketSession.getId() );
+        if ( PhetWicketApplication.get().isDevelopment() ) {
+            addDebugLine( "class: " + this.getClass().getSimpleName() );
+            addDebugLine( "locale: " + LocaleUtils.localeToString( myLocale ) );
+            addDebugLine( "path: " + path );
+            addDebugLine( "prefix: " + prefix );
+            addDebugLine( "session id: " + wicketSession.getId() );
 
-        if ( logger.isEnabledFor( Level.DEBUG ) ) {
-            for ( Object o : parameters.keySet() ) {
-                logger.debug( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
+            if ( !parameters.keySet().isEmpty() ) {
+                StringBuilder builder = new StringBuilder( "<table>" );
+                for ( Object o : parameters.keySet() ) {
+                    builder.append( "<tr><td>" + o.toString() + "</td><td>" + parameters.get( o ).toString() + "</td></tr>" );
+                }
+                builder.append( "</table>" );
+                addDebugLine( builder.toString() );
             }
         }
 
@@ -249,6 +258,41 @@ public abstract class PhetPage extends WebPage implements Stylable {
         logger.debug( "Pre-render: " + ( renderStart - initStart ) + " ms" );
         //logger.debug( "stack trace: ", new Exception() );
         logger.debug( "Debug: page stateless = " + isPageStateless() );
+        addDebugLine( "pre-render: " + ( renderStart - initStart ) + " ms" );
+        addDebugLine( "page stateless: <span style='color: #" + ( isPageStateless() ? "00ff00" : "ff0000" ) + "'>" + isPageStateless() + "</span>" );
+
+        // add a debug panel in that shows us some info
+        if ( PhetWicketApplication.get().isDevelopment() ) {
+            add( new AbstractHeaderContributor() {
+                @Override
+                public IHeaderContributor[] getHeaderContributors() {
+                    return new IHeaderContributor[] {
+                            new IHeaderContributor() {
+                                public void renderHead( IHeaderResponse response ) {
+                                    response.renderString( "<script type=\"text/javascript\">addEventListener( 'load', function() {\n" +
+                                                           "            var div = document.createElement( 'div' );\n" +
+                                                           "            div.style.position = \"fixed\";\n" +
+                                                           "            div.style.right = \"0\";\n" +
+                                                           "            div.style.bottom = \"0\";\n" +
+                                                           "            div.style.border = \"1px solid #888\";\n" +
+                                                           "            div.style.padding = \"0.3em\";\n" +
+                                                           "            div.style.background = \"#fff\";\n" +
+                                                           "            div.style.maxWidth = \"300px\";\n" +
+                                                           "            div.innerHTML = \"" + debugText.toString() + "\";\n" +
+                                                           "            document.body.appendChild( div );\n" +
+                                                           "        }, false );</script>" );
+                                }
+                            }
+                    };
+                }
+            } );
+        }
+    }
+
+    public void addDebugLine( String str ) {
+        if ( PhetWicketApplication.get().isDevelopment() ) {
+            debugText.append( str ).append( "<br/>" );
+        }
     }
 
     @Override
