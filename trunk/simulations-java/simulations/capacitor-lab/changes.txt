@@ -1,3 +1,4 @@
+12/6/10 move battery voltage slider up a few pixels so that the slider thumb always stays inside the battery image
 12/6/10 attempt at color coding the backgrounds of E-Field vector labels
 # 0.00.52 (46811) Dec 3, 2010
 12/3/10 fix: plate area drag handle gets out of sync with mouse cursor

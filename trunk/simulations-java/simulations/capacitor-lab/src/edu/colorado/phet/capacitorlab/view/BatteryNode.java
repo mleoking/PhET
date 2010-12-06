@@ -43,8 +43,8 @@ public class BatteryNode extends PhetPNode {
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
         double y = -imageNode.getFullBoundsReference().getHeight() / 2;
         imageNode.setOffset( x, y );
-        x = imageNode.getXOffset() + ( ( imageNode.getFullBoundsReference().getWidth() - sliderNode.getFullBoundsReference().getWidth() ) / 2 ) + 5; // horizontally centered
-        y = imageNode.getYOffset() + 60; // set by visual inspection, depends on images
+        x = imageNode.getXOffset() + ( ( imageNode.getFullBoundsReference().getWidth() - sliderNode.getFullBoundsReference().getWidth() ) / 2 ) + 5; // sort of centered
+        y = imageNode.getYOffset() + 53; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
         
         // observe model
