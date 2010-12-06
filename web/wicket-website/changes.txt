@@ -1,3 +1,4 @@
+Common translation deployment tested and working. (Support added for Flex / multiple sims in a Flash project)
 HTTPS default for login and registering. Added general HTTPS support to AbstractLinker. Added https-available website property.
 A number of other changes (unlisted here, but added social media, added newsletter subscribing changes and email confirmation)
 Fixed misspelling of incorporate, resolves #2469
