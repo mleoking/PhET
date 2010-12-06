@@ -1,3 +1,5 @@
+Fixed: Location of "x planet mass" seems inconsistent, sometimes above and sometimes below.
+Fixed: Hard to see where "20 planet masses" text overlaps sun body.
 # 0.0.05 (46883) Dec 6, 2010
 Fixed: "Planet mass" PText is intercepting mouse events.
 Fixed: My Planet & Space Station slider icon needs to be bigger
