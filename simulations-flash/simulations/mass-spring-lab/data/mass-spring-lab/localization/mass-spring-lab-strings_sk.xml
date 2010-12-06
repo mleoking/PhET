@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_sk.xml created Thu Dec 02 01:13:43 CET 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.09.00 (44031) sep 14, 2010-->
 <SimStrings>
 <string key="pause" value="pauza"/>
 <string key="earth" value="Zem"/>
+<string key="dontBother" value="Neobťažuj"/>
 <string key="16thTime" value="1/16 času"/>
+<string key="nothinOK" value="Tak nič! OK?"/>
 <string key="mass1Label" value="50 g"/>
 <string key="mass3Label" value="250 g"/>
 <string key="planetX" value="Planéta X"/>
@@ -38,8 +41,10 @@
 <string key="KE" value="kinetická"/>
 <string key="gEqZero" value="g = 0"/>
 <string key="hideHelp" value="Skry pomoc"/>
+<string key="noHelp" value="Nepomohlo"/>
 <string key="soft" value="malá"/>
 <string key="softness" value="tuhosť pružiny 3"/>
+<string key="simTitle" value="Pružinový oscilátor"/>
 <string key="totalE" value="celková E"/>
 <string key="noShow" value="nezobraziť"/>
 <string key="paused" value="Pauza"/>
