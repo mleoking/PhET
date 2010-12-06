@@ -2,12 +2,15 @@ package edu.colorado.phet.buildtools.resource;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 
 /**
  * Utility functions for the resource deploy process
- *
+ * <p/>
  * NOTE: be wary of the following code. sim and project was used interchangeably!
  */
 public class ResourceDeployUtils {
@@ -78,7 +81,7 @@ public class ResourceDeployUtils {
      */
     public static File[] getJavaSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[]{new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/bound-states" )};
+            return new File[] { new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/bound-states" ) };
         }
         else {
             File simsDir = new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR );
@@ -102,18 +105,27 @@ public class ResourceDeployUtils {
 
     public static File[] getFlashSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[]{new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/stern-gerlach" )};
+            return new File[] { new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/stern-gerlach" ) };
         }
         else {
-            File simsDir = new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
+            File flashSimsDir = new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
+            File flexSimsDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
 
-            File[] simDirs = simsDir.listFiles( new FileFilter() {
+            List<File> dirs = new LinkedList<File>();
+
+            dirs.addAll( Arrays.asList( flashSimsDir.listFiles( new FileFilter() {
                 public boolean accept( File file ) {
                     return file.isDirectory() && !file.getName().startsWith( "." );
                 }
-            } );
+            } ) ) );
 
-            return simDirs;
+            dirs.addAll( Arrays.asList( flexSimsDir.listFiles( new FileFilter() {
+                public boolean accept( File file ) {
+                    return file.isDirectory() && !file.getName().startsWith( "." );
+                }
+            } ) ) );
+
+            return dirs.toArray( new File[] { } );
         }
     }
 
