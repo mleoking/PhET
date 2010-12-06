@@ -191,9 +191,6 @@ public abstract class Molecule {
         setCenterOfGravityPos( centerOfGravity.getX() + velocity.getX() * dt, centerOfGravity.getY() + velocity.getY() * dt);
     }
 
-    protected void breakApart() {
-    }
-
     /**
      * Reset the molecule.  Any photons that have been absorbed are forgotten,
      * and any oscillation is reset.
@@ -299,6 +296,14 @@ public abstract class Molecule {
 
     public boolean isHighElectronicEnergyState(){
         return highElectronicEnergyState;
+    }
+
+    /**
+     * Cause the molecule to dissociate, i.e. to break apart.
+     */
+    protected void breakApart() {
+        System.err.println( getClass().getName() + " - Error: breakApart invoked on a molecule for which the action is not implemented." );
+        assert false;
     }
 
     protected void markPhotonForPassThrough(Photon photon){
