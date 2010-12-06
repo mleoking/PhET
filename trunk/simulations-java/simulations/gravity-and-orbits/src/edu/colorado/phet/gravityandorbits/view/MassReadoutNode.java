@@ -1,10 +1,10 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class MassReadoutNode extends PNode {
-    public MassReadoutNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible ) {
+    public MassReadoutNode( final Body body, final BodyNode bodyNode, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible ) {
         addChild( new PText( "1 million Planet masses" ) {{
             setPickable( false );
             setChildrenPickable( false );
@@ -46,14 +46,11 @@ public class MassReadoutNode extends PNode {
                 }
             } );
         }} );
-        final SimpleObserver updatePosition = new SimpleObserver() {
-            public void update() {
-                final Point2D centroid = modelViewTransform.getValue().modelToView( new ImmutableVector2D( body.getPosition().getX(), body.getPosition().getY() + body.getRadius() ).toPoint2D() );
-                setOffset( centroid.getX() - getFullBounds().getWidth() / 2, centroid.getY() + 5 );
+        bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() );
             }
-        };
-        body.getPositionProperty().addObserver( updatePosition );
-        modelViewTransform.addObserver( updatePosition );
+        } );
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.getValue() );
