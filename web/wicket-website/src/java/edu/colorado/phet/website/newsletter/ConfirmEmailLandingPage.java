@@ -26,7 +26,6 @@ public class ConfirmEmailLandingPage extends PhetMenuPage {
 
     public ConfirmEmailLandingPage( PageParameters parameters ) {
         super( parameters );
-        //setTitle( getLocalizer().getString( "resetPasswordCallback.title", this ) );
         setTitle( getLocalizer().getString( "newsletter.confirmedEmail.title", this ) );
 
         final String confirmationKey = parameters.getString( "key" );
@@ -49,7 +48,8 @@ public class ConfirmEmailLandingPage extends PhetMenuPage {
         } );
         if ( userResult.success ) {
             boolean emailSuccess;
-            if ( userResult.value.isNewsletterOnlyAccount() ) {
+            // if newsletter-only, OR if the user is already fully registered
+            if ( userResult.value.isNewsletterOnlyAccount() || wasConfirmed.getValue() ) {
                 emailSuccess = NewsletterUtils.sendNewsletterWelcomeEmail( getPageContext(), userResult.value );
             }
             else {
@@ -71,7 +71,7 @@ public class ConfirmEmailLandingPage extends PhetMenuPage {
 
         logger.info( userResult.value.getEmail() + " subscribed" );
 
-        add( new ConfirmEmailLandingPanel( "main-panel", getPageContext(), userResult.value, destination ) );
+        add( new ConfirmEmailLandingPanel( "main-panel", getPageContext(), userResult.value, destination, wasConfirmed.getValue() ) );
 
         hideSocialBookmarkButtons();
     }

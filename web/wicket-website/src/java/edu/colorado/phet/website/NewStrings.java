@@ -52,6 +52,12 @@ public class NewStrings {
         overwriteString( session, "newsletter.nowRegistered", "Thank you for registering! In a few seconds you will be redirected to your original page.", "Thank you for registering! You account is now active." );
         overwriteString( session, "newsletter.pleaseSignUp", "Please sign up if you would like to receive the PhET Newsletter. Once you have submitted your email address, you should receive a confirmation of your subscription via email.", "Please sign up if you would like to receive the PhET Quarterly Newsletter. " );
 
+        overwriteString( session, "newsletter.pleaseCheckSubscribing", "Please check your e-mail and click on the link to complete your newsletter subscription.", "Please <strong>check your e-mail and click on the link</strong> to complete your newsletter subscription." );
+        overwriteString( session, "newsletter.pleaseCheckRegistering", "Please check your e-mail and click on the link to complete your account registration.", "Please <strong>check your e-mail and click on the link</strong> to complete your account registration." );
+
+        overwriteString( session, "newsletter.toFinishSubscribing", "Thank you for subscribing. An e-mail has been sent to {0}.", "Thank you for subscribing. An e-mail has been sent to <strong>{0}</strong>." );
+        overwriteString( session, "newsletter.toFinishRegistering", "Thank you for registering. An e-mail has been sent to {0}.", "Thank you for registering. An e-mail has been sent to <strong>{0}</strong>." );
+
         deleteString( session, "newsletter.pastEditions" );
 
         session.close();
