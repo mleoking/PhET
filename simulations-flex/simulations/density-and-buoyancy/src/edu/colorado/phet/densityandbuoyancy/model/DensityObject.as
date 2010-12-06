@@ -26,7 +26,7 @@ public class DensityObject {
     private var dragForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
     private var contactForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
 
-    private const _forceVectors = [gravityForceArrowModel,buoyancyForceArrowModel,dragForceArrowModel,contactForceArrowModel];
+    private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,dragForceArrowModel,contactForceArrowModel];
     private var model: DensityModel;
 
     private var body: b2Body;

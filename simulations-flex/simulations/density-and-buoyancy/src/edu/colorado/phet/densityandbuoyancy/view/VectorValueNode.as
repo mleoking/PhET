@@ -59,7 +59,7 @@ public class VectorValueNode extends Sprite {
 
         try {
             var screenVertex: ScreenVertex = mainCamera.screen( arrowNode, arrowNode.tip );
-            var moreOffset = 0;
+            var moreOffset: Number = 0;
             if ( offsetX < 0 ) {
                 moreOffset = -textField.width;
             }
