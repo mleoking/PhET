@@ -15,7 +15,7 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
  */
 public class ResourceDeployUtils {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     public static File getTestDir( File resourceDir ) {
         return new File( resourceDir, "test" );
@@ -105,7 +105,10 @@ public class ResourceDeployUtils {
 
     public static File[] getFlashSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[] { new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/stern-gerlach" ) };
+            return new File[] {
+                    new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/stern-gerlach" ),
+                    new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR + "/density-and-buoyancy" )
+            };
         }
         else {
             File flashSimsDir = new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
