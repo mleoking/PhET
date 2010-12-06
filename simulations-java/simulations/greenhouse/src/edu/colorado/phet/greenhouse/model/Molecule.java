@@ -81,6 +81,9 @@ public abstract class Molecule {
     private static final int PASS_THROUGH_PHOTON_LIST_SIZE = 10;
     private final ArrayList<Photon> passThroughPhotonList = new ArrayList<Photon>( PASS_THROUGH_PHOTON_LIST_SIZE );
 
+    // The current point within this molecule's oscillation sequence.
+    private double currentOscillationRadians = 0;
+
     // List of photon wavelengths that this molecule can absorb.  This is a
     // list of frequencies, which is a grand oversimplification of the real
     // behavior, but works for the current purposes of this sim.
@@ -261,18 +264,22 @@ public abstract class Molecule {
     }
 
     /**
-     * Update the formation of the atoms based on the specified location
-     * within the oscillation sequence.  Note that this only alters the
-     * offsets but does not actually move the atoms, so the method for
-     * updating the positions will need to be called in order to get the atoms
-     * to actually move.  This is done so that if the atom is moving and is
-     * also oscillating we don't end up sending out two position updates per
-     * atom per time step.
-     *
-     * @param oscillationRadians
+     * Set the point, in terms of radians from 0 to 2*PI, where this molecule
+     * is in its oscillation sequence.
      */
-    protected void updateOscillationFormation(double oscillationRadians){
-        return; // Does nothing by default, override for molecules that oscillate.
+    protected void setOscillation( double oscillationRadians ) {
+        currentOscillationRadians = oscillationRadians;
+        return; // Implements no oscillation by default, override in descendant classes as needed.
+    }
+
+    /**
+     * Advance the oscillation by the prescribed radians.
+     *
+     * @param deltaRadians
+     */
+    protected void advanceOscilation( double deltaRadians ){
+        currentOscillationRadians += deltaRadians;
+        setOscillation( currentOscillationRadians );
     }
 
     protected void markPhotonForPassThrough(Photon photon){
@@ -480,7 +487,7 @@ public abstract class Molecule {
             }
             // Update the offset of the atoms based on the current oscillation
             // index.
-            molecule.updateOscillationFormation( oscillationRadians );
+            molecule.setOscillation( oscillationRadians );
         }
 
         @Override
@@ -508,7 +515,7 @@ public abstract class Molecule {
             }
             // Update the offset of the atoms based on the current oscillation
             // index.
-            molecule.updateOscillationFormation( oscillationRadians );
+            molecule.setOscillation( oscillationRadians );
         }
 
         @Override

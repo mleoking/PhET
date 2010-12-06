@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -111,7 +110,7 @@ public class O3 extends Molecule {
     }
 
     @Override
-    protected void updateOscillationFormation( double oscillationRadians ) {
+    protected void setOscillation( double oscillationRadians ) {
         // TODO: This is temporary until we work out what the real oscillation
         // should look like.
         double multFactor = Math.sin( oscillationRadians );
