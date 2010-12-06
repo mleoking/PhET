@@ -388,23 +388,34 @@ public abstract class Molecule {
         breakApartCountdownTime = MIN_PHOTON_HOLD_TIME;
     }
 
+    /**
+     * Cause the atom to emit a photon of the specified wavelength.
+     *
+     * TODO: Not sure if this version is needed, verify that it is or delete it.
+     *
+     * @param wavelength
+     */
     protected void emitPhoton( double wavelength ){
-        Photon emittedPhoton = new Photon( wavelength, null );
-        double emissionAngle = RAND.nextDouble() * Math.PI * 2;
-        emittedPhoton.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
-                (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
-        emittedPhoton.setLocation( getCenterOfGravityPosRef() );
-        notifyPhotonEmitted( emittedPhoton );
+        emitPhoton( new Photon( wavelength, null ) );
     }
 
-    protected void emitPhoton(){
+    /**
+     * Emit the specified photon in a random direction.
+     *
+     * @param photonToEmit
+     */
+    protected void emitPhoton( Photon photonToEmit ){
         double emissionAngle = RAND.nextDouble() * Math.PI * 2;
         photonToEmit.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
                 (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
         photonToEmit.setLocation( getCenterOfGravityPosRef() );
-        // Sending the notification will cause the primary model class to add
-        // this photon to the model.
         notifyPhotonEmitted( photonToEmit );
+
+    }
+
+    // TODO: Not sure if this version is needed, verify that it is or delete it.
+    protected void emitPhoton(){
+        emitPhoton( photonToEmit );
     }
 
     private void notifyPhotonEmitted(Photon photon){
