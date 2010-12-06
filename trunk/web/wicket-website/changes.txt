@@ -1,3 +1,4 @@
+Fixed Twitter link in Welcome emails.
 Added boldness on text for subscription and registration.
 Properly handle emails for users who are already registered but then "subscribe".
 Added admin option to "deactivate" user accounts.

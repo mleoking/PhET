@@ -22,7 +22,7 @@ public class NewsletterUtils {
     private static final String WELCOME_FOOTER = "<p>For updates on PhET activities:<br/>" +
                                                  "<a href=\"" + Linkers.BLOG.getDefaultRawUrl() + "\">Read our blog</a>,<br/>" +
                                                  "<a href=\"" + Linkers.FACEBOOK_PAGE.getDefaultRawUrl() + "\">Join us on Facebook</a>, or<br/>" +
-                                                 "<a href=\"" + Linkers.TWITTER_PAGE.getDefaultRawUrl() + "\"></a>Follow us on Twitter</p>";
+                                                 "<a href=\"" + Linkers.TWITTER_PAGE.getDefaultRawUrl() + "\">Follow us on Twitter</a></p>";
 
     private static final Logger logger = Logger.getLogger( NewsletterUtils.class );
     private static final String HIDDEN_STYLE = "style=\"font-size: 12px;color: #888888\"";
