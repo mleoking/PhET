@@ -18,5 +18,5 @@ public class WebsiteConstants {
     /**
      * Web server hostname
      */
-    public static final String WEB_SERVER = "phetsims.colorado.edu";
+    public static final String WEB_SERVER = "phet.colorado.edu";
 }
