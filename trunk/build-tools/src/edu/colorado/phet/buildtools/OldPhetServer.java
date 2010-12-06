@@ -35,7 +35,7 @@ public abstract class OldPhetServer {
 
     public static OldPhetServer FIGARO = new PhetProdServer(
             "figaro.colorado.edu",
-            "phetsims.colorado.edu",
+            "phet.colorado.edu",
             "/data/web/htdocs/phetsims/staging/sims",
             "/sims",
             null,
@@ -186,8 +186,6 @@ public abstract class OldPhetServer {
 
     public abstract String getServerDeployPath( PhetProject project );
 
-    public abstract String getWebDeployURL( PhetProject project );
-
     public boolean isDevelopmentServer() {
         return developmentServer;
     }
@@ -221,9 +219,6 @@ public abstract class OldPhetServer {
             return getServerDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
         }
 
-        public String getWebDeployURL( PhetProject project ) {
-            return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
-        }
     }
 
     private static class PhetProdServer extends OldPhetServer {
@@ -252,11 +247,6 @@ public abstract class OldPhetServer {
                 System.out.println( "getServerDeployPath():" + path );
                 return path;
             }
-        }
-
-        public String getWebDeployURL( PhetProject project ) {
-            System.out.println( "getDeployBaseRemote():" + "http://" + getWebHost() + "/" + getWebDeployPath() + "/" + project.getName() );
-            return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName();
         }
     }
 
