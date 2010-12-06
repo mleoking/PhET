@@ -1,3 +1,4 @@
+Fixed: "Planet mass" PText is intercepting mouse events.
 Fixed: My Planet & Space Station slider icon needs to be bigger
 Added a new mode for My Sun, Planet & Earth
 Fixed lunar orbit in Sun, Earth & Moon mode

@@ -20,6 +20,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class MassReadoutNode extends PNode {
     public MassReadoutNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible ) {
         addChild( new PText( "1 million Planet masses" ) {{
+            setPickable( false );
+            setChildrenPickable( false );
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
             body.getMassProperty().addObserver( new SimpleObserver() {
