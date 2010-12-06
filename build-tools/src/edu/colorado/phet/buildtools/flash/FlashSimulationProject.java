@@ -34,6 +34,18 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
         }
     }
 
+    /**
+     * Construct a proper Flash simulation project from a root, without knowing whether it is Flash or Flex
+     */
+    public static FlashSimulationProject getProject( File projectRoot ) throws IOException {
+        if ( projectRoot.getParentFile().getParentFile().getName().equals( "simulations-flex" ) ) {
+            return new FlexSimulationProject( projectRoot );
+        }
+        else {
+            return new FlashSimulationProject( projectRoot );
+        }
+    }
+
     public void updateProjectFiles() {
         super.updateProjectFiles();
         copySoftwareAgreement();
@@ -56,7 +68,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             try {
                 projects.add( new FlashSimulationProject( file ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -193,10 +205,10 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
                 }
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
         }
 
@@ -246,7 +258,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             try {
                 FileUtils.copyRecursive( src, getOfflineJARContentsDir() );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
 
@@ -284,7 +296,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
                 System.out.println( "Jarsigner credentials not specified in build file, skipping jar signing." );
             }
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
         }
 
@@ -418,7 +430,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
                 try {
                     buildHTML( simulationName, locale, version );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
@@ -431,7 +443,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
     }
 
     private File[] getExtras() {
-        return new File[]{
+        return new File[] {
                 new File( getTrunkAbsolute(), BuildToolsPaths.FLASH_GET_FLASH_IMAGE )
         };
     }
@@ -446,7 +458,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             try {
                 FileUtils.copyTo( source, destination );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -469,14 +481,14 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
         try {
             inStream = new FileInputStream( getAgreementPropertiesFile() );
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
         }
         Properties properties = new Properties();
         try {
             properties.load( inStream );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return properties;
@@ -600,12 +612,12 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
         try {
             commonProject = new FlashCommonProject( commonRoot );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
-            return new PhetProject[]{};
+            return new PhetProject[] { };
         }
 
-        return new PhetProject[]{commonProject};
+        return new PhetProject[] { commonProject };
     }
 
 
