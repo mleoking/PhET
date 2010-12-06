@@ -15,7 +15,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - reduce height of E-Field shape by 1 pixel on top and bottom
-- change: make circuit be in a vacuum instead of air (see dielectric constant of air = 1.0)
 - publish 1.00
 
 MEDUIUM PRIORITY

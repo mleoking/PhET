@@ -60,10 +60,25 @@ public class CLConstants {
     
     // dielectric constants (dimensionless)
     public static final double EPSILON_VACUUM = 1;
-    public static final double EPSILON_AIR = 1.0005896;
     public static final double EPSILON_GLASS = 4.7;
     public static final double EPSILON_PAPER = 3.5;
     public static final double EPSILON_TEFLON = 2.1;
+    
+    /*
+     * The dielectric constant of air is actually 1.0005896. The model for this sim specified that 
+     * the circuit was in air.  But we discovered late in the development of this sim that we should
+     * have modeled the circuit in a vacuum, because we want the E-Field component due to the 
+     * environment to be zero.  With air, we have a small Dielectric vector of up to 4 V/m shown
+     * on the E-Field Detector when the Plate Charge control is set to its maximum.
+     * 
+     * Rather than change "air" to "vacuum" in numerous places throughout the code and design doc,
+     * it was suggested that we simply set the dielectric constant of air to 1.  I was hesitant to
+     * do this, since I think it's going to cause future problems.  But Kathy P. bet me a 6-pack of
+     * beer that it will never be a problem.  Any developer who needs to change this in the future
+     * is hereby bound by the Developer Code of Ethics to inform me, so that I can collect on
+     * this wager.
+     */
+    public static final double EPSILON_AIR = 1;
     
     // wire
     public static final double WIRE_THICKNESS = 0.0005; // meters
