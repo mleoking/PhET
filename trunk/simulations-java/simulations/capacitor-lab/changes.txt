@@ -1,3 +1,4 @@
+# 0.00.53 (46899) Dec 6, 2010
 12/6/10 set dielectric constant of air to 1, so that the circuit is effectively in a vacuum (see detailed code comment)
 12/6/10 fix layout issues with vector labels in E-Field detector
 12/6/10 move battery voltage slider up a few pixels so that the slider thumb always stays inside the battery image
