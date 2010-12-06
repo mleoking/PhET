@@ -89,7 +89,7 @@ public abstract class Molecule {
     // TODO: This is temp for prototyping.
     protected boolean rotateClockwise = false;
 
-    private PhotonAbsorptionReactionStrategy strategy = new VibrationStrategy( this );
+    private final PhotonAbsorptionReactionStrategy strategy = new VibrationStrategy( this );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -133,8 +133,11 @@ public abstract class Molecule {
         case N2O:
             newMolecule = new N2O();
             break;
-        case O2:
+        case O:
             newMolecule = new O2();
+            break;
+        case O2:
+            newMolecule = new O();
             break;
         default:
             System.err.println("Molecule: " + " - Error: Unrecognized molecule type.");

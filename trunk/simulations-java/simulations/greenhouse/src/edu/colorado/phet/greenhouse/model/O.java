@@ -5,11 +5,12 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
- * Class that represents a single atom of oxygen in the model.
+ * Class that represents a single atom of oxygen in the model.  I hate to name
+ * a class "O", but it is necessary for consistency with other molecules
+ * names.
  *
  * @author John Blanco
  */
