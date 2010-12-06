@@ -1,3 +1,4 @@
+Buoyancy: Fixed: "material" and "my block" radio buttons from 2-object mode are in the same group
 Added a numerical readout under the density slider thumb
 Fixed: vector label readouts should be offset to the sides
 Added radio buttons for "My Block" and "Materials"
