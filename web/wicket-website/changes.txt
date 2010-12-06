@@ -6,7 +6,7 @@ Common translation deployment tested and working. (Support added for Flex / mult
 HTTPS default for login and registering. Added general HTTPS support to AbstractLinker. Added https-available website property.
 A number of other changes (unlisted here, but added social media, added newsletter subscribing changes and email confirmation)
 Fixed misspelling of incorporate, resolves #2469
-Removed duplicate publication entries and reordered to chronolgical in each section
+Removed duplicate publication entries and reordered to chronological in each section
 Fixed a problem that changed the contributing user when editing a contribution
 Contribution fix
 Removed duplicate publication
