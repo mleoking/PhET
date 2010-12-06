@@ -1,3 +1,4 @@
+# 0.0.05 (46883) Dec 6, 2010
 Fixed: "Planet mass" PText is intercepting mouse events.
 Fixed: My Planet & Space Station slider icon needs to be bigger
 Added a new mode for My Sun, Planet & Earth
