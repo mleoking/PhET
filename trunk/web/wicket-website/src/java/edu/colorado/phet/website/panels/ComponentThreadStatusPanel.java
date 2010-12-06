@@ -38,7 +38,7 @@ public class ComponentThreadStatusPanel extends PhetPanel {
             protected void onPostProcessTarget( AjaxRequestTarget target ) {
                 Component newStatus;
                 boolean done;
-                logger.info( "tick on " + index );
+                logger.debug( "tick on " + index );
                 // synchronize on the same lock as the static methods
                 synchronized ( ComponentThreadStatusPanel.this.getClass() ) {
                     ComponentThread thread = getThread( index );

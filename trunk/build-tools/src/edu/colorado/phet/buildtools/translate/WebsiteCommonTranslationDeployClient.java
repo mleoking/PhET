@@ -152,7 +152,7 @@ public class WebsiteCommonTranslationDeployClient {
         // fake info for phet-info
         PhetVersion oldVersion = new PhetVersion( "1", "00", "00", "20000", "10" );
 
-        final VersionInfoQuery query = new VersionInfoQuery( simName, simName, oldVersion, false );
+        final VersionInfoQuery query = new VersionInfoQuery( project.getName(), simName, oldVersion, false );
 
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
 
@@ -164,11 +164,11 @@ public class WebsiteCommonTranslationDeployClient {
                     // build the HTML into the correct deploy directory
                     project.buildHTML( simName, locale, version );
 
-                    String HTMLName = project.getName() + "_" + LocaleUtils.localeToString( locale ) + ".html";
+                    String HTMLName = simName + "_" + LocaleUtils.localeToString( locale ) + ".html";
 
                     // transfer the HTML file
                     File localHTMLFile = new File( project.getDeployDir(), HTMLName );
-                    client.uploadExtraFile( localHTMLFile, simName );
+                    client.uploadExtraFile( localHTMLFile, project.getName() );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();

@@ -282,16 +282,16 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
         testDir.mkdir();
 
 
-        for ( String sim : projectNames ) {
-            logger.info( "  processing " + sim );
+        for ( String projectName : projectNames ) {
+            logger.info( "  processing " + projectName );
 
-            File simDir = new File( getLiveSimsDir(), sim );
-            File testSimDir = new File( testDir, sim );
-            logger.info( "  Simulation source directory: " + simDir.getAbsolutePath() );
+            File projectDir = new File( getLiveSimsDir(), projectName );
+            File testSimDir = new File( testDir, projectName );
+            logger.info( "  Simulation source directory: " + projectDir.getAbsolutePath() );
             logger.info( "  Creating simulation test destination directory: " + testSimDir.getAbsolutePath() );
             testSimDir.mkdir();
 
-            File[] jarFiles = simDir.listFiles();
+            File[] jarFiles = projectDir.listFiles();
 
             for ( File jarFile : jarFiles ) {
                 if ( onlyAllJARs && !jarFile.getName().endsWith( "_all.jar" ) ) {
@@ -399,6 +399,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     }
 
     private void copyExtras() throws IOException {
+        logger.info( "copyExtras()" );
         File extrasDir = ResourceDeployUtils.getExtrasDir( resourceDir );
         if ( !extrasDir.exists() ) {
             return;
@@ -407,13 +408,13 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
         File[] simExtraDirs = extrasDir.listFiles();
 
         for ( File simExtraDir : simExtraDirs ) {
-            String sim = simExtraDir.getName();
-            logger.info( "  processing " + sim );
+            String projectName = simExtraDir.getName();
+            logger.info( "  processing " + projectName );
 
             File[] extraFiles = simExtraDir.listFiles();
 
             for ( File extraFile : extraFiles ) {
-                File testExtraDir = new File( testDir, sim );
+                File testExtraDir = new File( testDir, projectName );
                 testExtraDir.mkdirs();
 
                 FileUtils.copyToDir( extraFile, testExtraDir );
@@ -425,10 +426,10 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
         File[] testSimDirs = testDir.listFiles();
 
         for ( File testSimDir : testSimDirs ) {
-            String sim = testSimDir.getName();
-            logger.info( "  processing " + sim );
+            String projectName = testSimDir.getName();
+            logger.info( "  processing " + projectName );
 
-            File liveSimDir = new File( liveSimsDir, sim );
+            File liveSimDir = new File( liveSimsDir, projectName );
 
             File[] swfFiles = liveSimDir.listFiles( new FilenameFilter() {
                 public boolean accept( File dir, String name ) {
@@ -437,7 +438,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
             } );
             for ( File swfFile : swfFiles ) {
                 if ( !swfFile.exists() ) {
-                    logger.warn( "sim SWF doesn't exist: " + sim + "/" + swfFile.getName() + " at expected location " + swfFile.getAbsolutePath() );
+                    logger.warn( "sim SWF doesn't exist: " + projectName + "/" + swfFile.getName() + " at expected location " + swfFile.getAbsolutePath() );
                     continue;
                 }
 
@@ -447,7 +448,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
                 if ( localBackup ) {
                     // copy the SWF to the backup sim dir so that we will have them for posterity (and a warning won't be seen
                     // if the user reverts)
-                    File backupSimDir = new File( backupDir, sim );
+                    File backupSimDir = new File( backupDir, projectName );
                     backupSimDir.mkdirs();
                     FileUtils.copyToDir( swfFile, backupSimDir );
                 }
