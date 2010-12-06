@@ -5,7 +5,6 @@ DEADLINES
 QUESTIONS FOR NOAH
 
 NOAH P ACTION ITEMS
-- new E-Field Detector probe, with crosshairs that are visible on dense E-Field
 - labels for "Plate Charge" check box, "Plate Charge (top)" meter, and "Plate Charge (top)" slider
 - review Multiple Capacitors tab design and decide which features are unnecessary (Remove Wires, E-Field Lines, E-Field Detector)
 - consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
@@ -15,7 +14,10 @@ DESIGN ISSUES
 - expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
-- change: make circuit be in a vacuum instead of air
+- bug: put E-Field probe in dielectric, reduce constant to 1, dielectric label overlaps sum
+- try color coding vector labels with black drop shadow
+- if E-field vector is zero, increase vertical space to make label association obvious
+- change: make circuit be in a vacuum instead of air (see dielectric constant of air = 1.0)
 - publish 1.00
 
 MEDUIUM PRIORITY
