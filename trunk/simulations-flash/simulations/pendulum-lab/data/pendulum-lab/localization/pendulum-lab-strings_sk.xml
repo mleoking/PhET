@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_sk.xml created Thu Dec 02 00:54:23 CET 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.09.00 (44031) sep 14, 2010-->
 <SimStrings>
 <string key="resetStopwatch" value="nulovať"/>
 <string key="earth" value="Zem"/>
@@ -19,6 +20,7 @@
 <string key="moon" value="Mesiac"/>
 <string key="energyOf" value="energia "/>
 <string key="period" value="perióda:"/>
+<string key="simStrings" value="Kyvadlo"/>
 <string key="noneFriction" value="žiadne"/>
 <string key="total" value="celková"/>
 <string key="mass2" value="hmotnosť 2:"/>
@@ -36,6 +38,7 @@
 <string key="gEqZero" value="g = 0"/>
 <string key="length_unit" value="m"/>
 <string key="noneEnergy" value="nezobraziť"/>
+<string key="simTitle" value="Kyvadlo"/>
 <string key="otherTools" value="ďalšie nástroje"/>
 <string key="angleUnit" value=" °"/>
 <string key="paused" value="pauza"/>
