@@ -3,17 +3,16 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
+import edu.colorado.phet.densityandbuoyancy.model.Not;
 import edu.colorado.phet.densityandbuoyancy.view.BlockLabelNode;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.display.Sprite;
-import flash.events.Event;
 
 import mx.containers.Grid;
 import mx.containers.HBox;
 import mx.controls.ComboBox;
-import mx.controls.RadioButton;
 import mx.controls.Spacer;
 import mx.core.UIComponent;
 import mx.events.ListEvent;
@@ -78,21 +77,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         const radioButtonPanel: HBox = new HBox();
         const myBlockName: String = FlexSimStrings.get( "customObject.custom", "My Block" );
 
-        const materialRadioButton: RadioButton = new RadioButton();
-        materialRadioButton.selected = !myBlockSelected.value;
-        materialRadioButton.label = FlexSimStrings.get( "customObject.material", "Material" );
-        materialRadioButton.addEventListener( Event.CHANGE, function(): void {
-            myBlockSelected.value = false;
-        } );
-
-        const myBlockRadioButton: RadioButton = new RadioButton();
-        myBlockRadioButton.selected = myBlockSelected.value;
-        myBlockRadioButton.label = myBlockName;
-        myBlockRadioButton.addEventListener( Event.CHANGE, function(): void {
-            myBlockSelected.value = true;
-        } );
-        radioButtonPanel.addChild( myBlockRadioButton );
-        radioButtonPanel.addChild( materialRadioButton );
+        radioButtonPanel.addChild( new MyRadioButton( myBlockName, myBlockSelected ) );
+        radioButtonPanel.addChild( new MyRadioButton( FlexSimStrings.get( "customObject.material", "Material" ), new Not( myBlockSelected ) ) );
 
         myBlockSelected.addListener( function(): void {
             if ( myBlockSelected.value ) {
