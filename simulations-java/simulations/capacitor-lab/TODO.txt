@@ -14,7 +14,6 @@ DESIGN ISSUES
 - expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
-- reduce height of E-Field shape by 1 pixel on top and bottom
 - publish 1.00
 
 MEDUIUM PRIORITY
