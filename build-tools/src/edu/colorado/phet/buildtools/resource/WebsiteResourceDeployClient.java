@@ -15,9 +15,9 @@ import com.jcraft.jsch.JSchException;
 
 /**
  * TODO: update docs for new version (may be out of date)
- *
+ * <p/>
  * NOTE: be wary of the following code. sim and project was used interchangeably!
- *
+ * <p/>
  * This class is used to log into a website, create the necessary temporary directory structure, and upload the necessary
  * files.
  * <p/>
@@ -120,17 +120,17 @@ public class WebsiteResourceDeployClient {
      * uploads an extra file for a particular sim. (like the Flash HTML files that need to be regenerated on the client)
      *
      * @param extraFile The extra file to upload
-     * @param sim       The sim name
+     * @param project   Project name
      * @return
      * @throws com.jcraft.jsch.JSchException
      * @throws java.io.IOException
      */
-    public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
+    public boolean uploadExtraFile( File extraFile, String project ) throws JSchException, IOException {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
         AuthenticationInfo authenticationInfo = website.getServerAuthenticationInfo( buildLocalProperties );
         String temporaryDirPath = getTemporaryDirPath();
 
-        String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
+        String temporarySimExtrasDir = temporaryDirPath + "/extras/" + project;
 
         boolean success = dirtyExecute( "mkdir -p -m 775 " + temporarySimExtrasDir );
         if ( !success ) {
@@ -290,10 +290,10 @@ public class WebsiteResourceDeployClient {
                 try {
                     deployJavaResourceFile( PhetWebsite.DEFAULT_PRODUCTION_WEBSITE, trunk, resourceFile, resourceDestination );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( JSchException e ) {
+                catch ( JSchException e ) {
                     e.printStackTrace();
                 }
             }
@@ -301,10 +301,10 @@ public class WebsiteResourceDeployClient {
                 try {
                     deployFlashResourceFile( PhetWebsite.DEFAULT_PRODUCTION_WEBSITE, trunk, resourceFile, resourceDestination );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( JSchException e ) {
+                catch ( JSchException e ) {
                     e.printStackTrace();
                 }
             }
