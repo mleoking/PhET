@@ -94,6 +94,9 @@ public abstract class Molecule {
 
     private final PhotonAbsorptionReactionStrategy strategy = new VibrationStrategy( this );
 
+    // Tracks if molecule is higher energy than its ground state.
+    private boolean highElectronicEnergyState = false;
+
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -282,6 +285,22 @@ public abstract class Molecule {
         setOscillation( currentOscillationRadians );
     }
 
+    /**
+     * Enable/disable a molecule's high electronic energy state, which in the
+     * real world is a state where one or more electrons has moved to a higher
+     * orbit.  In this simulation, it is generally depicted by having the
+     * molecule appear to glow.
+     *
+     * @param highElectronicEnergyState
+     */
+    protected void setHighElectronicEnergyState( boolean highElectronicEnergyState ){
+        this.highElectronicEnergyState  = highElectronicEnergyState;
+    }
+
+    public boolean isHighElectronicEnergyState(){
+        return highElectronicEnergyState;
+    }
+
     protected void markPhotonForPassThrough(Photon photon){
         if (passThroughPhotonList.size() >= PASS_THROUGH_PHOTON_LIST_SIZE){
             // Make room for this photon be deleting the oldest one.
@@ -443,18 +462,18 @@ public abstract class Molecule {
     //------------------------------------------------------------------------
 
     public interface Listener {
-        void photonEmitted(Photon photon);
-        void brokeApart(Molecule molecule);
+        void photonEmitted( Photon photon );
+        void brokeApart( Molecule molecule );
+        void electronicEnergyStateChanged( Molecule molecule );
     }
 
     public static class Adapter implements Listener {
         public void photonEmitted(Photon photon) {}
-
-        public void brokeApart(Molecule molecule) {
-        }
+        public void brokeApart(Molecule molecule) {}
+        public void electronicEnergyStateChanged( Molecule molecule ) {}
     }
 
-    //This strategy determines what happens to the molecule if and when it absorbs a photon
+    // This strategy determines what happens to the molecule if and when it absorbs a photon
     public static class PhotonAbsorptionReactionStrategy {
         Molecule molecule;
 
