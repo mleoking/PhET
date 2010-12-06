@@ -41,7 +41,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     private boolean copySWFs;
     private boolean copyJNLPs;
     private File testDir;
-    private List<String> existingSims;
+    private List<String> existingProjects;
     private File liveSimsDir;
 
     private static final boolean localBackup = false;
@@ -90,17 +90,17 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
                 projectNames = simsString.split( "," );
 
                 // prune projectNames list so it only includes projectNames deployed to the server
-                existingSims = new LinkedList<String>();
-                for ( String sim : projectNames ) {
-                    File simDir = new File( getLiveSimsDir(), sim );
-                    if ( simDir.exists() ) {
-                        existingSims.add( sim );
+                existingProjects = new LinkedList<String>();
+                for ( String projectName : projectNames ) {
+                    File projectDir = new File( getLiveSimsDir(), projectName );
+                    if ( projectDir.exists() ) {
+                        existingProjects.add( projectName );
                     }
                     else {
-                        logger.warn( "project " + sim + " was not found on the production server" );
+                        logger.warn( "project " + projectName + " was not found on the production server" );
                     }
                 }
-                projectNames = existingSims.toArray( new String[] { } );
+                projectNames = existingProjects.toArray( new String[] { } );
 
                 ready = true;
             }
@@ -191,7 +191,7 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     }
 
     public List<String> getExistingProjects() {
-        return existingSims;
+        return existingProjects;
     }
 
     public static Logger getLogger() {
@@ -313,10 +313,10 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
 
         FileUtils.copyToDir( resourceFile, holderDir );
 
-        for ( String sim : projectNames ) {
-            logger.info( "  processing " + sim );
+        for ( String projectName : projectNames ) {
+            logger.info( "  processing " + projectName );
 
-            File testSimDir = new File( testDir, sim );
+            File testSimDir = new File( testDir, projectName );
 
             File[] jarFiles = testSimDir.listFiles( new FilenameFilter() {
                 public boolean accept( File file, String s ) {
@@ -332,10 +332,10 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
     }
 
     private void signJARs() {
-        for ( String sim : projectNames ) {
-            logger.info( "  processing " + sim );
+        for ( String projectName : projectNames ) {
+            logger.info( "  processing " + projectName );
 
-            File testSimDir = new File( testDir, sim );
+            File testSimDir = new File( testDir, projectName );
             File[] jarFiles = testSimDir.listFiles( new FilenameFilter() {
                 public boolean accept( File file, String s ) {
                     return s.endsWith( ".jar" );
@@ -430,22 +430,27 @@ public class WebsiteResourceDeployServer implements IProguardKeepClass {
 
             File liveSimDir = new File( liveSimsDir, sim );
 
-            File swfFile = new File( liveSimDir, sim + ".swf" );
+            File[] swfFiles = liveSimDir.listFiles( new FilenameFilter() {
+                public boolean accept( File dir, String name ) {
+                    return name.endsWith( ".swf" );
+                }
+            } );
+            for ( File swfFile : swfFiles ) {
+                if ( !swfFile.exists() ) {
+                    logger.warn( "sim SWF doesn't exist: " + sim + "/" + swfFile.getName() + " at expected location " + swfFile.getAbsolutePath() );
+                    continue;
+                }
 
-            if ( !swfFile.exists() ) {
-                logger.warn( "sim SWF doesn't exist: " + sim + "/" + swfFile.getName() + " at expected location " + swfFile.getAbsolutePath() );
-                continue;
-            }
+                // copy the SWF to the test dir so that we can test the new generated HTMLs
+                FileUtils.copyToDir( swfFile, testSimDir );
 
-            // copy the SWF to the test dir so that we can test the new generated HTMLs
-            FileUtils.copyToDir( swfFile, testSimDir );
-
-            if ( localBackup ) {
-                // copy the SWF to the backup sim dir so that we will have them for posterity (and a warning won't be seen
-                // if the user reverts)
-                File backupSimDir = new File( backupDir, sim );
-                backupSimDir.mkdirs();
-                FileUtils.copyToDir( swfFile, backupSimDir );
+                if ( localBackup ) {
+                    // copy the SWF to the backup sim dir so that we will have them for posterity (and a warning won't be seen
+                    // if the user reverts)
+                    File backupSimDir = new File( backupDir, sim );
+                    backupSimDir.mkdirs();
+                    FileUtils.copyToDir( swfFile, backupSimDir );
+                }
             }
         }
     }
