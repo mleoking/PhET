@@ -10,7 +10,7 @@ import mx.controls.sliderClasses.SliderThumb;
 import mx.core.UIComponent;
 
 public class SliderDecorator extends UIComponent {
-    private var slider: MyHSlider;
+    private var slider: HSlider;
 
     private var tickMarkSet: Sprite;
     private var ticks: Array = new Array();
@@ -20,7 +20,7 @@ public class SliderDecorator extends UIComponent {
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
 
-        slider = new MyHSlider();
+        slider = new HSlider();
         slider.showDataTip = false;
         slider.setStyle( "dataTipOffset", 0 );//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.setStyle( "thumbOffset", thumbOffset );
@@ -48,7 +48,6 @@ public class SliderDecorator extends UIComponent {
         this.height = slider.height + 20;
 
         enabled = true; // set the enabled style, and default to enabled
-        slider.doCommitProperties();
     }
 
     override public function set enabled( value: Boolean ): void {

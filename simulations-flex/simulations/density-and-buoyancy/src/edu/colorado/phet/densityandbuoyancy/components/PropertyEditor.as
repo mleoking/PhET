@@ -19,6 +19,7 @@ public class PropertyEditor extends GridRow {
     private static const FONT_SIZE: Number = 12;
     private var sliderWidth: Number;
     protected const textField: TextInput = new TextInput();
+    protected var _sliderDecorator: SliderDecorator;
 
     /**
      *
@@ -28,6 +29,7 @@ public class PropertyEditor extends GridRow {
      * @param unit
      * @param densityObject
      */
+
     public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280 ) {
         super();
         this.sliderWidth = sliderWidth;
@@ -39,7 +41,8 @@ public class PropertyEditor extends GridRow {
         label.setStyle( DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD );
         addGridItem( label );
 
-        addGridItem( createSlider( property, minimum, maximum, unit, dataTipClamp, bounds ) );
+        _sliderDecorator = createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
+        addGridItem( _sliderDecorator );
 
         textField.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
         textField.setStyle( "disabledColor", 0x000000 );

@@ -1,3 +1,4 @@
+Added a numerical readout under the density slider thumb
 Fixed: vector label readouts should be offset to the sides
 Added radio buttons for "My Block" and "Materials"
 Removed "My Block" from combo box
