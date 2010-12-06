@@ -216,7 +216,12 @@ public class DensityModel {
         for each( densityObject in densityObjects ) {
             densityObject.onFrameStep( DT_PER_FRAME );
         }
+        for each ( var listener: Function in frameListeners ) {
+            listener();
+        }
     }
+
+    public static const frameListeners: Array = new Array();
 
     private function getCuboids(): Array {
         var cuboids: Array = new Array();
