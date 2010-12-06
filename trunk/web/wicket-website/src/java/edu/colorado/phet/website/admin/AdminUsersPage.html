@@ -24,9 +24,19 @@
         <h2>Edit another user profile</h2>
 
         <form wicket:id="email-form">
-            Email:
+            User's email:
             <input wicket:id="email" type="text" value="" size="40"/>
             <input type="submit" name="submit" value="Edit user"/>
+        </form>
+
+        <h2>Deactivate a user's account</h2>
+
+        <p>Note: clicking deactivate user will instantly deactivate them. No confirmation will be given</p>
+
+        <form wicket:id="deactivate-form">
+            User's email:
+            <input wicket:id="email" type="text" value="" size="40"/>
+            <input type="submit" name="submit" value="Deactivate user"/>
         </form>
     </div>
 </wicket:extend>

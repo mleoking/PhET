@@ -15,8 +15,10 @@ import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.website.data.PhetUser;
+import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.hibernate.HibernateTask;
 import edu.colorado.phet.website.util.hibernate.HibernateUtils;
+import edu.colorado.phet.website.util.hibernate.VoidTask;
 
 public class AdminUsersPage extends AdminPage {
 
@@ -48,6 +50,8 @@ public class AdminUsersPage extends AdminPage {
 
         add( new EmailForm( "email-form" ) );
 
+        add( new DeactivateForm( "deactivate-form" ) );
+
     }
 
     private static class EmailForm extends Form {
@@ -66,6 +70,31 @@ public class AdminUsersPage extends AdminPage {
             PageParameters params = new PageParameters();
             params.add( AdminEditProfilePage.USER_EMAIL, emailField.getModelObject().toString() );
             setResponsePage( AdminEditProfilePage.class, params );
+        }
+    }
+
+    private static class DeactivateForm extends Form {
+
+        private TextField emailField;
+
+        public DeactivateForm( String id ) {
+            super( id );
+
+            emailField = new TextField( "email", new Model( "" ) );
+            add( emailField );
+        }
+
+        @Override
+        protected void onSubmit() {
+            final String emailAddress = emailField.getModelObject().toString();
+            HibernateUtils.wrapTransaction( PhetRequestCycle.get().getHibernateSession(), new VoidTask() {
+                public Void run( Session session ) {
+                    PhetUser user = (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", emailAddress ).uniqueResult();
+                    user.setConfirmed( false );
+                    session.update( user );
+                    return null;
+                }
+            } );
         }
     }
 }
