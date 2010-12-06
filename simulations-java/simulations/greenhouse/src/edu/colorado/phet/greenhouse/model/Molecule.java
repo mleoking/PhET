@@ -92,7 +92,7 @@ public abstract class Molecule {
     // TODO: This is temp for prototyping.
     protected boolean rotateClockwise = false;
 
-    private final PhotonAbsorptionReactionStrategy strategy = new VibrationStrategy( this );
+    private final PhotonAbsorptionStrategy strategy = new VibrationStrategy( this );
 
     // Tracks if molecule is higher energy than its ground state.
     private boolean highElectronicEnergyState = false;
@@ -277,7 +277,7 @@ public abstract class Molecule {
      *
      * @param deltaRadians
      */
-    protected void advanceOscilation( double deltaRadians ){
+    public void advanceOscilation( double deltaRadians ){
         currentOscillationRadians += deltaRadians;
         setOscillation( currentOscillationRadians );
     }
@@ -333,6 +333,7 @@ public abstract class Molecule {
      * @return
      */
     public boolean queryAbsorbPhoton( Photon photon ){
+
         boolean absorbPhoton = false;
         if (!isPhotonAbsorbed() &&
             getAbsorbtionHysteresisCountdownTime() <= 0 &&
@@ -489,25 +490,106 @@ public abstract class Molecule {
         public void electronicEnergyStateChanged( Molecule molecule ) {}
     }
 
-    // This strategy determines what happens to the molecule if and when it absorbs a photon
-    public static class PhotonAbsorptionReactionStrategy {
-        Molecule molecule;
+    /**
+     * This is the base class for the strategies that define how a molecule
+     * reacts to a given photon.  It is responsible for the following:
+     * - Whether a given photon should be absorbed.
+     * - How the molecule reacts to the absorption of a photon, i.e. whether
+     *   is oscillates, rotates, breaks apart, etc.
+     * - Maintenance of any counters or timers associated with the reaction to
+     *   the absorption.
+     */
+    public abstract static class PhotonAbsorptionStrategy {
 
-        public PhotonAbsorptionReactionStrategy( Molecule molecule ) {
+        private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
+
+        private static final double MIN_PHOTON_HOLD_TIME = 600; // Milliseconds of sim time.
+        private static final double MAX_PHOTON_HOLD_TIME = 1200; // Milliseconds of sim time.
+
+        private static final Random RAND = new Random();
+
+        private final Molecule molecule;
+        private Photon lastPhoton;
+
+        // Variables involved in the holding and re-emitting of photons.
+        private Photon absorbedPhoton;
+        private boolean isPhotonAbsorbed = false;
+        private double photonHoldCountdownTime = 0;
+        private double absorbtionHysteresisCountdownTime = 0;
+
+        /**
+         * Constructor.
+         */
+        public PhotonAbsorptionStrategy( Molecule molecule ) {
             this.molecule = molecule;
         }
 
-        public void stepInTime( double dt ) {
+        protected Molecule getMolecule(){
+            return molecule;
         }
 
-        public void reset() {
+        /**
+         * Step the strategy forward in time by the given time.
+         *
+         * @param dt
+         */
+        public abstract void stepInTime( double dt );
+
+        /**
+         * Reset the strategy.  In most cases, this will need to be overridden in the descendant classes, but those
+         * overrides should also call this one.
+         */
+        public void reset(){
+            absorbedPhoton = null;
+            isPhotonAbsorbed = false;
+            photonHoldCountdownTime = 0;
+            absorbtionHysteresisCountdownTime = 0;
+        }
+
+        /**
+         * Decide whether the provided photon should be absorbed.  By design,
+         * a given photon should only be requested once, not multiple times.
+         * @param photon
+         * @return
+         */
+        public boolean quearyAbsorbPhoton( Photon photon ) {
+
+            // Debug/test code.
+            if ( lastPhoton != null ) {
+                System.err.println( getClass().getName() + " - Error: Multiple requests to absorb the same photon." );
+                assert ( lastPhoton != photon );
+            }
+
+            boolean absorbPhoton = false;
+            if ( !isPhotonAbsorbed && photonHoldCountdownTime <= 0 ) {
+                // All circumstances are correct for photon absorption, so now
+                // we decide probabalistically whether or not to actually do
+                // it.  This essentially simulates the quantum nature of the
+                // absorption.
+
+                if ( RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability() ) {
+                    absorbPhoton = true;
+                    isPhotonAbsorbed = true;
+                    photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
+                }
+                else {
+                    // Do NOT absorb it.
+                    absorbPhoton = false;
+                }
+            }
+            else {
+                absorbPhoton = false;
+            }
+
+            return absorbPhoton;
+        }
+
+        protected boolean isPhotonAbsorbed() {
+            return isPhotonAbsorbed;
         }
     }
 
-    public static class VibrationStrategy extends PhotonAbsorptionReactionStrategy {
-        // Variable that tracks where in the oscillation sequence this molecule
-        // is.  The oscillation sequence is periodic over 0 to 2*pi.
-        private double oscillationRadians = 0;
+    public static class VibrationStrategy extends PhotonAbsorptionStrategy {
 
         public VibrationStrategy( Molecule molecule ) {
             super( molecule );
@@ -515,24 +597,11 @@ public abstract class Molecule {
 
         @Override
         public void stepInTime( double dt ) {
-            super.stepInTime( dt );
-            oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
-            if ( oscillationRadians >= 2 * Math.PI ) {
-                oscillationRadians -= 2 * Math.PI;
-            }
-            // Update the offset of the atoms based on the current oscillation
-            // index.
-            molecule.setOscillation( oscillationRadians );
-        }
-
-        @Override
-        public void reset() {
-            super.reset();
-            oscillationRadians = 0;
+            getMolecule().advanceOscilation( dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI );
         }
     }
 
-    public static class RotationStrategy extends PhotonAbsorptionReactionStrategy {
+    public static class RotationStrategy extends PhotonAbsorptionStrategy {
         // Variable that tracks where in the oscillation sequence this molecule
         // is.  The oscillation sequence is periodic over 0 to 2*pi.
         private double oscillationRadians = 0;
@@ -543,26 +612,27 @@ public abstract class Molecule {
 
         @Override
         public void stepInTime( double dt ) {
-            super.stepInTime( dt );
             oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
             if ( oscillationRadians >= 2 * Math.PI ) {
                 oscillationRadians -= 2 * Math.PI;
             }
             // Update the offset of the atoms based on the current oscillation
             // index.
-            molecule.setOscillation( oscillationRadians );
-        }
-
-        @Override
-        public void reset() {
-            super.reset();
-            oscillationRadians = 0;
+            getMolecule().setOscillation( oscillationRadians );
         }
     }
 
-    public static class NullStrategy extends PhotonAbsorptionReactionStrategy {
-        public NullStrategy( Molecule molecule ) {
+    public static class NullPhotonStrategy extends PhotonAbsorptionStrategy {
+        /**
+         * Constructor.
+         */
+        public NullPhotonStrategy( Molecule molecule ) {
             super( molecule );
+        }
+
+        @Override
+        public void stepInTime( double dt ) {
+            // Does nothing.
         }
     }
 }
