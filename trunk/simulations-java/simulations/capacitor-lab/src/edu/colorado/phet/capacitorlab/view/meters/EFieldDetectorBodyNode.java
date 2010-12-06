@@ -467,7 +467,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
                 // dielectric vector fills in space above or below sum vector
                 x = sumVectorNode.getXOffset();
-                if ( dielectricVectorNode.getVector().getY() > 0 ) {
+                if ( sumVectorNode.getVector().getY() < 0 ) {
                     y = sumVectorNode.getFullBoundsReference().getMinY() - dielectricVectorNode.getFullBoundsReference().getHeight(); // above
                 }
                 else {
@@ -482,7 +482,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
                 // plate label
                 x = plateVectorNode.getFullBoundsReference().getCenterX();
-                if ( plateVectorNode.getVector().getY() > 0 ) {
+                if ( plateVectorNode.getVector().getY() >= 0 ) {
                     y = plateVectorNode.getFullBoundsReference().getMinY() - plateValueNode.getFullBoundsReference().getHeight() - ySpacing;
                 }
                 else {
@@ -492,7 +492,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
                 // sum label
                 x = sumVectorNode.getFullBoundsReference().getCenterX();
-                if ( sumVectorNode.getVector().getY() > 0 ) {
+                if ( sumVectorNode.getVector().getY() >= 0 ) {
                     y = sumVectorNode.getFullBoundsReference().getMinY() - sumValueNode.getFullBoundsReference().getHeight() - ySpacing;
                 }
                 else {
@@ -502,10 +502,12 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
                 // dielectric label
                 x = dielectricVectorNode.getFullBoundsReference().getCenterX();
-                if ( dielectricVectorNode.getVector().getY() >= 0 ) { /* >= 0 so that zero Dielectric and Sum values won't overlap */
+                if ( dielectricVectorNode.getVector().getY() > 0 || ( dielectricVectorNode.getVector().getY() == 0 && sumVectorNode.getVector().getY() < 0 ) ) {
+                    // above vector
                     y = dielectricVectorNode.getFullBoundsReference().getMinY() - dielectricValueNode.getFullBoundsReference().getHeight() - ySpacing;
                 }
                 else {
+                    // below vector
                     y = dielectricVectorNode.getFullBoundsReference().getMaxY() + ySpacing;
                 }
                 dielectricValueNode.setOffset( x, y );
@@ -536,7 +538,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         private final PText labelNode, valueNode;
 
         public FieldValueNode( String label, Color backgroundColor ) {
-
+            
             labelNode = new PText( label );
             labelNode.setPaint( backgroundColor );
             labelNode.setTextPaint( VALUE_COLOR );

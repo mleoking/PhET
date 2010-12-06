@@ -14,9 +14,7 @@ DESIGN ISSUES
 - expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
-- bug: put E-Field probe in dielectric, reduce constant to 1, dielectric label overlaps sum
-- try color coding vector labels with black drop shadow
-- if E-field vector is zero, increase vertical space to make label association obvious
+- reduce height of E-Field shape by 1 pixel on top and bottom
 - change: make circuit be in a vacuum instead of air (see dielectric constant of air = 1.0)
 - publish 1.00
 
