@@ -51,7 +51,7 @@ public class DensitySliderDataTip extends Sprite {
     }
 
     public function setDensity( density: Number, units: Unit ): void {
-        textField.text = FlexSimStrings.get( "properties.volumeLiterValue", "{0} kg/L", [String( DensityConstants.format( units.fromSI( density ) ) )] );
+        textField.text = FlexSimStrings.get( "properties.densityValue", "{0} kg/L", [String( DensityConstants.format( units.fromSI( density ) ) )] );
         update();
     }
 }
