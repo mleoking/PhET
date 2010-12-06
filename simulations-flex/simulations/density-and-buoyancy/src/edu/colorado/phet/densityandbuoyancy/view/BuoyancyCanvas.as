@@ -120,10 +120,11 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         if ( !(densityObjectNode is ScaleNode) ) {
 
             var densityObject: DensityObject = densityObjectNode.getDensityObject();
-            const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getGravityForceArrowModel(), densityObject, 15 ), 45 );
-            const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, -15 ), 45 );
-            const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getContactForceArrowModel(), densityObject, 30 ), -45 );
-            const dragForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getDragForceArrowModel(), DensityConstants.FLUID_DRAG_COLOR, fluidDragArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getDragForceArrowModel(), densityObject, 0 ), -45 );
+            var offset: Number = 4;
+            const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getGravityForceArrowModel(), densityObject, 0 ), 45 );
+            const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, 0 ), 45 );
+            const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getContactForceArrowModel(), densityObject, offset ), -45 );
+            const dragForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getDragForceArrowModel(), DensityConstants.FLUID_DRAG_COLOR, fluidDragArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getDragForceArrowModel(), densityObject, -offset ), -45 );
 
             const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
             for each ( var arrowNode: ArrowNode in arrowList ) {
