@@ -120,7 +120,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         if ( !(densityObjectNode is ScaleNode) ) {
 
             var densityObject: DensityObject = densityObjectNode.getDensityObject();
-            var offset: Number = 4;
+            var offset: Number = 8;
             const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getGravityForceArrowModel(), densityObject, 0 ), 45 );
             const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, 0 ), 45 );
             const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible, createOffset( densityObject.getContactForceArrowModel(), densityObject, offset ), -45 );
@@ -136,31 +136,35 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private function createOffset( arrowModel: ArrowModel, densityObject: DensityObject, dx: Number ): NumericProperty {
         var offsetX: NumericProperty = new NumericProperty( "offsetX", "pixels", dx );
 
-//        function sameSign(y1:Number,y2:Number):Boolean{
-//            return y1*y2>10;//TODO: document me
-//        }
-//        //Check to see if the arrowModel in question has the same sign as any other arrowModel
-//        function sameSignAsAny():Boolean{
-//            for each ( var vector: ArrowModel in densityObject.forceVectors ) {
-//                if (vector != arrowModel){
-//                    if (sameSign(vector.y,arrowModel.y)) return true;
-//                }
-//            }
-//            return false;
-//        }
-//        function update(): void {
-//            if (sameSignAsAny()){
-//                offsetX.value = dx;
-//            }
-//            else{
-//                offsetX.value = 0;
-//            }
-//        }
-//
-//        densityObject.getGravityForceArrowModel().addListener( update );
-//        densityObject.getBuoyancyForceArrowModel().addListener( update );
-//        densityObject.getContactForceArrowModel().addListener( update );
-//        densityObject.getDragForceArrowModel().addListener( update );
+        function tooMuchOverlap( y1: Number, y2: Number ): Boolean {
+            return y1 * y2 > 100;
+        }
+
+        //Check to see if the arrowModel in question has the same sign as any other arrowModel
+        function isTooMuchOverlap(): Boolean {
+            for each ( var vector: ArrowModel in densityObject.forceVectors ) {
+                if ( vector != arrowModel ) {
+                    if ( tooMuchOverlap( vector.y, arrowModel.y ) ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function update(): void {
+            if ( isTooMuchOverlap() ) {
+                offsetX.value = dx;
+            }
+            else {
+                offsetX.value = 0;
+            }
+        }
+
+        densityObject.getGravityForceArrowModel().addListener( update );
+        densityObject.getBuoyancyForceArrowModel().addListener( update );
+        densityObject.getContactForceArrowModel().addListener( update );
+        densityObject.getDragForceArrowModel().addListener( update );
         return offsetX;
     }
 
