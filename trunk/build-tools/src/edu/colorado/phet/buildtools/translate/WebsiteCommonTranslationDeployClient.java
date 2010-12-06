@@ -131,13 +131,13 @@ public class WebsiteCommonTranslationDeployClient {
 
         File[] simDirs = ResourceDeployUtils.getFlashSimulationDirs( trunk );
 
-        for ( int i = 0; i < simDirs.length; i++ ) {
-            File simDir = simDirs[i];
-
-            FlashSimulationProject project = new FlashSimulationProject( simDir );
+        for ( File simDir : simDirs ) {
+            FlashSimulationProject project = FlashSimulationProject.getProject( simDir );
 
             if ( project.hasLocale( translation.getLocale() ) ) {
-                buildAndSendFlashHTML( simDir.getName(), translation.getLocale(), project );
+                for ( String simName : project.getSimulationNames() ) {
+                    buildAndSendFlashHTML( simName, translation.getLocale(), project );
+                }
             }
         }
     }
