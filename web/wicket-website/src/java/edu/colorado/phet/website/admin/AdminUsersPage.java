@@ -48,53 +48,58 @@ public class AdminUsersPage extends AdminPage {
             }
         } );
 
-        add( new EmailForm( "email-form" ) );
+        add( new UserEmailForm( "edit-user-profile-form" ) {
+            @Override
+            protected void onSubmit() {
+                PageParameters params = new PageParameters();
+                params.add( AdminEditProfilePage.USER_EMAIL, getEmailAddress() );
+                setResponsePage( AdminEditProfilePage.class, params );
+            }
+        } );
 
-        add( new DeactivateForm( "deactivate-form" ) );
+        add( new UserEmailForm( "deactivate-form" ) {
+            @Override
+            protected void onSubmit() {
+                HibernateUtils.wrapTransaction( PhetRequestCycle.get().getHibernateSession(), new VoidTask() {
+                    public Void run( Session session ) {
+                        PhetUser user = (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" )
+                                .setString( "email", getEmailAddress() ).uniqueResult();
+                        user.setConfirmed( false );
+                        session.update( user );
+                        return null;
+                    }
+                } );
+            }
+        } );
+
+        add( new UserEmailForm( "delete-form" ) {
+            @Override
+            protected void onSubmit() {
+                HibernateUtils.wrapTransaction( PhetRequestCycle.get().getHibernateSession(), new VoidTask() {
+                    public Void run( Session session ) {
+                        PhetUser user = (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" )
+                                .setString( "email", getEmailAddress() ).uniqueResult();
+                        session.delete( user );
+                        return null;
+                    }
+                } );
+            }
+        } );
 
     }
 
-    private static class EmailForm extends Form {
+    private abstract static class UserEmailForm extends Form {
+        private TextField<String> emailField;
 
-        private TextField emailField;
-
-        public EmailForm( String id ) {
+        public UserEmailForm( String id ) {
             super( id );
 
-            emailField = new TextField( "email", new Model( "" ) );
+            emailField = new TextField<String>( "email", new Model<String>( "" ) );
             add( emailField );
         }
 
-        @Override
-        protected void onSubmit() {
-            PageParameters params = new PageParameters();
-            params.add( AdminEditProfilePage.USER_EMAIL, emailField.getModelObject().toString() );
-            setResponsePage( AdminEditProfilePage.class, params );
-        }
-    }
-
-    private static class DeactivateForm extends Form {
-
-        private TextField emailField;
-
-        public DeactivateForm( String id ) {
-            super( id );
-
-            emailField = new TextField( "email", new Model( "" ) );
-            add( emailField );
-        }
-
-        @Override
-        protected void onSubmit() {
-            final String emailAddress = emailField.getModelObject().toString();
-            HibernateUtils.wrapTransaction( PhetRequestCycle.get().getHibernateSession(), new VoidTask() {
-                public Void run( Session session ) {
-                    PhetUser user = (PhetUser) session.createQuery( "select u from PhetUser as u where u.email = :email" ).setString( "email", emailAddress ).uniqueResult();
-                    user.setConfirmed( false );
-                    session.update( user );
-                    return null;
-                }
-            } );
+        public String getEmailAddress() {
+            return emailField.getModelObject();
         }
     }
 }

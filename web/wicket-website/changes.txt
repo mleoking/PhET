@@ -1,3 +1,4 @@
+Added admin option to delete user accounts.
 Fixed Twitter link in Welcome emails.
 Added boldness on text for subscription and registration.
 Properly handle emails for users who are already registered but then "subscribe".

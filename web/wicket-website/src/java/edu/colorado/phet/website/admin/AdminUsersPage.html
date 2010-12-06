@@ -23,7 +23,7 @@
         </ul>
         <h2>Edit another user profile</h2>
 
-        <form wicket:id="email-form">
+        <form wicket:id="edit-user-profile-form">
             User's email:
             <input wicket:id="email" type="text" value="" size="40"/>
             <input type="submit" name="submit" value="Edit user"/>
@@ -31,12 +31,27 @@
 
         <h2>Deactivate a user's account</h2>
 
-        <p>Note: clicking deactivate user will instantly deactivate them. No confirmation will be given</p>
+        <p>Note: Clicking deactivate user will instantly deactivate them. No confirmation will be given</p>
 
         <form wicket:id="deactivate-form">
             User's email:
             <input wicket:id="email" type="text" value="" size="40"/>
             <input type="submit" name="submit" value="Deactivate user"/>
+        </form>
+
+        <h2>Delete a user's account</h2>
+
+        <p>Note: Clicking delete user will instantly delete them. No confirmation will be given</p>
+
+        <p>
+            Note: <strong>If the user is related to any other piece of data (translations, activities, etc.), this will
+            fail and display an error</strong>. Talk to the website administrator to fix this in the database.
+        </p>
+
+        <form wicket:id="delete-form">
+            User's email:
+            <input wicket:id="email" type="text" value="" size="40"/>
+            <input type="submit" name="submit" value="Delete user"/>
         </form>
     </div>
 </wicket:extend>
