@@ -74,6 +74,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     
     private static final Font VALUE_FONT = new PhetFont( 14 );
     private static final NumberFormat VALUE_FORMAT = new DecimalFormat( "0" );
+    private static final Color VALUE_COLOR = Color.BLACK;
     
     private static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color CONTROL_COLOR = Color.WHITE;
@@ -336,9 +337,9 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             sumVectorNode = new FieldVectorNode( CLPaints.SUM_EFIELD_VECTOR );
 
             // values
-            plateValueNode = new FieldValueNode( CLStrings.PLATE );
-            dielectricValueNode = new FieldValueNode( CLStrings.DIELECTRIC );
-            sumValueNode = new FieldValueNode( CLStrings.SUM );
+            plateValueNode = new FieldValueNode( CLStrings.PLATE, CLPaints.PLATE_EFIELD_VECTOR );
+            dielectricValueNode = new FieldValueNode( CLStrings.DIELECTRIC, CLPaints.DIELECTRIC_EFIELD_VECTOR );
+            sumValueNode = new FieldValueNode( CLStrings.SUM, CLPaints.SUM_EFIELD_VECTOR );
 
             // rendering order
             addChild( plateVectorNode );
@@ -534,13 +535,17 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
         private final PText labelNode, valueNode;
 
-        public FieldValueNode( String label ) {
+        public FieldValueNode( String label, Color backgroundColor ) {
 
             labelNode = new PText( label );
+            labelNode.setPaint( backgroundColor );
+            labelNode.setTextPaint( VALUE_COLOR );
             labelNode.setFont( VALUE_FONT );
             addChild( labelNode );
 
             valueNode = new PText();
+            valueNode.setPaint( backgroundColor );
+            valueNode.setTextPaint( VALUE_COLOR );
             valueNode.setFont( VALUE_FONT );
             addChild( valueNode );
 
@@ -569,7 +574,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             double y = 0;
             labelNode.setOffset( x, y );
             x = -valueNode.getFullBoundsReference().getWidth() / 2;
-            y = labelNode.getFullBoundsReference().getMaxY() + 1;
+            y = labelNode.getFullBoundsReference().getMaxY() - 1;
             valueNode.setOffset( x, y );
         }
     }
