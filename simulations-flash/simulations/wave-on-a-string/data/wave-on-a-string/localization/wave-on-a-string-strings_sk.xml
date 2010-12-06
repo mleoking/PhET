@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_sk.xml created Thu Dec 02 01:17:47 CET 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.09.00 (44031) sep 14, 2010-->
 <SimStrings>
 <string key="manual" value="manuálne"/>
 <string key="resetTimer" value="nulovať"/>
 <string key="damping" value="tlmenie"/>
+<string key="simTitle" value="Vlnenie v rade bodov"/>
 <string key="showHelp" value="Zobraz pomoc"/>
 <string key="pulse" value="impulz"/>
 <string key="amplitude" value="amplitúda"/>
