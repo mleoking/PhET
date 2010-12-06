@@ -14,10 +14,10 @@ public class ConfirmEmailLandingPanel extends PhetPanel {
 
     public static final int REDIRECTION_DELAY_SECONDS = 5;
 
-    public ConfirmEmailLandingPanel( String id, PageContext context, PhetUser user, String destination ) {
+    public ConfirmEmailLandingPanel( String id, PageContext context, PhetUser user, String destination, boolean wasPreviouslyConfirmed ) {
         super( id, context );
 
-        if ( user.isNewsletterOnlyAccount() ) {
+        if ( user.isNewsletterOnlyAccount() || wasPreviouslyConfirmed ) {
             add( new LocalizedText( "now-subscribed", "newsletter.nowSubscribed" ) );
             add( new InvisibleComponent( "redirector" ) );
             add( new InvisibleComponent( "now-registered" ) );
