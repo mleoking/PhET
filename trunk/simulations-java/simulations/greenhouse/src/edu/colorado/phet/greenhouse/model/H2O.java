@@ -92,7 +92,7 @@ public class H2O extends Molecule {
     }
 
     @Override
-    protected void updateOscillationFormation( double oscillationRadians ) {
+    protected void setOscillation( double oscillationRadians ) {
         // TODO: This is temporary until we work out what the real oscillation
         // should look like.
         if ( photonToEmit != null && photonToEmit.getWavelength() == GreenhouseConfig.irWavelength ) {
