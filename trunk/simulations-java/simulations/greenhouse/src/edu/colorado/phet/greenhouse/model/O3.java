@@ -111,16 +111,14 @@ public class O3 extends Molecule {
 
     @Override
     protected void setOscillation( double oscillationRadians ) {
-        // TODO: This is temporary until we work out what the real oscillation
-        // should look like.
         double multFactor = Math.sin( oscillationRadians );
-        double maxHydrogenDisplacement = 20;
-        double maxOxygenDisplacement = 5;
-        atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
-        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        double maxCenterOxygenDisplacement = 5;
+        double maxOuterOxygenDisplacement = 20;
+        atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxCenterOxygenDisplacement ) );
+        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOuterOxygenDisplacement,
+                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
+        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOuterOxygenDisplacement,
+                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
     }
 
     @Override
