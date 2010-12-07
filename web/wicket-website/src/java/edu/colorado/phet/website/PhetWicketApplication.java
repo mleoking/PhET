@@ -242,7 +242,7 @@ public class PhetWicketApplication extends WebApplication {
         setInstallerTimestampFromFile();
 
         // if there are new strings that should be added, add them
-        NewStrings.checkNewStrings();
+        StringChanges.checkNewStrings();
 
     }
 
