@@ -41,29 +41,29 @@ public class ShapeUtils {
     }
     
     /**
-     * Adds a variable number of shapes to a primary shape.
-     * @param primaryShape
+     * Adds a variable number of Shapes.
+     * @param shape
      * @param shapes
      * @return
      */
-    public static final Shape add( Shape primaryShape, Shape... shapes ) {
-        Area area = new Area( primaryShape );
-        for ( Shape shape : shapes ) {
-            area.add( new Area( shape ) );
+    public static final Shape add( Shape shape, Shape... shapes ) {
+        Area area = new Area( shape );
+        for ( Shape s : shapes ) {
+            area.add( new Area( s ) );
         }
         return area;
     }
     
     /**
-     * Subtracts a variable number of shapes from a primary shape.
-     * @param primaryShape
+     * Subtracts a variable number of Shapes, in the order of the args.
+     * @param shape
      * @param shapes
      * @return
      */
-    public static final Shape subtract( Shape primaryShape, Shape... shapes ) {
-        Area area = new Area( primaryShape );
-        for ( Shape shape : shapes ) {
-            area.subtract( new Area( shape ) );
+    public static final Shape subtract( Shape shape, Shape... shapes ) {
+        Area area = new Area( shape );
+        for ( Shape s : shapes ) {
+            area.subtract( new Area( s ) );
         }
         return area;
     }
