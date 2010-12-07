@@ -13,7 +13,7 @@ public class ResonanceCanvas extends Canvas {
     }
 
     public function init(): void {
-        addChild( new Resonance() );
+        addChild( new Resonance( stage.stageWidth, stage.stageHeight ) );
     }
 }
 }
