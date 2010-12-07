@@ -1,1 +1,3 @@
+Fixed: use stage dimensions on startup
+Converted to flex
 Created project
