@@ -69,7 +69,8 @@ public class SliderDecorator extends UIComponent {
                 slider.alpha = 1.0;
             }
             else {
-//                slider.alpha = 0.38;
+                slider.setStyle( "trackSkin", MyTrackSkin );
+//                slider.alpha = 0.3;
 //                slider.setStyle("trackColors",[ 0xFF0000, 0xFF0000]);
 //                trackColors="[ 0xEEEEEE, 0xFFFFFF ]"
             }
