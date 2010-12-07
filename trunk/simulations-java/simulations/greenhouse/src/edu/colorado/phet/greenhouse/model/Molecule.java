@@ -118,8 +118,8 @@ public abstract class Molecule {
     // Methods
     //------------------------------------------------------------------------
 
-    protected void setPhotonAbsorptionStrategy( double wavelength, PhotonAbsorptionStrategy stratgy ){
-        mapWavelengthToAbsorptionStrategy.put( wavelength, activeStrategy );
+    protected void setPhotonAbsorptionStrategy( double wavelength, PhotonAbsorptionStrategy strategy ){
+        mapWavelengthToAbsorptionStrategy.put( wavelength, strategy );
     }
 
     protected boolean isPhotonAbsorbed() {
@@ -374,8 +374,9 @@ public abstract class Molecule {
 
         if ( !isPhotonAbsorbed() &&
              absorbtionHysteresisCountdownTime <= 0 &&
-             photon.getLocation().distance( getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
-             !isPhotonMarkedForPassThrough( photon ) ) {
+             photon.getLocation().distance( getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE
+             &&!isPhotonMarkedForPassThrough( photon )
+                ) {
 
             // The circumstances for absorption are correct, but do we have an
             // absorption strategy for this photon's wavelength?
@@ -383,17 +384,15 @@ public abstract class Molecule {
             if ( candidateAbsorptionStrategy != null ){
                 // Yes, there is a strategy available for this wavelength.
                 // Ask it if it wants the photon.
-                if ( candidateAbsorptionStrategy.quearyAbsorbPhoton( photon ) ){
+                if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ){
                     // It does want it, so consider the photon absorbed.
                     absorbPhoton = true;
                     activeStrategy = candidateAbsorptionStrategy;
+                    activeStrategy.queryAndAbsorbPhoton( photon );
+                }else{
+                    markPhotonForPassThrough( photon );//we have the decision logic once for whether a photon should be absorbed, so it is not queried a second time
                 }
             }
-        }
-
-        if ( !absorbPhoton ){
-            // Add this unabsorbed photon to the list of photons to ignore.
-            passThroughPhotonList.add( photon );
         }
 
         return absorbPhoton;
