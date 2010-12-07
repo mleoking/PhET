@@ -241,10 +241,7 @@ public class PhotonAbsorptionModel {
         ArrayList<Photon> photonsToRemove = new ArrayList<Photon>();
         for (Photon photon : photons){
             photon.stepInTime( dt );
-            if ( photon.getLocation().getX() - PHOTON_EMISSION_LOCATION.getX() > MAX_PHOTON_DISTANCE ){
-                photonsToRemove.add( photon );
-            }
-            else{
+            if ( photon.getLocation().getX() - PHOTON_EMISSION_LOCATION.getX() <= MAX_PHOTON_DISTANCE ){
                 // See if any of the molecules wish to absorb this photon.
                 for (Molecule molecule : activeMolecules){
                     if (molecule.queryAbsorbPhoton( photon )){
@@ -252,9 +249,12 @@ public class PhotonAbsorptionModel {
                     }
                 }
             }
+            else{
+                // The photon has moved beyond our simulation bounds, so remove it from the model.
+                photonsToRemove.add( photon );
+            }
         }
-        // Remove any photons that have finished traveling as far as they
-        // will go.
+        // Remove any photons that were marked for removal.
         for (Photon photon : photonsToRemove){
             photons.remove( photon );
             notifyPhotonRemoved( photon );
