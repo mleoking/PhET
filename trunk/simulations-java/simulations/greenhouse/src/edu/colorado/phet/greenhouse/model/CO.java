@@ -20,7 +20,7 @@ public class CO extends Molecule {
     // ------------------------------------------------------------------------
 
     private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
-    private static final double OSCILLATION_MAGNITUDE = 20; // In picometers.
+    private static final double VIBRATION_MAGNITUDE = 20; // In picometers.
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -61,10 +61,10 @@ public class CO extends Molecule {
     // ------------------------------------------------------------------------
 
     @Override
-    protected void setVibration(double oscillationRadians){
-        double multFactor = Math.sin( oscillationRadians );
-        atomCogOffsets.put( carbonAtom, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2  + OSCILLATION_MAGNITUDE * multFactor, 0 ) );
-        atomCogOffsets.put( oxygenAtom, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 - OSCILLATION_MAGNITUDE * multFactor, 0 ) );
+    protected void setVibration(double vibrationRadians){
+        double multFactor = Math.sin( vibrationRadians );
+        atomCogOffsets.put( carbonAtom, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2  + VIBRATION_MAGNITUDE * multFactor, 0 ) );
+        atomCogOffsets.put( oxygenAtom, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 - VIBRATION_MAGNITUDE * multFactor, 0 ) );
     }
 
     @Override

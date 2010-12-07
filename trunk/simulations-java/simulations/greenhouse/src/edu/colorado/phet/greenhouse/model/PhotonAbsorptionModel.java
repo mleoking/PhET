@@ -210,7 +210,7 @@ public class PhotonAbsorptionModel {
         // Remove any photons that are currently in transit.
         removeAllPhotons();
 
-        // Reset all molecules, which will stop any oscillations.
+        // Reset all molecules, which will stop any vibrations.
         for (Molecule molecule : activeMolecules){
             molecule.reset();
         }

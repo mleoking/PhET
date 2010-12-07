@@ -21,7 +21,7 @@ public class CO2 extends Molecule {
 
     private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
 
-    // Deflection amounts used for the oscillation of the CO2 atoms.  These
+    // Deflection amounts used for the vibration of the CO2 atoms.  These
     // are calculated such that the actual center of gravity should remain
     // constant.
     private static final double CARBON_MAX_DEFLECTION = 40;
@@ -71,8 +71,8 @@ public class CO2 extends Molecule {
 
 
     @Override
-    protected void setVibration(double oscillationRadians){
-        double multFactor = Math.sin( oscillationRadians );
+    protected void setVibration(double vibrationRadians){
+        double multFactor = Math.sin( vibrationRadians );
         atomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
         atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
         atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));

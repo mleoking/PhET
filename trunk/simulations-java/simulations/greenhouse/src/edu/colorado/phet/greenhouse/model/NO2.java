@@ -108,8 +108,8 @@ public class NO2 extends Molecule {
     }
 
     @Override
-    protected void setVibration( double oscillationRadians ) {
-        double multFactor = Math.sin( oscillationRadians );
+    protected void setVibration( double vibrationRadians ) {
+        double multFactor = Math.sin( vibrationRadians );
         double maxNitrogenDisplacement = 5;
         double maxOxygenDisplacement = 20;
         atomCogOffsets.put( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET - multFactor * maxNitrogenDisplacement ) );
