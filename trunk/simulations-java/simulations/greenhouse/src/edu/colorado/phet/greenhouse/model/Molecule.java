@@ -32,6 +32,7 @@ public abstract class Molecule {
     private static final Random RAND = new Random();
 
     private static final double OSCILLATION_FREQUENCY = 3;  // Cycles per second of sim time.
+    private static final double ROTATION_RATE = 3;  // Revolutions per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
 
     private static final double MIN_PHOTON_HOLD_TIME = 600; // Milliseconds of sim time.
@@ -100,16 +101,14 @@ public abstract class Molecule {
     // behavior, but works for the current purposes of this sim.
     private final ArrayList<Double> photonAbsorptionWavelengths = new ArrayList<Double>(2);
 
-    // TODO: This is temp for prototyping.
-    protected boolean rotateClockwise = false;
-
     // Tracks if molecule is higher energy than its ground state.
     private boolean highElectronicEnergyState = false;
 
     // Boolean values that track whether the molecule is oscillating or
     // rotating.
-    private boolean oscillating = false;
+    private boolean oscillating = true;
     private boolean rotating = false;
+    private boolean rotationDirectionClockwise = true; // Controls the direction of rotation.
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -184,7 +183,16 @@ public abstract class Molecule {
             absorbtionHysteresisCountdownTime -= dt;
         }
 
-        // Do any movement that is required.
+        if ( oscillating ){
+            advanceOscilation( dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI );
+        }
+
+        if ( rotating ){
+            int directionMultiplier = rotationDirectionClockwise ? -1 : 1;
+            rotate( dt * ROTATION_RATE / 1000 * 2 * Math.PI * directionMultiplier );
+        }
+
+        // Do any linear movement that is required.
         setCenterOfGravityPos( velocity.getDestination( centerOfGravity ) );
         setCenterOfGravityPos( centerOfGravity.getX() + velocity.getX() * dt, centerOfGravity.getY() + velocity.getY() * dt);
     }
@@ -218,6 +226,14 @@ public abstract class Molecule {
 
     public void setRotating( boolean rotating ) {
         this.rotating = rotating;
+    }
+
+    protected boolean isRotationDirectionClockwise() {
+        return rotationDirectionClockwise;
+    }
+
+    protected void setRotationDirectionClockwise( boolean rotationDirectionClockwise ) {
+        this.rotationDirectionClockwise = rotationDirectionClockwise;
     }
 
     public double getAbsorbtionHysteresisCountdownTime() {
@@ -279,7 +295,7 @@ public abstract class Molecule {
     }
 
     /**
-     * Set the point, in terms of radians from 0 to 2*PI, where this molecule
+     * Set the angle, in terms of radians from 0 to 2*PI, where this molecule
      * is in its oscillation sequence.
      */
     protected void setOscillation( double oscillationRadians ) {
@@ -295,6 +311,18 @@ public abstract class Molecule {
     public void advanceOscilation( double deltaRadians ){
         currentOscillationRadians += deltaRadians;
         setOscillation( currentOscillationRadians );
+    }
+
+    /**
+     * Rotate the molecule about the center of gravity by the specified number
+     * of radians.
+     *
+     * @param deltaRadians
+     */
+    public void rotate( double deltaRadians ){
+        for ( Vector2D atomOffsetVector : atomCogOffsets.values() ){
+            atomOffsetVector.rotate( deltaRadians );
+        }
     }
 
     /**
@@ -616,9 +644,6 @@ public abstract class Molecule {
     }
 
     public static class RotationStrategy extends PhotonAbsorptionStrategy {
-        // Variable that tracks where in the oscillation sequence this molecule
-        // is.  The oscillation sequence is periodic over 0 to 2*pi.
-        private double oscillationRadians = 0;
 
         public RotationStrategy( Molecule molecule ) {
             super( molecule );
@@ -626,13 +651,7 @@ public abstract class Molecule {
 
         @Override
         public void stepInTime( double dt ) {
-            oscillationRadians += dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI;
-            if ( oscillationRadians >= 2 * Math.PI ) {
-                oscillationRadians -= 2 * Math.PI;
-            }
-            // Update the offset of the atoms based on the current oscillation
-            // index.
-            getMolecule().setOscillation( oscillationRadians );
+            // TODO Auto-generated method stub
         }
     }
 
