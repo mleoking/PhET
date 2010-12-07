@@ -123,6 +123,7 @@ public class FluidPressureAndFlowModel {
         gravityProperty.reset();
         standardAirPressure.reset();
         pressureUnitProperty.reset();
+        velocityUnitProperty.reset();
         distanceUnitProperty.reset();
         liquidDensityProperty.reset();
         for ( VelocitySensor velocitySensor : velocitySensors ) {
