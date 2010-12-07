@@ -81,7 +81,7 @@ public class N2O extends Molecule {
     }
 
     @Override
-    protected void setOscillation(double oscillationRadians){
+    protected void setVibration(double oscillationRadians){
         double multFactor = Math.sin( oscillationRadians );
         atomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
         atomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
