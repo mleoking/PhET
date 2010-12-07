@@ -1,3 +1,4 @@
+Changed text on sim language pages into "Simulations not yet translated to {0}"
 Added admin option to delete user accounts.
 Fixed Twitter link in Welcome emails.
 Added boldness on text for subscription and registration.
