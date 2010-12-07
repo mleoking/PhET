@@ -29,7 +29,7 @@ public class O3 extends Molecule {
     // it so that the bond length and/or the angle could be changed and the
     // correct center of gravity will be maintained.
     private static final double OXYGEN_OXYGEN_BOND_LENGTH = 180;
-    private static final double INITIAL_MOLECULE_ANGLE = 104.5;
+    private static final double INITIAL_MOLECULE_ANGLE = 120 * Math.PI / 180;
     private static final double INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2 * OxygenAtom.MASS *
             OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE ) / ( OxygenAtom.MASS *
             2 * OxygenAtom.MASS );
@@ -114,10 +114,10 @@ public class O3 extends Molecule {
         double multFactor = Math.sin( oscillationRadians );
         double maxCenterOxygenDisplacement = 5;
         double maxOuterOxygenDisplacement = 20;
-        atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxCenterOxygenDisplacement ) );
-        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOuterOxygenDisplacement,
+        atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxCenterOxygenDisplacement ) );
+        atomCogOffsets.put( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOuterOxygenDisplacement,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
-        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOuterOxygenDisplacement,
+        atomCogOffsets.put( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOuterOxygenDisplacement,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
     }
 

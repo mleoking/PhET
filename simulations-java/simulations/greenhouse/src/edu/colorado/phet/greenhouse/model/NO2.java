@@ -107,8 +107,8 @@ public class NO2 extends Molecule {
     @Override
     protected void setOscillation( double oscillationRadians ) {
         double multFactor = Math.sin( oscillationRadians );
-        double maxOxygenDisplacement = 10;
-        double maxNitrogenDisplacement = 10;
+        double maxNitrogenDisplacement = 5;
+        double maxOxygenDisplacement = 20;
         atomCogOffsets.put( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET - multFactor * maxNitrogenDisplacement ) );
         atomCogOffsets.put( oxygenAtom1, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
                 -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
