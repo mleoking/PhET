@@ -11,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.model.Atom;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 
@@ -20,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * @author John Blanco
  */
-public class AtomNode extends PPath {
+public class AtomNode extends PNode {
     
     // ------------------------------------------------------------------------
     // Class Data
@@ -32,7 +34,8 @@ public class AtomNode extends PPath {
 
     private final Atom atom;
     private final ModelViewTransform2D mvt;
-    
+    private PhetPPath highlightNode;
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -41,7 +44,7 @@ public class AtomNode extends PPath {
         
         this.atom = atom;
         this.mvt = mvt;
-        
+
         // Create a gradient for giving the sphere a 3D effect.
         double transformedRadius = mvt.modelToViewDifferentialXDouble( atom.getRadius() );
         Color lightColor = Color.WHITE;
@@ -52,13 +55,19 @@ public class AtomNode extends PPath {
         else{
             darkColor = Color.LIGHT_GRAY;
         }
-        Paint roundGradienPaint = new RoundGradientPaint( -transformedRadius/2, -transformedRadius/2, lightColor, 
-                new Point2D.Double(transformedRadius/2, transformedRadius/2), 
-                darkColor);
-        setPaint( roundGradienPaint );
-        setPathTo( new Ellipse2D.Double( -transformedRadius, -transformedRadius,
-                transformedRadius * 2, transformedRadius * 2 ) );
-        setStroke( null );
+
+        int highlightWidth=13;
+        final RoundGradientPaint baseGradientPaint =
+                new RoundGradientPaint( -transformedRadius / 2, -transformedRadius / 2, lightColor,new Point2D.Double( transformedRadius / 2, transformedRadius / 2 ),darkColor );
+        final RoundGradientPaint haloGradientPaint =
+                new RoundGradientPaint( 0, 0, Color.yellow,new Point2D.Double( transformedRadius + highlightWidth, transformedRadius + highlightWidth ),new Color( 0, 0, 0, 0 ) );
+        highlightNode = new PhetPPath(new Ellipse2D.Double( -transformedRadius-highlightWidth, -transformedRadius-highlightWidth,
+                transformedRadius * 2+highlightWidth*2, transformedRadius * 2 +highlightWidth*2),
+                                                haloGradientPaint );
+        PhetPPath atomNode = new PhetPPath(new Ellipse2D.Double( -transformedRadius, -transformedRadius,
+                transformedRadius * 2, transformedRadius * 2 ), baseGradientPaint );
+        addChild( highlightNode );
+        addChild( atomNode );
         atom.addObserver( new SimpleObserver() {
             public void update() {
                 updatePosition();
@@ -81,4 +90,8 @@ public class AtomNode extends PPath {
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
+
+    public void setHighlighted( boolean highlighted ) {
+        highlightNode.setVisible(highlighted);
+    }
 }

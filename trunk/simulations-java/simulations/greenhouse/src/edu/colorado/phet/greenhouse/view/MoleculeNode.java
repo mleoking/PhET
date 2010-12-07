@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -33,7 +33,7 @@ public class MoleculeNode extends PNode {
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public MoleculeNode (Molecule molecule, ModelViewTransform2D mvt){
+    public MoleculeNode ( final Molecule molecule, ModelViewTransform2D mvt){
         bondLayer = new PNode();
         addChild(bondLayer);
         atomLayer = new PNode();
@@ -46,6 +46,18 @@ public class MoleculeNode extends PNode {
         for (AtomicBond atomicBond : molecule.getAtomicBonds()){
             bondLayer.addChild( new AtomicBondNode( atomicBond, mvt ) );
         }
+        final Molecule.Adapter listener = new Molecule.Adapter() {
+            @Override
+            public void electronicEnergyStateChanged( Molecule molecule ) {
+                super.electronicEnergyStateChanged( molecule );
+                for (int i=0;i<atomLayer.getChildrenCount();i++){
+                    AtomNode atomNode = (AtomNode) atomLayer.getChild( i );
+                    atomNode.setHighlighted(molecule.isHighElectronicEnergyState());
+                }
+            }
+        };
+        molecule.addListener( listener );
+        listener.electronicEnergyStateChanged( molecule );
     }
 
     //------------------------------------------------------------------------

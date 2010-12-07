@@ -326,6 +326,13 @@ public abstract class Molecule {
      */
     protected void setHighElectronicEnergyState( boolean highElectronicEnergyState ){
         this.highElectronicEnergyState  = highElectronicEnergyState;
+        notifyElectronicEnergyStateChanged();
+    }
+
+    private void notifyElectronicEnergyStateChanged() {
+        for ( Listener listener : listeners ) {
+            listener.electronicEnergyStateChanged( this );
+        }
     }
 
     public boolean isHighElectronicEnergyState(){
