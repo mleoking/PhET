@@ -48,14 +48,25 @@ public abstract class Molecule {
     // Offsets for each atom from the molecule's center of gravity.
     protected final HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>();
 
+    // Listeners to events that come from this molecule.
     protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     // This is basically the location of the molecule, but it is specified as
     // the center of gravity since a molecule is a composite object.
     private final Point2D centerOfGravity = new Point2D.Double();
 
-    // Velocity and acceleration for this molecule.
+    // Velocity for this molecule.
     private final Vector2D velocity = new Vector2D( 0, 0 );
+
+    // Map that matches photon wavelengths to photon absorption strategies.
+    // The strategies contained in this structure define whether the
+    // molecule can absorb a given photon and, if it does absorb it, how it
+    // will react.
+    private final HashMap<Double, PhotonAbsorptionStrategy> mapWavelengthToAbsorptionStrategy = new HashMap<Double, PhotonAbsorptionStrategy>();
+
+    // Currently active photon absorption strategy, active because a photon
+    // was absorbed that activated it.
+    private PhotonAbsorptionStrategy activeStrategy = new NullPhotonAbsorptionStrategy( this );
 
     // Variable that tracks whether or not a photon has been absorbed and has
     // not yet been re-emitted.
@@ -76,8 +87,8 @@ public abstract class Molecule {
     // The "pass through photon list" keeps track of photons that were not
     // absorbed due to random probability (essentially a simulation of quantum
     // properties).  This is needed since the absorption of a given photon
-    // will likely be tested at many time steps, so we need to keep track of
-    // whether it gets rejected.
+    // will likely be tested at many time steps as the photon moves past the
+    // molecule, and we don't want to keep deciding about the same photon.
     private static final int PASS_THROUGH_PHOTON_LIST_SIZE = 10;
     private final ArrayList<Photon> passThroughPhotonList = new ArrayList<Photon>( PASS_THROUGH_PHOTON_LIST_SIZE );
 
@@ -92,10 +103,13 @@ public abstract class Molecule {
     // TODO: This is temp for prototyping.
     protected boolean rotateClockwise = false;
 
-    private final PhotonAbsorptionStrategy strategy = new VibrationStrategy( this );
-
     // Tracks if molecule is higher energy than its ground state.
     private boolean highElectronicEnergyState = false;
+
+    // Boolean values that track whether the molecule is oscillating or
+    // rotating.
+    private boolean oscillating = false;
+    private boolean rotating = false;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -105,8 +119,14 @@ public abstract class Molecule {
     // Methods
     //------------------------------------------------------------------------
 
+    protected void setPhotonAbsorptionStrategy( double wavelength, PhotonAbsorptionStrategy stratgy ){
+        mapWavelengthToAbsorptionStrategy.put( wavelength, activeStrategy );
+    }
+
     protected boolean isPhotonAbsorbed() {
-        return photonAbsorbed;
+        // If there is an active non-null photon absorption strategy, it
+        // indicates that a photon has been absorbed.
+        return !(activeStrategy instanceof NullPhotonAbsorptionStrategy);
     }
 
     protected void setPhotonAbsorbed( boolean photonAbsorbed ) {
@@ -158,29 +178,7 @@ public abstract class Molecule {
      */
     public void stepInTime(double dt){
 
-        if (isPhotonAbsorbed()){
-            strategy.stepInTime(dt);
-            // A photon has been captured, so we should be oscillating.
-
-            // See if it is time to re-emit the photon.
-            photonHoldCountdownTime -= dt;
-            if (photonHoldCountdownTime <= 0){
-                photonHoldCountdownTime = 0;
-                emitPhoton();
-                setPhotonAbsorbed( false );
-                absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-                strategy.reset();
-            }
-
-            breakApartCountdownTime -= dt;
-            if (breakApartCountdownTime<=0){
-                breakApartCountdownTime = 0;
-                breakApart();
-            }
-
-            // Update the atom positions.
-            updateAtomPositions();
-        }
+        activeStrategy.stepInTime( dt );
 
         if (absorbtionHysteresisCountdownTime > 0){
             absorbtionHysteresisCountdownTime -= dt;
@@ -199,13 +197,30 @@ public abstract class Molecule {
     public void reset(){
         photonAbsorbed = false;
         photonToEmit = null;
-        strategy.reset();
+        activeStrategy.reset();
+        activeStrategy = new NullPhotonAbsorptionStrategy( this );
         photonHoldCountdownTime = 0;
         breakApartCountdownTime = 0;
         absorbtionHysteresisCountdownTime = 0;
     }
 
-    protected double getAbsorbtionHysteresisCountdownTime() {
+    public boolean isOscillating() {
+        return oscillating;
+    }
+
+    public void setOscillating( boolean oscillating ) {
+        this.oscillating = oscillating;
+    }
+
+    public boolean isRotating() {
+        return rotating;
+    }
+
+    public void setRotating( boolean rotating ) {
+        this.rotating = rotating;
+    }
+
+    public double getAbsorbtionHysteresisCountdownTime() {
         return absorbtionHysteresisCountdownTime;
     }
 
@@ -327,7 +342,9 @@ public abstract class Molecule {
     }
 
     /**
-     * Decide whether or not to absorb the offered photon.
+     * Decide whether or not to absorb the offered photon.  If the photon is
+     * absorbed, the matching absorption strategy is set so that it can
+     * control the molecule's post-absorption behavior.
      *
      * @param photon - The photon offered for absorption.
      * @return
@@ -335,32 +352,29 @@ public abstract class Molecule {
     public boolean queryAbsorbPhoton( Photon photon ){
 
         boolean absorbPhoton = false;
-        if (!isPhotonAbsorbed() &&
-            getAbsorbtionHysteresisCountdownTime() <= 0 &&
-            photonAbsorptionWavelengths.contains( photon.getWavelength() ) &&
-            photon.getLocation().distance( getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
-            !isPhotonMarkedForPassThrough( photon ))
-        {
-            // All circumstances are correct for photon absorption, so now
-            // we decide probabalistically whether or not to actually do
-            // it.  This essentially simulates the quantum nature of the
-            // absorption.
 
-            if (RAND.nextDouble()< SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability()){
-                absorbPhoton = true;
-                setPhotonAbsorbed( true );
-                startBreakApartTimer( photon );
-                startPhotonEmissionTimer( photon );
-                rotateClockwise = RAND.nextBoolean();
-            }
-            else{
-                // Do NOT absorb it - mark it for pass through instead.
-                absorbPhoton = false;
-                markPhotonForPassThrough( photon );
+        if ( !isPhotonAbsorbed() &&
+             absorbtionHysteresisCountdownTime <= 0 &&
+             photon.getLocation().distance( getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
+             !isPhotonMarkedForPassThrough( photon ) ) {
+
+            // The circumstances for absorption are correct, but do we have an
+            // absorption strategy for this photon's wavelength?
+            PhotonAbsorptionStrategy candidateAbsorptionStrategy = mapWavelengthToAbsorptionStrategy.get( photon.getWavelength() );
+            if ( candidateAbsorptionStrategy != null ){
+                // Yes, there is a strategy available for this wavelength.
+                // Ask it if it wants the photon.
+                if ( candidateAbsorptionStrategy.quearyAbsorbPhoton( photon ) ){
+                    // It does want it, so consider the photon absorbed.
+                    absorbPhoton = true;
+                    activeStrategy = candidateAbsorptionStrategy;
+                }
             }
         }
-        else{
-            absorbPhoton = false;
+
+        if ( !absorbPhoton ){
+            // Add this unabsorbed photon to the list of photons to ignore.
+            passThroughPhotonList.add( photon );
         }
 
         return absorbPhoton;
@@ -622,11 +636,11 @@ public abstract class Molecule {
         }
     }
 
-    public static class NullPhotonStrategy extends PhotonAbsorptionStrategy {
+    public static class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
         /**
          * Constructor.
          */
-        public NullPhotonStrategy( Molecule molecule ) {
+        public NullPhotonAbsorptionStrategy( Molecule molecule ) {
             super( molecule );
         }
 
