@@ -1,3 +1,4 @@
+Added units to velocity sensor, cleaned up VelocitySensorNode and PressureSensorNode
 Added a "close" button to the ruler
 Removed dropper "drop" button
 Removed time readout

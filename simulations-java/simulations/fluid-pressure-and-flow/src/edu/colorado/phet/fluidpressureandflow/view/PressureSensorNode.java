@@ -22,28 +22,22 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class PressureSensorNode extends PNode {
-    ModelViewTransform transform;
-    private PressureSensor pressureSensor;
-    private final Property<Units.Unit> units;
     public static final double hotSpotRadius = 3;
 
     /**
      * @param transform
-     * @param pressureSensor
+     * @param sensor
      * @param pool           the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
      * @param units
      */
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor pressureSensor, final Pool pool, Property<Units.Unit> units ) {
-        this.transform = transform;
-        this.pressureSensor = pressureSensor;
-        this.units = units;
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Pool pool, final Property<Units.Unit> units ) {
         addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
-        final PText textNode = new PText( getText() ) {{
+        final PText textNode = new PText( getText( sensor, units ) ) {{
             setFont( new PhetFont( 18, true ) );
         }};
         addChild( textNode );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new RelativeDragHandler( this, transform, pressureSensor.getLocationProperty(), new Function1<Point2D, Point2D>() {
+        addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty(), new Function1<Point2D, Point2D>() {
             //TODO: Factor pool to subclass or general constraint method
             public Point2D apply( Point2D point2D ) {
                 if ( pool != null ) {
@@ -56,22 +50,22 @@ public class PressureSensorNode extends PNode {
                 else { return point2D; }
             }
         } ) );
-        pressureSensor.addPositionObserver( new SimpleObserver() {
+        sensor.addPositionObserver( new SimpleObserver() {
             public void update() {
-                setOffset( transform.modelToView( pressureSensor.getLocation().toPoint2D() ) );
+                setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }
         } );
         final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
-                textNode.setText( getText() );
+                textNode.setText( getText( sensor, units ) );
                 textNode.setOffset( -textNode.getFullBounds().getWidth() / 2, -textNode.getFullBounds().getHeight() );
             }
         };
-        pressureSensor.addPressureObserver( updateText );
+        sensor.addPressureObserver( updateText );
         units.addObserver( updateText );
     }
 
-    private String getText() {
+    private static String getText( PressureSensor pressureSensor, Property<Units.Unit> units ) {
         if ( Double.isNaN( pressureSensor.getPressure() ) ) {
             return "? " + units.getValue().getAbbreviation();
         }

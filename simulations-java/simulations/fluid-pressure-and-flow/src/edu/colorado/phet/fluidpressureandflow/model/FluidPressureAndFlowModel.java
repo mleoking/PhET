@@ -27,6 +27,7 @@ public class FluidPressureAndFlowModel {
     public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0;
     public static final Double JUPITER_GRAVITY = EARTH_GRAVITY * 2.364;
     public final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
+    public final Property<Units.Unit> velocityUnitProperty = new Property<Units.Unit>( Units.METERS_PER_SECOND );
     public final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
     private ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
     private ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
@@ -72,6 +73,10 @@ public class FluidPressureAndFlowModel {
 
     public Property<Units.Unit> getPressureUnitProperty() {
         return pressureUnitProperty;
+    }
+    
+    public Property<Units.Unit> getVelocityUnitProperty() {
+        return velocityUnitProperty;
     }
 
     public Function.LinearFunction getPressureFunction() {

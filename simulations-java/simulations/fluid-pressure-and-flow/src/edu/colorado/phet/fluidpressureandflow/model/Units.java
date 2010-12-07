@@ -26,6 +26,8 @@ public class Units {
 
     public static Unit METERS = new LinearUnit( "Meters", "m", 1, new DecimalFormat( "0.0" ) );
     public static Unit FEET = new LinearUnit( "Feet", "ft", 3.2808399, new DecimalFormat( "0.0" ) );
+    
+    public static Unit METERS_PER_SECOND = new LinearUnit( "Meters per second", "m/s", 1, new DecimalFormat( "0.0" ) );
 
     public double feetToMeters( double feet ) {
         return feet * 0.3048;
