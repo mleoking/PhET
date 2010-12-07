@@ -179,7 +179,7 @@ public abstract class Molecule {
 
         activeStrategy.stepInTime( dt );
 
-        if (absorbtionHysteresisCountdownTime > 0){
+        if (absorbtionHysteresisCountdownTime >= 0){
             absorbtionHysteresisCountdownTime -= dt;
         }
 
@@ -453,7 +453,7 @@ public abstract class Molecule {
                 (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
         photonToEmit.setLocation( getCenterOfGravityPosRef() );
         notifyPhotonEmitted( photonToEmit );
-
+        absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
     }
 
     // TODO: Not sure if this version is needed, verify that it is or delete it.
@@ -618,9 +618,6 @@ public abstract class Molecule {
                     // Do NOT absorb it.
                     absorbPhoton = false;
                 }
-            }
-            else {
-                absorbPhoton = false;
             }
 
             return absorbPhoton;
