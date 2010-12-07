@@ -1,3 +1,4 @@
+Set relative vector offsets to zero
 Removed tick marks from along the side of the pool
 Fixed horizontal offsets for the vector arrow labels, since they were overlapping at high screen resolution
 Changed the density slider thumb to be a red triangle
