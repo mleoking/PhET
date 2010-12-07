@@ -11,7 +11,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -203,31 +202,19 @@ public class SimulationMainPanel extends PhetPanel {
         List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( getHibernateSession(), null, simulation.getSimulation().getName(), null );
         HibernateUtils.orderSimulations( simulations, context.getLocale() );
 
-        List<IModel> models = new LinkedList<IModel>();
+        List<LocalizedSimulation> otherLocalizedSimulations = new LinkedList<LocalizedSimulation>();
 
         // TODO: improve model?
         for ( final LocalizedSimulation sim : simulations ) {
             if ( !sim.getLocale().equals( simulation.getLocale() ) ) {
-                models.add( new IModel() {
-                    public Object getObject() {
-                        return sim;
-                    }
-
-                    public void setObject( Object o ) {
-
-                    }
-
-                    public void detach() {
-
-                    }
-                } );
+                otherLocalizedSimulations.add( sim );
             }
         }
 
         // TODO: allow localization of locale display names
-        ListView simulationList = new ListView( "simulation-main-translation-list", models ) {
-            protected void populateItem( ListItem item ) {
-                LocalizedSimulation simulation = (LocalizedSimulation) ( ( (IModel) ( item.getModel().getObject() ) ).getObject() );
+        ListView simulationList = new ListView<LocalizedSimulation>( "simulation-main-translation-list", otherLocalizedSimulations ) {
+            protected void populateItem( ListItem<LocalizedSimulation> item ) {
+                LocalizedSimulation simulation = item.getModelObject();
                 Locale simLocale = simulation.getLocale();
                 RawLink runLink = new RawLink( "simulation-main-translation-link", simulation.getRunUrl() );
                 RawLink downloadLink = new RawLink( "simulation-main-translation-download", simulation.getDownloadUrl() );
@@ -306,9 +293,9 @@ public class SimulationMainPanel extends PhetPanel {
             }
         }
 
-        ListView topicList = new ListView( "topic-list", topics ) {
-            protected void populateItem( ListItem item ) {
-                Keyword keyword = (Keyword) item.getModel().getObject();
+        ListView topicList = new ListView<Keyword>( "topic-list", topics ) {
+            protected void populateItem( ListItem<Keyword> item ) {
+                Keyword keyword = item.getModelObject();
                 item.add( new RawLabel( "topic-label", new ResourceModel( keyword.getKey() ) ) );
             }
         };
@@ -317,9 +304,9 @@ public class SimulationMainPanel extends PhetPanel {
             topicList.setVisible( false );
         }
 
-        ListView keywordList = new ListView( "keyword-list", keywords ) {
-            protected void populateItem( ListItem item ) {
-                Keyword keyword = (Keyword) item.getModel().getObject();
+        ListView keywordList = new ListView<Keyword>( "keyword-list", keywords ) {
+            protected void populateItem( ListItem<Keyword> item ) {
+                Keyword keyword = item.getModelObject();
                 Link link = SimsByKeywordPage.getLinker( keyword.getSubKey() ).getLink( "keyword-link", context, getPhetCycle() );
 //                Link link = new StatelessLink( "keyword-link" ) {
 //                    public void onClick() {
@@ -356,7 +343,7 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         // so we don't emit an empty <table></table> that isn't XHTML Strict compatible
-        if ( models.isEmpty() ) {
+        if ( otherLocalizedSimulations.isEmpty() ) {
             simulationList.setVisible( false );
         }
 
@@ -434,9 +421,9 @@ public class SimulationMainPanel extends PhetPanel {
             }
         }
 
-        ListView designView = new ListView( "design-list", designTeam ) {
-            protected void populateItem( ListItem item ) {
-                String str = item.getModelObject().toString();
+        ListView designView = new ListView<String>( "design-list", designTeam ) {
+            protected void populateItem( ListItem<String> item ) {
+                String str = item.getModelObject();
                 item.add( new Label( "design-item", str ) );
             }
         };
@@ -445,9 +432,9 @@ public class SimulationMainPanel extends PhetPanel {
         }
         add( designView );
 
-        ListView libraryView = new ListView( "library-list", libraries ) {
-            protected void populateItem( ListItem item ) {
-                String str = item.getModelObject().toString();
+        ListView libraryView = new ListView<String>( "library-list", libraries ) {
+            protected void populateItem( ListItem<String> item ) {
+                String str = item.getModelObject();
                 item.add( new Label( "library-item", str ) );
             }
         };
@@ -456,9 +443,9 @@ public class SimulationMainPanel extends PhetPanel {
         }
         add( libraryView );
 
-        ListView thanksView = new ListView( "thanks-list", thanks ) {
-            protected void populateItem( ListItem item ) {
-                String str = item.getModelObject().toString();
+        ListView thanksView = new ListView<String>( "thanks-list", thanks ) {
+            protected void populateItem( ListItem<String> item ) {
+                String str = item.getModelObject();
                 item.add( new Label( "thanks-item", str ) );
             }
         };
@@ -468,9 +455,9 @@ public class SimulationMainPanel extends PhetPanel {
         add( thanksView );
 
         // TODO: consolidate common behavior for these lists
-        ListView learningGoalsView = new ListView( "learning-goals", learningGoals ) {
-            protected void populateItem( ListItem item ) {
-                String str = item.getModelObject().toString();
+        ListView learningGoalsView = new ListView<String>( "learning-goals", learningGoals ) {
+            protected void populateItem( ListItem<String> item ) {
+                String str = item.getModelObject();
                 item.add( new RawLabel( "goal", str ) );
             }
         };
