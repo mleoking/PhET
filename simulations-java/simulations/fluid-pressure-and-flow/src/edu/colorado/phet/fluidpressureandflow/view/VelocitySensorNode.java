@@ -1,9 +1,10 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -23,10 +24,10 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class VelocitySensorNode extends PNode {
 
-    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor sensor, final Property<Units.Unit> units ) {
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor sensor, final Property<Units.Unit> unitsProperty ) {
         double hotSpotRadius = PressureSensorNode.hotSpotRadius;
         addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
-        final PText child = new PText( getText( sensor, units ) ) {{
+        final PText child = new PText( getText( sensor, unitsProperty ) ) {{
             setFont( new PhetFont( 18, true ) );
         }};
 
@@ -41,18 +42,18 @@ public class VelocitySensorNode extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty() ) );
 
-        sensor.addPositionObserver( new SimpleObserver() {
+        sensor.addLocationObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }
         } );
         sensor.addVelocityObserver( new SimpleObserver() {
             public void update() {
-                child.setText( getText( sensor, units ) );
+                child.setText( getText( sensor, unitsProperty ) );
 
                 child.setOffset( -child.getFullBounds().getWidth() / 2, 0 );//Center the text under the the hot spot
 
-                ImmutableVector2D velocity = sensor.getVelocity().getValue();
+                ImmutableVector2D velocity = sensor.getVelocity();
                 ImmutableVector2D viewVelocity = transform.modelToViewDelta( velocity );
                 double velocityScale = 0.2;
                 Point2D tip = viewVelocity.getScaledInstance( velocityScale ).toPoint2D();
@@ -62,7 +63,11 @@ public class VelocitySensorNode extends PNode {
         } );
     }
     
-    private static String getText( VelocitySensor sensor, final Property<Units.Unit> units ) {
-        return "v = " + new DecimalFormat( "0.00" ).format( sensor.getVelocity().getValue().getMagnitude() ) + " " + units.getValue().getAbbreviation();
+    private static String getText( VelocitySensor sensor, final Property<Units.Unit> unitsProperty ) {
+        final String pattern = "{0} = {1} {2}"; //TODO i18n
+        final String label = "v"; //TODO i18n
+        final String value = unitsProperty.getValue().getDecimalFormat().format( sensor.getVelocity().getMagnitude() );
+        final String units = unitsProperty.getValue().getAbbreviation();
+        return MessageFormat.format( pattern, label, value, units );
     }
 }
