@@ -20,14 +20,15 @@ public class CO extends Molecule {
     // ------------------------------------------------------------------------
 
     private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
+    private static final double OSCILLATION_MAGNITUDE = 20; // In picometers.
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
     private final CarbonAtom carbonAtom = new CarbonAtom();
-    private final OxygenAtom oxygenAtom1 = new OxygenAtom();
-    private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom1, 2 );
+    private final OxygenAtom oxygenAtom = new OxygenAtom();
+    private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom, 2 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -37,7 +38,7 @@ public class CO extends Molecule {
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( carbonAtom );
-        addAtom( oxygenAtom1 );
+        addAtom( oxygenAtom );
         addAtomicBond( carbonOxygenBond1 );
 
         // Set up the photon wavelengths to absorb.
@@ -58,6 +59,12 @@ public class CO extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
 
+    @Override
+    protected void setOscillation(double oscillationRadians){
+        double multFactor = Math.sin( oscillationRadians );
+        atomCogOffsets.put( carbonAtom, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2  + OSCILLATION_MAGNITUDE * multFactor, 0 ) );
+        atomCogOffsets.put( oxygenAtom, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 - OSCILLATION_MAGNITUDE * multFactor, 0 ) );
+    }
 
     @Override
     public MoleculeID getMoleculeID() {
@@ -70,6 +77,6 @@ public class CO extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(carbonAtom, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
-        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
+        atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
     }
 }
