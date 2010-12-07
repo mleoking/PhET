@@ -1,3 +1,4 @@
+# 1.02.08 (46911) Dec 7, 2010
 Fixed: The blocks stay where you put them when you switch between modes, but the scales do not.
 Set relative vector offsets to zero
 Removed tick marks from along the side of the pool
