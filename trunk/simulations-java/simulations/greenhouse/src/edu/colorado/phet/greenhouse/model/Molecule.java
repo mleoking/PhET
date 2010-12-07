@@ -398,6 +398,10 @@ public abstract class Molecule {
         return absorbPhoton;
     }
 
+    public void setActiveStrategy( PhotonAbsorptionStrategy activeStrategy ) {
+        this.activeStrategy = activeStrategy;
+    }
+
     protected void addAtom( Atom atom ){
         atoms.add( atom );
     }
