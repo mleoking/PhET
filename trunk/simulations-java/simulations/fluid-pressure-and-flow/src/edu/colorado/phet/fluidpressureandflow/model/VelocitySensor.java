@@ -8,12 +8,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public class VelocitySensor extends Sensor {
-    private final Context context;
+
     private final Property<ImmutableVector2D> velocity = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
     public VelocitySensor( final Context context, final double x, final double y ) {
         super( x, y );
-        this.context = context;
         final SimpleObserver updateVelocity = new SimpleObserver() {
             public void update() {
                 velocity.setValue( context.getVelocity( getX(), getY() ) );
