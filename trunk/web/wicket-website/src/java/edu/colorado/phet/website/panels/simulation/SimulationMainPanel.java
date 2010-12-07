@@ -332,9 +332,9 @@ public class SimulationMainPanel extends PhetPanel {
             add( new Label( "linux-req", "Sun Java 1.5.0_15 or later" ) );
         }
         else if ( simulation.getSimulation().isFlash() ) {
-            add( new Label( "windows-req", "Macromedia Flash 8 or later" ) );
-            add( new Label( "mac-req", "Macromedia Flash 8 or later" ) );
-            add( new Label( "linux-req", "Macromedia Flash 8 or later" ) );
+            add( new Label( "windows-req", "Macromedia Flash 9 or later" ) );
+            add( new Label( "mac-req", "Macromedia Flash 9 or later" ) );
+            add( new Label( "linux-req", "Macromedia Flash 9 or later" ) );
         }
         else {
             add( new InvisibleComponent( "windows-req" ) );
