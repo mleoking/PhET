@@ -1,5 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import away3d.cameras.Camera3D;
+import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
@@ -17,13 +18,13 @@ public class VectorValueNode extends Sprite {
     private var textField: TextField;
     private var mainCamera: Camera3D;
     private var arrowNode: ArrowNode;
-    private var offsetX: Number;
+    private var right: Boolean;
 
-    public function VectorValueNode( mainCamera: Camera3D, arrowNode: ArrowNode, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, offsetX: Number ) {
+    public function VectorValueNode( mainCamera: Camera3D, arrowNode: ArrowNode, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, right: Boolean ) {
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
         this.arrowNode = arrowNode;
-        this.offsetX = offsetX;
+        this.right = right;
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.LEFT;
         textField.text = "";
@@ -58,17 +59,32 @@ public class VectorValueNode extends Sprite {
         graphics.endFill();
 
         try {
-            var screenVertex: ScreenVertex = mainCamera.screen( arrowNode, arrowNode.tip );
-            var moreOffset: Number = 0;
-            if ( offsetX < 0 ) {
-                moreOffset = -textField.width;
+            if ( right && arrowNode.arrowModel.y > 0 ) {
+                updateLocation( arrowNode.arrowHeadRightCornerVertex, 0 );
             }
-            this.x = screenVertex.x + mainViewport.view.x + offsetX + moreOffset;
-            this.y = screenVertex.y + mainViewport.view.y - textField.height / 2;
+            else if ( right && arrowNode.arrowModel.y <= 0 ) {
+                updateLocation( arrowNode.arrowHeadLeftCornerVertex, 0 );
+            }
+            else if ( !right && arrowNode.arrowModel.y > 0 ) {
+                updateLocation( arrowNode.arrowHeadLeftCornerVertex, -textField.width );
+            }
+            else if ( !right && arrowNode.arrowModel.y <= 0 ) {
+                updateLocation( arrowNode.arrowHeadRightCornerVertex, -textField.width );
+            }
+            else {//shouldn't happen
+                x = 0;
+                y = 0;
+            }
         }
         catch( e: * ) {
             //null pointer exception before camera is used to render the screen once
         }
+    }
+
+    private function updateLocation( vertex: Vertex, offsetX: Number ): void {
+        var screenVertex: ScreenVertex = mainCamera.screen( arrowNode, vertex );
+        x = screenVertex.x + mainViewport.view.x + offsetX;
+        y = screenVertex.y + mainViewport.view.y - textField.height / 2;
     }
 
     private function getValueText(): String {

@@ -20,17 +20,19 @@ public class ArrowNode extends MyMesh {
     public var offset: Number;
     private var densityObject: DensityObject;
     private var tipVertex: Vertex;
+    private var _arrowHeadLeftCornerVertex: Vertex;
+    private var _arrowHeadRightCornerVertex: Vertex;
     private var _vectorValueNode: VectorValueNode;
     private var _color: *;
     private var offsetX: NumericProperty;
-    private var labelOffsetX: Number;
+    private var right: Boolean;
 
-    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, labelOffsetX: Number ) {
+    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, null ) );
         this._color = color;
         this.densityObject = densityObject;
         this.offsetX = offsetX;
-        this.labelOffsetX = labelOffsetX;
+        this.right = right;
         densityObject.getXProperty().addListener( updateLocation );
         densityObject.getYProperty().addListener( updateLocation );
         offset = numArrowNodes + 1;
@@ -50,7 +52,7 @@ public class ArrowNode extends MyMesh {
         updateVisibility();
         updateLocation();
 
-        this._vectorValueNode = new VectorValueNode( mainCamera, this, mainViewport, valueVisibilityProperty, labelOffsetX );
+        this._vectorValueNode = new VectorValueNode( mainCamera, this, mainViewport, valueVisibilityProperty, right );
         offsetX.addListener( updateLocation );
     }
 
@@ -78,12 +80,14 @@ public class ArrowNode extends MyMesh {
         v( width / 2, bodyHeight, 0 );
         v( -width / 2, bodyHeight, 0 );
 
-        v( -arrowHeadWidth / 2, bodyHeight, 0 );
-        v( arrowHeadWidth / 2, bodyHeight, 0 );
+        var arrowTipLeftIndex: Number = v( -arrowHeadWidth / 2, bodyHeight, 0 );
+        var arrowTipRightIndex: Number = v( arrowHeadWidth / 2, bodyHeight, 0 );
         var arrowTipIndex: Number = v( 0, height, 0 );
 
         tipVertex = getVertexArray()[arrowTipIndex];
         trace( "tv = " + tipVertex );
+        _arrowHeadLeftCornerVertex = getVertexArray()[arrowTipLeftIndex];
+        _arrowHeadRightCornerVertex = getVertexArray()[arrowTipRightIndex];
 
         uv( 0, 0 );
         uv( 1, 1 - fractionUsedByArrowhead );
@@ -119,9 +123,17 @@ public class ArrowNode extends MyMesh {
         return _vectorValueNode;
     }
 
-
     public function get color(): * {
         return _color;
     }
+
+    public function get arrowHeadLeftCornerVertex(): Vertex {
+        return _arrowHeadLeftCornerVertex;
+    }
+
+    public function get arrowHeadRightCornerVertex(): Vertex {
+        return _arrowHeadRightCornerVertex;
+    }
+
 }
 }
