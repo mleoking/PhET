@@ -22,7 +22,7 @@ public class N2O extends Molecule {
     private static final double INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
     private static final double INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.
 
-    // Deflection amounts used for the oscillation of the CO2 atoms.  These
+    // Deflection amounts used for the vibration of the CO2 atoms.  These
     // are calculated such that the actual center of gravity should remain
     // pretty much constant.
     private static final double MAX_CENTER_NITROGEN_DEFLECTION = 50;
@@ -81,8 +81,8 @@ public class N2O extends Molecule {
     }
 
     @Override
-    protected void setVibration(double oscillationRadians){
-        double multFactor = Math.sin( oscillationRadians );
+    protected void setVibration(double vibrationRadians){
+        double multFactor = Math.sin( vibrationRadians );
         atomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
         atomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
                 -multFactor * MAX_SIDE_NITROGEN_DEFLECTION));

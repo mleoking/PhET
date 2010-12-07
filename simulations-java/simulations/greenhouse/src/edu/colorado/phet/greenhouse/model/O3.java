@@ -110,8 +110,8 @@ public class O3 extends Molecule {
     }
 
     @Override
-    protected void setVibration( double oscillationRadians ) {
-        double multFactor = Math.sin( oscillationRadians );
+    protected void setVibration( double vibrationRadians ) {
+        double multFactor = Math.sin( vibrationRadians );
         double maxCenterOxygenDisplacement = 5;
         double maxOuterOxygenDisplacement = 20;
         atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxCenterOxygenDisplacement ) );

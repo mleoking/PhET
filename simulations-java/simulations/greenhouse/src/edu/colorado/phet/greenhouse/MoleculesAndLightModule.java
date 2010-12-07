@@ -32,7 +32,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
 
     // Constants that control the clock.  Note that since the true time scale
     // is unreasonable (since we are working with flying photons and
-    // oscillating atoms) that we just use real time for the clock time and
+    // vibrating atoms) that we just use real time for the clock time and
     // expect the model to move things at speeds that appear reasonable to the
     // users.
     private static final int CLOCK_DELAY = 1000 / GreenhouseDefaults.CLOCK_FRAME_RATE;

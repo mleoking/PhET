@@ -89,8 +89,8 @@ public class H2O extends Molecule {
     }
 
     @Override
-    protected void setVibration( double oscillationRadians ) {
-        double multFactor = Math.sin( oscillationRadians );
+    protected void setVibration( double vibrationRadians ) {
+        double multFactor = Math.sin( vibrationRadians );
         double maxOxygenDisplacement = 5;
         double maxHydrogenDisplacement = 15;
         atomCogOffsets.put( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );

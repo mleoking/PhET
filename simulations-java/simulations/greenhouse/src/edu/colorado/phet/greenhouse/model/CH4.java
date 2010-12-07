@@ -25,10 +25,10 @@ public class CH4 extends Molecule {
     private static final double ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE =
         INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4  );
 
-    private static final double HYDROGEN_OSCILLATION_DISTANCE = 30;
-    private static final double HYDROGEN_OSCILLATION_ANGLE = Math.PI / 4;
-    private static final double HYDROGEN_OSCILLATION_DISTANCE_X = HYDROGEN_OSCILLATION_DISTANCE * Math.cos( HYDROGEN_OSCILLATION_ANGLE );
-    private static final double HYDROGEN_OSCILLATION_DISTANCE_Y = HYDROGEN_OSCILLATION_DISTANCE * Math.sin( HYDROGEN_OSCILLATION_ANGLE );
+    private static final double HYDROGEN_VIBRATION_DISTANCE = 30;
+    private static final double HYDROGEN_VIBRATION_ANGLE = Math.PI / 4;
+    private static final double HYDROGEN_VIBRATION_DISTANCE_X = HYDROGEN_VIBRATION_DISTANCE * Math.cos( HYDROGEN_VIBRATION_ANGLE );
+    private static final double HYDROGEN_VIBRATION_DISTANCE_Y = HYDROGEN_VIBRATION_DISTANCE * Math.sin( HYDROGEN_VIBRATION_ANGLE );
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -96,21 +96,21 @@ public class CH4 extends Molecule {
     }
 
     @Override
-    protected void setVibration(double oscillationRadians){
-        if (oscillationRadians != 0){
-            double multFactor = Math.sin( oscillationRadians );
+    protected void setVibration(double vibrationRadians){
+        if (vibrationRadians != 0){
+            double multFactor = Math.sin( vibrationRadians );
             atomCogOffsets.put(hydrogenAtom1,
-                    new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
-                            ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+                    new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                            ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
             atomCogOffsets.put(hydrogenAtom2,
-                    new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
-                            ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+                    new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                            ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
             atomCogOffsets.put(hydrogenAtom3,
-                    new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
-                            -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+                    new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                            -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
             atomCogOffsets.put(hydrogenAtom4,
-                    new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_X,
-                            -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_OSCILLATION_DISTANCE_Y));
+                    new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                            -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
 
             // Position the carbon atom so that the center of mass of the
             // molecule remains the same.
