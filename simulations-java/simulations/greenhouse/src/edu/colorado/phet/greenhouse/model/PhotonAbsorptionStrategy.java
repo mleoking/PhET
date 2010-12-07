@@ -21,12 +21,11 @@ public abstract class PhotonAbsorptionStrategy {
     private static final Random RAND = new Random();
 
     private final Molecule molecule;
-    private Photon lastPhoton;
 
     // Variables involved in the holding and re-emitting of photons.
-    private Photon absorbedPhoton;
-    private boolean isPhotonAbsorbed = false;
-    private double photonHoldCountdownTime = 0;
+    protected Photon absorbedPhoton;
+    protected boolean isPhotonAbsorbed = false;
+    protected double photonHoldCountdownTime = 0;
 
     /**
      * Constructor.
@@ -63,12 +62,6 @@ public abstract class PhotonAbsorptionStrategy {
      * @return
      */
     public boolean queryAndAbsorbPhoton( Photon photon ) {
-
-        // Debug/test code.
-        if ( lastPhoton != null ) {
-            System.err.println( getClass().getName() + " - Error: Multiple requests to absorb the same photon." );
-            assert ( lastPhoton != photon );
-        }
         // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
         // actually do it.  This essentially simulates the quantum nature of the absorption.
         final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability();
@@ -85,19 +78,30 @@ public abstract class PhotonAbsorptionStrategy {
 
     public static class VibrationStrategy extends PhotonAbsorptionStrategy {
 
+        private int remainingTimeToVibrate;
+        private double absorbedWavelength;
+
         public VibrationStrategy( Molecule molecule ) {
             super( molecule );
         }
 
         @Override
         public void stepInTime( double dt ) {
-            getMolecule().advanceVibration( dt * Molecule.VIBRATION_FREQUENCY / 1000 * 2 * Math.PI );
+            photonHoldCountdownTime -= dt;
+            if ( photonHoldCountdownTime <= 0 ) {
+                getMolecule().emitPhoton( absorbedWavelength );
+                getMolecule().setVibrating( false );
+                getMolecule().setVibration( 0 );
+                getMolecule().setActiveStrategy( new NullPhotonAbsorptionStrategy( getMolecule() ) );
+                isPhotonAbsorbed = false;
+            }
         }
 
         @Override
         public boolean queryAndAbsorbPhoton( Photon photon ) {
             final boolean absorbed = super.queryAndAbsorbPhoton( photon );
-            if (absorbed ){
+            if ( absorbed ) {
+                this.absorbedWavelength = photon.getWavelength();
                 getMolecule().setVibrating( true );
             }
             return absorbed;
