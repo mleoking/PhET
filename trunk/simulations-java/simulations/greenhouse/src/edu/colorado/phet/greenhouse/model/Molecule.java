@@ -31,7 +31,7 @@ public abstract class Molecule {
 
     private static final Random RAND = new Random();
 
-    private static final double OSCILLATION_FREQUENCY = 3;  // Cycles per second of sim time.
+    private static final double VIBRATION_FREQUENCY = 3;  // Cycles per second of sim time.
     private static final double ROTATION_RATE = 3;  // Revolutions per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
 
@@ -93,8 +93,8 @@ public abstract class Molecule {
     private static final int PASS_THROUGH_PHOTON_LIST_SIZE = 10;
     private final ArrayList<Photon> passThroughPhotonList = new ArrayList<Photon>( PASS_THROUGH_PHOTON_LIST_SIZE );
 
-    // The current point within this molecule's oscillation sequence.
-    private double currentOscillationRadians = 0;
+    // The current point within this molecule's vibration sequence.
+    private double currentVibrationRadians = 0;
 
     // List of photon wavelengths that this molecule can absorb.  This is a
     // list of frequencies, which is a grand oversimplification of the real
@@ -104,9 +104,9 @@ public abstract class Molecule {
     // Tracks if molecule is higher energy than its ground state.
     private boolean highElectronicEnergyState = false;
 
-    // Boolean values that track whether the molecule is oscillating or
+    // Boolean values that track whether the molecule is vibrating or
     // rotating.
-    private boolean oscillating = true;
+    private boolean vibrating = false;
     private boolean rotating = false;
     private boolean rotationDirectionClockwise = true; // Controls the direction of rotation.
 
@@ -183,8 +183,8 @@ public abstract class Molecule {
             absorbtionHysteresisCountdownTime -= dt;
         }
 
-        if ( oscillating ){
-            advanceOscilation( dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI );
+        if ( vibrating ){
+            advanceVibration( dt * VIBRATION_FREQUENCY / 1000 * 2 * Math.PI );
         }
 
         if ( rotating ){
@@ -199,7 +199,7 @@ public abstract class Molecule {
 
     /**
      * Reset the molecule.  Any photons that have been absorbed are forgotten,
-     * and any oscillation is reset.
+     * and any vibration is reset.
      * @return
      */
     public void reset(){
@@ -212,12 +212,12 @@ public abstract class Molecule {
         absorbtionHysteresisCountdownTime = 0;
     }
 
-    public boolean isOscillating() {
-        return oscillating;
+    public boolean isVibration() {
+        return vibrating;
     }
 
-    public void setOscillating( boolean oscillating ) {
-        this.oscillating = oscillating;
+    public void setVibrating( boolean vibration ) {
+        this.vibrating = vibration;
     }
 
     public boolean isRotating() {
@@ -242,7 +242,7 @@ public abstract class Molecule {
 
     /**
      * Initialize the offsets from the center of gravity for each atom within
-     * this molecule.  This should be in the "relaxed" (i.e. non-oscillating)
+     * this molecule.  This should be in the "relaxed" (i.e. non-vibrating)
      * state.
      */
     protected abstract void initializeAtomOffsets();
@@ -296,21 +296,21 @@ public abstract class Molecule {
 
     /**
      * Set the angle, in terms of radians from 0 to 2*PI, where this molecule
-     * is in its oscillation sequence.
+     * is in its vibration sequence.
      */
-    protected void setOscillation( double oscillationRadians ) {
-        currentOscillationRadians = oscillationRadians;
-        return; // Implements no oscillation by default, override in descendant classes as needed.
+    protected void setVibration( double vibrationRadians ) {
+        currentVibrationRadians = vibrationRadians;
+        return; // Implements no vibration by default, override in descendant classes as needed.
     }
 
     /**
-     * Advance the oscillation by the prescribed radians.
+     * Advance the vibration by the prescribed radians.
      *
      * @param deltaRadians
      */
-    public void advanceOscilation( double deltaRadians ){
-        currentOscillationRadians += deltaRadians;
-        setOscillation( currentOscillationRadians );
+    public void advanceVibration( double deltaRadians ){
+        currentVibrationRadians += deltaRadians;
+        setVibration( currentVibrationRadians );
     }
 
     /**
@@ -537,7 +537,7 @@ public abstract class Molecule {
      * reacts to a given photon.  It is responsible for the following:
      * - Whether a given photon should be absorbed.
      * - How the molecule reacts to the absorption of a photon, i.e. whether
-     *   is oscillates, rotates, breaks apart, etc.
+     *   it vibrates, rotates, breaks apart, etc.
      * - Maintenance of any counters or timers associated with the reaction to
      *   the absorption.
      */
@@ -639,7 +639,7 @@ public abstract class Molecule {
 
         @Override
         public void stepInTime( double dt ) {
-            getMolecule().advanceOscilation( dt * OSCILLATION_FREQUENCY / 1000 * 2 * Math.PI );
+            getMolecule().advanceVibration( dt * VIBRATION_FREQUENCY / 1000 * 2 * Math.PI );
         }
     }
 

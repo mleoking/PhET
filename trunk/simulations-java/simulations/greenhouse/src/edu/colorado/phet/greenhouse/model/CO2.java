@@ -71,7 +71,7 @@ public class CO2 extends Molecule {
 
 
     @Override
-    protected void setOscillation(double oscillationRadians){
+    protected void setVibration(double oscillationRadians){
         double multFactor = Math.sin( oscillationRadians );
         atomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
         atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));

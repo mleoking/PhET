@@ -96,7 +96,7 @@ public class CH4 extends Molecule {
     }
 
     @Override
-    protected void setOscillation(double oscillationRadians){
+    protected void setVibration(double oscillationRadians){
         if (oscillationRadians != 0){
             double multFactor = Math.sin( oscillationRadians );
             atomCogOffsets.put(hydrogenAtom1,
