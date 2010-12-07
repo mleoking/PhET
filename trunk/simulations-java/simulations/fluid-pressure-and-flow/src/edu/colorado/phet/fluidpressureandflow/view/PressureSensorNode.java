@@ -1,8 +1,9 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -28,11 +29,11 @@ public class PressureSensorNode extends PNode {
      * @param transform
      * @param sensor
      * @param pool           the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
-     * @param units
+     * @param unitsProperty
      */
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Pool pool, final Property<Units.Unit> units ) {
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Pool pool, final Property<Units.Unit> unitsProperty ) {
         addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.red ) );
-        final PText textNode = new PText( getText( sensor, units ) ) {{
+        final PText textNode = new PText( getText( sensor, unitsProperty ) ) {{
             setFont( new PhetFont( 18, true ) );
         }};
         addChild( textNode );
@@ -50,27 +51,28 @@ public class PressureSensorNode extends PNode {
                 else { return point2D; }
             }
         } ) );
-        sensor.addPositionObserver( new SimpleObserver() {
+        sensor.addLocationObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }
         } );
         final SimpleObserver updateText = new SimpleObserver() {
             public void update() {
-                textNode.setText( getText( sensor, units ) );
+                textNode.setText( getText( sensor, unitsProperty ) );
                 textNode.setOffset( -textNode.getFullBounds().getWidth() / 2, -textNode.getFullBounds().getHeight() );
             }
         };
         sensor.addPressureObserver( updateText );
-        units.addObserver( updateText );
+        unitsProperty.addObserver( updateText );
     }
 
-    private static String getText( PressureSensor pressureSensor, Property<Units.Unit> units ) {
-        if ( Double.isNaN( pressureSensor.getPressure() ) ) {
-            return "? " + units.getValue().getAbbreviation();
+    private static String getText( PressureSensor pressureSensor, Property<Units.Unit> unitsProperty ) {
+        String pattern = "{0} {1}"; //TODO i18n
+        String value = "?"; //TODO i18n
+        if ( !Double.isNaN( pressureSensor.getPressure() ) ) {
+            value = unitsProperty.getValue().getDecimalFormat().format( unitsProperty.getValue().siToUnit( pressureSensor.getPressure() ) );
         }
-        else {
-            return "" + units.getValue().getDecimalFormat().format( units.getValue().siToUnit( pressureSensor.getPressure() ) ) + " " + units.getValue().getAbbreviation();
-        }
+        String units = unitsProperty.getValue().getAbbreviation();
+        return MessageFormat.format( pattern, value, units );
     }
 }

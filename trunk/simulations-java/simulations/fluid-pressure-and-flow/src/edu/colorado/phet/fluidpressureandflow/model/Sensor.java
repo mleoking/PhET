@@ -12,7 +12,7 @@ public class Sensor {
     protected Property<ImmutableVector2D> locationProperty;
 
     public Sensor( double x, double y ) {
-        this.locationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        locationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
     }
 
     public void reset() {
@@ -31,11 +31,11 @@ public class Sensor {
         return getLocation().getY();
     }
 
-    public void setPosition( double x, double y ) {
+    public void setLocation( double x, double y ) {
         locationProperty.setValue( new ImmutableVector2D( x, y ) );
     }
 
-    public void addPositionObserver( SimpleObserver observer ) {
+    public void addLocationObserver( SimpleObserver observer ) {
         locationProperty.addObserver( observer );
     }
 
