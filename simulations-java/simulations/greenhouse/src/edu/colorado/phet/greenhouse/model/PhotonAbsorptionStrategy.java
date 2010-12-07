@@ -62,33 +62,21 @@ public abstract class PhotonAbsorptionStrategy {
      * @param photon
      * @return
      */
-    public boolean quearyAbsorbPhoton( Photon photon ) {
+    public boolean queryAndAbsorbPhoton( Photon photon ) {
 
         // Debug/test code.
         if ( lastPhoton != null ) {
             System.err.println( getClass().getName() + " - Error: Multiple requests to absorb the same photon." );
             assert ( lastPhoton != photon );
         }
-
-        boolean absorbPhoton = false;
-        if ( !isPhotonAbsorbed && photonHoldCountdownTime <= 0 ) {
-            // All circumstances are correct for photon absorption, so now
-            // we decide probabalistically whether or not to actually do
-            // it.  This essentially simulates the quantum nature of the
-            // absorption.
-
-            if ( RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability() ) {
-                absorbPhoton = true;
-                isPhotonAbsorbed = true;
-                photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
-            }
-            else {
-                // Do NOT absorb it.
-                absorbPhoton = false;
-            }
+        // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
+        // actually do it.  This essentially simulates the quantum nature of the absorption.
+        final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability();
+        if (absorbed){
+            isPhotonAbsorbed = true;
+            photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
         }
-
-        return absorbPhoton;
+        return absorbed;
     }
 
     protected boolean isPhotonAbsorbed() {
@@ -105,6 +93,15 @@ public abstract class PhotonAbsorptionStrategy {
         public void stepInTime( double dt ) {
             getMolecule().advanceVibration( dt * Molecule.VIBRATION_FREQUENCY / 1000 * 2 * Math.PI );
         }
+
+        @Override
+        public boolean queryAndAbsorbPhoton( Photon photon ) {
+            final boolean absorbed = super.queryAndAbsorbPhoton( photon );
+            if (absorbed ){
+                getMolecule().setVibrating( true );
+            }
+            return absorbed;
+        }
     }
 
     public static class RotationStrategy extends PhotonAbsorptionStrategy {
@@ -116,6 +113,15 @@ public abstract class PhotonAbsorptionStrategy {
         @Override
         public void stepInTime( double dt ) {
             // TODO Auto-generated method stub
+        }
+
+        @Override
+        public boolean queryAndAbsorbPhoton( Photon photon ) {
+            final boolean absorbed = super.queryAndAbsorbPhoton( photon );
+            if (absorbed){
+                getMolecule().setRotating( true );
+            }
+            return absorbed;
         }
     }
 
@@ -141,6 +147,15 @@ public abstract class PhotonAbsorptionStrategy {
         public void stepInTime( double dt ) {
             // TODO Auto-generated method stub
         }
+
+        @Override
+        public boolean queryAndAbsorbPhoton( Photon photon ) {
+            final boolean absorbed = super.queryAndAbsorbPhoton( photon );
+            if (absorbed ){
+                getMolecule().setHighElectronicEnergyState( true );
+            }
+            return absorbed;
+        }
     }
 
     public static class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
@@ -154,6 +169,16 @@ public abstract class PhotonAbsorptionStrategy {
         @Override
         public void stepInTime( double dt ) {
             // Does nothing.
+        }
+
+        /**
+         * This strategy never absorbs.
+         * @param photon
+         * @return
+         */
+        @Override
+        public boolean queryAndAbsorbPhoton( Photon photon ) {
+            return false;
         }
     }
 }
