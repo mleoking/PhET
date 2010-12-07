@@ -58,6 +58,8 @@ public class NewStrings {
         overwriteString( session, "newsletter.toFinishSubscribing", "Thank you for subscribing. An e-mail has been sent to {0}.", "Thank you for subscribing. An e-mail has been sent to <strong>{0}</strong>." );
         overwriteString( session, "newsletter.toFinishRegistering", "Thank you for registering. An e-mail has been sent to {0}.", "Thank you for registering. An e-mail has been sent to <strong>{0}</strong>." );
 
+        overwriteString( session, "simulations.translated.untranslated", "Untranslated Simulations", "Simulations not yet translated into {0}" );
+
         deleteString( session, "newsletter.pastEditions" );
 
         session.close();

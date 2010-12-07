@@ -48,6 +48,10 @@ public class TranslationListPanel extends PhetPanel implements CacheableUrlStati
         final List<LocalizedSimulation> untranslatedSimulations = new LinkedList<LocalizedSimulation>();
         final Map<Simulation, String> simNameDefault = new HashMap<Simulation, String>();
 
+        add( new LocalizedText( "untranslated-header", "simulations.translated.untranslated", new Object[] {
+                StringUtils.getLocaleTitle( locale, context.getLocale(), PhetLocalizer.get() )
+        } ) );
+
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
 
