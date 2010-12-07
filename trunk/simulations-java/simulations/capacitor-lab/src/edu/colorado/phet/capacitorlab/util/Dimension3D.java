@@ -44,8 +44,23 @@ public class Dimension3D {
         boolean equals = false;
         if ( o != null && o instanceof Dimension3D ) {
             Dimension3D d = (Dimension3D) o;
-            equals = d.getWidth() == width && d.getHeight() == height && d.getDepth() == depth;
+            equals = ( d.getWidth() == width && d.getHeight() == height && d.getDepth() == depth );
         }
         return equals;
+    }
+    
+    @Override
+    public String toString() {
+        final StringBuffer result = new StringBuffer();
+        result.append( super.toString().replaceAll( ".*\\.", "" ) ); // abbreviate the class name
+        result.append( '[' );
+        result.append( "width=" );
+        result.append( width );
+        result.append( ",height=" );
+        result.append( height );
+        result.append( ",depth=" );
+        result.append( depth );
+        result.append( ']' );
+        return result.toString();
     }
 }
