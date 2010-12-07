@@ -93,32 +93,14 @@ public class H2O extends Molecule {
 
     @Override
     protected void setOscillation( double oscillationRadians ) {
-        // TODO: This is temporary until we work out what the real oscillation
-        // should look like.
-        if ( photonToEmit != null && photonToEmit.getWavelength() == GreenhouseConfig.irWavelength ) {
-            double multFactor = Math.sin( oscillationRadians );
-            double maxHydrogenDisplacement = 20;
-            double maxOxygenDisplacement = 5;
-            atomCogOffsets.put( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
-            atomCogOffsets.put( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-                    -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-            atomCogOffsets.put( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-                    -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-        }
-        else if ( photonToEmit != null && photonToEmit.getWavelength() == GreenhouseConfig.microWavelength ) {
-            if ( rotateClockwise ){
-                rotate( -0.8 );
-            }
-            else{
-                rotate( 0.8 );
-            }
-        }
-    }
-
-    private void rotate( double angle ){
-        atomCogOffsets.get( oxygenAtom ).rotate( angle );
-        atomCogOffsets.get( hydrogenAtom1 ).rotate( angle );
-        atomCogOffsets.get( hydrogenAtom2 ).rotate( angle );
+        double multFactor = Math.sin( oscillationRadians );
+        double maxOxygenDisplacement = 5;
+        double maxHydrogenDisplacement = 20;
+        atomCogOffsets.put( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
+        atomCogOffsets.put( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+                -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        atomCogOffsets.put( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+                -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
     }
 
     @Override
