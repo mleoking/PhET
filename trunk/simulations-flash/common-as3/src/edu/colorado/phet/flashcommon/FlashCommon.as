@@ -328,11 +328,11 @@ public class FlashCommon {
     //    }
 
     // returns the version string with minor and dev fields padded with a zero if necessary
-    public function zeroPadVersion( versionMajor: Number, versionMinor: Number, versionDev: Number = 0 ): String {
+    public function zeroPadVersion( versionMajor: Number, versionMinor: Number, versionDev: Number = -1 ): String {
         var ret: String = "";
         ret += String( versionMajor ) + ".";
         ret += (versionMinor > 9 ? String( versionMinor ) : "0" + String( versionMinor ));
-        if ( versionDev != 0 ) {
+        if ( versionDev != -1 ) {
             ret += "." + (versionDev > 9 ? String( versionDev ) : "0" + String( versionDev ));
         }
         return ret;
