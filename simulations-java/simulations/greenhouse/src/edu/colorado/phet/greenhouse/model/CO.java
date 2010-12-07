@@ -42,7 +42,8 @@ public class CO extends Molecule {
         addAtomicBond( carbonOxygenBond1 );
 
         // Set up the photon wavelengths to absorb.
-        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();

@@ -62,7 +62,7 @@ public class CH4 extends Molecule {
         addAtomicBond( carbonHydrogenBond4 );
 
         // Set up the photon wavelengths to absorb.
-        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();
