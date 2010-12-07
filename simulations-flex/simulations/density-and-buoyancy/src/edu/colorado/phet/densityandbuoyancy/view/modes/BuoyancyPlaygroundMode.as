@@ -10,7 +10,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import flash.events.Event;
 import flash.geom.ColorTransform;
 
-public class BuoyancyPlaygroundMode extends Mode {
+public class BuoyancyPlaygroundMode extends BuoyancyMode {
     private var block1: DensityObject;
     private var block2: DensityObject;
     private var customObjectPropertiesPanelWrapper1: CustomObjectPropertiesPanelWrapper;

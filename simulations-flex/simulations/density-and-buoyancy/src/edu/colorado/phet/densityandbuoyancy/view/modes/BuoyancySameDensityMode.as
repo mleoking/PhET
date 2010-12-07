@@ -7,7 +7,7 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
-public class BuoyancySameDensityMode extends Mode {
+public class BuoyancySameDensityMode extends BuoyancyMode {
     private var woodBlock: DensityObject;
     private var brick: DensityObject;
 
