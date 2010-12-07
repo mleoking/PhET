@@ -15,11 +15,12 @@ import mx.events.FlexEvent;
 import mx.events.SliderEvent;
 
 public class PropertyEditor extends GridRow {
-    private var property: NumericProperty;
+    private var _property: NumericProperty;
     private static const FONT_SIZE: Number = 12;
     private var sliderWidth: Number;
     protected const textField: TextInput = new TextInput();
     protected var _sliderDecorator: SliderDecorator;
+    private var _unit: Unit;
 
     /**
      *
@@ -33,7 +34,8 @@ public class PropertyEditor extends GridRow {
     public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280 ) {
         super();
         this.sliderWidth = sliderWidth;
-        this.property = property;
+        this._property = property;
+        this._unit = unit;
 
         var label: Label = new Label();
         label.text = property.name;
@@ -151,6 +153,14 @@ public class PropertyEditor extends GridRow {
 
     protected override function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
         super.updateDisplayList( unscaledWidth, unscaledHeight );
+    }
+
+    public function get property(): NumericProperty {
+        return _property;
+    }
+
+    public function get unit(): Unit {
+        return _unit;
     }
 }
 }

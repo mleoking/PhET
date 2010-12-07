@@ -1,3 +1,4 @@
+Changed the density slider thumb to be a red triangle
 # 1.02.07 (46839) Dec 6, 2010
 Buoyancy: Fixed: "material" and "my block" radio buttons from 2-object mode are in the same group
 Added a numerical readout under the density slider thumb

@@ -64,11 +64,14 @@ public class SliderDecorator extends UIComponent {
                 slider.setStyle( "fillAlphas", [ 0.40, 0.20 ] ); // it seems like these alpha values are ignored?
                 slider.setStyle( "fillColors", [ 0x666666, 0x333333] );
             }
+            //TODO: should we gray out the slider?
             if ( value ) {
                 slider.alpha = 1.0;
             }
             else {
-                slider.alpha = 0.38;
+//                slider.alpha = 0.38;
+//                slider.setStyle("trackColors",[ 0xFF0000, 0xFF0000]);
+//                trackColors="[ 0xEEEEEE, 0xFFFFFF ]"
             }
         }
     }
