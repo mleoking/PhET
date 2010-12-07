@@ -25,7 +25,7 @@ public class H2O extends Molecule {
     // it so that the bond length and/or the angle could be changed and the
     // correct center of gravity will be maintained.
     private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 150;
-    private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 104.5;
+    private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 109 * Math.PI / 180;
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = 2 * HydrogenAtom.MASS *
         OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (OxygenAtom.MASS *
         2 * HydrogenAtom.MASS);
@@ -95,11 +95,11 @@ public class H2O extends Molecule {
     protected void setOscillation( double oscillationRadians ) {
         double multFactor = Math.sin( oscillationRadians );
         double maxOxygenDisplacement = 5;
-        double maxHydrogenDisplacement = 20;
+        double maxHydrogenDisplacement = 15;
         atomCogOffsets.put( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
-        atomCogOffsets.put( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+        atomCogOffsets.put( hydrogenAtom1, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-        atomCogOffsets.put( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+        atomCogOffsets.put( hydrogenAtom2, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
                 -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
     }
 
