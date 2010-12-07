@@ -76,12 +76,12 @@ public abstract class PhotonAbsorptionStrategy {
         return isPhotonAbsorbed;
     }
 
-    public static class VibrationStrategy extends PhotonAbsorptionStrategy {
+    public static abstract class PhotonHoldStrategy extends PhotonAbsorptionStrategy{
 
         private int remainingTimeToVibrate;
         private double absorbedWavelength;
 
-        public VibrationStrategy( Molecule molecule ) {
+        public PhotonHoldStrategy( Molecule molecule ) {
             super( molecule );
         }
 
@@ -89,12 +89,14 @@ public abstract class PhotonAbsorptionStrategy {
         public void stepInTime( double dt ) {
             photonHoldCountdownTime -= dt;
             if ( photonHoldCountdownTime <= 0 ) {
-                getMolecule().emitPhoton( absorbedWavelength );
-                getMolecule().setVibrating( false );
-                getMolecule().setVibration( 0 );
-                getMolecule().setActiveStrategy( new NullPhotonAbsorptionStrategy( getMolecule() ) );
-                isPhotonAbsorbed = false;
+                reemitPhoton();
             }
+        }
+
+        protected void reemitPhoton() {
+            getMolecule().emitPhoton( absorbedWavelength );
+            getMolecule().setActiveStrategy( new NullPhotonAbsorptionStrategy( getMolecule() ) );
+            isPhotonAbsorbed = false;
         }
 
         @Override
@@ -102,31 +104,52 @@ public abstract class PhotonAbsorptionStrategy {
             final boolean absorbed = super.queryAndAbsorbPhoton( photon );
             if ( absorbed ) {
                 this.absorbedWavelength = photon.getWavelength();
-                getMolecule().setVibrating( true );
+                photonAbsorbed();
             }
             return absorbed;
         }
+
+        protected abstract void photonAbsorbed();
     }
 
-    public static class RotationStrategy extends PhotonAbsorptionStrategy {
+    public static class VibrationStrategy extends PhotonHoldStrategy {
+
+        public VibrationStrategy( Molecule molecule ) {
+            super( molecule );
+        }
+
+        @Override
+        protected void photonAbsorbed() {
+            getMolecule().setVibrating( true );
+        }
+
+        @Override
+        protected void reemitPhoton() {
+            super.reemitPhoton();
+            getMolecule().setVibrating( false );
+            getMolecule().setVibration( 0 );
+        }
+
+    }
+
+    public static class RotationStrategy extends PhotonHoldStrategy {
 
         public RotationStrategy( Molecule molecule ) {
             super( molecule );
         }
 
         @Override
-        public void stepInTime( double dt ) {
-            // TODO Auto-generated method stub
+        protected void photonAbsorbed() {
+            getMolecule().setRotationDirectionClockwise( RAND.nextBoolean() );
+            getMolecule().setRotating( true );
         }
 
         @Override
-        public boolean queryAndAbsorbPhoton( Photon photon ) {
-            final boolean absorbed = super.queryAndAbsorbPhoton( photon );
-            if (absorbed){
-                getMolecule().setRotating( true );
-            }
-            return absorbed;
+        protected void reemitPhoton() {
+            super.reemitPhoton();
+            getMolecule().setRotating( false );
         }
+
     }
 
     public static class BreakApartStrategy extends PhotonAbsorptionStrategy {
@@ -141,24 +164,21 @@ public abstract class PhotonAbsorptionStrategy {
         }
     }
 
-    public static class ExcitationStrategy extends PhotonAbsorptionStrategy {
+    public static class ExcitationStrategy extends PhotonHoldStrategy {
 
         public ExcitationStrategy( Molecule molecule ) {
             super( molecule );
         }
 
         @Override
-        public void stepInTime( double dt ) {
-            // TODO Auto-generated method stub
+        protected void photonAbsorbed() {
+            getMolecule().setHighElectronicEnergyState( true );
         }
 
         @Override
-        public boolean queryAndAbsorbPhoton( Photon photon ) {
-            final boolean absorbed = super.queryAndAbsorbPhoton( photon );
-            if (absorbed ){
-                getMolecule().setHighElectronicEnergyState( true );
-            }
-            return absorbed;
+        protected void reemitPhoton() {
+            super.reemitPhoton();
+            getMolecule().setHighElectronicEnergyState( false );
         }
     }
 
