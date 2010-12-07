@@ -1,3 +1,4 @@
+Fixed: The blocks stay where you put them when you switch between modes, but the scales do not.
 Set relative vector offsets to zero
 Removed tick marks from along the side of the pool
 Fixed horizontal offsets for the vector arrow labels, since they were overlapping at high screen resolution
