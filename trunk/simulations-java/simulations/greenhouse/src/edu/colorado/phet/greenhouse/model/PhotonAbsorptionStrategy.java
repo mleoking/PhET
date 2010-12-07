@@ -119,6 +119,30 @@ public abstract class PhotonAbsorptionStrategy {
         }
     }
 
+    public static class BreakApartStrategy extends PhotonAbsorptionStrategy {
+
+        public BreakApartStrategy( Molecule molecule ) {
+            super( molecule );
+        }
+
+        @Override
+        public void stepInTime( double dt ) {
+            // TODO Auto-generated method stub
+        }
+    }
+
+    public static class ExcitationStrategy extends PhotonAbsorptionStrategy {
+
+        public ExcitationStrategy( Molecule molecule ) {
+            super( molecule );
+        }
+
+        @Override
+        public void stepInTime( double dt ) {
+            // TODO Auto-generated method stub
+        }
+    }
+
     public static class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
         /**
          * Constructor.

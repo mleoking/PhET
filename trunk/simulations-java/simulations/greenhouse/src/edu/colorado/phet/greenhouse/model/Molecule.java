@@ -267,15 +267,6 @@ public abstract class Molecule {
     }
 
     /**
-     * Add a wavelength to the list of those absorbed by this molecule.
-     *
-     * @param wavelength
-     */
-    protected void addPhotonAbsorptionWavelength(double wavelength){
-        photonAbsorptionWavelengths.add( wavelength );
-    }
-
-    /**
      * Set the location of this molecule by specifying the center of gravity.
      * This will be unique to each molecule's configuration, and it will cause
      * the individual molecules to be located such that the center of gravity

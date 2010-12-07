@@ -53,7 +53,7 @@ public class N2O extends Molecule {
         addAtomicBond( nitrogenOxygenBond );
 
         // Set up the photon wavelengths to absorb.
-        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();

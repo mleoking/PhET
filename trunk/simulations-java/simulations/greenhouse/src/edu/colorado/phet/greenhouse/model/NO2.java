@@ -75,7 +75,10 @@ public class NO2 extends Molecule {
         addAtomicBond( nitrogenOxygenBond2 );
 
         // Set up the photon wavelengths to absorb.
-        addPhotonAbsorptionWavelength( GreenhouseConfig.irWavelength );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.visibleWaveLength, new PhotonAbsorptionStrategy.ExcitationStrategy( this ) );
+        setPhotonAbsorptionStrategy( GreenhouseConfig.uvWavelength, new PhotonAbsorptionStrategy.BreakApartStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();
