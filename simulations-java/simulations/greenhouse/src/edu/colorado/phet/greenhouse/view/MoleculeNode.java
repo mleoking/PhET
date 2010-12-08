@@ -28,7 +28,7 @@ public class MoleculeNode extends PNode {
 
     // This flag is used to turn on/off the appearance of the center of
     // gravity, which is useful for debugging.
-    private static final boolean SHOW_COG = true;
+    private static final boolean SHOW_COG = false;
 
     //------------------------------------------------------------------------
     // Instance Data
