@@ -160,7 +160,10 @@ public abstract class PhotonAbsorptionStrategy {
 
         @Override
         public void stepInTime( double dt ) {
-            // TODO Auto-generated method stub
+            // Basically, all this strategy does is to instruct the molecule
+            // to break apart, then reset the strategy.
+            getMolecule().breakApart();
+            getMolecule().setActiveStrategy( new NullPhotonAbsorptionStrategy( getMolecule() ) );
         }
     }
 
