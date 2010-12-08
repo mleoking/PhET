@@ -85,8 +85,8 @@
     // is being ripped for the installers.
     define("RIPPER_USER_AGENT_PHET",       '"httrack-web-offline-en"');
     define("RIPPER_USER_AGENT_YF",         '"httrack-web-mirror-yf"');
-    define("RIPPER_USER_AGENT_KSU_LOCAL",  '"httrack-web-offline-ar"');
-    define("RIPPER_USER_AGENT_KSU_WEB",    '"httrack-web-mirror-ar"');
+    define("RIPPER_USER_AGENT_KSU_LOCAL",  '"httrack-web-offline-ar_SA"');
+    define("RIPPER_USER_AGENT_KSU_WEB",    '"httrack-web-mirror-ar_SA"');
 
     // Definition of the filters, which specify what to include/exclude from
     // the rip.  These filters are meant to capture the entire web site as
