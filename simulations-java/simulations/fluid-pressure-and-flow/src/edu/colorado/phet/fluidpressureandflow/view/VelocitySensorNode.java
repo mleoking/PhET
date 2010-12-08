@@ -1,7 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -16,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
  * @author Sam Reid
  */
 public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
-    
+
     public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor sensor, final Property<Units.Unit> unitsProperty ) {
         super( transform, sensor, unitsProperty );
 
@@ -27,7 +26,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
             setStrokePaint( Color.black );
         }};
         addChild( arrowNode );
-        
+
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty() ) );
 
         // adjust the vector arrow when the value changes

@@ -55,9 +55,9 @@ public class FluidPressureAndFlowModel {
             return Double.NaN;
         }
     }
-    
+
     public double getPressure( Point2D position ) {
-       return getPressure( position.getX(), position.getY() );
+        return getPressure( position.getX(), position.getY() );
     }
 
     /**
@@ -78,7 +78,7 @@ public class FluidPressureAndFlowModel {
     public Property<Units.Unit> getPressureUnitProperty() {
         return pressureUnitProperty;
     }
-    
+
     public Property<Units.Unit> getVelocityUnitProperty() {
         return velocityUnitProperty;
     }

@@ -44,6 +44,6 @@ public class Pool {
     }
 
     public Point2D getTopRight() {
-        return new Point2D.Double( getMaxX(), getMaxY());
+        return new Point2D.Double( getMaxX(), getMaxY() );
     }
 }

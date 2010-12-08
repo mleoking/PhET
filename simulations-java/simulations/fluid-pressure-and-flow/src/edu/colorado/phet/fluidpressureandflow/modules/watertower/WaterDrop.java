@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -34,6 +33,6 @@ public class WaterDrop {
     }
 
     public void addRemovalListener( SimpleObserver simpleObserver ) {
-        removalListeners.add( simpleObserver);
+        removalListeners.add( simpleObserver );
     }
 }

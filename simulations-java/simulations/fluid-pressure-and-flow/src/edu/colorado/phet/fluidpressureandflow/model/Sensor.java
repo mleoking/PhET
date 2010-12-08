@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public abstract class Sensor<T> {
-    
+
     protected Property<ImmutableVector2D> locationProperty;
     protected Property<T> valueProperty;
 
@@ -21,11 +21,11 @@ public abstract class Sensor<T> {
         locationProperty.reset();
         valueProperty.reset();
     }
-    
+
     public ImmutableVector2D getLocation() {
         return locationProperty.getValue();
     }
-    
+
     public double getX() {
         return getLocation().getX();
     }
@@ -45,7 +45,7 @@ public abstract class Sensor<T> {
     public Property<ImmutableVector2D> getLocationProperty() {
         return locationProperty;
     }
-    
+
     public T getValue() {
         return valueProperty.getValue();
     }
@@ -53,10 +53,10 @@ public abstract class Sensor<T> {
     protected void setValue( T value ) {
         valueProperty.setValue( value );
     }
-    
+
     public abstract double getScalarValue();
 
     public void addValueObserver( SimpleObserver observer ) {
         valueProperty.addObserver( observer );
-    } 
+    }
 }
