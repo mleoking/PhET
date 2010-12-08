@@ -38,10 +38,10 @@ public class O3 extends Molecule {
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = OXYGEN_OXYGEN_BOND_LENGTH *
             Math.sin( INITIAL_MOLECULE_ANGLE );
 
-    // Scaler quantity representing the speed of the constituent particles
-    // if the molecule breaks apart.
-    private static final double BREAK_APART_VELOCITY = 1;
-
+    // Scaler quantity representing the speed at which the constituent particles
+    // move away from each other.  Note that this is a relative speed, not one
+    // that is absolute in model space.
+    private static final double BREAK_APART_VELOCITY = 3;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -152,10 +152,10 @@ public class O3 extends Molecule {
 
         // Create the constituent molecules that result from breaking apart.
         Molecule diatomicOxygenMolecule = new O2(){{
-            setVelocity( BREAK_APART_VELOCITY * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * Math.cos(breakApartAngle) );
+            setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle) );
         }};
         Molecule singleOxygenMolecule = new O(){{
-            setVelocity( -BREAK_APART_VELOCITY * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * Math.cos(breakApartAngle) );
+            setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle) );
         }};
         consituentMolecules.add( diatomicOxygenMolecule );
         consituentMolecules.add( singleOxygenMolecule );
