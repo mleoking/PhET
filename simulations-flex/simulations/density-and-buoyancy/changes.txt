@@ -1,3 +1,5 @@
+Fixed: removed the extraneous text box from the density slider
+Fixed: density slider thumb is off several pixels from the real thumb
 # 1.02.08 (46911) Dec 7, 2010
 Fixed: The blocks stay where you put them when you switch between modes, but the scales do not.
 Set relative vector offsets to zero

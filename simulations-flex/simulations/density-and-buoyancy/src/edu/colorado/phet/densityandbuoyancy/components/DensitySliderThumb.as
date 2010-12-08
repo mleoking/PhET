@@ -19,9 +19,10 @@ public class DensitySliderThumb extends SliderThumb {
         setStyle( "thumbSkin", null );//we'll draw it ourselves
 
         graphics.beginFill( 0xFF0000 );
-        graphics.moveTo( 0, 0 );
-        graphics.lineTo( +10, 10 );
-        graphics.lineTo( -10, 10 );
+        var offsetX = 4;//This is necessary to make the red triangle match up exactly with the desired thumb location.
+        graphics.moveTo( 0 + offsetX, 0 );
+        graphics.lineTo( +10 + offsetX, 10 );
+        graphics.lineTo( -10 + offsetX, 10 );
         graphics.endFill();
 
         var dataTip: DensitySliderDataTip = new DensitySliderDataTip();
@@ -31,7 +32,7 @@ public class DensitySliderThumb extends SliderThumb {
         DensityModel.frameListeners.push( function(): void {
             var p: PropertyEditor = getPropertyEditor( parent );
             dataTip.setDensity( p.property.value, p.unit );
-            dataTip.x = -dataTip.width / 2 - 5;
+            dataTip.x = -dataTip.width / 2 - 5 + offsetX;
             dataTip.y = 10 + dataTip.height / 2;
         } );
     }
