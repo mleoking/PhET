@@ -6,8 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
@@ -29,14 +27,10 @@ public class O3 extends Molecule {
     // it so that the bond length and/or the angle could be changed and the
     // correct center of gravity will be maintained.
     private static final double OXYGEN_OXYGEN_BOND_LENGTH = 180;
-    private static final double INITIAL_MOLECULE_ANGLE = 120 * Math.PI / 180;
-    private static final double INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2 * OxygenAtom.MASS *
-            OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE ) / ( OxygenAtom.MASS *
-            2 * OxygenAtom.MASS );
-    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET -
-            OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_MOLECULE_ANGLE );
-    private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = OXYGEN_OXYGEN_BOND_LENGTH *
-            Math.sin( INITIAL_MOLECULE_ANGLE );
+    private static final double INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
+    private static final double INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2.0 / 3.0 * Math.cos( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 ) * OXYGEN_OXYGEN_BOND_LENGTH;
+    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
+    private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = OXYGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 );
 
     // Scaler quantity representing the speed at which the constituent particles
     // move away from each other.  Note that this is a relative speed, not one
