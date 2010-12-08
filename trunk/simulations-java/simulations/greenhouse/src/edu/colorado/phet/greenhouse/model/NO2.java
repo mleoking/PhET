@@ -27,13 +27,11 @@ public class NO2 extends Molecule {
     // correct center of gravity will be maintained.
     private static final double NITROGEN_OXYGEN_BOND_LENGTH = 180;
     private static final double INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
-    private static final double INITIAL_NITROGEN_VERTICAL_OFFSET = 2 * OxygenAtom.MASS *
-        NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE ) /
-        ( NitrogenAtom.MASS * 2 * OxygenAtom.MASS );
-    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_NITROGEN_VERTICAL_OFFSET -
-        NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
-    private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = NITROGEN_OXYGEN_BOND_LENGTH *
-        Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
+    private static final double INITIAL_MOLECULE_HEIGHT = NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
+    private static final double TOTAL_MOLECULE_MASS = NitrogenAtom.MASS + ( 2 * OxygenAtom.MASS );
+    private static final double INITIAL_NITROGEN_VERTICAL_OFFSET = INITIAL_MOLECULE_HEIGHT * ( ( 2 * OxygenAtom.MASS ) / TOTAL_MOLECULE_MASS );
+    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = -( INITIAL_MOLECULE_HEIGHT - INITIAL_NITROGEN_VERTICAL_OFFSET );
+    private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
 
     // Random variable used to control the side on which the delocalized bond
     // is depicted.
@@ -101,22 +99,20 @@ public class NO2 extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(nitrogenAtom, new Vector2D(0, INITIAL_NITROGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_OXYGEN_HORIZONTAL_OFFSET,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_OXYGEN_HORIZONTAL_OFFSET,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
     }
 
     @Override
     protected void setVibration( double vibrationRadians ) {
         double multFactor = Math.sin( vibrationRadians );
-        double maxNitrogenDisplacement = 5;
-        double maxOxygenDisplacement = 20;
+        double maxNitrogenDisplacement = 30;
+        double maxOxygenDisplacement = 15;
         atomCogOffsets.put( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET - multFactor * maxNitrogenDisplacement ) );
-        atomCogOffsets.put( oxygenAtom1, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
-        atomCogOffsets.put( oxygenAtom2, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOxygenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
+        atomCogOffsets.put( oxygenAtom1, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOxygenDisplacement,
+                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
+        atomCogOffsets.put( oxygenAtom2, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
+                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
     }
 
     @Override
