@@ -21,6 +21,7 @@ public class PropertyEditor extends GridRow {
     protected const textField: TextInput = new TextInput();
     protected var _sliderDecorator: SliderDecorator;
     private var _unit: Unit;
+    protected var addLabels: Boolean;
 
     /**
      *
@@ -31,8 +32,9 @@ public class PropertyEditor extends GridRow {
      * @param densityObject
      */
 
-    public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280 ) {
+    public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280, addLabels: Boolean = true ) {
         super();
+        this.addLabels = addLabels;
         this.sliderWidth = sliderWidth;
         this._property = property;
         this._unit = unit;
@@ -44,46 +46,54 @@ public class PropertyEditor extends GridRow {
         addGridItem( label );
 
         _sliderDecorator = createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
-        addGridItem( _sliderDecorator );
-
-        textField.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
-        textField.setStyle( "disabledColor", 0x000000 );
-        //        textField.setStyle( "fontWeight", "bold" );
-        textField.setStyle( "backgroundDisabledColor", 0xEEEEEE );
-        textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
-        textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
-        function updateText(): void {
-            textField.text = DensityConstants.format( unit.fromSI( property.value ) );
+        if ( addLabels ) {
+            addGridItem( _sliderDecorator );
+        }
+        else {
+            addGridItem( _sliderDecorator, 3 );
         }
 
-        function updateModelFromTextField(): void {
-            const number: Number = unit.toSI( Number( textField.text ) );
-            property.value = bounds.clamp( MathUtil.clamp( minimum, number, maximum ) );
-            if ( number < minimum || number > maximum ) {
-                updateText();
+        if ( addLabels ) {
+
+            textField.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
+            textField.setStyle( "disabledColor", 0x000000 );
+            //        textField.setStyle( "fontWeight", "bold" );
+            textField.setStyle( "backgroundDisabledColor", 0xEEEEEE );
+            textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
+            textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
+            function updateText(): void {
+                textField.text = DensityConstants.format( unit.fromSI( property.value ) );
             }
-        }
 
-        updateText();
-        const listener: Function = function myfunction(): void {
-            if ( focusManager != null ) { //Have to do a null check because it can be null if the component is not in the scene graph?
-                if ( focusManager.getFocus() == textField ) {//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
-                    updateModelFromTextField();
+            function updateModelFromTextField(): void {
+                const number: Number = unit.toSI( Number( textField.text ) );
+                property.value = bounds.clamp( MathUtil.clamp( minimum, number, maximum ) );
+                if ( number < minimum || number > maximum ) {
+                    updateText();
                 }
             }
-        };
 
-        textField.addEventListener( FocusEvent.FOCUS_OUT, updateModelFromTextField );
-        textField.addEventListener( FlexEvent.VALUE_COMMIT, listener );
-        textField.addEventListener( FlexEvent.ENTER, listener );
+            updateText();
+            const listener: Function = function myfunction(): void {
+                if ( focusManager != null ) { //Have to do a null check because it can be null if the component is not in the scene graph?
+                    if ( focusManager.getFocus() == textField ) {//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
+                        updateModelFromTextField();
+                    }
+                }
+            };
 
-        property.addListener( updateText );
-        addGridItem( textField );
+            textField.addEventListener( FocusEvent.FOCUS_OUT, updateModelFromTextField );
+            textField.addEventListener( FlexEvent.VALUE_COMMIT, listener );
+            textField.addEventListener( FlexEvent.ENTER, listener );
 
-        var unitsLabel: Label = new Label();
-        unitsLabel.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
-        unitsLabel.text = unit.name;
-        addGridItem( unitsLabel );
+            property.addListener( updateText );
+            addGridItem( textField );
+
+            var unitsLabel: Label = new Label();
+            unitsLabel.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
+            unitsLabel.text = unit.name;
+            addGridItem( unitsLabel );
+        }
     }
 
     //The density slider requires a reference to the density object in order to bound the volume when necessary.
@@ -145,9 +155,10 @@ public class PropertyEditor extends GridRow {
         return MySliderThumb;
     }
 
-    private function addGridItem( displayObject: DisplayObject ): void {
+    private function addGridItem( displayObject: DisplayObject, colSpan: Number = 1 ): void {
         const item: GridItem = new GridItem();
         item.addChild( displayObject );
+        item.colSpan = colSpan;
         addChild( item );
     }
 
