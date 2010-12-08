@@ -25,6 +25,7 @@ public class BuildLocalProperties {
     private static final String JARSIGNER_PASSWORD_KEY = "jarsigner.password";
     private static final String JARSIGNER_ALIAS_KEY = "jarsigner.alias";
     private static final String JARSIGNER_TSA_URL_KEY = "jarsigner.tsa-url";
+    private static final String GIT_ROOT = "git.root";
     private static final String GUI_PROMPT_USER_FOR_CHANGE_MESSAGE = "gui.prompt-user-for-change-message";//see BuildLocalProperties.isPromptUserForChangeMessage
 
     /* singleton */
@@ -106,7 +107,7 @@ public class BuildLocalProperties {
             try {
                 properties.load( new FileInputStream( file ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -420,6 +421,11 @@ public class BuildLocalProperties {
      */
     public String getProductionWebsiteOverride() {
         return getOptionalString( "production-website-override" );
+    }
+
+    public String getGitRoot() {
+//        return getRequiredString( GIT_ROOT, "The path to your Git root. For instance, the website should be located at <git-root>/website, etc." );
+        return getOptionalString( GIT_ROOT );
     }
 
 }

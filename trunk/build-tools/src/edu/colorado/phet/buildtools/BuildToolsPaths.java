@@ -113,4 +113,10 @@ public class BuildToolsPaths {
 
     public static final String JAVA_JAR_LOCALIZATION = "/phetcommon/localization/";
     public static final String FLASH_JAR_LOCALIZATION = "/";
+
+    /*---------------------------------------------------------------------------*
+    * Git paths
+    *----------------------------------------------------------------------------*/
+
+    public static final String GIT_WEBSITE = "website";
 }

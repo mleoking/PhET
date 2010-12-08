@@ -189,7 +189,7 @@ public abstract class PhetProject {
                 return new JavaSimulationProject( file );
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return null;
         }
@@ -494,7 +494,7 @@ public abstract class PhetProject {
         try {
             prop.load( new FileInputStream( getVersionFile() ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return Integer.parseInt( prop.getProperty( "version." + property ) );
@@ -545,9 +545,10 @@ public abstract class PhetProject {
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
             projects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
-            projects.add( new WebsiteProject( new File( trunk, BuildToolsPaths.WEBSITE ) ) );
+            projects.add( new WebsiteProject( trunk, new File( BuildLocalProperties.getInstance().getGitRoot(), BuildToolsPaths.GIT_WEBSITE ) ) );
+//            projects.add( new WebsiteProject( trunk, new File( trunk, BuildToolsPaths.WEBSITE ) ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return projects;
@@ -711,11 +712,11 @@ public abstract class PhetProject {
             bufferedReader.close();
             return s.toString();
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -729,7 +730,7 @@ public abstract class PhetProject {
             bufferedWriter.close();
             notifyChangesTextChanged();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -773,18 +774,18 @@ public abstract class PhetProject {
                 }
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
         try {
-            SvnUtils.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[]{contribLicensesDir.getName()} );
+            SvnUtils.setIgnorePatternsOnDir( contribLicensesDir.getParentFile(), new String[] { contribLicensesDir.getName() } );
             //TODO: redirect system.out and system.err
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
             e.printStackTrace();
         }
     }
@@ -806,10 +807,10 @@ public abstract class PhetProject {
                 return (String[]) strings.toArray( new String[strings.size()] );
             }
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return new String[0];
@@ -825,7 +826,7 @@ public abstract class PhetProject {
             phetProperties.load( new FileInputStream( getProjectPropertiesFile() ) );
             return phetProperties;
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return null;
         }
@@ -850,7 +851,7 @@ public abstract class PhetProject {
         try {
             return getTrunkAbsolute().getCanonicalFile();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return getTrunkAbsolute();
         }
@@ -962,10 +963,10 @@ public abstract class PhetProject {
 
             FileUtils.writeString( getMetaXMLFile(), str );
         }
-        catch( UnsupportedEncodingException e ) {
+        catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
