@@ -31,7 +31,7 @@ public class NO2 extends Molecule {
     private static final double TOTAL_MOLECULE_MASS = NitrogenAtom.MASS + ( 2 * OxygenAtom.MASS );
     private static final double INITIAL_NITROGEN_VERTICAL_OFFSET = INITIAL_MOLECULE_HEIGHT * ( ( 2 * OxygenAtom.MASS ) / TOTAL_MOLECULE_MASS );
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = -( INITIAL_MOLECULE_HEIGHT - INITIAL_NITROGEN_VERTICAL_OFFSET );
-    private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE );
+    private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
 
     // Random variable used to control the side on which the delocalized bond
     // is depicted.
