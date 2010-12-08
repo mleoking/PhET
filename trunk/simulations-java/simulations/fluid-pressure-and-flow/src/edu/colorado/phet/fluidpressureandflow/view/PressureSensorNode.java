@@ -14,16 +14,16 @@ import edu.colorado.phet.fluidpressureandflow.model.Units;
  * @author Sam Reid
  */
 public class PressureSensorNode extends SensorNode<Double> {
-    
+
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> unitsProperty ) {
         this( transform, sensor, unitsProperty, null );
     }
-    
+
     /**
      * @param transform
      * @param sensor
      * @param unitsProperty
-     * @param pool           the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
+     * @param pool          the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
      */
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> unitsProperty, final Pool pool ) {
         super( transform, sensor, unitsProperty );

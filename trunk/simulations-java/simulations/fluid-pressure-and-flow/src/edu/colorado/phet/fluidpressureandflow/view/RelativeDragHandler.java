@@ -48,7 +48,7 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
         }
         final Point2D newDragPosition = event.getPositionRelativeTo( node.getParent() );
         Point2D modelPt = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
-                                                       newDragPosition.getY() - relativeGrabPoint.getY() );
+                                                 newDragPosition.getY() - relativeGrabPoint.getY() );
         Point2D constrained = constraint.apply( modelPt );
         this.modelLocation.setValue( new ImmutableVector2D( constrained ) );
     }

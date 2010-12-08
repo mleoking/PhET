@@ -4,7 +4,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;

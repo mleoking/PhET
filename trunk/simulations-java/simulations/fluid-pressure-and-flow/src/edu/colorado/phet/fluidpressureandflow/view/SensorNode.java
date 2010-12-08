@@ -1,8 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
@@ -23,34 +21,34 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public abstract class SensorNode<T> extends PNode {
-    
+
     /**
      * @param transform
      * @param sensor
      * @param unitsProperty
      */
     public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> unitsProperty ) {
-        
+
         // hot spot
         final double hotSpotRadius = 3;
         final Color hotSpotColor = Color.RED;
         PNode hotSpotNode = new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), hotSpotColor );
-        
+
         // value display
         final PText textNode = new PText( getText( sensor, unitsProperty ) ) {{
             setFont( new PhetFont( 18, true ) );
         }};
-        
+
         // background box
         final PPath backgroundNode = new PhetPPath( Color.white, new BasicStroke( 1f ), Color.gray );
-        
+
         // rendering order
         addChild( backgroundNode );
         addChild( textNode );
         addChild( hotSpotNode );
-        
+
         addInputEventListener( new CursorHandler() );
-        
+
         sensor.addLocationObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
@@ -58,12 +56,12 @@ public abstract class SensorNode<T> extends PNode {
         } );
         final SimpleObserver updateTextObserver = new SimpleObserver() {
             public void update() {
-                
+
                 // update the text and center it
                 textNode.setText( getText( sensor, unitsProperty ) );
                 final double textYSpacing = -10;
                 textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() + textYSpacing );
-                
+
                 // update the background to enclose the textNode
                 final double cornerRadius = 10;
                 final double margin = 3;
