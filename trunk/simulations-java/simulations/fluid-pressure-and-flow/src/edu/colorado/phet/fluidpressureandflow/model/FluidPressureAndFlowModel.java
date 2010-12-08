@@ -47,13 +47,17 @@ public class FluidPressureAndFlowModel {
 
     //Return pressure of the air
 
-    public double getPressure( Point2D position ) {
-        if ( position.getY() >= 0 ) {
-            return getPressureFunction().evaluate( position.getY() );
+    public double getPressure( double x, double y ) {
+        if ( y >= 0 ) {
+            return getPressureFunction().evaluate( y );
         }
         else {
             return Double.NaN;
         }
+    }
+    
+    public double getPressure( Point2D position ) {
+       return getPressure( position.getX(), position.getY() );
     }
 
     /**
