@@ -27,7 +27,7 @@ public class Event {
     public int rawRecordId;
     public String rawEvent;
     public String rawDescription;
-    public int rawPersonId;
+    public int rawPersonId = -1;
     public String rawSummary;
 
     public Record record;
@@ -39,7 +39,12 @@ public class Event {
         rawRecordId = Communication.getIntField( element, "record-id" );
         rawEvent = Communication.getStringField( element, "event" );
         rawDescription = Communication.getStringField( element, "description" );
-        rawPersonId = Communication.getIntField( element, "person-id" );
+        try {
+            rawPersonId = Communication.getIntField( element, "person-id" );
+        }
+        catch ( NumberFormatException e ) {
+            // just ignore this for now. Person will be null.
+        }
         rawSummary = Communication.getStringField( element, "summary" );
 
         Element recordElement = (Element) Communication.getFirstNodeByName( element, "record" );
@@ -144,6 +149,9 @@ public class Event {
     }
 
     public String getPersonName() {
+        if ( record instanceof Changeset && ((Changeset)record).isGit() ) {
+            return ( (Changeset) record ).rawAuthorName;
+        }
         if ( getPerson() == null ) { return null; }
         return getPerson().getName();
     }
