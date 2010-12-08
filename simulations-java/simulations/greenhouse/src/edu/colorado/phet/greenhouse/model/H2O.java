@@ -26,13 +26,11 @@ public class H2O extends Molecule {
     // correct center of gravity will be maintained.
     private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 130;
     private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 109 * Math.PI / 180;
-    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = 2 * HydrogenAtom.MASS *
-        OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (OxygenAtom.MASS *
-        2 * HydrogenAtom.MASS);
-    private static final double INITIAL_HYDROGEN_VERTICAL_OFFSET = INITIAL_OXYGEN_VERTICAL_OFFSET -
-        OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
-    private static final double INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH *
-        Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE );
+    private static final double INITIAL_MOLECULE_HEIGHT = OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE / 2 );
+    private static final double TOTAL_MOLECULE_MASS = OxygenAtom.MASS + ( 2 * HydrogenAtom.MASS );
+    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_MOLECULE_HEIGHT * ( ( 2 * HydrogenAtom.MASS ) / TOTAL_MOLECULE_MASS );
+    private static final double INITIAL_HYDROGEN_VERTICAL_OFFSET = -( INITIAL_MOLECULE_HEIGHT - INITIAL_OXYGEN_VERTICAL_OFFSET );
+    private static final double INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH * Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE / 2 );
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -82,22 +80,20 @@ public class H2O extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(oxygenAtom, new Vector2D(0, INITIAL_OXYGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(hydrogenAtom1, new Vector2D(INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
-                -INITIAL_HYDROGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(hydrogenAtom2, new Vector2D(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET,
-                -INITIAL_HYDROGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(hydrogenAtom1, new Vector2D(INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET));
+        atomCogOffsets.put(hydrogenAtom2, new Vector2D(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET));
     }
 
     @Override
     protected void setVibration( double vibrationRadians ) {
         double multFactor = Math.sin( vibrationRadians );
-        double maxOxygenDisplacement = 5;
-        double maxHydrogenDisplacement = 15;
+        double maxOxygenDisplacement = 3;
+        double maxHydrogenDisplacement = 18;
         atomCogOffsets.put( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
-        atomCogOffsets.put( hydrogenAtom1, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-                -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-        atomCogOffsets.put( hydrogenAtom2, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-                -INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        atomCogOffsets.put( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+                INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        atomCogOffsets.put( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+                INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
     }
 
     @Override
