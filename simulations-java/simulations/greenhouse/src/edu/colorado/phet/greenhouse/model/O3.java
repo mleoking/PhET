@@ -29,7 +29,7 @@ public class O3 extends Molecule {
     private static final double OXYGEN_OXYGEN_BOND_LENGTH = 180;
     private static final double INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
     private static final double INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2.0 / 3.0 * Math.cos( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 ) * OXYGEN_OXYGEN_BOND_LENGTH;
-    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
+    private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = OXYGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 );
 
     // Scaler quantity representing the speed at which the constituent particles
@@ -106,22 +106,20 @@ public class O3 extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
-        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET ) );
-        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
     }
 
     @Override
     protected void setVibration( double vibrationRadians ) {
         double multFactor = Math.sin( vibrationRadians );
-        double maxCenterOxygenDisplacement = 10;
-        double maxOuterOxygenDisplacement = 20;
+        double maxCenterOxygenDisplacement = 30;
+        double maxOuterOxygenDisplacement = 15;
         atomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxCenterOxygenDisplacement ) );
         atomCogOffsets.put( leftOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOuterOxygenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
+                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
         atomCogOffsets.put( rightOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOuterOxygenDisplacement,
-                -INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
+                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
     }
 
     @Override
