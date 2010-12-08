@@ -18,7 +18,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class FluidPressureAndFlowRuler extends PNode {
-    public FluidPressureAndFlowRuler( ModelViewTransform transform, final Property<Boolean> visible, double length, String[] majorTicks, String units, Point2D rulerModelOrigin ) {
+    public FluidPressureAndFlowRuler( ModelViewTransform transform,
+                                      final Property<Boolean> visible,//getter
+                                      final Property<Boolean> setVisible, //setter, separate from getter since has to be 'and'ed with units property in FluidPressureCanvas
+                                      double length, String[] majorTicks, String units, Point2D rulerModelOrigin ) {
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.getValue() );
@@ -49,7 +52,7 @@ public class FluidPressureAndFlowRuler extends PNode {
         addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    visible.setValue( false );
+                    setVisible.setValue( false );
                 }
             } );
             setOffset( rulerNode.getFullBounds().getOrigin().getX(), rulerNode.getFullBounds().getOrigin().getY() - getFullBounds().getHeight() );
