@@ -62,15 +62,15 @@ public class PressureSensorNode extends PNode {
                 textNode.setOffset( -textNode.getFullBounds().getWidth() / 2, -textNode.getFullBounds().getHeight() );
             }
         };
-        sensor.addPressureObserver( updateText );
+        sensor.addValueObserver( updateText );
         unitsProperty.addObserver( updateText );
     }
 
     private static String getText( PressureSensor pressureSensor, Property<Units.Unit> unitsProperty ) {
         String pattern = "{0} {1}"; //TODO i18n
         String value = "?"; //TODO i18n
-        if ( !Double.isNaN( pressureSensor.getPressure() ) ) {
-            value = unitsProperty.getValue().getDecimalFormat().format( unitsProperty.getValue().siToUnit( pressureSensor.getPressure() ) );
+        if ( !Double.isNaN( pressureSensor.getValue() ) ) {
+            value = unitsProperty.getValue().getDecimalFormat().format( unitsProperty.getValue().siToUnit( pressureSensor.getValue() ) );
         }
         String units = unitsProperty.getValue().getAbbreviation();
         return MessageFormat.format( pattern, value, units );

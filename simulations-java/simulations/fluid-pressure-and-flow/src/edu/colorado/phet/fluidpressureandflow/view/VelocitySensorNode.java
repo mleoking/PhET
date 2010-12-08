@@ -47,13 +47,13 @@ public class VelocitySensorNode extends PNode {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }
         } );
-        sensor.addVelocityObserver( new SimpleObserver() {
+        sensor.addValueObserver( new SimpleObserver() {
             public void update() {
                 child.setText( getText( sensor, unitsProperty ) );
 
                 child.setOffset( -child.getFullBounds().getWidth() / 2, 0 );//Center the text under the the hot spot
 
-                ImmutableVector2D velocity = sensor.getVelocity();
+                ImmutableVector2D velocity = sensor.getValue();
                 ImmutableVector2D viewVelocity = transform.modelToViewDelta( velocity );
                 double velocityScale = 0.2;
                 Point2D tip = viewVelocity.getScaledInstance( velocityScale ).toPoint2D();
@@ -66,7 +66,7 @@ public class VelocitySensorNode extends PNode {
     private static String getText( VelocitySensor sensor, final Property<Units.Unit> unitsProperty ) {
         final String pattern = "{0} = {1} {2}"; //TODO i18n
         final String label = "v"; //TODO i18n
-        final String value = unitsProperty.getValue().getDecimalFormat().format( sensor.getVelocity().getMagnitude() );
+        final String value = unitsProperty.getValue().getDecimalFormat().format( sensor.getValue().getMagnitude() );
         final String units = unitsProperty.getValue().getAbbreviation();
         return MessageFormat.format( pattern, label, value, units );
     }
