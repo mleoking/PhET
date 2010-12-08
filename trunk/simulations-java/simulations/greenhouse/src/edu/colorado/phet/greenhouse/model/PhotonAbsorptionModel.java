@@ -143,8 +143,11 @@ public class PhotonAbsorptionModel {
 
         @Override
         public void brokeApart(Molecule molecule) {
+
+            // The molecule broke apart, so we need to remove the current molecule...
             removeOldTarget();
 
+            // ...and then get the constituents and add them to the model.
             ArrayList<Molecule> constituents = molecule.getBreakApartConstituents();
             for ( Molecule constituent : constituents ) {
                 activeMolecules.add( constituent );
