@@ -1,3 +1,4 @@
+Add a background to sensor nodes to make them look more sensory
 Created class hierarchy for sensor nodes
 Move value property into Sensor base class
 Added units to velocity sensor, cleaned up VelocitySensorNode and PressureSensorNode
