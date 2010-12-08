@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,7 +14,7 @@
    height="365.35919"
    id="svg12544"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.47 r22583"
    sodipodi:docname="molecules.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
@@ -461,6 +462,33 @@
        fx="318.72757"
        fy="321.75848"
        r="36.31876" />
+    <inkscape:perspective
+       id="perspective3018"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5056"
+       id="linearGradient3810"
+       x1="6.0631919"
+       y1="343.69131"
+       x2="104.06319"
+       y2="343.69131"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5056"
+       id="radialGradient3814"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8010068,1.5559485,-1.6212433,0.8346156,587.83548,-435.15064)"
+       cx="318.72757"
+       cy="321.75848"
+       fx="318.72757"
+       fy="321.75848"
+       r="36.31876" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -472,16 +500,17 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="688.49377"
-     inkscape:cy="137.43292"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="460.56733"
+     inkscape:cy="144.8687"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="898"
-     inkscape:window-height="686"
-     inkscape:window-x="460"
-     inkscape:window-y="19" />
+     inkscape:window-width="1085"
+     inkscape:window-height="746"
+     inkscape:window-x="144"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata12549">
     <rdf:RDF>
@@ -513,7 +542,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="translate(-40.627761,-95.105894)" />
       <path
          style="opacity:1;fill:url(#radialGradient11998);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
@@ -540,7 +569,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="matrix(0.2744125,0,0,0.2744125,214.26036,-173.23701)" />
       <path
          style="fill:url(#radialGradient12004);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
@@ -559,7 +588,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="matrix(0.1558105,0,0,0.1558105,244.59822,-133.62628)" />
     </g>
     <g
@@ -577,7 +606,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="matrix(0.2439807,0.1256012,-0.1256012,0.2439807,168.91866,-265.2416)" />
       <path
          style="fill:url(#radialGradient12012);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
@@ -586,7 +615,7 @@
     </g>
     <path
        transform="matrix(-0.669838,-1.1616548,1.1616548,-0.669838,-269.65175,1050.3557)"
-       d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+       d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
        sodipodi:ry="36.31876"
        sodipodi:rx="36.31876"
        sodipodi:cy="339.02402"
@@ -604,13 +633,6 @@
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/HA.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
-    <path
-       style="fill:url(#radialGradient12018);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
-       d="M 145.29145,420.41739 C 128.01745,420.80419 111.37585,430.35995 102.91625,446.79239 C 90.611445,470.69423 100.01465,500.11279 123.91625,512.41739 C 147.81825,524.72207 177.23665,515.31919 189.54145,491.41739 C 193.62985,483.47555 195.23305,474.99223 194.79145,466.66739 C 178.33665,466.13391 165.16625,452.62603 165.16625,436.04239 C 165.16625,432.19799 165.87225,428.55903 167.16625,425.16739 C 160.09585,421.80147 152.66145,420.25235 145.29145,420.41739 z"
-       id="path7958"
-       inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/A_minus.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
     <g
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
@@ -626,7 +648,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="matrix(0.2439807,0.1256012,-0.1256012,0.2439807,168.91866,-265.2416)" />
       <path
          style="fill:url(#radialGradient12690);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
@@ -635,7 +657,7 @@
     </g>
     <path
        transform="matrix(8.3103656e-2,-1.338364,1.338364,8.3103656e-2,-613.94567,630.54023)"
-       d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+       d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
        sodipodi:ry="36.31876"
        sodipodi:rx="36.31876"
        sodipodi:cy="339.02402"
@@ -661,7 +683,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="matrix(0.2439807,0.1256012,-0.1256012,0.2439807,168.91866,-265.2416)" />
       <path
          style="fill:url(#radialGradient2464);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
@@ -670,7 +692,7 @@
     </g>
     <path
        transform="matrix(7.479329e-2,-1.2045276,1.2045276,7.479329e-2,-20.747229,586.03589)"
-       d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+       d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
        sodipodi:ry="36.31876"
        sodipodi:rx="36.31876"
        sodipodi:cy="339.02402"
@@ -683,7 +705,7 @@
        inkscape:export-ydpi="90" />
     <path
        transform="matrix(7.479329e-2,-1.2045276,1.2045276,7.479329e-2,508.5727,598.15773)"
-       d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+       d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
        sodipodi:ry="36.31876"
        sodipodi:rx="36.31876"
        sodipodi:cy="339.02402"
@@ -709,7 +731,7 @@
          sodipodi:cy="339.02402"
          sodipodi:rx="36.31876"
          sodipodi:ry="36.31876"
-         d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+         d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
          transform="matrix(0.2439807,0.1256012,-0.1256012,0.2439807,168.91866,-265.2416)" />
       <path
          style="fill:url(#radialGradient2470);fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
@@ -718,7 +740,7 @@
     </g>
     <path
        transform="matrix(7.479329e-2,-1.2045276,1.2045276,7.479329e-2,239.92628,602.05116)"
-       d="M 344.10486,339.02402 A 36.31876,36.31876 0 1 1 271.46734,339.02402 A 36.31876,36.31876 0 1 1 344.10486,339.02402 z"
+       d="m 344.10486,339.02402 c 0,20.05829 -16.26046,36.31876 -36.31876,36.31876 -20.05829,0 -36.31876,-16.26047 -36.31876,-36.31876 0,-20.0583 16.26047,-36.31876 36.31876,-36.31876 20.0583,0 36.31876,16.26046 36.31876,36.31876 z"
        sodipodi:ry="36.31876"
        sodipodi:rx="36.31876"
        sodipodi:cy="339.02402"
@@ -729,5 +751,18 @@
        inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/MOH.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/archie/Work/Sim Design/Acid-Base-Solutions/graphics/molecules/B.png"
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient3814);fill-opacity:1;stroke:none;display:inline"
+       id="path3812"
+       sodipodi:cx="307.7861"
+       sodipodi:cy="339.02402"
+       sodipodi:rx="36.31876"
+       sodipodi:ry="36.31876"
+       d="m 344.10486,339.02402 a 36.31876,36.31876 0 1 1 -72.63752,0 36.31876,36.31876 0 1 1 72.63752,0 z"
+       transform="matrix(0.08310366,-1.338364,1.338364,0.08310366,-303.82884,849.74333)" />
   </g>
 </svg>
