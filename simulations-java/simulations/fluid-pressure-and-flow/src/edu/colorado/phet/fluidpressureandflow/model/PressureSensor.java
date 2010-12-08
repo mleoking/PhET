@@ -19,4 +19,9 @@ public class PressureSensor extends Sensor<Double> {
         addLocationObserver( updatePressure );
         context.addFluidChangeObserver( updatePressure );
     }
+    
+    @Override
+    public double getScalarValue() {
+        return getValue();
+    }
 }
