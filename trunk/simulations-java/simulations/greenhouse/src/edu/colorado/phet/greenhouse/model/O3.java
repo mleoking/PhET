@@ -144,10 +144,10 @@ public class O3 extends Molecule {
 
         // Create the constituent molecules that result from breaking apart.
         Molecule diatomicOxygenMolecule = new O2(){{
-            setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle) );
+            setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.sin(breakApartAngle) );
         }};
         Molecule singleOxygenMolecule = new O(){{
-            setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle) );
+            setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.sin(breakApartAngle) );
         }};
         consituentMolecules.add( diatomicOxygenMolecule );
         consituentMolecules.add( singleOxygenMolecule );
