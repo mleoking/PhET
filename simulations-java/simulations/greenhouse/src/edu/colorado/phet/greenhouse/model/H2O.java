@@ -24,7 +24,7 @@ public class H2O extends Molecule {
     // longer than real life.  The algebraic calculations are intended to make
     // it so that the bond length and/or the angle could be changed and the
     // correct center of gravity will be maintained.
-    private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 150;
+    private static final double OXYGEN_HYDROGEN_BOND_LENGTH = 130;
     private static final double INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 109 * Math.PI / 180;
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = 2 * HydrogenAtom.MASS *
         OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE ) / (OxygenAtom.MASS *
