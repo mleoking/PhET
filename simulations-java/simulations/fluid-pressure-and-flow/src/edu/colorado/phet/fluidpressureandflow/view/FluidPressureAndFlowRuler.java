@@ -1,5 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -27,8 +28,9 @@ public class FluidPressureAndFlowRuler extends PNode {
                 setVisible( visible.getValue() );
             }
         } );
-        final RulerNode rulerNode = new RulerNode( length,
-                                                   50, majorTicks, units, 4, 18 );
+        final RulerNode rulerNode = new RulerNode( length,50, majorTicks, units, 4, 15 ){{
+            setInsetWidth( 0 );//so 0 is exactly at edge of ruler
+        }};
         rulerNode.rotate( -Math.PI / 2 );
         rulerNode.setOffset( transform.modelToViewX( rulerModelOrigin.getX() ),
                              transform.modelToViewY( rulerModelOrigin.getY() ) + rulerNode.getInsetWidth() );
@@ -42,13 +44,6 @@ public class FluidPressureAndFlowRuler extends PNode {
                 translate( delta.width, delta.height );
             }
         } );
-//        addChild( new PSwing( new JButton( new ImageIcon( PhetCommonResources.getImage(PhetCommonResources.IMAGE_CLOSE_BUTTON ) )) {{
-//            addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    visible.setValue( false );
-//                }
-//            } );
-//        }} ){{
         addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Stroke;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -39,7 +40,7 @@ public class RulerNode extends PhetPNode {
     private static final int UNITS_SPACING = 3;
 
     // Defaults
-    private static final int DEFAULT_INSET_WIDTH = 14;
+    private static final int DEFAULT_INSET_WIDTH = 0;
     private static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
     private static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     private static final double DEFAULT_MAJOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO = 0.40;
@@ -91,11 +92,15 @@ public class RulerNode extends PhetPNode {
             int fontSize ) {
 
         this( distanceBetweenFirstAndLastTick, DEFAULT_INSET_WIDTH, height,
-              majorTickLabels, new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, fontSize ),
-              units, new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, fontSize ),
+              majorTickLabels, createDefaultFont( fontSize ),
+              units, createDefaultFont( fontSize ),
               numMinorTicksBetweenMajors,
               height * DEFAULT_MAJOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO / 2,
               height * DEFAULT_MINOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO / 2 );
+    }
+
+    public static Font createDefaultFont( int fontSize ) {
+        return new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, fontSize );
     }
 
     /**
@@ -171,6 +176,16 @@ public class RulerNode extends PhetPNode {
      */
     public double getInsetWidth() {
         return insetWidth;
+    }
+
+    /**
+     * Sets the amount of space that appears to the left (and right)
+     * of the first (and last) tick marks.
+     * @param insetWidth the amount of space that appears to the left (and right) of the first (and last) tick marks.
+     */
+    public void setInsetWidth(double insetWidth){
+        this.insetWidth = insetWidth;
+        update();
     }
 
     /**
@@ -289,7 +304,12 @@ public class RulerNode extends PhetPNode {
                 majorTickLabelNode.setScale( fontScale );
                 double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
                 double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
-                majorTickLabelNode.setOffset( xVal - majorTickLabelNode.getFullBounds().getWidth() / 2, yVal );
+                double minDistanceFromTextToEdgeOfRuler = 1;
+                //Clamp and make sure the labels stay within the ruler, especially if the insetWidth has been set low (or to zero)
+                majorTickLabelNode.setOffset( MathUtil.clamp( minDistanceFromTextToEdgeOfRuler,
+                                                              xVal - majorTickLabelNode.getFullBounds().getWidth() / 2,
+                                                              width - majorTickLabelNode.getFullBounds().getWidth() - minDistanceFromTextToEdgeOfRuler ),
+                                              yVal );
                 parentNode.addChild( majorTickLabelNode );
 
                 // Major tick mark

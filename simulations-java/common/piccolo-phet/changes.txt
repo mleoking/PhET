@@ -1,3 +1,4 @@
+12-8-2010: Made it possible to set the first tick mark of the ruler to appear at its edge, see #2604
 11-2-2010: Added support for showing a disabled AbstractMediaButton on a black background
 5-21-2010: Fixed constructor arg name in ShadowHTMLNode, resolves #2368
 3-23-2010: Disable fractional metrics rendering hint which was causing rendering artifacts, resolves #2178
