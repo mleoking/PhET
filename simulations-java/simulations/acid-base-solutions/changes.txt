@@ -1,3 +1,4 @@
+12/8/10 move molecules.svg into assets, remove bite out of A- in the SVG file
 11/30/10 add colorblindness test app, ABSTestColorblindness, see #2577
 # 1.00.00 (43926) Sep 10, 2010
 9/10/10 1st deployment of acid-base-solutions
