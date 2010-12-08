@@ -18,12 +18,17 @@ import com.jcraft.jsch.JSchException;
  * Project meant to compile the Wicket website
  */
 public class WebsiteProject extends JavaProject {
-    public WebsiteProject( File projectRoot ) throws IOException {
+
+    private File svnTrunk;
+
+    public WebsiteProject( File svnTrunk, File projectRoot ) throws IOException {
         super( projectRoot );
+        this.svnTrunk = svnTrunk;
     }
 
     public File getTrunkAbsolute() {
-        return new File( getProjectDir(), "../.." );
+        // TODO: getTrunkAbsolute() not the best way now that we split things across git and svn
+        return svnTrunk;
     }
 
     public String getAlternateMainClass() {
