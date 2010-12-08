@@ -57,6 +57,7 @@ public class WebsiteProject extends JavaProject {
     @Override
     public boolean build() throws Exception {
         new WebsiteBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
+        System.out.println( "WAR file: " + getBuildWarFile().getCanonicalPath() );
         File[] f = getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.getName().toLowerCase().endsWith( ".war" );

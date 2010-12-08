@@ -50,7 +50,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
 
             // copy all of the data we need over
             for ( File file : project.getAllDataDirectories() ) {
-                if ( file.getName().equals( "root" ) && file.getParentFile().getName().equals( "wicket-website" ) ) {
+                if ( file.getName().equals( "root" ) && file.getParentFile().getName().equals( project.getName() ) ) {
                     // root directory, dump it in the root
                     FileUtils.copyRecursive( file, baseDir );
                 }
