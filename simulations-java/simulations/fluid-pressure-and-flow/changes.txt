@@ -1,3 +1,4 @@
+Fixed: Ruler checkbox does not change selected when pressing ruler close button
 Improved sensor nodes so they have an attached triangle tip pointing to the sensor hot spot
 Moved velocity vector arrow behind the sensor triangle hot spot
 Add a background to sensor nodes to make them look more sensory
