@@ -43,7 +43,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         } );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, null, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
         }
 
         for ( VelocitySensor velocitySensor : module.getFluidPressureAndFlowModel().getVelocitySensors() ) {

@@ -19,6 +19,11 @@ public class VelocitySensor extends Sensor<ImmutableVector2D> {
         context.addVelocityUpdateListener( updateVelocity ); //pipe could change underneath the velocity sensor
     }
     
+    @Override
+    public double getScalarValue() {
+        return getValue().getMagnitude();
+    }
+    
     public static interface Context {
         public ImmutableVector2D getVelocity( double x, double y );
 
