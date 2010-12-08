@@ -38,6 +38,11 @@ public class O3 extends Molecule {
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = OXYGEN_OXYGEN_BOND_LENGTH *
             Math.sin( INITIAL_MOLECULE_ANGLE );
 
+    // Scaler quantity representing the speed of the constituent particles
+    // if the molecule breaks apart.
+    private static final double BREAK_APART_VELOCITY = 1;
+
+
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
@@ -51,6 +56,10 @@ public class O3 extends Molecule {
     // Random variable used to control the side on which the delocalized bond
     // is depicted.
     private static final Random RAND = new Random();
+
+    // Constituent molecules - these come into play when the original molecule
+    // is commanded to break apart.
+    private final ArrayList<Molecule> consituentMolecules = new ArrayList<Molecule>();
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -123,36 +132,34 @@ public class O3 extends Molecule {
 
     @Override
     public ArrayList<Molecule> getBreakApartConstituents() {
-        ArrayList<Molecule> all = new ArrayList<Molecule>(  );
-        for (int i=0;i<1;i++){//TODO: this code was for testing the angle ranges and can be removed when those parameters are decided
-            all.addAll( testOnce() );
-        }
-        return all;
-    }
-
-    private ArrayList<Molecule> testOnce() {
-        double angle = MathUtil.getSign( Math.random()-0.5 )*(Math.PI/4 + Math.random()*Math.PI/2);
-
-        final ImmutableVector2D velocity = Vector2D.parseAngleAndMagnitude( 2, angle );
-        return new ArrayList<Molecule>() {{
-            add( new O2() {{
-                setVelocity( velocity.getScaledInstance( 1*0.5));
-            }} );
-            add( new O() {{
-                setVelocity( velocity.getScaledInstance(-1 ));
-            }} );
-        }};
+        return consituentMolecules;
     }
 
     @Override
     public MoleculeID getMoleculeID() {
-        return MoleculeID.NO2;
+        return MoleculeID.O3;
     }
 
     @Override
     protected void breakApart() {
-        super.breakApart();
-        setVelocity( new Vector2D( 1, 1 ) );
+
+        // Choose the direction that the molecule will break apart, and
+        // constrain it to be out of the plane of the photon motion.  This is
+        // done solely to make sure that the constituents can be clearly seen,
+        // and not for any physical reason.
+        final double breakApartAngle = Math.PI / 2 + (RAND.nextDouble() - 0.5) * Math.PI;
+
+
+        // Create the constituent molecules that result from breaking apart.
+        Molecule diatomicOxygenMolecule = new O2(){{
+            setVelocity( BREAK_APART_VELOCITY * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * Math.cos(breakApartAngle) );
+        }};
+        Molecule singleOxygenMolecule = new O(){{
+            setVelocity( -BREAK_APART_VELOCITY * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * Math.cos(breakApartAngle) );
+        }};
+        consituentMolecules.add( diatomicOxygenMolecule );
+        consituentMolecules.add( singleOxygenMolecule );
+
         for ( Listener listener : listeners ) {
             listener.brokeApart(this );
         }
