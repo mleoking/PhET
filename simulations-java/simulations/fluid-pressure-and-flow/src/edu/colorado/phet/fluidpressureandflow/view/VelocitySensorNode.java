@@ -25,7 +25,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
             setStroke( new BasicStroke( 1 ) );
             setStrokePaint( Color.black );
         }};
-        addChild( arrowNode );
+        addChild( 0,arrowNode );//put it behind other graphics so the hot spot triangle tip shows in front of the arrow
 
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty() ) );
 

@@ -1,6 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
@@ -8,6 +9,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -29,23 +31,19 @@ public abstract class SensorNode<T> extends PNode {
      */
     public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> unitsProperty ) {
 
-        // hot spot
-        final double hotSpotRadius = 3;
-        final Color hotSpotColor = Color.RED;
-        PNode hotSpotNode = new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), hotSpotColor );
-
         // value display
         final PText textNode = new PText( getText( sensor, unitsProperty ) ) {{
             setFont( new PhetFont( 18, true ) );
         }};
 
         // background box
-        final PPath backgroundNode = new PhetPPath( Color.white, new BasicStroke( 1f ), Color.gray );
+        final PPath backgroundNode = new PhetPPath( Color.white, new BasicStroke( 1f ), Color.darkGray );
 
         // rendering order
         addChild( backgroundNode );
         addChild( textNode );
-        addChild( hotSpotNode );
+//        final double hotSpotRadius = 3;
+//        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.RED ) );
 
         addInputEventListener( new CursorHandler() );
 
@@ -68,7 +66,16 @@ public abstract class SensorNode<T> extends PNode {
                 final double width = textNode.getFullBoundsReference().getWidth() + ( 2 * margin );
                 final double height = textNode.getFullBoundsReference().getHeight() + ( 2 * margin );
                 Shape backgroundShape = new RoundRectangle2D.Double( textNode.getFullBoundsReference().getMinX() - margin, textNode.getFullBoundsReference().getMinY() - margin, width, height, cornerRadius, cornerRadius );
-                backgroundNode.setPathTo( backgroundShape );
+
+                Area area = new Area();
+                area.add(new Area(backgroundShape));
+                area.add(new Area(new DoubleGeneralPath(0,0+textYSpacing){{
+                    lineTo( 10,0+textYSpacing);
+                    lineTo( 0,10 +textYSpacing);
+                    lineTo( -10,0 +textYSpacing);
+                    lineTo( 0,0 +textYSpacing);
+                }}.getGeneralPath() ));
+                backgroundNode.setPathTo( area );
             }
         };
         sensor.addValueObserver( updateTextObserver );
