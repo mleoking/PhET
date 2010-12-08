@@ -546,7 +546,6 @@ public abstract class PhetProject {
             projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
             projects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
             projects.add( new WebsiteProject( trunk, new File( BuildLocalProperties.getInstance().getGitRoot(), BuildToolsPaths.GIT_WEBSITE ) ) );
-//            projects.add( new WebsiteProject( trunk, new File( trunk, BuildToolsPaths.WEBSITE ) ) );
         }
         catch ( IOException e ) {
             e.printStackTrace();
