@@ -64,25 +64,16 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         }
 
         final FluidFlowModel model = module.getFluidFlowModel();
-//        final DropperNode dropperNode = new DropperNode( transform, model.getPipe(),
-//                                                         new SimpleObserver() {
-//                                                             public void update() {
-//                                                                 model.pourFoodColoring();
-//                                                             }
-//                                                         } );
-//        addChild( dropperNode );
 
         addChild( new ParticleInjectorNode( transform, 3 * Math.PI / 2, model.getPipe(), new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
             }
-        } ) {{
-            setOffset( 100, 100 );
-        }} );
+        } ) );
 
         final PSwing rateControlNode = new PSwing(
                 new JSlider( JSlider.HORIZONTAL, 0, 100, 4 ) {{
-                    setFont( DropperNode.font );
+                    setFont( new PhetFont( 16, true ) );
                     FluidPressureAndFlowCanvas.makeTransparent( this );
                     setPaintTicks( true );
                     setPaintLabels( true );
