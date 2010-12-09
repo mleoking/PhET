@@ -30,11 +30,16 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
     public final Property<Units.Unit> velocityUnitProperty = new Property<Units.Unit>( Units.METERS_PER_SECOND );
     public final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
     private ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
+    private ArrayList<Balloon> balloons = new ArrayList<Balloon>();
     private ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
     private Property<Double> liquidDensityProperty = new Property<Double>( 1000.0 );//SI
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );
+    }
+
+    public void addBalloon( Balloon balloon ) {
+        balloons.add( balloon );
     }
 
     public void addVelocitySensor( VelocitySensor sensor ) {
@@ -99,6 +104,10 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
         return pressureSensors.toArray( new PressureSensor[0] );
     }
 
+    public Balloon[] getBalloons() {
+        return balloons.toArray( new Balloon[0] );
+    }
+
     public VelocitySensor[] getVelocitySensors() {
         return velocitySensors.toArray( new VelocitySensor[0] );
     }
@@ -135,6 +144,9 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
         }
         for ( PressureSensor pressureSensor : pressureSensors ) {
             pressureSensor.reset();
+        }
+        for ( Balloon balloon : balloons ) {
+            balloon.reset();
         }
         clock.resetSimulationTime();
         clock.start();
