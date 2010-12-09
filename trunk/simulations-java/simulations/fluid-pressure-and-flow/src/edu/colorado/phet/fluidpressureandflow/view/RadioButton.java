@@ -18,14 +18,16 @@ public class RadioButton extends JRadioButton {
         setBackground( FluidPressureControlPanel.BACKGROUND );
         setForeground( FluidPressureControlPanel.FOREGROUND );
         setFont( new PhetFont( 16, true ) );
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                property.setValue( isSelected() );
-            }
-        } );
-        property.addObserver( new SimpleObserver() {
+        final SimpleObserver updateSelected = new SimpleObserver() {
             public void update() {
                 setSelected( property.getValue() );
+            }
+        };
+        property.addObserver( updateSelected );
+        addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                property.setValue( true );
+                updateSelected.update();
             }
         } );
     }
