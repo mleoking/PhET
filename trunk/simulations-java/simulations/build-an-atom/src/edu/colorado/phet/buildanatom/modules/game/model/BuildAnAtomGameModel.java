@@ -3,7 +3,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
@@ -34,13 +34,13 @@ public class BuildAnAtomGameModel {
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
     private final State gameSettingsState = new State( this ){
         @Override
-        public StateView createView( GameCanvas gameCanvas ) {
+        public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
             return new GameSettingsStateView(gameCanvas, BuildAnAtomGameModel.this );
         }
     };
     private final State gameOverState = new State( this ){
         @Override
-        public StateView createView( GameCanvas gameCanvas ) {
+        public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
             return new GameOverStateView(gameCanvas, BuildAnAtomGameModel.this );
         }
 
@@ -56,7 +56,7 @@ public class BuildAnAtomGameModel {
      */
     private final State nullState = new State( this ){
         @Override
-        public StateView createView( GameCanvas gameCanvas ) {
+        public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
             throw new RuntimeException("Not implemented.");
         }
     };

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 public class SchematicToElementView extends ToElementView {
     private final SchematicAtomNode gameAtomModelNode;
 
-    public SchematicToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public SchematicToElementView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
 

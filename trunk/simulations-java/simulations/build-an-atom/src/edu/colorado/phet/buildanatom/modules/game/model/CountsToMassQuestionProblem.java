@@ -2,7 +2,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.modules.game.view.CountsToChargeQuestionView;
 import edu.colorado.phet.buildanatom.modules.game.view.CountsToMassQuestionView;
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
@@ -14,7 +14,7 @@ public class CountsToMassQuestionProblem extends ToElementProblem{
     }
 
     @Override
-    public StateView createView( GameCanvas gameCanvas ) {
+    public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
         return new CountsToMassQuestionView( model, gameCanvas, this );
     }
 }

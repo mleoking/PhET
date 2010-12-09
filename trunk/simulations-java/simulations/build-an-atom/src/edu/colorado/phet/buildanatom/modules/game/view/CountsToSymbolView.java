@@ -13,7 +13,7 @@ public class CountsToSymbolView extends ToSymbolProblemView {
     /**
      * Constructor.
      */
-    public CountsToSymbolView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem ) {
+    public CountsToSymbolView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, ToSymbolProblem problem ) {
         super( model, canvas, problem );
         particleCountNode = new ParticleCountNode( problem.getAnswer().getNumProtons(),
                 problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );

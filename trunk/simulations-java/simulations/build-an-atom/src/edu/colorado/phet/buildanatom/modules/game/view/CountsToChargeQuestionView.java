@@ -19,7 +19,7 @@ public class CountsToChargeQuestionView extends CountsToQuestionView {
     /**
      * Constructor.
      */
-    public CountsToChargeQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public CountsToChargeQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_CHARGE_QUESTION, -50, 50, new SignedIntegerFormat() );
 
         if ( problem.getAnswer().isNeutral() ){

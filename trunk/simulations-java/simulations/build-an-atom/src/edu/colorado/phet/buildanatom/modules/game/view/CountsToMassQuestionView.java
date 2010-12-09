@@ -20,7 +20,7 @@ public class CountsToMassQuestionView extends CountsToQuestionView {
     /**
      * Constructor.
      */
-    public CountsToMassQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public CountsToMassQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_MASS_QUESTION, 0, 100, new DecimalFormat( "0" ) );
     }
 

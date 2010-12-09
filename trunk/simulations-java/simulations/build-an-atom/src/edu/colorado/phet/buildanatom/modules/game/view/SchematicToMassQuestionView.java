@@ -20,7 +20,7 @@ public class SchematicToMassQuestionView extends SchematicToQuestionView {
     /**
      * Constructor.
      */
-    public SchematicToMassQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public SchematicToMassQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_MASS_QUESTION, 0, 100, new DecimalFormat( "0" ) );
     }
 

@@ -25,7 +25,7 @@ public abstract class ToQuestionView extends ProblemView {
     /**
      * Constructor.
      */
-    public ToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem,
+    public ToQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem,
             String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
 
         super( model, gameCanvas, problem );

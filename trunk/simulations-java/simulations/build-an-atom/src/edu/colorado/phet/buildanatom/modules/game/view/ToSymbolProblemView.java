@@ -22,7 +22,7 @@ public class ToSymbolProblemView extends ProblemView {
     /**
      * Constructor.
      */
-    public ToSymbolProblemView( BuildAnAtomGameModel model, GameCanvas canvas, ToSymbolProblem problem ) {
+    public ToSymbolProblemView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, ToSymbolProblem problem ) {
         super( model, canvas, problem );
 
         interactiveSymbolNode = new InteractiveSymbolNode( problem.getAnswer(), problem.isConfigurableProtonCount(),

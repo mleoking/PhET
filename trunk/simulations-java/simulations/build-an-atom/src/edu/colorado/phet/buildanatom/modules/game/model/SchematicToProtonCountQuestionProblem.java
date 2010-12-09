@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToProtonCountQuestionView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
@@ -26,7 +26,7 @@ public class SchematicToProtonCountQuestionProblem extends Problem {
     }
 
     @Override
-    public StateView createView( GameCanvas gameCanvas ) {
+    public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
         return new SchematicToProtonCountQuestionView( model, gameCanvas, this );
     }
 }

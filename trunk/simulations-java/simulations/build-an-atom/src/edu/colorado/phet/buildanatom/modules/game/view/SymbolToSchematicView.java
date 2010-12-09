@@ -22,7 +22,7 @@ public class SymbolToSchematicView extends ProblemView {
     private final SymbolIndicatorNode symbolIndicatorNode;
     private final InteractiveSchematicAtomNode interactiveSchematicAtomNode;
 
-    public SymbolToSchematicView( BuildAnAtomGameModel model, GameCanvas canvas, SymbolToSchematicProblem problem) {
+    public SymbolToSchematicView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, SymbolToSchematicProblem problem) {
         super( model, canvas, problem);
         symbolIndicatorNode = new SymbolIndicatorNode( problem.getAnswer().toAtom(getClock() ), true );
         symbolIndicatorNode.scale( 2 );

@@ -1,6 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToSymbolView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
@@ -14,7 +14,7 @@ public class SchematicToSymbolProblem extends ToSymbolProblem {
     }
 
     @Override
-    public StateView createView( GameCanvas gameCanvas ) {
+    public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
         return new SchematicToSymbolView( model, gameCanvas, this );
     }
 }

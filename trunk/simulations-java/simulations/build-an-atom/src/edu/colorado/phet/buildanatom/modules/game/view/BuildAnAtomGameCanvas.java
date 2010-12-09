@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Canvas for the game tab.
  */
-public class GameCanvas extends PhetPCanvas {
+public class BuildAnAtomGameCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -45,7 +45,7 @@ public class GameCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GameCanvas( final BuildAnAtomGameModel model ) {
+    public BuildAnAtomGameCanvas( final BuildAnAtomGameModel model ) {
 
         this.model = model;
         scoreboard = new GameScoreboardNode( BuildAnAtomGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
