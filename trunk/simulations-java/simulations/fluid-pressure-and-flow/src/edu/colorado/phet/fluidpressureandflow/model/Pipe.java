@@ -65,7 +65,7 @@ public class Pipe {
         return pipePositions;
     }
 
-    private ArrayList<CrossSection> getAugmentedSplinePipePositionArray() {
+    public ArrayList<CrossSection> getAugmentedSplinePipePositionArray() {
         if ( dirty ) {
             spline = createSpline();
             dirty = false;
