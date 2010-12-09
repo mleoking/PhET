@@ -32,7 +32,7 @@ public class BalloonNode extends PNode {
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {
                     double radius = transform.modelToViewDeltaX( sensor.getRadius() );
-                    System.out.println( "radius = " + radius );
+//                    System.out.println( "radius = " + radius );
                     setPathTo( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
                 }
             };
