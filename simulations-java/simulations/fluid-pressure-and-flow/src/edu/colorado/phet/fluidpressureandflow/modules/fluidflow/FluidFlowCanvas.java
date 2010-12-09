@@ -1,5 +1,7 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
@@ -16,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
@@ -80,7 +83,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                     setLabelTable( new Hashtable() {{
                         final PhetFont tickFont = new PhetFont( 16, false );
                         put( 0, new JLabel( "None" ) {{setFont( tickFont );}} );
-                        put( 100, new JLabel( "Lots" ) {{setFont( tickFont );}} );
+                        put( 100, new JLabel( "Lots", new ImageIcon( new PNode() {{
+                            final double w = 10;
+                            addChild( new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), Color.red ) );
+                        }}.toImage() ), LEADING ) {{
+                            setFont( tickFont );
+                        }} );
                     }} );
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
