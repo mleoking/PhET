@@ -1,5 +1,7 @@
 package edu.colorado.phet.energyskatepark.model.physics;
 
+import edu.colorado.phet.common.phetcommon.math.spline.CubicSpline2D;
+import edu.colorado.phet.common.phetcommon.math.spline.ParametricFunction2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

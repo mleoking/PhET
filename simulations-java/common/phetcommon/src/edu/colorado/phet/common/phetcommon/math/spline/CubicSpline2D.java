@@ -1,9 +1,8 @@
-package edu.colorado.phet.energyskatepark.model.physics;
-
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
+package edu.colorado.phet.common.phetcommon.math.spline;
 
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 
 /**
  * User: Sam Reid
@@ -23,12 +22,12 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     public boolean equals( Object obj ) {
-        if( !super.equals( obj ) ) {
+        if ( !super.equals( obj ) ) {
             return false;
         }
         else {
-            if( obj instanceof CubicSpline2D ) {
-                CubicSpline2D cubicSpline2D = (CubicSpline2D)obj;
+            if ( obj instanceof CubicSpline2D ) {
+                CubicSpline2D cubicSpline2D = (CubicSpline2D) obj;
                 return cubicSpline2D.x.equals( this.x ) && cubicSpline2D.y.equals( this.y );
             }
             else {
@@ -64,7 +63,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
 
 
     public void translateControlPoints( double dx, double dy ) {
-        if( dx != 0 || dy != 0 ) {
+        if ( dx != 0 || dy != 0 ) {
             super.translateControlPoints( dx, dy );
             update();
             notifyTrackChanged();
@@ -76,7 +75,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
         double[] s = new double[pts.length];
         double[] x = new double[pts.length];
         double[] y = new double[pts.length];
-        for( int i = 0; i < pts.length; i++ ) {
+        for ( int i = 0; i < pts.length; i++ ) {
             s[i] = ( 1.0 / ( pts.length - 1 ) ) * i;//*2.0;
             x[i] = pts[i].getX();
             y[i] = pts[i].getY();
@@ -94,9 +93,9 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     public String toStringSerialization() {
         SerializablePoint2D[] pts = getControlPoints();
         String a = "new SPoint2D[]{";
-        for( int i = 0; i < pts.length; i++ ) {
+        for ( int i = 0; i < pts.length; i++ ) {
             a += "new SPoint2D(" + pts[i].getX() + ", " + pts[i].getY() + ")";
-            if( i < pts.length - 1 ) {
+            if ( i < pts.length - 1 ) {
                 a += ", ";
             }
         }
@@ -112,8 +111,8 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     private void notifyTrackChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.trackChanged();
         }
     }
@@ -124,20 +123,20 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     public static void main( String[] args ) {
-        ParametricFunction2D parametricFunction2D = new CubicSpline2D( new SerializablePoint2D[]{
+        ParametricFunction2D parametricFunction2D = new CubicSpline2D( new SerializablePoint2D[] {
                 new SerializablePoint2D( 0, 0 ),
                 new SerializablePoint2D( 1, 1 ),
                 new SerializablePoint2D( 2, 0 )
         } );
-        for( double s = 0.0; s < 1.0; s += 0.1 ) {
+        for ( double s = 0.0; s < 1.0; s += 0.1 ) {
             SerializablePoint2D at = parametricFunction2D.evaluate( s );
-            EnergySkateParkLogging.println( "s = " + s + ", at=" + at );
+            System.out.println( "s = " + s + ", at=" + at );
         }
         double delta = parametricFunction2D.getMetricDelta( 0, 1 );
-        EnergySkateParkLogging.println( "Spline length=" + delta );
+        System.out.println( "Spline length=" + delta );
 
         double fracDist = parametricFunction2D.getFractionalDistance( 0, delta );
-        EnergySkateParkLogging.println( "fracDist = " + fracDist );
+        System.out.println( "fracDist = " + fracDist );
 
     }
 

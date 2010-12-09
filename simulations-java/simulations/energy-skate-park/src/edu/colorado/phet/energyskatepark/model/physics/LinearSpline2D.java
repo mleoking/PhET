@@ -2,6 +2,7 @@ package edu.colorado.phet.energyskatepark.model.physics;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.spline.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.util.Arrays;

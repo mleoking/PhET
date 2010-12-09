@@ -11,7 +11,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
-import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
+import edu.colorado.phet.common.phetcommon.math.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSplineEnvironment;
 import edu.colorado.phet.energyskatepark.view.SplineMatch;

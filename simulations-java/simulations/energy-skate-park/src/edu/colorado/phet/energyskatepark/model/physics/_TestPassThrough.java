@@ -3,6 +3,8 @@ package edu.colorado.phet.energyskatepark.model.physics;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.spline.CubicSpline2D;
+import edu.colorado.phet.common.phetcommon.math.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import junit.framework.TestCase;
 

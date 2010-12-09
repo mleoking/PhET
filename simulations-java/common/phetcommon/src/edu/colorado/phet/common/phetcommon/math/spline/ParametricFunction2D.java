@@ -1,9 +1,8 @@
-package edu.colorado.phet.energyskatepark.model.physics;
+package edu.colorado.phet.common.phetcommon.math.spline;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 import java.awt.geom.Line2D;
 import java.io.Serializable;
@@ -218,7 +217,7 @@ public abstract class ParametricFunction2D implements Serializable {
             metricDelta = getMetricDelta( alpha0, guess );
             count++;
             if( count > 100 ) {
-                EnergySkateParkLogging.println( "binary search failed: count=" + count );
+                System.out.println( "binary search failed: count=" + count );
                 break;
             }
         }
