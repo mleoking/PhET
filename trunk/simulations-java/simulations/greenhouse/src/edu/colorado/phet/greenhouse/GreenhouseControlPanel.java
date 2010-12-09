@@ -1,39 +1,18 @@
 package edu.colorado.phet.greenhouse;
 
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import javax.swing.AbstractAction;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -303,12 +282,12 @@ public class GreenhouseControlPanel extends JPanel implements Resettable {
     // Inner classes
     //----------------------------------------------------------------
 
-    private class AtmosphereSelectionPanel extends PhetTitledPanel {
+    private class AtmosphereSelectionPanel extends JPanel {
         private final JRadioButton todayGGRB;
         private final JRadioButton adjustableGGRB;
 
         AtmosphereSelectionPanel() {
-            super( GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ), BORDER_TITLE_FONT );
+            setBorder( new PhetTitledBorder( GreenhouseResources.getString( "GreenhouseControlPanel.TimePeriodBorderLabel" ), BORDER_TITLE_FONT ) );
 
             adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
