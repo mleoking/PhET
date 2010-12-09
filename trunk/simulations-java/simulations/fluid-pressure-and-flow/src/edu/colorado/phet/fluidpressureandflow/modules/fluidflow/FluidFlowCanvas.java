@@ -72,7 +72,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                                                          } );
         addChild( dropperNode );
 
-        addChild( new PSwing(
+        final PSwing rateControlNode = new PSwing(
                 new JSlider( JSlider.HORIZONTAL, 0, 100, 4 ) {{
                     setFont( DropperNode.font );
                     FluidPressureAndFlowCanvas.makeTransparent( this );
@@ -100,10 +100,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 public void update() {
                     final Point2D pipeTopLeft = transform.modelToView( pipe.getTopLeft() );
                     final Point2D pipeBottomLeft = transform.modelToView( pipe.getBottomLeft() );
-                    setOffset( pipeTopLeft.getX() - getFullBounds().getWidth() / 2 + 10, pipeBottomLeft.getY() + 10 );
+                    setOffset( pipeTopLeft.getX() - getFullBounds().getWidth() / 2 + 10, pipeBottomLeft.getY() + 50 );
                 }
             } );
-        }} );
+        }};
+        addChild( rateControlNode );
 
         model.addFoodColoringObserver( new VoidFunction1<FoodColoring>() {
             public void apply( FoodColoring foodColoring ) {
@@ -121,7 +122,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         }} );
 
         addChild( new FluidDensityControl<FluidFlowModel>( module ) {{
-            setOffset( 0, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            setOffset( rateControlNode.getFullBounds().getMaxX(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 
         //Some nodes go behind the pool so that it looks like they submerge
