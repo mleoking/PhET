@@ -1,3 +1,4 @@
+Separated dots flow control from dropper
 Fluid Flow: improved initial sensor locations
 Made pipe curve continuously instead of linear
 Moved spline computations from phetcommon to common/spline since it depends on Jama
