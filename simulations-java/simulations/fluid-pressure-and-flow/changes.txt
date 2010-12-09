@@ -1,3 +1,4 @@
+Fluid Flow: improved initial sensor locations
 Made pipe curve continuously instead of linear
 Moved spline computations from phetcommon to common/spline since it depends on Jama
 Moved spline computations from energy-skate-park to phetcommon for reuse in fluid-pressure-and-flow
