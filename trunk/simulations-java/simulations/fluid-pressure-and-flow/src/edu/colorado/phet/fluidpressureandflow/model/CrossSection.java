@@ -67,4 +67,8 @@ public class CrossSection {
     public Property<ImmutableVector2D> getBottomProperty() {
         return bottom;
     }
+
+    public double getCenterY() {
+        return ( top.getValue().getY() + bottom.getValue().getY() ) / 2;
+    }
 }

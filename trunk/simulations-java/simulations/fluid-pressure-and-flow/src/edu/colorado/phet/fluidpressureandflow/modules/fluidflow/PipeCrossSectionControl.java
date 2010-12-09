@@ -10,10 +10,10 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class PipePositionControl extends PNode {
+public class PipeCrossSectionControl extends PNode {
     private double DISTANCE_THRESHOLD = 0.5;
 
-    public PipePositionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
+    public PipeCrossSectionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
         final ControlPoint top = new ControlPoint( pipePosition.getTopProperty(), true );
         final ControlPoint bottom = new ControlPoint( pipePosition.getBottomProperty(), false );
 
