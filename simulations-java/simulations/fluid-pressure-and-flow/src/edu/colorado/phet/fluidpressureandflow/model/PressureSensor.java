@@ -7,13 +7,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class PressureSensor extends Sensor<Double> {
 
-    //TODO: redesign so that this takes a Function<Point2D,Double> or equivalent (must be listenable)
-
-    public PressureSensor( final FluidPressureAndFlowModel context, double x, double y ) {
+    public PressureSensor( final Context context, double x, double y ) {
         super( x, y, context.getPressure( x, y ) );
         final SimpleObserver updatePressure = new SimpleObserver() {
             public void update() {
-                setValue( context.getPressure( getLocation().toPoint2D() ) );
+                setValue( context.getPressure( getLocation().getX(), getLocation().getY() ) );
             }
         };
         addLocationObserver( updatePressure );
@@ -23,5 +21,11 @@ public class PressureSensor extends Sensor<Double> {
     @Override
     public double getScalarValue() {
         return getValue();
+    }
+
+    public static interface Context {
+        double getPressure( double x, double y );
+
+        void addFluidChangeObserver( SimpleObserver updatePressure );
     }
 }
