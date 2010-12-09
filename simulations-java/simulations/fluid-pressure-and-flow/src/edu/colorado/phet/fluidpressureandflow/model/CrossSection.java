@@ -9,11 +9,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 /**
  * @author Sam Reid
  */
-public class PipePosition {
+public class CrossSection {
     private final Property<ImmutableVector2D> top;
     private final Property<ImmutableVector2D> bottom;
 
-    public PipePosition( double x, double yBottom, double yTop ) {
+    public CrossSection( double x, double yBottom, double yTop ) {
         top = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yTop ) );
         bottom = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yBottom ) );
     }

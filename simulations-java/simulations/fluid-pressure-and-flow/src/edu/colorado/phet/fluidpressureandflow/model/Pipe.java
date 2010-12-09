@@ -18,24 +18,24 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class Pipe {
-    private ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
+    private ArrayList<CrossSection> controlPoints = new ArrayList<CrossSection>();
 
     public Pipe() {
-        pipePositions.add( new PipePosition( -6, -3, -1 ) );
-        pipePositions.add( new PipePosition( -4, -3, -1 ) );
-        pipePositions.add( new PipePosition( -2, -3, -1 ) );
-        pipePositions.add( new PipePosition( 0, -3, -1 ) );
-        pipePositions.add( new PipePosition( 2, -3, -1 ) );
-        pipePositions.add( new PipePosition( 4, -3, -1 ) );
-        pipePositions.add( new PipePosition( 6, -3, -1 ) );
+        controlPoints.add( new CrossSection( -6, -3, -1 ) );
+        controlPoints.add( new CrossSection( -4, -3, -1 ) );
+        controlPoints.add( new CrossSection( -2, -3, -1 ) );
+        controlPoints.add( new CrossSection( 0, -3, -1 ) );
+        controlPoints.add( new CrossSection( 2, -3, -1 ) );
+        controlPoints.add( new CrossSection( 4, -3, -1 ) );
+        controlPoints.add( new CrossSection( 6, -3, -1 ) );
     }
 
-    public ArrayList<PipePosition> getPipePositions() {
-        return new ArrayList<PipePosition>( pipePositions );
+    public ArrayList<CrossSection> getControlPoints() {
+        return new ArrayList<CrossSection>( controlPoints );
     }
 
     public void addShapeChangeListener( SimpleObserver simpleObserver ) {
-        for ( PipePosition pipePosition : pipePositions ) {
+        for ( CrossSection pipePosition : controlPoints ) {
             pipePosition.addObserver( simpleObserver );
         }
     }
@@ -44,35 +44,35 @@ public class Pipe {
         return getShape( getAugmentedPipePositionArray() );
     }
 
-    private ArrayList<PipePosition> getAugmentedPipePositionArray() {
-        ArrayList<PipePosition> pipePositions = new ArrayList<PipePosition>();
+    private ArrayList<CrossSection> getAugmentedPipePositionArray() {
+        ArrayList<CrossSection> pipePositions = new ArrayList<CrossSection>();
         double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
-        pipePositions.add( new PipePosition( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
-        pipePositions.addAll( this.pipePositions );
-        pipePositions.add( new PipePosition( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
+        pipePositions.add( new CrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
+        pipePositions.addAll( this.controlPoints );
+        pipePositions.add( new CrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
         return pipePositions;
     }
 
-    public Shape getShape( ArrayList<PipePosition> pipePositions ) {
+    public Shape getShape( ArrayList<CrossSection> pipePositions ) {
         DoubleGeneralPath path = new DoubleGeneralPath( pipePositions.get( 0 ).getTop() );
-        for ( PipePosition pipePosition : pipePositions.subList( 1, pipePositions.size() ) ) {
+        for ( CrossSection pipePosition : pipePositions.subList( 1, pipePositions.size() ) ) {
             path.lineTo( pipePosition.getTop() );
         }
 
-        final ArrayList<PipePosition> rev = new ArrayList<PipePosition>( pipePositions ) {{
+        final ArrayList<CrossSection> rev = new ArrayList<CrossSection>( pipePositions ) {{
             Collections.reverse( this );
         }};
-        for ( PipePosition pipePosition : rev ) {
+        for ( CrossSection pipePosition : rev ) {
             path.lineTo( pipePosition.getBottom() );
         }
         return path.getGeneralPath();
     }
 
-    public Shape getPath( Function1<PipePosition, Point2D> getter ) {
-        ArrayList<PipePosition> pipePositions = getAugmentedPipePositionArray();
+    public Shape getPath( Function1<CrossSection, Point2D> getter ) {
+        ArrayList<CrossSection> pipePositions = getAugmentedPipePositionArray();
         DoubleGeneralPath path = new DoubleGeneralPath();
         for ( int i = 0; i < pipePositions.size(); i++ ) {
-            PipePosition pipePosition = pipePositions.get( i );
+            CrossSection pipePosition = pipePositions.get( i );
             if ( i == 0 ) {
                 path.moveTo( getter.apply( pipePosition ) );
             }
@@ -84,16 +84,16 @@ public class Pipe {
     }
 
     public Shape getTopPath() {
-        return getPath( new Function1<PipePosition, Point2D>() {
-            public Point2D apply( PipePosition pipePosition ) {
+        return getPath( new Function1<CrossSection, Point2D>() {
+            public Point2D apply( CrossSection pipePosition ) {
                 return pipePosition.getTop();
             }
         } );
     }
 
     public Shape getBottomPath() {
-        return getPath( new Function1<PipePosition, Point2D>() {
-            public Point2D apply( PipePosition pipePosition ) {
+        return getPath( new Function1<CrossSection, Point2D>() {
+            public Point2D apply( CrossSection pipePosition ) {
                 return pipePosition.getBottom();
             }
         } );
@@ -106,33 +106,33 @@ public class Pipe {
      * @return
      */
     public double getFractionToTop( double x, double y ) {
-        PipePosition position = getPipePosition( x );
+        CrossSection position = getPipePosition( x );
         return new Function.LinearFunction( position.getBottom().getY(), position.getTop().getY(), 0, 1 ).evaluate( y );
     }
 
-    public PipePosition getPipePosition( double x ) {
-        PipePosition previous = getPipePositionBefore( x );
-        PipePosition next = getPipePositionAfter( x );
+    public CrossSection getPipePosition( double x ) {
+        CrossSection previous = getPipePositionBefore( x );
+        CrossSection next = getPipePositionAfter( x );
         double top = new Function.LinearFunction( previous.getTop(), next.getTop() ).evaluate( x );
         double bottom = new Function.LinearFunction( previous.getBottom(), next.getBottom() ).evaluate( x );
-        return new PipePosition( x, bottom, top );
+        return new CrossSection( x, bottom, top );
     }
 
     public double fractionToLocation( double x, double fraction ) {
-        PipePosition position = getPipePosition( x );
+        CrossSection position = getPipePosition( x );
         return new Function.LinearFunction( 0, 1, position.getBottom().getY(), position.getTop().getY() ).evaluate( fraction );
     }
 
-    private PipePosition getPipePositionBefore( final double x ) {
-        ArrayList<PipePosition> list = new ArrayList<PipePosition>() {{
-            for ( PipePosition pipePosition : pipePositions ) {
+    private CrossSection getPipePositionBefore( final double x ) {
+        ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
+            for ( CrossSection pipePosition : controlPoints ) {
                 if ( pipePosition.getX() < x ) {
                     add( pipePosition );
                 }
             }
         }};
-        Collections.sort( list, new Comparator<PipePosition>() {
-            public int compare( PipePosition o1, PipePosition o2 ) {
+        Collections.sort( list, new Comparator<CrossSection>() {
+            public int compare( CrossSection o1, CrossSection o2 ) {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
@@ -142,16 +142,16 @@ public class Pipe {
         return list.get( 0 );
     }
 
-    private PipePosition getPipePositionAfter( final double x ) {
-        ArrayList<PipePosition> list = new ArrayList<PipePosition>() {{
-            for ( PipePosition pipePosition : pipePositions ) {
+    private CrossSection getPipePositionAfter( final double x ) {
+        ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
+            for ( CrossSection pipePosition : controlPoints ) {
                 if ( pipePosition.getX() > x ) {
                     add( pipePosition );
                 }
             }
         }};
-        Collections.sort( list, new Comparator<PipePosition>() {
-            public int compare( PipePosition o1, PipePosition o2 ) {
+        Collections.sort( list, new Comparator<CrossSection>() {
+            public int compare( CrossSection o1, CrossSection o2 ) {
                 return Double.compare( Math.abs( x - o1.getX() ), Math.abs( x - o2.getX() ) );
             }
         } );
@@ -168,8 +168,8 @@ public class Pipe {
     public ImmutableVector2D getVelocity( double x, double y ) {
         double speed = getSpeed( x );
         double fraction = getFractionToTop( x, y );
-        PipePosition pre = getPipePosition( x - 1E-7 );
-        PipePosition post = getPipePosition( x + 1E-7 );
+        CrossSection pre = getPipePosition( x - 1E-7 );
+        CrossSection post = getPipePosition( x + 1E-7 );
 
         double x0 = pre.getX();
         double y0 = new Function.LinearFunction( 0, 1, pre.getBottom().getY(), pre.getTop().getY() ).evaluate( fraction );
@@ -182,7 +182,7 @@ public class Pipe {
     }
 
     public double getMaxX() {
-        ArrayList<PipePosition> list = getPipePositionsSortedByX();
+        ArrayList<CrossSection> list = getPipePositionsSortedByX();
         return list.get( list.size() - 1 ).getX();
     }
 
@@ -190,10 +190,10 @@ public class Pipe {
         return getPipePositionsSortedByX().get( 0 ).getX();
     }
 
-    private ArrayList<PipePosition> getPipePositionsSortedByX() {
-        return new ArrayList<PipePosition>( pipePositions ) {{
-            Collections.sort( this, new Comparator<PipePosition>() {
-                public int compare( PipePosition o1, PipePosition o2 ) {
+    private ArrayList<CrossSection> getPipePositionsSortedByX() {
+        return new ArrayList<CrossSection>( controlPoints ) {{
+            Collections.sort( this, new Comparator<CrossSection>() {
+                public int compare( CrossSection o1, CrossSection o2 ) {
                     return Double.compare( o1.getX(), o2.getX() );
                 }
             } );
@@ -205,23 +205,23 @@ public class Pipe {
     }
 
     public Point2D getTopLeft() {
-        return new Point2D.Double( getMinX(), getPipePositions().get( 0 ).getTop().getY() );
+        return new Point2D.Double( getMinX(), getControlPoints().get( 0 ).getTop().getY() );
     }
 
     public Point2D getBottomLeft() {
-        return new Point2D.Double( getMinX(), getPipePositions().get( 0 ).getBottom().getY() );
+        return new Point2D.Double( getMinX(), getControlPoints().get( 0 ).getBottom().getY() );
     }
 
     public Point2D getTopRight() {
-        return new Point2D.Double( getMaxX(), getPipePositions().get( getPipePositions().size() - 1 ).getTop().getY() );
+        return new Point2D.Double( getMaxX(), getControlPoints().get( getControlPoints().size() - 1 ).getTop().getY() );
     }
 
     public Point2D getBottomRight() {
-        return new Point2D.Double( getMaxX(), getPipePositions().get( getPipePositions().size() - 1 ).getBottom().getY() );
+        return new Point2D.Double( getMaxX(), getControlPoints().get( getControlPoints().size() - 1 ).getBottom().getY() );
     }
 
     public void reset() {
-        for ( PipePosition pipePosition : pipePositions ) {
+        for ( CrossSection pipePosition : controlPoints ) {
             pipePosition.reset();
         }
     }

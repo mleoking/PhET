@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
+import edu.colorado.phet.fluidpressureandflow.model.CrossSection;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
-import edu.colorado.phet.fluidpressureandflow.model.PipePosition;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -69,7 +69,7 @@ public class PipeFrontNode extends PNode {
             } );
         }} );
 
-        for ( PipePosition pipePosition : pipe.getPipePositions() ) {
+        for ( CrossSection pipePosition : pipe.getControlPoints() ) {
             addChild( new PipePositionControl( transform, pipePosition ) );
         }
     }

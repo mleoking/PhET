@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.fluidpressureandflow.model.PipePosition;
+import edu.colorado.phet.fluidpressureandflow.model.CrossSection;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
 public class PipePositionControl extends PNode {
     private double DISTANCE_THRESHOLD = 0.5;
 
-    public PipePositionControl( final ModelViewTransform transform, final PipePosition pipePosition ) {
+    public PipePositionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
         final ControlPoint top = new ControlPoint( pipePosition.getTopProperty(), true );
         final ControlPoint bottom = new ControlPoint( pipePosition.getBottomProperty(), false );
 
