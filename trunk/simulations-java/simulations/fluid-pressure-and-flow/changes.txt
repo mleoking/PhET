@@ -1,3 +1,4 @@
+# 0.00.06 (46993) Dec 8, 2010
 Fixed: Possible to deselect units radio buttons
 Fixed: fluid color should change with density - fade to amber for honey, gray for gasoline.
 Fixed: the first (zero) tick mark of the ruler should be at the very end, see #2604
