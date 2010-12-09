@@ -1,6 +1,5 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -94,19 +93,19 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     @Override
-    public double getPressure( Point2D position ) {
-        ImmutableVector2D velocity = getVelocity( position.getX(), position.getY() );
+    public double getPressure( double x, double y ) {
+        ImmutableVector2D velocity = getVelocity( x, y );
         double vSquared = velocity.getMagnitudeSq();
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
-        if ( pipe.getShape().contains( position ) ) {
-            double pressure = K - 0.5 * getLiquidDensity() * vSquared - getLiquidDensity() * getGravity() * position.getY();
+        if ( pipe.getShape().contains( x, y ) ) {
+            double pressure = K - 0.5 * getLiquidDensity() * vSquared - getLiquidDensity() * getGravity() * y;
             return pressure;
         }
-        else if ( position.getY() < 0 ) {
+        else if ( y < 0 ) {
             return Double.NaN;
         }
         else {
-            return super.getPressure( position );
+            return super.getPressure( x, y );
         }
     }
 

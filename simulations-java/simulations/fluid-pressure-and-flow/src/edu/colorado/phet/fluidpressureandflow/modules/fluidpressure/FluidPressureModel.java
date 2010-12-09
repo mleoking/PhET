@@ -1,7 +1,6 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.fluidpressureandflow.model.Balloon;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
@@ -15,15 +14,16 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     public FluidPressureModel() {
         addPressureSensor( new PressureSensor( this, 1, 0 ) );
         addPressureSensor( new PressureSensor( this, -4, 1 ) );
+        addBalloon( new Balloon( this, 3, 2 ) );
     }
 
     @Override
-    public double getPressure( Point2D position ) {
-        if ( position.getY() < 0 ) {
-            return getStandardAirPressure() + getLiquidDensity() * getGravity() * Math.abs( 0 - position.getY() );
+    public double getPressure( double x, double y ) {
+        if ( y < 0 ) {
+            return getStandardAirPressure() + getLiquidDensity() * getGravity() * Math.abs( 0 - y );
         }
         else {
-            return super.getPressure( position );
+            return super.getPressure( x, y );
         }
     }
 
