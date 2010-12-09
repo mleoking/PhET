@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
+ * This is not a pipe.
+ *
  * @author Sam Reid
  */
 public class Pipe {
@@ -219,27 +221,16 @@ public class Pipe {
     }
 
     public void reset() {
-//        pipePositions.add( new PipePosition( -6, -3, -1 ) );
-//        pipePositions.add( new PipePosition( -4, -3, -1 ) );
-//        pipePositions.add( new PipePosition( -2, -3, -1 ) );
-//        pipePositions.add( new PipePosition( 0, -3, -1 ) );
-//        pipePositions.add( new PipePosition( 2, -3, -1 ) );
-//        pipePositions.add( new PipePosition( 4, -3, -1 ) );
-//        pipePositions.add( new PipePosition( 6, -3, -1 ) );
-
-        for ( int i = 0; i < pipePositions.size(); i++ ) {
-            PipePosition pipePosition = pipePositions.get( i );
+        for ( PipePosition pipePosition : pipePositions ) {
             pipePosition.reset();
-
         }
-
     }
 
-    /**
+    /*
      * Gets the x velocity of a particle, incorporating vertical effects.  If this effect is ignored, then when there is a large
-     * slope in the pipe, particles closer to the edge move much faster (which is physicially incorrect).
+     * slope in the pipe, particles closer to the edge move much faster (which is physically incorrect).
      *
-     * @return
+     * @return the x velocity
      */
     public double getTweakedVx( double x, double y ) {
         ImmutableVector2D velocity = getVelocity( x, y );
