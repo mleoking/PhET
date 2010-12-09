@@ -1,3 +1,4 @@
+Fixed: fluid color should change with density - fade to amber for honey, gray for gasoline.
 Fixed: the first (zero) tick mark of the ruler should be at the very end, see #2604
 Fixed: Ruler checkbox does not change selected when pressing ruler close button
 Improved sensor nodes so they have an attached triangle tip pointing to the sensor hot spot
