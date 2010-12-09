@@ -8,6 +8,8 @@ import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.spline.CubicSpline2D;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -19,6 +21,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class Pipe {
     private ArrayList<CrossSection> controlPoints = new ArrayList<CrossSection>();
+    private ArrayList<CrossSection> spline;
+    private boolean dirty = true;
 
     public Pipe() {
         controlPoints.add( new CrossSection( -6, -3, -1 ) );
@@ -28,6 +32,13 @@ public class Pipe {
         controlPoints.add( new CrossSection( 2, -3, -1 ) );
         controlPoints.add( new CrossSection( 4, -3, -1 ) );
         controlPoints.add( new CrossSection( 6, -3, -1 ) );
+        for ( CrossSection controlPoint : controlPoints ) {
+            controlPoint.addObserver( new SimpleObserver() {
+                public void update() {
+                    dirty = true;
+                }
+            } );
+        }
     }
 
     public ArrayList<CrossSection> getControlPoints() {
@@ -41,7 +52,8 @@ public class Pipe {
     }
 
     public Shape getShape() {
-        return getShape( getAugmentedPipePositionArray() );
+//        return getShape( getAugmentedPipePositionArray() ); //non spline version
+        return getShape( getAugmentedSplinePipePositionArray() );
     }
 
     private ArrayList<CrossSection> getAugmentedPipePositionArray() {
@@ -51,6 +63,44 @@ public class Pipe {
         pipePositions.addAll( this.controlPoints );
         pipePositions.add( new CrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
         return pipePositions;
+    }
+
+    private ArrayList<CrossSection> getAugmentedSplinePipePositionArray() {
+        if ( dirty ) {
+            spline = createSpline();
+            dirty = false;
+        }
+        return spline;
+    }
+
+    private ArrayList<CrossSection> createSpline() {
+        ArrayList<CrossSection> pipePositions = new ArrayList<CrossSection>();
+        double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
+        pipePositions.add( new CrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
+        pipePositions.addAll( this.controlPoints );
+        pipePositions.add( new CrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
+        return spline( pipePositions );
+    }
+
+    private ArrayList<CrossSection> spline( ArrayList<CrossSection> controlPoints ) {
+        ArrayList<CrossSection> spline = new ArrayList<CrossSection>();
+        SerializablePoint2D[] top = new SerializablePoint2D[controlPoints.size()];
+        for ( int i = 0; i < top.length; i++ ) {
+            top[i] = new SerializablePoint2D( controlPoints.get( i ).getTop() );
+        }
+        CubicSpline2D topSpline = new CubicSpline2D( top );
+
+        SerializablePoint2D[] bottom = new SerializablePoint2D[controlPoints.size()];
+        for ( int i = 0; i < bottom.length; i++ ) {
+            bottom[i] = new SerializablePoint2D( controlPoints.get( i ).getBottom() );
+        }
+        CubicSpline2D bottomSpline = new CubicSpline2D( bottom );
+        for ( double alpha = 0; alpha <= 1; alpha += 1.0 / 70 ) {
+            SerializablePoint2D topPt = topSpline.evaluate( alpha );
+            SerializablePoint2D bottomPt = bottomSpline.evaluate( alpha );
+            spline.add( new CrossSection( ( topPt.getX() + bottomPt.getX() ) / 2, bottomPt.getY(), topPt.getY() ) );
+        }
+        return spline;
     }
 
     public Shape getShape( ArrayList<CrossSection> pipePositions ) {
@@ -69,7 +119,7 @@ public class Pipe {
     }
 
     public Shape getPath( Function1<CrossSection, Point2D> getter ) {
-        ArrayList<CrossSection> pipePositions = getAugmentedPipePositionArray();
+        ArrayList<CrossSection> pipePositions = getAugmentedSplinePipePositionArray();
         DoubleGeneralPath path = new DoubleGeneralPath();
         for ( int i = 0; i < pipePositions.size(); i++ ) {
             CrossSection pipePosition = pipePositions.get( i );
@@ -125,7 +175,7 @@ public class Pipe {
 
     private CrossSection getPipePositionBefore( final double x ) {
         ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
-            for ( CrossSection pipePosition : controlPoints ) {
+            for ( CrossSection pipePosition : getCrossSections() ) {
                 if ( pipePosition.getX() < x ) {
                     add( pipePosition );
                 }
@@ -142,9 +192,13 @@ public class Pipe {
         return list.get( 0 );
     }
 
+    private Iterable<? extends CrossSection> getCrossSections() {
+        return getAugmentedSplinePipePositionArray();
+    }
+
     private CrossSection getPipePositionAfter( final double x ) {
         ArrayList<CrossSection> list = new ArrayList<CrossSection>() {{
-            for ( CrossSection pipePosition : controlPoints ) {
+            for ( CrossSection pipePosition : getCrossSections() ) {
                 if ( pipePosition.getX() > x ) {
                     add( pipePosition );
                 }

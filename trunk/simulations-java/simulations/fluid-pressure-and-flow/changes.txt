@@ -1,3 +1,4 @@
+Moved spline computations from energy-skate-park to phetcommon for reuse in fluid-pressure-and-flow
 Added balloons
 Simplified context interface for PressureSensor model
 # 0.00.06 (46993) Dec 8, 2010

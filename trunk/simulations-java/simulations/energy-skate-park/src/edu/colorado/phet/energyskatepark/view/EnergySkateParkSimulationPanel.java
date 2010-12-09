@@ -1,13 +1,13 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view;
 
+import edu.colorado.phet.common.phetcommon.math.spline.ControlPointParametricFunction2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
 import edu.colorado.phet.energyskatepark.EnergySkateParkApplication;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.model.*;
-import edu.colorado.phet.energyskatepark.model.physics.ControlPointParametricFunction2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 import edu.colorado.phet.energyskatepark.view.piccolo.EnergySkateParkRootNode;
 import edu.colorado.phet.energyskatepark.view.piccolo.SkaterNode;

@@ -1,7 +1,7 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.energyskatepark.model.physics.ParametricFunction2D;
+import edu.colorado.phet.common.phetcommon.math.spline.ParametricFunction2D;
 
 /**
  * Author: Sam Reid
