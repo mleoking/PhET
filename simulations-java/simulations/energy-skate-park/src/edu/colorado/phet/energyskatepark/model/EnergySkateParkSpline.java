@@ -1,8 +1,8 @@
 package edu.colorado.phet.energyskatepark.model;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.spline.ControlPointParametricFunction2D;
-import edu.colorado.phet.common.phetcommon.math.spline.CubicSpline2D;
+import edu.colorado.phet.common.spline.ControlPointParametricFunction2D;
+import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
