@@ -1,3 +1,4 @@
+12/9/10 see #2598, deleted partial unused Piccolo port of a module and its control panel
 # 3.01.03 (46760) Dec 2, 2010
 12/2/10 Deploying to dev for review of some prototyped features in Molecules & Light
 Molecules & Light: Made O3 break apart into O2 and O.  This is a prototype for testing breaking apart
