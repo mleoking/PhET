@@ -119,10 +119,6 @@ public class ParticleInjectorNode extends PNode {
         injectionPointOffset.setSize( distanceCenterToTip * Math.cos( rotationAngle ) + centerOffsetX,
                                       distanceCenterToTip * Math.sin( -rotationAngle ) );
 
-        // Set the point for automatic injection to be at the tip of the
-        // injector.
-        updateInjectionPoint();
-
         // Set up the button handling.
         injectorBodyImageNode.setPickable( false );
         buttonImageNode.setPickable( true );
@@ -142,23 +138,14 @@ public class ParticleInjectorNode extends PNode {
             }
         } );
 
-        pipe.addShapeChangeListener( new SimpleObserver() {
+        final SimpleObserver updateLocation = new SimpleObserver() {
             public void update() {
-                final Point2D pipeTopLeft = mvt.modelToView( pipe.getAugmentedSplinePipePositionArray().get( 11 ).getTop() );//TODO: make this a function of x instead of array index
-                setOffset( pipeTopLeft.getX(), pipeTopLeft.getY() - distanceCenterToTip );
+                final Point2D site = mvt.modelToView( pipe.getAugmentedSplinePipePositionArray().get( 11 ).getTop() );//TODO: make this a function of x instead of array index
+                System.out.println( "pipeTopLeft = " + site );
+                setOffset( site.getX(), site.getY() - distanceCenterToTip + 5 );
             }
-        } );
+        };
+        pipe.addShapeChangeListener( updateLocation );
+        updateLocation.update();
     }
-
-    private void updateInjectionPoint() {
-        double injectionPointX = mvt.viewToModelX( getFullBoundsReference().getCenter2D().getX() + injectionPointOffset.getWidth() );
-        double injectionPointY = mvt.viewToModelY( getFullBoundsReference().getCenter2D().getY() + injectionPointOffset.getHeight() );
-        injectionPointInModelCoords.setLocation( injectionPointX, injectionPointY );
-    }
-
-    public void setOffset( double x, double y ) {
-        super.setOffset( x, y );
-        updateInjectionPoint();
-    }
-
 }

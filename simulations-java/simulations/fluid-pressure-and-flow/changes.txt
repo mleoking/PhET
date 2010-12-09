@@ -1,3 +1,4 @@
+Fixed initial location of dropper control
 Use dropper control from membrane channels
 Improved location for dot flow control
 Fixed: make sure pipe top doesn't go below pipe bottom
