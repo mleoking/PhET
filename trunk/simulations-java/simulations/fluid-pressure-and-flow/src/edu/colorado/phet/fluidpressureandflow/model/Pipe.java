@@ -98,7 +98,16 @@ public class Pipe {
         for ( double alpha = 0; alpha <= 1; alpha += 1.0 / 70 ) {
             SerializablePoint2D topPt = topSpline.evaluate( alpha );
             SerializablePoint2D bottomPt = bottomSpline.evaluate( alpha );
-            spline.add( new CrossSection( ( topPt.getX() + bottomPt.getX() ) / 2, bottomPt.getY(), topPt.getY() ) );
+            //make sure pipe top doesn't go below pipe bottom
+            double bottomY = bottomPt.getY();
+            double topY = topPt.getY();
+            final double min = 0.5;
+            if ( topY - bottomY < min ) {
+                double center = ( topY + bottomY ) / 2;
+                topY = center + min / 2;
+                bottomY = center - min / 2;
+            }
+            spline.add( new CrossSection( ( topPt.getX() + bottomPt.getX() ) / 2, bottomY, topY ) );
         }
         return spline;
     }

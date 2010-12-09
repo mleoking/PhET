@@ -1,3 +1,4 @@
+Fixed: make sure pipe top doesn't go below pipe bottom
 Separated dots flow control from dropper
 Fluid Flow: improved initial sensor locations
 Made pipe curve continuously instead of linear
