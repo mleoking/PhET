@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.math.spline;
+package edu.colorado.phet.common.spline;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 

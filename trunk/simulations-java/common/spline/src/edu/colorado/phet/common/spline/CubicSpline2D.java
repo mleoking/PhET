@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.math.spline;
+package edu.colorado.phet.common.spline;
 
 import java.util.ArrayList;
 
