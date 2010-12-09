@@ -1,3 +1,4 @@
+Fixed: Made the various "showXxx" check boxes be reset when the Reset All button is pressed.
 # 1.00.15 (46802) Dec 3, 2010
 12/3/10 Deploying to dev for testing and review, this is a release candidate for the first production version with the game.
 Fixed: On level 4, use atoms that are always heavier than lithium for non-schematic problems, instead of equal to or heavier.

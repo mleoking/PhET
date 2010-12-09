@@ -51,8 +51,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final ButtonNode resetButtonNode;
 
     private final BooleanProperty viewOrbitals = new BooleanProperty( true );
-    private final BooleanProperty showLabels = new BooleanProperty( true );
-    private final BooleanProperty showName= new BooleanProperty( true );
+    private final BooleanProperty showName = new BooleanProperty( true );
     private final BooleanProperty showNeutralIon = new BooleanProperty( true );
     private final BooleanProperty showStableUnstable = new BooleanProperty( true );
     private final MaximizeControlNode elementIndicatorWindow;
@@ -250,6 +249,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     public void reset() {
         resetWindowMaximization();
         viewOrbitals.reset();
-        showLabels.reset();
+        showName.reset();
+        showNeutralIon.reset();
+        showStableUnstable.reset();
     }
 }
