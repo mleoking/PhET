@@ -141,7 +141,6 @@ public class ParticleInjectorNode extends PNode {
         final SimpleObserver updateLocation = new SimpleObserver() {
             public void update() {
                 final Point2D site = mvt.modelToView( pipe.getAugmentedSplinePipePositionArray().get( 11 ).getTop() );//TODO: make this a function of x instead of array index
-                System.out.println( "pipeTopLeft = " + site );
                 setOffset( site.getX(), site.getY() - distanceCenterToTip + 5 );
             }
         };
