@@ -2,6 +2,11 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Hashtable;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.AndProperty;
@@ -10,12 +15,15 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
@@ -56,18 +64,46 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         }
 
         final FluidFlowModel model = module.getFluidFlowModel();
-        final DropperNode dropperNode = new DropperNode( transform, model.getPipe(), model.getDropperRateProperty(),
-                                                         new SimpleObserver() {
-                                                             public void update() {
-                                                                 model.addDrop();
-                                                             }
-                                                         },
+        final DropperNode dropperNode = new DropperNode( transform, model.getPipe(),
                                                          new SimpleObserver() {
                                                              public void update() {
                                                                  model.pourFoodColoring();
                                                              }
                                                          } );
         addChild( dropperNode );
+
+        addChild( new PSwing(
+                new JSlider( JSlider.HORIZONTAL, 0, 100, 4 ) {{
+                    setFont( DropperNode.font );
+                    FluidPressureAndFlowCanvas.makeTransparent( this );
+                    setPaintTicks( true );
+                    setPaintLabels( true );
+                    setLabelTable( new Hashtable() {{
+                        final PhetFont tickFont = new PhetFont( 16, false );
+                        put( 0, new JLabel( "None" ) {{setFont( tickFont );}} );
+                        put( 100, new JLabel( "Lots" ) {{setFont( tickFont );}} );
+                    }} );
+                    addChangeListener( new ChangeListener() {
+                        public void stateChanged( ChangeEvent e ) {
+                            model.getDropperRateProperty().setValue( (double) getValue() );
+                        }
+                    } );
+                    model.getDropperRateProperty().addObserver( new SimpleObserver() {
+                        public void update() {
+                            setValue( model.getDropperRateProperty().getValue().intValue() );
+                        }
+                    } );
+                }}
+        ) {{
+            final Pipe pipe = model.getPipe();
+            pipe.addShapeChangeListener( new SimpleObserver() {
+                public void update() {
+                    final Point2D pipeTopLeft = transform.modelToView( pipe.getTopLeft() );
+                    final Point2D pipeBottomLeft = transform.modelToView( pipe.getBottomLeft() );
+                    setOffset( pipeTopLeft.getX() - getFullBounds().getWidth() / 2 + 10, pipeBottomLeft.getY() + 10 );
+                }
+            } );
+        }} );
 
         model.addFoodColoringObserver( new VoidFunction1<FoodColoring>() {
             public void apply( FoodColoring foodColoring ) {

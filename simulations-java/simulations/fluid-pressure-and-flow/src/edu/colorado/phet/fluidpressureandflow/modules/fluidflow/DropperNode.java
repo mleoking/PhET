@@ -3,13 +3,9 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -26,10 +22,9 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class DropperNode extends PNode {
-    PhetFont font = new PhetFont( 16, true );
-    PhetFont tickFont = new PhetFont( 16, false );
+    public static final PhetFont font = new PhetFont( 16, true );
 
-    public DropperNode( final ModelViewTransform transform, final Pipe pipe, final Property<Double> dropperRateProperty, final SimpleObserver waterDropped, final SimpleObserver pour ) {
+    public DropperNode( final ModelViewTransform transform, final Pipe pipe, final SimpleObserver squirt ) {
         final PImage image = new PImage( RESOURCES.getImage( "dropper.png" ) );
         image.scale( 0.8 );
         addChild( image );
@@ -40,35 +35,11 @@ public class DropperNode extends PNode {
                 setFont( font );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        pour.update();
+                        squirt.update();
                     }
                 } );
             }} );
-            add(
-                    new JSlider( JSlider.HORIZONTAL, 0, 100, 4 ) {{
-                        setFont( font );
-                        FluidPressureAndFlowCanvas.makeTransparent( this );
-                        setPaintTicks( true );
-                        setPaintLabels( true );
-                        setLabelTable( new Hashtable() {{
-                            put( 0, new JLabel( "None" ) {{setFont( tickFont );}} );
-                            put( 100, new JLabel( "Lots" ) {{setFont( tickFont );}} );
-                        }} );
-                        addChangeListener( new ChangeListener() {
-                            public void stateChanged( ChangeEvent e ) {
-                                dropperRateProperty.setValue( (double) getValue() );
-                            }
-                        } );
-                        dropperRateProperty.addObserver( new SimpleObserver() {
-                            public void update() {
-                                setValue( dropperRateProperty.getValue().intValue() );
-                            }
-                        } );
-                    }}
-//            }}
-            );
         }} );
-//        pSwing.setOffset( image.getFullBounds().getWidth(), image.getFullBounds().getHeight() - pSwing.getFullBounds().getHeight() );
         addChild( pSwing );
         pipe.addShapeChangeListener( new SimpleObserver() {
             public void update() {
@@ -80,21 +51,4 @@ public class DropperNode extends PNode {
             }
         } );
     }
-
-    public static class MyRadioButton extends JRadioButton {
-        public MyRadioButton( String name, final Property<Boolean> property ) {
-            super( name, property.getValue() );
-            property.addObserver( new SimpleObserver() {
-                public void update() {
-                    setSelected( property.getValue() );
-                }
-            } );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    property.setValue( isSelected() );
-                }
-            } );
-        }
-    }
-
 }
