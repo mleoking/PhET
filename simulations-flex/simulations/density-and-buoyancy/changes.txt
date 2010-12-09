@@ -1,3 +1,4 @@
+# 1.02.09 (46991) Dec 8, 2010
 Fixed: removed the extraneous text box from the density slider
 Fixed: density slider thumb is off several pixels from the real thumb
 # 1.02.08 (46911) Dec 7, 2010
