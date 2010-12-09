@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 /**
  * @author Sam Reid
  */
-public class FluidPressureAndFlowModel {
+public class FluidPressureAndFlowModel implements PressureSensor.Context {
     private static final double EARTH_AIR_PRESSURE = 101325;//Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
     private static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
 
