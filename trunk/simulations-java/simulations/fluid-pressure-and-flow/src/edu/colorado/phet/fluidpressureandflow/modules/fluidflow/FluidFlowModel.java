@@ -76,10 +76,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         } );
 
         // TODO: handle creation of sensors when one is dragged off of the "pile"
-        addPressureSensor( new PressureSensor( this, 3.8, 1.1882302540898015 ) );
-        addPressureSensor( new PressureSensor( this, 3.8, 1.1882302540898015 ) );
-        addVelocitySensor( new VelocitySensor( this, 3.8, 0.973501677688827 ) );
-        addVelocitySensor( new VelocitySensor( this, 3.8, 0.973501677688827 ) );
+        addPressureSensor( new PressureSensor( this, 2.8, 1.1882302540898015 ) );
+        addPressureSensor( new PressureSensor( this, 2.8, 1.1882302540898015 ) );
+        addVelocitySensor( new VelocitySensor( this, 2.8, 0.473501677688827 ) );
+        addVelocitySensor( new VelocitySensor( this, 2.8, 0.473501677688827 ) );
     }
 
     private void removeFoodColoring( FoodColoring foodColoring ) {
