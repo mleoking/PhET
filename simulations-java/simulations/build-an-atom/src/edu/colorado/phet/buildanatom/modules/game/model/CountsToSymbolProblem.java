@@ -1,7 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.modules.game.view.CountsToSymbolView;
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
@@ -14,7 +14,7 @@ public class CountsToSymbolProblem extends ToSymbolProblem {
     }
 
     @Override
-    public StateView createView( GameCanvas gameCanvas ) {
+    public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
         return new CountsToSymbolView( model, gameCanvas,this );
     }
 }

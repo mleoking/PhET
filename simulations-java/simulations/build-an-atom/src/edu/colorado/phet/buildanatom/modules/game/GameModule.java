@@ -9,7 +9,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
@@ -21,7 +21,7 @@ public class GameModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private GameCanvas canvas;
+    private BuildAnAtomGameCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -32,7 +32,7 @@ public class GameModule extends PiccoloModule {
         setClockControlPanel( null );
 
         // Canvas
-        canvas = new GameCanvas( new BuildAnAtomGameModel() );
+        canvas = new BuildAnAtomGameCanvas( new BuildAnAtomGameModel() );
         setSimulationPanel( canvas );
 
         // Help

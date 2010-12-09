@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToMassQuestionView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
@@ -22,7 +22,7 @@ public class SchematicToMassQuestionProblem extends Problem {
     }
 
     @Override
-    public StateView createView( GameCanvas gameCanvas ) {
+    public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
         return new SchematicToMassQuestionView( model, gameCanvas, this );
     }
 }

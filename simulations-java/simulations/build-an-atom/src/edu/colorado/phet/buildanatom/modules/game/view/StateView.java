@@ -9,11 +9,11 @@ import edu.umd.cs.piccolo.PNode;
 * @author Sam Reid
 */
 public abstract class StateView {
-    private final GameCanvas gameCanvas;
+    private final BuildAnAtomGameCanvas gameCanvas;
     private final State state;
     private final BuildAnAtomGameModel model;
 
-    StateView( BuildAnAtomGameModel model, State state, GameCanvas gameCanvas ) {
+    StateView( BuildAnAtomGameModel model, State state, BuildAnAtomGameCanvas gameCanvas ) {
         this.model = model;
         this.gameCanvas = gameCanvas;
         this.state = state;

@@ -19,7 +19,7 @@ public class SchematicToChargeQuestionView extends SchematicToQuestionView {
     /**
      * Constructor.
      */
-    public SchematicToChargeQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public SchematicToChargeQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_CHARGE_QUESTION, -50, 50, new SignedIntegerFormat() );
 
         // Cause positive charge to be colored red, negative to be blue.

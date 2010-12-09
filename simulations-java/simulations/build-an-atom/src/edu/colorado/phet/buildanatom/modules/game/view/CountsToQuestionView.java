@@ -22,7 +22,7 @@ public abstract class CountsToQuestionView extends ToQuestionView {
     /**
      * Constructor.
      */
-    public CountsToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem,
+    public CountsToQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem,
             String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
         super( model, gameCanvas, problem, questionText, minValue, maxValue, numberFormat );
         particleCountNode = new ParticleCountNode( problem.getAnswer().getNumProtons(),

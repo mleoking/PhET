@@ -15,7 +15,7 @@ public class SchematicToSymbolView extends ToSymbolProblemView {
     /**
      * Constructor.
      */
-    public SchematicToSymbolView( BuildAnAtomGameModel model, GameCanvas canvas, final SchematicToSymbolProblem problem ) {
+    public SchematicToSymbolView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, final SchematicToSymbolProblem problem ) {
         super( model, canvas, problem );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 

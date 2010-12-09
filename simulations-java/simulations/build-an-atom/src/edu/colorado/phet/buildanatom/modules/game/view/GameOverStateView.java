@@ -14,7 +14,7 @@ public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
     private final GameAudioPlayer gameAudioPlayer;
 
-    public GameOverStateView( GameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
+    public GameOverStateView( BuildAnAtomGameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameOverState(), gameCanvas );
         gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
         gameOverNode = new GameOverNode( model.getLevelProperty().getValue(), model.getScore(),

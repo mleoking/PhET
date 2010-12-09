@@ -1,6 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
@@ -15,7 +15,7 @@ public abstract class State {
         this.model = model;
     }
 
-    public abstract StateView createView( GameCanvas gameCanvas );
+    public abstract StateView createView( BuildAnAtomGameCanvas gameCanvas );
 
     /**
      * Execute any functions that need to occur upon entry into this state,

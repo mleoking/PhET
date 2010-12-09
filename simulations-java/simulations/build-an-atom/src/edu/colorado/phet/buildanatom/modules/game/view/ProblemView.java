@@ -47,7 +47,7 @@ public abstract class ProblemView extends StateView {
         return clock;
     }
 
-    ProblemView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    ProblemView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
         this.problem = problem;
         gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
@@ -168,7 +168,7 @@ public abstract class ProblemView extends StateView {
          * @param listener       callback when the button is pressed
          */
         public GameButtonNode( String label, Point2D centerLocation, ActionListener listener ) {
-            super( label, GameCanvas.BUTTONS_FONT_SIZE, GameCanvas.BUTTONS_COLOR );
+            super( label, BuildAnAtomGameCanvas.BUTTONS_FONT_SIZE, BuildAnAtomGameCanvas.BUTTONS_COLOR );
             addActionListener( listener );
             centerFullBoundsOnPoint( centerLocation.getX(), centerLocation.getY() );
         }

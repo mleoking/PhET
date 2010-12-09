@@ -47,7 +47,7 @@ public abstract class ToElementView extends ProblemView {
     /**
      * Constructor.
      */
-    ToElementView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    ToElementView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
         description.centerAbove( gamePeriodicTable );
     }

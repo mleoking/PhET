@@ -1,7 +1,7 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToElementView;
-import edu.colorado.phet.buildanatom.modules.game.view.GameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
@@ -13,7 +13,7 @@ public class SchematicToElementProblem extends ToElementProblem {
     }
 
     @Override
-    public StateView createView( GameCanvas gameCanvas ) {
+    public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
         return new SchematicToElementView( model, gameCanvas, this );
     }
 }

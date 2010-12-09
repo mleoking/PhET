@@ -26,7 +26,7 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
     /**
      * Constructor.
      */
-    public SchematicToProtonCountQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem ) {
+    public SchematicToProtonCountQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_PROTON_COUNT_QUESTION, 0, 100, new DecimalFormat( "0" ) );
 
         // Display the value in red.

@@ -22,7 +22,7 @@ public abstract class SchematicToQuestionView extends ToQuestionView {
     /**
      * Constructor.
      */
-    public SchematicToQuestionView( final BuildAnAtomGameModel model, GameCanvas gameCanvas, final Problem problem,
+    public SchematicToQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem,
             String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
         super( model, gameCanvas, problem, questionText, minValue, maxValue, numberFormat );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
