@@ -1,3 +1,4 @@
+Fixed: initial zoom is incorrect
 Removed animation and zooming
 Added UI for Earth System button
 Switched to 4 modes: SP, SPM, PM, Ps
