@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.NotProperty;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
@@ -18,6 +17,7 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
+import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * Control panel template.
@@ -78,8 +78,8 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             setFillNone();
             setAnchor( GridBagConstraints.WEST );
 
-            add( new GORadioButton( "Cartoon", module.getScaleCartoonProperty() ) );
-            add( new GORadioButton( "Real", new NotProperty( module.getScaleCartoonProperty() ) ) );
+            add( new GORadioButton<Scale>( "Cartoon", module.getScaleProperty(), Scale.CARTOON ) );
+            add( new GORadioButton<Scale>( "Real", module.getScaleProperty(), Scale.REAL ) );
         }} );
         for ( Body body : model.getBodies() ) {
             if ( body.isModifyable() ) {

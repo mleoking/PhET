@@ -19,6 +19,7 @@ import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.ImageBody;
 import edu.colorado.phet.gravityandorbits.model.SphereBody;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
+import edu.colorado.phet.gravityandorbits.view.Scale;
 import edu.colorado.phet.gravityandorbits.view.VectorNode;
 
 /**
@@ -156,7 +157,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
     }};
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
-    private Property<Boolean> scaleCartoonProperty = new Property<Boolean>( true );
+    private Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
         return new ArrayList<GravityAndOrbitsMode>( modes );
@@ -250,7 +251,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }
     }
 
-    public Property<Boolean> getScaleCartoonProperty() {
-        return scaleCartoonProperty;
+    public Property<Scale> getScaleProperty() {
+        return scaleProperty;
     }
 }

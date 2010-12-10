@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -109,7 +108,7 @@ public abstract class GravityAndOrbitsMode {
     }
 
     protected GORadioButton createRadioButton( Property<GravityAndOrbitsMode> modeProperty ) {
-        return new GORadioButton( getName(), new IsSelectedProperty<GravityAndOrbitsMode>( this, modeProperty ) );
+        return new GORadioButton<GravityAndOrbitsMode>( getName(), modeProperty, this );
     }
 
     public void setActive( boolean active ) {

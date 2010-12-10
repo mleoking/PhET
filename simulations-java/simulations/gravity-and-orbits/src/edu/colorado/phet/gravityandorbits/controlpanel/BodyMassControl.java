@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
+import edu.colorado.phet.gravityandorbits.view.Scale;
 
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.*;
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
@@ -43,7 +44,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setBackground( BACKGROUND );
             }} );
             final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ) ),
-                                                    new Property<Boolean>( false ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, sizer, -Math.PI / 4 );
+                                                    new Property<Scale>( Scale.CARTOON ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, sizer, -Math.PI / 4 );
             add( new JLabel( "", new ImageIcon( bodyNode.sphereNodeToImage() ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );
             }} );
