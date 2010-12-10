@@ -3,8 +3,6 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
 import javax.swing.ButtonGroup;
@@ -16,7 +14,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.view.DielectricNode;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
@@ -27,32 +25,14 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
  */
 public class DielectricChargesControl extends JPanel {
     
-    /*
-     * Radio button that corresponds to one choice in the DielectricChargeView enum.
-     */
-    private static class DielectricChargeViewRadioButton extends JRadioButton {
-        public DielectricChargeViewRadioButton( String text, final DielectricChargeView choice, final Property<DielectricChargeView> dielectricChargeViewProperty ) {
-            super( text );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    dielectricChargeViewProperty.setValue( choice );
-                }
-            } );
-            dielectricChargeViewProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    setSelected( dielectricChargeViewProperty.getValue().equals( choice ) );
-                }
-            } );
-        }
-    }
-    
     public DielectricChargesControl( final DielectricNode dielectricNode ) {
         
         JLabel chargesLabel = new JLabel( MessageFormat.format( CLStrings.PATTERN_LABEL, CLStrings.DIELECTRIC_CHARGES ) );
-        
-        JRadioButton hideAllRadioButton = new DielectricChargeViewRadioButton( CLStrings.HIDE_ALL_CHARGES, DielectricChargeView.NONE, dielectricNode.getDielectricChargeViewProperty() );
-        JRadioButton showAllRadioButton = new DielectricChargeViewRadioButton( CLStrings.SHOW_ALL_CHARGES, DielectricChargeView.TOTAL, dielectricNode.getDielectricChargeViewProperty() );
-        JRadioButton showExcessRadioButton = new DielectricChargeViewRadioButton( CLStrings.SHOW_EXCESS_CHARGES, DielectricChargeView.EXCESS, dielectricNode.getDielectricChargeViewProperty() );
+
+        Property<DielectricChargeView> property = dielectricNode.getDielectricChargeViewProperty();
+        JRadioButton hideAllRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.HIDE_ALL_CHARGES, property, DielectricChargeView.NONE );
+        JRadioButton showAllRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.SHOW_ALL_CHARGES, property, DielectricChargeView.TOTAL );
+        JRadioButton showExcessRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.SHOW_EXCESS_CHARGES, property, DielectricChargeView.EXCESS );
         
         ButtonGroup group = new ButtonGroup();
         group.add( hideAllRadioButton );
