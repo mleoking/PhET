@@ -31,13 +31,15 @@ public abstract class Body {
     private Function.LinearFunction sizer;
     private final boolean modifyable = true;
     private final Function.LinearFunction iconSizer;
+    private final double cartoonDiameterScaleFactor;
 
-    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, Function.LinearFunction iconSizer ) {
+    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, Function.LinearFunction iconSizer, double cartoonDiameterScaleFactor ) {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
         this.sizer = sizer;
         this.iconSizer = iconSizer;
+        this.cartoonDiameterScaleFactor = cartoonDiameterScaleFactor;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -231,6 +233,10 @@ public abstract class Body {
 
     public Function.LinearFunction getIconSizer() {
         return iconSizer;
+    }
+
+    public double getCartoonDiameterScaleFactor() {
+        return cartoonDiameterScaleFactor;
     }
 
     public static class PathPoint {

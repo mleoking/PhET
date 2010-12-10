@@ -26,13 +26,15 @@ public class BodyNode extends PNode {
     private Property<ModelViewTransform> modelViewTransform;
     private Body body;
     private PNode arrowIndicator;
+    private final Property<Scale> scaleProperty;
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
     private final BodyRenderer bodyRenderer;
 
-    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scale,
+    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scaleProperty,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
+        this.scaleProperty = scaleProperty;
         this.sizer = sizer;
 
         bodyRenderer = body.createRenderer( getViewDiameter() );
@@ -95,7 +97,7 @@ public class BodyNode extends PNode {
             }
         };
         body.getDiameterProperty().addObserver( updateDiameter );
-        scale.addObserver( updateDiameter );
+        scaleProperty.addObserver( updateDiameter );
         modelViewTransform.addObserver( updateDiameter );
 
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
@@ -115,17 +117,19 @@ public class BodyNode extends PNode {
             }} );
         }};
         addChild( arrowIndicator );
-        scale.addObserver( new SimpleObserver() {
+        scaleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                arrowIndicator.setVisible( scale.getValue().getShowLabelArrows() );
+                arrowIndicator.setVisible( scaleProperty.getValue().getShowLabelArrows() );
             }
         } );
     }
 
     private double getViewDiameter() {
-        final double viewDiameter = modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() );
-        final double newDiameter = sizer.evaluate( viewDiameter );
-        return Math.max( newDiameter, 2 );
+        double viewDiameter = modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() );
+        if ( scaleProperty.getValue() == Scale.CARTOON ) {
+            viewDiameter = viewDiameter * body.getCartoonDiameterScaleFactor();
+        }
+        return Math.max( viewDiameter, 2 );
     }
 
     public Image sphereNodeToImage() {

@@ -37,21 +37,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double SUN_RADIUS = 6.955E8;
     private static final double SUN_MASS = 1.989E30;
 
-    private static final double FAKE_SUN_MASS = 2E29;
-    private static final double FAKE_SUN_RADIUS = 6.955E8;
-
-    public static final double PLANET_MASS = 1E28;
-    private static final double PLANET_RADIUS = 6.371E6;
-    public static final double PLANET_ORBIT_RADIUS = 1.6E11;
-    private static final double PLANET_ORBITAL_SPEED = 0.9E4;
-
-    private static final double FAKE_MOON_RADIUS = 1737.1E3;
-    private static final double FAKE_MOON_MASS = 1E25;
-    private static final double FAKE_MOON_INITIAL_X = 1.4E11;
-    private static final double FAKE_MOON_ORBITAL_SPEED = 0.397E4;
-
     private static final double EARTH_RADIUS = 6.371E6;
-    private static final double EARTH_MASS = 5.9736E24;
+    public static final double EARTH_MASS = 5.9736E24;
     private static final double EARTH_PERIHELION = 147098290E3;
     private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
 
@@ -69,11 +56,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double SPACE_STATION_SPEED = 7706;
     private static final double SPACE_STATION_PERIGEE = 347000;
 
-    private static final double FAKE_SPACE_STATION_RADIUS = 1737.1E3;
-    private static final double FAKE_SPACE_STATION_MASS = 7.3477E22;
-    private static final double FAKE_SPACE_STATION_SPEED = 1.01E3;
-    private static final double FAKE_SPACE_STATION_X = 147098290E3;
-
     private static final Function1<Double, String> days = new Function1<Double, String>() {
         public String apply( Double time ) {
             return (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_DAY ) + " Earth Days";
@@ -89,8 +71,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         Camera camera = new Camera();
         add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
-                addBody( new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
-                addBody( new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
+                addBody( createSun() );
+                addBody( createEarth( 0, EARTH_ORBITAL_SPEED_AT_PERIHELION ) );
             }
 
             @Override
@@ -105,9 +87,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
         add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
-                addBody( new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
-                addBody( new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
-                final SphereBody moon = new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER );
+                addBody( createSun() );
+                addBody( createEarth( 0, EARTH_ORBITAL_SPEED_AT_PERIHELION ) );
+                final SphereBody moon = createMoon( MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
                 addBody( moon );
             }
 
@@ -123,8 +105,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
         add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
             {
-                addBody( new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
-                addBody( new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
+                addBody( createEarth( 0, 0 ) );
+                addBody( createMoon( MOON_SPEED, 0 ) );
             }
 
             @Override
@@ -138,11 +120,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes ) {
-            final SphereBody earth = new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, 0, 0, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER );
+            final SphereBody earth = createEarth( 0, 0 );
 
             {
                 addBody( earth );
-                addBody( new ImageBody( "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0, SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER ) );
+                addBody( new ImageBody( "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0, SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 10000000 ) );
             }
 
             @Override
@@ -156,6 +138,19 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
     }};
+
+    private SphereBody createMoon( double vx, double vy ) {
+        return new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 10000 );
+    }
+
+    private SphereBody createEarth( double vx, double vy ) {
+        return new SphereBody( "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 1000 );
+    }
+
+    private SphereBody createSun() {
+        return new SphereBody( "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 50 );
+    }
+
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
     private Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 
