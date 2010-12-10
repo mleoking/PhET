@@ -9,6 +9,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
@@ -23,8 +24,8 @@ public class ViewControlPanel extends PhetTitledPanel {
         super( CLStrings.VIEW );
         
         // check boxes
-        JCheckBox plateChargesCheckBox = new BooleanPropertyCheckBox( CLStrings.PLATE_CHARGES, capacitorNode.getPlateChargeVisibileProperty() );
-        JCheckBox electricFieldLinesCheckBox = new BooleanPropertyCheckBox( CLStrings.ELECTRIC_FIELD_LINES, capacitorNode.getEFieldVisibleProperty() );
+        JCheckBox plateChargesCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGES, capacitorNode.getPlateChargeVisibileProperty() );
+        JCheckBox electricFieldLinesCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_LINES, capacitorNode.getEFieldVisibleProperty() );
         
         // layout
         GridPanel innerPanel = new GridPanel();
