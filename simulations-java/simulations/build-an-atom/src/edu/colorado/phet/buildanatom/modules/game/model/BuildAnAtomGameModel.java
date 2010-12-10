@@ -266,13 +266,18 @@ public class BuildAnAtomGameModel {
     private ProblemSet problemSet;
     private final ConstantDtClock clock = new ConstantDtClock( 1000, 1000 );//simulation time is in milliseconds
 
-    private double bestTime = Double.POSITIVE_INFINITY;
+    private final double[] bestTimes = new double[ MAX_LEVELS ];
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
     public BuildAnAtomGameModel() {
         setState( gameSettingsState );
+
+        // Initialize the best values
+        for (int i = 0; i < MAX_LEVELS; i++){
+            bestTimes[i] = Double.POSITIVE_INFINITY;
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -323,10 +328,11 @@ public class BuildAnAtomGameModel {
 
         // Update the best time value if appropriate.
         if ( timerEnabledProperty.getValue() ){
-            if ( getGameClock().getSimulationTime() < bestTime ){
-                bestTime = getGameClock().getSimulationTime();
+            if ( getGameClock().getSimulationTime() < bestTimes[levelProperty.getValue() - 1] ){
+                bestTimes[levelProperty.getValue() - 1] = (long)getGameClock().getSimulationTime();
             }
         }
+
     }
 
     public void addListener( GameModelListener listener ) {
@@ -364,6 +370,10 @@ public class BuildAnAtomGameModel {
 
     public Property<Integer> getLevelProperty() {
         return levelProperty;
+    }
+
+    public int getCurrentLevel(){
+        return levelProperty.getValue();
     }
 
     public Property<Boolean> getSoundEnabledProperty() {
@@ -421,19 +431,30 @@ public class BuildAnAtomGameModel {
         void stateChanged( State oldState, State newState );
     }
 
-    public long getBestTime() {
-        return (long) bestTime;
+    /**
+     * Get the best time for the specified level.  Note that levels start at 1
+     * and not 0, so there is some offsetting here.
+     *
+     * @param level
+     * @return
+     */
+    public long getBestTime( int level ) {
+        assert level > 0 && level <= MAX_LEVELS;
+        return (long) bestTimes[level - 1];
     }
 
     public boolean isNewBestTime(){
-        return getTime() == getBestTime() && timerEnabledProperty.getValue();
+        return getTime() == getBestTime( getCurrentLevel() ) && timerEnabledProperty.getValue();
     }
 
     /**
-     * Returns true if at least one best time has been recorded, false otherwise.
+     * Returns true if at least one best time has been recorded for the
+     * specified level, false otherwise.  Note that levels start at 1 and not
+     * 0.
+     *
      * @return
      */
-    public boolean isBestTimeRecorded(){
-        return bestTime != Double.POSITIVE_INFINITY;
+    public boolean isBestTimeRecorded( int level ){
+        return bestTimes[level - 1] != Double.POSITIVE_INFINITY;
     }
 }

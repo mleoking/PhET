@@ -53,8 +53,8 @@ public class BuildAnAtomGameCanvas extends PhetPCanvas {
             model.getGameClock().addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    if (model.isTimerEnabled() && model.isBestTimeRecorded()){
-                        setTime( model.getTime(), model.getBestTime() );
+                    if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getCurrentLevel() ) ) {
+                        setTime( model.getTime(), model.getBestTime( model.getCurrentLevel() ) );
                     }
                     else {
                         setTime( model.getTime() );
