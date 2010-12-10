@@ -60,7 +60,7 @@ public class Camera {
 
     private void stepTimer() {
         if ( t <= 1 ) {
-            t = t + 0.08;
+            t = t + 1;//fully zoom immediately
             if ( t > 1 ) {
                 t = 1;
             }
@@ -97,6 +97,6 @@ public class Camera {
         timer.start();
 
         //Automatically update the camera
-        //stepTimer();
+        stepTimer();
     }
 }
