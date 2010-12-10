@@ -126,12 +126,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
             {
                 addBody( earth );
-                addBody( new ImageBody( "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0, SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 10000000 ) );
+                addBody( new ImageBody( "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0, SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 25000 ) );
             }
 
             @Override
             public double getZoomScale() {
-                return 20000;
+                return 5;
             }
 
             @Override
