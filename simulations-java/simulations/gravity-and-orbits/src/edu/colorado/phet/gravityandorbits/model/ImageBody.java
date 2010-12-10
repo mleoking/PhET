@@ -9,12 +9,12 @@ import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
  * @author Sam Reid
  */
 public class ImageBody extends Body {
-    public ImageBody( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, double cartoonDiameterScaleFactor ) {
-        this( name, x, y, diameter, vx, vy, mass, color, highlight, sizer, sizer, cartoonDiameterScaleFactor );
+    public ImageBody( Body parent, String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, double cartoonDiameterScaleFactor, double cartoonOffsetScale ) {
+        this( parent, name, x, y, diameter, vx, vy, mass, color, highlight, sizer, sizer, cartoonDiameterScaleFactor, cartoonOffsetScale );
     }
 
-    public ImageBody( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, Function.LinearFunction iconSizer, double cartoonDiameterScaleFactor ) {
-        super( name, x, y, diameter, vx, vy, mass, color, highlight, sizer, iconSizer, cartoonDiameterScaleFactor );
+    public ImageBody( Body parent, String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, Function.LinearFunction iconSizer, double cartoonDiameterScaleFactor, double cartoonOffsetScale ) {
+        super( parent, name, x, y, diameter, vx, vy, mass, color, highlight, sizer, iconSizer, cartoonDiameterScaleFactor, cartoonOffsetScale );
     }
 
     @Override
