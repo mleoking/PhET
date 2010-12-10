@@ -22,6 +22,9 @@ public class CountsToChargeQuestionView extends CountsToQuestionView {
     public CountsToChargeQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_CHARGE_QUESTION, -50, 50, new SignedIntegerFormat() );
 
+        // Cause positive charge to be colored red, negative to be blue.
+        getQuestion().setValueColorFunction( new ChargeColorFunction( getGuessProperty() ) );
+
         if ( problem.getAnswer().isNeutral() ){
             // If the atom is neutral, the user should be able to press the
             // guess button right away.  The intent is to avoid this situation
