@@ -18,7 +18,7 @@ public class GameOverStateView extends StateView {
         super( model, model.getGameOverState(), gameCanvas );
         gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
         gameOverNode = new GameOverNode( model.getLevelProperty().getValue(), model.getScore(),
-                model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), model.getBestTime(),
+                model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), model.getBestTime( model.getCurrentLevel() ),
                 model.isNewBestTime(), model.getTimerEnabledProperty().getValue() );
         gameOverNode.setScale( 1.5 );
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
