@@ -17,6 +17,8 @@ import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 
 /**
+ * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.
+ *
  * @author Sam Reid
  */
 public abstract class GravityAndOrbitsMode {
