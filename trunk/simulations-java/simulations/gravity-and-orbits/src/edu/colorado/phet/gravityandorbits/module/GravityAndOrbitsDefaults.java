@@ -21,7 +21,7 @@ public class GravityAndOrbitsDefaults {
     // Clock
     public static final boolean CLOCK_RUNNING = true;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double NUMBER_DAYS_PER_TICK = 4;
+    public static final double NUMBER_DAYS_PER_TICK = 1;
     public static final int SECONDS_PER_DAY = 86400;
     public static final double DEFAULT_DT = NUMBER_DAYS_PER_TICK * SECONDS_PER_DAY;
     public static final int CLOCK_TIME_COLUMNS = 10;

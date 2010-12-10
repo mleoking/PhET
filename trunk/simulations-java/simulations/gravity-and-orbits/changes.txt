@@ -1,3 +1,4 @@
+Improved cartoon mode
 Fixed: initial zoom is incorrect
 Removed animation and zooming
 Added UI for Earth System button
