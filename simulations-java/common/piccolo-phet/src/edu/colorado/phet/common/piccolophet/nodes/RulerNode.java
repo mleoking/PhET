@@ -1,11 +1,6 @@
-
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -40,7 +35,7 @@ public class RulerNode extends PhetPNode {
     private static final int UNITS_SPACING = 3;
 
     // Defaults
-    private static final int DEFAULT_INSET_WIDTH = 0;
+    private static final int DEFAULT_INSET_WIDTH = 14;
     private static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
     private static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     private static final double DEFAULT_MAJOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO = 0.40;
@@ -181,9 +176,10 @@ public class RulerNode extends PhetPNode {
     /**
      * Sets the amount of space that appears to the left (and right)
      * of the first (and last) tick marks.
+     *
      * @param insetWidth the amount of space that appears to the left (and right) of the first (and last) tick marks.
      */
-    public void setInsetWidth(double insetWidth){
+    public void setInsetWidth( double insetWidth ) {
         this.insetWidth = insetWidth;
         update();
     }
