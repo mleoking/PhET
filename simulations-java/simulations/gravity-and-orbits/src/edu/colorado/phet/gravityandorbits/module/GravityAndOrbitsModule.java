@@ -188,9 +188,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 updateActiveModule();
                 modeProperty.getValue().startZoom();
             }
-        }, false );
-        updateActiveModule();
-
+        } );
         setClockControlPanel( null );//clock panel appears in the canvas
 
         reset();
