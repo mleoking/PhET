@@ -1,3 +1,4 @@
+Fixed: Issue where the spinner on the counts-to-charge question were not being colorized as it is for other charge-related questions.
 Fixed: Made the various "showXxx" check boxes be reset when the Reset All button is pressed.
 # 1.00.15 (46802) Dec 3, 2010
 12/3/10 Deploying to dev for testing and review, this is a release candidate for the first production version with the game.
