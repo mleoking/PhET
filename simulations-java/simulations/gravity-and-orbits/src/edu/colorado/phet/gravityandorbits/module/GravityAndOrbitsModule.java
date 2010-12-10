@@ -156,6 +156,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
     }};
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
+    private Property<Boolean> scaleCartoonProperty = new Property<Boolean>( true );
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
         return new ArrayList<GravityAndOrbitsMode>( modes );
@@ -249,5 +250,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.getModel().addModelSteppedListener( simpleObserver );
         }
+    }
+
+    public Property<Boolean> getScaleCartoonProperty() {
+        return scaleCartoonProperty;
     }
 }

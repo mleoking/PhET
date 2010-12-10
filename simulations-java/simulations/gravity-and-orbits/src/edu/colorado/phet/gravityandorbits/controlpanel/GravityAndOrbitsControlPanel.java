@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.NotProperty;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
@@ -65,6 +66,20 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             } );
             add( new GOCheckBox( "Mass", module.getShowMassProperty() ) );
             add( new GOCheckBox( "Path", module.getShowPathProperty() ) );
+        }} );
+
+        addControlFullWidth( new VerticalLayoutPanel() {{
+            setBackground( BACKGROUND );
+            setOpaque( false );
+            setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), "Scale" ) {{
+                setTitleColor( Color.white );
+                setTitleFont( CONTROL_FONT );
+            }} );
+            setFillNone();
+            setAnchor( GridBagConstraints.WEST );
+
+            add( new GORadioButton( "Cartoon", module.getScaleCartoonProperty() ) );
+            add( new GORadioButton( "Real", new NotProperty( module.getScaleCartoonProperty() ) ) );
         }} );
         for ( Body body : model.getBodies() ) {
             if ( body.isModifyable() ) {
