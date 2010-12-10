@@ -2,7 +2,6 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -300,13 +299,13 @@ public class RulerNode extends PhetPNode {
                 majorTickLabelNode.setScale( fontScale );
                 double xVal = ( distBetweenMajorReadings * i ) + insetWidth;
                 double yVal = height / 2 - majorTickLabelNode.getFullBounds().getHeight() / 2;
-                double minDistanceFromTextToEdgeOfRuler = 1;
                 //Clamp and make sure the labels stay within the ruler, especially if the insetWidth has been set low (or to zero)
-                majorTickLabelNode.setOffset( MathUtil.clamp( minDistanceFromTextToEdgeOfRuler,
-                                                              xVal - majorTickLabelNode.getFullBounds().getWidth() / 2,
-                                                              width - majorTickLabelNode.getFullBounds().getWidth() - minDistanceFromTextToEdgeOfRuler ),
-                                              yVal );
-                parentNode.addChild( majorTickLabelNode );
+                majorTickLabelNode.setOffset( xVal - majorTickLabelNode.getFullBounds().getWidth() / 2, yVal );
+
+                //only add the major tick label if the insetWidth is nonzero or if it is not an end label
+                if ( insetWidth != 0 || ( i != 0 && i != majorTickLabels.length - 1 ) ) {
+                    parentNode.addChild( majorTickLabelNode );
+                }
 
                 // Major tick mark
                 DoubleGeneralPath tickPath = createTickMark( xVal, height, majorTickHeight );
@@ -340,7 +339,8 @@ public class RulerNode extends PhetPNode {
                         }
                     }
                     else {
-                        if ( i == 0 ) {
+                        //Only show the units after the first visible major tick label
+                        if ( ( i == 0 && insetWidth != 0 ) || ( i == 1 && insetWidth == 0 ) ) {
                             unitsNode = new PText( units );
                         }
                     }
