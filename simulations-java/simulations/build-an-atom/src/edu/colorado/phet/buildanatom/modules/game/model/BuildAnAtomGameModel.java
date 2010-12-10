@@ -123,10 +123,14 @@ public class BuildAnAtomGameModel {
             add( new AtomValue( 3, 4, 2 ) );
             add( new AtomValue( 3, 4, 3 ) );
             add( new AtomValue( 4, 5, 4 ) );
+            add( new AtomValue( 5, 5, 5 ) );
             add( new AtomValue( 5, 6, 5 ) );
             add( new AtomValue( 6, 6, 6 ) );
+            add( new AtomValue( 6, 7, 6 ) );
             add( new AtomValue( 7, 7, 7 ) );
             add( new AtomValue( 7, 7, 10 ) );
+            add( new AtomValue( 7, 8, 7 ) );
+            add( new AtomValue( 7, 8, 10 ) );
             add( new AtomValue( 8, 8, 8 ) );
             add( new AtomValue( 8, 8, 10 ) );
             add( new AtomValue( 9, 10, 9 ) );
