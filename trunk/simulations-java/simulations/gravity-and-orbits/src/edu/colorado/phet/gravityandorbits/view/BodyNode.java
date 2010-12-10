@@ -29,7 +29,7 @@ public class BodyNode extends PNode {
     private Function.LinearFunction sizer;//mapping to use when 'not to scale'
     private final BodyRenderer bodyRenderer;
 
-    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> toScaleProperty,
+    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scale,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
@@ -95,7 +95,7 @@ public class BodyNode extends PNode {
             }
         };
         body.getDiameterProperty().addObserver( updateDiameter );
-        toScaleProperty.addObserver( updateDiameter );
+        scale.addObserver( updateDiameter );
         modelViewTransform.addObserver( updateDiameter );
 
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
@@ -115,9 +115,9 @@ public class BodyNode extends PNode {
             }} );
         }};
         addChild( arrowIndicator );
-        toScaleProperty.addObserver( new SimpleObserver() {
+        scale.addObserver( new SimpleObserver() {
             public void update() {
-                arrowIndicator.setVisible( toScaleProperty.getValue() );
+                arrowIndicator.setVisible( scale.getValue().getShowLabelArrows() );
             }
         } );
     }

@@ -82,7 +82,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, new Property<Boolean>( false ), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 );
+            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 );
             addChild( bodyNode );
             addChild( new MassReadoutNode( body, bodyNode, modelViewTransformProperty, module.getShowMassProperty() ) );
         }

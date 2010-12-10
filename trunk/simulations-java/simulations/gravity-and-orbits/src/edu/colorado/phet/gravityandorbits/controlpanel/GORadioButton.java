@@ -12,17 +12,17 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 /**
  * @author Sam Reid
  */
-public class GORadioButton extends JRadioButton {
-    public GORadioButton( String title, final Property<Boolean> property ) {
+public class GORadioButton<T> extends JRadioButton {
+    public GORadioButton( String title, final Property<T> property, final T value ) {
         super( title );
         final SimpleObserver updateSelected = new SimpleObserver() {
             public void update() {
-                setSelected( property.getValue() );
+                setSelected( property.getValue() == value );
             }
         };
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                property.setValue( true );
+                property.setValue( value );
                 updateSelected.update();//make sure radio buttons don't toggle off
             }
         } );
