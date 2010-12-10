@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.capacitorlab.control;
+package edu.colorado.phet.common.phetcommon.view.controls;
 
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
@@ -14,9 +14,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BooleanPropertyCheckBox extends JCheckBox {
+public class PropertyCheckBox extends JCheckBox {
 
-    public BooleanPropertyCheckBox( String text, final Property<Boolean> booleanProperty ) {
+    public PropertyCheckBox( String text, final Property<Boolean> booleanProperty ) {
         super( text );
         
         // update the model when the check box changes

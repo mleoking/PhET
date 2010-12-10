@@ -1,3 +1,4 @@
+12/10/10 migrate PropertyCheckBox to phetcommon
 # 1.00.00 (46915) Dec 7, 2010
 12/7/10 added screenshot for 1.00 deployment
 # 0.00.53 (46899) Dec 6, 2010
