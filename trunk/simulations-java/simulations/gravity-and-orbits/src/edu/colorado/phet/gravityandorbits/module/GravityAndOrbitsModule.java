@@ -104,19 +104,21 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
+            final SphereBody earth = createEarth( 0, 0 );
+
             {
-                addBody( createEarth( 0, 0 ) );
+                addBody( earth );
                 addBody( createMoon( MOON_SPEED, 0 ) );
             }
 
             @Override
             public double getZoomScale() {
-                return 1.25;
+                return 5;
             }
 
             @Override
             public ImmutableVector2D getZoomOffset() {
-                return new ImmutableVector2D( 0, 0 );
+                return earth.getPosition();
             }
         } );
         add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes ) {
@@ -140,7 +142,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }};
 
     private SphereBody createMoon( double vx, double vy ) {
-        return new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 10000 );
+        return new SphereBody( "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, 1000 );
     }
 
     private SphereBody createEarth( double vx, double vy ) {
