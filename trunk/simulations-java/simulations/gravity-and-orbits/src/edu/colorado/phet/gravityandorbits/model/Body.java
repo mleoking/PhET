@@ -29,15 +29,14 @@ public abstract class Body {
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
     private Function.LinearFunction sizer;
-    private final boolean modifyable;
+    private final boolean modifyable = true;
     private final Function.LinearFunction iconSizer;
 
-    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, boolean modifyable, Function.LinearFunction iconSizer ) {
+    public Body( String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, Function.LinearFunction iconSizer ) {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
         this.sizer = sizer;
-        this.modifyable = modifyable;
         this.iconSizer = iconSizer;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
