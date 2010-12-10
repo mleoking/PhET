@@ -96,13 +96,24 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             final PSwing controlPanelPSwing = new PSwing( controlPanel );
             addChild( controlPanelPSwing );
             addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.green ) );
-            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 20 );
+            setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 2 );
         }};
         addChild( controlPanelNode );
 
+        //Earth System button
+        final ButtonNode earthSystemButton = new ButtonNode( "Earth System", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
+            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.resetAll();
+                }
+            } );
+        }};
+        addChild( earthSystemButton );
+
         //Reset all button
         addChild( new ButtonNode( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
-            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
+            setOffset( earthSystemButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, earthSystemButton.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.resetAll();
