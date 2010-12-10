@@ -266,18 +266,14 @@ public class BuildAnAtomGameModel {
     private ProblemSet problemSet;
     private final ConstantDtClock clock = new ConstantDtClock( 1000, 1000 );//simulation time is in milliseconds
 
-    private final double[] bestTimes = new double[ MAX_LEVELS ];
+    // Track the best times on a per-level basis.
+    private final HashMap<Integer, Double> mapLevelToBestTime = new HashMap<Integer, Double>();
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
     public BuildAnAtomGameModel() {
         setState( gameSettingsState );
-
-        // Initialize the best values
-        for (int i = 0; i < MAX_LEVELS; i++){
-            bestTimes[i] = Double.POSITIVE_INFINITY;
-        }
     }
 
     // ------------------------------------------------------------------------
@@ -328,11 +324,10 @@ public class BuildAnAtomGameModel {
 
         // Update the best time value if appropriate.
         if ( timerEnabledProperty.getValue() ){
-            if ( getGameClock().getSimulationTime() < bestTimes[levelProperty.getValue() - 1] ){
-                bestTimes[levelProperty.getValue() - 1] = (long)getGameClock().getSimulationTime();
+            if ( !mapLevelToBestTime.containsKey( getCurrentLevel() ) || getGameClock().getSimulationTime() < mapLevelToBestTime.get( getCurrentLevel() ) ){
+                mapLevelToBestTime.put( getCurrentLevel(), getGameClock().getSimulationTime() );
             }
         }
-
     }
 
     public void addListener( GameModelListener listener ) {
@@ -440,7 +435,7 @@ public class BuildAnAtomGameModel {
      */
     public long getBestTime( int level ) {
         assert level > 0 && level <= MAX_LEVELS;
-        return (long) bestTimes[level - 1];
+        return (long) mapLevelToBestTime.get( level ).doubleValue();
     }
 
     public boolean isNewBestTime(){
@@ -455,6 +450,6 @@ public class BuildAnAtomGameModel {
      * @return
      */
     public boolean isBestTimeRecorded( int level ){
-        return bestTimes[level - 1] != Double.POSITIVE_INFINITY;
+        return mapLevelToBestTime.containsKey( level );
     }
 }
