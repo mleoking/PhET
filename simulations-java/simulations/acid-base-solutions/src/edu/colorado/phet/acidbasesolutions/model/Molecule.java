@@ -23,7 +23,7 @@ public abstract class Molecule {
      * true = use molecule image files
      * false = use single-color circles, useful to trying out different colors 
      */
-    private static final boolean USE_IMAGES = false;
+    private static final boolean USE_IMAGES = true;
 
     private final String name;
     private final String symbol; // chemical symbol
