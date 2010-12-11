@@ -1,3 +1,4 @@
+12/10/10 restore molecule images
 # 1.00.01 (47052) Dec 10, 2010
 12/10/10 demonstrate proposed color changes to address colorblind issues
 12/10/19 #2577, try Kelly's new colors, use colored circles instead of molecule images throughout
