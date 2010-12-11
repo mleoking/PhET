@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.constants;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
@@ -46,28 +47,15 @@ public class ABSImages {
     public static final BufferedImage MOH_MOLECULE = getBufferedImage( "molecules/MOH.png" );
     public static final BufferedImage OH_MINUS_MOLECULE = getBufferedImage( "molecules/OH_minus.png" );
     
-    // molecule icons
-    private static final double MOLECULE_ICON_SCALE = 0.75;
-    public static final Icon A_MINUS_ICON = getIcon( "molecules/A_minus.png", MOLECULE_ICON_SCALE );
-    public static final Icon B_ICON = getIcon( "molecules/B.png", MOLECULE_ICON_SCALE );
-    public static final Icon BH_PLUS_ICON = getIcon( "molecules/BH_plus.png", MOLECULE_ICON_SCALE );
-    public static final Icon H2O_ICON = getIcon( "molecules/H2O.png", MOLECULE_ICON_SCALE );
-    public static final Icon H3O_PLUS_ICON = getIcon( "molecules/H3O_plus.png", MOLECULE_ICON_SCALE );
-    public static final Icon HA_ICON = getIcon( "molecules/HA.png", MOLECULE_ICON_SCALE );
-    public static final Icon M_PLUS_ICON = getIcon( "molecules/M_plus.png", MOLECULE_ICON_SCALE );
-    public static final Icon MOH_ICON = getIcon( "molecules/MOH.png", MOLECULE_ICON_SCALE );
-    public static final Icon OH_MINUS_ICON = getIcon( "molecules/OH_minus.png", MOLECULE_ICON_SCALE );
-    
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
     }
     
     private static final Icon getIcon( String resourceName ) {
-        return getIcon( resourceName, 1 );
+        return createIcon( ABSResources.getBufferedImage( resourceName ), 1 );
     }
     
-    private static final Icon getIcon( String resourceName, double scale ) {
-        BufferedImage image = ABSResources.getBufferedImage( resourceName );
+    public static final Icon createIcon( Image image, double scale ) {
         PImage imageNode = new PImage( image );
         imageNode.scale( scale ); // use Piccolo to scale images
         return new ImageIcon( imageNode.toImage() );

@@ -17,10 +17,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.model.ABSModel;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Molecule;
-import edu.colorado.phet.acidbasesolutions.model.PureWaterSolution;
+import edu.colorado.phet.acidbasesolutions.model.*;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericAcidMolecule;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.GenericStrongBaseMolecule;
@@ -46,6 +43,12 @@ public class FixedSolutionControls extends PhetTitledPanel {
     private final JRadioButton waterRadioButton;
     private final JRadioButton strongAcidRadioButton, weakAcidRadioButton;
     private final JRadioButton strongBaseRadioButton, weakBaseRadioButton;
+    
+    private static final class MoleculeLabel extends JLabel {
+        public MoleculeLabel( Molecule molecule ) {
+            super( ABSImages.createIcon( molecule.getImage(), 0.75 /* scale */ ) );
+        }
+    }
 
     public FixedSolutionControls( ABSModel model ) {
         super( ABSStrings.SOLUTIONS );
@@ -63,7 +66,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
         }
         
         // icons - clicking on these selects associated radio buttons
-        JLabel waterIcon = new JLabel( ABSImages.H2O_ICON );
+        JLabel waterIcon = new MoleculeLabel( new WaterMolecule() );
         waterIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
@@ -72,7 +75,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
             }
         } );
         
-        JLabel strongAcidIcon = new JLabel( ABSImages.HA_ICON );
+        JLabel strongAcidIcon = new MoleculeLabel( new GenericAcidMolecule() );
         strongAcidIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
@@ -81,7 +84,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
             }
         } );
         
-        JLabel weakAcidIcon = new JLabel( ABSImages.HA_ICON );
+        JLabel weakAcidIcon = new MoleculeLabel( new GenericAcidMolecule() );
         weakAcidIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
@@ -90,7 +93,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
             }
         } );
         
-        JLabel strongBaseIcon = new JLabel( ABSImages.MOH_ICON );
+        JLabel strongBaseIcon = new MoleculeLabel( new GenericStrongBaseMolecule() );
         strongBaseIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
@@ -99,7 +102,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
             }
         } );
         
-        JLabel weakBaseIcon = new JLabel( ABSImages.B_ICON );
+        JLabel weakBaseIcon = new MoleculeLabel( new GenericWeakBaseMolecule() );
         weakBaseIcon.addMouseListener( new MouseAdapter() {
             @Override 
             public void mousePressed( MouseEvent event ) {
