@@ -20,16 +20,17 @@ public class ABSColors {
     // main control panel
     public static final Color CONTROL_PANEL_BACKGROUND = new Color( 204, 204, 255 );
     
-    // molecule colors
-    public static final Color H2O = new Color( 193, 222, 227 );
+    // neutral molecule colors
+    private static final Color NEUTRAL_COLOR = new Color( 170, 170, 170 );
+    public static final Color HA = NEUTRAL_COLOR;
+    public static final Color B = NEUTRAL_COLOR;
+    public static final Color MOH = NEUTRAL_COLOR;
     public static final Color H3O_PLUS = new Color( 255, 85, 0 );
-    public static final Color OH_MINUS = new Color( 0, 170, 255 );
-    public static final Color HA = new Color( 170, 170, 170 );
-    public static final Color A_MINUS = new Color( 235, 145, 5 );
-    public static final Color B = new Color( 170, 170, 170 );
     public static final Color BH_PLUS = new Color( 255, 170, 0 );
-    public static final Color MOH = B;
     public static final Color M_PLUS = BH_PLUS;
+    public static final Color A_MINUS = new Color( 0, 170, 255 );
+    public static final Color OH_MINUS = new Color( 0, 0, 255 );
+    public static final Color H2O = new Color( 193, 222, 227 );
     
     // solution color
     public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227, 180 ); // transparent light blue
