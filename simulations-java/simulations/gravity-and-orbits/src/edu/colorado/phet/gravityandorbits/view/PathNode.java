@@ -1,10 +1,10 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -23,7 +23,7 @@ public class PathNode extends PNode {
     private int[] xPrimitive = new int[MAX_TRACE_LENGTH];
     private int[] yPrimitive = new int[MAX_TRACE_LENGTH];
 
-    public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color ) {
+    public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color, final Property<Scale> scaleProperty ) {
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         pathNode = new PNode() {
             @Override
@@ -51,9 +51,9 @@ public class PathNode extends PNode {
                 pathNode.repaint();
             }
         } );
-        body.addPathListener( new Body.PathListener() {
+        final Body.PathListener listener = new Body.PathListener() {
             public void pointAdded( Body.PathPoint point ) {
-                Point2D pt = transform.getValue().modelToView( point.point.toPoint2D() );
+                ImmutableVector2D pt = transform.getValue().modelToView( body.getPosition( scaleProperty.getValue() ) );
                 points.add( new Point( (int) pt.getX(), (int) pt.getY() ) );
                 pathNode.repaint();
             }
@@ -69,10 +69,20 @@ public class PathNode extends PNode {
                 points.clear();
                 pathNode.repaint();
             }
-        } );
+        };
+        body.addPathListener( listener );
         transform.addObserver( new SimpleObserver() {
             public void update() {
                 body.clearPath();
+            }
+        } );
+        scaleProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                //clear and add back all points in the right scale
+                points.clear();
+                for ( Body.PathPoint pathPoint : body.getPath() ) {
+                    listener.pointAdded( pathPoint );
+                }
             }
         } );
     }

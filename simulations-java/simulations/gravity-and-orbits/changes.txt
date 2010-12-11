@@ -1,3 +1,4 @@
+Fixed: Path node is incorrect in cartoon scale
 Improved cartoon mode
 Fixed: initial zoom is incorrect
 Removed animation and zooming

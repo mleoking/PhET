@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.PathNode;
+import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * @author Sam Reid
@@ -134,11 +135,14 @@ public abstract class Body {
         }
         accelerationProperty.setValue( bodyState.acceleration );
         forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
+    }
+
+    public void allBodiesUpdated() {
         addPathPoint();
     }
 
     private void addPathPoint() {
-        PathPoint pathPoint = new PathPoint( getPosition(), isUserControlled() );
+        PathPoint pathPoint = new PathPoint( getPosition(), getCartoonPosition(), isUserControlled() );
         path.add( pathPoint );
         while ( path.size() > PathNode.MAX_TRACE_LENGTH ) {//TODO: make this be 2 orbits after other free parameters are selected
             path.remove( 0 );
@@ -252,12 +256,35 @@ public abstract class Body {
         return cartoonOffsetScale;
     }
 
+    public ImmutableVector2D getCartoonPosition() {
+        if ( getParent() != null ) {
+            ImmutableVector2D offset = getPosition().getSubtractedInstance( getParent().getPosition() );
+            final ImmutableVector2D cartoonOffset = offset.getScaledInstance( getCartoonOffsetScale() );
+            final ImmutableVector2D cartoonPosition = getParent().getPosition().getAddedInstance( cartoonOffset );
+            return cartoonPosition;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public ImmutableVector2D getPosition( Scale scale ) {
+        if ( scale == Scale.CARTOON && parent != null ) {
+            return getCartoonPosition();
+        }
+        else {
+            return getPosition();
+        }
+    }
+
     public static class PathPoint {
         public final ImmutableVector2D point;
+        public final ImmutableVector2D cartoonPoint;
         public final boolean userControlled;
 
-        public PathPoint( ImmutableVector2D point, boolean userControlled ) {
+        public PathPoint( ImmutableVector2D point, ImmutableVector2D cartoonPoint, boolean userControlled ) {
             this.point = point;
+            this.cartoonPoint = cartoonPoint;
             this.userControlled = userControlled;
         }
     }

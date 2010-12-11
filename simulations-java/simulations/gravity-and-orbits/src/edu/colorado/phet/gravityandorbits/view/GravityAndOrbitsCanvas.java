@@ -65,7 +65,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Property<ModelViewTransform> modelViewTransformProperty = mode.getModelViewTransformProperty();
 
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, modelViewTransformProperty, module.getShowPathProperty(), body.getColor() ) );
+            addChild( new PathNode( body, modelViewTransformProperty, module.getShowPathProperty(), body.getColor(), module.getScaleProperty() ) );
         }
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
