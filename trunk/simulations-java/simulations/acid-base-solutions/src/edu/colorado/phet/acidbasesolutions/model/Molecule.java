@@ -4,11 +4,13 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Base class for molecules, inner classes for specific molecules.
@@ -16,6 +18,12 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class Molecule {
+    
+    /*
+     * true = use molecule image files
+     * false = use single-color circles, useful to trying out different colors 
+     */
+    private static final boolean USE_IMAGES = true;
 
     private final String name;
     private final String symbol; // chemical symbol
@@ -45,7 +53,19 @@ public abstract class Molecule {
     }
     
     public Image getImage() {
-        return image;
+        if ( USE_IMAGES ) {
+            return image;
+        }
+        else {
+            return getProxyImage();
+        }
+    }
+    
+    private Image getProxyImage() {
+        PPath node = new PPath( new Ellipse2D.Double( 0, 0, 24, 24 ) );
+        node.setStroke( null );
+        node.setPaint( getColor() );
+        return node.toImage();
     }
     
     public Color getColor() {

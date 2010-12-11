@@ -15,6 +15,7 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass.MagnifyingGlassChangeListener;
+import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -93,7 +94,8 @@ public class ViewControls extends PhetTitledPanel {
                 }
             } );
             
-            showWaterIcon = new JLabel( ABSImages.H2O_ICON );
+            Icon waterIcon = ABSImages.createIcon( new WaterMolecule().getImage(), 0.75 );
+            showWaterIcon = new JLabel( waterIcon );
             showWaterIcon.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mousePressed( MouseEvent event ) {
