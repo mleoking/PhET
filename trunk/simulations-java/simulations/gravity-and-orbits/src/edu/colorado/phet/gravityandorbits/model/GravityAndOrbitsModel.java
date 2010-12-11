@@ -33,6 +33,9 @@ public class GravityAndOrbitsModel {
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
+                for ( int i = 0; i < bodies.size(); i++ ) {
+                    bodies.get( i ).allBodiesUpdated();
+                }
             }
         };
         clock.addClockListener( new ClockAdapter() {
@@ -64,11 +67,6 @@ public class GravityAndOrbitsModel {
 
     public void addBody( Body body ) {
         bodies.add( body );
-        body.getPositionProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                stepModel.apply( 0.0 );
-            }
-        } );
     }
 
     public ArrayList<Body> getBodies() {

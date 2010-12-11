@@ -66,7 +66,7 @@ public class BodyNode extends PNode {
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
-                setOffset( getOffset( modelViewTransform, body ) );
+                setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 if ( parentComponent != null && body.isModifyable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
@@ -124,15 +124,8 @@ public class BodyNode extends PNode {
         } );
     }
 
-    private Point2D getOffset( Property<ModelViewTransform> modelViewTransform, Body body ) {
-        if ( scaleProperty.getValue() == Scale.CARTOON && body.getParent() != null ) {
-            ImmutableVector2D relativeVector = body.getPosition().getSubtractedInstance( body.getParent().getPosition() );
-            final ImmutableVector2D cartoonOffset = relativeVector.getScaledInstance( body.getCartoonOffsetScale() );
-            return modelViewTransform.getValue().modelToView( body.getParent().getPosition().getAddedInstance( cartoonOffset ) ).toPoint2D();
-        }
-        else {
-            return modelViewTransform.getValue().modelToView( body.getPosition() ).toPoint2D();
-        }
+    private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
+        return modelViewTransform.getValue().modelToView( body.getPosition( scaleProperty.getValue() ) );
     }
 
     private double getViewDiameter() {
