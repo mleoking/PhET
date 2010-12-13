@@ -19,7 +19,6 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
-import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 import edu.colorado.phet.gravityandorbits.view.VectorNode;
 
@@ -143,7 +142,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 addBody( earth );
                 addBody( new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, GravityAndOrbitsCanvas.REAL_SIZER, 25000, 1000 * 1.6, IMAGE_RENDERER, scaleProperty ) );
+                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, IMAGE_RENDERER, scaleProperty ) );
             }
 
             @Override
@@ -160,15 +159,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, GravityAndOrbitsCanvas.REAL_SIZER, 1000, 40, SPHERE_RENDERER, scaleProperty );
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, SPHERE_RENDERER, scaleProperty );
     }
 
     private Body createEarth( Body sun, double vx, double vy ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, GravityAndOrbitsCanvas.REAL_SIZER, 1000, 1, SPHERE_RENDERER, scaleProperty );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, SPHERE_RENDERER, scaleProperty );
     }
 
     private Body createSun() {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, GravityAndOrbitsCanvas.REAL_SIZER, GravityAndOrbitsCanvas.REAL_SIZER, 50, 1, SPHERE_RENDERER, scaleProperty );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SPHERE_RENDERER, scaleProperty );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

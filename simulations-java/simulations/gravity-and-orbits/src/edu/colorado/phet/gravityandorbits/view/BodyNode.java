@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,15 +26,13 @@ public class BodyNode extends PNode {
     private Body body;
     private PNode arrowIndicator;
     private final Property<Scale> scaleProperty;
-    private Function.LinearFunction sizer;//mapping to use when 'not to scale'
     private final BodyRenderer bodyRenderer;
 
     public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scaleProperty,
-                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, Function.LinearFunction sizer, final double labelAngle ) {
+                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
         this.scaleProperty = scaleProperty;
-        this.sizer = sizer;
 
         bodyRenderer = body.createRenderer( getViewDiameter() );
         addChild( bodyRenderer );

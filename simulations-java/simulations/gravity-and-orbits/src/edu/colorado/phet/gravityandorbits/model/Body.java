@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
@@ -32,9 +31,7 @@ public class Body {
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
-    private final Function.LinearFunction sizer;
     private final boolean modifyable = true;
-    private final Function.LinearFunction iconSizer;
     private final double cartoonDiameterScaleFactor;
     private final Body parent;
     private final double cartoonOffsetScale;
@@ -43,7 +40,7 @@ public class Body {
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
-                 Function.LinearFunction sizer, Function.LinearFunction iconSizer, double cartoonDiameterScaleFactor, double cartoonOffsetScale,
+                 double cartoonDiameterScaleFactor, double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty
     ) {
@@ -52,8 +49,6 @@ public class Body {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
-        this.sizer = sizer;
-        this.iconSizer = iconSizer;
         this.cartoonDiameterScaleFactor = cartoonDiameterScaleFactor;
         this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
@@ -259,20 +254,12 @@ public class Body {
         return path;
     }
 
-    public Function.LinearFunction getSizer() {
-        return sizer;
-    }
-
     public boolean isModifyable() {
         return modifyable;
     }
 
     public BodyRenderer createRenderer( double viewDiameter ) {
         return renderer.apply( this, viewDiameter );
-    }
-
-    public Function.LinearFunction getIconSizer() {
-        return iconSizer;
     }
 
     public double getCartoonDiameterScaleFactor() {

@@ -33,7 +33,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
 
     private boolean updatingSlider = false;
 
-    public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel, final Function.LinearFunction sizer ) {
+    public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel ) {
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, MIN, MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
 
@@ -46,7 +46,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setBackground( BACKGROUND );
             }} );
             final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ) ),
-                                                    new Property<Scale>( Scale.CARTOON ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, sizer, -Math.PI / 4 );
+                                                    new Property<Scale>( Scale.CARTOON ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
             final Image image = bodyNode.sphereNodeToImage();
             add( new JLabel( "", new ImageIcon( BufferedImageUtils.multiScaleToHeight( (BufferedImage) image, 22 ) ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );
