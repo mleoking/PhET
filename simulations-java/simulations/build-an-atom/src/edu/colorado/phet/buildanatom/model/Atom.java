@@ -442,9 +442,9 @@ public class Atom extends SimpleAtom {
             // Four nucleons - make a sort of diamond shape with some overlap.
             double angle = RAND.nextDouble() * 2 * Math.PI;
             nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
-            nucleons.get( 1 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 2 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
             double distFromCenter = nucleonRadius * 2 * Math.cos( Math.PI / 3 );
-            nucleons.get( 2 ).setDestination( distFromCenter * Math.cos( angle + Math.PI / 2 ),
+            nucleons.get( 1 ).setDestination( distFromCenter * Math.cos( angle + Math.PI / 2 ),
                     distFromCenter * Math.sin( angle + Math.PI / 2 ) );
             nucleons.get( 3 ).setDestination( -distFromCenter * Math.cos( angle + Math.PI / 2 ),
                     -distFromCenter * Math.sin( angle + Math.PI / 2 ) );
