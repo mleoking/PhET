@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.PathNode;
 import edu.colorado.phet.gravityandorbits.view.Scale;
@@ -14,7 +15,7 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
 /**
  * @author Sam Reid
  */
-public abstract class Body {
+public class Body {
     private final Property<ImmutableVector2D> positionProperty;
     private final Property<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
@@ -29,15 +30,20 @@ public abstract class Body {
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
-    private Function.LinearFunction sizer;
+    private final Function.LinearFunction sizer;
     private final boolean modifyable = true;
     private final Function.LinearFunction iconSizer;
     private final double cartoonDiameterScaleFactor;
-    private Body parent;
-    private double cartoonOffsetScale;
+    private final Body parent;
+    private final double cartoonOffsetScale;
+    private final Function2<Body, Double, BodyRenderer> renderer;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
-                 String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight, Function.LinearFunction sizer, Function.LinearFunction iconSizer, double cartoonDiameterScaleFactor, double cartoonOffsetScale ) {
+                 String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
+                 Function.LinearFunction sizer, Function.LinearFunction iconSizer, double cartoonDiameterScaleFactor, double cartoonOffsetScale,
+                 Function2<Body, Double, BodyRenderer> renderer// way to associate the graphical representation directly instead of later with conditional logic or map
+    ) {
+        assert renderer != null;
         this.parent = parent;
         this.name = name;
         this.color = color;
@@ -46,6 +52,7 @@ public abstract class Body {
         this.iconSizer = iconSizer;
         this.cartoonDiameterScaleFactor = cartoonDiameterScaleFactor;
         this.cartoonOffsetScale = cartoonOffsetScale;
+        this.renderer = renderer;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -238,7 +245,9 @@ public abstract class Body {
         return modifyable;
     }
 
-    public abstract BodyRenderer createRenderer( double viewDiameter );
+    public BodyRenderer createRenderer( double viewDiameter ) {
+        return renderer.apply( this, viewDiameter );
+    }
 
     public Function.LinearFunction getIconSizer() {
         return iconSizer;
