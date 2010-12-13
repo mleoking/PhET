@@ -179,6 +179,7 @@ public class Body {
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
         }
+        System.out.println( "Body.addPathPoint, size = " + path.size() );
     }
 
     public void clearPath() {
@@ -284,7 +285,7 @@ public class Body {
             return cartoonPosition;
         }
         else {
-            return null;
+            return getPosition();//those without parents have a cartoon position equal to their physical position
         }
     }
 

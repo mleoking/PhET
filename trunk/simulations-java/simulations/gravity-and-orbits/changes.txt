@@ -1,3 +1,4 @@
+Fixed: PathNode should be able to toggle between cartoon/real without disappearing
 Fixed: label pointer for moon should point the other way in real scale
 Fixed: velocity vector arrows do not update properly
 Fixed: velocity vector arrows do not respect scale
