@@ -37,12 +37,13 @@ public class Body {
     private final double cartoonOffsetScale;
     private final Function2<Body, Double, BodyRenderer> renderer;
     private final Property<Scale> scaleProperty;
+    private double labelAngle = -Math.PI / 4;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  double cartoonDiameterScaleFactor, double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
-                 final Property<Scale> scaleProperty
+                 final Property<Scale> scaleProperty, double labelAngle
     ) {
         assert renderer != null;
         this.parent = parent;
@@ -53,6 +54,7 @@ public class Body {
         this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
         this.scaleProperty = scaleProperty;
+        this.labelAngle = labelAngle;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -293,6 +295,10 @@ public class Body {
         else {
             return getPosition();
         }
+    }
+
+    public double getLabelAngle() {
+        return labelAngle;
     }
 
     public static class PathPoint {
