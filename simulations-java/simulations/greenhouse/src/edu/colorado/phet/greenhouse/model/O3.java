@@ -71,7 +71,6 @@ public class O3 extends Molecule {
         // has essentially 1.5 bonds, so we randomly choose one side to show
         // two bonds and another to show one.
         doubleBondOnRight = RAND.nextBoolean();
-        System.out.println("doubleBondOnRight =" + doubleBondOnRight);
         if ( doubleBondOnRight ) {
             leftOxygenOxygenBond = new AtomicBond( centerOxygenAtom, leftOxygenAtom, 1 );
             rightOxygenOxygenBond = new AtomicBond( centerOxygenAtom, rightOxygenAtom, 2 );
