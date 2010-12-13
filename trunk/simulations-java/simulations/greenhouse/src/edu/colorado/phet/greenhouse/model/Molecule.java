@@ -277,8 +277,11 @@ public abstract class Molecule {
      * @param y the y location to set
      */
     public void setCenterOfGravityPos( double x, double y ){
-        this.centerOfGravity.setLocation( x, y );
-        updateAtomPositions();
+        if ( centerOfGravity.getX() != x || centerOfGravity.getY() != y){
+            this.centerOfGravity.setLocation( x, y );
+            updateAtomPositions();
+            notifyCenterOfGravityPosChanged();
+        }
     }
 
     public void setCenterOfGravityPos(Point2D centerOfGravityPos){
@@ -311,8 +314,11 @@ public abstract class Molecule {
      * @param deltaRadians
      */
     public void rotate( double deltaRadians ){
-        for ( Vector2D atomOffsetVector : atomCogOffsets.values() ){
-            atomOffsetVector.rotate( deltaRadians );
+        if ( deltaRadians != 0 ){
+            for ( Vector2D atomOffsetVector : atomCogOffsets.values() ){
+                atomOffsetVector.rotate( deltaRadians );
+            }
+            updateAtomPositions();
         }
     }
 
@@ -332,6 +338,12 @@ public abstract class Molecule {
     private void notifyElectronicEnergyStateChanged() {
         for ( Listener listener : listeners ) {
             listener.electronicEnergyStateChanged( this );
+        }
+    }
+
+    private void notifyCenterOfGravityPosChanged() {
+        for ( Listener listener : listeners ) {
+            listener.centerOfGravityPosChanged( this );
         }
     }
 
@@ -525,11 +537,13 @@ public abstract class Molecule {
         void photonEmitted( Photon photon );
         void brokeApart( Molecule molecule );
         void electronicEnergyStateChanged( Molecule molecule );
+        void centerOfGravityPosChanged( Molecule molecule );
     }
 
     public static class Adapter implements Listener {
         public void photonEmitted(Photon photon) {}
         public void brokeApart(Molecule molecule) {}
         public void electronicEnergyStateChanged( Molecule molecule ) {}
+        public void centerOfGravityPosChanged( Molecule molecule ) {}
     }
 }

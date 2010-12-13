@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -39,6 +40,9 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     // Model-view transform.
     private final ModelViewTransform2D mvt;
 
+    // Model that is being viewed.
+    private final PhotonAbsorptionModel photonAbsorptionModel;
+
     // Local root node for world children.
     PNode myWorldNode;
 
@@ -52,6 +56,18 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     private final HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
     private final HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
 
+    // Button for restoring molecules that break apart.
+    private final ButtonNode restoreMoleculeButtonNode;
+
+    // Listener for watching molecules and updating the restore button
+    // visibility.
+    private final Molecule.Adapter moleculeMotionListener = new Molecule.Adapter(){
+        @Override
+        public void centerOfGravityPosChanged( Molecule molecule ) {
+            updateRestoreMolecueButtonVisibility();
+        }
+    };
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -62,6 +78,8 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
      * @param photonAbsorptionModel - Model that is being portrayed on this canvas.
      */
     public MoleculesAndLightCanvas( final PhotonAbsorptionModel photonAbsorptionModel ) {
+
+        this.photonAbsorptionModel = photonAbsorptionModel;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteringBoxStrategy( this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE ) );
@@ -98,10 +116,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
             @Override
             public void moleculeRemoved( Molecule molecule ) {
-                if ( moleculeLayer.removeChild( moleculeMap.get( molecule ) ) == null ) {
-                    System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
-                }
-                moleculeMap.remove( molecule );
+                removeMolecule( molecule );
             }
 
             @Override
@@ -141,16 +156,16 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 photonEmitterNode.getFullBoundsReference().getCenterX() - connectingRod.getFullBoundsReference().width / 2,
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
 
-        // Create the button that will be used to restore any molecules that
-        // break apart.
-        ButtonNode buttonNode = new ButtonNode( "Restore Molecule", 24, new Color( 255, 144, 0 ) );
-        buttonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - buttonNode.getFullBounds().getWidth(), 50 );
-        buttonNode.addActionListener( new ActionListener() {
+        // Add the button for restoring molecule that break apart.
+        restoreMoleculeButtonNode = new ButtonNode( "Restore Molecule", 24, new Color( 255, 144, 0 ) );
+        restoreMoleculeButtonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
+        restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 photonAbsorptionModel.restorePhotonTarget();
             }
         });
-        myWorldNode.addChild( buttonNode );
+        myWorldNode.addChild( restoreMoleculeButtonNode );
+        updateRestoreMolecueButtonVisibility();
 
         // Add the nodes in the order necessary for correct layering.
         photonEmitterLayer.addChild( connectingRod );
@@ -171,8 +186,38 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     private void addMolecule( Molecule molecule ) {
+        molecule.addListener( moleculeMotionListener );
         MoleculeNode moleculeNode = new MoleculeNode( molecule, mvt );
         moleculeLayer.addChild( moleculeNode );
         moleculeMap.put( molecule, moleculeNode );
+        updateRestoreMolecueButtonVisibility();
+    }
+
+    private void removeMolecule( Molecule molecule ) {
+        if ( moleculeLayer.removeChild( moleculeMap.get( molecule ) ) == null ) {
+            System.out.println( getClass().getName() + " - Error: MoleculeNode not found for molecule." );
+        }
+        moleculeMap.remove( molecule );
+        updateRestoreMolecueButtonVisibility();
+        molecule.removeListener( moleculeMotionListener );
+    }
+
+    /**
+     * Update the visibility of the button that restores molecules that have
+     * broken apart.  This button should be visible only when one or more
+     * molecules are off the screen (more or less).  This routine uses the
+     * intermediate rendering size to make the determination, which isn't
+     * perfectly accurate, but works well enough for our purposes.
+     */
+    private void updateRestoreMolecueButtonVisibility(){
+        boolean restoreButtonVisible = false;
+        Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height );
+        for ( Molecule molecule : photonAbsorptionModel.getMolecules() ){
+            if ( !screenRect.contains( mvt.modelToView( molecule.getCenterOfGravityPos() ))){
+                restoreButtonVisible = true;
+                break;
+            }
+        }
+        restoreMoleculeButtonNode.setVisible( restoreButtonVisible );
     }
 }
