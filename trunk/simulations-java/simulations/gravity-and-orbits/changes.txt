@@ -1,3 +1,5 @@
+Improved mode radio buttons: icons change size with relative body size
+Improved mode radio buttons: icons are aligned horizontally
 Converted mode radio button text to icons
 Fixed: Earth System button should set the mass, velocity, and positions for the bodies to the earth system values within the same mode.
 Fixed: Drag handlers broken for dragging in cartoon scale

@@ -1,5 +1,6 @@
 package edu.colorado.phet.gravityandorbits.module;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -16,7 +17,6 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.
@@ -34,11 +34,13 @@ public abstract class GravityAndOrbitsMode {
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     private final Property<Boolean> clockRunningProperty;
     private Function1<Double, String> timeFormatter;
+    private Image iconImage;
 
-    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter ) {
+    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage ) {
         this.name = name;
         this.forceScale = forceScale;
         this.camera = camera;
+        this.iconImage = iconImage;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
 
@@ -120,20 +122,7 @@ public abstract class GravityAndOrbitsMode {
             setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
             setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
             add( new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
-            add( new JLabel( new ImageIcon( new PNode() {{
-                setOpaque( false );//TODO: is this a mac problem?
-                setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
-                setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
-                int index = 0;
-                int iconSize = 30;
-                int inset = 4;
-                for ( Body body : GravityAndOrbitsMode.this.getModel().getBodies() ) {
-                    PNode renderer = body.createRenderer( iconSize );
-                    addChild( renderer );
-                    renderer.setOffset( iconSize * index + inset * index, 0 );
-                    index++;
-                }
-            }}.toImage() ) ) );
+            add( new JLabel( new ImageIcon( iconImage ) ) );
         }};
     }
 

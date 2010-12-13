@@ -3,6 +3,7 @@
 package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,12 +16,14 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 import edu.colorado.phet.gravityandorbits.view.VectorNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Module template.
@@ -89,7 +92,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     };
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
-        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
+        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, false, false ) ) {
             {
                 final Body sun = createSun();
                 addBody( sun );
@@ -106,7 +109,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
+        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, true, false ) ) {
             {
                 final Body sun = createSun();
                 addBody( sun );
@@ -126,7 +129,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
+        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( false, true, true, false ) ) {
             final Body earth = createEarth( null, 0, 0 );
 
             {
@@ -144,13 +147,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes ) {
+        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes, createIconImage( false, true, false, true ) ) {
             final Body earth = createEarth( null, 0, 0 );
 
             {
                 addBody( earth );
-                addBody( new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4 ) );
+                addBody( createSpaceStation( earth ) );
             }
 
             @Override
@@ -164,6 +166,31 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
     }};
+
+    private Image createIconImage( final boolean sun, final boolean earth, final boolean moon, final boolean spaceStation ) {
+        return new PNode() {
+            {
+                int inset = 4;//distance between icons
+                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
+                addIcon( inset, createSun().createRenderer( 35 ), sun );
+                addIcon( inset, createEarth( null, 0, 0 ).createRenderer( 30 ), earth );
+                addIcon( inset, createMoon( null, 0, 0 ).createRenderer( 25 ), moon );
+                addIcon( inset, createSpaceStation( null ).createRenderer( 30 ), spaceStation );
+            }
+
+            private void addIcon( int inset, PNode sunIcon, boolean sun ) {
+                addChild( sunIcon );
+                sunIcon.setOffset( getFullBounds().getMaxX() + inset + sunIcon.getFullBounds().getWidth() / 2, 0 );
+                sunIcon.setVisible( sun );
+            }
+        }.toImage();
+    }
+
+    private Body createSpaceStation( Body earth ) {
+        return new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4 );
+    }
+
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy ) {
