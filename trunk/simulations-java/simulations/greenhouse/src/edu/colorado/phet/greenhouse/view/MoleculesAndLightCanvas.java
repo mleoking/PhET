@@ -4,11 +4,14 @@ package edu.colorado.phet.greenhouse.view;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.Photon;
@@ -58,7 +61,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
      *
      * @param photonAbsorptionModel - Model that is being portrayed on this canvas.
      */
-    public MoleculesAndLightCanvas( PhotonAbsorptionModel photonAbsorptionModel ) {
+    public MoleculesAndLightCanvas( final PhotonAbsorptionModel photonAbsorptionModel ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteringBoxStrategy( this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE ) );
@@ -137,6 +140,17 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         connectingRod.setOffset(
                 photonEmitterNode.getFullBoundsReference().getCenterX() - connectingRod.getFullBoundsReference().width / 2,
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
+
+        // Create the button that will be used to restore any molecules that
+        // break apart.
+        ButtonNode buttonNode = new ButtonNode( "Restore Molecule", 24, new Color( 255, 144, 0 ) );
+        buttonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - buttonNode.getFullBounds().getWidth(), 50 );
+        buttonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                photonAbsorptionModel.restorePhotonTarget();
+            }
+        });
+        myWorldNode.addChild( buttonNode );
 
         // Add the nodes in the order necessary for correct layering.
         photonEmitterLayer.addChild( connectingRod );
