@@ -1,0 +1,2 @@
+moon.png source=microsoft clip art
+space-station.png source=microsoft clip art
