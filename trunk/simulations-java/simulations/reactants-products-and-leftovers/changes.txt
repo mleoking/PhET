@@ -1,3 +1,4 @@
+# 1.02.01 (47115) Dec 13, 2010
 12/13/10 change points in game: +2 if correct on first try, +1 on second try
 # 1.02.00 (45305) Oct 21, 2010
 # 1.01.01 (45225) Oct 19, 2010
