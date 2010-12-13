@@ -219,7 +219,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             barNode.setPaint( molecule.getColor() );
             valueNode.setFormat( format );
             valueNode.setNegligibleEnabled( negligibleEnabled, NEGLIGIBLE_THRESHOLD );
-            valueNode.setNegligibleColor( molecule.getColor() );
             iconNode.setImage( molecule.getImage() );
             symbolNode.setHTML( molecule.getSymbol() );
             updateLayout();
