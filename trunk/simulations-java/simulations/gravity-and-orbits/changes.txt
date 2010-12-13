@@ -1,3 +1,4 @@
+Converted mode radio button text to icons
 Fixed: Earth System button should set the mass, velocity, and positions for the bodies to the earth system values within the same mode.
 Fixed: Drag handlers broken for dragging in cartoon scale
 Fixed: Moon position doesn't update when switching to real scale

@@ -9,11 +9,14 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
+import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.
@@ -104,11 +107,38 @@ public abstract class GravityAndOrbitsMode {
     }
 
     public JComponent newComponent( Property<GravityAndOrbitsMode> modeProperty ) {
-        return createRadioButton( modeProperty );
+        return createRadioButtonWithIcons( modeProperty );
     }
 
-    protected GORadioButton createRadioButton( Property<GravityAndOrbitsMode> modeProperty ) {
-        return new GORadioButton<GravityAndOrbitsMode>( getName(), modeProperty, this );
+    protected JComponent createRadioButtonWithText( final Property<GravityAndOrbitsMode> modeProperty ) {
+        return new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this );
+    }
+
+    protected JComponent createRadioButtonWithIcons( final Property<GravityAndOrbitsMode> modeProperty ) {
+        return new JPanel() {{
+            setOpaque( false );//TODO: is this a mac problem?
+            setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
+            setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
+            add( new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
+            add( new JLabel( new ImageIcon( new PNode() {{
+                setOpaque( false );//TODO: is this a mac problem?
+                setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
+                setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
+                int index = 0;
+                int iconSize = 30;
+                int inset = 4;
+                for ( Body body : GravityAndOrbitsMode.this.getModel().getBodies() ) {
+                    PNode renderer = body.createRenderer( iconSize );
+                    addChild( renderer );
+                    renderer.setOffset( iconSize * index + inset * index, 0 );
+                    index++;
+                }
+            }}.toImage() ) ) );
+        }};
+    }
+
+    private Icon createIcon() {
+        return new ImageIcon( GravityAndOrbitsResources.getImage( "earth.png" ) );
     }
 
     public void setActive( boolean active ) {

@@ -30,10 +30,13 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model, GravityAndOrbitsMode mode ) {
         super();
 
+        setFillNone();
+        setAnchor( GridBagConstraints.WEST );
         // add mode check-boxes
         for ( GravityAndOrbitsMode m : module.getModes() ) {
             addControlFullWidth( m.newComponent( module.getModeProperty() ) );
         }
+        setFillHorizontal();
 
         addControlFullWidth( new VerticalLayoutPanel() {{
             setBackground( BACKGROUND );
