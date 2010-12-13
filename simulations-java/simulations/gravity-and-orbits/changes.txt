@@ -1,3 +1,5 @@
+Fixed: velocity vector arrows do not update properly
+Fixed: velocity vector arrows do not respect scale
 Fixed icon sizes in the control panel
 Fixed: Path node is incorrect in cartoon scale
 Improved cartoon mode

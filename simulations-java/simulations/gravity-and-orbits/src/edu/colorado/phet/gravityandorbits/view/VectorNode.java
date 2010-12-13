@@ -45,7 +45,7 @@ public class VectorNode extends PNode {
             }
         };
         property.addObserver( updateArrow );
-        body.getPositionProperty().addObserver( updateArrow );
+        body.getScaledPositionProperty().addObserver( updateArrow );
         modelViewTransform.addObserver( updateArrow );
         addChild( arrowNode );
         arrowNode.setPickable( false );
@@ -53,7 +53,7 @@ public class VectorNode extends PNode {
     }
 
     private Point2D getTail() {
-        return modelViewTransform.getValue().modelToView( body.getPosition().toPoint2D() );
+        return modelViewTransform.getValue().modelToView( body.getScaledPositionProperty().getValue().toPoint2D() );
     }
 
     protected Point2D getTip() {

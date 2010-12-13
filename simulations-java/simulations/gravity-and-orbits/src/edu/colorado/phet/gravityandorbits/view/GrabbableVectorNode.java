@@ -46,7 +46,8 @@ public class GrabbableVectorNode extends VectorNode {
             }
         };
         property.addObserver( updateGrabArea );
-        body.getPositionProperty().addObserver( updateGrabArea );
+        body.getScaledPositionProperty().addObserver( updateGrabArea );
+        modelViewTransform.addObserver( updateGrabArea );
         addChild( grabArea );
         if ( body.isModifyable() ) {
             grabArea.addInputEventListener( new PBasicInputEventHandler() {
