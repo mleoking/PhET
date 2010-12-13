@@ -1,3 +1,4 @@
+Removed moon slider because it takes up too much space
 Improved mode radio buttons: icons change size with relative body size
 Improved mode radio buttons: icons are aligned horizontally
 Converted mode radio button text to icons

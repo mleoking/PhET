@@ -55,7 +55,6 @@ public class BodyMassControl extends VerticalLayoutPanel {
 
         setForeground( FOREGROUND );
         setBackground( BACKGROUND );
-
         add( new JSlider( MIN, MAX ) {{
             setMinorTickSpacing( ( MAX - MIN ) / 10 );
             setMajorTickSpacing( ( MAX - MIN ) / 2 );

@@ -115,7 +115,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addBody( sun );
                 final Body earth = createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
                 addBody( earth );
-                final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+                final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
+                                              false );//no room for the slider
                 addBody( moon );
             }
 
@@ -134,7 +135,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
             {
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0 ) );
+                addBody( createMoon( earth, MOON_SPEED, 0, true ) );
             }
 
             @Override
@@ -174,7 +175,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, createSun().createRenderer( 35 ), sun );
                 addIcon( inset, createEarth( null, 0, 0 ).createRenderer( 30 ), earth );
-                addIcon( inset, createMoon( null, 0, 0 ).createRenderer( 25 ), moon );
+                addIcon( inset, createMoon( null, 0, 0, true ).createRenderer( 25 ), moon );
                 addIcon( inset, createSpaceStation( null ).createRenderer( 30 ), spaceStation );
             }
 
@@ -188,21 +189,21 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private Body createSpaceStation( Body earth ) {
         return new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4 );
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true );
     }
 
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
-    private Body createMoon( Body earth, double vx, double vy ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4 );
+    private Body createMoon( Body earth, double vx, double vy, boolean massSettable ) {
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable );
     }
 
     private Body createEarth( Body sun, double vx, double vy ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4 );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true );
     }
 
     private Body createSun() {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4 );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

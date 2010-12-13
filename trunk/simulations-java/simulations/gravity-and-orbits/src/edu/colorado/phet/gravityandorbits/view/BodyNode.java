@@ -38,7 +38,7 @@ public class BodyNode extends PNode {
         addChild( bodyRenderer );
 
         final CursorHandler cursorHandler = new CursorHandler();
-        if ( body.isModifyable() ) {
+        if ( body.isDraggable() ) {
             addInputEventListener( cursorHandler );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
@@ -88,7 +88,7 @@ public class BodyNode extends PNode {
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
-                if ( parentComponent != null && body.isModifyable() ) {
+                if ( parentComponent != null && body.isDraggable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
                             @Override
