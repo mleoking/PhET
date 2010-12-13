@@ -49,6 +49,7 @@ public class MoleculeNode extends PNode {
 
         for (Atom atom : molecule.getAtoms()){
             atomLayer.addChild( new AtomNode( atom, mvt ) );
+            System.out.println("Atom position = " + atom.getPositionRef());
         }
 
         for (AtomicBond atomicBond : molecule.getAtomicBonds()){
