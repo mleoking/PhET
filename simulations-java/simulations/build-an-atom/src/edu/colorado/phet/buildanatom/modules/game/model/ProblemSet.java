@@ -46,7 +46,6 @@ public class ProblemSet {
             Problem problem = generateProblem( model, atomValueList );
             if ( problem != null ){
                 addProblem( problem );
-                System.out.println("Problem: " + problem.getClass().getName() + ", Atom Value =" + problem.getAnswer());
             }
         }
 
