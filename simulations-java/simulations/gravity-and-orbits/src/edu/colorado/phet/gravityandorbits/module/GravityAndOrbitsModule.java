@@ -82,6 +82,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             return new BodyRenderer.SphereRenderer( body, viewDiameter );
         }
     };
+    private final Function2<Body, Double, BodyRenderer> SUN_RENDERER = new Function2<Body, Double, BodyRenderer>() {
+        public BodyRenderer apply( Body body, Double viewDiameter ) {
+            return new BodyRenderer.SunRenderer( body, viewDiameter );
+        }
+    };
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
         add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days ) {
@@ -170,7 +175,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     private Body createSun() {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SPHERE_RENDERER, scaleProperty );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
