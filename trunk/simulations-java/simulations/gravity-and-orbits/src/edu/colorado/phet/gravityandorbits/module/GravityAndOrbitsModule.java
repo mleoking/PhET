@@ -69,11 +69,14 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }
     };
 
-    private final Function2<Body, Double, BodyRenderer> IMAGE_RENDERER = new Function2<Body, Double, BodyRenderer>() {
-        public BodyRenderer apply( Body body, Double viewDiameter ) {
-            return new BodyRenderer.ImageRenderer( body, viewDiameter );
-        }
-    };
+    public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
+        return new Function2<Body, Double, BodyRenderer>() {
+            public BodyRenderer apply( Body body, Double viewDiameter ) {
+                return new BodyRenderer.ImageRenderer( body, viewDiameter, image );
+            }
+        };
+    }
+
     private final Function2<Body, Double, BodyRenderer> SPHERE_RENDERER = new Function2<Body, Double, BodyRenderer>() {
         public BodyRenderer apply( Body body, Double viewDiameter ) {
             return new BodyRenderer.SphereRenderer( body, viewDiameter );
@@ -142,7 +145,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 addBody( earth );
                 addBody( new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, IMAGE_RENDERER, scaleProperty ) );
+                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty ) );
             }
 
             @Override
@@ -159,7 +162,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, SPHERE_RENDERER, scaleProperty );
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty );
     }
 
     private Body createEarth( Body sun, double vx, double vy ) {
