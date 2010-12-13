@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_mk.xml created Fri Feb 05 10:31:47 CET 2010 using: calculus-grapher 2.02.00 (34696), translation-utility 2.06.00 (37959) јан. 8, 2010-->
-<SimStrings>
-<string key="simDescription" value="Опис на Calculus Grapher"/>
-<string key="smooth" value="Помеко"/>
-<string key="undo" value="Бриши"/>
-<string key="zero" value="На нула"/>
-<string key="simTitle" value="Функции,изводи,интеграли"/>
-</SimStrings>

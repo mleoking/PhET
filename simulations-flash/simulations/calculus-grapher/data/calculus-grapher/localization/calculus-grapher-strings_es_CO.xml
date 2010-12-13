@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_es_CO.xml created Mon May 03 09:39:57 COT 2010 using: calculus-grapher 2.02.00 (34696), translation-utility 2.08.00 (39581) abr 1, 2010-->
-<SimStrings>
-<string key="simDescription" value="Descripción del graficador de cálculo"/>
-<string key="smooth" value="Suave"/>
-<string key="undo" value="Deshac"/>
-<string key="zero" value="Cero"/>
-<string key="simTitle" value="Graficador de cálculo"/>
-</SimStrings>

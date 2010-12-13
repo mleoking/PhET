@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_mr.xml created Fri Aug 27 18:33:10 IST 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.08.00 (39581) Apr 2, 2010-->
-<SimStrings>
-<string key="currentEq" value="प्रवाह ="/>
-<string key="resistance" value="विरोध ="/>
-<string key="simTitle" value="ओहमचा नियम"/>
-<string key="sound" value="आवाज"/>
-<string key="voltage" value="दाब"/>
-</SimStrings>

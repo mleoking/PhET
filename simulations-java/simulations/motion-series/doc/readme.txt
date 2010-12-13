@@ -1,2 +1,0 @@
-The document Motion_Suite_Design.pdf is the design doc as it existed on Google docs at the time 2.00 was published on figaro.
-The google doc location is: https://docs.google.com/Doc?docid=0ATw3oS4YmCBqZGM3bWJncGRfMmNrdnAzZGN6&hl=en

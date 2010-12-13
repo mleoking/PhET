@@ -1,1 +1,0 @@
-phet-credits design-team=Kathy Perkins, Noah Podolefsky, George Spiegelman, Jared Taylor software-development=John Blanco interviews=Noah Podolefsky

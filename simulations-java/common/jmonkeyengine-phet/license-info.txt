@@ -1,1 +1,0 @@
-jmonkeyengine-phet license=New BSD License licensefile=licence-new_bsd.txt description=a 3D Scene Graph and Library name=JMonkeyEngine copyright=JFree.org website=http://www.jmonkeyengine.com/

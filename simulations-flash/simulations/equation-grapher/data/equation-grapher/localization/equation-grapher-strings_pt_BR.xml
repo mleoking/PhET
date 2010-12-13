@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_bp.xml created Tue Jan 01 01:37:10 GMT-03:00 2002 using: equation-grapher 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
-<SimStrings>
-<string key="showYEq" value="mostrar y="/>
-<string key="erase" value="apagar"/>
-<string key="save" value="salvar"/>
-<string key="zero" value="zero"/>
-</SimStrings>

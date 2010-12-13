@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_da.xml created Tue Mar 02 15:49:09 CET 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.06.00 (37959) Jan 8, 2010-->
-<SimStrings>
-<string key="currentEq" value="strøm"/>
-<string key="resistance" value="modstand"/>
-<string key="simTitle" value="Ohm's Lov"/>
-<string key="sound" value="lyd"/>
-<string key="voltage" value="spænding"/>
-</SimStrings>

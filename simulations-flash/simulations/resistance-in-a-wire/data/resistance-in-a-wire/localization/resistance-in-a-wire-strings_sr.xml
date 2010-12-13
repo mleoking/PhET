@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_sr.xml created Sat Aug 29 23:25:39 CEST 2009 using: resistance-in-a-wire 2.00.00 (30671), translation-utility 2.01.00 (31673) мај 14, 2009-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="Отпор="/>
-<string key="ohm" value="Ω"/>
-<string key="simTitle" value="Омов закон"/>
-</SimStrings>

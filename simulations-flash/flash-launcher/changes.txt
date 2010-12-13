@@ -1,6 +1,0 @@
-11-6-2008
-Removed tracking and updates prototype
-
-11-4-2008
-comment out tracking & updates for redeploy under 1.4
-posted to website

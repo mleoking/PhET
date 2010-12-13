@@ -1,2 +1,0 @@
-./build
-java -jar deploy/unfuddletool.jar $1
