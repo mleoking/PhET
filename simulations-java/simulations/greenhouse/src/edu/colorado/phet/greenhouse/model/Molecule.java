@@ -35,9 +35,6 @@ public abstract class Molecule {
     private static final double ROTATION_RATE = 3;  // Revolutions per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
 
-    private static final double MIN_PHOTON_HOLD_TIME = 600; // Milliseconds of sim time.
-    private static final double MAX_PHOTON_HOLD_TIME = 1200; // Milliseconds of sim time.
-
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -69,20 +66,7 @@ public abstract class Molecule {
     // was absorbed that activated it.
     private PhotonAbsorptionStrategy activeStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
 
-    // Variable that tracks whether or not a photon has been absorbed and has
-    // not yet been re-emitted.
-    private boolean photonAbsorbed = false;
-
-    //PHOTON RE_EMISSION
-    // Variables involved in the holding and re-emitting of photons.
-    private double photonHoldCountdownTime = 0;
-    // Photon to be emitted when the photon hold timer expires.
-    protected Photon photonToEmit = null;
-
-    //BREAK APART
-    // Variables involved in the holding and re-emitting of photons.
-    private double breakApartCountdownTime = 0;
-
+    // Variable that prevents reabsorption for a while after emitting a photon.
     private double absorbtionHysteresisCountdownTime = 0;
 
     // The "pass through photon list" keeps track of photons that were not
@@ -95,11 +79,6 @@ public abstract class Molecule {
 
     // The current point within this molecule's vibration sequence.
     private double currentVibrationRadians = 0;
-
-    // List of photon wavelengths that this molecule can absorb.  This is a
-    // list of frequencies, which is a grand oversimplification of the real
-    // behavior, but works for the current purposes of this sim.
-    private final ArrayList<Double> photonAbsorptionWavelengths = new ArrayList<Double>(2);
 
     // Tracks if molecule is higher energy than its ground state.
     private boolean highElectronicEnergyState = false;
@@ -126,10 +105,6 @@ public abstract class Molecule {
         // If there is an active non-null photon absorption strategy, it
         // indicates that a photon has been absorbed.
         return !(activeStrategy instanceof PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy);
-    }
-
-    protected void setPhotonAbsorbed( boolean photonAbsorbed ) {
-        this.photonAbsorbed = photonAbsorbed;
     }
 
     /**
@@ -203,12 +178,8 @@ public abstract class Molecule {
      * @return
      */
     public void reset(){
-        photonAbsorbed = false;
-        photonToEmit = null;
         activeStrategy.reset();
         activeStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
-        photonHoldCountdownTime = 0;
-        breakApartCountdownTime = 0;
         absorbtionHysteresisCountdownTime = 0;
     }
 
@@ -430,21 +401,6 @@ public abstract class Molecule {
     }
 
     /**
-     * This method is used by subclasses to let the base class know that it
-     * should start the remission timer.
-     *
-     * @param photonToEmit
-     */
-    protected void startPhotonEmissionTimer( Photon photonToEmit ){
-        photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * (MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME);
-        this.photonToEmit = photonToEmit;
-    }
-
-    protected void startBreakApartTimer( Photon photonToEmit ){
-        breakApartCountdownTime = MIN_PHOTON_HOLD_TIME;
-    }
-
-    /**
      * Cause the atom to emit a photon of the specified wavelength.
      *
      * TODO: Not sure if this version is needed, verify that it is or delete it.
@@ -467,11 +423,6 @@ public abstract class Molecule {
         photonToEmit.setLocation( getCenterOfGravityPosRef() );
         notifyPhotonEmitted( photonToEmit );
         absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-    }
-
-    // TODO: Not sure if this version is needed, verify that it is or delete it.
-    protected void emitPhoton(){
-        emitPhoton( photonToEmit );
     }
 
     private void notifyPhotonEmitted(Photon photon){
