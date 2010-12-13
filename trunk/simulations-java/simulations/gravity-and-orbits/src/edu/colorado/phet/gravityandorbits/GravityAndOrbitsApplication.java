@@ -6,6 +6,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -83,10 +84,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        /* 
-         * If you want to customize your application (look-&-feel, window size, etc) 
-         * create your own PhetApplicationConfig and use one of the other launchSim methods
-         */
+        System.out.println( "new Random().nextInt( 24 ) = " + new Random().nextInt( 24 ) );
         new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsConstants.PROJECT_NAME, GravityAndOrbitsApplication.class );
     }
 }
