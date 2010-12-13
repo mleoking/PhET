@@ -1,3 +1,4 @@
+12/13/10 #2611, move color of pH paper to ABSColors
 12/13/10 #2610, increase font size of y-axis on graph (from 16 to 20 point)
 12/13/10 #2610, use black for "negligible" text in graph
 12/10/10 restore molecule images
