@@ -1,3 +1,4 @@
+Made path lengths depend on the mode, and only go for 1.5 periods of the default orbit
 Removed moon slider because it takes up too much space
 Improved mode radio buttons: icons change size with relative body size
 Improved mode radio buttons: icons are aligned horizontally

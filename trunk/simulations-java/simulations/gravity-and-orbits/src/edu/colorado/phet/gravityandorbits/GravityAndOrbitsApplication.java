@@ -84,7 +84,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        System.out.println( "new Random().nextInt( 24 ) = " + new Random().nextInt( 24 ) );
+        System.out.println( "new Random().nextInt( 14 ) = " + new Random().nextInt( 14 ) );
         new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsConstants.PROJECT_NAME, GravityAndOrbitsApplication.class );
     }
 }

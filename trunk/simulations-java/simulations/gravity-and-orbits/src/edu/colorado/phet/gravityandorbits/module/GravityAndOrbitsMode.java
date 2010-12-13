@@ -35,12 +35,17 @@ public abstract class GravityAndOrbitsMode {
     private final Property<Boolean> clockRunningProperty;
     private Function1<Double, String> timeFormatter;
     private Image iconImage;
+    private final double defaultOrbitalPeriod;
+    private double dt;
 
-    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage ) {
+    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
+                                 double defaultOrbitalPeriod ) {//for determining the length of the path
+        this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
         this.camera = camera;
         this.iconImage = iconImage;
+        this.defaultOrbitalPeriod = defaultOrbitalPeriod;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
 
@@ -68,6 +73,14 @@ public abstract class GravityAndOrbitsMode {
             addObserver( updateClock );
             addModeActiveListener( updateClock );
         }};
+    }
+
+    /*
+     * Gets the number of points that should be used to draw a trace, should be enough so that two periods for the default orbit are visible.
+     */
+    public int getMaxPathLength() {
+        double numberOfPathPeriods = 1.5;//couldn't use 2 as requested because it caused an awkward looking behavior for the lunar orbit
+        return (int) ( Math.ceil( numberOfPathPeriods * defaultOrbitalPeriod / dt ) );
     }
 
     public GravityAndOrbitsClock getClock() {
