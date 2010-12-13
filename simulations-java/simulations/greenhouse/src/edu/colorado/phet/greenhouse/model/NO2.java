@@ -101,6 +101,8 @@ public class NO2 extends Molecule {
         atomCogOffsets.put(nitrogenAtom, new Vector2D(0, INITIAL_NITROGEN_VERTICAL_OFFSET));
         atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
         atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
+
+        updateAtomPositions();
     }
 
     @Override
@@ -113,6 +115,7 @@ public class NO2 extends Molecule {
                 INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
         atomCogOffsets.put( oxygenAtom2, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
                 INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
+        updateAtomPositions();
     }
 
     @Override

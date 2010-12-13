@@ -82,6 +82,8 @@ public class H2O extends Molecule {
         atomCogOffsets.put(oxygenAtom, new Vector2D(0, INITIAL_OXYGEN_VERTICAL_OFFSET));
         atomCogOffsets.put(hydrogenAtom1, new Vector2D(INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET));
         atomCogOffsets.put(hydrogenAtom2, new Vector2D(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET));
+
+        updateAtomPositions();
     }
 
     @Override
@@ -94,6 +96,7 @@ public class H2O extends Molecule {
                 INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
         atomCogOffsets.put( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
                 INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        updateAtomPositions();
     }
 
     @Override

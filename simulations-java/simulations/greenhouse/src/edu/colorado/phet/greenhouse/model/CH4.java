@@ -93,6 +93,8 @@ public class CH4 extends Molecule {
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
         atomCogOffsets.put(hydrogenAtom4, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
+
+        updateAtomPositions();
     }
 
     @Override
@@ -125,6 +127,7 @@ public class CH4 extends Molecule {
         else{
             initializeAtomOffsets();
         }
+        updateAtomPositions();
     }
 
     @Override

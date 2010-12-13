@@ -61,6 +61,8 @@ public class O2 extends Molecule {
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(oxygenAtom1, new Vector2D(-INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
         atomCogOffsets.put(oxygenAtom2, new Vector2D(INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
+
+        updateAtomPositions();
     }
 
     @Override

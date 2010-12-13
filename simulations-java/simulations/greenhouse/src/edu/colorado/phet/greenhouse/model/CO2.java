@@ -76,6 +76,7 @@ public class CO2 extends Molecule {
         atomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
         atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
         atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
+        updateAtomPositions();
     }
 
     @Override
@@ -91,5 +92,7 @@ public class CO2 extends Molecule {
         atomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
         atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
         atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+
+        updateAtomPositions();
     }
 }
