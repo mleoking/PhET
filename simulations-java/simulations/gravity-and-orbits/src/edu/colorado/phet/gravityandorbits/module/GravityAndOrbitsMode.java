@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
@@ -137,10 +136,6 @@ public abstract class GravityAndOrbitsMode {
             add( new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
             add( new JLabel( new ImageIcon( iconImage ) ) );
         }};
-    }
-
-    private Icon createIcon() {
-        return new ImageIcon( GravityAndOrbitsResources.getImage( "earth.png" ) );
     }
 
     public void setActive( boolean active ) {
