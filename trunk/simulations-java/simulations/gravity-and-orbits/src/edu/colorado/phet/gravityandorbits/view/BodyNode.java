@@ -46,8 +46,31 @@ public class BodyNode extends PNode {
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-                    body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
+                    if ( scaleProperty.getValue() == Scale.REAL ) {
+                        final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                        body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
+                    }
+                    else {
+                        final Dimension2D cartoonDelta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                        ImmutableVector2D newCartoonPosition = body.getCartoonPosition().getAddedInstance( cartoonDelta.getWidth(), cartoonDelta.getHeight() );
+                        //find the physical coordinates so that the body will have
+                        if ( body.getParent() == null ) {
+                            body.setPosition( newCartoonPosition.getX(), newCartoonPosition.getY() );
+                        }
+                        else {
+
+                            //solve for x given cartoonx:
+                            //cartoonx = parent.x+(x - parent.x) * scale
+                            //cartoonx = parent.x+x*scale - parent.x*scale
+                            //(cartoonx -parent.x+parent.x*scale)/scale = x
+                            //TODO: convert this program to scala
+                            final double scale = body.getCartoonOffsetScale();
+                            final ImmutableVector2D parentX = body.getParent().getPosition();
+                            ImmutableVector2D x = ( newCartoonPosition.getSubtractedInstance( parentX ).getAddedInstance( parentX.getScaledInstance( scale ) ) );
+                            x = x.getScaledInstance( 1.0 / scale );
+                            body.setPosition( x.getX(), x.getY() );
+                        }
+                    }
                 }
 
                 public void mouseReleased( PInputEvent event ) {
