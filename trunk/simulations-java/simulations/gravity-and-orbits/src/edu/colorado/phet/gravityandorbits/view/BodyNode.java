@@ -87,6 +87,7 @@ public class BodyNode extends PNode {
         };
         body.getPositionProperty().addObserver( updatePosition );
         modelViewTransform.addObserver( updatePosition );
+        scaleProperty.addObserver( updatePosition );
 
         final SimpleObserver updateDiameter = new SimpleObserver() {
             public void update() {
