@@ -183,7 +183,7 @@ public abstract class Molecule {
         absorbtionHysteresisCountdownTime = 0;
     }
 
-    public boolean isVibration() {
+    public boolean isVibrating() {
         return vibrating;
     }
 
