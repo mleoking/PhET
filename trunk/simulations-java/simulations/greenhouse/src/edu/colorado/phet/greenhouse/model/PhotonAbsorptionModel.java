@@ -330,11 +330,21 @@ public class PhotonAbsorptionModel {
                 break;
             }
 
-            // We use a higher emission speed for
-
             // Send out notifications about the new molecule(s);
             finishAddingMolecules();
         }
+    }
+
+    /**
+     * This method restores the photon target to whatever it is currently set
+     * to.  This may seem nonsensical, and in some cases it is, but it is
+     * useful in cases where an atom has broken apart and needs to be restored
+     * to its original condition.
+     */
+    public void restorePhotonTarget(){
+        PhotonTarget currentTarget = photonTarget;
+        photonTarget = null; // This forces the call to setPhotonTarget to pay attention to the renewal.
+        setPhotonTarget( currentTarget );
     }
 
     private void removeAllPhotons() {
