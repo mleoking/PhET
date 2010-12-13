@@ -1,2 +1,3 @@
 moon.png source=microsoft clip art
 space-station.png source=microsoft clip art
+earth.png source=microsoft clip art

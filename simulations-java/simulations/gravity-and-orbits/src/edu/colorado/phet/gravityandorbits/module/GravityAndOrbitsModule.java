@@ -166,7 +166,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     private Body createEarth( Body sun, double vx, double vy ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, SPHERE_RENDERER, scaleProperty );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty );
     }
 
     private Body createSun() {
