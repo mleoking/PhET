@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.acidbasesolutions.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
@@ -24,8 +25,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class PHPaperNode extends PhetPNode {
     
-    private static final Stroke STROKE = null;
-    private static final Color STROKE_COLOR = Color.BLACK;
+    private static final Stroke STROKE = new BasicStroke( 0.5f );
+    private static final Color STROKE_COLOR = new Color( 150, 150, 150 );
     
     private PHPaper paper;
     private PPath paperBodyNode;
