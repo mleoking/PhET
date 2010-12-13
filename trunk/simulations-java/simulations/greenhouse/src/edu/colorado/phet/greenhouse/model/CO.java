@@ -65,6 +65,7 @@ public class CO extends Molecule {
         double multFactor = Math.sin( vibrationRadians );
         atomCogOffsets.put( carbonAtom, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2  + VIBRATION_MAGNITUDE * multFactor, 0 ) );
         atomCogOffsets.put( oxygenAtom, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 - VIBRATION_MAGNITUDE * multFactor, 0 ) );
+        updateAtomPositions();
     }
 
     @Override
@@ -79,5 +80,6 @@ public class CO extends Molecule {
     protected void initializeAtomOffsets() {
         atomCogOffsets.put(carbonAtom, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
         atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
+        updateAtomPositions();
     }
 }

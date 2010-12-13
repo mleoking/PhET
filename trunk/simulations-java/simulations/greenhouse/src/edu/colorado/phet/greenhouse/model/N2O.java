@@ -78,6 +78,8 @@ public class N2O extends Molecule {
         atomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, 0));
         atomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
         atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
+
+        updateAtomPositions();
     }
 
     @Override
@@ -88,6 +90,7 @@ public class N2O extends Molecule {
                 -multFactor * MAX_SIDE_NITROGEN_DEFLECTION));
         atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE,
                 -multFactor * MAX_OXYGEN_DEFLECTION));
+        updateAtomPositions();
     }
 
     @Override

@@ -55,6 +55,8 @@ public class O extends Molecule {
     @Override
     protected void initializeAtomOffsets() {
         atomCogOffsets.put( oxygenAtom, new Vector2D( 0, 0 ) );
+
+        updateAtomPositions();
     }
 
     @Override
