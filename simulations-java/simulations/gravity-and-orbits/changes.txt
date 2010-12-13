@@ -1,3 +1,4 @@
+Fixed: Drag handlers broken for dragging in cartoon scale
 Fixed: Moon position doesn't update when switching to real scale
 Fixed: PathNode should be able to toggle between cartoon/real without disappearing
 Fixed: label pointer for moon should point the other way in real scale
