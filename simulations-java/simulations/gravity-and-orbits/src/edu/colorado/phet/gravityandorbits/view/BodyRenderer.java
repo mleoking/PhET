@@ -55,10 +55,10 @@ public abstract class BodyRenderer extends PNode {
         private final PImage imageNode;
         private double viewDiameter;
 
-        public ImageRenderer( Body body, double viewDiameter ) {
+        public ImageRenderer( Body body, double viewDiameter, final String imageName ) {
             super( body );
 
-            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( "space-station.png" ), 100 ) );
+            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );
             addChild( imageNode );
             this.viewDiameter = viewDiameter;
             updateViewDiameter();
