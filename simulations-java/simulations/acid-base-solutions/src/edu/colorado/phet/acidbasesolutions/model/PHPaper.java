@@ -8,6 +8,7 @@ import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -18,7 +19,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PHPaper extends SolutionRepresentation {
     
-    private static final double UNDIPPED_PH = 7; // pH of undipped paper
     private static final double BLEED_HEIGHT = 15; // how much the dipped color bleeds above the top of the solution
     
     private final PDimension size;
@@ -119,7 +119,7 @@ public class PHPaper extends SolutionRepresentation {
      * @return
      */
     public Color getPaperColor() {
-        return createColor( UNDIPPED_PH );
+        return ABSColors.PH_PAPER;
     }
     
     private void updateDippedColor() {
