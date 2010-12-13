@@ -31,7 +31,7 @@ public class Body {
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
-    private final boolean modifyable = true;
+    private final boolean massSettable;
     private final double cartoonDiameterScaleFactor;
     private final Body parent;
     private final double cartoonOffsetScale;
@@ -43,8 +43,9 @@ public class Body {
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  double cartoonDiameterScaleFactor, double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
-                 final Property<Scale> scaleProperty, double labelAngle
+                 final Property<Scale> scaleProperty, double labelAngle, boolean massSettable
     ) {
+        this.massSettable = massSettable;
         assert renderer != null;
         this.parent = parent;
         this.name = name;
@@ -256,8 +257,8 @@ public class Body {
         return path;
     }
 
-    public boolean isModifyable() {
-        return modifyable;
+    public boolean isMassSettable() {
+        return massSettable;
     }
 
     public BodyRenderer createRenderer( double viewDiameter ) {
@@ -299,6 +300,10 @@ public class Body {
 
     public double getLabelAngle() {
         return labelAngle;
+    }
+
+    public boolean isDraggable() {
+        return true;
     }
 
     public static class PathPoint {

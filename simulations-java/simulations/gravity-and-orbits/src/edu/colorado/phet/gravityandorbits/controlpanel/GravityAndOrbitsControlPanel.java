@@ -85,7 +85,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new GORadioButton<Scale>( "Real", module.getScaleProperty(), Scale.REAL ) );
         }} );
         for ( Body body : model.getBodies() ) {
-            if ( body.isModifyable() ) {
+            if ( body.isMassSettable() ) {
                 addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large" ) );
             }
         }
