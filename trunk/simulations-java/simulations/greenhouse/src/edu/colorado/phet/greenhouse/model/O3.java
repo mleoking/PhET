@@ -34,11 +34,6 @@ public class O3 extends Molecule {
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
     private static final double INITIAL_OXYGEN_HORIZONTAL_OFFSET = INITIAL_MOLECULE_WIDTH / 2;
 
-    // Scaler quantity representing the speed at which the constituent particles
-    // move away from each other.  Note that this is a relative speed, not one
-    // that is absolute in model space.
-    private static final double BREAK_APART_VELOCITY = 3;
-
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
@@ -52,10 +47,6 @@ public class O3 extends Molecule {
     // Random variable used to control the side on which the delocalized bond
     // is depicted.
     private static final Random RAND = new Random();
-
-    // Constituent molecules - these come into play when the original molecule
-    // is commanded to break apart.
-    private final ArrayList<Molecule> consituentMolecules = new ArrayList<Molecule>();
 
     // Tracks the side on which the double bond is shown.  More on this where
     // it is initialized.
@@ -133,11 +124,6 @@ public class O3 extends Molecule {
     }
 
     @Override
-    public ArrayList<Molecule> getBreakApartConstituents() {
-        return consituentMolecules;
-    }
-
-    @Override
     public MoleculeID getMoleculeID() {
         return MoleculeID.O3;
     }
@@ -184,8 +170,8 @@ public class O3 extends Molecule {
                 setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
             }
         }};
-        consituentMolecules.add( diatomicOxygenMolecule );
-        consituentMolecules.add( singleOxygenMolecule );
+        constituentMolecules.add( diatomicOxygenMolecule );
+        constituentMolecules.add( singleOxygenMolecule );
 
         ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
         for ( Listener listener : copyOfListeners ) {

@@ -35,6 +35,11 @@ public abstract class Molecule {
     private static final double ROTATION_RATE = 3;  // Revolutions per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
 
+    // Scaler quantity representing the speed at which the constituent particles
+    // move away from each other.  Note that this is a relative speed, not one
+    // that is absolute in model space.
+    protected static final double BREAK_APART_VELOCITY = 3;
+
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -88,6 +93,10 @@ public abstract class Molecule {
     private boolean vibrating = false;
     private boolean rotating = false;
     private boolean rotationDirectionClockwise = true; // Controls the direction of rotation.
+
+    // List of constituent molecules. This comes into play only when the
+    // molecule breaks apart, which many of the molecules never do.
+    protected final ArrayList<Molecule> constituentMolecules = new ArrayList<Molecule>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -476,13 +485,13 @@ public abstract class Molecule {
         return RectangleUtils.union( atomRects );
     }
 
-    public ArrayList<Molecule> getBreakApartConstituents() {
-        return new ArrayList<Molecule>(  );
-    }
-
     //------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
+
+    public ArrayList<Molecule> getBreakApartConstituents() {
+        return constituentMolecules;
+    }
 
     public interface Listener {
         void photonEmitted( Photon photon );
