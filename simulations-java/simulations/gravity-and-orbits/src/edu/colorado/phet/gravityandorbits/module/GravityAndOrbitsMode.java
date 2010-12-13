@@ -143,4 +143,8 @@ public abstract class GravityAndOrbitsMode {
     public Function1<Double, String> getTimeFormatter() {
         return timeFormatter;
     }
+
+    public void resetBodies() {
+        model.resetBodies();
+    }
 }

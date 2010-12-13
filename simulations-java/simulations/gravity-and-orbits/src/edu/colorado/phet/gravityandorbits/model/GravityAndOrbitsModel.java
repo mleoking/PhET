@@ -55,9 +55,7 @@ public class GravityAndOrbitsModel {
     }
 
     public void resetAll() {
-        for ( Body body : bodies ) {
-            body.resetAll();
-        }
+        resetBodies();
         getClock().resetSimulationTime();
     }
 
@@ -71,5 +69,11 @@ public class GravityAndOrbitsModel {
 
     public ArrayList<Body> getBodies() {
         return new ArrayList<Body>( bodies );
+    }
+
+    public void resetBodies() {
+        for ( Body body : bodies ) {
+            body.resetAll();
+        }
     }
 }
