@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsResources;
 import edu.colorado.phet.gravityandorbits.model.Body;
@@ -48,6 +51,38 @@ public abstract class BodyRenderer extends PNode {
                                                         new Point2D.Double( diameter / 4, diameter / 4 ),
                                                         body.getColor() );
             return spherePaint;
+        }
+    }
+
+    //Adds triangle edges to the sun to make it look more recognizable
+    public static class SunRenderer extends SphereRenderer {
+
+        private final PhetPPath twinkles = new PhetPPath( Color.yellow );
+
+        public SunRenderer( Body body, double viewDiameter ) {
+            super( body, viewDiameter );
+            addChild( twinkles );
+            twinkles.moveToBack();
+            setDiameter( viewDiameter );
+        }
+
+        @Override
+        public void setDiameter( double viewDiameter ) {
+            super.setDiameter( viewDiameter );
+            double angle = 0;
+            int numSegments = 4 * 4 * 2;
+            double deltaAngle = Math.PI * 2 / numSegments;
+            double radius = viewDiameter / 2;
+            double twinkleRadius = radius * 1.1;
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( 0, 0 );
+            for ( int i = 0; i < numSegments + 1; i++ ) {
+                double myRadius = i % 2 == 0 ? twinkleRadius : radius;
+                ImmutableVector2D target = ImmutableVector2D.parseAngleAndMagnitude( myRadius, angle );
+                path.lineTo( target );
+                angle += deltaAngle;
+            }
+            twinkles.setPathTo( path.getGeneralPath() );
         }
     }
 
