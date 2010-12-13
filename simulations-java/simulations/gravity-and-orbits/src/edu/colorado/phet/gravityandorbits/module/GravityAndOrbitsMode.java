@@ -100,6 +100,8 @@ public abstract class GravityAndOrbitsMode {
 
     public void reset() {
         model.getClock().resetSimulationTime();// reset the clock
+//        model.getClock().setPaused( true );
+        clockRunningProperty.reset();
         moonProperty.reset();
         model.resetAll();
     }

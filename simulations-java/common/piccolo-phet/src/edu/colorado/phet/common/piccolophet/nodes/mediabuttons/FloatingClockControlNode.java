@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -23,8 +24,8 @@ public class FloatingClockControlNode extends PNode {
     private final StepButton stepButton;
 
     public FloatingClockControlNode( final Property<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
-                                     final Function1<Double, String> getTimeReadout,//The function used for displaying the time readout
-                                     final IClock clock ) {//only used for time display
+                                     final Property<String> timeReadout,
+                                     final VoidFunction0 step ) {//steps the clock when 'step' is pressed which the sim is paused
         playPauseButton = new PlayPauseButton( 80 ) {{
             setPlaying( clockRunning.getValue() );
             final Listener updatePlayPauseButtons = new Listener() {
@@ -33,7 +34,7 @@ public class FloatingClockControlNode extends PNode {
                 }
             };
             addListener( updatePlayPauseButtons );
-            updatePlayPauseButtons.playbackStateChanged();
+            updatePlayPauseButtons.playbackStateChanged();//Sync immediately
             clockRunning.addObserver( new SimpleObserver() {
                 public void update() {
                     setPlaying( clockRunning.getValue() );
@@ -58,7 +59,7 @@ public class FloatingClockControlNode extends PNode {
                 addListener( new Listener() {
                     public void buttonPressed() {
                         if ( isEnabled() ) {
-                            clock.stepClockWhilePaused();
+                            step.apply();
                         }
                     }
                 } );
@@ -74,13 +75,26 @@ public class FloatingClockControlNode extends PNode {
         addChild( new PText() {{
             setFont( new PhetFont( 24, true ) );
             setTextPaint( Color.white );
-
-            clock.addClockListener( new ClockAdapter() {
-                public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    setText( getTimeReadout.apply( clock.getSimulationTime() ) );
+            timeReadout.addObserver( new SimpleObserver() {
+                public void update() {
+                    setText( timeReadout.getValue() );
                     setOffset( stepButton.getFullBounds().getMaxX() + 5, stepButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
                 }
             } );
         }} );
+    }
+
+    public FloatingClockControlNode( Property<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
+        this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
+            clock.addClockListener( new ClockAdapter() {
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+                    setValue( timeReadout.apply( clock.getSimulationTime() ) );
+                }
+            } );
+        }}, new VoidFunction0() {
+            public void apply() {
+                clock.stepClockWhilePaused();
+            }
+        } );
     }
 }

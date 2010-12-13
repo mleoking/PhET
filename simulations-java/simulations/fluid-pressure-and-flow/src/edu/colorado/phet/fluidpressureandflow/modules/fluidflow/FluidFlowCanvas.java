@@ -80,7 +80,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                     FluidPressureAndFlowCanvas.makeTransparent( this );
                     setPaintTicks( true );
                     setPaintLabels( true );
-                    setLabelTable( new Hashtable() {{
+                    setLabelTable( new Hashtable<Object, Object>() {{
                         final PhetFont tickFont = new PhetFont( 16, false );
                         put( 0, new JLabel( "None" ) {{setFont( tickFont );}} );
                         put( 100, new JLabel( "Lots", new ImageIcon( new PNode() {{
