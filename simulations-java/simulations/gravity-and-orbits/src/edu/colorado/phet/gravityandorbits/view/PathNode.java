@@ -53,7 +53,7 @@ public class PathNode extends PNode {
         } );
         final Body.PathListener listener = new Body.PathListener() {
             public void pointAdded( Body.PathPoint point ) {
-                ImmutableVector2D pt = transform.getValue().modelToView( body.getPosition( scaleProperty.getValue() ) );
+                ImmutableVector2D pt = transform.getValue().modelToView( scaleProperty.getValue() == Scale.CARTOON && point.cartoonPoint != null ? point.cartoonPoint : point.point );
                 points.add( new Point( (int) pt.getX(), (int) pt.getY() ) );
                 pathNode.repaint();
             }
@@ -80,6 +80,7 @@ public class PathNode extends PNode {
             public void update() {
                 //clear and add back all points in the right scale
                 points.clear();
+                System.out.println( "PathNode.update, path size = " + body.getPath().size() );
                 for ( Body.PathPoint pathPoint : body.getPath() ) {
                     listener.pointAdded( pathPoint );
                 }
