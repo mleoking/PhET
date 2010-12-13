@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
     
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color VALUE_COLOR = Color.BLACK;
-    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color NEGLIGIBLE_COLOR = Color.BLACK;
 
     private final FormattedNumberNode numberNode;
