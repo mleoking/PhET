@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -36,10 +35,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
     private PNode _rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
-    public static final Function.LinearFunction SUN_SIZER = new Function.LinearFunction( 0, 1, 0, 15 );
-    public static final Function.LinearFunction PLANET_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
-    public static final Function.LinearFunction REAL_SIZER = new Function.LinearFunction( 0, 1, 0, 1 );
-    public static final Function.LinearFunction MOON_SIZER = new Function.LinearFunction( 0, 1, 0, 1000 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
@@ -82,12 +77,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getSizer(), -Math.PI / 4 );
+            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, -Math.PI / 4 );
             addChild( bodyNode );
             addChild( new MassReadoutNode( body, bodyNode, module.getShowMassProperty() ) );
-        }
-        for ( Body body : model.getBodies() ) {
-            ;
         }
 
         // Control Panel
