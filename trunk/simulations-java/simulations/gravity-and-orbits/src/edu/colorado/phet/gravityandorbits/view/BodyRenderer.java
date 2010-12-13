@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -70,13 +71,15 @@ public abstract class BodyRenderer extends PNode {
         public void setDiameter( double viewDiameter ) {
             super.setDiameter( viewDiameter );
             double angle = 0;
-            int numSegments = 4 * 4 * 2;
+            int numSegments = 4 * 4 * 2 * 3;
             double deltaAngle = Math.PI * 2 / numSegments;
             double radius = viewDiameter / 2;
-            double twinkleRadius = radius * 1.1;
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
+            Random random = new Random();
             for ( int i = 0; i < numSegments + 1; i++ ) {
+//                double twinkleRadius = radius * (1.05+random.nextDouble()*0.1);
+                double twinkleRadius = radius * 1.1;
                 double myRadius = i % 2 == 0 ? twinkleRadius : radius;
                 ImmutableVector2D target = ImmutableVector2D.parseAngleAndMagnitude( myRadius, angle );
                 path.lineTo( target );
