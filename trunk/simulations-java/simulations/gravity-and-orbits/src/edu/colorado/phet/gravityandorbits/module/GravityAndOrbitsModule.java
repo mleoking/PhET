@@ -150,7 +150,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 addBody( earth );
                 addBody( new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty ) );
+                                   SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4 ) );
             }
 
             @Override
@@ -167,15 +167,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty );
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4 );
     }
 
     private Body createEarth( Body sun, double vx, double vy ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4 );
     }
 
     private Body createSun() {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4 );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
