@@ -53,5 +53,5 @@ public class ABSColors {
     public static final Color PH_14 = new Color( 0, 34, 52 );
     
     // pH paper color
-    public static final Color PH_PAPER = PH_7;
+    public static final Color PH_PAPER = new Color( 217, 215, 154 ); // cream
 }
