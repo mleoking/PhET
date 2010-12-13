@@ -188,7 +188,8 @@ public class O3 extends Molecule {
         consituentMolecules.add( diatomicOxygenMolecule );
         consituentMolecules.add( singleOxygenMolecule );
 
-        for ( Listener listener : listeners ) {
+        ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
+        for ( Listener listener : copyOfListeners ) {
             listener.brokeApart( this );
         }
     }
