@@ -71,6 +71,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             return (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_MINUTE ) + " Earth Minutes";
         }
     };
+    private final int SEC_PER_YEAR = 365 * 24 * 60 * 60;
 
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
@@ -90,13 +91,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             return new BodyRenderer.SunRenderer( body, viewDiameter );
         }
     };
+    private final int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
+    private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
-        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, false, false ) ) {
+        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, false, false ), SEC_PER_YEAR ) {
             {
-                final Body sun = createSun();
+                final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                addBody( createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION ) );
+                addBody( createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength() ) );
             }
 
             @Override
@@ -109,14 +112,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, true, false ) ) {
+        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, true, false ), SEC_PER_YEAR ) {
             {
-                final Body sun = createSun();
+                final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                final Body earth = createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+                final Body earth = createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength() );
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
-                                              false );//no room for the slider
+                                              false,//no room for the slider
+                                              getMaxPathLength() );
                 addBody( moon );
             }
 
@@ -130,12 +134,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( false, true, true, false ) ) {
-            final Body earth = createEarth( null, 0, 0 );
+        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT ) {
+            final Body earth = createEarth( null, 0, 0, getMaxPathLength() );
 
             {
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0, true ) );
+                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength() ) );
             }
 
             @Override
@@ -148,12 +152,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes, createIconImage( false, true, false, true ) ) {
-            final Body earth = createEarth( null, 0, 0 );
+        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes, createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT ) {
+            final Body earth = createEarth( null, 0, 0, getMaxPathLength() );
 
             {
                 addBody( earth );
-                addBody( createSpaceStation( earth ) );
+                addBody( createSpaceStation( earth, getMaxPathLength() ) );
             }
 
             @Override
@@ -173,10 +177,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 int inset = 4;//distance between icons
                 addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
-                addIcon( inset, createSun().createRenderer( 35 ), sun );
-                addIcon( inset, createEarth( null, 0, 0 ).createRenderer( 30 ), earth );
-                addIcon( inset, createMoon( null, 0, 0, true ).createRenderer( 25 ), moon );
-                addIcon( inset, createSpaceStation( null ).createRenderer( 30 ), spaceStation );
+                addIcon( inset, createSun( 0 ).createRenderer( 35 ), sun );
+                addIcon( inset, createEarth( null, 0, 0, 0 ).createRenderer( 30 ), earth );
+                addIcon( inset, createMoon( null, 0, 0, true, 0 ).createRenderer( 25 ), moon );
+                addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 30 ), spaceStation );
             }
 
             private void addIcon( int inset, PNode sunIcon, boolean sun ) {
@@ -187,23 +191,23 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }.toImage();
     }
 
-    private Body createSpaceStation( Body earth ) {
+    private Body createSpaceStation( Body earth, int maxPathLength ) {
         return new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true );
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000, 1000 * 1.6, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength );
     }
 
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
-    private Body createMoon( Body earth, double vx, double vy, boolean massSettable ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable );
+    private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength ) {
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength );
     }
 
-    private Body createEarth( Body sun, double vx, double vy ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true );
+    private Body createEarth( Body sun, double vx, double vy, int maxPathLength ) {
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength );
     }
 
-    private Body createSun() {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true );
+    private Body createSun( int maxPathLength ) {
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

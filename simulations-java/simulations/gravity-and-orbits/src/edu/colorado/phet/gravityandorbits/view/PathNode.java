@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.model.Body;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -19,11 +18,12 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class PathNode extends PNode {
     private final PNode pathNode;
     private ArrayList<Point> points = new ArrayList<Point>();//points in view space
-    public static final int MAX_TRACE_LENGTH = (int) ( 365 / GravityAndOrbitsDefaults.NUMBER_DAYS_PER_TICK * 2 );//enough for 2 earth years
-    private int[] xPrimitive = new int[MAX_TRACE_LENGTH];
-    private int[] yPrimitive = new int[MAX_TRACE_LENGTH];
+    private int[] xPrimitive;
+    private int[] yPrimitive;
 
     public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color, final Property<Scale> scaleProperty ) {
+        xPrimitive = new int[body.getMaxPathLength()];
+        yPrimitive = new int[body.getMaxPathLength()];
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         pathNode = new PNode() {
             @Override

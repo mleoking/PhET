@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
-import edu.colorado.phet.gravityandorbits.view.PathNode;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
@@ -37,15 +36,17 @@ public class Body {
     private final double cartoonOffsetScale;
     private final Function2<Body, Double, BodyRenderer> renderer;
     private final Property<Scale> scaleProperty;
-    private double labelAngle = -Math.PI / 4;
+    private final double labelAngle;
+    private final int maxPathLength;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  double cartoonDiameterScaleFactor, double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
-                 final Property<Scale> scaleProperty, double labelAngle, boolean massSettable
-    ) {
+                 final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
+                 int maxPathLength ) {
         this.massSettable = massSettable;
+        this.maxPathLength = maxPathLength;
         assert renderer != null;
         this.parent = parent;
         this.name = name;
@@ -171,7 +172,7 @@ public class Body {
     private void addPathPoint() {
         PathPoint pathPoint = new PathPoint( getPosition(), getCartoonPosition(), isUserControlled() );
         path.add( pathPoint );
-        while ( path.size() > PathNode.MAX_TRACE_LENGTH ) {//TODO: make this be 2 orbits after other free parameters are selected
+        while ( path.size() > maxPathLength ) {//start removing data after 2 orbits of the default system
             path.remove( 0 );
             for ( PathListener listener : pathListeners ) {
                 listener.pointRemoved();
@@ -304,6 +305,10 @@ public class Body {
 
     public boolean isDraggable() {
         return true;
+    }
+
+    public int getMaxPathLength() {
+        return maxPathLength;
     }
 
     public static class PathPoint {
