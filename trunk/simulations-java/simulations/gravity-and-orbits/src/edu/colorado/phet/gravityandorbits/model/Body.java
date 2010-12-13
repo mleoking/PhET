@@ -179,7 +179,6 @@ public class Body {
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
         }
-        System.out.println( "Body.addPathPoint, size = " + path.size() );
     }
 
     public void clearPath() {

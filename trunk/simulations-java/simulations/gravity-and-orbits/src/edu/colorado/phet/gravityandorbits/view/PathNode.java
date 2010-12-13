@@ -80,7 +80,6 @@ public class PathNode extends PNode {
             public void update() {
                 //clear and add back all points in the right scale
                 points.clear();
-                System.out.println( "PathNode.update, path size = " + body.getPath().size() );
                 for ( Body.PathPoint pathPoint : body.getPath() ) {
                     listener.pointAdded( pathPoint );
                 }
