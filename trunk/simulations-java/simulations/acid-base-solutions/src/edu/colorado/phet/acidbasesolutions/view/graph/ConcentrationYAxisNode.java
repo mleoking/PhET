@@ -24,7 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /* package private */ class ConcentrationYAxisNode extends PComposite {
     
     // axes
-    private static final Font AXIS_LABEL_FONT = new PhetFont( 16 );
+    private static final Font AXIS_LABEL_FONT = new PhetFont( 20 );
     private static final Color AXIS_LABEL_COLOR = Color.BLACK;
     private static final double AXIS_LABEL_X_SPACING = 20;
     
