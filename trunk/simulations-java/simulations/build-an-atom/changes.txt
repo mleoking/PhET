@@ -1,3 +1,5 @@
+# 1.00.16 (47100) Dec 13, 2010
+12/13/10 Several modifications based on recent reviews.  This is a release candidate for first production version that includes the game.
 Changed the way that a four-particle nucleus is layed out in order to look a little better.
 Made the charge questions in the game have a greater than 50% chance of using charged atoms.
 Changed the tracking of the best time to be on a per-level basis instead of having one best time that encompassed all levels.
