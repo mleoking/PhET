@@ -46,6 +46,7 @@ public class ProblemSet {
             Problem problem = generateProblem( model, atomValueList );
             if ( problem != null ){
                 addProblem( problem );
+                System.out.println("Problem: " + problem.getClass().getName() + ", Atom Value =" + problem.getAnswer());
             }
         }
 
@@ -184,21 +185,22 @@ public class ProblemSet {
 
         // Pick an atom value from the list of those remaining.  This is where
         // constraints between problem types and atom values are handled.
-        AtomValue atomValue;
-        if ( isSchematicProbType( problemType ) ) {
-            // Need to limit size of atom value.
-            atomValue = availableAtomValues.getRandomAtomValueMaxSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS );
+        int minProtonCount = 0;
+        int maxProtonCount = Integer.MAX_VALUE;
+        boolean requireCharged = false;
+        if ( isSchematicProbType( problemType )){
+            maxProtonCount = MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS;
         }
-        else {
-            if ( model.getLevelProperty().getValue() == 4 ) {
-                //On level 4, use heavier atoms for non-schematic problems.
-                atomValue = availableAtomValues.getRandomAtomValueMinSize( MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS + 1 );
-            }
-            else {
-                atomValue = availableAtomValues.getRandomAtomValue();
-            }
+        else if ( model.getLevelProperty().getValue() == 4 ){
+            minProtonCount = MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS + 1;
+        }
+        if ( isChargeProbType( problemType )){
+            // If the problem is asking about the charge, at least 50% of the
+            // time we want a charged atom.
+            requireCharged = RAND.nextBoolean();
         }
 
+        AtomValue atomValue = availableAtomValues.getRandomAtomValue( minProtonCount, maxProtonCount, requireCharged );
         availableAtomValues.removeAtomValue( atomValue );
         return createProblem( model, problemType, atomValue );
     }
@@ -288,6 +290,21 @@ public class ProblemSet {
     }
 
     /**
+     * Helper function to determine whether a given problem is requesting an
+     * answer about an atom's charge on the right side of the problem.
+     *
+     * @param problemType
+     * @return
+     */
+    private boolean isChargeProbType( ProblemType problemType ){
+        return ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ||
+                 problemType == ProblemType.COUNTS_TO_CHARGE_QUESTION ||
+                 problemType == ProblemType.COUNTS_TO_SYMBOL_CHARGE ||
+                 problemType == ProblemType.SCHEMATIC_TO_SYMBOL_CHARGE
+                 );
+    }
+
+    /**
      * Helper class for managing the list of atom values that can be used for
      * creating problems.  The two main pieces of functionality added by this
      * class is that it removes items from the enclosed list automatically,
@@ -304,18 +321,6 @@ public class ProblemSet {
         }
 
         /**
-         * Get a random atom value from the pool of available ones, and then
-         * remove it from the list so that it won't be returned again.
-         * @return
-         */
-        public AtomValue getRandomAtomValue(){
-            assert remainingAtomValues.size() > 0;
-            int index = AVP_RAND.nextInt( remainingAtomValues.size() );
-            AtomValue atomValue = remainingAtomValues.get( index );
-            return atomValue;
-        }
-
-        /**
          * Remove the specified atom value from the list of those available.
          *
          * @param atomValueToRemove
@@ -329,27 +334,47 @@ public class ProblemSet {
             return false; // Didn't find the value on the list.
         }
 
+        public AtomValue getRandomAtomValue( final int minProtonCount, final int maxProtonCount, final boolean requireCharged ){
+            return getRandomAtomValue( new Function1<AtomValue, Boolean>() {
+                // Define the function that will decide if a given atom is acceptable.
+                public Boolean apply( AtomValue av ) {
+                    if ( av.getNumProtons() >= minProtonCount && av.getNumProtons() <= maxProtonCount ) {
+                        if ( requireCharged ) {
+                            if ( !av.isNeutral() ) {
+                                return true;
+                            }
+                        }
+                        else {
+                            // If charge is not required, then any atom,
+                            // charged or uncharged, is acceptable.
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            } );
+        }
+
         /**
-         * Get an atom value from the pool that is at or below the specified
-         * proton count, and then remove it from the list of remaining atoms.
-         * If there are none that match the constraint, try the list of used
-         * atoms.
+         * Get an atom value from the pool that meets the criteria established
+         * by the passed-in function.  If there are no matches in the unused
+         * atom values, it will search through the used atom values.
          */
-        public AtomValue getRandomAtomValue( Function1<Integer,Boolean> condition){
+        private AtomValue getRandomAtomValue( Function1<AtomValue, Boolean> atomValueCriteria ) {
 
             // Make a list of the atoms that are small enough.
             ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
             for ( AtomValue av : remainingAtomValues ){
-                if (condition.apply( av.getNumProtons() )){
+                if (atomValueCriteria.apply( av)){
                     allowableAtomValues.add( av );
                 }
             }
             if ( allowableAtomValues.size() == 0){
                 // There were none available on the list of unused atoms, so
                 // add them from the list of used atoms instead.
-                System.err.println( getClass().getName() + " - Warning: No remaining atoms values below specified threshold, searching previously used atom value." );
+                System.err.println( getClass().getName() + " - Warning: No remaining atoms values that meet the criteria." );
                 for ( AtomValue av : usedAtomValues ){
-                    if (condition.apply( av.getNumProtons() )){
+                    if (atomValueCriteria.apply( av)){
                         allowableAtomValues.add( av );
                     }
                 }
@@ -364,22 +389,6 @@ public class ProblemSet {
                 System.err.println( getClass().getName() + " - Error: No atoms found below specified size threshold." );
             }
             return atomValue;
-        }
-
-        public AtomValue getRandomAtomValueMinSize( final int minProtons ){
-            return getRandomAtomValue( new Function1<Integer, Boolean>() {
-                public Boolean apply( Integer numProtons ) {
-                    return numProtons >= minProtons;
-                }
-            } );
-        }
-
-        public AtomValue getRandomAtomValueMaxSize( final int maxProtons ) {
-            return getRandomAtomValue( new Function1<Integer, Boolean>() {
-                public Boolean apply( Integer numProtons ) {
-                    return numProtons <= maxProtons;
-                }
-            } );
         }
     }
 }

@@ -68,4 +68,9 @@ public class AtomValue {
     public boolean isNeutral() {
         return getCharge()==0;
     }
+
+    @Override
+    public String toString (){
+        return new String( "protons: " + protons + ", neutrons: " + neutrons + ", electrons: " + electrons + ", charge: " + getCharge() );
+    }
 }
