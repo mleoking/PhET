@@ -1,3 +1,4 @@
+Made the charge questions in the game have a greater than 50% chance of using charged atoms.
 Changed the tracking of the best time to be on a per-level basis instead of having one best time that encompassed all levels.
 Fixed: Issue where the spinner on the counts-to-charge question were not being colorized as it is for other charge-related questions.
 Fixed: Made the various "showXxx" check boxes be reset when the Reset All button is pressed.
