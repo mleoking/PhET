@@ -276,6 +276,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         showPathProperty.reset();
         showVelocityProperty.reset();
         showMassProperty.reset();
+        scaleProperty.reset();
         modeProperty.reset();
     }
 
