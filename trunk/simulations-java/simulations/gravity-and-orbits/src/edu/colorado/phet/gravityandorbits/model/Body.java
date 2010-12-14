@@ -40,6 +40,7 @@ public class Body {
     private final int maxPathLength;
     private final double cartoonForceScale;
     private boolean massReadoutBelow;
+    private Property<Boolean> collidedProperty = new Property<Boolean>( false );
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
@@ -212,6 +213,7 @@ public class Body {
         forceProperty.reset();
         massProperty.reset();
         diameterProperty.reset();
+        collidedProperty.reset();
         clearPath();
     }
 
@@ -304,6 +306,15 @@ public class Body {
         }
     }
 
+    public double getDiameter( Scale scale ) {
+        if ( scale == Scale.CARTOON ) {
+            return getCartoonDiameterScaleFactor() * getDiameter();
+        }
+        else {
+            return getDiameter();
+        }
+    }
+
     public double getLabelAngle() {
         return labelAngle;
     }
@@ -322,6 +333,22 @@ public class Body {
 
     public boolean isMassReadoutBelow() {
         return massReadoutBelow;
+    }
+
+    public Property<Boolean> getCollidedProperty() {
+        return collidedProperty;
+    }
+
+    public boolean collidesWidth( Body body ) {
+        final ImmutableVector2D myPosition = getPosition( scaleProperty.getValue() );
+        final ImmutableVector2D yourPosition = body.getPosition( body.scaleProperty.getValue() );
+        double distance = myPosition.getSubtractedInstance( yourPosition ).getMagnitude();
+        double radiiSum = getDiameter( scaleProperty.getValue() ) / 2 + body.getDiameter( body.scaleProperty.getValue() ) / 2;
+        return distance < radiiSum;
+    }
+
+    public void setCollided( boolean b ) {
+        collidedProperty.setValue( b );
     }
 
     public static class PathPoint {

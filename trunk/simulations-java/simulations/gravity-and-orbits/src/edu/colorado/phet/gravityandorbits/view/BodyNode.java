@@ -33,6 +33,11 @@ public class BodyNode extends PNode {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
         this.scaleProperty = scaleProperty;
+        body.getCollidedProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                setVisible( !body.getCollidedProperty().getValue() );
+            }
+        } );
 
         bodyRenderer = body.createRenderer( getViewDiameter() );
         addChild( bodyRenderer );

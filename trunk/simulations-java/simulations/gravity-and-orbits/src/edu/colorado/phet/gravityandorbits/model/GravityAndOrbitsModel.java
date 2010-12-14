@@ -34,10 +34,29 @@ public class GravityAndOrbitsModel {
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
+                //when two bodies collide, destroy the smaller
+                for ( Body body : bodies ) {
+                    for ( Body other : bodies ) {
+                        if ( other != body ) {
+                            if ( other.collidesWidth( body ) ) {
+                                getSmaller( other, body ).setCollided( true );
+                            }
+                        }
+                    }
+                }
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
 //                System.out.println( "momentum: " + getTotalMomentum() );
+            }
+
+            private Body getSmaller( Body other, Body body ) {
+                if ( other.getMass() < body.getMass() ) {
+                    return other;
+                }
+                else {
+                    return body;
+                }
             }
         };
         clock.addClockListener( new ClockAdapter() {
