@@ -5,7 +5,6 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,7 +19,7 @@ public class GravityAndOrbitsModel {
     public boolean teacherMode;
     private final VoidFunction1<Double> stepModel;
 
-    public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> moonProperty ) {
+    public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
         super();
         this.clock = clock;
 
