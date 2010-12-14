@@ -1,6 +1,8 @@
 package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -136,7 +138,13 @@ public abstract class GravityAndOrbitsMode {
             setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
             setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
             add( new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
-            add( new JLabel( new ImageIcon( iconImage ) ) );
+            add( new JLabel( new ImageIcon( iconImage ) ) {{
+                addMouseListener( new MouseAdapter() {
+                    public void mouseReleased( MouseEvent e ) {
+                        modeProperty.setValue( GravityAndOrbitsMode.this ); //Make it so clicking on the icon also activates the mode
+                    }
+                } );
+            }} );
         }};
     }
 
