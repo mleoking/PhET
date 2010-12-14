@@ -66,6 +66,7 @@ public class GravityAndOrbitsModel {
     public void resetAll() {
         resetBodies();
         getClock().resetSimulationTime();
+        updateForceVectors();
     }
 
     public void addModelSteppedListener( SimpleObserver simpleObserver ) {
@@ -74,6 +75,18 @@ public class GravityAndOrbitsModel {
 
     public void addBody( Body body ) {
         bodies.add( body );
+        updateForceVectors();
+    }
+
+    /**
+     * Since we haven't (yet?) rewritten the gravity forces to auto-update when dependencies change, we update when necessary
+     * (1) when a new body is added or (2) when reset is pressed.
+     * This update is done by running the physics engine for dt=0.0 then applying the computed forces to the bodies.
+     * <p/>
+     * Without this block of code, the force vectors would be zero on sim startup until the clock is started.
+     */
+    private void updateForceVectors() {
+        stepModel.apply( 0.0 );
     }
 
     public ArrayList<Body> getBodies() {
