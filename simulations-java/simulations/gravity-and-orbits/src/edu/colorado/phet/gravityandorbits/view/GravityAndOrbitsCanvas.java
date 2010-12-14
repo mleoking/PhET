@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.NotProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -113,7 +114,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new FloatingClockControlNode( mode.getClockRunningProperty(), mode.getTimeFormatter(), model.getClock() ) {{
+        addChild( new FloatingClockControlNode( new NotProperty( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 

@@ -33,14 +33,14 @@ public abstract class GravityAndOrbitsMode {
     private final Camera camera;
     private Property<Boolean> active;
     private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
-    private final Property<Boolean> clockRunningProperty;
+    //    private final Property<Boolean> clockRunningProperty;
     private Function1<Double, String> timeFormatter;
     private Image iconImage;
     private final double defaultOrbitalPeriod;
     private double dt;
 
-    public GravityAndOrbitsMode( String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
-                                 double defaultOrbitalPeriod ) {//for determining the length of the path
+    public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
+                                 double defaultOrbitalPeriod, final Property<Boolean> simPaused ) {//for determining the length of the path
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -62,18 +62,14 @@ public abstract class GravityAndOrbitsMode {
             }
         } );
 
-        //Clock control panel
-        clockRunningProperty = new Property<Boolean>( false ) {{
-            final SimpleObserver updateClock = new SimpleObserver() {
-                public void update() {
-                    model.getClock().setRunning( isActive() && getValue() );
-                }
-            };
-            //This assumes that this code is the only place that changes whether the clock is running
-            //If another place called clock.start() or stop(), then this property wouldn't get a callback
-            addObserver( updateClock );
-            addModeActiveListener( updateClock );
-        }};
+        SimpleObserver updateClockRunning = new SimpleObserver() {
+            public void update() {
+                final boolean running = !simPaused.getValue() && isActive();
+                model.getClock().setRunning( running );
+            }
+        };
+        simPaused.addObserver( updateClockRunning );
+        this.active.addObserver( updateClockRunning );
     }
 
     /*
@@ -103,7 +99,7 @@ public abstract class GravityAndOrbitsMode {
     public void reset() {
         model.getClock().resetSimulationTime();// reset the clock
 //        model.getClock().setPaused( true );
-        clockRunningProperty.reset();
+//        clockRunningProperty.reset();
         moonProperty.reset();
         model.resetAll();
     }
@@ -152,16 +148,8 @@ public abstract class GravityAndOrbitsMode {
         this.active.setValue( active );
     }
 
-    public void addModeActiveListener( SimpleObserver simpleObserver ) {
-        active.addObserver( simpleObserver );
-    }
-
     public boolean isActive() {
         return active.getValue();
-    }
-
-    public Property<Boolean> getClockRunningProperty() {
-        return clockRunningProperty;
     }
 
     public Property<ModelViewTransform> getModelViewTransformProperty() {
