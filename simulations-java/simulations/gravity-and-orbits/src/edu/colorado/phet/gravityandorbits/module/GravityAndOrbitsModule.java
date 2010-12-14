@@ -105,7 +105,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                addBody( createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 ) );
+                addBody( createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 ) );
             }
 
             @Override
@@ -123,7 +123,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                final Body earth = createEarth( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 );
+                final Body earth = createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 );
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                                               false,//no room for the slider
@@ -151,8 +151,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
             {
                 ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( EARTH_MASS + MOON_MASS ) );
-                earth = createEarth( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength(),
-                                     650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
+                earth = createPlanet( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength(),
+                                      650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
 
                 addBody( earth );
                 addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1, 1 ) );
@@ -170,7 +170,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
         add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes,
                                        createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 10000 ) {
-            final Body earth = createEarth( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
+            final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
 
             {
                 addBody( earth );
@@ -195,7 +195,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 int inset = 20;//distance between icons
                 addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, createSun( 0 ).createRenderer( 30 ), sun );
-                addIcon( inset, createEarth( null, 0, 0, 0, 650 ).createRenderer( 25 ), earth );
+                addIcon( inset, createPlanet( null, 0, 0, 0, 650 ).createRenderer( 25 ), earth );
                 addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000, 1, 1 ).createRenderer( 20 ), moon );
                 addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 30 ), spaceStation );
             }
@@ -221,8 +221,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                          getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale );
     }
 
-    private Body createEarth( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
+    private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
+        return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
     private Body createSun( int maxPathLength ) {

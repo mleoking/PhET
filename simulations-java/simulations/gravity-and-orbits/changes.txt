@@ -1,3 +1,5 @@
+Fixed slider mass label to read "planet" instead of Earth
+Fixed mass readout to be in Earth masses instead of "planet" masses
 Fixed: made the moon magenta when not exactly at moon mass
 Fixed: the planet is drawn with an earth image when its mass is equal to earth mass, otherwise drawn as a sphere with a gradient paint
 Fixed scales so velocities are visible in all modes and for real/cartoon scale
