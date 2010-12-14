@@ -134,7 +134,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT ) {
+        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT ) {
             final Body earth = createEarth( null, 0, 0, getMaxPathLength() );
 
             {
