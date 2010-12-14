@@ -16,8 +16,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author Sam Reid
  */
-public class MassReadoutNode extends PNode {
-    public MassReadoutNode( final Body body, final BodyNode bodyNode, final Property<Boolean> visible ) {
+public class EarthMassReadoutNode extends PNode {
+    public EarthMassReadoutNode( final Body body, final BodyNode bodyNode, final Property<Boolean> visible ) {
         addChild( new PText( "1 million Earth masses" ) {{
             setPickable( false );
             setChildrenPickable( false );
@@ -56,5 +56,4 @@ public class MassReadoutNode extends PNode {
             }
         } );
     }
-
 }
