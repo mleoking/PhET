@@ -1,3 +1,5 @@
+# 1.00.17 (47152) Dec 14, 2010
+12/14/10 Implemented changes requested in recent chem group meeting.  This is a release candidate for first production version with game.
 Made all game problems that are non-schematic use atoms that are heavier than lithium.
 Made the spinners within the game problems select the contained text when focused upon.
 # 1.00.16 (47100) Dec 13, 2010
