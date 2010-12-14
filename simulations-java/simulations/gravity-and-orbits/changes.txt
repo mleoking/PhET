@@ -1,3 +1,4 @@
+Added initial support for collisions
 Made path node fade out
 Reduced number of integration subdivisions from 1000 to 100
 Fixed: Moon mass readout intersects earth mass readout in Sun/Earth/Moon mode
