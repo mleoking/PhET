@@ -33,7 +33,7 @@ public class MassReadoutNode extends PNode {
                         text = decimalFormat.format( earthMasses / 1E3 ) + " thousand Earth masses";
                     }
                     else if ( Math.abs( earthMasses - 1 ) < 1E-2 ) {
-                        text = 1 + " planet mass";
+                        text = 1 + " Earth mass";
                     }
                     else if ( earthMasses < 1 ) {
                         text = new DecimalFormat( "0.000" ).format( earthMasses ) + " Earth masses";
