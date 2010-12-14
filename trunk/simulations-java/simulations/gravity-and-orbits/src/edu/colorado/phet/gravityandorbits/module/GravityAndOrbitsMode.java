@@ -1,15 +1,19 @@
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
@@ -17,7 +21,9 @@ import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPa
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
+import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.
@@ -25,23 +31,24 @@ import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
  * @author Sam Reid
  */
 public abstract class GravityAndOrbitsMode {
-    private String name;
-    private GravityAndOrbitsModel model;
-    private Property<Boolean> moonProperty = new Property<Boolean>( false );
+    private final String name;
+    private final GravityAndOrbitsModel model;
+    private final Property<Boolean> moonProperty = new Property<Boolean>( false );
     private GravityAndOrbitsCanvas canvas;
-    private double forceScale;
+    private final double forceScale;
     private final Camera camera;
-    private Property<Boolean> active;
-    private ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
+    private final Property<Boolean> active;
+    private final ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
     //    private final Property<Boolean> clockRunningProperty;
-    private Function1<Double, String> timeFormatter;
-    private Image iconImage;
+    private final Function1<Double, String> timeFormatter;
+    private final Image iconImage;
     private final double defaultOrbitalPeriod;
-    private double dt;
-    private double velocityScale;
+    private final double dt;
+    private final double velocityScale;
+    private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
 
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
-                                 double defaultOrbitalPeriod, final Property<Boolean> simPaused, double velocityScale ) {//for determining the length of the path
+                                 double defaultOrbitalPeriod, final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory ) {//for determining the length of the path
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -51,6 +58,7 @@ public abstract class GravityAndOrbitsMode {
         this.velocityScale = velocityScale;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
+        this.massReadoutFactory = massReadoutFactory;
 
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ) );
 
@@ -138,6 +146,7 @@ public abstract class GravityAndOrbitsMode {
             add( new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
             add( new JLabel( new ImageIcon( iconImage ) ) {{
                 addMouseListener( new MouseAdapter() {
+                    @Override
                     public void mouseReleased( MouseEvent e ) {
                         modeProperty.setValue( GravityAndOrbitsMode.this ); //Make it so clicking on the icon also activates the mode
                     }
@@ -177,5 +186,9 @@ public abstract class GravityAndOrbitsMode {
 
     public double getVelocityScale() {
         return velocityScale;
+    }
+
+    public Function2<BodyNode, Property<Boolean>, PNode> getMassReadoutFactory() {
+        return massReadoutFactory;
     }
 }

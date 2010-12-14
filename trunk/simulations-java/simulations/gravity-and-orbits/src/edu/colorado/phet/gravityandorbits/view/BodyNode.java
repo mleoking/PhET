@@ -22,9 +22,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class BodyNode extends PNode {
-    private Property<ModelViewTransform> modelViewTransform;
-    private Body body;
-    private PNode arrowIndicator;
+    private final Property<ModelViewTransform> modelViewTransform;
+    private final Body body;
+    private final PNode arrowIndicator;
     private final Property<Scale> scaleProperty;
     private final BodyRenderer bodyRenderer;
 
@@ -41,10 +41,12 @@ public class BodyNode extends PNode {
         if ( body.isDraggable() ) {
             addInputEventListener( cursorHandler );
             addInputEventListener( new PBasicInputEventHandler() {
+                @Override
                 public void mousePressed( PInputEvent event ) {
                     body.setUserControlled( true );
                 }
 
+                @Override
                 public void mouseDragged( PInputEvent event ) {
                     if ( scaleProperty.getValue() == Scale.REAL ) {
                         final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
@@ -73,6 +75,7 @@ public class BodyNode extends PNode {
                     }
                 }
 
+                @Override
                 public void mouseReleased( PInputEvent event ) {
                     body.setUserControlled( false );
                 }
@@ -159,5 +162,9 @@ public class BodyNode extends PNode {
 
     public Image sphereNodeToImage() {
         return bodyRenderer.toImage();
+    }
+
+    public Body getBody() {
+        return body;
     }
 }

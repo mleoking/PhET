@@ -19,8 +19,11 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
+import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
+import edu.colorado.phet.gravityandorbits.view.EarthMassReadoutNode;
 import edu.colorado.phet.gravityandorbits.view.Scale;
+import edu.colorado.phet.gravityandorbits.view.SpaceStationMassReadoutNode;
 import edu.colorado.phet.gravityandorbits.view.VectorNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -31,13 +34,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public static final double G = 6.67428E-11;
 
-    private Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
-    private Property<Boolean> showPathProperty = new Property<Boolean>( false );
-    private Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
-    private Property<Boolean> showMassProperty = new Property<Boolean>( false );
-    private Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
+    private final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
+    private final Property<Boolean> showPathProperty = new Property<Boolean>( false );
+    private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
+    private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
+    private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
 
-    private Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
+    private final Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 
     private static final double SUN_RADIUS = 6.955E8;
     private static final double SUN_MASS = 1.989E30;
@@ -57,7 +60,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     //see http://en.wikipedia.org/wiki/International_Space_Station
     private static final double SPACE_STATION_RADIUS = 109;
-    private static final double SPACE_STATION_MASS = 369914;
+    public static final double SPACE_STATION_MASS = 369914;
     private static final double SPACE_STATION_SPEED = 7706;
     private static final double SPACE_STATION_PERIGEE = 347000;
 
@@ -100,8 +103,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
+        Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>(){
+            public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
+                return new EarthMassReadoutNode( bodyNode, visible );
+            }
+        };
         add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
-                                       createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE ) {
+                                       createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, massReadoutFactory ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -119,7 +127,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
-                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE ) {
+                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, massReadoutFactory ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -142,7 +150,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days,
-                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6 ) {
+                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, massReadoutFactory ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -168,8 +176,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
+        Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>(){
+            public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
+                return new SpaceStationMassReadoutNode( bodyNode, visible );
+            }
+        };
         add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes,
-                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 10000 ) {
+                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory ) {
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
 
             {
@@ -213,7 +226,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                          SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
-    private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
+    private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor, double cartoonForceVectorScale,
                              double cartoonVelocityScale ) {

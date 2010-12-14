@@ -34,7 +34,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Canvas template.
  */
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
-    private PNode _rootNode;
+    private final PNode _rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
@@ -73,7 +73,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : model.getBodies() ) {
             final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
-            addChild( new EarthMassReadoutNode( body, bodyNode, module.getShowMassProperty() ) );
+            addChild( mode.getMassReadoutFactory().apply( bodyNode, module.getShowMassProperty() ) );
         }
 
         //Add force vector nodes
