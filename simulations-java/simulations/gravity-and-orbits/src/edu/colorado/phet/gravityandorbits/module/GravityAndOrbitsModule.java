@@ -175,12 +175,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Image createIconImage( final boolean sun, final boolean earth, final boolean moon, final boolean spaceStation ) {
         return new PNode() {
             {
-                int inset = 4;//distance between icons
-                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
+                int inset = 20;//distance between icons
+                addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, createSun( 0 ).createRenderer( 30 ), sun );
                 addIcon( inset, createEarth( null, 0, 0, 0 ).createRenderer( 25 ), earth );
                 addIcon( inset, createMoon( null, 0, 0, true, 0 ).createRenderer( 20 ), moon );
-                addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 25 ), spaceStation );
+                addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 30 ), spaceStation );
             }
 
             private void addIcon( int inset, PNode sunIcon, boolean sun ) {

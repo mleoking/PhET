@@ -1,3 +1,4 @@
+Increased spacing between mode icons
 Fixed: moon trajectory has a kink or curly-q because cartoon offset is too large
 # 0.0.06 (47106) Dec 13, 2010
 Fixed: sim doesn't pause on reset
