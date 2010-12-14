@@ -1,13 +1,4 @@
-Added in some initial -x velocity to offset the earth-moon barycenter drift
-Improved zoom levels and scale factors for real and cartoon modes
-Increased the speed of the earth/space station clock
-Fixed: moon earth mode should run about 1/3 of current speed
-Moved gravity and velocity vectors to appear in front of bodies
-Removed teeth from sun graphic
-Fixed: clicking on the mode icon also selects the mode
-Increased spacing between mode icons
-Fixed: moon trajectory has a kink or curly-q because cartoon offset is too large
-# 0.0.06 (47106) Dec 13, 2010
+Fixed: reset all resets the scale mode
 Fixed: sim doesn't pause on reset
 Made path lengths depend on the mode, and only go for 1.5 periods of the default orbit
 Removed moon slider because it takes up too much space
