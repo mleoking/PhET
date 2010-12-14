@@ -81,7 +81,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             setFillNone();
             setAnchor( GridBagConstraints.WEST );
 
-            add( new GORadioButton<Scale>( "Cartoon", module.getScaleProperty(), Scale.CARTOON ) );
+            add( new GORadioButton<Scale>( "Cartoon (not to scale)", module.getScaleProperty(), Scale.CARTOON ) );
             add( new GORadioButton<Scale>( "Real", module.getScaleProperty(), Scale.REAL ) );
         }} );
         for ( Body body : model.getBodies() ) {
