@@ -1,3 +1,4 @@
+Removed teeth from sun graphic
 Fixed: clicking on the mode icon also selects the mode
 Increased spacing between mode icons
 Fixed: moon trajectory has a kink or curly-q because cartoon offset is too large

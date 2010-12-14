@@ -88,7 +88,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     };
     private final Function2<Body, Double, BodyRenderer> SUN_RENDERER = new Function2<Body, Double, BodyRenderer>() {
         public BodyRenderer apply( Body body, Double viewDiameter ) {
-            return new BodyRenderer.SunRenderer( body, viewDiameter );
+            return new BodyRenderer.SphereRenderer( body, viewDiameter );
         }
     };
     private final int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
