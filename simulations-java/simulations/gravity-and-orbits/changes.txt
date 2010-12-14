@@ -1,3 +1,4 @@
+Changed "Cartoon" to "Cartoon (not to scale)"
 Fixed: reset all resets the scale mode
 Fixed: sim doesn't pause on reset
 Made path lengths depend on the mode, and only go for 1.5 periods of the default orbit
