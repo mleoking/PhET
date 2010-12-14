@@ -190,7 +190,7 @@ public class ProblemSet {
         if ( isSchematicProbType( problemType )){
             maxProtonCount = MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS;
         }
-        else if ( model.getLevelProperty().getValue() == 4 ){
+        else {
             minProtonCount = MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS + 1;
         }
         if ( isChargeProbType( problemType )){
