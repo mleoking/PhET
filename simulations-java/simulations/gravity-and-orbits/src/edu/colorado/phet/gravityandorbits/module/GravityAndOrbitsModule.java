@@ -81,10 +81,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         };
     }
 
-    public static Function2<Body, Double, BodyRenderer> getEarthRenderer( final String image ) {
+    public static Function2<Body, Double, BodyRenderer> getRenderer( final String image,
+                                                                     final double targetMass ) {//the mass for which to use the image
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
-                return new BodyRenderer.SwitchableBodyRenderer( body, EARTH_MASS, new BodyRenderer.ImageRenderer( body, viewDiameter, image ), new BodyRenderer.SphereRenderer( body, viewDiameter ) );
+                return new BodyRenderer.SwitchableBodyRenderer( body, targetMass, new BodyRenderer.ImageRenderer( body, viewDiameter, image ), new BodyRenderer.SphereRenderer( body, viewDiameter ) );
             }
         };
     }
@@ -216,12 +217,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor, double cartoonForceVectorScale,
                              double cartoonVelocityScale ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
-                         getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale );
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
+                         getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale );
     }
 
     private Body createEarth( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getEarthRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
     private Body createSun( int maxPathLength ) {
