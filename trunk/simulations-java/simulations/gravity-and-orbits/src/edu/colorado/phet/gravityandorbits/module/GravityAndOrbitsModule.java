@@ -36,6 +36,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<Boolean> showPathProperty = new Property<Boolean>( false );
     private Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private Property<Boolean> showMassProperty = new Property<Boolean>( false );
+    private Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
 
     private Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 
@@ -95,7 +96,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
-        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, false, false ), SEC_PER_YEAR ) {
+        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -112,7 +113,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, true, false ), SEC_PER_YEAR ) {
+        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -134,7 +135,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT ) {
+        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -160,7 +161,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes, createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT ) {
+        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes, createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty ) {
             final Body earth = createEarth( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
 
             {
@@ -314,5 +315,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Scale> getScaleProperty() {
         return scaleProperty;
+    }
+
+    public Property<Boolean> getClockPausedProperty() {
+        return clockPausedProperty;
     }
 }

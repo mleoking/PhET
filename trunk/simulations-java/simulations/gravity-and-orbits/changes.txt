@@ -1,3 +1,4 @@
+Fixed: play/pause controls should be global instead of independently settable per each mode
 Changed "Cartoon" to "Cartoon (not to scale)"
 Fixed: reset all resets the scale mode
 Fixed: sim doesn't pause on reset
