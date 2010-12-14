@@ -81,6 +81,14 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         };
     }
 
+    public static Function2<Body, Double, BodyRenderer> getEarthRenderer( final String image ) {
+        return new Function2<Body, Double, BodyRenderer>() {
+            public BodyRenderer apply( Body body, Double viewDiameter ) {
+                return new BodyRenderer.SwitchableBodyRenderer( body, EARTH_MASS, new BodyRenderer.ImageRenderer( body, viewDiameter, image ), new BodyRenderer.SphereRenderer( body, viewDiameter ) );
+            }
+        };
+    }
+
     private final Function2<Body, Double, BodyRenderer> SUN_RENDERER = new Function2<Body, Double, BodyRenderer>() {
         public BodyRenderer apply( Body body, Double viewDiameter ) {
             return new BodyRenderer.SphereRenderer( body, viewDiameter );
@@ -213,7 +221,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     private Body createEarth( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, cartoonDiameterScaleFactor, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getEarthRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
     private Body createSun( int maxPathLength ) {

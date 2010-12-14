@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -29,6 +30,35 @@ public abstract class BodyRenderer extends PNode {
     }
 
     public abstract void setDiameter( double viewDiameter );
+
+    /**
+     * This SwitchableBodyRenderer displays one representation when the object is at a specific mass, and a different renderer
+     * otherwise.  This is so that (e.g.) the planet can be drawn with an earth image when its mass is equal to earth mass
+     * or otherwise drawn as a sphere with a gradient paint.
+     */
+    public static class SwitchableBodyRenderer extends BodyRenderer {
+
+        private final BodyRenderer targetBodyRenderer;
+        private final BodyRenderer defaultBodyRenderer;
+
+        public SwitchableBodyRenderer( final Body body, final double targetMass, final BodyRenderer targetBodyRenderer, final BodyRenderer defaultBodyRenderer ) {
+            super( body );
+            this.targetBodyRenderer = targetBodyRenderer;
+            this.defaultBodyRenderer = defaultBodyRenderer;
+            body.getMassProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    removeAllChildren();
+                    addChild( ( body.getMass() == targetMass ? targetBodyRenderer : defaultBodyRenderer ) );
+                }
+            } );
+        }
+
+        @Override
+        public void setDiameter( double viewDiameter ) {
+            targetBodyRenderer.setDiameter( viewDiameter );
+            defaultBodyRenderer.setDiameter( viewDiameter );
+        }
+    }
 
     public static class SphereRenderer extends BodyRenderer {
 
