@@ -16,7 +16,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class VectorNode extends PNode {
     public static final double FORCE_SCALE = 76.0 / 5.179E15;
-    public static final double VELOCITY_SCALE = 200 / 4.466E-5;
     private final Body body;
     private final Property<ModelViewTransform> modelViewTransform;
     private final double scale;
