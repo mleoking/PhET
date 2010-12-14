@@ -1,3 +1,4 @@
+Moved gravity and velocity vectors to appear in front of bodies
 Removed teeth from sun graphic
 Fixed: clicking on the mode icon also selects the mode
 Increased spacing between mode icons
