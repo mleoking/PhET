@@ -167,4 +167,8 @@ public class BodyNode extends PNode {
     public Body getBody() {
         return body;
     }
+
+    public BodyRenderer getBodyRenderer() {
+        return bodyRenderer;
+    }
 }

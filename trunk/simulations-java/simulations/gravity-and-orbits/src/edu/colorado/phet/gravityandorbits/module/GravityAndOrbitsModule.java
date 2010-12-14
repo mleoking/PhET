@@ -19,12 +19,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
-import edu.colorado.phet.gravityandorbits.view.BodyNode;
-import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
-import edu.colorado.phet.gravityandorbits.view.EarthMassReadoutNode;
-import edu.colorado.phet.gravityandorbits.view.Scale;
-import edu.colorado.phet.gravityandorbits.view.SpaceStationMassReadoutNode;
-import edu.colorado.phet.gravityandorbits.view.VectorNode;
+import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -103,7 +98,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
-        Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>(){
+        Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
                 return new EarthMassReadoutNode( bodyNode, visible );
             }
@@ -135,7 +130,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                                               false,//no room for the slider
-                                              getMaxPathLength(), 17, 1000, 25, 1 );
+                                              getMaxPathLength(), 17, 1000, 25, 1,
+                                              false );//so it doesn't intersect with earth mass readout
                 addBody( moon );
             }
 
@@ -163,7 +159,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                                       650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
 
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1, 1 ) );
+                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1, 1, true ) );
             }
 
             @Override
@@ -176,7 +172,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
-        Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>(){
+        Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
                 return new SpaceStationMassReadoutNode( bodyNode, visible );
             }
@@ -209,7 +205,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, createSun( 0 ).createRenderer( 30 ), sun );
                 addIcon( inset, createPlanet( null, 0, 0, 0, 650 ).createRenderer( 25 ), earth );
-                addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000, 1, 1 ).createRenderer( 20 ), moon );
+                addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000, 1, 1, true ).createRenderer( 20 ), moon );
                 addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 30 ), spaceStation );
             }
 
@@ -223,23 +219,23 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private Body createSpaceStation( Body earth, int maxPathLength ) {
         return new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true );
     }
 
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor, double cartoonForceVectorScale,
-                             double cartoonVelocityScale ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
-                         getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale );
+                             double cartoonVelocityScale, final boolean massReadoutBelow ) {
+        return new Body( earth, "Moon", MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
+                         getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale, massReadoutBelow );
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
+        return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true );
     }
 
     private Body createSun( int maxPathLength ) {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

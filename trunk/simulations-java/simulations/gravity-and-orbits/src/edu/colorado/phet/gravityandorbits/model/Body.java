@@ -39,6 +39,7 @@ public class Body {
     private final double labelAngle;
     private final int maxPathLength;
     private final double cartoonForceScale;
+    private boolean massReadoutBelow;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
@@ -46,11 +47,12 @@ public class Body {
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 double cartoonForceScale ) {
+                 double cartoonForceScale, boolean massReadoutBelow ) {
         this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
         this.cartoonForceScale = cartoonForceScale;
+        this.massReadoutBelow = massReadoutBelow;
         assert renderer != null;
         this.parent = parent;
         this.name = name;
@@ -316,6 +318,10 @@ public class Body {
 
     public Property<Scale> getScaleProperty() {
         return scaleProperty;
+    }
+
+    public boolean isMassReadoutBelow() {
+        return massReadoutBelow;
     }
 
     public static class PathPoint {
