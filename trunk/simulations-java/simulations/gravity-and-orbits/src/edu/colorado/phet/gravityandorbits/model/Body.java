@@ -35,7 +35,6 @@ public class Body {
     private final Body parent;
     private final double cartoonOffsetScale;
     private final Function2<Body, Double, BodyRenderer> renderer;
-    private final Property<Scale> scaleProperty;
     private final double labelAngle;
     private final int maxPathLength;
 
@@ -55,7 +54,6 @@ public class Body {
         this.cartoonDiameterScaleFactor = cartoonDiameterScaleFactor;
         this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
-        this.scaleProperty = scaleProperty;
         this.labelAngle = labelAngle;
         positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
@@ -170,7 +168,7 @@ public class Body {
     }
 
     private void addPathPoint() {
-        PathPoint pathPoint = new PathPoint( getPosition(), getCartoonPosition(), isUserControlled() );
+        PathPoint pathPoint = new PathPoint( getPosition(), getCartoonPosition() );
         path.add( pathPoint );
         while ( path.size() > maxPathLength ) {//start removing data after 2 orbits of the default system
             path.remove( 0 );
@@ -314,12 +312,10 @@ public class Body {
     public static class PathPoint {
         public final ImmutableVector2D point;
         public final ImmutableVector2D cartoonPoint;
-        public final boolean userControlled;
 
-        public PathPoint( ImmutableVector2D point, ImmutableVector2D cartoonPoint, boolean userControlled ) {
+        public PathPoint( ImmutableVector2D point, ImmutableVector2D cartoonPoint ) {
             this.point = point;
             this.cartoonPoint = cartoonPoint;
-            this.userControlled = userControlled;
         }
     }
 

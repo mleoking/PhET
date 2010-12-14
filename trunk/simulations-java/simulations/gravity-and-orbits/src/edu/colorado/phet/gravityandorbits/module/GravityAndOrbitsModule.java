@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.gravityandorbits.GravityAndOrbitsStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
@@ -82,11 +81,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         };
     }
 
-    private final Function2<Body, Double, BodyRenderer> SPHERE_RENDERER = new Function2<Body, Double, BodyRenderer>() {
-        public BodyRenderer apply( Body body, Double viewDiameter ) {
-            return new BodyRenderer.SphereRenderer( body, viewDiameter );
-        }
-    };
     private final Function2<Body, Double, BodyRenderer> SUN_RENDERER = new Function2<Body, Double, BodyRenderer>() {
         public BodyRenderer apply( Body body, Double viewDiameter ) {
             return new BodyRenderer.SphereRenderer( body, viewDiameter );
@@ -225,7 +219,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs ) {
-        super( GravityAndOrbitsStrings.TITLE_EXAMPLE_MODULE
+        super( "Gravity and Orbits"
                + ": " + Arrays.asList( commandLineArgs )//For simsharing
                 ,
                new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.DEFAULT_DT ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?

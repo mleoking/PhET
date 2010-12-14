@@ -50,7 +50,7 @@ public abstract class GravityAndOrbitsMode {
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
 
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ), moonProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ) );
 
         getMoonProperty().addObserver( new SimpleObserver() {
             public void update() {
