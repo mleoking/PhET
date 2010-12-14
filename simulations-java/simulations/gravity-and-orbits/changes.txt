@@ -1,3 +1,4 @@
+Fixed: moon trajectory has a kink or curly-q because cartoon offset is too large
 # 0.0.06 (47106) Dec 13, 2010
 Fixed: sim doesn't pause on reset
 Made path lengths depend on the mode, and only go for 1.5 periods of the default orbit

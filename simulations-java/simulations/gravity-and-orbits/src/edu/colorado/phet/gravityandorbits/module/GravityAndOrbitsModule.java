@@ -199,11 +199,12 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength ) {
-        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 40, getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength );
+        return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, 1000, 17,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
+                         getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength );
     }
 
     private Body createEarth( Body sun, double vx, double vy, int maxPathLength ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 1000, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, 650, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength );
     }
 
     private Body createSun( int maxPathLength ) {
