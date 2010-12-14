@@ -4,6 +4,7 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -36,6 +37,7 @@ public class GravityAndOrbitsModel {
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
+//                System.out.println( "momentum: " + getTotalMomentum() );
             }
         };
         clock.addClockListener( new ClockAdapter() {
@@ -48,6 +50,14 @@ public class GravityAndOrbitsModel {
                 }
             }
         } );
+    }
+
+    private ImmutableVector2D getTotalMomentum() {
+        ImmutableVector2D total = new ImmutableVector2D();
+        for ( Body body : bodies ) {
+            total = total.getAddedInstance( body.getVelocity().getScaledInstance( body.getMass() ) );
+        }
+        return total;
     }
 
     public GravityAndOrbitsClock getClock() {

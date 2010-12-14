@@ -135,10 +135,17 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT ) {
-            final Body earth = createEarth( null, 0, 0, getMaxPathLength(),
-                                            650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
+            // Add in some initial -x velocity to offset the earth-moon barycenter drift
+            //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
+            ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
+
+            final Body earth;
 
             {
+                ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( EARTH_MASS + MOON_MASS ) );
+                earth = createEarth( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength(),
+                                     650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
+
                 addBody( earth );
                 addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10 ) );
             }
