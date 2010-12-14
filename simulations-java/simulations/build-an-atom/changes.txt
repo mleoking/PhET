@@ -1,3 +1,5 @@
+Made all game problems that are non-schematic use atoms that are heavier than lithium.
+Made the spinners within the game problems select the contained text when focused upon.
 # 1.00.16 (47100) Dec 13, 2010
 12/13/10 Several modifications based on recent reviews.  This is a release candidate for first production version that includes the game.
 Changed the way that a four-particle nucleus is layed out in order to look a little better.
