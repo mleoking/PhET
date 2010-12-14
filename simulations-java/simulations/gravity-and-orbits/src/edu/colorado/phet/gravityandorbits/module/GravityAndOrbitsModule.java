@@ -90,7 +90,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
-        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty ) {
+        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
+                                       createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -107,7 +108,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days, createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty ) {
+        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
+                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -115,7 +117,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                                               false,//no room for the slider
-                                              getMaxPathLength(), 17, 1000 );
+                                              getMaxPathLength(), 17, 1000, 25 );
                 addBody( moon );
             }
 
@@ -129,7 +131,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return new ImmutableVector2D( 0, 0 );
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days, createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty ) {
+        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days,
+                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -142,7 +145,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                                      650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
 
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10 ) );
+                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1 ) );
             }
 
             @Override
@@ -155,7 +158,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes, createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty ) {
+        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes,
+                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty ) {
             final Body earth = createEarth( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
 
             {
@@ -182,7 +186,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, createSun( 0 ).createRenderer( 30 ), sun );
                 addIcon( inset, createEarth( null, 0, 0, 0, 650 ).createRenderer( 25 ), earth );
-                addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000 ).createRenderer( 20 ), moon );
+                addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000, 1 ).createRenderer( 20 ), moon );
                 addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 30 ), spaceStation );
             }
 
@@ -196,22 +200,22 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private Body createSpaceStation( Body earth, int maxPathLength ) {
         return new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength );
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
     private Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
-    private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor ) {
+    private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor, double cartoonForceVectorScale ) {
         return new Body( earth, "Moon", MOON_X, -MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.gray, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
-                         getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength );
+                         getImageRenderer( "moon.png" ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale );
     }
 
     private Body createEarth( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, cartoonDiameterScaleFactor, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength );
+        return new Body( sun, "Earth", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.blue, Color.white, cartoonDiameterScaleFactor, 1, getImageRenderer( "earth.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
     private Body createSun( int maxPathLength ) {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1 );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

@@ -30,6 +30,7 @@ public class Body {
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
+    private final Property<Scale> scaleProperty;
     private final boolean massSettable;
     private final double cartoonDiameterScaleFactor;
     private final Body parent;
@@ -37,15 +38,19 @@ public class Body {
     private final Function2<Body, Double, BodyRenderer> renderer;
     private final double labelAngle;
     private final int maxPathLength;
+    private final double cartoonForceScale;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  double cartoonDiameterScaleFactor, double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
-                 int maxPathLength ) {
+                 int maxPathLength,
+                 double cartoonForceScale ) {
+        this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
+        this.cartoonForceScale = cartoonForceScale;
         assert renderer != null;
         this.parent = parent;
         this.name = name;
@@ -309,6 +314,10 @@ public class Body {
         return maxPathLength;
     }
 
+    public Property<Scale> getScaleProperty() {
+        return scaleProperty;
+    }
+
     public static class PathPoint {
         public final ImmutableVector2D point;
         public final ImmutableVector2D cartoonPoint;
@@ -330,5 +339,9 @@ public class Body {
     @Override
     public String toString() {
         return "name = " + getName() + ", mass = " + getMass();
+    }
+
+    public double getCartoonForceScale() {
+        return cartoonForceScale;
     }
 }

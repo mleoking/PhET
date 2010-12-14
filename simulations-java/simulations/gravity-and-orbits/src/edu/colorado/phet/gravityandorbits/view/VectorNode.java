@@ -20,15 +20,17 @@ public class VectorNode extends PNode {
     private final Body body;
     private final Property<ModelViewTransform> modelViewTransform;
     private final double scale;
+    private final double cartoonScale;
     private Property<ImmutableVector2D> property;
     private ArrowNode arrowNode;
 
     public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible,
-                       final Property<ImmutableVector2D> property, final double scale, final Color fill, final Color outline ) {
+                       final Property<ImmutableVector2D> property, final double scale, final double cartoonScale, final Color fill, final Color outline ) {
         this.property = property;
         this.body = body;
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
+        this.cartoonScale = cartoonScale;
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.getValue() );
@@ -50,6 +52,7 @@ public class VectorNode extends PNode {
         addChild( arrowNode );
         arrowNode.setPickable( false );
         arrowNode.setChildrenPickable( false );
+        body.getScaleProperty().addObserver( updateArrow );
     }
 
     private Point2D getTail() {
@@ -61,7 +64,7 @@ public class VectorNode extends PNode {
     }
 
     private Point2D.Double getTip( Point2D tail ) {
-        final Point2D force = modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale ).toPoint2D() );
+        final Point2D force = modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale * ( ( body.getScaleProperty().getValue() == Scale.CARTOON ) ? cartoonScale : 1.0 ) ).toPoint2D() );
         return new Point2D.Double( force.getX() + tail.getX(), force.getY() + tail.getY() );
     }
 }
