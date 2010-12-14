@@ -1,6 +1,8 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -84,12 +86,25 @@ public class ValueNode extends PNode {
                 text.setVisible( !editable.getValue() );
             }
         } );
-        JSpinner.DefaultEditor numberEditor = (JSpinner.DefaultEditor) getSpinnerEditor();
+        final JSpinner.DefaultEditor numberEditor = (JSpinner.DefaultEditor) getSpinnerEditor();
         numberEditor.getTextField().setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) {{
             setMinimum( minimum );
             setMaximum( maximum );
             setValueClass( Integer.class );
         }} ) );
+        numberEditor.getTextField().addFocusListener( new FocusAdapter() {
+            @Override
+            public void focusGained( FocusEvent event ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        numberEditor.getTextField().selectAll();
+                        System.out.println("Selected all.");
+                    }
+                });
+                System.out.println("Focus gained.");
+            }
+        } );
+
         spinner.setEditor( numberEditor );
         updateReadouts.update();
     }
