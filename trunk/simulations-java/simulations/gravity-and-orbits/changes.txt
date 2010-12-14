@@ -1,3 +1,4 @@
+Increased the speed of the earth/space station clock
 Fixed: moon earth mode should run about 1/3 of current speed
 Moved gravity and velocity vectors to appear in front of bodies
 Removed teeth from sun graphic

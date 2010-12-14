@@ -152,7 +152,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 return earth.getPosition();
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000, minutes, createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT ) {
+        add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 100, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes, createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT ) {
             final Body earth = createEarth( null, 0, 0, getMaxPathLength() );
 
             {
