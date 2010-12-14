@@ -29,7 +29,8 @@ public class GravityAndOrbitsModel {
                     for ( Body body : bodies ) {
                         add( body.toBodyState() );
                     }
-                }} ).getNextState( dt, 1000 );
+                }} ).getNextState( dt,
+                                   100 );//1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
