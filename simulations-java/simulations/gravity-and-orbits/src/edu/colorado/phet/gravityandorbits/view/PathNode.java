@@ -24,6 +24,14 @@ public class PathNode extends PNode {
     public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color, final Property<Scale> scaleProperty ) {
         xPrimitive = new int[body.getMaxPathLength()];
         yPrimitive = new int[body.getMaxPathLength()];
+
+        final int numFadePoints = 25;
+//        final int[] fadeAlpha = { 255, 254, 252, 250,//a linear function is to jarring to start, so use a smooth nonlinear function
+//                248, 245, 242, 239,
+//                235, 231, 227, 223,
+//                218, 213, 208, 200,
+//                175, 125, 75, 25
+//        };
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         pathNode = new PNode() {
             @Override
@@ -32,12 +40,23 @@ public class PathNode extends PNode {
 
                 g2.setPaint( color );
                 g2.setStroke( stroke );
-                for ( int i = 0; i < points.size(); i++ ) {
-                    final Point point = points.get( i );
+                int numSolidPoints = Math.min( body.getMaxPathLength() - numFadePoints, points.size() );
+                int numTransparentPoints = points.size() - numSolidPoints;
+                for ( int i = 0; i < numSolidPoints; i++ ) {
+                    final Point point = points.get( points.size() - 1 - i );
                     xPrimitive[i] = point.x;
                     yPrimitive[i] = point.y;
                 }
-                g2.drawPolyline( xPrimitive, yPrimitive, points.size() );
+                g2.drawPolyline( xPrimitive, yPrimitive, numSolidPoints );
+                g2.setStroke( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND ) );
+                Color faded = color;
+                for ( int i = 0; i < numTransparentPoints; i++ ) {
+                    final int a = (int) ( faded.getAlpha() - 255.0 / numFadePoints );
+//                    final int a = fadeAlpha[i];
+                    faded = new Color( faded.getRed(), faded.getGreen(), faded.getBlue(), Math.max( 0, a ) );
+                    g2.setColor( faded );
+                    g2.drawLine( points.get( numTransparentPoints - i ).x, points.get( numTransparentPoints - i ).y, points.get( numTransparentPoints - i + 1 ).x, points.get( numTransparentPoints - i + 1 ).y );
+                }
             }
         };
         //Paints the whole screen at every update, but we can skip bounds computations for this node
