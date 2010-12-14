@@ -38,15 +38,17 @@ public abstract class GravityAndOrbitsMode {
     private Image iconImage;
     private final double defaultOrbitalPeriod;
     private double dt;
+    private double velocityScale;
 
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
-                                 double defaultOrbitalPeriod, final Property<Boolean> simPaused ) {//for determining the length of the path
+                                 double defaultOrbitalPeriod, final Property<Boolean> simPaused, double velocityScale ) {//for determining the length of the path
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
         this.camera = camera;
         this.iconImage = iconImage;
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
+        this.velocityScale = velocityScale;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
 
@@ -171,5 +173,9 @@ public abstract class GravityAndOrbitsMode {
 
     public void resetBodies() {
         model.resetBodies();
+    }
+
+    public double getVelocityScale() {
+        return velocityScale;
     }
 }
