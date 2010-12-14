@@ -1,3 +1,4 @@
+Made the space mode express mass in terms of space stations.
 Fixed slider mass label to read "planet" instead of Earth
 Fixed mass readout to be in Earth masses instead of "planet" masses
 Fixed: made the moon magenta when not exactly at moon mass
