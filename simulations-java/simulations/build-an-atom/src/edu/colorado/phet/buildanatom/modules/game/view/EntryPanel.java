@@ -6,18 +6,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.NumberFormat;
 
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function0;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * A PNode that consists of a label and a Swing spinner (JSpinner), generally
+ * used for allowing the user to enter data.
+ *
+ * @author John Blanco
+ */
 public class EntryPanel extends PNode {
 
     private static final int DEFAULT_MIN = 0;
@@ -45,18 +45,6 @@ public class EntryPanel extends PNode {
         double spinnerHeight = label.getFullBoundsReference().getHeight() * 0.9;
         label.setHTML( labelText );
         addChild( label );
-        final JSpinner spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 30, 1 ) ){{
-                addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        property.setValue( (Integer) getValue() );
-                    }
-                } );
-              }};
-        property.addObserver( new SimpleObserver() {
-            public void update() {
-                spinner.setValue( property.getValue() );
-            }
-        } );
 
         editable = new Property<Boolean>( true );
         valueNode = new ValueNode( property, min, max, 1, editable, numberFormat, ValueNode.DEFAULT_COLOR_FUNCTION );
