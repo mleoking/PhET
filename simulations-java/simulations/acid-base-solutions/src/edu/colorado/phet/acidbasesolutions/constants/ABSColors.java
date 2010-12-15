@@ -20,7 +20,14 @@ public class ABSColors {
     // main control panel
     public static final Color CONTROL_PANEL_BACKGROUND = new Color( 204, 204, 255 );
     
-    // neutral molecule colors
+    // solution color
+    public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227, 180 ); // transparent light blue
+    
+    // water molecule color is derived from solution color
+    private static final double H2O_FACTOR = 0.85;
+    public static final Color H2O = new Color( (int)( AQUEOUS_SOLUTION.getRed() * H2O_FACTOR ), (int)( AQUEOUS_SOLUTION.getGreen() * H2O_FACTOR ), (int)( AQUEOUS_SOLUTION.getBlue() * H2O_FACTOR ) );
+    
+    // molecule colors
     private static final Color NEUTRAL_COLOR = new Color( 170, 170, 170 );
     public static final Color HA = NEUTRAL_COLOR;
     public static final Color B = NEUTRAL_COLOR;
@@ -30,10 +37,6 @@ public class ABSColors {
     public static final Color M_PLUS = BH_PLUS;
     public static final Color A_MINUS = new Color( 0, 170, 255 );
     public static final Color OH_MINUS = new Color( 0, 0, 255 );
-    public static final Color H2O = new Color( 193, 222, 227 );
-    
-    // solution color
-    public static final Color AQUEOUS_SOLUTION = new Color( 193, 222, 227, 180 ); // transparent light blue
     
     // pH colors
     public static final Color PH_0 = new Color( 182, 70, 72 );

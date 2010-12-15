@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import edu.colorado.phet.acidbasesolutions.view.molecules.*;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -36,16 +37,16 @@ public class ABSImages {
     public static final Icon PH_METER_ICON = getIcon( "icons/pHMeter_icon.png" );
     public static final Icon PH_PAPER_ICON = getIcon( "icons/pHPaper_icon.png" );
     
-    // molecules
-    public static final BufferedImage A_MINUS_MOLECULE = getBufferedImage( "molecules/A_minus.png" );
-    public static final BufferedImage B_MOLECULE = getBufferedImage( "molecules/B.png" );
-    public static final BufferedImage BH_PLUS_MOLECULE = getBufferedImage( "molecules/BH_plus.png" );
-    public static final BufferedImage H2O_MOLECULE = getBufferedImage( "molecules/H2O.png" );
-    public static final BufferedImage H3O_PLUS_MOLECULE = getBufferedImage( "molecules/H3O_plus.png" );
-    public static final BufferedImage HA_MOLECULE = getBufferedImage( "molecules/HA.png" );
-    public static final BufferedImage M_PLUS_MOLECULE = getBufferedImage( "molecules/M_plus.png" );
-    public static final BufferedImage MOH_MOLECULE = getBufferedImage( "molecules/MOH.png" );
-    public static final BufferedImage OH_MINUS_MOLECULE = getBufferedImage( "molecules/OH_minus.png" );
+    // generate molecule images using Piccolo
+    public static final Image A_MINUS_MOLECULE = new AMinusNode().toImage();
+    public static final Image B_MOLECULE = new BNode().toImage();
+    public static final Image BH_PLUS_MOLECULE = new BHPlusNode().toImage();
+    public static final Image H2O_MOLECULE = new H2ONode().toImage();
+    public static final Image H3O_PLUS_MOLECULE = new H3OPlusNode().toImage();
+    public static final Image HA_MOLECULE = new HANode().toImage();
+    public static final Image M_PLUS_MOLECULE = new MPlusNode().toImage();
+    public static final Image MOH_MOLECULE = new MOHNode().toImage();
+    public static final Image OH_MINUS_MOLECULE = new OHMinusNode().toImage();;
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );

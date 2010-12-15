@@ -1,3 +1,4 @@
+12/14/10 #2577, replace molecules images with Piccolo code to generate images, so that colors are easier to change
 12/13/10 #2611, change pH papar color to cream, add a faint gray border
 12/13/10 #2611, move color of pH paper to ABSColors
 12/13/10 #2610, increase font size of y-axis on graph (from 16 to 20 point)
