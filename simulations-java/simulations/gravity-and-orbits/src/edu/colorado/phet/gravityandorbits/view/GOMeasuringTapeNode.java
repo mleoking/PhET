@@ -1,5 +1,6 @@
 package edu.colorado.phet.gravityandorbits.view;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -19,5 +20,6 @@ public class GOMeasuringTapeNode extends MeasuringTape {
                 setVisible( visible.getValue() );
             }
         } );
+        setTapePaint( Color.lightGray );
     }
 }
