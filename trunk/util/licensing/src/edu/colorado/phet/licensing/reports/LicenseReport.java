@@ -62,10 +62,10 @@ public class LicenseReport {
 
         ArrayList<LicenseIssue> issues = new ArrayList<LicenseIssue>();
         issues.addAll( Arrays.asList( getDataIssues( trunk, project ) ) );
-        issues.addAll( Arrays.asList( getSourceIssues( project ) ) );
+        issues.addAll( Arrays.asList( getSourceIssues() ) );
         issues.addAll( Arrays.asList( getProjectDependencies( project ) ) );
-        issues.addAll( Arrays.asList( getLibraryIssues( project ) ) );
-        return (LicenseIssue[]) issues.toArray( new LicenseIssue[issues.size()] );
+        issues.addAll( Arrays.asList( getLibraryIssues() ) );
+        return issues.toArray( new LicenseIssue[issues.size()] );
     }
 
     private LicenseIssue[] getProjectDependencies( PhetProject project ) {
@@ -77,14 +77,14 @@ public class LicenseReport {
                 issues.addAll( Arrays.asList( getProjectDependencies( phetProject ) ) );
             }
         }
-        return (LicenseIssue[]) issues.toArray( new LicenseIssue[issues.size()] );
+        return issues.toArray( new LicenseIssue[issues.size()] );
     }
 
-    private LicenseIssue[] getLibraryIssues( PhetProject project ) {
+    private LicenseIssue[] getLibraryIssues() {
         return new LicenseIssue[0];
     }
 
-    private LicenseIssue[] getSourceIssues( PhetProject project ) {
+    private LicenseIssue[] getSourceIssues() {
         return new LicenseIssue[0];
     }
 

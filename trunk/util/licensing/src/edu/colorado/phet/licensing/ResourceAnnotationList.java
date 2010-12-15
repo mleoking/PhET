@@ -10,27 +10,10 @@ import java.util.ArrayList;
 public class ResourceAnnotationList {
 
     private final ArrayList<ResourceAnnotationElement> lines = new ArrayList<ResourceAnnotationElement>();
-    private final String description;
-
-    public ResourceAnnotationList( String description ) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void addResourceAnnotation( ResourceAnnotation resourceAnnotation ) {
-        lines.add( resourceAnnotation );
-    }
 
     //preserve blank lines and # comment lines
     public void addTextLine( ResourceAnnotationTextLine resourceAnnotationTextLine ) {
         lines.add( resourceAnnotationTextLine );
-    }
-
-    public void addTextLine( String text ) {
-        addTextLine( new ResourceAnnotationTextLine( text ) );
     }
 
     public void save( File file ) {
@@ -57,7 +40,7 @@ public class ResourceAnnotationList {
 
     public static ResourceAnnotationList read( File file ) {
         try {
-            ResourceAnnotationList list = new ResourceAnnotationList( "File: " + file.getAbsolutePath() );
+            ResourceAnnotationList list = new ResourceAnnotationList();
             BufferedReader bufferedReader = new BufferedReader( new FileReader( file ) );
             String line = bufferedReader.readLine();
             while ( line != null ) {
