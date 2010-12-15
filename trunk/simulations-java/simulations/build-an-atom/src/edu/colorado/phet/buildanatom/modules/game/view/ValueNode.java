@@ -98,10 +98,8 @@ public class ValueNode extends PNode {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         numberEditor.getTextField().selectAll();
-                        System.out.println("Selected all.");
                     }
                 });
-                System.out.println("Focus gained.");
             }
         } );
 
