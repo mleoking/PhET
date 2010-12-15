@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
@@ -124,7 +123,8 @@ public abstract class BodyRenderer extends PNode {
         public ImageRenderer( Body body, double viewDiameter, final String imageName ) {
             super( body );
 
-            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );
+//            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );
+            imageNode = new PImage( GravityAndOrbitsResources.getImage( imageName ) );
             addChild( imageNode );
             this.viewDiameter = viewDiameter;
             updateViewDiameter();

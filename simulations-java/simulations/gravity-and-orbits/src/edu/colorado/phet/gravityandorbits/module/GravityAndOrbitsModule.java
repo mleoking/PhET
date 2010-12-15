@@ -197,6 +197,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
+//        return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, EARTH_MASS, "Earth" );
         return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, EARTH_MASS, "Earth" );
     }
 
