@@ -352,7 +352,7 @@ public class TestMoleculeNode extends JFrame {
     }
     
     private static Paint createPaint( double diameter, Color color, Color hiliteColor ) {
-        return new RoundGradientPaint( -diameter/4, -diameter/4, hiliteColor, new Point2D.Double( diameter/4, diameter/4 ), color );
+        return new RoundGradientPaint( -diameter/6, -diameter/6, hiliteColor, new Point2D.Double( diameter/4, diameter/4 ), color );
     }
     
     public TestMoleculeNode() {
