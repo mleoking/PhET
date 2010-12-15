@@ -22,6 +22,7 @@ public class ProblemSet {
 
     private final ArrayList<Problem> problems = new ArrayList<Problem>();
     private ArrayList<ProblemType> availableProblemTypes = new ArrayList<ProblemType>();
+    private ProblemType previousProblemType = null;
     private int currentProblemIndex = 0;
 
     /**
@@ -175,8 +176,15 @@ public class ProblemSet {
             return null;
         }
 
-        // Randomly pick a problem type.
-        ProblemType problemType = availableProblemTypes.get( RAND.nextInt( availableProblemTypes.size() ) );
+        // Randomly pick a problem type, but make sure that it isn't the same
+        // as the previous problem type.
+        int index = RAND.nextInt( availableProblemTypes.size() );
+        if ( previousProblemType != null && availableProblemTypes.get( index ) == previousProblemType && availableProblemTypes.size() > 1 ) {
+            // This is the same as the previous prob type, so choose a different one.
+            index = ( index + 1 ) % availableProblemTypes.size();
+        }
+        ProblemType problemType = availableProblemTypes.get( index );
+        previousProblemType = problemType;
 
         // Remove the chosen type from the list.  By doing this, we present
         // the user with all different problem types before starting again.
@@ -200,7 +208,7 @@ public class ProblemSet {
         }
 
         AtomValue atomValue = availableAtomValues.getRandomAtomValue( minProtonCount, maxProtonCount, requireCharged );
-        availableAtomValues.removeAtomValue( atomValue );
+        availableAtomValues.markAtomAsUsed( atomValue );
         return createProblem( model, problemType, atomValue );
     }
 
@@ -325,7 +333,7 @@ public class ProblemSet {
          * @param atomValueToRemove
          * @return true if value found, false if not.
          */
-        public boolean removeAtomValue( AtomValue atomValueToRemove ){
+        public boolean markAtomAsUsed( AtomValue atomValueToRemove ){
             if ( remainingAtomValues.remove( atomValueToRemove ) ){
                 usedAtomValues.add( atomValueToRemove );
                 return true;
