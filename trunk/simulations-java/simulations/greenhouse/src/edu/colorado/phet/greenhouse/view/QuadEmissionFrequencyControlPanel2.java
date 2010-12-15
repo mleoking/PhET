@@ -27,6 +27,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -44,7 +45,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
     private static final Color BACKGROUND_COLOR = new Color( 205, 198, 115 );
     private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
     private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
-    private static final double BOTTOM_TO_ARROW_DISTANCE = 30;
+    private static final double EDGE_TO_ARROW_DISTANCE_Y = 4;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -86,7 +87,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
         ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
-        wavelengthSelectorPanelNode.setOffset( 0, 10 );
+        wavelengthSelectorPanelNode.setOffset( 0, 4 );
 
         // Create a data structure that maps the wavelengths to the x
         // positions of their selectors.  This is needed by the spectrum node
@@ -101,7 +102,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
 
         // Create the node that represents the spectrum.
         SpectrumNode spectrumNode = new SpectrumNode( (int) ( PANEL_SIZE.getWidth() * 0.9 ),
-                (int) ( PANEL_SIZE.getHeight() * 0.5 ), model, mapWavelengthToXPos );
+                (int) ( PANEL_SIZE.getHeight() * 0.45 ), model, mapWavelengthToXPos );
         spectrumNode.setOffset( PANEL_SIZE.getWidth() / 2 - spectrumNode.getFullBoundsReference().width / 2,
                 wavelengthSelectorPanelNode.getFullBoundsReference().getMaxY() );
 
@@ -118,7 +119,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
         EnergyArrow leftArrowNode = new EnergyArrow( "Lower", EnergyArrow.Direction.POINTS_LEFT );
         leftArrowNode.setOffset(
                 EDGE_TO_ARROW_DISTANCE_X,
-                PANEL_SIZE.getHeight() - leftArrowNode.getFullBoundsReference().height );
+                PANEL_SIZE.getHeight() - leftArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
         backgroundNode.addChild( leftArrowNode );
         // TODO: i18n
         EnergyArrow rightArrowNode = new EnergyArrow( "Higher", EnergyArrow.Direction.POINTS_RIGHT );
@@ -127,7 +128,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
                 PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
         rightArrowNode.setOffset(
                 backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
-                PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
+                PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
         backgroundNode.addChild( rightArrowNode );
 
         // Add everything in the needed order.
@@ -238,9 +239,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
             // opposite, so we flip it here.  Note that this makes the offset
             // go to the lower right corner, so positioning becomes a bit
             // tricky.
-            System.out.println("SIN offset 1 = " + spectrumImageNode.getOffset());
             spectrumImageNode.rotateAboutPoint( Math.PI, spectrumImageNode.getFullBoundsReference().getCenter2D() );
-            System.out.println("SIN offset 2 = " + spectrumImageNode.getOffset());
             spectrumImageNode.setOffset( spectrumImageNode.getOffset().getX(), height );
 
             addChild( spectrumImageNode );
@@ -315,15 +314,15 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
                 // Arrow points to the left.
                 headPoint = new Point2D.Double(0, 0);
                 tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
-                caption.setOffset( ARROW_HEAD_HEIGHT + 10, ARROW_TAIL_WIDTH * 2);
+                caption.setOffset( ARROW_HEAD_HEIGHT + 10, ARROW_TAIL_WIDTH * 2 + ARROW_HEAD_HEIGHT / 3 );
                 arrowXPos = 0;
             }
             else{
                 // Must point to the right.
                 headPoint = new Point2D.Double(ARROW_LENGTH, 0);
                 tailPoint = new Point2D.Double(0, 0);
-                caption.setOffset( 0, ARROW_TAIL_WIDTH * 2 );
-                arrowXPos = caption.getFullBoundsReference().width - ARROW_LENGTH + ARROW_HEAD_HEIGHT + 3;
+                caption.setOffset( 0, ARROW_TAIL_WIDTH * 2 + ARROW_HEAD_HEIGHT / 3 );
+                arrowXPos = caption.getFullBoundsReference().width - ARROW_LENGTH + ARROW_HEAD_HEIGHT + 10;
             }
             ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
                 setPaint( Color.WHITE );
