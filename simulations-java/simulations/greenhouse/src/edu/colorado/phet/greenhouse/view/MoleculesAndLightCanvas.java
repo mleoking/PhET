@@ -140,7 +140,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         myWorldNode.addChild( photonEmitterLayer );
 
         // Create the control panel for photon emission frequency.
-        PNode photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel );
+        PNode photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel2( photonAbsorptionModel );
         photonEmissionControlPanel.setOffset( 0, 500 );
 
         // Create the photon emitter.
