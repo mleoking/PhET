@@ -258,7 +258,7 @@ public class TestMoleculeNode extends JFrame {
 
             // attributes
             double diameterBig = 24;
-            double diameterMedium = 20;
+            double diameterMedium = 19;
             double diameterSmall = 14;
             Color color = ABSColors.MOH.darker();
             Color hiliteColor = Color.WHITE;
@@ -302,7 +302,7 @@ public class TestMoleculeNode extends JFrame {
             double x = 0;
             double y = 0;
             atomBig.setOffset( x, y );
-            x = atomBig.getFullBoundsReference().getCenterX() - ( 1.25 * atomMedium.getFullBoundsReference().getWidth() );
+            x = atomBig.getFullBoundsReference().getCenterX() - ( 1.2 * atomMedium.getFullBoundsReference().getWidth() );
             y = atomBig.getFullBoundsReference().getCenterY();
             atomMedium.setOffset( x, y );
             x = atomBig.getFullBoundsReference().getMaxX();
