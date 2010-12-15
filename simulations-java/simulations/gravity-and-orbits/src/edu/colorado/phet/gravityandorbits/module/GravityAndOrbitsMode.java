@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.module;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 
 import javax.swing.*;
 
@@ -39,11 +40,14 @@ public abstract class GravityAndOrbitsMode {
     private final double defaultOrbitalPeriod;
     private final double dt;
     private final double velocityScale;
+    private final Line2D.Double initialMeasuringTapeLocation;
     private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
     private final Property<Boolean> deviatedFromEarthSystemProperty = new Property<Boolean>( false );
 
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
-                                 double defaultOrbitalPeriod, final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory ) {//for determining the length of the path
+                                 double defaultOrbitalPeriod,//for determining the length of the path
+                                 final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
+                                 Line2D.Double initialMeasuringTapeLocation ) {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -51,6 +55,7 @@ public abstract class GravityAndOrbitsMode {
         this.iconImage = iconImage;
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
         this.velocityScale = velocityScale;
+        this.initialMeasuringTapeLocation = initialMeasuringTapeLocation;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -186,5 +191,9 @@ public abstract class GravityAndOrbitsMode {
 
     public Property<Boolean> getDeviatedFromEarthSystemProperty() {
         return deviatedFromEarthSystemProperty;
+    }
+
+    public Line2D.Double getInitialMeasuringTapeLocation() {
+        return initialMeasuringTapeLocation;
     }
 }
