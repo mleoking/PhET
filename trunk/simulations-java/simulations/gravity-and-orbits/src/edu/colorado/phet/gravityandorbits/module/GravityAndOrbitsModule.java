@@ -3,6 +3,7 @@
 package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +43,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private static final double EARTH_RADIUS = 6.371E6;
     public static final double EARTH_MASS = 5.9736E24;
-    private static final double EARTH_PERIHELION = 147098290E3;
+    public static final double EARTH_PERIHELION = 147098290E3;
     private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
 
     private static final double MOON_MASS = 7.3477E22;
@@ -96,6 +97,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
     private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
     public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
+    private final Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -EARTH_PERIHELION / 6, EARTH_PERIHELION, -EARTH_PERIHELION / 6 );
     private final ArrayList<GravityAndOrbitsMode> modes = new ArrayList<GravityAndOrbitsMode>() {{
         Camera camera = new Camera();
         Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
@@ -104,7 +106,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         };
         add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
-                                       createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, massReadoutFactory ) {
+                                       createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, massReadoutFactory,
+                                       initialMeasuringTapeLocationSunModes ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -122,7 +125,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
-                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, massReadoutFactory ) {
+                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, massReadoutFactory,
+                                       initialMeasuringTapeLocationSunModes ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -146,7 +150,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         } );
         add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days,
-                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, massReadoutFactory ) {
+                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, massReadoutFactory,
+                                       new Line2D.Double( EARTH_PERIHELION, -MOON_PERIGEE / 4, EARTH_PERIHELION + MOON_PERIGEE, -MOON_PERIGEE / 4 ) ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -178,7 +183,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
             }
         };
         add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes,
-                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory ) {
+                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
+                                       new Line2D.Double( EARTH_PERIHELION, -EARTH_RADIUS / 6, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, -EARTH_RADIUS / 6 ) ) {
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
 
             {

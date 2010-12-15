@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -131,11 +130,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 
-        addChild( new GOMeasuringTapeNode( new AndProperty( new IsSelectedProperty<Scale>( Scale.REAL, module.getScaleProperty() ), module.getMeasuringTapeVisibleProperty() ), new ModelViewTransform2D() ) {{
-            setOffset( 100, 100 );
+        addChild( new MeasuringTape( new AndProperty( new IsSelectedProperty<Scale>( Scale.REAL, module.getScaleProperty() ), module.getMeasuringTapeVisibleProperty() ),
+                                     new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
+                                     new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
         }} );
-
-//        new InitialConditionDialog( parentFrame, model ).setVisible( true );
     }
 
     public void addChild( PNode node ) {
