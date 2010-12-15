@@ -8,14 +8,14 @@ import java.util.ArrayList;
  * Aug 7, 2008 at 9:40:14 PM
  */
 public class ResourceAnnotationList {
-    
+
     private final ArrayList<ResourceAnnotationElement> lines = new ArrayList<ResourceAnnotationElement>();
     private final String description;
 
     public ResourceAnnotationList( String description ) {
         this.description = description;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -39,7 +39,7 @@ public class ResourceAnnotationList {
             bufferedWriter.write( toText() );
             bufferedWriter.close();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -68,10 +68,10 @@ public class ResourceAnnotationList {
             }
             return list;
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             throw new RuntimeException( e );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( e );
         }
     }
@@ -100,7 +100,7 @@ public class ResourceAnnotationList {
     public int getAnnotationCount() {
         int count = 0;
         for ( int i = 0; i < lines.size(); i++ ) {
-            ResourceAnnotationElement resourceAnnotationElement = (ResourceAnnotationElement) lines.get( i );
+            ResourceAnnotationElement resourceAnnotationElement = lines.get( i );
             if ( resourceAnnotationElement instanceof ResourceAnnotation ) {
                 count++;
             }
@@ -111,14 +111,12 @@ public class ResourceAnnotationList {
     public ResourceAnnotation getEntry( String name ) {
         ArrayList<ResourceAnnotationElement> elements = new ArrayList<ResourceAnnotationElement>();
         for ( int i = 0; i < lines.size(); i++ ) {
-            ResourceAnnotationElement element = (ResourceAnnotationElement) lines.get( i );
+            ResourceAnnotationElement element = lines.get( i );
             if ( element instanceof ResourceAnnotation && ( (ResourceAnnotation) element ).getName().equals( name ) ) {
                 elements.add( element );
             }
         }
         if ( elements.size() == 0 ) {
-//            throw new RuntimeException( "Element not found for name=" + name + ", resourceList=" + toText() );
-//            new RuntimeException( "Element not found for name=" + name +" in "+description).printStackTrace(  );
             ResourceAnnotation annotation = new ResourceAnnotation( name );
             annotation.setSource( "NOT_ANNOTATED" );
             return annotation;

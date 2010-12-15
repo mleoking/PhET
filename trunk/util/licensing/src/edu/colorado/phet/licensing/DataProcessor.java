@@ -33,14 +33,14 @@ public class DataProcessor {
         for ( int i = 0; f!=null && i < f.length; i++ ) {
             File file = f[i];
             if ( file.isDirectory() ) {
-                if ( !ignoreDirectory( phetProject, file ) ) {
+                if ( !ignoreDirectory( file ) ) {
                     AnnotatedFile[] annotatedFile = visitDirectory( phetProject, file );
                     annotatedFiles.addAll( Arrays.asList( annotatedFile ) );
                 }
             }
             else {
                 if ( !ignoreFile( phetProject, file ) ) {
-                    ResourceAnnotation annotatedFile = visitFile( phetProject, resourceAnnotationList, file );
+                    ResourceAnnotation annotatedFile = visitFile( resourceAnnotationList, file );
                     annotatedFiles.add( new AnnotatedFile( file, annotatedFile ) );
                 }
             }
@@ -52,10 +52,10 @@ public class DataProcessor {
                 System.out.println( resourceAnnotationList.toText() );
             }
         }
-        return (AnnotatedFile[]) annotatedFiles.toArray( new AnnotatedFile[annotatedFiles.size()] );
+        return annotatedFiles.toArray( new AnnotatedFile[annotatedFiles.size()] );
     }
 
-    protected ResourceAnnotation visitFile( PhetProject phetProject, ResourceAnnotationList resourceAnnotationList, File file ) {
+    protected ResourceAnnotation visitFile( ResourceAnnotationList resourceAnnotationList, File file ) {
         return resourceAnnotationList.getEntry( file.getName() );
     }
 
@@ -63,7 +63,7 @@ public class DataProcessor {
         return file.getName().equals( project.getName() + ".properties" ) || file.getName().equalsIgnoreCase( "license.txt" ) || file.getName().equalsIgnoreCase( "license-orig.txt" ) || file.getName().equalsIgnoreCase( "sun-license.txt" );
     }
 
-    private boolean ignoreDirectory( PhetProject project, File dir ) {
+    private boolean ignoreDirectory( File dir ) {
         return dir.getName().equalsIgnoreCase( ".svn" ) || dir.getName().equalsIgnoreCase( "localization" );
     }
 }
