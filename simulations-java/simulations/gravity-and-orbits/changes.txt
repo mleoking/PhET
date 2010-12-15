@@ -1,3 +1,4 @@
+Fixed: Control panel doesn't fit in the stage
 Converted overrides to constructor args in modes
 Added measuring tape to all modes when in real scale
 Fixed: Earth System button should be disabled when the user hasn't changed any conditions
