@@ -1,3 +1,4 @@
+# 0.0.08 (47194) Dec 15, 2010
 Switched to satellite image for earth for testing
 # 0.0.07 (47192) Dec 15, 2010
 Fixed: Control panel doesn't fit in the stage
