@@ -43,7 +43,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
 
     private static final Color BACKGROUND_COLOR = new Color( 205, 198, 115 );
     private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
-    private static final double EDGE_TO_ARROW_DISTANCE = 20;
+    private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
     private static final double BOTTOM_TO_ARROW_DISTANCE = 30;
 
     // ------------------------------------------------------------------------
@@ -107,24 +107,27 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
 
         // Add the caption.
         // TODO: i18n
-        PText title = new PText("Photon Energy"){{
-            setFont( new PhetFont( 33 ) );
-            setOffset( PANEL_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2, PANEL_SIZE.getHeight() - 10 );
-        }};
+        PText title = new PText("Photon Energy");
+        title.setFont( new PhetFont( 28 ) );
+        title.setOffset( PANEL_SIZE.getWidth() / 2 - title.getFullBoundsReference().width / 2,
+                PANEL_SIZE.getHeight() - title.getFullBoundsReference().height - 5 );
         backgroundNode.addChild( title );
 
         // Add the arrows on the right and left sides.
         // TODO: i18n
         EnergyArrow leftArrowNode = new EnergyArrow( "Lower", EnergyArrow.Direction.POINTS_LEFT );
         leftArrowNode.setOffset(
-                EDGE_TO_ARROW_DISTANCE,
-                PANEL_SIZE.getHeight() - BOTTOM_TO_ARROW_DISTANCE - leftArrowNode.getFullBoundsReference().height );
+                EDGE_TO_ARROW_DISTANCE_X,
+                PANEL_SIZE.getHeight() - leftArrowNode.getFullBoundsReference().height );
         backgroundNode.addChild( leftArrowNode );
         // TODO: i18n
         EnergyArrow rightArrowNode = new EnergyArrow( "Higher", EnergyArrow.Direction.POINTS_RIGHT );
         rightArrowNode.setOffset(
-                backgroundNode.getFullBoundsReference().width - getFullBoundsReference().getMaxX() - EDGE_TO_ARROW_DISTANCE,
-                PANEL_SIZE.getHeight() - BOTTOM_TO_ARROW_DISTANCE - rightArrowNode.getFullBoundsReference().height );
+                backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
+                PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
+        rightArrowNode.setOffset(
+                backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
+                PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
         backgroundNode.addChild( rightArrowNode );
 
         // Add everything in the needed order.
@@ -232,9 +235,13 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
 
             // The spectrum image factory creates a spectrum by default that
             // is oriented from short to long wavelengths, and we need the
-            // opposite, so we flip it here.
+            // opposite, so we flip it here.  Note that this makes the offset
+            // go to the lower right corner, so positioning becomes a bit
+            // tricky.
+            System.out.println("SIN offset 1 = " + spectrumImageNode.getOffset());
             spectrumImageNode.rotateAboutPoint( Math.PI, spectrumImageNode.getFullBoundsReference().getCenter2D() );
-            spectrumImageNode.setOffset( 0, height - (spectrumImageNode.getFullBoundsReference().height) );
+            System.out.println("SIN offset 2 = " + spectrumImageNode.getOffset());
+            spectrumImageNode.setOffset( spectrumImageNode.getOffset().getX(), height );
 
             addChild( spectrumImageNode );
             addChild( markerNode );
@@ -303,23 +310,34 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
             addChild( caption );
 
             Point2D headPoint, tailPoint;
+            double arrowXPos;
             if ( direction == Direction.POINTS_LEFT ){
                 // Arrow points to the left.
                 headPoint = new Point2D.Double(0, 0);
                 tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
-                caption.setOffset( ARROW_HEAD_HEIGHT + 10, ARROW_TAIL_WIDTH );
+                caption.setOffset( ARROW_HEAD_HEIGHT + 10, ARROW_TAIL_WIDTH * 2);
+                arrowXPos = 0;
             }
             else{
                 // Must point to the right.
                 headPoint = new Point2D.Double(ARROW_LENGTH, 0);
                 tailPoint = new Point2D.Double(0, 0);
-                caption.setOffset( headPoint.getX() - ARROW_HEAD_HEIGHT - caption.getFullBoundsReference().width - 10,
-                        ARROW_TAIL_WIDTH );
+                caption.setOffset( 0, ARROW_TAIL_WIDTH * 2 );
+                arrowXPos = caption.getFullBoundsReference().width - ARROW_LENGTH + ARROW_HEAD_HEIGHT + 3;
             }
             ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
                 setPaint( Color.WHITE );
                 setStroke( new BasicStroke( 3 ) );
             }};
+
+            // ArrowNodes, by default, are set up such that the left center of
+            // the arrow is at (0, 0).  This makes it hard to position this
+            // node in this particular application, so here it is shifted such
+            // that the upper left corner of its full bounds becomes the (0,0)
+            // point for this composite node.
+            arrowNode.setOffset( arrowXPos, arrowNode.getHeight() / 2 );
+
+            // Add the arrow node as a child.
             addChild( arrowNode );
         }
     }
