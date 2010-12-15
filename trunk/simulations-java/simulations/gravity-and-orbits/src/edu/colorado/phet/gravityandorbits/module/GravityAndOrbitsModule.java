@@ -124,7 +124,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                                               false,//no room for the slider
-                                              getMaxPathLength(), 17, 1000, 25, 1,
+                                              getMaxPathLength(), 17, 1000, 25,
                                               false );//so it doesn't intersect with earth mass readout
                 addBody( moon );
             }
@@ -144,7 +144,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                                       650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
 
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1, 1, true ) );
+                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1, true ) );
             }
         } );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
@@ -171,7 +171,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, createSun( 0 ).createRenderer( 30 ), sun );
                 addIcon( inset, createPlanet( null, 0, 0, 0, 650 ).createRenderer( 25 ), earth );
-                addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000, 1, 1, true ).createRenderer( 20 ), moon );
+                addIcon( inset, createMoon( null, 0, 0, true, 0, 17, 1000, 1, true ).createRenderer( 20 ), moon );
                 addIcon( inset, createSpaceStation( null, 0 ).createRenderer( 30 ), spaceStation );
             }
 
@@ -191,7 +191,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor, double cartoonForceVectorScale,
-                             double cartoonVelocityScale, final boolean massReadoutBelow ) {
+                             final boolean massReadoutBelow ) {
         return new Body( earth, "Moon", MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale, massReadoutBelow, MOON_MASS, "Our Moon" );
     }

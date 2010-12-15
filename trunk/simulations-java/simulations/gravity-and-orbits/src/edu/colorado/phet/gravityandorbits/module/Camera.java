@@ -77,10 +77,6 @@ public class Camera {
         }
     }
 
-    public void reset() {
-        modelViewTransformProperty.reset();
-    }
-
     public Property<ModelViewTransform> getModelViewTransformProperty() {
         return modelViewTransformProperty;
     }

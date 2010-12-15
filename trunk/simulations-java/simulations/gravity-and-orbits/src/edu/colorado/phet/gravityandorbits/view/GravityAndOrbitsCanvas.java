@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.gravityandorbits.GravityAndOrbitsConstants;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -44,7 +43,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         super( GravityAndOrbitsDefaults.VIEW_SIZE );
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        setBackground( GravityAndOrbitsConstants.CANVAS_BACKGROUND );
+        setBackground( Color.black );
 
         // Root of our scene graph
         _rootNode = new PNode();
@@ -89,7 +88,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
 
         // Control Panel
-        final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model, mode );
+        final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo
             final PSwing controlPanelPSwing = new PSwing( controlPanel );
             addChild( controlPanelPSwing );

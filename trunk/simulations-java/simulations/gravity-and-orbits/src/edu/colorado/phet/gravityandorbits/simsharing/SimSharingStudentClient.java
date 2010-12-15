@@ -26,11 +26,9 @@ public class SimSharingStudentClient {
 
     public SimSharingStudentClient( final GravityAndOrbitsApplication application, final JFrame parentFrame ) throws AWTException, IOException {
         this.application = application;
-        final Robot robot = new Robot();
         final JFrame displayFrame = new JFrame();
         final JLabel contentPane = new JLabel();
         displayFrame.setContentPane( contentPane );
-        final boolean[] firstTime = { true };
         Socket socket = new Socket( SimSharingServer.HOST, SimSharingServer.STUDENT_PORT );
         objectOutputStream = new ObjectOutputStream( new BufferedOutputStream( socket.getOutputStream() ) );
 //        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
