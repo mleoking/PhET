@@ -141,7 +141,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
      */
     private static class WavelengthSelectButton extends JRadioButton {
 
-        private static final Font LABEL_FONT  = new PhetFont( 20 );
+        private static final Font LABEL_FONT  = new PhetFont( 26 );
 
         public WavelengthSelectButton( String text, final PhotonAbsorptionModel model, final double wavelength ){
             setFont( LABEL_FONT );
