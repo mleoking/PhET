@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_fa.xml created Mon Nov 09 11:35:42 IRST 2009 using: pendulum-lab 2.00.00 (30671), translation-utility 2.03.00 (36202) Oct 29, 2009-->
+<!--pendulum-lab-strings_fa.xml created Tue Dec 14 16:53:10 IRST 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.09.00 (44031) Sep 14, 2010-->
 <SimStrings>
 <string key="resetStopwatch" value="به حالت اولیه برگردان"/>
 <string key="earth" value="زمین"/>
@@ -11,7 +11,7 @@
 <string key="velocity" value="سرعت"/>
 <string key="realTime" value="زمان واقعی"/>
 <string key="length" value="طول"/>
-<string key="lots" value="خیلی زیاد"/>
+<string key="lots" value="زیادتر"/>
 <string key="friction" value="اصطکاک"/>
 <string key="showSecondPendulum" value="دومین آونگ را نشان بده"/>
 <string key="start" value="شروع"/>
@@ -28,7 +28,7 @@
 <string key="startPauseStopwatch" value="شروع/توقف"/>
 <string key="show" value="نشان بده"/>
 <string key="length2" value="طول2:"/>
-<string key="photoGateTimer" value="زمان سنج"/>
+<string key="photoGateTimer" value="زمانسنج"/>
 <string key="thermal" value="گرمایی"/>
 <string key="pausePlay" value="توقف/شروع"/>
 <string key="reset" value="به حالت اولیه برگردان"/>
@@ -38,6 +38,7 @@
 <string key="gEqZero" value="g=0"/>
 <string key="length_unit" value="m"/>
 <string key="noneEnergy" value="بدون "/>
+<string key="simTitle" value="آزمایشگاه آونگ"/>
 <string key="otherTools" value="ابزارهای دیگر"/>
 <string key="angleUnit" value="درجه"/>
 <string key="paused" value="متوقف شد"/>
