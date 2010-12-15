@@ -101,12 +101,6 @@ public class SimInfo {
 
     public static boolean hideEntry( ResourceAnnotation entry ) {
         return getDefaultHideEntryRule( entry );
-//        return getMSReportHideEntry( entry );
-    }
-
-    private static boolean getMSReportHideEntry( ResourceAnnotation entry ) {
-        boolean MS = entry.getSource() != null && entry.getSource().toLowerCase().startsWith( "microsoft" );
-        return !MS;
     }
 
     public static boolean getDefaultHideEntryRule( ResourceAnnotation entry ) {
@@ -125,7 +119,7 @@ public class SimInfo {
                 list.add( resource );
             }
         }
-        return (AnnotatedFile[]) list.toArray( new AnnotatedFile[list.size()] );
+        return list.toArray( new AnnotatedFile[list.size()] );
     }
 
     private LicenseInfo[] getIssues( LicenseInfo[] licenseInfo ) {
@@ -136,7 +130,7 @@ public class SimInfo {
                 list.add( resource );
             }
         }
-        return (LicenseInfo[]) list.toArray( new LicenseInfo[list.size()] );
+        return list.toArray( new LicenseInfo[list.size()] );
     }
 
     public String getHTMLBody() {

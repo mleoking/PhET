@@ -23,6 +23,7 @@ public class PhetRuleSet extends AbstractRuleSet {
                 new NameEndsWith( ".html" ),
                 new NameEndsWith( ".properties" ),
                 new NameEndsWith( ".txt" ),
+                new NameEndsWith( ".csv" ),
 
                 //suppress reporting duplicates
                 new LicenseStartsWith( "same as" ),
@@ -42,7 +43,9 @@ public class PhetRuleSet extends AbstractRuleSet {
                 new LicenseStartsWith( "Common Public License" ),
                 new LicenseStartsWith( "LGPL" ),
                 new LicenseStartsWith( "zlib/libpng license" ),
+                new LicenseStartsWith( "Scala License (BSD-Style)" ),
 
+                //allowed clip art sources
                 new SourceStartsWith( "microsoft" ),//microsoft clip art approved for usage, see Unfuddle #1059
                 new SourceStartsWith( "clker.com" ),//open source clip art site, see #1080
                 new SourceStartsWith( "java" )//see http://java.sun.com/developer/techDocs/hi/repository/
