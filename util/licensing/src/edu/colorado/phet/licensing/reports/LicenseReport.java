@@ -5,19 +5,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.LicenseIssue;
+import edu.colorado.phet.licensing.LicenseIssue.DataFileLicenseIssue;
 import edu.colorado.phet.licensing.SimInfo;
 import edu.colorado.phet.licensing.TrunkDirectory;
-import edu.colorado.phet.licensing.LicenseIssue.DataFileLicenseIssue;
 
 public class LicenseReport {
-    
+
     // intended to be called via main
-    private LicenseReport() {}
-    
+    private LicenseReport() {
+    }
+
     public static void main( String[] args ) {
         if ( args.length != 1 ) {
             System.out.println( "usage: " + LicenseReport.class.getName() + " absolute_path_to_trunk" );
@@ -98,7 +98,7 @@ public class LicenseReport {
             }
             return out;
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return new LicenseIssue[0];
         }

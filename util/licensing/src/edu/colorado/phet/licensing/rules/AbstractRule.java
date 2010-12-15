@@ -4,17 +4,17 @@ import edu.colorado.phet.buildtools.util.LicenseInfo;
 import edu.colorado.phet.licensing.ResourceAnnotation;
 
 public abstract class AbstractRule {
-    
+
     private final String pattern;
 
     public AbstractRule( String pattern ) {
         this.pattern = pattern;
     }
-    
+
     protected String getPattern() {
         return pattern;
     }
-    
+
     /**
      * True if s starts with this rule's pattern.
      * Comparison is case insensitive.
@@ -26,7 +26,7 @@ public abstract class AbstractRule {
         }
         return match;
     }
-    
+
     /**
      * True if s ends with this rule's pattern.
      * Comparison is case insensitive.

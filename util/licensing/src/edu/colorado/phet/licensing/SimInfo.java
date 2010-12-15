@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
 import edu.colorado.phet.licensing.rules.PhetRuleSet;
 

@@ -6,11 +6,11 @@ import edu.colorado.phet.licensing.ResourceAnnotation;
 
 /**
  * Base class for rule sets.
- * 
+ *
  * @author Sam Reid
  */
 public class AbstractRuleSet {
-    
+
     private final AbstractRule[] rule;
 
     public AbstractRuleSet( AbstractRule[] rule ) {

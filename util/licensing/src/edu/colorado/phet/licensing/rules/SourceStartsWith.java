@@ -7,7 +7,7 @@ import edu.colorado.phet.licensing.ResourceAnnotation;
  * Rule stating that the "source" annotation must start with a specified string.
  */
 public class SourceStartsWith extends AbstractRule {
-    
+
     public SourceStartsWith( String pattern ) {
         super( pattern );
     }
