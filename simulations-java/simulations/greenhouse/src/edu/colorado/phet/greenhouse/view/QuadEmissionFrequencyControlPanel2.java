@@ -111,7 +111,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
         PText title = new PText("Photon Energy");
         title.setFont( new PhetFont( 28 ) );
         title.setOffset( PANEL_SIZE.getWidth() / 2 - title.getFullBoundsReference().width / 2,
-                PANEL_SIZE.getHeight() - title.getFullBoundsReference().height - 5 );
+                PANEL_SIZE.getHeight() - title.getFullBoundsReference().height - 15 );
         backgroundNode.addChild( title );
 
         // Add the arrows on the right and left sides.
