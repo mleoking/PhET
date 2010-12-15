@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
@@ -361,6 +362,30 @@ public class Body {
 
     public String getTickLabel() {
         return tickLabel;
+    }
+
+    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();
+
+    public void addUserModifiedPositionListener( VoidFunction0 listener ) {
+        userModifiedPositionListeners.add( listener );
+    }
+
+    public void notifyUserModifiedPosition() {
+        for ( VoidFunction0 listener : userModifiedPositionListeners ) {
+            listener.apply();
+        }
+    }
+
+    private ArrayList<VoidFunction0> userModifiedVelocityListeners = new ArrayList<VoidFunction0>();
+
+    public void addUserModifiedVelocityListener( VoidFunction0 listener ) {
+        userModifiedVelocityListeners.add( listener );
+    }
+
+    public void notifyUserModifiedVelocity() {
+        for ( VoidFunction0 listener : userModifiedVelocityListeners ) {
+            listener.apply();
+        }
     }
 
     public static class PathPoint {

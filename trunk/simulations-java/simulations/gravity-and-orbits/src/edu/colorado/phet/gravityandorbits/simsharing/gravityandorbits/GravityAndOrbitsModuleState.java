@@ -12,7 +12,6 @@ public class GravityAndOrbitsModuleState implements Serializable {
     private boolean showPaths = false;
     private boolean showVelocity = false;
     private boolean showMass = false;
-    private boolean moonProperty = false;
     private GravityAndOrbitsModelState modelState;
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
@@ -20,7 +19,6 @@ public class GravityAndOrbitsModuleState implements Serializable {
         showPaths = module.getShowPathProperty().getValue();
         showVelocity = module.getShowVelocityProperty().getValue();
         showMass = module.getShowMassProperty().getValue();
-        moonProperty = module.getModeProperty().getValue().getMoonProperty().getValue();//TODO: store all mode states
 
         modelState = new GravityAndOrbitsModelState( module.getModeProperty().getValue().getModel() );
     }
@@ -30,8 +28,6 @@ public class GravityAndOrbitsModuleState implements Serializable {
         gravityAndOrbitsModule.getShowPathProperty().setValue( showPaths );
         gravityAndOrbitsModule.getShowVelocityProperty().setValue( showVelocity );
         gravityAndOrbitsModule.getShowMassProperty().setValue( showMass );
-        gravityAndOrbitsModule.getModeProperty().getValue().getMoonProperty().setValue( moonProperty );
-
         modelState.apply( gravityAndOrbitsModule.getModeProperty().getValue().getModel() );
     }
 }

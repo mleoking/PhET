@@ -1,20 +1,17 @@
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
@@ -33,19 +30,17 @@ import edu.umd.cs.piccolo.PNode;
 public abstract class GravityAndOrbitsMode {
     private final String name;
     private final GravityAndOrbitsModel model;
-    private final Property<Boolean> moonProperty = new Property<Boolean>( false );
     private GravityAndOrbitsCanvas canvas;
     private final double forceScale;
     private final Camera camera;
     private final Property<Boolean> active;
-    private final ArrayList<SimpleObserver> modeActiveListeners = new ArrayList<SimpleObserver>();
-    //    private final Property<Boolean> clockRunningProperty;
     private final Function1<Double, String> timeFormatter;
     private final Image iconImage;
     private final double defaultOrbitalPeriod;
     private final double dt;
     private final double velocityScale;
     private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
+    private final Property<Boolean> deviatedFromEarthSystemProperty = new Property<Boolean>( false );
 
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod, final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory ) {//for determining the length of the path
@@ -59,18 +54,7 @@ public abstract class GravityAndOrbitsMode {
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
-
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ) );
-
-        getMoonProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                if ( getMoonProperty().getValue() ) {
-                    for ( Body body : model.getBodies() ) {
-                        body.resetAll();
-                    }
-                }
-            }
-        } );
 
         SimpleObserver updateClockRunning = new SimpleObserver() {
             public void update() {
@@ -96,6 +80,19 @@ public abstract class GravityAndOrbitsMode {
 
     public void addBody( Body body ) {
         model.addBody( body );
+        final SimpleObserver updater = new SimpleObserver() {
+            public void update() {
+                deviatedFromEarthSystemProperty.setValue( true );
+            }
+        };
+        body.getMassProperty().addObserver( updater, false );
+        final VoidFunction0 update = new VoidFunction0() {
+            public void apply() {
+                updater.update();
+            }
+        };
+        body.addUserModifiedPositionListener( update );
+        body.addUserModifiedVelocityListener( update );
     }
 
     public String getName() {
@@ -108,14 +105,8 @@ public abstract class GravityAndOrbitsMode {
 
     public void reset() {
         model.getClock().resetSimulationTime();// reset the clock
-//        model.getClock().setPaused( true );
-//        clockRunningProperty.reset();
-        moonProperty.reset();
         model.resetAll();
-    }
-
-    public Property<Boolean> getMoonProperty() {
-        return moonProperty;
+        deviatedFromEarthSystemProperty.reset();
     }
 
     public void setRunning( boolean running ) {
@@ -182,6 +173,7 @@ public abstract class GravityAndOrbitsMode {
 
     public void resetBodies() {
         model.resetBodies();
+        deviatedFromEarthSystemProperty.setValue( false );
     }
 
     public double getVelocityScale() {
@@ -190,5 +182,9 @@ public abstract class GravityAndOrbitsMode {
 
     public Function2<BodyNode, Property<Boolean>, PNode> getMassReadoutFactory() {
         return massReadoutFactory;
+    }
+
+    public Property<Boolean> getDeviatedFromEarthSystemProperty() {
+        return deviatedFromEarthSystemProperty;
     }
 }
