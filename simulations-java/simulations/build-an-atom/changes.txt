@@ -1,3 +1,5 @@
+Removed debug printouts.
+Fixed issue where it was possible in some cases to get the same problem type twice in a row.
 # 1.00.17 (47152) Dec 14, 2010
 12/14/10 Implemented changes requested in recent chem group meeting.  This is a release candidate for first production version with game.
 Made all game problems that are non-schematic use atoms that are heavier than lithium.
