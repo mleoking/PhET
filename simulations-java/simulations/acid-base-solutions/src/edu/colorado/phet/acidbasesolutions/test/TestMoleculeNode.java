@@ -38,19 +38,19 @@ public class TestMoleculeNode extends JFrame {
         public AMinusNode() {
 
             // attributes
-            double diameterB = 25;
+            double diameter = 25;
             Color color = ABSColors.A_MINUS.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
 
             // atoms
-            SphericalNode atomB = new SphericalNode( diameterB, createPaint( diameterB, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atom = new SphericalNode( diameter, createPaint( diameter, color, hiliteColor ), stroke, strokeColor, false );
 
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomB );
+            parentNode.addChild( atom );
 
             // layout
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
@@ -62,19 +62,19 @@ public class TestMoleculeNode extends JFrame {
         public BNode() {
             
             // attributes
-            double diameterB = 25;
+            double diameter = 25;
             Color color = ABSColors.B.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
             
             // atoms
-            SphericalNode atomB = new SphericalNode( diameterB, createPaint( diameterB, color, hiliteColor ), stroke, strokeColor, false ); 
+            SphericalNode atom = new SphericalNode( diameter, createPaint( diameter, color, hiliteColor ), stroke, strokeColor, false ); 
             
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomB );
+            parentNode.addChild( atom );
             
             // layout
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
@@ -86,30 +86,30 @@ public class TestMoleculeNode extends JFrame {
         public BHPlusNode() {
             
             // attributes
-            double diameterH = 25;
-            double diameterB = 14;
+            double diameterBig = 25;
+            double diameterSmall = 14;
             Color color = ABSColors.BH_PLUS.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
 
             // atom nodes
-            SphericalNode atomH = new SphericalNode( diameterH, createPaint( diameterH, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomB = new SphericalNode( diameterB, createPaint( diameterB, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomBig = new SphericalNode( diameterBig, createPaint( diameterBig, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmall = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
 
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomB );
-            parentNode.addChild( atomH );
+            parentNode.addChild( atomSmall );
+            parentNode.addChild( atomBig );
 
             // layout
             double x = 0;
             double y = 0;
-            atomH.setOffset( x, y );
-            x = atomH.getFullBoundsReference().getMinX() + ( 0.25 * atomB.getFullBoundsReference().getWidth() );
-            y = atomH.getFullBoundsReference().getCenterX() - ( 0.75 * atomB.getFullBoundsReference().getHeight() );
-            atomB.setOffset( x, y );
+            atomBig.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMinX() + ( 0.25 * atomSmall.getFullBoundsReference().getWidth() );
+            y = atomBig.getFullBoundsReference().getCenterX() - ( 0.75 * atomSmall.getFullBoundsReference().getHeight() );
+            atomSmall.setOffset( x, y );
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
         }
     }
@@ -119,35 +119,35 @@ public class TestMoleculeNode extends JFrame {
         public H2ONode() {
 
             // attributes
-            double diameterH = 25;
-            double diameterO = 14;
+            double diameterBig = 25;
+            double diameterSmall = 14;
             Color color = ABSColors.H2O.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
 
             // atom nodes
-            SphericalNode atomH = new SphericalNode( diameterH, createPaint( diameterH, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomO1 = new SphericalNode( diameterO, createPaint( diameterO, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomO2 = new SphericalNode( diameterO, createPaint( diameterO, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomBig = new SphericalNode( diameterBig, createPaint( diameterBig, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmallTop = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmallBottom = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
 
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomO1 );
-            parentNode.addChild( atomH );
-            parentNode.addChild( atomO2 );
+            parentNode.addChild( atomSmallTop );
+            parentNode.addChild( atomBig );
+            parentNode.addChild( atomSmallBottom );
 
             // layout
             double x = 0;
             double y = 0;
-            atomH.setOffset( x, y );
-            x = atomH.getXOffset();
-            y = atomH.getFullBoundsReference().getMinY() - ( 0.25 * atomO1.getFullBoundsReference().getHeight() );
-            atomO1.setOffset( x, y );
-            x = atomH.getFullBoundsReference().getMinX();
-            y = atomH.getFullBoundsReference().getMaxY() - ( 0.25 * atomH.getFullBoundsReference().getHeight() );
-            atomO2.setOffset( x, y );
+            atomBig.setOffset( x, y );
+            x = atomBig.getXOffset();
+            y = atomBig.getFullBoundsReference().getMinY() - ( 0.25 * atomSmallTop.getFullBoundsReference().getHeight() );
+            atomSmallTop.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMinX();
+            y = atomBig.getFullBoundsReference().getMaxY() - ( 0.25 * atomBig.getFullBoundsReference().getHeight() );
+            atomSmallBottom.setOffset( x, y );
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
         }
     }
@@ -157,40 +157,40 @@ public class TestMoleculeNode extends JFrame {
         public H3OPlusNode() {
             
             // attributes
-            double diameterO = 25;
-            double diameterH = 14;
+            double diameterBig = 25;
+            double diameterSmall = 14;
             Color color = ABSColors.H3O_PLUS.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
 
             // atom nodes
-            SphericalNode atomO = new SphericalNode( diameterO, createPaint( diameterO, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomH1 = new SphericalNode( diameterH, createPaint( diameterH, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomH2 = new SphericalNode( diameterH, createPaint( diameterH, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomH3 = new SphericalNode( diameterH, createPaint( diameterH, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomBig = new SphericalNode( diameterBig, createPaint( diameterBig, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmallLeft = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmallTopRight = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmallBottomRight = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
 
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomH2 );
-            parentNode.addChild( atomH3 );
-            parentNode.addChild( atomO );
-            parentNode.addChild( atomH1 );
+            parentNode.addChild( atomSmallTopRight );
+            parentNode.addChild( atomSmallBottomRight );
+            parentNode.addChild( atomBig );
+            parentNode.addChild( atomSmallLeft );
 
             // layout
             double x = 0;
             double y = 0;
-            atomO.setOffset( x, y );
-            x = atomO.getFullBoundsReference().getMinX();
-            y = atomO.getFullBoundsReference().getCenterX();
-            atomH1.setOffset( x, y );
-            x = atomO.getFullBoundsReference().getMaxX() - ( 0.5 * atomH2.getFullBoundsReference().getWidth() );
-            y = atomO.getFullBoundsReference().getMinY();
-            atomH2.setOffset( x, y );
-            x = atomO.getFullBoundsReference().getMaxX() - ( 0.5 * atomH3.getFullBoundsReference().getWidth() );
-            y = atomO.getFullBoundsReference().getMaxY();
-            atomH3.setOffset( x, y );
+            atomBig.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMinX();
+            y = atomBig.getFullBoundsReference().getCenterX();
+            atomSmallLeft.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMaxX() - ( 0.5 * atomSmallTopRight.getFullBoundsReference().getWidth() );
+            y = atomBig.getFullBoundsReference().getMinY();
+            atomSmallTopRight.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMaxX() - ( 0.5 * atomSmallBottomRight.getFullBoundsReference().getWidth() );
+            y = atomBig.getFullBoundsReference().getMaxY();
+            atomSmallBottomRight.setOffset( x, y );
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
         }
     }
@@ -200,52 +200,52 @@ public class TestMoleculeNode extends JFrame {
         public HANode() {
             
             // attributes
-            double diameterH = 25;
-            double diameterA = 14;
+            double diameterBig = 25;
+            double diameterSmall = 14;
             Color color = ABSColors.HA.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
 
             // atom nodes
-            SphericalNode atomH = new SphericalNode( diameterH, createPaint( diameterH, color, hiliteColor ), stroke, strokeColor, false );
-            SphericalNode atomA = new SphericalNode( diameterA, createPaint( diameterA, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomBig = new SphericalNode( diameterBig, createPaint( diameterBig, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmall = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
 
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomH );
-            parentNode.addChild( atomA );
+            parentNode.addChild( atomBig );
+            parentNode.addChild( atomSmall );
 
             // layout
             double x = 0;
             double y = 0;
-            atomH.setOffset( x, y );
-            x = atomH.getFullBoundsReference().getMinX();
-            y = atomH.getFullBoundsReference().getCenterX() - ( 0.15 * atomA.getFullBoundsReference().getHeight() );
-            atomA.setOffset( x, y );
+            atomBig.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMinX();
+            y = atomBig.getFullBoundsReference().getCenterX() - ( 0.15 * atomSmall.getFullBoundsReference().getHeight() );
+            atomSmall.setOffset( x, y );
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
         }
-    }  
+    }
     
-    private static class OHMinusNode extends PComposite {
-        
-        public OHMinusNode() {
+    private static class MPlusNode extends PComposite {
+
+        public MPlusNode() {
             
             // attributes
-            double diameterB = 25;
-            Color color = ABSColors.OH_MINUS.darker();
+            double diameter = 22;
+            Color color = ABSColors.M_PLUS.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
             
             // atoms
-            SphericalNode atomB = new SphericalNode( diameterB, createPaint( diameterB, color, hiliteColor ), stroke, strokeColor, false ); 
+            SphericalNode atom = new SphericalNode( diameter, createPaint( diameter, color, hiliteColor ), stroke, strokeColor, false ); 
             
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomB );
+            parentNode.addChild( atom );
             
             // layout
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
@@ -318,26 +318,35 @@ public class TestMoleculeNode extends JFrame {
         }
     }
     
-    private static class MPlusNode extends PComposite {
-
-        public MPlusNode() {
+    private static class OHMinusNode extends PComposite {
+        
+        public OHMinusNode() {
             
             // attributes
-            double diameterM = 22;
-            Color color = ABSColors.M_PLUS.darker();
+            double diameterBig = 25;
+            double diameterSmall = 14;
+            Color color = ABSColors.OH_MINUS.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
             Color strokeColor = color.darker();
-            
-            // atoms
-            SphericalNode atomB = new SphericalNode( diameterM, createPaint( diameterM, color, hiliteColor ), stroke, strokeColor, false ); 
+
+            // atom nodes
+            SphericalNode atomBig = new SphericalNode( diameterBig, createPaint( diameterBig, color, hiliteColor ), stroke, strokeColor, false );
+            SphericalNode atomSmall = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
             
             // rendering order
             PComposite parentNode = new PComposite();
             addChild( parentNode );
-            parentNode.addChild( atomB );
-            
+            parentNode.addChild( atomBig );
+            parentNode.addChild( atomSmall );
+
             // layout
+            double x = 0;
+            double y = 0;
+            atomBig.setOffset( x, y );
+            x = atomBig.getFullBoundsReference().getMaxX();
+            y = atomBig.getFullBoundsReference().getCenterY() - ( 0.45 * atomSmall.getFullBoundsReference().getHeight() );
+            atomSmall.setOffset( x, y );
             parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
         }
     }
@@ -349,11 +358,15 @@ public class TestMoleculeNode extends JFrame {
     public TestMoleculeNode() {
         
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 300, 800 ) );
+        canvas.setPreferredSize( new Dimension( 650, 600 ) );
         
-        double x = 50;
-        double y = 10;
-        double deltaY = 100;
+        final double xStart = 50;
+        final double yStart = 50;
+        final double deltaX = 300;
+        final double deltaY = 100;
+        
+        double x = xStart;
+        double y = yStart;
         
         addNodes( canvas, ABSSymbols.A_MINUS, new AMinusNode(), ABSImages.A_MINUS_MOLECULE, x, y );
         y += deltaY;
@@ -362,7 +375,10 @@ public class TestMoleculeNode extends JFrame {
         addNodes( canvas, ABSSymbols.BH_PLUS, new BHPlusNode(), ABSImages.BH_PLUS_MOLECULE, x, y );
         y += deltaY;
         addNodes( canvas, ABSSymbols.HA, new HANode(), ABSImages.HA_MOLECULE, x, y );
-        y += deltaY;
+        
+        x += deltaX;
+        y = yStart;
+        
         addNodes( canvas, ABSSymbols.H2O, new H2ONode(), ABSImages.H2O_MOLECULE, x, y );
         y += deltaY;
         addNodes( canvas, ABSSymbols.H3O_PLUS, new H3OPlusNode(), ABSImages.H3O_PLUS_MOLECULE, x, y );
