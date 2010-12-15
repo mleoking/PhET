@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -17,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
@@ -50,8 +48,8 @@ public class BodyMassControl extends VerticalLayoutPanel {
             }} );
             final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ) ),
                                                     new Property<Scale>( Scale.CARTOON ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
-            final Image image = bodyNode.sphereNodeToImage();
-            add( new JLabel( "", new ImageIcon( BufferedImageUtils.multiScaleToHeight( (BufferedImage) image, 22 ) ), SwingConstants.LEFT ) {{
+            final Image image = bodyNode.renderImage( 22 );
+            add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );
             }} );
         }} );

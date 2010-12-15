@@ -165,8 +165,8 @@ public class BodyNode extends PNode {
         return Math.max( viewDiameter, 2 );
     }
 
-    public Image sphereNodeToImage() {
-        return bodyRenderer.toImage();
+    public Image renderImage( int width ) {
+        return bodyRenderer.toImage( width, width, new Color( 0, 0, 0, 0 ) );
     }
 
     public Body getBody() {

@@ -1,3 +1,4 @@
+Fixed: earth and moon mass slider icons buggy when in earth moon mode
 Snap to labeled tick values in mass sliders
 Added custom tick labels for each body mass slider
 Added initial support for collisions
