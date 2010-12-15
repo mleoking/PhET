@@ -38,7 +38,7 @@ public class TestMoleculeNode extends JFrame {
         public AMinusNode() {
 
             // attributes
-            double diameter = 25;
+            double diameter = 24;
             Color color = ABSColors.A_MINUS.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
@@ -62,7 +62,7 @@ public class TestMoleculeNode extends JFrame {
         public BNode() {
             
             // attributes
-            double diameter = 25;
+            double diameter = 24;
             Color color = ABSColors.B.darker();
             Color hiliteColor = Color.WHITE;
             Stroke stroke = new BasicStroke( 0.5f );
@@ -86,7 +86,7 @@ public class TestMoleculeNode extends JFrame {
         public BHPlusNode() {
             
             // attributes
-            double diameterBig = 25;
+            double diameterBig = 24;
             double diameterSmall = 14;
             Color color = ABSColors.BH_PLUS.darker();
             Color hiliteColor = Color.WHITE;
@@ -119,7 +119,7 @@ public class TestMoleculeNode extends JFrame {
         public H2ONode() {
 
             // attributes
-            double diameterBig = 25;
+            double diameterBig = 24;
             double diameterSmall = 14;
             Color color = ABSColors.H2O.darker();
             Color hiliteColor = Color.WHITE;
@@ -157,7 +157,7 @@ public class TestMoleculeNode extends JFrame {
         public H3OPlusNode() {
             
             // attributes
-            double diameterBig = 25;
+            double diameterBig = 24;
             double diameterSmall = 14;
             Color color = ABSColors.H3O_PLUS.darker();
             Color hiliteColor = Color.WHITE;
@@ -200,7 +200,7 @@ public class TestMoleculeNode extends JFrame {
         public HANode() {
             
             // attributes
-            double diameterBig = 25;
+            double diameterBig = 24;
             double diameterSmall = 14;
             Color color = ABSColors.HA.darker();
             Color hiliteColor = Color.WHITE;
@@ -257,7 +257,7 @@ public class TestMoleculeNode extends JFrame {
         public MOHNode() {
 
             // attributes
-            double diameterBig = 25;
+            double diameterBig = 24;
             double diameterMedium = 20;
             double diameterSmall = 14;
             Color color = ABSColors.MOH.darker();
@@ -323,7 +323,7 @@ public class TestMoleculeNode extends JFrame {
         public OHMinusNode() {
             
             // attributes
-            double diameterBig = 25;
+            double diameterBig = 24;
             double diameterSmall = 14;
             Color color = ABSColors.OH_MINUS.darker();
             Color hiliteColor = Color.WHITE;
@@ -374,14 +374,14 @@ public class TestMoleculeNode extends JFrame {
         y += deltaY;
         addNodes( canvas, ABSSymbols.BH_PLUS, new BHPlusNode(), ABSImages.BH_PLUS_MOLECULE, x, y );
         y += deltaY;
-        addNodes( canvas, ABSSymbols.HA, new HANode(), ABSImages.HA_MOLECULE, x, y );
+        addNodes( canvas, ABSSymbols.H2O, new H2ONode(), ABSImages.H2O_MOLECULE, x, y );
         
         x += deltaX;
         y = yStart;
         
-        addNodes( canvas, ABSSymbols.H2O, new H2ONode(), ABSImages.H2O_MOLECULE, x, y );
-        y += deltaY;
         addNodes( canvas, ABSSymbols.H3O_PLUS, new H3OPlusNode(), ABSImages.H3O_PLUS_MOLECULE, x, y );
+        y += deltaY;
+        addNodes( canvas, ABSSymbols.HA, new HANode(), ABSImages.HA_MOLECULE, x, y );
         y += deltaY;
         addNodes( canvas, ABSSymbols.M_PLUS, new MPlusNode(), ABSImages.M_PLUS_MOLECULE, x, y );
         y += deltaY;
