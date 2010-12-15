@@ -23,7 +23,7 @@ public class H2ONode extends AbstractMoleculeNode {
         // attributes
         double diameterBig = 24;
         double diameterSmall = 14;
-        Color color = ABSColors.H2O.darker();
+        Color color = ABSColors.H2O;
         Color hiliteColor = Color.WHITE;
         Stroke stroke = new BasicStroke( 0.5f );
         Color strokeColor = color.darker();

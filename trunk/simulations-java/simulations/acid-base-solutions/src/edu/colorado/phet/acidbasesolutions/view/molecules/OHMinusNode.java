@@ -23,7 +23,7 @@ public class OHMinusNode extends AbstractMoleculeNode {
         // attributes
         double diameterBig = 24;
         double diameterSmall = 14;
-        Color color = ABSColors.OH_MINUS.darker();
+        Color color = ABSColors.OH_MINUS;
         Color hiliteColor = Color.WHITE;
         Stroke stroke = new BasicStroke( 0.5f );
         Color strokeColor = color.darker();

@@ -14,6 +14,6 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 public class MPlusNode extends SingleAtomMoleculeNode {
 
     public MPlusNode() {
-        super( 22, ABSColors.A_MINUS.darker(), Color.WHITE );
+        super( 22, ABSColors.M_PLUS.darker(), Color.WHITE );
     }
 }
