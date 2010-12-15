@@ -78,6 +78,7 @@ public class BodyNode extends PNode {
                             body.setPosition( x.getX(), x.getY() );
                         }
                     }
+                    body.notifyUserModifiedPosition();
                 }
 
                 @Override

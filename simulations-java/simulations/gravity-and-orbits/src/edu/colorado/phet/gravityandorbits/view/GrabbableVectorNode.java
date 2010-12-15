@@ -56,6 +56,7 @@ public class GrabbableVectorNode extends VectorNode {
                     final Dimension2D d = modelViewTransform.getValue().viewToModelDelta( delta );
                     Point2D modelDelta = new Point2D.Double( d.getWidth(), d.getHeight() );
                     body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
+                    body.notifyUserModifiedVelocity();
                 }
             } );
             grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?

@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.NotProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -100,7 +101,14 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.getModeProperty().getValue().resetBodies();
+                    module.getModeProperty().getValue().resetBodies();//also clears the deviated enable flag
+                }
+            } );
+
+            //Gray out this button until the user changes something significant to the system dynamics
+            mode.getDeviatedFromEarthSystemProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setEnabled( mode.getDeviatedFromEarthSystemProperty().getValue() );
                 }
             } );
         }};
