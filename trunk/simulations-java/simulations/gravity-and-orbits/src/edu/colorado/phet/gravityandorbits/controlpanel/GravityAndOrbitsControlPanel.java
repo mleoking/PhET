@@ -86,7 +86,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }} );
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
-                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large" ) );
+                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large", body.getTickValue(), body.getTickLabel() ) );
             }
         }
         setBackground( BACKGROUND );

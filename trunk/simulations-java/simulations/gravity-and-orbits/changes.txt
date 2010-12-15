@@ -1,3 +1,4 @@
+Added custom tick labels for each body mass slider
 Added initial support for collisions
 Made path node fade out
 Reduced number of integration subdivisions from 1000 to 100
