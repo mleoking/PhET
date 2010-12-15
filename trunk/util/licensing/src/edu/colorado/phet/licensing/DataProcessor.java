@@ -21,7 +21,7 @@ public class DataProcessor {
             resourceAnnotationList = ResourceAnnotationList.read( licenseFile );
         }
         else {
-            resourceAnnotationList = new ResourceAnnotationList( "Generated list");
+            resourceAnnotationList = new ResourceAnnotationList( "Generated list" );
             resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "###################################" ) );
             resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "# License info for " + phetProject.getName() ) );
             resourceAnnotationList.addTextLine( new ResourceAnnotationTextLine( "# Automatically generated on " + new Date() ) );
@@ -30,7 +30,7 @@ public class DataProcessor {
         }
 
         File[] f = dir.listFiles();
-        for ( int i = 0; f!=null && i < f.length; i++ ) {
+        for ( int i = 0; f != null && i < f.length; i++ ) {
             File file = f[i];
             if ( file.isDirectory() ) {
                 if ( !ignoreDirectory( file ) ) {

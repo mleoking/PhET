@@ -14,9 +14,10 @@ import edu.colorado.phet.licensing.TrunkDirectory;
  * Aug 4, 2008 at 7:10:23 PM
  */
 public class PlainTextReport {
-    
+
     // intended to be called via main
-    private PlainTextReport() {}
+    private PlainTextReport() {
+    }
 
     public static void main( String[] args ) throws IOException {
         if ( args.length != 1 ) {

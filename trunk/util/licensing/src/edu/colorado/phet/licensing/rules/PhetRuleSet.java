@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.licensing.rules;
 
 /**
@@ -8,9 +7,9 @@ package edu.colorado.phet.licensing.rules;
  * @author Sam Reid
  */
 public class PhetRuleSet extends AbstractRuleSet {
-    
+
     public PhetRuleSet() {
-        super( new AbstractRule[]{
+        super( new AbstractRule[] {
 
                 //copyright by PhET
                 new SourceStartsWith( "phet" ),

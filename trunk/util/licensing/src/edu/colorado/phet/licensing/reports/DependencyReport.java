@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.licensing.*;
+import edu.colorado.phet.licensing.AnnotatedFile;
+import edu.colorado.phet.licensing.ResourceAnnotation;
+import edu.colorado.phet.licensing.SimInfo;
+import edu.colorado.phet.licensing.TrunkDirectory;
 import edu.colorado.phet.licensing.rules.PhetRuleSet;
 import edu.colorado.phet.licensing.util.FileUtils;
 
 /**
  * For documentation on this program, see edu.colorado.phet.licensing.readme.txt.
- * 
+ * <p/>
  * Created by: Sam
  * Aug 4, 2008 at 7:10:23 PM
  */
@@ -72,16 +75,16 @@ public class DependencyReport {
             bufferedWriter.write( html );
             bufferedWriter.close();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
 
     private String getContribHTML( File dir ) {
         File licenseInfoFile = new File( dir, "license-info.txt" );
-        if (!licenseInfoFile.exists()){
-            System.err.println("Warning: No license-info.txt found for "+dir.getAbsolutePath());
-            return dir.getName()+": Warning: no license-info.txt found<br>";
+        if ( !licenseInfoFile.exists() ) {
+            System.err.println( "Warning: No license-info.txt found for " + dir.getAbsolutePath() );
+            return dir.getName() + ": Warning: no license-info.txt found<br>";
         }
         try {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( licenseInfoFile ) );
@@ -106,10 +109,10 @@ public class DependencyReport {
 //            return file.getName()+": "+license+"<br>";
             return href;
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return null;

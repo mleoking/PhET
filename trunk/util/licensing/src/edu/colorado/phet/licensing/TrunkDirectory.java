@@ -8,7 +8,7 @@ import java.io.File;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TrunkDirectory extends File {
-    
+
     public TrunkDirectory( String path ) {
         super( path );
         if ( !exists() ) {
