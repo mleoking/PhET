@@ -94,14 +94,18 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Create a "panel" sort of node that contains all the selector
         // buttons, then position it at the center bottom of the main node.
         final PNode wavelengthSelectorPanelNode = new PNode();
-        double selectorSpacing = PANEL_SIZE.getWidth() / 5;
-        microwaveSelectorNode.setOffset( selectorSpacing - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
+        double interSelectorSpacing = ( PANEL_SIZE.getWidth() - microwaveSelectorNode.getFullBoundsReference().width -
+                infraredSelectorNode.getFullBoundsReference().width -
+                visibleLightSelectorNode.getFullBoundsReference().width -
+                ultravioletSelectorNode.getFullBoundsReference().width ) / 5;
+        interSelectorSpacing = Math.max( interSelectorSpacing, 0 ); // Don't allow less than 0.
+        microwaveSelectorNode.setOffset( interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( microwaveSelectorNode );
-        infraredSelectorNode.setOffset( selectorSpacing * 2 - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
+        infraredSelectorNode.setOffset( microwaveSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( infraredSelectorNode );
-        visibleLightSelectorNode.setOffset( selectorSpacing * 3 - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
+        visibleLightSelectorNode.setOffset(  infraredSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
-        ultravioletSelectorNode.setOffset( selectorSpacing * 4 - microwaveSelectorNode.getFullBoundsReference().width / 2, 0 );
+        ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
         wavelengthSelectorPanelNode.setOffset( 0, backgroundNode.getFullBoundsReference().height - wavelengthSelectorPanelNode.getFullBoundsReference().height );
 
