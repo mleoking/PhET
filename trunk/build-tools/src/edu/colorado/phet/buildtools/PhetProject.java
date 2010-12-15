@@ -745,7 +745,7 @@ public abstract class PhetProject {
     }
 
     public void copyLicenseInfo() {
-        if ( this instanceof StatisticsProject ) {
+        if ( this instanceof StatisticsProject || this instanceof WebsiteProject ) {
             // TODO: remove this temporary fix so that it doesn't try to set svn properties for bogus directories
             return;
         }
