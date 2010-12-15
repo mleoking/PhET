@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 public class MeasuringTape extends PhetPNode {
 
-    private static final String MEASURING_TAPE_IMAGE = "piccolo-phet/images/measuringTape.gif";
+    public static final String MEASURING_TAPE_IMAGE = "piccolo-phet/images/measuringTape.gif";
 
     private ModelViewTransform2D modelViewTransform2D;
     private Point2D.Double modelSrc;
@@ -46,7 +46,7 @@ public class MeasuringTape extends PhetPNode {
     public MeasuringTape( ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc, String units ) {
         this.modelViewTransform2D = modelViewTransform2D;
         this.modelSrc = modelSrc;
-        this.modelDst = new Point2D.Double( modelSrc.x + modelViewTransform2D.viewToModelDifferentialX( 100 ), modelSrc.y );
+        this.modelDst = new Point2D.Double( modelSrc.x + this.modelViewTransform2D.viewToModelDifferentialX( 100 ), modelSrc.y );
 
         bodyGraphic = new BodyGraphic();
         tapeGraphic = new TapeGraphic();

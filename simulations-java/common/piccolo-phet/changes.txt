@@ -1,3 +1,4 @@
+12-15-2010: measuring tape: Made image resource name public and minor change to usage of constructor arg
 12-15-2010: Fixed transparency of measuring tape gif corners
 12-15-2010: Added the ability to set the measuring tape stroke color, for support against black backgrounds
 12-10-2010: For rulers with no insets (i.e. where the first tick appears at the edge of the ruler), don't show the first and last major tick labels, and only show the units label after the first visible major tick label, resolves #2604
