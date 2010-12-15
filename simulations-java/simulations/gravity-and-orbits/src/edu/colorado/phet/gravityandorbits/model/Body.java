@@ -242,20 +242,12 @@ public class Body {
         pathListeners.add( listener );
     }
 
-    public void removePathListener( PathListener listener ) {
-        pathListeners.remove( listener );
-    }
-
     public void setVelocity( ImmutableVector2D velocity ) {
         velocityProperty.setValue( velocity );
     }
 
     public void setPosition( double x, double y ) {
         positionProperty.setValue( new ImmutableVector2D( x, y ) );
-    }
-
-    public double getDensity() {
-        return density;
     }
 
     public void setAcceleration( ImmutableVector2D acceleration ) {

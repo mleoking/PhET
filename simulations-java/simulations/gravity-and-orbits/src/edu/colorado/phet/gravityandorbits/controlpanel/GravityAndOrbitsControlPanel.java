@@ -28,7 +28,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public static Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 16, true );
 
-    public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model, GravityAndOrbitsMode mode ) {
+    public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
         super();
 
         setFillNone();

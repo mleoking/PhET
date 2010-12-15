@@ -118,10 +118,6 @@ public abstract class GravityAndOrbitsMode {
         deviatedFromEarthSystemProperty.reset();
     }
 
-    public void setRunning( boolean running ) {
-        model.getClock().setRunning( running );
-    }
-
     public JComponent getCanvas() {
         return canvas;
     }
@@ -132,10 +128,6 @@ public abstract class GravityAndOrbitsMode {
 
     public JComponent newComponent( Property<GravityAndOrbitsMode> modeProperty ) {
         return createRadioButtonWithIcons( modeProperty );
-    }
-
-    protected JComponent createRadioButtonWithText( final Property<GravityAndOrbitsMode> modeProperty ) {
-        return new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this );
     }
 
     protected JComponent createRadioButtonWithIcons( final Property<GravityAndOrbitsMode> modeProperty ) {
