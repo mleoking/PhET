@@ -219,7 +219,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private Body createSpaceStation( Body earth, int maxPathLength ) {
         return new Body( earth, "Space Station", EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true );
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SPACE_STATION_MASS, "Our Space Station" );
     }
 
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
@@ -227,15 +227,15 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale, final double cartoonDiameterScaleFactor, double cartoonForceVectorScale,
                              double cartoonVelocityScale, final boolean massReadoutBelow ) {
         return new Body( earth, "Moon", MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white, cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
-                         getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale, massReadoutBelow );
+                         getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, cartoonForceVectorScale, massReadoutBelow, MOON_MASS, "Our Moon" );
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true );
+        return new Body( sun, "Planet", EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, cartoonDiameterScaleFactor, 1, getRenderer( "earth.png", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, EARTH_MASS, "Earth" );
     }
 
     private Body createSun( int maxPathLength ) {
-        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true );
+        return new Body( null, "Sun", 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, "Our Sun" );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

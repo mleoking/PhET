@@ -41,6 +41,8 @@ public class Body {
     private final double cartoonForceScale;
     private boolean massReadoutBelow;
     private Property<Boolean> collidedProperty = new Property<Boolean>( false );
+    private double tickValue;
+    private String tickLabel;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
@@ -48,12 +50,14 @@ public class Body {
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 double cartoonForceScale, boolean massReadoutBelow ) {
+                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel ) {
         this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
         this.cartoonForceScale = cartoonForceScale;
         this.massReadoutBelow = massReadoutBelow;
+        this.tickValue = tickValue;
+        this.tickLabel = tickLabel;
         assert renderer != null;
         this.parent = parent;
         this.name = name;
@@ -349,6 +353,14 @@ public class Body {
 
     public void setCollided( boolean b ) {
         collidedProperty.setValue( b );
+    }
+
+    public double getTickValue() {
+        return tickValue;
+    }
+
+    public String getTickLabel() {
+        return tickLabel;
     }
 
     public static class PathPoint {
