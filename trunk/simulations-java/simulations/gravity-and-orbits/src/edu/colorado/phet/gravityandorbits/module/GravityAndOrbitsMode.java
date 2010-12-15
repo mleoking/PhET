@@ -43,11 +43,13 @@ public abstract class GravityAndOrbitsMode {
     private final Line2D.Double initialMeasuringTapeLocation;
     private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
     private final Property<Boolean> deviatedFromEarthSystemProperty = new Property<Boolean>( false );
+    private double zoomScale;
+    private ImmutableVector2D zoomOffset;
 
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
-                                 Line2D.Double initialMeasuringTapeLocation ) {
+                                 Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset ) {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -56,6 +58,8 @@ public abstract class GravityAndOrbitsMode {
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
         this.velocityScale = velocityScale;
         this.initialMeasuringTapeLocation = initialMeasuringTapeLocation;
+        this.zoomScale = zoomScale;
+        this.zoomOffset = zoomOffset;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -165,12 +169,8 @@ public abstract class GravityAndOrbitsMode {
 
     //Zoom from the original zoom (default for all views) to the correct zoom for this mode
     public void startZoom() {
-        camera.zoomTo( getZoomScale(), getZoomOffset() );
+        camera.zoomTo( zoomScale, zoomOffset );
     }
-
-    public abstract double getZoomScale();
-
-    public abstract ImmutableVector2D getZoomOffset();
 
     public Function1<Double, String> getTimeFormatter() {
         return timeFormatter;
