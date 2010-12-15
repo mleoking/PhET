@@ -1,6 +1,8 @@
 package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
@@ -93,8 +95,28 @@ public class BodyMassControl extends VerticalLayoutPanel {
                     if ( !updatingSlider ) {
                         // we don't want to set the body mass if we are updating the slider. otherwise we get a
                         // mass change => update slider => mass change bounce and the wrong values are stored for a reset
-                        body.setMass( modelToView.createInverse().evaluate( getValue() ) );
+                        double sliderValue = modelToView.createInverse().evaluate( getValue() );
+                        if ( Math.abs( sliderValue - labelValue ) / labelValue < 0.05 ) {//if near to tick mark, then use that value
+                            body.setMass( labelValue );
+                        }
+                        else {
+                            body.setMass( modelToView.createInverse().evaluate( getValue() ) );
+                        }
                     }
+                }
+            } );
+            addMouseListener( new MouseAdapter() {
+                @Override
+                public void mouseReleased( MouseEvent e ) {
+                    //if near to tick mark, then use that value
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            double sliderValue = modelToView.createInverse().evaluate( getValue() );
+                            if ( Math.abs( sliderValue - labelValue ) / labelValue < 0.05 ) {
+                                body.setMass( labelValue );
+                            }
+                        }
+                    } );
                 }
             } );
         }} );
