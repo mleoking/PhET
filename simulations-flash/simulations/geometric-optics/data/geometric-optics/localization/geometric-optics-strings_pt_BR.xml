@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_pt_BR.xml created Thu Oct 21 19:51:37 BRST 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.09.00 (44031) Set 13, 2010-->
+<!--geometric-optics-strings_pt_BR.xml created Tue Dec 14 21:09:46 BRST 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.09.00 (44031) Set 13, 2010-->
 <SimStrings>
 <string key="draggableScreen" value="anteparo móvel"/>
 <string key="draggableLens" value="lente móvel"/>
@@ -12,7 +12,7 @@
 <string key="diameter" value="diâmetro"/>
 <string key="ruler" value="Régua"/>
 <string key="focalPoint" value="ponto focal"/>
-<string key="curvatureRadius" value="Raio de curtatura (m)"/>
+<string key="curvatureRadius" value="Raio de curvatura (m)"/>
 <string key="changeObject" value="Trocar Objeto"/>
 <string key="principalRays" value="Raios principais"/>
 <string key="marginalRays" value="Raios marginais"/>
