@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
@@ -83,6 +84,19 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
             add( new GORadioButton<Scale>( "Cartoon (not to scale)", module.getScaleProperty(), Scale.CARTOON ) );
             add( new GORadioButton<Scale>( "Real", module.getScaleProperty(), Scale.REAL ) );
+            add( new JPanel() {{
+                setBackground( BACKGROUND );
+                setOpaque( false );
+                add( Box.createRigidArea( new Dimension( 25, 1 ) ) );
+                add( new GOCheckBox( "Measuring Tape", module.getMeasuringTapeVisibleProperty() ) {{
+                    module.getScaleProperty().addObserver( new SimpleObserver() {
+                        public void update() {
+                            setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
+                            setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
+                        }
+                    } );
+                }} );
+            }} );
         }} );
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {

@@ -27,9 +27,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() ) {{
-            getModulePanel().setLogoPanel( null );
-        }};
+        gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() );
         addModule( gravityAndOrbitsModule );
         initMenubar();
         getPhetFrame().setTitle( config.getName() + ": " + Arrays.toString( config.getCommandLineArgs() ) );//simsharing
