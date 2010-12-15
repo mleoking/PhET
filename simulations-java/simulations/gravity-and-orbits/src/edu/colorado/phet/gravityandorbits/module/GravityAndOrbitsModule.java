@@ -34,7 +34,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
-
+    private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
     private final Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 
     private static final double SUN_RADIUS = 6.955E8;
@@ -245,9 +245,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs ) {
         super( "Gravity and Orbits"
                + ": " + Arrays.asList( commandLineArgs )//For simsharing
-                ,
-               new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.DEFAULT_DT ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
-
+                , new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.DEFAULT_DT ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+        getModulePanel().setLogoPanel( null );
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.init( this );
         }
@@ -337,5 +336,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Boolean> getClockPausedProperty() {
         return clockPausedProperty;
+    }
+
+    public Property<Boolean> getMeasuringTapeVisibleProperty() {
+        return measuringTapeVisibleProperty;
     }
 }

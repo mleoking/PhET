@@ -10,12 +10,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.AndProperty;
+import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
 import edu.colorado.phet.common.phetcommon.model.NotProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -126,6 +129,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         addChild( new FloatingClockControlNode( new NotProperty( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
+
+        addChild( new GOMeasuringTapeNode( new AndProperty( new IsSelectedProperty<Scale>( Scale.REAL, module.getScaleProperty() ), module.getMeasuringTapeVisibleProperty() ), new ModelViewTransform2D() ) {{
+            setOffset( 100, 100 );
         }} );
 
 //        new InitialConditionDialog( parentFrame, model ).setVisible( true );
