@@ -157,7 +157,8 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
 
         // Add the button for restoring molecule that break apart.
-        restoreMoleculeButtonNode = new ButtonNode( "Restore Molecule", 24, new Color( 255, 144, 0 ) );
+        // TODO: i18n
+        restoreMoleculeButtonNode = new ButtonNode( "Return Molecule", 24, new Color( 255, 144, 0 ) );
         restoreMoleculeButtonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
         restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
