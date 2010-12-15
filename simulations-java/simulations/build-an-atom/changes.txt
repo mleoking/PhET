@@ -1,3 +1,5 @@
+# 1.00.18 (47184) Dec 15, 2010
+12/15/10 Minor fixes (see log for details), this is another release candidate for first version with game.
 Removed debug printouts.
 Fixed issue where it was possible in some cases to get the same problem type twice in a row.
 # 1.00.17 (47152) Dec 14, 2010
