@@ -1,3 +1,4 @@
+# 0.0.09 (47246) Dec 16, 2010
 Fixed: Rewind should clear traces
 Fixed: Rewind button not always enabled when it should be
 Added rewind button
