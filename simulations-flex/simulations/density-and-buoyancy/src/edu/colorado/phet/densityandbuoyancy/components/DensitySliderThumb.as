@@ -19,7 +19,7 @@ public class DensitySliderThumb extends SliderThumb {
         setStyle( "thumbSkin", null );//we'll draw it ourselves
 
         graphics.beginFill( 0xFF0000 );
-        var offsetX = 4;//This is necessary to make the red triangle match up exactly with the desired thumb location.
+        var offsetX: Number = 4;//This is necessary to make the red triangle match up exactly with the desired thumb location.
         graphics.moveTo( 0 + offsetX, 0 );
         graphics.lineTo( +10 + offsetX, 10 );
         graphics.lineTo( -10 + offsetX, 10 );
