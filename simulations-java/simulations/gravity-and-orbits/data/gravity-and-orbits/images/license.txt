@@ -1,3 +1,4 @@
+earth.png source=microsoft clip art
+earth_satellite.png source=http://www.harmsy.freeuk.com/images/earth2.jpeg notes=since this was probably taken by NASA, it might be public domain
 moon.png source=microsoft clip art
 space-station.png source=microsoft clip art
-earth.png source=microsoft clip art
