@@ -22,6 +22,12 @@ public class SimInfo {
     private LicenseInfo[] licenseInfo;
     private AnnotatedFile[] resources;
 
+    public SimInfo( PhetProject project ) {
+        this( project, project.getDependencies(), project.getAllJarFiles(), project.getSourceRoots(),
+                            project.getAllLicenseInfo(),
+                            new DataProcessor().visitDirectory( project, project.getDataDirectory() ) );
+    }
+
     public SimInfo( PhetProject project, PhetProject[] dependencies, File[] jarFiles, File[] sourceRoots, LicenseInfo[] licenseInfo, AnnotatedFile[] resources ) {
         this.project = project;
         this.dependencies = dependencies;
@@ -93,9 +99,7 @@ public class SimInfo {
     public static SimInfo getSimInfo( File trunk, String simName ) throws IOException {
         JavaSimulationProject project = new JavaSimulationProject( new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/" + simName ) );
 
-        return new SimInfo( project, project.getDependencies(), project.getAllJarFiles(), project.getSourceRoots(),
-                            project.getAllLicenseInfo(),
-                            new DataProcessor().visitDirectory( project, project.getDataDirectory() ) );
+        return new SimInfo( project);
     }
 
 

@@ -17,7 +17,6 @@ import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.resource.WebsiteResourceDeployClient;
-import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.licensing.reports.DependencyReport;
 
 import com.jcraft.jsch.JSchException;
@@ -102,7 +101,7 @@ public class MiscMenu extends JMenu {
         JMenuItem batchDeployAllJava = new JMenuItem( "Batch Deploy All Java Sims" );
         batchDeployAllJava.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                batchDeploy( select( JavaProject.getJavaProjects( trunk ) ), selectDeployStrategy() );
+                batchDeploy( select( JavaProject.getJavaSimulations( trunk ) ), selectDeployStrategy() );
             }
         } );
         add( batchDeployAllJava );
@@ -122,7 +121,7 @@ public class MiscMenu extends JMenu {
         updateJavaAgreement.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 
-                PhetProject[] projects = JavaProject.getJavaProjects( trunk );
+                PhetProject[] projects = JavaProject.getJavaSimulations( trunk );
                 new JavaBuildCommand( (JavaProject) projects[0], new MyAntTaskRunner(), true, null ).copySoftwareAgreement();
 
             }
