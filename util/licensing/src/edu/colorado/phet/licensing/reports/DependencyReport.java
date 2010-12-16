@@ -46,17 +46,14 @@ public class DependencyReport {
     }
 
     private void generateContribReport() {
-        File contribDir = new File( trunk, "simulations-java/contrib" );
-
-        File[] f = contribDir.listFiles( new FileFilter() {
-            public boolean accept( File pathname ) {
-                return !pathname.getName().startsWith( "." ) && pathname.isDirectory();
-            }
-        } );
+        ArrayList<File> f = new ArrayList<File>( ){{
+            addAll( Arrays.asList( listContribDirs( "simulations-java/contrib" ) ) );
+            addAll( Arrays.asList( listContribDirs( "simulations-flex/contrib" ) ) );
+            addAll( Arrays.asList( listContribDirs( "simulations-flash/contrib" ) ) );
+        }};
         String content = "";
-        for ( int i = 0; i < f.length; i++ ) {
-            File file = f[i];
-            content += getContribHTML( file ) + "\n";
+        for ( int i = 0; i < f.size(); i++ ) {
+            content += getContribHTML( f.get(i) ) + "\n";
         }
 
         String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
@@ -81,6 +78,16 @@ public class DependencyReport {
         catch ( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    private File[] listContribDirs( final String contribDirectory ) {
+        File contribDir = new File( trunk, contribDirectory );
+
+        return contribDir.listFiles( new FileFilter() {
+            public boolean accept( File pathname ) {
+                return !pathname.getName().startsWith( "." ) && pathname.isDirectory();
+            }
+        } );
     }
 
     private String getContribHTML( File dir ) {
