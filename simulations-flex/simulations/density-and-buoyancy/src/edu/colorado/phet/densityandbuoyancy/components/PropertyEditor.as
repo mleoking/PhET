@@ -159,6 +159,7 @@ public class PropertyEditor extends GridRow {
         const item: GridItem = new GridItem();
         item.addChild( displayObject );
         item.colSpan = colSpan;
+        item.setStyle( "verticalAlign", "middle" );
         addChild( item );
     }
 

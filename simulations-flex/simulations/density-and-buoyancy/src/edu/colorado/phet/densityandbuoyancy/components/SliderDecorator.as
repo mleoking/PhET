@@ -14,8 +14,9 @@ public class SliderDecorator extends UIComponent {
 
     private var tickMarkSet: Sprite;
     private var ticks: Array = new Array();
-    private const sliderY: Number = 15;
+    private var sliderY: Number = 8;
     private const tickHeight: Number = 4;
+    private var tickMarksEnabled: Boolean = false;
 
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
@@ -49,6 +50,13 @@ public class SliderDecorator extends UIComponent {
 
         enabled = true; // set the enabled style, and default to enabled
         slider.doCommitProperties();//fixes the problem that getSliderThumbCount = 1, but getSliderThumb(0) throws a nullpointerexception
+    }
+
+    public function enableTickmarks(): void {
+        sliderY = 15;
+        slider.y = sliderY;
+        tickMarksEnabled = true;
+        updateTicks();
     }
 
     override public function set enabled( value: Boolean ): void {
@@ -206,6 +214,9 @@ public class SliderDecorator extends UIComponent {
     }
 
     public function addTick( value: Number, color: uint = 0x000000, label: String = null ): void {
+        if ( !tickMarksEnabled ) {
+            throw new Error( "tickMarksEnabled == false" );
+        }
         var tick: Tick = new Tick( value, color, label );
         ticks.push( tick );
         addChild( tick.textField );

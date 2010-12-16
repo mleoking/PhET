@@ -16,6 +16,7 @@ public class DensityEditor extends PropertyEditor {
 
     override protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ): SliderDecorator {
         const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
+        slider.enableTickmarks();
         for each ( var material: Material in Material.LABELED_DENSITY_MATERIALS ) {
             slider.addTick( unit.fromSI( material.getDensity() ), material.tickColor, material.name )
         }
