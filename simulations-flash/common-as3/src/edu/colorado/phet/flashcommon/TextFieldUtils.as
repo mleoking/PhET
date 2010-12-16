@@ -1,5 +1,4 @@
 package edu.colorado.phet.flashcommon {
-import fl.controls.LabelButton;
 
 import flash.events.*;
 import flash.text.*;
@@ -10,11 +9,11 @@ public class TextFieldUtils {
 
     //Sample usage
     // TextFieldUtils.initLabelButtonI18N("ControlPanel.1d","1 Dimension",this.oneD_txt, this.oneD_rb,TextFieldAutoSize.LEFT);
-    public static function initLabelButtonI18NLeft( key:String, defaultText:String, textField:TextField, labelButton:LabelButton) {
+    public static function initLabelButtonI18NLeft( key:String, defaultText:String, textField:TextField, labelButton:Object) {
         initLabelButtonI18N(key,defaultText,textField,labelButton,TextFieldAutoSize.LEFT );
     }
     
-    public static function initLabelButtonI18N( key:String, defaultText:String, textField:TextField, labelButton:LabelButton, alignment:String) {
+    public static function initLabelButtonI18N( key:String, defaultText:String, textField:TextField, labelButton:Object, alignment:String) {
         textField.text = SimStrings.get( key, defaultText );
         TextFieldUtils.emulateButton( textField, labelButton );
         TextFieldUtils.resizeText( textField, alignment );
@@ -23,7 +22,7 @@ public class TextFieldUtils {
 
     // hook up the events on a TextField so that it appears like it is the label of the CheckBox.
     // handles mouse over, out, and clicks
-    public static function emulateButton( textField: TextField, checkBox: LabelButton ): void {
+    public static function emulateButton( textField: TextField, checkBox: Object ): void {
         textField.addEventListener( MouseEvent.ROLL_OVER, function( evt: Event ): void { checkBox.setMouseState( "over" ); } );
         textField.addEventListener( MouseEvent.ROLL_OUT, function( evt: Event ): void { checkBox.setMouseState( "up" ); } );
         textField.addEventListener( MouseEvent.MOUSE_DOWN, function( evt: Event ): void { checkBox.setMouseState( "down" ); } );
