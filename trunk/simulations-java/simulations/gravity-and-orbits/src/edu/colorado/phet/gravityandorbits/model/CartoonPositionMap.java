@@ -13,10 +13,7 @@ public class CartoonPositionMap {
     }
 
     public ImmutableVector2D toCartoon( ImmutableVector2D position, ImmutableVector2D parentPosition ) {
-        ImmutableVector2D offset = position.getSubtractedInstance( parentPosition );
-        final ImmutableVector2D cartoonOffset = offset.getScaledInstance( cartoonOffsetScale );
-        final ImmutableVector2D cartoonPosition = parentPosition.getAddedInstance( cartoonOffset );
-        return cartoonPosition;
+        return parentPosition.plus( position.minus( parentPosition ).times( cartoonOffsetScale ) );
     }
 
     //solve for x given cartoonx:
@@ -25,8 +22,6 @@ public class CartoonPositionMap {
     //(cartoonx -parent.x+parent.x*scale)/scale = x
     //TODO: convert this program to scala
     public ImmutableVector2D toReal( ImmutableVector2D cartoonPosition, ImmutableVector2D parentPosition ) {
-        ImmutableVector2D x = ( cartoonPosition.getSubtractedInstance( parentPosition ).getAddedInstance( parentPosition.getScaledInstance( cartoonOffsetScale ) ) );
-        x = x.getScaledInstance( 1.0 / cartoonOffsetScale );
-        return x;
+        return cartoonPosition.minus( parentPosition ).plus( parentPosition.times( cartoonOffsetScale ) ).times( 1.0 / cartoonOffsetScale );
     }
 }

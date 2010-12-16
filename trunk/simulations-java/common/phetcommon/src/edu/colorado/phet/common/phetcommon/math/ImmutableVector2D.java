@@ -167,4 +167,16 @@ public class ImmutableVector2D implements Serializable {
         ImmutableVector2D vector = new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) );
         return vector.getScaledInstance( r );
     }
+
+    public ImmutableVector2D plus(ImmutableVector2D v){
+        return getAddedInstance( v );
+    }
+
+    public ImmutableVector2D minus(ImmutableVector2D v){
+        return getSubtractedInstance( v );
+    }
+
+    public ImmutableVector2D times(double scale){
+        return getScaledInstance( scale );
+    }
 }
