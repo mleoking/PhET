@@ -23,6 +23,10 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
+    public PlayPauseButton getPlayPauseButton() {
+        return playPauseButton;
+    }
+
     public FloatingClockControlNode( Property<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
         this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {

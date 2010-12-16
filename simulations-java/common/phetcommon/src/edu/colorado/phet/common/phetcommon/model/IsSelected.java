@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -10,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @param <T> the property value type
  * @author Sam Reid
  */
-public class IsSelectedProperty<T> extends Property<Boolean> {
-    public IsSelectedProperty( final T a, final Property<T> p ) {
+public class IsSelected<T> extends BooleanProperty {
+    public IsSelected( final T a, final Property<T> p ) {
         super( p.getValue() == a );
         p.addObserver( new SimpleObserver() {
             public void update() {
@@ -25,5 +24,9 @@ public class IsSelectedProperty<T> extends Property<Boolean> {
                 }
             }
         } );
+    }
+
+    public static <T> BooleanProperty IsSelected( T a, Property<T> p ) {
+        return new IsSelected<T>( a, p );
     }
 }

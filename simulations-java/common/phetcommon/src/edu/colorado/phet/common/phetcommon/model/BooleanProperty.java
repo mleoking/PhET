@@ -9,4 +9,8 @@ public class BooleanProperty extends Property<Boolean> {
     public BooleanProperty( Boolean value ) {
         super( value );
     }
+
+    public And and( Property<Boolean> p ) {
+        return new And( this, p );
+    }
 }
