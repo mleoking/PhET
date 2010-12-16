@@ -16,7 +16,7 @@ public class SliderDecorator extends UIComponent {
     private var sliderY: Number = 8;
     private const tickHeight: Number = 4;
     private var tickMarksEnabled: Boolean = false;
-    public var isFluidDensitySlider = false;
+    public var isFluidDensitySlider: Boolean = false;
 
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
