@@ -1,10 +1,11 @@
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetTabNavigator;
 
 public class BuoyancyTabNavigator extends PhetTabNavigator {
     public function BuoyancyTabNavigator() {
-        super( new Array( new BuoyancyModule( "Intro", new BuoyancyIntroContainer() )
-                , new BuoyancyModule( "Buoyancy Playground", new BuoyancyPlaygroundContainer() )
+        super( new Array( new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroContainer() )
+                , new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundContainer() )
                 ) );
     }
 }

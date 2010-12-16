@@ -47,6 +47,7 @@
     <string key="material.air" value="Air"/>
     <string key="material.oliveOil" value="Olive Oil"/>
     <string key="material.honey" value="Honey"/>
+    <string key="material.oil" value="Oil"/>
     <string key="properties.volume" value="Volume"/>
     <string key="properties.volumeLiterValue" value="{0} L"/>
     <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
@@ -63,4 +64,7 @@
     <string key="controlPanel.readouts" value="Readouts"/>
     <string key="controlPanel.showMasses" value="Masses"/>
     <string key="controlPanel.showVectorValues" value="Force Values"/>
+    <string key="buoyancy.tab.intro" value="Intro"/>
+    <string key="buoyancy.tab.playground" value="Buoyancy Playground"/>
+    <string key="fluid.controls.intro.label" value="Fluid"/>
 </SimStrings>

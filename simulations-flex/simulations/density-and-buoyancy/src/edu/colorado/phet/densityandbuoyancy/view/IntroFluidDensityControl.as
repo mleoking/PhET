@@ -3,6 +3,7 @@ import edu.colorado.phet.densityandbuoyancy.components.DensityHBox;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.events.MouseEvent;
 
@@ -17,25 +18,25 @@ public class IntroFluidDensityControl extends DensityHBox {
 
     public function IntroFluidDensityControl( fluidDensity: NumericProperty, units: Units ) {
         const title: Label = new Label();
-        title.text = "Fluid";
+        title.text = FlexSimStrings.get( "fluid.controls.intro.label", "Fluid" );
         title.setStyle( "fontWeight", "bold" );
         addChild( title );
 
         const oilButton: RadioButton = new RadioButton();
         oilButton.groupName = GROUP;
-        oilButton.addEventListener( MouseEvent.CLICK, function(): void {
+        oilButton.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
             fluidDensity.value = Material.OLIVE_OIL.getDensity();
         } );
-        oilButton.label = "Oil";
+        oilButton.label = FlexSimStrings.get( "material.oil", "Oil" );
         addChild( oilButton );
 
         const waterButton: RadioButton = new RadioButton();
         waterButton.selected = true;
-        waterButton.addEventListener( MouseEvent.CLICK, function(): void {
+        waterButton.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
             fluidDensity.value = Material.WATER.getDensity();
         } );
         waterButton.groupName = GROUP;
-        waterButton.label = "Water";
+        waterButton.label = FlexSimStrings.get( "material.water", "Water" );
         addChild( waterButton );
 
         // keep radio buttons synchronized with the fluid density
