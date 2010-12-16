@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Or;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -18,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
@@ -31,7 +34,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.IsSelected.IsSelected;
-import static edu.colorado.phet.common.phetcommon.model.Not.Not;
+import static edu.colorado.phet.common.phetcommon.model.Not.not;
 
 /**
  * Canvas template.
@@ -131,11 +134,27 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new FloatingClockControlNode( Not( module.clockPaused ), mode.getTimeFormatter(), model.getClock() ) {{
+        //See docs in mode.rewind
+        final ArrayList<Property<Boolean>> p = new ArrayList<Property<Boolean>>();
+        for ( Body body : model.getBodies() ) {
+            p.add( body.anyPropertyChanged() );
+        }
+        addChild( new FloatingClockControlNode( not( module.clockPaused ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
             final RewindButton child = new RewindButton( 60 );
+            child.addListener( new DefaultIconButton.Listener() {
+                public void buttonPressed() {
+                    mode.rewind();
+                }
+            } );
             child.setOffset( getPlayPauseButton().getFullBounds().getMinX() - child.getFullBounds().getWidth() - 5, getPlayPauseButton().getFullBounds().getCenterY() - child.getFullBounds().getHeight() / 2 );
             addChild( child );
+            final Or anyPropertyChanged = new Or( p );
+            anyPropertyChanged.addObserver( new SimpleObserver() {
+                public void update() {
+                    child.setEnabled( anyPropertyChanged.getValue() );
+                }
+            } );
         }} );
 
         addChild( new MeasuringTape( IsSelected( Scale.REAL, module.getScaleProperty() ).and( module.getMeasuringTapeVisibleProperty() ),

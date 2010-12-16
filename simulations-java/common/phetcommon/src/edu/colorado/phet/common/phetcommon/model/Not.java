@@ -22,7 +22,7 @@ public class Not extends Property<Boolean> {
         } );
     }
 
-    public static Property<Boolean> Not( Property<Boolean> p ) {
+    public static Property<Boolean> not( Property<Boolean> p ) {
         return new Not( p );
     }
 }
