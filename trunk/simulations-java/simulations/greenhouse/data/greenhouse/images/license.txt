@@ -7,13 +7,15 @@
 1750-background.gif author=PhET 
 earth-a.gif license=same as earth_0001.gif notes=email permission
 earth.gif license=same as earth_0001.gif notes=email permission 
-earth.png auther=PhET
+earth.png author=PhET
 emitterOffButton.png author=PhET 
 emitterOnButton.png author=PhET 
 flashlight.png author=PhET 
 flashlight2.png author=PhET 
 glass-pane-background.gif author=PhET 
-heat_lamp.png author=PhET 
+heat-lamp.png author=PhET
+microwave-transmitter.png author=PhET
+uv-light.png author=PhET
 help-item-icon.gif notes=I think Ron LeMaster created this
 ice-age-2.gif author=PhET 
 iceage-2.gif author=PhET 
