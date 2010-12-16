@@ -4,8 +4,8 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.AndProperty;
-import edu.colorado.phet.common.phetcommon.model.NotProperty;
+import edu.colorado.phet.common.phetcommon.model.And;
+import edu.colorado.phet.common.phetcommon.model.Not;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -46,7 +46,7 @@ public abstract class MassReadoutNode extends PNode {
                 }
             }
         } );
-        new AndProperty( visible, new NotProperty( bodyNode.getBody().getCollidedProperty() ) ) {{
+        new And( visible, new Not( bodyNode.getBody().getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( getValue() );

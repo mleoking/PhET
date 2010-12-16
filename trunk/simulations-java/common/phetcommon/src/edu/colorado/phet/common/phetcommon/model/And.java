@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -9,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Sam Reid
  */
-public class AndProperty extends Property<Boolean> {
-    public AndProperty( final Property<Boolean> a, final Property<Boolean> b ) {
+public class And extends Property<Boolean> {
+    public And( final Property<Boolean> a, final Property<Boolean> b ) {
         super( a.getValue() && b.getValue() );
         final SimpleObserver updateState = new SimpleObserver() {
             public void update() {
@@ -19,5 +18,9 @@ public class AndProperty extends Property<Boolean> {
         };
         a.addObserver( updateState );
         b.addObserver( updateState );
+    }
+
+    public static And And( Property<Boolean> a, final Property<Boolean> b ) {
+        return new And( a, b );
     }
 }

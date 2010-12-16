@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.AndProperty;
-import edu.colorado.phet.common.phetcommon.model.NotProperty;
+import edu.colorado.phet.common.phetcommon.model.And;
+import edu.colorado.phet.common.phetcommon.model.Not;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -32,7 +32,7 @@ public class VectorNode extends PNode {
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
         this.cartoonScale = cartoonScale;
-        new AndProperty( visible, new NotProperty( body.getCollidedProperty() ) ) {{
+        new And( visible, new Not( body.getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( getValue() );

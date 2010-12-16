@@ -3,7 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.modules.watertower;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.AndProperty;
+import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -83,7 +83,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         Property<Boolean> clockRunning = new Property<Boolean>( true );
         //wire up the clock to be running if the module is active and if the clock control button has been pressed
-        new AndProperty( clockRunning, moduleActive ) {{
+        new And( clockRunning, moduleActive ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     module.getFluidPressureAndFlowModel().getClock().setRunning( getValue() );
