@@ -5,3 +5,5 @@ blue_gate_open_icon.png source=PhET
 blue_gate_close_icon.png source=PhET
 red_gate_open_icon.png source=PhET
 red_gate_close_icon.png source=PhET
+green_gate_open_icon.png source=PhET
+green_gate_close_icon.png source=PhET
