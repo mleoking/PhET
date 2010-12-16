@@ -128,7 +128,7 @@ public abstract class LabeledNucleusNode extends PComposite {
      */
     // TODO
 //    public static void main(String [] args){
-//        LabeledNucleusNode imageTestNode = new LabeledNucleusNode("Uranium Nucleus Small.png",
+//        LabeledNucleusNode imageTestNode = new LabeledNucleusNode("uranium-nucleus-small.png",
 //                NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
 //                NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
 //        LabeledNucleusNode sphereTestNode = new LabeledNucleusNode(Color.RED,

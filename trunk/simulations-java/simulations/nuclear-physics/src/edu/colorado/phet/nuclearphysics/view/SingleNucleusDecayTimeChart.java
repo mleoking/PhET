@@ -924,7 +924,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     	}
     	else{
     		System.err.println(getClass().getName() + " - Warning: Couldn't locate display info for nucleus.");
-    		nucleusNode = new EnhancedLabeledNucleusNode("Polonium Nucleus Small.png", "", "", Color.WHITE );
+    		nucleusNode = new EnhancedLabeledNucleusNode("polonium-nucleus-small.png", "", "", Color.WHITE );
     	}
     	
     	if (_nucleusNodeRadius > 0){

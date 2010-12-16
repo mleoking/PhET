@@ -65,7 +65,7 @@ public class NuclearReactorLegendPanel extends JPanel {
         
         // Add the Uranium 235 nucleus to the legend.
         // Add the Uranium 235 nucleus to the legend.
-        PNode labeledU235Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
+        PNode labeledU235Nucleus = new LabeledNucleusImageNode("uranium-nucleus-small.png",
                 NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
