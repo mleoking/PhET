@@ -1,3 +1,4 @@
+Fixed: Forces don't update when bodies change while paused
 Added collisions
 Added real sun image
 # 0.0.08 (47194) Dec 15, 2010
