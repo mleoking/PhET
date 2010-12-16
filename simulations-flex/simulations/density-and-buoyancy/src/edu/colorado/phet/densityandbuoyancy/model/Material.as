@@ -4,9 +4,6 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import flash.display.Bitmap;
 
 public class Material {
-    // initial testing wood texture
-    // public domain, see http://www.publicdomainpictures.net/view-image.php?picture=wood-texture&image=1282&large=1
-    // license: " 	This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory."
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
     private static var woodTextureClass: Class;
 
@@ -14,19 +11,15 @@ public class Material {
     public static var customObjectTexture: Class;
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/styrofoam.jpg")]
-    //SRR made styrofoam.jpg
     private static var styrofoamTextureClass: Class;
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/aluminum.jpg")]
-    //SRR modified aluminum.jpg based on microsoft clip art
     private static var aluminumTextureClass: Class;
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wall.jpg")]
-    //came with away3d
     private static var brickTextureClass: Class;
 
     [Embed(source="../../../../../../data/density-and-buoyancy/images/ice.jpg")]
-    //SRR modified aluminum.jpg based on microsoft clip art
     private static var iceTextureClass: Class;
 
     public static var STYROFOAM: Material = new Material( FlexSimStrings.get( "material.styrofoam", "Styrofoam" ), 150, false, 0xcccccc, new styrofoamTextureClass() );//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
