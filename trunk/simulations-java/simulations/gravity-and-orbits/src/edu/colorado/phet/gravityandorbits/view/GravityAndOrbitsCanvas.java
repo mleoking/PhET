@@ -87,6 +87,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( new GrabbableVectorNode( body, modelViewTransformProperty, module.getShowVelocityProperty(), body.getVelocityProperty(), mode.getVelocityScale(), 1.0, VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
         }
 
+        for ( Body body : model.getBodies() ) {
+            addChild( new ExplosionNode( body, modelViewTransformProperty ) );
+        }
+
         // Control Panel
         final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo

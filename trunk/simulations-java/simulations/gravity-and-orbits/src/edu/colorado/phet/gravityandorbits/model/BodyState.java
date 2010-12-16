@@ -9,12 +9,14 @@ public class BodyState implements Serializable {
     public final ImmutableVector2D velocity;
     public final ImmutableVector2D acceleration;
     public final double mass;
+    public final boolean exploded;
 
-    public BodyState( ImmutableVector2D position, ImmutableVector2D velocity, ImmutableVector2D acceleration, double mass ) {
+    public BodyState( ImmutableVector2D position, ImmutableVector2D velocity, ImmutableVector2D acceleration, double mass, boolean exploded ) {
         this.position = position;
         this.velocity = velocity;
         this.acceleration = acceleration;
         this.mass = mass;
+        this.exploded = exploded;
     }
 
     public double distanceSquared( ImmutableVector2D position ) {

@@ -34,7 +34,7 @@ public class ModelState {
             ImmutableVector2D newVelocityHalfStep = bodyState.velocity.getAddedInstance( bodyState.acceleration.getScaledInstance( dt / 2 ) );
             ImmutableVector2D newAcceleration = getForce( bodyState, newPosition ).getScaledInstance( -1.0 / bodyState.mass );
             ImmutableVector2D newVelocity = newVelocityHalfStep.getAddedInstance( newAcceleration.getScaledInstance( dt / 2.0 ) );
-            newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass ) );
+            newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass, bodyState.exploded ) );
 
             //Euler
 //            ImmutableVector2D acceleration = getForce( bodyState, bodyState.position).getScaledInstance( -1/bodyState.mass );
@@ -50,6 +50,9 @@ public class ModelState {
 
     private ImmutableVector2D getForce( BodyState source, BodyState target, ImmutableVector2D newTargetPosition ) {
         if ( source.position.equals( newTargetPosition ) ) {//If they are on top of each other, force should be infinite, but ignore it since we want to have semi-realistic behavior
+            return new ImmutableVector2D();
+        }
+        else if ( source.exploded ) { //ignore in the computation if that body has exploded
             return new ImmutableVector2D();
         }
         else {
