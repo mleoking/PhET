@@ -28,3 +28,5 @@ tree.png source=phet author=PhET
 wolf_2.png source=phet author=PhET
 zoomIn.gif source=phet author=PhET
 zoomOut.gif source=phet author=PhET
+tear-20.png source=phet author=PhET
+x-20.png source=phet author=PhET
