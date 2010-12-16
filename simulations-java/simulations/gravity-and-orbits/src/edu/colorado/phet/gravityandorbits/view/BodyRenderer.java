@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -21,10 +22,14 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public abstract class BodyRenderer extends PNode {
-    protected Body body;
+    private IBody body;
 
-    public BodyRenderer( Body body ) {
+    public BodyRenderer( IBody body ) {
         this.body = body;
+    }
+
+    public IBody getBody() {
+        return body;
     }
 
     public abstract void setDiameter( double viewDiameter );
@@ -62,7 +67,7 @@ public abstract class BodyRenderer extends PNode {
 
         private SphericalNode sphereNode;
 
-        public SphereRenderer( Body body, double viewDiameter ) {
+        public SphereRenderer( IBody body, double viewDiameter ) {
             super( body );
             sphereNode = new SphericalNode( viewDiameter, createPaint( viewDiameter ), false );
             addChild( sphereNode );
@@ -76,9 +81,9 @@ public abstract class BodyRenderer extends PNode {
 
         private Paint createPaint( double diameter ) {// Create the gradient paint for the sphere in order to give it a 3D look.
             Paint spherePaint = new RoundGradientPaint( diameter / 8, -diameter / 8,
-                                                        body.getHighlight(),
+                                                        getBody().getHighlight(),
                                                         new Point2D.Double( diameter / 4, diameter / 4 ),
-                                                        body.getColor() );
+                                                        getBody().getColor() );
             return spherePaint;
         }
     }
@@ -87,9 +92,13 @@ public abstract class BodyRenderer extends PNode {
     public static class SunRenderer extends SphereRenderer {
 
         private final PhetPPath twinkles = new PhetPPath( Color.yellow );
+        private final int numSegments;
+        private final Function1<Double, Double> twinkleRadius;
 
-        public SunRenderer( Body body, double viewDiameter ) {
+        public SunRenderer( IBody body, double viewDiameter, int numSegments, Function1<Double, Double> twinkleRadius ) {
             super( body, viewDiameter );
+            this.numSegments = numSegments;
+            this.twinkleRadius = twinkleRadius;
             addChild( twinkles );
             twinkles.moveToBack();
             setDiameter( viewDiameter );
@@ -99,15 +108,15 @@ public abstract class BodyRenderer extends PNode {
         public void setDiameter( double viewDiameter ) {
             super.setDiameter( viewDiameter );
             double angle = 0;
-            int numSegments = 4 * 4 * 2 * 3;
+//            int numSegments = 4 * 4 * 2 * 3;
             double deltaAngle = Math.PI * 2 / numSegments;
             double radius = viewDiameter / 2;
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
             for ( int i = 0; i < numSegments + 1; i++ ) {
 //                double twinkleRadius = radius * (1.05+random.nextDouble()*0.1);
-                double twinkleRadius = radius * 1.1;
-                double myRadius = i % 2 == 0 ? twinkleRadius : radius;
+//                double twinkleRadius = radius * 1.1;
+                double myRadius = i % 2 == 0 ? twinkleRadius.apply( radius ) : radius;
                 ImmutableVector2D target = ImmutableVector2D.parseAngleAndMagnitude( myRadius, angle );
                 path.lineTo( target );
                 angle += deltaAngle;
@@ -120,7 +129,7 @@ public abstract class BodyRenderer extends PNode {
         private final PImage imageNode;
         private double viewDiameter;
 
-        public ImageRenderer( Body body, double viewDiameter, final String imageName ) {
+        public ImageRenderer( IBody body, double viewDiameter, final String imageName ) {
             super( body );
 
 //            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );

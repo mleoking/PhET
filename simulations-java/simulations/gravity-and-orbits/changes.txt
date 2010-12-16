@@ -1,3 +1,4 @@
+Added collisions
 Added real sun image
 # 0.0.08 (47194) Dec 15, 2010
 Switched to satellite image for earth for testing

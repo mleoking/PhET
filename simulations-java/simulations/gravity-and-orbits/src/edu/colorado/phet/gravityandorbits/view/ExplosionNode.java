@@ -1,0 +1,77 @@
+package edu.colorado.phet.gravityandorbits.view;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.gravityandorbits.model.Body;
+import edu.umd.cs.piccolo.PNode;
+
+/**
+ * @author Sam Reid
+ */
+public class ExplosionNode extends PNode {
+    int numStepsForAnimation = 10;
+
+    public ExplosionNode( final Body body, final Property<ModelViewTransform> modelViewTransform ) {
+        final Function1<Integer, Double> diameter = new Function1<Integer, Double>() {
+            public Double apply( Integer numClockTicksSinceExplosion ) {
+                if ( numClockTicksSinceExplosion < numStepsForAnimation / 2 ) {
+                    return new Function.LinearFunction( 0, numStepsForAnimation / 2, 1, getMaxViewDiameter( body, modelViewTransform ) ).evaluate( numClockTicksSinceExplosion );
+                }
+                else if ( numClockTicksSinceExplosion < numStepsForAnimation ) {
+                    return new Function.LinearFunction( numStepsForAnimation / 2, numStepsForAnimation, getMaxViewDiameter( body, modelViewTransform ), 1 ).evaluate( numClockTicksSinceExplosion );
+                }
+                else {
+                    return 1.0;
+                }
+            }
+        };
+        addChild( new BodyRenderer.SunRenderer( new IBody() {
+            public Color getHighlight() {
+                return Color.white;
+            }
+
+            public Color getColor() {
+                return Color.yellow;
+            }
+        }, 1, 14, new Function1<Double, Double>() {
+            public Double apply( Double radius ) {
+                return radius * 2;
+            }
+        } ) {{
+            final SimpleObserver visible = new SimpleObserver() {
+                public void update() {
+                    setVisible( body.getCollidedProperty().getValue() && body.getClockTicksSinceExplosion().getValue() <= numStepsForAnimation );
+                }
+            };
+            body.getCollidedProperty().addObserver( visible );
+            body.getClockTicksSinceExplosion().addObserver( visible );
+            body.getClockTicksSinceExplosion().addObserver( new SimpleObserver() {
+                public void update() {
+                    setDiameter( diameter.apply( body.getClockTicksSinceExplosion().getValue() ) );
+                }
+            } );
+
+        }} );//collisions are always cartoon?
+        body.getScaledPositionProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                final Point2D.Double point = getPosition( modelViewTransform, body ).toPoint2D();
+                setOffset( point.getX(), point.getY() );
+            }
+        } );
+    }
+
+    private double getMaxViewDiameter( Body body, Property<ModelViewTransform> modelViewTransform ) {
+        return modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter( Scale.CARTOON ) ) * 2;
+    }
+
+    private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
+        return modelViewTransform.getValue().modelToView( body.getPosition( body.getScaleProperty().getValue() ) );
+    }
+}

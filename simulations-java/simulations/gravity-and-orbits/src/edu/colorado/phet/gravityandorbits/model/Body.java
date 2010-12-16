@@ -9,14 +9,14 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
+import edu.colorado.phet.gravityandorbits.view.IBody;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * @author Sam Reid
  */
-public class Body {
+public class Body implements IBody {
     private final Property<ImmutableVector2D> positionProperty;//physical position
     private final Property<ImmutableVector2D> scaledPositionProperty;//position accounting for scale (i.e. cartoon or real)
     private final Property<ImmutableVector2D> velocityProperty;
@@ -43,6 +43,7 @@ public class Body {
     private final double cartoonForceScale;
     private boolean massReadoutBelow;
     private Property<Boolean> collidedProperty = new Property<Boolean>( false );
+    private Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
     private double tickValue;
     private String tickLabel;
 
@@ -89,6 +90,17 @@ public class Body {
         if ( parent != null ) {
             parent.positionProperty.addObserver( updateScaledPosition );
         }
+        collidedProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( collidedProperty.getValue() ) {
+                    clockTicksSinceExplosion.setValue( 0 );
+                }
+            }
+        } );
+    }
+
+    public Property<Integer> getClockTicksSinceExplosion() {
+        return clockTicksSinceExplosion;
     }
 
     public Property<ImmutableVector2D> getScaledPositionProperty() {
@@ -153,7 +165,7 @@ public class Body {
     }
 
     public BodyState toBodyState() {
-        return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass() );
+        return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass(), collidedProperty.getValue() );
     }
 
     public double getMass() {
@@ -169,12 +181,17 @@ public class Body {
     }
 
     public void updateBodyStateFromModel( BodyState bodyState ) {
-        if ( !isUserControlled() ) {
-            positionProperty.setValue( bodyState.position );
-            velocityProperty.setValue( bodyState.velocity );
+        if ( collidedProperty.getValue() ) {
+            clockTicksSinceExplosion.setValue( clockTicksSinceExplosion.getValue() + 1 );
         }
-        accelerationProperty.setValue( bodyState.acceleration );
-        forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
+        else {
+            if ( !isUserControlled() ) {
+                positionProperty.setValue( bodyState.position );
+                velocityProperty.setValue( bodyState.velocity );
+            }
+            accelerationProperty.setValue( bodyState.acceleration );
+            forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
+        }
     }
 
     public void allBodiesUpdated() {
@@ -220,6 +237,7 @@ public class Body {
         massProperty.reset();
         diameterProperty.reset();
         collidedProperty.reset();
+        clockTicksSinceExplosion.reset();
         clearPath();
     }
 
@@ -285,7 +303,7 @@ public class Body {
 
     public ImmutableVector2D getCartoonPosition() {
         if ( getParent() != null ) {
-            return new CartoonPositionMap(cartoonOffsetScale ).toCartoon( getPosition(), getParent().getPosition() );
+            return new CartoonPositionMap( cartoonOffsetScale ).toCartoon( getPosition(), getParent().getPosition() );
         }
         else {
             return getPosition();//those without parents have a cartoon position equal to their physical position

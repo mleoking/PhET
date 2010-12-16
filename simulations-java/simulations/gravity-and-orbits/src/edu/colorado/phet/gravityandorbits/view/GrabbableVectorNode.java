@@ -20,6 +20,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Used to show the draggable velocity vectors
+ *
  * @author Sam Reid
  */
 public class GrabbableVectorNode extends VectorNode {
