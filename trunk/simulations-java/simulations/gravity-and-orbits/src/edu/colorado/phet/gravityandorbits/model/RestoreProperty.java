@@ -9,11 +9,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class RestoreProperty<T> extends PublicProperty<T> {
     private final Property<Boolean> clockPaused;
     private T restorePoint;
+    private Property<Boolean> changed;
 
     public RestoreProperty( Property<Boolean> clockPaused, T value ) {
         super( value );
         this.clockPaused = clockPaused;
         this.restorePoint = value;
+
+        changed = new Property<Boolean>( !equalsRestorePoint() );
     }
 
     @Override
@@ -22,6 +25,7 @@ public class RestoreProperty<T> extends PublicProperty<T> {
         if ( clockPaused.getValue() ) {
             restorePoint = value;
         }
+        changed.setValue( !equalsRestorePoint() );
     }
 
     public boolean equalsRestorePoint() {
@@ -33,12 +37,6 @@ public class RestoreProperty<T> extends PublicProperty<T> {
     }
 
     public Property<Boolean> changed() {
-        final Property<Boolean> changed = new Property<Boolean>( !equalsRestorePoint() );
-        addObserver( new SimpleObserver() {
-            public void update() {
-                changed.setValue( !equalsRestorePoint() );
-            }
-        } );
         return changed;
     }
 }
