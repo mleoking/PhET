@@ -55,7 +55,15 @@ public class ImmutableVector2D implements Serializable {
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ")";
+        final StringBuffer result = new StringBuffer();
+        result.append( super.toString().replaceAll( ".*\\.", "" ) );
+        result.append( '[' );
+        result.append( "x=" );
+        result.append( x );
+        result.append( ",y=" );
+        result.append( y );
+        result.append( ']' );
+        return result.toString();
     }
 
     public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
