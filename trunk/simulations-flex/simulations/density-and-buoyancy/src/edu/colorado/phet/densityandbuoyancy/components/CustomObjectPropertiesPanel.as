@@ -51,9 +51,10 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
 
         grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ), sliderWidth ) );
         grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
-        grid.addChild( createSpacerRow( 7 ) );
+        grid.addChild( createSpacerRow( 2 ) );
         grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
-        grid.addChild( createSpacerRow( 26 ) );
+        // this would make the background cover the data-tip
+        //grid.addChild( createSpacerRow( 26 ) );
 
         comboBox = new ComboBox();
         const items: Array = Material.SELECTABLE_MATERIALS;
