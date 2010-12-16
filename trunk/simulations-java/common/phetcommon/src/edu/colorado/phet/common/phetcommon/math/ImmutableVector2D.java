@@ -55,7 +55,7 @@ public class ImmutableVector2D implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getName() + "[" + x + ", " + y + "]";
+        return "(" + x + ", " + y + ")";
     }
 
     public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
