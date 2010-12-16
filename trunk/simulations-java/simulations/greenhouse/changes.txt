@@ -1,3 +1,5 @@
+# 3.01.04 (47268) Dec 16, 2010
+12/16/10 Deploying to dev as release candidate.
 12/9/10 see #2598, deleted partial unused Piccolo port of a module and its control panel
 # 3.01.03 (46760) Dec 2, 2010
 12/2/10 Deploying to dev for review of some prototyped features in Molecules & Light
