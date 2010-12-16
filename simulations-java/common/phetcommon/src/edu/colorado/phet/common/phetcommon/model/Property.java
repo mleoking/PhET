@@ -64,4 +64,9 @@ public class Property<T> extends SimpleObservable {
     protected T getDefaultValue() {
         return defaultValue;
     }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }

@@ -18,9 +18,4 @@ public class MutableVector2D extends Property<ImmutableVector2D> {
     public ImmutableVector2D times( double scale ) {
         return getValue().getScaledInstance( scale );
     }
-
-    @Override
-    public String toString() {
-        return getValue().toString();
-    }
 }

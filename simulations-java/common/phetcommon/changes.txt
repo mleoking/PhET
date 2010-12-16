@@ -1,3 +1,4 @@
+12-16-2010: Improved toString for ImmutableVector2D and Property<T>
 Changed some of the game strings - "Best" to "Your Best" and "New Best!" to "Your New Best".
 Changed some of the game strings - "PERFECT!" to "Perfect", "NEW BEST!" to "New Best!", "Start!" to "Start". 
 Added PropertyRadioButton, which wires up a JRadioButton to a property of type T in an enum-style Property<T>.
