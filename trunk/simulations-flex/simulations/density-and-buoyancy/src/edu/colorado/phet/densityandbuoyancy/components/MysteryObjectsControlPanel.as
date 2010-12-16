@@ -6,6 +6,7 @@ import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.containers.Grid;
@@ -46,12 +47,12 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         titleWindow.showCloseButton = true;
         titleWindow.width = 400;
         titleWindow.height = 400;
-        titleWindow.addEventListener( CloseEvent.CLOSE, function(): void {
+        titleWindow.addEventListener( CloseEvent.CLOSE, function( evt: Event ): void {
             titleWindowVisible.value = false;
         } );
         titleWindow.addChild( grid );
 
-        tableButton.addEventListener( MouseEvent.CLICK, function(): void {
+        tableButton.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
             titleWindowVisible.value = !titleWindowVisible.value;
         } );
         addChild( tableButton );
