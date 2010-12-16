@@ -1,3 +1,4 @@
+Fixed data-tip and tick-mark alignment on density slider
 Fixed property slider vertical alignment
 Decreased font size of density slider readout
 Added whitespace to the sides of density slider readout
