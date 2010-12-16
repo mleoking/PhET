@@ -3,8 +3,10 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Or;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -17,12 +19,12 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * @author Sam Reid
  */
 public class Body implements IBody {
-    private final Property<ImmutableVector2D> positionProperty;//physical position
+    private final RestoreProperty<ImmutableVector2D> positionProperty;//physical position
     private final Property<ImmutableVector2D> scaledPositionProperty;//position accounting for scale (i.e. cartoon or real)
-    private final Property<ImmutableVector2D> velocityProperty;
+    private final RestoreProperty<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
     private final Property<ImmutableVector2D> forceProperty;
-    private final PublicProperty<Double> massProperty;
+    private final RestoreProperty<Double> massProperty;
     private final Property<Double> diameterProperty;
     private final String name;
     private final Color color;
@@ -41,9 +43,9 @@ public class Body implements IBody {
     private final double labelAngle;
     private final int maxPathLength;
     private final double cartoonForceScale;
-    private boolean massReadoutBelow;
-    private Property<Boolean> collidedProperty = new Property<Boolean>( false );
-    private Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
+    private final boolean massReadoutBelow;
+    private final RestoreProperty<Boolean> collidedProperty;
+    private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
     private double tickValue;
     private String tickLabel;
 
@@ -53,7 +55,7 @@ public class Body implements IBody {
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel ) {
+                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused ) {
         this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
@@ -70,12 +72,13 @@ public class Body implements IBody {
         this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
-        positionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
-        velocityProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( vx, vy ) );
+        positionProperty = new RestoreProperty<ImmutableVector2D>( clockPaused, new ImmutableVector2D( x, y ) );
+        velocityProperty = new RestoreProperty<ImmutableVector2D>( clockPaused, new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        massProperty = new PublicProperty<Double>( mass );
+        massProperty = new RestoreProperty<Double>( clockPaused, mass );
         diameterProperty = new Property<Double>( diameter );
+        collidedProperty = new RestoreProperty<Boolean>( clockPaused, false );
         density = mass / getVolume();
         scaledPositionProperty = new Property<ImmutableVector2D>( getPosition() );
 
@@ -394,6 +397,17 @@ public class Body implements IBody {
         for ( VoidFunction0 listener : userModifiedVelocityListeners ) {
             listener.apply();
         }
+    }
+
+    public void rewind() {
+        positionProperty.restore();
+        velocityProperty.restore();
+        massProperty.restore();
+        collidedProperty.restore();
+    }
+
+    public Property<Boolean> anyPropertyChanged() {
+        return new Or( Arrays.asList( positionProperty.changed(), velocityProperty.changed(), massProperty.changed(), collidedProperty.changed() ) );
     }
 
     public static class PathPoint {

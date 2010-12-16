@@ -1,3 +1,4 @@
+Added rewind button
 Fixed: Forces don't update when bodies change while paused
 Added collisions
 Added real sun image

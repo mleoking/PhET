@@ -20,7 +20,7 @@ public class And extends Property<Boolean> {
         b.addObserver( updateState );
     }
 
-    public static And And( Property<Boolean> a, final Property<Boolean> b ) {
+    public static And and( Property<Boolean> a, final Property<Boolean> b ) {
         return new And( a, b );
     }
 }

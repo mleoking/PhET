@@ -188,4 +188,11 @@ public abstract class GravityAndOrbitsMode {
     public Line2D.Double getInitialMeasuringTapeLocation() {
         return initialMeasuringTapeLocation;
     }
+
+    //Restore the last set of initial conditions that were set while the sim was paused.
+    public void rewind() {
+        for ( Body body : model.getBodies() ) {
+            body.rewind();
+        }
+    }
 }
