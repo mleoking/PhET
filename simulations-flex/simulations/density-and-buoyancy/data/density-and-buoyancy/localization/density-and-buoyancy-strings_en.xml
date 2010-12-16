@@ -49,15 +49,18 @@
     <string key="material.honey" value="Honey"/>
     <string key="material.oil" value="Oil"/>
     <string key="properties.volume" value="Volume"/>
+    <string key="properties.volumeLiter" value="L"/>
     <string key="properties.volumeLiterValue" value="{0} L"/>
     <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
     <string key="properties.mass" value="Mass"/>
+    <string key="properties.massKilogram" value="kg"/>
     <string key="properties.massKilogramValue" value="{0} kg"/>
     <string key="properties.massGramValue" value="{0} g"/>
     <string key="properties.weightNewtonValue" value="{0} N"/>
     <string key="properties.weightPoundValue" value="{0} lb"/>
     <string key="properties.density" value="Density"/>
     <string key="properties.densityValue" value="{0} kg/L"/>
+    <string key="properties.kilogramPerLiter" value="kg/L"/>
     <string key="properties.fluidDensity" value="Fluid Density"/>
     <string key="application.resetAll" value="Reset All"/>
     <string key="forceArrowControlPanelTitle" value="Show Forces"/>
