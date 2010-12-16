@@ -1,3 +1,4 @@
+# 1.02.11 (47228) Dec 15, 2010
 Spacing changes for around the density readout
 # 1.02.10 (47225) Dec 15, 2010
 Fixed data-tip and tick-mark alignment on density slider
