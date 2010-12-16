@@ -23,6 +23,7 @@ import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flashcommon.MathUtil;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -60,7 +61,10 @@ public class AbstractDBCanvas extends UIComponent {
     public var renderedOnce: Boolean = false;
     private var renderListeners: Array = new Array();
 
-    private var _units: Units = new Units( "kg/L", new LinearUnit( "kg", 1.0 ), new LinearUnit( "L", 1000.0 ), new LinearUnit( "kg/L", 1.0 / 1000.0 ) );
+    private const kgString: String = FlexSimStrings.get( "properties.massKilogram", "kg" );
+    private const lString: String = FlexSimStrings.get( "properties.volumeLiter", "L" );
+    private const densityString: String = FlexSimStrings.get( "properties.kilogramPerLiter", "kg/L" );
+    private var _units: Units = new Units( "kg/L", new LinearUnit( kgString, 1.0 ), new LinearUnit( lString, 1000.0 ), new LinearUnit( densityString, 1.0 / 1000.0 ) );
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
     protected var extendedPool: Boolean;
 
