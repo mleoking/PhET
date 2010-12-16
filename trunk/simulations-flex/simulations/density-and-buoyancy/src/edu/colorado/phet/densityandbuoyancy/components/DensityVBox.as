@@ -14,6 +14,8 @@ public class DensityVBox extends VBox {
         box.setStyle( "backgroundColor", DensityConstants.CONTROL_PANEL_COLOR );
         box.setStyle( "borderStyle", "solid" );
 
+        box.setStyle( "cornerRadius", 5 );
+
         //Padding so the buttons don't touch the edge
         box.setStyle( "paddingTop", 5 );
         box.setStyle( "paddingBottom", 5 );
