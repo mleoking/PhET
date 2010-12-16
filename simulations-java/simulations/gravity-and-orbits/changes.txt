@@ -1,3 +1,4 @@
+Fixed: Rewind button not always enabled when it should be
 Added rewind button
 Fixed: Forces don't update when bodies change while paused
 Added collisions
