@@ -23,7 +23,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
     private var grid: Grid = new Grid();
     private var densityObject: DensityObject;
     private var comboBox: ComboBox;
-    private const myBlockSelected: BooleanProperty = new BooleanProperty( false );
+    public const myBlockSelected: BooleanProperty = new BooleanProperty( false );
 
     public function CustomObjectPropertiesPanel( densityObject: DensityObject, units: Units, sliderWidth: Number = 280 ) {
         super();
@@ -126,5 +126,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         return spacerRow;
     }
 
+    public function reset(): void {
+        myBlockSelected.reset();
+    }
 }
 }
