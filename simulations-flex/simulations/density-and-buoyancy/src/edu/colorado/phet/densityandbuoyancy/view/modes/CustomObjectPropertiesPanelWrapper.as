@@ -18,9 +18,12 @@ public class CustomObjectPropertiesPanelWrapper {
     public function teardown(): void {
         if ( customObjectPropertiesPanelShowing ) {
             canvas.container.removeChild( customObjectPropertiesPanel );
-            customObjectPropertiesPanel.reset();
             customObjectPropertiesPanelShowing = false;
         }
+    }
+
+    public function reset(): void {
+        customObjectPropertiesPanel.reset();
     }
 
     public function init(): void {
