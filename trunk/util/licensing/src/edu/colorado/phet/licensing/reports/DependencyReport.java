@@ -2,9 +2,12 @@ package edu.colorado.phet.licensing.reports;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
+import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.licensing.AnnotatedFile;
 import edu.colorado.phet.licensing.ResourceAnnotation;
 import edu.colorado.phet.licensing.SimInfo;
@@ -133,18 +136,18 @@ public class DependencyReport {
         file.createNewFile();
         BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
 
-
-        File baseDir = new File( trunk, "simulations-java" );
-        String[] simNames = PhetProject.getSimNames( baseDir );
+        ArrayList<PhetProject> simProjects = new ArrayList<PhetProject>() {{
+            addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
+            addAll( Arrays.asList( FlexSimulationProject.getFlexProjects( trunk ) ) );
+        }};
 
         ArrayList<SimHTML> simHTMLs = new ArrayList<SimHTML>();
-        int count = 0;
-        for ( int i = 0; i < simNames.length; i++ ) {
-            DependencyReport.SimHTML info = visitSim( simNames[i] );
+        int count =0;
+        for ( PhetProject simProject : simProjects ) {
+            final SimHTML info = visitSim( simProject );
             simHTMLs.add( info );
-            count += info.getIssues().getIssueCount();
+            count+=info.getIssues().getIssueCount();
         }
-
         String content = "Sims with no known issues:<br>";
 
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
@@ -231,8 +234,8 @@ public class DependencyReport {
         }
     }
 
-    private SimHTML visitSim( String simName ) throws IOException {
-        SimInfo issues = SimInfo.getSimInfo( trunk, simName ).getIssues();
+    private SimHTML visitSim( PhetProject project) throws IOException {
+        SimInfo issues = new SimInfo(project).getIssues();
 
         String header = issues.getHTMLHeader();
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";

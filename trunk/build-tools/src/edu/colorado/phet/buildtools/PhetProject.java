@@ -519,7 +519,7 @@ public abstract class PhetProject {
     public static PhetProject[] getAllSimulationProjects( File trunk ) {
         List phetProjects = new ArrayList();
 
-        phetProjects.addAll( Arrays.asList( JavaProject.getJavaProjects( trunk ) ) );
+        phetProjects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
         phetProjects.addAll( Arrays.asList( FlashSimulationProject.getFlashProjects( trunk ) ) );
         phetProjects.addAll( Arrays.asList( FlexSimulationProject.getFlexProjects( trunk ) ) );
         return (PhetProject[]) phetProjects.toArray( new PhetProject[phetProjects.size()] );
@@ -535,7 +535,7 @@ public abstract class PhetProject {
     public static List<PhetProject> getListOfAllPhetProjects( File trunk ) {
         List<PhetProject> projects = new LinkedList<PhetProject>();
         // TODO: use getAllSimulationProjects above
-        projects.addAll( Arrays.asList( JavaSimulationProject.getJavaProjects( trunk ) ) );
+        projects.addAll( Arrays.asList( JavaSimulationProject.getJavaSimulations( trunk ) ) );
         projects.addAll( Arrays.asList( FlashSimulationProject.getFlashProjects( trunk ) ) );
         projects.addAll( Arrays.asList( FlexSimulationProject.getFlexProjects( trunk ) ) );
 
