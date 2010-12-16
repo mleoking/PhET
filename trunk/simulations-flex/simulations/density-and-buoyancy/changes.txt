@@ -1,3 +1,4 @@
+Fixed property slider vertical alignment
 Decreased font size of density slider readout
 Added whitespace to the sides of density slider readout
 Extended the control frame south so the density readout is included
