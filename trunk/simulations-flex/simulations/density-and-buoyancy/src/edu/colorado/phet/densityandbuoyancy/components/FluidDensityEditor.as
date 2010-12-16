@@ -10,6 +10,7 @@ public class FluidDensityEditor extends PropertyEditor {
 
     override protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ): SliderDecorator {
         const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
+        slider.isFluidDensitySlider = true;
         slider.enableTickmarks();
         for each ( var material: Material in Material.LABELED_LIQUID_MATERIALS ) {
             var unitDensity: Number = unit.fromSI( material.getDensity() );

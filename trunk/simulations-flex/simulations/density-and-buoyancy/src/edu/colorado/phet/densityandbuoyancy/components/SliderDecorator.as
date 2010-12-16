@@ -1,5 +1,4 @@
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 import flash.display.Sprite;
@@ -17,27 +16,14 @@ public class SliderDecorator extends UIComponent {
     private var sliderY: Number = 8;
     private const tickHeight: Number = 4;
     private var tickMarksEnabled: Boolean = false;
+    public var isFluidDensitySlider = false;
 
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
 
         slider = new MyHSlider();
         slider.showDataTip = false;
-        slider.setStyle( "dataTipOffset", 0 );//Without this fix, data tips appear very far from the tip of the slider thumb, see http://blog.flexexamples.com/2007/11/03/customizing-a-slider-controls-data-tip/
         slider.setStyle( "thumbOffset", thumbOffset );
-
-        //The default NumberFormatter on slider uses Rounding.NONE, so to make sure it is compatible with the
-        //numberformatter required in the rest of the sim, use full precision on the dataTipPrecision,
-        //then pass the number through our own numberformatter
-        //Otherwise, the readouts often differ by 0.01
-        slider.setStyle( "dataTipPrecision", 10 );
-        function doFormat( s: String ): String {
-            var number: Number = Number( s );
-            number = dataTipClamp( number );
-            return DensityConstants.format( number );
-        }
-
-        slider.dataTipFormatFunction = doFormat;
 
         slider.y = sliderY;
         addChild( slider );
@@ -86,10 +72,12 @@ public class SliderDecorator extends UIComponent {
     }
 
     private function modelToView( x: Number ): Number {
+        // TODO: this part is what was giving us problems. temporary values added, but this should all be rewritten
+//        return slider.mx_internal::getXFromValue(x);
         var modelRange: Number = slider.maximum - slider.minimum;
-        var viewRange: Number = slider.width - 8 * 2;//Width of the track only
-
-        return (x - slider.minimum) * viewRange / modelRange + 8;//note: can be off by a pixel sometimes, we are not sure why
+        var viewRange: Number = slider.width - (isFluidDensitySlider ? 16 : 10);//Width of the track only
+        // working well for regular tick 12x6
+        return (x - slider.minimum) * viewRange / modelRange + (isFluidDensitySlider ? 8 : 4);//note: can be off by a pixel sometimes, we are not sure why
     }
 
     private function updateTicks(): void {
