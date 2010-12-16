@@ -20,8 +20,8 @@ public class FlexSimExampleCanvas extends Canvas {
     public function FlexSimExampleCanvas() {
     }
 
-    private var RENDER_WIDTH: int = 1024;
-    private var RENDER_HEIGHT: int = 768;
+    private var RENDER_WIDTH: int = 400;
+    private var RENDER_HEIGHT: int = 300;
 
     public function init(): void {
         setStyle( "backgroundColor", 0xffff99 );//same color as build an atom
@@ -29,10 +29,23 @@ public class FlexSimExampleCanvas extends Canvas {
         percentHeight = 100;
 
         var controlPanel:VBox = new VBox();
+        controlPanel.setStyle("borderStyle", "solid")
+        controlPanel.setStyle("borderColor", 0xff0000);
+        controlPanel.setStyle("cornerRadius", 10);
+        controlPanel.setStyle("borderThickness", 8);
+        controlPanel.setStyle("paddingTop", 8);
+        controlPanel.setStyle("paddingBottom", 8);
+        controlPanel.setStyle("paddingRight", 4);
+        controlPanel.setStyle("paddingLeft", 4);
+
         var button1:Button = new Button();
-        button1.label = "Press me!";
+        var slider1:HSlider = new HSlider();
+        button1.label = " Press me! Press me! Press me!  NOW!!! ";
         button1.buttonMode = true;
         controlPanel.addChild(button1);
+
+        controlPanel.addChild(slider1);
+
         this.addChild(controlPanel);
 
         button1.addEventListener(MouseEvent.CLICK, onButtonPress);
@@ -40,6 +53,9 @@ public class FlexSimExampleCanvas extends Canvas {
         const listener: Function = function( event: Event ): void {
             const sx:Number = stage.stageWidth / RENDER_WIDTH;
             const sy:Number = stage.stageHeight / RENDER_HEIGHT;
+            var s:Number = Math.min(sx,sy);
+            controlPanel.scaleX = s;
+            controlPanel.scaleY = s;
         };
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );
