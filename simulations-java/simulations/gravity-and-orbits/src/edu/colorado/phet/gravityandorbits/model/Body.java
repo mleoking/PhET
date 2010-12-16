@@ -404,6 +404,7 @@ public class Body implements IBody {
         velocityProperty.restore();
         massProperty.restore();
         collidedProperty.restore();
+        clearPath();
     }
 
     public Property<Boolean> anyPropertyChanged() {
