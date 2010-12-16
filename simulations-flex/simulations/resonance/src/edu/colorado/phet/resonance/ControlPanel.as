@@ -1,7 +1,9 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 
 import flash.display.*;
 import flash.text.*;
+
+import mx.containers.Canvas;
 
 public class ControlPanel extends Sprite {
 
@@ -25,10 +27,10 @@ public class ControlPanel extends Sprite {
     public function ControlPanel( myMainView: MainView, model: ShakerModel ) {
         this.myMainView = myMainView;
         this.shakerModel = model;
-        this.initialize();
+        this.init();
     }//end of constructor
 
-    public function initialize(): void {
+    public function init(): void {
         this.background = new Sprite();
         this.backgroundBorder = new Sprite();
         this.addChild( this.background );
