@@ -10,10 +10,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.And;
-import edu.colorado.phet.common.phetcommon.model.IsSelectedProperty;
-import edu.colorado.phet.common.phetcommon.model.Not;
-import static edu.colorado.phet.common.phetcommon.model.Not.Not;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -23,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -32,6 +29,9 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.common.phetcommon.model.IsSelected.IsSelected;
+import static edu.colorado.phet.common.phetcommon.model.Not.Not;
 
 /**
  * Canvas template.
@@ -133,9 +133,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         addChild( new FloatingClockControlNode( Not( module.clockPaused ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            final RewindButton child = new RewindButton( 60 );
+            child.setOffset( getPlayPauseButton().getFullBounds().getMinX() - child.getFullBounds().getWidth() - 5, getPlayPauseButton().getFullBounds().getCenterY() - child.getFullBounds().getHeight() / 2 );
+            addChild( child );
         }} );
 
-        addChild( new MeasuringTape( new And( new IsSelectedProperty<Scale>( Scale.REAL, module.getScaleProperty() ), module.getMeasuringTapeVisibleProperty() ),
+        addChild( new MeasuringTape( IsSelected( Scale.REAL, module.getScaleProperty() ).and( module.getMeasuringTapeVisibleProperty() ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
         }} );
