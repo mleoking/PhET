@@ -60,6 +60,8 @@ public class BuoyancyPlaygroundMode extends BuoyancyMode {
         block2.reset();
         block2.material = defaultMaterial;
         setOneObject();
+        customObjectPropertiesPanelWrapper1.reset();
+        customObjectPropertiesPanelWrapper2.reset();
     }
 
     public function setOneObject(): void {
