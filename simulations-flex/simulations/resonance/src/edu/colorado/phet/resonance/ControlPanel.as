@@ -1,9 +1,11 @@
 package edu.colorado.phet.resonance {
 
 import flash.display.*;
+import flash.events.Event;
 import flash.text.*;
 
 import mx.containers.Canvas;
+import mx.controls.HSlider;
 
 public class ControlPanel extends Canvas {
 
@@ -11,7 +13,8 @@ public class ControlPanel extends Canvas {
     private var shakerModel: ShakerModel;
     private var background: Sprite;
     private var backgroundBorder: Sprite;
-    private var dampingSlider: HorizontalSlider;
+    //private var dampingSlider: HorizontalSlider;
+    private var dampingSlider: HSlider;
     private var maxValueOfB: Number
     private var nbrResonatorsSlider: HorizontalSlider;
     private var maxNbrResonators: int;
@@ -29,25 +32,29 @@ public class ControlPanel extends Canvas {
         this.shakerModel = model;
         this.init();
     }//end of constructor
-    public function addSprite(s:Sprite):void{
-        this.addChild( new SpriteUIComponent(s) );
+    public function addSprite( s: Sprite ): void {
+        this.addChild( new SpriteUIComponent( s ) );
     }
 
     public function init(): void {
         this.background = new Sprite();
         this.backgroundBorder = new Sprite();
-        this.addSprite(this.background);
+        this.addSprite( this.background );
         this.addSprite( this.backgroundBorder );
         this.drawPanel();
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
-        this.dampingSlider = new HorizontalSlider( setDamping, 100, 0.05, 1 );
-        this.dampingSlider.setLabelText( "damping" );
-        this.maxValueOfB = 5;
-        this.dampingSlider.setScale( this.maxValueOfB );
-        this.dampingSlider.setReadoutPrecision( 2 );
-        this.dampingSlider.setVal( 2.5 );
-        this.addSprite( dampingSlider );
+        this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
+        this.dampingSlider.minimum = 0.05;
+        this.dampingSlider.maximum = 5;
+        this.dampingSlider.addEventListener(Event.CHANGE, setDamping);
+
+//        this.dampingSlider.setLabelText( "damping" );
+//        this.maxValueOfB = 5;
+//        this.dampingSlider.setScale( this.maxValueOfB );
+//        this.dampingSlider.setReadoutPrecision( 2 );
+//        this.dampingSlider.setVal( 2.5 );
+        this.addChild( dampingSlider );
         this.dampingSlider.x = this.width / 2 - 0.5 * this.dampingSlider.width;
         this.dampingSlider.y = 45;
 
@@ -164,8 +171,8 @@ public class ControlPanel extends Canvas {
         this.kSlider.setVal( k );
     }
 
-    public function setDamping(): void {
-        var b: Number = this.maxValueOfB * this.dampingSlider.getVal()
+    public function setDamping(evt:Event): void {
+        var b: Number = this.dampingSlider.value ;
         this.shakerModel.setB( b );
     }
 
