@@ -35,6 +35,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
+    public final Property<Boolean> clockPaused = clockPausedProperty;//todo: testing readability in client users with public final fields
     private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
     private final Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 

@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -8,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Sam Reid
  */
-public class NotProperty extends Property<Boolean> {
-    public NotProperty( final Property<Boolean> p ) {
+public class Not extends Property<Boolean> {
+    public Not( final Property<Boolean> p ) {
         super( !p.getValue() );
         p.addObserver( new SimpleObserver() {
             public void update() {
@@ -23,4 +22,7 @@ public class NotProperty extends Property<Boolean> {
         } );
     }
 
+    public static Property<Boolean> Not( Property<Boolean> p ) {
+        return new Not( p );
+    }
 }
