@@ -123,7 +123,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         constraints.ipadx = 0; // Remove padding.
         
         // Create and add the Polonium image.
-        PNode labeledPoloniumNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
+        PNode labeledPoloniumNucleus = new LabeledNucleusImageNode("polonium-nucleus-small.png",
                 NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
@@ -148,7 +148,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
         // Create and add Lead image.
-        PNode labeledLeadNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
+        PNode labeledLeadNucleus = new LabeledNucleusImageNode("polonium-nucleus-small.png",
                 NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
                 NuclearPhysicsConstants.LEAD_LABEL_COLOR );
@@ -178,7 +178,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( _customNucleusRadioButton, constraints  );
         
         // Create and add the icon for the non-decayed custom nucleus.
-        PNode labeledCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
+        PNode labeledCustomNucleus = new LabeledNucleusImageNode("polonium-nucleus-small.png", "",
                 NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         Image customNucleusImage = labeledCustomNucleus.toImage();
@@ -202,7 +202,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
         // Create and add the icon for the decayed custom nucleus.
-        PNode labeledDecayedCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
+        PNode labeledDecayedCustomNucleus = new LabeledNucleusImageNode("polonium-nucleus-small.png", "",
                 NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR );
         Image decayedCustomNucleusImage = labeledDecayedCustomNucleus.toImage();

@@ -77,7 +77,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR,
 			NuclearPhysicsConstants.URANIUM_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 	
 	public static final NucleusDisplayInfo URANIUM_236_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.URANIUM_236_LEGEND_LABEL,
@@ -85,7 +85,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.URANIUM_236_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.URANIUM_236_LABEL_COLOR,
 			NuclearPhysicsConstants.URANIUM_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 	
 	public static final NucleusDisplayInfo URANIUM_238_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.URANIUM_238_LEGEND_LABEL,
@@ -93,7 +93,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR,
 			NuclearPhysicsConstants.URANIUM_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 	
 	public static final NucleusDisplayInfo URANIUM_239_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.URANIUM_239_LEGEND_LABEL,
@@ -101,7 +101,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.URANIUM_239_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.URANIUM_239_LABEL_COLOR,
 			NuclearPhysicsConstants.URANIUM_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 	
 	public static final NucleusDisplayInfo POLONIUM_211_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.POLONIUM_211_LEGEND_LABEL,
@@ -109,7 +109,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.POLONIUM_LABEL_COLOR,
 			NuclearPhysicsConstants.POLONIUM_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 
 	public static final NucleusDisplayInfo LEAD_206_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL,
@@ -117,7 +117,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.LEAD_LABEL_COLOR,
 			NuclearPhysicsConstants.LEAD_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 
 	public static final NucleusDisplayInfo LEAD_207_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.LEAD_207_LEGEND_LABEL,
@@ -125,7 +125,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.LEAD_LABEL_COLOR,
 			NuclearPhysicsConstants.LEAD_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 
 	public static final NucleusDisplayInfo HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
@@ -133,7 +133,7 @@ public class NucleusDisplayInfo {
 			"",  // No isotope number for the custom nucleus.
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 
 	public static final NucleusDisplayInfo DECAYED_HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL,
@@ -141,7 +141,7 @@ public class NucleusDisplayInfo {
 			"",  // No isotope number for the custom nucleus.
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR,
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 
 	public static final NucleusDisplayInfo DEFAULT_DISPLAY_INFO = new NucleusDisplayInfo(
 			"XX",
@@ -149,7 +149,7 @@ public class NucleusDisplayInfo {
 			"XX",
 			Color.WHITE,
 			Color.GRAY, 
-			"Polonium Nucleus Small.png" );
+			"polonium-nucleus-small.png" );
 	
     //------------------------------------------------------------------------
     // Instance Data

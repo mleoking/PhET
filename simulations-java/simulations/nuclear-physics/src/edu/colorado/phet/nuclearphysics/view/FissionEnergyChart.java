@@ -314,16 +314,16 @@ public class FissionEnergyChart extends PComposite {
         
         // Add the images for the nuclei.  Not all are initially visible.
         
-        _unfissionedNucleusImage = NuclearPhysicsResources.getImageNode("Uranium Nucleus Small.png");
+        _unfissionedNucleusImage = NuclearPhysicsResources.getImageNode("uranium-nucleus-small.png");
         _unfissionedNucleusImage.setScale( NUCLEI_SCALING_FACTOR );
         addChild(_unfissionedNucleusImage);
         
-        _largerDaughterNucleusImage = NuclearPhysicsResources.getImageNode("Larger Daughter Nucleus.png");
+        _largerDaughterNucleusImage = NuclearPhysicsResources.getImageNode("larger-daughter-nucleus.png");
         _largerDaughterNucleusImage.setScale(  NUCLEI_SCALING_FACTOR );
         _largerDaughterNucleusImage.setVisible( false );
         addChild(_largerDaughterNucleusImage);
         
-        _smallerDaughterNucleusImage = NuclearPhysicsResources.getImageNode("Smaller Daughter Nucleus.png");
+        _smallerDaughterNucleusImage = NuclearPhysicsResources.getImageNode("smaller-daughter-nucleus.png");
         _smallerDaughterNucleusImage.setScale(  NUCLEI_SCALING_FACTOR );
         _smallerDaughterNucleusImage.setVisible( false );
         addChild(_smallerDaughterNucleusImage);

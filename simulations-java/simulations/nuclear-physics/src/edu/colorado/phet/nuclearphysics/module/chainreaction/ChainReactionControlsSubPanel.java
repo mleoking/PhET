@@ -144,7 +144,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             }
         });
         
-        PNode labeledU235Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
+        PNode labeledU235Nucleus = new LabeledNucleusImageNode("uranium-nucleus-small.png",
                 NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
@@ -195,7 +195,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             }
         } );
 
-        PNode labeledU238Nucleus = new LabeledNucleusImageNode("Uranium Nucleus Small.png",
+        PNode labeledU238Nucleus = new LabeledNucleusImageNode("uranium-nucleus-small.png",
                 NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
                 NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
                 NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );
