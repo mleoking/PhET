@@ -60,11 +60,11 @@ public class DependencyReport {
                       "    \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
                       "<html>\n" +
                       "<head>\n" +
-                      "  <title>" + "PhET Java Software Dependencies</title>\n" +
+                      "  <title>" + "PhET Java/Flex Software Dependencies</title>\n" +
                       "</head>\n" +
                       "<body>\n" +
                       "\n" +
-                      "PhET Java Software Dependencies<br>" + new Date() + "<br><br><br>" +
+                      "PhET Java/Flex Software Dependencies<br>" + new Date() + "<br><br><br>" +
                       content +
                       "\n" +
                       "</body>\n" +
@@ -180,11 +180,11 @@ public class DependencyReport {
                               "    \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
                               "<html>\n" +
                               "<head>\n" +
-                              "  <title>" + "PhET Java Software Dependencies</title>\n" +
+                              "  <title>" + "PhET Java/Flex Software Dependencies</title>\n" +
                               "</head>\n" +
                               "<body>\n" +
                               "\n" +
-                              "PhET Java Software Dependencies<br>" + new Date() + "<br><br><br>" +
+                              "PhET Java/Flex Software Dependencies<br>" + new Date() + "<br><br><br>" +
                               content +
                               "\n" +
                               "</body>\n" +
