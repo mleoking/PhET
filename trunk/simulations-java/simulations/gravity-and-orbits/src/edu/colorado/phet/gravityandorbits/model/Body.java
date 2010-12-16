@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
@@ -46,7 +47,7 @@ public class Body {
     private String tickLabel;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
-                 String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
+                 final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  double cartoonDiameterScaleFactor, double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
@@ -284,10 +285,7 @@ public class Body {
 
     public ImmutableVector2D getCartoonPosition() {
         if ( getParent() != null ) {
-            ImmutableVector2D offset = getPosition().getSubtractedInstance( getParent().getPosition() );
-            final ImmutableVector2D cartoonOffset = offset.getScaledInstance( getCartoonOffsetScale() );
-            final ImmutableVector2D cartoonPosition = getParent().getPosition().getAddedInstance( cartoonOffset );
-            return cartoonPosition;
+            return new CartoonPositionMap(cartoonOffsetScale ).toCartoon( getPosition(), getParent().getPosition() );
         }
         else {
             return getPosition();//those without parents have a cartoon position equal to their physical position
