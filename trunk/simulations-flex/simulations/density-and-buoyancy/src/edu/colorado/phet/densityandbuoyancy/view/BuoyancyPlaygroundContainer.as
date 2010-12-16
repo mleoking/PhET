@@ -32,7 +32,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         oneObjectButton = new RadioButton();
         oneObjectButton.groupName = groupName;
         oneObjectButton.label = FlexSimStrings.get( 'mode.one', 'One' );
-        oneObjectButton.addEventListener( MouseEvent.CLICK, function(): void {
+        oneObjectButton.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
             buoyancyCanvas.switchToOneObject();
         } );
         modeControlPanel.addChild( oneObjectButton );
@@ -40,7 +40,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         var twoObjectsButton: RadioButton = new RadioButton();
         twoObjectsButton.groupName = groupName;
         twoObjectsButton.label = FlexSimStrings.get( 'mode.two', 'Two' );
-        twoObjectsButton.addEventListener( MouseEvent.CLICK, function(): void {
+        twoObjectsButton.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
             buoyancyCanvas.switchToTwoObjects();
         } );
         modeControlPanel.addChild( twoObjectsButton );
