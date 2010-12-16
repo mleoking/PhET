@@ -23,6 +23,20 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
+    public FloatingClockControlNode( Property<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
+        this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
+            clock.addClockListener( new ClockAdapter() {
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+                    setValue( timeReadout.apply( clock.getSimulationTime() ) );
+                }
+            } );
+        }}, new VoidFunction0() {
+            public void apply() {
+                clock.stepClockWhilePaused();
+            }
+        } );
+    }
+
     public FloatingClockControlNode( final Property<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
                                      final VoidFunction0 step ) {//steps the clock when 'step' is pressed which the sim is paused
@@ -82,19 +96,5 @@ public class FloatingClockControlNode extends PNode {
                 }
             } );
         }} );
-    }
-
-    public FloatingClockControlNode( Property<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
-        this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
-            clock.addClockListener( new ClockAdapter() {
-                public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    setValue( timeReadout.apply( clock.getSimulationTime() ) );
-                }
-            } );
-        }}, new VoidFunction0() {
-            public void apply() {
-                clock.stepClockWhilePaused();
-            }
-        } );
     }
 }
