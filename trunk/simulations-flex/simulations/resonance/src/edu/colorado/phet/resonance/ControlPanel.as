@@ -5,7 +5,7 @@ import flash.text.*;
 
 import mx.containers.Canvas;
 
-public class ControlPanel extends Sprite {
+public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
     private var shakerModel: ShakerModel;
@@ -29,12 +29,15 @@ public class ControlPanel extends Sprite {
         this.shakerModel = model;
         this.init();
     }//end of constructor
+    public function addSprite(s:Sprite):void{
+        this.addChild( new SpriteUIComponent(s) );
+    }
 
     public function init(): void {
         this.background = new Sprite();
         this.backgroundBorder = new Sprite();
-        this.addChild( this.background );
-        this.addChild( this.backgroundBorder );
+        this.addSprite(this.background);
+        this.addSprite( this.backgroundBorder );
         this.drawPanel();
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
@@ -44,7 +47,7 @@ public class ControlPanel extends Sprite {
         this.dampingSlider.setScale( this.maxValueOfB );
         this.dampingSlider.setReadoutPrecision( 2 );
         this.dampingSlider.setVal( 2.5 );
-        this.addChild( dampingSlider );
+        this.addSprite( dampingSlider );
         this.dampingSlider.x = this.width / 2 - 0.5 * this.dampingSlider.width;
         this.dampingSlider.y = 45;
 
@@ -54,37 +57,37 @@ public class ControlPanel extends Sprite {
         this.nbrResonatorsSlider.setScale( 1 );
         this.nbrResonatorsSlider.setReadoutPrecision( 0 );
         this.nbrResonatorsSlider.setVal( 10 );
-        this.addChild( nbrResonatorsSlider );
+        this.addSprite( nbrResonatorsSlider );
         this.nbrResonatorsSlider.x = this.width / 2 - 0.5 * this.nbrResonatorsSlider.width;
         this.nbrResonatorsSlider.y = 120;
 
         this.rNbr_txt = new TextField();
-        this.addChild( this.rNbr_txt );
+        //this.addChild( this.rNbr_txt );
         this.makeResonatorIndexTextField();
         this.rNbr_txt.y = 160; //-1.5*this.rNbr_txt.height;
 
         this.mSlider = new HorizontalSlider( setMass, 100, 0.2, 5 );
         this.mSlider.setLabelText( "mass" );
         this.mSlider.setReadoutPrecision( 2 );
-        this.addChild( this.mSlider );
+        this.addSprite( this.mSlider );
         this.mSlider.x = this.width / 2 - 0.5 * this.mSlider.width;
         this.mSlider.y = 230;
 
         this.kSlider = new HorizontalSlider( setK, 100, 20, 500 );
         this.kSlider.setLabelText( "spring constant" );
         this.kSlider.setReadoutPrecision( 0 );
-        this.addChild( this.kSlider );
+        this.addSprite( this.kSlider );
         this.kSlider.x = this.width / 2 - 0.5 * this.kSlider.width;
         this.kSlider.y = 310;
 
         this.freq_txt = new TextField();	//static label
-        this.addChild( this.freq_txt );
+        //this.addChild( this.freq_txt );
         this.makeFreqTextField();
         this.freq_txt.y = 350; //-1.5*this.freq_txt.height;
 
         //function NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
         this.resetButton = new NiceButton2( 80, 28, "Reset", resetResonators );
-        this.addChild( this.resetButton );
+        this.addSprite( this.resetButton );
         this.resetButton.x = this.background.width / 2; // - 0.5*this.resetButton.width;
         this.resetButton.y = 400;
 

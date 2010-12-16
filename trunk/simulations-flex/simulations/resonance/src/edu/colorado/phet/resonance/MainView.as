@@ -26,7 +26,7 @@ public class MainView extends Canvas {
         this.myShakerView.y = 0.6 * stageH;
 
         this.myControlPanel = new ControlPanel( this, myShakerModel );
-        this.addChild( new SpriteUIComponent( myControlPanel ) );
+        this.addChild(  myControlPanel  );
         this.myControlPanel.x = stageW - 1.1 * this.myControlPanel.width;
         this.myControlPanel.y = 0.1 * stageH;
 
