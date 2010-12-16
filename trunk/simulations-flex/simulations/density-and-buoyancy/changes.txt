@@ -1,3 +1,7 @@
+Decreased font size of density slider readout
+Added whitespace to the sides of density slider readout
+Extended the control frame south so the density readout is included
+Added vertical space between the volume control and the density readout
 Fixed centering of fluid density editor
 # 1.02.09 (46991) Dec 8, 2010
 Fixed: removed the extraneous text box from the density slider

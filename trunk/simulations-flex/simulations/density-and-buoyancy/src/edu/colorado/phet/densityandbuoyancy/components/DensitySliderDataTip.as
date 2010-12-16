@@ -37,16 +37,18 @@ public class DensitySliderDataTip extends Sprite {
         var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
 
         var textFormat: TextFormat = new TextFormat();
-        textFormat.size = 24;
+        textFormat.size = 16;
         textFormat.bold = true;
         textField.setTextFormat( textFormat );
 
         textField.x = + 10;
         textField.y = -textField.height / 2;
 
+        const horizontalPadding: Number = 5;
+
         graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( 0xFFFFFF );
-        graphics.drawRoundRect( textField.x, textField.y, textField.width, textField.height, 6, 6 );
+        graphics.drawRoundRect( textField.x - horizontalPadding, textField.y, textField.width + 2 * horizontalPadding, textField.height, 6, 6 );
         graphics.endFill();
     }
 
