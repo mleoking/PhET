@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.model.Body;
+import edu.colorado.phet.gravityandorbits.model.CartoonPositionMap;
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -65,16 +66,7 @@ public class BodyNode extends PNode {
                             body.setPosition( newCartoonPosition.getX(), newCartoonPosition.getY() );
                         }
                         else {
-
-                            //solve for x given cartoonx:
-                            //cartoonx = parent.x+(x - parent.x) * scale
-                            //cartoonx = parent.x+x*scale - parent.x*scale
-                            //(cartoonx -parent.x+parent.x*scale)/scale = x
-                            //TODO: convert this program to scala
-                            final double scale = body.getCartoonOffsetScale();
-                            final ImmutableVector2D parentX = body.getParent().getPosition();
-                            ImmutableVector2D x = ( newCartoonPosition.getSubtractedInstance( parentX ).getAddedInstance( parentX.getScaledInstance( scale ) ) );
-                            x = x.getScaledInstance( 1.0 / scale );
+                            ImmutableVector2D x = new CartoonPositionMap( body.getCartoonOffsetScale() ).toReal(newCartoonPosition, body.getParent().getPosition() );
                             body.setPosition( x.getX(), x.getY() );
                         }
                     }
@@ -118,6 +110,7 @@ public class BodyNode extends PNode {
             }
         };
         body.getPositionProperty().addObserver( updatePosition );
+        body.getScaledPositionProperty().addObserver( updatePosition );//updates when body's parent moves too
         modelViewTransform.addObserver( updatePosition );
         scaleProperty.addObserver( updatePosition );
 

@@ -50,7 +50,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private static final double MOON_RADIUS = 1737.1E3;
     private static final double MOON_EARTH_SPEED = 1.01E3;
     private static final double MOON_SPEED = MOON_EARTH_SPEED;
-    private static final double MOON_PERIGEE = 391370E3;
+    public static final double MOON_PERIGEE = 391370E3;
     private static final double MOON_X = EARTH_PERIHELION;
     private static final double MOON_Y = MOON_PERIGEE;
 
