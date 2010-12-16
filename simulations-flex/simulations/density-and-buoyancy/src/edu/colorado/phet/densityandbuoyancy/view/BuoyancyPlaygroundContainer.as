@@ -5,7 +5,6 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
-import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.controls.Label;
@@ -51,14 +50,9 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             const fluidDensityControl: FluidDensityControl = new FluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
             fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
-
-            const updateFluidDensityControlLocation: Function = function(): void {
-                fluidDensityControl.x = stage.stageWidth / 2 - fluidDensityControl.width / 2;
-            };
-            stage.addEventListener( Event.RESIZE, updateFluidDensityControlLocation );
+            fluidDensityControl.setStyle( "horizontalCenter", 0 );
 
             addChild( fluidDensityControl );
-            updateFluidDensityControlLocation();
 
             buoyancyCanvas.playgroundModes.oneObject.addListener( function(): void {
                 oneObjectButton.selected = buoyancyCanvas.playgroundModes.oneObject.value
