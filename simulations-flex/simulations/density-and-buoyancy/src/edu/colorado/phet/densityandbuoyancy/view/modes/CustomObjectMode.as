@@ -49,6 +49,7 @@ public class CustomObjectMode extends Mode {
     public override function reset(): void {
         customizableObject.reset();
         customizableObject.material = DEFAULT_MATERIAL;
+        customObjectPropertiesPanel.reset();
     }
 }
 
