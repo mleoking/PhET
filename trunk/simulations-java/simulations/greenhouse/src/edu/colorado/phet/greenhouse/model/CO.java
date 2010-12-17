@@ -3,6 +3,7 @@
 package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
@@ -28,7 +29,14 @@ public class CO extends Molecule {
 
     private final CarbonAtom carbonAtom = new CarbonAtom();
     private final OxygenAtom oxygenAtom = new OxygenAtom();
-    private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom, 2 );
+    private final AtomicBond carbonOxygenBond = new AtomicBond( carbonAtom, oxygenAtom, 2 );
+
+    // Vibration vectors.  These represent the difference in position from
+    // each atom's default position within the atom.
+    protected final HashMap<Atom, Vector2D> vibrationVectors = new HashMap<Atom, Vector2D>(){{
+        put( carbonAtom, new Vector2D(0, 0));
+        put( oxygenAtom, new Vector2D(0, 0));
+    }};
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -39,7 +47,7 @@ public class CO extends Molecule {
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( carbonAtom );
         addAtom( oxygenAtom );
-        addAtomicBond( carbonOxygenBond1 );
+        addAtomicBond( carbonOxygenBond );
 
         // Set up the photon wavelengths to absorb.
         setPhotonAbsorptionStrategy( GreenhouseConfig.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
@@ -61,10 +69,19 @@ public class CO extends Molecule {
     // ------------------------------------------------------------------------
 
     @Override
-    protected void setVibration(double vibrationRadians){
+    protected void setVibration( double vibrationRadians ) {
+        super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        atomCogOffsets.put( carbonAtom, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2  + VIBRATION_MAGNITUDE * multFactor, 0 ) );
-        atomCogOffsets.put( oxygenAtom, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 - VIBRATION_MAGNITUDE * multFactor, 0 ) );
+        vibrationVectors.get( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
+        vibrationVectors.get( oxygenAtom ).setComponents( -VIBRATION_MAGNITUDE * multFactor, 0 );
+
+        Vector2D carbonOffset = new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 + VIBRATION_MAGNITUDE * multFactor, 0);
+        Vector2D oxygenOffset = new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2 - VIBRATION_MAGNITUDE * multFactor, 0);
+
+
+
+        atomCogOffsets.get( carbonAtom ).add( vibrationVectors.get( carbonAtom ) );
+        atomCogOffsets.get( oxygenAtom ).add( vibrationVectors.get( oxygenAtom ) );
         updateAtomPositions();
     }
 

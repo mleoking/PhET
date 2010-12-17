@@ -51,6 +51,11 @@ public abstract class Molecule {
     // Offsets for each atom from the molecule's center of gravity.
     protected final HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>();
 
+    // Original offsets of each atom from the molecule's center of gravity.
+    // These are needed for implementing vibration patterns, and should be
+    // set during construction and not changed thereafter.
+    protected final HashMap<Atom, Vector2D> orignalAtomCogOffsets = new HashMap<Atom, Vector2D>();
+
     // Listeners to events that come from this molecule.
     protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
@@ -84,6 +89,10 @@ public abstract class Molecule {
 
     // The current point within this molecule's vibration sequence.
     private double currentVibrationRadians = 0;
+
+    // The amount of rotation currently applied to this molecule.  This is
+    // relative to its original, non-rotated state.
+    private double currentRotationRadians = 0;
 
     // Tracks if molecule is higher energy than its ground state.
     private boolean highElectronicEnergyState = false;
@@ -299,7 +308,17 @@ public abstract class Molecule {
                 atomOffsetVector.rotate( deltaRadians );
             }
             updateAtomPositions();
+            currentRotationRadians = ( currentRotationRadians + deltaRadians ) % ( Math.PI * 2 );
         }
+    }
+
+    public void setRotation( double radians ){
+        double deltaRadians = radians - currentRotationRadians;
+        rotate( deltaRadians );
+    }
+
+    protected double getRotation(){
+        return currentRotationRadians;
     }
 
     /**
