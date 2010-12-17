@@ -29,7 +29,6 @@ public class NO2 extends Molecule {
     private static final double NITROGEN_OXYGEN_BOND_LENGTH = 180;
     private static final double INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
     private static final double INITIAL_MOLECULE_HEIGHT = NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
-    private static final double INITIAL_MOLECULE_WIDTH = 2 * NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
     private static final double TOTAL_MOLECULE_MASS = NitrogenAtom.MASS + ( 2 * OxygenAtom.MASS );
     private static final double INITIAL_NITROGEN_VERTICAL_OFFSET = INITIAL_MOLECULE_HEIGHT * ( ( 2 * OxygenAtom.MASS ) / TOTAL_MOLECULE_MASS );
     private static final double INITIAL_OXYGEN_VERTICAL_OFFSET = -( INITIAL_MOLECULE_HEIGHT - INITIAL_NITROGEN_VERTICAL_OFFSET );
