@@ -26,7 +26,7 @@ public class IsSelected<T> extends BooleanProperty {
         } );
     }
 
-    public static <T> BooleanProperty IsSelected( T a, Property<T> p ) {
+    public static <T> BooleanProperty isSelected( T a, Property<T> p ) {
         return new IsSelected<T>( a, p );
     }
 }
