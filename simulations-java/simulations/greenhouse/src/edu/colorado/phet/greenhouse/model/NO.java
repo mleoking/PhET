@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 
 /**
- * Class that represents O2 (oxygen) in the model.
+ * Class that represents NO (nitrogen monoxide) in the model.
  *
  * @author John Blanco
  */
@@ -18,15 +18,15 @@ public class NO extends Molecule {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final double INITIAL_OXYGEN_OXYGEN_DISTANCE = 170; // In picometers.
+    private static final double INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private final OxygenAtom oxygenAtom1 = new OxygenAtom();
-    private final OxygenAtom oxygenAtom2 = new OxygenAtom();
-    private final AtomicBond oxygenOxygenBond = new AtomicBond( oxygenAtom1, oxygenAtom2, 2 );
+    private final NitrogenAtom nitrogenAtom = new NitrogenAtom();
+    private final OxygenAtom oxygenAtom = new OxygenAtom();
+    private final AtomicBond nitrogenOxygenBond = new AtomicBond( nitrogenAtom, oxygenAtom, 2 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -35,9 +35,9 @@ public class NO extends Molecule {
     public NO(Point2D inititialCenterOfGravityPos){
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
-        addAtom( oxygenAtom1 );
-        addAtom( oxygenAtom2 );
-        addAtomicBond( oxygenOxygenBond );
+        addAtom( nitrogenAtom );
+        addAtom( oxygenAtom );
+        addAtomicBond( nitrogenOxygenBond );
 
         // Set the initial offsets.
         initializeAtomOffsets();
@@ -59,14 +59,14 @@ public class NO extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(oxygenAtom1, new Vector2D(-INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
-        atomCogOffsets.put(oxygenAtom2, new Vector2D(INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
+        atomCogOffsets.put(nitrogenAtom, new Vector2D(-INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
+        atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
 
         updateAtomPositions();
     }
 
     @Override
     public MoleculeID getMoleculeID() {
-        return MoleculeID.O2;
+        return MoleculeID.NO;
     }
 }
