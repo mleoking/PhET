@@ -33,8 +33,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.model.IsSelected.isSelected;
 import static edu.colorado.phet.common.phetcommon.model.Not.not;
+import static edu.colorado.phet.gravityandorbits.view.Scale.REAL;
 
 /**
  * Canvas template.
@@ -157,7 +157,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new MeasuringTape( isSelected( Scale.REAL, module.getScaleProperty() ).and( module.getMeasuringTapeVisibleProperty() ),
+        addChild( new MeasuringTape( module.scale.is( REAL ).and( module.measuringTapeSelected.is( true ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
         }} );

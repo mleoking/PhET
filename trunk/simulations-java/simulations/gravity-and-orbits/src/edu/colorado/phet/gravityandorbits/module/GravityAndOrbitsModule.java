@@ -73,6 +73,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     };
     private final int SEC_PER_YEAR = 365 * 24 * 60 * 60;
 
+    //TODO: evaluating whether these fields should be public final for improved DSL-like support or private with getters, see usage
+    public final Property<Scale> scale=scaleProperty;
+    public final Property<Boolean> measuringTapeSelected=measuringTapeVisibleProperty;
+
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
