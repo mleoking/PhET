@@ -38,7 +38,7 @@ public abstract class Molecule {
     // Scaler quantity representing the speed at which the constituent particles
     // move away from each other.  Note that this is a relative speed, not one
     // that is absolute in model space.
-    protected static final double BREAK_APART_VELOCITY = 3;
+    protected static final double BREAK_APART_VELOCITY = 3.0;
 
     //------------------------------------------------------------------------
     // Instance Data
