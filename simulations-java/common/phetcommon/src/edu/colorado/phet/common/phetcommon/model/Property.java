@@ -2,7 +2,6 @@ package edu.colorado.phet.common.phetcommon.model;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * This can be used to represent a value in a MVC style pattern.  It remembers its default value and can be reset.
