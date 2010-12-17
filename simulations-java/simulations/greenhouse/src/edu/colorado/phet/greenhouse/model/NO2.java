@@ -109,6 +109,7 @@ public class NO2 extends Molecule {
 
     @Override
     protected void setVibration( double vibrationRadians ) {
+        super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
         double maxNitrogenDisplacement = 30;
         double maxOxygenDisplacement = 15;

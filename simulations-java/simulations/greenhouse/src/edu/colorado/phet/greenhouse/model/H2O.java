@@ -88,6 +88,7 @@ public class H2O extends Molecule {
 
     @Override
     protected void setVibration( double vibrationRadians ) {
+        super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
         double maxOxygenDisplacement = 3;
         double maxHydrogenDisplacement = 18;

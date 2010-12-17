@@ -112,6 +112,7 @@ public class O3 extends Molecule {
 
     @Override
     protected void setVibration( double vibrationRadians ) {
+        super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
         double maxCenterOxygenDisplacement = 30;
         double maxOuterOxygenDisplacement = 15;

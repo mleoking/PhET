@@ -99,6 +99,7 @@ public class CH4 extends Molecule {
 
     @Override
     protected void setVibration(double vibrationRadians){
+        super.setVibration( vibrationRadians );
         if (vibrationRadians != 0){
             double multFactor = Math.sin( vibrationRadians );
             atomCogOffsets.put(hydrogenAtom1,
