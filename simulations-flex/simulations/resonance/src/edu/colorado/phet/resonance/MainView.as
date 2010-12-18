@@ -27,7 +27,8 @@ public class MainView extends Canvas {
 
         this.myControlPanel = new ControlPanel( this, myShakerModel );
         this.addChild(  myControlPanel  );
-        this.myControlPanel.x = stageW - 1.1 * this.myControlPanel.width;
+        //this.myControlPanel.right = "20";
+        this.myControlPanel.x = 0.8 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.1 * stageH;
 
         this.phetLogo = new PhetIcon();
