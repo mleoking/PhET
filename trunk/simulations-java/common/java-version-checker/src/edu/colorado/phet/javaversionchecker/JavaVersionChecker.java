@@ -17,6 +17,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
 
+/*
+ * See #2616, This class has too many hard-coded version strings.
+ * TODO:
+ * (1) Major and minor numbers of lowest required version should be symbolic int constants.
+ * (2) java.version property should be read and checked using JavaVersion class in phetcommon.
+ * (3) Version number in message dialog should be created using constants in (1).
+ */
 
 /**
  * This file checks on the Java version, if it is too low, then an dialog is shown, otherwise the application launches.
