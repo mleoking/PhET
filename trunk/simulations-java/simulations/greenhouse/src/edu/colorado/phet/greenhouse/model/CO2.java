@@ -74,9 +74,9 @@ public class CO2 extends Molecule {
     protected void setVibration(double vibrationRadians){
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        atomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
-        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
-        atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
+        initialAtomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
+        initialAtomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
+        initialAtomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
         updateAtomPositions();
     }
 
@@ -90,9 +90,9 @@ public class CO2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
-        atomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
-        atomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        initialAtomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
+        initialAtomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        initialAtomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
 
         updateAtomPositions();
     }

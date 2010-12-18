@@ -59,8 +59,8 @@ public class N2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(nitrogenAtom1, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
-        atomCogOffsets.put(nitrogenAtom2, new Vector2D(INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(nitrogenAtom1, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(nitrogenAtom2, new Vector2D(INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
 
         updateAtomPositions();
     }
