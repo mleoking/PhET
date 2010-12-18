@@ -55,15 +55,7 @@ public class ImmutableVector2D implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuffer result = new StringBuffer();
-        result.append( super.toString().replaceAll( ".*\\.", "" ) );
-        result.append( '[' );
-        result.append( "x=" );
-        result.append( x );
-        result.append( ",y=" );
-        result.append( y );
-        result.append( ']' );
-        return result.toString();
+        return getClass().getName().replaceAll( ".*\\.", "" ) + "["+x+", "+y+"]";
     }
 
     public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
@@ -186,5 +178,13 @@ public class ImmutableVector2D implements Serializable {
 
     public ImmutableVector2D times(double scale){
         return getScaledInstance( scale );
+    }
+
+    public static void main( String[] args ) {
+        System.out.println(new ImmutableVector2D( 1,2 ));
+        System.out.println(new Vector2D( 1,2 ));
+        System.out.println(new Vector2D( 1,2 ){{
+            setX( 3 );
+        }});
     }
 }
