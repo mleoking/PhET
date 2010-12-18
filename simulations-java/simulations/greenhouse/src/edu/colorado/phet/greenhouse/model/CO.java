@@ -31,13 +31,6 @@ public class CO extends Molecule {
     private final OxygenAtom oxygenAtom = new OxygenAtom();
     private final AtomicBond carbonOxygenBond = new AtomicBond( carbonAtom, oxygenAtom, 2 );
 
-    // Vibration vectors.  These represent the difference in position from
-    // each atom's default position within the atom.
-    protected final HashMap<Atom, Vector2D> vibrationVectors = new HashMap<Atom, Vector2D>(){{
-        put( carbonAtom, new Vector2D(0, 0));
-        put( oxygenAtom, new Vector2D(0, 0));
-    }};
-
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -72,16 +65,8 @@ public class CO extends Molecule {
     protected void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        vibrationVectors.get( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
-        vibrationVectors.get( oxygenAtom ).setComponents( -VIBRATION_MAGNITUDE * multFactor, 0 );
-
-        Vector2D carbonOffset = new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE / 2 + VIBRATION_MAGNITUDE * multFactor, 0);
-        Vector2D oxygenOffset = new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE / 2 - VIBRATION_MAGNITUDE * multFactor, 0);
-
-
-
-        atomCogOffsets.get( carbonAtom ).add( vibrationVectors.get( carbonAtom ) );
-        atomCogOffsets.get( oxygenAtom ).add( vibrationVectors.get( oxygenAtom ) );
+        vibrationAtomOffsets.get( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
+        vibrationAtomOffsets.get( oxygenAtom ).setComponents( -VIBRATION_MAGNITUDE * multFactor, 0 );
         updateAtomPositions();
     }
 
@@ -95,8 +80,8 @@ public class CO extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(carbonAtom, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
-        atomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(carbonAtom, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
         updateAtomPositions();
     }
 }

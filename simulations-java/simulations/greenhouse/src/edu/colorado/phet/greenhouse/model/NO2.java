@@ -100,9 +100,9 @@ public class NO2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        atomCogOffsets.put(nitrogenAtom, new Vector2D(0, INITIAL_NITROGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(rightOxygenAtom, new Vector2D(INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
-        atomCogOffsets.put(leftOxygenAtom, new Vector2D(-INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
+        initialAtomCogOffsets.put(nitrogenAtom, new Vector2D(0, INITIAL_NITROGEN_VERTICAL_OFFSET));
+        initialAtomCogOffsets.put(rightOxygenAtom, new Vector2D(INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
+        initialAtomCogOffsets.put(leftOxygenAtom, new Vector2D(-INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
 
         updateAtomPositions();
     }
@@ -113,10 +113,10 @@ public class NO2 extends Molecule {
         double multFactor = Math.sin( vibrationRadians );
         double maxNitrogenDisplacement = 30;
         double maxOxygenDisplacement = 15;
-        atomCogOffsets.put( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET - multFactor * maxNitrogenDisplacement ) );
-        atomCogOffsets.put( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOxygenDisplacement,
+        initialAtomCogOffsets.put( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET - multFactor * maxNitrogenDisplacement ) );
+        initialAtomCogOffsets.put( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOxygenDisplacement,
                 INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
-        atomCogOffsets.put( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
+        initialAtomCogOffsets.put( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
                 INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
         updateAtomPositions();
     }
@@ -141,16 +141,16 @@ public class NO2 extends Molecule {
         final double breakApartAngle;
         if ( doubleBondOnRight ){
             nitrogenMonoxideMolecule.rotate( -diatomicMoleculeRotationAngle );
-            nitrogenMonoxideMolecule.setCenterOfGravityPos( ( atomCogOffsets.get( nitrogenAtom ).getX() + atomCogOffsets.get( rightOxygenAtom ).getX() ) / 2,
-                    ( atomCogOffsets.get( nitrogenAtom ).getY() + atomCogOffsets.get( rightOxygenAtom ).getY() ) / 2);
+            nitrogenMonoxideMolecule.setCenterOfGravityPos( ( initialAtomCogOffsets.get( nitrogenAtom ).getX() + initialAtomCogOffsets.get( rightOxygenAtom ).getX() ) / 2,
+                    ( initialAtomCogOffsets.get( nitrogenAtom ).getY() + initialAtomCogOffsets.get( rightOxygenAtom ).getY() ) / 2);
             breakApartAngle = Math.PI / 4 + RAND.nextDouble() * Math.PI / 4;
             singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
         else{
             nitrogenMonoxideMolecule.rotate( Math.PI + diatomicMoleculeRotationAngle );
             breakApartAngle = Math.PI / 2 + RAND.nextDouble() * Math.PI / 4;
-            nitrogenMonoxideMolecule.setCenterOfGravityPos( ( atomCogOffsets.get( nitrogenAtom ).getX() + atomCogOffsets.get( leftOxygenAtom ).getX() ) / 2,
-                    ( atomCogOffsets.get( nitrogenAtom ).getY() + atomCogOffsets.get( leftOxygenAtom ).getY() ) / 2);
+            nitrogenMonoxideMolecule.setCenterOfGravityPos( ( initialAtomCogOffsets.get( nitrogenAtom ).getX() + initialAtomCogOffsets.get( leftOxygenAtom ).getX() ) / 2,
+                    ( initialAtomCogOffsets.get( nitrogenAtom ).getY() + initialAtomCogOffsets.get( leftOxygenAtom ).getY() ) / 2);
             singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
         nitrogenMonoxideMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.sin(breakApartAngle) );

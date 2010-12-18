@@ -48,20 +48,21 @@ public abstract class Molecule {
     protected final ArrayList<Atom> atoms = new ArrayList<Atom>();
     protected final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
 
-    // Offsets for each atom from the molecule's center of gravity.
-    protected final HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>();
-
-    // Original offsets of each atom from the molecule's center of gravity.
-    // These are needed for implementing vibration patterns, and should be
-    // set during construction and not changed thereafter.
-    protected final HashMap<Atom, Vector2D> orignalAtomCogOffsets = new HashMap<Atom, Vector2D>();
-
-    // Listeners to events that come from this molecule.
-    protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
-
     // This is basically the location of the molecule, but it is specified as
     // the center of gravity since a molecule is a composite object.
     private final Point2D centerOfGravity = new Point2D.Double();
+
+    // Structure of the molecule in terms of offsets from the center of
+    // gravity.  These indicate the atom's position in the "relaxed" (i.e.
+    // non-vibrating), non-rotated state.
+    protected final HashMap<Atom, Vector2D> initialAtomCogOffsets = new HashMap<Atom, Vector2D>();
+
+    // Vibration offsets - these represent the amount of deviation from the
+    // relaxed configuration for each molecule.
+    protected final HashMap<Atom, Vector2D> vibrationAtomOffsets = new HashMap<Atom, Vector2D>();
+
+    // Listeners to events that come from this molecule.
+    protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     // Velocity for this molecule.
     private final Vector2D velocity = new Vector2D( 0, 0 );
@@ -303,18 +304,14 @@ public abstract class Molecule {
      * @param deltaRadians
      */
     public void rotate( double deltaRadians ){
-        if ( deltaRadians != 0 ){
-            for ( Vector2D atomOffsetVector : atomCogOffsets.values() ){
-                atomOffsetVector.rotate( deltaRadians );
-            }
-            updateAtomPositions();
-            currentRotationRadians = ( currentRotationRadians + deltaRadians ) % ( Math.PI * 2 );
-        }
+         setRotation( ( currentRotationRadians + deltaRadians ) % ( Math.PI * 2 ) );
     }
 
     public void setRotation( double radians ){
-        double deltaRadians = radians - currentRotationRadians;
-        rotate( deltaRadians );
+        if ( radians != currentRotationRadians ){
+            currentRotationRadians = radians;
+            updateAtomPositions();
+        }
     }
 
     protected double getRotation(){
@@ -422,6 +419,8 @@ public abstract class Molecule {
 
     protected void addAtom( Atom atom ){
         atoms.add( atom );
+        initialAtomCogOffsets.put( atom, new Vector2D(0, 0) );
+        vibrationAtomOffsets.put( atom, new Vector2D(0, 0) );
     }
 
     protected void addAtomicBond( AtomicBond atomicBond ){
@@ -463,17 +462,27 @@ public abstract class Molecule {
      * Update the positions of all atoms that comprise this molecule based on
      * the current center of gravity and the offset for each atom.
      */
-    protected void updateAtomPositions(){
-        for (Atom atom : atoms){
-            Vector2D offset = atomCogOffsets.get( atom );
-            if (offset != null){
-                atom.setPosition( centerOfGravity.getX() + offset.getX(), centerOfGravity.getY() + offset.getY() );
-            }
-            else{
-                // This shouldn't happen, and needs to be debugged if it does.
-                assert false;
-                System.err.println(getClass().getName() + " - Error: No offset found for atom.");
-            }
+    protected void updateAtomPositions() {
+//        HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>( initialAtomCogOffsets );
+//        for ( Atom atom : atomCogOffsets.keySet() ) {
+//            // Add the vibration, if any exists.
+//            atomCogOffsets.get( atom ).add( vibrationAtomOffsets.get( atom ));
+//            // Rotate.
+//            atomCogOffsets.get( atom ).rotate( currentRotationRadians );
+//            // Set location based on combination of offset and current center
+//            // of gravity.
+//            atom.setPosition( centerOfGravity.getX() + atomCogOffsets.get( atom ).getX(),
+//                    centerOfGravity.getY() + atomCogOffsets.get( atom ).getY() );
+//        }
+        for ( Atom atom : initialAtomCogOffsets.keySet() ) {
+            Vector2D atomOffset = new Vector2D( initialAtomCogOffsets.get( atom ));
+            // Add the vibration, if any exists.
+            atomOffset.add( vibrationAtomOffsets.get( atom ));
+            // Rotate.
+            atomOffset.rotate( currentRotationRadians );
+            // Set location based on combination of offset and current center
+            // of gravity.
+            atom.setPosition( centerOfGravity.getX() + atomOffset.getX(), centerOfGravity.getY() + atomOffset.getY() );
         }
     }
 
