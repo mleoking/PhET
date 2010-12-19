@@ -26,12 +26,6 @@ public class PathNode extends PNode {
         yPrimitive = new int[body.getMaxPathLength()];
 
         final int numFadePoints = 25;
-//        final int[] fadeAlpha = { 255, 254, 252, 250,//a linear function is to jarring to start, so use a smooth nonlinear function
-//                248, 245, 242, 239,
-//                235, 231, 227, 223,
-//                218, 213, 208, 200,
-//                175, 125, 75, 25
-//        };
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         pathNode = new PNode() {
             @Override
