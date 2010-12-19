@@ -2,11 +2,9 @@
 
 import flash.display.*;
 import flash.events.Event;
-import flash.text.*;
 
 import mx.containers.Canvas;
 import mx.containers.VBox;
-import mx.controls.Button;
 import mx.controls.HSlider;
 
 public class ControlPanel extends Canvas {
@@ -14,10 +12,11 @@ public class ControlPanel extends Canvas {
     private var myMainView: MainView;
     private var shakerModel: ShakerModel;
     private var background: VBox;
+    private var innerBckgrnd: VBox;
     private var dampingSlider: HSlider;
     private var nbrResonatorsSlider: HSlider;
-    private var mSlider:HSlider;
-    private var kSlider:HSlider;
+    private var mSlider: HSlider;
+    private var kSlider: HSlider;
 
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
@@ -40,32 +39,46 @@ public class ControlPanel extends Canvas {
         this.background.percentHeight = 100;
         this.background.setStyle( "borderStyle", "solid" )
         this.background.setStyle( "borderColor", 0xff0000 );
-        this.background.setStyle( "cornerRadius", 10 );
+        this.background.setStyle( "cornerRadius", 15 );
         this.background.setStyle( "borderThickness", 8 );
-        this.background.setStyle( "paddingTop", 8 );
-        this.background.setStyle( "paddingBottom", 8 );
-        this.background.setStyle( "paddingRight", 4 );
-        this.background.setStyle( "paddingLeft", 4 );
-        this.addChild( this.background );
+        this.background.setStyle( "paddingTop", 30 );
+        this.background.setStyle( "paddingBottom", 20 );
+        this.background.setStyle( "paddingRight", 10 );
+        this.background.setStyle( "paddingLeft", 10 );
+        this.background.setStyle( "verticalGap", 30 );
 
+
+
+        this.innerBckgrnd = new VBox();
+        with ( this.innerBckgrnd ) {
+            setStyle( "backgroundColor", 0x00ff00 );//same color as build an atom
+            percentWidth = 100;
+            percentHeight = 100;
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x0000ff );
+            setStyle( "cornerRadius", 8 );
+            setStyle( "borderThickness", 4 );
+            setStyle( "paddingTop", 20 );
+            setStyle( "paddingBottom", 20 );
+            setStyle( "paddingRight", 12 );
+            setStyle( "paddingLeft", 12 );
+            setStyle( "verticalGap", 30 );
+        }
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
         this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
-        with(this.dampingSlider){
-           minimum = 0.05;
-           maximum = 5;
+        with ( this.dampingSlider ) {
+            minimum = 0.05;
+            maximum = 5;
             buttonMode = true;
-           labels = ["", "damping", ""];
-           liveDragging = true;
+            labels = ["", "damping", ""];
+            liveDragging = true;
         }
 
         this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
 
-        this.background.addChild( dampingSlider );
-
-
         this.nbrResonatorsSlider = new HSlider();
-        with(this.nbrResonatorsSlider){
+        with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
             labels = ["", "Resonators", ""];
@@ -75,29 +88,26 @@ public class ControlPanel extends Canvas {
             tickInterval = 1;
 
         }
-        this.nbrResonatorsSlider.addEventListener(Event.CHANGE, onChangeNbrResonators);
-        this.background.addChild( nbrResonatorsSlider );
+        this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
 
         this.mSlider = new HSlider();
-        this.background.addChild(this.mSlider);
 
         this.kSlider = new HSlider();
-        this.background.addChild(this.kSlider);
+
+        this.addChild( this.background );
+        this.background.addChild( nbrResonatorsSlider );
+        this.background.addChild( dampingSlider );
+        this.background.addChild( innerBckgrnd );
+        this.innerBckgrnd.addChild(this.mSlider);
+        this.innerBckgrnd.addChild(this.kSlider);
 
     } //end of init()
-
-
 
 
     //add time rate adjuster here
 
 
-
-
-
-
-
-    public function setResonatorIndex( rNbr:int ): void {
+    public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
         var rNbr_str: String = rNbr.toString();
         //this.rNbr_txt.text = rNbr_str;
@@ -114,15 +124,15 @@ public class ControlPanel extends Canvas {
         this.shakerModel.setB( b );
     }
 
-    private function onChangeNbrResonators(evt: Event): void {
+    private function onChangeNbrResonators( evt: Event ): void {
         var nbrR: int = this.nbrResonatorsSlider.value;
         //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
-        this.setNbrResonators(nbrR);
+        this.setNbrResonators( nbrR );
     }
 
-     public function setNbrResonators( nbrR:int):void{
+    public function setNbrResonators( nbrR: int ): void {
         this.myMainView.setNbrResonators( nbrR );
-     }
+    }
 
     public function setMass(): void {
         var indx: int = this.selectedResonatorNbr - 1;

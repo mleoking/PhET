@@ -17,6 +17,8 @@ public class MainView extends Canvas {
     var stageW: Number;
 
     public function MainView( myShakerModel: ShakerModel, stageW: Number, stageH: Number ) {
+        percentWidth = 100;
+        percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
         this.myShakerModel = myShakerModel;
@@ -27,7 +29,8 @@ public class MainView extends Canvas {
 
         this.myControlPanel = new ControlPanel( this, myShakerModel );
         this.addChild(  myControlPanel  );
-        //this.myControlPanel.right = "20";
+        //this.myControlPanel.right = 10;    //does not work, "right" is a style property
+        //this.myControlPanel.setStyle("right", 10);    //this works, but forces the control panel on the far right
         this.myControlPanel.x = 0.8 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.1 * stageH;
 
