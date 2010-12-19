@@ -3,8 +3,11 @@
 import flash.display.*;
 import flash.events.Event;
 
+import flash.events.MouseEvent;
+
 import mx.containers.Canvas;
 import mx.containers.VBox;
+import mx.controls.Button;
 import mx.controls.HSlider;
 
 public class ControlPanel extends Canvas {
@@ -17,6 +20,7 @@ public class ControlPanel extends Canvas {
     private var nbrResonatorsSlider: HSlider;
     private var mSlider: HSlider;
     private var kSlider: HSlider;
+    private var resetButton:Button;
 
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
@@ -91,15 +95,41 @@ public class ControlPanel extends Canvas {
         this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
 
         this.mSlider = new HSlider();
+        with(this.mSlider){
+            minimum = 1;
+            maximum = 10;
+            liveDragging = true;
+            buttonMode = true;
+            labels = ["", "mass", ""];
+        }
+        this.mSlider.addEventListener(Event.CHANGE, onChangeM);
 
         this.kSlider = new HSlider();
+        with(this.kSlider){
+            minimum = 10;
+            maximum = 500;
+            liveDragging = true;
+            buttonMode = true;
+            labels = ["", "spring constant", ""];
+        }
+
+        this.kSlider.addEventListener(Event.CHANGE, onChangeK);
+
+        this.resetButton = new Button();
+        with(this.resetButton){
+            label = " Reset All "
+            buttonMode = true;
+        }
+        this.resetButton.addEventListener( MouseEvent.MOUSE_UP, resetResonators );
 
         this.addChild( this.background );
         this.background.addChild( nbrResonatorsSlider );
         this.background.addChild( dampingSlider );
-        this.background.addChild( innerBckgrnd );
+
         this.innerBckgrnd.addChild(this.mSlider);
         this.innerBckgrnd.addChild(this.kSlider);
+        this.background.addChild( innerBckgrnd );
+        this.background.addChild(this.resetButton);
 
     } //end of init()
 
@@ -134,12 +164,20 @@ public class ControlPanel extends Canvas {
         this.myMainView.setNbrResonators( nbrR );
     }
 
+    private function onChangeM(evt:Event):void{
+      this.setMass();
+    }
+
     public function setMass(): void {
         var indx: int = this.selectedResonatorNbr - 1;
         var m: Number = this.mSlider.value;
         this.shakerModel.resonatorModel_arr[indx].setM( m );
         //this.setFreqTextField();
         //trace("ControlPanel.setMass() mass = "+ m);
+    }
+
+    private function onChangeK(evt:Event):void{
+        this.setK();
     }
 
     public function setK(): void {
@@ -150,7 +188,7 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setK() k = "+ k);
     }
 
-    private function resetResonators(): void {
+    private function resetResonators(evt:MouseEvent): void {
         this.shakerModel.resetInitialResonatorArray();
         //this.setResonatorIndex( this.selectedResonatorNbr );
         //trace("ControlPanel.resetResonators() called.");
