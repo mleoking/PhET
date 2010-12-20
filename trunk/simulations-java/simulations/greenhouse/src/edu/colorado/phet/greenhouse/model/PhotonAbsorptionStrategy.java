@@ -8,10 +8,11 @@ import java.util.Random;
  * This is the base class for the strategies that define how a molecule
  * reacts to a given photon.  It is responsible for the following:
  * - Whether a given photon should be absorbed.
- * - How the molecule reacts to the absorption of a photon, i.e. whether
- *   it vibrates, rotates, breaks apart, etc.
+ * - How the molecule reacts to the absorption,, i.e. whether it vibrates,
+ *   rotates, breaks apart, etc.
  * - Maintenance of any counters or timers associated with the reaction to
- *   the absorption.
+ *   the absorption, such as those related to re-emission of an absorbed
+ *   photon.
  */
 public abstract class PhotonAbsorptionStrategy {
 
@@ -78,7 +79,6 @@ public abstract class PhotonAbsorptionStrategy {
 
     public static abstract class PhotonHoldStrategy extends PhotonAbsorptionStrategy{
 
-        private int remainingTimeToVibrate;
         private double absorbedWavelength;
 
         public PhotonHoldStrategy( Molecule molecule ) {
