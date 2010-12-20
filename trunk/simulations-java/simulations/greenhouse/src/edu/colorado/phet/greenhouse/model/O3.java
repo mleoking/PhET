@@ -116,11 +116,6 @@ public class O3 extends Molecule {
         double multFactor = Math.sin( vibrationRadians );
         double maxCenterOxygenDisplacement = 30;
         double maxOuterOxygenDisplacement = 15;
-//        initialAtomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET - multFactor * maxCenterOxygenDisplacement ) );
-//        initialAtomCogOffsets.put( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOuterOxygenDisplacement,
-//                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
-//        initialAtomCogOffsets.put( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOuterOxygenDisplacement,
-//                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOuterOxygenDisplacement ) );
         vibrationAtomOffsets.get( centerOxygenAtom ).setComponents( 0, multFactor * maxCenterOxygenDisplacement );
         vibrationAtomOffsets.get( rightOxygenAtom ).setComponents( -multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
         vibrationAtomOffsets.get( leftOxygenAtom ).setComponents( multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
