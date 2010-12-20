@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_sr.xml created Tue Aug 25 18:45:23 CEST 2009 using: pendulum-lab 2.00.00 (30671), translation-utility 2.01.00 (31673) мај 14, 2009-->
+<!--pendulum-lab-strings_sr.xml created Sat Dec 18 00:01:41 CET 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.09.00 (44031) сеп 14, 2010-->
 <SimStrings>
 <string key="resetStopwatch" value="почетак"/>
 <string key="earth" value="Земља"/>
@@ -10,7 +10,7 @@
 <string key="PE" value="потенцијална Е"/>
 <string key="velocity" value="брзину"/>
 <string key="realTime" value="реално"/>
-<string key="length" value="Дужина"/>
+<string key="length" value="дужина"/>
 <string key="lots" value="више"/>
 <string key="friction" value="трење"/>
 <string key="showSecondPendulum" value="Покажи друго клатно"/>
@@ -38,7 +38,8 @@
 <string key="gEqZero" value="g=0"/>
 <string key="length_unit" value="m"/>
 <string key="noneEnergy" value="без"/>
-<string key="otherTools" value="Меримо..."/>
+<string key="simTitle" value="Клатно"/>
+<string key="otherTools" value="меримо..."/>
 <string key="angleUnit" value="степен"/>
 <string key="paused" value="ЗАУСТАВЉЕНО"/>
 <string key="sixteenthTime" value="1/16 времена"/>
