@@ -1,3 +1,6 @@
+Made the molecules able to vibrate after rotating without returning to their original positions.
+Fixed an issue where bonds were incorrect when atoms were vertically aligned.
+Added a different representation of the UV emitter with more of a "black light" look.
 # 3.01.05 (47297) Dec 18, 2010
 # 3.01.04 (47268) Dec 16, 2010
 12/16/10 Deploying to dev as release candidate.

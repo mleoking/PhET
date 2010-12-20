@@ -142,7 +142,8 @@ public class PhotonEmitterNode2 extends PNode {
             photonEmitterImage = new PImage( GreenhouseResources.getImage( "flashlight2.png" ) );
         }
         else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
-            photonEmitterImage = new PImage(GreenhouseResources.getImage("uv-light.png"));
+//            photonEmitterImage = new PImage(GreenhouseResources.getImage("uv-light.png"));
+            photonEmitterImage = new PImage(GreenhouseResources.getImage("uv_light_2.png"));
         }
         else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength){
             photonEmitterImage = new PImage(GreenhouseResources.getImage("microwave-transmitter.png"));
