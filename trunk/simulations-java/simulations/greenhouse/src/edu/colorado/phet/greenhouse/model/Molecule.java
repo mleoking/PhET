@@ -75,7 +75,7 @@ public abstract class Molecule {
 
     // Currently active photon absorption strategy, active because a photon
     // was absorbed that activated it.
-    private PhotonAbsorptionStrategy activeStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
+    private PhotonAbsorptionStrategy activePhotonAbsorptionStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
 
     // Variable that prevents reabsorption for a while after emitting a photon.
     private double absorbtionHysteresisCountdownTime = 0;
@@ -123,7 +123,7 @@ public abstract class Molecule {
     protected boolean isPhotonAbsorbed() {
         // If there is an active non-null photon absorption strategy, it
         // indicates that a photon has been absorbed.
-        return !(activeStrategy instanceof PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy);
+        return !(activePhotonAbsorptionStrategy instanceof PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy);
     }
 
     /**
@@ -171,7 +171,7 @@ public abstract class Molecule {
      */
     public void stepInTime(double dt){
 
-        activeStrategy.stepInTime( dt );
+        activePhotonAbsorptionStrategy.stepInTime( dt );
 
         if (absorbtionHysteresisCountdownTime >= 0){
             absorbtionHysteresisCountdownTime -= dt;
@@ -197,8 +197,8 @@ public abstract class Molecule {
      * @return
      */
     public void reset(){
-        activeStrategy.reset();
-        activeStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
+        activePhotonAbsorptionStrategy.reset();
+        activePhotonAbsorptionStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
         absorbtionHysteresisCountdownTime = 0;
     }
 
@@ -402,8 +402,8 @@ public abstract class Molecule {
                 if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ){
                     // It does want it, so consider the photon absorbed.
                     absorbPhoton = true;
-                    activeStrategy = candidateAbsorptionStrategy;
-                    activeStrategy.queryAndAbsorbPhoton( photon );
+                    activePhotonAbsorptionStrategy = candidateAbsorptionStrategy;
+                    activePhotonAbsorptionStrategy.queryAndAbsorbPhoton( photon );
                 }else{
                     markPhotonForPassThrough( photon );//we have the decision logic once for whether a photon should be absorbed, so it is not queried a second time
                 }
@@ -414,7 +414,7 @@ public abstract class Molecule {
     }
 
     public void setActiveStrategy( PhotonAbsorptionStrategy activeStrategy ) {
-        this.activeStrategy = activeStrategy;
+        this.activePhotonAbsorptionStrategy = activeStrategy;
     }
 
     protected void addAtom( Atom atom ){
@@ -463,17 +463,6 @@ public abstract class Molecule {
      * the current center of gravity and the offset for each atom.
      */
     protected void updateAtomPositions() {
-//        HashMap<Atom, Vector2D> atomCogOffsets = new HashMap<Atom, Vector2D>( initialAtomCogOffsets );
-//        for ( Atom atom : atomCogOffsets.keySet() ) {
-//            // Add the vibration, if any exists.
-//            atomCogOffsets.get( atom ).add( vibrationAtomOffsets.get( atom ));
-//            // Rotate.
-//            atomCogOffsets.get( atom ).rotate( currentRotationRadians );
-//            // Set location based on combination of offset and current center
-//            // of gravity.
-//            atom.setPosition( centerOfGravity.getX() + atomCogOffsets.get( atom ).getX(),
-//                    centerOfGravity.getY() + atomCogOffsets.get( atom ).getY() );
-//        }
         for ( Atom atom : initialAtomCogOffsets.keySet() ) {
             Vector2D atomOffset = new Vector2D( initialAtomCogOffsets.get( atom ));
             // Add the vibration, if any exists.
