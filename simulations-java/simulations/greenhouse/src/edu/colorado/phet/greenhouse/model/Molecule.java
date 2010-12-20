@@ -200,6 +200,10 @@ public abstract class Molecule {
         activePhotonAbsorptionStrategy.reset();
         activePhotonAbsorptionStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
         absorbtionHysteresisCountdownTime = 0;
+        setVibrating( false );
+        setVibration( 0 );
+        setRotating( false );
+        setRotation( 0 );
     }
 
     public boolean isVibrating() {
