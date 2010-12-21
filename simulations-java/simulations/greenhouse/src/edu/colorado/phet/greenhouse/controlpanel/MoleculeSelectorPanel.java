@@ -1,11 +1,9 @@
 package edu.colorado.phet.greenhouse.controlpanel;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
 
@@ -21,16 +19,14 @@ class MoleculeSelectorPanel extends SelectionPanelWithImage {
     /**
      * Constructor.
      */
-    public MoleculeSelectorPanel( String text, BufferedImage image, final PhotonAbsorptionModel model, final PhotonTarget photonTarget ) {
-        super( text, image );
+    public MoleculeSelectorPanel( String caption, BufferedImage image, final PhotonAbsorptionModel model, final PhotonTarget photonTarget ){
+        super( caption, image );
 
         // Listen to the button so that the specified value can be set in the
         // model when the button is pressed.
         getRadioButton().addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    if ( getRadioButton().isSelected() ) {
-                        model.setPhotonTarget( photonTarget );
-//                    }
+                     model.setPhotonTarget( photonTarget );
                 }
             } );
 
@@ -49,5 +45,39 @@ class MoleculeSelectorPanel extends SelectionPanelWithImage {
                 }
             }
         } );
+    }
+
+    /**
+     * Constructor that takes separate chemical name and chemical symbol.
+     */
+    public MoleculeSelectorPanel( String chemicalName, String chemicalSymbol, BufferedImage image, final PhotonAbsorptionModel model, final PhotonTarget photonTarget ) {
+        this( createCaptionFromNameAndSymbol( chemicalName, chemicalSymbol ), image, model, photonTarget );
+    }
+
+    /**
+     * Create a caption in the needed format given the chemical name and the
+     * symbol.  The needed format consists of the chemical name, followed by
+     * a line break, and then the chemical symbol.
+     *
+     * Example: <html>Carbon Monoxide<br>CO</html>
+     *
+     * @param chemicalName - Not formatted with HTML.
+     * @param chemicalSymbol - Formatted with HTML.
+     * @return
+     */
+    private static String createCaptionFromNameAndSymbol( String chemicalName, String chemicalSymbol ){
+        // IMPORTANT NOTE: This function exists in order to avoid forcing the
+        // translators to translate the symbol, the name, and then the
+        // combined symbol and name.  Since the symbols are assumed to be
+        // formatted with HTML (to enable subscripts) and the names are
+        // assumed to be plain text strings.  The assertions and exception
+        // throwing is designed to make sure this assumption remains valid.
+        assert !chemicalName.contains( "<html>" );
+        assert chemicalSymbol.contains( "<html>" );
+        if (chemicalName.contains( "<html>" ) || !chemicalSymbol.contains( "<html>" )){
+            throw new IllegalArgumentException();
+        }
+        // Create and return the combined string.
+        return new String( "<html>" + chemicalName ) + new String( chemicalSymbol ).replace( "<html>", "<br>" );
     }
 }

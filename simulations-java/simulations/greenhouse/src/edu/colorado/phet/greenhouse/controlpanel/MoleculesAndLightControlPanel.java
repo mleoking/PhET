@@ -81,14 +81,15 @@ public class MoleculesAndLightControlPanel extends ControlPanel {
         addControlFullWidth( moleculeSelectionPanel );
 
         // Create the selector panels for each molecule and put them on a list.
-        // TODO: i18n of each of these.
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Carbon Monoxide<br>CO</html>", createMoleculeImage( new CO(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Nitrogen<br>N<sub>2</sub></html>", createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_N2_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Oxygen<br>O<sub>2</sub></html>", createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Carbon Dioxide<br>CO<sub>2</sub></html>", createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Water<br>H<sub>2</sub>O</html>", createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_H2O_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Nitrogen Dioxide<br>NO<sub>2</sub></html>", createMoleculeImage( new NO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_NO2_MOLECULE ));
-        moleculeSelectors.add( new MoleculeSelectorPanel( "<html>Ozone<br>O<sub>3</sub></html>", createMoleculeImage( new O3(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O3_MOLECULE ));
+        // NOTE: To avoid forcing translators to translate a separate HTML
+        // string that combines
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.CarbonMonoxide"), GreenhouseResources.getString("ControlPanel.CO"), createMoleculeImage( new CO(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.Nitrogen"), GreenhouseResources.getString("ControlPanel.N2"), createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_N2_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.Oxygen"), GreenhouseResources.getString("ControlPanel.O2"), createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.CarbonDioxide"), GreenhouseResources.getString("ControlPanel.CO2"), createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.Water"), GreenhouseResources.getString("ControlPanel.H2O"), createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_H2O_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.NitrogenDioxide"), GreenhouseResources.getString("ControlPanel.NO2"), createMoleculeImage( new NO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_NO2_MOLECULE ));
+        moleculeSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.Ozone"), GreenhouseResources.getString("ControlPanel.O3"), createMoleculeImage( new O3(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O3_MOLECULE ));
 
         // Add the molecule selection panels to the main panel.
 
