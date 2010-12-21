@@ -1,75 +1,84 @@
-/* Copyright 2008, University of Colorado */ 
+/* Copyright 2008-2010, University of Colorado */ 
 
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
- * "Reset All" button.  When it's pressed, requests confirmation.
+ * Swing version of the "Reset All" button.
+ * When it's pressed, requests confirmation.
  * If confirmation is affirmative, then all Resettables are reset.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ResetAllButton extends JButton {
-    private ArrayList m_resettables;
+    
+    private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
 
+    /**
+     * @param parent parent component for the confirmation dialog
+     */
     public ResetAllButton( final Component parent ) {
-        this(new Resettable[0],parent );
+        this( new Resettable[0], parent );
     }
 
+    /**
+     * 
+     * @param resettable thing to reset
+     * @param parent parent component for the confirmation dialog
+     */
     public ResetAllButton( final Resettable resettable, final Component parent ) {
         this( new Resettable[] { resettable }, parent );
     }
     
+    /**
+     * 
+     * @param resettables things to reset
+     * @param parent parent component for the confirmation dialog
+     */
     public ResetAllButton( final Resettable[] resettables, final Component parent ) {
-        super();
-        this.m_resettables=new ArrayList( Arrays.asList( resettables ));
-        // set text to "Reset All"
-        setText( PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
-        
-        // When the button is pressed, request confirmation and reset all Resettables
+        super( PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
+        this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
-                String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-                int option = PhetOptionPane.showYesNoDialog( parent, message, title );
-                if ( option == JOptionPane.YES_OPTION ) {
-                    for ( int i = 0; i < m_resettables.size(); i++ ) {
-                        ((Resettable)m_resettables.get(i)).reset();
-                    }
-                }
+                delegate.resetAll();
             }
         } );
     }
 
     public void addResettable( Resettable resettable ) {
-        m_resettables.add( resettable );
+        delegate.addResettable( resettable );
     }
-
+    
+    public void removeResettable( Resettable resettable ) {
+        delegate.removeResettable( resettable );
+    }
+    
     public static void main( String[] args ) {
-        ResetAllButton resetAllButton=new ResetAllButton( new Resettable(){
+
+        Resettable resettable1 = new Resettable() {
             public void reset() {
                 System.out.println( "Reset 1" );
             }
-        },null);
-        resetAllButton.addResettable( new Resettable(){
+        };
+        Resettable resettable2 = new Resettable() {
             public void reset() {
                 System.out.println( "Reset 2" );
             }
-        } );
-        JFrame frame=new JFrame( );
+        };
+
+        ResetAllButton resetAllButton = new ResetAllButton( resettable1, null );
+        resetAllButton.addResettable( resettable2 );
+
+        JFrame frame = new JFrame();
         frame.setContentPane( resetAllButton );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
