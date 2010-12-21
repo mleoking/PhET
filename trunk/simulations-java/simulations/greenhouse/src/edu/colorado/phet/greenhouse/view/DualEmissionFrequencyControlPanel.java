@@ -34,7 +34,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final Font LABEL_FONT = new PhetFont(24);
+    private static final Font LABEL_FONT = new PhetFont( 24 );
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -48,39 +48,39 @@ public class DualEmissionFrequencyControlPanel extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public DualEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ){
+    public DualEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ) {
 
         this.model = model;
 
-        model.addListener( new PhotonAbsorptionModel.Adapter(){
+        model.addListener( new PhotonAbsorptionModel.Adapter() {
             @Override
             public void emittedPhotonWavelengthChanged() {
                 updateFrequencySelectButtons();
             }
-        });
+        } );
 
         // Create and add the buttons.  Each one includes an image.
         JPanel infraredButtonPanel = new JPanel();
         infraredPhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Infrared" ) );
-        infraredPhotonRadioButton.setFont(LABEL_FONT);
+        infraredPhotonRadioButton.setFont( LABEL_FONT );
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
             }
-        });
+        } );
         infraredButtonPanel.add( infraredPhotonRadioButton );
-        infraredButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "photon-660.png" ) ) ) );
+        infraredButtonPanel.add( new JLabel( new ImageIcon( GreenhouseResources.getImage( "photon-660.png" ) ) ) );
 
         JPanel visibleButtonPanel = new JPanel();
         visiblePhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Visible" ) );
-        visiblePhotonRadioButton.setFont(LABEL_FONT);
+        visiblePhotonRadioButton.setFont( LABEL_FONT );
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.setEmittedPhotonWavelength( GreenhouseConfig.sunlightWavelength );
             }
-        });
+        } );
         visibleButtonPanel.add( visiblePhotonRadioButton );
-        visibleButtonPanel.add( new JLabel(new ImageIcon( GreenhouseResources.getImage( "thin2.png" ) ) ) );
+        visibleButtonPanel.add( new JLabel( new ImageIcon( GreenhouseResources.getImage( "thin2.png" ) ) ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( infraredPhotonRadioButton );
@@ -89,7 +89,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         // Put the buttons on to a vertical panel.
         JPanel emissionTypeSelectionPanel = new JPanel();
         emissionTypeSelectionPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
-        emissionTypeSelectionPanel.setLayout( new GridLayout(2, 1) );
+        emissionTypeSelectionPanel.setLayout( new GridLayout( 2, 1 ) );
         emissionTypeSelectionPanel.add( infraredButtonPanel );
         emissionTypeSelectionPanel.add( visibleButtonPanel );
 
@@ -107,14 +107,14 @@ public class DualEmissionFrequencyControlPanel extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
-    private void updateFrequencySelectButtons(){
-        if (model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength){
-            if (!infraredPhotonRadioButton.isSelected()){
+    private void updateFrequencySelectButtons() {
+        if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ) {
+            if ( !infraredPhotonRadioButton.isSelected() ) {
                 infraredPhotonRadioButton.setSelected( true );
             }
         }
-        else{
-            if (!visiblePhotonRadioButton.isSelected()){
+        else {
+            if ( !visiblePhotonRadioButton.isSelected() ) {
                 visiblePhotonRadioButton.setSelected( true );
             }
         }

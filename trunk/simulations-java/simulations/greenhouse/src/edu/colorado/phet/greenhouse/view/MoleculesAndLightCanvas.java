@@ -61,7 +61,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
     // Listener for watching molecules and updating the restore button
     // visibility.
-    private final Molecule.Adapter moleculeMotionListener = new Molecule.Adapter(){
+    private final Molecule.Adapter moleculeMotionListener = new Molecule.Adapter() {
         @Override
         public void centerOfGravityPosChanged( Molecule molecule ) {
             updateRestoreMolecueButtonVisibility();
@@ -92,7 +92,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 new Point( (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
                 (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.3 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
-                true );
+        true );
 
         setBackground( Color.BLACK );
 
@@ -164,7 +164,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
             public void actionPerformed( ActionEvent e ) {
                 photonAbsorptionModel.restorePhotonTarget();
             }
-        });
+        } );
         myWorldNode.addChild( restoreMoleculeButtonNode );
         updateRestoreMolecueButtonVisibility();
 
@@ -210,11 +210,11 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
      * intermediate rendering size to make the determination, which isn't
      * perfectly accurate, but works well enough for our purposes.
      */
-    private void updateRestoreMolecueButtonVisibility(){
+    private void updateRestoreMolecueButtonVisibility() {
         boolean restoreButtonVisible = false;
         Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height );
-        for ( Molecule molecule : photonAbsorptionModel.getMolecules() ){
-            if ( !screenRect.contains( mvt.modelToView( molecule.getCenterOfGravityPos() ))){
+        for ( Molecule molecule : photonAbsorptionModel.getMolecules() ) {
+            if ( !screenRect.contains( mvt.modelToView( molecule.getCenterOfGravityPos() ) ) ) {
                 restoreButtonVisible = true;
                 break;
             }
