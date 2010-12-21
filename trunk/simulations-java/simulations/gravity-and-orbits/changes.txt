@@ -1,3 +1,4 @@
+Replace anonymous ButtonNode with ResetAllButtonNode
 Fixed: Sim doesn’t pause on reset all
 Fixed: measuring tape checkbox doesn't reset on 'reset all'
 Switched back to cartoon image of sun instead of realistic photo

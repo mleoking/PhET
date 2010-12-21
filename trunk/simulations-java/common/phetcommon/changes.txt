@@ -1,3 +1,4 @@
+12-21-2010: create ResetAllButtonNode, same functionality as ResetAllButton but for Piccolo buttons
 12-21-2010: removed Property<T>.is, superclass should not create subclass (seems to have needed only by questionable syntax in GravityAndOrbitsCanvas)
 12-21-2010: rename IsSelected to ValueEquals, to remove association with radio buttons
 12-21-2010: change order of args to IsSelected to be consistent with PropertyRadioButton
