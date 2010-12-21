@@ -242,7 +242,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
         setClockControlPanel( null );//clock panel appears in the canvas
 
-        reset();
+        resetAll();
     }
 
     private GravityAndOrbitsMode getMode() {
@@ -268,6 +268,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         showMassProperty.reset();
         scaleProperty.reset();
         modeProperty.reset();
+        measuringTapeSelected.reset();
     }
 
     public Property<Boolean> getShowGravityForceProperty() {
