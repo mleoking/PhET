@@ -1,3 +1,4 @@
+12-21-2010: rename IsSelected to ValueEquals, to remove association with radio buttons
 12-21-2010: change order of args to IsSelected to be consistent with PropertyRadioButton
 12-16-2010: Improved ImmutableVector2D math API, adding plus, minus and times
 12-16-2010: Improved toString for ImmutableVector2D and Property<T>
