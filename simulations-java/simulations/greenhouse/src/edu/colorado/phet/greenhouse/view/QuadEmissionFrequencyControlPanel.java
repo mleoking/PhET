@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.Expone
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -62,18 +63,14 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 PANEL_SIZE.getHeight(), 20, 20), BACKGROUND_COLOR );
 
         // Add the radio buttons that set the emission frequency.
-        // TODO: i18n
         final WavelengthSelectButtonNode microwaveSelectorNode =
-            new WavelengthSelectButtonNode( "Microwave", model, GreenhouseConfig.microWavelength );
-        // TODO: i18n
+            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Microwave" ), model, GreenhouseConfig.microWavelength );
         final WavelengthSelectButtonNode infraredSelectorNode =
-            new WavelengthSelectButtonNode( "Infrared", model, GreenhouseConfig.irWavelength );
-        // TODO: i18n
+            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Infrared" ), model, GreenhouseConfig.irWavelength );
         final WavelengthSelectButtonNode visibleLightSelectorNode =
-            new WavelengthSelectButtonNode( "Visible", model, GreenhouseConfig.sunlightWavelength );
-        // TODO: i18n
+            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Visible" ), model, GreenhouseConfig.sunlightWavelength );
         final WavelengthSelectButtonNode ultravioletSelectorNode =
-            new WavelengthSelectButtonNode( "Ultraviolet", model, GreenhouseConfig.uvWavelength );
+            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, GreenhouseConfig.uvWavelength );
 
         // Put all the buttons into a button group.  Without this, for some
         // reason, the individual buttons will toggle to the off state if
@@ -120,22 +117,23 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 wavelengthSelectorPanelNode.getFullBoundsReference().getMaxY() );
 
         // Add the caption.
-        // TODO: i18n
-        PText title = new PText("Photon Energy");
+        PText title = new PText( GreenhouseResources.getString( "QuadWavelengthSelector.PhotonEnergy" ) );
         title.setFont( new PhetFont( 28 ) );
         title.setOffset( PANEL_SIZE.getWidth() / 2 - title.getFullBoundsReference().width / 2,
                 PANEL_SIZE.getHeight() - title.getFullBoundsReference().height - 15 );
         backgroundNode.addChild( title );
 
         // Add the arrows on the right and left sides.
-        // TODO: i18n
-        EnergyArrow leftArrowNode = new EnergyArrow( "Lower", EnergyArrow.Direction.POINTS_LEFT );
+        EnergyArrow leftArrowNode = new EnergyArrow(
+                GreenhouseResources.getString( "QuadWavelengthSelector.Lower" ),
+                EnergyArrow.Direction.POINTS_LEFT );
         leftArrowNode.setOffset(
                 EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - leftArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
         backgroundNode.addChild( leftArrowNode );
-        // TODO: i18n
-        EnergyArrow rightArrowNode = new EnergyArrow( "Higher", EnergyArrow.Direction.POINTS_RIGHT );
+        EnergyArrow rightArrowNode = new EnergyArrow(
+                GreenhouseResources.getString( "QuadWavelengthSelector.Higher" ),
+                EnergyArrow.Direction.POINTS_RIGHT );
         rightArrowNode.setOffset(
                 backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
