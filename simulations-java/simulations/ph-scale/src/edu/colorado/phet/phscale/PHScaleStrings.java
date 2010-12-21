@@ -22,7 +22,6 @@ public class PHScaleStrings {
     
     public static final String BUTTON_YES = PHScaleResources.getCommonString( PhetCommonResources.STRING_YES );
     public static final String BUTTON_NO = PHScaleResources.getCommonString( PhetCommonResources.STRING_NO );
-    public static final String BUTTON_RESET_ALL = PHScaleResources.getCommonString( PhetCommonResources.STRING_RESET_ALL );
     public static final String BUTTON_ZOOM_IN = PHScaleResources.getString( "button.zoomIn" );
     public static final String BUTTON_ZOOM_OUT = PHScaleResources.getString( "button.zoomOut" );
 
