@@ -69,10 +69,4 @@ public class Property<T> extends SimpleObservable {
     public String toString() {
         return value.toString();
     }
-
-    //TODO move this elsewhere, base class shouldn't be creating instances of subclasses
-    //Todo: should this be cached?  In scala we would just make it lazy.
-    public BooleanProperty is(T value){
-        return new ValueEquals<T>( this, value );
-    }
 }
