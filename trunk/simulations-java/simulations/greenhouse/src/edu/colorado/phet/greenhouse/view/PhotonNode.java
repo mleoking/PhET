@@ -41,7 +41,7 @@ public class PhotonNode extends PNode implements Observer {
         put( GreenhouseConfig.uvWavelength, "photon-100.png");
     }};
 
-    // TODO: Temp for debug
+    // For debug and testing.
     private static final boolean USE_PHOTON_FACTORY = false;
 
     // ------------------------------------------------------------------------
