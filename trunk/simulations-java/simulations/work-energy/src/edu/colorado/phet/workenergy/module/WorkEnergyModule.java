@@ -43,7 +43,7 @@ public class WorkEnergyModule<ModelType extends WorkEnergyModel> extends Module 
         return model;
     }
 
-    public void resetAll() {
+    public void reset() {
         showPieChartProperty.reset();
         showEnergyBarChartProperty.reset();
         showRulerProperty.reset();

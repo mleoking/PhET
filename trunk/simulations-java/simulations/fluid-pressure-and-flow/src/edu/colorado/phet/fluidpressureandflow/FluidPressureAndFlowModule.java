@@ -28,7 +28,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
         setClockControlPanel( null );
     }
 
-    public void resetAll() {
+    public void reset() {
         rulerVisibleProperty.reset();
         fluidDensityControlVisible.reset();
         gravityControlVisible.reset();
