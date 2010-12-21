@@ -20,11 +20,11 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
         setForeground( FluidPressureControlPanel.FOREGROUND );
 
         final T model = module.getFluidPressureAndFlowModel();
-        add( new RadioButton( "atmospheres (atm)", new IsSelected<Units.Unit>( Units.ATMOSPHERE, model.getPressureUnitProperty() ) ) );
-        add( new RadioButton( "Pascals (Pa)", new IsSelected<Units.Unit>( Units.PASCAL, model.getPressureUnitProperty() ) ) );
-        add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new IsSelected<Units.Unit>( Units.PSI, model.getPressureUnitProperty() ) ) );
+        add( new RadioButton( "atmospheres (atm)", new IsSelected<Units.Unit>( model.getPressureUnitProperty(), Units.ATMOSPHERE ) ) );
+        add( new RadioButton( "Pascals (Pa)", new IsSelected<Units.Unit>( model.getPressureUnitProperty(), Units.PASCAL ) ) );
+        add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new IsSelected<Units.Unit>( model.getPressureUnitProperty(), Units.PSI ) ) );
         add( new JSeparator() );
-        add( new RadioButton( "feet (ft)", new IsSelected<Units.Unit>( Units.FEET, model.getDistanceUnitProperty() ) ) );
-        add( new RadioButton( "meters (m)", new IsSelected<Units.Unit>( Units.METERS, model.getDistanceUnitProperty() ) ) );
+        add( new RadioButton( "feet (ft)", new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.FEET ) ) );
+        add( new RadioButton( "meters (m)", new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.METERS ) ) );
     }
 }
