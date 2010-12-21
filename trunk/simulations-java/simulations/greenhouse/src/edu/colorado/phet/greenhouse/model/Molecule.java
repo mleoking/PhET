@@ -434,8 +434,6 @@ public abstract class Molecule {
     /**
      * Cause the atom to emit a photon of the specified wavelength.
      *
-     * TODO: Not sure if this version is needed, verify that it is or delete it.
-     *
      * @param wavelength
      */
     protected void emitPhoton( double wavelength ){
