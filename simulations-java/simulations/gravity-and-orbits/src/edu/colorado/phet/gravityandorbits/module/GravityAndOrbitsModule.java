@@ -2,13 +2,14 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -242,7 +243,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         } );
         setClockControlPanel( null );//clock panel appears in the canvas
 
-        resetAll();
+        reset();
     }
 
     private GravityAndOrbitsMode getMode() {
@@ -258,7 +259,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     /**
      * Resets the module.
      */
-    public void resetAll() {
+    public void reset() {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.reset();
         }
