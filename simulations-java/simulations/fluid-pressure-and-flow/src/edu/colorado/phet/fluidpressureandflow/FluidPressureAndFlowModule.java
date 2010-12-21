@@ -2,7 +2,7 @@ package edu.colorado.phet.fluidpressureandflow;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.And;
-import edu.colorado.phet.common.phetcommon.model.IsSelected;
+import edu.colorado.phet.common.phetcommon.model.ValueEquals;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
@@ -21,8 +21,8 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
-        meterStickVisibleProperty = new And( rulerVisibleProperty, new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.METERS ) );
-        yardStickVisibleProperty = new And( rulerVisibleProperty, new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.FEET ) );
+        meterStickVisibleProperty = new And( rulerVisibleProperty, new ValueEquals<Units.Unit>( model.getDistanceUnitProperty(), Units.METERS ) );
+        yardStickVisibleProperty = new And( rulerVisibleProperty, new ValueEquals<Units.Unit>( model.getDistanceUnitProperty(), Units.FEET ) );
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );

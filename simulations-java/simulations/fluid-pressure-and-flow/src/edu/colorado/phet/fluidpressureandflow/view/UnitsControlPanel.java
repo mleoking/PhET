@@ -1,9 +1,10 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JSeparator;
 
-import edu.colorado.phet.common.phetcommon.model.IsSelected;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
@@ -20,11 +21,11 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
         setForeground( FluidPressureControlPanel.FOREGROUND );
 
         final T model = module.getFluidPressureAndFlowModel();
-        add( new RadioButton( "atmospheres (atm)", new IsSelected<Units.Unit>( model.getPressureUnitProperty(), Units.ATMOSPHERE ) ) );
-        add( new RadioButton( "Pascals (Pa)", new IsSelected<Units.Unit>( model.getPressureUnitProperty(), Units.PASCAL ) ) );
-        add( new RadioButton( "<html>pounds per<br>square inch (psi)</html>", new IsSelected<Units.Unit>( model.getPressureUnitProperty(), Units.PSI ) ) );
+        add( new PropertyRadioButton<Units.Unit>( "atmospheres (atm)", model.getPressureUnitProperty(), Units.ATMOSPHERE ) );
+        add( new PropertyRadioButton<Units.Unit>( "Pascals (Pa)", model.getPressureUnitProperty(), Units.PASCAL ) );
+        add( new PropertyRadioButton<Units.Unit>( "<html>pounds per<br>square inch (psi)</html>", model.getPressureUnitProperty(), Units.PSI ) );
         add( new JSeparator() );
-        add( new RadioButton( "feet (ft)", new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.FEET ) ) );
-        add( new RadioButton( "meters (m)", new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.METERS ) ) );
+        add( new PropertyRadioButton<Units.Unit>( "feet (ft)", model.getDistanceUnitProperty(), Units.FEET ) );
+        add( new PropertyRadioButton<Units.Unit>( "meters (m)", model.getDistanceUnitProperty(), Units.METERS ) );
     }
 }
