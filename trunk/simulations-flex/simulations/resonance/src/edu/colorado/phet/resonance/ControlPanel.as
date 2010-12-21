@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 
 import flash.display.*;
 import flash.events.Event;
@@ -6,18 +6,25 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
+import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.Button;
 import mx.controls.HSlider;
+import mx.controls.Label;
+import mx.controls.RadioButton;
+import mx.controls.RadioButtonGroup;
 
 public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
     private var shakerModel: ShakerModel;
     private var background: VBox;
+    private var radioButtonBox:HBox;
     private var innerBckgrnd: VBox;
     private var dampingSlider: HSlider;
     private var nbrResonatorsSlider: HSlider;
+    private var gravityOnOff_rbg: RadioButtonGroup;
+    private var gravity_lbl:Label;
     private var mSlider: HSlider;
     private var kSlider: HSlider;
     private var resetButton:Button;
@@ -93,9 +100,31 @@ public class ControlPanel extends Canvas {
             buttonMode = true;
             snapInterval = 1;
             tickInterval = 1;
-
         }
+
         this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
+
+        this.radioButtonBox = new HBox();
+
+        this.gravity_lbl = new Label();
+        this.gravity_lbl.text = "Gravity";
+        this.gravity_lbl.setStyle("fontSize", 14) ; 
+
+        this.gravityOnOff_rbg = new RadioButtonGroup();
+        var rb1:RadioButton = new RadioButton();
+        var rb2:RadioButton = new RadioButton();
+        rb1.group = gravityOnOff_rbg;
+        rb2.group = gravityOnOff_rbg;
+        rb1.label = "on";
+        rb2.label = "off";
+        rb1.value = 1;
+        rb2.value = 0;
+        rb1.selected = true;
+        rb2.selected = false;
+
+        this.gravityOnOff_rbg.addEventListener(Event.CHANGE, clickGravity)
+        
+
 
         this.mSlider = new HSlider();
         with(this.mSlider){
@@ -128,6 +157,10 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
         this.background.addChild( nbrResonatorsSlider );
         this.background.addChild( dampingSlider );
+        this.background.addChild(radioButtonBox);
+        this.radioButtonBox.addChild(gravity_lbl);
+        this.radioButtonBox.addChild(rb1);
+        this.radioButtonBox.addChild(rb2);
 
         this.innerBckgrnd.addChild(this.mSlider);
         this.innerBckgrnd.addChild(this.kSlider);
@@ -161,6 +194,15 @@ public class ControlPanel extends Canvas {
         var nbrR: int = this.nbrResonatorsSlider.value;
         //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
         this.setNbrResonators( nbrR );
+    }
+
+    private function clickGravity(evt: Event):void{
+        var val:Object = this.gravityOnOff_rbg.selectedValue;
+        if(val == 1){
+            trace("1");
+        }else{
+            trace("2");
+        }
     }
 
     public function setNbrResonators( nbrR: int ): void {
