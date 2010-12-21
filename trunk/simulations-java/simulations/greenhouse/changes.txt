@@ -1,3 +1,5 @@
+Fixed: Pressing selector buttons twice on the emission control panel would deslect the button.
+Consolidated code for photon emitters between Molecules and Light and Photon Absorption.
 Made the molecules able to vibrate after rotating without returning to their original positions.
 Fixed an issue where bonds were incorrect when atoms were vertically aligned.
 Added a different representation of the UV emitter with more of a "black light" look.
