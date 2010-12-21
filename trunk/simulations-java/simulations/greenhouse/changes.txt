@@ -1,3 +1,4 @@
+Removed unused code left over from aborted port of older tabs to Piccolo.
 Fixed: Pressing selector buttons twice on the emission control panel would deslect the button.
 Consolidated code for photon emitters between Molecules and Light and Photon Absorption.
 Made the molecules able to vibrate after rotating without returning to their original positions.
