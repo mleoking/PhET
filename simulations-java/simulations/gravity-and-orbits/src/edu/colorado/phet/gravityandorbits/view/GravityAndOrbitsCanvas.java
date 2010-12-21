@@ -2,7 +2,11 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import static edu.colorado.phet.common.phetcommon.model.Not.not;
+import static edu.colorado.phet.gravityandorbits.view.Scale.REAL;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -11,8 +15,10 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.Or;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.ValueEquals;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -32,9 +38,6 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.common.phetcommon.model.Not.not;
-import static edu.colorado.phet.gravityandorbits.view.Scale.REAL;
 
 /**
  * Canvas template.
@@ -157,7 +160,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new MeasuringTape( module.scale.is( REAL ).and( module.measuringTapeSelected.is( true ) ),
+        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.scale, REAL ), new ValueEquals<Boolean>( module.measuringTapeSelected, true ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
         }} );
