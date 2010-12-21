@@ -144,7 +144,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         photonEmissionControlPanel.setOffset( 0, 400 );
 
         // Create the photon emitter.
-        PNode photonEmitterNode = new PhotonEmitterNode2( PHOTON_EMITTER_WIDTH, mvt, photonAbsorptionModel );
+        PNode photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, mvt, photonAbsorptionModel );
         photonEmitterNode.setOffset( mvt.modelToViewDouble( photonAbsorptionModel.getPhotonEmissionLocation() ) );
 
         // Create the rod that connects the emitter to the control panel.
