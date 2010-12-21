@@ -35,7 +35,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author John Blanco
  */
-public class QuadEmissionFrequencyControlPanel2 extends PNode {
+public class QuadEmissionFrequencyControlPanel extends PNode {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -54,7 +54,7 @@ public class QuadEmissionFrequencyControlPanel2 extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public QuadEmissionFrequencyControlPanel2( final PhotonAbsorptionModel model ){
+    public QuadEmissionFrequencyControlPanel( final PhotonAbsorptionModel model ){
 
         // Create the main background shape.
         final PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, PANEL_SIZE.getWidth(),
