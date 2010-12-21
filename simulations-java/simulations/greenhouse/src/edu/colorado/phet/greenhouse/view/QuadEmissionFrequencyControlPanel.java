@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -62,13 +63,26 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add the radio buttons that set the emission frequency.
         // TODO: i18n
-        final PNode microwaveSelectorNode = new WavelengthSelectButtonNode( "Microwave", model, GreenhouseConfig.microWavelength );
+        final WavelengthSelectButtonNode microwaveSelectorNode =
+            new WavelengthSelectButtonNode( "Microwave", model, GreenhouseConfig.microWavelength );
         // TODO: i18n
-        final PNode infraredSelectorNode = new WavelengthSelectButtonNode( "Infrared", model, GreenhouseConfig.irWavelength );
+        final WavelengthSelectButtonNode infraredSelectorNode =
+            new WavelengthSelectButtonNode( "Infrared", model, GreenhouseConfig.irWavelength );
         // TODO: i18n
-        final PNode visibleLightSelectorNode = new WavelengthSelectButtonNode( "Visible", model, GreenhouseConfig.sunlightWavelength );
+        final WavelengthSelectButtonNode visibleLightSelectorNode =
+            new WavelengthSelectButtonNode( "Visible", model, GreenhouseConfig.sunlightWavelength );
         // TODO: i18n
-        final PNode ultravioletSelectorNode = new WavelengthSelectButtonNode( "Ultraviolet", model, GreenhouseConfig.uvWavelength );
+        final WavelengthSelectButtonNode ultravioletSelectorNode =
+            new WavelengthSelectButtonNode( "Ultraviolet", model, GreenhouseConfig.uvWavelength );
+
+        // Put all the buttons into a button group.  Without this, for some
+        // reason, the individual buttons will toggle to the off state if
+        // pressed twice in a row.
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( microwaveSelectorNode.getButton() );
+        buttonGroup.add( infraredSelectorNode.getButton() );
+        buttonGroup.add( visibleLightSelectorNode.getButton() );
+        buttonGroup.add( ultravioletSelectorNode.getButton() );
 
         // Create a "panel" sort of node that contains all the selector
         // buttons, then position it at the center bottom of the main node.
@@ -145,41 +159,38 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     //------------------------------------------------------------------------
 
     /**
-     * Convenience class for the radio buttons that select the wavelength.
-     */
-    private static class WavelengthSelectButton extends JRadioButton {
-
-        private static final Font LABEL_FONT  = new PhetFont( 26 );
-
-        public WavelengthSelectButton( String text, final PhotonAbsorptionModel model, final double wavelength ){
-            setFont( LABEL_FONT );
-            setText( text );
-            setBackground( BACKGROUND_COLOR );
-            setOpaque( false );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.setEmittedPhotonWavelength( wavelength );
-                }
-            });
-            model.addListener( new PhotonAbsorptionModel.Adapter() {
-                @Override
-                public void emittedPhotonWavelengthChanged() {
-                    setSelected( model.getEmittedPhotonWavelength() == wavelength );
-                }
-            } );
-            // Set initial state.
-            setSelected( model.getEmittedPhotonWavelength() == wavelength );
-        }
-    }
-
-    /**
-     * Convenience class for the radio buttons that select the wavelength.
+     * Convenience class that puts a radio button with a caption into a PNode.
      */
     private static class WavelengthSelectButtonNode extends PNode {
 
-        public WavelengthSelectButtonNode( String text, final PhotonAbsorptionModel model, final double wavelength ){
-            WavelengthSelectButton button = new WavelengthSelectButton( text, model, wavelength );
+        private static final Font LABEL_FONT  = new PhetFont( 26 );
+        JRadioButton button;
+
+        public WavelengthSelectButtonNode( final String text, final PhotonAbsorptionModel photonAbsorptionModel, final double wavelength ){
+            button = new JRadioButton(){{
+                setFont( LABEL_FONT );
+                setText( text );
+                setBackground( BACKGROUND_COLOR );
+                setOpaque( false );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        photonAbsorptionModel.setEmittedPhotonWavelength( wavelength );
+                    }
+                });
+                photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
+                    @Override
+                    public void emittedPhotonWavelengthChanged() {
+                        setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
+                    }
+                } );
+                // Set initial state.
+                setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
+            }};
             addChild( new PSwing( button ));
+        }
+
+        public JRadioButton getButton(){
+            return button;
         }
     }
 
