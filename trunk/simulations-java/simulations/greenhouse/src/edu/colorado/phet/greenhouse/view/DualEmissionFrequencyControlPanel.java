@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -36,8 +34,6 @@ public class DualEmissionFrequencyControlPanel extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final Color BACKGROUND_COLOR = Color.GRAY;
-    private static final Dimension PANEL_SIZE = new Dimension( 200, 300 );
     private static final Font LABEL_FONT = new PhetFont(24);
 
     // ------------------------------------------------------------------------
@@ -70,7 +66,6 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
-//                updateFrequencySelectButtons();
             }
         });
         infraredButtonPanel.add( infraredPhotonRadioButton );
@@ -82,7 +77,6 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.setEmittedPhotonWavelength( GreenhouseConfig.sunlightWavelength );
-//                updateFrequencySelectButtons();
             }
         });
         visibleButtonPanel.add( visiblePhotonRadioButton );

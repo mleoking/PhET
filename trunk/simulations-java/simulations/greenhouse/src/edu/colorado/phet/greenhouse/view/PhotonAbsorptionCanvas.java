@@ -5,7 +5,6 @@ package edu.colorado.phet.greenhouse.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
@@ -29,7 +28,7 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-	private static final double FLASHLIGHT_WIDTH = 300;
+    private static final double PHOTON_EMITTER_WIDTH = 300;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -50,9 +49,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     // the view.
     private final HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
     private final HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
-
-    // Node that depicts the largest open rectangle, used for debugging.
-    private final PhetPPath largestOpenRect = new PhetPPath(new BasicStroke(3), Color.YELLOW);
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,7 +83,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
 
         setBackground( Color.BLACK );
 
-        // Listen to the model for notifications that we care about.
+        // Listen to the model for notifications that the canvas cares about,
+        // which are primarily the coming and going of model objects.
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
 
             @Override
@@ -140,20 +137,33 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
                 Color.LIGHT_GRAY);
         moleculeLayer.addChild(chamberNode);
 
-        // Add the flashlight.
-        PNode flashlightNode = new PhotonEmitterNode(FLASHLIGHT_WIDTH, mvt, photonAbsorptionModel);
-        flashlightNode.setOffset(mvt.modelToViewDouble(photonAbsorptionModel.getPhotonEmissionLocation()));
-        photonEmitterLayer.addChild(flashlightNode);
+        // Create the photon emitter.
+        PNode photonEmitterNode = new PhotonEmitterNode2( PHOTON_EMITTER_WIDTH, mvt, photonAbsorptionModel );
+        photonEmitterNode.setOffset( mvt.modelToViewDouble( photonAbsorptionModel.getPhotonEmissionLocation() ) );
 
-        // Add the largest open rectangle.
-        moleculeLayer.addChild( largestOpenRect );
+        // Create the control panel for photon emission frequency.
+        PNode photonEmissionControlPanel = new DualEmissionFrequencyControlPanel( photonAbsorptionModel );
+        photonEmissionControlPanel.setOffset(
+                photonEmitterNode.getFullBoundsReference().getCenterX() - ( photonEmissionControlPanel.getFullBoundsReference().width / 2),
+                photonEmitterNode.getFullBoundsReference().getMaxY() + 50 );
+
+        // Create the rod that connects the emitter to the control panel.
+        PNode connectingRod = new VerticalRodNode( 30,
+                Math.abs( photonEmitterNode.getFullBoundsReference().getCenterY() - photonEmissionControlPanel.getFullBoundsReference().getCenterY() ),
+                Color.LIGHT_GRAY );
+        connectingRod.setOffset(
+                photonEmitterNode.getFullBoundsReference().getCenterX() - ( connectingRod.getFullBoundsReference().width / 2),
+                photonEmitterNode.getFullBoundsReference().getCenterY() );
+
+        // Add the nodes in the order necessary for correct layering.
+        photonEmitterLayer.addChild( connectingRod );
+        photonEmitterLayer.addChild( photonEmitterNode );
+        photonEmitterLayer.addChild( photonEmissionControlPanel );
 
         // Add in the initial molecule(s).
         for (Molecule molecule : photonAbsorptionModel.getMolecules()){
             addMolecule( molecule );
         }
-
-        photonEmitterLayer.addChild( new DualEmissionFrequencyControlPanel( photonAbsorptionModel ));
 
         // Update the layout.
         updateLayout();
@@ -162,23 +172,6 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
-
-    /**
-     * Updates the layout of stuff on the canvas.
-     */
-    @Override
-    protected void updateLayout() {
-
-        Dimension2D worldSize = getWorldSize();
-        Dimension2D screenSize = getScreenSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else {
-        	// TODO: TBD
-        }
-    }
 
     private void addMolecule(Molecule molecule){
         MoleculeNode moleculeNode = new MoleculeNode(molecule, mvt);
