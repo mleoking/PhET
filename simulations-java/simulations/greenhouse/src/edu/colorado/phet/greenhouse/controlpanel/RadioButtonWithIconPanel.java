@@ -45,7 +45,7 @@ class RadioButtonWithIconPanel extends HorizontalLayoutPanel {
      * Constructor.
      *
      * @param buttonText
-     * @param toolTipText TODO
+     * @param toolTipText
      * @param imageName
      */
     public RadioButtonWithIconPanel(String buttonText, String toolTipText, BufferedImage image,
