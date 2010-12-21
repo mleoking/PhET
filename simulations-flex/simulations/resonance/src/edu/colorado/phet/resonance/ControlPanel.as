@@ -50,6 +50,9 @@ public class ControlPanel extends Canvas {
         this.background.setStyle( "paddingRight", 10 );
         this.background.setStyle( "paddingLeft", 10 );
         this.background.setStyle( "verticalGap", 30 );
+        with(this.background){
+            setStyle("horizontalAlign", "center" ) ;
+        }
 
 
 
@@ -96,7 +99,7 @@ public class ControlPanel extends Canvas {
 
         this.mSlider = new HSlider();
         with(this.mSlider){
-            minimum = 1;
+            minimum = 0.2;
             maximum = 10;
             liveDragging = true;
             buttonMode = true;
@@ -192,6 +195,7 @@ public class ControlPanel extends Canvas {
         this.shakerModel.resetInitialResonatorArray();
         //this.setResonatorIndex( this.selectedResonatorNbr );
         //trace("ControlPanel.resetResonators() called.");
+
     }
 
 }//end of class
