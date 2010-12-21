@@ -222,16 +222,8 @@ public abstract class Molecule {
         this.rotating = rotating;
     }
 
-    protected boolean isRotationDirectionClockwise() {
-        return rotationDirectionClockwise;
-    }
-
     protected void setRotationDirectionClockwise( boolean rotationDirectionClockwise ) {
         this.rotationDirectionClockwise = rotationDirectionClockwise;
-    }
-
-    public double getAbsorbtionHysteresisCountdownTime() {
-        return absorbtionHysteresisCountdownTime;
     }
 
     /**
