@@ -1,25 +1,24 @@
 package edu.colorado.phet.workenergy.view;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
@@ -69,13 +68,8 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Reset all button
-        addChild( new ButtonNode( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), (int) ( WorkEnergyControlPanel.CONTROL_FONT.getSize() * 1.3 ), WorkEnergyControlPanel.FOREGROUND, WorkEnergyControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, (int) ( WorkEnergyControlPanel.CONTROL_FONT.getSize() * 1.3 ), WorkEnergyControlPanel.FOREGROUND, WorkEnergyControlPanel.BACKGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.resetAll();
-                }
-            } );
         }} );
 
         final Property<Boolean> clockRunning = new Property<Boolean>( true ){{

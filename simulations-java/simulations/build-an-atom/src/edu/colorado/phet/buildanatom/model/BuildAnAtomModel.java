@@ -9,15 +9,16 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Main model class.  Units are picometers (1E-12).
  */
-public class BuildAnAtomModel {
+public class BuildAnAtomModel implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data

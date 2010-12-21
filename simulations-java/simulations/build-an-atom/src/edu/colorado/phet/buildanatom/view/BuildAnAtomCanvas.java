@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,9 +38,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Model
-    private final BuildAnAtomModel model;
-
     // View
     private final PNode rootNode;
 
@@ -48,7 +45,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     private final ModelViewTransform2D mvt;
 
     // Reset button.
-    private final ButtonNode resetButtonNode;
+    private final ResetAllButtonNode resetButtonNode;
 
     private final BooleanProperty viewOrbitals = new BooleanProperty( true );
     private final BooleanProperty showName = new BooleanProperty( true );
@@ -64,8 +61,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     public BuildAnAtomCanvas( final BuildAnAtomModel model ) {
-
-        this.model = model;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
@@ -158,16 +153,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( showStableUnstableCheckBox );
 
         // "Reset All" button.
-        resetButtonNode = new ButtonNode( BuildAnAtomStrings.RESET_ALL, 16, new Color( 255, 153, 0 ) );
+        resetButtonNode = new ResetAllButtonNode( model, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         rootNode.addChild( resetButtonNode );
-        resetButtonNode.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                BuildAnAtomCanvas.this.model.reset();
-                reset();
-            }
-        } );
 
         double maxCheckboxX = Collections.max( Arrays.asList( showNameCheckBox.getFullBoundsReference().getMaxX(),
                                                               showNeutralIonCheckBox.getFullBoundsReference().getMaxX(),
