@@ -31,7 +31,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author John Blanco
  */
-public class PhotonEmitterNode2 extends PNode {
+public class PhotonEmitterNode extends PNode {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -63,7 +63,7 @@ public class PhotonEmitterNode2 extends PNode {
      * view coordinate systems.
      * @param model
      */
-    public PhotonEmitterNode2( double width, ModelViewTransform2D mvt, final PhotonAbsorptionModel model ) {
+    public PhotonEmitterNode( double width, ModelViewTransform2D mvt, final PhotonAbsorptionModel model ) {
 
         this.model = model;
         this.emitterImageWidth = width;
