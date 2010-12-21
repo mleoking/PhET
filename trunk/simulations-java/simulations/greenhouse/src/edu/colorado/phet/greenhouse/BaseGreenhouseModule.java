@@ -45,8 +45,7 @@ import edu.colorado.phet.greenhouse.view.ThermometerGraphic;
 
 public abstract class BaseGreenhouseModule extends Module {
 	private static final double MAX_TIME_BETWEEN_TICKS = (double)GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS * 5;
-	private static final double MIN_TIME_BETWEEN_TICKS = (double)GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS;
-    private HashMap photonToGraphicsMap = new HashMap();
+    private final HashMap photonToGraphicsMap = new HashMap();
     protected CompositeGraphic drawingCanvas;
     private ThermometerGraphic thermometerGraphic;
     protected EarthGraphic earthGraphic;
@@ -90,7 +89,7 @@ public abstract class BaseGreenhouseModule extends Module {
         } );
     	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
         setClockControlPanel( clockControlPanel );
-        
+
         // Set up the model and apparatus panel
         double modelHeight = EARTH_DIAM + SUN_DIAM + SUN_EARTH_DIST * 2;
         modelHeight = exposedEarth + Atmosphere.troposphereThickness;
@@ -171,17 +170,17 @@ public abstract class BaseGreenhouseModule extends Module {
         	s_firstTime = false;
         	// Prevent a backdrop from appearing
             earthGraphic.setNoBackdrop();
-  
+
             // Set up the model bounds.
             ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( modelBounds );
-  
+
             atmosphereGraphic.setVisible( true );
             thermometerEnabled( true );
-  
+
             GreenhouseApplication.paintContentImmediately();
-  
+
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
-  
+
             // Set the default view. Note that this is a real mess. It works in conjunction with code in
             // GreenhouseControlPanel.AtmoshpereSelectionPane
             setToday();
@@ -199,7 +198,7 @@ public abstract class BaseGreenhouseModule extends Module {
     public GreenhouseModel getGreenhouseModel() {
         return model;
     }
-    
+
     public GreenhouseClock getGreenhouseClock() {
     	return (GreenhouseClock)super.getClock();
     }
@@ -208,6 +207,7 @@ public abstract class BaseGreenhouseModule extends Module {
         return apparatusPanel;
     }
 
+    @Override
     public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         apparatusPanel.update( null, null );// force a repaint
@@ -217,6 +217,7 @@ public abstract class BaseGreenhouseModule extends Module {
         return photonToGraphicsMap;
     }
 
+    @Override
     public void reset() {
 
         earth.getPhotonSource().setProductionRate( 1E-2 );
@@ -239,7 +240,7 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
-        
+
         // Reset the slider that controls sim speed.
         getGreenhouseClock().setDelay( GreenhouseClock.DEFAULT_DELAY_BETWEEN_TICKS );
     }
@@ -318,7 +319,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
     protected class PhotonEmitterListener implements PhotonEmitter.Listener {
         // Used to tell if a photon is IR
-        private Filter1D irFilter = new IrFilter();
+        private final Filter1D irFilter = new IrFilter();
         private int n = 0;
 
         public void setInvisiblePhotonCnt( int cnt ) {
@@ -359,16 +360,6 @@ public abstract class BaseGreenhouseModule extends Module {
             if ( photonToGraphicsMap.get( photon ) != null ) {
                 ScatterEvent se = new ScatterEvent( photon, BaseGreenhouseModule.this );
                 model.addModelElement( se );
-                // TODO: The scatter event graphic was commented out on 9/10/2010
-                // prior to some interviewing.  The flash has been seen to confuse
-                // people somewhat, so we want to try the sim without this.  If
-                // this change is approved, this code and that associated variables
-                // should be permanently removed. - jblanco
-//                if ( ( (PhotonGraphic) photonToGraphicsMap.get( photon ) ).isVisible() ) {
-//                    ScatterEventGraphic seg = new ScatterEventGraphic( se );
-//                    getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
-//                    scatterToGraphicMap.put( se, seg );
-//                }
             }
         }
     }
