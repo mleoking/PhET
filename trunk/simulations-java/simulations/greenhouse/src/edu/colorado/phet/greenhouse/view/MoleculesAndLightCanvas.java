@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
@@ -156,9 +157,8 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 photonEmitterNode.getFullBoundsReference().getCenterX() - connectingRod.getFullBoundsReference().width / 2,
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
 
-        // Add the button for restoring molecule that break apart.
-        // TODO: i18n
-        restoreMoleculeButtonNode = new ButtonNode( "Return Molecule", 24, new Color( 255, 144, 0 ) );
+        // Add the button for restoring molecules that break apart.
+        restoreMoleculeButtonNode = new ButtonNode( GreenhouseResources.getString( "ButtonNode.ReturnMolecule" ), 24, new Color( 255, 144, 0 ) );
         restoreMoleculeButtonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
         restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
