@@ -269,6 +269,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         scaleProperty.reset();
         modeProperty.reset();
         measuringTapeSelected.reset();
+        clockPaused.reset();
     }
 
     public Property<Boolean> getShowGravityForceProperty() {
