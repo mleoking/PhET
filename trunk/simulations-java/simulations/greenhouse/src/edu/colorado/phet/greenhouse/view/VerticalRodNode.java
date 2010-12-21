@@ -19,12 +19,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class VerticalRodNode extends PNode {
 
-    private static final Color DEFAULT_COLOR = Color.DARK_GRAY;
-
-    public VerticalRodNode( double width, double height ) {
-        this( width, height, DEFAULT_COLOR );
-    }
-
     public VerticalRodNode( double width, double height, Color baseColor ) {
         Rectangle2D connectingRodShape = new Rectangle2D.Double( 0, 0, width, height );
         PNode connectingRod = new PhetPPath( connectingRodShape );
