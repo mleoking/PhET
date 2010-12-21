@@ -218,9 +218,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             put( GreenhouseConfig.uvWavelength, new DoubleRange(1E-9, 380E-9));
         }};
 
-        // TODO: Delete this constant when we finalize the look of the connecting line.
-        private static final boolean STRAIGHT_CONNECTING_LINE = false;
-
         private final PhotonAbsorptionModel model;
         private final PPath markerNode = new PhetPPath( MARKER_STROKE, MARKER_COLOR );
         private final PImage spectrumImageNode;
@@ -229,7 +226,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         /**
          * Constructor.
-         * @param mapWavelengthToXPos TODO
+         * @param mapWavelengthToXPos
          */
         public SpectrumNode( int width, int height, PhotonAbsorptionModel model, HashMap<Double, Double> mapWavelengthToXPos ){
 
@@ -286,16 +283,10 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             double rangeIndicatorMiddleX = rangeIndicatorMinX + ( ( rangeIndicatorMaxX - rangeIndicatorMinX  ) / 2 );
             assert mapWavelengthToXPos.containsKey( model.getEmittedPhotonWavelength() ); // If not there, we can't draw the connecting line.
             Point2D connectingLineEndPoint = parentToLocal( new Point2D.Double( mapWavelengthToXPos.get( model.getEmittedPhotonWavelength() ), 0 ) );
-            if ( STRAIGHT_CONNECTING_LINE ){
-                markerPath.moveTo( rangeIndicatorMiddleX, rangeIndicatorMinY );
-                markerPath.lineTo( connectingLineEndPoint.getX(), 0 );
-            }
-            else{
-                markerPath.moveTo( rangeIndicatorMiddleX, rangeIndicatorMinY );
-                markerPath.lineTo( rangeIndicatorMiddleX, rangeIndicatorMinY - totalMarkerHeight / 3 );
-                markerPath.lineTo( connectingLineEndPoint.getX(), rangeIndicatorMinY - totalMarkerHeight / 3 );
-                markerPath.lineTo( connectingLineEndPoint.getX(), 0 );
-            }
+            markerPath.moveTo( rangeIndicatorMiddleX, rangeIndicatorMinY );
+            markerPath.lineTo( rangeIndicatorMiddleX, rangeIndicatorMinY - totalMarkerHeight / 3 );
+            markerPath.lineTo( connectingLineEndPoint.getX(), rangeIndicatorMinY - totalMarkerHeight / 3 );
+            markerPath.lineTo( connectingLineEndPoint.getX(), 0 );
 
             // Set the node to the path that we just calculated.
             markerNode.setPathTo( markerPath.getGeneralPath() );
