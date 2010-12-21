@@ -153,6 +153,8 @@ public class PhotonAbsorptionCanvas extends PhetPCanvas {
             addMolecule( molecule );
         }
 
+        photonEmitterLayer.addChild( new DualEmissionFrequencyControlPanel( photonAbsorptionModel ));
+
         // Update the layout.
         updateLayout();
     }
