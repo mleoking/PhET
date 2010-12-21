@@ -21,8 +21,8 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
-        meterStickVisibleProperty = new And( rulerVisibleProperty, new IsSelected<Units.Unit>( Units.METERS, model.getDistanceUnitProperty() ) );
-        yardStickVisibleProperty = new And( rulerVisibleProperty, new IsSelected<Units.Unit>( Units.FEET, model.getDistanceUnitProperty() ) );
+        meterStickVisibleProperty = new And( rulerVisibleProperty, new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.METERS ) );
+        yardStickVisibleProperty = new And( rulerVisibleProperty, new IsSelected<Units.Unit>( model.getDistanceUnitProperty(), Units.FEET ) );
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );
