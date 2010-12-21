@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * This is a control panel that is intended for use in the control panel and
+ * This is a control panel that is intended for use in the play area and
  * that allows the setting of 4 different emission frequencies.
  *
  * @author John Blanco
