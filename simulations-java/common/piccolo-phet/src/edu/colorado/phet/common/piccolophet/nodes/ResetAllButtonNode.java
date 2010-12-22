@@ -56,6 +56,14 @@ public class ResetAllButtonNode extends ButtonNode {
         } );
     }
 
+    public void setConfirmationEnabled( boolean confirmationEnabled ) {
+        delegate.setConfirmationEnabled( confirmationEnabled );
+    }
+    
+    public boolean isConfirmationEnabled() {
+        return delegate.isConfirmationEnabled();
+    }
+    
     public void addResettable( Resettable resettable ) {
         delegate.addResettable( resettable );
     }
@@ -79,10 +87,18 @@ public class ResetAllButtonNode extends ButtonNode {
         
         PCanvas canvas = new PCanvas();
         canvas.setPreferredSize( new Dimension( 300, 300 ) );
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable1, canvas, 18, Color.BLACK, Color.RED );
-        resetAllButtonNode.addResettable( resettable2 );
-        resetAllButtonNode.setOffset( 100, 100 );
-        canvas.getLayer().addChild( resetAllButtonNode );
+        
+        ResetAllButtonNode buttonNode1 = new ResetAllButtonNode( resettable1, canvas, 18, Color.BLACK, Color.RED );
+        buttonNode1.addResettable( resettable2 );
+        buttonNode1.setOffset( 50, 100 );
+        canvas.getLayer().addChild( buttonNode1 );
+        
+        ResetAllButtonNode buttonNode2 = new ResetAllButtonNode( resettable1, canvas, 18, Color.BLACK, Color.YELLOW );
+        buttonNode2.setConfirmationEnabled( false ); // disable confirmation
+        buttonNode2.addResettable( resettable2 );
+        buttonNode2.setOffset( buttonNode1.getFullBoundsReference().getMaxX() + 10, buttonNode1.getYOffset() );
+        canvas.getLayer().addChild( buttonNode2 );
+        
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
         frame.pack();
