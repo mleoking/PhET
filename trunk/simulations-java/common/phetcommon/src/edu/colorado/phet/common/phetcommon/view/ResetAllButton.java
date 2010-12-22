@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -53,6 +54,14 @@ public class ResetAllButton extends JButton {
             }
         } );
     }
+    
+    public void setConfirmationEnabled( boolean confirmationEnabled ) {
+        delegate.setConfirmationEnabled( confirmationEnabled );
+    }
+    
+    public boolean isConfirmationEnabled() {
+        return delegate.isConfirmationEnabled();
+    }
 
     public void addResettable( Resettable resettable ) {
         delegate.addResettable( resettable );
@@ -75,11 +84,19 @@ public class ResetAllButton extends JButton {
             }
         };
 
-        ResetAllButton resetAllButton = new ResetAllButton( resettable1, null );
-        resetAllButton.addResettable( resettable2 );
+        ResetAllButton button1 = new ResetAllButton( resettable1, null );
+        button1.addResettable( resettable2 );
+        
+        ResetAllButton button2 = new ResetAllButton( resettable1, null );
+        button2.setConfirmationEnabled( false ); // disable confirmation
+        button2.addResettable( resettable2 );
 
+        JPanel panel = new JPanel();
+        panel.add( button1 );
+        panel.add( button2 );
+        
         JFrame frame = new JFrame();
-        frame.setContentPane( resetAllButton );
+        frame.setContentPane( panel );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );

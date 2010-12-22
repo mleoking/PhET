@@ -22,6 +22,7 @@ public class ResetAllDelegate {
     
     private final Vector<Resettable> resettables;
     private final Component parent;
+    private boolean confirmationEnabled;
     
     /** 
      * @param resettables things to reset
@@ -33,20 +34,15 @@ public class ResetAllDelegate {
             this.resettables.add( resettable );
         }
         this.parent = parent;
+        this.confirmationEnabled = true;
     }
     
-    /**
-     * Requests confirmation. If affirmative, resets all Resettables.
-     */
-    public void resetAll() {
-        String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
-        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
-        int option = PhetOptionPane.showYesNoDialog( parent, message, title );
-        if ( option == JOptionPane.YES_OPTION ) {
-            for ( Resettable resettable : resettables ) {
-                resettable.reset();
-            }
-        }
+    public void setConfirmationEnabled( boolean confirmationEnabled ) {
+        this.confirmationEnabled = confirmationEnabled;
+    }
+    
+    public boolean isConfirmationEnabled() {
+        return confirmationEnabled;
     }
     
     public void addResettable( Resettable resettable ) {
@@ -55,5 +51,26 @@ public class ResetAllDelegate {
     
     public void removeResettable( Resettable resettable ) {
         resettables.remove( resettable );
+    }
+    
+    /**
+     * Resets all Resettables, with optional confirmation.
+     */
+    public void resetAll() {
+        if ( !confirmationEnabled || confirmReset() ) {
+            for ( Resettable resettable : resettables ) {
+                resettable.reset();
+            }
+        }
+    }
+    
+    /*
+     * Opens a confirmation dialog, returns true if the user selects "Yes".
+     */
+    private boolean confirmReset() {
+        String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );
+        int option = PhetOptionPane.showYesNoDialog( parent, message, title );
+        return ( option == JOptionPane.YES_OPTION );
     }
 }
