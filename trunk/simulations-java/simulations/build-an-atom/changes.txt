@@ -1,3 +1,5 @@
+# 2.00.00 (47372) Dec 22, 2010
+12/22/10 >Added the "Game" tab.
 12/22/10 Changed the string "Charge" to "Net Charge".
 12/21/10 replace incomplete "Reset All" node with ResetAllButtonNode
 # 1.00.18 (47184) Dec 15, 2010
