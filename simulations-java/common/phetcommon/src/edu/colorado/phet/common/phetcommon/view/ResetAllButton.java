@@ -75,12 +75,12 @@ public class ResetAllButton extends JButton {
 
         Resettable resettable1 = new Resettable() {
             public void reset() {
-                System.out.println( "Reset 1" );
+                System.out.println( "resettable1.reset" );
             }
         };
         Resettable resettable2 = new Resettable() {
             public void reset() {
-                System.out.println( "Reset 2" );
+                System.out.println( "resettable2.reset" );
             }
         };
 
