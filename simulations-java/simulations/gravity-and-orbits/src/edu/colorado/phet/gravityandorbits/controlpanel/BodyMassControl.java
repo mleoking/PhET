@@ -65,18 +65,18 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 put( MIN, new JLabel( minLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
-                    setFont( new PhetFont( 14, true ) );
+                    setFont( new PhetFont( 14, false ) );
                 }} );
                 //show the custom tick mark and label
                 put( (int) modelToView.evaluate( labelValue ), new JLabel( valueLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
-                    setFont( new PhetFont( 14, true ) );
+                    setFont( new PhetFont( 14, false ) );
                 }} );
                 put( MAX, new JLabel( maxLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
-                    setFont( new PhetFont( 14, true ) );
+                    setFont( new PhetFont( 14, false ) );
                 }} );
             }} );
             setBackground( BACKGROUND );
