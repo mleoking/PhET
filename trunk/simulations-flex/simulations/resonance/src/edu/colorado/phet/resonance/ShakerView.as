@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 import flash.display.*;
 import flash.events.*;
 import flash.filters.*;
@@ -6,17 +6,18 @@ import flash.geom.*;
 
 public class ShakerView extends Sprite {
 
-    public var myMainView: MainView;			//MainView
+    public var myMainView: MainView;		//MainView
     private var model: ShakerModel;			//model of shaker bar system
     private var maxNbrResonators: int;		//maximum number or resonators
     private var nbrResonators: int;			//nbr of mass-spring systems that are displayed on stage
     private var resonatorView_arr: Array;  	//views of mass spring systems
-    private var bar: Sprite;					//view of shaker bar
+    private var bar: Sprite;				//view of shaker bar
     private var base: Sprite;				//view of base with controls
-    private var pixPerMeter: Number;			//scale: number of pixels in 1 meter
-    private var barPixPerResonator: Number; 	//number of pixels along bar per Resonator
+    private var springHolder:Sprite;        //invisible holder for resonators
+    private var pixPerMeter: Number;		//scale: number of pixels in 1 meter
+    private var barPixPerResonator: Number; //number of pixels along bar per Resonator
     private var onOffButton: NiceButton2; 	//turn shaker on or off
-    private var onLight: Sprite;				//little red light that comes on when on button pushed.
+    private var onLight: Sprite;			//little red light that comes on when on button pushed.
     private var glow: GlowFilter;			//glowing light bulb for better visibility
     private var fKnob: RotaryKnob;			//frequency knob
     private var hzPerTurn: Number;			//calibration of frequency knob = 2 Hz per rev
@@ -46,6 +47,7 @@ public class ShakerView extends Sprite {
         this.maxAmplitude = 0.04;
         this.bar = new Sprite();
         this.base = new Sprite();
+        this.springHolder = new Sprite();
 
         //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
         this.onOffButton = new NiceButton2( 70, 30, "On/Off", OnOrOff );
@@ -62,15 +64,19 @@ public class ShakerView extends Sprite {
         this.ASlider.setScale( this.maxAmplitude );
         //this.ASlider.setVal(this.maxAmplitude/2);
         this.drawShaker();
+
+        this.addChild(this.springHolder);
         this.addChild( this.bar );
         this.addChild( this.base );
+
+        
         this.base.addChild( this.onOffButton );
         this.base.addChild( this.onLight );
         this.base.addChild( this.fKnob );
         this.base.addChild( this.ASlider );
         this.makeBarGrabbable();
         this.createResonatorArray();
-        this.displayResonatorViews()
+        this.displayResonatorViews();
         this.initializeShakerControls();
         //this.startResonators();
         //this.spring.x = 0;//stageW/2;
@@ -91,7 +97,7 @@ public class ShakerView extends Sprite {
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
             //function MassSpringView(model:MassSpringModel)
             this.resonatorView_arr[i] = new MassSpringView( this.model.getResonatorModel( i ) );
-            this.base.addChild( resonatorView_arr[i] );
+            this.springHolder.addChild( resonatorView_arr[i] );
         }//end for
     }
 

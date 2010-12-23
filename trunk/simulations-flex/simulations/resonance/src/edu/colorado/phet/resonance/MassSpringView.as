@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 
 import flash.display.*;
 import flash.events.*;
@@ -58,30 +58,85 @@ public class MassSpringView extends Sprite {
         //trace("MassSpringView.drawSpring. lineWidth = " + lineWidth);
         var g: Graphics = this.spring.graphics;
         g.clear();
-        g.lineStyle( lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.ROUND );
+
         var x0: Number = 0; //this.stageW/2;
         var y0: Number = 0; //this.stageH/2;
+
+        //draw shadow of spring
+        var shadowColor:Number = 0xdddd77;  //background is 0xffff99
+        var xOff:Number = -7;
+        var yOff:Number = 7;
+        g.lineStyle(lineWidth, shadowColor, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        var offset:Number = lineWidth/2;
+        g.moveTo( xOff + x0, yOff + y0 );
+        g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix );
+        for ( var i: int = 0; i < N; i++ ) {
+           g.lineTo( xOff + x0 + r, yOff + y0 + 0.1 * D0inPix + i * h + h / 4 );
+           g.lineTo( xOff + x0 - r, yOff +  y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
+           g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix + i * h + h );
+        }
+        g.lineTo( xOff + x0, yOff + y0 + D0inPix );
+
+        //draw shadow of mass, part of spring shadow, since must be behind mass
+        var mass: Number = this.model.getM();  //(width)^3 ~ mass
+        var massW: Number = Math.pow( mass, 1 / 3 ) * 40
+        var xM0: Number = xOff + x0;
+        var yM0: Number = yOff +  D0inPix;
+        g.lineStyle( lineWidth, shadowColor, 1, true );
+        g.beginFill( shadowColor );
+        if ( this.orientation == -1 ) { yM0 = -massW + yOff +  D0inPix; }
+        g.drawRoundRect( xM0 - massW / 2, yM0, massW, massW, 0.3 * massW );
+        g.endFill();
+        
+        //draw spring coils
+        g.lineStyle( 1.5*lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
         g.moveTo( x0, y0 );
         g.lineTo( x0, y0 + 0.1 * D0inPix );//0.1*D0inPix);
+        g.lineStyle( 1.3*lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
         for ( var i: int = 0; i < N; i++ ) {
             g.lineTo( x0 + r, y0 + 0.1 * D0inPix + i * h + h / 4 );
             g.lineTo( x0 - r, y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
             g.lineTo( x0, y0 + 0.1 * D0inPix + i * h + h );
         }
+        g.lineStyle( 1.3*lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
         g.lineTo( x0, y0 + D0inPix );
+
+        //draw highlight on topside of every other spring coil
+        g.lineStyle(2, 0xffdeeee, Math.max(1,lineWidth/4), false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        offset = -lineWidth/2;
+        g.moveTo( x0, offset + y0 + 0.1 * D0inPix );
+        for ( var i: int = 0; i < N; i ++ ) {
+            g.moveTo( x0 + r, offset + y0 + 0.1 * D0inPix + i * h + h / 4 );
+            g.lineTo( x0 - r, offset + y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
+            g.moveTo( x0, offset + y0 + 0.1 * D0inPix + i * h + h );
+        }
+        //draw shadow on underside of every other spring coil
+        g.lineStyle(2, Math.max(1,0xaa0000), lineWidth/4, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        offset = +lineWidth/2;
+        g.moveTo( x0, offset + y0 + 0.1 * D0inPix );
+        for ( var i: int = 0; i < N; i ++ ) {
+            g.moveTo( x0 + r, offset + y0 + 0.1 * D0inPix + i * h + h / 4 );
+            g.lineTo( x0 - r, offset + y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
+            g.moveTo( x0, offset + y0 + 0.1 * D0inPix + i * h + h );
+        }
 
     }//end of drawSpring()
 
     public function drawMass(): void {
-        var lineWidth = 2;
+        var lineWidth = 3;
+        var gradMatrix = new Matrix();   //for creating highlights and shadow on mass
         //var L0inPix:Number = this.pixPerMeter * this.model.getL0();
         var mass: Number = this.model.getM();  //(width)^3 ~ mass
         var massW: Number = Math.pow( mass, 1 / 3 ) * 40;
+        gradMatrix.createGradientBox(1.5*massW, 1.5*massW, -Math.PI/4, 0, 0);
         var g: Graphics = this.mass.graphics;
         g.clear();
+
+        var x0:Number = 0;
+        var y0:Number = 0;
+        //draw mass
         g.lineStyle( lineWidth, 0x0000ff, 1, true );
-        var x0: Number = 0; //this.stageW/2;
-        var y0: Number = 0; //this.stageH/2;
+        g.lineGradientStyle(GradientType.LINEAR, [0x0000aa, 0x8888ff], [1,1],[190,200], gradMatrix);
         g.beginFill( 0x5555ff );
         if ( this.orientation == -1 ) { y0 = -massW; }
         g.drawRoundRect( x0 - massW / 2, y0, massW, massW, 0.3 * massW );
@@ -174,9 +229,11 @@ public class MassSpringView extends Sprite {
 
         if ( this.orientation * sprLengthInPix > 0 ) {
             this.spring.scaleY = this.orientation * sprLengthInPix / this.L0InPix;
+            this.spring.rotation = 0;
         }
         else {
-            this.spring.scaleY = 0;
+            this.spring.scaleY = Math.abs(this.orientation * sprLengthInPix) / this.L0InPix; //0;
+            this.spring.rotation = 180;
         }
         this.spring.scaleX = Math.min( 1.5, 1 / this.spring.scaleY );
         //trace("MassSpringView.update. this.spring.scaleX = "+this.spring.scaleX);

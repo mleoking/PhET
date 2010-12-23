@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 //model of a mass on a spring, with one end of spring fixed, other end attached to mass
 
 import flash.events.*;
@@ -47,7 +47,7 @@ public class MassSpringModel {
     private function initialize(): void {
         this.g = 0;
         this.y0 = 0;
-        this.y = y0 + L0 + (m * g / k);  //start with mass hanging in equilibrium position
+        this.y = y0 + L0 - (m * g / k);  //start with mass hanging in equilibrium position
         this.v = 0;
         this.t = 0;
         this.msTimer = new Timer( this.dt * 1000 );
@@ -140,10 +140,10 @@ public class MassSpringModel {
         var dtr: Number = realDt; //dt in seconds
         //Verlet algorithm, same as used in Mass Spring Lab
 
-        var a: Number = g - (k / m) * (y - y0 - L0) - (b / m) * v;
+        var a: Number = -g - (k / m) * (y - y0 - L0) - (b / m) * v;
         y = y + v * dtr + (1 / 2) * a * dtr * dtr;
         var vp: Number = v + a * dtr;		//post velocity
-        var ap: Number = g - (k / m) * (y - y0 - L0) - (b / m) * vp;		//post-acceleration
+        var ap: Number = -g - (k / m) * (y - y0 - L0) - (b / m) * vp;		//post-acceleration
         v = v + 0.5 * (a + ap) * dtr;
 
         //this.oldT = this.t;
