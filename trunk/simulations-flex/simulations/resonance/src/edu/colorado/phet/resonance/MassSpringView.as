@@ -247,7 +247,7 @@ public class MassSpringView extends Sprite {
         }
         else {
             this.spring.scaleY = Math.abs( this.orientation * sprLengthInPix ) / this.L0InPix; //0;
-            this.spring.rotation = 180;
+            this.spring.rotation = 180;     //Problem: highlights on spring on wrong side now
         }
         this.spring.scaleX = Math.min( 1.5, 1 / this.spring.scaleY );
         //trace("MassSpringView.update. this.spring.scaleX = "+this.spring.scaleX);
