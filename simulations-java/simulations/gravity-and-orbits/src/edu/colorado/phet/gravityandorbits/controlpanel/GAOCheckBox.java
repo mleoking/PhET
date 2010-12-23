@@ -17,6 +17,9 @@ public class GAOCheckBox extends PropertyCheckBox {
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
     }
 
+    /*
+     * Needed because aliasing looks problematic for these fonts + colors on Windows.
+     */
     @Override
     protected void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D) g;
