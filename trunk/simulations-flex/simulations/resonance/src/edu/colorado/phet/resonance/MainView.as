@@ -27,6 +27,7 @@ public class MainView extends Canvas {
         this.myShakerView.x = 0.40 * stageW;
         this.myShakerView.y = 0.6 * stageH;
 
+        
         this.myControlPanel = new ControlPanel( this, myShakerModel );
         this.addChild(  myControlPanel  );
         //this.myControlPanel.right = 10;    //does not work, "right" is a style property
