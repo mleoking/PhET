@@ -3,15 +3,15 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 
 /**
  * @author Sam Reid
  */
-public class GOCheckBox extends PropertyCheckBox {
-    public GOCheckBox( String title, final Property<Boolean> property ) {
-        super( title, property );
-        setOpaque( false );
+public class GAORadioButton<T> extends PropertyRadioButton<T> {
+    public GAORadioButton( String title, final Property<T> property, final T value ) {
+        super( title, property, value );
+        setOpaque( false );//TODO: is this a mac problem?
         setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
         setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );

@@ -1,3 +1,5 @@
+Change some class name prefixes from "GO" to "GAO"
+Change some class name prefixes from "GravityAndOrbits" to "GAO", where these classes names will be inlined frequently (eg, GAOStrings)
 Fixed: replace incomplete "Reset All" node with ResetAllButtonNode
 Fixed: Sim doesn’t pause on reset all
 Fixed: measuring tape checkbox doesn't reset on 'reset all'

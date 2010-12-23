@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.gravityandorbits.controlpanel.GORadioButton;
+import edu.colorado.phet.gravityandorbits.controlpanel.GAORadioButton;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
@@ -135,7 +135,7 @@ public abstract class GravityAndOrbitsMode {
             setOpaque( false );//TODO: is this a mac problem?
             setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
             setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
-            add( new GORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
+            add( new GAORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
             add( new JLabel( new ImageIcon( iconImage ) ) {{
                 addMouseListener( new MouseAdapter() {
                     @Override

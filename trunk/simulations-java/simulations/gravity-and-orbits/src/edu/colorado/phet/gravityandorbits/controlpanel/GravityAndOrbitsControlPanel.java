@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
@@ -24,6 +25,7 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * Control panel template.
  */
 public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
+
     public static Color BACKGROUND = new Color( 3, 0, 133 );
     public static Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 16, true );
@@ -54,9 +56,9 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     setBackground( BACKGROUND );
                     setOpaque( false );
 
-                    add( new GOCheckBox( "Gravity Force", module.getShowGravityForceProperty() ) );
+                    add( new GAOCheckBox( GAOStrings.GRAVITY_FORCE, module.getShowGravityForceProperty() ) );
                     addArrow( PhetColorScheme.GRAVITATIONAL_FORCE );
-                    add( new GOCheckBox( "Velocity", module.getShowVelocityProperty() ) );
+                    add( new GAOCheckBox( GAOStrings.VELOCITY, module.getShowVelocityProperty() ) );
                     addArrow( PhetColorScheme.VELOCITY );
                     setMaximumSize( getPreferredSize() );
                 }
@@ -68,27 +70,27 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     }}.toImage() ) ) );
                 }
             } );
-            add( new GOCheckBox( "Mass", module.getShowMassProperty() ) );
-            add( new GOCheckBox( "Path", module.getShowPathProperty() ) );
+            add( new GAOCheckBox( GAOStrings.MASS, module.getShowMassProperty() ) );
+            add( new GAOCheckBox( GAOStrings.PATH, module.getShowPathProperty() ) );
         }} );
 
         addControlFullWidth( new VerticalLayoutPanel() {{
             setBackground( BACKGROUND );
             setOpaque( false );
-            setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), "Scale" ) {{
+            setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), GAOStrings.SCALE ) {{
                 setTitleColor( Color.white );
                 setTitleFont( CONTROL_FONT );
             }} );
             setFillNone();
             setAnchor( GridBagConstraints.WEST );
 
-            add( new GORadioButton<Scale>( "Cartoon (not to scale)", module.getScaleProperty(), Scale.CARTOON ) );
-            add( new GORadioButton<Scale>( "Real", module.getScaleProperty(), Scale.REAL ) );
+            add( new GAORadioButton<Scale>( GAOStrings.CARTOON, module.getScaleProperty(), Scale.CARTOON ) );
+            add( new GAORadioButton<Scale>( GAOStrings.REAL, module.getScaleProperty(), Scale.REAL ) );
             add( new JPanel() {{
                 setBackground( BACKGROUND );
                 setOpaque( false );
                 add( Box.createRigidArea( new Dimension( 25, 1 ) ) );
-                add( new GOCheckBox( "Measuring Tape", module.getMeasuringTapeVisibleProperty() ) {{
+                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) {{
                     module.getScaleProperty().addObserver( new SimpleObserver() {
                         public void update() {
                             setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
@@ -100,7 +102,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }} );
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
-                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, "Large", "Very Large", body.getTickValue(), body.getTickLabel() ) );
+                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, GAOStrings.LARGE, GAOStrings.VERY_LARGE, body.getTickValue(), body.getTickLabel() ) );
             }
         }
         setBackground( BACKGROUND );
