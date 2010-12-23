@@ -21,8 +21,6 @@ public class GAOStrings {
     public static final String EARTH_MINUTE = getString( "earthMinute" );
     public static final String EARTH_MINUTES = getString( "earthMinutes" );
     public static final String GRAVITY_FORCE = getString( "gravityForce" );
-    public static final String ISS = getString( "internationalSpaceStation" );
-    public static final String LARGE = getString( "large" );
     public static final String MASS = getString( "mass" );
     public static final String MEASURING_TAPE = getString( "measuringTape" );
     public static final String MOON = getString( "moon" );
@@ -36,10 +34,10 @@ public class GAOStrings {
     public static final String SPACE_STATION_MASS = getString( "spaceStationMass" );
     public static final String SPACE_STATION_MASSES = getString( "spaceStationMasses" );
     public static final String SCALE = getString( "scale" );
+    public static final String SATELLITE = getString( "satellite" );
     public static final String SUN = getString( "sun" );
     public static final String THOUSAND_EARTH_MASSES = getString( "thousandEarthMasses" );
     public static final String VELOCITY = getString( "velocity" );
-    public static final String VERY_LARGE = getString( "veryLarge" );
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     

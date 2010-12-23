@@ -197,8 +197,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }
 
     private Body createSpaceStation( Body earth, int maxPathLength ) {
-        return new Body( earth, GAOStrings.SPACE_STATION, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SPACE_STATION_MASS, GAOStrings.ISS, clockPaused );
+        return new Body( earth, GAOStrings.SATELLITE, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
+                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SPACE_STATION_MASS, GAOStrings.SPACE_STATION, clockPaused );
     }
 
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
