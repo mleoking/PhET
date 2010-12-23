@@ -133,7 +133,11 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
         addChild( new FloatingClockControlNode( Not.not( module.clockPaused ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-            final RewindButton child = new RewindButton( 60 );
+            final RewindButton child = new RewindButton( 60 ) {
+                protected double getDisabledImageRescaleOpScale() {
+                    return 1;
+                }
+            };
             child.addListener( new DefaultIconButton.Listener() {
                 public void buttonPressed() {
                     mode.rewind();
