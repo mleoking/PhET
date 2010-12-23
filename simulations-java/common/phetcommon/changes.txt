@@ -1,3 +1,4 @@
+12-23-2010: in Property<T>, changed defaultValue to initialValue, and made getInitialValue public
 12-21-2010: #2623, factor out common behavior for "Reset All" into ResetAllDelegate
 12-21-2010: #2623, create ResetAllButtonNode, same functionality as ResetAllButton but for Piccolo buttons
 12-21-2010: removed Property<T>.is, superclass should not create subclass (seems to have needed only by questionable syntax in GravityAndOrbitsCanvas)

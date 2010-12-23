@@ -102,7 +102,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }} );
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
-                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getDefaultValue() / 2, body.getMassProperty().getDefaultValue() * 2, GAOStrings.LARGE, GAOStrings.VERY_LARGE, body.getTickValue(), body.getTickLabel() ) );
+                addControlFullWidth( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, GAOStrings.LARGE, GAOStrings.VERY_LARGE, body.getTickValue(), body.getTickLabel() ) );
             }
         }
         setBackground( BACKGROUND );

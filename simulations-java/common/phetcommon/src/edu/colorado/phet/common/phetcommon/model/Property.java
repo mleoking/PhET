@@ -13,10 +13,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Property<T> extends SimpleObservable {
     private T value;
-    private final T defaultValue;
+    private final T initialValue;
 
     public Property( T value ) {
-        this.defaultValue = value;
+        this.initialValue = value;
         this.value = value;
     }
 
@@ -47,7 +47,7 @@ public class Property<T> extends SimpleObservable {
     }
 
     public void reset() {
-        setValue( defaultValue );
+        setValue( initialValue );
     }
 
     public T getValue() {
@@ -61,8 +61,8 @@ public class Property<T> extends SimpleObservable {
         }
     }
 
-    protected T getDefaultValue() {
-        return defaultValue;
+    public T getInitialValue() {
+        return initialValue;
     }
 
     @Override
