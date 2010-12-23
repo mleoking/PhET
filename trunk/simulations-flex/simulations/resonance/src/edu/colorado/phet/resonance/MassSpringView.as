@@ -9,14 +9,17 @@ public class MassSpringView extends Sprite {
 
     private var model: MassSpringModel;	//model of single mass-spring system
     private var spring: Sprite;			//view of spring
-    private var L0InPix: Number;			//length of relaxed spring in pixels
+    private var L0InPix: Number;		//length of relaxed spring in pixels
     private var mass: Sprite;			//view of mass
+    //private var massShadow: Sprite;     //shadow of mass
+    //private var xOff:Number;            //x-offset of shadow
+    //private var yOff:Number;            //y-offset of shadow
     private var label_txt: TextField;	//label on mass: 1, 2, 3, ...
     private var tFormat1: TextFormat;
-    private var pixPerMeter: Number;		//scale: number of pixels in 1 meter
+    private var pixPerMeter: Number;	//scale: number of pixels in 1 meter
     private var stageW: int;
     private var stageH: int;
-    private var orientation: Number;		//-1 if mass on top of spring, +1 if mass hanging from bottom of spring
+    private var orientation: Number;	//-1 if mass on top of spring, +1 if mass hanging from bottom of spring
 
     public function MassSpringView( model: MassSpringModel ) {
         this.model = model;
@@ -30,13 +33,17 @@ public class MassSpringView extends Sprite {
         this.stageH = Util.STAGEH;
         this.pixPerMeter = 200;
         this.L0InPix = this.model.getL0() * this.pixPerMeter;
-        //trace("this.L0InPix "+this.L0InPix );
+        //this.xOff = -10;
+        //this.yOff = 25;
         this.spring = new Sprite();
         this.mass = new Sprite();
+        //this.massShadow = new Sprite();
         this.label_txt = new TextField();	//static label
+        //this.drawMassShadow();
         this.drawSpring();
         this.drawMass();
         //this.setLabel(this.model.getRNbr().toString());
+        //this.addChild(this.massShadow);
         this.addChild( this.spring );
         this.addChild( this.mass );
         this.mass.addChild( this.label_txt );
@@ -63,47 +70,36 @@ public class MassSpringView extends Sprite {
         var y0: Number = 0; //this.stageH/2;
 
         //draw shadow of spring
-        var shadowColor:Number = 0xdddd77;  //background is 0xffff99
-        var xOff:Number = -7;
-        var yOff:Number = 7;
-        g.lineStyle(lineWidth, shadowColor, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
-        var offset:Number = lineWidth/2;
-        g.moveTo( xOff + x0, yOff + y0 );
-        g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix );
-        for ( var i: int = 0; i < N; i++ ) {
-           g.lineTo( xOff + x0 + r, yOff + y0 + 0.1 * D0inPix + i * h + h / 4 );
-           g.lineTo( xOff + x0 - r, yOff +  y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
-           g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix + i * h + h );
-        }
-        g.lineTo( xOff + x0, yOff + y0 + D0inPix );
+//        var shadowColor: Number = 0xdddd77;  //background is 0xffff99
+//        g.lineStyle( lineWidth, shadowColor, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+//        var offset: Number = lineWidth / 2;
+//        g.moveTo( xOff + x0, yOff + y0 );
+//        g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix );
+//        for ( var i: int = 0; i < N; i++ ) {
+//            g.lineTo( xOff + x0 + r, yOff + y0 + 0.1 * D0inPix + i * h + h / 4 );
+//            g.lineTo( xOff + x0 - r, yOff + y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
+//            g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix + i * h + h );
+//        }
+//        g.lineTo( xOff + x0, yOff + y0 + D0inPix );
 
-        //draw shadow of mass, part of spring shadow, since must be behind mass
-        var mass: Number = this.model.getM();  //(width)^3 ~ mass
-        var massW: Number = Math.pow( mass, 1 / 3 ) * 40
-        var xM0: Number = xOff + x0;
-        var yM0: Number = yOff +  D0inPix;
-        g.lineStyle( lineWidth, shadowColor, 1, true );
-        g.beginFill( shadowColor );
-        if ( this.orientation == -1 ) { yM0 = -massW + yOff +  D0inPix; }
-        g.drawRoundRect( xM0 - massW / 2, yM0, massW, massW, 0.3 * massW );
-        g.endFill();
-        
+
+
         //draw spring coils
-        g.lineStyle( 1.5*lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+        g.lineStyle( 1.5 * lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
         g.moveTo( x0, y0 );
         g.lineTo( x0, y0 + 0.1 * D0inPix );//0.1*D0inPix);
-        g.lineStyle( 1.3*lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        g.lineStyle( 1.3 * lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
         for ( var i: int = 0; i < N; i++ ) {
             g.lineTo( x0 + r, y0 + 0.1 * D0inPix + i * h + h / 4 );
             g.lineTo( x0 - r, y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
             g.lineTo( x0, y0 + 0.1 * D0inPix + i * h + h );
         }
-        g.lineStyle( 1.3*lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+        g.lineStyle( 1.3 * lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
         g.lineTo( x0, y0 + D0inPix );
 
         //draw highlight on topside of every other spring coil
-        g.lineStyle(2, 0xffdeeee, Math.max(1,lineWidth/4), false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
-        offset = -lineWidth/2;
+        g.lineStyle( 2, 0xffdeeee, Math.max( 1, lineWidth / 4 ), false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        var offset:Number = -lineWidth / 2;
         g.moveTo( x0, offset + y0 + 0.1 * D0inPix );
         for ( var i: int = 0; i < N; i ++ ) {
             g.moveTo( x0 + r, offset + y0 + 0.1 * D0inPix + i * h + h / 4 );
@@ -111,8 +107,8 @@ public class MassSpringView extends Sprite {
             g.moveTo( x0, offset + y0 + 0.1 * D0inPix + i * h + h );
         }
         //draw shadow on underside of every other spring coil
-        g.lineStyle(2, Math.max(1,0xaa0000), lineWidth/4, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
-        offset = +lineWidth/2;
+        g.lineStyle( 2, Math.max( 1, 0xaa0000 ), lineWidth / 4, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        offset = +lineWidth / 2;
         g.moveTo( x0, offset + y0 + 0.1 * D0inPix );
         for ( var i: int = 0; i < N; i ++ ) {
             g.moveTo( x0 + r, offset + y0 + 0.1 * D0inPix + i * h + h / 4 );
@@ -128,15 +124,15 @@ public class MassSpringView extends Sprite {
         //var L0inPix:Number = this.pixPerMeter * this.model.getL0();
         var mass: Number = this.model.getM();  //(width)^3 ~ mass
         var massW: Number = Math.pow( mass, 1 / 3 ) * 40;
-        gradMatrix.createGradientBox(1.5*massW, 1.5*massW, -Math.PI/4, 0, 0);
+        gradMatrix.createGradientBox( 1.5 * massW, 1.5 * massW, -Math.PI / 4, 0, 0 );
         var g: Graphics = this.mass.graphics;
         g.clear();
 
-        var x0:Number = 0;
-        var y0:Number = 0;
-        //draw mass
+        var x0: Number = 0;
+        var y0: Number = 0;
+
         g.lineStyle( lineWidth, 0x0000ff, 1, true );
-        g.lineGradientStyle(GradientType.LINEAR, [0x0000aa, 0x8888ff], [1,1],[190,200], gradMatrix);
+        g.lineGradientStyle( GradientType.LINEAR, [0x0000aa, 0x8888ff], [1,1], [190,200], gradMatrix );
         g.beginFill( 0x5555ff );
         if ( this.orientation == -1 ) { y0 = -massW; }
         g.drawRoundRect( x0 - massW / 2, y0, massW, massW, 0.3 * massW );
@@ -145,6 +141,23 @@ public class MassSpringView extends Sprite {
         var D0inPix: Number = this.orientation * this.L0InPix;  //D for displacement
         this.mass.y = D0inPix;
     }//end of drawMass()
+
+//    public function drawMassShadow():void{
+//        var lineWidth = 3;
+//        var shadowColor: Number = 0xdddd77;  //background is 0xffff99
+//        var mass: Number = this.model.getM();  //(width)^3 ~ mass
+//        var massW: Number = Math.pow( mass, 1 / 3 ) * 40
+//        var g: Graphics = this.massShadow.graphics;
+//        g.clear();
+//        var x0: Number = 0 + xOff;
+//        var y0: Number = 0 + yOff;
+//        g.lineStyle( lineWidth, shadowColor, 1, true );
+//        g.beginFill( shadowColor );
+//        if ( this.orientation == -1 ) { y0 = -massW + yOff; }
+//        g.drawRoundRect( x0 - massW / 2, y0, massW, massW, 0.3 * massW );
+//        g.endFill();
+//
+//    }
 
     private function makeLabel(): void {
         this.label_txt.selectable = false;
@@ -223,6 +236,7 @@ public class MassSpringView extends Sprite {
     public function update(): void {
         //update position of mass
         this.mass.y = this.orientation * this.model.getY() * this.pixPerMeter;
+        //this.massShadow.y = this.mass.y;
         this.spring.y = this.orientation * this.model.getY0() * this.pixPerMeter;
         //update length of spring
         var sprLengthInPix: Number = (this.mass.y - this.spring.y);
@@ -232,7 +246,7 @@ public class MassSpringView extends Sprite {
             this.spring.rotation = 0;
         }
         else {
-            this.spring.scaleY = Math.abs(this.orientation * sprLengthInPix) / this.L0InPix; //0;
+            this.spring.scaleY = Math.abs( this.orientation * sprLengthInPix ) / this.L0InPix; //0;
             this.spring.rotation = 180;
         }
         this.spring.scaleX = Math.min( 1.5, 1 / this.spring.scaleY );
