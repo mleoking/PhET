@@ -59,9 +59,6 @@ public class MoleculesAndLightModule extends PiccoloModule {
         super( GreenhouseResources.getString( "ModuleTitle.PhotonAbsorptionModule" ),
                 new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ) );
 
-        // Explicitly turn off the logo panel.
-        setLogoPanel( null );
-
         // Physical model
         model = new PhotonAbsorptionModel( (ConstantDtClock) getClock(), PhotonAbsorptionModel.PhotonTarget.SINGLE_CO_MOLECULE );
 
