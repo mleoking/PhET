@@ -27,7 +27,7 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
         }
         else if ( Math.abs( spaceStationMasses - 1 ) < 1E-2 ) {
             value = "1";
-            units = GAOStrings.SPACE_STATION_MASSES;
+            units = GAOStrings.SPACE_STATION_MASS;
         }
         else if ( spaceStationMasses < 1 ) {
             value = new DecimalFormat( "0.000" ).format( spaceStationMasses );
