@@ -1,3 +1,4 @@
+improve tick marks on mass sliders so that you can see where the special value (eg "Our Moon") is
 reduce font size and unbold the tick mark labels on mass sliders, so that labels don't run together (eg "Large Our Moon")
 completed i18n, including use of singular/plural for units
 i18n of mass readouts, to handle ordering of value and units
