@@ -82,6 +82,6 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsConstants.PROJECT_NAME, GravityAndOrbitsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, GAOConstants.PROJECT_NAME, GravityAndOrbitsApplication.class );
     }
 }

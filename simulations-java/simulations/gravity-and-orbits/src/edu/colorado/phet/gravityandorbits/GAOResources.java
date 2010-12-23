@@ -13,13 +13,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * If we decide to use a different technique to load resources in the
  * future, all changes will be encapsulated here.
  */
-public class GravityAndOrbitsResources {
+public class GAOResources {
 
-    private static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( GAOConstants.PROJECT_NAME );
 
     /* not intended for instantiation */
 
-    private GravityAndOrbitsResources() {
+    private GAOResources() {
     }
 
     public static final PhetResources getResourceLoader() {
