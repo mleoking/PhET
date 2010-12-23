@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.Not;
@@ -23,7 +24,7 @@ public abstract class MassReadoutNode extends PNode {
 
     public MassReadoutNode( final BodyNode bodyNode, final Property<Boolean> visible ) {
         this.bodyNode = bodyNode;
-        addChild( new PText( GAOStrings.ONE_MILLION_EARTH_MASSES ) {{
+        addChild( new PText( MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, 1, GAOStrings.MILLION_EARTH_MASSES ) ) {{
             setPickable( false );
             setChildrenPickable( false );
             setFont( new PhetFont( 18, true ) );

@@ -27,7 +27,7 @@ public class EarthMassReadoutNode extends MassReadoutNode {
         }
         else if ( Math.abs( earthMasses - 1 ) < 1E-2 ) {
             value = "1";
-            units = GAOStrings.EARTH_MASSES;
+            units = GAOStrings.EARTH_MASS;
         }
         else if ( earthMasses < 1 ) {
             value = new DecimalFormat( "0.00" ).format( earthMasses );
@@ -35,7 +35,7 @@ public class EarthMassReadoutNode extends MassReadoutNode {
         }
         else {
             value = new DecimalFormat( "0.00" ).format( earthMasses );
-            units = GAOStrings.EARTH_MASSES;
+            units = ( earthMasses == 1.0 ) ? GAOStrings.EARTH_MASS : GAOStrings.EARTH_MASSES;
         }
         return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
     }
