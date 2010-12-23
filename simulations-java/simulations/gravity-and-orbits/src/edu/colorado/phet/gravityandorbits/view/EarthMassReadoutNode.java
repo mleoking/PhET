@@ -1,8 +1,10 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
@@ -18,20 +20,23 @@ public class EarthMassReadoutNode extends MassReadoutNode {
     String createText() {
         double massKG = bodyNode.getBody().getMass();
         double earthMasses = massKG / GravityAndOrbitsModule.EARTH_MASS;
-        String text;
-        DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        String value, units;
         if ( earthMasses > 1E3 ) {
-            text = new DecimalFormat( "0" ).format( Math.round( earthMasses / 1E3 ) ) + " thousand Earth masses";
+            value = new DecimalFormat( "0" ).format( Math.round( earthMasses / 1E3 ) );
+            units = GAOStrings.THOUSAND_EARTH_MASSES;
         }
         else if ( Math.abs( earthMasses - 1 ) < 1E-2 ) {
-            text = 1 + " Earth mass";
+            value = "1";
+            units = GAOStrings.EARTH_MASSES;
         }
         else if ( earthMasses < 1 ) {
-            text = new DecimalFormat( "0.00" ).format( earthMasses ) + " Earth masses";
+            value = new DecimalFormat( "0.00" ).format( earthMasses );
+            units = GAOStrings.EARTH_MASSES;
         }
         else {
-            text = decimalFormat.format( earthMasses ) + " Earth masses";
+            value = new DecimalFormat( "0.00" ).format( earthMasses );
+            units = GAOStrings.EARTH_MASSES;
         }
-        return text;
+        return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
     }
 }

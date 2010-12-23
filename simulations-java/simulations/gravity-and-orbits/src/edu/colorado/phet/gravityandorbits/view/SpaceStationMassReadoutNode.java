@@ -1,8 +1,10 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
@@ -18,20 +20,23 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
     String createText() {
         double massKG = bodyNode.getBody().getMass();
         double spaceStationMasses = massKG / GravityAndOrbitsModule.SPACE_STATION_MASS;
-        String text;
-        DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        String value, units;
         if ( spaceStationMasses > 1E18 ) {
-            text = new DecimalFormat( "0" ).format( spaceStationMasses / 1E18 ) + " billion billion space station masses";
+            value = new DecimalFormat( "0" ).format( spaceStationMasses / 1E18 );
+            units = GAOStrings.BILLION_BILLION_SPACE_STATION_MASSES;
         }
         else if ( Math.abs( spaceStationMasses - 1 ) < 1E-2 ) {
-            text = 1 + " space station mass";
+            value = "1";
+            units = GAOStrings.SPACE_STATION_MASSES;
         }
         else if ( spaceStationMasses < 1 ) {
-            text = new DecimalFormat( "0.000" ).format( spaceStationMasses ) + " space station masses";
+            value = new DecimalFormat( "0.000" ).format( spaceStationMasses );
+            units = GAOStrings.SPACE_STATION_MASSES;
         }
         else {
-            text = decimalFormat.format( spaceStationMasses ) + " space station masses";
+            value = new DecimalFormat( "0.00" ).format( spaceStationMasses );
+            units = GAOStrings.SPACE_STATION_MASSES;
         }
-        return text;
+        return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
     }
 }
