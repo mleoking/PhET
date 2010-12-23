@@ -17,7 +17,7 @@ public class EarthMassReadoutNode extends MassReadoutNode {
     }
 
     @Override
-    String createText() {
+    protected String createText() {
         double massKG = bodyNode.getBody().getMass();
         double earthMasses = massKG / GravityAndOrbitsModule.EARTH_MASS;
         String value, units;
