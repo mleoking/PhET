@@ -1,12 +1,11 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.gravityandorbits;
 
-import java.awt.*;
+import java.awt.AWTException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
