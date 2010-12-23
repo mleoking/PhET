@@ -1,6 +1,6 @@
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.Not;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -22,7 +23,7 @@ public abstract class MassReadoutNode extends PNode {
 
     public MassReadoutNode( final BodyNode bodyNode, final Property<Boolean> visible ) {
         this.bodyNode = bodyNode;
-        addChild( new PText( "1 million Earth masses" ) {{
+        addChild( new PText( GAOStrings.ONE_MILLION_EARTH_MASSES ) {{
             setPickable( false );
             setChildrenPickable( false );
             setFont( new PhetFont( 18, true ) );

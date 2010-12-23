@@ -1,3 +1,4 @@
+i18n of mass readouts, to handle ordering of value and units
 deleted PublicProperty, it's appropriate to move getInitialValue into superclass
 Change some class name prefixes from "GO" to "GAO"
 Change some class name prefixes from "GravityAndOrbits" to "GAO", where these classes names will be inlined frequently (eg, GAOStrings)
