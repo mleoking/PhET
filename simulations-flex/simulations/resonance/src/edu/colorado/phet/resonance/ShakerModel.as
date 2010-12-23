@@ -94,6 +94,12 @@ public class ShakerModel {
         return resonatorModel_arr[i];
     }
 
+    public function setG(g:Number):void{
+        for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
+            this.resonatorModel_arr[i].setG(g);
+        }
+    }
+
     public function getDt(): Number {
         return this.dt;
     }

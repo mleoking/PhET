@@ -64,6 +64,10 @@ public class MassSpringModel {
         return this.rNbr;
     }
 
+    public function setG(g:Number):void{
+        this.g = g;
+    }
+
     public function getL0(): Number {
         return this.L0;
     }
