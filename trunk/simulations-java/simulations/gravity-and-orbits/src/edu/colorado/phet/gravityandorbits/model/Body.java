@@ -248,7 +248,7 @@ public class Body implements IBody {
         return velocityProperty;
     }
 
-    public PublicProperty<Double> getMassProperty() {
+    public Property<Double> getMassProperty() {
         return massProperty;
     }
 

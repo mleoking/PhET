@@ -1,12 +1,11 @@
 package edu.colorado.phet.gravityandorbits.model;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * @author Sam Reid
  */
-public class RestoreProperty<T> extends PublicProperty<T> {
+public class RestoreProperty<T> extends Property<T> {
     private final Property<Boolean> clockPaused;
     private T restorePoint;
     private Property<Boolean> changed;
