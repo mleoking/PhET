@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 //model of shaker bar with several mass/spring systems attached
 
 import flash.events.*;
@@ -50,7 +50,8 @@ public class ShakerModel {
 
     private function createResonatorArray(): void {
         this.resonatorModel_arr = new Array( this.nbrResonators );
-        for ( var i: int; i < this.maxNbrResonators; i++ ) {
+        for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
+            //var m: Number = 3*(1-0.08*i);//3/(i+1);//4.2 / Math.pow( 1.3, (1 + i) );
             var m: Number = 4.2 / Math.pow( 1.3, (1 + i) );
             //MassSpringModel(shakerModel:ShakerModel, rNbr:int, m:Number, f:Number, L0:Number, b:Number)
             this.resonatorModel_arr[i] = new MassSpringModel( this, i + 1, m, 0.5 + 0.5 * i, 0.8, 1 );
@@ -58,8 +59,9 @@ public class ShakerModel {
     }//end function
 
     public function resetInitialResonatorArray(): void {
-        for ( var i: int; i < this.maxNbrResonators; i++ ) {
-            var m: Number = 4.2 / Math.pow( 1.3, (1 + i) );
+        for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
+            //var m: Number  = 3*(1-0.08*i);//3/(i+1); //= 4.2 / Math.pow( 1.3, (1 + i) );
+            var m: Number  = 4.2 / Math.pow( 1.3, (1 + i) );
             this.resonatorModel_arr[i].setM( m );
             var f: Number = 0.5 + 0.5 * i;
             var k: Number = m * (2 * Math.PI * f) * (2 * Math.PI * f);

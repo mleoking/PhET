@@ -119,8 +119,8 @@ public class ControlPanel extends Canvas {
         rb2.label = "off";
         rb1.value = 1;
         rb2.value = 0;
-        rb1.selected = true;
-        rb2.selected = false;
+        rb1.selected = false;
+        rb2.selected = true;
 
         this.gravityOnOff_rbg.addEventListener(Event.CHANGE, clickGravity)
         
@@ -129,7 +129,7 @@ public class ControlPanel extends Canvas {
         this.mSlider = new HSlider();
         with(this.mSlider){
             minimum = 0.2;
-            maximum = 10;
+            maximum = 4;
             liveDragging = true;
             buttonMode = true;
             labels = ["", "mass", ""];
@@ -139,7 +139,7 @@ public class ControlPanel extends Canvas {
         this.kSlider = new HSlider();
         with(this.kSlider){
             minimum = 10;
-            maximum = 500;
+            maximum = 300;
             liveDragging = true;
             buttonMode = true;
             labels = ["", "spring constant", ""];
@@ -199,8 +199,10 @@ public class ControlPanel extends Canvas {
     private function clickGravity(evt: Event):void{
         var val:Object = this.gravityOnOff_rbg.selectedValue;
         if(val == 1){
+            this.shakerModel.setG(5);
             trace("1");
         }else{
+            this.shakerModel.setG(0);
             trace("2");
         }
     }
