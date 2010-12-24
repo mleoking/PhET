@@ -26,8 +26,8 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  */
 public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
-    public static Color BACKGROUND = new Color( 3, 0, 133 );
-    public static Color FOREGROUND = Color.white;
+    public static final Color BACKGROUND = new Color( 3, 0, 133 );
+    public static final Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 16, true );
 
     public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
