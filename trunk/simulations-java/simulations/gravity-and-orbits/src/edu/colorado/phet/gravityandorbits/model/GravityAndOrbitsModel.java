@@ -5,6 +5,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -19,10 +20,12 @@ public class GravityAndOrbitsModel {
     private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
     public boolean teacherMode;
     private final VoidFunction1<Double> stepModel;
+    private final Property<Boolean> gravityEnabledProperty; //TODO: this probably doesn't belong here, maybe in GravityAndOrbitsModelState?
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
         super();
         this.clock = clock;
+        this.gravityEnabledProperty = new Property<Boolean>( true );
 
         stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
@@ -83,8 +86,21 @@ public class GravityAndOrbitsModel {
     public GravityAndOrbitsClock getClock() {
         return clock;
     }
+    
+    public void setGravityEnabled( boolean enabled ) {
+        gravityEnabledProperty.setValue( enabled );
+    }
+    
+    public boolean isGravityEnabled() {
+        return gravityEnabledProperty.getValue();
+    }
+    
+    public Property<Boolean> getGravityEnabledProperty() {
+        return gravityEnabledProperty;
+    }
 
     public void resetAll() {
+        gravityEnabledProperty.reset();
         resetBodies();
         getClock().resetSimulationTime();
         updateForceVectors();
