@@ -38,7 +38,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
-    public final Property<Boolean> clockPaused = clockPausedProperty;//todo: testing readability in client users with public final fields
     private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
     private final Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
 
@@ -79,10 +78,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }
     };
     private final int SEC_PER_YEAR = 365 * 24 * 60 * 60;
-
-    //TODO: evaluating whether these fields should be public final for improved DSL-like support or private with getters, see usage
-    public final Property<Scale> scale=scaleProperty;
-    public final Property<Boolean> measuringTapeSelected=measuringTapeVisibleProperty;
 
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
@@ -205,7 +200,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return new Body( earth, GAOStrings.SATELLITE, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
                          SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1000 * 1.6 / 80 * 2 / 54, 
                          getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, 
-                         SPACE_STATION_MASS, GAOStrings.SPACE_STATION, clockPaused );
+                         SPACE_STATION_MASS, GAOStrings.SPACE_STATION, clockPausedProperty );
     }
 
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
@@ -215,18 +210,18 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return new Body( earth, GAOStrings.MOON, MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white, 
                          cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength, 
-                         cartoonForceVectorScale, massReadoutBelow, MOON_MASS, GAOStrings.OUR_MOON, clockPaused );
+                         cartoonForceVectorScale, massReadoutBelow, MOON_MASS, GAOStrings.OUR_MOON, clockPausedProperty );
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
         return new Body( sun, GAOStrings.PLANET, EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray, 
                 cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", EARTH_MASS ), scaleProperty, -Math.PI / 4, true, 
-                maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPaused );
+                maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPausedProperty );
     }
 
     private Body createSun( int maxPathLength ) {
         return new Body( null, GAOStrings.SUN, 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1, 
-                SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPaused );
+                SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
@@ -286,8 +281,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         showMassProperty.reset();
         scaleProperty.reset();
         modeProperty.reset();
-        measuringTapeSelected.reset();
-        clockPaused.reset();
+        measuringTapeVisibleProperty.reset();
+        clockPausedProperty.reset();
     }
 
     public Property<Boolean> getShowGravityForceProperty() {
@@ -309,7 +304,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public Property<GravityAndOrbitsMode> getModeProperty() {
         return modeProperty;
     }
-
+    
     public void setTeacherMode( boolean b ) {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.getModel().teacherMode = b;
