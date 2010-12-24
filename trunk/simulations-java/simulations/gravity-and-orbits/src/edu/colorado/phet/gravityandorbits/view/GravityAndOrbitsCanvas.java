@@ -131,7 +131,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyChanged() );
         }
-        addChild( new FloatingClockControlNode( Not.not( module.clockPaused ), mode.getTimeFormatter(), model.getClock() ) {{
+        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
             final RewindButton child = new RewindButton( 60 ) {
                 protected double getDisabledImageRescaleOpScale() {
@@ -153,7 +153,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.scale, Scale.REAL ), new ValueEquals<Boolean>( module.measuringTapeSelected, true ) ),
+        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), new ValueEquals<Boolean>( module.getMeasuringTapeVisibleProperty(), true ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
         }} );
