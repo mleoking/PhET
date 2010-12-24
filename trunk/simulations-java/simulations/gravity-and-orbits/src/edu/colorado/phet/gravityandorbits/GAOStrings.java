@@ -20,6 +20,7 @@ public class GAOStrings {
     public static final String EARTH_MASSES = getString( "earthMasses" );
     public static final String EARTH_MINUTE = getString( "earthMinute" );
     public static final String EARTH_MINUTES = getString( "earthMinutes" );
+    public static final String EARTH_SYSTEM = getString( "earthSystem" );
     public static final String GRAVITY = getString( "gravity" );
     public static final String GRAVITY_FORCE = getString( "gravityForce" );
     public static final String MASS = getString( "mass" );
@@ -39,6 +40,7 @@ public class GAOStrings {
     public static final String SHOW = getString( "show" );
     public static final String SUN = getString( "sun" );
     public static final String THOUSAND_EARTH_MASSES = getString( "thousandEarthMasses" );
+    public static final String THOUSAND_MILES = getString( "thousandMiles" );
     public static final String VELOCITY = getString( "velocity" );
     
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );

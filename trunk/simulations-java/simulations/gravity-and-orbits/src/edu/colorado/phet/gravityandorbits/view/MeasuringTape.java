@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -14,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -82,13 +84,14 @@ public class MeasuringTape extends PNode {
                     //use a scale that makes sense in all modes
                     double miles = modelDistance * 0.000621371192;
                     double thousandMiles = miles / 1E3;
-                    setText( new Function1<Double, DecimalFormat>() {
+                    String valueString = new Function1<Double, DecimalFormat>() {
                         public DecimalFormat apply( Double value ) {
                             if ( value < 0.01 ) {return new DecimalFormat( "0" );}
                             if ( value < 10 ) { return new DecimalFormat( "0.0" ); }
                             else { return new DecimalFormat( "0" ); }
                         }
-                    }.apply( thousandMiles ).format( thousandMiles ) + " thousand miles" );
+                    }.apply( thousandMiles ).format( thousandMiles );
+                    setText( MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, valueString, GAOStrings.THOUSAND_MILES ) );
                     updateOffset.update();
                 }
             };

@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -76,7 +77,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.getShowMassProperty() ) );
         }
 
-        //Add force vector nodes
+        //Add gravity force vector nodes
         for ( Body body : model.getBodies() ) {
             addChild( new VectorNode( body, modelViewTransformProperty, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, body.getCartoonForceScale(), FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         }
@@ -101,7 +102,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Earth System button
-        final ButtonNode earthSystemButton = new ButtonNode( "Earth System", (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
+        final ButtonNode earthSystemButton = new ButtonNode( GAOStrings.EARTH_SYSTEM, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
