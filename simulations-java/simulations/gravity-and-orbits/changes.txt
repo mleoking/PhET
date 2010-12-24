@@ -1,3 +1,4 @@
+add Gravity property and check box, not properly wired up to model
 fixed look of disabled rewind button, required ugly copy of FloatingClockControlNode.StepButtonNode.getDisabledImageRescaleOpScale 
 remove "Large" and "Very Large" min/max labels on mass sliders, so that we don't have i18n issues, and can use "Space Station" label
 improve tick marks on mass sliders so that you can see where the special value (eg "Our Moon") is

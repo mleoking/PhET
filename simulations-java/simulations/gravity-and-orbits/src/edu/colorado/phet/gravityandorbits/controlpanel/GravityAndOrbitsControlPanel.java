@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
@@ -77,6 +78,13 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new GAOCheckBox( GAOStrings.PATH, module.getShowPathProperty() ) );
         }} );
 
+        // Gravity on/off control
+        add( new PropertyCheckBox( GAOStrings.GRAVITY, model.getGravityEnabledProperty() ) {{
+            setFont( CONTROL_FONT );
+            setForeground( FOREGROUND );
+            setBackground( BACKGROUND );
+        }} );
+        
         // "Scale" subpanel
         add( new VerticalLayoutPanel() {{
             setBackground( BACKGROUND );
