@@ -33,9 +33,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-/**
- * Canvas template.
- */
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
     private final PNode _rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
