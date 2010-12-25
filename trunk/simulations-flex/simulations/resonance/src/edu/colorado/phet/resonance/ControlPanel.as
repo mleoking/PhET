@@ -1,4 +1,4 @@
-package edu.colorado.phet.resonance {
+﻿package edu.colorado.phet.resonance {
 
 import flash.display.*;
 import flash.events.Event;
@@ -24,9 +24,12 @@ public class ControlPanel extends Canvas {
     private var dampingSlider: HSlider;
     private var nbrResonatorsSlider: HSlider;
     private var gravityOnOff_rbg: RadioButtonGroup;
+
     private var gravity_lbl:Label;
+    private var resonatorNbr_lbl:Label;
     private var mSlider: HSlider;
     private var kSlider: HSlider;
+    private var freq_lbl:Label;
     private var resetButton:Button;
 
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
@@ -45,38 +48,37 @@ public class ControlPanel extends Canvas {
     public function init(): void {
 
         this.background = new VBox();
-        this.background.setStyle( "backgroundColor", 0x00ff00 );//same color as build an atom
+        this.background.setStyle( "backgroundColor", 0x66ff66 );
         this.background.percentWidth = 100;
         this.background.percentHeight = 100;
         this.background.setStyle( "borderStyle", "solid" )
-        this.background.setStyle( "borderColor", 0xff0000 );
+        this.background.setStyle( "borderColor", 0x009900 );
         this.background.setStyle( "cornerRadius", 15 );
         this.background.setStyle( "borderThickness", 8 );
         this.background.setStyle( "paddingTop", 30 );
         this.background.setStyle( "paddingBottom", 20 );
-        this.background.setStyle( "paddingRight", 10 );
-        this.background.setStyle( "paddingLeft", 10 );
+        this.background.setStyle( "paddingRight", 7 );
+        this.background.setStyle( "paddingLeft", 7 );
         this.background.setStyle( "verticalGap", 30 );
         with(this.background){
-            setStyle("horizontalAlign", "center" ) ;
+           setStyle("horizontalAlign", "center" ) ;
         }
-
-
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
-            setStyle( "backgroundColor", 0x00ff00 );//same color as build an atom
+            setStyle( "backgroundColor", 0x00ff00 );
             percentWidth = 100;
             percentHeight = 100;
-            setStyle( "borderStyle", "solid" )
+            setStyle( "borderStyle", "solid" );
             setStyle( "borderColor", 0x0000ff );
             setStyle( "cornerRadius", 8 );
-            setStyle( "borderThickness", 4 );
-            setStyle( "paddingTop", 20 );
-            setStyle( "paddingBottom", 20 );
-            setStyle( "paddingRight", 12 );
-            setStyle( "paddingLeft", 12 );
-            setStyle( "verticalGap", 30 );
+            setStyle( "borderThickness", 3 );
+            setStyle( "paddingTop", 10 );
+            setStyle( "paddingBottom", 10 );
+            setStyle( "paddingRight", 5 );
+            setStyle( "paddingLeft", 5 );
+            setStyle( "verticalGap", 15 );
+            setStyle("horizontalAlign" , "center");
         }
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
@@ -121,9 +123,20 @@ public class ControlPanel extends Canvas {
         rb2.value = 0;
         rb1.selected = false;
         rb2.selected = true;
+        rb1.setStyle("fontSize", 14);
+        rb2.setStyle("fontSize", 14);
 
-        this.gravityOnOff_rbg.addEventListener(Event.CHANGE, clickGravity)
-        
+        this.gravityOnOff_rbg.addEventListener(Event.CHANGE, clickGravity);
+
+        this.resonatorNbr_lbl = new Label();
+
+        with(this.resonatorNbr_lbl){
+            text = "Resonator #";
+            setStyle("fontFamily", "Arial");
+            setStyle("fontSize", 14 );
+            percentWidth = 90;
+            setStyle("textAlign", "center");
+        }
 
 
         this.mSlider = new HSlider();
@@ -133,19 +146,27 @@ public class ControlPanel extends Canvas {
             liveDragging = true;
             buttonMode = true;
             labels = ["", "mass", ""];
-        }
+        };
         this.mSlider.addEventListener(Event.CHANGE, onChangeM);
 
         this.kSlider = new HSlider();
         with(this.kSlider){
             minimum = 10;
-            maximum = 300;
+            maximum = 400;
             liveDragging = true;
             buttonMode = true;
             labels = ["", "spring constant", ""];
-        }
-
+        };
         this.kSlider.addEventListener(Event.CHANGE, onChangeK);
+
+        this.freq_lbl = new Label();
+        with(this.freq_lbl){
+            text = "frequency = #";
+            setStyle("fontFamily", "Arial");
+            setStyle("fontSize", 14 );
+            percentWidth = 90;
+            setStyle("textAlign", "center");
+        };
 
         this.resetButton = new Button();
         with(this.resetButton){
@@ -162,8 +183,10 @@ public class ControlPanel extends Canvas {
         this.radioButtonBox.addChild(rb1);
         this.radioButtonBox.addChild(rb2);
 
+        this.innerBckgrnd.addChild(this.resonatorNbr_lbl);
         this.innerBckgrnd.addChild(this.mSlider);
         this.innerBckgrnd.addChild(this.kSlider);
+        this.innerBckgrnd.addChild(this.freq_lbl);
         this.background.addChild( innerBckgrnd );
         this.background.addChild(this.resetButton);
 
@@ -175,14 +198,25 @@ public class ControlPanel extends Canvas {
 
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
-        var rNbr_str: String = rNbr.toString();
-        //this.rNbr_txt.text = rNbr_str;
+        var rNbr_str: String = rNbr.toFixed(0);
+        this.resonatorNbr_lbl.text = "Resonator " + rNbr_str;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
         this.mSlider.value = m;
         var k: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getK();
         //trace("ControlPanel.setResonatorIndex. k = "+k);
         this.kSlider.value = k;
+        this.setFreqLabel();
+        //var resFreq:Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
+        //var fNbr_str:String =  resFreq.toFixed(2);
+        //this.freq_lbl.text = "frequency = " + fNbr_str;
+    }
+
+    private function setFreqLabel():void{
+       var rNbr:int = this.selectedResonatorNbr;
+       var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
+       var resFreq_str: String =  resFreq.toFixed(2);
+       this.freq_lbl.text = "frequency = " + resFreq_str + " Hz";
     }
 
     public function setDamping( evt: Event ): void {
@@ -219,7 +253,7 @@ public class ControlPanel extends Canvas {
         var indx: int = this.selectedResonatorNbr - 1;
         var m: Number = this.mSlider.value;
         this.shakerModel.resonatorModel_arr[indx].setM( m );
-        //this.setFreqTextField();
+        this.setFreqLabel();
         //trace("ControlPanel.setMass() mass = "+ m);
     }
 
@@ -231,7 +265,7 @@ public class ControlPanel extends Canvas {
         var indx: int = this.selectedResonatorNbr - 1;
         var k: Number = this.kSlider.value;
         this.shakerModel.resonatorModel_arr[indx].setK( k );
-        //this.setFreqTextField();
+        this.setFreqLabel();
         //trace("ControlPanel.setK() k = "+ k);
     }
 

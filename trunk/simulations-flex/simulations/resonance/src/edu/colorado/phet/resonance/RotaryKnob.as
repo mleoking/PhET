@@ -68,7 +68,7 @@ public class RotaryKnob extends Sprite {
     private function drawKnob(): void {
         var g: Graphics = this.knobGraphic.graphics;
         g.clear();
-        g.lineStyle( 2, 0x000000, 1, false );  //if pixelHinting = true, then circle is lumpy
+        g.lineStyle( 2, 0x0000ff, 1, false );  //if pixelHinting = true, then circle is lumpy
         g.beginFill( this.knobColor );
         g.drawCircle( 0, 0, this.knobRadius );
         g.endFill();
@@ -86,10 +86,10 @@ public class RotaryKnob extends Sprite {
         this.tFormat1 = new TextFormat();	//format of label
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
-        this.tFormat1.size = 17;
+        this.tFormat1.size = 15;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = -0.5 * this.label_txt.width;
-        this.label_txt.y = 1.2 * this.knobRadius;
+        this.label_txt.y = 1.1 * this.knobRadius;
     }//end createLabel()
 
     public function setLabelText( label_str: String ): void {
@@ -102,25 +102,25 @@ public class RotaryKnob extends Sprite {
     private function createReadoutField(): void {
         this.readout_txt = new TextField();	//static label
         this.addChild( this.readout_txt );
-        this.readout_txt.selectable = true;
+        this.readout_txt.selectable = false;
         this.readout_txt.type = TextFieldType.INPUT;
         this.readout_txt..border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
-        //this.readout_txt.autoSize = TextFieldAutoSize.LEFT;
+        this.readout_txt.autoSize = TextFieldAutoSize.CENTER;
         this.readout_txt.restrict = "0-9.";
 
         this.tFormat2 = new TextFormat();	//format of label
         this.tFormat2.font = "Arial";
         this.tFormat2.color = 0x000000;
-        this.tFormat2.size = 16;
+        this.tFormat2.size = 14;
         this.readout_txt.defaultTextFormat = this.tFormat2;
         this.readout_txt.text = "0.00";
 
         this.readout_txt.width = 50;
         this.readout_txt.height = 22;
         this.readout_txt.x = -this.readout_txt.width / 2; //1.4*this.knobRadius;
-        this.readout_txt.y = -1.1 * this.knobRadius - this.readout_txt.height;
+        this.readout_txt.y = -1.2 * this.knobRadius - this.readout_txt.height;
 
     }//end createReadoutfield()
 
