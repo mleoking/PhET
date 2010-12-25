@@ -3,10 +3,12 @@
 
 import flash.display.*;
 import flash.events.*;
+import flash.geom.Matrix;
 import flash.text.*;
 
 public class NiceButton2 extends Sprite {
     private var buttonBody: Sprite;
+    private var bodyColor:Number;
     private var label_txt: TextField;
     private var myButtonWidth: Number;
     private var myButtonHeight: Number;
@@ -24,6 +26,7 @@ public class NiceButton2 extends Sprite {
         this.myButtonWidth = myButtonWidth;
         this.myButtonHeight = myButtonHeight;
         this.buttonFunction = buttonFunction;
+        this.bodyColor = 0x00ff00;  //default body color is green
         this.tFormat = new TextFormat();
         this.setTFormat();
 
@@ -59,12 +62,15 @@ public class NiceButton2 extends Sprite {
     }
 
     private function drawButtonBody(): void {
+        var gradMatrix = new Matrix();   //for creating shading on border
         var g: Graphics = this.buttonBody.graphics;
         var bW: Number = this.myButtonWidth;
         var bH: Number = this.myButtonHeight;
+        gradMatrix.createGradientBox( 1.0 * bW, 1.0 * bH, -Math.atan2(bW, bH), -bW/2, -bH/2 );
         g.clear();
-        g.lineStyle( 2, 0x0000ff, 1, true );
-        g.beginFill( 0x00ff00 );
+        g.lineStyle( 3, 0x0000ff, 1, true );
+        g.lineGradientStyle( GradientType.LINEAR, [0x007700, 0xffffff], [1,1], [0,255], gradMatrix );
+        g.beginFill( this.bodyColor );
         g.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 );
         g.endFill();
         this.label_txt.x = -bW / 2;

@@ -3,6 +3,9 @@ import flash.display.*;
 import flash.events.*;
 import flash.filters.*;
 import flash.geom.*;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
 
 public class ShakerView extends Sprite {
 
@@ -16,6 +19,8 @@ public class ShakerView extends Sprite {
     private var springHolder:Sprite;        //invisible holder for resonators
     private var pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var barPixPerResonator: Number; //number of pixels along bar per Resonator
+    private var label_txt:TextField;
+    private var label_fmt:TextFormat;
     private var onOffButton: NiceButton2; 	//turn shaker on or off
     private var onLight: Sprite;			//little red light that comes on when on button pushed.
     private var glow: GlowFilter;			//glowing light bulb for better visibility
@@ -48,14 +53,14 @@ public class ShakerView extends Sprite {
         this.bar = new Sprite();
         this.base = new Sprite();
         this.springHolder = new Sprite();
-
+        this.createLabel();
         //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
         this.onOffButton = new NiceButton2( 70, 30, "On/Off", OnOrOff );
         this.onLight = new Sprite();
         this.glow = new GlowFilter( 0xff0000, 0.5, 8, 8, 10 );
         this.glow.quality = BitmapFilterQuality.HIGH;
         //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
-        this.fKnob = new RotaryKnob( changeF, 40, 0x00aa00, 0, 7 );
+        this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 7 );
         this.fKnob.setLabelText( "frequency" );
         this.fKnob.setScale( this.hzPerTurn );
         //HorizontalSlider(owner:Object, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
@@ -69,7 +74,7 @@ public class ShakerView extends Sprite {
         this.addChild( this.bar );
         this.addChild( this.base );
 
-        
+        this.base.addChild(this.label_txt);
         this.base.addChild( this.onOffButton );
         this.base.addChild( this.onLight );
         this.base.addChild( this.fKnob );
@@ -83,6 +88,21 @@ public class ShakerView extends Sprite {
         //this.spring.y = 0;//stageH/2;
         //trace("MassSpringView.initialize() called. stageW = "+this.stageW);
     }//end of initialize()
+
+    private function createLabel(): void {
+            this.label_txt = new TextField();	//static label
+            this.addChild( this.label_txt );
+            this.label_txt.selectable = false;
+            this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+            this.label_txt.text = "DRIVER";
+            this.label_fmt = new TextFormat();	//format of label
+            this.label_fmt.font = "Arial";
+            this.label_fmt.color = 0xffffff;
+            this.label_fmt.size = 18;
+            this.label_txt.setTextFormat( this.label_fmt);
+            //this.label_txt.x = -0.5 * this.label_txt.width;
+            //this.label_txt.y = 1.1 * this.knobRadius;
+        }//end createLabel()
 
     public function initializeShakerControls(): void {
         //trace("initializeShakerControls() called");
@@ -165,10 +185,15 @@ public class ShakerView extends Sprite {
     private function drawOnLight( color: Number ): void {
         var gOL: Graphics = this.onLight.graphics;
         gOL.clear();
-        gOL.lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE );
+        gOL.lineStyle( 0, 0x5555ff, 1, true, LineScaleMode.NONE );
         var radius: Number = 8;
         gOL.beginFill( color );
-        gOL.drawCircle( -radius / 2, -radius / 2, radius );
+        gOL.drawCircle( 0, 0, radius );
+        gOL.endFill();
+        //draw specular highlight
+        gOL.lineStyle( 0, 0xffffff, 1, true, LineScaleMode.NONE );
+        gOL.beginFill(0xdd9999);
+        gOL.drawCircle( 0.3 * radius , -0.3 * radius, 1);
         gOL.endFill();
         this.onLight.filters = [this.glow];
         if ( color == 0x000000 ) {
@@ -207,11 +232,14 @@ public class ShakerView extends Sprite {
         gB.beginFill( 0xaaaaaa );
         gB.drawRoundRect( -baseW / 2, floorLevel - baseH, baseW, baseH, 20 );
         gB.endFill();
-        this.onOffButton.x = -baseW / 2 + this.onOffButton.width;
-        this.onOffButton.y = floorLevel - 0.7 * baseH;
-        this.onLight.x = -baseW / 2 + this.onOffButton.width;
-        this.onLight.y = floorLevel - 0.3 * baseH;
-        this.fKnob.x = -baseW / 2 + 1.5 * this.onOffButton.width + this.fKnob.width;
+
+        this.onOffButton.x = - 0.3 * baseW ; // + this.onOffButton.width;
+        this.onOffButton.y = floorLevel - 0.5 * baseH;
+        this.label_txt.x = this.onOffButton.x - 0.5 * this.label_txt.width;
+        this.label_txt.y = floorLevel - baseH + 0.15 * this.label_txt.height;
+        this.onLight.x = this.onOffButton.x;
+        this.onLight.y = floorLevel - 0.2 * baseH;
+        this.fKnob.x = 0; //-baseW / 2 + 1.5 * this.onOffButton.width + this.fKnob.width;
         this.fKnob.y = floorLevel - baseH / 2;
         this.ASlider.x = baseW / 2 - 1.2 * this.ASlider.width;
         this.ASlider.y = floorLevel - baseH / 2;

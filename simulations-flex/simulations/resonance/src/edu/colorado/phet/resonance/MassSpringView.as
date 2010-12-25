@@ -1,4 +1,4 @@
-package edu.colorado.phet.resonance {
+﻿package edu.colorado.phet.resonance {
 
 import flash.display.*;
 import flash.events.*;
@@ -81,8 +81,6 @@ public class MassSpringView extends Sprite {
 //            g.lineTo( xOff + x0, yOff + y0 + 0.1 * D0inPix + i * h + h );
 //        }
 //        g.lineTo( xOff + x0, yOff + y0 + D0inPix );
-
-
 
         //draw spring coils
         g.lineStyle( 1.5 * lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
