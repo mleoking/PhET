@@ -2,7 +2,6 @@
 
 import flash.display.*;
 import flash.events.Event;
-
 import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
@@ -19,18 +18,18 @@ public class ControlPanel extends Canvas {
     private var myMainView: MainView;
     private var shakerModel: ShakerModel;
     private var background: VBox;
-    private var radioButtonBox:HBox;
+    private var radioButtonBox: HBox;
     private var innerBckgrnd: VBox;
     private var dampingSlider: HSlider;
     private var nbrResonatorsSlider: HSlider;
     private var gravityOnOff_rbg: RadioButtonGroup;
 
-    private var gravity_lbl:Label;
-    private var resonatorNbr_lbl:Label;
+    private var gravity_lbl: Label;
+    private var resonatorNbr_lbl: Label;
     private var mSlider: HSlider;
     private var kSlider: HSlider;
-    private var freq_lbl:Label;
-    private var resetButton:Button;
+    private var freq_lbl: Label;
+    private var resetButton: Button;
 
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
@@ -59,9 +58,9 @@ public class ControlPanel extends Canvas {
         this.background.setStyle( "paddingBottom", 20 );
         this.background.setStyle( "paddingRight", 7 );
         this.background.setStyle( "paddingLeft", 7 );
-        this.background.setStyle( "verticalGap", 30 );
-        with(this.background){
-           setStyle("horizontalAlign", "center" ) ;
+        this.background.setStyle( "verticalGap", 10 );
+        with ( this.background ) {
+            setStyle( "horizontalAlign", "center" );
         }
 
         this.innerBckgrnd = new VBox();
@@ -73,33 +72,32 @@ public class ControlPanel extends Canvas {
             setStyle( "borderColor", 0x0000ff );
             setStyle( "cornerRadius", 8 );
             setStyle( "borderThickness", 3 );
-            setStyle( "paddingTop", 10 );
-            setStyle( "paddingBottom", 10 );
+            setStyle( "paddingTop", 5 );
+            setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
-            setStyle( "verticalGap", 15 );
-            setStyle("horizontalAlign" , "center");
+            setStyle( "verticalGap", 0 );
+            // setStyle("horizontalAlign" , "center");
         }
+
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
         this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
+        this.formatSlider(this.dampingSlider);
         with ( this.dampingSlider ) {
             minimum = 0.05;
             maximum = 5;
-            buttonMode = true;
             labels = ["", "damping", ""];
-            liveDragging = true;
         }
 
         this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
 
         this.nbrResonatorsSlider = new HSlider();
+        this.formatSlider(this.nbrResonatorsSlider);
         with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
             labels = ["", "Resonators", ""];
-            liveDragging = true;
-            buttonMode = true;
             snapInterval = 1;
             tickInterval = 1;
         }
@@ -110,11 +108,11 @@ public class ControlPanel extends Canvas {
 
         this.gravity_lbl = new Label();
         this.gravity_lbl.text = "Gravity";
-        this.gravity_lbl.setStyle("fontSize", 14) ; 
+        this.gravity_lbl.setStyle( "fontSize", 14 );
 
         this.gravityOnOff_rbg = new RadioButtonGroup();
-        var rb1:RadioButton = new RadioButton();
-        var rb2:RadioButton = new RadioButton();
+        var rb1: RadioButton = new RadioButton();
+        var rb2: RadioButton = new RadioButton();
         rb1.group = gravityOnOff_rbg;
         rb2.group = gravityOnOff_rbg;
         rb1.label = "on";
@@ -123,53 +121,56 @@ public class ControlPanel extends Canvas {
         rb2.value = 0;
         rb1.selected = false;
         rb2.selected = true;
-        rb1.setStyle("fontSize", 14);
-        rb2.setStyle("fontSize", 14);
+        rb1.setStyle( "fontSize", 14 );
+        rb2.setStyle( "fontSize", 14 );
+        rb1.setStyle( "horizontalGap", 0 );
+        rb2.setStyle( "horizontalGap", 0 );
 
-        this.gravityOnOff_rbg.addEventListener(Event.CHANGE, clickGravity);
+        this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
         this.resonatorNbr_lbl = new Label();
 
-        with(this.resonatorNbr_lbl){
+        with ( this.resonatorNbr_lbl ) {
             text = "Resonator #";
-            setStyle("fontFamily", "Arial");
-            setStyle("fontSize", 14 );
+            setStyle( "fontFamily", "Arial" );
+            setStyle( "fontSize", 14 );
             percentWidth = 90;
-            setStyle("textAlign", "center");
+            setStyle( "textAlign", "center" );
         }
 
 
         this.mSlider = new HSlider();
-        with(this.mSlider){
+        this.formatSlider(this.mSlider);
+        with ( this.mSlider ) {
             minimum = 0.2;
             maximum = 4;
-            liveDragging = true;
-            buttonMode = true;
             labels = ["", "mass", ""];
-        };
-        this.mSlider.addEventListener(Event.CHANGE, onChangeM);
+            // This doesn't work: setStyle("labelPlacement", "bottom");
+        }
+        this.mSlider.addEventListener( Event.CHANGE, onChangeM );
 
         this.kSlider = new HSlider();
-        with(this.kSlider){
+        this.formatSlider(this.kSlider);
+        with ( this.kSlider ) {
             minimum = 10;
             maximum = 400;
-            liveDragging = true;
-            buttonMode = true;
             labels = ["", "spring constant", ""];
-        };
-        this.kSlider.addEventListener(Event.CHANGE, onChangeK);
+        }
+        ;
+        this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
         this.freq_lbl = new Label();
-        with(this.freq_lbl){
+        with ( this.freq_lbl ) {
             text = "frequency = #";
-            setStyle("fontFamily", "Arial");
-            setStyle("fontSize", 14 );
+            setStyle( "fontFamily", "Arial" );
+            setStyle( "fontSize", 14 );
             percentWidth = 90;
-            setStyle("textAlign", "center");
-        };
+            setStyle( "textAlign", "center" );
+        }
+        ;
 
         this.resetButton = new Button();
-        with(this.resetButton){
+        with ( this.resetButton ) {
             label = " Reset All "
             buttonMode = true;
         }
@@ -178,27 +179,30 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
         this.background.addChild( nbrResonatorsSlider );
         this.background.addChild( dampingSlider );
-        this.background.addChild(radioButtonBox);
-        this.radioButtonBox.addChild(gravity_lbl);
-        this.radioButtonBox.addChild(rb1);
-        this.radioButtonBox.addChild(rb2);
+        this.background.addChild( radioButtonBox );
+        this.radioButtonBox.addChild( gravity_lbl );
+        this.radioButtonBox.addChild( rb1 );
+        this.radioButtonBox.addChild( rb2 );
 
-        this.innerBckgrnd.addChild(this.resonatorNbr_lbl);
-        this.innerBckgrnd.addChild(this.mSlider);
-        this.innerBckgrnd.addChild(this.kSlider);
-        this.innerBckgrnd.addChild(this.freq_lbl);
+        this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
+        this.innerBckgrnd.addChild( this.mSlider );
+        this.innerBckgrnd.addChild( this.kSlider );
+        this.innerBckgrnd.addChild( this.freq_lbl );
         this.background.addChild( innerBckgrnd );
-        this.background.addChild(this.resetButton);
+        this.background.addChild( this.resetButton );
 
     } //end of init()
 
-
-    //add time rate adjuster here
+    function formatSlider( mySlider: HSlider ): void {
+        mySlider.buttonMode = true;
+        mySlider.liveDragging = true;
+        mySlider.setStyle( "labelOffset", 25 );
+    };
 
 
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
-        var rNbr_str: String = rNbr.toFixed(0);
+        var rNbr_str: String = rNbr.toFixed( 0 );
         this.resonatorNbr_lbl.text = "Resonator " + rNbr_str;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
@@ -212,11 +216,11 @@ public class ControlPanel extends Canvas {
         //this.freq_lbl.text = "frequency = " + fNbr_str;
     }
 
-    private function setFreqLabel():void{
-       var rNbr:int = this.selectedResonatorNbr;
-       var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
-       var resFreq_str: String =  resFreq.toFixed(2);
-       this.freq_lbl.text = "frequency = " + resFreq_str + " Hz";
+    private function setFreqLabel(): void {
+        var rNbr: int = this.selectedResonatorNbr;
+        var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
+        var resFreq_str: String = resFreq.toFixed( 2 );
+        this.freq_lbl.text = "frequency = " + resFreq_str + " Hz";
     }
 
     public function setDamping( evt: Event ): void {
@@ -230,14 +234,15 @@ public class ControlPanel extends Canvas {
         this.setNbrResonators( nbrR );
     }
 
-    private function clickGravity(evt: Event):void{
-        var val:Object = this.gravityOnOff_rbg.selectedValue;
-        if(val == 1){
-            this.shakerModel.setG(5);
-            trace("1");
-        }else{
-            this.shakerModel.setG(0);
-            trace("2");
+    private function clickGravity( evt: Event ): void {
+        var val: Object = this.gravityOnOff_rbg.selectedValue;
+        if ( val == 1 ) {
+            this.shakerModel.setG( 5 );
+            trace( "1" );
+        }
+        else {
+            this.shakerModel.setG( 0 );
+            trace( "2" );
         }
     }
 
@@ -245,8 +250,8 @@ public class ControlPanel extends Canvas {
         this.myMainView.setNbrResonators( nbrR );
     }
 
-    private function onChangeM(evt:Event):void{
-      this.setMass();
+    private function onChangeM( evt: Event ): void {
+        this.setMass();
     }
 
     public function setMass(): void {
@@ -257,7 +262,7 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setMass() mass = "+ m);
     }
 
-    private function onChangeK(evt:Event):void{
+    private function onChangeK( evt: Event ): void {
         this.setK();
     }
 
@@ -269,7 +274,7 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setK() k = "+ k);
     }
 
-    private function resetResonators(evt:MouseEvent): void {
+    private function resetResonators( evt: MouseEvent ): void {
         this.shakerModel.resetInitialResonatorArray();
         //this.setResonatorIndex( this.selectedResonatorNbr );
         //trace("ControlPanel.resetResonators() called.");
