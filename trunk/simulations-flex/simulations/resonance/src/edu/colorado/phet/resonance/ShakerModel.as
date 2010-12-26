@@ -14,6 +14,7 @@ public class ShakerModel {
     public var resonatorModel_arr: Array;
     //private var resonatorView_arr:Array;
     private var running: Boolean;//true if shaker bar is ON
+    private var _paused:Boolean;  //true if sim paused
     private var y0: Number;		//current height of bar, equil.position is y0 = 0;
     private var f: Number;		//frequency of oscillation of shaker bar
     private var phase: Number;	//phase of oscillation
@@ -139,26 +140,35 @@ public class ShakerModel {
         return this.running;
     }
 
+    public function get paused(){
+        return this._paused;
+    }
 
     public function startShaker(): void {
         this.running = true;
-        this.setResonatorsFreeRunning( false );
+        if(!this._paused){
+          this.setResonatorsFreeRunning( false );
         this.msTimer.start();
+        }
     }
 
     public function stopShaker(): void {
         this.running = false;
-        this.setResonatorsFreeRunning( true );
-        this.msTimer.stop();
+        if(!this._paused){
+            this.setResonatorsFreeRunning( true );
+            this.msTimer.stop();
+        }
     }
 
     public function pauseSim():void{
+        this._paused = true;
         this.msTimer.stop();
         this.setResonatorsFreeRunning( false );
         //this.running = false;
     }
 
     public function unPauseSim():void{
+        this._paused = false;
         if(this.running){
             this.startShaker();
         } else{

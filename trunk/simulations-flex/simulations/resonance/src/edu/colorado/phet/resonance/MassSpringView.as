@@ -83,10 +83,10 @@ public class MassSpringView extends Sprite {
 //        g.lineTo( xOff + x0, yOff + y0 + D0inPix );
 
         //draw spring coils
-        g.lineStyle( 1.5 * lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+        g.lineStyle( 1.5 * lineWidth, 0xff0000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
         g.moveTo( x0, y0 );
         g.lineTo( x0, y0 + 0.1 * D0inPix );//0.1*D0inPix);
-        g.lineStyle( 1.3 * lineWidth, 0xff0000, 1, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        g.lineStyle( 1.3 * lineWidth, 0xff0000, 1, true, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
         for ( var i: int = 0; i < N; i++ ) {
             g.lineTo( x0 + r, y0 + 0.1 * D0inPix + i * h + h / 4 );
             g.lineTo( x0 - r, y0 + 0.1 * D0inPix + i * h + (3 / 4) * h );
@@ -96,8 +96,8 @@ public class MassSpringView extends Sprite {
         g.lineTo( x0, y0 + D0inPix );
 
         //draw highlight on topside of every other spring coil
-        g.lineStyle( 2, 0xffdeeee, Math.max( 1, lineWidth / 4 ), false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
-        var offset:Number = -lineWidth / 2;
+        g.lineStyle( 2, 0xffdeeee, Math.max( 1, lineWidth / 4 ), true, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        var offset: Number = -lineWidth / 2;
         g.moveTo( x0, offset + y0 + 0.1 * D0inPix );
         for ( var i: int = 0; i < N; i ++ ) {
             g.moveTo( x0 + r, offset + y0 + 0.1 * D0inPix + i * h + h / 4 );
@@ -105,7 +105,7 @@ public class MassSpringView extends Sprite {
             g.moveTo( x0, offset + y0 + 0.1 * D0inPix + i * h + h );
         }
         //draw shadow on underside of every other spring coil
-        g.lineStyle( 2, Math.max( 1, 0xaa0000 ), lineWidth / 4, false, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
+        g.lineStyle( 2, Math.max( 1, 0xaa0000 ), lineWidth / 4, true, LineScaleMode.NONE, CapsStyle.NONE, JointStyle.BEVEL );
         offset = +lineWidth / 2;
         g.moveTo( x0, offset + y0 + 0.1 * D0inPix );
         for ( var i: int = 0; i < N; i ++ ) {
@@ -195,17 +195,19 @@ public class MassSpringView extends Sprite {
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
-            //problem with localX, localY if sprite is rotated.
-            var indx: int = thisObject.model.getRNbr().toString();
-            //trace("MassSpringView.makeMassGrabbable. indx = "+ indx);
-            //Geezz! There has gotta be a better way for next line.
-            thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
-            clickOffset = new Point( evt.localX, evt.localY );
-            //trace("evt.target.y: "+evt.target.y);
-            thisObject.model.stopMotion();
-            stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            //thisObject.spring.scaleY *= 1.5;
+            if ( !thisObject.model.shakerModel.paused ) {
+                //problem with localX, localY if sprite is rotated.
+                var indx: int = thisObject.model.getRNbr().toString();
+                //trace("MassSpringView.makeMassGrabbable. indx = "+ indx);
+                //Geezz! There has gotta be a better way for next line.
+                thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
+                clickOffset = new Point( evt.localX, evt.localY );
+                //trace("evt.target.y: "+evt.target.y);
+                thisObject.model.stopMotion();
+                stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
+                stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+                //thisObject.spring.scaleY *= 1.5;
+            }
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {

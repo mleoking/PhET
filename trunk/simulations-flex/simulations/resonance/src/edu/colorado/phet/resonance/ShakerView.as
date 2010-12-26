@@ -16,11 +16,11 @@ public class ShakerView extends Sprite {
     private var resonatorView_arr: Array;  	//views of mass spring systems
     private var bar: Sprite;				//view of shaker bar
     private var base: Sprite;				//view of base with controls
-    private var springHolder:Sprite;        //invisible holder for resonators
+    private var springHolder: Sprite;        //invisible holder for resonators
     private var pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var barPixPerResonator: Number; //number of pixels along bar per Resonator
-    private var label_txt:TextField;
-    private var label_fmt:TextFormat;
+    private var label_txt: TextField;
+    private var label_fmt: TextFormat;
     private var onOffButton: NiceButton2; 	//turn shaker on or off
     private var onLight: Sprite;			//little red light that comes on when on button pushed.
     private var glow: GlowFilter;			//glowing light bulb for better visibility
@@ -70,11 +70,11 @@ public class ShakerView extends Sprite {
         //this.ASlider.setVal(this.maxAmplitude/2);
         this.drawShaker();
 
-        this.addChild(this.springHolder);
+        this.addChild( this.springHolder );
         this.addChild( this.bar );
         this.addChild( this.base );
 
-        this.base.addChild(this.label_txt);
+        this.base.addChild( this.label_txt );
         this.base.addChild( this.onOffButton );
         this.base.addChild( this.onLight );
         this.base.addChild( this.fKnob );
@@ -90,19 +90,19 @@ public class ShakerView extends Sprite {
     }//end of initialize()
 
     private function createLabel(): void {
-            this.label_txt = new TextField();	//static label
-            this.addChild( this.label_txt );
-            this.label_txt.selectable = false;
-            this.label_txt.autoSize = TextFieldAutoSize.CENTER;
-            this.label_txt.text = "DRIVER";
-            this.label_fmt = new TextFormat();	//format of label
-            this.label_fmt.font = "Arial";
-            this.label_fmt.color = 0xffffff;
-            this.label_fmt.size = 18;
-            this.label_txt.setTextFormat( this.label_fmt);
-            //this.label_txt.x = -0.5 * this.label_txt.width;
-            //this.label_txt.y = 1.1 * this.knobRadius;
-        }//end createLabel()
+        this.label_txt = new TextField();	//static label
+        this.addChild( this.label_txt );
+        this.label_txt.selectable = false;
+        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.label_txt.text = "DRIVER";
+        this.label_fmt = new TextFormat();	//format of label
+        this.label_fmt.font = "Arial";
+        this.label_fmt.color = 0xffffff;
+        this.label_fmt.size = 18;
+        this.label_txt.setTextFormat( this.label_fmt );
+        //this.label_txt.x = -0.5 * this.label_txt.width;
+        //this.label_txt.y = 1.1 * this.knobRadius;
+    }//end createLabel()
 
     public function initializeShakerControls(): void {
         //trace("initializeShakerControls() called");
@@ -192,8 +192,8 @@ public class ShakerView extends Sprite {
         gOL.endFill();
         //draw specular highlight
         gOL.lineStyle( 0, 0xffffff, 1, true, LineScaleMode.NONE );
-        gOL.beginFill(0xdd9999);
-        gOL.drawCircle( 0.3 * radius , -0.3 * radius, 1);
+        gOL.beginFill( 0xdd9999 );
+        gOL.drawCircle( 0.3 * radius, -0.3 * radius, 1 );
         gOL.endFill();
         this.onLight.filters = [this.glow];
         if ( color == 0x000000 ) {
@@ -206,16 +206,30 @@ public class ShakerView extends Sprite {
 
     private function drawBar(): void {
         var gB: Graphics = this.bar.graphics;
+
         gB.clear();
         gB.lineStyle( 2, 0x000000, 1, true, LineScaleMode.NONE );
         var barW: Number = this.barPixPerResonator * this.nbrResonators;
         var barH: Number = 30;
+        var gradMatrix:Matrix = new Matrix();
+        //gradMatrix = {matrixType:"box", x:-barW/2, y:-barH/2, w:barW, h:barH, r:(0/180)*Math.PI};
+        gradMatrix.createGradientBox(barW, barH, 0.5*Math.PI, -barW/2, 0);
         var pistonW: Number = this.barPixPerResonator;
-        gB.beginFill( 0xaaaaaa );
+       //gB.beginFill( 0xaaaaaa )
+        var gradType:String = GradientType.LINEAR ;
+        var colors:Array = [0x888888, 0xcccccc, 0x666666];
+        var alphas:Array = [1,1,1];
+        var ratios:Array = [0, 20, 255];
+        var spreadMethod:String = SpreadMethod.REPEAT;
+        gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
+
         gB.drawRoundRect( -barW / 2, 0, barW, barH, 20 );
         //gB.drawRect(-pistonW/2, barH, pistonW, 100);
         gB.endFill();
-        gB.beginFill( 0xcccccc );
+        //draw piston
+        //gB.beginFill( 0xcccccc );
+        var mid:int = 127;
+        gB.beginGradientFill(GradientType.LINEAR, [0x999999, 0xcccccc, 0xaaaaaa],[1,1,1], [mid-0.5*pistonW, mid+0.2*pistonW, mid+0.5*pistonW]);
         gB.drawRect( -pistonW / 2, barH, pistonW, 100 );
         gB.endFill();
         gB.moveTo( -pistonW / 2, 2 * barH );
@@ -233,7 +247,7 @@ public class ShakerView extends Sprite {
         gB.drawRoundRect( -baseW / 2, floorLevel - baseH, baseW, baseH, 20 );
         gB.endFill();
 
-        this.onOffButton.x = - 0.3 * baseW ; // + this.onOffButton.width;
+        this.onOffButton.x = - 0.3 * baseW; // + this.onOffButton.width;
         this.onOffButton.y = floorLevel - 0.5 * baseH;
         this.label_txt.x = this.onOffButton.x - 0.5 * this.label_txt.width;
         this.label_txt.y = floorLevel - baseH + 0.15 * this.label_txt.height;
@@ -257,14 +271,16 @@ public class ShakerView extends Sprite {
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
+            if ( !thisObject.model.paused ) {
+                clickOffset = new Point( evt.localX, evt.localY );
+                wasRunning = thisObject.model.getRunning();
+                thisObject.model.stopShaker();
+                stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
+                stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            }
             //problem with localX, localY if sprite is rotated.
-            clickOffset = new Point( evt.localX, evt.localY );
             //trace("evt.target.y: "+evt.target.y);
-            wasRunning = thisObject.model.getRunning();
-            thisObject.model.stopShaker();
             //thisObject.drawOnLight();
-            stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
             //thisObject.spring.scaleY *= 1.5;
         }
 

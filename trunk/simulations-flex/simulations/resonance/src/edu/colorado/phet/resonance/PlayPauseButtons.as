@@ -142,8 +142,9 @@ public class PlayPauseButtons extends Sprite {
         this.tFormat1.color = 0x000000;
         this.tFormat1.size = 15;
         this.tFormat2.font = "Arial";
-        this.tFormat2.color = 0xcc9966;   //background is 0xffff99
-        this.tFormat2.size = 75;
+        this.tFormat2.bold = true;
+        this.tFormat2.color = 0xffcc33;   //background is 0xffff99
+        this.tFormat2.size = 95;
         this.playPause_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
         this.playPause_txt.defaultTextFormat = this.tFormat1 ;
