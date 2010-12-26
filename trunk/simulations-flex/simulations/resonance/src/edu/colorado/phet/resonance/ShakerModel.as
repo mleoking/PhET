@@ -152,6 +152,20 @@ public class ShakerModel {
         this.msTimer.stop();
     }
 
+    public function pauseSim():void{
+        this.msTimer.stop();
+        this.setResonatorsFreeRunning( false );
+        //this.running = false;
+    }
+
+    public function unPauseSim():void{
+        if(this.running){
+            this.startShaker();
+        } else{
+            this.stopShaker();
+        }
+    }
+
     public function registerView( view: ShakerView ): void {
         this.view = view;
     }

@@ -11,6 +11,7 @@ import mx.containers.Canvas;
 public class MainView extends Canvas {
     var myShakerModel: ShakerModel;
     var myShakerView: ShakerView;
+    var myPlayPauseButtons:PlayPauseButtons;
     var myControlPanel: ControlPanel;
     var phetLogo: Sprite;
     var stageH: Number;
@@ -26,6 +27,12 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( myShakerView ) );
         this.myShakerView.x = 0.40 * stageW;
         this.myShakerView.y = 0.6 * stageH;
+
+        this.myPlayPauseButtons = new PlayPauseButtons( this, myShakerModel );
+        this.addChild( new SpriteUIComponent( myPlayPauseButtons));
+        this.myPlayPauseButtons.x = this.myShakerView.x;
+        this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+
 
         
         this.myControlPanel = new ControlPanel( this, myShakerModel );
