@@ -46,6 +46,24 @@ public abstract class GravityAndOrbitsMode {
     private double zoomScale;
     private ImmutableVector2D zoomOffset;
 
+    /**
+     *
+     * @param name mode name, currently used only for debugging, i18n not required
+     * @param forceScale
+     * @param active
+     * @param camera
+     * @param dt
+     * @param timeFormatter
+     * @param iconImage
+     * @param defaultOrbitalPeriod
+     * @param simPaused
+     * @param velocityScale
+     * @param massReadoutFactory
+     * @param initialMeasuringTapeLocation
+     * @param zoomScale
+     * @param zoomOffset
+     * @param gravityEnabledProperty
+     */
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
