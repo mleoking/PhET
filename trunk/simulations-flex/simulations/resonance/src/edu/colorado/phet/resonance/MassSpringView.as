@@ -198,7 +198,8 @@ public class MassSpringView extends Sprite {
             //Geezz! There has gotta be a better way for next line.
             var indx: int = thisObject.model.getRNbr().toString();
             thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
-            if ( !thisObject.model.shakerModel.paused ) {
+            //mass not grabbable if sim paused or if shaker is on
+            if ( !thisObject.model.shakerModel.paused && !thisObject.model.shakerModel.getRunning() ) {
                 //problem with localX, localY if sprite is rotated.
                 //trace("MassSpringView.makeMassGrabbable. indx = "+ indx);
                 clickOffset = new Point( evt.localX, evt.localY );
