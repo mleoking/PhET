@@ -195,12 +195,12 @@ public class MassSpringView extends Sprite {
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
+            //Geezz! There has gotta be a better way for next line.
+            var indx: int = thisObject.model.getRNbr().toString();
+            thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
             if ( !thisObject.model.shakerModel.paused ) {
                 //problem with localX, localY if sprite is rotated.
-                var indx: int = thisObject.model.getRNbr().toString();
                 //trace("MassSpringView.makeMassGrabbable. indx = "+ indx);
-                //Geezz! There has gotta be a better way for next line.
-                thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
                 clickOffset = new Point( evt.localX, evt.localY );
                 //trace("evt.target.y: "+evt.target.y);
                 thisObject.model.stopMotion();

@@ -8,6 +8,7 @@ public class RotaryKnob extends Sprite {
 
     private var action: Function;	//function performed by this knob, passed in from container
     private var knobGraphic: Sprite;
+    private var knobShadow: Sprite
     private var knobDiameter: int;  //knob diameter in pixels
     private var knobRadius: int;
     private var knobColor: Number;
@@ -26,6 +27,8 @@ public class RotaryKnob extends Sprite {
     public function RotaryKnob( action: Function, knobDiameter: Number, knobColor: Number, minTurns: Number, maxTurns: Number ) {
         this.action = action;
         this.knobGraphic = new Sprite();
+        this.knobShadow = new Sprite();
+        this.addChild(this.knobShadow);
         this.addChild( this.knobGraphic );
         this.knobDiameter = knobDiameter; //60;
         this.knobRadius = this.knobDiameter / 2;
@@ -35,6 +38,7 @@ public class RotaryKnob extends Sprite {
         this.maxTurns = maxTurns; //5;
         this.minTurns = minTurns; //0;
         this.scale = 1;
+        this.drawShadow();
         this.drawKnob();
         this.createLabel();
         this.createReadoutField();
@@ -65,6 +69,26 @@ public class RotaryKnob extends Sprite {
         this.scale = scale;
     }
 
+    private function drawShadow():void{
+       var g: Graphics = this.knobShadow.graphics;
+       var r:Number = this.knobRadius;
+       var rO:Number = 1.3*r;
+       var rads:Number;
+       with(g){
+           clear();
+           lineStyle(0, 0x888888, 1, false);
+           beginFill(0x888888, 0.5);
+           drawCircle(-0.3*r, 0.5*r, r);
+           endFill();
+           lineStyle(2, 0x333333, 1, false);
+           drawCircle(0, 0, rO);
+       }
+       for(var i:Number = 0; i < 9; i++ ){
+            rads = i*0.25*Math.PI;
+            g.moveTo(0,0);
+            g.lineTo(rO*Math.cos(rads), rO*Math.sin(rads));
+        }
+    }
     private function drawKnob(): void {
         var g: Graphics = this.knobGraphic.graphics;
         g.clear();

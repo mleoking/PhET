@@ -49,7 +49,7 @@ public class ShakerView extends Sprite {
         this.pixPerMeter = 200;
         this.barPixPerResonator = 70;
         this.hzPerTurn = 1;
-        this.maxAmplitude = 0.04;
+        this.maxAmplitude = 0.06;    //in meters
         this.bar = new Sprite();
         this.base = new Sprite();
         this.springHolder = new Sprite();
@@ -64,7 +64,7 @@ public class ShakerView extends Sprite {
         this.fKnob.setLabelText( "frequency" );
         this.fKnob.setScale( this.hzPerTurn );
         //HorizontalSlider(owner:Object, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
-        this.ASlider = new HorizontalSlider( changeA, 120, 0, 1 );
+        this.ASlider = new HorizontalSlider( changeA, 120, 0.1, 1 );
         this.ASlider.setLabelText( "amplitude" );
         this.ASlider.setScale( this.maxAmplitude );
         //this.ASlider.setVal(this.maxAmplitude/2);
@@ -206,30 +206,34 @@ public class ShakerView extends Sprite {
 
     private function drawBar(): void {
         var gB: Graphics = this.bar.graphics;
-
+        //draw horizontal shaker bar
         gB.clear();
-        gB.lineStyle( 2, 0x000000, 1, true, LineScaleMode.NONE );
+        gB.lineStyle( 2, 0x333333, 1, true, LineScaleMode.NONE );
         var barW: Number = this.barPixPerResonator * this.nbrResonators;
         var barH: Number = 30;
         var gradMatrix:Matrix = new Matrix();
-        //gradMatrix = {matrixType:"box", x:-barW/2, y:-barH/2, w:barW, h:barH, r:(0/180)*Math.PI};
         gradMatrix.createGradientBox(barW, barH, 0.5*Math.PI, -barW/2, 0);
         var pistonW: Number = this.barPixPerResonator;
        //gB.beginFill( 0xaaaaaa )
         var gradType:String = GradientType.LINEAR ;
-        var colors:Array = [0x888888, 0xcccccc, 0x666666];
-        var alphas:Array = [1,1,1];
-        var ratios:Array = [0, 20, 255];
-        var spreadMethod:String = SpreadMethod.REPEAT;
+        var barGray:Number = 0xaaaaaa;
+        var colors:Array = [0xdddddd, barGray, barGray, 0x555577];
+        var alphas:Array = [1, 1, 1, 1];
+        var ratios:Array = [0, 60, 200, 255];
+        var spreadMethod:String = SpreadMethod.PAD;
         gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
-
         gB.drawRoundRect( -barW / 2, 0, barW, barH, 20 );
-        //gB.drawRect(-pistonW/2, barH, pistonW, 100);
         gB.endFill();
-        //draw piston
-        //gB.beginFill( 0xcccccc );
-        var mid:int = 127;
-        gB.beginGradientFill(GradientType.LINEAR, [0x999999, 0xcccccc, 0xaaaaaa],[1,1,1], [mid-0.5*pistonW, mid+0.2*pistonW, mid+0.5*pistonW]);
+        //draw vertical piston
+        //var mid:int = 127;
+        gradMatrix.createGradientBox(pistonW, barH, 0, -pistonW/2, 0);
+        gradType = GradientType.LINEAR ;
+        barGray = 0x999999;
+        colors = [barGray, 0xdddddd, barGray];
+        alphas = [1, 1, 1];
+        ratios = [0, 165, 255];
+        var spreadMethod:String = SpreadMethod.PAD;
+        gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
         gB.drawRect( -pistonW / 2, barH, pistonW, 100 );
         gB.endFill();
         gB.moveTo( -pistonW / 2, 2 * barH );
@@ -243,14 +247,23 @@ public class ShakerView extends Sprite {
         var baseW: Number = 500;
         var baseH: Number = 100;
         var floorLevel: Number = 0 + 2 * baseH;
-        gB.beginFill( 0xaaaaaa );
+        var gradMatrix:Matrix = new Matrix();
+        gradMatrix.createGradientBox(baseW, baseH, 0.5*Math.PI, -baseW/2, floorLevel - baseH);
+        var gradType:String = GradientType.LINEAR ;
+        var barGray:Number = 0xaaaaaa;
+        var colors:Array = [0xdddddd, barGray, barGray, 0x555577];
+        var alphas:Array = [1, 1, 1, 1];
+        var ratios:Array = [0, 30, 225, 255];
+        var spreadMethod:String = SpreadMethod.PAD;
+        gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
+        //gB.beginFill( 0xaaaaaa );
         gB.drawRoundRect( -baseW / 2, floorLevel - baseH, baseW, baseH, 20 );
         gB.endFill();
 
         this.onOffButton.x = - 0.3 * baseW; // + this.onOffButton.width;
-        this.onOffButton.y = floorLevel - 0.5 * baseH;
+        this.onOffButton.y = floorLevel - 0.50 * baseH;
         this.label_txt.x = this.onOffButton.x - 0.5 * this.label_txt.width;
-        this.label_txt.y = floorLevel - baseH + 0.15 * this.label_txt.height;
+        this.label_txt.y = floorLevel - baseH + 0.25 * this.label_txt.height;
         this.onLight.x = this.onOffButton.x;
         this.onLight.y = floorLevel - 0.2 * baseH;
         this.fKnob.x = 0; //-baseW / 2 + 1.5 * this.onOffButton.width + this.fKnob.width;
