@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * The module has a set of "modes", one mode for each configuration of bodies (eg, Sun + Planet).
- * Each mode has its own model.
+ * Each mode has its own model, canvas, clock, etc.
  */
 public class GravityAndOrbitsModule extends PiccoloModule {
 
