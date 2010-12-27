@@ -49,7 +49,8 @@ public abstract class GravityAndOrbitsMode {
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
-                                 Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset ) {
+                                 Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
+                                 Property<Boolean> gravityEnabledProperty ) {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -63,7 +64,7 @@ public abstract class GravityAndOrbitsMode {
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ) );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ), gravityEnabledProperty );
 
         SimpleObserver updateClockRunning = new SimpleObserver() {
             public void update() {

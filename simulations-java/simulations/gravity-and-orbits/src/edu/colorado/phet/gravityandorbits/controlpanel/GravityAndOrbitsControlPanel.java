@@ -33,11 +33,11 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
     public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
         super();
-        
+
         setBackground( BACKGROUND );
         setFillNone();
         setAnchor( GridBagConstraints.WEST );
-        
+
         // add mode check-boxes
         for ( GravityAndOrbitsMode m : module.getModes() ) {
             add( m.newComponent( module.getModeProperty() ) );
@@ -79,12 +79,12 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }} );
 
         // Gravity on/off control
-        add( new PropertyCheckBox( GAOStrings.GRAVITY, model.getGravityEnabledProperty() ) {{
+        add( new PropertyCheckBox( GAOStrings.GRAVITY, module.getGravityEnabledProperty() ) {{
             setFont( CONTROL_FONT );
             setForeground( FOREGROUND );
             setBackground( BACKGROUND );
         }} );
-        
+
         // "Scale" subpanel
         add( new VerticalLayoutPanel() {{
             setBackground( BACKGROUND );
@@ -112,11 +112,11 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 }} );
             }} );
         }} );
-        
+
         // Mass sliders
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
-                add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, 
+                add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2,
                         "", "", body.getTickValue(), body.getTickLabel() ) );
             }
         }
