@@ -102,7 +102,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Earth System button
-        final ButtonNode earthSystemButton = new ButtonNode( GAOStrings.EARTH_SYSTEM, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
+        final Color buttonForegroundColor = Color.BLACK;
+        final Color buttonBackgroundColor = new Color( 255, 250, 125 );
+        final ButtonNode earthSystemButton = new ButtonNode( GAOStrings.EARTH_SYSTEM, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -120,7 +122,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( earthSystemButton );
 
         //Reset all button
-        addChild( new ResetAllButtonNode( module, this, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), GravityAndOrbitsControlPanel.FOREGROUND, GravityAndOrbitsControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( earthSystemButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, earthSystemButton.getFullBounds().getMaxY() + 5 );
         }} );
 
