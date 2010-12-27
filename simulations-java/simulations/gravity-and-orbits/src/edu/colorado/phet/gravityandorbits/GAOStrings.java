@@ -10,7 +10,7 @@ public class GAOStrings {
 
     /* not intended for instantiation */
     private GAOStrings() {}
-    
+
     public static final String BILLION_BILLION_SPACE_STATION_MASSES = getString( "billionBillionSpaceStationMasses" );
     public static final String CARTOON = getString( "cartoon" );
     public static final String EARTH = getString( "earth" );
@@ -30,6 +30,7 @@ public class GAOStrings {
     public static final String OUR_MOON = getString( "ourMoon" );
     public static final String OUR_SUN = getString( "ourSun" );
     public static final String PATH = getString( "path" );
+    public static final String PHYSICS = getString( "physics" );
     public static final String PLANET = getString( "planet" );
     public static final String REAL = getString( "real" );
     public static final String SPACE_STATION = getString( "spaceStation" );
@@ -42,9 +43,9 @@ public class GAOStrings {
     public static final String THOUSAND_EARTH_MASSES = getString( "thousandEarthMasses" );
     public static final String THOUSAND_MILES = getString( "thousandMiles" );
     public static final String VELOCITY = getString( "velocity" );
-    
+
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
-    
+
     private static String getString( String key ) {
         return GAOResources.getString( key );
     }
