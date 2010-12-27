@@ -78,22 +78,40 @@ public class HorizontalSlider extends Sprite {
     }
 
     private function drawSlider(): void {
+        //draw rail
         var gR: Graphics = this.rail.graphics;
         gR.clear();
-        gR.lineStyle( 1.5, 0x000000, 1, true );
+        gR.lineStyle( 1.5, 0x0000ff, 1, true );
         gR.moveTo( 0, 0 );
-        gR.beginFill( 0xffffff );
+        gR.beginFill( 0x000000 );
         gR.drawRect( 0, -2, this.lengthInPix, 4 );
         gR.endFill();
+        //draw knob
         var gK: Graphics = this.knob.graphics;
         gK.clear();
-        gK.lineStyle( 1.5, 0x0000ff, 1, true );
-        gK.beginFill( 0x00ff00 );
-        var kW: Number = 6; //knob width
-        var kH: Number = 14; //knob height
+
+        var kW: Number = 12; //knob width
+        var kH: Number = 12; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
-        gK.drawRect( -kW / 2, -kH / 2, kW, kH );
-        gK.endFill();
+        with(gK){
+            lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+            beginFill(0x00ff00);
+            moveTo(-0.5*kW, -0.5*kH);
+            lineTo(0.5*kW, -0.5*kH);
+            lineTo(0.5*kW, 0.3*kH);
+            lineStyle( 2, 0x0000cc, 1, true);
+            curveTo(0, kH, -0.5*kW, 0.3*kH );
+            lineTo(-0.5*kW, -0.5*kH);
+            endFill();
+            lineStyle( 1, 0x0000ff, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+            moveTo(0.5,-0.1*kH);
+            lineTo(0.5,0.5*kH);
+            lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+            moveTo(-0.5, -0.1*kH);
+            lineTo(-0.5, 0.5*kH);
+
+        }
+        //gK.drawRect( -kW / 2, -kH / 2, kW, kH );
         if ( this.detented ) {
             //draw tic marks
             gR.lineStyle( 1.5, 0x000000, 1, false, LineScaleMode.NORMAL, CapsStyle.NONE );
@@ -115,7 +133,7 @@ public class HorizontalSlider extends Sprite {
         this.tFormat1 = new TextFormat();	//format of label
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
-        this.tFormat1.size = 17;
+        this.tFormat1.size = 15;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = 0;// -0.5*this.label_txt.width;
         this.label_txt.y = 0.4 * this.knob.height;
@@ -141,7 +159,7 @@ public class HorizontalSlider extends Sprite {
         this.tFormat2 = new TextFormat();	//format of label
         this.tFormat2.font = "Arial";
         this.tFormat2.color = 0x000000;
-        this.tFormat2.size = 18;
+        this.tFormat2.size = 14;
         this.readout_txt.defaultTextFormat = this.tFormat2;
         this.readout_txt.text = "0.00";
         this.readout_txt.width = 20;
