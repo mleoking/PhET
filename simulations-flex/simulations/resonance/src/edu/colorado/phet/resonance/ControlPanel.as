@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 
 import flash.display.*;
 import flash.events.Event;
@@ -29,7 +29,7 @@ public class ControlPanel extends Canvas {
     private var mSlider: HSlider;
     private var kSlider: HSlider;
     private var freq_lbl: Label;
-    private var resetButton: Button;
+    private var resetAllButton: Button;
 
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
@@ -169,12 +169,12 @@ public class ControlPanel extends Canvas {
         }
         ;
 
-        this.resetButton = new Button();
-        with ( this.resetButton ) {
+        this.resetAllButton = new Button();
+        with ( this.resetAllButton ) {
             label = " Reset All "
             buttonMode = true;
         }
-        this.resetButton.addEventListener( MouseEvent.MOUSE_UP, resetResonators );
+        this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
         this.background.addChild( nbrResonatorsSlider );
@@ -189,7 +189,7 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd.addChild( this.kSlider );
         this.innerBckgrnd.addChild( this.freq_lbl );
         this.background.addChild( innerBckgrnd );
-        this.background.addChild( this.resetButton );
+        this.background.addChild( this.resetAllButton );
 
     } //end of init()
 
@@ -228,9 +228,20 @@ public class ControlPanel extends Canvas {
         this.shakerModel.setB( b );
     }
 
+    public function setDampingExternally(b:Number){
+        this.shakerModel.setB(b);
+        this.dampingSlider.value = b;
+    }
+
     private function onChangeNbrResonators( evt: Event ): void {
         var nbrR: int = this.nbrResonatorsSlider.value;
         //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
+        //this.setNbrResonators( nbrR );
+        this.myMainView.setNbrResonators( nbrR );
+    }
+
+    public function setNbrResonatorsExternally(nbrR:int):void{
+        this.nbrResonatorsSlider.value = nbrR;
         this.setNbrResonators( nbrR );
     }
 
@@ -246,6 +257,7 @@ public class ControlPanel extends Canvas {
         }
     }
 
+    //who is calling this?  I want to delete it.
     public function setNbrResonators( nbrR: int ): void {
         this.myMainView.setNbrResonators( nbrR );
     }
@@ -279,6 +291,11 @@ public class ControlPanel extends Canvas {
         //this.setResonatorIndex( this.selectedResonatorNbr );
         //trace("ControlPanel.resetResonators() called.");
 
+    }
+
+    private function resetAll( evt: MouseEvent ):void{
+        this.resetResonators(evt);
+        this.myMainView.initializeAll();
     }
 
 }//end of class

@@ -106,10 +106,9 @@ public class ShakerView extends Sprite {
 
     public function initializeShakerControls(): void {
         //trace("initializeShakerControls() called");
+        this.shakerOff();
         this.ASlider.setVal( 0.75 * this.maxAmplitude );
         this.fKnob.setTurns( 2.5 );
-
-        //this.changeA();
     }
 
     private function createResonatorArray(): void {
@@ -125,7 +124,7 @@ public class ShakerView extends Sprite {
         var barW: Number = this.barPixPerResonator * this.nbrResonators;
         for ( var i: int = 0; i < this.nbrResonators; i++ ) {
             this.resonatorView_arr[i].visible = true;
-            this.resonatorView_arr[i].y = 0;
+            this.resonatorView_arr[i].y = this.model.getY0();//0;
             this.resonatorView_arr[i].x = -barW / 2 + (i + 0.5) * this.barPixPerResonator;
         }//end for
         for ( var i: int = this.nbrResonators; i < this.maxNbrResonators; i++ ) {
@@ -161,6 +160,11 @@ public class ShakerView extends Sprite {
         }
         //trace("ShakerVeiw.OnOrOff callled. model.running = "+this.model.getRunning());
         //trace("ShakerVeiw.OnOrOff callled. amplitude = "+ this.model.getA());
+    }
+
+    private function shakerOff():void{    //need this for Reset All function
+        this.model.stopShaker();
+        this.drawOnLight( 0x000000 );
     }
 
     private function changeA(): void {

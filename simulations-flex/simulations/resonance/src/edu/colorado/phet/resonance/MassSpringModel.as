@@ -136,7 +136,6 @@ public class MassSpringModel {
     }//stepForward
 
     public function singleStep( realDt: Number ): void {
-        ;
         var dtr: Number = realDt; //dt in seconds
         //Verlet algorithm, same as used in Mass Spring Lab
 

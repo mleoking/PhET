@@ -4,6 +4,8 @@ package edu.colorado.phet.resonance {
 
 import flash.display.*;
 
+import flash.events.Event;
+
 import mx.containers.Canvas;
 
 //import flash.geom.ColorTransform;
@@ -11,7 +13,7 @@ import mx.containers.Canvas;
 public class MainView extends Canvas {
     var myShakerModel: ShakerModel;
     var myShakerView: ShakerView;
-    var myPlayPauseButtons:PlayPauseButtons;
+    var myPlayPauseButtons: PlayPauseButtons;
     var myControlPanel: ControlPanel;
     var phetLogo: Sprite;
     var stageH: Number;
@@ -29,12 +31,12 @@ public class MainView extends Canvas {
         this.myShakerView.y = 0.6 * stageH;
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myShakerModel );
-        this.addChild( new SpriteUIComponent( myPlayPauseButtons));
+        this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
         this.myPlayPauseButtons.x = this.myShakerView.x;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
         this.myControlPanel = new ControlPanel( this, myShakerModel );
-        this.addChild(  myControlPanel  );
+        this.addChild( myControlPanel );
         //this.myControlPanel.right = 10;    //does not work, "right" is a style property
         //this.myControlPanel.setStyle("right", 10);    //this works, but forces the control panel on the far right
         this.myControlPanel.x = 0.8 * stageW; //- 3 * this.myControlPanel.width;
@@ -45,11 +47,23 @@ public class MainView extends Canvas {
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
+        this.initializeAll();
+
     }//end of constructor
 
+    //called from ControlPanel, so must not include any controlPanel setters
     public function setNbrResonators( nbrR: int ): void {
         this.myShakerModel.setNbrResonators( nbrR );
         this.myShakerView.setNbrResonators( nbrR );
+    }
+
+    public function initializeAll(): void {
+        this.setNbrResonators( 2 );
+        this.myControlPanel.setNbrResonatorsExternally( 2 );
+        this.myControlPanel.setDampingExternally( 2.5 );   //max is 5
+        this.myShakerView.initializeShakerControls();
+        this.myPlayPauseButtons.unPauseExternally();
+        //this.setNbrResonators(2);
     }
 
     private function waitForGraphicsLoad(): void {

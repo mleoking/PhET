@@ -34,7 +34,7 @@ public class PlayPauseButtons extends Sprite {
     private var paused_str: String;
 
 
-    public function PlayPauseButtons( myMainView:MainView , myShakerModel: ShakerModel) {
+    public function PlayPauseButtons( myMainView: MainView, myShakerModel: ShakerModel ) {
         this.myMainView = myMainView;
         this.myShakerModel = myShakerModel;
         this.playPauseButton = new Sprite();
@@ -68,8 +68,8 @@ public class PlayPauseButtons extends Sprite {
     private function drawGraphics(): void {
         //draw button body
         var g1: Graphics = this.playPauseButton.graphics;
-        var g2:Graphics = this.pauseIcon.graphics;
-        var g3:Graphics = this.playIcon.graphics;
+        var g2: Graphics = this.pauseIcon.graphics;
+        var g3: Graphics = this.playIcon.graphics;
         var bH: Number = 25;    //width of button
         var bW: Number = 25;    //height of button
 
@@ -81,23 +81,23 @@ public class PlayPauseButtons extends Sprite {
         g1.endFill();
         //pause icon
         g2.clear();
-        g2.lineStyle(1, 0x000000, 1, true, LineScaleMode.NONE )
-        g2.beginFill(0x666666);
-        var barW:Number = 0.15*bW;
-        var barH:Number = 0.6*bH;
-        g2.drawRect(-1.4*barW, -0.5*barH, barW, barH);
-        g2.drawRect( 0.4*barW, -0.5*barH, barW, barH);
+        g2.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
+        g2.beginFill( 0x666666 );
+        var barW: Number = 0.15 * bW;
+        var barH: Number = 0.6 * bH;
+        g2.drawRect( -1.4 * barW, -0.5 * barH, barW, barH );
+        g2.drawRect( 0.4 * barW, -0.5 * barH, barW, barH );
         g2.endFill();
         //play icon
         g3.clear();
-        g3.lineStyle(1, 0x000000, 1, true, LineScaleMode.NONE )
-        g3.beginFill(0x666666);
-        var f:Number = 0.3;
-        g3.moveTo( f*bW, 0 );
-        g3.lineTo(-f*bW, f*bH);
-        g3.lineTo(-f*bW, -f*bH);
-        g3.lineTo( f*bW, 0 );
-        g3.endFill() ;
+        g3.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
+        g3.beginFill( 0x666666 );
+        var f: Number = 0.3;
+        g3.moveTo( f * bW, 0 );
+        g3.lineTo( -f * bW, f * bH );
+        g3.lineTo( -f * bW, -f * bH );
+        g3.lineTo( f * bW, 0 );
+        g3.endFill();
 
     }
 
@@ -106,10 +106,11 @@ public class PlayPauseButtons extends Sprite {
         this.playPauseButton.buttonMode = true;
         this.playPauseButton.mouseChildren = false;
         this.paused = false;
+        //this.myShakerModel.unPauseSim();
         this.playIcon.visible = false;
         this.pauseIcon.visible = true;
-        var thisObject:PlayPauseButtons = this;
-        this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick ) ;
+        var thisObject: PlayPauseButtons = this;
+        this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
 
         function onMouseClick( evt: MouseEvent ): void {
             if ( thisObject.paused ) {   //unpause sim
@@ -119,7 +120,8 @@ public class PlayPauseButtons extends Sprite {
                 //thisObject.playPause_txt.text = thisObject.play_str;
                 thisObject.paused_txt.visible = false;
                 thisObject.myShakerModel.unPauseSim();
-            } else {                      //pause sim
+            }
+            else {                      //pause sim
                 thisObject.paused = true;
                 thisObject.playIcon.visible = true;
                 thisObject.pauseIcon.visible = false;
@@ -127,6 +129,17 @@ public class PlayPauseButtons extends Sprite {
                 thisObject.paused_txt.visible = true;
                 thisObject.myShakerModel.pauseSim();
             }
+        }
+    }
+
+    public function unPauseExternally(): void {
+        if ( this.paused ) {
+            this.paused = false;
+            this.playIcon.visible = false;
+            this.pauseIcon.visible = true;
+            //thisObject.playPause_txt.text = thisObject.play_str;
+            this.paused_txt.visible = false;
+            this.myShakerModel.unPauseSim();
         }
     }
 
@@ -147,15 +160,15 @@ public class PlayPauseButtons extends Sprite {
         this.tFormat2.size = 95;
         this.playPause_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
-        this.playPause_txt.defaultTextFormat = this.tFormat1 ;
-        this.paused_txt.defaultTextFormat = this.tFormat2 ;
+        this.playPause_txt.defaultTextFormat = this.tFormat1;
+        this.paused_txt.defaultTextFormat = this.tFormat2;
 
     }
 
     private function positionTextFields(): void {
-        this.playPause_txt.x = -0.5*this.playPause_txt.width;
+        this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
-        this.paused_txt.x = -0.5* this.paused_txt.width;
+        this.paused_txt.x = -0.5 * this.paused_txt.width;
         this.paused_txt.y = -550;
     }
 
