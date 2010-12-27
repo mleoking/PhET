@@ -9,6 +9,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -19,6 +21,7 @@ import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPa
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
+import edu.colorado.phet.gravityandorbits.model.ClockRewindProperty;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -45,6 +48,7 @@ public abstract class GravityAndOrbitsMode {
     private final Property<Boolean> deviatedFromEarthSystemProperty = new Property<Boolean>( false );
     private double zoomScale;
     private ImmutableVector2D zoomOffset;
+    private double rewindClockTime;
 
     /**
      *
@@ -56,7 +60,7 @@ public abstract class GravityAndOrbitsMode {
      * @param timeFormatter
      * @param iconImage
      * @param defaultOrbitalPeriod
-     * @param simPaused
+     * @param clockPaused
      * @param velocityScale
      * @param massReadoutFactory
      * @param initialMeasuringTapeLocation
@@ -66,7 +70,7 @@ public abstract class GravityAndOrbitsMode {
      */
     public GravityAndOrbitsMode( final String name, double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
-                                 final Property<Boolean> simPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
+                                 final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
                                  Property<Boolean> gravityEnabledProperty ) {
         this.dt = dt;
@@ -84,13 +88,21 @@ public abstract class GravityAndOrbitsMode {
         this.massReadoutFactory = massReadoutFactory;
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ), gravityEnabledProperty );
 
+        this.rewindClockTime = 0;
+        getClock().addClockListener( new ClockAdapter() {
+            @Override
+            public void clockPaused( ClockEvent clockEvent ) {
+                rewindClockTime = clockEvent.getSimulationTime();
+            }
+        });
+
         SimpleObserver updateClockRunning = new SimpleObserver() {
             public void update() {
-                final boolean running = !simPaused.getValue() && isActive();
+                final boolean running = !clockPaused.getValue() && isActive();
                 model.getClock().setRunning( running );
             }
         };
-        simPaused.addObserver( updateClockRunning );
+        clockPaused.addObserver( updateClockRunning );
         this.active.addObserver( updateClockRunning );
     }
 
@@ -210,6 +222,7 @@ public abstract class GravityAndOrbitsMode {
 
     //Restore the last set of initial conditions that were set while the sim was paused.
     public void rewind() {
+        getClock().setSimulationTime( rewindClockTime );
         for ( Body body : model.getBodies() ) {
             body.rewind();
         }

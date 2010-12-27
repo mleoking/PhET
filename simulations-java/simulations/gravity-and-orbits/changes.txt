@@ -1,3 +1,5 @@
+rewind to proper clock time (last time clock was paused) when Rewind button is pressed
+rename RestoreProperty to ClockRewindProperty, replace restore with rewind thruout
 change control panel button color for ADA compliance, and because blue-on-black is hard to see for everyone
 reduce scale of control panel so that everything fits on stage
 add "Physics" titled panel around Gravity check box
