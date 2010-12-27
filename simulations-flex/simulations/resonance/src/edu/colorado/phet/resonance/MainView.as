@@ -33,8 +33,6 @@ public class MainView extends Canvas {
         this.myPlayPauseButtons.x = this.myShakerView.x;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
-
-        
         this.myControlPanel = new ControlPanel( this, myShakerModel );
         this.addChild(  myControlPanel  );
         //this.myControlPanel.right = 10;    //does not work, "right" is a style property

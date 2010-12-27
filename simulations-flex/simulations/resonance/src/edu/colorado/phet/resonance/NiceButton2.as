@@ -66,10 +66,10 @@ public class NiceButton2 extends Sprite {
         var g: Graphics = this.buttonBody.graphics;
         var bW: Number = this.myButtonWidth;
         var bH: Number = this.myButtonHeight;
-        gradMatrix.createGradientBox( 1.0 * bW, 1.0 * bH, -Math.atan2(bW, bH), -bW/2, -bH/2 );
+        gradMatrix.createGradientBox( 1.0 * bW, 1.0 * bH, Math.atan2(bH,bW)-Math.PI/2, -bW/2, -bH/2 );  //-Math.atan2(bH, bW)
         g.clear();
         g.lineStyle( 3, 0x0000ff, 1, true );
-        g.lineGradientStyle( GradientType.LINEAR, [0x007700, 0xffffff], [1,1], [0,255], gradMatrix );
+        g.lineGradientStyle( GradientType.LINEAR, [0x000077, 0xaaaaff], [1,1], [40,215], gradMatrix );
         g.beginFill( this.bodyColor );
         g.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 );
         g.endFill();
