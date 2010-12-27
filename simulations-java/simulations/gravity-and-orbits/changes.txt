@@ -1,3 +1,4 @@
+fix: append command line args to standard main frame title, instead of replacing title (for sim-sharing)
 # 0.0.10 (47428) Dec 27, 2010
 12/27/10 dev version with many fixes and changes
 only update camera after switching to new mode, to avoid rendering artifacts ("flash" of large body in some cases) 

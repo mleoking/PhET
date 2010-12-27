@@ -29,7 +29,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() );
         addModule( gravityAndOrbitsModule );
         initMenubar();
-        getPhetFrame().setTitle( config.getName() + ": " + Arrays.toString( config.getCommandLineArgs() ) );//simsharing
+        getPhetFrame().setTitle( getPhetFrame().getTitle() + ": " + Arrays.toString( config.getCommandLineArgs() ) ); //simsharing, append command line args to title
 
         String[] commandLineArgs = config.getCommandLineArgs();
         if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ) ) {
