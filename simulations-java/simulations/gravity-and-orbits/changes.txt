@@ -1,3 +1,4 @@
+change control panel button color for ADA compliance, and because blue-on-black is hard to see for everyone
 reduce scale of control panel so that everything fits on stage
 add "Physics" titled panel around Gravity check box
 wire up gravity on/off to model
