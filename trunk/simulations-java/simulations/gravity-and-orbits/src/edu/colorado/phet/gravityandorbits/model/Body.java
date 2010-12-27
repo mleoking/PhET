@@ -19,12 +19,12 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * @author Sam Reid
  */
 public class Body implements IBody {
-    private final RestoreProperty<ImmutableVector2D> positionProperty;//physical position
+    private final ClockRewindProperty<ImmutableVector2D> positionProperty;//physical position
     private final Property<ImmutableVector2D> scaledPositionProperty;//position accounting for scale (i.e. cartoon or real)
-    private final RestoreProperty<ImmutableVector2D> velocityProperty;
+    private final ClockRewindProperty<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
     private final Property<ImmutableVector2D> forceProperty;
-    private final RestoreProperty<Double> massProperty;
+    private final ClockRewindProperty<Double> massProperty;
     private final Property<Double> diameterProperty;
     private final String name;
     private final Color color;
@@ -44,7 +44,7 @@ public class Body implements IBody {
     private final int maxPathLength;
     private final double cartoonForceScale;
     private final boolean massReadoutBelow;
-    private final RestoreProperty<Boolean> collidedProperty;
+    private final ClockRewindProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
     private double tickValue;
     private String tickLabel;
@@ -55,7 +55,7 @@ public class Body implements IBody {
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused ) {
+                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPausedProperty ) {
         this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
@@ -72,13 +72,13 @@ public class Body implements IBody {
         this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
-        positionProperty = new RestoreProperty<ImmutableVector2D>( clockPaused, new ImmutableVector2D( x, y ) );
-        velocityProperty = new RestoreProperty<ImmutableVector2D>( clockPaused, new ImmutableVector2D( vx, vy ) );
+        positionProperty = new ClockRewindProperty<ImmutableVector2D>( clockPausedProperty, new ImmutableVector2D( x, y ) );
+        velocityProperty = new ClockRewindProperty<ImmutableVector2D>( clockPausedProperty, new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        massProperty = new RestoreProperty<Double>( clockPaused, mass );
+        massProperty = new ClockRewindProperty<Double>( clockPausedProperty, mass );
         diameterProperty = new Property<Double>( diameter );
-        collidedProperty = new RestoreProperty<Boolean>( clockPaused, false );
+        collidedProperty = new ClockRewindProperty<Boolean>( clockPausedProperty, false );
         density = mass / getVolume();
         scaledPositionProperty = new Property<ImmutableVector2D>( getPosition() );
 
@@ -400,15 +400,15 @@ public class Body implements IBody {
     }
 
     public void rewind() {
-        positionProperty.restore();
-        velocityProperty.restore();
-        massProperty.restore();
-        collidedProperty.restore();
+        positionProperty.rewind();
+        velocityProperty.rewind();
+        massProperty.rewind();
+        collidedProperty.rewind();
         clearPath();
     }
 
-    public Property<Boolean> anyPropertyChanged() {
-        return new Or( Arrays.asList( positionProperty.changed(), velocityProperty.changed(), massProperty.changed(), collidedProperty.changed() ) );
+    public Property<Boolean> anyPropertyDifferent() {
+        return new Or( Arrays.asList( positionProperty.different(), velocityProperty.different(), massProperty.different(), collidedProperty.different() ) );
     }
 
     public static class PathPoint {

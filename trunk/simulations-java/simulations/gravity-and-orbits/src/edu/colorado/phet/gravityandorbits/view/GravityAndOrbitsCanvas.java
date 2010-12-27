@@ -129,11 +129,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //See docs in mode.rewind
         final ArrayList<Property<Boolean>> p = new ArrayList<Property<Boolean>>();
         for ( Body body : model.getBodies() ) {
-            p.add( body.anyPropertyChanged() );
+            p.add( body.anyPropertyDifferent() );
         }
         addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
             final RewindButton child = new RewindButton( 60 ) {
+                //TODO: This required knowledge of, and copying code from, FloatingClockControlNode's implementation.
                 protected double getDisabledImageRescaleOpScale() {
                     return 1;
                 }
