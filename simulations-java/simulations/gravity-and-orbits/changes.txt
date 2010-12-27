@@ -1,3 +1,4 @@
+reduce scale of control panel so that everything fits on stage
 add "Physics" titled panel around Gravity check box
 wire up gravity on/off to model
 MessageFormat i18n (value units) for measuring tape
