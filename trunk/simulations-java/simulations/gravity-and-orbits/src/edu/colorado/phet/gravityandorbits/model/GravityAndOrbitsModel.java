@@ -20,12 +20,10 @@ public class GravityAndOrbitsModel {
     private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
     public boolean teacherMode;
     private final VoidFunction1<Double> stepModel;
-    private final Property<Boolean> gravityEnabledProperty; //TODO: this probably doesn't belong here, maybe in GravityAndOrbitsModelState?
 
-    public GravityAndOrbitsModel( GravityAndOrbitsClock clock ) {
+    public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> gravityEnabledProperty ) {
         super();
         this.clock = clock;
-        this.gravityEnabledProperty = new Property<Boolean>( true );
 
         stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
@@ -34,7 +32,8 @@ public class GravityAndOrbitsModel {
                         add( body.toBodyState() );
                     }
                 }} ).getNextState( dt,
-                                   100 );//1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
+                                   100, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
+                                   gravityEnabledProperty );
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
@@ -86,21 +85,8 @@ public class GravityAndOrbitsModel {
     public GravityAndOrbitsClock getClock() {
         return clock;
     }
-    
-    public void setGravityEnabled( boolean enabled ) {
-        gravityEnabledProperty.setValue( enabled );
-    }
-    
-    public boolean isGravityEnabled() {
-        return gravityEnabledProperty.getValue();
-    }
-    
-    public Property<Boolean> getGravityEnabledProperty() {
-        return gravityEnabledProperty;
-    }
 
     public void resetAll() {
-        gravityEnabledProperty.reset();
         resetBodies();
         getClock().resetSimulationTime();
         updateForceVectors();

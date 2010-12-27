@@ -3,6 +3,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
@@ -17,22 +18,22 @@ public class ModelState {
         this.bodyStates = bodyStates;
     }
 
-    public ModelState getNextState( double dt, int numSteps ) {
+    public ModelState getNextState( double dt, int numSteps, Property<Boolean> gravityEnabledProperty ) {
         ModelState state = this;
         for ( int i = 0; i < numSteps; i++ ) {
-            state = state.getNextState( dt / numSteps );
+            state = state.getNextState( dt / numSteps, gravityEnabledProperty );
         }
         return state;
     }
 
-    public ModelState getNextState( double dt ) {
+    public ModelState getNextState( double dt, Property<Boolean> gravityEnabledProperty ) {
         //See http://www.fisica.uniud.it/~ercolessi/md/md/node21.html
         ArrayList<BodyState> newState = new ArrayList<BodyState>();
         for ( BodyState bodyState : bodyStates ) {
             //Velocity Verlet
             ImmutableVector2D newPosition = bodyState.position.getAddedInstance( bodyState.velocity.getScaledInstance( dt ) ).getAddedInstance( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
             ImmutableVector2D newVelocityHalfStep = bodyState.velocity.getAddedInstance( bodyState.acceleration.getScaledInstance( dt / 2 ) );
-            ImmutableVector2D newAcceleration = getForce( bodyState, newPosition ).getScaledInstance( -1.0 / bodyState.mass );
+            ImmutableVector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).getScaledInstance( -1.0 / bodyState.mass );
             ImmutableVector2D newVelocity = newVelocityHalfStep.getAddedInstance( newAcceleration.getScaledInstance( dt / 2.0 ) );
             newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass, bodyState.exploded ) );
 
@@ -71,11 +72,13 @@ public class ModelState {
      * @param newTargetPosition
      * @return
      */
-    public ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition ) {
-        ImmutableVector2D sum = new ImmutableVector2D();
-        for ( BodyState source : bodyStates ) {
-            if ( source != target ) {
-                sum = sum.getAddedInstance( getForce( source, target, newTargetPosition ) );
+    public ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
+        ImmutableVector2D sum = new ImmutableVector2D(); //zero vector, for no gravity
+        if ( gravityEnabledProperty.getValue() ) {
+            for ( BodyState source : bodyStates ) {
+                if ( source != target ) {
+                    sum = sum.getAddedInstance( getForce( source, target, newTargetPosition ) );
+                }
             }
         }
         return sum;
