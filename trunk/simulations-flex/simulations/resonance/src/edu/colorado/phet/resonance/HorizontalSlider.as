@@ -81,9 +81,9 @@ public class HorizontalSlider extends Sprite {
         //draw rail
         var gR: Graphics = this.rail.graphics;
         gR.clear();
-        gR.lineStyle( 1.5, 0x0000ff, 1, true );
+        gR.lineStyle( 1.5, 0x333333, 1, true );
         gR.moveTo( 0, 0 );
-        gR.beginFill( 0x000000 );
+        gR.beginFill( 0xbbbbbb );
         gR.drawRect( 0, -2, this.lengthInPix, 4 );
         gR.endFill();
         //draw knob

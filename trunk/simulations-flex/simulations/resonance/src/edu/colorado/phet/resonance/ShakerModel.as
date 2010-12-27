@@ -50,7 +50,7 @@ public class ShakerModel {
     }//end initialize()
 
     private function createResonatorArray(): void {
-        this.resonatorModel_arr = new Array( this.nbrResonators );
+        this.resonatorModel_arr = new Array( this.maxNbrResonators );
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
             //var m: Number = 3*(1-0.08*i);//3/(i+1);//4.2 / Math.pow( 1.3, (1 + i) );
             var m: Number = 4.2 / Math.pow( 1.3, (1 + i) );
@@ -87,11 +87,16 @@ public class ShakerModel {
     public function setNbrResonators( nbr: int ): void {
         this.nbrResonators = nbr;
         //freeze unused resonators
-        for ( var i: int = nbr; i < this.maxNbrResonators; i++ ) {
-            this.resonatorModel_arr[i].stopMotion();
+        for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
+            if(i >= nbr){
+                //this.resonatorModel_arr[i].stopMotion();
+            }else{
+                //this.resonatorModel_arr[i].startMotion();
+            }
         }
+        this.setY0(this.y0);
         //trace("shakerModel.setNbrResonators called. nbrResonators = " + this.nbrResonators);
-    }
+    }//end setNbrResonators()
 
     public function getResonatorModel( i: int ): MassSpringModel {
         return resonatorModel_arr[i];
