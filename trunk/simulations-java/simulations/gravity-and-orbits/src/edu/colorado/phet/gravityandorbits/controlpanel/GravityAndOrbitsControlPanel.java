@@ -44,6 +44,24 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }
         setFillHorizontal();
 
+        // "Physics" subpanel
+        add( new VerticalLayoutPanel( ) {{
+            setBackground( BACKGROUND );
+            setOpaque( false );
+            setAnchor( GridBagConstraints.WEST );
+            setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), GAOStrings.PHYSICS ) {{
+                setTitleColor( Color.white );
+                setTitleFont( CONTROL_FONT );
+            }} );
+
+            // Gravity on/off control
+            add( new PropertyCheckBox( GAOStrings.GRAVITY, module.getGravityEnabledProperty() ) {{
+                setFont( CONTROL_FONT );
+                setForeground( FOREGROUND );
+                setBackground( BACKGROUND );
+            }} );
+        }} );
+
         // "Show" subpanel
         add( new VerticalLayoutPanel() {{
             setBackground( BACKGROUND );
@@ -76,13 +94,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             } );
             add( new GAOCheckBox( GAOStrings.MASS, module.getShowMassProperty() ) );
             add( new GAOCheckBox( GAOStrings.PATH, module.getShowPathProperty() ) );
-        }} );
-
-        // Gravity on/off control
-        add( new PropertyCheckBox( GAOStrings.GRAVITY, module.getGravityEnabledProperty() ) {{
-            setFont( CONTROL_FONT );
-            setForeground( FOREGROUND );
-            setBackground( BACKGROUND );
         }} );
 
         // "Scale" subpanel
