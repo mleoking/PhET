@@ -50,7 +50,7 @@ public class ModelViewTransform {
         return createSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
     }
 
-    public static ModelViewTransform createRectangleMapping( Rectangle2D.Double modelBounds, Rectangle2D.Double viewBounds ) {
+    public static ModelViewTransform createRectangleMapping( Rectangle2D modelBounds, Rectangle2D viewBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
         double m11 = viewBounds.getHeight() / modelBounds.getHeight();
@@ -58,7 +58,7 @@ public class ModelViewTransform {
         return new ModelViewTransform( new AffineTransform( m00, 0, 0, m11, m02, m12 ) );
     }
 
-    public static ModelViewTransform createRectangleInvertedYMapping( Rectangle2D.Double modelBounds, Rectangle2D.Double viewBounds ) {
+    public static ModelViewTransform createRectangleInvertedYMapping( Rectangle2D modelBounds, Rectangle2D viewBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
         double m11 = -viewBounds.getHeight() / modelBounds.getHeight();

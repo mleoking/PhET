@@ -1,3 +1,5 @@
+only update camera after switching to new mode, to avoid rendering artifacts ("flash" of large body in some cases) 
+simplify camera, remove animated zoom stuff
 rewind to proper clock time (last time clock was paused) when Rewind button is pressed
 rename RestoreProperty to ClockRewindProperty, replace restore with rewind thruout
 change control panel button color for ADA compliance, and because blue-on-black is hard to see for everyone

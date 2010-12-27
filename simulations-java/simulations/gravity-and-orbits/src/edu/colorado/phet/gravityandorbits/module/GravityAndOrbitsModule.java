@@ -256,10 +256,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                         phetFrame.invalidate();
                         phetFrame.validate();
                         phetFrame.doLayout();
+                        modeProperty.getValue().startZoom();
                     }
                 } );
                 updateActiveModule();
-                modeProperty.getValue().startZoom();
             }
         } );
         setClockControlPanel( null );//clock panel appears in the canvas

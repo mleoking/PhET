@@ -16,26 +16,17 @@ import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
  * @author Sam Reid
  */
 public class Camera {
-    private double targetScale;
-    private ImmutableVector2D targetCenterModelPoint;
+
+    private static final double WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60;
+    private static final double HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
 
     private final Property<ModelViewTransform> modelViewTransformProperty;
-    private Timer timer;
-    private double WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60;
-    private double HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
 
-    private Rectangle2D.Double modelRectangle;
-    private Function.LinearFunction functionLeft;
-    private Function.LinearFunction functionRight;
-    private Function.LinearFunction functionTop;
-    private Function.LinearFunction functionBottom;
-    private double t = 0;//parametric parameter between 0 and 1 that governs the camera transform
-
-    private ModelViewTransform createTransform() {
+    private static ModelViewTransform createTransform( Rectangle2D modelRectangle ) {
         return ModelViewTransform.createRectangleInvertedYMapping( modelRectangle, new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ) );
     }
 
-    private Rectangle2D.Double getTargetRectangle() {
+    private static Rectangle2D.Double getTargetRectangle( double targetScale, ImmutableVector2D targetCenterModelPoint ) {
         double z = targetScale * 1.5E-9;
         double modelWidth = WIDTH / z;
         double modelHeight = HEIGHT / z;
@@ -46,53 +37,22 @@ public class Camera {
         this( 1, new ImmutableVector2D( 0, 0 ) );
     }
 
-    public Camera( final double _targetScale, final ImmutableVector2D _targetCenterModelPoint ) {
-        this.targetScale = _targetScale;
-        this.targetCenterModelPoint = _targetCenterModelPoint;
-        modelRectangle = getTargetRectangle();
-        this.modelViewTransformProperty = new Property<ModelViewTransform>( createTransform() );
-        timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                stepTimer();
-            }
-        } );
+    private Camera( final double targetScale, final ImmutableVector2D targetCenterModelPoint ) {
+        Rectangle2D modelRectangle = getTargetRectangle( targetScale, targetCenterModelPoint );
+        this.modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( modelRectangle ) );
     }
 
-    private void stepTimer() {
-        if ( t <= 1 ) {
-            t = t + 1;//fully zoom immediately
-            if ( t > 1 ) {
-                t = 1;
-            }
-            final double x = functionLeft.evaluate( t );
-            final double y = functionTop.evaluate( t );
-            final double right = functionRight.evaluate( t );
-            final double bottom = functionBottom.evaluate( t );
-
-            final double w = right - x;
-            final double h = bottom - y;
-            modelRectangle = new Rectangle2D.Double( x, y, w, h );
-
-            modelViewTransformProperty.setValue( createTransform() );
-        }
-    }
 
     public Property<ModelViewTransform> getModelViewTransformProperty() {
         return modelViewTransformProperty;
     }
 
     public void zoomTo( double targetScale, ImmutableVector2D targetOffset ) {
-        this.targetScale = targetScale;
-        this.targetCenterModelPoint = targetOffset;
-        Rectangle2D.Double targetRectangle = getTargetRectangle();
-        this.functionLeft = new Function.LinearFunction( 0, 1, modelRectangle.getMinX(), targetRectangle.getMinX() );
-        this.functionRight = new Function.LinearFunction( 0, 1, modelRectangle.getMaxX(), targetRectangle.getMaxX() );
-        this.functionTop = new Function.LinearFunction( 0, 1, modelRectangle.getMinY(), targetRectangle.getMinY() );
-        this.functionBottom = new Function.LinearFunction( 0, 1, modelRectangle.getMaxY(), targetRectangle.getMaxY() );
-        this.t = 0;
-        timer.start();
-
-        //Automatically update the camera
-        stepTimer();
+        Rectangle2D.Double targetRectangle = getTargetRectangle( targetScale, targetOffset );
+        final double x = targetRectangle.getMinX();
+        final double y = targetRectangle.getMinY();
+        final double w = targetRectangle.getMaxX() - x;
+        final double h = targetRectangle.getMaxY() - y;
+        modelViewTransformProperty.setValue( createTransform( new Rectangle2D.Double( x, y, w, h ) ) );
     }
 }
