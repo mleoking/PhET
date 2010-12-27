@@ -27,12 +27,16 @@ import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Module template.
+ * The module has a set of "modes", one mode for each configuration of bodies (eg, Sun + Planet).
+ * Each mode has its own model.
  */
 public class GravityAndOrbitsModule extends PiccoloModule {
 
     public static final double G = 6.67428E-11;
 
+    /*
+     * Properties that are common to all "modes" should live here.
+     */
     private final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
     private final Property<Boolean> showPathProperty = new Property<Boolean>( false );
     private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
