@@ -5,8 +5,8 @@ package edu.colorado.phet.buildanatom.modules.buildisotope;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvas;
+import edu.colorado.phet.buildanatom.modules.buildisotope.model.BuildIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.buildisotope.view.BuildIsotopeCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
@@ -18,23 +18,23 @@ public class BuildIsotopeModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final BuildAnAtomModel model;
-    private final BuildAnAtomCanvas canvas;
+    private final BuildIsotopeModel model;
+    private final BuildIsotopeCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildIsotopeModule( ) {
-        super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock( ) );
+    public BuildIsotopeModule() {
+        super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock() );
         setClockControlPanel( null );
 
         // Model
         BuildAnAtomClock clock = (BuildAnAtomClock) getClock();
-        model = new BuildAnAtomModel( clock );
+        model = new BuildIsotopeModel( clock );
 
         // Canvas
-        canvas = new BuildAnAtomCanvas( model );
+        canvas = new BuildIsotopeCanvas( model );
         setSimulationPanel( canvas );
 
         // Help
