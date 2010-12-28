@@ -23,7 +23,7 @@ deleted PublicProperty, it's appropriate to move getInitialValue into superclass
 Change some class name prefixes from "GO" to "GAO"
 Change some class name prefixes from "GravityAndOrbits" to "GAO", where these classes names will be inlined frequently (eg, GAOStrings)
 Fixed: replace incomplete "Reset All" node with ResetAllButtonNode
-Fixed: Sim doesn’t pause on reset all
+Fixed: Sim doesn't pause on reset all
 Fixed: measuring tape checkbox doesn't reset on 'reset all'
 Switched back to cartoon image of sun instead of realistic photo
 # 0.0.09 (47246) Dec 16, 2010
