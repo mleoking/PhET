@@ -12,7 +12,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
-import edu.colorado.phet.buildanatom.modules.game.GameModule;
+import edu.colorado.phet.buildanatom.modules.game.BuildAnAtomGameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -60,7 +60,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
      */
     private void initModules() {
         addModule( new BuildAnAtomModule() );
-        addModule( new GameModule() );
+        addModule( new BuildAnAtomGameModule() );
     }
 
     /*
