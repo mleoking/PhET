@@ -1,3 +1,4 @@
+Made it so the tape measure icon appears gray instead of white when disabled
 rescaled control panel to fit on the stage
 renamed "earth system" to "earth values"
 fix: append command line args to standard main frame title, instead of replacing title (for sim-sharing)
