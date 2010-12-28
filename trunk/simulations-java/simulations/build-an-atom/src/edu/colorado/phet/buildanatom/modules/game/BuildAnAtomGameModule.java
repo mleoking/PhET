@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 /**
  * Module for the game tab.
  */
-public class GameModule extends PiccoloModule {
+public class BuildAnAtomGameModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -27,7 +27,7 @@ public class GameModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GameModule() {
+    public BuildAnAtomGameModule() {
         super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock( ) );
         setClockControlPanel( null );
 
