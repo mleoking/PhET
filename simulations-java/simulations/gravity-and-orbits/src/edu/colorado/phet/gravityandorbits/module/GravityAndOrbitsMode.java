@@ -21,7 +21,6 @@ import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPa
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
-import edu.colorado.phet.gravityandorbits.model.ClockRewindProperty;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -45,7 +44,7 @@ public abstract class GravityAndOrbitsMode {
     private final double velocityScale;
     private final Line2D.Double initialMeasuringTapeLocation;
     private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
-    private final Property<Boolean> deviatedFromEarthSystemProperty = new Property<Boolean>( false );
+    private final Property<Boolean> deviatedFromEarthValuesProperty = new Property<Boolean>( false );
     private double zoomScale;
     private ImmutableVector2D zoomOffset;
     private double rewindClockTime;
@@ -122,7 +121,7 @@ public abstract class GravityAndOrbitsMode {
         model.addBody( body );
         final SimpleObserver updater = new SimpleObserver() {
             public void update() {
-                deviatedFromEarthSystemProperty.setValue( true );
+                deviatedFromEarthValuesProperty.setValue( true );
             }
         };
         body.getMassProperty().addObserver( updater, false );
@@ -146,7 +145,7 @@ public abstract class GravityAndOrbitsMode {
     public void reset() {
         model.getClock().resetSimulationTime();// reset the clock
         model.resetAll();
-        deviatedFromEarthSystemProperty.reset();
+        deviatedFromEarthValuesProperty.reset();
     }
 
     public JComponent getCanvas() {
@@ -201,7 +200,7 @@ public abstract class GravityAndOrbitsMode {
 
     public void resetBodies() {
         model.resetBodies();
-        deviatedFromEarthSystemProperty.setValue( false );
+        deviatedFromEarthValuesProperty.setValue( false );
     }
 
     public double getVelocityScale() {
@@ -212,8 +211,8 @@ public abstract class GravityAndOrbitsMode {
         return massReadoutFactory;
     }
 
-    public Property<Boolean> getDeviatedFromEarthSystemProperty() {
-        return deviatedFromEarthSystemProperty;
+    public Property<Boolean> getDeviatedFromEarthValuesProperty() {
+        return deviatedFromEarthValuesProperty;
     }
 
     public Line2D.Double getInitialMeasuringTapeLocation() {

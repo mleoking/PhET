@@ -104,7 +104,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Earth System button
         final Color buttonForegroundColor = Color.BLACK;
         final Color buttonBackgroundColor = new Color( 255, 250, 125 );
-        final ButtonNode earthSystemButton = new ButtonNode( GAOStrings.EARTH_SYSTEM, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
+        final ButtonNode earthValuesButton = new ButtonNode( GAOStrings.EARTH_VALUES, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -113,17 +113,17 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             } );
 
             //Gray out this button until the user changes something significant to the system dynamics
-            mode.getDeviatedFromEarthSystemProperty().addObserver( new SimpleObserver() {
+            mode.getDeviatedFromEarthValuesProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    setEnabled( mode.getDeviatedFromEarthSystemProperty().getValue() );
+                    setEnabled( mode.getDeviatedFromEarthValuesProperty().getValue() );
                 }
             } );
         }};
-        addChild( earthSystemButton );
+        addChild( earthValuesButton );
 
         //Reset all button
         addChild( new ResetAllButtonNode( module, this, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
-            setOffset( earthSystemButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, earthSystemButton.getFullBounds().getMaxY() + 5 );
+            setOffset( earthValuesButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, earthValuesButton.getFullBounds().getMaxY() + 5 );
         }} );
 
         //See docs in mode.rewind
