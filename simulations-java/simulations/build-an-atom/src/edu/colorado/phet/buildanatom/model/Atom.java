@@ -26,6 +26,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Atom extends SimpleAtom {
 
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
     private static Random RAND = new Random();
 
     // Nuclear radius, in picometers.  This is not to scale - we need it
@@ -35,6 +39,10 @@ public class Atom extends SimpleAtom {
     // Electron shell radii.
     public static final double ELECTRON_SHELL_1_RADIUS = 34;
     public static final double ELECTRON_SHELL_2_RADIUS = 102;
+
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
 
     // Position in model space.
     private final Point2D position = new Point2D.Double();
@@ -61,17 +69,23 @@ public class Atom extends SimpleAtom {
 
     // Repository from which to draw particles if told to add them non-
     // specifically, i.e. "addProton()" instead of "addProton( Proton )".
-    private SubatomicParticleRepository subatomicParticleRepository = new NullSubatomicParticleRepository();
+    private final SubatomicParticleRepository subatomicParticleRepository = new NullSubatomicParticleRepository();
 
     // Used for animating the unstable nuclei.
     private int animationCount = 0;
     private boolean isAway = false;
 
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
+
     /**
-     * Constructor.
+     * Constructor that creates an empty atom, i.e. one that initially
+     * contains no protons, neutrons, or electrons.
      */
     public Atom( Point2D position, BuildAnAtomClock clock ) {
         this.position.setLocation( position );
+
         //Only need to listen for 'removal' notifications on the inner shell
         //to decide when an outer electron should fall
         electronShell1.addObserver( electronShellChangeObserver );
@@ -97,29 +111,32 @@ public class Atom extends SimpleAtom {
     }
 
     /**
-     * Constructor.  This version specifies a repository from which particles
-     * may be drawn if methods are called that add particles generically, e.g.
-     * "addProton()" or "setNumProtons(X)".
+     * Constructor that creates an atom that is initially configured as
+     * specified in the supplied atom configuration.  Creates subatomic
+     * particles as needed.
      */
-    public Atom( Point2D position, BuildAnAtomClock clock, SubatomicParticleRepository subatomicParticleRepository ) {
+    public Atom( Point2D position, BuildAnAtomClock clock, AtomValue initialConfiguration ) {
         this( position, clock );
-        this.subatomicParticleRepository = subatomicParticleRepository;
+        for ( int i = 0; i < initialConfiguration.getNumElectrons(); i++ ) {
+            addElectron( new Electron( clock ), true );
+        }
+        for ( int i = 0; i < initialConfiguration.getNumProtons(); i++ ) {
+            addProton( new Proton( clock ), true );
+        }
+        for ( int i = 0; i < initialConfiguration.getNumNeutrons(); i++ ) {
+            addNeutron( new Neutron( clock ), true );
+        }
     }
 
-    protected final SubatomicParticle.Adapter nucleonRemovalListener = new SubatomicParticle.Adapter() {
-        @Override
-        public void grabbedByUser( SubatomicParticle particle ) {
-            // The user has picked up this particle, which instantly
-            // removes it from the nucleus.
-            removeNucleon( particle );
-        }
-    };
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
 
     private void stepInTime( double simulationTimeChange ) {
         animationCount++;
         if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
             // Jump away from the current location.
-            unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble()*5, RAND.nextDouble() * Math.PI * 2 );
+            unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
             jumpAway();
         }
         else if ( ( animationCount % 2 == 0 && isAway ) || ( isStable() && isAway ) ) {
@@ -157,12 +174,12 @@ public class Atom extends SimpleAtom {
     public SubatomicParticle removeNucleon( SubatomicParticle particle ) {
         assert !( particle instanceof Electron ); // This method cannot be used to remove electrons.
         boolean particleFound = false;
-        if ( particle instanceof Proton && protons.contains( particle )){
+        if ( particle instanceof Proton && protons.contains( particle ) ) {
             particleFound = true;
             protons.remove( particle );
             super.setNumProtons( protons.size() );
         }
-        else if ( particle instanceof Neutron && neutrons.contains( particle )){
+        else if ( particle instanceof Neutron && neutrons.contains( particle ) ) {
             particleFound = true;
             neutrons.remove( particle );
             super.setNumNeutrons( neutrons.size() );
@@ -175,7 +192,7 @@ public class Atom extends SimpleAtom {
     /**
      * Remove an arbitrary proton.
      */
-    public SubatomicParticle removeProton(){
+    public SubatomicParticle removeProton() {
         SubatomicParticle particle = removeNucleon( protons.get( 0 ) );
         super.setNumProtons( protons.size() );
         return particle;
@@ -184,7 +201,7 @@ public class Atom extends SimpleAtom {
     /**
      * Remove an arbitrary neutron.
      */
-    public SubatomicParticle removeNeutron(){
+    public SubatomicParticle removeNeutron() {
         SubatomicParticle particle = removeNucleon( neutrons.get( 0 ) );
         super.setNumNeutrons( neutrons.size() );
         return particle;
@@ -193,9 +210,9 @@ public class Atom extends SimpleAtom {
     /**
      * Remove an arbitrary electron.
      */
-    public Electron removeElectron(){
+    public Electron removeElectron() {
         Electron electron = null;
-        if ( electronShell2.getNumElectrons() > 0 ){
+        if ( electronShell2.getNumElectrons() > 0 ) {
             electron = electronShell2.removeElectron();
         }
         else {
@@ -214,7 +231,7 @@ public class Atom extends SimpleAtom {
         checkAndReconfigureShells( electronShell1, electronShell2 );
     }
 
-    private void updateElectronCount(){
+    private void updateElectronCount() {
         // Update the count of electrons maintained in the super class.  This
         // will cause any needed change notifications to be sent out.
         super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
@@ -266,7 +283,7 @@ public class Atom extends SimpleAtom {
         return electronShells;
     }
 
-    public int getRemainingElectronCapacity(){
+    public int getRemainingElectronCapacity() {
         return electronShell1.getNumOpenLocations() + electronShell2.getNumOpenLocations();
     }
 
@@ -278,7 +295,7 @@ public class Atom extends SimpleAtom {
         return position;
     }
 
-    public void addProton( final Proton proton,boolean moveImmediately ) {
+    public void addProton( final Proton proton, boolean moveImmediately ) {
         assert !protons.contains( proton );
 
         // Add to the list of protons that are in the atom.
@@ -286,7 +303,7 @@ public class Atom extends SimpleAtom {
 
         // Reconfigure the nucleus.  This will set the destination for this
         // new nucleon.
-        reconfigureNucleus(moveImmediately);
+        reconfigureNucleus( moveImmediately );
 
         proton.addListener( nucleonRemovalListener );
 
@@ -297,24 +314,24 @@ public class Atom extends SimpleAtom {
     @Override
     public void setNumElectrons( int numElectrons ) {
         int numElectronsInShells = electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
-        if ( numElectrons > numElectronsInShells ){
+        if ( numElectrons > numElectronsInShells ) {
             // Attempt to get electrons from the repository to add to this
             // atom until we have enough or run out.
-            for ( int i = 0; i < numElectrons - numElectronsInShells; i++ ){
+            for ( int i = 0; i < numElectrons - numElectronsInShells; i++ ) {
                 Electron electron = subatomicParticleRepository.getElectron();
-                if ( electron != null ){
+                if ( electron != null ) {
                     addElectron( electron, true );
                 }
-                else{
+                else {
                     assert false;
-                    System.err.println("Error: Not enough electrons available to allow set operation to succeed.");
+                    System.err.println( "Error: Not enough electrons available to allow set operation to succeed." );
                     continue;
                 }
             }
         }
-        else if ( numElectrons < numElectronsInShells ){
+        else if ( numElectrons < numElectronsInShells ) {
             // Move electrons to the repository until the numbers match.
-            for ( int i = 0; i < numElectronsInShells - numElectrons; i++ ){
+            for ( int i = 0; i < numElectronsInShells - numElectrons; i++ ) {
                 subatomicParticleRepository.addElectron( removeElectron() );
             }
         }
@@ -323,17 +340,17 @@ public class Atom extends SimpleAtom {
 
     @Override
     public void setNumNeutrons( int numNeutrons ) {
-        if ( numNeutrons > neutrons.size() ){
+        if ( numNeutrons > neutrons.size() ) {
             // Attempt to get neutrons from the repository to add to this
             // atom until we have enough or run out.
-            for ( int i = 0; i < numNeutrons - neutrons.size(); i++ ){
+            for ( int i = 0; i < numNeutrons - neutrons.size(); i++ ) {
                 Neutron neutron = subatomicParticleRepository.getNeutron();
-                if ( neutron != null ){
+                if ( neutron != null ) {
                     addNeutron( neutron, true );
                 }
-                else{
+                else {
                     assert false;
-                    System.err.println("Error: Not enough neutrons available to allow set operation to succeed.");
+                    System.err.println( "Error: Not enough neutrons available to allow set operation to succeed." );
                     continue;
                 }
             }
@@ -369,7 +386,7 @@ public class Atom extends SimpleAtom {
 
         // Reconfigure the nucleus.  This will set the destination for this
         // new nucleon.
-        reconfigureNucleus(moveImmediately );
+        reconfigureNucleus( moveImmediately );
 
         neutron.addListener( nucleonRemovalListener );
 
@@ -398,9 +415,9 @@ public class Atom extends SimpleAtom {
      * Distribute the nucleons in the nucleus in such a way that the nucleus
      * will look good when shown in the view.
      */
-    public void reconfigureNucleus(boolean moveImmediately) {
+    public void reconfigureNucleus( boolean moveImmediately ) {
 
-        if ( isAway ){
+        if ( isAway ) {
             // This is necessary to keep things from getting off when
             // animation of the unstable nucleus is occurring at the same
             // time as a nucleus reconfiguration.
@@ -505,15 +522,15 @@ public class Atom extends SimpleAtom {
         return nucleons;
     }
 
-    public ArrayList<Electron> getElectrons(){
-        ArrayList<Electron> allElectrons = new ArrayList<Electron>( );
+    public ArrayList<Electron> getElectrons() {
+        ArrayList<Electron> allElectrons = new ArrayList<Electron>();
         allElectrons.addAll( electronShell1.getElectrons() );
         allElectrons.addAll( electronShell2.getElectrons() );
         return allElectrons;
     }
 
     public boolean containsElectron( Electron electron ) {
-        return electronShell1.containsElectron(electron) || electronShell2.containsElectron(electron);
+        return electronShell1.containsElectron( electron ) || electronShell2.containsElectron( electron );
     }
 
     //For the game mode
@@ -549,4 +566,17 @@ public class Atom extends SimpleAtom {
     public boolean containsNeutron( Neutron neutron ) {
         return neutrons.contains( neutron );
     }
+
+    // ------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    protected final SubatomicParticle.Adapter nucleonRemovalListener = new SubatomicParticle.Adapter() {
+        @Override
+        public void grabbedByUser( SubatomicParticle particle ) {
+            // The user has picked up this particle, which instantly
+            // removes it from the nucleus.
+            removeNucleon( particle );
+        }
+    };
 }
