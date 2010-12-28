@@ -88,6 +88,6 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAnAtomConstants.PROJECT_NAME,
-                BuildAnAtomConstants.FLAVOR_NAME_ISOTOPES, IsotopesAndAtomicMassApplication.class );
+                BuildAnAtomConstants.FLAVOR_NAME_ISOTOPES_AND_ATOMIC_MASS, IsotopesAndAtomicMassApplication.class );
     }
 }
