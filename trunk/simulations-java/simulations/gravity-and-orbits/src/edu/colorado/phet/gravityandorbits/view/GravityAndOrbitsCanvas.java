@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
@@ -97,7 +98,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( controlPanelPSwing );
             addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, controlPanelPSwing.getFullBounds().getWidth(), controlPanelPSwing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.green ) );
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 2 );
-            setScale( 0.90 );//fine tuned so that control panels for all modes always fit on the screen, and match up with each other
+            setScale( 0.86 );//fine tuned so that control panels for all modes always fit on the screen, and match up with each other
         }};
         addChild( controlPanelNode );
 
@@ -160,7 +161,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }} );
 
         // shows the bounds of the "stage", which is different from the canvas
-//        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke(1f), Color.RED));
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke(1f), Color.RED));
     }
 
     public void addChild( PNode node ) {
