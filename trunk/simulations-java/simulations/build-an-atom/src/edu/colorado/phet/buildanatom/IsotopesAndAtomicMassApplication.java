@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /**
  * The main application for this simulation.
  */
-public class IsotopesApplication extends PiccoloPhetApplication {
+public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,7 +34,7 @@ public class IsotopesApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public IsotopesApplication( PhetApplicationConfig config )
+    public IsotopesAndAtomicMassApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -88,6 +88,6 @@ public class IsotopesApplication extends PiccoloPhetApplication {
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAnAtomConstants.PROJECT_NAME,
-                BuildAnAtomConstants.FLAVOR_NAME_ISOTOPES, IsotopesApplication.class );
+                BuildAnAtomConstants.FLAVOR_NAME_ISOTOPES, IsotopesAndAtomicMassApplication.class );
     }
 }

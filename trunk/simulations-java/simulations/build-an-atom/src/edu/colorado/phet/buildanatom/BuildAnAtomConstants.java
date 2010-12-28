@@ -34,7 +34,7 @@ public class BuildAnAtomConstants {
 
     public static final String PROJECT_NAME = "build-an-atom";
     public static final String FLAVOR_NAME_BUILD_AN_ATOM = "build-an-atom";
-    public static final String FLAVOR_NAME_ISOTOPES = "isotopes";
+    public static final String FLAVOR_NAME_ISOTOPES = "isotopes-and-atomic-mass";
 
     //----------------------------------------------------------------------------
     // Fonts
