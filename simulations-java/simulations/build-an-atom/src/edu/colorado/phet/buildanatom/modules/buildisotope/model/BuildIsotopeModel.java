@@ -12,10 +12,13 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
+import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
+import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
 import edu.colorado.phet.buildanatom.model.SubatomicParticleBucket;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -27,7 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * In this model, units are picometers (1E-12).
  */
-public class BuildIsotopeModel {
+public class BuildIsotopeModel implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -80,7 +83,7 @@ public class BuildIsotopeModel {
         this.clock = clock;
 
         // Create the atom.
-        atom = new Atom( new Point2D.Double( 0, 0 ), clock, DEFAULT_ATOM_CONFIG );
+        atom = new Atom( new Point2D.Double( 0, 0 ), clock );
 
 
         for ( int i = 0; i < DEFAULT_NUM_NEUTRONS_IN_BUCKET; i++ ) {
@@ -113,5 +116,34 @@ public class BuildIsotopeModel {
 
     public BuildAnAtomClock getClock() {
         return clock;
+    }
+
+    public Atom getAtom() {
+        return atom;
+    }
+
+    /**
+     * Reset the model.  The sets the atom and the neutron bucket into their
+     * default initial states.
+     */
+    public void reset(){
+
+        // Reset the atom into the default configuration.
+        atom.reset();
+        for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumElectrons(); i++ ){
+            atom.addElectron( new Electron( clock ), true );
+        }
+        for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumProtons(); i++ ){
+            atom.addProton( new Proton( clock ), true );
+        }
+        for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumNeutrons(); i++ ){
+            atom.addNeutron( new Neutron( clock ), true );
+        }
+
+        // Reset the neutron bucket.
+        neutronBucket.reset();
+        for ( Neutron neutron : neutrons ){
+            neutronBucket.addParticle( neutron, true );
+        }
     }
 }
