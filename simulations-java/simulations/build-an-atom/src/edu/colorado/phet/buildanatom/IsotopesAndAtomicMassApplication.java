@@ -3,7 +3,7 @@
 package edu.colorado.phet.buildanatom;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
-import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
+import edu.colorado.phet.buildanatom.modules.buildisotope.BuildIsotopeModule;
 import edu.colorado.phet.buildanatom.modules.game.BuildAnAtomGameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -49,7 +49,7 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        addModule( new BuildAnAtomModule() );
+        addModule( new BuildIsotopeModule() );
         addModule( new BuildAnAtomGameModule() );
     }
 
