@@ -16,6 +16,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Piccolo Node that represents an atom in "schematic" (i.e. Bohr) form and
+ * allows users to add or remove the various subatomic particles.  This
+ * extension adds buckets for holding subatomic particles that are not in the
+ * atom.
+ *
  * @author Sam Reid
  * @author John Blanco
  */
