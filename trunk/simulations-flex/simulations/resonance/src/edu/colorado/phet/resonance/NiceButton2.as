@@ -4,6 +4,7 @@
 import flash.display.*;
 import flash.events.*;
 import flash.geom.Matrix;
+import flash.geom.Rectangle;
 import flash.text.*;
 
 public class NiceButton2 extends Sprite {
@@ -12,6 +13,7 @@ public class NiceButton2 extends Sprite {
     private var label_txt: TextField;
     private var myButtonWidth: Number;
     private var myButtonHeight: Number;
+    private var scale9Grid:Rectangle;
     private var tFormat: TextFormat;
     private var buttonFunction: Function;
 
@@ -73,6 +75,7 @@ public class NiceButton2 extends Sprite {
         g.beginFill( this.bodyColor );
         g.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 );
         g.endFill();
+        //this.scale9Grid = new Rectangle(-0.5*bW)
         this.label_txt.x = -bW / 2;
         this.label_txt.y = -0.4 * bH;
         this.label_txt.width = bW;
