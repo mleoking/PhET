@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.buildanatom.modules.buildisotope.view;
+package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.buildisotope.model.BuildIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.BuildIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

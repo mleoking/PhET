@@ -1,6 +1,6 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.buildanatom.modules.buildisotope.model;
+package edu.colorado.phet.buildanatom.modules.interactiveisotope.model;
 
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
