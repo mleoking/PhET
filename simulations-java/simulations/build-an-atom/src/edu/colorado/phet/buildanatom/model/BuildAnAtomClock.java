@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2010, University of Colorado */
 
 package edu.colorado.phet.buildanatom.model;
 
@@ -15,7 +15,7 @@ public class BuildAnAtomClock extends ConstantDtClock {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public BuildAnAtomClock( ) {
         super( 1000/BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT);
     }
