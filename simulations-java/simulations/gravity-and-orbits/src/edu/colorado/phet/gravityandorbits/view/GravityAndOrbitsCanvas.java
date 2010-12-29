@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,17 +11,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.*;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.model.And;
+import edu.colorado.phet.common.phetcommon.model.Not;
+import edu.colorado.phet.common.phetcommon.model.Or;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -138,6 +137,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
         addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+
+            // Add the rewind button and hook it up as needed.
             final RewindButton rewindButton = new FloatingRewindButton(){{
                 addListener( new DefaultIconButton.Listener() {
                     public void buttonPressed() {
@@ -155,18 +156,11 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }};
             addChild( rewindButton );
 
-            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( model.getClock().getDt() / 10,
-                    model.getClock().getDt() * 2, "0", model.getClock(),
-                    PhetCommonResources.getString( "Common.sim.speed" ), Color.WHITE );
-            timeSpeedSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    model.getClock().setDt( timeSpeedSlider.getValue() );
-                }
-            });
-            SwingUtils.setBackgroundDeep( timeSpeedSlider, new Color(0, 0, 0, 0) );
-            final PNode timeSpeedSliderNode = new PSwing( timeSpeedSlider );
-            timeSpeedSliderNode.setOffset( rewindButton.getFullBoundsReference().getMinX() - timeSpeedSliderNode.getFullBoundsReference().width, 0 );
-            addChild( timeSpeedSliderNode );
+            // Add the speed control slider.
+            final FloatingTimeSpeedSlider floatingTimeSpeedSlider = new FloatingTimeSpeedSlider( model.getClock(),
+                    rewindButton.getFullBoundsReference().getMinX() );
+            floatingTimeSpeedSlider.setBackgroundColor( new Color( 0, 0, 0, 0) );
+            addChild( floatingTimeSpeedSlider );
         }} );
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), new ValueEquals<Boolean>( module.getMeasuringTapeVisibleProperty(), true ) ),
