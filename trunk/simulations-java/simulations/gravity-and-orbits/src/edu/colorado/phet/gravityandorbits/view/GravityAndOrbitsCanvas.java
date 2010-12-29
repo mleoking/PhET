@@ -138,26 +138,23 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
         addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-            final RewindButton rewindButton = new RewindButton( 60 ) {
-                //TODO: This required knowledge of, and copying code from, FloatingClockControlNode's implementation.
-                @Override
-                protected double getDisabledImageRescaleOpScale() {
-                    return 1;
-                }
-            };
-            rewindButton.addListener( new DefaultIconButton.Listener() {
-                public void buttonPressed() {
-                    mode.rewind();
-                }
-            } );
-            rewindButton.setOffset( getPlayPauseButton().getFullBounds().getMinX() - rewindButton.getFullBounds().getWidth() - 5, getPlayPauseButton().getFullBounds().getCenterY() - rewindButton.getFullBounds().getHeight() / 2 );
+            final RewindButton rewindButton = new FloatingRewindButton(){{
+                addListener( new DefaultIconButton.Listener() {
+                    public void buttonPressed() {
+                        mode.rewind();
+                    }
+                } );
+                // The rewind button is only enabled when something has
+                // changed, otherwise there is nothing to rewind to.
+                final Or anyPropertyChanged = new Or( p );
+                anyPropertyChanged.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setEnabled( anyPropertyChanged.getValue() );
+                    }
+                } );
+            }};
             addChild( rewindButton );
-            final Or anyPropertyChanged = new Or( p );
-            anyPropertyChanged.addObserver( new SimpleObserver() {
-                public void update() {
-                    rewindButton.setEnabled( anyPropertyChanged.getValue() );
-                }
-            } );
+
             final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( model.getClock().getDt() / 10,
                     model.getClock().getDt() * 2, "0", model.getClock(),
                     PhetCommonResources.getString( "Common.sim.speed" ), Color.WHITE );
