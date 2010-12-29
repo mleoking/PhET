@@ -22,7 +22,7 @@ import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
  */
 public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
-    private GravityAndOrbitsModule gravityAndOrbitsModule;
+    private final GravityAndOrbitsModule gravityAndOrbitsModule;
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
