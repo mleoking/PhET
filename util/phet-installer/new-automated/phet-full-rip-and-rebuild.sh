@@ -58,10 +58,10 @@ fi
 
 # Send out email notification if specified on the command line.
 if [ "$1" = "--email" -o "$2" = "--email" ]; then
-   echo "Sending email notification for this build." | tee --append $LOG
+   echo -e "\nSending email notification for this build." | tee --append $LOG
    send_email_notification
 else
-   echo "Not sending email notification for this build." | tee --append $LOG
+   echo -e "\nNot sending email notification for this build." | tee --append $LOG
 fi
 
 
