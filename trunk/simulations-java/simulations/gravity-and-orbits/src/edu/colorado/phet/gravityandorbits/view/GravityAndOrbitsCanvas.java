@@ -10,11 +10,17 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.*;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -132,25 +138,38 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
         addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-            final RewindButton child = new RewindButton( 60 ) {
+            final RewindButton rewindButton = new RewindButton( 60 ) {
                 //TODO: This required knowledge of, and copying code from, FloatingClockControlNode's implementation.
+                @Override
                 protected double getDisabledImageRescaleOpScale() {
                     return 1;
                 }
             };
-            child.addListener( new DefaultIconButton.Listener() {
+            rewindButton.addListener( new DefaultIconButton.Listener() {
                 public void buttonPressed() {
                     mode.rewind();
                 }
             } );
-            child.setOffset( getPlayPauseButton().getFullBounds().getMinX() - child.getFullBounds().getWidth() - 5, getPlayPauseButton().getFullBounds().getCenterY() - child.getFullBounds().getHeight() / 2 );
-            addChild( child );
+            rewindButton.setOffset( getPlayPauseButton().getFullBounds().getMinX() - rewindButton.getFullBounds().getWidth() - 5, getPlayPauseButton().getFullBounds().getCenterY() - rewindButton.getFullBounds().getHeight() / 2 );
+            addChild( rewindButton );
             final Or anyPropertyChanged = new Or( p );
             anyPropertyChanged.addObserver( new SimpleObserver() {
                 public void update() {
-                    child.setEnabled( anyPropertyChanged.getValue() );
+                    rewindButton.setEnabled( anyPropertyChanged.getValue() );
                 }
             } );
+            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( model.getClock().getDt() / 10,
+                    model.getClock().getDt() * 2, "0", model.getClock(),
+                    PhetCommonResources.getString( "Common.sim.speed" ), Color.WHITE );
+            timeSpeedSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.getClock().setDt( timeSpeedSlider.getValue() );
+                }
+            });
+            SwingUtils.setBackgroundDeep( timeSpeedSlider, new Color(0, 0, 0, 0) );
+            final PNode timeSpeedSliderNode = new PSwing( timeSpeedSlider );
+            timeSpeedSliderNode.setOffset( rewindButton.getFullBoundsReference().getMinX() - timeSpeedSliderNode.getFullBoundsReference().width, 0 );
+            addChild( timeSpeedSliderNode );
         }} );
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), new ValueEquals<Boolean>( module.getMeasuringTapeVisibleProperty(), true ) ),
