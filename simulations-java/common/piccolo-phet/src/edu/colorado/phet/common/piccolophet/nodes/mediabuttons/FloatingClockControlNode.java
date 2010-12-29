@@ -2,16 +2,24 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.Color;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Shows the play/pause button and step button without a container, useful when the
@@ -124,6 +132,47 @@ public class FloatingClockControlNode extends PNode {
         @Override
         protected double getDisabledImageRescaleOpScale() {
             return DISABLED_IMAGE_RESCALE_OP_SCALE;
+        }
+    }
+
+    /**
+     * This class should be used when adding a speed slider to the floating
+     * clock control.  It provides the wrapper around a swing slider, hooks
+     * up the clock, and sets the initial position.
+     */
+    public class FloatingTimeSpeedSlider extends PNode {
+
+        private final TimeSpeedSlider timeSpeedSlider;
+
+        /**
+         * Constructor.  This assumes a default range of clock speeds based on
+         * the current (which is presumably the default) clock dt setting.
+         *
+         * @param clock - Clock to be controlled.
+         * @param maxPosX - The maximum x value within the floating clock control
+         * node, which may be the left edge of the rewind button (if present)
+         * or the left edge of the play button.
+         */
+        public FloatingTimeSpeedSlider( final ConstantDtClock clock, double maxPosX ) {
+            timeSpeedSlider = new TimeSpeedSlider( clock.getDt() / 10, clock.getDt() * 2, "0", clock,
+                    PhetCommonResources.getString( "Common.sim.speed" ), Color.WHITE );
+            timeSpeedSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    clock.setDt( timeSpeedSlider.getValue() );
+                }
+            });
+            PSwing timeSpeedSliderNode = new PSwing( timeSpeedSlider );
+            timeSpeedSliderNode.setOffset( maxPosX - timeSpeedSliderNode.getFullBoundsReference().width, 0 );
+            addChild( timeSpeedSliderNode );
+        }
+
+        /**
+         * Set the background color of all components that comprise this node.
+         * @param backgroundColor
+         * @return
+         */
+        public void setBackgroundColor( Color backgroundColor ){
+            SwingUtils.setBackgroundDeep( timeSpeedSlider, new Color(0, 0, 0, 0) );
         }
     }
 }
