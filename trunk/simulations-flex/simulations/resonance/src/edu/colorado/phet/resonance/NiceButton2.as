@@ -1,4 +1,4 @@
-﻿package edu.colorado.phet.resonance {
+package edu.colorado.phet.resonance {
 //import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import flash.display.*;
@@ -13,7 +13,7 @@ public class NiceButton2 extends Sprite {
     private var label_txt: TextField;
     private var myButtonWidth: Number;
     private var myButtonHeight: Number;
-    private var scale9Grid:Rectangle;
+    private var nineSliceGrid:Rectangle;
     private var tFormat: TextFormat;
     private var buttonFunction: Function;
 
@@ -73,9 +73,10 @@ public class NiceButton2 extends Sprite {
         g.lineStyle( 3, 0x0000ff, 1, true );
         g.lineGradientStyle( GradientType.LINEAR, [0x000077, 0xaaaaff], [1,1], [40,215], gradMatrix );
         g.beginFill( this.bodyColor );
-        g.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 );
+        var inset:Number = bH/4;
+        g.drawRoundRect( -bW / 2, -bH / 2, bW, bH, 2*inset );
         g.endFill();
-        //this.scale9Grid = new Rectangle(-0.5*bW)
+        this.nineSliceGrid = new Rectangle(-0.5*bW + inset, - 0.5*bH + inset, bW - 2*inset, bH - 2*inset);
         this.label_txt.x = -bW / 2;
         this.label_txt.y = -0.4 * bH;
         this.label_txt.width = bW;

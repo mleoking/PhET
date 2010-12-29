@@ -71,7 +71,7 @@ public class ShakerModel {
     }//end function
 
     public function setB( b: Number ): void {
-        for ( var i: int; i < this.nbrResonators; i++ ) {
+        for ( var i: int; i < this.maxNbrResonators; i++ ) {
             this.resonatorModel_arr[i].setB( b );
         }
     }//end setDampingConstant()
@@ -86,6 +86,7 @@ public class ShakerModel {
 
     public function setNbrResonators( nbr: int ): void {
         this.nbrResonators = nbr;
+        this.setResonatorsFreeRunning(!this.running);
         //freeze unused resonators
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
             if(i >= nbr){
