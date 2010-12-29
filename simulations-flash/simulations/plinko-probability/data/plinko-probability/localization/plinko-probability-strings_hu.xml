@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_hu.xml created Fri Dec 24 08:21:17 CET 2010 using: plinko-probability 2.01.00 (37320), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="ball" value="golyó"/>
+<string key="number" value="darab"/>
+<string key="simTitle" value="Galton-deszka"/>
+<string key="help" value="Súgó"/>
+<string key="continuous" value="folyamatos"/>
+<string key="reset" value="Újrakezd"/>
+<string key="histogramDisplay" value="Hisztogram \ntípusa"/>
+<string key="none" value="semmi"/>
+<string key="oneBall" value="1 golyó"/>
+<string key="show" value="Látszik"/>
+<string key="sound" value="Hang"/>
+<string key="fraction" value="hányad"/>
+<string key="autoScale" value="önigazító"/>
+<string key="path" value="útvonal"/>
+<string key="rows" value="sorok"/>
+</SimStrings>
+"/>
+<string key="help" value="Súgó"/>
+<string key="continuous" value="folyamatos"/>
+<string key="reset" value="Újrakezd"/>
+<string key="histogramDisplay" v
