@@ -8,6 +8,6 @@ package edu.colorado.phet.common.phetcommon.util;
  *
  * @author Sam Reid
  */
-public interface VoidFunction0<T> {
+public interface VoidFunction0 {
     void apply();
 }
