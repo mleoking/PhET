@@ -66,7 +66,7 @@ public class BodyNode extends PNode {
                             body.setPosition( newCartoonPosition.getX(), newCartoonPosition.getY() );
                         }
                         else {
-                            ImmutableVector2D x = new CartoonPositionMap( body.getCartoonOffsetScale() ).toReal(newCartoonPosition, body.getParent().getPosition() );
+                            ImmutableVector2D x = new CartoonPositionMap( body.getCartoonOffsetScale() ).toReal( newCartoonPosition, body.getParent().getPosition() );
                             body.setPosition( x.getX(), x.getY() );
                         }
                     }

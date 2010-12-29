@@ -2,15 +2,14 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.Color;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -97,7 +96,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
                 return new BodyRenderer.SwitchableBodyRenderer( body, targetMass, new BodyRenderer.ImageRenderer( body, viewDiameter, image ),
-                        new BodyRenderer.SphereRenderer( body, viewDiameter ) );
+                                                                new BodyRenderer.SphereRenderer( body, viewDiameter ) );
             }
         };
     }
@@ -132,7 +131,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, camera, GravityAndOrbitsDefaults.DEFAULT_DT, days,
                                        createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty) {
+                                       gravityEnabledProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -215,7 +214,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale,
-            final double cartoonDiameterScaleFactor, double cartoonForceVectorScale, final boolean massReadoutBelow ) {
+                             final double cartoonDiameterScaleFactor, double cartoonForceVectorScale, final boolean massReadoutBelow ) {
         return new Body( earth, GAOStrings.MOON, MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white,
                          cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
@@ -224,13 +223,13 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
         return new Body( sun, GAOStrings.PLANET, EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray,
-                cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", EARTH_MASS ), scaleProperty, -Math.PI / 4, true,
-                maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPausedProperty );
+                         cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", EARTH_MASS ), scaleProperty, -Math.PI / 4, true,
+                         maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPausedProperty );
     }
 
     private Body createSun( int maxPathLength ) {
         return new Body( null, GAOStrings.SUN, 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1,
-                SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty );
+                         SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty );
     }
 
     public ArrayList<GravityAndOrbitsMode> getModes() {

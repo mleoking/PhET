@@ -16,7 +16,8 @@ public class GAOResources {
     private static final PhetResources RESOURCES = new PhetResources( GAOConstants.PROJECT_NAME );
 
     /* not intended for instantiation */
-    private GAOResources() {}
+    private GAOResources() {
+    }
 
     public static final String getString( String name ) {
         return RESOURCES.getLocalizedString( name );

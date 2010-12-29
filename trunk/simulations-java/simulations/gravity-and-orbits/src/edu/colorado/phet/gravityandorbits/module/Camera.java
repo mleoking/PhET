@@ -1,12 +1,7 @@
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -41,7 +36,6 @@ public class Camera {
         Rectangle2D modelRectangle = getTargetRectangle( targetScale, targetCenterModelPoint );
         this.modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( modelRectangle ) );
     }
-
 
     public Property<ModelViewTransform> getModelViewTransformProperty() {
         return modelViewTransformProperty;

@@ -50,8 +50,7 @@ public abstract class GravityAndOrbitsMode {
     private double rewindClockTime;
 
     /**
-     *
-     * @param name mode name, currently used only for debugging, i18n not required
+     * @param name                         mode name, currently used only for debugging, i18n not required
      * @param forceScale
      * @param active
      * @param camera
@@ -93,7 +92,7 @@ public abstract class GravityAndOrbitsMode {
             public void clockPaused( ClockEvent clockEvent ) {
                 rewindClockTime = clockEvent.getSimulationTime();
             }
-        });
+        } );
 
         SimpleObserver updateClockRunning = new SimpleObserver() {
             public void update() {
