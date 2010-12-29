@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
@@ -35,7 +36,6 @@ public abstract class GravityAndOrbitsMode {
     private final GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
     private final double forceScale;
-    private final Camera camera;
     private final Property<Boolean> active;
     private final Function1<Double, String> timeFormatter;
     private final Image iconImage;
@@ -48,9 +48,10 @@ public abstract class GravityAndOrbitsMode {
     private double zoomScale;
     private ImmutableVector2D zoomOffset;
     private double rewindClockTime;
+    private Property<ModelViewTransform> modelViewTransformProperty;
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
-                                 double forceScale, boolean active, Camera camera, double dt, Function1<Double, String> timeFormatter, Image iconImage,
+                                 double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
@@ -58,7 +59,6 @@ public abstract class GravityAndOrbitsMode {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
-        this.camera = camera;
         this.iconImage = iconImage;
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
         this.velocityScale = velocityScale;
@@ -68,6 +68,14 @@ public abstract class GravityAndOrbitsMode {
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
+
+        Rectangle2D.Double targetRectangle = getTargetRectangle( zoomScale, zoomOffset );
+        final double x = targetRectangle.getMinX();
+        final double y = targetRectangle.getMinY();
+        final double w = targetRectangle.getMaxX() - x;
+        final double h = targetRectangle.getMaxY() - y;
+        modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( new Rectangle2D.Double( x, y, w, h ) ) );
+
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ), gravityEnabledProperty );
 
         this.rewindClockTime = 0;
@@ -86,6 +94,21 @@ public abstract class GravityAndOrbitsMode {
         };
         clockPaused.addObserver( updateClockRunning );
         this.active.addObserver( updateClockRunning );
+    }
+
+    //the play area only takes up the left side of the canvas; the control panel is on the right side
+    private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60;
+    private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
+
+    public static ModelViewTransform createTransform( Rectangle2D modelRectangle ) {
+        return ModelViewTransform.createRectangleInvertedYMapping( modelRectangle, new Rectangle2D.Double( 0, 0, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT ) );
+    }
+
+    public static Rectangle2D.Double getTargetRectangle( double targetScale, ImmutableVector2D targetCenterModelPoint ) {
+        double z = targetScale * 1.5E-9;
+        double modelWidth = PLAY_AREA_WIDTH / z;
+        double modelHeight = PLAY_AREA_HEIGHT / z;
+        return new Rectangle2D.Double( -modelWidth / 2 + targetCenterModelPoint.getX(), -modelHeight / 2 + targetCenterModelPoint.getY(), modelWidth, modelHeight );
     }
 
     /*
@@ -169,12 +192,7 @@ public abstract class GravityAndOrbitsMode {
     }
 
     public Property<ModelViewTransform> getModelViewTransformProperty() {
-        return camera.getModelViewTransformProperty();
-    }
-
-    //Zoom from the original zoom (default for all views) to the correct zoom for this mode
-    public void startZoom() {
-        camera.zoomTo( zoomScale, zoomOffset );
+        return modelViewTransformProperty;
     }
 
     public Function1<Double, String> getTimeFormatter() {
