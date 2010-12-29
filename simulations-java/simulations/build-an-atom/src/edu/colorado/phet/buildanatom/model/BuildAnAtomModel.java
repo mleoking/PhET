@@ -149,6 +149,8 @@ public class BuildAnAtomModel implements Resettable {
                 }
             } );
         }
+
+        initializeBuckets();
     }
 
     //----------------------------------------------------------------------------
@@ -190,7 +192,11 @@ public class BuildAnAtomModel implements Resettable {
         neutronBucket.reset();
         protonBucket.reset();
 
-        // Put all the particles back in the bucket.
+        initializeBuckets();
+    }
+
+    private void initializeBuckets(){
+        // Put all the particles into their respective buckets.
         for ( Electron electron : electrons ) {
             electronBucket.addParticle( electron, true );
         }

@@ -183,6 +183,10 @@ public class SubatomicParticleBucket {
         containedParticles.add( particle );
     }
 
+    public ArrayList<SubatomicParticle> getParticleList(){
+        return containedParticles;
+    }
+
     private Point2D getFirstOpenLocation() {
         Point2D openLocation = new Point2D.Double();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;

@@ -4,7 +4,8 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
@@ -32,23 +33,44 @@ public class SchematicAtomNode extends PNode {
     // was determined empirically and can be adjusted if needed.
     private final static int NUM_NUCLEUS_LAYERS = 8;
 
-    // Reference to the model.
-    protected final BuildAnAtomModel model;
+    // Reference to the atom being represented.
+    protected final Atom atom;
+
+    // Model-view transform.
+    private final ModelViewTransform2D mvt;
+
+    // Property that controls whether the electrons are depicted as particles
+    // or as a cloud when they are a part of the atom.
+    private final BooleanProperty viewOrbitals;
 
     // Particle layers.  These exist so that we can give the nucleus a faux
     // 3D sort of look, with the particles toward the center of the nucleus
     // on top and those at the edges on the bottom.
     private final ArrayList<PNode> nucleusLayers = new ArrayList<PNode>( NUM_NUCLEUS_LAYERS );
 
+    // Other layers that make up this node.
     protected final PNode backLayer;
     protected final PNode frontLayer;
+    private final PNode electronLayer;
 
-    public SchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
-        this.model = model;
+    /**
+     * Constructor.
+     *
+     * @param atom - The atom that is being represented by this node.
+     * @param mvt - Transform for moving back and forth between model and view coordinates.
+     * @param viewOrbitals - A boolean property that controls whether the
+     * orbitals (i.e. the electron shells) are shown or whether the electrons
+     * in the atoms are depicted as a cloud.
+     */
+    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
+        this.atom = atom;
+        this.mvt = mvt;
+        this.viewOrbitals = viewOrbitals;
 
+        // Create the layers and add them in the desired order.
         backLayer = new PNode( );
         addChild( backLayer );
-        PNode electronLayer = new PNode( );
+        electronLayer = new PNode( );
         addChild( electronLayer );
         for (int i = 0; i < NUM_NUCLEUS_LAYERS; i++){
             PNode particleLayer = new PNode();
@@ -61,52 +83,20 @@ public class SchematicAtomNode extends PNode {
 
         // Add the atom's electron shells to the canvas.  There are two representations that are mutually
         // exclusive - the orbital view and the cloud view.
-        for ( ElectronShell electronShell : model.getAtom().getElectronShells() ) {
-            backLayer.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, model.getAtom(), electronShell, true ) );
+        for ( ElectronShell electronShell : atom.getElectronShells() ) {
+            backLayer.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, atom, electronShell, true ) );
         }
-        backLayer.addChild( new ElectronCloudNode( mvt, viewOrbitals, model.getAtom() ) );
+        backLayer.addChild( new ElectronCloudNode( mvt, viewOrbitals, atom ) );
 
-        // Add the electrons.
-        for ( int i = 0; i < model.numElectrons(); i++ ) {
-            final int finalI = i;
-            electronLayer.addChild( new ElectronNode( mvt, model.getElectron( i ) ){{
-                final SimpleObserver updateVisibility = new SimpleObserver() {
-                    public void update() {
-                        setVisible( viewOrbitals.getValue() || !model.getAtom().containsElectron( model.getElectron( finalI ) ) );
-                    }
-                };
-                viewOrbitals.addObserver( updateVisibility );
-                updateVisibility.update();
-
-                model.getAtom().addObserver( updateVisibility );
-            }} );
+        // Add the subatomic particles.
+        for ( final Electron electron : atom.getElectrons() ){
+            addElectron( electron );
         }
-
-        // Add the nucleons.
-        for ( int i = 0; i < model.numProtons(); i++ ) {
-            final Proton proton = model.getProton( i );
-            final ProtonNode protonNode = new ProtonNode( mvt, proton );
-            nucleusLayers.get( mapNucleonToLayerNumber( proton ) ).addChild( protonNode );
-            proton.addPositionListener( new SimpleObserver() {
-                public void update() {
-                    if ( !proton.isUserControlled() ){
-                        updateNucleonLayer( proton, protonNode );
-                    }
-                }
-            });
+        for ( final Proton proton : atom.getProtons()){
+            addProton( proton );
         }
-        for ( int i = 0; i < model.numNeutrons(); i++ ) {
-            final Neutron neutron = model.getNeutron( i );
-            nucleusLayers.get( mapNucleonToLayerNumber( neutron ) ).addChild( new NeutronNode( mvt, neutron ) );
-            final NeutronNode neutronNode = new NeutronNode( mvt, neutron );
-            nucleusLayers.get( mapNucleonToLayerNumber( neutron ) ).addChild( neutronNode );
-            neutron.addPositionListener( new SimpleObserver() {
-                public void update() {
-                    if ( !neutron.isUserControlled() ){
-                        updateNucleonLayer( neutron, neutronNode );
-                    }
-                }
-            });
+        for ( final Neutron neutron : atom.getNeutrons()){
+            addNeutron( neutron );
         }
     }
 
@@ -122,7 +112,7 @@ public class SchematicAtomNode extends PNode {
         // Note: This algorithm for layering was made up to look reasonable,
         // and can be modified as needed to produce better looking nuclei.
         double maxNucleusRadius = Neutron.RADIUS * 6;
-        double distanceFromCenter = nucleon.getPosition().distance( model.getAtom().getPosition() );
+        double distanceFromCenter = nucleon.getPosition().distance( atom.getPosition() );
         return Math.min( (int)Math.floor( distanceFromCenter / (maxNucleusRadius / NUM_NUCLEUS_LAYERS )), NUM_NUCLEUS_LAYERS - 1 );
     }
 
@@ -167,5 +157,63 @@ public class SchematicAtomNode extends PNode {
             }
         }
         return found;
+    }
+
+    /**
+     * Add a proton to this atom representation.  Note that this method is
+     * sometimes used to add a particle that is actually external to the atom
+     * but that may, over the course of its life, be moved into the atom.
+     *
+     * @param proton
+     */
+    protected void addProton( final Proton proton ){
+        final ProtonNode protonNode = new ProtonNode( mvt, proton );
+        nucleusLayers.get( mapNucleonToLayerNumber( proton ) ).addChild( protonNode );
+        proton.addPositionListener( new SimpleObserver() {
+            public void update() {
+                if ( !proton.isUserControlled() ){
+                    updateNucleonLayer( proton, protonNode );
+                }
+            }
+        });
+    }
+
+    /**
+     * Add a neutron to this atom representation.  Note that this method is
+     * sometimes used to add a particle that is actually external to the atom
+     * but that may, over the course of its life, be moved into the atom.
+     *
+     * @param neutron
+     */
+    protected void addNeutron( final Neutron neutron ){
+        final NeutronNode neutronNode = new NeutronNode( mvt, neutron );
+        nucleusLayers.get( mapNucleonToLayerNumber( neutron ) ).addChild( neutronNode );
+        neutron.addPositionListener( new SimpleObserver() {
+            public void update() {
+                if ( !neutron.isUserControlled() ){
+                    updateNucleonLayer( neutron, neutronNode );
+                }
+            }
+        });
+    }
+
+    /**
+     * Add an electron to this atom representation.  Note that this method is
+     * sometimes used to add a particle that is actually external to the atom
+     * but that may, over the course of its life, be moved into the atom.
+     *
+     * @param neutron
+     */
+    protected void addElectron( final Electron electron ){
+        electronLayer.addChild( new ElectronNode( mvt, electron ){{
+            final SimpleObserver updateVisibility = new SimpleObserver() {
+                public void update() {
+                    setVisible( viewOrbitals.getValue() || !atom.containsElectron( electron ) );
+                }
+            };
+            viewOrbitals.addObserver( updateVisibility );
+            atom.addObserver( updateVisibility );
+            updateVisibility.update();
+        }} );
     }
 }

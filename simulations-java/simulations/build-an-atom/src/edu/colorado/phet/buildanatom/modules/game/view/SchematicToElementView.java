@@ -15,7 +15,7 @@ public class SchematicToElementView extends ToElementView {
         super( model, gameCanvas, problem );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
 
-        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel, ProblemView.SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
+        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), ProblemView.SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
             setPickable( false );
             setChildrenPickable( false );
         }};
