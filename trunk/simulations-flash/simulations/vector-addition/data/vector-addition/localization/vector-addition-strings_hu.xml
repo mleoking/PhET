@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_hu.xml created Fri Dec 24 07:55:41 CET 2010 using: vector-addition 2.01.00 (37326), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="showSum" value="Összeget mutat"/>
+<string key="simTitle" value="Vektorösszeadás"/>
+<string key="grabOne" value="Húzz egyet"/>
+<string key="clearAll" value="Törlés"/>
+<string key="componentDisplay" value="Összetevők kijelzése:"/>
+<string key="style3" value="3. stílus"/>
+<string key="none" value="Nincs"/>
+<string key="showGrid" value="Négyzetháló"/>
+<string key="style2" value="2. stílus"/>
+<string key="style1" value="1. stílus"/>
+</SimStrings>
+ (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="showSum" value="Összeget mutat"/>
+<string key="simTitle" value="Vektorösszeadás"/>
+<string key="grabOne" value="Húzz egyet"/>
+<string key="clearAll" value="Törlés"/>
+<string key="componentDisplay" value="Összetevők kijelzése:"/>
+<string key="style3" value="3
