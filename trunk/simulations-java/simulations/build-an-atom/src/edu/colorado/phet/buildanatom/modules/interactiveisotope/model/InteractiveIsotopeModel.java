@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * In this model, units are picometers (1E-12).
  */
-public class BuildIsotopeModel implements Resettable {
+public class InteractiveIsotopeModel implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -77,7 +77,7 @@ public class BuildIsotopeModel implements Resettable {
     /**
      * Construct the model with the atoms initially in the bucket.
      */
-    public BuildIsotopeModel( BuildAnAtomClock clock ) {
+    public InteractiveIsotopeModel( BuildAnAtomClock clock ) {
         super();
 
         this.clock = clock;
