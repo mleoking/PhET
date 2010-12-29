@@ -235,6 +235,9 @@ public class ControlPanel extends Canvas {
 
     private function onChangeNbrResonators( evt: Event ): void {
         var nbrR: int = this.nbrResonatorsSlider.value;
+        if (nbrR < this.selectedResonatorNbr){
+            this.setResonatorIndex(nbrR);
+        }
         //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
         //this.setNbrResonators( nbrR );
         this.myMainView.setNbrResonators( nbrR );
