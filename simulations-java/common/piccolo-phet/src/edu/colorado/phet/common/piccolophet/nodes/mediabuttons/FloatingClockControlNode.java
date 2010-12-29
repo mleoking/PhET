@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -20,6 +20,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class FloatingClockControlNode extends PNode {
+    private final double DISABLED_IMAGE_RESCALE_OP_SCALE = 1;
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
@@ -30,6 +31,7 @@ public class FloatingClockControlNode extends PNode {
     public FloatingClockControlNode( Property<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
         this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {
+                @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     setValue( timeReadout.apply( clock.getSimulationTime() ) );
                 }
@@ -83,8 +85,9 @@ public class FloatingClockControlNode extends PNode {
                 } );
             }
 
+            @Override
             protected double getDisabledImageRescaleOpScale() {
-                return 1;
+                return DISABLED_IMAGE_RESCALE_OP_SCALE;
             }
         };
         addChild( playPauseButton );
@@ -100,5 +103,27 @@ public class FloatingClockControlNode extends PNode {
                 }
             } );
         }} );
+    }
+
+    /**
+     * This class should be used when adding a rewind button to the control
+     * panel.  It provides a consistent look and feel as well as a default
+     * location to the left of the play button.
+     */
+    public class FloatingRewindButton extends RewindButton{
+
+        public FloatingRewindButton() {
+            super( 60 );
+
+            // Set default position, can be moved by client if needed.
+            setOffset(
+                    getPlayPauseButton().getFullBounds().getMinX() - getFullBounds().getWidth() - 5,
+                    getPlayPauseButton().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        }
+
+        @Override
+        protected double getDisabledImageRescaleOpScale() {
+            return DISABLED_IMAGE_RESCALE_OP_SCALE;
+        }
     }
 }
