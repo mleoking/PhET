@@ -26,10 +26,3 @@
 <string key="adjustableFit" value="Manuális fit"/>
 <string key="linear" value="Lineáris"/>
 </SimStrings>
-k"/>
-<string key="chiSqHelp4" value=":   jó illeszkedés   (zöld zóna)"/>
-<string key="chiSqHelp3" value=":   gyenge illeszkedés   (piros zóna)"/>
-<string key="chiSqHelp2" value="N = adatpontok száma \n f = illesztett paraméterek (a, b...) száma \n N - f = szabadsági fokok száma"/>
-<string key="help" value="Súgó"/>
-<string key="chiSqHelp1" value="A redukált khí-négyzet a következő:"/>
-<string key="ad
