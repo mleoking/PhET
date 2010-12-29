@@ -3,8 +3,8 @@
 package edu.colorado.phet.buildanatom;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
-import edu.colorado.phet.buildanatom.modules.buildisotope.BuildIsotopeModule;
 import edu.colorado.phet.buildanatom.modules.game.BuildAnAtomGameModule;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.BuildIsotopeModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.Property;

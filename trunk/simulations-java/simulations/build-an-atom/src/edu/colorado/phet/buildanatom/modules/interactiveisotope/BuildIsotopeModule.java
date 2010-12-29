@@ -1,12 +1,12 @@
 /* Copyright 2010, University of Colorado */
 
-package edu.colorado.phet.buildanatom.modules.buildisotope;
+package edu.colorado.phet.buildanatom.modules.interactiveisotope;
 
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.modules.buildisotope.model.BuildIsotopeModel;
-import edu.colorado.phet.buildanatom.modules.buildisotope.view.BuildIsotopeCanvas;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.BuildIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.BuildIsotopeCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
