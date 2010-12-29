@@ -9,7 +9,8 @@ package edu.colorado.phet.gravityandorbits;
 public class GAOStrings {
 
     /* not intended for instantiation */
-    private GAOStrings() {}
+    private GAOStrings() {
+    }
 
     public static final String BILLION_BILLION_SPACE_STATION_MASSES = getString( "billionBillionSpaceStationMasses" );
     public static final String CARTOON = getString( "cartoon" );

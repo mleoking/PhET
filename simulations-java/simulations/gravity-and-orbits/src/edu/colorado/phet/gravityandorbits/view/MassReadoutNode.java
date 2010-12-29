@@ -1,6 +1,6 @@
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits;
 
-import java.awt.AWTException;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;

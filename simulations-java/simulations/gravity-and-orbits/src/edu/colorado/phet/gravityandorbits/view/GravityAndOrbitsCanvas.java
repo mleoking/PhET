@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -161,7 +160,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }} );
 
         // shows the bounds of the "stage", which is different from the canvas
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke(1f), Color.RED));
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );
     }
 
     public void addChild( PNode node ) {

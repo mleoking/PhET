@@ -8,7 +8,7 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  * @author Sam Reid
  */
 public class GravityAndOrbitsModuleState implements Serializable {
-    
+
     private boolean showGravityForce = false;
     private boolean showPaths = false;
     private boolean showVelocity = false;

@@ -6,11 +6,12 @@ import java.awt.*;
 
 
 public class GravityAndOrbitsDefaults {
-    
+
     public static final double SECONDS_PER_MINUTE = 60;
 
     /* Not intended for instantiation */
-    private GravityAndOrbitsDefaults() {}
+    private GravityAndOrbitsDefaults() {
+    }
 
     // Clock
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)

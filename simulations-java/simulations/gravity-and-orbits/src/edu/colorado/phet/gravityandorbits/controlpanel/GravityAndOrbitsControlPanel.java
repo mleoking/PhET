@@ -116,30 +116,32 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 setOpaque( false );
                 add( Box.createRigidArea( new Dimension( 25, 1 ) ) );
 
-                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) {{
-                    final Icon defaultIcon = getIcon();
-                    final Icon disabledUnselectedIcon = grayOut( UIManager.getIcon( "CheckBox.icon" ) );
-                    final Icon disabledSelectedIcon = disabledUnselectedIcon;//todo: find a way to get this from the UIManager; until this is fixed just render as unselected when disabled
+                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) {
+                    {
+                        final Icon defaultIcon = getIcon();
+                        final Icon disabledUnselectedIcon = grayOut( UIManager.getIcon( "CheckBox.icon" ) );
+                        final Icon disabledSelectedIcon = disabledUnselectedIcon;//todo: find a way to get this from the UIManager; until this is fixed just render as unselected when disabled
 //                    final Icon disabledSelectedIcon = grayOut( UIManager.getLookAndFeel().getDisabledSelectedIcon(this, new ImageIcon( toImage( this, UIManager.getIcon( "CheckBox.icon" )) ) ) );//http://stackoverflow.com/questions/1663729/accessing-look-and-feel-default-icons
 
-                    module.getScaleProperty().addObserver( new SimpleObserver() {
-                        public void update() {
-                            setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
-                            setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
-                            if (isEnabled() ){
-                                setIcon( defaultIcon );
-                            }
-                            else{
-                                if (isSelected()){
-                                    setIcon( disabledSelectedIcon );
-                                }else{
-                                    setIcon( disabledUnselectedIcon );
+                        module.getScaleProperty().addObserver( new SimpleObserver() {
+                            public void update() {
+                                setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
+                                setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
+                                if ( isEnabled() ) {
+                                    setIcon( defaultIcon );
                                 }
+                                else {
+                                    if ( isSelected() ) {
+                                        setIcon( disabledSelectedIcon );
+                                    }
+                                    else {
+                                        setIcon( disabledUnselectedIcon );
+                                    }
+                                }
+                                setIcon( isEnabled() ? defaultIcon : disabledUnselectedIcon );
                             }
-                            setIcon( isEnabled() ? defaultIcon : disabledUnselectedIcon );
-                        }
-                    } );
-                }
+                        } );
+                    }
 
                     private Icon grayOut( Icon checkBoxIcon ) {
                         final BufferedImage image = toImage( this, checkBoxIcon );
