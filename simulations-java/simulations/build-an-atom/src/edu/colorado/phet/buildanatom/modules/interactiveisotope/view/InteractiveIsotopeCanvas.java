@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.BuildIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Canvas for the tab where the user builds an atom.
  */
-public class BuildIsotopeCanvas extends PhetPCanvas {
+public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -33,7 +33,7 @@ public class BuildIsotopeCanvas extends PhetPCanvas {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public BuildIsotopeCanvas( final BuildIsotopeModel model ) {
+    public InteractiveIsotopeCanvas( final InteractiveIsotopeModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
