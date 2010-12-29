@@ -30,8 +30,20 @@ public class ControlPanel extends Canvas {
     private var kSlider: HSlider;
     private var freq_lbl: Label;
     private var resetAllButton: Button;
-
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
+
+    //internationalized strings
+    private var numberOfResonators_str:String;
+    private var damping_str:String;
+    private var gravity_str:String;
+    private var on_str:String;
+    private var off_str:String;
+    private var resonator_str:String;
+    private var mass_str:String;
+    private var springConstant_str:String;
+    private var frequencyEquals_str:String;
+    private var resetAll_str:String;
+
 
     public function ControlPanel( myMainView: MainView, model: ShakerModel ) {
         super();
@@ -87,7 +99,7 @@ public class ControlPanel extends Canvas {
         with ( this.dampingSlider ) {
             minimum = 0.05;
             maximum = 5;
-            labels = ["", "damping", ""];
+            labels = ["", "Damping", ""];
         }
 
         this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
@@ -97,7 +109,7 @@ public class ControlPanel extends Canvas {
         with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
-            labels = ["", "Resonators", ""];
+            labels = ["", "Number of Resonators", ""];
             snapInterval = 1;
             tickInterval = 1;
         }
