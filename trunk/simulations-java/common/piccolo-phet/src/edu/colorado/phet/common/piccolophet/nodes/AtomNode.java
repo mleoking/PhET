@@ -20,19 +20,19 @@ import edu.umd.cs.piccolo.PCanvas;
  * PhET's visual representation of an atom.
  * It has a 3D look with a specular hilite at the upper left.
  * <p>
- * This implementation uses SphericalNode via composition instead of subclassing, 
+ * This implementation uses SphericalNode via composition instead of subclassing,
  * because SphericalNode's interface uses Paint, and we're constrained to Color.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AtomNode extends PhetPNode {
-    
+
     private static final Color DEFAULT_HILITE = Color.WHITE;
     private static final Color DEFAULT_SHADOW = Color.BLACK;
-    
+
     private final SphericalNode sphericalNode;
     private final Color mainColor, hiliteColor, shadowColor;
-    
+
     public AtomNode( double diameter, Color color ) {
         this( diameter, color, DEFAULT_HILITE, DEFAULT_SHADOW, false );
     }
@@ -44,22 +44,22 @@ public class AtomNode extends PhetPNode {
         sphericalNode = new SphericalNode( diameter, createPaint( diameter, mainColor, hiliteColor, shadowColor ), convertToImage );
         addChild( sphericalNode );
     }
-    
+
     public void setDiameter( double diameter ) {
         sphericalNode.setPaint( createPaint( diameter, mainColor, hiliteColor, shadowColor ) );
         sphericalNode.setDiameter( diameter );
     }
 
     private static Paint createPaint( double diameter, Color mainColor, Color hiliteColor, Color shadowColor ) {
-        return new AtomGradientPaint( mainColor, hiliteColor, shadowColor, -diameter/6, -diameter/6, diameter/4, diameter/4 );
+        return new AtomGradientPaint( mainColor, hiliteColor, shadowColor, -diameter/6, -diameter/6, diameter/4 );
     }
-    
+
     private static class AtomGradientPaint implements Paint {
 
         private final Color mainColor, hiliteColor, shadowColor;
         private final Point2D hiliteCenter;
-        private final Point2D hiliteRadius;
-       
+        private final double hiliteRadius;
+
         /**
          * Constructor accepts a point and a color that describe the center of
          * the gradient, a radius, and a background color. The gradient blends
@@ -68,19 +68,19 @@ public class AtomNode extends PhetPNode {
          *
          * @param mainColor
          * @param hiliteColor
-         * @param shadowColor 
+         * @param shadowColor
          * @param hiliteCenterX x center of the hilite
          * @param hiliteCenterY y center of the hilite
          * @param hiliteRadius radius of the gradient blend between the hilite and main colors
-         * 
+         *
          */
-        public AtomGradientPaint( Color mainColor, Color hiliteColor, Color shadowColor, double hiliteCenterX, double hiliteCenterY, double hiliteRadiusX, double hiliteRadiusY ) {
+        public AtomGradientPaint( Color mainColor, Color hiliteColor, Color shadowColor, double hiliteCenterX, double hiliteCenterY, double hiliteRadius ) {
             this.mainColor = mainColor;
             this.hiliteColor = hiliteColor;
             this.shadowColor = shadowColor;
             this.hiliteCenter = new Point2D.Double( hiliteCenterX, hiliteCenterY );
-            this.hiliteRadius = new Point2D.Double( hiliteRadiusX, hiliteRadiusY );
-            if ( hiliteRadius.distance( 0, 0 ) <= 0 ) {
+            this.hiliteRadius = hiliteRadius;
+            if ( hiliteRadius <= 0 ) {
                 throw new IllegalArgumentException( "hiliteRadius must be greater than 0." );
             }
         }
@@ -89,9 +89,9 @@ public class AtomNode extends PhetPNode {
          * See Paint.createContext
          */
         public PaintContext createContext( ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform xform, RenderingHints hints ) {
-            Point2D transformedPoint = xform.transform( hiliteCenter, null );
-            Point2D transformedRadius = xform.deltaTransform( hiliteRadius, null );
-            return new AtomGradientContext( transformedPoint, hiliteColor, transformedRadius, mainColor );
+            Point2D transformedHiliteCenter = xform.transform( hiliteCenter, null );
+            double transformedHiliteRadius = xform.deltaTransform( new Point2D.Double( hiliteRadius, 0 ), null ).getX();
+            return new AtomGradientContext( mainColor, hiliteColor, transformedHiliteCenter, transformedHiliteRadius );
         }
 
         /**
@@ -103,19 +103,19 @@ public class AtomNode extends PhetPNode {
             return ( ( ( a1 & a2 ) == 0xff ) ? OPAQUE : TRANSLUCENT );
         }
     }
-    
+
     private static class AtomGradientContext implements PaintContext {
 
-        private final Point2D _point;
-        private final Point2D _radius;
-        private final Color _color1, _color2;
+        private final Color hiliteColor, mainColor;
+        private final Point2D hiliteCenter;
+        private final double hiliteRadius;
         private WritableRaster _raster;
-        
-        public AtomGradientContext( Point2D p, Color color1, Point2D r, Color color2 ) {
-            _point = p;
-            _color1 = color1;
-            _radius = r;
-            _color2 = color2;
+
+        public AtomGradientContext( Color mainColor, Color hiliteColor, Point2D hiliteCenter, double hiliteRadius ) {
+            this.mainColor = mainColor;
+            this.hiliteColor = hiliteColor;
+            this.hiliteCenter = hiliteCenter;
+            this.hiliteRadius = hiliteRadius;
         }
 
         public void dispose() {
@@ -138,18 +138,17 @@ public class AtomNode extends PhetPNode {
             int[] data = new int[w * h * 4];
             for ( int j = 0; j < h; j++ ) {
                 for ( int i = 0; i < w; i++ ) {
-                    double distance = _point.distance( x + i, y + j );
-                    double radius = _radius.distance( 0, 0 );
-                    double ratio = distance / radius;
+                    double distance = hiliteCenter.distance( x + i, y + j );
+                    double ratio = distance / hiliteRadius;
                     if ( ratio > 1.0 ) {
                         ratio = 1.0;
                     }
 
                     int base = ( j * w + i ) * 4;
-                    data[base + 0] = (int) ( _color1.getRed() + ratio * ( _color2.getRed() - _color1.getRed() ) );
-                    data[base + 1] = (int) ( _color1.getGreen() + ratio * ( _color2.getGreen() - _color1.getGreen() ) );
-                    data[base + 2] = (int) ( _color1.getBlue() + ratio * ( _color2.getBlue() - _color1.getBlue() ) );
-                    data[base + 3] = (int) ( _color1.getAlpha() + ratio * ( _color2.getAlpha() - _color1.getAlpha() ) );
+                    data[base + 0] = (int) ( hiliteColor.getRed() + ratio * ( mainColor.getRed() - hiliteColor.getRed() ) );
+                    data[base + 1] = (int) ( hiliteColor.getGreen() + ratio * ( mainColor.getGreen() - hiliteColor.getGreen() ) );
+                    data[base + 2] = (int) ( hiliteColor.getBlue() + ratio * ( mainColor.getBlue() - hiliteColor.getBlue() ) );
+                    data[base + 3] = (int) ( hiliteColor.getAlpha() + ratio * ( mainColor.getAlpha() - hiliteColor.getAlpha() ) );
                 }
             }
             raster.setPixels( 0, 0, w, h, data );
