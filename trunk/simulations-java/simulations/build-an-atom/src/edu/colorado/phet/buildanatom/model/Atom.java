@@ -533,6 +533,14 @@ public class Atom extends SimpleAtom {
         return electronShell1.containsElectron( electron ) || electronShell2.containsElectron( electron );
     }
 
+    public ArrayList<Proton> getProtons() {
+        return protons;
+    }
+
+    public ArrayList<Neutron> getNeutrons() {
+        return neutrons;
+    }
+
     //For the game mode
     public ArrayList<SubatomicParticle> setState( AtomValue answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
         ArrayList<SubatomicParticle> removedParticles = new ArrayList<SubatomicParticle>();

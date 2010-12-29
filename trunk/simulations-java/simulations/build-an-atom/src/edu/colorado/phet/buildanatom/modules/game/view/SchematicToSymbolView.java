@@ -19,7 +19,7 @@ public class SchematicToSymbolView extends ToSymbolProblemView {
         super( model, canvas, problem );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 
-        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel, SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
+        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
             setPickable( false );
             setChildrenPickable( false );
         }};

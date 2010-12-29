@@ -27,7 +27,7 @@ public abstract class SchematicToQuestionView extends ToQuestionView {
         super( model, gameCanvas, problem, questionText, minValue, maxValue, numberFormat );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
 
-        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel, ProblemView.SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
+        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), ProblemView.SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
             setPickable( false );
             setChildrenPickable( false );
         }};
