@@ -12,11 +12,3 @@
 <string key="style2" value="2. stílus"/>
 <string key="style1" value="1. stílus"/>
 </SimStrings>
- (44031) Sep 14, 2010-->
-<SimStrings>
-<string key="showSum" value="Összeget mutat"/>
-<string key="simTitle" value="Vektorösszeadás"/>
-<string key="grabOne" value="Húzz egyet"/>
-<string key="clearAll" value="Törlés"/>
-<string key="componentDisplay" value="Összetevők kijelzése:"/>
-<string key="style3" value="3
