@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * PhET's visual representation of an atom.
- * It has a 3D look with a specular hilite at the upper left.
+ * It has a 3D look with a specular highlight at the upper left.
  * <p>
  * This implementation uses SphericalNode via composition instead of subclassing,
  * because SphericalNode's interface uses Paint, and we're constrained to Color.
@@ -31,34 +31,34 @@ public class AtomNode extends PhetPNode {
     private static final Color DEFAULT_SHADOW = Color.BLACK;
 
     private final SphericalNode sphericalNode;
-    private final Color mainColor, hiliteColor, shadowColor;
+    private final Color mainColor, highlightColor, shadowColor;
 
     public AtomNode( double diameter, Color color ) {
         this( diameter, color, DEFAULT_HILITE, DEFAULT_SHADOW, false );
     }
 
-    public AtomNode( double diameter, Color mainColor, Color hiliteColor, Color shadowColor, boolean convertToImage ) {
+    public AtomNode( double diameter, Color mainColor, Color highlightColor, Color shadowColor, boolean convertToImage ) {
         this.mainColor = mainColor;
-        this.hiliteColor = hiliteColor;
+        this.highlightColor = highlightColor;
         this.shadowColor = shadowColor;
-        sphericalNode = new SphericalNode( diameter, createPaint( diameter, mainColor, hiliteColor, shadowColor ), convertToImage );
+        sphericalNode = new SphericalNode( diameter, createPaint( diameter, mainColor, highlightColor, shadowColor ), convertToImage );
         addChild( sphericalNode );
     }
 
     public void setDiameter( double diameter ) {
-        sphericalNode.setPaint( createPaint( diameter, mainColor, hiliteColor, shadowColor ) );
+        sphericalNode.setPaint( createPaint( diameter, mainColor, highlightColor, shadowColor ) );
         sphericalNode.setDiameter( diameter );
     }
 
-    private static Paint createPaint( double diameter, Color mainColor, Color hiliteColor, Color shadowColor ) {
-        return new AtomGradientPaint( mainColor, hiliteColor, shadowColor, -diameter/6, -diameter/6, diameter/4, -diameter/10, -diameter/10, diameter );
+    private static Paint createPaint( double diameter, Color mainColor, Color highlightColor, Color shadowColor ) {
+        return new AtomGradientPaint( mainColor, highlightColor, shadowColor, -diameter/6, -diameter/6, diameter/4, -diameter/10, -diameter/10, diameter );
     }
 
     private static class AtomGradientPaint implements Paint {
 
-        private final Color mainColor, hiliteColor, shadowColor;
-        private final Point2D hiliteCenter, shadowCenter;
-        private final double hiliteRadius, shadowRadius;
+        private final Color mainColor, highlightColor, shadowColor;
+        private final Point2D highlightCenter, shadowCenter;
+        private final double highlightRadius, shadowRadius;
 
         /**
          * Constructor accepts a point and a color that describe the center of
@@ -67,30 +67,30 @@ public class AtomNode extends PhetPNode {
          * of the radius.
          *
          * @param mainColor
-         * @param hiliteColor
+         * @param highlightColor
          * @param shadowColor
-         * @param hiliteCenterX x center of the hilite gradient
-         * @param hiliteCenterY y center of the hilite gradient
-         * @param hiliteRadius radius of the gradient blend between the hilite and main colors@param hiliteCenterX x center of the hilite
+         * @param highlightCenterX x center of the highlight gradient
+         * @param highlightCenterY y center of the highlight gradient
+         * @param highlightRadius radius of the gradient blend between the highlight and main colors@param highlightCenterX x center of the highlight
          * @param shadowCenterX x center of the shadow gradient
          * @param shadowCenterY y center of the shadow gradient
          * @param shadow Radius radius of the gradient blend between the shadow and main colors
          *
          */
-        public AtomGradientPaint( Color mainColor, Color hiliteColor, Color shadowColor,
-                double hiliteCenterX, double hiliteCenterY, double hiliteRadius,
+        public AtomGradientPaint( Color mainColor, Color highlightColor, Color shadowColor,
+                double highlightCenterX, double highlightCenterY, double highlightRadius,
                 double shadowCenterX, double shadowCenterY, double shadowRadius ) {
 
             this.mainColor = mainColor;
-            this.hiliteColor = hiliteColor;
+            this.highlightColor = highlightColor;
             this.shadowColor = shadowColor;
-            this.hiliteCenter = new Point2D.Double( hiliteCenterX, hiliteCenterY );
-            this.hiliteRadius = hiliteRadius;
+            this.highlightCenter = new Point2D.Double( highlightCenterX, highlightCenterY );
+            this.highlightRadius = highlightRadius;
             this.shadowCenter = new Point2D.Double( shadowCenterX, shadowCenterY );
             this.shadowRadius = shadowRadius;
 
-            if ( hiliteRadius <= 0 ) {
-                throw new IllegalArgumentException( "hiliteRadius must be greater than 0." );
+            if ( highlightRadius <= 0 ) {
+                throw new IllegalArgumentException( "highlightRadius must be greater than 0." );
             }
             if ( shadowRadius <= 0 ) {
                 throw new IllegalArgumentException( "shadowRadius must be greater than 0." );
@@ -101,18 +101,18 @@ public class AtomNode extends PhetPNode {
          * See Paint.createContext
          */
         public PaintContext createContext( ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform xform, RenderingHints hints ) {
-            Point2D transformedHiliteCenter = xform.transform( hiliteCenter, null );
-            double transformedHiliteRadius = xform.deltaTransform( new Point2D.Double( hiliteRadius, 0 ), null ).getX();
+            Point2D transformedHiliteCenter = xform.transform( highlightCenter, null );
+            double transformedHiliteRadius = xform.deltaTransform( new Point2D.Double( highlightRadius, 0 ), null ).getX();
             Point2D transformedShadowCenter = xform.transform( shadowCenter, null );
             double transformedShadowRadius = xform.deltaTransform( new Point2D.Double( shadowRadius, 0 ), null ).getX();
-            return new AtomGradientContext( mainColor, hiliteColor, shadowColor, transformedHiliteCenter, transformedHiliteRadius, transformedShadowCenter, transformedShadowRadius );
+            return new AtomGradientContext( mainColor, highlightColor, shadowColor, transformedHiliteCenter, transformedHiliteRadius, transformedShadowCenter, transformedShadowRadius );
         }
 
         /**
          * See Transparency.getTransparency
          */
         public int getTransparency() {
-            int a1 = hiliteColor.getAlpha();
+            int a1 = highlightColor.getAlpha();
             int a2 = mainColor.getAlpha();
             return ( ( ( a1 & a2 ) == 0xff ) ? OPAQUE : TRANSLUCENT );
         }
@@ -120,17 +120,17 @@ public class AtomNode extends PhetPNode {
 
     private static class AtomGradientContext implements PaintContext {
 
-        private final Color mainColor, hiliteColor, shadowColor;
-        private final Point2D hiliteCenter, shadowCenter;
-        private final double hiliteRadius, shadowRadius;
+        private final Color mainColor, highlightColor, shadowColor;
+        private final Point2D highlightCenter, shadowCenter;
+        private final double highlightRadius, shadowRadius;
         private WritableRaster _raster;
 
-        public AtomGradientContext( Color mainColor, Color hiliteColor, Color shadowColor, Point2D hiliteCenter, double hiliteRadius, Point2D shadowCenter, double shadowRadius ) {
+        public AtomGradientContext( Color mainColor, Color highlightColor, Color shadowColor, Point2D highlightCenter, double highlightRadius, Point2D shadowCenter, double shadowRadius ) {
             this.mainColor = mainColor;
-            this.hiliteColor = hiliteColor;
+            this.highlightColor = highlightColor;
             this.shadowColor = shadowColor;
-            this.hiliteCenter = hiliteCenter;
-            this.hiliteRadius = hiliteRadius;
+            this.highlightCenter = highlightCenter;
+            this.highlightRadius = highlightRadius;
             this.shadowCenter = shadowCenter;
             this.shadowRadius = shadowRadius;
         }
@@ -155,7 +155,7 @@ public class AtomNode extends PhetPNode {
             // shadow gradient
             paintGradient( x, y, w, h, raster, mainColor, shadowColor, shadowCenter, shadowRadius );
             // highlight gradient
-//            paintGradient( x, y, w, h, raster, hiliteColor, mainColor, hiliteCenter, hiliteRadius );
+//            paintGradient( x, y, w, h, raster, highlightColor, mainColor, highlightCenter, highlightRadius );
         }
 
         /*
