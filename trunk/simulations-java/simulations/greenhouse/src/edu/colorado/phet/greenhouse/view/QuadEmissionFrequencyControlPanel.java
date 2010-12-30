@@ -26,6 +26,8 @@ import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -126,14 +128,16 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Add the arrows on the right and left sides.
         EnergyArrow leftArrowNode = new EnergyArrow(
                 GreenhouseResources.getString( "QuadWavelengthSelector.Lower" ),
-                EnergyArrow.Direction.POINTS_LEFT );
+                EnergyArrow.Direction.POINTS_LEFT,
+                model );
         leftArrowNode.setOffset(
                 EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - leftArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
         backgroundNode.addChild( leftArrowNode );
         EnergyArrow rightArrowNode = new EnergyArrow(
                 GreenhouseResources.getString( "QuadWavelengthSelector.Higher" ),
-                EnergyArrow.Direction.POINTS_RIGHT );
+                EnergyArrow.Direction.POINTS_RIGHT,
+                model );
         rightArrowNode.setOffset(
                 backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
@@ -305,7 +309,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
     /**
      * Class that defines the "energy arrow", which is an arrow on each side
-     * of the chart that indicates increasing or decreasin energy amounts.
+     * of the chart that indicates increasing or decreasing energy amounts.
      *
      * @author John Blanco
      */
@@ -315,10 +319,12 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private static final double ARROW_HEAD_HEIGHT = 15;
         private static final double ARROW_HEAD_WIDTH = 30;
         private static final double ARROW_TAIL_WIDTH = 10;
+        private static final Color NORMAL_COLOR = Color.WHITE;
+        private static final Color HILITE_COLOR = Color.YELLOW;
 
         public enum Direction { POINTS_LEFT, POINTS_RIGHT };
 
-        public EnergyArrow( String captionText, Direction direction ){
+        public EnergyArrow( String captionText, final Direction direction, final PhotonAbsorptionModel model ){
 
             PText caption = new PText( captionText );
             caption.setFont( new PhetFont( 18, true ) );
@@ -340,8 +346,9 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 caption.setOffset( 0, ARROW_TAIL_WIDTH * 2 + ARROW_HEAD_HEIGHT / 3 );
                 arrowXPos = caption.getFullBoundsReference().width - ARROW_LENGTH + ARROW_HEAD_HEIGHT + 10;
             }
-            ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
-                setPaint( Color.WHITE );
+
+            final ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
+                setPaint( NORMAL_COLOR );
                 setStroke( new BasicStroke( 3 ) );
             }};
 
@@ -354,6 +361,69 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
             // Add the arrow node as a child.
             addChild( arrowNode );
+
+            // Add a listener that allows the user to click on the arrow and
+            // cause the frequency to go up or down.  This also and to
+            // highlights the arrow when the mouse is over it.
+            addInputEventListener( new PBasicInputEventHandler(){
+                @Override
+                public void mouseClicked( PInputEvent event ) {
+                    if ( direction == Direction.POINTS_RIGHT ){
+                        // Increase the energy (which translates to decreased wavelength).
+                        decreaseWavelength( model );
+                    }
+                    else{
+                        // Decrease the energy (which translates to increased wavelength).
+                        increaseWavelength( model );
+                    }
+                }
+
+                @Override
+                public void mouseEntered( PInputEvent event ) {
+                    arrowNode.setPaint( HILITE_COLOR );
+                }
+
+                @Override
+                public void mouseExited( PInputEvent event ) {
+                    arrowNode.setPaint( NORMAL_COLOR );
+                }
+            } );
+        }
+
+        /**
+         * Increase the current wavelength setting of the model.  Note that
+         * the implementation is less than ideal because it requires knowledge
+         * of the available wavelengths.  It may be desirable to make this
+         * more general some day.
+         */
+        private void increaseWavelength( PhotonAbsorptionModel model ){
+            if (model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.microWavelength );
+            }
+        }
+
+        /**
+         * Decrease the current wavelength setting of the model.  Note that
+         * the implementation is less than ideal because it requires knowledge
+         * of the available wavelengths.  It may be desirable to make this
+         * more general some day.
+         */
+        private void decreaseWavelength( PhotonAbsorptionModel model ){
+            if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
+            }
+            else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.uvWavelength );
+            }
         }
     }
 }
