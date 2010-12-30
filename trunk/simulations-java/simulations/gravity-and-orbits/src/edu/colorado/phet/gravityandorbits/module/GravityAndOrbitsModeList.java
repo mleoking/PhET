@@ -104,6 +104,8 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                 return new EarthMassReadoutNode( bodyNode, visible );
             }
         };
+
+        //Create the modes.
         add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
@@ -171,7 +173,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         } );
     }
 
-
+    //Creates an image that can be used for the mode icon, showing the nodes of each body in the mode.
     private Image createIconImage( final boolean sun, final boolean earth, final boolean moon, final boolean spaceStation ) {
         return new PNode() {
             {

@@ -45,7 +45,7 @@ public class Body implements IBodyColors {
     private final double cartoonDiameterScaleFactor;
     private final Body parent;
     private final double cartoonOffsetScale;
-    private final Function2<Body, Double, BodyRenderer> renderer;
+    private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
     private final int maxPathLength;
     private final double cartoonForceScale;
@@ -54,6 +54,8 @@ public class Body implements IBodyColors {
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
     private double tickValue;
     private String tickLabel;
+
+    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
@@ -380,8 +382,6 @@ public class Body implements IBodyColors {
     public String getTickLabel() {
         return tickLabel;
     }
-
-    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();
 
     public void addUserModifiedPositionListener( VoidFunction0 listener ) {
         userModifiedPositionListeners.add( listener );

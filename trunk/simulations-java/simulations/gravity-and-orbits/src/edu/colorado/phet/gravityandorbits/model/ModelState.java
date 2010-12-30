@@ -69,7 +69,7 @@ public class ModelState {
     }
 
     /**
-     * Get the force on body at its proposed new position
+     * Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
      *
      * @param target
      * @param newTargetPosition

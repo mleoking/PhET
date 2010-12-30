@@ -76,6 +76,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             setFillNone();
             setAnchor( GridBagConstraints.WEST );
 
+            //Checkboxes for Gravity force and Velocity vectors
             add( new JPanel( new GridLayout( 2, 2 ) ) {
                 {
                     setBackground( BACKGROUND );
@@ -112,6 +113,8 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
             add( new GAORadioButton<Scale>( GAOStrings.CARTOON, module.getScaleProperty(), Scale.CARTOON ) );
             add( new GAORadioButton<Scale>( GAOStrings.REAL, module.getScaleProperty(), Scale.REAL ) );
+
+            //Panel with measuring tape.
             add( new JPanel() {{
                 setBackground( BACKGROUND );
                 setOpaque( false );
@@ -167,6 +170,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }
     }
 
+    //For debugging
     public static void showIcon( String name, final Icon icon ) {
         new JFrame( name ) {{
             setContentPane( new JCheckBox() {{
@@ -176,6 +180,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }}.setVisible( true );
     }
 
+    //For debugging
     public static void showImage( String name, final Image image ) {
         new JFrame( name ) {{
             setContentPane( new JLabel( new ImageIcon( image ) ) );
