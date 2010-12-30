@@ -106,6 +106,7 @@ public class GravityAndOrbitsModel {
         modelStepListeners.add( simpleObserver );
     }
 
+    //Adds a body and updates the body's force vectors
     public void addBody( Body body ) {
         bodies.add( body );
         body.addUserModifiedPositionListener( new VoidFunction0() {

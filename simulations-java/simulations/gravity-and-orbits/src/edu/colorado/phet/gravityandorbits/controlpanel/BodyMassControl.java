@@ -42,6 +42,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, MIN, MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
 
+        //Top component that shows the body's name and icon
         //TODO: move title label west, probably by not having the horizontal panel expand to take full width
         add( new JPanel() {{
             setBackground( BACKGROUND );
@@ -60,6 +61,8 @@ public class BodyMassControl extends VerticalLayoutPanel {
 
         setForeground( FOREGROUND );
         setBackground( BACKGROUND );
+
+        //Add the slider component.
         add( new JSlider( MIN, MAX ) {{
             setMajorTickSpacing( (int) ( modelToView.evaluate( labelValue ) - MIN ) );
             setPaintLabels( true );
@@ -91,11 +94,12 @@ public class BodyMassControl extends VerticalLayoutPanel {
                     updatingSlider = false;
                 }
             } );
+
+            // we don't want to set the body mass if we are updating the slider. otherwise we get a
+            // mass change => update slider => mass change bounce and the wrong values are stored for a reset
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     if ( !updatingSlider ) {
-                        // we don't want to set the body mass if we are updating the slider. otherwise we get a
-                        // mass change => update slider => mass change bounce and the wrong values are stored for a reset
                         double sliderValue = modelToView.createInverse().evaluate( getValue() );
                         if ( Math.abs( sliderValue - labelValue ) / labelValue < 0.05 ) {//if near to tick mark, then use that value
                             body.setMass( labelValue );
@@ -106,10 +110,10 @@ public class BodyMassControl extends VerticalLayoutPanel {
                     }
                 }
             } );
+            //if mouse is released near to tick mark, then use that value
             addMouseListener( new MouseAdapter() {
                 @Override
                 public void mouseReleased( MouseEvent e ) {
-                    //if near to tick mark, then use that value
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
                             double sliderValue = modelToView.createInverse().evaluate( getValue() );

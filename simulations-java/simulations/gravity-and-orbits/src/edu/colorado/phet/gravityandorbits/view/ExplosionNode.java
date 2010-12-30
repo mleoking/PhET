@@ -23,6 +23,7 @@ public class ExplosionNode extends PNode {
     int numStepsForAnimation = 10;
 
     public ExplosionNode( final Body body, final Property<ModelViewTransform> modelViewTransform ) {
+        //Function that computes the diameter as a function of the animation step
         final Function1<Integer, Double> diameter = new Function1<Integer, Double>() {
             public Double apply( Integer numClockTicksSinceExplosion ) {
                 if ( numClockTicksSinceExplosion < numStepsForAnimation / 2 ) {
@@ -36,6 +37,7 @@ public class ExplosionNode extends PNode {
                 }
             }
         };
+        //Add the graphic that shows the explosion
         addChild( new BodyRenderer.SunRenderer( new IBodyColors() {
             public Color getHighlight() {
                 return Color.white;

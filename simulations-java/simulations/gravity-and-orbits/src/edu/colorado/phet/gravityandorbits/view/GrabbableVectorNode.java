@@ -53,6 +53,7 @@ public class GrabbableVectorNode extends VectorNode {
         body.getScaledPositionProperty().addObserver( updateGrabArea );
         modelViewTransform.addObserver( updateGrabArea );
         addChild( grabArea );
+        //Add the drag handler
         if ( body.isDraggable() ) {
             grabArea.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {

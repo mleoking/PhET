@@ -67,6 +67,9 @@ public abstract class BodyRenderer extends PNode {
         }
     }
 
+    /**
+     * Render a SphericalNode for the body.
+     */
     public static class SphereRenderer extends BodyRenderer {
 
         private SphericalNode sphereNode;

@@ -31,6 +31,8 @@ public class PathNode extends PNode {
 
         final int numFadePoints = 25;
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+
+        //The part that draws the path
         pathNode = new PNode() {
             @Override
             protected void paint( PPaintContext paintContext ) {

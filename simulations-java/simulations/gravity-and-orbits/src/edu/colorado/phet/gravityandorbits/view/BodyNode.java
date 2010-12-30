@@ -49,6 +49,8 @@ public class BodyNode extends PNode {
         addChild( bodyRenderer );
 
         final CursorHandler cursorHandler = new CursorHandler();
+
+        //Add drag handlers
         if ( body.isDraggable() ) {
             addInputEventListener( cursorHandler );
             addInputEventListener( new PBasicInputEventHandler() {

@@ -45,6 +45,8 @@ public class MeasuringTape extends PNode {
             modelEnd.addObserver( updateTape );
             transform.addObserver( updateTape );
         }} );
+
+        //The body of the measuring tape
         try {
             addChild( new PImage( ImageLoader.loadBufferedImage( edu.colorado.phet.common.piccolophet.nodes.MeasuringTape.MEASURING_TAPE_IMAGE ) ) {{
                 final SimpleObserver updateBody = new SimpleObserver() {
@@ -70,6 +72,7 @@ public class MeasuringTape extends PNode {
         addChild( new CrossHairGraphic( modelStart, transform ) );
         addChild( new CrossHairGraphic( modelEnd, transform ) );
 
+        //The textual (numeric) readout
         addChild( new PText( "Hello" ) {{
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
