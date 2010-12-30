@@ -33,16 +33,17 @@ public class ControlPanel extends Canvas {
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
     //internationalized strings
-    private var numberOfResonators_str:String;
-    private var damping_str:String;
-    private var gravity_str:String;
-    private var on_str:String;
-    private var off_str:String;
-    private var resonator_str:String;
-    private var mass_str:String;
-    private var springConstant_str:String;
-    private var frequencyEquals_str:String;
-    private var resetAll_str:String;
+    public var numberOfResonators_str:String;
+    public var damping_str:String;
+    public var gravity_str:String;
+    public var on_str:String;
+    public var off_str:String;
+    public var resonator_str:String;
+    public var mass_str:String;
+    public var springConstant_str:String;
+    public var frequencyEquals_str:String;
+    public var hz_str:String;
+    public var resetAll_str:String;
 
 
     public function ControlPanel( myMainView: MainView, model: ShakerModel ) {
@@ -57,6 +58,8 @@ public class ControlPanel extends Canvas {
     }
 
     public function init(): void {
+
+        this.initializeStrings();
 
         this.background = new VBox();
         this.background.setStyle( "backgroundColor", 0x66ff66 );
@@ -99,7 +102,7 @@ public class ControlPanel extends Canvas {
         with ( this.dampingSlider ) {
             minimum = 0.05;
             maximum = 5;
-            labels = ["", "Damping", ""];
+            labels = ["", this.damping_str, ""];
         }
 
         this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
@@ -109,7 +112,7 @@ public class ControlPanel extends Canvas {
         with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
-            labels = ["", "Number of Resonators", ""];
+            labels = ["", this.numberOfResonators_str, ""];
             snapInterval = 1;
             tickInterval = 1;
         }
@@ -119,7 +122,7 @@ public class ControlPanel extends Canvas {
         this.radioButtonBox = new HBox();
 
         this.gravity_lbl = new Label();
-        this.gravity_lbl.text = "Gravity";
+        this.gravity_lbl.text = this.gravity_str;
         this.gravity_lbl.setStyle( "fontSize", 14 );
 
         this.gravityOnOff_rbg = new RadioButtonGroup();
@@ -127,8 +130,8 @@ public class ControlPanel extends Canvas {
         var rb2: RadioButton = new RadioButton();
         rb1.group = gravityOnOff_rbg;
         rb2.group = gravityOnOff_rbg;
-        rb1.label = "on";
-        rb2.label = "off";
+        rb1.label = this.on_str;
+        rb2.label = this.off_str;
         rb1.value = 1;
         rb2.value = 0;
         rb1.selected = false;
@@ -143,7 +146,7 @@ public class ControlPanel extends Canvas {
         this.resonatorNbr_lbl = new Label();
 
         with ( this.resonatorNbr_lbl ) {
-            text = "Resonator #";
+            text = this.resonator_str;
             setStyle( "fontFamily", "Arial" );
             setStyle( "fontSize", 14 );
             percentWidth = 90;
@@ -156,7 +159,7 @@ public class ControlPanel extends Canvas {
         with ( this.mSlider ) {
             minimum = 0.2;
             maximum = 4;
-            labels = ["", "mass", ""];
+            labels = ["", this.mass_str, ""];
             // This doesn't work: setStyle("labelPlacement", "bottom");
         }
         this.mSlider.addEventListener( Event.CHANGE, onChangeM );
@@ -166,24 +169,24 @@ public class ControlPanel extends Canvas {
         with ( this.kSlider ) {
             minimum = 10;
             maximum = 400;
-            labels = ["", "spring constant", ""];
+            labels = ["", this.springConstant_str, ""];
         }
-        ;
+
         this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
         this.freq_lbl = new Label();
         with ( this.freq_lbl ) {
-            text = "frequency = #";
+            text = this.frequencyEquals_str;
             setStyle( "fontFamily", "Arial" );
             setStyle( "fontSize", 14 );
             percentWidth = 90;
             setStyle( "textAlign", "center" );
         }
-        ;
+
 
         this.resetAllButton = new Button();
         with ( this.resetAllButton ) {
-            label = " Reset All "
+            label = this.resetAll_str;
             buttonMode = true;
         }
         this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
@@ -205,6 +208,20 @@ public class ControlPanel extends Canvas {
 
     } //end of init()
 
+    private function initializeStrings():void{
+     numberOfResonators_str = "Number of Resonators";
+     damping_str = "Damping";
+     gravity_str = "Gravity";
+     on_str = "on";
+     off_str = "off";
+     resonator_str  = "Resonator";
+     mass_str = "mass";
+     springConstant_str = "spring constant";
+     frequencyEquals_str = "frequency = ";
+     hz_str = "Hz";
+     resetAll_str = "Reset All";
+    }
+
     function formatSlider( mySlider: HSlider ): void {
         mySlider.buttonMode = true;
         mySlider.liveDragging = true;
@@ -215,7 +232,7 @@ public class ControlPanel extends Canvas {
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
         var rNbr_str: String = rNbr.toFixed( 0 );
-        this.resonatorNbr_lbl.text = "Resonator " + rNbr_str;
+        this.resonatorNbr_lbl.text = this.resonator_str + " " + rNbr_str;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
         this.mSlider.value = m;
@@ -232,7 +249,7 @@ public class ControlPanel extends Canvas {
         var rNbr: int = this.selectedResonatorNbr;
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
         var resFreq_str: String = resFreq.toFixed( 2 );
-        this.freq_lbl.text = "frequency = " + resFreq_str + " Hz";
+        this.freq_lbl.text = this.frequencyEquals_str + resFreq_str + " " + hz_str;
     }
 
     public function setDamping( evt: Event ): void {
@@ -264,11 +281,11 @@ public class ControlPanel extends Canvas {
         var val: Object = this.gravityOnOff_rbg.selectedValue;
         if ( val == 1 ) {
             this.shakerModel.setG( 5 );
-            trace( "1" );
+            //trace( "1" );
         }
         else {
             this.shakerModel.setG( 0 );
-            trace( "2" );
+            //trace( "2" );
         }
     }
 
