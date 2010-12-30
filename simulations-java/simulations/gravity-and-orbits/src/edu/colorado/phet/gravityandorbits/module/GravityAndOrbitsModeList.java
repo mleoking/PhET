@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
+import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
 
@@ -25,6 +26,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
 
+    public static final double SECONDS_PER_MINUTE = 60;
     private Property<Scale> scaleProperty;
     private Property<Boolean> clockPausedProperty;
 
@@ -76,14 +78,14 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
 
     private static final Function1<Double, String> days = new Function1<Double, String>() {
         public String apply( Double time ) {
-            int value = (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_DAY );
+            int value = (int) ( time / GravityAndOrbitsClock.SECONDS_PER_DAY );
             String units = ( value == 1 ) ? GAOStrings.EARTH_DAY : GAOStrings.EARTH_DAYS;
             return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
         }
     };
     private static final Function1<Double, String> minutes = new Function1<Double, String>() {
         public String apply( Double time ) {
-            int value = (int) ( time / GravityAndOrbitsDefaults.SECONDS_PER_MINUTE );
+            int value = (int) ( time / SECONDS_PER_MINUTE );
             String units = ( value == 1 ) ? GAOStrings.EARTH_MINUTE : GAOStrings.EARTH_MINUTES;
             return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
         }
@@ -102,7 +104,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                 return new EarthMassReadoutNode( bodyNode, visible );
             }
         };
-        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsDefaults.DEFAULT_DT, days,
+        add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
                                        gravityEnabledProperty ) {
@@ -112,7 +114,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                 addBody( createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 ) );
             }
         } );
-        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsDefaults.DEFAULT_DT, days,
+        add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
                                        gravityEnabledProperty ) {
@@ -128,7 +130,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                 addBody( moon );
             }
         } );
-        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, GravityAndOrbitsDefaults.DEFAULT_DT / 3, days,
+        add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, GravityAndOrbitsClock.DEFAULT_DT / 3, days,
                                        createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
                                        new Line2D.Double( EARTH_PERIHELION, -MOON_PERIGEE / 4, EARTH_PERIHELION + MOON_PERIGEE, -MOON_PERIGEE / 4 ), 400,
                                        new ImmutableVector2D( EARTH_PERIHELION, 0 ),
@@ -154,7 +156,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         };
         add( new GravityAndOrbitsMode( "Planet & Space Station", VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false,
-                                       GravityAndOrbitsDefaults.DEFAULT_DT / 10000 * 9, minutes,
+                                       GravityAndOrbitsClock.DEFAULT_DT / 10000 * 9, minutes,
                                        createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty,
                                        SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
                                        new Line2D.Double( EARTH_PERIHELION, -EARTH_RADIUS / 6, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, -EARTH_RADIUS / 6 ),

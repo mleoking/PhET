@@ -8,10 +8,10 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
@@ -51,7 +51,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs ) {
         super( "Gravity and Orbits" + ": " + Arrays.asList( commandLineArgs ),//For simsharing
-               new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, GravityAndOrbitsDefaults.DEFAULT_DT ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+               new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
         getModulePanel().setLogoPanel( null );
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.init( this );

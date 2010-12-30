@@ -87,7 +87,7 @@ public abstract class GravityAndOrbitsMode {
         final double h = targetRectangle.getMaxY() - y;
         modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( new Rectangle2D.Double( x, y, w, h ) ) );
 
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( GravityAndOrbitsDefaults.CLOCK_FRAME_RATE, dt ), gravityEnabledProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt ), gravityEnabledProperty );
 
         this.rewindClockTime = 0;
         getClock().addClockListener( new ClockAdapter() {
