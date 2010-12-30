@@ -10,6 +10,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -53,6 +54,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
+
+        rootNode.addChild( new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) ));
 
         /*
          * TODO: Commented out while details of atom presentation are sorted through.

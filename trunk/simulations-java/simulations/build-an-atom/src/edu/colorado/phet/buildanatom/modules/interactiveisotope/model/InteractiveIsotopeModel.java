@@ -146,4 +146,11 @@ public class InteractiveIsotopeModel implements Resettable {
             neutronBucket.addParticle( neutron, true );
         }
     }
+
+    /**
+     * @return
+     */
+    public SubatomicParticleBucket getNeutronBucket() {
+        return neutronBucket;
+    }
 }
