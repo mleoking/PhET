@@ -2,12 +2,10 @@
 
 package edu.colorado.phet.acidbasesolutions.view.molecules;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.colorado.phet.common.piccolophet.nodes.AtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -16,23 +14,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class H3OPlusNode extends AbstractMoleculeNode {
-    
+public class H3OPlusNode extends PComposite {
+
     public H3OPlusNode() {
-        
+
         // attributes
         double diameterBig = 24;
         double diameterSmall = 14;
-        Color color = ABSColors.H3O_PLUS.darker();
-        Color hiliteColor = Color.WHITE;
-        Stroke stroke = new BasicStroke( 0.5f );
-        Color strokeColor = color.darker();
+        Color color = ABSColors.H3O_PLUS;
 
         // atom nodes
-        SphericalNode atomBig = new SphericalNode( diameterBig, createPaint( diameterBig, color, hiliteColor ), stroke, strokeColor, false );
-        SphericalNode atomSmallLeft = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
-        SphericalNode atomSmallTopRight = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
-        SphericalNode atomSmallBottomRight = new SphericalNode( diameterSmall, createPaint( diameterSmall, color, hiliteColor ), stroke, strokeColor, false );
+        AtomNode atomBig = new AtomNode( diameterBig, color );
+        AtomNode atomSmallLeft = new AtomNode( diameterSmall, color );
+        AtomNode atomSmallTopRight = new AtomNode( diameterSmall, color );
+        AtomNode atomSmallBottomRight = new AtomNode( diameterSmall, color );
 
         // rendering order
         PComposite parentNode = new PComposite();
