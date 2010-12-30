@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_hu.xml created Wed Dec 29 19:48:17 CET 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="Ellenállás (R) ="/>
+<string key="ohm" value="ohm"/>
+<string key="simTitle" value="Vezeték ellenállása"/>
+</SimStrings>
