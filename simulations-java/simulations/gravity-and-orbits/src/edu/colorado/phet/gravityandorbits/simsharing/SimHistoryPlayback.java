@@ -1,3 +1,5 @@
+// Copyright 2010-2011, University of Colorado
+
 package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.event.ActionEvent;
