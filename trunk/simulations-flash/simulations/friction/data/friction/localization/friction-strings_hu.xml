@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_hu.xml created Wed Dec 29 19:29:12 CET 2010 using: friction 2.02.00 (37305), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Dörzsöld a sárga \natomokat a zöldekhez!"/>
+<string key="physics" value="Fizika"/>
+<string key="reset" value="Előről"/>
+<string key="simTitle" value="Súrlódás"/>
+<string key="chemistry" value="Kémia"/>
+</SimStrings>
