@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: December 22-29, 2010
+
+ACCOMPLISHMENTS:
+
+Gravity and Orbits:
+- completed i18n
+- added Physics panel with Gravity control
+- fixed color issues for ADA compliance
+- worked on clock Rewind feature
+- simplified camera, removed camera animation glitch
+- fixed title bar
+- added some internal documentation
+- various collaborations with SR
+- published 0.00.10
+
+Administrative:
+- weekly PhET status meeting
+- weekly reports
+
+Common:
+- #2624, created mockups for KSU translation credits
+- #2615, created AtomNode, 3D-looking atom using a 3-color gradient
+
+Translations:
+- #107, worked on Translation Utility design for translation credits
+- #2632, resolved issue with Hungarian Flash translations (with Marj)
+
+Website:
+- #2626, Flash sims should open in a new browser window/tab
+
+WHAT'S NEXT:
+
+- Capacitor Lab: implement Multiple Capacitors tab
+- Acid-Base Solutions: publish new version with colorblind resolutions?
+- Translation Utility: add support for translation credits, #107
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- December 31
+- January 14-17,20,21
+--
