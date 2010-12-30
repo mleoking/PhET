@@ -161,7 +161,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
      */
     private static class WavelengthSelectButtonNode extends PNode {
 
-        private static final Font LABEL_FONT  = new PhetFont( 26 );
+        private static final Font LABEL_FONT  = new PhetFont( 16 );
         JRadioButton button;
 
         public WavelengthSelectButtonNode( final String text, final PhotonAbsorptionModel photonAbsorptionModel, final double wavelength ){
@@ -184,7 +184,15 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 // Set initial state.
                 setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
             }};
-            addChild( new PSwing( button ));
+            // TODO: We received some feedback that the buttons were a little
+            // small, so the following scaling operation makes them bigger
+            // relative to the font.  Keep or discard once reviewed.  Note
+            // that the scaling factor combined with the font size control
+            // the relative size of the button.
+            PSwing buttonNode = new PSwing( button ){{
+                setScale( 1.5 );
+            }};
+            addChild( buttonNode );
         }
 
         public JRadioButton getButton(){
