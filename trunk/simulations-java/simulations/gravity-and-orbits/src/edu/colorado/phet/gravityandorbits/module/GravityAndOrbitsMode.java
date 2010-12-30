@@ -28,6 +28,13 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.
+ * <p/>
+ * The sim was designed this way so that objects are replaced instead of mutated.
+ * For instance, when switching from Mode 1 to Mode 2, instead of removing Mode 1 bodies from the model, storing their state, and replacing with the Mode 2 bodies,
+ * this paradigm just replaces the entire model instance.
+ * <p/>
+ * The advantage of this approach is that model states, canvas states and control panels are always correct, and it is impossible to end up with a bug in which you have
+ * a mixture of components from multiple modes.
  *
  * @author Sam Reid
  */
@@ -49,6 +56,10 @@ public abstract class GravityAndOrbitsMode {
     private ImmutableVector2D zoomOffset;
     private double rewindClockTime;
     private Property<ModelViewTransform> modelViewTransformProperty;
+
+    //the play area only takes up the left side of the canvas; the control panel is on the right side
+    private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60;
+    private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
                                  double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
@@ -95,10 +106,6 @@ public abstract class GravityAndOrbitsMode {
         clockPaused.addObserver( updateClockRunning );
         this.active.addObserver( updateClockRunning );
     }
-
-    //the play area only takes up the left side of the canvas; the control panel is on the right side
-    private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60;
-    private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
 
     public static ModelViewTransform createTransform( Rectangle2D modelRectangle ) {
         return ModelViewTransform.createRectangleInvertedYMapping( modelRectangle, new Rectangle2D.Double( 0, 0, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT ) );

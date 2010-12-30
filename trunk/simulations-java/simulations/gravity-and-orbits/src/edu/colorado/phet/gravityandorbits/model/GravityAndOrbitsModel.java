@@ -12,6 +12,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
+/**
+ * This is the model for Gravity and Orbits; there is one GravityAndOrbitsModel per each GravityAndOrbitsMode, and it uses ModelState to update the physics.
+ *
+ * @author Sam Reid
+ * @see edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode
+ * @see ModelState
+ */
 public class GravityAndOrbitsModel {
 
     private final ArrayList<Body> bodies = new ArrayList<Body>();
