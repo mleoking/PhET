@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * PhET's visual representation of an atom.
- * It has a 3D look with a specular highlight at the upper left.
+ * It has a 3D look with a specular highlight at the upper left, and shadow towards the lower right.
  * <p>
  * This implementation uses SphericalNode via composition instead of subclassing,
  * because SphericalNode's interface uses Paint, and we're constrained to Color.

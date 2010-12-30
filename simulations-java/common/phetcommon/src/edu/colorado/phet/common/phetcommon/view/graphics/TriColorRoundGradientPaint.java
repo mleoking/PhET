@@ -148,15 +148,15 @@ public class TriColorRoundGradientPaint implements Paint {
 
             int[] data = new int[w * h * 4];
             Color color1, color2;
-            double ratio;  // ratio for interpolating between color1 and color2
+            double ratio;  // ratio for interpolating between color1 and color2, range is 0-1
 
             for ( int j = 0; j < h; j++ ) {
                 for ( int i = 0; i < w; i++ ) {
 
-                    // pick 2 colors and compute interpolation ration, based on our distance from the gradient's center
+                    // pick 2 colors and compute interpolation ratio, based on the distance from the gradient's center
                     double distanceFromCenter = center.distance( x + i, y + j );
                     if ( distanceFromCenter <= innerMiddleSpan ) {
-                        // we're in inner-to-middle part of the gradient
+                        // we're inside the inner-to-middle part of the gradient
                         color1 = innerColor;
                         color2 = middleColor;
                         ratio = distanceFromCenter / innerMiddleSpan;
