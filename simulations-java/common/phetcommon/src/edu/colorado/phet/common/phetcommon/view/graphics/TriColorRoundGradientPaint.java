@@ -185,7 +185,7 @@ public class TriColorRoundGradientPaint implements Paint {
 
         /*
          * Linear interpolation between 2 color components.
-         * Ratios closer to 0 produce colors closer to color1.
+         * Ratios closer to 0 produce colors closer to component1.
          */
         private static int interpolateColorComponent( int component1, int component2, double ratio ) {
             assert( component1 >= 0 && component1 <= 255 );
