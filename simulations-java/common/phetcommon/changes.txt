@@ -1,3 +1,4 @@
+12-30-2010: #2624, major rewrite of CreditsDialog (messy, difficult to extend), added stubs for Translation credits
 12-23-2010: in Property<T>, changed defaultValue to initialValue, and made getInitialValue public
 12-21-2010: #2623, factor out common behavior for "Reset All" into ResetAllDelegate
 12-21-2010: #2623, create ResetAllButtonNode, same functionality as ResetAllButton but for Piccolo buttons

@@ -1,6 +1,8 @@
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -22,61 +24,49 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * The Credits Dialog reads credits annotations for a single sim from <project>/data/<project>/credits.txt using the
- * AnnotationParser and displays it in the Phet About Dialog.  Here's an example content of a credits.txt file:
- * <p/>
- * phet-credits software-development=Chris Malley and Ron LeMaster design-team=Kathy Perkins, Carl Wieman, Wendy Adams, Danielle Harlow
- * <p/>
- * The keys in this file are "software-development" "design-team" "lead-design" and "interviews"; these are used as suffixes
- * on the keys in the phetcommon-strings.properties file to identify translatable strings such as:
- * Common.About.CreditsDialog.software-development=Software Development
+ * The Credits dialog displays several types credits, including:
+ * - Development Team
+ * - Translation
+ * - Third-Party Software
+ *
+ * Each type of credit appears under a major heading.
+ * A separate inner class handles the specifics of reading, parsing and formatting
+ * each type of credit.
  *
  * @author Sam Reid
  * @author Chris Malley
  */
 public class CreditsDialog extends PaintImmediateDialog {
+
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
 
     private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.Title" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
-    private static final String PHET_DEV_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" );
-    private static final String THIRD_PARTY_USAGE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
 
-    //Roles in credits
-    private static final String LEAD_DESIGN = PhetCommonResources.getString( "Common.About.CreditsDialog.lead-design" );
-    private static final String SOFTWARE_DEVELOPMENT = PhetCommonResources.getString( "Common.About.CreditsDialog.software-development" );
-    private static final String DESIGN_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.design-team" );
-    private static final String INTERVIEWS = PhetCommonResources.getString( "Common.About.CreditsDialog.interviews" );
-
-    private String projectName;
-    private String phetLicenseString;
+    private final ThirdPartySoftwareCredits thirdPartySoftwareCredits;
 
     public CreditsDialog( Dialog owner, String projectName ) {
         super( owner, TITLE );
         setModal( true );
-        this.projectName = projectName;
-        try {
-            phetLicenseString = new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/license-info.txt" );
+
+        this.thirdPartySoftwareCredits = new ThirdPartySoftwareCredits( projectName );
+
+        // Create an HTML fragment for each credits heading
+        String devFragment = new DevelopmentTeamCredits( projectName ).createHTMLFragment();
+        String translationFragment = new TranslationCredits( projectName ).createHTMLFragment();
+        String thirdPartySoftwareFragment = thirdPartySoftwareCredits.createHTMLFragment();
+
+        // Create the complete HTML credits string
+        String creditsFragment = devFragment + "<br><br>";
+        if ( translationFragment != null ) {
+            creditsFragment += translationFragment + "<br><br>";
         }
-        catch( IOException e ) {
-            //shouldn't happen for sims generated with the build process; license info is copied automatically.
-            System.err.println( getClass().getName() + ": No license info found; Perhaps you need to generate license information for this simulation, using PhetBuildGUI->Misc->Generate License Info" );
-//            e.printStackTrace();
+        creditsFragment += thirdPartySoftwareFragment;
+        String creditsHTML = HTMLUtils.createStyledHTMLFromFragment( creditsFragment );
 
-
-        }
-        String html = "<b>" + PHET_DEV_TEAM + "</b><br>\n" +
-                      "<br>\n" +
-                      getCreditsSnippet() +
-                      "<br>\n" +
-                      "<br>\n" +
-                      "<b>" + THIRD_PARTY_USAGE + "</b><br>\n" +
-                      "<br>\n" +
-                      getLicenseSnippet();
-
-        String phetLicenseHTML = HTMLUtils.createStyledHTMLFromFragment( html );
-        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( phetLicenseHTML );
+        // put the HTML in an interactive scrolling pane
+        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( creditsHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
@@ -116,119 +106,238 @@ public class CreditsDialog extends PaintImmediateDialog {
                 }
             } );
         }
-
     }
 
+    /*
+     * Displays a third-party license in a dialog.
+     */
     private void displayLicenseForID( String id ) {
-        String licenseText = getLicenseText( id );
+        String licenseText = thirdPartySoftwareCredits.getThirdPartyLicenseText( id );
         if ( !licenseText.trim().startsWith( "<html" ) ) {
             licenseText = HTMLUtils.createStyledHTMLFromFragment( licenseText );
             licenseText = licenseText.replaceAll( "\\n", "<br>" );
         }
-
-        ContribLicenseDialog c = new ContribLicenseDialog( this, "License Details", licenseText );
+        ContribLicenseDialog c = new ContribLicenseDialog( this, "License Details", licenseText );//TODO title i18n?
         c.setVisible( true );
     }
 
-    private String getLicenseSnippet() {
-        if ( phetLicenseString == null ) {
-            return "No license info found.";
+    /*
+     * Encapsulates the reading, parsing and formatting of Development Team credits.
+     */
+    private static class DevelopmentTeamCredits {
+
+        private static final String FILENAME = "credits.txt";
+        private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" );
+
+        // Keys in the file, one key per role
+        private static final String KEY_LEAD_DESIGN = "lead-design";
+        private static final String KEY_SOFTWARE_DEVELOPMENT = "software-development";
+        private static final String KEY_DESIGN_TEAM = "design-team";
+        private static final String KEY_INTERVIEWS = "interviews";
+
+        // Labels to display in the credits, one label per role
+        private static final String LABEL_LEAD_DESIGN = PhetCommonResources.getString( "Common.About.CreditsDialog.lead-design" );
+        private static final String LABEL_SOFTWARE_DEVELOPMENT = PhetCommonResources.getString( "Common.About.CreditsDialog.software-development" );
+        private static final String LABEL_DESIGN_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.design-team" );
+        private static final String LABEL_INTERVIEWS = PhetCommonResources.getString( "Common.About.CreditsDialog.interviews" );
+
+        private final String projectName;
+
+        public DevelopmentTeamCredits( String projectName ) {
+            this.projectName = projectName;
         }
-        AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( phetLicenseString );
-        String text = "";
-        for ( int i = 0; i < a.length; i++ ) {
-            String id = a[i].getId();
-            String name = a[i].get( "name" );
-            String description = a[i].get( "description" );
-            String copyright = a[i].get( "copyright" );
-            String website = a[i].get( "website" );
-            text += name + ", " + description + "<br>";
-            text += "&copy;&nbsp;" + copyright + " - " + website + "<br>";
-            if ( a[i].get( "license" ) != null ) {
-                text += "<a href=\"http://" + id + "\">" + a[i].get( "license" ) + "<a>";
+
+        public String createHTMLFragment() {
+            // read the credits file
+            String text = readCreditsFile();
+            if ( text == null ) {
+                return "missing " + FILENAME;
+            }
+
+            // parse and format
+            AnnotationParser.Annotation t = AnnotationParser.parse( text );
+            HashMap map = t.getMap();
+            ArrayList keys = t.getKeyOrdering();
+            StringBuffer credits = new StringBuffer( "<b>" + TITLE + "</b><br><br>" );
+            for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+
+                // parse
+                String key = (String) iterator.next();
+                String value = (String) map.get( key );
+                String labeledValue = map( key, value );
+
+                // format
+                if ( labeledValue != null ) {
+                    credits.append( labeledValue + "<br>" );
+                }
+            }
+            return credits.toString();
+        }
+
+        /*
+         * Reads the contents of the credits file as a string.
+         * Null if the file wasn't found or some other error occurred.
+         */
+        private String readCreditsFile() {
+            String creditsString = null;
+            String resourceName = projectName + "/" + FILENAME;
+            try {
+                creditsString = new DefaultResourceLoader().getResourceAsString( resourceName );
+            }
+            catch( IOException e ) {
+                System.err.println( getClass().getName() + ": missing " + resourceName );
+//                e.printStackTrace();
+            }
+            return creditsString;
+        }
+
+        /*
+         * Maps a key in the credits file to a label.
+         * Returns null if an unrecognized key is encountered.
+         */
+        private String map( String key, String value ) {
+            if ( key.equals( KEY_LEAD_DESIGN ) ) {
+                return LABEL_LEAD_DESIGN + ": " + value;
+            }
+            else if ( key.equals( KEY_SOFTWARE_DEVELOPMENT ) ) {
+                return LABEL_SOFTWARE_DEVELOPMENT + ": " + value;
+            }
+            else if ( key.equals( KEY_DESIGN_TEAM ) ) {
+                return LABEL_DESIGN_TEAM + ": " + value;
+            }
+            else if ( key.equals( KEY_INTERVIEWS ) ) {
+                return LABEL_INTERVIEWS + ": " + value;
             }
             else {
-                text += "license not found";
+                System.err.println( getClass().getName() + ": unrecognized key encountered in " + FILENAME + ": " + key );
+                return null;
             }
-            text+="<br><br>";
-        }
-        return text;
-
-    }
-
-    private String getCreditsSnippet() {
-        String res = "";
-        try {
-            res = new DefaultResourceLoader().getResourceAsString( projectName + "/credits.txt" );
-        }
-        catch( IOException e ) {
-            System.err.println( getClass().getName() + "Sim was missing credits information." );
-//            e.printStackTrace();
-        }
-        if ( res.trim().length() == 0 ) {
-            //all simulations should specify credits eventually
-            return "No credits found.";
-        }
-        AnnotationParser.Annotation t = AnnotationParser.parse( res );
-        HashMap map = t.getMap();
-        ArrayList keys = t.getKeyOrdering();
-        String credits = "";
-        for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
-            String key = (String) iterator.next();
-            String value = (String) map.get( key );
-            credits += translate( key, value ) + "<br>";
-        }
-        return credits;
-    }
-
-    private String translate( String key, String value ) {
-        if ( key.equals( "lead-design" ) ) {
-            return LEAD_DESIGN + ": " + value;
-        }
-        else if ( key.equals( "software-development" ) ) {
-            return SOFTWARE_DEVELOPMENT + ": " + value;
-        }
-        else if ( key.equals( "design-team" ) ) {
-            return DESIGN_TEAM + ": " + value;
-        }
-        else if ( key.equals( "interviews" ) ) {
-            return INTERVIEWS + ": " + value;
-        }
-        else {
-            return value;
         }
     }
 
-    /**
-     * Reads the license file from <project>/data/<project>/contib-licenses/<license>
-     * where <license> is something like lgpl.txt or junit-cpl-v10.html.
-     * <p/>
-     * These files are placed in the contrib-licenses directory by the phet build process, see the Misc menu in the PhETBuildGUI
-     *
-     * @param id
-     * @return
+    /*
+     * Encapsulates the reading, parsing and formatting of Translation credits.
      */
-    public String getLicenseText( String id ) {
-        try {
-            AnnotationParser.Annotation a = getAnnotation( id );
-            return new DefaultResourceLoader().getResourceAsString( projectName + "/contrib-licenses/" + id + "-" + a.get( "licensefile" ) );
+    private static class TranslationCredits {
+
+        private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.TranslationCreditsTitle" );
+
+        private final String projectName;
+
+        public TranslationCredits( String projectName ) {
+            this.projectName = projectName;
         }
-        catch( Exception e ) {
-            e.printStackTrace();
+
+        public String createHTMLFragment() {
+            return null; //TODO implement this
         }
-        return "license not found";
     }
 
-    private AnnotationParser.Annotation getAnnotation( String id ) {
-        AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( phetLicenseString );
-        AnnotationParser.Annotation a = null;
-        for ( int i = 0; i < all.length; i++ ) {
-            AnnotationParser.Annotation annotation = all[i];
-            if ( annotation.getId().equals( id ) ) {
-                a = annotation;
-            }
+    /*
+     * Encapsulates the reading, parsing and formatting of Third-Party Software credits.
+     */
+    private static class ThirdPartySoftwareCredits {
+
+        private static final String FILENAME = "license-info.txt";
+        private static final String DIRECTORY_NAME = "contrib-licenses";
+        private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
+
+        // Keys in the file
+        private static final String NAME_KEY = "name";
+        private static final String DESCRIPTION_KEY = "description";
+        private static final String COPYRIGHT_KEY = "copyright";
+        private static final String WEBSITE_KEY = "website";
+        private static final String LICENSE_KEY = "license";
+        private static final String LICENSE_FILE_KEY = "licensefile";
+
+        private final String projectName;
+        private final String licenseString;
+
+        public ThirdPartySoftwareCredits( String projectName ) {
+            this.projectName = projectName;
+            this.licenseString = readLicenseInfoFile();
         }
-        return a;
+
+        public String createHTMLFragment() {
+
+            // read the file
+            String text = readLicenseInfoFile();
+            if ( text == null ) {
+                return "missing " + FILENAME;
+            }
+
+            // parse the file, format for display
+            AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
+            StringBuffer buffer = new StringBuffer( "<b>" + TITLE + "</b><br><br>" );
+            for ( int i = 0; i < a.length; i++ ) {
+
+                // parse
+                String id = a[i].getId();
+                String name = a[i].get( NAME_KEY );
+                String description = a[i].get( DESCRIPTION_KEY );
+                String copyright = a[i].get( COPYRIGHT_KEY );
+                String website = a[i].get( WEBSITE_KEY );
+                String license = a[i].get( LICENSE_KEY );
+
+                // format
+                buffer.append( name + ", " + description + "<br>" );
+                buffer.append( "&copy;&nbsp;" + copyright + " - " + website + "<br>" );
+                if ( license != null ) {
+                    buffer.append( "<a href=\"http://" + id + "\">" + license + "<a>" );
+                }
+                else {
+                    buffer.append( "license not found" );
+                }
+                buffer.append( "<br><br>" );
+            }
+            return buffer.toString();
+
+        }
+
+        /**
+         * Reads the license file from <project>/data/<project>/contib-licenses/<license>
+         * where <license> is something like lgpl.txt or junit-cpl-v10.html.
+         * <p/>
+         * These files are placed in the contrib-licenses directory by the phet build process, see the Misc menu in the PhETBuildGUI
+         */
+        public String getThirdPartyLicenseText( String id ) {
+            try {
+                AnnotationParser.Annotation a = getThirdPartyLicenseAnnotation( id );
+                return new DefaultResourceLoader().getResourceAsString( projectName + "/" + DIRECTORY_NAME + "/" + id + "-" + a.get( LICENSE_FILE_KEY ) );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+            return "license not found";
+        }
+
+        private AnnotationParser.Annotation getThirdPartyLicenseAnnotation( String id ) {
+            AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( licenseString );
+            AnnotationParser.Annotation a = null;
+            for ( int i = 0; i < all.length; i++ ) {
+                AnnotationParser.Annotation annotation = all[i];
+                if ( annotation.getId().equals( id ) ) {
+                    a = annotation;
+                }
+            }
+            return a;
+        }
+
+        private String readLicenseInfoFile() {
+            String licenseString = null;
+            String resourceName = projectName + "/" + DIRECTORY_NAME + "/" + FILENAME;
+            try {
+                licenseString = new DefaultResourceLoader().getResourceAsString( resourceName );
+            }
+            catch( IOException e ) {
+                //shouldn't happen for sims generated with the build process; license info is copied automatically.
+                System.err.println( getClass().getName() + ": missing  " + resourceName +
+                        " - Did you generate license info for this sim, using PhetBuildGUI->Misc->Generate License Info ?" );
+//                e.printStackTrace();
+            }
+            return licenseString;
+        }
+
     }
 
     public static void main( String[] args ) {
