@@ -27,14 +27,14 @@ import edu.umd.cs.piccolo.PCanvas;
  */
 public class AtomNode extends PhetPNode {
 
-    private static final Color DEFAULT_HILITE = Color.WHITE;
+    private static final Color DEFAULT_HIGHLIGHT = Color.WHITE;
     private static final Color DEFAULT_SHADOW = Color.BLACK;
 
     private final SphericalNode sphericalNode;
     private final Color mainColor, highlightColor, shadowColor;
 
     public AtomNode( double diameter, Color color ) {
-        this( diameter, color, DEFAULT_HILITE, DEFAULT_SHADOW, false );
+        this( diameter, color, DEFAULT_HIGHLIGHT, DEFAULT_SHADOW, false );
     }
 
     public AtomNode( double diameter, Color mainColor, Color highlightColor, Color shadowColor, boolean convertToImage ) {
@@ -51,7 +51,7 @@ public class AtomNode extends PhetPNode {
     }
 
     private static Paint createPaint( double diameter, Color mainColor, Color highlightColor, Color shadowColor ) {
-        return new AtomGradientPaint( mainColor, highlightColor, shadowColor, -diameter/6, -diameter/6, diameter/4, -diameter/10, -diameter/10, diameter );
+        return new AtomGradientPaint( mainColor, highlightColor, shadowColor, -diameter/6, -diameter/6, diameter/4, -diameter/10, -diameter/10, 0.85 * diameter );
     }
 
     private static class AtomGradientPaint implements Paint {
@@ -123,7 +123,7 @@ public class AtomNode extends PhetPNode {
         private final Color mainColor, highlightColor, shadowColor;
         private final Point2D highlightCenter, shadowCenter;
         private final double highlightRadius, shadowRadius;
-        private WritableRaster _raster;
+        private WritableRaster raster;
 
         public AtomGradientContext( Color mainColor, Color highlightColor, Color shadowColor, Point2D highlightCenter, double highlightRadius, Point2D shadowCenter, double shadowRadius ) {
             this.mainColor = mainColor;
@@ -144,38 +144,47 @@ public class AtomNode extends PhetPNode {
 
         public Raster getRaster( int x, int y, int w, int h ) {
             // allocate raster on demand, or if we need a bigger raster
-            if ( _raster == null || w > _raster.getWidth() || h > _raster.getHeight()  ) {
-                _raster = getColorModel().createCompatibleWritableRaster( w, h );
+            if ( raster == null || w > raster.getWidth() || h > raster.getHeight()  ) {
+                raster = getColorModel().createCompatibleWritableRaster( w, h );
             }
-            paint( x, y, w, h, _raster );
-            return _raster;
-        }
-
-        private void paint( int x, int y, int w, int h, WritableRaster raster ) {
-            // shadow gradient
-            paintGradient( x, y, w, h, raster, mainColor, shadowColor, shadowCenter, shadowRadius );
-            // highlight gradient
-//            paintGradient( x, y, w, h, raster, highlightColor, mainColor, highlightCenter, highlightRadius );
+            paint( x, y, w, h, raster, highlightColor, mainColor, shadowColor, highlightCenter, highlightRadius, shadowRadius );
+            return raster;
         }
 
         /*
          * Paints a round gradient.
          */
-        private static void paintGradient( int x, int y, int w, int h, WritableRaster raster, Color innerColor, Color outerColor, Point2D center, double radius ) {
+        private static void paint( int x, int y, int w, int h, WritableRaster raster,
+                Color innerColor, Color middleColor, Color outerColor,
+                Point2D center, double innerRadius, double middleRadius ) {
+
             int[] data = new int[w * h * 4];
+            Color color1, color2;
+            double ratio;
+
             for ( int j = 0; j < h; j++ ) {
                 for ( int i = 0; i < w; i++ ) {
+
                     double distance = center.distance( x + i, y + j );
-                    double ratio = distance / radius;
-                    if ( ratio > 1.0 ) {
-                        ratio = 1.0;
+                    if ( distance <= innerRadius ) {
+                        color1 = innerColor;
+                        color2 = middleColor;
+                        ratio = distance / innerRadius;
+                    }
+                    else {
+                        color1 = middleColor;
+                        color2 = outerColor;
+                        ratio = ( distance - innerRadius ) / middleRadius;
+                        if ( ratio > 1.0 ) {
+                            ratio = 1.0;
+                        }
                     }
 
                     int base = ( j * w + i ) * 4;
-                    data[base + 0] = (int) ( innerColor.getRed() + ratio * ( outerColor.getRed() - innerColor.getRed() ) );
-                    data[base + 1] = (int) ( innerColor.getGreen() + ratio * ( outerColor.getGreen() - innerColor.getGreen() ) );
-                    data[base + 2] = (int) ( innerColor.getBlue() + ratio * ( outerColor.getBlue() - innerColor.getBlue() ) );
-                    data[base + 3] = (int) ( innerColor.getAlpha() + ratio * ( outerColor.getAlpha() - innerColor.getAlpha() ) );
+                    data[base + 0] = (int) ( color1.getRed() + ratio * ( color2.getRed() - color1.getRed() ) );
+                    data[base + 1] = (int) ( color1.getGreen() + ratio * ( color2.getGreen() - color1.getGreen() ) );
+                    data[base + 2] = (int) ( color1.getBlue() + ratio * ( color2.getBlue() - color1.getBlue() ) );
+                    data[base + 3] = (int) ( color1.getAlpha() + ratio * ( color2.getAlpha() - color1.getAlpha() ) );
                 }
             }
             raster.setPixels( 0, 0, w, h, data );
