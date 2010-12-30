@@ -1,3 +1,4 @@
+# 1.00.03 (47510) Dec 29, 2010
 12/29/10 #2615, #2577 use AtomNode with 3-color round gradient for molecule nodes
 # 1.00.02 (47165) Dec 14, 2010
 12/14/10 #2577, replace molecules images with Piccolo code to generate images, so that colors are easier to change
