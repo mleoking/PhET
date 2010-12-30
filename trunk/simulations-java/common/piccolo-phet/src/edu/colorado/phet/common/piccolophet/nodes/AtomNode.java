@@ -83,8 +83,8 @@ public class AtomNode extends PhetPNode {
     private static Paint createPaint( double diameter, Color highlightColor, Color mainColor, Color shadowColor ) {
         double centerX = -diameter/6; // upper-left corner of the sphere
         double centerY = centerX;
-        double highlightMainSpan = diameter/4; // distance for the gradient from highlightColor to mainColor
-        double mainShadowSpan = 0.8 * diameter; // distance for the gradient from mainColor to shadowColor
+        double highlightMainSpan = diameter/3; // distance for the gradient from highlightColor to mainColor
+        double mainShadowSpan = 0.7 * diameter; // distance for the gradient from mainColor to shadowColor
         return new TriColorRoundGradientPaint( highlightColor, mainColor, shadowColor, centerX, centerY, highlightMainSpan, mainShadowSpan );
     }
 
