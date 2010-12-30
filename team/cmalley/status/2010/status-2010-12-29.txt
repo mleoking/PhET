@@ -5,6 +5,11 @@ PERIOD: December 22-29, 2010
 
 ACCOMPLISHMENTS:
 
+Acid-Base Solutions:
+- switched to using AtomNode for better 3D-looking atoms
+- made neutral molecules a darker shade of gray
+- published 1.00.03, 1.00.04
+
 Gravity and Orbits:
 - completed i18n
 - added Physics panel with Gravity control
