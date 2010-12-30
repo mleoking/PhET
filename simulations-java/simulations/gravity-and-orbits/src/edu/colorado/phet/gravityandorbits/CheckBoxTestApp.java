@@ -1,9 +1,8 @@
-/* Copyright 2010, University of Colorado */
+// Copyright 2010-2011, University of Colorado
 
 package edu.colorado.phet.gravityandorbits;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -22,8 +21,12 @@ public class CheckBoxTestApp {
 
     public static void main( String[] args ) {
 
-        final JCheckBox playAreaCheckBox = new JCheckBox("Play area check box");
-        final JCheckBox controlAreaCheckBox = new JCheckBox("Control area check box");
+        final JCheckBox playAreaCheckBox = new JCheckBox("Play area check box"){{
+            setBackground( Color.black );//make the background black to demonstrate that the checkbox still looks checkable, even when disabled
+        }};
+        final JCheckBox controlAreaCheckBox = new JCheckBox("Control area check box"){{
+            setBackground( Color.black );//make the background black to demonstrate that the checkbox still looks checkable, even when disabled
+        }};
         JCheckBox enableCheckBoxes = new JCheckBox("CheckBoxesEnabled"){{
             setSelected( true );
             addChangeListener( new ChangeListener() {
