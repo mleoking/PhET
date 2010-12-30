@@ -20,6 +20,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * BodyNode renders one piccolo PNode for a Body, which can be at cartoon or real scale.  It is also draggable, which changes
+ * the location of the Body.
+ *
  * @author Sam Reid
  */
 public class BodyNode extends PNode {

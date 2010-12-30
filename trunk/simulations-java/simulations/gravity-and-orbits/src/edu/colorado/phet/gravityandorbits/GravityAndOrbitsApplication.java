@@ -19,7 +19,9 @@ import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
 import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 
 /**
- * The main application for this simulation.
+ * The main application for Gravity and Orbits.
+ *
+ * @see GravityAndOrbitsModule
  */
 public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public static final String PROJECT_NAME = "gravity-and-orbits";

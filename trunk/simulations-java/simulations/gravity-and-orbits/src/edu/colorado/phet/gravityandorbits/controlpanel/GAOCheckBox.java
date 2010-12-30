@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 
 /**
+ * GAOCheckBox provides default fonts and colors for a checkbox to be used in Gravity and Orbits.
+ *
  * @author Sam Reid
  */
 public class GAOCheckBox extends PropertyCheckBox {

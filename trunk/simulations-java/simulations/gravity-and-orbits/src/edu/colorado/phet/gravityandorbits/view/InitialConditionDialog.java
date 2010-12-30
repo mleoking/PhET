@@ -13,6 +13,12 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 
+/**
+ * Used for debugging to help create good initial conditions.
+ *
+ * @author Sam Reid
+ * @author Jon Olson
+ */
 public class InitialConditionDialog extends JDialog {
     public InitialConditionDialog( JFrame parentFrame, final GravityAndOrbitsModel model ) {
         super( parentFrame, false );

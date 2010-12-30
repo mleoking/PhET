@@ -25,6 +25,8 @@ import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsCo
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
 
 /**
+ * This control allows the user to view and change the mass of certain Body instances.
+ *
  * @author Sam Reid
  */
 public class BodyMassControl extends VerticalLayoutPanel {

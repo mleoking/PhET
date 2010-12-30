@@ -8,6 +8,8 @@ import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModeList;
 
 /**
+ * Shows the mass of a Body in terms of space station masses.
+ *
  * @author Sam Reid
  */
 public class SpaceStationMassReadoutNode extends MassReadoutNode {

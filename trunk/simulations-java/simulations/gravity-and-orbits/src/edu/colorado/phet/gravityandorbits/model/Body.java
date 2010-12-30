@@ -12,13 +12,17 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
-import edu.colorado.phet.gravityandorbits.view.IBody;
+import edu.colorado.phet.gravityandorbits.view.IBodyColors;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
+ * Body is a single point mass in the Gravity and Orbits simluation, such as the Earth, Sun, Moon or Space Station.
+ * This class also keeps track of body related data such as the path.
+ * The Body can be in cartoon scale (not to scale) or real scale, which can change both the location and the size.
+ *
  * @author Sam Reid
  */
-public class Body implements IBody {
+public class Body implements IBodyColors {
     private final ClockRewindProperty<ImmutableVector2D> positionProperty;//physical position
     private final Property<ImmutableVector2D> scaledPositionProperty;//position accounting for scale (i.e. cartoon or real)
     private final ClockRewindProperty<ImmutableVector2D> velocityProperty;

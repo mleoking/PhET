@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * Shows a piccolo measuring tape that works in multiple scales.  Its body and tip can be moved, and it provides a readout in the appropriate units.
+ *
  * @author Sam Reid
  */
 public class MeasuringTape extends PNode {

@@ -8,6 +8,8 @@ import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModeList;
 
 /**
+ * Provides a textual readout of a Body's mass in "earth masses"
+ *
  * @author Sam Reid
  */
 public class EarthMassReadoutNode extends MassReadoutNode {

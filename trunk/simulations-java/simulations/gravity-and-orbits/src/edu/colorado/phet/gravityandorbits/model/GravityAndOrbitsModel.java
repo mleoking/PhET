@@ -32,6 +32,7 @@ public class GravityAndOrbitsModel {
         super();
         this.clock = clock;
 
+        //Function for stepping the physics of the model
         stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
@@ -69,6 +70,7 @@ public class GravityAndOrbitsModel {
                 }
             }
         };
+        //Wire up the physics update to the clock and send out appropriate notifications afterwards.
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
 //                if (teacherMode) return;
@@ -81,6 +83,7 @@ public class GravityAndOrbitsModel {
         } );
     }
 
+    //Used for determining initial velocities so the total momentum is zero
     private ImmutableVector2D getTotalMomentum() {
         ImmutableVector2D total = new ImmutableVector2D();
         for ( Body body : bodies ) {

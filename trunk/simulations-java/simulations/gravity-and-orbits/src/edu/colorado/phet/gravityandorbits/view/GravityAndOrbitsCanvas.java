@@ -32,6 +32,12 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+/**
+ * Provides the play area for a single GravityAndOrbitsMode.
+ *
+ * @author Sam Reid
+ * @see GravityAndOrbitsMode
+ */
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
     private final PNode _rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );

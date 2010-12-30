@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
+/**
+ * Immutable memento for updating the physics of a single Body.
+ */
 public class BodyState implements Serializable {
     public final ImmutableVector2D position;
     public final ImmutableVector2D velocity;
