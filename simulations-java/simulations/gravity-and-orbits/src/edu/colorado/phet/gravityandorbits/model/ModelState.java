@@ -7,7 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
- * TODO: Refactor Body's forceProperty to always have the right value, but also need to find a way to share this code with ModelState’s update code?
+ * ModelState represents an immutable memento of the entire physical state, for performing the numerical integration.
+ * It is used by the GravityAndOrbitsModel to update the physics.
  *
  * @author Sam Reid
  */

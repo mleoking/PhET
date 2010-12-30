@@ -21,6 +21,7 @@ import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
  * The main application for this simulation.
  */
 public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
+    public static final String PROJECT_NAME = "gravity-and-orbits";
 
     private final GravityAndOrbitsModule gravityAndOrbitsModule;
 
@@ -81,6 +82,6 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        new PhetApplicationLauncher().launchSim( args, GAOConstants.PROJECT_NAME, GravityAndOrbitsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, PROJECT_NAME, GravityAndOrbitsApplication.class );
     }
 }

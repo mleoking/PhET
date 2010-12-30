@@ -26,8 +26,14 @@ import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * The module has a set of "modes", one mode for each configuration of bodies (eg, Sun + Planet).
- * Each mode has its own model, canvas, clock, etc.
+ * The GravityAndOrbitsModule has a set of "modes", one mode for each configuration of bodies (eg, Sun + Planet).
+ * Each mode has its own model, canvas, clock, etc, which are used in place of this Module's data.
+ *
+ * @author Sam Reid
+ * @author Jon Olson
+ * @author Chris Malley
+ * @author John Blanco
+ * @see edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel
  */
 public class GravityAndOrbitsModule extends PiccoloModule {
 
