@@ -10,14 +10,19 @@ import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
-/*
- * A round gradient paint that is composed of 3 colors.
+/**
+ * A round gradient paint that is composed of 3 colors, identified as inner, middle and outer.
+ * Colors are interpolated radially outward from a center point.
+ * Coordinates are in the frame of the raster into which pixel data is being written.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TriColorRoundGradientPaint implements Paint {
 
     private final Color innerColor, middleColor, outerColor;
     private final Point2D center;
-    private final double innerMiddleSpan, middleOuterSpan;
+    private final double innerMiddleSpan; // distance across which the gradient blends from innerColor to middleColor
+    private final double middleOuterSpan; // distance across which the gradient blends from middleColor to outerColor
 
     /**
      * Constructor accepts a point and a color that describe the center of
