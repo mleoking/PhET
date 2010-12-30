@@ -1,3 +1,5 @@
+Molecules & Light: Made the radio buttons larger for the wavelength selector.
+Molecules & Light: Made the arrow indicators interactive, i.e. the move the frequency up and down.
 # 3.01.06 (47363) Dec 21, 2010
 12/21/10 Deploying to dev to enable review of Molecules and Light.
 Finished i18n of Molecules & Light sim.
