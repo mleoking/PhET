@@ -3,6 +3,8 @@ package edu.colorado.phet.gravityandorbits.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
+ * Converts between cartoon and real coordinates for Body instances.
+ *
  * @author Sam Reid
  */
 public class CartoonPositionMap {

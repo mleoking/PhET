@@ -20,7 +20,7 @@ import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * GravityAndOrbitsModeList enumerates and declares the possible modes in the GravityAndOrbitsModule.
+ * GravityAndOrbitsModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
  *
  * @author Sam Reid
  */

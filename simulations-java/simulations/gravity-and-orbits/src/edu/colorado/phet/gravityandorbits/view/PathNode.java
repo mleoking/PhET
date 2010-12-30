@@ -13,6 +13,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
+ * Shows the "trail" left behind by a Body as it moves over time, which disappears after about 2 orbits.
+ *
  * @author Sam Reid
  */
 public class PathNode extends PNode {

@@ -16,6 +16,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
+ * Abstract class provides functionality for displaying the mass readout (in text) of a Body node.
+ *
  * @author Sam Reid
  */
 public abstract class MassReadoutNode extends PNode {

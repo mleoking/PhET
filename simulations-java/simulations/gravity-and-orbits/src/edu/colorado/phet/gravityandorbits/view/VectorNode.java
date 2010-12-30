@@ -14,6 +14,8 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Draws a vector for a Body, such as a force vector or velocity vector.
+ *
  * @author Sam Reid
  */
 public class VectorNode extends PNode {

@@ -25,7 +25,8 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
- * Control panel template.
+ * Control panel for a GravityAndOrbitsMode (one control panel per mode).  Multiple control panels
+ * are synchronized through Module specific properties.
  */
 public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 

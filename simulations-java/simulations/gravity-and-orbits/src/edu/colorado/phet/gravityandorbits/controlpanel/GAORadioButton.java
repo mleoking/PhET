@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 
 /**
+ * GAORadioButton provides default fonts and colors for a radio button to be used in Gravity and Orbits.
+ *
  * @author Sam Reid
  */
 public class GAORadioButton<T> extends PropertyRadioButton<T> {

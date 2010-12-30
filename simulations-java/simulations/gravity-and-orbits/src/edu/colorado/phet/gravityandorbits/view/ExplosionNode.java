@@ -13,6 +13,8 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Shows an explosion for a smaller Body when it crashes into a larger Body.
+ *
  * @author Sam Reid
  */
 public class ExplosionNode extends PNode {
@@ -32,7 +34,7 @@ public class ExplosionNode extends PNode {
                 }
             }
         };
-        addChild( new BodyRenderer.SunRenderer( new IBody() {
+        addChild( new BodyRenderer.SunRenderer( new IBodyColors() {
             public Color getHighlight() {
                 return Color.white;
             }

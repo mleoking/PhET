@@ -17,18 +17,20 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * This is the PNode that renders the content of a physical body, such as a planet or space station
+ * This is the PNode that renders the content of a physical body, such as a planet or space station.  This component is separate from
+ * BodyNode since it is used to create icons.  It is also used to be able to switch between rendering types (i.e. image vs cartoon sphere) without
+ * changing any other characteristics of the PNode.
  *
  * @author Sam Reid
  */
 public abstract class BodyRenderer extends PNode {
-    private IBody body;
+    private IBodyColors body;
 
-    public BodyRenderer( IBody body ) {
+    public BodyRenderer( IBodyColors body ) {
         this.body = body;
     }
 
-    public IBody getBody() {
+    public IBodyColors getBody() {
         return body;
     }
 
@@ -67,7 +69,7 @@ public abstract class BodyRenderer extends PNode {
 
         private SphericalNode sphereNode;
 
-        public SphereRenderer( IBody body, double viewDiameter ) {
+        public SphereRenderer( IBodyColors body, double viewDiameter ) {
             super( body );
             sphereNode = new SphericalNode( viewDiameter, createPaint( viewDiameter ), false );
             addChild( sphereNode );
@@ -95,7 +97,7 @@ public abstract class BodyRenderer extends PNode {
         private final int numSegments;
         private final Function1<Double, Double> twinkleRadius;
 
-        public SunRenderer( IBody body, double viewDiameter, int numSegments, Function1<Double, Double> twinkleRadius ) {
+        public SunRenderer( IBodyColors body, double viewDiameter, int numSegments, Function1<Double, Double> twinkleRadius ) {
             super( body, viewDiameter );
             this.numSegments = numSegments;
             this.twinkleRadius = twinkleRadius;
@@ -129,7 +131,7 @@ public abstract class BodyRenderer extends PNode {
         private final PImage imageNode;
         private double viewDiameter;
 
-        public ImageRenderer( IBody body, double viewDiameter, final String imageName ) {
+        public ImageRenderer( IBodyColors body, double viewDiameter, final String imageName ) {
             super( body );
 
 //            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );
