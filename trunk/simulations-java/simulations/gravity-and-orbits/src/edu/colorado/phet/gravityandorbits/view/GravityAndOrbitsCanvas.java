@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -12,11 +11,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.And;
-import edu.colorado.phet.common.phetcommon.model.Not;
-import edu.colorado.phet.common.phetcommon.model.Or;
-import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.model.ValueEquals;
+import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -139,7 +134,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
-            final RewindButton rewindButton = new FloatingRewindButton(){{
+            final RewindButton rewindButton = new FloatingRewindButton() {{
                 addListener( new DefaultIconButton.Listener() {
                     public void buttonPressed() {
                         mode.rewind();
@@ -158,8 +153,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
             // Add the speed control slider.
             final FloatingTimeSpeedSlider floatingTimeSpeedSlider = new FloatingTimeSpeedSlider( model.getClock(),
-                    rewindButton.getFullBoundsReference().getMinX() );
-            floatingTimeSpeedSlider.setBackgroundColor( new Color( 0, 0, 0, 0) );
+                                                                                                 rewindButton.getFullBoundsReference().getMinX() );
+            floatingTimeSpeedSlider.setBackgroundColor( new Color( 0, 0, 0, 0 ) );
             addChild( floatingTimeSpeedSlider );
         }} );
 
