@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
-import edu.colorado.phet.gravityandorbits.GAOResources;
+import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -133,7 +133,7 @@ public abstract class BodyRenderer extends PNode {
             super( body );
 
 //            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );
-            imageNode = new PImage( GAOResources.getImage( imageName ) );
+            imageNode = new PImage( GravityAndOrbitsApplication.RESOURCES.getImage( imageName ) );
             addChild( imageNode );
             this.viewDiameter = viewDiameter;
             updateViewDiameter();
