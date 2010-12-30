@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -22,7 +23,7 @@ import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
  */
 public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public static final String PROJECT_NAME = "gravity-and-orbits";
-
+    public static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsApplication.PROJECT_NAME );
     private final GravityAndOrbitsModule gravityAndOrbitsModule;
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {

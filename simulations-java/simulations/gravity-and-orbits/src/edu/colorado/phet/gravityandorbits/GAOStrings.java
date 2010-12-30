@@ -4,7 +4,7 @@ package edu.colorado.phet.gravityandorbits;
 
 /**
  * A collection of localized strings used by this simulations.
- * We load all strings as statics so that we will be warned at startup time of any missing strings.
+ * We load all strings statically so that we will be warned at startup time of any missing strings.
  */
 public class GAOStrings {
 
@@ -48,6 +48,6 @@ public class GAOStrings {
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
 
     private static String getString( String key ) {
-        return GAOResources.getString( key );
+        return GravityAndOrbitsApplication.RESOURCES.getLocalizedString( key );
     }
 }
