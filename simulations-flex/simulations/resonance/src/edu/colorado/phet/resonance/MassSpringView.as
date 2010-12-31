@@ -15,6 +15,7 @@ public class MassSpringView extends Sprite {
     //private var xOff:Number;            //x-offset of shadow
     //private var yOff:Number;            //y-offset of shadow
     private var label_txt: TextField;	//label on mass: 1, 2, 3, ...
+    private var labelColor:Number;      //default is white; yellow is mass is selected
     public var tFormat1: TextFormat;
     private var pixPerMeter: Number;	//scale: number of pixels in 1 meter
     private var stageW: int;
@@ -31,13 +32,14 @@ public class MassSpringView extends Sprite {
         this.orientation = -1;
         this.stageW = Util.STAGEW;
         this.stageH = Util.STAGEH;
-        this.pixPerMeter = 200;
+        this.pixPerMeter = 800;
         this.L0InPix = this.model.getL0() * this.pixPerMeter;
         //this.xOff = -10;
         //this.yOff = 25;
         this.spring = new Sprite();
         this.mass = new Sprite();
         //this.massShadow = new Sprite();
+        this.labelColor = 0xffffff;  //default label color is white
         this.label_txt = new TextField();	//static label
         //this.drawMassShadow();
         this.drawSpring();
@@ -117,12 +119,12 @@ public class MassSpringView extends Sprite {
     }//end of drawSpring()
 
     public function drawMass(): void {
-        var lineWidth = 3;
+        var lineWidth = 4;
         var gradMatrix = new Matrix();   //for creating highlights and shadow on mass
         //var L0inPix:Number = this.pixPerMeter * this.model.getL0();
         var mass: Number = this.model.getM();  //(width)^3 ~ mass
         var massW: Number = Math.pow( mass, 1 / 3 ) * 40;
-        gradMatrix.createGradientBox( 1.5 * massW, 1.5 * massW, -Math.PI / 4, 0, 0 );
+        gradMatrix.createGradientBox( 1.0 * massW, 1.0 * massW, -Math.PI / 4, massW/2, 0 );
         var g: Graphics = this.mass.graphics;
         g.clear();
 
@@ -130,14 +132,14 @@ public class MassSpringView extends Sprite {
         var y0: Number = 0;
 
         g.lineStyle( lineWidth, 0x0000ff, 1, true );
-        g.lineGradientStyle( GradientType.LINEAR, [0x0000aa, 0x8888ff], [1,1], [190,200], gradMatrix );
+        g.lineGradientStyle( GradientType.LINEAR, [0x0000aa, 0x8888ff], [1,1], [118,138], gradMatrix );
         g.beginFill( 0x5555ff );
         if ( this.orientation == -1 ) { y0 = -massW; }
         g.drawRoundRect( x0 - massW / 2, y0, massW, massW, 0.3 * massW );
         g.endFill();
         this.makeLabel();
         var D0inPix: Number = this.orientation * this.L0InPix;  //D for displacement
-        this.mass.y = D0inPix;
+        //this.mass.y = D0inPix;
     }//end of drawMass()
 
 //    public function drawMassShadow():void{
@@ -164,7 +166,7 @@ public class MassSpringView extends Sprite {
         this.label_txt.text = this.model.getRNbr().toString();
         this.tFormat1 = new TextFormat();	//format of label
         this.tFormat1.font = "Arial";
-        this.tFormat1.color = 0xffffff;
+        this.tFormat1.color = this.labelColor;
         this.tFormat1.bold  = true;
         this.tFormat1.size = 22;
         this.label_txt.setTextFormat( this.tFormat1 );
@@ -182,6 +184,7 @@ public class MassSpringView extends Sprite {
     }
 
     public function setLabelColor(color:Number):void{
+       this.labelColor = color;
        this.tFormat1.color = color;
        this.label_txt.setTextFormat( tFormat1 );
     }

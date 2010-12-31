@@ -20,6 +20,7 @@ public class RotaryKnob extends Sprite {
     private var tFormat1: TextFormat;	//format of label
     private var tFormat2: TextFormat;	//format of readout
     //private var label_str:String;	//label string
+    private var units_str:String;   //units on the readout
     private var readout_txt: TextField; //dynamic readout
     private var scale: Number;		//readout = scale * turnNbr
 
@@ -72,7 +73,7 @@ public class RotaryKnob extends Sprite {
     private function drawShadow():void{
        var g: Graphics = this.knobShadow.graphics;
        var r:Number = this.knobRadius;
-       var rO:Number = 1.3*r;
+       var rO:Number = 1.25*r;
        var rads:Number;
        with(g){
            clear();
@@ -80,7 +81,7 @@ public class RotaryKnob extends Sprite {
            beginFill(0x888888, 0.5);
            drawCircle(-0.3*r, 0.5*r, r);
            endFill();
-           lineStyle(2, 0x333333, 1, false);
+           lineStyle(1.5, 0x333333, 1, true );
            drawCircle(0, 0, rO);
        }
        for(var i:Number = 0; i < 9; i++ ){
@@ -113,7 +114,7 @@ public class RotaryKnob extends Sprite {
         this.tFormat1.size = 15;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = -0.5 * this.label_txt.width;
-        this.label_txt.y = 1.1 * this.knobRadius;
+        this.label_txt.y = 1.2 * this.knobRadius;
     }//end createLabel()
 
     public function setLabelText( label_str: String ): void {
@@ -123,12 +124,16 @@ public class RotaryKnob extends Sprite {
         this.label_txt.x = -0.5 * this.label_txt.width;
     }
 
+    public function setUnitsText( str:String ):void{
+        this.units_str = str;
+    }
+
     private function createReadoutField(): void {
         this.readout_txt = new TextField();	//static label
         this.addChild( this.readout_txt );
         this.readout_txt.selectable = false;
         this.readout_txt.type = TextFieldType.INPUT;
-        this.readout_txt..border = true;
+        this.readout_txt.border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
         this.readout_txt.autoSize = TextFieldAutoSize.CENTER;
@@ -144,13 +149,13 @@ public class RotaryKnob extends Sprite {
         this.readout_txt.width = 50;
         this.readout_txt.height = 22;
         this.readout_txt.x = -this.readout_txt.width / 2; //1.4*this.knobRadius;
-        this.readout_txt.y = -1.2 * this.knobRadius - this.readout_txt.height;
+        this.readout_txt.y = -1.5 * this.knobRadius - this.readout_txt.height;
 
     }//end createReadoutfield()
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputTurns;
-        this.readout_txt.text = readout.toFixed( 2 );
+        this.readout_txt.text = " " + readout.toFixed( 2 ) + " " + units_str;
     }//end updateReadout()
 
     private function makeKnobTurnable(): void {
@@ -159,7 +164,7 @@ public class RotaryKnob extends Sprite {
         var initAngle: Number;  //initial angle in degrees
         var positiveAngle: Number;
         var positiveInitAngle: Number;
-        this.addEventListener( MouseEvent.MOUSE_DOWN, startKnobTurn );
+        this.knobGraphic.addEventListener( MouseEvent.MOUSE_DOWN, startKnobTurn );
         function startKnobTurn( evt: MouseEvent ): void {
             initAngle = Math.atan2( mouseY, mouseX ) * 180 / Math.PI;
             if ( initAngle < 0 ) {

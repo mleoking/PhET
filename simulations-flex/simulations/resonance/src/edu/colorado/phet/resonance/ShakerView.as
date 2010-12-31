@@ -56,10 +56,10 @@ public class ShakerView extends Sprite {
 
         this.stageW = Util.STAGEW;
         this.stageH = Util.STAGEH;
-        this.pixPerMeter = 200;
+        this.pixPerMeter = 800;
         this.barPixPerResonator = 70;
         this.hzPerTurn = 1;
-        this.maxAmplitude = 0.06;    //in meters
+        this.maxAmplitude = 0.02;    //in meters
         this.bar = new Sprite();
         this.base = new Sprite();
         this.springHolder = new Sprite();
@@ -70,14 +70,15 @@ public class ShakerView extends Sprite {
         this.glow = new GlowFilter( 0xff0000, 0.5, 8, 8, 10 );
         this.glow.quality = BitmapFilterQuality.HIGH;
         //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
-        this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 7 );
+        this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 5 );
         this.fKnob.setLabelText( frequency_str );
+        this.fKnob.setUnitsText( hz_str );
         this.fKnob.setScale( this.hzPerTurn );
         //HorizontalSlider(owner:Object, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
-        this.ASlider = new HorizontalSlider( changeA, 120, 0.1, 1 );
+        this.ASlider = new HorizontalSlider( changeA, 120, this.maxAmplitude/10, this.maxAmplitude );
         this.ASlider.setLabelText( amplitude_str );
-        this.ASlider.setScale( this.maxAmplitude );
-        //this.ASlider.setVal(this.maxAmplitude/2);
+        this.ASlider.setUnitsText( cm_str );
+        this.ASlider.setScale( 100 );      //output in meters, displayed output in centimeters
         this.drawShaker();
 
         this.addChild( this.springHolder );
@@ -126,8 +127,8 @@ public class ShakerView extends Sprite {
     public function initializeShakerControls(): void {
         //trace("initializeShakerControls() called");
         this.shakerOff();
-        this.ASlider.setVal( 0.75 * this.maxAmplitude );
-        this.fKnob.setTurns( 2.5 );
+        this.ASlider.setVal( 0.25 * this.maxAmplitude );
+        this.fKnob.setTurns( 1.0 );
     }
 
     private function createResonatorArray(): void {
@@ -197,7 +198,7 @@ public class ShakerView extends Sprite {
 
     private function changeA(): void {
         //trace("ShakerView.changeA()  "+this.ASlider.getVal());
-        var amplitude: Number = this.maxAmplitude * this.ASlider.getVal();
+        var amplitude: Number = this.ASlider.getVal();
         //trace("ShakerView.changeA() amplitude is   " + amplitude);
         this.model.setA( amplitude );
     }
@@ -277,8 +278,8 @@ public class ShakerView extends Sprite {
         gB.clear();
         gB.lineStyle( 2, 0x000000, 1, true, LineScaleMode.NONE );
         var baseW: Number = 500;
-        var baseH: Number = 100;
-        var floorLevel: Number = 0 + 2 * baseH;
+        var baseH: Number = 130;
+        var floorLevel: Number = 200;//0 + 2 * baseH;
         var gradMatrix: Matrix = new Matrix();
         gradMatrix.createGradientBox( baseW, baseH, 0.5 * Math.PI, -baseW / 2, floorLevel - baseH );
         var gradType: String = GradientType.LINEAR;
@@ -295,9 +296,9 @@ public class ShakerView extends Sprite {
         this.onOffButton.x = - 0.3 * baseW; // + this.onOffButton.width;
         this.onOffButton.y = floorLevel - 0.50 * baseH;
         this.label_txt.x = this.onOffButton.x - 0.5 * this.label_txt.width;
-        this.label_txt.y = floorLevel - baseH + 0.25 * this.label_txt.height;
+        this.label_txt.y = floorLevel - 1* baseH + 0.8 * this.label_txt.height;
         this.onLight.x = this.onOffButton.x;
-        this.onLight.y = floorLevel - 0.2 * baseH;
+        this.onLight.y = floorLevel - 0.3 * baseH;
         this.fKnob.x = 0; //-baseW / 2 + 1.5 * this.onOffButton.width + this.fKnob.width;
         this.fKnob.y = floorLevel - baseH / 2;
         this.ASlider.x = baseW / 2 - 1.2 * this.ASlider.width;
@@ -341,7 +342,7 @@ public class ShakerView extends Sprite {
         function dragTarget( evt: MouseEvent ): void {
             var barYInPix = mouseY - clickOffset.y;
             var barYInMeters = -barYInPix / thisObject.pixPerMeter;
-            var limit: Number = 0.15;
+            var limit: Number = 0.05;
             if ( barYInMeters > limit ) {
                 //trace("bar high");
                 barYInMeters = limit;
