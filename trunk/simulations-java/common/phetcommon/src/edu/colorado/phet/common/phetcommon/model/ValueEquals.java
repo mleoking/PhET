@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class ValueEquals<T> extends ObservableProperty<Boolean> {
     private T value;
     private Property<T> property;
-    private boolean valueAtLastNotification;//todo: factor out a class that keeps track of the last notification sent, so it short circuits duplicate notifications?
+    private boolean valueAtLastNotification;
 
     public ValueEquals( final Property<T> property, final T value ) {
         this.value = value;
@@ -28,6 +28,7 @@ public class ValueEquals<T> extends ObservableProperty<Boolean> {
                 }
             }
         } );
+        valueAtLastNotification = getValue();
     }
 
     @Override
