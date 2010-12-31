@@ -6,6 +6,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -36,7 +37,7 @@ public class FloatingClockControlNode extends PNode {
         return playPauseButton;
     }
 
-    public FloatingClockControlNode( Property<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
+    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
         this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {
                 @Override
@@ -51,7 +52,7 @@ public class FloatingClockControlNode extends PNode {
         } );
     }
 
-    public FloatingClockControlNode( final Property<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
+    public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
                                      final VoidFunction0 step ) {//steps the clock when 'step' is pressed which the sim is paused
         playPauseButton = new PlayPauseButton( 80 ) {{

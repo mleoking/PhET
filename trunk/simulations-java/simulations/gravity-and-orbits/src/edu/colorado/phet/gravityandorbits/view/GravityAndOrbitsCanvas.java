@@ -147,7 +147,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 } );
                 // The rewind button is only enabled when something has
                 // changed, otherwise there is nothing to rewind to.
-                final Or anyPropertyChanged = new Or( p );
+                final MultiwayOr anyPropertyChanged = new MultiwayOr( p );
                 anyPropertyChanged.addObserver( new SimpleObserver() {
                     public void update() {
                         setEnabled( anyPropertyChanged.getValue() );
@@ -163,7 +163,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( floatingTimeSpeedSlider );
         }} );
 
-        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), new ValueEquals<Boolean>( module.getMeasuringTapeVisibleProperty(), true ) ),
+        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), module.getMeasuringTapeVisibleProperty() ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
                                      new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
         }} );

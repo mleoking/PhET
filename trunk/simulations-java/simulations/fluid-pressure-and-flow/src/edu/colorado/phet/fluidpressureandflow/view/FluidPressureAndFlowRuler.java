@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FluidPressureAndFlowRuler extends PNode {
     public FluidPressureAndFlowRuler( ModelViewTransform transform,
-                                      final Property<Boolean> visible,//getter
+                                      final ObservableProperty<Boolean> visible,//getter
                                       final Property<Boolean> setVisible, //setter, separate from getter since has to be 'and'ed with units property in FluidPressureCanvas
                                       double length, String[] majorTicks, String units, Point2D rulerModelOrigin ) {
         visible.addObserver( new SimpleObserver() {

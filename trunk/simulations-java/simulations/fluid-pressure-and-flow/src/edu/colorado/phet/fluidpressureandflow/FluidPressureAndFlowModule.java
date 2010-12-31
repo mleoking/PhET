@@ -2,6 +2,7 @@ package edu.colorado.phet.fluidpressureandflow;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.And;
+import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.ValueEquals;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
@@ -15,8 +16,8 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     private final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
     private final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
     private final Property<Boolean> rulerVisibleProperty = new Property<Boolean>( false );
-    private final Property<Boolean> meterStickVisibleProperty;
-    private final Property<Boolean> yardStickVisibleProperty;
+    private final ObservableProperty<Boolean> meterStickVisibleProperty;
+    private final ObservableProperty<Boolean> yardStickVisibleProperty;
 
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
@@ -51,11 +52,11 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
         return gravityControlVisible;
     }
 
-    public Property<Boolean> getMeterStickVisibleProperty() {
+    public ObservableProperty<Boolean> getMeterStickVisibleProperty() {
         return meterStickVisibleProperty;
     }
 
-    public Property<Boolean> getYardStickVisibleProperty() {
+    public ObservableProperty<Boolean> getYardStickVisibleProperty() {
         return yardStickVisibleProperty;
     }
 }
