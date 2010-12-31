@@ -2,7 +2,7 @@ package edu.colorado.phet.common.phetcommon.model;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 
 /**
  * Returns a boolean AND over Property arguments.  This provides read-only access;
@@ -10,20 +10,16 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Sam Reid
  */
-public class Or extends Property<Boolean> {
-    public Or( final List<Property<Boolean>> p ) {
-        super( or( p ) );
-        final SimpleObserver updateState = new SimpleObserver() {
-            public void update() {
-                setValue( or( p ) );
+public class Or extends BinaryBooleanProperty {
+    public Or( Property<Boolean> a, Property<Boolean> b ) {
+        super( a, b, new Function2<Boolean, Boolean, Boolean>() {
+            public Boolean apply( Boolean x, Boolean y ) {
+                return x || y;
             }
-        };
-        for ( Property<Boolean> v : p ) {
-            v.addObserver( updateState );
-        }
+        } );
     }
 
-    private static Boolean or( List<Property<Boolean>> p ) {
+    public static Boolean or( List<Property<Boolean>> p ) {
         for ( Property<Boolean> booleanProperty : p ) {
             if ( booleanProperty.getValue() ) { return true; }
         }

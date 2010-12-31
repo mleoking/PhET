@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 
 /**
  * Returns a boolean AND over Property arguments.  This provides read-only access;
@@ -8,16 +8,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Sam Reid
  */
-public class And extends Property<Boolean> {
-    public And( final Property<Boolean> a, final Property<Boolean> b ) {
-        super( a.getValue() && b.getValue() );
-        final SimpleObserver updateState = new SimpleObserver() {
-            public void update() {
-                setValue( a.getValue() && b.getValue() );
+public class And extends BinaryBooleanProperty {
+
+    public And( final ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b ) {
+        super( a, b, new Function2<Boolean, Boolean, Boolean>() {
+            public Boolean apply( Boolean x, Boolean y ) {
+                return x && y;
             }
-        };
-        a.addObserver( updateState );
-        b.addObserver( updateState );
+        } );
     }
 
     public static And and( Property<Boolean> a, final Property<Boolean> b ) {

@@ -7,22 +7,28 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Sam Reid
  */
-public class Not extends Property<Boolean> {
-    public Not( final Property<Boolean> p ) {
-        super( !p.getValue() );
-        p.addObserver( new SimpleObserver() {
+public class Not extends SettableProperty<Boolean> {
+    private Property<Boolean> parent;
+
+    public Not( final Property<Boolean> parent ) {
+        this.parent = parent;
+        parent.addObserver( new SimpleObserver() {
             public void update() {
-                setValue( !p.getValue() );
-            }
-        } );
-        addObserver( new SimpleObserver() {
-            public void update() {
-                p.setValue( !getValue() );
+                notifyObservers();
             }
         } );
     }
 
-    public static Property<Boolean> not( Property<Boolean> p ) {
+    @Override
+    public Boolean getValue() {
+        return !parent.getValue();
+    }
+
+    public void setValue( Boolean value ) {
+        parent.setValue( !value );//we'll observe the change in the constructor listener, and fire notifications.
+    }
+
+    public static SettableProperty<Boolean> not( Property<Boolean> p ) {
         return new Not( p );
     }
 }

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.IBodyColors;
+import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
@@ -414,7 +415,7 @@ public class Body implements IBodyColors {
     }
 
     public Property<Boolean> anyPropertyDifferent() {
-        return new Or( Arrays.asList( positionProperty.different(), velocityProperty.different(), massProperty.different(), collidedProperty.different() ) );
+        return new MultiwayOr( Arrays.asList( positionProperty.different(), velocityProperty.different(), massProperty.different(), collidedProperty.different() ) );
     }
 
     public static class PathPoint {

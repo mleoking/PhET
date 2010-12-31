@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -32,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class MeasuringTape extends PNode {
     static double crossHairsRadius = 4;
 
-    public MeasuringTape( final Property<Boolean> visible, final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) {
+    public MeasuringTape( final ObservableProperty<Boolean> visible, final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) {
         addChild( new PhetPPath( new BasicStroke( 3 ), Color.darkGray ) {{
             setPickable( false );
             final SimpleObserver updateTape = new SimpleObserver() {
