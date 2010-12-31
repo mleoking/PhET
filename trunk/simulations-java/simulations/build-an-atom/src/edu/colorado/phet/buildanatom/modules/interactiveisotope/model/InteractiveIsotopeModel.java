@@ -62,13 +62,21 @@ public class InteractiveIsotopeModel implements Resettable {
 
     private final Atom atom;
 
-    // Array that tracks the neutrons, whether they are in the bucket or in
-    // the atom.
+    // Arrays that contain the subatomic particles, whether they are in the
+    // bucket or in the atom.  This is part of a basic assumption about how
+    // the model works, which is that the model contains all the particles,
+    // and the particles move back and forth from being in the bucket or in
+    // in the atom.
     private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
+    private final ArrayList<Proton> protons = new ArrayList<Proton>();
+    private final ArrayList<Electron> electrons = new ArrayList<Electron>();
 
     // The buckets that holds the neutrons that are not in the atom.
     private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
+
+    // Listener support
+    private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -84,7 +92,6 @@ public class InteractiveIsotopeModel implements Resettable {
 
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ), clock );
-
 
         for ( int i = 0; i < DEFAULT_NUM_NEUTRONS_IN_BUCKET; i++ ) {
             final Neutron neutron = new Neutron( clock );
@@ -110,6 +117,14 @@ public class InteractiveIsotopeModel implements Resettable {
     // Methods
     //----------------------------------------------------------------------------
 
+    public void addListener( Listener listener ){
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ){
+        listeners.remove( listener );
+    }
+
     public Rectangle2D getModelViewport() {
         return MODEL_VIEWPORT;
     }
@@ -122,13 +137,7 @@ public class InteractiveIsotopeModel implements Resettable {
         return atom;
     }
 
-    /**
-     * Reset the model.  The sets the atom and the neutron bucket into their
-     * default initial states.
-     */
-    public void reset(){
-
-        // Reset the atom into the default configuration.
+    private void setAtomToDefaultConfig(){
         atom.reset();
         for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumElectrons(); i++ ){
             atom.addElectron( new Electron( clock ), true );
@@ -139,12 +148,49 @@ public class InteractiveIsotopeModel implements Resettable {
         for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumNeutrons(); i++ ){
             atom.addNeutron( new Neutron( clock ), true );
         }
+    }
+
+    /**
+     * Configure the neutron bucket to have the specified number of particles
+     * in it.
+     *
+     * @param numNeutrons
+     */
+    private void setNeutronBucketCount( int targetNumNeutrons ) {
+
+        if ( targetNumNeutrons != neutronBucket.getParticleList().size() ) {
+
+            // Remove the current set of neutrons from the bucket and from
+            // the model, and send out notifications thereof.
+            neutronBucket.reset();
+            ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
+            neutrons.clear();
+            for ( Neutron neutron : copyOfNeutrons ) {
+                notifyParticleRemoved( neutron );
+            }
+
+            // Add the target number of neturons, sending notifications of
+            // the additions.
+            for ( int i = 0; i < targetNumNeutrons; i++ ) {
+                Neutron newNeutron = new Neutron( clock );
+                neutronBucket.addParticle( newNeutron, true );
+                neutrons.add( newNeutron );
+                notifyParticleAdded( newNeutron );
+            }
+        }
+    }
+
+    /**
+     * Reset the model.  The sets the atom and the neutron bucket into their
+     * default initial states.
+     */
+    public void reset(){
+
+        // Reset the atom.
+        setAtomToDefaultConfig();
 
         // Reset the neutron bucket.
-        neutronBucket.reset();
-        for ( Neutron neutron : neutrons ){
-            neutronBucket.addParticle( neutron, true );
-        }
+        setNeutronBucketCount( DEFAULT_NUM_NEUTRONS_IN_BUCKET );
     }
 
     /**
@@ -152,5 +198,32 @@ public class InteractiveIsotopeModel implements Resettable {
      */
     public SubatomicParticleBucket getNeutronBucket() {
         return neutronBucket;
+    }
+
+    private void notifyParticleAdded( SubatomicParticle particle ){
+        for ( Listener listener : listeners ){
+            listener.particleAdded( particle );
+        }
+    }
+
+    private void notifyParticleRemoved( SubatomicParticle particle ){
+        for ( Listener listener : listeners ){
+            listener.particleRemoved( particle );
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    public interface Listener {
+        void particleAdded( SubatomicParticle subatomicParticle );
+        // TODO: Do we need this, or is the particle's own notification sufficient?
+        void particleRemoved( SubatomicParticle subatomicParticle );
+    }
+
+    public static class Adapter implements Listener {
+        public void particleAdded( SubatomicParticle subatomicParticle ) { }
+        public void particleRemoved( SubatomicParticle subatomicParticle ) { }
     }
 }
