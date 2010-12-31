@@ -6,14 +6,14 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Returns a boolean computation over Property<Boolean> arguments.
+ * Returns a boolean computation over Property<Boolean> arguments, such as And or Or.
  *
  * @author Sam Reid
  */
 public class BinaryBooleanProperty extends ObservableProperty<Boolean> {
     private ObservableProperty<Boolean> a;
     private ObservableProperty<Boolean> b;
-    private final Function2<Boolean, Boolean, Boolean> combiner;
+    private final Function2<Boolean, Boolean, Boolean> combiner;//rule for combining the booleans
     private boolean valueAtLastNotification;
 
     public BinaryBooleanProperty( final ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b, Function2<Boolean, Boolean, Boolean> combiner ) {

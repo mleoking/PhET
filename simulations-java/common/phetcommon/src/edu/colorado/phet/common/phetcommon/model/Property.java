@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.phetcommon.model;
 
 /**
- * This can be used to represent a value in a MVC style pattern.  It remembers its default value and can be reset.
+ * Property<T> can be used to represent a value of type T in a MVC style pattern.  It remembers its default value and can be reset.
  * The wrapped type T should be immutable, or at least protected from external modification.
  * Notifications are sent to observers when they register with addObserver, and when the value changes.
  *
