@@ -106,6 +106,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         };
 
         //Create the modes.
+        final int cartoonDiameterScaleFactor = 650;//use same scale for earth and moon so relative radii sizes are the same, also use same values for both modes so they look the same
         add( new GravityAndOrbitsMode( "Sun & Planet", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
@@ -113,7 +114,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                addBody( createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 ) );
+                addBody( createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), cartoonDiameterScaleFactor ) );
             }
         } );
         add( new GravityAndOrbitsMode( "Sun, Planet & Moon", VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
@@ -123,15 +124,17 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                final Body earth = createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), 650 );
+                final Body earth = createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), cartoonDiameterScaleFactor );
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                                               false,//no room for the slider
-                                              getMaxPathLength(), 17, 1000, 25,
+                                              getMaxPathLength(), 17, cartoonDiameterScaleFactor, 25,
                                               false );//so it doesn't intersect with earth mass readout
                 addBody( moon );
             }
         } );
+        final double planetCartoonDiameterScale = 13;
+        final double moonCartoonDiameterScale = 13;//moon and planet need to use same cartoon scale so relative sizes are correct
         add( new GravityAndOrbitsMode( "Planet & Moon", VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, GravityAndOrbitsClock.DEFAULT_DT / 3, days,
                                        createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
                                        new Line2D.Double( EARTH_PERIHELION, -MOON_PERIGEE / 4, EARTH_PERIHELION + MOON_PERIGEE, -MOON_PERIGEE / 4 ), 400,
@@ -146,10 +149,10 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
             {
                 ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( EARTH_MASS + MOON_MASS ) );
                 earth = createPlanet( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength(),
-                                      650.0 / 400.0 / 1.25 * 10 );//scale so it is a similar size to other modes
+                                      planetCartoonDiameterScale );//scale so it is a similar size to other modes
 
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, 1000 / 400 / 1.25 * 10, 1, true ) );
+                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, moonCartoonDiameterScale, 1, true ) );
             }
         } );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
@@ -164,7 +167,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                                        new Line2D.Double( EARTH_PERIHELION, -EARTH_RADIUS / 6, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, -EARTH_RADIUS / 6 ),
                                        400 * 54, new ImmutableVector2D( EARTH_PERIHELION, 0 ),
                                        gravityEnabledProperty ) {
-            final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), 650.0 / 400.0 / 1.25 * 10 * 1.5 * 1.5 / 54 );
+            final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), planetCartoonDiameterScale * 1.5 * 1.5 / 54 );
 
             {
                 addBody( earth );
