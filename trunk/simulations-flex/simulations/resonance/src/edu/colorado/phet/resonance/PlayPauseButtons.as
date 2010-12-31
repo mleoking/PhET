@@ -28,13 +28,15 @@ public class PlayPauseButtons extends Sprite {
     private var tFormat2: TextFormat;
     private var paused: Boolean;
 
-    private var playPause_str: String;
-    private var play_str: String;
-    private var pause_str: String;
-    private var paused_str: String;
+    public var playPause_str: String;
+    //private var play_str: String;
+    //private var pause_str: String;
+    public var paused_str: String;
 
 
     public function PlayPauseButtons( myMainView: MainView, myShakerModel: ShakerModel ) {
+
+        this.initializeStrings();
         this.myMainView = myMainView;
         this.myShakerModel = myShakerModel;
         this.playPauseButton = new Sprite();
@@ -46,8 +48,8 @@ public class PlayPauseButtons extends Sprite {
         this.tFormat2 = new TextFormat();
 
         this.playPause_str = "play/pause";
-        this.play_str = "play";
-        this.pause_str = "pause";
+        //this.play_str = "play";
+        //this.pause_str = "pause";
         this.paused_str = "PAUSED";
 
         this.drawGraphics();
@@ -62,8 +64,11 @@ public class PlayPauseButtons extends Sprite {
         this.addChild( this.playPause_txt );
         this.addChild( this.paused_txt );
 
-
     }  //end of constructor
+
+    public function initializeStrings():void{
+
+    }
 
     private function drawGraphics(): void {
         //draw button body

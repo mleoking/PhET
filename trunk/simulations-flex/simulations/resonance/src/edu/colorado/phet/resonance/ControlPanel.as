@@ -33,17 +33,17 @@ public class ControlPanel extends Canvas {
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
     //internationalized strings
-    public var numberOfResonators_str:String;
-    public var damping_str:String;
-    public var gravity_str:String;
-    public var on_str:String;
-    public var off_str:String;
-    public var resonator_str:String;
-    public var mass_str:String;
-    public var springConstant_str:String;
-    public var frequencyEquals_str:String;
-    public var hz_str:String;
-    public var resetAll_str:String;
+    public var numberOfResonators_str: String;
+    public var damping_str: String;
+    public var gravity_str: String;
+    public var on_str: String;
+    public var off_str: String;
+    public var resonator_str: String;
+    public var mass_str: String;
+    public var springConstant_str: String;
+    public var frequencyEquals_str: String;
+    public var hz_str: String;
+    public var resetAll_str: String;
 
 
     public function ControlPanel( myMainView: MainView, model: ShakerModel ) {
@@ -80,7 +80,7 @@ public class ControlPanel extends Canvas {
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
-            setStyle( "backgroundColor", 0x00ff00 );
+            setStyle( "backgroundColor", 0xdddd00 );
             percentWidth = 100;
             percentHeight = 100;
             setStyle( "borderStyle", "solid" );
@@ -98,7 +98,7 @@ public class ControlPanel extends Canvas {
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
         this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
-        this.formatSlider(this.dampingSlider);
+        this.formatSlider( this.dampingSlider );
         with ( this.dampingSlider ) {
             minimum = 0.05;
             maximum = 5;
@@ -108,7 +108,7 @@ public class ControlPanel extends Canvas {
         this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
 
         this.nbrResonatorsSlider = new HSlider();
-        this.formatSlider(this.nbrResonatorsSlider);
+        this.formatSlider( this.nbrResonatorsSlider );
         with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
@@ -149,13 +149,14 @@ public class ControlPanel extends Canvas {
             text = this.resonator_str;
             setStyle( "fontFamily", "Arial" );
             setStyle( "fontSize", 14 );
+            setStyle( "color", 0x000000 );
             percentWidth = 90;
             setStyle( "textAlign", "center" );
         }
 
 
         this.mSlider = new HSlider();
-        this.formatSlider(this.mSlider);
+        this.formatSlider( this.mSlider );
         with ( this.mSlider ) {
             minimum = 0.2;
             maximum = 4;
@@ -165,7 +166,7 @@ public class ControlPanel extends Canvas {
         this.mSlider.addEventListener( Event.CHANGE, onChangeM );
 
         this.kSlider = new HSlider();
-        this.formatSlider(this.kSlider);
+        this.formatSlider( this.kSlider );
         with ( this.kSlider ) {
             minimum = 10;
             maximum = 400;
@@ -208,26 +209,27 @@ public class ControlPanel extends Canvas {
 
     } //end of init()
 
-    private function initializeStrings():void{
-     numberOfResonators_str = "Number of Resonators";
-     damping_str = "Damping";
-     gravity_str = "Gravity";
-     on_str = "on";
-     off_str = "off";
-     resonator_str  = "Resonator";
-     mass_str = "mass";
-     springConstant_str = "spring constant";
-     frequencyEquals_str = "frequency = ";
-     hz_str = "Hz";
-     resetAll_str = "Reset All";
+    private function initializeStrings(): void {
+        numberOfResonators_str = "Number of Resonators";
+        damping_str = "Damping";
+        gravity_str = "Gravity";
+        on_str = "on";
+        off_str = "off";
+        resonator_str = "Resonator";
+        mass_str = "mass";
+        springConstant_str = "spring constant";
+        frequencyEquals_str = "frequency = ";
+        hz_str = "Hz";
+        resetAll_str = "Reset All";
     }
 
     function formatSlider( mySlider: HSlider ): void {
         mySlider.buttonMode = true;
         mySlider.liveDragging = true;
         mySlider.setStyle( "labelOffset", 25 );
-    };
-
+        setStyle( "invertThumbDirection", true );
+        setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
+    }
 
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
@@ -240,9 +242,7 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setResonatorIndex. k = "+k);
         this.kSlider.value = k;
         this.setFreqLabel();
-        //var resFreq:Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
-        //var fNbr_str:String =  resFreq.toFixed(2);
-        //this.freq_lbl.text = "frequency = " + fNbr_str;
+        this.shakerModel.view.setResonatorLabelColor( rNbr, 0xffff00 );
     }
 
     private function setFreqLabel(): void {
@@ -257,22 +257,22 @@ public class ControlPanel extends Canvas {
         this.shakerModel.setB( b );
     }
 
-    public function setDampingExternally(b:Number){
-        this.shakerModel.setB(b);
+    public function setDampingExternally( b: Number ) {
+        this.shakerModel.setB( b );
         this.dampingSlider.value = b;
     }
 
     private function onChangeNbrResonators( evt: Event ): void {
         var nbrR: int = this.nbrResonatorsSlider.value;
-        if (nbrR < this.selectedResonatorNbr){
-            this.setResonatorIndex(nbrR);
+        if ( nbrR < this.selectedResonatorNbr ) {
+            this.setResonatorIndex( nbrR );
         }
         //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
         //this.setNbrResonators( nbrR );
         this.myMainView.setNbrResonators( nbrR );
     }
 
-    public function setNbrResonatorsExternally(nbrR:int):void{
+    public function setNbrResonatorsExternally( nbrR: int ): void {
         this.nbrResonatorsSlider.value = nbrR;
         this.setNbrResonators( nbrR );
     }
@@ -325,8 +325,8 @@ public class ControlPanel extends Canvas {
 
     }
 
-    private function resetAll( evt: MouseEvent ):void{
-        this.resetResonators(evt);
+    private function resetAll( evt: MouseEvent ): void {
+        this.resetResonators( evt );
         this.myMainView.initializeAll();
     }
 
