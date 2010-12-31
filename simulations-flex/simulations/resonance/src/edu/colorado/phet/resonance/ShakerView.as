@@ -13,7 +13,7 @@ public class ShakerView extends Sprite {
     private var model: ShakerModel;			//model of shaker bar system
     private var maxNbrResonators: int;		//maximum number or resonators
     private var nbrResonators: int;			//nbr of mass-spring systems that are displayed on stage
-    private var resonatorView_arr: Array;  	//views of mass spring systems
+    public var resonatorView_arr: Array;  	//views of mass spring systems
     private var bar: Sprite;				//view of shaker bar
     private var base: Sprite;				//view of base with controls
     private var springHolder: Sprite;        //invisible holder for resonators
@@ -31,6 +31,14 @@ public class ShakerView extends Sprite {
     private var stageW: int;
     private var stageH: int;
 
+    //strings for internationalization
+    public var driver_str: String;
+    public var onSlashOff_str: String;
+    public var frequency_str: String;
+    public var hz_str: String;
+    public var cm_str: String;
+    public var amplitude_str: String;
+
     public function ShakerView( myMainView: MainView, model: ShakerModel ) {
         this.myMainView = myMainView;
         this.model = model;
@@ -44,6 +52,8 @@ public class ShakerView extends Sprite {
 
     public function initialize(): void {
 
+        this.initializeStrings();
+
         this.stageW = Util.STAGEW;
         this.stageH = Util.STAGEH;
         this.pixPerMeter = 200;
@@ -55,17 +65,17 @@ public class ShakerView extends Sprite {
         this.springHolder = new Sprite();
         this.createLabel();
         //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
-        this.onOffButton = new NiceButton2( 70, 30, "On/Off", OnOrOff );
+        this.onOffButton = new NiceButton2( 70, 30, onSlashOff_str, OnOrOff );
         this.onLight = new Sprite();
         this.glow = new GlowFilter( 0xff0000, 0.5, 8, 8, 10 );
         this.glow.quality = BitmapFilterQuality.HIGH;
         //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
         this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 7 );
-        this.fKnob.setLabelText( "frequency" );
+        this.fKnob.setLabelText( frequency_str );
         this.fKnob.setScale( this.hzPerTurn );
         //HorizontalSlider(owner:Object, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
         this.ASlider = new HorizontalSlider( changeA, 120, 0.1, 1 );
-        this.ASlider.setLabelText( "amplitude" );
+        this.ASlider.setLabelText( amplitude_str );
         this.ASlider.setScale( this.maxAmplitude );
         //this.ASlider.setVal(this.maxAmplitude/2);
         this.drawShaker();
@@ -89,12 +99,21 @@ public class ShakerView extends Sprite {
         //trace("MassSpringView.initialize() called. stageW = "+this.stageW);
     }//end of initialize()
 
+    private function initializeStrings(): void {
+        driver_str = "DRIVER";
+        onSlashOff_str = "on/off";
+        frequency_str = "frequency";
+        hz_str = "Hz";
+        cm_str = "cm";
+        amplitude_str = "amplitude";
+    }
+
     private function createLabel(): void {
         this.label_txt = new TextField();	//static label
         this.addChild( this.label_txt );
         this.label_txt.selectable = false;
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
-        this.label_txt.text = "DRIVER";
+        this.label_txt.text = driver_str;
         this.label_fmt = new TextFormat();	//format of label
         this.label_fmt.font = "Arial";
         this.label_fmt.color = 0xffffff;
@@ -145,6 +164,15 @@ public class ShakerView extends Sprite {
         }
     }
 
+    public function setResonatorLabelColor( rNbr: int, color: Number ): void {
+        //first, reset all resonator label colors
+        for ( var i: int; i < this.maxNbrResonators; i++ ) {
+            this.resonatorView_arr[i].setLabelColor( 0xffffff );
+        }
+        this.resonatorView_arr[rNbr - 1].setLabelColor( color );
+    }
+
+
     private function OnOrOff(): void {
         if ( this.model.getRunning() ) {
             //this.model.setResonatorsFreeRunning(true);
@@ -162,7 +190,7 @@ public class ShakerView extends Sprite {
         //trace("ShakerVeiw.OnOrOff callled. amplitude = "+ this.model.getA());
     }
 
-    private function shakerOff():void{    //need this for Reset All function
+    private function shakerOff(): void {    //need this for Reset All function
         this.model.stopShaker();
         this.drawOnLight( 0x000000 );
     }
@@ -215,29 +243,29 @@ public class ShakerView extends Sprite {
         gB.lineStyle( 2, 0x333333, 1, true, LineScaleMode.NONE );
         var barW: Number = this.barPixPerResonator * this.nbrResonators;
         var barH: Number = 30;
-        var gradMatrix:Matrix = new Matrix();
-        gradMatrix.createGradientBox(barW, barH, 0.5*Math.PI, -barW/2, 0);
+        var gradMatrix: Matrix = new Matrix();
+        gradMatrix.createGradientBox( barW, barH, 0.5 * Math.PI, -barW / 2, 0 );
         var pistonW: Number = this.barPixPerResonator;
-       //gB.beginFill( 0xaaaaaa )
-        var gradType:String = GradientType.LINEAR ;
-        var barGray:Number = 0xaaaaaa;
-        var colors:Array = [0xdddddd, barGray, barGray, 0x555577];
-        var alphas:Array = [1, 1, 1, 1];
-        var ratios:Array = [0, 60, 200, 255];
-        var spreadMethod:String = SpreadMethod.PAD;
-        gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
+        //gB.beginFill( 0xaaaaaa )
+        var gradType: String = GradientType.LINEAR;
+        var barGray: Number = 0xaaaaaa;
+        var colors: Array = [0xdddddd, barGray, barGray, 0x555577];
+        var alphas: Array = [1, 1, 1, 1];
+        var ratios: Array = [0, 60, 200, 255];
+        var spreadMethod: String = SpreadMethod.PAD;
+        gB.beginGradientFill( gradType, colors, alphas, ratios, gradMatrix, spreadMethod );
         gB.drawRoundRect( -barW / 2, 0, barW, barH, 20 );
         gB.endFill();
         //draw vertical piston
         //var mid:int = 127;
-        gradMatrix.createGradientBox(pistonW, barH, 0, -pistonW/2, 0);
-        gradType = GradientType.LINEAR ;
+        gradMatrix.createGradientBox( pistonW, barH, 0, -pistonW / 2, 0 );
+        gradType = GradientType.LINEAR;
         barGray = 0x999999;
         colors = [barGray, 0xdddddd, barGray];
         alphas = [1, 1, 1];
         ratios = [0, 165, 255];
-        var spreadMethod:String = SpreadMethod.PAD;
-        gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
+        var spreadMethod: String = SpreadMethod.PAD;
+        gB.beginGradientFill( gradType, colors, alphas, ratios, gradMatrix, spreadMethod );
         gB.drawRect( -pistonW / 2, barH, pistonW, 100 );
         gB.endFill();
         gB.moveTo( -pistonW / 2, 2 * barH );
@@ -251,15 +279,15 @@ public class ShakerView extends Sprite {
         var baseW: Number = 500;
         var baseH: Number = 100;
         var floorLevel: Number = 0 + 2 * baseH;
-        var gradMatrix:Matrix = new Matrix();
-        gradMatrix.createGradientBox(baseW, baseH, 0.5*Math.PI, -baseW/2, floorLevel - baseH);
-        var gradType:String = GradientType.LINEAR ;
-        var barGray:Number = 0xaaaaaa;
-        var colors:Array = [0xdddddd, barGray, barGray, 0x555577];
-        var alphas:Array = [1, 1, 1, 1];
-        var ratios:Array = [0, 30, 225, 255];
-        var spreadMethod:String = SpreadMethod.PAD;
-        gB.beginGradientFill(gradType, colors ,alphas, ratios, gradMatrix, spreadMethod);
+        var gradMatrix: Matrix = new Matrix();
+        gradMatrix.createGradientBox( baseW, baseH, 0.5 * Math.PI, -baseW / 2, floorLevel - baseH );
+        var gradType: String = GradientType.LINEAR;
+        var barGray: Number = 0xaaaaaa;
+        var colors: Array = [0xdddddd, barGray, barGray, 0x555577];
+        var alphas: Array = [1, 1, 1, 1];
+        var ratios: Array = [0, 30, 225, 255];
+        var spreadMethod: String = SpreadMethod.PAD;
+        gB.beginGradientFill( gradType, colors, alphas, ratios, gradMatrix, spreadMethod );
         //gB.beginFill( 0xaaaaaa );
         gB.drawRoundRect( -baseW / 2, floorLevel - baseH, baseW, baseH, 20 );
         gB.endFill();

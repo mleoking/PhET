@@ -15,7 +15,7 @@ public class MassSpringView extends Sprite {
     //private var xOff:Number;            //x-offset of shadow
     //private var yOff:Number;            //y-offset of shadow
     private var label_txt: TextField;	//label on mass: 1, 2, 3, ...
-    private var tFormat1: TextFormat;
+    public var tFormat1: TextFormat;
     private var pixPerMeter: Number;	//scale: number of pixels in 1 meter
     private var stageW: int;
     private var stageH: int;
@@ -165,6 +165,7 @@ public class MassSpringView extends Sprite {
         this.tFormat1 = new TextFormat();	//format of label
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0xffffff;
+        this.tFormat1.bold  = true;
         this.tFormat1.size = 22;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = -0.5 * this.label_txt.width;
@@ -178,6 +179,11 @@ public class MassSpringView extends Sprite {
         this.label_txt.text = txt;
         this.label_txt.x = -0.5 * this.label_txt.width;
         this.label_txt.setTextFormat( tFormat1 );
+    }
+
+    public function setLabelColor(color:Number):void{
+       this.tFormat1.color = color;
+       this.label_txt.setTextFormat( tFormat1 );
     }
 
     public function getModel(): MassSpringModel {
@@ -195,8 +201,10 @@ public class MassSpringView extends Sprite {
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
-            //Geezz! There has gotta be a better way for next line.
+            //set selected resonator's label color
+            //thisObject.setLabelColor(0xffff00);
             var indx: int = thisObject.model.getRNbr().toString();
+            //Geezz! There has gotta be a better way for next line.
             thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
             //mass not grabbable if sim paused or if shaker is on
             if ( !thisObject.model.shakerModel.paused && !thisObject.model.shakerModel.getRunning() ) {
