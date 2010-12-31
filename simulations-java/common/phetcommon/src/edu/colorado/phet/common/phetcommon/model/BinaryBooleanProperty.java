@@ -6,8 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Returns a boolean computation over Property<Boolean> arguments.  This provides read-only access;
- * calling setValue on this AndProperty doesn't propagate back to the original properties.
+ * Returns a boolean computation over Property<Boolean> arguments.
  *
  * @author Sam Reid
  */
