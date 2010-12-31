@@ -137,16 +137,26 @@ public class InteractiveIsotopeModel implements Resettable {
         return atom;
     }
 
-    private void setAtomToDefaultConfig(){
+    private void setAtomConfiguration( AtomValue atomConfiguration ){
+
+        // Reset the atom to have no particles.
         atom.reset();
-        for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumElectrons(); i++ ){
-            atom.addElectron( new Electron( clock ), true );
+
+        // Add the particles.
+        for ( int i = 0; i < atomConfiguration.getNumElectrons(); i++ ){
+            Electron electron = new Electron( clock );
+            atom.addElectron( electron, true );
+            notifyParticleAdded( electron );
         }
-        for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumProtons(); i++ ){
-            atom.addProton( new Proton( clock ), true );
+        for ( int i = 0; i < atomConfiguration.getNumProtons(); i++ ){
+            Proton proton = new Proton( clock );
+            atom.addProton( proton, true );
+            notifyParticleAdded( proton );
         }
-        for ( int i = 0; i < DEFAULT_ATOM_CONFIG.getNumNeutrons(); i++ ){
-            atom.addNeutron( new Neutron( clock ), true );
+        for ( int i = 0; i < atomConfiguration.getNumNeutrons(); i++ ){
+            Neutron neutron = new Neutron( clock );
+            atom.addNeutron( neutron, true );
+            notifyParticleAdded( neutron );
         }
     }
 
@@ -186,8 +196,25 @@ public class InteractiveIsotopeModel implements Resettable {
      */
     public void reset(){
 
+        // Remove all particles from the this model.
+        ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
+        neutrons.clear();
+        for ( Neutron neutron : copyOfNeutrons ) {
+            neutron.removedFromModel();
+        }
+        ArrayList<Proton> copyOfProtons = new ArrayList<Proton>( protons );
+        protons.clear();
+        for ( Proton proton : copyOfProtons ) {
+            proton.removedFromModel();
+        }
+        ArrayList<Electron> copyOfElectrons = new ArrayList<Electron>( electrons );
+        electrons.clear();
+        for ( Electron electron : copyOfElectrons ) {
+            electron.removedFromModel();
+        }
+
         // Reset the atom.
-        setAtomToDefaultConfig();
+        setAtomConfiguration( DEFAULT_ATOM_CONFIG );
 
         // Reset the neutron bucket.
         setNeutronBucketCount( DEFAULT_NUM_NEUTRONS_IN_BUCKET );
