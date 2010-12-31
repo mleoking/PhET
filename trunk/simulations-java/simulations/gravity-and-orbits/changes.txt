@@ -1,3 +1,4 @@
+Fixed: Inconsistent icons sizes on mass sliders
 Fixed: use the same cartoon scales for earth and moon so their radii are proportionately correct
 Made it so the tape measure icon appears gray instead of white when disabled
 rescaled control panel to fit on the stage

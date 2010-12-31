@@ -51,8 +51,10 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setForeground( FOREGROUND );
                 setBackground( BACKGROUND );
             }} );
-            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1.5E-9 ) ),
-                                                    new Property<Scale>( Scale.CARTOON ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
+            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ),
+                                                                                                                                                       1//using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
+            ) ),
+                                                    new Property<Scale>( Scale.REAL ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
             final Image image = bodyNode.renderImage( 22 );
             add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) {{
                 setBackground( BACKGROUND );
