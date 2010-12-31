@@ -25,6 +25,13 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
     public InteractiveIsotopeNode( final InteractiveIsotopeModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
         super( model.getAtom(), mvt, viewOrbitals );
 
+        model.addListener( new InteractiveIsotopeModel.Adapter() {
+            @Override
+            public void particleAdded( SubatomicParticle subatomicParticle ) {
+                addParticle( subatomicParticle );
+            }
+        });
+
         // Add the bucket that holds the neutrons.
         BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
         neutronBucketNode.setOffset( mvt.modelToViewDouble( model.getNeutronBucket().getPosition() ) );

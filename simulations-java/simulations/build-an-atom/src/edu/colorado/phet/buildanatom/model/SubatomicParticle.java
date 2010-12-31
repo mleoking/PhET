@@ -161,6 +161,19 @@ public abstract class SubatomicParticle {
         userControlled.reset();
     }
 
+    /**
+     * This method should be called when this particle is removed from the
+     * model.  It causes the particle to send out notifications of its
+     * removal, which the view will need to receive in order to remove the
+     * representation.
+     */
+    public void removedFromModel() {
+        ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
+        for ( Listener listener : copyOfListeners ) {
+            listener.removedFromModel( this );
+        }
+    }
+
     public void addPositionListener( SimpleObserver listener ) {
         position.addObserver( listener );
     }
@@ -177,17 +190,15 @@ public abstract class SubatomicParticle {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    public static interface Listener{
-        void grabbedByUser(SubatomicParticle particle);
-        void droppedByUser(SubatomicParticle particle);
+    public static interface Listener {
+        void grabbedByUser( SubatomicParticle particle );
+        void droppedByUser( SubatomicParticle particle );
+        void removedFromModel( SubatomicParticle particle );
     }
 
     public static class Adapter implements Listener{
-
-        public void grabbedByUser( SubatomicParticle particle ) {
-        }
-
-        public void droppedByUser( SubatomicParticle particle ) {
-        }
+        public void grabbedByUser( SubatomicParticle particle ) {}
+        public void droppedByUser( SubatomicParticle particle ) {}
+        public void removedFromModel( SubatomicParticle particle ) {}
     }
 }

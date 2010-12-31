@@ -167,13 +167,24 @@ public class SchematicAtomNode extends PNode {
      * @param proton
      */
     protected void addProton( final Proton proton ){
+
+        // Create the node to represent this particle.
         final ProtonNode protonNode = new ProtonNode( mvt, proton );
-        nucleusLayers.get( mapNucleonToLayerNumber( proton ) ).addChild( protonNode );
         proton.addPositionListener( new SimpleObserver() {
             public void update() {
                 if ( !proton.isUserControlled() ){
                     updateNucleonLayer( proton, protonNode );
                 }
+            }
+        });
+
+        // Set up the removal of this particle's representation when the
+        // particle itself is removed.
+        proton.addListener( new SubatomicParticle.Adapter(){
+            @Override
+            public void removedFromModel( SubatomicParticle particle ) {
+                removeNucleonNodeFromLayers( protonNode );
+                proton.removeListener( this );
             }
         });
     }
@@ -186,8 +197,8 @@ public class SchematicAtomNode extends PNode {
      * @param neutron
      */
     protected void addNeutron( final Neutron neutron ){
+        // Create the node to represent this particle.
         final NeutronNode neutronNode = new NeutronNode( mvt, neutron );
-        nucleusLayers.get( mapNucleonToLayerNumber( neutron ) ).addChild( neutronNode );
         neutron.addPositionListener( new SimpleObserver() {
             public void update() {
                 if ( !neutron.isUserControlled() ){
@@ -195,6 +206,18 @@ public class SchematicAtomNode extends PNode {
                 }
             }
         });
+
+        // Set up the removal of this particle's representation when the
+        // particle itself is removed.
+        neutron.addListener( new SubatomicParticle.Adapter(){
+            @Override
+            public void removedFromModel( SubatomicParticle particle ) {
+                removeNucleonNodeFromLayers( neutronNode );
+                neutron.removeListener( this );
+            }
+        });
+
+        nucleusLayers.get( mapNucleonToLayerNumber( neutron ) ).addChild( neutronNode );
     }
 
     /**
@@ -202,10 +225,12 @@ public class SchematicAtomNode extends PNode {
      * sometimes used to add a particle that is actually external to the atom
      * but that may, over the course of its life, be moved into the atom.
      *
-     * @param neutron
+     * @param electron
      */
     protected void addElectron( final Electron electron ){
-        electronLayer.addChild( new ElectronNode( mvt, electron ){{
+
+        // Create the node to represent this particle.
+        final ElectronNode electronNode = new ElectronNode( mvt, electron ){{
             final SimpleObserver updateVisibility = new SimpleObserver() {
                 public void update() {
                     setVisible( viewOrbitals.getValue() || !atom.containsElectron( electron ) );
@@ -214,6 +239,37 @@ public class SchematicAtomNode extends PNode {
             viewOrbitals.addObserver( updateVisibility );
             atom.addObserver( updateVisibility );
             updateVisibility.update();
-        }} );
+        }};
+
+        // Add the particle to the representation.
+        electronLayer.addChild( electronNode );
+
+        // Set up automatic removal of the particle's representation when it
+        // is removed from the model.
+        electron.addListener( new SubatomicParticle.Adapter() {
+            @Override
+            public void removedFromModel( SubatomicParticle particle ) {
+                electronLayer.removeChild( electronNode );
+                electron.removeListener( this );
+            }
+        });
+    }
+
+    /**
+     * Generic version of the add routine that determines the appropriate
+     * representation to add.
+     *
+     * @param particle
+     */
+    protected void addParticle( SubatomicParticle particle ) {
+        if ( particle instanceof Neutron ){
+            addNeutron( (Neutron ) particle );
+        }
+        else if ( particle instanceof Proton ){
+            addProton( (Proton ) particle );
+        }
+        else if ( particle instanceof Electron ){
+            addElectron( (Electron ) particle );
+        }
     }
 }
