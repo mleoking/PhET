@@ -26,27 +26,31 @@ public class MainView extends Canvas {
         this.stageW = stageW;
         this.myShakerModel = myShakerModel;
         this.myShakerView = new ShakerView( this, myShakerModel );
-        this.addChild( new SpriteUIComponent( myShakerView ) );
+
         this.myShakerView.x = 0.40 * stageW;
         this.myShakerView.y = 0.6 * stageH;
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myShakerModel );
-        this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
+
         this.myPlayPauseButtons.x = this.myShakerView.x;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
         this.myControlPanel = new ControlPanel( this, myShakerModel );
-        this.addChild( myControlPanel );
+
         //this.myControlPanel.right = 10;    //does not work, "right" is a style property
         //this.myControlPanel.setStyle("right", 10);    //this works, but forces the control panel on the far right
         this.myControlPanel.x = 0.8 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.1 * stageH;
 
         this.phetLogo = new PhetIcon();
-        this.addChild( new SpriteUIComponent( phetLogo ) );
+
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
+        this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
+        this.addChild( new SpriteUIComponent( myShakerView ) );
+        this.addChild( myControlPanel );
+        this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
 
     }//end of constructor

@@ -171,7 +171,7 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.text = " 1.6 cm";
         this.readout_txt.width = 20;
         this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width / 2;
-        this.readout_txt.y = -1.5 * this.readout_txt.height;
+        this.readout_txt.y = -1.75 * this.readout_txt.height;
 
         this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
     }//end createReadoutfield()
