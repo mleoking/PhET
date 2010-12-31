@@ -55,7 +55,7 @@ public class ShakerModel {
             //var m: Number = 3*(1-0.08*i);//3/(i+1);//4.2 / Math.pow( 1.3, (1 + i) );
             var m: Number = 4.2 / Math.pow( 1.3, (1 + i) );
             //MassSpringModel(shakerModel:ShakerModel, rNbr:int, m:Number, f:Number, L0:Number, b:Number)
-            this.resonatorModel_arr[i] = new MassSpringModel( this, i + 1, m, 0.5 + 0.5 * i, 0.8, 1 );
+            this.resonatorModel_arr[i] = new MassSpringModel( this, i + 1, m, 1.0 + 0.25 * i, 0.2, 1 );
         }//end for
     }//end function
 
@@ -64,7 +64,7 @@ public class ShakerModel {
             //var m: Number  = 3*(1-0.08*i);//3/(i+1); //= 4.2 / Math.pow( 1.3, (1 + i) );
             var m: Number  = 4.2 / Math.pow( 1.3, (1 + i) );
             this.resonatorModel_arr[i].setM( m );
-            var f: Number = 0.5 + 0.5 * i;
+            var f: Number = 1.0 + 0.25 * i;
             var k: Number = m * (2 * Math.PI * f) * (2 * Math.PI * f);
             this.resonatorModel_arr[i].setK( k );
         }//end for
@@ -223,9 +223,23 @@ public class ShakerModel {
         //this.y0 = this.A*Math.sin(2*Math.PI*f*t + this.phase);
         var currentY0 = this.A * Math.sin( 2 * Math.PI * this.f * this.t + this.phase );
         this.setY0( currentY0 );
-        //for(var i:int = 0; i < this.nbrResonators; i++){
-//				resonatorModel_arr[i].setY0(this.y0);
-//			}
+
+        for ( var i: int; i < this.nbrResonators; i++ ) {
+            this.resonatorModel_arr[i].singleStep( this.dt );// = this.bar.y;
+        }
+        updateView();
+    }
+
+    public function singleStepWhenPaused(): void {
+        this.dt = 0.02;
+        this.t += this.dt;
+        //trace("ShakerModel.singleStep called. realDt = "+realDt);
+        //this.y0 = this.A*Math.sin(2*Math.PI*f*t + this.phase);
+        if(this.running){
+           var currentY0 = this.A * Math.sin( 2 * Math.PI * this.f * this.t + this.phase );
+            this.setY0( currentY0 );
+        }
+
         for ( var i: int; i < this.nbrResonators; i++ ) {
             this.resonatorModel_arr[i].singleStep( this.dt );// = this.bar.y;
         }

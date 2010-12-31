@@ -21,6 +21,7 @@ public class HorizontalSlider extends Sprite {
     private var tFormat1: TextFormat;	//format of label
     private var tFormat2: TextFormat;	//format of readout
     private var readout_txt: TextField; 	//dynamic readout
+    private var units_str:String;       //units on readout
     private var scale: Number;			//readout = scale * sliderValue
     private var readoutDecimal: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
@@ -32,7 +33,7 @@ public class HorizontalSlider extends Sprite {
         this.minVal = minVal;
         this.maxVal = maxVal;
         this.scale = 1;		//default is that slider value = readout value
-        this.readoutDecimal = 3;
+        this.readoutDecimal = 1;
         this.detented = detented;
         this.nbrTics = nbrTics;
         this.rail = new Sprite();
@@ -50,7 +51,7 @@ public class HorizontalSlider extends Sprite {
     }
 
     public function setVal( val: Number ): void {
-        var xVal: Number = val / this.scale;
+        var xVal: Number = val;  /// this.scale;
         //trace("HorizSlider.setVal val = "+val);
         if ( xVal >= this.minVal && xVal <= this.maxVal ) {
             this.outputValue = xVal;
@@ -90,25 +91,27 @@ public class HorizontalSlider extends Sprite {
         var gK: Graphics = this.knob.graphics;
         gK.clear();
 
-        var kW: Number = 12; //knob width
-        var kH: Number = 12; //knob height
+        var kW: Number = 8; //knob width
+        var kH: Number = 15; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
         with(gK){
-            lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+
+            lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             beginFill(0x00ff00);
-            moveTo(-0.5*kW, -0.5*kH);
-            lineTo(0.5*kW, -0.5*kH);
-            lineTo(0.5*kW, 0.3*kH);
-            lineStyle( 2, 0x0000cc, 1, true);
-            curveTo(0, kH, -0.5*kW, 0.3*kH );
-            lineTo(-0.5*kW, -0.5*kH);
+            drawRect(-0.5*kW, -0.5*kH, kW, kH );
+//            moveTo(-0.5*kW, -0.5*kH);
+//            lineTo(0.5*kW, -0.5*kH);
+//            lineTo(0.5*kW, 0.3*kH);
+//            lineStyle( 2, 0x0000cc, 1, true);
+//            curveTo(0, kH, -0.5*kW, 0.3*kH );
+//            lineTo(-0.5*kW, -0.5*kH);
             endFill();
-            lineStyle( 1, 0x0000ff, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            moveTo(0.5,-0.1*kH);
-            lineTo(0.5,0.5*kH);
-            lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            moveTo(-0.5, -0.1*kH);
-            lineTo(-0.5, 0.5*kH);
+            lineStyle( 1.0, 0x000000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+            moveTo(0,-0.4*kH);
+            lineTo(0,0.4*kH);
+            //lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+            //moveTo(-0.5, -0.1*kH);
+            //lineTo(-0.5, 0.5*kH);
 
         }
         //gK.drawRect( -kW / 2, -kH / 2, kW, kH );
@@ -145,23 +148,27 @@ public class HorizontalSlider extends Sprite {
         this.label_txt.x = this.rail.width / 2 - 0.5 * this.label_txt.width;
     }
 
+    public function setUnitsText( str:String ):void{
+         this.units_str = str;
+    }
+
     private function createReadoutField(): void {
         this.readout_txt = new TextField();	//static label
         this.addChild( this.readout_txt );
-        this.readout_txt.selectable = true;
+        this.readout_txt.selectable = false;
         this.readout_txt.type = TextFieldType.INPUT;
         this.readout_txt..border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
         this.readout_txt.autoSize = TextFieldAutoSize.LEFT;
-        this.readout_txt.restrict = "0-9.";
+        //this.readout_txt.restrict = "0-9.";
 
         this.tFormat2 = new TextFormat();	//format of label
         this.tFormat2.font = "Arial";
         this.tFormat2.color = 0x000000;
         this.tFormat2.size = 14;
         this.readout_txt.defaultTextFormat = this.tFormat2;
-        this.readout_txt.text = "0.00";
+        this.readout_txt.text = " 1.6 cm";
         this.readout_txt.width = 20;
         this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width / 2;
         this.readout_txt.y = -1.5 * this.readout_txt.height;
@@ -176,6 +183,7 @@ public class HorizontalSlider extends Sprite {
         this.manualUpdating = false;
     }
 
+    //unnecessary if text is not selectable
     private function evtTextToNumber( evt: Event ): Number {
         var inputText = evt.target.text;
         var outputNumber: Number;
@@ -201,7 +209,7 @@ public class HorizontalSlider extends Sprite {
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
-        this.readout_txt.text = readout.toFixed( this.readoutDecimal );
+        this.readout_txt.text = " " + readout.toFixed( this.readoutDecimal ) + " " + units_str ;
     }//end updateReadout()
 
     private function makeKnobGrabbable(): void {
