@@ -192,7 +192,7 @@ public class PlayPauseButtons extends Sprite {
                 thisObject.paused_txt.visible = true;
                 thisObject.myShakerModel.pauseSim();
             }
-            thisObject.myShakerModel.singleStepWhenPaused()();
+            thisObject.myShakerModel.singleStepWhenPaused();
         }
     }
 

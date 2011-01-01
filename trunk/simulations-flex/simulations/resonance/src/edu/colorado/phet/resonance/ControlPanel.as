@@ -8,10 +8,12 @@ import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.Button;
+import mx.controls.ComboBox;
 import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
+import mx.events.ListEvent;
 
 public class ControlPanel extends Canvas {
 
@@ -22,6 +24,7 @@ public class ControlPanel extends Canvas {
     private var innerBckgrnd: VBox;
     private var dampingSlider: HSlider;
     private var nbrResonatorsSlider: HSlider;
+    private var presets_cbx:ComboBox;
     private var gravityOnOff_rbg: RadioButtonGroup;
 
     private var gravity_lbl: Label;
@@ -73,7 +76,7 @@ public class ControlPanel extends Canvas {
         this.background.setStyle( "paddingBottom", 20 );
         this.background.setStyle( "paddingRight", 7 );
         this.background.setStyle( "paddingLeft", 7 );
-        this.background.setStyle( "verticalGap", 10 );
+        this.background.setStyle( "verticalGap", 0 );
         with ( this.background ) {
             setStyle( "horizontalAlign", "center" );
         }
@@ -119,6 +122,10 @@ public class ControlPanel extends Canvas {
 
         this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
 
+        this.presets_cbx = new ComboBox();
+        this.presets_cbx.dataProvider = ["Choose.." , "same k" , "same m" , "mixed m & k" , "same f"];
+        this.presets_cbx.addEventListener( ListEvent.CHANGE, selectPreset );
+
         this.radioButtonBox = new HBox();
 
         this.gravity_lbl = new Label();
@@ -158,8 +165,8 @@ public class ControlPanel extends Canvas {
         this.mSlider = new HSlider();
         this.formatSlider( this.mSlider );
         with ( this.mSlider ) {
-            minimum = 0.2;
-            maximum = 4;
+            minimum = 0.1;
+            maximum = 5.5;
             labels = ["", this.mass_str, ""];
             // This doesn't work: setStyle("labelPlacement", "bottom");
         }
@@ -168,8 +175,8 @@ public class ControlPanel extends Canvas {
         this.kSlider = new HSlider();
         this.formatSlider( this.kSlider );
         with ( this.kSlider ) {
-            minimum = 10;
-            maximum = 400;
+            minimum = 2;
+            maximum = 1200;
             labels = ["", this.springConstant_str, ""];
         }
 
@@ -194,6 +201,7 @@ public class ControlPanel extends Canvas {
 
         this.addChild( this.background );
         this.background.addChild( nbrResonatorsSlider );
+        this.background.addChild(presets_cbx);
         this.background.addChild( dampingSlider );
         this.background.addChild( radioButtonBox );
         this.radioButtonBox.addChild( gravity_lbl );
@@ -270,6 +278,11 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
         //this.setNbrResonators( nbrR );
         this.myMainView.setNbrResonators( nbrR );
+    }
+
+    private function selectPreset(evt: Event ){
+         var itemNbr: int = evt.target.selectedIndex;
+        this.shakerModel.setResonatorArray(itemNbr);
     }
 
     public function setNbrResonatorsExternally( nbrR: int ): void {
