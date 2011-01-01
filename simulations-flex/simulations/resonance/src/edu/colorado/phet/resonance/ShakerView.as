@@ -70,7 +70,7 @@ public class ShakerView extends Sprite {
         this.glow = new GlowFilter( 0xff0000, 0.5, 8, 8, 10 );
         this.glow.quality = BitmapFilterQuality.HIGH;
         //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
-        this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 5 );
+        this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 6 );
         this.fKnob.setLabelText( frequency_str );
         this.fKnob.setUnitsText( hz_str );
         this.fKnob.setScale( this.hzPerTurn );

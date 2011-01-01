@@ -148,7 +148,7 @@ public class MassSpringModel {
         //this.oldT = this.t;
         //test code
         if(this.rNbr == 5){
-            trace("rNbr = " + rNbr + "   a = " + a + "   v =v" + v + "   y = " + y);
+            //trace("rNbr = " + rNbr + "   a = " + a + "   v =v" + v + "   y = " + y);
         }
         this.updateView();
     }//end of singleStep()

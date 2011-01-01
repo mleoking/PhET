@@ -14,7 +14,7 @@ public class ShakerModel {
     public var resonatorModel_arr: Array;
     //private var resonatorView_arr:Array;
     private var running: Boolean;//true if shaker bar is ON
-    private var _paused:Boolean;  //true if sim paused
+    private var _paused: Boolean;  //true if sim paused
     private var y0: Number;		//current height of bar, equil.position is y0 = 0;
     private var f: Number;		//frequency of oscillation of shaker bar
     private var phase: Number;	//phase of oscillation
@@ -53,21 +53,73 @@ public class ShakerModel {
         this.resonatorModel_arr = new Array( this.maxNbrResonators );
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
             //var m: Number = 3*(1-0.08*i);//3/(i+1);//4.2 / Math.pow( 1.3, (1 + i) );
-            var m: Number = 4.2 / Math.pow( 1.3, (1 + i) );
+            //var m: Number = 4.2 / Math.pow( 1.3, (1 + i) );
+            var f1 = 1.0;
+            var f:Number = f1 + 0.50 * i;
+            var k1:Number = 100;
+            var m1:Number = k1/((2*Math.PI*f1)*(2*Math.PI*f1));
+            var n:Number = f/f1;
+            var k = n * k1;
+            var m = m1 / n;
             //MassSpringModel(shakerModel:ShakerModel, rNbr:int, m:Number, f:Number, L0:Number, b:Number)
-            this.resonatorModel_arr[i] = new MassSpringModel( this, i + 1, m, 1.0 + 0.25 * i, 0.2, 1 );
+            //this.resonatorModel_arr[i] = new MassSpringModel( this, i + 1, m, 1.0 + 0.50 * i, 0.2, 1 );
+            this.resonatorModel_arr[i] = new MassSpringModel( this, i + 1, m, f, 0.2, 1 );
         }//end for
+        //this.setResonatorArray( 3 );  //mixed m and k
     }//end function
 
-    public function resetInitialResonatorArray(): void {
+    public function setResonatorArray( indx: int ): void {
+        trace( "ShakerModel.setResonatorArray. index = " + indx );
+        var updating:Boolean = true;
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
+            var f1 = 1.0;
+            var f:Number = f1 + 0.50 * i;      //res freq = 1.0, 1.5, 2.0 .. 5.0, 5.5
+            var k:Number;
+            var m:Number;
+            switch( indx ) {
+                case 1:   //  same k
+                    trace( "case 1 called" );
+                        k =  200;
+                        m =  k/((2*Math.PI*f)*(2*Math.PI*f));
+                    break;
+                case 2:  // same m
+                       m = 1;
+                       k =  m*(2*Math.PI*f)*(2*Math.PI*f);
+                    trace( "case 2 called" );
+                    break;
+                case 3:  //mixed m & k
+                    trace( "case 3 called" );
+                    var k1:Number = 100;
+                    var m1:Number = k1/((2*Math.PI*f1)*(2*Math.PI*f1));
+                    var n:Number = f/f1;
+                    k = n * k1;
+                    m = m1 / n;
+                    break;
+                case 4:  //same f
+                    trace( "case 4 called" );
+                    var k1:Number = 200;
+                    var m1:Number = k1/((2*Math.PI*f1*3)*(2*Math.PI*f1*3));
+                    k = k1;
+                    m = m1;
+                    break;
+                default:
+                    updating = false;
+            }
+            if(updating){
+                this.resonatorModel_arr[i].setM( m );
+                this.resonatorModel_arr[i].setK( k );
+            }
             //var m: Number  = 3*(1-0.08*i);//3/(i+1); //= 4.2 / Math.pow( 1.3, (1 + i) );
-            var m: Number  = 4.2 / Math.pow( 1.3, (1 + i) );
-            this.resonatorModel_arr[i].setM( m );
-            var f: Number = 1.0 + 0.25 * i;
-            var k: Number = m * (2 * Math.PI * f) * (2 * Math.PI * f);
-            this.resonatorModel_arr[i].setK( k );
+            //var m: Number  = 4.2 / Math.pow( 1.3, (1 + i) );
+
+            //var f: Number = 1.0 + 0.25 * i;
+            // var k: Number = m * (2 * Math.PI * f) * (2 * Math.PI * f);
+
         }//end for
+    } //end setResonatorArray()
+
+    public function resetInitialResonatorArray(): void {
+        this.setResonatorArray( 3 );
     }//end function
 
     public function setB( b: Number ): void {
@@ -86,16 +138,17 @@ public class ShakerModel {
 
     public function setNbrResonators( nbr: int ): void {
         this.nbrResonators = nbr;
-        this.setResonatorsFreeRunning(!this.running);
+        this.setResonatorsFreeRunning( !this.running );
         //freeze unused resonators
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
-            if(i >= nbr){
+            if ( i >= nbr ) {
                 //this.resonatorModel_arr[i].stopMotion();
-            }else{
+            }
+            else {
                 //this.resonatorModel_arr[i].startMotion();
             }
         }
-        this.setY0(this.y0);
+        this.setY0( this.y0 );
         //trace("shakerModel.setNbrResonators called. nbrResonators = " + this.nbrResonators);
     }//end setNbrResonators()
 
@@ -103,9 +156,9 @@ public class ShakerModel {
         return resonatorModel_arr[i];
     }
 
-    public function setG(g:Number):void{
+    public function setG( g: Number ): void {
         for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
-            this.resonatorModel_arr[i].setG(g);
+            this.resonatorModel_arr[i].setG( g );
         }
     }
 
@@ -146,38 +199,39 @@ public class ShakerModel {
         return this.running;
     }
 
-    public function get paused(){
+    public function get paused() {
         return this._paused;
     }
 
     public function startShaker(): void {
         this.running = true;
-        if(!this._paused){
-          this.setResonatorsFreeRunning( false );
-        this.msTimer.start();
+        if ( !this._paused ) {
+            this.setResonatorsFreeRunning( false );
+            this.msTimer.start();
         }
     }
 
     public function stopShaker(): void {
         this.running = false;
-        if(!this._paused){
+        if ( !this._paused ) {
             this.setResonatorsFreeRunning( true );
             this.msTimer.stop();
         }
     }
 
-    public function pauseSim():void{
+    public function pauseSim(): void {
         this._paused = true;
         this.msTimer.stop();
         this.setResonatorsFreeRunning( false );
         //this.running = false;
     }
 
-    public function unPauseSim():void{
+    public function unPauseSim(): void {
         this._paused = false;
-        if(this.running){
+        if ( this.running ) {
             this.startShaker();
-        } else{
+        }
+        else {
             this.stopShaker();
         }
     }
@@ -235,8 +289,8 @@ public class ShakerModel {
         this.t += this.dt;
         //trace("ShakerModel.singleStep called. realDt = "+realDt);
         //this.y0 = this.A*Math.sin(2*Math.PI*f*t + this.phase);
-        if(this.running){
-           var currentY0 = this.A * Math.sin( 2 * Math.PI * this.f * this.t + this.phase );
+        if ( this.running ) {
+            var currentY0 = this.A * Math.sin( 2 * Math.PI * this.f * this.t + this.phase );
             this.setY0( currentY0 );
         }
 
