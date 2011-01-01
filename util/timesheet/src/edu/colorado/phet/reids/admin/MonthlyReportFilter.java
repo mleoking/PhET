@@ -28,6 +28,9 @@ public class MonthlyReportFilter {
         allList = new ArrayList<String>();
         allList.addAll( categories );
         allList.addAll( sims );
+        allList.add( "molecules-and-light" );
+        allList.add( "balloons-and-static-electricity");
+        allList.add( "licensing");
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
         allList.add( "leave:vacation" );
