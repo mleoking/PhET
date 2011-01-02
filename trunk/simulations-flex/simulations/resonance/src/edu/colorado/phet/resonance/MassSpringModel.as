@@ -154,7 +154,7 @@ public class MassSpringModel {
     }//end of singleStep()
 
     public function startMotion(): void {
-        this.v = 0;  //always start from rest
+        //this.v = 0;  //always start from rest
         this.starting = true;
         msTimer.start();
     }

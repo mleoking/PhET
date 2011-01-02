@@ -47,6 +47,11 @@ public class ControlPanel extends Canvas {
     public var frequencyEquals_str: String;
     public var hz_str: String;
     public var resetAll_str: String;
+    public var choose_str:String;
+    public var sameMass_str:String;
+    public var sameSpring_str:String;
+    public var mixedMAndK_str:String;
+    public var sameF_str:String;
 
 
     public function ControlPanel( myMainView: MainView, model: ShakerModel ) {
@@ -123,7 +128,7 @@ public class ControlPanel extends Canvas {
         this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
 
         this.presets_cbx = new ComboBox();
-        this.presets_cbx.dataProvider = ["Choose.." , "same k" , "same m" , "mixed m & k" , "same f"];
+        this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
         this.presets_cbx.addEventListener( ListEvent.CHANGE, selectPreset );
 
         this.radioButtonBox = new HBox();
@@ -200,9 +205,10 @@ public class ControlPanel extends Canvas {
         this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
-        this.background.addChild( nbrResonatorsSlider );
-        this.background.addChild(presets_cbx);
         this.background.addChild( dampingSlider );
+
+        this.background.addChild(presets_cbx);
+        this.background.addChild( nbrResonatorsSlider );
         this.background.addChild( radioButtonBox );
         this.radioButtonBox.addChild( gravity_lbl );
         this.radioButtonBox.addChild( rb1 );
@@ -229,6 +235,11 @@ public class ControlPanel extends Canvas {
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
         resetAll_str = "Reset All";
+        choose_str = "Choose..";
+        sameMass_str = "same mass";
+        sameSpring_str = "same spring";
+        mixedMAndK_str = "mixed m and k";
+        sameF_str = "same frequency"
     }
 
     function formatSlider( mySlider: HSlider ): void {
@@ -283,6 +294,7 @@ public class ControlPanel extends Canvas {
     private function selectPreset(evt: Event ){
          var itemNbr: int = evt.target.selectedIndex;
         this.shakerModel.setResonatorArray(itemNbr);
+        this.setResonatorIndex(this.selectedResonatorNbr);
     }
 
     public function setNbrResonatorsExternally( nbrR: int ): void {
