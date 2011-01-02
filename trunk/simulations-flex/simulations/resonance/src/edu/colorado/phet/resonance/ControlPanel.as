@@ -100,7 +100,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
             setStyle( "verticalGap", 0 );
-            // setStyle("horizontalAlign" , "center");
+            setStyle("horizontalAlign" , "center");
         }
 
 
@@ -209,16 +209,16 @@ public class ControlPanel extends Canvas {
 
         this.background.addChild(presets_cbx);
         this.background.addChild( nbrResonatorsSlider );
-        this.background.addChild( radioButtonBox );
-        this.radioButtonBox.addChild( gravity_lbl );
-        this.radioButtonBox.addChild( rb1 );
-        this.radioButtonBox.addChild( rb2 );
 
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
         this.innerBckgrnd.addChild( this.mSlider );
         this.innerBckgrnd.addChild( this.kSlider );
         this.innerBckgrnd.addChild( this.freq_lbl );
         this.background.addChild( innerBckgrnd );
+        this.background.addChild( radioButtonBox );
+        this.radioButtonBox.addChild( gravity_lbl );
+        this.radioButtonBox.addChild( rb1 );
+        this.radioButtonBox.addChild( rb2 );
         this.background.addChild( this.resetAllButton );
 
     } //end of init()
@@ -281,6 +281,10 @@ public class ControlPanel extends Canvas {
         this.dampingSlider.value = b;
     }
 
+    public function setPresetComboBoxExternally( idx: int):void{
+         this.presets_cbx.selectedIndex = idx;
+    }
+
     private function onChangeNbrResonators( evt: Event ): void {
         var nbrR: int = this.nbrResonatorsSlider.value;
         if ( nbrR < this.selectedResonatorNbr ) {
@@ -311,6 +315,16 @@ public class ControlPanel extends Canvas {
         else {
             this.shakerModel.setG( 0 );
             //trace( "2" );
+        }
+    }
+
+    public function setGravityExternally(onOrOff:Boolean):void{
+        if(onOrOff){
+            this.shakerModel.setG( 5 );
+            this.gravityOnOff_rbg.selectedValue = 1;
+        } else{
+            this.shakerModel.setG( 0 );
+            this.gravityOnOff_rbg.selectedValue = 0;
         }
     }
 
