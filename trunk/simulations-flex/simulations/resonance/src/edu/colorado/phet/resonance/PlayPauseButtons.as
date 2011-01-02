@@ -31,9 +31,9 @@ public class PlayPauseButtons extends Sprite {
     private var tFormat2: TextFormat;
     private var paused: Boolean;
 
-    public var playSlashPause_str: String;
-    //private var play_str: String;
-    //private var pause_str: String;
+    //public var playSlashPause_str: String;
+    public var play_str: String;
+    public var pause_str: String;    //Note well: pause_str and paused_str are two differerent strings
     public var paused_str: String;
     public var singleStep_str: String;
 
@@ -71,7 +71,9 @@ public class PlayPauseButtons extends Sprite {
     }  //end of constructor
 
     public function initializeStrings(): void {
-        this.playSlashPause_str = "play/pause";
+        //this.playSlashPause_str = "play/pause";
+        this.play_str = "play";
+        this.pause_str = "pause";
         this.paused_str = "PAUSED";
         this.singleStep_str = "step";
     }
@@ -154,7 +156,7 @@ public class PlayPauseButtons extends Sprite {
                 thisObject.paused = false;
                 thisObject.playIcon.visible = false;
                 thisObject.pauseIcon.visible = true;
-                //thisObject.playPause_txt.text = thisObject.play_str;
+                thisObject.playPause_txt.text = thisObject.pause_str;
                 thisObject.paused_txt.visible = false;
                 thisObject.myShakerModel.unPauseSim();
             }
@@ -162,7 +164,7 @@ public class PlayPauseButtons extends Sprite {
                 thisObject.paused = true;
                 thisObject.playIcon.visible = true;
                 thisObject.pauseIcon.visible = false;
-                //thisObject.playPause_txt.text = thisObject.pause_str;
+                thisObject.playPause_txt.text = thisObject.play_str;
                 thisObject.paused_txt.visible = true;
                 thisObject.myShakerModel.pauseSim();
             }
@@ -188,7 +190,7 @@ public class PlayPauseButtons extends Sprite {
                 thisObject.paused = true;
                 thisObject.playIcon.visible = true;
                 thisObject.pauseIcon.visible = false;
-                //thisObject.playPause_txt.text = thisObject.pause_str;
+                thisObject.playPause_txt.text = thisObject.pause_str;
                 thisObject.paused_txt.visible = true;
                 thisObject.myShakerModel.pauseSim();
             }
@@ -201,7 +203,7 @@ public class PlayPauseButtons extends Sprite {
             this.paused = false;
             this.playIcon.visible = false;
             this.pauseIcon.visible = true;
-            //thisObject.playPause_txt.text = thisObject.play_str;
+            this.playPause_txt.text = this.pause_str;
             this.paused_txt.visible = false;
             this.myShakerModel.unPauseSim();
         }
@@ -211,7 +213,7 @@ public class PlayPauseButtons extends Sprite {
         this.setTextField( this.playPause_txt );
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
-        this.playPause_txt.text = this.playSlashPause_str;
+        this.playPause_txt.text = this.pause_str;
         this.singleStep_txt.text = this.singleStep_str;
         this.paused_txt.text = this.paused_str;
         this.paused_txt.visible = false;
