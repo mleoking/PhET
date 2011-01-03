@@ -47,6 +47,7 @@ public class CreditsDialog extends PaintImmediateDialog {
 
     private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.Title" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
+    private static final String LICENSE_DETAILS_TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.licenseDetails" );
 
     private final ThirdPartySoftwareCredits thirdPartySoftwareCredits;
 
@@ -109,8 +110,8 @@ public class CreditsDialog extends PaintImmediateDialog {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                         if ( thirdPartySoftwareCredits.isThirdPartyLicenseURL( e.getURL() ) ) {
                             String html = thirdPartySoftwareCredits.getThirdPartyLicenseHTML( e.getURL() );
-                            ContribLicenseDialog c = new ContribLicenseDialog( owner, "License Details", html );//TODO title i18n?
-                            c.setVisible( true );
+                            ContribLicenseDialog dialog = new ContribLicenseDialog( owner, LICENSE_DETAILS_TITLE, html );
+                            dialog.setVisible( true );
                         }
                         else {
                             PhetServiceManager.showWebPage( e.getURL() );
