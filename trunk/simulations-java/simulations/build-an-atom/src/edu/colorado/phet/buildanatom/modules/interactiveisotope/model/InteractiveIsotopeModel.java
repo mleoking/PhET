@@ -139,25 +139,34 @@ public class InteractiveIsotopeModel implements Resettable {
 
     public void setAtomConfiguration( AtomValue atomConfiguration ){
 
-        // Reset the atom to have no particles.
-        atom.reset();
+        if ( !atom.equals( atomConfiguration )){
+            // Clear the atom.
+            clearAtom();
 
-        // Add the particles.
-        for ( int i = 0; i < atomConfiguration.getNumElectrons(); i++ ){
-            Electron electron = new Electron( clock );
-            atom.addElectron( electron, true );
-            notifyParticleAdded( electron );
+            // Add the particles.
+            for ( int i = 0; i < atomConfiguration.getNumElectrons(); i++ ){
+                Electron electron = new Electron( clock );
+                atom.addElectron( electron, true );
+                electrons.add( electron );
+                notifyParticleAdded( electron );
+            }
+            for ( int i = 0; i < atomConfiguration.getNumProtons(); i++ ){
+                Proton proton = new Proton( clock );
+                atom.addProton( proton, true );
+                protons.add( proton );
+                notifyParticleAdded( proton );
+            }
+            for ( int i = 0; i < atomConfiguration.getNumNeutrons(); i++ ){
+                Neutron neutron = new Neutron( clock );
+                atom.addNeutron( neutron, true );
+                neutrons.add( neutron );
+                notifyParticleAdded( neutron );
+            }
         }
-        for ( int i = 0; i < atomConfiguration.getNumProtons(); i++ ){
-            Proton proton = new Proton( clock );
-            atom.addProton( proton, true );
-            notifyParticleAdded( proton );
-        }
-        for ( int i = 0; i < atomConfiguration.getNumNeutrons(); i++ ){
-            Neutron neutron = new Neutron( clock );
-            atom.addNeutron( neutron, true );
-            notifyParticleAdded( neutron );
-        }
+
+        // Whenever the atom configuration is set, the neutron bucket is
+        // set to contain its default number of neturons.
+        setNeutronBucketCount( DEFAULT_NUM_NEUTRONS_IN_BUCKET );
     }
 
     /**
@@ -169,17 +178,9 @@ public class InteractiveIsotopeModel implements Resettable {
     private void setNeutronBucketCount( int targetNumNeutrons ) {
 
         if ( targetNumNeutrons != neutronBucket.getParticleList().size() ) {
+            clearBucket();
 
-            // Remove the current set of neutrons from the bucket and from
-            // the model, and send out notifications thereof.
-            neutronBucket.reset();
-            ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
-            neutrons.clear();
-            for ( Neutron neutron : copyOfNeutrons ) {
-                notifyParticleRemoved( neutron );
-            }
-
-            // Add the target number of neturons, sending notifications of
+            // Add the target number of neutrons, sending notifications of
             // the additions.
             for ( int i = 0; i < targetNumNeutrons; i++ ) {
                 Neutron newNeutron = new Neutron( clock );
@@ -188,6 +189,61 @@ public class InteractiveIsotopeModel implements Resettable {
                 notifyParticleAdded( newNeutron );
             }
         }
+    }
+
+    /**
+     * Remove all particles that are currently contained in the atom from
+     * both the atom and from the model.  Note that there may still be
+     * particles left in the model after doing this, since they could be in
+     * the bucket.
+     */
+    private void clearAtom(){
+        // Remove all particles associated with the atom from the model.
+        ArrayList<Proton> copyOfProtons = new ArrayList<Proton>( protons );
+        for ( Proton proton : copyOfProtons ) {
+            if ( atom.containsProton( proton )){
+                atom.removeProton( proton );
+                protons.remove( proton );
+                proton.removedFromModel();
+            }
+        }
+        ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
+        for ( Neutron neutron : copyOfNeutrons ) {
+            if ( atom.containsNeutron( neutron )){
+                atom.removeNeutron( neutron );
+                neutrons.remove( neutron );
+                neutron.removedFromModel();
+            }
+        }
+        ArrayList<Electron> copyOfElectrons = new ArrayList<Electron>( electrons );
+        for ( Electron electron : copyOfElectrons ) {
+            if ( atom.containsElectron( electron )){
+                atom.removeElectron( electron );
+                electrons.remove( electron );
+                electron.removedFromModel();
+            }
+        }
+
+        // Now clear the atom itself.
+        atom.reset();
+    }
+
+    /**
+     * Remove all particles that are currently contained in the bucket from
+     * both the bucket and from the model.  Note that this does NOT remove
+     * the particles from the atom.
+     */
+    private void clearBucket(){
+        // Remove neutrons from this model.
+        ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
+        for ( Neutron neutron : copyOfNeutrons ) {
+            if ( neutronBucket.containsParticle( neutron )){
+                neutrons.remove( neutron );
+                neutron.removedFromModel();
+            }
+        }
+        // Remove neutrons from bucket.
+        neutronBucket.reset();
     }
 
     /**
