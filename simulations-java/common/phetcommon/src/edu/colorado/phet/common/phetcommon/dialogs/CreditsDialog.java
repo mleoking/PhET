@@ -1,7 +1,8 @@
+/* Copyright 2007-2011, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.dialogs;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley
  */
 public class CreditsDialog extends PaintImmediateDialog {
+
+    public static final String TRANSLATION_CREDITS_KEY = "translation.credits"; // public for Translation Utility access
 
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
@@ -239,9 +242,8 @@ public class CreditsDialog extends PaintImmediateDialog {
          */
         private String readCredits() {
             PhetResources resourceLoader = new PhetResources( projectName );
-            String key = "translation.credits";
-            String credits = resourceLoader.getLocalizedProperties().getString( key, false /* warnIfMissing */ ).trim();
-            if ( credits != null && credits.length() > 0 && !credits.equals( key ) ) {
+            String credits = resourceLoader.getLocalizedProperties().getString( TRANSLATION_CREDITS_KEY, false /* warnIfMissing */ ).trim();
+            if ( credits != null && credits.length() > 0 && !credits.equals( TRANSLATION_CREDITS_KEY ) ) {
                 return credits;
             }
             else {
