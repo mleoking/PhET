@@ -36,6 +36,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
     public static final int MAX = 100000;
 
     private boolean updatingSlider = false;
+    private double SNAP_TOLERANCE = 0.08;//Percentage of the range the slider must be in to snap to a named label tick
 
     public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel,
                             final double labelValue, final String valueLabel ) {//for showing a label for a specific body such as "earth"
@@ -103,7 +104,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 public void stateChanged( ChangeEvent e ) {
                     if ( !updatingSlider ) {
                         double sliderValue = modelToView.createInverse().evaluate( getValue() );
-                        if ( Math.abs( sliderValue - labelValue ) / labelValue < 0.05 ) {//if near to tick mark, then use that value
+                        if ( Math.abs( sliderValue - labelValue ) / labelValue < SNAP_TOLERANCE ) {//if near to tick mark, then use that value
                             body.setMass( labelValue );
                         }
                         else {
@@ -119,8 +120,9 @@ public class BodyMassControl extends VerticalLayoutPanel {
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
                             double sliderValue = modelToView.createInverse().evaluate( getValue() );
-                            if ( Math.abs( sliderValue - labelValue ) / labelValue < 0.05 ) {
+                            if ( Math.abs( sliderValue - labelValue ) / labelValue < SNAP_TOLERANCE ) {
                                 body.setMass( labelValue );
+                                body.getMassProperty().notifyObservers();//Without this call, updates won't be sent properly and the thumb won't snap to the tick
                             }
                         }
                     } );

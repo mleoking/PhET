@@ -1,3 +1,4 @@
+Fixed: mass sliders don't snap to ticks properly
 Fixed: path looks "crinkly"
 Added strings for mode names, may be added into tooltips or labels
 Fixed: Inconsistent icons sizes on mass sliders
