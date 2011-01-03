@@ -295,6 +295,22 @@ public class Atom extends SimpleAtom {
         return position;
     }
 
+    /**
+     * Compare this atom's configuration with the supplied atom value and
+     * return true if they match and false if not.  Note that the
+     * configuration means only the quantity of the various subatomic
+     * particles.
+     *
+     * @param atomValue
+     * @return
+     */
+    public boolean equals( AtomValue atomValue ){
+        return getNumProtons() == atomValue.getNumProtons() &&
+               getNumNeutrons() == atomValue.getNumNeutrons() &&
+               getNumElectrons() == atomValue.getNumElectrons();
+
+    }
+
     public void addProton( final Proton proton, boolean moveImmediately ) {
         assert !protons.contains( proton );
 
