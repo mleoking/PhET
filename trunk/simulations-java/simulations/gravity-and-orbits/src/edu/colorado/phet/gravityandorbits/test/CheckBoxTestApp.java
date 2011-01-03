@@ -1,6 +1,6 @@
 // Copyright 2010-2011, University of Colorado
 
-package edu.colorado.phet.gravityandorbits;
+package edu.colorado.phet.gravityandorbits.test;
 
 import java.awt.*;
 
