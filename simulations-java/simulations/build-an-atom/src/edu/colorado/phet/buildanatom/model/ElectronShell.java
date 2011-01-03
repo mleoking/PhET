@@ -148,10 +148,14 @@ public class ElectronShell extends SimpleObservable {
     public Electron removeElectron( Electron electronToRemove ) {
         assert shellLocations.containsValue( electronToRemove );
         assert electronToRemove != null;
-        shellLocations.put( getKey( electronToRemove ), null );
-        electronToRemove.removeListener( particleRemovalListener );
-        notifyObservers();
-        return electronToRemove;
+        Electron removedElectron = null;
+        if ( shellLocations.containsValue( electronToRemove ) ){
+            shellLocations.put( getKey( electronToRemove ), null );
+            electronToRemove.removeListener( particleRemovalListener );
+            removedElectron = electronToRemove;
+            notifyObservers();
+        }
+        return removedElectron;
     }
 
     /**
