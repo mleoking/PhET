@@ -36,8 +36,9 @@ public class PathNode extends PNode {
         pathNode = new PNode() {
             @Override
             protected void paint( PPaintContext paintContext ) {
-                final Graphics2D g2 = paintContext.getGraphics();
 
+                //Draw the solid part
+                final Graphics2D g2 = paintContext.getGraphics();
                 g2.setPaint( color );
                 g2.setStroke( stroke );
                 int numSolidPoints = Math.min( body.getMaxPathLength() - numFadePoints, points.size() );
@@ -49,10 +50,11 @@ public class PathNode extends PNode {
                 }
                 g2.drawPolyline( xPrimitive, yPrimitive, numSolidPoints );
                 g2.setStroke( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND ) );
+
+                //Draw the faded out part
                 Color faded = color;
                 for ( int i = 0; i < numTransparentPoints; i++ ) {
                     final int a = (int) ( faded.getAlpha() - 255.0 / numFadePoints );
-//                    final int a = fadeAlpha[i];
                     faded = new Color( faded.getRed(), faded.getGreen(), faded.getBlue(), Math.max( 0, a ) );
                     g2.setColor( faded );
                     g2.drawLine( points.get( numTransparentPoints - i ).x, points.get( numTransparentPoints - i ).y, points.get( numTransparentPoints - i + 1 ).x, points.get( numTransparentPoints - i + 1 ).y );
