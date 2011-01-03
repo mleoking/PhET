@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions.view.molecules;
 import java.awt.Color;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.common.piccolophet.nodes.AtomNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -24,8 +24,8 @@ public class OHMinusNode extends PComposite {
         Color color = ABSColors.OH_MINUS;
 
         // atom nodes
-        AtomNode atomBig = new AtomNode( diameterBig, color );
-        AtomNode atomSmall = new AtomNode( diameterSmall, color );
+        ShadedSphereNode atomBig = new ShadedSphereNode( diameterBig, color );
+        ShadedSphereNode atomSmall = new ShadedSphereNode( diameterSmall, color );
 
         // rendering order
         PComposite parentNode = new PComposite();

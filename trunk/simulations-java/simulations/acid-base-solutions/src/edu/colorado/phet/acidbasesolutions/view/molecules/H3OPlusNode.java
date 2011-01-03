@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions.view.molecules;
 import java.awt.Color;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.common.piccolophet.nodes.AtomNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -24,10 +24,10 @@ public class H3OPlusNode extends PComposite {
         Color color = ABSColors.H3O_PLUS;
 
         // atom nodes
-        AtomNode atomBig = new AtomNode( diameterBig, color );
-        AtomNode atomSmallLeft = new AtomNode( diameterSmall, color );
-        AtomNode atomSmallTopRight = new AtomNode( diameterSmall, color );
-        AtomNode atomSmallBottomRight = new AtomNode( diameterSmall, color );
+        ShadedSphereNode atomBig = new ShadedSphereNode( diameterBig, color );
+        ShadedSphereNode atomSmallLeft = new ShadedSphereNode( diameterSmall, color );
+        ShadedSphereNode atomSmallTopRight = new ShadedSphereNode( diameterSmall, color );
+        ShadedSphereNode atomSmallBottomRight = new ShadedSphereNode( diameterSmall, color );
 
         // rendering order
         PComposite parentNode = new PComposite();

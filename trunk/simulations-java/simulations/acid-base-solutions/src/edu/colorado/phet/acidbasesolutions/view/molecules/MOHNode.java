@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.common.piccolophet.nodes.AtomNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -28,9 +28,9 @@ public class MOHNode extends PComposite {
         Color color = ABSColors.MOH;
 
         // atom nodes
-        AtomNode atomBig = new AtomNode( diameterBig, color );
-        AtomNode atomMedium = new AtomNode( diameterMedium, color );
-        AtomNode atomSmall = new AtomNode( diameterSmall, color );
+        ShadedSphereNode atomBig = new ShadedSphereNode( diameterBig, color );
+        ShadedSphereNode atomMedium = new ShadedSphereNode( diameterMedium, color );
+        ShadedSphereNode atomSmall = new ShadedSphereNode( diameterSmall, color );
 
         // minus
         PPath minusNode = new PPath( new Line2D.Double( 0, 0, diameterMedium / 4, 0) );
