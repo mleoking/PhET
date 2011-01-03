@@ -11,7 +11,10 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.*;
+import edu.colorado.phet.common.phetcommon.model.And;
+import edu.colorado.phet.common.phetcommon.model.Not;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
