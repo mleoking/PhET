@@ -36,21 +36,21 @@ import edu.colorado.phet.translationutility.util.ExceptionHandler;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MainFrame extends JFrame implements ToolBarListener, FindListener {
-    
+
     private final Simulation simulation;
     private final Locale targetLocale;
     private final String submitDirName;
-    
+
     private final TranslationPanel translationPanel;
     private File saveLoadDirectory;
     private FindDialog findDialog;
     private String previousFindText;
 
     private static final Logger LOGGER = Logger.getLogger( MainFrame.class.getCanonicalName() );
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param simulation
      * @param sourceLocale
      * @param targetLocale
@@ -58,22 +58,22 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     public MainFrame( Simulation simulation, Locale sourceLocale, Locale targetLocale, String jarDirName ) {
         super( TUResources.getTitle() );
-        
+
         this.simulation = simulation;
         this.targetLocale = targetLocale;
         submitDirName = jarDirName;  // save submitted files to the same dir as the sim JAR
-        
+
         saveLoadDirectory = new File( jarDirName ); // start save/load file chooser in same dir as the sim JAR
         findDialog = null;
         previousFindText = null;
-        
+
         setJMenuBar( new MenuBar( this ) );
-        
+
         // Tool Bar
         ToolBar toolBar = new ToolBar();
         toolBar.addToolBarListener( this );
-        
-        // Translation Panel
+
+        // Load source and target strings
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
@@ -87,6 +87,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
+
+        // Translation Panel
         translationPanel = new TranslationPanel( this, simulation.getProjectName(), sourceLocale, sourceProperties, targetLocale, targetProperties );
         final JScrollPane scrollPane = new JScrollPane( translationPanel );
         fixScrollPane();
@@ -102,14 +104,14 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
 
         fixFrameBounds();
     }
-    
+
     /*
      * Fixes various problems with the bounds of the main frame.
      */
     private void fixFrameBounds() {
-        
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        
+
         // make sure that we didn't exceed the screen dimensions
         {
             if ( getWidth() > screenSize.getWidth() ) {
@@ -119,7 +121,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 setSize( getWidth(), (int) Math.min( getHeight(), screenSize.getHeight() ) );
             }
         }
-        
+
         //WORKAROUND: decrease the height to account for Windows task bar
         if ( PhetUtilities.isWindows() ) {
             int overlap = getBounds().height - ( screenSize.height - TUConstants.WINDOWS_TASK_BAR_HEIGHT );
@@ -127,19 +129,19 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 setBounds( getBounds().x, getBounds().y, getBounds().width, getBounds().height - overlap );
             }
         }
-        
+
         //WORKAROUND: increase the width so we don't get a horizontal scrollbar
         setBounds( getBounds().x, getBounds().y, getBounds().width + 30, getBounds().height );
-        
+
         // make sure we didn't exceed the screen width
         if ( getBounds().getWidth() > screenSize.getWidth() ) {
             setBounds( getBounds().x, getBounds().y, screenSize.width, getBounds().height );
         }
-        
+
         // center on the screen
         SwingUtils.centerWindowOnScreen( this );
     }
-    
+
     /*
      *  WORKAROUND for #1795.
      *  Uses a listener to make the top of the translation panel is visible in the scrollpane.
@@ -159,11 +161,11 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         };
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener( listener );
     }
-    
+
     public boolean hasUnsavedChanges() {
         return translationPanel.hasUnsavedChanges();
     }
-    
+
     public void markAllSaved() {
         translationPanel.markAllSaved();
     }
@@ -171,13 +173,13 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     //----------------------------------------------------------------------------
     // ToolBarListener implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Called when the ToolBar's Test button is pressed.
      * Add the current translations to a temporary JAR file, then runs that JAR file.
      */
     public void handleTest() {
-        
+
         // if there are validation errors, warn the user, and confirm that they want to continue with Test
         if ( translationPanel.validateTargets() == false ) {
             String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + TUStrings.CONFIRM_TEST );
@@ -186,7 +188,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        
+
         Properties properties = translationPanel.getTargetProperties();
         try {
             simulation.testStrings( targetLocale, properties );
@@ -201,7 +203,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a "save" file chooser that allows the user to save the current translations to a properties file.
      */
     public void handleSave() {
-        
+
         // if there are validation errors, warn the user, and confirm that they want to continue with Save
         if ( translationPanel.validateTargets() == false ) {
             String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + TUStrings.CONFIRM_SAVE );
@@ -210,7 +212,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        
+
         File defaultFile = new File( saveLoadDirectory, simulation.getStringsFileBasename( targetLocale ) );
         JFileChooser chooser = simulation.getStringsFileChooser();
         chooser.setSelectedFile( defaultFile );
@@ -255,7 +257,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * The contents of that properties file are loaded into the target text fields.
      */
     public void handleLoad() {
-        
+
         // check for unsaved changes
         if ( hasUnsavedChanges() ) {
             String message = HTMLUtils.toHTMLString( TUStrings.UNSAVED_CHANGES_MESSAGE + "<br><br>" + TUStrings.CONFIRM_LOAD );
@@ -264,7 +266,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 return;
             }
         }
-        
+
         // load
         JFileChooser chooser = simulation.getStringsFileChooser();
         chooser.setCurrentDirectory( saveLoadDirectory );
@@ -288,16 +290,16 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Saves the currrent translations to a properties file, then notifies the user of what to do.
      */
     public void handleSubmit() {
-        
+
         // if there are validation errors, warn the user, and prevent them from sending to PhET
         if ( translationPanel.validateTargets() == false ) {
             String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + TUStrings.CANNOT_SEND_ERRORS_MESSAGE );
             JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
             return;
         }
-        
+
         Properties properties = translationPanel.getTargetProperties();
-        
+
         // export properties to a file
         File outFile = new File( submitDirName, simulation.getStringsFileBasename( targetLocale ) );
         if ( outFile.exists() ) {
@@ -309,14 +311,14 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             }
         }
         LOGGER.info( "submit is saving to " + outFile.getAbsolutePath() );
-        
+
         try {
             simulation.saveStrings( properties, outFile );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );
         }
-        
+
         // Use a JEditorPane so that it's possible to copy-paste the filename and email address.
         JEditorPane submitText = new JEditorPane();
         submitText.setEditorKit( new HTMLEditorKit() );
@@ -325,13 +327,13 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         submitText.setEditable( false );
         submitText.setBackground( new JLabel().getBackground() );
         submitText.setFont( new JLabel().getFont() );
-        
+
         JOptionPane.showMessageDialog( this, submitText, TUStrings.SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
         markAllSaved();
     }
-    
+
     /**
-     * Called when the ToolBar's Find button is pressed. 
+     * Called when the ToolBar's Find button is pressed.
      * Opens a Find dialog.
      */
     public void handleFind() {
@@ -364,14 +366,14 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         String message = MessageFormat.format( TUStrings.HELP_MESSAGE, TUConstants.PHETHELP_EMAIL, TUResources.getVersionMajorMinorDev() );
         JOptionPane.showMessageDialog( this, message, TUStrings.HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
-    
+
     //----------------------------------------------------------------------------
     // FindListener implementation
     //----------------------------------------------------------------------------
 
     /**
      * Called with the Find dialog's Next button is pressed.
-     * 
+     *
      * @param text
      */
     public void findNext( String text ) {
@@ -380,7 +382,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
 
     /**
      * Called when the Find dialog's Previous button is pressed.
-     * 
+     *
      * @param text
      */
     public void findPrevious( String text ) {
