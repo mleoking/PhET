@@ -240,7 +240,7 @@ public class CreditsDialog extends PaintImmediateDialog {
         private String readCredits() {
             PhetResources resourceLoader = new PhetResources( projectName );
             String key = "translation.credits";
-            String credits = resourceLoader.getLocalizedString( key ).trim();
+            String credits = resourceLoader.getLocalizedProperties().getString( key, false /* warnIfMissing */ ).trim();
             if ( credits != null && credits.length() > 0 && !credits.equals( key ) ) {
                 return credits;
             }
