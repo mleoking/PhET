@@ -137,7 +137,7 @@ public class InteractiveIsotopeModel implements Resettable {
         return atom;
     }
 
-    private void setAtomConfiguration( AtomValue atomConfiguration ){
+    public void setAtomConfiguration( AtomValue atomConfiguration ){
 
         // Reset the atom to have no particles.
         atom.reset();
