@@ -36,10 +36,10 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>PhET Interactive Simulations</b><br>" +
-            "Copyright &copy; 2004-2010 University of Colorado.<br>" +
+            "Copyright &copy; 2004-2011 University of Colorado.<br>" +
             "<a href=" + PhetCommonConstants.PHET_LICENSE_URL + ">Some rights reserved.</a><br>" +
             "Visit " + HTMLUtils.getPhetHomeHref();
-    
+
     // translated strings
     private static final String TITLE = PhetCommonResources.getString( "Common.HelpMenu.AboutTitle" );
     private static final String LOGO_TOOLTIP = PhetCommonResources.getString( "Common.About.WebLink" );
@@ -50,7 +50,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
-    
+
     private final ISimInfo config;
 
     /**
@@ -72,7 +72,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     protected PhetAboutDialog( Frame owner, ISimInfo config ) {
         super( owner );
         setResizable( false );
-        
+
         this.config = config;
 
         String titleString = config.getName();
@@ -126,7 +126,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
      * Creates the panel that displays info specific to the simulation.
      */
     private JPanel createInfoPanel( ISimInfo config ) {
-        
+
         String titleString = config.getName();
         String versionString = config.getVersion().formatForAboutDialog();
         String buildDate = config.getVersion().formatTimestamp();
@@ -141,10 +141,10 @@ public class PhetAboutDialog extends PaintImmediateDialog {
 
         // Simulation version
         JLabel versionLabel = new JLabel( SIM_VERSION + " " + versionString );
-        
+
         // Build date
         JLabel buildDateLabel = new JLabel( BUILD_DATE + " " + buildDate );
-        
+
         // Distribution tag (optional)
         JLabel distributionTagLabel = null;
         if ( distributionTag != null && distributionTag.length() > 0 ) {
