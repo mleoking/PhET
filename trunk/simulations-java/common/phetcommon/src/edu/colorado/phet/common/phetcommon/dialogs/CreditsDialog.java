@@ -389,9 +389,7 @@ public class CreditsDialog extends PaintImmediateDialog {
     }
 
     public static void main( String[] args ) {
-        //copy license info
         CreditsDialog dialog = new CreditsDialog( new JDialog(), "acid-base-solutions" );
-        SwingUtils.centerWindowOnScreen( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
@@ -401,6 +399,7 @@ public class CreditsDialog extends PaintImmediateDialog {
                 System.exit( 0 );
             }
         } );
+        SwingUtils.centerWindowOnScreen( dialog );
         dialog.setVisible( true );
     }
 }
