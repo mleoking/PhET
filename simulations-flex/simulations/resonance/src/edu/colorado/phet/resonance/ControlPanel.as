@@ -170,7 +170,7 @@ public class ControlPanel extends Canvas {
         this.mSlider = new HSlider();
         this.formatSlider( this.mSlider );
         with ( this.mSlider ) {
-            minimum = 0.1;
+            minimum = 0.4;
             maximum = 5.5;
             labels = ["", this.mass_str, ""];
             // This doesn't work: setStyle("labelPlacement", "bottom");
@@ -180,7 +180,7 @@ public class ControlPanel extends Canvas {
         this.kSlider = new HSlider();
         this.formatSlider( this.kSlider );
         with ( this.kSlider ) {
-            minimum = 2;
+            minimum = 50;
             maximum = 1200;
             labels = ["", this.springConstant_str, ""];
         }
