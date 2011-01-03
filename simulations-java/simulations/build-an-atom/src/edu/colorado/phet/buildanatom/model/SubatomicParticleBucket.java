@@ -183,6 +183,10 @@ public class SubatomicParticleBucket {
         containedParticles.add( particle );
     }
 
+    public boolean containsParticle( SubatomicParticle particle ){
+        return containedParticles.contains( particle );
+    }
+
     public ArrayList<SubatomicParticle> getParticleList(){
         return containedParticles;
     }
