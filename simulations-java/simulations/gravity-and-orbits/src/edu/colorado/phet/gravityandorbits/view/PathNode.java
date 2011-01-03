@@ -3,6 +3,7 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -21,14 +22,9 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 public class PathNode extends PNode {
     private final PNode pathNode;
-    private ArrayList<Point> points = new ArrayList<Point>();//points in view space
-    private int[] xPrimitive;
-    private int[] yPrimitive;
+    private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();//points in view space
 
     public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color, final Property<Scale> scaleProperty ) {
-        xPrimitive = new int[body.getMaxPathLength()];
-        yPrimitive = new int[body.getMaxPathLength()];
-
         final int numFadePoints = 25;
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
@@ -37,27 +33,31 @@ public class PathNode extends PNode {
             @Override
             protected void paint( PPaintContext paintContext ) {
 
-                //Draw the solid part
+                //Prepare the graphics
                 final Graphics2D g2 = paintContext.getGraphics();
                 g2.setPaint( color );
                 g2.setStroke( stroke );
                 int numSolidPoints = Math.min( body.getMaxPathLength() - numFadePoints, points.size() );
                 int numTransparentPoints = points.size() - numSolidPoints;
-                for ( int i = 0; i < numSolidPoints; i++ ) {
-                    final Point point = points.get( points.size() - 1 - i );
-                    xPrimitive[i] = point.x;
-                    yPrimitive[i] = point.y;
+
+                //Create and render the solid part as a path.  New points are added at the tail of the list, so easiest to render backwards for fade-out.
+                GeneralPath path = new GeneralPath();
+                if ( points.size() > 0 ) {
+                    path.moveTo( (float) points.get( points.size() - 1 ).getX(), (float) points.get( points.size() - 1 ).getY() );
                 }
-                g2.drawPolyline( xPrimitive, yPrimitive, numSolidPoints );
-                g2.setStroke( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND ) );
+                for ( int i = points.size() - 2; i >= numTransparentPoints; i-- ) {
+                    path.lineTo( (float) points.get( i ).getX(), (float) points.get( i ).getY() );
+                }
+                g2.draw( path );
 
                 //Draw the faded out part
+                g2.setStroke( new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND ) );
                 Color faded = color;
-                for ( int i = 0; i < numTransparentPoints; i++ ) {
-                    final int a = (int) ( faded.getAlpha() - 255.0 / numFadePoints );
+                for ( int i = numTransparentPoints - 1; i >= 0; i-- ) {
+                    final int a = (int) ( faded.getAlpha() - 255.0 / numFadePoints );//fade out a little bit each segment
                     faded = new Color( faded.getRed(), faded.getGreen(), faded.getBlue(), Math.max( 0, a ) );
                     g2.setColor( faded );
-                    g2.drawLine( points.get( numTransparentPoints - i ).x, points.get( numTransparentPoints - i ).y, points.get( numTransparentPoints - i + 1 ).x, points.get( numTransparentPoints - i + 1 ).y );
+                    g2.drawLine( (int) points.get( i + 1 ).getX(), (int) points.get( i + 1 ).getY(), (int) points.get( i ).getX(), (int) points.get( i ).getY() );
                 }
             }
         };
@@ -75,7 +75,7 @@ public class PathNode extends PNode {
         final Body.PathListener listener = new Body.PathListener() {
             public void pointAdded( Body.PathPoint point ) {
                 ImmutableVector2D pt = transform.getValue().modelToView( scaleProperty.getValue() == Scale.CARTOON && point.cartoonPoint != null ? point.cartoonPoint : point.point );
-                points.add( new Point( (int) pt.getX(), (int) pt.getY() ) );
+                points.add( pt );
                 pathNode.repaint();
             }
 

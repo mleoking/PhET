@@ -1,3 +1,4 @@
+Fixed: path looks "crinkly"
 Added strings for mode names, may be added into tooltips or labels
 Fixed: Inconsistent icons sizes on mass sliders
 Fixed: use the same cartoon scales for earth and moon so their radii are proportionately correct
