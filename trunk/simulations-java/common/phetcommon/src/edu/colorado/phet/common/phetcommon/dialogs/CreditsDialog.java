@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -8,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +21,8 @@ import javax.swing.event.HyperlinkListener;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.DefaultResourceLoader;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -66,7 +70,7 @@ public class CreditsDialog extends PaintImmediateDialog {
         String creditsHTML = HTMLUtils.createStyledHTMLFromFragment( creditsFragment );
 
         // put the HTML in an interactive scrolling pane
-        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( creditsHTML );
+        InteractiveHTMLPane htmlPane = new InteractiveHTMLPane( this, creditsHTML );
         JScrollPane scrollPane = new JScrollPane( htmlPane );
         scrollPane.setPreferredSize( SCROLLPANE_SIZE );
 
@@ -93,32 +97,28 @@ public class CreditsDialog extends PaintImmediateDialog {
     }
 
     /**
-     * An HTML editor pane that opens a web browser for hyperlinks.
+     * An HTML editor pane.
+     * Opens a web browser for http URLS.
+     * Opens a
      */
-    public class InteractiveHTMLPane extends HTMLUtils.HTMLEditorPane {
-        public InteractiveHTMLPane( String html ) {
+    private class InteractiveHTMLPane extends HTMLUtils.HTMLEditorPane {
+        public InteractiveHTMLPane( final Dialog owner, String html ) {
             super( html );
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                        displayLicenseForID( e.getURL().getHost() );
+                        if ( thirdPartySoftwareCredits.isThirdPartyLicenseURL( e.getURL() ) ) {
+                            String html = thirdPartySoftwareCredits.getThirdPartyLicenseHTML( e.getURL() );
+                            ContribLicenseDialog c = new ContribLicenseDialog( owner, "License Details", html );//TODO title i18n?
+                            c.setVisible( true );
+                        }
+                        else {
+                            PhetServiceManager.showWebPage( e.getURL() );
+                        }
                     }
                 }
             } );
         }
-    }
-
-    /*
-     * Displays a third-party license in a dialog.
-     */
-    private void displayLicenseForID( String id ) {
-        String licenseText = thirdPartySoftwareCredits.getThirdPartyLicenseText( id );
-        if ( !licenseText.trim().startsWith( "<html" ) ) {
-            licenseText = HTMLUtils.createStyledHTMLFromFragment( licenseText );
-            licenseText = licenseText.replaceAll( "\\n", "<br>" );
-        }
-        ContribLicenseDialog c = new ContribLicenseDialog( this, "License Details", licenseText );//TODO title i18n?
-        c.setVisible( true );
     }
 
     /*
@@ -221,6 +221,7 @@ public class CreditsDialog extends PaintImmediateDialog {
     private static class TranslationCredits {
 
         private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.TranslationCreditsTitle" );
+        private static final String KEY = "translation.credits";
 
         private final String projectName;
 
@@ -229,7 +230,36 @@ public class CreditsDialog extends PaintImmediateDialog {
         }
 
         public String createHTMLFragment() {
-            return null; //TODO implement this
+            String credits = readCredits();
+            if ( credits != null && credits.length() != 0 ) {
+                return "<b>" + TITLE + "</b><br><br>" + map( credits ) + "<br>";
+            }
+            else {
+                return null;
+            }
+        }
+
+        private String readCredits() {
+            PhetResources resourceLoader = new PhetResources( projectName );
+            String credits = resourceLoader.getLocalizedString( KEY ).trim();
+            if ( credits != null && credits.length() > 0 && !credits.equals( KEY ) ) {
+                return credits;
+            }
+            else {
+                return null;
+            }
+        }
+
+        private String map( String credits ) {
+            if ( credits.equals( "KSU" ) ) {
+                return "The Excellence Research Center of Science and Mathematics Education" + "<br>" +
+                       "King Saud University" + "<br>" +
+                       "Riyadh, Saudi Arabia" + "<br>" +
+                       "<a href=\"http://ecsme.ksu.edu.sa\">http://ecsme.ksu.edu.sa</a>";
+            }
+            else {
+                return credits;
+            }
         }
     }
 
@@ -240,6 +270,9 @@ public class CreditsDialog extends PaintImmediateDialog {
 
         private static final String FILENAME = "license-info.txt";
         private static final String DIRECTORY_NAME = "contrib-licenses";
+        private static final String URL_PROTOCOL = "file";
+        private static final String URL_HOST = "credits";
+
         private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
 
         // Keys in the file
@@ -251,11 +284,9 @@ public class CreditsDialog extends PaintImmediateDialog {
         private static final String LICENSE_FILE_KEY = "licensefile";
 
         private final String projectName;
-        private final String licenseString;
 
         public ThirdPartySoftwareCredits( String projectName ) {
             this.projectName = projectName;
-            this.licenseString = readLicenseInfoFile();
         }
 
         public String createHTMLFragment() {
@@ -278,12 +309,20 @@ public class CreditsDialog extends PaintImmediateDialog {
                 String copyright = a[i].get( COPYRIGHT_KEY );
                 String website = a[i].get( WEBSITE_KEY );
                 String license = a[i].get( LICENSE_KEY );
+                String licenseFile = a[i].get( LICENSE_FILE_KEY );
 
                 // format
                 buffer.append( name + ", " + description + "<br>" );
                 buffer.append( "&copy;&nbsp;" + copyright + " - " + website + "<br>" );
                 if ( license != null ) {
-                    buffer.append( "<a href=\"http://" + id + "\">" + license + "<a>" );
+                    /*
+                     * Create hyperlink for the third-party license file.
+                     * We're sort of hijacking the URL format here, and this might be a little too clever.
+                     * The full resource name of the license file is the path component of the URL.
+                     * URL general format is protocol://host/path
+                     */
+                    String resourceName = projectName + "/" + DIRECTORY_NAME + "/" + id + "-" + licenseFile;
+                    buffer.append( "<a href=\"" + URL_PROTOCOL +  "://" + URL_HOST + "/" + resourceName + "\">" + license + "<a>" );
                 }
                 else {
                     buffer.append( "license not found" );
@@ -294,35 +333,9 @@ public class CreditsDialog extends PaintImmediateDialog {
 
         }
 
-        /**
-         * Reads the license file from <project>/data/<project>/contib-licenses/<license>
-         * where <license> is something like lgpl.txt or junit-cpl-v10.html.
-         * <p/>
-         * These files are placed in the contrib-licenses directory by the phet build process, see the Misc menu in the PhETBuildGUI
+        /*
+         * Reads the file that describes all third-party license for the sim.
          */
-        public String getThirdPartyLicenseText( String id ) {
-            try {
-                AnnotationParser.Annotation a = getThirdPartyLicenseAnnotation( id );
-                return new DefaultResourceLoader().getResourceAsString( projectName + "/" + DIRECTORY_NAME + "/" + id + "-" + a.get( LICENSE_FILE_KEY ) );
-            }
-            catch( Exception e ) {
-                e.printStackTrace();
-            }
-            return "license not found";
-        }
-
-        private AnnotationParser.Annotation getThirdPartyLicenseAnnotation( String id ) {
-            AnnotationParser.Annotation[] all = AnnotationParser.getAnnotations( licenseString );
-            AnnotationParser.Annotation a = null;
-            for ( int i = 0; i < all.length; i++ ) {
-                AnnotationParser.Annotation annotation = all[i];
-                if ( annotation.getId().equals( id ) ) {
-                    a = annotation;
-                }
-            }
-            return a;
-        }
-
         private String readLicenseInfoFile() {
             String licenseString = null;
             String resourceName = projectName + "/" + DIRECTORY_NAME + "/" + FILENAME;
@@ -330,7 +343,7 @@ public class CreditsDialog extends PaintImmediateDialog {
                 licenseString = new DefaultResourceLoader().getResourceAsString( resourceName );
             }
             catch( IOException e ) {
-                //shouldn't happen for sims generated with the build process; license info is copied automatically.
+                // shouldn't happen for sims generated with the build process; license info is copied automatically.
                 System.err.println( getClass().getName() + ": missing  " + resourceName +
                         " - Did you generate license info for this sim, using PhetBuildGUI->Misc->Generate License Info ?" );
 //                e.printStackTrace();
@@ -338,11 +351,49 @@ public class CreditsDialog extends PaintImmediateDialog {
             return licenseString;
         }
 
+        /**
+         * Does a URL match the format for our third-party license files?
+         */
+        public boolean isThirdPartyLicenseURL( URL url ) {
+            return url.getProtocol().equals( URL_PROTOCOL ) && url.getAuthority().equals( URL_HOST );
+        }
+
+        /*
+         * Reads a specific third-party license file from the JAR.
+         * These files are placed in the contrib-licenses directory by the phet build process,
+         * via the Misc menu in PhetBuildGUI
+         */
+        public String getThirdPartyLicenseHTML( URL url ) {
+
+            // get resource name from URL
+            String resourceName = url.getPath();
+            if ( resourceName.charAt( 0 ) == '/' ) { /* resource path must be relative, URL path is absolute */
+                resourceName = resourceName.substring( 1 );
+            }
+
+            // read the resource as text
+            String text = null;
+            try {
+                text = new DefaultResourceLoader().getResourceAsString( resourceName );
+            }
+            catch( Exception e ) {
+//                e.printStackTrace();
+                return "missing " + resourceName;
+            }
+
+            // convert to HTML
+            if ( !text.trim().startsWith( "<html" ) ) {
+                text = HTMLUtils.createStyledHTMLFromFragment( text );
+                text = text.replaceAll( "\\n", "<br>" );
+            }
+
+            return text;
+        }
     }
 
     public static void main( String[] args ) {
         //copy license info
-        CreditsDialog dialog = new CreditsDialog( new JDialog(), "bound-states" );
+        CreditsDialog dialog = new CreditsDialog( new JDialog(), "acid-base-solutions" );
         SwingUtils.centerWindowOnScreen( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
