@@ -289,24 +289,15 @@ public class InteractiveIsotopeModel implements Resettable {
         }
     }
 
-    private void notifyParticleRemoved( SubatomicParticle particle ){
-        for ( Listener listener : listeners ){
-            listener.particleRemoved( particle );
-        }
-    }
-
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
     public interface Listener {
         void particleAdded( SubatomicParticle subatomicParticle );
-        // TODO: Do we need this, or is the particle's own notification sufficient?
-        void particleRemoved( SubatomicParticle subatomicParticle );
     }
 
     public static class Adapter implements Listener {
         public void particleAdded( SubatomicParticle subatomicParticle ) { }
-        public void particleRemoved( SubatomicParticle subatomicParticle ) { }
     }
 }
