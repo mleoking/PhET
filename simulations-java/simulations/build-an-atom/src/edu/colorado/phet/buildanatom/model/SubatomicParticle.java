@@ -34,22 +34,27 @@ public abstract class SubatomicParticle {
     private final HashSet<Listener> listeners =new HashSet<Listener>( );
     private final Point2D destination = new Point2D.Double();
 
+    // Listener to the clock, used for motion.
+    private final ClockAdapter clockListener = new ClockAdapter() {
+        @Override
+        public void clockTicked( ClockEvent clockEvent ) {
+            stepInTime( clockEvent.getSimulationTimeChange() );
+        }
+    };
+
+    // Reference to the clock.
+    private final ConstantDtClock clock;
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
     public SubatomicParticle( ConstantDtClock clock, double radius, double x, double y ) {
+        this.clock = clock;
         this.radius = radius;
         position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
-        clock.addClockListener( new ClockAdapter() {
-
-            @Override
-            public void clockTicked( ClockEvent clockEvent ) {
-                stepInTime( clockEvent.getSimulationTimeChange() );
-            }
-
-        } );
+        clock.addClockListener( clockListener );
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
                 ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
@@ -168,6 +173,7 @@ public abstract class SubatomicParticle {
      * representation.
      */
     public void removedFromModel() {
+        clock.removeClockListener( clockListener );
         ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
         for ( Listener listener : copyOfListeners ) {
             listener.removedFromModel( this );
