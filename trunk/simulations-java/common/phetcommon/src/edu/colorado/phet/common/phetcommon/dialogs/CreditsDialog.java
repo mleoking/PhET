@@ -99,8 +99,8 @@ public class CreditsDialog extends PaintImmediateDialog {
 
     /**
      * An HTML editor pane.
-     * Opens a web browser for http URLS.
-     * Opens a
+     * Opens a dialog for third-party license files.
+     * Opens a web browser for all other URLs.
      */
     private class InteractiveHTMLPane extends HTMLUtils.HTMLEditorPane {
         public InteractiveHTMLPane( final Dialog owner, String html ) {
@@ -127,16 +127,10 @@ public class CreditsDialog extends PaintImmediateDialog {
      */
     private static class DevelopmentTeamCredits {
 
-        private static final String FILENAME = "credits.txt";
         private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.PhetDevelopmentTeam" );
+        private static final String FILENAME = "credits.txt";
 
-        // Keys in the file, one key per role
-        private static final String KEY_LEAD_DESIGN = "lead-design";
-        private static final String KEY_SOFTWARE_DEVELOPMENT = "software-development";
-        private static final String KEY_DESIGN_TEAM = "design-team";
-        private static final String KEY_INTERVIEWS = "interviews";
-
-        // Labels to display in the credits, one label per role
+        // Localized labels to display in the credits, one label per role.
         private static final String LABEL_LEAD_DESIGN = PhetCommonResources.getString( "Common.About.CreditsDialog.lead-design" );
         private static final String LABEL_SOFTWARE_DEVELOPMENT = PhetCommonResources.getString( "Common.About.CreditsDialog.software-development" );
         private static final String LABEL_DESIGN_TEAM = PhetCommonResources.getString( "Common.About.CreditsDialog.design-team" );
@@ -197,16 +191,16 @@ public class CreditsDialog extends PaintImmediateDialog {
          * Returns null if an unrecognized key is encountered.
          */
         private String map( String key, String value ) {
-            if ( key.equals( KEY_LEAD_DESIGN ) ) {
+            if ( key.equals( "lead-design" ) ) {
                 return LABEL_LEAD_DESIGN + ": " + value;
             }
-            else if ( key.equals( KEY_SOFTWARE_DEVELOPMENT ) ) {
+            else if ( key.equals( "software-development" ) ) {
                 return LABEL_SOFTWARE_DEVELOPMENT + ": " + value;
             }
-            else if ( key.equals( KEY_DESIGN_TEAM ) ) {
+            else if ( key.equals( "design-team" ) ) {
                 return LABEL_DESIGN_TEAM + ": " + value;
             }
-            else if ( key.equals( KEY_INTERVIEWS ) ) {
+            else if ( key.equals( "interviews" ) ) {
                 return LABEL_INTERVIEWS + ": " + value;
             }
             else {
@@ -222,7 +216,6 @@ public class CreditsDialog extends PaintImmediateDialog {
     private static class TranslationCredits {
 
         private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.TranslationCreditsTitle" );
-        private static final String KEY = "translation.credits";
 
         private final String projectName;
 
@@ -233,17 +226,22 @@ public class CreditsDialog extends PaintImmediateDialog {
         public String createHTMLFragment() {
             String credits = readCredits();
             if ( credits != null && credits.length() != 0 ) {
-                return "<b>" + TITLE + "</b><br><br>" + map( credits ) + "<br>";
+                return "<b>" + TITLE + "</b><br><br>" + mapKSU( credits ) + "<br>";
             }
             else {
                 return null;
             }
         }
 
+        /*
+         * Reads optional credits from the localized strings file.
+         * Returns null if no credits are found.
+         */
         private String readCredits() {
             PhetResources resourceLoader = new PhetResources( projectName );
-            String credits = resourceLoader.getLocalizedString( KEY ).trim();
-            if ( credits != null && credits.length() > 0 && !credits.equals( KEY ) ) {
+            String key = "translation.credits";
+            String credits = resourceLoader.getLocalizedString( key ).trim();
+            if ( credits != null && credits.length() > 0 && !credits.equals( key ) ) {
                 return credits;
             }
             else {
@@ -251,7 +249,13 @@ public class CreditsDialog extends PaintImmediateDialog {
             }
         }
 
-        private String map( String credits ) {
+        /*
+         * Maps a simplified credits string to KSU's more verbose string.
+         * We want KSU to enter a simplified string in Translation Utility because:
+         * (1) we need something to identify when to display the credits "splash" window on start up
+         * (2) we need something simple that can be entered without error
+         */
+        private String mapKSU( String credits ) {
             if ( credits.equals( "KSU" ) ) {
                 return "The Excellence Research Center of Science and Mathematics Education" + "<br>" +
                        "King Saud University" + "<br>" +
@@ -269,20 +273,11 @@ public class CreditsDialog extends PaintImmediateDialog {
      */
     private static class ThirdPartySoftwareCredits {
 
+        private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
         private static final String FILENAME = "license-info.txt";
         private static final String DIRECTORY_NAME = "contrib-licenses";
         private static final String URL_PROTOCOL = "file";
         private static final String URL_HOST = "credits";
-
-        private static final String TITLE = PhetCommonResources.getString( "Common.About.CreditsDialog.UsesThirdPartySoftware" );
-
-        // Keys in the file
-        private static final String NAME_KEY = "name";
-        private static final String DESCRIPTION_KEY = "description";
-        private static final String COPYRIGHT_KEY = "copyright";
-        private static final String WEBSITE_KEY = "website";
-        private static final String LICENSE_KEY = "license";
-        private static final String LICENSE_FILE_KEY = "licensefile";
 
         private final String projectName;
 
@@ -305,12 +300,12 @@ public class CreditsDialog extends PaintImmediateDialog {
 
                 // parse
                 String id = a[i].getId();
-                String name = a[i].get( NAME_KEY );
-                String description = a[i].get( DESCRIPTION_KEY );
-                String copyright = a[i].get( COPYRIGHT_KEY );
-                String website = a[i].get( WEBSITE_KEY );
-                String license = a[i].get( LICENSE_KEY );
-                String licenseFile = a[i].get( LICENSE_FILE_KEY );
+                String name = a[i].get( "name" );
+                String description = a[i].get( "description" );
+                String copyright = a[i].get( "copyright" );
+                String website = a[i].get( "website" );
+                String license = a[i].get( "license" );
+                String licenseFile = a[i].get( "licensefile" );
 
                 // format
                 buffer.append( name + ", " + description + "<br>" );
@@ -336,6 +331,7 @@ public class CreditsDialog extends PaintImmediateDialog {
 
         /*
          * Reads the file that describes all third-party license for the sim.
+         * Return null if the file is missing.
          */
         private String readLicenseInfoFile() {
             String licenseString = null;
@@ -353,7 +349,7 @@ public class CreditsDialog extends PaintImmediateDialog {
         }
 
         /**
-         * Does a URL match the format for our third-party license files?
+         * Does a URL match the format of our third-party license hyperlinks?
          */
         public boolean isThirdPartyLicenseURL( URL url ) {
             return url.getProtocol().equals( URL_PROTOCOL ) && url.getAuthority().equals( URL_HOST );
