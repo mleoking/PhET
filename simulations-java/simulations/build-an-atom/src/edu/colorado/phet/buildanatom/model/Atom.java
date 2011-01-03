@@ -184,42 +184,80 @@ public class Atom extends SimpleAtom {
             neutrons.remove( particle );
             super.setNumNeutrons( neutrons.size() );
         }
-        particle.removeListener( nucleonRemovalListener );
+        particle.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
         return particleFound ? particle : null;
+    }
+
+    /**
+     * Remove a specific proton.
+     */
+    public SubatomicParticle removeProton( Proton proton ) {
+        boolean found = protons.remove( proton );
+        super.setNumProtons( protons.size() );
+        proton.removeListener( nucleonGrabbedListener );
+        reconfigureNucleus( false );
+        return found ? proton : null;
     }
 
     /**
      * Remove an arbitrary proton.
      */
     public SubatomicParticle removeProton() {
-        SubatomicParticle particle = removeNucleon( protons.get( 0 ) );
-        super.setNumProtons( protons.size() );
-        return particle;
+        assert protons.size() > 0;
+        return removeProton( protons.get( 0  ) );
+    }
+
+    /**
+     * Remove a specific neutron.
+     */
+    public SubatomicParticle removeNeutron( Neutron neutron ){
+        boolean found = neutrons.remove( neutron );
+        super.setNumNeutrons( neutrons.size() );
+        neutron.removeListener( nucleonGrabbedListener );
+        reconfigureNucleus( false );
+        return found ? neutron : null;
     }
 
     /**
      * Remove an arbitrary neutron.
      */
     public SubatomicParticle removeNeutron() {
-        SubatomicParticle particle = removeNucleon( neutrons.get( 0 ) );
-        super.setNumNeutrons( neutrons.size() );
-        return particle;
+        assert neutrons.size() > 0;
+        return removeNeutron( neutrons.get( 0 ) );
+    }
+
+    /**
+     * Remove a specific electron.
+     *
+     * @param electron
+     * @return
+     */
+    public Electron removeElectron( Electron electron ){
+        Electron removedElectron = null;
+        if ( electronShell1.containsElectron( electron )){
+            removedElectron = electronShell1.removeElectron( electron );
+        }
+        else if ( electronShell2.containsElectron( electron )){
+            removedElectron = electronShell1.removeElectron( electron );
+        }
+        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
+        return removedElectron;
     }
 
     /**
      * Remove an arbitrary electron.
      */
     public Electron removeElectron() {
-        Electron electron = null;
+        Electron removedElectron = null;
         if ( electronShell2.getNumElectrons() > 0 ) {
-            electron = electronShell2.removeElectron();
+            removedElectron = electronShell2.removeElectron();
         }
         else {
-            electron = electronShell1.removeElectron();
+            removedElectron = electronShell1.removeElectron();
         }
         super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
-        return electron;
+        return removedElectron;
     }
 
     /**
@@ -258,10 +296,10 @@ public class Atom extends SimpleAtom {
     @Override
     public void reset() {
         for ( Proton proton : protons ) {
-            proton.removeListener( nucleonRemovalListener );
+            proton.removeListener( nucleonGrabbedListener );
         }
         for ( Neutron neutron : neutrons ) {
-            neutron.removeListener( nucleonRemovalListener );
+            neutron.removeListener( nucleonGrabbedListener );
         }
         protons.clear();
         neutrons.clear();
@@ -321,7 +359,7 @@ public class Atom extends SimpleAtom {
         // new nucleon.
         reconfigureNucleus( moveImmediately );
 
-        proton.addListener( nucleonRemovalListener );
+        proton.addListener( nucleonGrabbedListener );
 
         // Update count in super class.  This sends out the change notification.
         super.setNumProtons( protons.size() );
@@ -404,7 +442,7 @@ public class Atom extends SimpleAtom {
         // new nucleon.
         reconfigureNucleus( moveImmediately );
 
-        neutron.addListener( nucleonRemovalListener );
+        neutron.addListener( nucleonGrabbedListener );
 
         // Update count in super class.  This sends out the change notification.
         super.setNumNeutrons( neutrons.size() );
@@ -595,7 +633,7 @@ public class Atom extends SimpleAtom {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    protected final SubatomicParticle.Adapter nucleonRemovalListener = new SubatomicParticle.Adapter() {
+    protected final SubatomicParticle.Adapter nucleonGrabbedListener = new SubatomicParticle.Adapter() {
         @Override
         public void grabbedByUser( SubatomicParticle particle ) {
             // The user has picked up this particle, which instantly
