@@ -1,4 +1,5 @@
-1-4-2010: fixed ButtonNode padding to be constant instead of dependent on the size of text
+1-4-2011: rounded the corners of the measuring tape image
+1-4-2011: fixed ButtonNode padding to be constant instead of dependent on the size of text
 12-15-2010: measuring tape: Made image resource name public and minor change to usage of constructor arg
 12-15-2010: Fixed transparency of measuring tape gif corners
 12-15-2010: Added the ability to set the measuring tape stroke color, for support against black backgrounds
