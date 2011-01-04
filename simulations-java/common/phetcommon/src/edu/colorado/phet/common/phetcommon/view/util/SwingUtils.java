@@ -132,19 +132,28 @@ public class SwingUtils {
      * Sets the bounds for a dialog so it is centered over its parent.
      *
      * @param dialog
+     * @deprecated use centerOnParent
      */
     public static void centerDialogInParent( JDialog dialog ) {
-        Container parent = dialog.getParent(); // Note! getParent always returns non-null, returns a SharedOwnerFrame if no parent was explicitly set
+        centerInParent( dialog );
+    }
+
+    /**
+     * Centers a component on its parent.
+     * @param component
+     */
+    public static void centerInParent( Component component ) {
+        Container parent = component.getParent();
         if ( parent != null ) {
             Rectangle parentBounds = parent.getBounds();
-            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
-                                                    (int) ( parentBounds.getMinY() + parentBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
-                                                    dialog.getWidth(), dialog.getHeight() );
+            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - component.getWidth() / 2 ),
+                                                    (int) ( parentBounds.getMinY() + parentBounds.getHeight() / 2 - component.getHeight() / 2 ),
+                                                    component.getWidth(), component.getHeight() );
             //dialog.setBounds( dialogBounds );
-            dialog.setLocation( dialogBounds.x, dialogBounds.y );
+            component.setLocation( dialogBounds.x, dialogBounds.y );
         }
     }
-    
+
     /**
      * If the dialog has a parent, center the dialog on the parent.
      * Otherwise center it on the screen.
@@ -224,10 +233,10 @@ public class SwingUtils {
      * @return the Dimension that contains both modes for the button.
      */
     public static Dimension getMaxDimension( JButton button, String string1, ImageIcon icon1, String string2, ImageIcon icon2 ) {
-        
+
         String originalText = button.getText();
         Icon originalIcon = button.getIcon();
-        
+
         // Get dimensions for "Play" state
         button.setText( string1 );
         button.setIcon( icon1 );
@@ -237,7 +246,7 @@ public class SwingUtils {
         button.setText( string2 );
         button.setIcon( icon2 );
         Dimension pauseSize = button.getUI().getPreferredSize( button );
-        
+
         // Restore original text and icon
         button.setText( originalText );
         button.setIcon( originalIcon );
@@ -262,7 +271,7 @@ public class SwingUtils {
     /**
      * Sets the background of all components in a container hierachy, with exclusions.
      * See setForegroundOrBackgroundDeep.
-     * 
+     *
      * @param component
      * @param color
      * @param excludedClasses
@@ -271,7 +280,7 @@ public class SwingUtils {
     public static void setBackgroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
         setForegroundOrBackgroundDeep( false /* doForeground */, component, color, excludedClasses, processContentsOfExcludedContainers );
     }
-    
+
     /**
      * Sets the foreground of all components in a container hierachy.
      * See setForegroundOrBackgroundDeep.
@@ -282,11 +291,11 @@ public class SwingUtils {
     public static void setForegroundDeep( Component component, Color color ) {
         setForegroundDeep( component, color, null, true );
     }
-    
+
     /**
      * Sets the foreground of all components in a container hierachy, with exclusions.
      * See setForegroundOrBackgroundDeep.
-     * 
+     *
      * @param component
      * @param color
      * @param excludedClasses
@@ -295,7 +304,7 @@ public class SwingUtils {
     public static void setForegroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
         setForegroundOrBackgroundDeep( true /* doForeground */, component, color, excludedClasses, processContentsOfExcludedContainers );
     }
-   
+
     /*
      * Sets the foreground or background of all components in a container hierachy.
      * The contents of containers are processed recursively.
@@ -334,7 +343,7 @@ public class SwingUtils {
                 component.setForeground( color );
             }
             else {
-                component.setBackground( color );  
+                component.setBackground( color );
             }
         }
 
@@ -349,7 +358,7 @@ public class SwingUtils {
             }
         }
     }
-    
+
     /**
      * Sets opacity of a component and all of its children.
      * Excludes JTextComponent.
@@ -365,20 +374,20 @@ public class SwingUtils {
             }
         }
     }
-    
+
     /**
      * Sets a components preferred width, without changing its preferred height.
-     * 
+     *
      * @param component
      * @param width
      */
     public static void setPreferredWidth( JComponent component, int width ) {
         component.setPreferredSize( new Dimension( width, (int) component.getPreferredSize().getHeight() ) );
     }
-    
+
     /**
      * Sets a components preferred height, without changing its preferred width.
-     * 
+     *
      * @param component
      * @param height
      */
