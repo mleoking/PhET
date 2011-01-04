@@ -10,10 +10,13 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
+import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
@@ -61,6 +64,16 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the node that contains both the atom and the neutron bucket.
         rootNode.addChild( new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) ));
+
+        // Show whether the nucleus is stable.
+        final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
+        // Position the stability indicator under the nucleus
+        model.getAtom().addObserver( new SimpleObserver() {
+            public void update() {
+                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
+            }
+        } );
+        rootNode.addChild( stabilityIndicator );
 
         // TODO: These buttons are for unit test purposes and should
         // eventually be removed.
