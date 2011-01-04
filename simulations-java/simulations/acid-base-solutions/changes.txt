@@ -1,3 +1,4 @@
+1/4/11 #2615, delete molecule image files and assets (molecules.svg), no longer needed
 # 1.00.04 (47514) Dec 29, 2010
 12/29/10 use a darker gray for neutral molecules, so that they are easier to see when solvent molecules are visible
 # 1.00.03 (47510) Dec 29, 2010
