@@ -1,3 +1,5 @@
+Changed the title for the first tab of Isotopes.
+Added the bulk for functionality for the first tab of Isotopes and Atomic Mass.
 # 2.00.00 (47377) Dec 22, 2010
 12/22/10 Redeploy of version 2.0 due to deployment issues.
 # 2.00.00 (47375) Dec 22, 2010
