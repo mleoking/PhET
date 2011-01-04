@@ -50,6 +50,7 @@ public class GAOStrings {
     public static final String PLANET_AND_MOON = getString( "planetAndMoon" );
     public static final String PLANET_AND_SPACE_STATION = getString( "planetAndSpaceStation" );
 
+    public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
 
     private static String getString( String key ) {
