@@ -103,14 +103,14 @@ public class ShadedSphereNode extends PhetPNode {
 
     public static void main( String[] args ) {
         // node
-        ShadedSphereNode node = new ShadedSphereNode( 50, Color.RED );
-        node.setOffset( 100, 100 );
+        ShadedSphereNode node = new ShadedSphereNode( 300, new Color( 255, 127, 0 ) );
+        node.setOffset( 250, 250 );
         // canvas
         PCanvas canvas = new PCanvas();
-        canvas.setPreferredSize( new Dimension( 400, 400 ) );
+        canvas.setPreferredSize( new Dimension( 500, 500 ) );
         canvas.getLayer().addChild( node );
         // frame
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame( "ShadedSphereNode" );
         frame.setContentPane( canvas );
         frame.pack();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
