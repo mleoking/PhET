@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_hu.xml created Sat Jan 01 12:31:49 CET 2011 using: stern-gerlach 2.01.00 (37325), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="angle3" value="szög 3"/>
+<string key="angle2" value="szög 2"/>
+<string key="slow" value="lassú"/>
+<string key="randomXZ" value="rendezetlen"/>
+<string key="simTitle" value="Iránykvantálás (Stern-Gerlach)"/>
+<string key="sternGerlachExperiment" value="Iránykvantálás: a Stern–Gerlach-kísérlet"/>
+<string key="spinOrientation" value="a spin\niránya"/>
+<string key="on" value="BE"/>
+<string key="up" value="fel"/>
+<string key="down" value="le"/>
+<string key="sound" value="Hang"/>
+<string key="fast" value="gyors"/>
+<string key="numberOfMagnets" value="mágnesek\nszáma"/>
+<string key="fireAtom" value="Atombelövés"/>
+<string key="autoFire" value="Sorozat"/>
+<string key="angle" value="szög"/>
+<string key="reset" value="Visszaállít"/>
+<string key="resetCount" value="Beütést nulláz"/>
+<string key="off" value="KI"/>
+</SimStrings>
