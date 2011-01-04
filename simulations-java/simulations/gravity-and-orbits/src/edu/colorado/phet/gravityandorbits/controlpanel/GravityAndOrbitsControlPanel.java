@@ -6,15 +6,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.*;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
@@ -29,6 +28,10 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * are synchronized through Module specific properties.
  */
 public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
+
+    //TODO phetcommon doesn't have a general on/off, OK to use these, or should we generalize?
+    private static final String ON = PhetCommonResources.getInstance().getLocalizedString( "Games.radioButton.on" );
+    private static final String OFF = PhetCommonResources.getInstance().getLocalizedString( "Games.radioButton.off" );
 
     public static final Color BACKGROUND = new Color( 3, 0, 133 );
     public static final Color FOREGROUND = Color.white;
@@ -52,16 +55,30 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             setBackground( BACKGROUND );
             setOpaque( false );
             setAnchor( GridBagConstraints.WEST );
+            setFill( GridBagConstraints.NONE );
             setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), GAOStrings.PHYSICS ) {{
                 setTitleColor( Color.white );
                 setTitleFont( CONTROL_FONT );
             }} );
 
             // Gravity on/off control
-            add( new PropertyCheckBox( GAOStrings.GRAVITY, module.getGravityEnabledProperty() ) {{
-                setFont( CONTROL_FONT );
-                setForeground( FOREGROUND );
+            add( new HorizontalLayoutPanel() {{
                 setBackground( BACKGROUND );
+                add( new JLabel( MessageFormat.format( GAOStrings.PATTERN_LABEL, GAOStrings.GRAVITY ) ) {{
+                    setFont( CONTROL_FONT );
+                    setForeground( FOREGROUND );
+                    setBackground( BACKGROUND );
+                }} );
+                add( new PropertyRadioButton<Boolean>( ON, module.getGravityEnabledProperty(), true ) {{
+                        setFont( CONTROL_FONT );
+                        setForeground( FOREGROUND );
+                        setBackground( BACKGROUND );
+                }} );
+                add( new PropertyRadioButton<Boolean>( OFF, module.getGravityEnabledProperty(), false ) {{
+                    setFont( CONTROL_FONT );
+                    setForeground( FOREGROUND );
+                    setBackground( BACKGROUND );
+                }} );
             }} );
         }} );
 
