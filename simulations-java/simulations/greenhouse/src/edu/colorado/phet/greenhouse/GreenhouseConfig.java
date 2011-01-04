@@ -42,7 +42,7 @@ public class GreenhouseConfig {
     public static double minGreenhouseGasConcentration = 0.00001;
     public static double defaultGreenhouseGasConcentration = minGreenhouseGasConcentration;
 
-    public static double sunlightWavelength = 580E-9;
+    public static double sunlightWavelength = 400E-9;
     public static double microWavelength = 20;
     public static double irWavelength = 850E-9;
     public static double visibleWaveLength = 580E-9;
