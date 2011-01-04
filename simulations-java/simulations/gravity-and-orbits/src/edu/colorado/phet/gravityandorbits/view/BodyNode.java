@@ -35,7 +35,7 @@ public class BodyNode extends PNode {
     private final BodyRenderer bodyRenderer;
 
     public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scaleProperty,
-                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle ) {
+                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle, final Body child ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
         this.scaleProperty = scaleProperty;
@@ -61,6 +61,12 @@ public class BodyNode extends PNode {
 
                 @Override
                 public void mouseDragged( PInputEvent event ) {
+                    ImmutableVector2D childCartoonPosition = null;
+                    if ( child != null && child.getScaleProperty().getValue() == Scale.CARTOON ) {
+                        //store global coordinates of child
+                        childCartoonPosition = child.getPosition( Scale.CARTOON );
+                    }
+
                     if ( scaleProperty.getValue() == Scale.REAL ) {
                         final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
                         body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
@@ -68,7 +74,7 @@ public class BodyNode extends PNode {
                     else {
                         final Dimension2D cartoonDelta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
                         ImmutableVector2D newCartoonPosition = body.getCartoonPosition().getAddedInstance( cartoonDelta.getWidth(), cartoonDelta.getHeight() );
-                        //find the physical coordinates so that the body will have
+                        //find the physical coordinates so that the body will have the right coordinates in the selected scale
                         if ( body.getParent() == null ) {
                             body.setPosition( newCartoonPosition.getX(), newCartoonPosition.getY() );
                         }
@@ -78,6 +84,14 @@ public class BodyNode extends PNode {
                         }
                     }
                     body.notifyUserModifiedPosition();
+
+                    //determine child real global coordinates in new parent frame
+                    //won't work until we have a good inverse computation in the CartoonPositionMap
+                    if ( childCartoonPosition != null ) {
+                        final ImmutableVector2D x = child.globalCartoonToReal( childCartoonPosition );
+                        child.setPosition( x.getX(), x.getY() );
+//                        System.out.println("old child cartoon = "+childCartoonPosition+", new = "+child.getPosition(Scale.CARTOON));
+                    }
                 }
 
                 @Override

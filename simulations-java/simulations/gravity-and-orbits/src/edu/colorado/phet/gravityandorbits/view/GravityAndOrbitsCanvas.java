@@ -79,7 +79,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getLabelAngle() );
+            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getLabelAngle(), getChild( body, model.getBodies() ) );
             addChild( bodyNode );
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.getShowMassProperty() ) );
         }
@@ -173,6 +173,15 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         // shows the bounds of the "stage", which is different from the canvas
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );
+    }
+
+    private Body getChild( Body parent, ArrayList<Body> bodies ) {
+        for ( Body body : bodies ) {
+            if ( body.getParent() == parent ) {
+                return body;
+            }
+        }
+        return null;
     }
 
     public void addChild( PNode node ) {
