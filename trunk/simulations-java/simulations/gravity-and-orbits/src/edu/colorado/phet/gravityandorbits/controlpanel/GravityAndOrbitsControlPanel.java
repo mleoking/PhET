@@ -69,10 +69,11 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     setForeground( FOREGROUND );
                     setBackground( BACKGROUND );
                 }} );
+                add( Box.createRigidArea( new Dimension( 20, 1 ) ) );
                 add( new PropertyRadioButton<Boolean>( ON, module.getGravityEnabledProperty(), true ) {{
-                        setFont( CONTROL_FONT );
-                        setForeground( FOREGROUND );
-                        setBackground( BACKGROUND );
+                    setFont( CONTROL_FONT );
+                    setForeground( FOREGROUND );
+                    setBackground( BACKGROUND );
                 }} );
                 add( new PropertyRadioButton<Boolean>( OFF, module.getGravityEnabledProperty(), false ) {{
                     setFont( CONTROL_FONT );
