@@ -224,6 +224,7 @@ public class AWTSplashWindow extends Window {
         private static final Color TRACK_COLOR = Color.LIGHT_GRAY;
 
         private static final double FREQUENCY = 0.25; // Hz
+        private Image buffer = null;
 
         public AnimationComponent() {
         }
@@ -244,6 +245,18 @@ public class AWTSplashWindow extends Window {
             if ( g == null ) {
                 return;
             }
+
+            if ( buffer == null || buffer.getWidth( null ) != getWidth() || buffer.getHeight( null ) != getHeight() ) {
+                buffer = createImage( getWidth(), getHeight() );
+            }
+
+            Graphics bufferedGraphics = buffer.getGraphics();
+            bufferedGraphics.clearRect( 0, 0, getWidth(), getHeight() );
+            doPaint( bufferedGraphics );
+            g.drawImage( buffer, 0, 0, null );
+        }
+
+        private void doPaint( Graphics g ) {
             g.setColor( TRACK_COLOR );
             g.fillRect( 0, 0, getWidth(), getHeight() );
             g.setColor( BLOCK_COLOR );
@@ -302,7 +315,7 @@ public class AWTSplashWindow extends Window {
     private static void runTest() throws InterruptedException {
         Frame owner = new Frame();
         AWTSplashWindow awtSplashWindow = new AWTSplashWindow( owner, "Test AWTSplashWindow" );
-        awtSplashWindow.setBackground( new Color( 200, 240, 200 ) ); // light green
+//        awtSplashWindow.setBackground( new Color( 200, 240, 200 ) ); // light green
         awtSplashWindow.show();
         Thread.sleep( 5000 );
         awtSplashWindow.hide();
