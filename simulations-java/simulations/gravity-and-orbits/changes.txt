@@ -1,3 +1,4 @@
+Added horizontal space between gravity control label and on/off buttons
 change Gravity control to a pair of on/off buttons
 # 0.0.12 (47614) Jan 4, 2011
 Added a continuous interpolation between cartoon and real coordinates and numerical inversion of interpolation
