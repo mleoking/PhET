@@ -194,6 +194,7 @@ public class BuildAnAtomStrings {
 
     public static final String TITLE_BUILD_ATOM_MODULE = getString( "title.buildAtomModule" );
     public static final String TITLE_GAME_MODULE = getString( "title.gameModule" );
+    public static final String TITLE_INTERACTIVE_ISOTOPE_MODULE = getString( "title.interactiveIsotopeModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
 }
