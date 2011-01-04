@@ -42,7 +42,7 @@ public class InteractiveIsotopeModel implements Resettable {
             400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     // Constant that defines the default number of neutrons in the bucket.
-    private static final int DEFAULT_NUM_NEUTRONS_IN_BUCKET = 13;
+    private static final int DEFAULT_NUM_NEUTRONS_IN_BUCKET = 8;
 
     // Constants that define the size, position, and appearance of the neutron bucket.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
@@ -77,6 +77,25 @@ public class InteractiveIsotopeModel implements Resettable {
 
     // Listener support
     private final ArrayList<Listener> listeners = new ArrayList<Listener>();
+
+    // An event listener that watches for when the user releases a neutron and
+    // decides whether it should go in the bucket or the atom's nucleus.
+    private final SubatomicParticle.Adapter neutronDropListener =  new SubatomicParticle.Adapter() {
+        @Override
+        public void droppedByUser( SubatomicParticle particle ) {
+            assert particle instanceof Neutron; // Should always be a neutron.
+            assert neutrons.contains( particle ); // Particle should always be contained by model.
+            // The user just released this neutron.  If it is close
+            // enough to the nucleus, send it there, otherwise
+            // send it to its bucket.
+            if ( particle.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                atom.addNeutron( (Neutron) particle, false );
+            }
+            else {
+                neutronBucket.addParticle( particle, false );
+            }
+        }
+    };
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -158,6 +177,7 @@ public class InteractiveIsotopeModel implements Resettable {
             }
             for ( int i = 0; i < atomConfiguration.getNumNeutrons(); i++ ){
                 Neutron neutron = new Neutron( clock );
+                neutron.addListener( neutronDropListener );
                 atom.addNeutron( neutron, true );
                 neutrons.add( neutron );
                 notifyParticleAdded( neutron );
@@ -184,6 +204,7 @@ public class InteractiveIsotopeModel implements Resettable {
             // the additions.
             for ( int i = 0; i < targetNumNeutrons; i++ ) {
                 Neutron newNeutron = new Neutron( clock );
+                newNeutron.addListener( neutronDropListener );
                 neutronBucket.addParticle( newNeutron, true );
                 neutrons.add( newNeutron );
                 notifyParticleAdded( newNeutron );
