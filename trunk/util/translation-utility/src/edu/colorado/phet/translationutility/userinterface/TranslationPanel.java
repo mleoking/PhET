@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -120,8 +121,8 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         Collections.sort( keysList );
 
         // Move translation credits to the top
-        keysList.remove( TUConstants.TRANSLATION_CREDITS_KEY );
-        keysList.add( 0, TUConstants.TRANSLATION_CREDITS_KEY );
+        keysList.remove( CreditsDialog.TRANSLATION_CREDITS_KEY );
+        keysList.add( 0, CreditsDialog.TRANSLATION_CREDITS_KEY );
 
         // create the table
         ArrayList<Component> targetTextAreas = new ArrayList<Component>();
@@ -139,7 +140,8 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             targetTextPanel.setFont( targetFont );
             targetTextPanels.add( targetTextPanel );
             targetTextAreas.add( targetTextPanel.getTextArea() );
-            if ( key.equals( TUConstants.TRANSLATION_CREDITS_KEY ) ) {
+            if ( key.equals( CreditsDialog.TRANSLATION_CREDITS_KEY ) ) {
+                // put a Help button next to translation credits
                 targetTextPanel.setHelpText( TUStrings.HELP_TRANSLATION_CREDITS );
             }
 
@@ -188,7 +190,19 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                 properties.put( key, targetValue );
             }
         }
+        addKSUCredits( properties );
         return properties;
+    }
+
+    /*
+     *  If the translation credits are "KSU", add a special KSU credits string.
+     *  This modifies the input Properties.
+     */
+    private void addKSUCredits( Properties properties ) {
+        String translationCredits = properties.getProperty( CreditsDialog.TRANSLATION_CREDITS_KEY );
+        if ( translationCredits != null && translationCredits.equals( "KSU" ) ) {
+            properties.put( CreditsDialog.KSU_CREDITS_KEY, TUStrings.KSU_CREDITS );
+        }
     }
 
     /**

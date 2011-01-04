@@ -51,11 +51,12 @@ public class PhetApplicationLauncher {
     }
 
     /*
-     * If the translation was provided by KSU, show a KSU-specific "splash" screen with credits.
+     * If the string file contains a special KSU translation credit (inserted by Translation Utility),
+     * then show a KSU-specific "splash" screen with credits.
      */
     private void showKSUCredits( PhetApplicationConfig config, Frame parent ) {
-        String credits = config.getResourceLoader().getLocalizedProperties().getString( CreditsDialog.TRANSLATION_CREDITS_KEY, false /* warnIfMissing */ );
-        if ( credits != null && credits.trim().equals( CreditsDialog.TRANSLATION_CREDITS_KSU ) ) {
+        String credits = config.getResourceLoader().getLocalizedProperties().getString( CreditsDialog.KSU_CREDITS_KEY, false /* warnIfMissing */ );
+        if ( !credits.equals( CreditsDialog.KSU_CREDITS_KEY ) ) {
 
             final JWindow window = new KSUCreditsWindow( parent );
             SwingUtils.centerInParent( window );

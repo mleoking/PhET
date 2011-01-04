@@ -44,8 +44,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class CreditsDialog extends PaintImmediateDialog {
 
     // public for Translation Utility access
-    public static final String TRANSLATION_CREDITS_KEY = "translation.credits";
-    public static final String TRANSLATION_CREDITS_KSU = "KSU"; // credits value used to identify translation provided by KSU
+    public static final String TRANSLATION_CREDITS_KEY = "translation.credits";  // key for general translation credits
+    public static final String KSU_CREDITS_KEY = "ksu.credits"; // key for KSU-specific credits
 
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
@@ -231,7 +231,7 @@ public class CreditsDialog extends PaintImmediateDialog {
         public String createHTMLFragment() {
             String credits = readCredits();
             if ( credits != null && credits.length() != 0 ) {
-                return "<b>" + TITLE + "</b><br><br>" + mapKSU( credits ) + "<br>";
+                return "<b>" + TITLE + "</b><br><br>" + credits + "<br>";
             }
             else {
                 return null;
@@ -244,30 +244,21 @@ public class CreditsDialog extends PaintImmediateDialog {
          */
         private String readCredits() {
             PhetResources resourceLoader = new PhetResources( projectName );
-            String credits = resourceLoader.getLocalizedProperties().getString( TRANSLATION_CREDITS_KEY, false /* warnIfMissing */ ).trim();
-            if ( credits != null && credits.length() > 0 && !credits.equals( TRANSLATION_CREDITS_KEY ) ) {
-                return credits;
-            }
-            else {
-                return null;
-            }
-        }
 
-        /*
-         * Maps a simplified credits string to KSU's more verbose string.
-         * We want KSU to enter a simplified string in Translation Utility because:
-         * (1) we need something to identify when to display the credits "splash" window on start up
-         * (2) we need something simple that can be entered without error
-         */
-        private String mapKSU( String credits ) {
-            if ( credits.equals( TRANSLATION_CREDITS_KSU ) ) {
-                return "The Excellence Research Center of Science and Mathematics Education" + "<br>" +
-                       "King Saud University" + "<br>" +
-                       "Riyadh, Saudi Arabia" + "<br>" +
-                       "<a href=\"http://ecsme.ksu.edu.sa\">http://ecsme.ksu.edu.sa</a>";
+            // first try to load KSU credits
+            String credits = resourceLoader.getLocalizedProperties().getString( KSU_CREDITS_KEY, false /* warnIfMissing */ );
+            if ( !credits.equals( KSU_CREDITS_KEY ) ) {
+                return credits;
             }
             else {
-                return credits;
+                // if not found, load the general translation credits
+                credits = resourceLoader.getLocalizedProperties().getString( TRANSLATION_CREDITS_KEY, false /* warnIfMissing */ );
+                if ( !credits.equals( TRANSLATION_CREDITS_KEY ) ) {
+                    return credits;
+                }
+                else {
+                    return null;
+                }
             }
         }
     }

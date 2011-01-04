@@ -4,8 +4,6 @@ package edu.colorado.phet.translationutility;
 
 import java.util.Locale;
 
-import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
-
 
 public class TUConstants {
 
@@ -42,7 +40,4 @@ public class TUConstants {
 
     // web page that describes how to "Get PhET"
     public static final String GET_PHET_URL = PHET_HOME_URL + "/en/get-phet";
-
-    // special key for translation credits
-    public static final String TRANSLATION_CREDITS_KEY = CreditsDialog.TRANSLATION_CREDITS_KEY;
 }

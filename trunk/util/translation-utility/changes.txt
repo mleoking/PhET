@@ -1,7 +1,8 @@
-1/3/11 add help button for translation.credits
-1/3/11 put translation.credits at top of TranslationPanel
+1/4/11 #107,#2624, if translation.credits=="KSU", add ksu.credits to strings file
+1/3/11 #107, add help button for translation.credits
+1/3/11 #107, put translation.credits at top of TranslationPanel
 1/3/11 simplify sorting of properties
-1/3/11 #2624, add translation.credits property, for specifying translation credits
+1/3/11 #107,#2624, add translation.credits property, for specifying translation credits
 9/20/10 #2492,#2497 move translationutility.jar to buildtools.jar, add dependency on build-tools
 9/20/10 #2492,#2497 migrate DocumentIO to phetcommon XMLUtils
 9/20/10 rename DocumentAdapter to FlashStringsAdapter
