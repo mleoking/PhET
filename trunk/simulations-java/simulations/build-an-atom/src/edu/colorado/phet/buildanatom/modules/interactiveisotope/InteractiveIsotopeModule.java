@@ -26,7 +26,7 @@ public class InteractiveIsotopeModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public InteractiveIsotopeModule() {
-        super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock() );
+        super( BuildAnAtomStrings.TITLE_INTERACTIVE_ISOTOPE_MODULE, new BuildAnAtomClock() );
         setClockControlPanel( null );
 
         // Model
