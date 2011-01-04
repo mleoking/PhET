@@ -37,8 +37,8 @@ public class ButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
 
     // padding (or margin) around the button text
-    private static final double VERTICAL_PADDING_FACTOR = 1.1;
-    private static final double HORIZONTAL_PADDING_FACTOR = 1.1;
+    private static final double VERTICAL_PADDING = 3;
+    private static final double HORIZONTAL_PADDING = 10;
 
     // general button properties
     private static final int FONT_SIZE = 14;
@@ -128,9 +128,7 @@ public class ButtonNode extends PhetPNode {
     private ButtonNode( HTMLNode htmlLabelNode, Color textColor, Color backgroundColor ) {
         
         this._htmlNode = htmlLabelNode;
-        final double xOffset = ( getHtmlWidth() * HORIZONTAL_PADDING_FACTOR - getHtmlWidth() ) / 2;
-        final double yOffset = ( getHtmlHeight() * VERTICAL_PADDING_FACTOR - getHtmlHeight() ) / 2;
-        _htmlNode.setOffset( xOffset, yOffset );
+        _htmlNode.setOffset( HORIZONTAL_PADDING, VERTICAL_PADDING );
         
         this._textColor = textColor;
         this._backgroundColor = backgroundColor;
@@ -147,8 +145,8 @@ public class ButtonNode extends PhetPNode {
 
         // button
         RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0,
-                getHtmlWidth() * HORIZONTAL_PADDING_FACTOR,
-                getHtmlHeight() * VERTICAL_PADDING_FACTOR,
+                getHtmlWidth() + HORIZONTAL_PADDING * 2,
+                getHtmlHeight() + VERTICAL_PADDING *2,
                 BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS );
         _buttonNode = new PPath( buttonShape );
         _buttonNode.setPaint( mouseNotOverGradient );
