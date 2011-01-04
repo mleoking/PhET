@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 
+import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -88,9 +89,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             targetProperties = new Properties();
         }
 
-        // Add property for translation credits
-        if ( sourceProperties.get( TUConstants.TRANSLATION_CREDITS_KEY ) == null ) {
-            sourceProperties.put( TUConstants.TRANSLATION_CREDITS_KEY, "" );
+        // Add property for translation credits, which is not in English strings file
+        if ( sourceProperties.get( CreditsDialog.TRANSLATION_CREDITS_KEY ) == null ) {
+            sourceProperties.put( CreditsDialog.TRANSLATION_CREDITS_KEY, "" );
         }
 
         // Translation Panel

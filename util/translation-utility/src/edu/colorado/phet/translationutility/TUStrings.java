@@ -95,4 +95,6 @@ public class TUStrings {
     public static final String TOOLTIP_FIND = TUResources.getString( "tooltip.find" );
     public static final String TOOLTIP_ERROR = TUResources.getString( "tooltip.error" );
     public static final String TOOLTIP_PREVIEW = TUResources.getString( "tooltip.preview" );
+
+    public static final String KSU_CREDITS = TUResources.getString( "ksu.credits" );
 }
