@@ -3,7 +3,10 @@
 package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -22,65 +25,65 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ class TranslationPanel extends JPanel implements FindListener {
-   
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
-    
+
     private static final int KEY_COLUMN = 0;
     private static final int SOURCE_COLUMN = 1;
     private static final int TARGET_COLUMN = 2;
 
     private static final Logger LOGGER = Logger.getLogger( TranslationPanel.class.getCanonicalName() );
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private final ArrayList<TargetTextPanel> targetTextPanels; // the right column of the table ordered from top to bottom
     private final ArrayList<JTextArea> findTextAreas; // all the JTextAreas that Find will search in
     private String previousFindText; // text we previously search for in findNext or findPrevious
     private int previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param sourceLocale
      * @param sourceProperties
      * @param targetLocale
      * @param targetProperties
      */
-    public TranslationPanel( JFrame parent, String projectName, 
-            Locale sourceLocale, Properties sourceProperties, 
+    public TranslationPanel( JFrame parent, String projectName,
+            Locale sourceLocale, Properties sourceProperties,
             Locale targetLocale, Properties targetProperties ) {
         super();
-        
+
         targetTextPanels = new ArrayList<TargetTextPanel>();
         findTextAreas = new ArrayList<JTextArea>();
         previousFindText = null;
         previousFindTextAreaIndex = -1;
         previousFindSelectionIndex = -1;
-        
+
         // get locale-specific fonts
         final Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
         final Font targetFont = PhetFont.getPreferredFont( targetLocale );
         LOGGER.fine( "TranslationPanel, sourceFont=" + sourceFont + " (" + sourceFont.getFontName() + ")" );
         LOGGER.fine( "TranslationPanel, targetFont=" + targetFont + " (" + targetFont.getFontName() + ")");
-        
+
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
-        
+
         // column headings
         PhetLocales lc = PhetLocales.getInstance();
         JLabel projectNameLabel = new JLabel( projectName );
@@ -99,32 +102,26 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         targetLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLanguageLabel, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
-        
+
         // font names
         JLabel sourceFontLabel = new JLabel( "font: " + sourceFont.getFontName() );
         layout.addAnchoredComponent( sourceFontLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
         JLabel targetFontName = new JLabel( "font: " + targetFont.getFontName() );
         layout.addAnchoredComponent( targetFontName, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
-        
+
         // separator
         layout.addComponent( new JSeparator(), row, 0, 3, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
         row++;
 
         // sort the keys in ascending order
-        Enumeration<?> keys = sourceProperties.propertyNames();
-        TreeSet<String> sortedSet = new TreeSet<String>();
-        while ( keys.hasMoreElements() ) {
-            String key = (String) keys.nextElement();
-            sortedSet.add( key );
-        }
-        
-        // create the table
-        Iterator<String> i = sortedSet.iterator();
-        ArrayList<Component> targetTextAreas = new ArrayList<Component>();
-        while ( i.hasNext() ) {
+        ArrayList<String> keysList = new ArrayList<String>( sourceProperties.stringPropertyNames() );
+        Collections.sort( keysList );
 
-            String key = i.next();
+        // create the table
+        ArrayList<Component> targetTextAreas = new ArrayList<Component>();
+        for ( String key : keysList) {
+
             String sourceValue = sourceProperties.getProperty( key );
             String targetValue = targetProperties.getProperty( key );
 
@@ -140,19 +137,19 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
 
             findTextAreas.add( sourceTextArea );
             findTextAreas.add( targetTextPanel.getTextArea() );
-            
+
             layout.addAnchoredComponent( keyLabel, row, KEY_COLUMN, GridBagConstraints.EAST );
             layout.addComponent( sourceTextArea, row, SOURCE_COLUMN );
             layout.addComponent( targetTextPanel, row, TARGET_COLUMN );
             row++;
         }
-        
+
         setFocusTraversalPolicy( new ComponentListFocusPolicy( targetTextAreas ) );
         setFocusCycleRoot( true ); // enable this container as a FocusCycleRoot, so that custom FocusTraversalPolicy will work
-        
+
         validateTargets();
     }
-    
+
     public boolean validateTargets() {
         boolean valid = true;
         for ( TargetTextPanel target : targetTextPanels ) {
@@ -162,14 +159,14 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         }
         return valid;
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the target strings.
-     * 
+     *
      * @return Properties
      */
     public Properties getTargetProperties() {
@@ -185,10 +182,10 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         }
         return properties;
     }
-    
+
     /**
      * Sets the targets strings.
-     * 
+     *
      * @param targetProperties
      */
     public void setTargetProperties( Properties targetProperties ) {
@@ -201,22 +198,22 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         validateTargets();
         markAllSaved();
     }
-    
+
     //----------------------------------------------------------------------------
     // Find
     //----------------------------------------------------------------------------
-    
+
     /**
      * Finds the next occurrence of a string, searching through the source and target text areas.
-     * 
+     *
      * @param findText
      */
     public void findNext( String findText ) {
-        
+
         boolean found = false;
         int findTextAreaIndex = -1; // index of the JTextArea that contains a match
         int findSelectionIndex = -1; // index of the match within the JTextArea
-        
+
         // start from the top when the text is changed
         if ( !findText.equals( previousFindText ) ) {
             clearSelection( previousFindTextAreaIndex );
@@ -235,14 +232,14 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                 findSelectionIndex = matchIndex;
             }
         }
-        
+
         if ( !found ) {
-            
+
             int startTextAreaIndex = previousFindTextAreaIndex + 1;
             if ( startTextAreaIndex > findTextAreas.size() ) {
                 startTextAreaIndex = 0;
             }
-            
+
             // search forwards from current location to end
             for ( int i = startTextAreaIndex; found == false && i < findTextAreas.size() - 1; i++ ) {
                 JTextArea textArea = (JTextArea) findTextAreas.get( i );
@@ -254,7 +251,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                     findSelectionIndex = matchIndex;
                 }
             }
-            
+
             // wrap around, search from beginning to current location
             if ( !found ) {
                 for ( int i = 0; found == false && i < startTextAreaIndex; i++ ) {
@@ -269,7 +266,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                 }
             }
         }
-        
+
         if ( found ) {
             clearSelection( previousFindTextAreaIndex );
             setSelection( findTextAreaIndex, findSelectionIndex, findText.length() );
@@ -277,21 +274,21 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             previousFindSelectionIndex = findSelectionIndex;
         }
         else {
-            Toolkit.getDefaultToolkit().beep(); 
+            Toolkit.getDefaultToolkit().beep();
         }
     }
 
     /**
      * Finds the previous occurrence of a string, searching through the source and target text areas.
-     * 
+     *
      * @param findText
      */
     public void findPrevious( String findText ) {
-        
+
         boolean found = false;
         int findTextAreaIndex = -1; // index of the JTextArea that contains a match
         int findSelectionIndex = -1; // index of the match within the JTextArea
-        
+
         // start from the top when the text is changed
         if ( !findText.equals( previousFindText ) ) {
             clearSelection( previousFindTextAreaIndex );
@@ -310,14 +307,14 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                 findSelectionIndex = matchIndex;
             }
         }
-        
+
         if ( !found ) {
-            
+
             int startTextAreaIndex = previousFindTextAreaIndex - 1;
             if ( startTextAreaIndex < 0 ) {
                 startTextAreaIndex = findTextAreas.size() - 1;
             }
-            
+
             // search backwards from current location to beginning
             for ( int i = startTextAreaIndex; found == false && i >= 0; i-- ) {
                 JTextArea textArea = (JTextArea) findTextAreas.get( i );
@@ -329,7 +326,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                     findSelectionIndex = matchIndex;
                 }
             }
-            
+
             // wrap around, search from end to current location
             if ( !found ) {
                 for ( int i = findTextAreas.size() - 1; found == false && i > startTextAreaIndex; i-- ) {
@@ -344,7 +341,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
                 }
             }
         }
-        
+
         if ( found ) {
             clearSelection( previousFindTextAreaIndex );
             setSelection( findTextAreaIndex, findSelectionIndex, findText.length() );
@@ -352,13 +349,13 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             previousFindSelectionIndex = findSelectionIndex;
         }
         else {
-            Toolkit.getDefaultToolkit().beep(); 
+            Toolkit.getDefaultToolkit().beep();
         }
     }
-    
+
     /*
      * Clears the selection of a target text area.
-     * 
+     *
      * @param index index of the target text area
      */
     private void clearSelection( int index ) {
@@ -367,10 +364,10 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             textArea.select( 0, 0 );
         }
     }
-    
+
     /*
      * Sets the selection of a portion of a target text area.
-     * 
+     *
      * @param index index of the target text area
      * @param startIndex index of where to start the selection in the text area
      * @param length length of the selection
@@ -382,7 +379,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             textArea.select( startIndex, startIndex + length );
         }
     }
-    
+
     /**
      * Are there unsaved changes?
      */
@@ -396,7 +393,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         }
         return hasUnSavedChanges;
     }
-    
+
     /**
      * Marks all target text areas as having been saved.
      */
