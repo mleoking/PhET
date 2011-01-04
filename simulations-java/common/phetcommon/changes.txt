@@ -1,4 +1,4 @@
-1/3/2011 #2624, change how KSU credits work, don't parse translation.credits, look for ksu.credits inserted by Translation Utility
+1/4/2010 added double buffering for the AWT splash screen, see #2617
 1/3/2011 #2624, display KSU credits window during sim launch sequence
 1/3/2011 deprecated SwingUtils.centerDialogInParent, use more general SwingUtils.centerInParent
 1/3/2011 #2624, add ability to suppress warning when optional localized strings are missing
