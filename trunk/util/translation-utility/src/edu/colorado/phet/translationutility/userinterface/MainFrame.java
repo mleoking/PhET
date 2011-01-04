@@ -358,7 +358,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                     findDialog = null;
                 }
             } );
-            SwingUtils.centerDialogInParent( findDialog );
+            SwingUtils.centerInParent( findDialog );
             findDialog.setVisible( true );
         }
     }
