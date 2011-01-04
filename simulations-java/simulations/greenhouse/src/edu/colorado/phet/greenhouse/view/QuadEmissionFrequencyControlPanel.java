@@ -70,7 +70,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         final WavelengthSelectButtonNode infraredSelectorNode =
             new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Infrared" ), model, GreenhouseConfig.irWavelength );
         final WavelengthSelectButtonNode visibleLightSelectorNode =
-            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Visible" ), model, GreenhouseConfig.sunlightWavelength );
+            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Visible" ), model, GreenhouseConfig.visibleWaveLength );
         final WavelengthSelectButtonNode ultravioletSelectorNode =
             new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, GreenhouseConfig.uvWavelength );
 
@@ -108,7 +108,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         HashMap<Double, Double> mapWavelengthToXPos = new HashMap<Double, Double>(){{
                 put( GreenhouseConfig.microWavelength, wavelengthSelectorPanelNode.getXOffset() + microwaveSelectorNode.getFullBoundsReference().getCenterX() );
                 put( GreenhouseConfig.irWavelength, wavelengthSelectorPanelNode.getXOffset() + infraredSelectorNode.getFullBoundsReference().getCenterX() );
-                put( GreenhouseConfig.sunlightWavelength, wavelengthSelectorPanelNode.getXOffset() + visibleLightSelectorNode.getFullBoundsReference().getCenterX() );
+                put( GreenhouseConfig.visibleWaveLength, wavelengthSelectorPanelNode.getXOffset() + visibleLightSelectorNode.getFullBoundsReference().getCenterX() );
                 put( GreenhouseConfig.uvWavelength, wavelengthSelectorPanelNode.getXOffset() + ultravioletSelectorNode.getFullBoundsReference().getCenterX() );
         }};
 
@@ -224,7 +224,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private static final HashMap<Double, DoubleRange> mapFreqToRange = new HashMap<Double, DoubleRange>(){{
             put( GreenhouseConfig.microWavelength, new DoubleRange(1E-3, 1));
             put( GreenhouseConfig.irWavelength, new DoubleRange(780E-9, 1E-3));
-            put( GreenhouseConfig.sunlightWavelength, new DoubleRange(380E-9, 780E-9));
+            put( GreenhouseConfig.visibleWaveLength, new DoubleRange(380E-9, 780E-9));
             put( GreenhouseConfig.uvWavelength, new DoubleRange(1E-9, 380E-9));
         }};
 

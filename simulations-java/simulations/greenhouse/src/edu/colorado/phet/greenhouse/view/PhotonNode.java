@@ -37,7 +37,7 @@ public class PhotonNode extends PNode implements Observer {
     private static final HashMap<Double, String> mapWavelengthToImageName = new HashMap<Double, String>(){{
         put( GreenhouseConfig.microWavelength, "microwave-photon.png");
         put( GreenhouseConfig.irWavelength, "photon-660.png");
-        put( GreenhouseConfig.sunlightWavelength, "thin2.png");
+        put( GreenhouseConfig.visibleWaveLength, "thin2.png");
         put( GreenhouseConfig.uvWavelength, "photon-100.png");
     }};
 

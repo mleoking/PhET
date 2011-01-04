@@ -119,7 +119,7 @@ public class PhotonAbsorptionModel {
 
     private final EventListenerList listeners = new EventListenerList();
     private final ArrayList<Photon> photons = new ArrayList<Photon>();
-    private double photonWavelength = GreenhouseConfig.sunlightWavelength;
+    private double photonWavelength = GreenhouseConfig.visibleWaveLength;
     private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
     private final PhotonTarget initialPhotonTarget;
     private PhotonTarget photonTarget = null;
