@@ -53,8 +53,15 @@ public class SchematicAtomNode extends PNode {
     protected final PNode frontLayer;
     private final PNode electronLayer;
 
+    // Flags that control whether or not the corresponding subatomic particles
+    // are interactive.
+    private final boolean electronsAreInteractive;
+    private final boolean protonsAreInteractive;
+    private final boolean neutronsAreInteractive;
+
     /**
-     * Constructor.
+     * Constructor that assumes that all particles are interactive, meaning
+     * that the user can pick them up and move them.
      *
      * @param atom - The atom that is being represented by this node.
      * @param mvt - Transform for moving back and forth between model and view coordinates.
@@ -63,6 +70,29 @@ public class SchematicAtomNode extends PNode {
      * in the atoms are depicted as a cloud.
      */
     public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
+        this( atom, mvt, viewOrbitals, true, true, true );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param atom - The atom that is being represented by this node.
+     * @param mvt - Transform for moving back and forth between model and view coordinates.
+     * @param viewOrbitals - A boolean property that controls whether the
+     * orbitals (i.e. the electron shells) are shown or whether the electrons
+     * in the atoms are depicted as a cloud.
+     * @param protonsAreInteractive - Flag that controls whether protons can
+     * be picked up and moved.
+     * @param neutronsAreInteractive - Flag that controls whether neutrons can
+     * be picked up and moved.
+     * @param electronsAreInteractive - Flag that controls whether electrons can
+     * be picked up and moved.
+     */
+    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals,
+            boolean protonsAreInteractive, boolean neutronsAreInteractive, boolean electronsAreInteractive ) {
+        this.protonsAreInteractive = protonsAreInteractive;
+        this.electronsAreInteractive = electronsAreInteractive;
+        this.neutronsAreInteractive = neutronsAreInteractive;
         this.atom = atom;
         this.mvt = mvt;
         this.viewOrbitals = viewOrbitals;
@@ -98,6 +128,7 @@ public class SchematicAtomNode extends PNode {
         for ( final Neutron neutron : atom.getNeutrons()){
             addNeutron( neutron );
         }
+
     }
 
     /**
@@ -187,6 +218,15 @@ public class SchematicAtomNode extends PNode {
                 proton.removeListener( this );
             }
         });
+
+        // Set the pickability of the new node.
+        if ( !protonsAreInteractive ){
+            protonNode.setPickable( false );
+            protonNode.setChildrenPickable( false );
+        }
+
+        // Add the new node to the appropriate layer.
+        nucleusLayers.get( mapNucleonToLayerNumber( proton ) ).addChild( protonNode );
     }
 
     /**
@@ -217,6 +257,13 @@ public class SchematicAtomNode extends PNode {
             }
         });
 
+        // Set the pickability of the new node.
+        if ( !neutronsAreInteractive ){
+            neutronNode.setPickable( false );
+            neutronNode.setChildrenPickable( false );
+        }
+
+        // Add the new node to the appropriate layer.
         nucleusLayers.get( mapNucleonToLayerNumber( neutron ) ).addChild( neutronNode );
     }
 
@@ -253,6 +300,12 @@ public class SchematicAtomNode extends PNode {
                 electron.removeListener( this );
             }
         });
+
+        // Set the pickability of the new node.
+        if ( !electronsAreInteractive ){
+            electronNode.setPickable( false );
+            electronNode.setChildrenPickable( false );
+        }
     }
 
     /**
@@ -262,14 +315,14 @@ public class SchematicAtomNode extends PNode {
      * @param particle
      */
     protected void addParticle( SubatomicParticle particle ) {
-        if ( particle instanceof Neutron ){
-            addNeutron( (Neutron ) particle );
+        if ( particle instanceof Neutron ) {
+            addNeutron( (Neutron) particle );
         }
-        else if ( particle instanceof Proton ){
-            addProton( (Proton ) particle );
+        else if ( particle instanceof Proton ) {
+            addProton( (Proton) particle );
         }
-        else if ( particle instanceof Electron ){
-            addElectron( (Electron ) particle );
+        else if ( particle instanceof Electron ) {
+            addElectron( (Electron) particle );
         }
     }
 }
