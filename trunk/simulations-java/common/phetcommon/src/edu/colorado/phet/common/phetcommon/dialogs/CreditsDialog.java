@@ -43,7 +43,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class CreditsDialog extends PaintImmediateDialog {
 
-    public static final String TRANSLATION_CREDITS_KEY = "translation.credits"; // public for Translation Utility access
+    // public for Translation Utility access
+    public static final String TRANSLATION_CREDITS_KEY = "translation.credits";
+    public static final String TRANSLATION_CREDITS_KSU = "KSU"; // credits value used to identify translation provided by KSU
 
     // preferred size for the scrollpane, change this to affect initial dialog size
     private static final Dimension SCROLLPANE_SIZE = new Dimension( 525, 300 );
@@ -258,7 +260,7 @@ public class CreditsDialog extends PaintImmediateDialog {
          * (2) we need something simple that can be entered without error
          */
         private String mapKSU( String credits ) {
-            if ( credits.equals( "KSU" ) ) {
+            if ( credits.equals( TRANSLATION_CREDITS_KSU ) ) {
                 return "The Excellence Research Center of Science and Mathematics Education" + "<br>" +
                        "King Saud University" + "<br>" +
                        "Riyadh, Saudi Arabia" + "<br>" +

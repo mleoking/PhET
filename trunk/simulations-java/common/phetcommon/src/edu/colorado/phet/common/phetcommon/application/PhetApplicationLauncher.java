@@ -4,12 +4,14 @@ import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JSpinner;
+import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
 import edu.colorado.phet.common.phetcommon.updates.AutomaticUpdatesManager;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * This launcher solves the following problems:
@@ -42,6 +44,19 @@ public class PhetApplicationLauncher {
             // Clean up the window's owner that we created in showSplashWindow.
             splashWindowOwner.dispose();
             splashWindowOwner = null;
+        }
+    }
+
+    /*
+     * If the translation was provided by KSU, show a KSU-specific "splash" screen with credits.
+     */
+    private void showKSUCredits( PhetApplicationConfig config, Frame parent ) {
+        String credits = config.getResourceLoader().getLocalizedProperties().getString( CreditsDialog.TRANSLATION_CREDITS_KEY, false /* warnIfMissing */ );
+        if ( credits != null && credits.trim().equals( CreditsDialog.TRANSLATION_CREDITS_KSU ) ) {
+            JWindow ksuCreditsWindow = new KSUCreditsWindow( parent );
+            SwingUtils.centerInParent( ksuCreditsWindow );
+            ksuCreditsWindow.setVisible( true );
+            //TODO dispose of ksuCreditsWindow after N seconds
         }
     }
 
@@ -84,7 +99,7 @@ public class PhetApplicationLauncher {
     }
 
     public void launchSim( final PhetApplicationConfig config, final ApplicationConstructor applicationConstructor ) {
-        
+
         /*
          * Wrap the body of main in invokeAndWait, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
@@ -101,18 +116,21 @@ public class PhetApplicationLauncher {
             //If/when these references have been changed/removed, we can change this to invokeLater()
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
-                    
+
                     config.getLookAndFeel().initLookAndFeel();
-                    
+
                     new JSpinner(); // WORKAROUND for Unfuddle #1372 (Apple bug #6710919)
-                    
+
                     if ( applicationConstructor != null ) {
-                        
+
                         // sim initialization
                         showSplashWindow( config.getName() );
                         PhetApplication app = applicationConstructor.getApplication( config );
                         app.startApplication();
                         disposeSplashWindow();
+
+                        // show KSU credits
+                        showKSUCredits( config, app.getPhetFrame() );
 
                         //Ignore statistics and updates for sims that are still under development
                         if ( app.getSimInfo().getVersion().getMajorAsInt() >= 1 ) {
@@ -137,5 +155,4 @@ public class PhetApplicationLauncher {
             e.printStackTrace();
         }
     }
-
 }
