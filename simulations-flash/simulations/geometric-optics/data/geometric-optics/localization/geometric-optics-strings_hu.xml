@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_hu.xml created Sat Jan 01 18:54:07 CET 2011 using: geometric-optics 2.04.00 (37306), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="draggableScreen" value="mozgatható képernyő"/>
+<string key="draggableLens" value="mozgatható lencse"/>
+<string key="screen" value="Képernyő"/>
+<string key="draggableRuler" value="mozgatható mérőléc"/>
+<string key="simTitle" value="Optika: gyűjtőlencse"/>
+<string key="showHelp" value="Súgót mutat"/>
+<string key="moveMe" value="Mozgasd!"/>
+<string key="showGuides" value="Behatárolókat mutat"/>
+<string key="diameter" value="átmérő (m)"/>
+<string key="ruler" value="Mérőléc"/>
+<string key="focalPoint" value="fókuszpont"/>
+<string key="curvatureRadius" value="görbületi sugár (m)"/>
+<string key="changeObject" value="Másik tárgyat!"/>
+<string key="principalRays" value="Fő sugarak"/>
+<string key="marginalRays" value="Szélső sugarak"/>
+<string key="virtualImage" value="Látszólagos kép"/>
+<string key="noRays" value="Nincs sugár"/>
+<string key="secondSource" value="2. pont"/>
+<string key="hideHelp" value="Súgót elrejt"/>
+<string key="refractiveIndex" value="törésmutató"/>
+<string key="manyRays" value="Sok sugár"/>
+</SimStrings>
