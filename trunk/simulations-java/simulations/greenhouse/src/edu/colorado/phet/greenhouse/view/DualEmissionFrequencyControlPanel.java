@@ -76,7 +76,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         visiblePhotonRadioButton.setFont( LABEL_FONT );
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setEmittedPhotonWavelength( GreenhouseConfig.sunlightWavelength );
+                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
             }
         } );
         visibleButtonPanel.add( visiblePhotonRadioButton );

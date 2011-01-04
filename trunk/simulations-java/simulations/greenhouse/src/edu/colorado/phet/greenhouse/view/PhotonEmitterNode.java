@@ -138,7 +138,7 @@ public class PhotonEmitterNode extends PNode {
         if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ) {
             photonEmitterImage = new PImage( GreenhouseResources.getImage( "heat-lamp.png" ) );
         }
-        else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.sunlightWavelength ) {
+        else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ) {
             photonEmitterImage = new PImage( GreenhouseResources.getImage( "flashlight2.png" ) );
         }
         else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
@@ -234,7 +234,7 @@ public class PhotonEmitterNode extends PNode {
             if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ) {
                 emissionRateControlSlider.setColor( Color.RED );
             }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.sunlightWavelength ) {
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ) {
                 emissionRateControlSlider.setColor( Color.YELLOW );
             }
             else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength ) {
