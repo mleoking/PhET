@@ -139,6 +139,9 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             targetTextPanel.setFont( targetFont );
             targetTextPanels.add( targetTextPanel );
             targetTextAreas.add( targetTextPanel.getTextArea() );
+            if ( key.equals( TUConstants.TRANSLATION_CREDITS_KEY ) ) {
+                targetTextPanel.setHelpText( TUStrings.HELP_TRANSLATION_CREDITS );
+            }
 
             findTextAreas.add( sourceTextArea );
             findTextAreas.add( targetTextPanel.getTextArea() );
