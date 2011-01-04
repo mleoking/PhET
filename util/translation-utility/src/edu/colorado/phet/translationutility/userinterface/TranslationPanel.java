@@ -14,6 +14,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 
@@ -117,6 +118,10 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         // sort the keys in ascending order
         ArrayList<String> keysList = new ArrayList<String>( sourceProperties.stringPropertyNames() );
         Collections.sort( keysList );
+
+        // Move translation credits to the top
+        keysList.remove( TUConstants.TRANSLATION_CREDITS_KEY );
+        keysList.add( 0, TUConstants.TRANSLATION_CREDITS_KEY );
 
         // create the table
         ArrayList<Component> targetTextAreas = new ArrayList<Component>();
