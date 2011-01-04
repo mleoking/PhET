@@ -314,7 +314,7 @@ public class Body implements IBodyColors {
 
     public ImmutableVector2D getCartoonPosition() {
         if ( getParent() != null ) {
-            return new CartoonPositionMap( cartoonOffsetScale ).toCartoon( getPosition(), getParent().getPosition() );
+            return new CartoonPositionMap( cartoonOffsetScale ).toCartoon( getName(), getPosition(), getParent().getPosition() );
         }
         else {
             return getPosition();//those without parents have a cartoon position equal to their physical position
@@ -415,6 +415,11 @@ public class Body implements IBodyColors {
 
     public Property<Boolean> anyPropertyDifferent() {
         return new MultiwayOr( Arrays.asList( positionProperty.different(), velocityProperty.different(), massProperty.different(), collidedProperty.different() ) );
+    }
+
+    public ImmutableVector2D globalCartoonToReal( ImmutableVector2D childCartoonPosition ) {
+        //constrain the child Body to remain stationary
+        return new CartoonPositionMap( cartoonOffsetScale ).toReal( childCartoonPosition, getParent().getPosition() );
     }
 
     public static class PathPoint {
