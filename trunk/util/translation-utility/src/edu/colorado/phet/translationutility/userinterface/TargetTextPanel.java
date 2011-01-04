@@ -35,26 +35,26 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
     private final TargetTextArea textArea;
     private final JLabel errorIcon;
     private final JLabel previewIcon;
+    private final JLabel helpIcon;
     private final MessageFormatValidator messageFormatValidator;
     private final HTMLValidator htmlValidator;
     private boolean isValidValue;
     private String errorMessage;
+    private String helpText;
 
     public TargetTextPanel( String key, final String sourceValue, final Locale sourceLocale, final Font sourceFont, String targetValue, final Locale targetLocale, final Font targetFont ) {
         super();
-        
+
         // target text area
         textArea = new TargetTextArea( key, targetValue );
         textArea.setFont( targetFont );
         textArea.setBackground( OK_COLOR );
         textArea.addFocusListener( new FocusAdapter() {
-
             public void focusLost( FocusEvent e ) {
                 validateValue();
             }
         } );
         textArea.addKeyListener( new KeyAdapter() {
-
             public void keyPressed( KeyEvent e ) {
                 clearError();
             }
@@ -69,7 +69,7 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
                 showErrorDetails( errorMessage );
             }
         } );
-        
+
         // icon that provides access to a preview
         previewIcon = new JLabel( TUImages.PREVIEW_BUTTON );
         previewIcon.setToolTipText( TUStrings.TOOLTIP_PREVIEW );
@@ -79,7 +79,18 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
                 showPreview( sourceValue, sourceLocale, sourceFont, textArea.getText(), targetLocale, targetFont );
             }
         } );
-        
+        previewIcon.setVisible( isPreviewable( sourceValue ) );
+
+        // help icon
+        helpIcon = new JLabel( TUImages.HELP_ICON );
+        helpIcon.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+        helpIcon.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent event ) {
+                showHelp();
+            }
+        } );
+        helpIcon.setVisible( false );
+
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -87,9 +98,8 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
         int column = 0;
         layout.addComponent( textArea, row, column++ );
         layout.addComponent( errorIcon, row, column++ );
-        if ( isPreviewable( sourceValue ) ) {
-            layout.addComponent( previewIcon, row, column++ );
-        }
+        layout.addComponent( previewIcon, row, column++ );
+        layout.addComponent( helpIcon, row, column++ );
         layout.setMinimumWidth( 1, errorIcon.getPreferredSize().width + 20 );
         layout.setMinimumWidth( 2, previewIcon.getPreferredSize().width + 20 );
 
@@ -97,14 +107,19 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
         htmlValidator = new HTMLValidator( sourceValue );
         validateValue();
     }
-    
+
     public TargetTextArea getTextArea() {
         return textArea;
     }
-    
+
     public boolean isValidValue() {
         validateValue();
         return isValidValue;
+    }
+
+    public void setHelpText( String helpText ) {
+        this.helpText = helpText;
+        helpIcon.setVisible( helpText != null );
     }
 
     private void clearError() {
@@ -113,13 +128,13 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
         textArea.setBackground( OK_COLOR );
         errorIcon.setVisible( false );
     }
-    
+
     /**
      * Validates the text area's value, comparing it to the source value.
      * Notifies interested listeners if there are validation errors.
      */
     public void validateValue() {
-        
+
         clearError();
 
         // validate
@@ -158,25 +173,29 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
 
         return HTMLUtils.toHTMLString( message );
     }
-    
+
     private static boolean isPreviewable( String sourceString ) {
         return isHTML( sourceString ) || isHTMLFragment( sourceString );
     }
-    
+
     private static boolean isHTML( String s ) {
         return BasicHTML.isHTMLString( s );
     }
-    
+
     private static boolean isHTMLFragment( String s ) {
         return s.contains( "<" ) && s.contains( ">" ); //TODO is this sufficient?
     }
-    
+
     private void showErrorDetails( String message ) {
         JOptionPane.showMessageDialog( null, message, TUStrings.ERROR_DETAILS_TITLE, JOptionPane.ERROR_MESSAGE );
     }
-    
+
     private void showPreview( String source, Locale sourceLocale, Font sourceFont, String target, Locale targetLocale, Font targetFont ) {
         JPanel panel = new PreviewPanel( source, sourceLocale, sourceFont, target, targetLocale, targetFont );
         JOptionPane.showMessageDialog( null, panel, TUStrings.PREVIEW_TITLE, JOptionPane.PLAIN_MESSAGE );
+    }
+
+    private void showHelp() {
+        JOptionPane.showMessageDialog( null, helpText, TUStrings.HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
 }
