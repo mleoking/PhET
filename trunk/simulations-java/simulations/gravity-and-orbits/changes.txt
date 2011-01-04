@@ -1,3 +1,4 @@
+# 0.0.12 (47614) Jan 4, 2011
 Added a continuous interpolation between cartoon and real coordinates and numerical inversion of interpolation
 # 0.0.11 (47576) Jan 3, 2011
 Fixed: mass sliders don't snap to ticks properly
