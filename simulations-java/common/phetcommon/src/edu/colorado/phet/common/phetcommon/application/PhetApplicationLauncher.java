@@ -1,11 +1,14 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JSpinner;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
@@ -53,10 +56,22 @@ public class PhetApplicationLauncher {
     private void showKSUCredits( PhetApplicationConfig config, Frame parent ) {
         String credits = config.getResourceLoader().getLocalizedProperties().getString( CreditsDialog.TRANSLATION_CREDITS_KEY, false /* warnIfMissing */ );
         if ( credits != null && credits.trim().equals( CreditsDialog.TRANSLATION_CREDITS_KSU ) ) {
-            JWindow ksuCreditsWindow = new KSUCreditsWindow( parent );
-            SwingUtils.centerInParent( ksuCreditsWindow );
-            ksuCreditsWindow.setVisible( true );
-            //TODO dispose of ksuCreditsWindow after N seconds
+
+            final JWindow window = new KSUCreditsWindow( parent );
+            SwingUtils.centerInParent( window );
+            window.setVisible( true );
+
+            /*
+             *  Dispose of ksuCreditsWindow after N seconds.
+             *  Take care to call dispose in the Swing thread.
+             */
+            Timer timer = new Timer( 4000, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    window.dispose();
+                }
+            } );
+            timer.setRepeats( false );
+            timer.start();
         }
     }
 
