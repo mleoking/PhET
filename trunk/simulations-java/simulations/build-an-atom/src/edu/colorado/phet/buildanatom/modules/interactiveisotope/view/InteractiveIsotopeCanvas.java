@@ -52,7 +52,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
+                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.50 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.55 ) ),
                 2.0,
                 true );
 
@@ -83,7 +83,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 model.setAtomConfiguration( new AtomValue(2, 2, 2) );
             }
         });
-        testButton1.setOffset( 700, 50 );
+        testButton1.setOffset( 100, 50 );
         addWorldChild( testButton1 );
         ButtonNode testButton2 = new ButtonNode("Lithium");
         testButton2.addActionListener( new ActionListener() {
@@ -91,7 +91,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 model.setAtomConfiguration( new AtomValue(3, 4, 3) );
             }
         });
-        testButton2.setOffset( 700, 100 );
+        testButton2.setOffset( 100, 100 );
         addWorldChild( testButton2 );
         ButtonNode testButton3 = new ButtonNode("Clear");
         testButton3.addActionListener( new ActionListener() {
@@ -99,7 +99,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 model.setAtomConfiguration( new AtomValue(0, 0, 0) );
             }
         });
-        testButton3.setOffset( 700, 150 );
+        testButton3.setOffset( 100, 150 );
         addWorldChild( testButton3 );
 
         /*
@@ -125,9 +125,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                  */
 
 
-        // Show the legend/particle count indicator in the top left.
+        // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
-        particleCountLegend.setOffset( 20, 10 );//top left corner, but with some padding
+        particleCountLegend.setOffset( 700, 10 );
         rootNode.addChild( particleCountLegend );
     }
 
