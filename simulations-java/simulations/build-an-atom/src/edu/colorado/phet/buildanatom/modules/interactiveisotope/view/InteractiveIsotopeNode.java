@@ -23,7 +23,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
      * Constructor.
      */
     public InteractiveIsotopeNode( final InteractiveIsotopeModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
-        super( model.getAtom(), mvt, viewOrbitals );
+        super( model.getAtom(), mvt, viewOrbitals, false, true, false );
 
         model.addListener( new InteractiveIsotopeModel.Adapter() {
             @Override
