@@ -21,22 +21,21 @@ public class ABSImages {
 
     /* not intended for instantiation */
     private ABSImages() {}
-    
+
     public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
     public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
     public static final BufferedImage BATTERY= getBufferedImage( "battery.png" );
     public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
     public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
     public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
-    
+
     // icons used in control panels
     public static final Icon BEAKER_ICON = getIcon( "icons/beaker_icon.png" );
-    public static final Icon CONCENTRATION_GRAPH_ICON = getIcon( "icons/concentrationGraph_icon.png" );
     public static final Icon LIGHT_BULB_ICON = getIcon( "icons/lightBulb_icon.png" );
     public static final Icon MAGNIFYING_GLASS_ICON = getIcon( "icons/magnifyingGlass_icon.png" );
     public static final Icon PH_METER_ICON = getIcon( "icons/pHMeter_icon.png" );
     public static final Icon PH_PAPER_ICON = getIcon( "icons/pHPaper_icon.png" );
-    
+
     // generate molecule images using Piccolo
     public static final Image A_MINUS_MOLECULE = new AMinusNode().toImage();
     public static final Image B_MOLECULE = new BNode().toImage();
@@ -47,15 +46,15 @@ public class ABSImages {
     public static final Image M_PLUS_MOLECULE = new MPlusNode().toImage();
     public static final Image MOH_MOLECULE = new MOHNode().toImage();
     public static final Image OH_MINUS_MOLECULE = new OHMinusNode().toImage();;
-    
+
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
     }
-    
+
     private static final Icon getIcon( String resourceName ) {
         return createIcon( ABSResources.getBufferedImage( resourceName ), 1 );
     }
-    
+
     public static final Icon createIcon( Image image, double scale ) {
         PImage imageNode = new PImage( image );
         imageNode.scale( scale ); // use Piccolo to scale images
