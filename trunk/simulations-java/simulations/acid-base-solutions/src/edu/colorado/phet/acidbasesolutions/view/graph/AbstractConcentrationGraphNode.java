@@ -21,10 +21,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for all concentration graphs, y-axis is log moles/L. 
+ * Base class for all concentration graphs, y-axis is log moles/L.
  * Has a max of 4 bars, knows nothing about the model.
  * Origin is at upper-left corner of the outline around the graph's data area.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ abstract class AbstractConcentrationGraphNode extends PComposite {
@@ -35,8 +35,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
     // graph outline
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
-    private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
-    private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
+    protected static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
+    protected static final Color OUTLINE_FILL_COLOR = Color.WHITE;
 
     // bars
     private static final int NUMBER_OF_BARS = 4;
@@ -127,7 +127,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     /*
      * Sets the properties for one of the bars in the graph.
      * The bars are numbered from left to right.
-     * 
+     *
      * @param index bar number
      * @param molecule molecule that determines the symbol, icon, and color associated with the bar
      * @param format format of the concentration value
@@ -154,9 +154,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     //----------------------------------------------------------------------------
     // Layout of nodes
     //----------------------------------------------------------------------------
-    
+
     protected void updateLayout() {
-        
+
         // count the number of visible bars
         int visibleBars = 0;
         for ( ConcentrationNode node : concentrationNodes ) {
@@ -164,9 +164,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
                 visibleBars++;
             }
         }
-        
+
         if ( visibleBars > 0 ) {
-            
+
             // determine the x margin
             double xMargin = ( outlineSize.getWidth() - ( visibleBars * BAR_WIDTH ) - ( ( visibleBars - 1 ) * BAR_X_SPACING ) ) / 2;
             assert ( xMargin >= 0 );
@@ -179,42 +179,42 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /*
      * Concentration representation, includes a bar, value, icon and symbol.
      */
     private static class ConcentrationNode extends PComposite {
-        
+
         private final double maxBarHeight;
         private final BarNode barNode;
         private final NegligibleValueNode valueNode;
         private final PImage iconNode;
         private final HTMLNode symbolNode;
-        
+
         public ConcentrationNode( double maxBarHeight, boolean iconVisible, boolean symbolVisible ) {
             this.maxBarHeight = maxBarHeight;
-            
+
             barNode = new BarNode( BAR_WIDTH );
             addChild( barNode );
-            
+
             valueNode = new NegligibleValueNode();
             valueNode.rotate( -Math.PI / 2 );
             addChild( valueNode );
-            
+
             iconNode = new PImage();
             iconNode.setVisible( iconVisible );
             addChild( iconNode );
-            
+
             symbolNode = new HTMLNode();
             symbolNode.setFont( SYMBOL_FONT );
             symbolNode.setVisible( symbolVisible );
             addChild( symbolNode );
         }
-        
+
         public void setMolecule( Molecule molecule, NumberFormat format, boolean negligibleEnabled ) {
             barNode.setPaint( molecule.getColor() );
             valueNode.setFormat( format );
@@ -223,12 +223,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             symbolNode.setHTML( molecule.getSymbol() );
             updateLayout();
         }
-        
+
         public void setConcentration( double value ) {
             valueNode.setValue( value );
             barNode.setBarHeight( calculateBarHeight( value ) );
         }
-        
+
         /*
          * Calculates a bar height in view coordinates, given a model value.
          */
@@ -238,26 +238,26 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             final double modelValueExponent = MathUtil.log10( modelValue );
             return maxBarHeight * ( modelValueExponent - minExponent ) / ( maxExponent - minExponent );
         }
-        
+
         private void updateLayout() {
-            
+
             // bar node at origin
             double x = 0;
             double y = 0;
             barNode.setOffset( x, y );
-            
+
             // value centered in bar
             x = barNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 );
             y = barNode.getFullBoundsReference().getMaxY() - 10;
             valueNode.setOffset( x, y );
-            
+
             // icon centered below bar
             if ( iconNode.getVisible() ) {
                 x = barNode.getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ); // careful! bar may have zero dimensions.
                 y = barNode.getFullBoundsReference().getMaxY() + 10;
                 iconNode.setOffset( x, y );
             }
-            
+
             // symbol
             if ( symbolNode.getVisible() ) {
                 if ( iconNode.getVisible() ) {
@@ -275,16 +275,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             }
         }
     }
-    
+
     /*
      * Rectangular bar, height represents concentration.
      * Origin is at bottom center.
      */
     private static class BarNode extends PPath {
-        
+
         private final double barWidth;
         private final Rectangle2D rectangle;
-        
+
         public BarNode( double barWidth ) {
             this.barWidth = barWidth;
             this.rectangle = new Rectangle2D.Double();
@@ -292,7 +292,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
             setStroke( null );
             setBarHeight( 1 );
         }
-        
+
         public void setBarHeight( final double barHeight ) {
             rectangle.setRect( -( barWidth / 2 ), -barHeight, barWidth, barHeight );
             setPathTo( rectangle );
