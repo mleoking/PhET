@@ -75,12 +75,6 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         this.update();
     }
 
-    @Override
-    public void paint( Graphics2D g2 ) {
-        if ( isVisible() ) { super.paint( g2 ); }
-        else {}
-    }
-
     //Provides a means for determining the global (i.e. canvas coordinate frame = pixels) for usage with ice collisions
     public Point2D getGlobalCenter2D(){
         return drawLocation;

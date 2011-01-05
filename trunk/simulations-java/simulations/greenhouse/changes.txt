@@ -1,3 +1,4 @@
+Reverted changes from 47665, did not seem to relate to the problem
 # 3.01.09 (47667) Jan 4, 2011
 Fixes for #2641
 -Override PhotonGraphic.paint to respect visibility flag
