@@ -12,6 +12,7 @@
 12/13/10 #2610, use black for "negligible" text in graph
 12/10/10 restore molecule images
 # 1.00.01 (47056) Dec 10, 2010
+> improve colorblind support by using new colors
 12/10/10 demonstrate proposed color changes to address colorblind issues
 12/10/19 #2577, try Kelly's new colors, use colored circles instead of molecule images throughout
 12/10/10 #2577, add ability to substitute single-color circles for molecules images, for testing alternative colors
