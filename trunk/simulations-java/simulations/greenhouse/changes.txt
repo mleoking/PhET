@@ -1,3 +1,4 @@
+Fixed a bug where invisible photons were not getting reflected by ice on the earth, see #2641.
 Added commented-out implementation of model-based ice/photon collisions
 Reverted changes from 47665, did not seem to relate to the problem
 # 3.01.09 (47667) Jan 4, 2011
