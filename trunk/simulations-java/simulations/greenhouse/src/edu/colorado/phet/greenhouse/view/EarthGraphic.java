@@ -33,21 +33,21 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 public class EarthGraphic implements Graphic, ReflectivityAssessor {
 
     private static final double Y_OFFSET = -1.0;
-	private ApparatusPanel apparatusPanel;
+	private final ApparatusPanel apparatusPanel;
     Earth earth;
-    private Rectangle2D.Double modelBounds;
+    private final Rectangle2D.Double modelBounds;
     private static int numRedsToAve = 20;
     int[] redsToAve = new int[numRedsToAve];
     private GreenhouseBackgroundImageGraphic backdropGraphic;
-    private DiskGraphic disk;
-    private Color earthBaseColor = new Color( 0, 180, 100 );
+    private final DiskGraphic disk;
+    private final Color earthBaseColor = new Color( 0, 180, 100 );
     private boolean isIceAge;
     private BufferedImage currentBackdropImage;
-    private BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
-    private BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
-    private BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
-    private double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
-    private HashMap photonToGraphicsMap;
+    private final BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
+    private final BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
+    private final BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
+    private final double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
+    private final HashMap photonToGraphicsMap;
 
     /**
      * @param apparatusPanel
@@ -80,6 +80,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
 
         // If the apparatus panel is resized, resize the backdrop graphic
         apparatusPanel.addComponentListener( new ComponentAdapter() {
+            @Override
             public void componentResized( ComponentEvent e ) {
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
@@ -265,15 +266,11 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
                  && photon.getVelocity().getY() < 0
                  && photon.getWavelength() == GreenhouseConfig.sunlightWavelength) {
 
-                // The 1 in the following line is a hack number that is needed to make the locations work out
-                PhotonGraphic node = (PhotonGraphic) photonToGraphicsMap.get( photon );
+                Point2D photonPosInView = apparatusPanel.modelToView( photon.getLocation() );
 
-                if ( node != null ) {
-                    Point2D center = node.getGlobalCenter2D();
-                    Color pixel = backdropGraphic.getColor( center.getX(), center.getY() );
-                    if ( pixel.getRed() == 255 && pixel.getGreen() == 255 && pixel.getBlue() == 255 ) {
-                        reflectivity = .6;
-                    }
+                Color pixel = backdropGraphic.getColor( photonPosInView.getX(), photonPosInView.getY() );
+                if ( pixel.getRed() == 255 && pixel.getGreen() == 255 && pixel.getBlue() == 255 ) {
+                    reflectivity = .6;
                 }
             }
         }
