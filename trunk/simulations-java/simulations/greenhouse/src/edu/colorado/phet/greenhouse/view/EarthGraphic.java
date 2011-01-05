@@ -14,7 +14,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
@@ -46,16 +45,13 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
     private final BufferedImage backgroundToday = GreenhouseResources.getImage( "today-2.gif" );
     private final BufferedImage background1750 = GreenhouseResources.getImage( "1750-2.gif" );
     private final BufferedImage backgroundIceAge = GreenhouseResources.getImage( "ice-age-2.gif" );
-    private final double desiredImageWidth = 100;  // Somewhat arbitrary initial value, will be recalculated during init.
-    private final HashMap photonToGraphicsMap;
 
     /**
      * @param apparatusPanel
      * @param earth
      * @param modelBounds
      */
-    public EarthGraphic( ApparatusPanel apparatusPanel, Earth earth, final Rectangle2D.Double modelBounds,HashMap photonToGraphicsMap) {
-        this.photonToGraphicsMap = photonToGraphicsMap;
+    public EarthGraphic( ApparatusPanel apparatusPanel, Earth earth, final Rectangle2D.Double modelBounds) {
         this.apparatusPanel = apparatusPanel;
         this.earth = earth;
         this.modelBounds = modelBounds;
@@ -65,18 +61,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         Point2D.Double earthLoc = new Point2D.Double( earth.getLocation().getX(), earth.getLocation().getY() );
         earthLoc.setLocation( earthLoc.getX() - earth.getRadius() / 2,
                               earthLoc.getY() + earth.getRadius() / 2 );
-//        System.out.println( "gifToModelScale=" + gifToModelScale );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
-
-        //Draw the ice, if using ice model
-//        apparatusPanel.addGraphic( new Graphic() {
-//            public void paint( Graphics2D g2 ) {
-//                if ( isIceAge ) {
-//                    g2.setColor( new Color( 255,255,255 ) );
-//                    g2.fill( ice.getShape() );
-//                }
-//            }
-//        }, GreenhouseConfig.EARTH_BACKDROP_LAYER + 1E-6 );//add the ice graphic just in front of the backdrop, so photons will go in front of the ice
 
         // If the apparatus panel is resized, resize the backdrop graphic
         apparatusPanel.addComponentListener( new ComponentAdapter() {
@@ -159,9 +144,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         setBackDropImage( null, null );
         disk.setPaint( new Color( 150, 130, 80 ) );
     }
-
-
-//    public static ArrayList snowPoints = new ArrayList();
 
     public void setIceAge() {
         isIceAge = true;
@@ -276,17 +258,4 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         }
         return reflectivity;
     }
-
-//    public double getReflectivityModelBased( Photon photon ) {
-//        double reflectivity = 0;
-//        if ( isIceAge &&
-//             backdropGraphic != null &&
-//             photon.getVelocity().getY() < 0 &&
-//             photon.getWavelength() == GreenhouseConfig.sunlightWavelength &&
-//             ice.contains( photon.getLocation() ) ) {
-//            reflectivity = 0.6;
-//        }
-//        return reflectivity;
-//    }
-
 }
