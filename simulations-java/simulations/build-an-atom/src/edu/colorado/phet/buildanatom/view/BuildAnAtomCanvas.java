@@ -110,7 +110,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
         // Element indicator
         PDimension elementIndicatorNodeWindowSize = new PDimension( 400, 250 - verticalSpacingBetweenWindows * 2 );
-        PeriodicTableNode elementIndicatorNode = new PeriodicTableNode( model.getAtom() );
+        PeriodicTableNode elementIndicatorNode = new PeriodicTableNode( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND );
         elementIndicatorWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_ELEMENT, elementIndicatorNodeWindowSize, elementIndicatorNode, true );
         elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width / 2 - elementIndicatorNode.getFullBounds().getWidth() / 2, elementIndicatorNodeWindowSize.getHeight() / 2 - elementIndicatorNode.getFullBounds().getHeight() / 2 );
         elementIndicatorWindow.setOffset( indicatorWindowPosX, verticalSpacingBetweenWindows );

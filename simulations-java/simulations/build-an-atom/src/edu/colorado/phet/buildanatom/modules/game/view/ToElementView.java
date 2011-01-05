@@ -89,7 +89,7 @@ public abstract class ToElementView extends ProblemView {
     }
 
     private static class GamePeriodicTable extends PNode {
-        private ArrayList<SimpleObserver> jradioButtonListeners=new ArrayList<SimpleObserver>( );
+        private final ArrayList<SimpleObserver> jradioButtonListeners=new ArrayList<SimpleObserver>( );
         private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION};
         private final SimpleAtom atom = new SimpleAtom();
         private final Property<ChargeGuess> chargeGuessProperty = new Property<ChargeGuess>( ChargeGuess.UNANSWERED );
@@ -153,7 +153,7 @@ public abstract class ToElementView extends ProblemView {
             // user makes a selection in the periodic table.
             selectNeutralOrIonTypeNode.setVisible( false );
 
-            PNode periodicTableNode = new PeriodicTableNode( atom ) {
+            PNode periodicTableNode = new PeriodicTableNode( atom, BuildAnAtomConstants.CANVAS_BACKGROUND ) {
                 @Override
                 protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
                     elementCell.addInputEventListener( new CursorHandler() );

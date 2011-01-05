@@ -1,10 +1,11 @@
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,13 +15,40 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Shows periodic table, etc
+ * This class defines a node that represents a periodic table of the elements.
+ * It is not interactive by default, but provides overrides that can be used
+ * to add interactivity.
+ *
+ * This makes some assumptions about which portions of the table to display,
+ * and may not work for all situations.
  *
  * @author Sam Reid
+ * @author John Blanco
  */
 public class PeriodicTableNode extends PNode {
 
-    public PeriodicTableNode( final IAtom atom ) {
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
+    public static int CELL_DIMENSION = 20;
+
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
+
+    public Color backgroundColor = null;
+
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
+
+    /**
+     * Constructor.
+     * @param backgroundColor TODO
+     */
+    public PeriodicTableNode( final IAtom atom, Color backgroundColor ) {
+        this.backgroundColor = backgroundColor;
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
@@ -38,24 +66,14 @@ public class PeriodicTableNode extends PNode {
         }
 
         addChild( table );
-
-        //Show the name readout
-//        addChild( new PText( atom.getName() ) {{
-//            setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
-//            setTextPaint( Color.red );
-//            final SimpleObserver updateText = new SimpleObserver() {
-//                public void update() {
-//                    setText( atom.getName() );
-//                    setOffset( table.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, 0 );
-//                }
-//            };
-//            atom.addObserver( updateText );
-//            updateText.update();
-//        }} );
     }
 
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
+
     private void addElement( final IAtom atom, final PNode table, int atomicNumber ) {
-        ElementCell elementCell = new ElementCell( atom, atomicNumber );
+        ElementCell elementCell = new ElementCell( atom, atomicNumber, backgroundColor );
         final Point gridPoint = getGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
@@ -64,13 +82,22 @@ public class PeriodicTableNode extends PNode {
         elementCellCreated( elementCell );
     }
 
-    //Listener callback
-
+    /**
+     * Listener callback, override when needing notification of the creation
+     * of element cells.  This is useful when creating an interactive chart,
+     * since it is a good opportunity to hook up event listeners to the cell.
+     *
+     * @param elementCell
+     */
     protected void elementCellCreated( ElementCell elementCell ) {
     }
 
-    //Reports (row,column) on the grid, with a 1-index
-
+    /**
+     * Reports (row,column) on the grid, with a 1-index
+     *
+     * @param i
+     * @return
+     */
     private Point getGridPoint( int i ) {
         //http://www.ptable.com/ was useful here
         if ( i == 1 ) {
@@ -133,9 +160,15 @@ public class PeriodicTableNode extends PNode {
         return new Point( 1, 1 );
     }
 
-    public static int CELL_DIMENSION = 20;
-
-    public static String getLine( int atomicNumber ) {
+    /**
+     * Get the description line for the element that corresponds to the given
+     * atomic number.  See the table that is defined elsewhere in this file in
+     * order to see the format of the description lines.
+     *
+     * @param atomicNumber
+     * @return
+     */
+    private static String getElementDescriptionLine( int atomicNumber ) {
         StringTokenizer stringTokenizer = new StringTokenizer( table, "\n" );
         while ( stringTokenizer.hasMoreElements() ) {
             String element = stringTokenizer.nextToken();
@@ -146,44 +179,13 @@ public class PeriodicTableNode extends PNode {
         return null;
     }
 
-    public class ElementCell extends PNode {
-        private final int atomicNumber;
-
-        public ElementCell( final IAtom atom, final int atomicNumber ) {
-            this.atomicNumber = atomicNumber;
-            final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ), BuildAnAtomConstants.CANVAS_BACKGROUND, new BasicStroke( 1 ), Color.black );
-            addChild( box );
-
-            String abbreviation = getElementAbbreviation( atomicNumber );
-            final PText text = new PText( abbreviation );
-            text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
-            addChild( text );
-            atom.addObserver( new SimpleObserver() {
-                public void update() {
-                    boolean match = atom.getNumProtons() == atomicNumber;
-                    text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
-                    if ( match ) {
-                        box.setStroke( new BasicStroke( 2 ) );
-                        box.setStrokePaint( Color.RED );
-                        box.setPaint( Color.white );
-                        ElementCell.this.moveToFront();
-                    }
-                    else {
-                        box.setStroke( new BasicStroke( 1 ) );
-                        box.setStrokePaint( Color.BLACK );
-                        box.setPaint( null );
-                    }
-                }
-            } );
-        }
-
-        public int getAtomicNumber() {
-            return atomicNumber;
-        }
-    }
-
+    /**
+     *
+     * @param atomicNumber
+     * @return
+     */
     public static String getElementAbbreviation( int atomicNumber ) {
-        String line = getLine( atomicNumber );
+        String line = getElementDescriptionLine( atomicNumber );
         StringTokenizer stringTokenizer = new StringTokenizer( line, "\t " );
         stringTokenizer.nextToken();//number
         stringTokenizer.nextToken();//name
@@ -198,9 +200,9 @@ public class PeriodicTableNode extends PNode {
         return abbreviation;
     }
 
-//Copied table from http://www.zyra.org.uk/elements.htm
+    //Copied table from http://www.zyra.org.uk/elements.htm
     //Used for generating the translatable version below in main()
-    public static final String tableOrig = "1  \tHYDROGEN  \tH  \t1.008\n" +
+    public static final String tableOrig = "1 \tHYDROGEN  \tH  \t1.008\n" +
                                            "2 \tHELIUM \tHe \t4.003\n" +
                                            "3 \tLITHIUM \tLi \t6.939\n" +
                                            "4 \tBERYLLIUM \tBe \t9.012\n" +
@@ -446,6 +448,9 @@ public class PeriodicTableNode extends PNode {
                                        "111 \tROENTGENIUM\t" + BuildAnAtomStrings.ELEMENT_ROENTGENIUM_SYMBOL + "\n" +
                                        "112 \tUNUNBIUM\t" + BuildAnAtomStrings.ELEMENT_UNUNBIUM_SYMBOL + "\n";
 
+    /**
+     * Test harness.
+     */
     public static void main( String[] args ) {
         String t = tableOrig;
         StringTokenizer stringTokenizer = new StringTokenizer( t, "\n" );
@@ -462,10 +467,49 @@ public class PeriodicTableNode extends PNode {
                 String upperName = name.toUpperCase().trim();
                 final String EINine = "\"" + index + " \\t" + upperName + "\\t\"+BuildAnAtomStrings.ELEMENT_" + upperName + "_SYMBOL+\"\\n\"+";
                 System.out.println( EINine );
-
-//                String stringLine = "public static final String ELEMENT_" + upperName + "_SYMBOL = getString( \"" + key + "\" );";
-//                System.out.println( stringLine );
             }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    public class ElementCell extends PNode {
+        private final int atomicNumber;
+
+        public ElementCell( final IAtom atom, final int atomicNumber, final Color backgroundColor ) {
+            this.atomicNumber = atomicNumber;
+            final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
+                    backgroundColor, new BasicStroke( 1 ), Color.black );
+            addChild( box );
+
+            String abbreviation = getElementAbbreviation( atomicNumber );
+            final PText text = new PText( abbreviation );
+            text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
+                    box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+            addChild( text );
+            atom.addObserver( new SimpleObserver() {
+                public void update() {
+                    boolean match = atom.getNumProtons() == atomicNumber;
+                    text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
+                    if ( match ) {
+                        box.setStroke( new BasicStroke( 2 ) );
+                        box.setStrokePaint( Color.RED );
+                        box.setPaint( Color.white );
+                        ElementCell.this.moveToFront();
+                    }
+                    else {
+                        box.setStroke( new BasicStroke( 1 ) );
+                        box.setStrokePaint( Color.BLACK );
+                        box.setPaint( backgroundColor );
+                    }
+                }
+            } );
+        }
+
+        public int getAtomicNumber() {
+            return atomicNumber;
         }
     }
 }
