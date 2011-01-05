@@ -331,12 +331,12 @@ public abstract class BaseGreenhouseModule extends Module {
             PhotonGraphic photonView = new PhotonGraphic( photon );
             photonToGraphicsMap.put( photon, photonView );
             photonView.setVisible( false );
-            double layer = irFilter.absorbs( photon.getWavelength() )
-                               ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
-                               : GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER;
-            drawingCanvas.addGraphic( photonView, layer );//see #2641 graphics have to be added whether or not they are shown otherwise bugs occur
             if ( n >= invisiblePhotonCnt ) {
                 photonView.setVisible( true );
+                double layer = irFilter.absorbs( photon.getWavelength() )
+                               ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
+                               : GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER;
+                drawingCanvas.addGraphic( photonView, layer );
 
                 // reset counter
                 n = 0;
