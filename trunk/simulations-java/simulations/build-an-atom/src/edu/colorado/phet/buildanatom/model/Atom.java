@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomApplication;
+import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -134,7 +134,7 @@ public class Atom extends SimpleAtom {
 
     private void stepInTime( double simulationTimeChange ) {
         animationCount++;
-        if ( BuildAnAtomApplication.animateUnstableNucleusProperty.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
+        if ( DeveloperConfiguration.animateUnstableNucleusProperty.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
             // Jump away from the current location.
             unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
             jumpAway();
