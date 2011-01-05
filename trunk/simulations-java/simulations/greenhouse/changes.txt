@@ -1,3 +1,4 @@
+# 3.01.09 (47667) Jan 4, 2011
 Fixes for #2641
 -Override PhotonGraphic.paint to respect visibility flag
 -Always add graphic to drawingCanvas in BaseGreenhouseModule.PhotonEmitterListener.photonEmitted, since omission from the drawingCanvas (even when invisible) causes unfuddle bug #2641
