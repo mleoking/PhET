@@ -68,14 +68,22 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
 //        System.out.println( "gifToModelScale=" + gifToModelScale );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
 
+        //Draw the ice, if using ice model
+//        apparatusPanel.addGraphic( new Graphic() {
+//            public void paint( Graphics2D g2 ) {
+//                if ( isIceAge ) {
+//                    g2.setColor( new Color( 255,255,255 ) );
+//                    g2.fill( ice.getShape() );
+//                }
+//            }
+//        }, GreenhouseConfig.EARTH_BACKDROP_LAYER + 1E-6 );//add the ice graphic just in front of the backdrop, so photons will go in front of the ice
+
         // If the apparatus panel is resized, resize the backdrop graphic
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
                 if (newBounds.getWidth() > 0 && newBounds.getHeight() > 0){
-                	desiredImageWidth = newBounds.getWidth();
-                	
                     // Set and scale the proper backdrop
                     if ( currentBackdropImage != null ) {
                         setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, Y_OFFSET ) );
@@ -271,5 +279,17 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         }
         return reflectivity;
     }
+
+//    public double getReflectivityModelBased( Photon photon ) {
+//        double reflectivity = 0;
+//        if ( isIceAge &&
+//             backdropGraphic != null &&
+//             photon.getVelocity().getY() < 0 &&
+//             photon.getWavelength() == GreenhouseConfig.sunlightWavelength &&
+//             ice.contains( photon.getLocation() ) ) {
+//            reflectivity = 0.6;
+//        }
+//        return reflectivity;
+//    }
 
 }
