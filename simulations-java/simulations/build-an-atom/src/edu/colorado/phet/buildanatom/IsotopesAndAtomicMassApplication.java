@@ -2,6 +2,13 @@
 
 package edu.colorado.phet.buildanatom;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+
+import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.game.BuildAnAtomGameModule;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.InteractiveIsotopeModule;
@@ -31,8 +38,7 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public IsotopesAndAtomicMassApplication( PhetApplicationConfig config )
-    {
+    public IsotopesAndAtomicMassApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -65,7 +71,19 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        // Add developer menu items here.
+        JMenu developerMenu = frame.getDeveloperMenu();
+
+        // Add an item for controlling whether unstable nuclei are animated.
+        final JCheckBoxMenuItem animateNucleusCheckBox = new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
+            setSelected( DeveloperConfiguration.animateUnstableNucleusProperty.getValue() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    DeveloperConfiguration.animateUnstableNucleusProperty.setValue( isSelected() );
+                }
+            } );
+        }};
+
+        developerMenu.add( animateNucleusCheckBox );
     }
 
     /**

@@ -10,12 +10,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
+import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
 import edu.colorado.phet.buildanatom.modules.game.BuildAnAtomGameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -30,8 +30,6 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     private JCheckBoxMenuItem problemDialogVisibleControl;
-
-    public static final Property<Boolean> animateUnstableNucleusProperty = new Property<Boolean>( true );
 
     ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.createInstance( getPhetFrame() );
 
@@ -97,11 +95,12 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
             }
         });
 
+        // Add an item for controlling whether unstable nuclei are animated.
         final JCheckBoxMenuItem animateNucleusCheckBox = new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
-            setSelected( animateUnstableNucleusProperty.getValue() );
+            setSelected( DeveloperConfiguration.animateUnstableNucleusProperty.getValue() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    animateUnstableNucleusProperty.setValue( isSelected() );
+                    DeveloperConfiguration.animateUnstableNucleusProperty.setValue( isSelected() );
                 }
             } );
         }};
