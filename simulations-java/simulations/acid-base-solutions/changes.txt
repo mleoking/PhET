@@ -1,3 +1,4 @@
+# 1.00.05 (47683) Jan 5, 2011
 1/4/11 #2615, icon image file for concentration graph was out of sync with color changes, use programmatic icon generation so this doesn't happen again
 1/4/11 #2615, delete molecule image files and assets (molecules.svg), no longer needed
 # 1.00.04 (47514) Dec 29, 2010
