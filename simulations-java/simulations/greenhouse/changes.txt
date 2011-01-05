@@ -1,5 +1,7 @@
-# 3.01.08 (47646) Jan 4, 2011
-1/4/11 Fixed a recently introduced bug (which was never public) that caused the equilibrium temp on 1st tab to be too low.
+Fixes for #2641
+-Override PhotonGraphic.paint to respect visibility flag
+-Always add graphic to drawingCanvas in BaseGreenhouseModule.PhotonEmitterListener.photonEmitted, since omission from the drawingCanvas (even when invisible) causes unfuddle bug #2641
+-These fixes may cause more problems than they fix, they should be reviewed by JB and KP
 # 3.01.07 (47548) Dec 30, 2010
 12/30/10 Deploying to dev for review.
 Molecules & Light: Made the radio buttons larger for the wavelength selector.
