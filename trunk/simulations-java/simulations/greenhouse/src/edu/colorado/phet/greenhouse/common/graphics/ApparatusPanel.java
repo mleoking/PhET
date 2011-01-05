@@ -53,12 +53,12 @@ public class ApparatusPanel extends JPanel implements Observer {
     public static final double LAYER_DEFAULT = 0;
 
     // The map of graphic objects to be drawn in the panel
-    private MouseHandler mh;
-    private CompositeGraphic compositeGraphic = new CompositeGraphic();
+    private final MouseHandler mh;
+    private final CompositeGraphic compositeGraphic = new CompositeGraphic();
     private AffineTransformFactory mvTx;
     private AffineTransform affineTx;
     private AffineTransform inverseAffineTx;
-    private BasicStroke borderStroke = new BasicStroke( 1 );
+    private final BasicStroke borderStroke = new BasicStroke( 1 );
 
 
     /**
@@ -88,6 +88,7 @@ public class ApparatusPanel extends JPanel implements Observer {
         addMouseMotionListener( mh );
 
         addComponentListener( new ComponentAdapter() {
+            @Override
             public void componentResized( ComponentEvent e ) {
                 updateTransform();
             }
@@ -113,6 +114,7 @@ public class ApparatusPanel extends JPanel implements Observer {
      *
      * @param graphics
      */
+    @Override
     protected void paintComponent( Graphics graphics ) {
 
         Graphics2D g2 = (Graphics2D) graphics;
@@ -179,18 +181,22 @@ public class ApparatusPanel extends JPanel implements Observer {
     private class MouseHandler
             extends MouseInputAdapter {
 
+        @Override
         public void mousePressed( MouseEvent e ) {
             compositeGraphic.mousePressed( e, getModelLoc( e.getPoint() ) );
         }
 
+        @Override
         public void mouseReleased( MouseEvent e ) {
             compositeGraphic.mouseReleased( e, getModelLoc( e.getPoint() ) );
         }
 
+        @Override
         public void mouseDragged( MouseEvent e ) {
             compositeGraphic.mouseDragged( e, getModelLoc( e.getPoint() ) );
         }
 
+        @Override
         public void mouseMoved( MouseEvent e ) {
             compositeGraphic.mouseMoved( e, getModelLoc( e.getPoint() ) );
         }
@@ -200,5 +206,13 @@ public class ApparatusPanel extends JPanel implements Observer {
             inverseAffineTx.transform( viewLoc, modelLoc );
             return modelLoc;
         }
+    }
+
+    /**
+     * @param location
+     * @return
+     */
+    public Point2D modelToView( Point2D location ) {
+        return affineTx.transform( location, null );
     }
 }
