@@ -186,7 +186,6 @@ public class CreditsDialog extends PaintImmediateDialog {
             }
             catch( IOException e ) {
                 System.err.println( getClass().getName() + ": missing " + resourceName );
-//                e.printStackTrace();
             }
             return creditsString;
         }
@@ -230,7 +229,7 @@ public class CreditsDialog extends PaintImmediateDialog {
 
         public String createHTMLFragment() {
             String credits = readCredits();
-            if ( credits != null && credits.length() != 0 ) {
+            if ( credits != null ) {
                 return "<b>" + TITLE + "</b><br><br>" + credits + "<br>";
             }
             else {
@@ -338,7 +337,6 @@ public class CreditsDialog extends PaintImmediateDialog {
                 // shouldn't happen for sims generated with the build process; license info is copied automatically.
                 System.err.println( getClass().getName() + ": missing  " + resourceName +
                         " - Did you generate license info for this sim, using PhetBuildGUI->Misc->Generate License Info ?" );
-//                e.printStackTrace();
             }
             return licenseString;
         }
@@ -369,7 +367,6 @@ public class CreditsDialog extends PaintImmediateDialog {
                 text = new DefaultResourceLoader().getResourceAsString( resourceName );
             }
             catch( Exception e ) {
-//                e.printStackTrace();
                 return "missing " + resourceName;
             }
 
