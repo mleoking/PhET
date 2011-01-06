@@ -7,6 +7,7 @@ import java.text.ParsePosition;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
+//DOC move this to phetcommon?
 /**
  * In Build an Atom, we need to always show the sign for positive and negative numbers (for the charge indication)
  * But never for zero, some examples: -2, -1, 0, +1, +2, etc.

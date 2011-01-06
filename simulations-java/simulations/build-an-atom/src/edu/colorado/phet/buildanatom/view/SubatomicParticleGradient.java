@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
+//DOC
 /**
  * @author Sam Reid
  */

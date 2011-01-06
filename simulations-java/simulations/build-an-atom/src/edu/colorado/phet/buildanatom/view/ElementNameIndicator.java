@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
+//DOC
 /**
  * @author Sam Reid
  * @author John Blanco
