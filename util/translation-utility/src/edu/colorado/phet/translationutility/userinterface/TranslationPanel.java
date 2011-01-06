@@ -117,7 +117,12 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
         row++;
 
         // sort the keys in ascending order
-        ArrayList<String> keysList = new ArrayList<String>( sourceProperties.stringPropertyNames() );
+        ArrayList<String> keysList = new ArrayList<String>();
+        for ( Object key : sourceProperties.keySet() ) {
+            if ( key instanceof String ) {
+                keysList.add( (String) key );
+            }
+        }
         Collections.sort( keysList );
 
         // Move translation credits to the top
