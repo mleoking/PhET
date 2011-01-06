@@ -4,6 +4,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 
+//DOC
 /**
  * @author Sam Reid
  * @author John Blanco

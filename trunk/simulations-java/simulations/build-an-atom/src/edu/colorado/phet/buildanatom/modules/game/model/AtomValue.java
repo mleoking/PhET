@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
 
 /**
  * Represents one row from the table defined in the design doc (see pools for level 1-3)

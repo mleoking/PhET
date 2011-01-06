@@ -1,11 +1,10 @@
-package edu.colorado.phet.buildanatom.modules.game.view;
+package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.IAtom;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
