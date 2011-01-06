@@ -5,7 +5,7 @@ package edu.colorado.phet.buildanatom.model;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
- * Class the represents an electron in the model.
+ * Class that represents an electron in the model.
  *
  * @author John Blanco
  */
