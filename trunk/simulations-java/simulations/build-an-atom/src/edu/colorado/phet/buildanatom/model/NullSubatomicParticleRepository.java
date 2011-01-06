@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.util.ArrayList;
 
+//DOC and more importantly, why is this instantiated and assigned to a final variable?
 /**
  * A null repository for subatomic particles.  This is always empty.
  *
