@@ -160,7 +160,7 @@ public abstract class BaseGreenhouseModule extends Module {
         Thermometer thermometer = new Thermometer( earth );
         thermometer.setLocation( new Point2D.Double( modelBounds.getX() + 2, .5 ) );
         model.addModelElement( thermometer );
-        thermometerGraphic = new ThermometerGraphic( getApparatusPanel(), thermometer );
+        thermometerGraphic = new ThermometerGraphic( thermometer );
 
         // Set initial conditions
         thermometerEnabled( false );
