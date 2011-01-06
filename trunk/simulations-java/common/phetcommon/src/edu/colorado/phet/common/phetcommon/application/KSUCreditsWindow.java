@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,7 +28,6 @@ public class KSUCreditsWindow extends JWindow {
 
     public KSUCreditsWindow( Frame parent ) {
         super( parent );
-        setBackground( Color.WHITE );
 
         JLabel label = new JLabel( TRANSLATED_BY );
         label.setFont( new PhetFont( 24 ) );
@@ -47,6 +45,7 @@ public class KSUCreditsWindow extends JWindow {
 
         // click on the window to make it go away
         addMouseListener( new MouseAdapter() {
+            @Override
             public void mousePressed( MouseEvent event ) {
                 dispose();
             }
