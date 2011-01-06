@@ -1,3 +1,5 @@
+# 0.02.00 (47710) Jan 6, 2011
+1/6/11 #2643, test revert and redeploy with sim-example
 1/6/11 #2643, test deploy process with sim-example
 # 0.01.02 (47651) Jan 4, 2011
 1/4/11 dev version for testing translation credits
