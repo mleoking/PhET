@@ -55,25 +55,26 @@ public class PhetApplicationLauncher {
      * then show a KSU-specific "splash" screen with credits.
      */
     private void showKSUCredits( PhetApplicationConfig config, Frame parent ) {
+        final JWindow window = new KSUCreditsWindow( parent );
+        SwingUtils.centerInParent( window );
+        window.setVisible( true );
+
+        /*
+        *  Dispose of ksuCreditsWindow after N seconds.
+        *  Take care to call dispose in the Swing thread.
+        */
+        Timer timer = new Timer( 4000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                window.dispose();
+            }
+        } );
+        timer.setRepeats( false );
+        timer.start();
+    }
+
+    private boolean shouldShowKSUCredits( PhetApplicationConfig config ) {
         String credits = config.getResourceLoader().getLocalizedProperties().getString( CreditsDialog.KSU_CREDITS_KEY, false /* warnIfMissing */ );
-        if ( !credits.equals( CreditsDialog.KSU_CREDITS_KEY ) ) {
-
-            final JWindow window = new KSUCreditsWindow( parent );
-            SwingUtils.centerInParent( window );
-            window.setVisible( true );
-
-            /*
-             *  Dispose of ksuCreditsWindow after N seconds.
-             *  Take care to call dispose in the Swing thread.
-             */
-            Timer timer = new Timer( 4000, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    window.dispose();
-                }
-            } );
-            timer.setRepeats( false );
-            timer.start();
-        }
+        return !credits.equals( CreditsDialog.KSU_CREDITS_KEY );
     }
 
     public void launchSim( String[] commandLineArgs, String project, final Class phetApplicationClass ) {
@@ -146,7 +147,9 @@ public class PhetApplicationLauncher {
                         disposeSplashWindow();
 
                         // show KSU credits
-                        showKSUCredits( config, app.getPhetFrame() );
+                        if ( shouldShowKSUCredits( config ) ) {
+                            showKSUCredits( config, app.getPhetFrame() );
+                        }
 
                         //Ignore statistics and updates for sims that are still under development
                         if ( app.getSimInfo().getVersion().getMajorAsInt() >= 1 ) {
