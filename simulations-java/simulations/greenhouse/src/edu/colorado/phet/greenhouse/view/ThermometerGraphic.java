@@ -19,7 +19,7 @@ import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.model.Thermometer;
 
-public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
+public class ThermometerGraphic implements Graphic, Observer {
     private BufferedImage thermometerBody;
     private BufferedImage thermometerBackground;
     private double temperature;
@@ -31,7 +31,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     private BufferedImage thermometerBI;
     private AffineTransform scaleTx = new AffineTransform();
 
-    public ThermometerGraphic( Component component, Thermometer thermometer ) {
+    public ThermometerGraphic( Thermometer thermometer ) {
         thermometer.addObserver( this );
         this.thermometer = thermometer;
         thermometerBody = GreenhouseResources.getImage( "thermometer-2.png" );
@@ -39,31 +39,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         thermometerBI = new BufferedImage( thermometerBody.getWidth(),
                                            thermometerBody.getHeight(),
                                            BufferedImage.TYPE_INT_ARGB );
-
-        component.addComponentListener( new ComponentAdapter() {
-            boolean init;
-            Rectangle2D origBounds;
-
-            public void componentResized( ComponentEvent e ) {
-            	Rectangle2D bounds = e.getComponent().getBounds();
-                if ( !init && bounds.getWidth() > 0 && bounds.getHeight() > 0) {
-                	// Use the first reasonable value as our original width,
-                	// which will be used to scale this graphic if and when
-                	// the panel is resized.
-                    init = true;
-                    origBounds = e.getComponent().getBounds();
-                }
-                else if (init){
-                    double scale = bounds.getWidth() / origBounds.getWidth();
-                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
-                }
-            }
-        } );
         update();
-    }
-
-    public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
-        return false;
     }
 
     public void paint( Graphics2D g2 ) {
@@ -91,12 +67,11 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         // Move the thermometer graphic to where the thermometer model is
         thermometerTx.translate( location.getX() * orgTx.getScaleX() - thermometerBackground.getWidth() / 2,
                                  location.getY() * orgTx.getScaleY() );
-
         thermometerTx.concatenate( scaleTx );
 
         // Create the variable part of the thermometer: The red rectangle
-        double temperatureHeight = Math.max( 0, Math.min( ( temperature - GreenhouseConfig.earthBaseTemperature ) / 10, 3.5 ) );
-        temperatureHeight *= Math.abs( orgTx.getScaleY() );
+        double temperatureHeight = Math.max( 0, Math.min( ( temperature - GreenhouseConfig.earthBaseTemperature ) / 10, 3.5 ) )
+                                   *34;//increase the size so the result is visible in pixels, fine tuned for consistency with 3.01.00 version
         int redColumnXLoc = 20;
         Rectangle2D.Double temperatureRect = new Rectangle2D.Double( redColumnXLoc,
                                                                      thermometerBackground.getHeight() - 55 - temperatureHeight,
@@ -106,10 +81,10 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         // Draw everything
         Graphics2D gbi = (Graphics2D) thermometerBI.getGraphics();
         gbi.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
-        gbi.drawImage( thermometerBackground, 0, 0, this );
+        gbi.drawImage( thermometerBackground, 0, 0, null );
         gbi.setColor( Color.RED );
         gbi.fill( temperatureRect );
-        gbi.drawImage( thermometerBody, 0, 0, this );
+        gbi.drawImage( thermometerBody, 0, 0, null );
 
         // Temperatures
         gbi.setFont( temperatureFont );
@@ -153,7 +128,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         gbi.dispose();
 
         // Draw it
-        g2.drawImage( thermometerBI, thermometerTx, this );
+        g2.drawImage( thermometerBI, thermometerTx, null );
     }
 
     private double kelvinToFahrenheit( double k ) {
