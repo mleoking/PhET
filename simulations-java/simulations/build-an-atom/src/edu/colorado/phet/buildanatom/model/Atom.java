@@ -240,7 +240,7 @@ public class Atom extends SimpleAtom {
             removedElectron = electronShell1.removeElectron( electron );
         }
         else if ( electronShell2.containsElectron( electron )){
-            removedElectron = electronShell1.removeElectron( electron );
+            removedElectron = electronShell2.removeElectron( electron );
         }
         super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
         return removedElectron;
