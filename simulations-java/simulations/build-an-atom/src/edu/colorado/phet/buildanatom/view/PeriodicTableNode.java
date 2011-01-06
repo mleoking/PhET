@@ -45,7 +45,7 @@ public class PeriodicTableNode extends PNode {
 
     /**
      * Constructor.
-     * @param backgroundColor TODO
+     * @param backgroundColor
      */
     public PeriodicTableNode( final IAtom atom, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
@@ -477,15 +477,18 @@ public class PeriodicTableNode extends PNode {
 
     public class ElementCell extends PNode {
         private final int atomicNumber;
+        private final PText text;
+        private final PhetPPath box;
+        private boolean disabledLooking = false;
 
         public ElementCell( final IAtom atom, final int atomicNumber, final Color backgroundColor ) {
             this.atomicNumber = atomicNumber;
-            final PhetPPath box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
+            box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
                     backgroundColor, new BasicStroke( 1 ), Color.black );
             addChild( box );
 
             String abbreviation = getElementAbbreviation( atomicNumber );
-            final PText text = new PText( abbreviation );
+            text = new PText( abbreviation );
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
                     box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
@@ -500,9 +503,15 @@ public class PeriodicTableNode extends PNode {
                         ElementCell.this.moveToFront();
                     }
                     else {
-                        box.setStroke( new BasicStroke( 1 ) );
-                        box.setStrokePaint( Color.BLACK );
-                        box.setPaint( backgroundColor );
+                        if ( !disabledLooking ){
+                            box.setStroke( new BasicStroke( 1 ) );
+                            box.setStrokePaint( Color.BLACK );
+                            box.setPaint( backgroundColor );
+                        }
+                        else{
+                            text.setTextPaint( Color.LIGHT_GRAY );
+                            box.setStrokePaint( Color.LIGHT_GRAY );
+                        }
                     }
                 }
             } );
@@ -510,6 +519,12 @@ public class PeriodicTableNode extends PNode {
 
         public int getAtomicNumber() {
             return atomicNumber;
+        }
+
+        // TODO: This is prototype.  Should come up with a better way to make the cells look disabled once we have
+        // figured out how they should look.
+        public void setDisabledLooking( boolean disabledLooking ){
+            this.disabledLooking = disabledLooking;
         }
     }
 }

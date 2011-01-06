@@ -78,55 +78,32 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the interactive periodic table that allows the user to select
         // the initial element.
+        // TODO: Turn this into a class rather than having this big override here.
         final PeriodicTableNode periodicTableNode = new PeriodicTableNode( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
             @Override
             protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
-                elementCell.addInputEventListener( new CursorHandler() );
-                elementCell.addInputEventListener( new PBasicInputEventHandler() {
-                    @Override
-                    public void mousePressed( PInputEvent event ) {
-                        int numProtons = elementCell.getAtomicNumber();
-                        int numNeutrons = elementCell.getAtomicNumber();
-                        int numElectrons = elementCell.getAtomicNumber();
-                        AtomValue atomConfig = new AtomValue(numProtons, numNeutrons, numElectrons);
+                if ( elementCell.getAtomicNumber() <= 10 ){
+                    elementCell.addInputEventListener( new CursorHandler() );
+                    elementCell.addInputEventListener( new PBasicInputEventHandler() {
+                        @Override
+                        public void mousePressed( PInputEvent event ) {
+                            int numProtons = elementCell.getAtomicNumber();
+                            int numNeutrons = elementCell.getAtomicNumber();
+                            int numElectrons = elementCell.getAtomicNumber();
+                            AtomValue atomConfig = new AtomValue(numProtons, numNeutrons, numElectrons);
 
-                        model.setAtomConfiguration( atomConfig );
-                    }
-                } );
+                            model.setAtomConfiguration( atomConfig );
+                        }
+                    } );
+                }
+                else{
+                    elementCell.setDisabledLooking( true );
+                }
             }
         };
         periodicTableNode.setScale( 1.4 );
         periodicTableNode.setOffset( 20, 20 );
         addScreenChild( periodicTableNode );
-
-        // TODO: These buttons are for unit test purposes and should
-        /*
-        // eventually be removed.
-        ButtonNode testButton1 = new ButtonNode("Helium");
-        testButton1.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.setAtomConfiguration( new AtomValue(2, 2, 2) );
-            }
-        });
-        testButton1.setOffset( 100, 50 );
-        addWorldChild( testButton1 );
-        ButtonNode testButton2 = new ButtonNode("Lithium");
-        testButton2.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.setAtomConfiguration( new AtomValue(3, 4, 3) );
-            }
-        });
-        testButton2.setOffset( 100, 100 );
-        addWorldChild( testButton2 );
-        ButtonNode testButton3 = new ButtonNode("Clear");
-        testButton3.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                model.setAtomConfiguration( new AtomValue(0, 0, 0) );
-            }
-        });
-        testButton3.setOffset( 100, 150 );
-        addWorldChild( testButton3 );
-        */
 
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
