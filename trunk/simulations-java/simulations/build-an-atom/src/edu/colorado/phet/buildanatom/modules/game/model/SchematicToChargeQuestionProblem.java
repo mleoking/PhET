@@ -4,7 +4,6 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToChargeQuestionView;
-import edu.colorado.phet.buildanatom.modules.game.view.SchematicToMassQuestionView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
