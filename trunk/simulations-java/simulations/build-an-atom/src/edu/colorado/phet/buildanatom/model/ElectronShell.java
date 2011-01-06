@@ -7,6 +7,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+//DOC
 /**
  * @author John Blanco
  */
