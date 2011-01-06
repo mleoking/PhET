@@ -15,6 +15,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
+//DOC and move to phetcommon?
 /**
  * Adapted from RoundGradientPaint in phetcommon
  * <p/>
