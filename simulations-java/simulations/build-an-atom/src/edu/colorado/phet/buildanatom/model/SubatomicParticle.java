@@ -144,6 +144,7 @@ public abstract class SubatomicParticle {
         return radius;
     }
 
+    //DOC better doc for is/set methods or userControlled
     public boolean isUserControlled() {
         return userControlled.getValue();
     }
