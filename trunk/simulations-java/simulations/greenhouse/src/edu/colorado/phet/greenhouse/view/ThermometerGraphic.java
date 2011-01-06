@@ -1,9 +1,3 @@
-/**
- * Class: ThermometerGraphic
- * Package: edu.colorado.phet.microwave
- * Author: Another Guy
- * Date: Sep 30, 2003
- */
 package edu.colorado.phet.greenhouse.view;
 
 import java.awt.*;
@@ -26,8 +20,6 @@ import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.model.Thermometer;
 
 public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
-
-
     private BufferedImage thermometerBody;
     private BufferedImage thermometerBackground;
     private double temperature;
@@ -38,7 +30,6 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     private Font temperatureFont = new Font( "sanserif", Font.BOLD, 14 );
     private BufferedImage thermometerBI;
     private AffineTransform scaleTx = new AffineTransform();
-
 
     public ThermometerGraphic( Component component, Thermometer thermometer ) {
         thermometer.addObserver( this );
@@ -71,11 +62,9 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         update();
     }
 
-    public boolean imageUpdate( Image img, int infoflags,
-                                int x, int y, int width, int height ) {
+    public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
         return false;
     }
-
 
     public void paint( Graphics2D g2 ) {
 
@@ -149,7 +138,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
             units = GreenhouseResources.getString( "ThermometerGraphic.FahrenheitUnits" );
         }
         else if ( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.CELSIUS ) {
-            nonKelvinTemperature = kelvinToCelcius( thermometer.getTemperature() );
+            nonKelvinTemperature = kelvinToCelsius( thermometer.getTemperature() );
             units = GreenhouseResources.getString( "ThermometerGraphic.CelsiusUnits" );
         }
         s = formatter.format( nonKelvinTemperature ) + units;
@@ -167,42 +156,15 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         g2.drawImage( thermometerBI, thermometerTx, this );
     }
 
-
     private double kelvinToFahrenheit( double k ) {
         double f = ( ( k - 273.15 ) * 1.8 ) + 32;
         return f;
     }
 
-    private double kelvinToCelcius( double k ) {
+    private double kelvinToCelsius( double k ) {
         double c = k - 273.15;
         return c;
     }
-
-    // Attempt to get things to draw properly by delaying this to the end of the Swing thread cycle.
-//    private class Drawer implements Runnable {
-//        private Graphics2D g2;
-//        private BufferedImage background;
-//        private Shape var;
-//        private BufferedImage body;
-//        private AffineTransform tx;
-//        private ImageObserver io;
-//
-//        Drawer( Graphics2D g2, BufferedImage background, Shape var, BufferedImage body, AffineTransform tx, ImageObserver io ) {
-//
-//            this.g2 = g2;
-//            this.background = background;
-//            this.var = var;
-//            this.body = body;
-//            this.tx = tx;
-//            this.io = io;
-//        }
-//
-//        public void run() {
-//            g2.drawImage( background, tx, io );
-//            g2.fill( tx.createTransformedShape( var ) );
-//            g2.drawImage( body, tx, io );
-//        }
-//    }
 
     public void update( Observable o, Object arg ) {
         if ( o instanceof Thermometer ) {
@@ -215,4 +177,3 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         location.setLocation( thermometer.getLocation() );
     }
 }
-
