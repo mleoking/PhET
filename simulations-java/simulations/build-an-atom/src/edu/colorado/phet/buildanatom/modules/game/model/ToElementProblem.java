@@ -1,5 +1,6 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+//DOC
 /**
  * @author Sam Reid
  */

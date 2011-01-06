@@ -10,6 +10,7 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
+//DOC "pool" is mentioned many times, what is it?
 /**
  * The primary model for the Build an Atom game.  This class sequences the
  * game and sends out events when the game state changes.

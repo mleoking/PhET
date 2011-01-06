@@ -4,6 +4,7 @@ import edu.colorado.phet.buildanatom.modules.game.view.SchematicToElementView;
 import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
+//DOC
 /**
  * @author Sam Reid
  */

@@ -191,6 +191,7 @@ public class SubatomicParticleBucket {
         return containedParticles;
     }
 
+    //DOC
     private Point2D getFirstOpenLocation() {
         Point2D openLocation = new Point2D.Double();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
@@ -233,6 +234,7 @@ public class SubatomicParticleBucket {
         return openLocation;
     }
 
+    //DOC what is a layer?
     private double getYPositionForLayer( int layer ) {
         double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866 + yOffset;
         return yPos;
@@ -249,6 +251,7 @@ public class SubatomicParticleBucket {
         }
     }
 
+    //DOC
     private boolean isDangling( SubatomicParticle containedParticle ) {
         boolean upperLayer = containedParticle.getDestination().getY() > getYPositionForLayer( 0 );
         return upperLayer && countSupportingParticles(containedParticle)<2;
