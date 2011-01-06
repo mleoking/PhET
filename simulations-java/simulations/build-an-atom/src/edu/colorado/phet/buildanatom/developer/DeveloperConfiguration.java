@@ -12,5 +12,5 @@ import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
  */
 public class DeveloperConfiguration {
 
-    public static final BooleanProperty animateUnstableNucleusProperty = new BooleanProperty( true );
+    public static final BooleanProperty ANIMATE_UNSTABLE_NUCLEUS_PROPERTY = new BooleanProperty( true );
 }

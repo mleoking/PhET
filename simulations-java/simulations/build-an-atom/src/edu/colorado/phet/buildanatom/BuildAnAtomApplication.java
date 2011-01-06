@@ -97,10 +97,10 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
 
         // Add an item for controlling whether unstable nuclei are animated.
         final JCheckBoxMenuItem animateNucleusCheckBox = new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
-            setSelected( DeveloperConfiguration.animateUnstableNucleusProperty.getValue() );
+            setSelected( DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.getValue() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    DeveloperConfiguration.animateUnstableNucleusProperty.setValue( isSelected() );
+                    DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.setValue( isSelected() );
                 }
             } );
         }};
