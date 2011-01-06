@@ -44,6 +44,8 @@ public class GAOStrings {
     public static final String THOUSAND_EARTH_MASSES = getString( "thousandEarthMasses" );
     public static final String THOUSAND_MILES = getString( "thousandMiles" );
     public static final String VELOCITY = getString( "velocity" );
+    public static final String ON = getString( "on" );
+    public static final String OFF = getString( "off" );
     //These strings not currently used, but may be put in as tooltips or labels later
     public static final String SUN_AND_PLANET = getString( "sunAndPlanet" );
     public static final String SUN_PLANET_AND_MOON = getString( "sunPlanetAndMoon" );
