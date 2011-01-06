@@ -6,6 +6,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SchematicToSymbolProblem;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 
+//DOC
 /**
  * @author Sam Reid
  * @author John Blanco

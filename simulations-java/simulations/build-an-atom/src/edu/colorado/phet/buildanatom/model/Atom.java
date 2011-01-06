@@ -6,7 +6,7 @@ import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
-import edu.colorado.phet.buildanatom.modules.game.view.SimpleAtom;
+import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;

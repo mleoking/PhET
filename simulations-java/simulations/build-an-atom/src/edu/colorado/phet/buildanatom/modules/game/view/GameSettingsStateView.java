@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+//DOC
 /**
 * @author Sam Reid
 */
