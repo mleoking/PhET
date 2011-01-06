@@ -1,3 +1,4 @@
+# 3.02.00 (47704) Jan 5, 2011
 # 3.01.10 (47703) Jan 5, 2011
 > Made thermometer graphic remain a fixed size, see #2647
 > Fixed: thermometer fluid level depends on screen size but not thermometer size, see #2647
