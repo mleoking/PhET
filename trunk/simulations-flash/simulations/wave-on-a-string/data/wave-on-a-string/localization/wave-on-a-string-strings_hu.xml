@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_hu.xml created Thu Jan 06 19:11:17 CET 2011 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="manual" value="Fogóval bárhogy"/>
+<string key="resetTimer" value="nulláz"/>
+<string key="damping" value="Csillapítás"/>
+<string key="simTitle" value="Hullámzó gyöngyfüzér"/>
+<string key="showHelp" value="Súgót mutat"/>
+<string key="pulse" value="Impulzussal"/>
+<string key="amplitude" value="Amplitúdó"/>
+<string key="pausePlay" value="állj/tovább"/>
+<string key="step" value="léptet"/>
+<string key="tension" value="Feszítőerő"/>
+<string key="startTimer" value="tovább/állj"/>
+<string key="pulseWidth" value="Impulzusidő"/>
+<string key="rulerHelp" value="mozgatható vonalzó"/>
+<string key="high" value="nagy"/>
+<string key="wiggleWrench" value="Mozgasd a fogót!"/>
+<string key="timer" value="Stopper"/>
+<string key="oscillate" value="Periodikusan"/>
+<string key="rulers" value="Vonalzók"/>
+<string key="frequency" value="Frekvencia"/>
+<string key="wrenchHelp" value="fel-le mozog"/>
+<string key="fixedEnd" value="Rögzített végű"/>
+<string key="refLineHelp" value="mozgatható vízszintes"/>
+<string key="hideHelp" value="Súgót elrejt"/>
+<string key="timerHelp" value="mozgatható stopper"/>
+<string key="looseEnd" value="Szabad végű"/>
+<string key="noEnd" value="Végtelen"/>
+<string key="paused" value="Megállítva!"/>
+<string key="reset" value="Helyére!"/>
+<string key="pulse2" value="Impulzust!"/>
+<string key="low" value="kicsi"/>
+</SimStrings>
