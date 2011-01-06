@@ -134,7 +134,7 @@ public class Atom extends SimpleAtom {
 
     private void stepInTime( double simulationTimeChange ) {
         animationCount++;
-        if ( DeveloperConfiguration.animateUnstableNucleusProperty.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
+        if ( DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
             // Jump away from the current location.
             unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
             jumpAway();
