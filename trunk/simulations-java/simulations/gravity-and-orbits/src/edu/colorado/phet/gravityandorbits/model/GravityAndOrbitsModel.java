@@ -141,5 +141,6 @@ public class GravityAndOrbitsModel {
         for ( Body body : bodies ) {
             body.resetAll();
         }
+        updateForceVectors();//has to be done separately since physics is computed as a batch
     }
 }
