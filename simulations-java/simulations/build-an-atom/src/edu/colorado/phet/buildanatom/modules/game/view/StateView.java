@@ -5,6 +5,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.State;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.umd.cs.piccolo.PNode;
 
+//DOC
 /**
 * @author Sam Reid
 */
