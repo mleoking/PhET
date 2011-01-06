@@ -85,24 +85,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 elementCell.addInputEventListener( new PBasicInputEventHandler() {
                     @Override
                     public void mousePressed( PInputEvent event ) {
-                        AtomValue atomConfig;
-                        switch ( elementCell.getAtomicNumber() ){
-                        case 1:
-                            atomConfig = new AtomValue(1, 0, 1);
-                            break;
-                        case 2:
-                            atomConfig = new AtomValue(2, 2, 2);
-                            break;
-                        case 3:
-                            atomConfig = new AtomValue(3, 4, 3);
-                            break;
-                        case 10:
-                            atomConfig = new AtomValue(10, 10, 10);
-                            break;
-                        default:
-                            atomConfig = new AtomValue(5, 5, 5);
-                            break;
-                        }
+                        int numProtons = elementCell.getAtomicNumber();
+                        int numNeutrons = elementCell.getAtomicNumber();
+                        int numElectrons = elementCell.getAtomicNumber();
+                        AtomValue atomConfig = new AtomValue(numProtons, numNeutrons, numElectrons);
 
                         model.setAtomConfiguration( atomConfig );
                     }
