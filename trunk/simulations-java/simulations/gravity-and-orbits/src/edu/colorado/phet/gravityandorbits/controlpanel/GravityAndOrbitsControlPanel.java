@@ -30,8 +30,6 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
 public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
     //TODO phetcommon doesn't have a general on/off, OK to use these, or should we generalize?
-    private static final String ON = PhetCommonResources.getInstance().getLocalizedString( "Games.radioButton.on" );
-    private static final String OFF = PhetCommonResources.getInstance().getLocalizedString( "Games.radioButton.off" );
 
     public static final Color BACKGROUND = new Color( 3, 0, 133 );
     public static final Color FOREGROUND = Color.white;
@@ -70,12 +68,12 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     setBackground( BACKGROUND );
                 }} );
                 add( Box.createRigidArea( new Dimension( 20, 1 ) ) );
-                add( new PropertyRadioButton<Boolean>( ON, module.getGravityEnabledProperty(), true ) {{
+                add( new PropertyRadioButton<Boolean>( GAOStrings.ON, module.getGravityEnabledProperty(), true ) {{
                     setFont( CONTROL_FONT );
                     setForeground( FOREGROUND );
                     setBackground( BACKGROUND );
                 }} );
-                add( new PropertyRadioButton<Boolean>( OFF, module.getGravityEnabledProperty(), false ) {{
+                add( new PropertyRadioButton<Boolean>( GAOStrings.OFF, module.getGravityEnabledProperty(), false ) {{
                     setFont( CONTROL_FONT );
                     setForeground( FOREGROUND );
                     setBackground( BACKGROUND );
