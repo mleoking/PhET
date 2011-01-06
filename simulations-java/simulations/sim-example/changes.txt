@@ -1,3 +1,5 @@
+# 0.02.00 (47708) Jan 6, 2011
+1/6/11 #2643, test deploy process with sim-example
 # 0.01.02 (47651) Jan 4, 2011
 1/4/11 dev version for testing translation credits
 # 0.01.01 (47594) Jan 3, 2011
