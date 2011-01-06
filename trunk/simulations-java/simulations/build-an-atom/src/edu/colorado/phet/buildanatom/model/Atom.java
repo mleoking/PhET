@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * This class represents that atom in the model.  It supplies static
+ * This class represents the atom in the model.  It supplies static
  * information such as the position of the atom, as well as dynamic
  * information such as the number of protons present.  This class contains and
  * tracks instances of subatomic particles, rather than just the numbers of
@@ -73,7 +73,7 @@ public class Atom extends SimpleAtom {
 
     // Used for animating the unstable nuclei.
     private int animationCount = 0;
-    private boolean isAway = false;
+    private boolean isAway = false; //DOC
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -134,6 +134,7 @@ public class Atom extends SimpleAtom {
 
     private void stepInTime( double simulationTimeChange ) {
         animationCount++;
+        //DOC this expression
         if ( DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
             // Jump away from the current location.
             unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
@@ -342,6 +343,7 @@ public class Atom extends SimpleAtom {
      * @param atomValue
      * @return
      */
+    //DOC change name to configurationMatches
     public boolean equals( AtomValue atomValue ){
         return getNumProtons() == atomValue.getNumProtons() &&
                getNumNeutrons() == atomValue.getNumNeutrons() &&
