@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -146,7 +145,7 @@ public class GravityAndOrbitsModel {
     }
 
     //Unexplodes and returns objects to the stage
-    public void returnObjects( ) {
+    public void returnObjects() {
         for ( Body body : bodies ) {
             body.returnBody();
         }

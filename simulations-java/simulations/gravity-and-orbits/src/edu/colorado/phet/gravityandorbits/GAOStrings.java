@@ -31,7 +31,7 @@ public class GAOStrings {
     public static final String OUR_MOON = getString( "ourMoon" );
     public static final String OUR_SUN = getString( "ourSun" );
     public static final String PATH = getString( "path" );
-    public static final String GRID= getString( "grid" );
+    public static final String GRID = getString( "grid" );
     public static final String PHYSICS = getString( "physics" );
     public static final String PLANET = getString( "planet" );
     public static final String REAL = getString( "real" );

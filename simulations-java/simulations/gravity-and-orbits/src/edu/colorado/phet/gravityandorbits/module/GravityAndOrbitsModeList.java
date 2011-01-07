@@ -111,7 +111,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty, EARTH_PERIHELION/2,new Point2D.Double( 0,0 ) ) {
+                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ) ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -121,7 +121,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty, EARTH_PERIHELION/2,new Point2D.Double( 0,0 ) ) {
+                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ) ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -140,7 +140,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                                        createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
                                        new Line2D.Double( EARTH_PERIHELION, -MOON_PERIGEE / 4, EARTH_PERIHELION + MOON_PERIGEE, -MOON_PERIGEE / 4 ), 400,
                                        new ImmutableVector2D( EARTH_PERIHELION, 0 ),
-                                       gravityEnabledProperty, MOON_PERIGEE/2, new Point2D.Double( EARTH_PERIHELION, 0) ) {
+                                       gravityEnabledProperty, MOON_PERIGEE / 2, new Point2D.Double( EARTH_PERIHELION, 0 ) ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -167,7 +167,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                                        SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
                                        new Line2D.Double( EARTH_PERIHELION, -EARTH_RADIUS / 6, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, -EARTH_RADIUS / 6 ),
                                        400 * 54, new ImmutableVector2D( EARTH_PERIHELION, 0 ),
-                                       gravityEnabledProperty, SPACE_STATION_PERIGEE*15, new Point2D.Double( EARTH_PERIHELION, 0)) {
+                                       gravityEnabledProperty, SPACE_STATION_PERIGEE * 15, new Point2D.Double( EARTH_PERIHELION, 0 ) ) {
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), planetCartoonDiameterScale * 1.5 * 1.5 / 54 );
 
             {
