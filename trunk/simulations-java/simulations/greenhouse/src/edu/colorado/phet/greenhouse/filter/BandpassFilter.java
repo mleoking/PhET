@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: BandpassFilter
  * Class: edu.colorado.phet.filter
