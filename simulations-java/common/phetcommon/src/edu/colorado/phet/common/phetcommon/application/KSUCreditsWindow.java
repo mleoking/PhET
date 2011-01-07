@@ -30,9 +30,9 @@ public class KSUCreditsWindow extends JWindow {
         super( parent );
 
         JLabel label = new JLabel( TRANSLATED_BY );
-        label.setFont( new PhetFont( 24 ) );
+        label.setFont( new PhetFont( 18 ) );
 
-        JLabel logo =  new JLabel( new ImageIcon( PhetCommonResources.getImage( ( "logos/ERCSME-logo.png" ) ) ) );
+        JLabel logo =  new JLabel( new ImageIcon( PhetCommonResources.getImage( ( "logos/ERCSME-logo.jpg" ) ) ) );
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         int margin = 18;

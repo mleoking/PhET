@@ -1,6 +1,8 @@
-1/7/2010 Updated copyright text and dates for phetcommon, see #2630
-1/7/2010 ModelViewTransform: added viewToModel(Shape) and factored out transform inversion code
-1/4/2010 added double buffering for the AWT splash screen, see #2617
+1/7/2011 change KSU credits logo from PNG to medium JPG compression, decreases file size to 18K, still looks good
+1/7/2011 change request: reduce size of KSU credits logo by 25%
+1/7/2011 Updated copyright text and dates for phetcommon, see #2630
+1/7/2011 ModelViewTransform: added viewToModel(Shape) and factored out transform inversion code
+1/4/2011 added double buffering for the AWT splash screen, see #2617
 1/3/2011 #2624, display KSU credits window during sim launch sequence
 1/3/2011 deprecated SwingUtils.centerDialogInParent, use more general SwingUtils.centerInParent
 1/3/2011 #2624, add ability to suppress warning when optional localized strings are missing
