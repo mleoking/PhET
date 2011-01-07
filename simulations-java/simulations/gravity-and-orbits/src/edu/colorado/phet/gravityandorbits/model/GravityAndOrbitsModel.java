@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -142,5 +143,12 @@ public class GravityAndOrbitsModel {
             body.resetAll();
         }
         updateForceVectors();//has to be done separately since physics is computed as a batch
+    }
+
+    //Unexplodes and returns objects to the stage
+    public void returnObjects( ) {
+        for ( Body body : bodies ) {
+            body.returnBody();
+        }
     }
 }
