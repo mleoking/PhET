@@ -35,6 +35,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
      */
     private final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
     private final Property<Boolean> showPathProperty = new Property<Boolean>( false );
+    private final Property<Boolean> showGridProperty = new Property<Boolean>( false );
     private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
@@ -112,6 +113,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Boolean> getShowPathProperty() {
         return showPathProperty;
+    }
+
+    public Property<Boolean> getShowGridProperty() {
+        return showGridProperty;
     }
 
     public Property<Boolean> getShowVelocityProperty() {
