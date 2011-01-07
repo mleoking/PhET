@@ -1,4 +1,4 @@
-/* Copyright 2006-2008, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
@@ -25,12 +25,6 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 
-/**
- * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
- *
- * @author Sam Reid
- * @author Chris Malley
- */
 public class PhetAboutDialog extends PaintImmediateDialog {
 
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.

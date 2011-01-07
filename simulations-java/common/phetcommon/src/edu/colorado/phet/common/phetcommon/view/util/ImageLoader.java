@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 /*
  * CVS Info -
@@ -18,19 +18,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-/**
- * Utility class for loading images.
- * <p/>
- * Copyright (c) Apr 16, 2003 by University of Colorado, PhET
- * This level of granularity is required because different loaders return different
- * pixel data, and the final result is highly dependent on that
- * and the conversion mechanism.
- * <p/>
- * All combinations do not return the same results.
- *
- * @author ?
- * @version $Revision$
- */
 public class ImageLoader {
 
     LoadStrategy loadStrategy;
