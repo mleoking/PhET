@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -62,13 +63,15 @@ public abstract class GravityAndOrbitsMode {
     //the play area only takes up the left side of the canvas; the control panel is on the right side
     private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60;
     private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
+    private double gridSpacing;//in meters
+    private Point2D.Double gridCenter;
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
                                  double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
-                                 Property<Boolean> gravityEnabledProperty ) {
+                                 Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter ) {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -78,6 +81,8 @@ public abstract class GravityAndOrbitsMode {
         this.initialMeasuringTapeLocation = initialMeasuringTapeLocation;
         this.zoomScale = zoomScale;
         this.zoomOffset = zoomOffset;
+        this.gridSpacing = gridSpacing;
+        this.gridCenter = gridCenter;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -235,5 +240,13 @@ public abstract class GravityAndOrbitsMode {
         for ( Body body : model.getBodies() ) {
             body.rewind();
         }
+    }
+
+    public double getGridSpacing() {
+        return gridSpacing;
+    }
+
+    public Point2D.Double getGridCenter() {
+        return gridCenter;
     }
 }

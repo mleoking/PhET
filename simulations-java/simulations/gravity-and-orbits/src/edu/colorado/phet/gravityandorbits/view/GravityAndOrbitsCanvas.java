@@ -98,6 +98,14 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( new ExplosionNode( body, modelViewTransformProperty ) );
         }
 
+        addChild( new GridNode( modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
+            module.getShowGridProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( module.getShowGridProperty().getValue() );
+                }
+            } );
+        }} );
+
         // Control Panel
         final GravityAndOrbitsControlPanel controlPanel = new GravityAndOrbitsControlPanel( module, model );
         final PNode controlPanelNode = new PNode() {{ //swing border looks truncated in pswing, so draw our own in piccolo

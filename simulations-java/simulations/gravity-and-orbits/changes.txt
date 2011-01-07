@@ -1,3 +1,4 @@
+Added a grid
 Added a "return object" button that allows the user to bring back a destroyed or lost object
 Improved drag handling by converting to a 1-D bisection root finding algorithm for inverting cartoon mapping
 Made checkbox-gray out a windows specific fix
