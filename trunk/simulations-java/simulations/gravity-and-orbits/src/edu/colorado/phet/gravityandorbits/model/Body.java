@@ -4,10 +4,12 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -56,6 +58,8 @@ public class Body implements IBodyColors {
     private String tickLabel;
 
     private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();
+    private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
+    private BooleanProperty returnable;
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
@@ -89,6 +93,20 @@ public class Body implements IBodyColors {
         collidedProperty = new ClockRewindProperty<Boolean>( clockPausedProperty, false );
         density = mass / getVolume();
         scaledPositionProperty = new Property<ImmutableVector2D>( getPosition() );
+
+        //Determine whether the object should be 'returnable', i.e. whether a 'return' button node
+        //is shown on the canvas that allows the user to bring back a destroyed or lost object
+        returnable = new BooleanProperty( false ) {{
+            final SimpleObserver obs = new SimpleObserver() {
+                public void update() {
+                    setValue( collidedProperty.getValue() || !bounds.getValue().contains( getPosition( scaleProperty.getValue() ).toPoint2D() ) );
+                }
+            };
+            bounds.addObserver( obs );
+            collidedProperty.addObserver( obs );
+            scaleProperty.addObserver( obs );
+            getPositionProperty().addObserver( obs );
+        }};
 
         //Synchronize the scaled position, which accounts for the scale
         final SimpleObserver updateScaledPosition = new SimpleObserver() {
@@ -422,6 +440,15 @@ public class Body implements IBodyColors {
         return new CartoonPositionMap( cartoonOffsetScale ).toReal( childCartoonPosition, getParent().getPosition() );
     }
 
+    //Unexplodes and returns objects to the stage
+    public void returnBody() {
+        if ( collidedProperty.getValue() || !bounds.getValue().contains( getPosition( scaleProperty.getValue() ).toPoint2D() ) ) {
+            setCollided( false );
+            positionProperty.reset();
+            velocityProperty.reset();
+        }
+    }
+
     public static class PathPoint {
         public final ImmutableVector2D point;
         public final ImmutableVector2D cartoonPoint;
@@ -447,5 +474,13 @@ public class Body implements IBodyColors {
 
     public double getCartoonForceScale() {
         return cartoonForceScale;
+    }
+
+    public Property<Shape> getBounds() {
+        return bounds;
+    }
+
+    public BooleanProperty getReturnable() {
+        return returnable;
     }
 }
