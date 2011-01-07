@@ -1,4 +1,5 @@
 
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import edu.colorado.phet.common.piccolophet.nodes.IncrementalPPath;

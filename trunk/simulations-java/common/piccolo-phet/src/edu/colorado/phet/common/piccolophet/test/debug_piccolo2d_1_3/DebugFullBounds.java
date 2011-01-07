@@ -1,4 +1,5 @@
 
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test.debug_piccolo2d_1_3;
 
 import java.awt.BasicStroke;

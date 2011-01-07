@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: TestPhetApplication
  * Package: edu.colorado.phet.common.examples
