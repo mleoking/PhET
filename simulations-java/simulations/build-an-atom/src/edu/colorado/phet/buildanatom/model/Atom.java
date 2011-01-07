@@ -7,11 +7,11 @@ import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
-import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  * @author Kevin Bacon
  */
-public class Atom extends SimpleAtom {
+public class Atom extends SimpleObservable implements IDynamicAtom {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -64,13 +64,9 @@ public class Atom extends SimpleAtom {
     private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
         public void update() {
             checkAndReconfigureShells();
-            updateElectronCount();
+            notifyObservers();
         }
     };
-
-    // Repository from which to draw particles if told to add them non-
-    // specifically, i.e. "addProton()" instead of "addProton( Proton )".
-    private final SubatomicParticleRepository subatomicParticleRepository = new NullSubatomicParticleRepository();
 
     // Used for animating the unstable nuclei.
     private int animationCount = 0;
@@ -87,19 +83,9 @@ public class Atom extends SimpleAtom {
     public Atom( Point2D position, BuildAnAtomClock clock ) {
         this.position.setLocation( position );
 
-        //Only need to listen for 'removal' notifications on the inner shell
-        //to decide when an outer electron should fall
+        // Only need to listen for 'removal' notifications on the inner shell
+        // to decide when an outer electron should fall
         electronShell1.addObserver( electronShellChangeObserver );
-
-        // Need to watch for changes to the number of electrons.
-        final SimpleObserver electronChangeAdapter = new SimpleObserver() {
-            public void update() {
-                setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
-            }
-        };
-        electronShell1.addObserver( electronChangeAdapter );
-        electronShell2.addObserver( electronChangeAdapter );
-        notifyObservers();
 
         clock.addClockListener( new ClockAdapter() {
 
@@ -177,17 +163,11 @@ public class Atom extends SimpleAtom {
         assert !( particle instanceof Electron ); // This method cannot be used to remove electrons.
         boolean particleFound = false;
         if ( particle instanceof Proton && protons.contains( particle ) ) {
-            particleFound = true;
-            protons.remove( particle );
-            super.setNumProtons( protons.size() );
+            removeProton( (Proton) particle );
         }
         else if ( particle instanceof Neutron && neutrons.contains( particle ) ) {
-            particleFound = true;
-            neutrons.remove( particle );
-            super.setNumNeutrons( neutrons.size() );
+            removeNeutron( (Neutron) particle );
         }
-        particle.removeListener( nucleonGrabbedListener );
-        reconfigureNucleus( false );
         return particleFound ? particle : null;
     }
 
@@ -196,9 +176,9 @@ public class Atom extends SimpleAtom {
      */
     public SubatomicParticle removeProton( Proton proton ) {
         boolean found = protons.remove( proton );
-        super.setNumProtons( protons.size() );
         proton.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
+        notifyObservers();
         return found ? proton : null;
     }
 
@@ -215,9 +195,9 @@ public class Atom extends SimpleAtom {
      */
     public SubatomicParticle removeNeutron( Neutron neutron ){
         boolean found = neutrons.remove( neutron );
-        super.setNumNeutrons( neutrons.size() );
         neutron.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
+        notifyObservers();
         return found ? neutron : null;
     }
 
@@ -243,7 +223,6 @@ public class Atom extends SimpleAtom {
         else if ( electronShell2.containsElectron( electron )){
             removedElectron = electronShell2.removeElectron( electron );
         }
-        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
         return removedElectron;
     }
 
@@ -258,7 +237,6 @@ public class Atom extends SimpleAtom {
         else {
             removedElectron = electronShell1.removeElectron();
         }
-        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
         return removedElectron;
     }
 
@@ -269,12 +247,6 @@ public class Atom extends SimpleAtom {
      */
     private void checkAndReconfigureShells() {
         checkAndReconfigureShells( electronShell1, electronShell2 );
-    }
-
-    private void updateElectronCount() {
-        // Update the count of electrons maintained in the super class.  This
-        // will cause any needed change notifications to be sent out.
-        super.setNumElectrons( electronShell1.getNumElectrons() + electronShell2.getNumElectrons() );
     }
 
     private void checkAndReconfigureShells( ElectronShell inner, ElectronShell outer ) {
@@ -295,7 +267,6 @@ public class Atom extends SimpleAtom {
         }
     }
 
-    @Override
     public void reset() {
         for ( Proton proton : protons ) {
             proton.removeListener( nucleonGrabbedListener );
@@ -311,9 +282,7 @@ public class Atom extends SimpleAtom {
         electronShell2.reset();
         electronShell1.reset();
 
-        // Call into the base class.  This will ultimately cause any resulting
-        // change notifications to be sent out.
-        super.reset();
+        notifyObservers();
     }
 
     public ArrayList<ElectronShell> getElectronShells() {
@@ -346,10 +315,9 @@ public class Atom extends SimpleAtom {
      */
     //DOC change name to configurationMatches
     public boolean equals( AtomValue atomValue ){
-        return getNumProtons() == atomValue.getNumProtons() &&
-               getNumNeutrons() == atomValue.getNumNeutrons() &&
-               getNumElectrons() == atomValue.getNumElectrons();
-
+        return protons.size() == atomValue.getNumProtons() &&
+               neutrons.size() == atomValue.getNumNeutrons() &&
+               electronShell1.getNumElectrons() + electronShell2.getNumElectrons() == atomValue.getNumElectrons();
     }
 
     public void addProton( final Proton proton, boolean moveImmediately ) {
@@ -364,75 +332,7 @@ public class Atom extends SimpleAtom {
 
         proton.addListener( nucleonGrabbedListener );
 
-        // Update count in super class.  This sends out the change notification.
-        super.setNumProtons( protons.size() );
-    }
-
-    @Override
-    public void setNumElectrons( int numElectrons ) {
-        int numElectronsInShells = electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
-        if ( numElectrons > numElectronsInShells ) {
-            // Attempt to get electrons from the repository to add to this
-            // atom until we have enough or run out.
-            for ( int i = 0; i < numElectrons - numElectronsInShells; i++ ) {
-                Electron electron = subatomicParticleRepository.getElectron();
-                if ( electron != null ) {
-                    addElectron( electron, true );
-                }
-                else {
-                    assert false;
-                    System.err.println( "Error: Not enough electrons available to allow set operation to succeed." );
-                    continue;
-                }
-            }
-        }
-        else if ( numElectrons < numElectronsInShells ) {
-            // Move electrons to the repository until the numbers match.
-            for ( int i = 0; i < numElectronsInShells - numElectrons; i++ ) {
-                subatomicParticleRepository.addElectron( removeElectron() );
-            }
-        }
-        super.setNumElectrons( numElectrons );
-    }
-
-    @Override
-    public void setNumNeutrons( int numNeutrons ) {
-        if ( numNeutrons > neutrons.size() ) {
-            // Attempt to get neutrons from the repository to add to this
-            // atom until we have enough or run out.
-            for ( int i = 0; i < numNeutrons - neutrons.size(); i++ ) {
-                Neutron neutron = subatomicParticleRepository.getNeutron();
-                if ( neutron != null ) {
-                    addNeutron( neutron, true );
-                }
-                else {
-                    assert false;
-                    System.err.println( "Error: Not enough neutrons available to allow set operation to succeed." );
-                    continue;
-                }
-            }
-        }
-        super.setNumNeutrons( numNeutrons );
-    }
-
-    @Override
-    public void setNumProtons( int numProtons ) {
-        if ( numProtons > protons.size() ) {
-            // Attempt to get protons from the repository to add to this
-            // atom until we have enough or run out.
-            for ( int i = 0; i < numProtons - protons.size(); i++ ) {
-                Neutron neutron = subatomicParticleRepository.getNeutron();
-                if ( neutron != null ) {
-                    addNeutron( neutron, true );
-                }
-                else {
-                    assert false;
-                    System.err.println( "Error: Not enough protons available to allow set operation to succeed." );
-                    continue;
-                }
-            }
-        }
-        super.setNumProtons( numProtons );
+        notifyObservers();
     }
 
     public void addNeutron( final Neutron neutron, boolean moveImmediately ) {
@@ -447,8 +347,7 @@ public class Atom extends SimpleAtom {
 
         neutron.addListener( nucleonGrabbedListener );
 
-        // Update count in super class.  This sends out the change notification.
-        super.setNumNeutrons( neutrons.size() );
+        notifyObservers();
     }
 
     public void addElectron( final Electron electron, boolean moveImmediately ) {
@@ -464,8 +363,7 @@ public class Atom extends SimpleAtom {
             assert false;
         }
 
-        // Update count in super class.  This sends out the change notification.
-        updateElectronCount();
+        notifyObservers();
     }
 
     /**
@@ -598,6 +496,26 @@ public class Atom extends SimpleAtom {
         return neutrons;
     }
 
+    public int getNumProtons(){
+        return protons.size();
+    }
+
+    public int getNumNeutrons(){
+        return neutrons.size();
+    }
+
+    public int getNumElectrons(){
+        return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
+    }
+
+    public int getMassNumber(){
+        return getNumProtons() + getNumNeutrons();
+    }
+
+    public double getAtomicMass(){
+        return AtomIdentifier.getAtomicMass( this );
+    }
+
     //For the game mode
     public ArrayList<SubatomicParticle> setState( AtomValue answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
         ArrayList<SubatomicParticle> removedParticles = new ArrayList<SubatomicParticle>();
@@ -621,6 +539,7 @@ public class Atom extends SimpleAtom {
         while ( getNumElectrons() < answer.getNumElectrons() ) {
             addElectron( model.getFreeElectron(), moveImmediately );
         }
+        notifyObservers();
         return removedParticles;
     }
 
@@ -644,4 +563,45 @@ public class Atom extends SimpleAtom {
             removeNucleon( particle );
         }
     };
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IDynamicAtom#toImmutableAtom()
+     */
+    public AtomValue toImmutableAtom() {
+        return new AtomValue( getNumProtons(), getNumNeutrons(), getNumElectrons() );
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getCharge()
+     */
+    public int getCharge() {
+        return getNumProtons() - getNumElectrons();
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getName()
+     */
+    public String getName() {
+        return AtomIdentifier.getName( this );
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getSymbol()
+     */
+    public String getSymbol() {
+        return AtomIdentifier.getSymbol( this );
+    }
+
+    public boolean isStable(){
+        return AtomIdentifier.isStable( this );
+    }
+
+    public String getFormattedCharge() {
+        if (getCharge() <= 0){
+            return "" + getCharge();
+        }
+        else{
+            return "+" + getCharge();
+        }
+    }
 }

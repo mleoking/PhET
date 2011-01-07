@@ -119,7 +119,7 @@ public class MassIndicatorNode extends PNode {
         // Add the test to the readout.
         final SimpleObserver readoutUpdater = new SimpleObserver() {
             public void update() {
-                readoutPText.setText( atom.getAtomicMassNumber() + "" );
+                readoutPText.setText( atom.getMassNumber() + "" );
                 readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY()-readoutPText.getFullBounds().getHeight()/2);
             }
         };

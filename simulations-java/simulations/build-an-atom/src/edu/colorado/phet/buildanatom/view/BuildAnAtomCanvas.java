@@ -140,6 +140,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
         rootNode.addChild( chargeWindow );
 
+        // Check boxes that control the visibility of the labels.
         PSwing showNameCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_ELEMENT_NAME, showName );
         showNameCheckBox.setOffset( chargeWindow.getFullBounds().getMinX(), chargeWindow.getFullBounds().getMaxY() + 5 );
         rootNode.addChild( showNameCheckBox );
@@ -170,6 +171,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         orbitalViewControl.setOffset( chargeWindow.getFullBounds().getMinX()-orbitalViewControl.getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
         rootNode.addChild( orbitalViewControl );
 
+        // Add the indicator for whether the atom is neutral or an ion.
         final IonIndicatorNode ionIndicatorNode = new IonIndicatorNode( model.getAtom(), showNeutralIon, 175);
         ionIndicatorNode.setOffset( elementIndicatorWindow.getFullBounds().getMinX() - ionIndicatorNode.getFullBounds().getWidth() - 10, elementIndicatorWindow.getFullBounds().getCenterY() - ionIndicatorNode.getFullBounds().getHeight() / 2 );
         rootNode.addChild( ionIndicatorNode );

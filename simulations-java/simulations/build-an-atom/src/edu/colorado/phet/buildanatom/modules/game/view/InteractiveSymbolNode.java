@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
@@ -90,7 +90,7 @@ public class InteractiveSymbolNode extends PNode {
             public void update() {
                 symbol.setText( protonCountProperty.getValue() == 0 ? "-" : PeriodicTableNode.getElementAbbreviation( protonCountProperty.getValue() ) );
                 symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, WIDTH / 2 - symbol.getFullBoundsReference().height / 2 );
-                elementName.setText( Atom.getName( protonCountProperty.getValue() ) );
+                elementName.setText( AtomIdentifier.getName( protonCountProperty.getValue() ) );
                 elementName.setOffset(
                         boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
                         boundingBox.getFullBoundsReference().getMaxY() + 5 );

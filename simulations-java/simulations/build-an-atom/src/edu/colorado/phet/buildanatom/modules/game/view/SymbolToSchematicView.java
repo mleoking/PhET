@@ -38,7 +38,7 @@ public class SymbolToSchematicView extends ProblemView {
                 true ), new BooleanProperty( true) );
         buildAnAtomModel.getAtom().addObserver( new SimpleObserver() {
             public void update() {
-                if ( buildAnAtomModel.getAtom().getNumParticles() > 0 ) {
+                if ( buildAnAtomModel.getAtom().getMassNumber() > 0 ) {
                     enableCheckButton();
                 }
             }

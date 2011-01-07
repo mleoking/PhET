@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.IAtom;
+import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -48,7 +48,7 @@ public class PeriodicTableNode extends PNode {
      * Constructor.
      * @param backgroundColor
      */
-    public PeriodicTableNode( final IAtom atom, Color backgroundColor ) {
+    public PeriodicTableNode( final IDynamicAtom atom, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
         //See http://www.ptable.com/
         final PNode table = new PNode();
@@ -73,7 +73,7 @@ public class PeriodicTableNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
-    private void addElement( final IAtom atom, final PNode table, int atomicNumber ) {
+    private void addElement( final IDynamicAtom atom, final PNode table, int atomicNumber ) {
         ElementCell elementCell = new ElementCell( atom, atomicNumber, backgroundColor );
         final Point gridPoint = getGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
@@ -482,7 +482,7 @@ public class PeriodicTableNode extends PNode {
         private final PhetPPath box;
         private boolean disabledLooking = false;
 
-        public ElementCell( final IAtom atom, final int atomicNumber, final Color backgroundColor ) {
+        public ElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             this.atomicNumber = atomicNumber;
             box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
                     backgroundColor, new BasicStroke( 1 ), Color.black );
