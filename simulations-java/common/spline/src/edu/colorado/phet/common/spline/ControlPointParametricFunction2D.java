@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.spline;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;

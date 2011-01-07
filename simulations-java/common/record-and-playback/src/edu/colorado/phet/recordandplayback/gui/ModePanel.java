@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.recordandplayback.gui;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
