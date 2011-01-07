@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: ModelViewTransform2D
  * Package: edu.colorado.phet.common.view.graphics

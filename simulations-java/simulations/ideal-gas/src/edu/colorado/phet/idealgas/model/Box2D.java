@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /*
  * User: Ron LeMaster
  * Date: Oct 18, 2002

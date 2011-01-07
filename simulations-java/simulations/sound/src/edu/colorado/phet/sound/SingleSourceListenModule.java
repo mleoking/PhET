@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: SingleSourceListenModule
  * Package: edu.colorado.phet.sound

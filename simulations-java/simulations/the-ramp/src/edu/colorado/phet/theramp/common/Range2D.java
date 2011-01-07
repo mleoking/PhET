@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.theramp.common;
 
 import java.awt.geom.Rectangle2D;

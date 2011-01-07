@@ -1,14 +1,7 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.model;
 
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid
- * Date: Aug 10, 2005
- * Time: 12:06:29 AM
- * Copyright (c) Aug 10, 2005 by Sam Reid
- */
 
 public class Particle {
     private double x;

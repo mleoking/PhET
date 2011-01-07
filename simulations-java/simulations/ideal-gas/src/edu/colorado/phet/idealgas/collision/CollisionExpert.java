@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: CollisionExpert
  * Package: edu.colorado.phet.collision

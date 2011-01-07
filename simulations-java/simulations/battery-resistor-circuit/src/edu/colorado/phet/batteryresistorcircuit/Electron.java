@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.batteryresistorcircuit;
 
 import edu.colorado.phet.batteryresistorcircuit.collisions.DefaultCollisionEvent;

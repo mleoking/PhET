@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
@@ -8,13 +8,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-/**
- * User: Sam Reid
- * Date: Aug 28, 2005
- * Time: 8:55:22 PM
- * Copyright (c) Aug 28, 2005 by Sam Reid
- */
 
 public class FinishedUnit2 extends Page {
     private PButton nextUnit;

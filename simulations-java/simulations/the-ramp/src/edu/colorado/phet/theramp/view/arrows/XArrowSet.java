@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;

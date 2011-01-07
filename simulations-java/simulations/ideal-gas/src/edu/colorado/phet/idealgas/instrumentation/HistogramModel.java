@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: HistogramModel
  * Class: edu.colorado.phet.graphics

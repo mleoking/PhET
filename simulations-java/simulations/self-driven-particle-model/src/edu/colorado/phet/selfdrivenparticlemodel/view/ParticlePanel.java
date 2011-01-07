@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -18,13 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid, test comment
- * Date: Aug 10, 2005
- * Time: 12:17:10 AM
- * Copyright (c) Aug 10, 2005 by Sam Reid
- */
 
 public class ParticlePanel extends PhetPCanvas {
     private ParticleModel particleModel;

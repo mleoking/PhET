@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 /*
  * CVS Info -
@@ -30,7 +30,7 @@ import java.text.NumberFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-/* Copyright 2003-2004, University of Colorado */
+
 
 
 public class ThermometerGraphic extends PNode {

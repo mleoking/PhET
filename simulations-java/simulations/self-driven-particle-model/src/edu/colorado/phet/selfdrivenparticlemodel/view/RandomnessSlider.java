@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -15,13 +15,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.text.DecimalFormat;
-
-/**
- * User: Sam Reid
- * Date: Aug 21, 2005
- * Time: 11:05:16 AM
- * Copyright (c) Aug 21, 2005 by Sam Reid
- */
 
 public class RandomnessSlider extends ModelSlider {
     private ParticleModel particleModel;

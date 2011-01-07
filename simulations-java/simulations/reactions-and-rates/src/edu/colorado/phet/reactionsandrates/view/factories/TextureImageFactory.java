@@ -1,10 +1,4 @@
-/**
- * Copyright (C) 2007 - University of Colorado
- *
- * User: New Admin
- * Date: Feb 6, 2007
- * Time: 3:47:28 PM
- */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.reactionsandrates.view.factories;
 

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
@@ -7,13 +7,6 @@ import edu.umd.cs.piccolo.PNode;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid
- * Date: Aug 10, 2005
- * Time: 12:18:56 AM
- * Copyright (c) Aug 10, 2005 by Sam Reid
- */
 
 public class ParticleGraphicWithTail extends PNode {
     private ParticleGraphic[] particleGraphics;

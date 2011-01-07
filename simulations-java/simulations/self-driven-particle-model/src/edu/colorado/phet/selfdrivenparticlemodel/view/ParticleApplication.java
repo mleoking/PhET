@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
@@ -8,13 +8,6 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
-
-/**
- * User: Sam Reid
- * Date: Aug 10, 2005
- * Time: 12:20:12 AM
- * Copyright (c) Aug 10, 2005 by Sam Reid, comment
- */
 
 public class ParticleApplication implements IParticleApp {
     private JFrame frame;

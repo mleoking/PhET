@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
@@ -8,13 +8,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-
-/**
- * User: Sam Reid
- * Date: Aug 10, 2005
- * Time: 12:18:56 AM
- * Copyright (c) Aug 10, 2005 by Sam Reid
- */
 
 public class ParticleInfluenceGraphic extends PNode {
     private Particle p;

@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: SetFreqencyCmd Class: edu.colorado.phet.emf.command User: Ron LeMaster
  * Date: Jun 5, 2003 Time: 6:08:50 AM

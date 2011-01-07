@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: CubicSpline Package: edu.colorado.phet.emf.view.graphics Author: Tim
  * Lambert See: http://www.cse.unsw.edu.au/~lambert/ See:

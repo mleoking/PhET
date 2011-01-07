@@ -1,12 +1,5 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.experiment;
-
-/**
- * User: Sam Reid
- * Date: Aug 21, 2005
- * Time: 1:04:08 AM
- * Copyright (c) Aug 21, 2005 by Sam Reid
- */
 
 public class Experiment {
 //    ValueReader valueReader;

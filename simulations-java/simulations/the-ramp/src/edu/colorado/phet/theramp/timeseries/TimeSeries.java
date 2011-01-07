@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /*PhET, 2004.*/
 package edu.colorado.phet.theramp.timeseries;
 

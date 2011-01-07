@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: SetAmplitudeCmd Package: edu.colorado.phet.emf.command Author: Another
  * Guy Date: Jun 25, 2003

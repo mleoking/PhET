@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.electrichockey;
 
 //edu.colorado.phet.ehockey.ElectricHockeyArrow.class  M.Dubson 5/30/02  Draws a nice arrow.

@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: PeriodicFunction
  * Package: edu.colorado.phet.waves.model

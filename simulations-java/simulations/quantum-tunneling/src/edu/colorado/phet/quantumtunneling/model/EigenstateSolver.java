@@ -1,39 +1,6 @@
 
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.quantumtunneling.model;
-
-/*
- ************************************************************************
- * NOTE!
- * 
- * This code was modified for use with PhET Quantum Tunneling simulation.
- * The original copyright notice appears below.
- * The original code contained additional functionality that 
- * was needed by Quantum Tunneling, specifically the ability
- * to solve the wave function for a specified eigenstate.
- * 
- * ************************************************************************
- */
-
-/*
- Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
- We can be contacted at the addresses given in the Schroedinger.tex
- or other forms of the documentation.
- */
 
 /**
  * EigenstateSolver can be used to calculate eigenstate energies for a potential.

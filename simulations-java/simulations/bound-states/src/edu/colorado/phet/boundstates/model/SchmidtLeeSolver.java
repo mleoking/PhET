@@ -1,49 +1,7 @@
 
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.boundstates.model;
 
-/**
- * SchmidtLeeSolver calculates eigenstates and 1D Schrodinger wave functions
- * for a potential function.
- * <p>
- * This is a modified version of code written by Schmidt & Lee.
- * CHANGES:
- * <ul>  
- * <li>changed class name
- * <li>changed some method names for clarity
- * <li>changed some member data names for clarity
- * <li>added an inner exception type
- * <li>factored out constants
- * <li>added underscore prefix to member data names
- * <li>added/modified javadoc
- * <li>interface directly with BSAbstractPotential to calculate potential
- * <li>defer calculations until they are requested, instead of precalculating in constructor
- * <li>added more verbose warning messages when eigenstate solver fails
- * <li>added comment blocks
- * <li>reordered methods so that there is clear division between eigenstate solve and wave function solver
- * <li>decrease MAX_TRIES value to improve responsiveness of UI components
- * </ul>
- * <p>
- * Here is the original copyright notice:
- * <p>
- *  Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee
- *  
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *  
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *  
- *  We can be contacted at the addresses given in the Schroedinger.tex
- *  or other forms of the documentation.
- */
 public class SchmidtLeeSolver {
 
     //----------------------------------------------------------------------------

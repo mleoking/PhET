@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: DynamicFieldIsEnabledCmd Class: edu.colorado.phet.emf.command User:
  * Ron LeMaster Date: Jun 4, 2003 Time: 3:58:12 AM

@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.workenergy.view;
 
 import java.awt.geom.Point2D;

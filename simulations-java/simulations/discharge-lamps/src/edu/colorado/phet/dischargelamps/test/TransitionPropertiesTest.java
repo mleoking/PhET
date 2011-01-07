@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University of Colorado */
 
 /*

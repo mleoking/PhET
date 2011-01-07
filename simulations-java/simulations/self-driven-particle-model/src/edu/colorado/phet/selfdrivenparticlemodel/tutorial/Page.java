@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
@@ -7,13 +7,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.view.UniverseGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 2:05:18 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public abstract class Page {
     //    private double dy = 1;

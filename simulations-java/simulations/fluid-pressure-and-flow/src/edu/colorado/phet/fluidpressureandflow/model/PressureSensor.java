@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.model;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

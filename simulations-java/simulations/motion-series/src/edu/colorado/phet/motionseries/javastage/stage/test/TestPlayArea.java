@@ -1,4 +1,4 @@
-/* Copyright 2004-2010, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.motionseries.javastage.stage.test;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;

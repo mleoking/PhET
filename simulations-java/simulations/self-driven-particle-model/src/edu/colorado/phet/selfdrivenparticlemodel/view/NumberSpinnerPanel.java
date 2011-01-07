@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -6,13 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 10:13:20 PM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class NumberSpinnerPanel extends HorizontalLayoutPanel {
     private JSpinner numberSpinner;

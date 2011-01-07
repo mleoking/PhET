@@ -1,4 +1,4 @@
-/* Copyright 2008-2009, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.advancedacidbasesolutions.view.graph;
 

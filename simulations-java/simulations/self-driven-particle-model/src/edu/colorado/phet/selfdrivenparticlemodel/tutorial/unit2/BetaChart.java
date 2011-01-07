@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import org.jfree.chart.JFreeChart;
@@ -14,13 +14,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
-
-/**
- * User: Sam Reid
- * Date: Aug 25, 2005
- * Time: 11:33:35 PM
- * Copyright (c) Aug 25, 2005 by Sam Reid
- */
 
 public class BetaChart {
     private XYSeries meanSeries;

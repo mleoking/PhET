@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.umd.cs.piccolo.PNode;
@@ -8,13 +8,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 2:55:19 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class PButton extends PNode {
     private JButton button;

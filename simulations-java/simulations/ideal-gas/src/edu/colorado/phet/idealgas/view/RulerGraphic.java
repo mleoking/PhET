@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: RulerGraphic
  * Class: edu.colorado.phet.idealgas.view

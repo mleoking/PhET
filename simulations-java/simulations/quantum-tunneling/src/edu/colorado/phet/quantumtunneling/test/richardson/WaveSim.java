@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /*
  * Integrating the Schrodinger Wave Equation
  * John L. Richardson

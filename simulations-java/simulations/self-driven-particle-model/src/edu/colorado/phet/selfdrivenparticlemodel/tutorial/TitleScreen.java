@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
@@ -22,13 +22,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-/**
- * User: Sam Reid
- * Date: Aug 22, 2005
- * Time: 11:27:36 PM
- * Copyright (c) Aug 22, 2005 by Sam Reid
- */
 
 public class TitleScreen extends PSwingCanvas {
     private SelfDrivenParticleModelApplication tutorialApplication;

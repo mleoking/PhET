@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.signalcircuit;
 
 import edu.colorado.phet.signalcircuit.electron.wire1d.Force1d;

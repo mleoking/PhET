@@ -1,4 +1,5 @@
 
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Image;

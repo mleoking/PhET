@@ -1,11 +1,5 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.nuclearphysics.test;
-
-/* -------------------
- * BarChartDemo10.java
- * -------------------
- * (C) Copyright 2005, by Object Refinery Limited.
- *
- */
 
 import java.awt.Color;
 import java.awt.Dimension;

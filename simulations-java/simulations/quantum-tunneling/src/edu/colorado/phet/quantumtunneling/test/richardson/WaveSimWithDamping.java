@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /*
  * Version of Richardson's "WaveSim" with damping, 
  * to prevent periodic boundary conditions.

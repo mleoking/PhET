@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: SineWaveFunction
  * Package: edu.colorado.phet.sound.model

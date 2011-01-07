@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -7,13 +7,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.text.DecimalFormat;
-
-/**
- * User: Sam Reid
- * Date: Aug 25, 2005
- * Time: 12:39:43 AM
- * Copyright (c) Aug 25, 2005 by Sam Reid
- */
 
 public class InteractionRadiusControl extends ModelSlider {
     public InteractionRadiusControl( final ParticleModel model ) {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.experiment;
 
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
@@ -14,13 +14,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid
- * Date: Aug 21, 2005
- * Time: 1:09:24 AM
- * Copyright (c) Aug 21, 2005 by Sam Reid
- */
 
 public class JFreeChartExperiment2 {
     private long lastTime = 0;

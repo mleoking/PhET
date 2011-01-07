@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.electrichockey;
 
 //Mediator applet for Electric edu.colorado.phet.ehockey.HockeyModule

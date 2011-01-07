@@ -1,14 +1,7 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
-
-/**
- * User: Sam Reid
- * Date: Aug 28, 2005
- * Time: 8:59:54 PM
- * Copyright (c) Aug 28, 2005 by Sam Reid
- */
 
 public class Unit3 implements AbstractUnit {
     private PageMaker[] pageMakers;
