@@ -78,7 +78,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
     }
 
     public AtomValue getAtomValue() {
-        return model.getAtom().toAtomValue();
+        return model.getAtom().toImmutableAtom();
     }
 
     public void setAtomValue( AtomValue answer ) {
@@ -91,7 +91,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             model.getAtom().addObserver( new SimpleObserver() {
                 public void update() {
                     // Only visible when there are no nucleons in the atom.
-                    setVisible (model.getAtom().getAtomicMassNumber() == 0);
+                    setVisible (model.getAtom().getMassNumber() == 0);
                 }
             });
 

@@ -12,7 +12,8 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
-import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
+import edu.colorado.phet.buildanatom.model.IAtom;
+import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,7 +32,7 @@ public class ChargeIndicatorNode extends PNode {
 
     private static final double WIDTH = 90;
 
-    public ChargeIndicatorNode( final SimpleAtom atom ) {
+    public ChargeIndicatorNode( final IDynamicAtom atom ) {
         final PImage chargeMeterImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_charge_meter_no_window.png" ) );
         chargeMeterImageNode.setScale( WIDTH / chargeMeterImageNode.getFullBoundsReference().width );
         addChild ( chargeMeterImageNode );
@@ -126,7 +127,7 @@ public class ChargeIndicatorNode extends PNode {
         }});
     }
 
-    private Paint getTextPaint( SimpleAtom atom ) {
+    private Paint getTextPaint( IAtom atom ) {
         if ( atom.getCharge() == 0 ) {
             return Color.black;
         }

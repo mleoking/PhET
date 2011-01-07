@@ -10,8 +10,10 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.*;
-import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
+import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.buildanatom.model.Neutron;
+import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -37,7 +39,7 @@ public class ParticleCountLegend extends PNode {
     //Another way to solve this would be to factor out a parent class from NeutronNode that just does rendering (i.e. doesn't need a reference to a Neutron)
     private static final ConstantDtClock NO_CLOCK = new ConstantDtClock( 1000, 1 );
 
-    public ParticleCountLegend( final Atom atom ) {
+    public ParticleCountLegend( final IDynamicAtom atom ) {
         final ReadoutLegendItem protonItem = new ReadoutLegendItem( BuildAnAtomStrings.PROTONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumProtons();
@@ -106,7 +108,7 @@ public class ParticleCountLegend extends PNode {
         private final Getter getter;
         private final PNodeFactory nodeFactory;
 
-        public ReadoutLegendItem( final String label, SimpleAtom atom, final Getter getter, final PNodeFactory nodeFactory ) {
+        public ReadoutLegendItem( final String label, IDynamicAtom atom, final Getter getter, final PNodeFactory nodeFactory ) {
             this.getter = getter;
             this.nodeFactory = nodeFactory;
             textNode = new PText( label ) {{setFont( BuildAnAtomConstants.ITEM_FONT );}};
