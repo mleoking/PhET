@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: AbstractPhotonEmitter
  * Package: edu.colorado.phet.greenhouse
