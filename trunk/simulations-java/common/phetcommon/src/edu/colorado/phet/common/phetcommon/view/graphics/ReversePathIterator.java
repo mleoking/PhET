@@ -1,31 +1,4 @@
-//See http://www.caff.de/rpi/index.html
-// ============================================================================
-// File:               ReversePathIterator.java
-//
-// Project:            General utilities.
-//
-// Purpose:            Is missing in java.awt.geom.
-//
-// Author:             Rammi
-//
-// Copyright Notice:   (c) 2005  Rammi (rammi@caff.de)
-//                     This code is in the public domain.
-//                     This usage of this code is allowed without any restrictions.
-//                     No guarantees are given whatsoever.
-//
-// Latest change:      $Date: 2005/02/08 11:59:19 $
-//
-// History:	       $Log: ReversePathIterator.java,v $
-// History:	       Revision 1.3  2005/02/08 11:59:19  rammi
-// History:	       Transferred into the public domain.
-// History:	
-// History:	       Revision 1.2  2005/02/07 18:58:45  rammi
-// History:	       Added optimizations
-// History:	
-// History:	       Revision 1.1  2005/01/25 14:17:20  rammi
-// History:	       First version
-// History:	
-//=============================================================================
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.graphics;
 
 import java.awt.Shape;

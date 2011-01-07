@@ -1,10 +1,4 @@
-/**
- * Copyright (C) 2007 - University of Colorado
- *
- * User: New Admin
- * Date: Feb 7, 2007
- * Time: 11:46:52 AM
- */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
