@@ -1,4 +1,5 @@
 
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark;
 
 import java.awt.event.ActionEvent;

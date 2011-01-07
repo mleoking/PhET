@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: EmfModel Package: edu.colorado.phet.emf.model Author: Another Guy
  * Date: May 27, 2003

@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.model;
 
 //http://www.physics.orst.edu/~rubin/CPbook/PROGS/J_PROGS/For_Students/RK4.java

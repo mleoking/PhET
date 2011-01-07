@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
@@ -8,13 +8,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 3:28:52 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class AddingRandomness50 extends Page {
     private PSwing pSwing;

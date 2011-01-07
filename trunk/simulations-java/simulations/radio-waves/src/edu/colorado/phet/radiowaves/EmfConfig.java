@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: Config Package: edu.colorado.phet.emf Author: Another Guy Date: May
  * 11, 2004

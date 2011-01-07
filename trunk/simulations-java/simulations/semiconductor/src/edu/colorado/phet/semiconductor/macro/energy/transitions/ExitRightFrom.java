@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.transitions;
 

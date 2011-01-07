@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
@@ -8,13 +8,6 @@ import edu.umd.cs.piccolox.nodes.PClip;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 12:33:23 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class UniverseGraphic extends PNode {
     private PClip particleLayer;

@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package jass.patches;
 
 import jass.engine.BufferNotAvailableException;

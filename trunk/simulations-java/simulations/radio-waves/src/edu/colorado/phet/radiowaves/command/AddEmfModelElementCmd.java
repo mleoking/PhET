@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: AddEmfModelElementCmd Package: edu.colorado.phet.command Author:
  * Another Guy Date: May 23, 2003

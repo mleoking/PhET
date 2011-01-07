@@ -1,17 +1,10 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import javax.swing.*;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 1:33:46 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class TutorialTextArea extends JTextArea {
     public TutorialTextArea() {

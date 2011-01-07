@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

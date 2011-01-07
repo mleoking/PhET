@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -12,13 +12,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-
-/**
- * User: Sam Reid
- * Date: Aug 25, 2005
- * Time: 11:27:24 PM
- * Copyright (c) Aug 25, 2005 by Sam Reid
- */
 
 public class PlotOrderParameterVsRandomness extends OrderParameter90 {
     //    private PButton plotButton;

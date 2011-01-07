@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 /*
  * CVS Info -
@@ -9,8 +9,6 @@
  * Date modified : $Date$
  */
 package edu.colorado.phet.mri.util;
-
-/* Copyright 2006, University of Colorado */
 
 /*
  * CVS Info -

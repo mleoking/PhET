@@ -1,17 +1,10 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
-
-/**
- * User: Sam Reid
- * Date: Aug 22, 2005
- * Time: 11:57:01 PM
- * Copyright (c) Aug 22, 2005 by Sam Reid
- */
 
 public class Unit {
     ArrayList pages = new ArrayList();

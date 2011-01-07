@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: WaveFunction
  * Package: edu.colorado.phet.sound.model

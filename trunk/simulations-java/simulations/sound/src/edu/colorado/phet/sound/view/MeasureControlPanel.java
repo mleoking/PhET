@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: MeasureControlPanel
  * Package: edu.colorado.phet.sound.view

@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 // edu.colorado.phet.idealgas.physics.body.HollowSphere
 /*
  * User: Administrator

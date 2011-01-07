@@ -1,4 +1,4 @@
-/* Copyright 2004-2008, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.colorvision.view;
 

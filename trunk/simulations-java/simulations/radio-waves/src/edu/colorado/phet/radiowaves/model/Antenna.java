@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: Antenna Package: edu.colorado.phet.emf.model Author: Another Guy Date:
  * Jul 8, 2003

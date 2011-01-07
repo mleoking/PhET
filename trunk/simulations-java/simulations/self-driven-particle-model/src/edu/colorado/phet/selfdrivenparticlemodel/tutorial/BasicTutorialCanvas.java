@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
@@ -17,13 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 12:04:40 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp {
 

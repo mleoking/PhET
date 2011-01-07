@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: ManualMovement Package: edu.colorado.phet.waves.model Author: Another
  * Guy Date: May 27, 2003

@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * (c) 2003-2007 activeweave, inc. http://www.activeweave.com
  * Author: Ron, mailto:ron@activeweave.com

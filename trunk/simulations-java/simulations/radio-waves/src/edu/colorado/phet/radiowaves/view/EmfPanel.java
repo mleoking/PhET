@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: EmfPanel Package: edu.colorado.phet.waves.view Author: Another Guy
  * Date: May 23, 2003

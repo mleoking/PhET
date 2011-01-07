@@ -1,4 +1,4 @@
-/* Copyright 2006, Univeriity of Colorado */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.boundstates.test;
 
 import java.awt.BasicStroke;

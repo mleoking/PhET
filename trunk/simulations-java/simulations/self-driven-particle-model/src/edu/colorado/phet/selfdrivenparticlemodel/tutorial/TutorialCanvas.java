@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -13,13 +13,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 12:00:39 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class TutorialCanvas extends PSwingCanvas {
 

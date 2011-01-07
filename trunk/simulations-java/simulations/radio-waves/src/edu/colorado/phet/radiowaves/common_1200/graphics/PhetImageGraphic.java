@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * User: Sam Reid
  * Date: Jun 25, 2004

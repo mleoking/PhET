@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import java.awt.Color;
@@ -28,13 +28,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-/**
- * User: Sam Reid
- * Date: Aug 26, 2005
- * Time: 2:39:05 AM
- * Copyright (c) Aug 26, 2005 by Sam Reid
- */
 
 public class PlotBeta240 extends PlotOrderParameterVsRandomness {
     private PSwing textComponent;

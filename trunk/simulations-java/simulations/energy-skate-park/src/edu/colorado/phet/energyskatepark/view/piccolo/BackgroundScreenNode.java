@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;

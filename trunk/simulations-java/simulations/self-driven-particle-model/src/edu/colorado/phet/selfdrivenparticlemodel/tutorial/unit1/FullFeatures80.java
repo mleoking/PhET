@@ -1,16 +1,9 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-/**
- * User: Sam Reid
- * Date: Aug 25, 2005
- * Time: 12:23:38 AM
- * Copyright (c) Aug 25, 2005 by Sam Reid
- */
 
 public class FullFeatures80 extends FullFeatureBaseClass {
     boolean usedRandomness = false;

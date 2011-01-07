@@ -1,4 +1,4 @@
-/* Copyright 2007-2008, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 

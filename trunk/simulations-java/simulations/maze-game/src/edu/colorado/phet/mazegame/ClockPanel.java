@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.mazegame;
 
 //A simple clock application using javax.swing.Timer class

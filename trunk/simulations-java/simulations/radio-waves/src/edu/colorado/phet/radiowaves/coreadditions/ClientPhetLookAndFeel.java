@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: ClientPhetLookAndFeel Package: edu.colorado.phet.coreadditions Author:
  * Another Guy Date: Aug 5, 2003

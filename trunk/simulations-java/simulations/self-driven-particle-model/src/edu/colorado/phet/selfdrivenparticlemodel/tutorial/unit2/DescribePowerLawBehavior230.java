@@ -1,15 +1,8 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
-
-/**
- * User: Sam Reid
- * Date: Aug 26, 2005
- * Time: 2:31:24 AM
- * Copyright (c) Aug 26, 2005 by Sam Reid
- */
 
 public class DescribePowerLawBehavior230 extends Page {
     public DescribePowerLawBehavior230( BasicTutorialCanvas page ) {

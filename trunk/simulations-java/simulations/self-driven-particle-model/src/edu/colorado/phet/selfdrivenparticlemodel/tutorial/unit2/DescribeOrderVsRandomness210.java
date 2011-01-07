@@ -1,14 +1,7 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-
-/**
- * User: Sam Reid
- * Date: Aug 26, 2005
- * Time: 1:36:08 AM
- * Copyright (c) Aug 26, 2005 by Sam Reid
- */
 
 public class DescribeOrderVsRandomness210 extends DescribeOrderVsRandomness200 {
 

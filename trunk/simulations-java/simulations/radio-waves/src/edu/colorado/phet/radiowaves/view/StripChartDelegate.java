@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: StripChartDelegate Package: edu.colorado.phet.emf.view Author: Another
  * Guy Date: Aug 5, 2003

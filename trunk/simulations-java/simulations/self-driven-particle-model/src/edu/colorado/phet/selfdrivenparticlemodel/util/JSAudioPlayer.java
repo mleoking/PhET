@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /** Sam Reid*/
 package edu.colorado.phet.selfdrivenparticlemodel.util;
 
@@ -5,12 +7,6 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 
-/**
- * User: Sam Reid
- * Date: Apr 2, 2004
- * Time: 1:13:42 AM
- * Copyright (c) Apr 2, 2004 by Sam Reid
- */
 public class JSAudioPlayer {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
 

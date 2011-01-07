@@ -1,9 +1,4 @@
-/* --------------------------------
- * XYLineAndShapeRendererDemo1.java
- * --------------------------------
- * (C) Copyright 2004, 2005, by Object Refinery Limited.
- *
- */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.reactionsandrates.test;
 

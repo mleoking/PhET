@@ -1,14 +1,7 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.model;
 
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid
- * Date: Aug 12, 2005
- * Time: 2:12:32 AM
- * Copyright (c) Aug 12, 2005 by Sam Reid
- */
 
 public class ClusterAssignment {
     public int[] assignClusters( ParticleModel model ) {

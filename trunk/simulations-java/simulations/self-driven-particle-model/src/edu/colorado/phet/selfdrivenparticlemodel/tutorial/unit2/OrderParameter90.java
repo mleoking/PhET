@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
@@ -9,13 +9,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-
-/**
- * User: Sam Reid
- * Date: Aug 25, 2005
- * Time: 12:53:09 AM
- * Copyright (c) Aug 25, 2005 by Sam Reid
- */
 
 public class OrderParameter90 extends FullFeatureBaseClass {
     private PText orderParamText;

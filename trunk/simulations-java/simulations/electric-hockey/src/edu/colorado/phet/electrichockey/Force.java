@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.electrichockey;
 
 //edu.colorado.phet.ehockey.Force on the positivePuckImage due to a charge;  not a general edu.colorado.phet.ehockey.Force

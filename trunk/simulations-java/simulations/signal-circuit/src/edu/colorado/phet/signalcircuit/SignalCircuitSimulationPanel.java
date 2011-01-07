@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /*
   cd E:\java\projects\phets\data
   C:\j2sdk1.4.0_01\bin\java phet.edu.colorado.phet.signal.SignalApplet

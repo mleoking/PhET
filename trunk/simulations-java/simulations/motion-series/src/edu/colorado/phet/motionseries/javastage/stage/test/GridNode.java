@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.motionseries.javastage.stage.test;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

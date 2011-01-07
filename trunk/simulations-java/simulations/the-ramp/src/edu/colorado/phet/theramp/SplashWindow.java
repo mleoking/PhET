@@ -1,14 +1,5 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.theramp;
-
-/*
- * @(#)SplashWindow.java  2.2  2005-04-03
- *
- * Copyright (c) 2003-2005 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
- * All rights reserved.
- *
- * This software is in the public domain.
- */
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

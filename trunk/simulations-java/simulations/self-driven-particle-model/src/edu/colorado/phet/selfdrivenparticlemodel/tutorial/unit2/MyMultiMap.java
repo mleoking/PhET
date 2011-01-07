@@ -1,17 +1,10 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-/**
- * User: Sam Reid
- * Date: Aug 26, 2005
- * Time: 1:15:13 AM
- * Copyright (c) Aug 26, 2005 by Sam Reid
- */
 
 public class MyMultiMap {
     HashMap map = new HashMap();

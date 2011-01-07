@@ -1,6 +1,5 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.reactionsandrates.view.charts;
-/* Copyright 2003-2004, University of Colorado */
-
 /*
  * CVS Info -
  * Filename : $Source$

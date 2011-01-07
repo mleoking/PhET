@@ -1,14 +1,7 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-
-/**
- * User: Sam Reid
- * Date: Aug 25, 2005
- * Time: 12:57:06 AM
- * Copyright (c) Aug 25, 2005 by Sam Reid
- */
 
 public class OrderParameter100 extends OrderParameter90 {
     public OrderParameter100( BasicTutorialCanvas page ) {

@@ -1,4 +1,4 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
@@ -7,13 +7,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-/**
- * User: Sam Reid
- * Date: Aug 23, 2005
- * Time: 2:07:37 AM
- * Copyright (c) Aug 23, 2005 by Sam Reid
- */
 
 public class InitSection00 extends Page {
     private boolean showedNextButtonForAudioTest = false;

@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: TransmitterElectronGraphic Package: edu.colorado.phet.emf.view Author:
  * Another Guy Date: Dec 4, 2003

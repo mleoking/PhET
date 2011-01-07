@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: SineFunction Package: edu.colorado.phet.waves.model Author: Another
  * Guy Date: May 23, 2003

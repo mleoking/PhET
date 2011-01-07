@@ -1,3 +1,4 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.radiowaves.common_1200.graphics;
 
 import java.awt.*;

@@ -1,12 +1,5 @@
-/* Copyright 2004, Sam Reid */
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
-
-/**
- * User: Sam Reid
- * Date: Aug 28, 2005
- * Time: 11:15:52 PM
- * Copyright (c) Aug 28, 2005 by Sam Reid
- */
 
 public class FinalCommentsPage310 extends Page {
     public FinalCommentsPage310( BasicTutorialCanvas page ) {

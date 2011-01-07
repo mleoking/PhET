@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 /**
  * Class: AddTransmittingElectronCmd Package: edu.colorado.phet.command Author:
  * Another Guy Date: May 27, 2003
