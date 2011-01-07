@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModeList;
+
+import static java.lang.Math.exp;
 
 /**
  * Converts between cartoon and real coordinates for Body instances.
@@ -22,10 +19,16 @@ public class CartoonPositionMap {
         this.cartoonOffsetScale = cartoonOffsetScale;
     }
 
+    final double DEFAULT_DIST = 3.9137E8;
+    final int K = 10;
+
+    /*
+     * Convert real coordinates to cartoon by using interpolating between the real coordinate and a scaled offset from the parent.
+     */
     public ImmutableVector2D toCartoon( String name, ImmutableVector2D xR, ImmutableVector2D parentPosition ) {
-        final double DEFAULT_DIST = 3.9137E8;
+
         double distance = xR.getDistance( parentPosition );
-        final int K = 10;
+
         double alpha = 1 - Math.exp( -distance / DEFAULT_DIST / K );
 
         //When nearby to the parent position, use this linear function: cartoonx = parent.x+(x - parent.x) * scale
@@ -43,83 +46,78 @@ public class CartoonPositionMap {
         return x;//cartoonx = parent.x+(x - parent.x) * scale
     }
 
-    //solve for x given cartoonx:
-    //cartoonx = parent.x+(x - parent.x) * scale
-    //cartoonx = parent.x+x*scale - parent.x*scale
-    //(cartoonx -parent.x+parent.x*scale)/scale = x
-    //Quick attempt to invert the above function numerically
+    /*
+     * To convert from cartoon to real coordinates, have to invert the above function.  This is done by converting it to a 1-Dimensional problem, then
+     * by using a root finding algorithm (bisection) to find the root.  Then the solution is projected back into real space.
+     */
     public ImmutableVector2D toReal( ImmutableVector2D cartoonPosition, ImmutableVector2D parentPosition ) {
-        double dAngle = 0.01;
-        double dScale = 1.01;
-        ArrayList<Double> angles = getAngles( 0, Math.PI * 2, dAngle );
-        ArrayList<Double> distances = getDistances( 1, GravityAndOrbitsModeList.EARTH_PERIHELION, dScale );
+        // |(xC-xR)| = (scale-1) * dist
+        // |(x-xR)| = (1-alpha)(scale-1)*dist = exp(-dist/D/K)*(scale-1)*dist
 
-        double angle = getAngle( cartoonPosition, parentPosition, 1, angles );
-        double dist = getBestDist( cartoonPosition, parentPosition, angle, distances );
-        for ( int i = 0; i < 5; i++ ) {
-            angle = getAngle( cartoonPosition, parentPosition, dist, getAngles( angle - dAngle, angle + dAngle, dAngle / 2 ) );
-            dist = getBestDist( cartoonPosition, parentPosition, angle, getDistances( dist / 2, dist * 2, dScale ) );
+        // |x-P|
 
-            dAngle = dAngle / 2;
-            dScale = ( dScale - 1 ) / 2 + 1;
-        }
-        return parentPosition.getAddedInstance( ImmutableVector2D.parseAngleAndMagnitude( dist, angle ) );
+        // y = bxe^(ax) => x = W(ay/b)/a
+
+        // Coff,P =(R-P) * scale
+        // xoff,P = (R-P) * scale * (1-alpha) + alpha * (R-P)      axe^bx + cxe^dx
+        // xoff = dist * scale * exp(-dist/D/K) + dist *(1 - exp(-dist/D/K))
+
+        // xoff,P = dist + dist * (scale - 1) * exp(-dist/D/K)
+
+        double cpDist = cartoonPosition.getDistance( parentPosition );
+        double s = new Bisection( cpDist, cartoonOffsetScale, DEFAULT_DIST, K, GravityAndOrbitsModeList.EARTH_PERIHELION * 10 ).bisect();
+
+        //R = P + Xoff * (C-P) / |C-P|
+//        return parentPosition.getAddedInstance( cartoonPosition.getScaledInstance( s ) )/cartoonPosition.getMagnitude();
+        ImmutableVector2D cMinusP = cartoonPosition.getSubtractedInstance( parentPosition );
+        final ImmutableVector2D real = parentPosition.getAddedInstance( cMinusP.getScaledInstance( s / cMinusP.getMagnitude() ) );
+
+        //output should be similar to cartoonPosition
+//        System.out.println( "metric  =  " + toCartoon( "tester", real, parentPosition ).getDistance( cartoonPosition ));
+
+        return real;
     }
 
-    private ArrayList<Double> getAngles( double minAngle, double maxAngle, double deltaAngle ) {
-        ArrayList<Double> angles = new ArrayList<Double>();
-        for ( double alpha = minAngle; alpha <= maxAngle; alpha += deltaAngle ) {
-            angles.add( alpha );
-        }
-        return angles;
-    }
+    static class Bisection {
+        double cpDist;
+        double scale;
+        double D;
+        double K;
+        private final double MAX;
 
-    private ArrayList<Double> getDistances( double minDist, double maxDist, double dScale ) {
-        ArrayList<Double> originalDistToTry = new ArrayList<Double>();
-        for ( double distance = minDist; distance < maxDist; distance = distance * dScale ) {
-            originalDistToTry.add( distance );
+        Bisection( double cpDist, double scale, double d, double k, double MAX ) {
+            this.cpDist = cpDist;
+            this.scale = scale;
+            D = d;
+            K = k;
+            this.MAX = MAX;
         }
-        return originalDistToTry;
-    }
 
-    private Double getBestDist( ImmutableVector2D cartoonPosition, ImmutableVector2D parentPosition, double angle, ArrayList<Double> distances ) {
-        final HashMap<Double, Double> map = new HashMap<Double, Double>();
-        for ( double distance : distances ) {
-            ImmutableVector2D guess = parentPosition.getAddedInstance( ImmutableVector2D.parseAngleAndMagnitude( distance, angle ) );
-            ImmutableVector2D guessedCartoonLocation = toCartoon( "test", guess, parentPosition );
-            double error = guessedCartoonLocation.getDistance( cartoonPosition );
-//            System.out.println( "distance = " + distance + ", result = " + guessedCartoonLocation + ", error = " + error );
-            map.put( distance, error );
-        }
-        ArrayList<Double> set = new ArrayList<Double>( map.keySet() );
-        Collections.sort( set, new Comparator<Double>() {
-            public int compare( Double o1, Double o2 ) {
-                return Double.compare( map.get( o1 ), map.get( o2 ) );
+        //http://www.torkian.info/Site/Research/Entries/2008/2/28_Root-finding_algorithm_files/NO5A.java
+        public double bisect() {
+            double x = 0, del = 1e-2, a = 0;
+            double b = MAX;
+            double dx = b - a;
+            int k = 0;
+            final int MAX_ITERATIONS = 1000;
+            while ( Math.abs( dx ) > del && k < MAX_ITERATIONS && f( x ) != 0 ) {
+                x = ( ( a + b ) / 2 );
+                if ( ( f( a ) * f( x ) ) < 0 ) {
+                    b = x;
+                    dx = b - a;
+                }
+                else {
+                    a = x;
+                    dx = b - a;
+                }
+                k++;
             }
-        } );
-        return set.get( 0 );
-    }
-
-    private double getAngle( ImmutableVector2D cartoonPosition, ImmutableVector2D parentPosition, double dist, ArrayList<Double> angles ) {
-        final HashMap<Double, Double> map = new HashMap<Double, Double>();
-        for ( double alpha : angles ) {
-            ImmutableVector2D guess = parentPosition.getAddedInstance( ImmutableVector2D.parseAngleAndMagnitude( dist, alpha ) );
-            ImmutableVector2D guessedCartoonLocation = toCartoon( "test", guess, parentPosition );
-            double error = guessedCartoonLocation.getDistance( cartoonPosition );
-//            System.out.println( "alpha = " + alpha + ", result = " + guessedCartoonLocation + ", goodness = " + error );
-            map.put( alpha, error );
+            return x;
         }
-        ArrayList<Double> set = new ArrayList<Double>( map.keySet() );
-        Collections.sort( set, new Comparator<Double>() {
-            public int compare( Double o1, Double o2 ) {
-                return Double.compare( map.get( o1 ), map.get( o2 ) );
-            }
-        } );
-//        System.out.println( "least error at alpha = " + set.get( 0 ) );
-        return set.get( 0 );
-    }
 
-    public static void main( String[] args ) {
-        //1+
+        public double f( double dist ) {
+            return dist + dist * ( scale - 1 ) * exp( -dist / D / K ) - cpDist;
+        }
+
     }
 }

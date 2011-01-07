@@ -1,3 +1,4 @@
+Improved drag handling by converting to a 1-D bisection root finding algorithm for inverting cartoon mapping
 Made checkbox-gray out a windows specific fix
 Moved "on" and "off" strings from phetcommon game mode to gravity and orbits
 Fixed: If you change the values of a system like the mass, or position and then press "Earth values", some force vectors are missing.
