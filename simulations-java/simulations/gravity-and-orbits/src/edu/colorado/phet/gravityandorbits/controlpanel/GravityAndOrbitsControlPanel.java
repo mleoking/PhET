@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -141,24 +141,32 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                         final Icon defaultIcon = getIcon();
                         final Icon disabledUnselectedIcon = grayOut( UIManager.getIcon( "CheckBox.icon" ) );
                         final Icon disabledSelectedIcon = disabledUnselectedIcon;//todo: find a way to get this from the UIManager; until this is fixed just render as unselected when disabled
-//                    final Icon disabledSelectedIcon = grayOut( UIManager.getLookAndFeel().getDisabledSelectedIcon(this, new ImageIcon( toImage( this, UIManager.getIcon( "CheckBox.icon" )) ) ) );//http://stackoverflow.com/questions/1663729/accessing-look-and-feel-default-icons
 
                         module.getScaleProperty().addObserver( new SimpleObserver() {
                             public void update() {
                                 setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
                                 setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
                                 if ( isEnabled() ) {
-                                    setIcon( defaultIcon );
+                                    iconFixWorkaround( defaultIcon );
                                 }
                                 else {
                                     if ( isSelected() ) {
-                                        setIcon( disabledSelectedIcon );
+                                        iconFixWorkaround( disabledSelectedIcon );
                                     }
                                     else {
-                                        setIcon( disabledUnselectedIcon );
+                                        iconFixWorkaround( disabledUnselectedIcon );
                                     }
                                 }
-                                setIcon( isEnabled() ? defaultIcon : disabledUnselectedIcon );
+                                iconFixWorkaround( isEnabled() ? defaultIcon : disabledUnselectedIcon );
+                            }
+
+                            //Sets the icon, but only on Windows.  This is because on the Windows L&F, the check box icon itself still looks clickable even when disabled.
+                            //Applying this fix to Linux causes the checkbox to not render; not sure what it would do to Mac (which looks good without the workaround), therefore we just apply the workaround to Windows.
+                            //Tested that this works properly on Windows with both Java 1.6 and 1.5
+                            private void iconFixWorkaround( Icon icon ) {
+                                if ( PhetUtilities.isWindows() ) {
+                                    setIcon( icon );
+                                }
                             }
                         } );
                     }
