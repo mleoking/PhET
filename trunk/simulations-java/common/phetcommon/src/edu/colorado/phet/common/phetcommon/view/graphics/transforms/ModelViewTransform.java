@@ -104,7 +104,6 @@ public class ModelViewTransform {
         return transform.createTransformedShape( shape );
     }
 
-
     public double modelToViewX( double x ) {
         return modelToView( new Point2D.Double( x, 0 ) ).getX();
     }
@@ -135,12 +134,7 @@ public class ModelViewTransform {
     *----------------------------------------------------------------------------*/
 
     public Point2D viewToModel( Point2D pt ) {
-        try {
-            return transform.createInverse().transform( pt, null );
-        }
-        catch ( NoninvertibleTransformException e ) {
-            throw new RuntimeException( e );
-        }
+        return getInverseTransform().transform( pt, null);
     }
 
     public ImmutableVector2D viewToModel( ImmutableVector2D vector2D ) {
@@ -148,18 +142,12 @@ public class ModelViewTransform {
     }
 
     public Point2D viewToModelDelta( Point2D delta ) {
-        try {
-            return transform.createInverse().deltaTransform( delta, null );
-        }
-        catch ( NoninvertibleTransformException e ) {
-            throw new RuntimeException( e );
-        }
+        return getInverseTransform().deltaTransform( delta, null);
     }
 
     public ImmutableVector2D viewToModelDelta( ImmutableVector2D delta ) {
         return new ImmutableVector2D( viewToModelDelta( delta.toPoint2D() ) );
     }
-
 
     public double viewToModelX( double x ) {
         return viewToModel( x, 0 ).getX();
@@ -176,6 +164,19 @@ public class ModelViewTransform {
     public Dimension2D viewToModelDelta( Dimension2D delta ) {
         final Point2D pt = viewToModelDelta( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
         return new Dimension2DDouble( pt.getX(), pt.getY() );
+    }
+
+    protected AffineTransform getInverseTransform(){
+        try {
+            return transform.createInverse();
+        }
+        catch ( NoninvertibleTransformException e ) {
+            throw new RuntimeException( e );
+        }
+    }
+
+    public Shape viewToModel( Shape shape ) {
+        return getInverseTransform().createTransformedShape( shape );
     }
 
     public Dimension2DDouble viewToModel( Dimension2D delta ) {
