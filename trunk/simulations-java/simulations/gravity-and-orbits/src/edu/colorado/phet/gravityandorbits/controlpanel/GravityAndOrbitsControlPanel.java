@@ -29,8 +29,6 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  */
 public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
-    //TODO phetcommon doesn't have a general on/off, OK to use these, or should we generalize?
-
     public static final Color BACKGROUND = new Color( 3, 0, 133 );
     public static final Color FOREGROUND = Color.white;
     public static final Font CONTROL_FONT = new PhetFont( 16, true );
@@ -63,20 +61,14 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new HorizontalLayoutPanel() {{
                 setBackground( BACKGROUND );
                 add( new JLabel( MessageFormat.format( GAOStrings.PATTERN_LABEL, GAOStrings.GRAVITY ) ) {{
-                    setFont( CONTROL_FONT );
-                    setForeground( FOREGROUND );
-                    setBackground( BACKGROUND );
+                    setFontsAndColors( this );
                 }} );
                 add( Box.createRigidArea( new Dimension( 20, 1 ) ) );
                 add( new PropertyRadioButton<Boolean>( GAOStrings.ON, module.getGravityEnabledProperty(), true ) {{
-                    setFont( CONTROL_FONT );
-                    setForeground( FOREGROUND );
-                    setBackground( BACKGROUND );
+                    setFontsAndColors( this );
                 }} );
                 add( new PropertyRadioButton<Boolean>( GAOStrings.OFF, module.getGravityEnabledProperty(), false ) {{
-                    setFont( CONTROL_FONT );
-                    setForeground( FOREGROUND );
-                    setBackground( BACKGROUND );
+                    setFontsAndColors( this );
                 }} );
             }} );
         }} );
@@ -114,6 +106,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             } );
             add( new GAOCheckBox( GAOStrings.MASS, module.getShowMassProperty() ) );
             add( new GAOCheckBox( GAOStrings.PATH, module.getShowPathProperty() ) );
+            add( new GAOCheckBox( GAOStrings.GRID, module.getShowGridProperty() ) );
         }} );
 
         // "Scale" subpanel
@@ -194,27 +187,14 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         }
     }
 
-    //For debugging
-    public static void showIcon( String name, final Icon icon ) {
-        new JFrame( name ) {{
-            setContentPane( new JCheckBox() {{
-                setIcon( icon );
-            }} );
-            pack();
-        }}.setVisible( true );
-    }
-
-    //For debugging
-    public static void showImage( String name, final Image image ) {
-        new JFrame( name ) {{
-            setContentPane( new JLabel( new ImageIcon( image ) ) );
-            pack();
-        }}.setVisible( true );
+    private static void setFontsAndColors( JComponent component ) {
+        component.setFont( CONTROL_FONT );
+        component.setForeground( FOREGROUND );
+        component.setBackground( BACKGROUND );
     }
 
     public static BufferedImage toImage( Component component, Icon icon ) {
         BufferedImage image = new BufferedImage( icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE );//guessing type based on experience with mac problems
-//        BufferedImage image = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage( icon.getIconWidth(), icon.getIconHeight() );
         Graphics2D g2 = image.createGraphics();
         icon.paintIcon( component, g2, 0, 0 );
         g2.dispose();
