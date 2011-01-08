@@ -10,7 +10,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
-import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function0;
@@ -88,7 +87,7 @@ public class InteractiveSymbolNode extends PNode {
         // Listen to the proton property value and update the symbol and element name accordingly.
         protonCountProperty.addObserver( new SimpleObserver() {
             public void update() {
-                symbol.setText( protonCountProperty.getValue() == 0 ? "-" : PeriodicTableNode.getElementAbbreviation( protonCountProperty.getValue() ) );
+                symbol.setText( protonCountProperty.getValue() == 0 ? "-" : AtomIdentifier.getSymbol( protonCountProperty.getValue() ) );
                 symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, WIDTH / 2 - symbol.getFullBoundsReference().height / 2 );
                 elementName.setText( AtomIdentifier.getName( protonCountProperty.getValue() ) );
                 elementName.setOffset(
