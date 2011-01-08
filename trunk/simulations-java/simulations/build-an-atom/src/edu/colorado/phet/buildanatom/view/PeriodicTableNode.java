@@ -160,46 +160,6 @@ public class PeriodicTableNode extends PNode {
         return new Point( 1, 1 );
     }
 
-    /**
-     * Get the description line for the element that corresponds to the given
-     * atomic number.  See the table that is defined elsewhere in this file in
-     * order to see the format of the description lines.
-     *
-     * @param atomicNumber
-     * @return
-     */
-//    private static String getElementDescriptionLine( int atomicNumber ) {
-//        StringTokenizer stringTokenizer = new StringTokenizer( table, "\n" );
-//        while ( stringTokenizer.hasMoreElements() ) {
-//            String element = stringTokenizer.nextToken();
-//            if ( element.startsWith( atomicNumber + "" ) ) {
-//                return element;
-//            }
-//        }
-//        return null;
-//    }
-
-    /**
-     *
-     * @param atomicNumber
-     * @return
-     */
-//    public static String getElementAbbreviation( int atomicNumber ) {
-//        String line = getElementDescriptionLine( atomicNumber );
-//        StringTokenizer stringTokenizer = new StringTokenizer( line, "\t " );
-//        stringTokenizer.nextToken();//number
-//        stringTokenizer.nextToken();//name
-//        String abbreviation = stringTokenizer.nextToken();//abbreviation
-//
-//        if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
-//            abbreviation = BuildAnAtomStrings.ELEMENT_LANTHANUM_SYMBOL;
-//        }
-//        if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
-//            abbreviation = BuildAnAtomStrings.ELEMENT_ACTINIUM_SYMBOL;
-//        }
-//        return abbreviation;
-//    }
-
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
