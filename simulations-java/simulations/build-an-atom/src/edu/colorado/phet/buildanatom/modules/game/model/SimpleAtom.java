@@ -1,10 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -38,12 +36,7 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     }
 
     public static String getSymbol( int protonCount ) {
-        if ( protonCount == 0 ) {
-            return BuildAnAtomStrings.ELEMENT_NONE_SYMBOL;
-        }
-        else {
-            return PeriodicTableNode.getElementAbbreviation( protonCount );
-        }
+        return AtomIdentifier.getSymbol( protonCount );
     }
 
     public int getNumNeutrons() {
