@@ -170,7 +170,11 @@ public class Body implements IBodyColors {
 
     public void translate( Point2D delta ) {
         translate( delta.getX(), delta.getY() );
-        addPathPoint();
+
+        //Only add to the path if the object hasn't collided
+        if ( !collidedProperty.getValue() ) {
+            addPathPoint();
+        }
     }
 
     public void translate( double dx, double dy ) {
@@ -224,7 +228,10 @@ public class Body implements IBodyColors {
     }
 
     public void allBodiesUpdated() {
-        addPathPoint();
+        //Only add to the path if the object hasn't collided
+        if ( !collidedProperty.getValue() ) {
+            addPathPoint();
+        }
     }
 
     private void addPathPoint() {
@@ -444,6 +451,7 @@ public class Body implements IBodyColors {
     public void returnBody() {
         if ( collidedProperty.getValue() || !bounds.getValue().contains( getPosition( scaleProperty.getValue() ).toPoint2D() ) ) {
             setCollided( false );
+            clearPath();//so there is no sudden jump in path from old to new location
             positionProperty.reset();
             velocityProperty.reset();
         }
