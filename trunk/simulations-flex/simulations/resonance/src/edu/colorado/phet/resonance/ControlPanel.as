@@ -110,7 +110,7 @@ public class ControlPanel extends Canvas {
         with ( this.dampingSlider ) {
             minimum = 0.05;
             maximum = 5;
-            labels = ["", this.damping_str, ""];
+            //labels = ["", this.damping_str, ""];
         }
 
         this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
@@ -120,7 +120,7 @@ public class ControlPanel extends Canvas {
         with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
-            labels = ["", this.numberOfResonators_str, ""];
+            //labels = ["", this.numberOfResonators_str, ""];
             snapInterval = 1;
             tickInterval = 1;
         }
@@ -168,6 +168,7 @@ public class ControlPanel extends Canvas {
 
 
         this.mSlider = new HSlider();
+        //this.mSlider.percentWidth = 100;
         this.formatSlider( this.mSlider );
         with ( this.mSlider ) {
             minimum = 0.1;
@@ -239,15 +240,18 @@ public class ControlPanel extends Canvas {
         sameMass_str = "same mass";
         sameSpring_str = "same spring";
         mixedMAndK_str = "mixed m and k";
-        sameF_str = "same frequency"
+        sameF_str = "same frequency";
     }
 
     function formatSlider( mySlider: HSlider ): void {
         mySlider.buttonMode = true;
         mySlider.liveDragging = true;
-        mySlider.setStyle( "labelOffset", 25 );
+        mySlider.percentWidth = 100;
+        mySlider.showDataTip = false;
+        //mySlider.setStyle( "labelOffset", 25 );
         setStyle( "invertThumbDirection", true );
-        setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
+        //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
+        setStyle( "fontFamily", "Arial" );
     }
 
     public function setResonatorIndex( rNbr: int ): void {
