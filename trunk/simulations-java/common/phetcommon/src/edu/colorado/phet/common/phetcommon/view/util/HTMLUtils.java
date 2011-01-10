@@ -21,14 +21,14 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class HTMLUtils {
-    
+
     private static final Font DEFAULT_FONT = new PhetFont();
     private static final String DEFAULT_CSS = "<head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>";
     private static final String PHP_ARG_DELIMITER = "&";
-    
+
     /* not intended for instantiation */
     private HTMLUtils() {}
-    
+
     /**
      * Creates an \<a\> tag with an href attribute.
      * The link is displayed.
@@ -38,7 +38,7 @@ public class HTMLUtils {
     public static String getHref( String url ) {
         return getHref( url, url );
     }
-    
+
     /**
      * Creates an \<a\> tag with an href attribute.
      * @param url the URL to be loaded when the hyperlinked object is activated.
@@ -48,7 +48,7 @@ public class HTMLUtils {
     public static String getHref( String url, String text ) {
         return "<a href=" + url + ">" + text + "</a>";
     }
-    
+
     /**
      * Creates an \<a\> tag that contains an href link to the PhET homepage.
      * The link is displayed.
@@ -57,7 +57,7 @@ public class HTMLUtils {
     public static String getPhetHomeHref() {
         return getPhetHomeHref( PhetCommonConstants.PHET_HOME_URL );
     }
-    
+
     /**
      * Creates an \<a\> tag that contains an href link to the PhET homepage.
      * @param text the text to be displayed
@@ -66,7 +66,7 @@ public class HTMLUtils {
     public static String getPhetHomeHref( String text ) {
         return getHref( PhetCommonConstants.PHET_HOME_URL, text );
     }
-    
+
     /**
      * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
      * The email address is displayed.
@@ -75,7 +75,7 @@ public class HTMLUtils {
     public static String getPhetMailtoHref() {
         return getPhetMailtoHref( PhetCommonConstants.PHET_EMAIL );
     }
-    
+
     /**
      * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
      * @param text the text to be displayed
@@ -84,7 +84,7 @@ public class HTMLUtils {
     public static String getPhetMailtoHref( String text ) {
         return getHref( "mailto:" + PhetCommonConstants.PHET_EMAIL, text );
     }
-    
+
     /**
      * Gets the URL for a simulation's web page on the PhET site.
      * @param project
@@ -92,9 +92,9 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimWebsiteURL( String project, String sim ) {
-        return PhetCommonConstants.SIM_WEBSITE_REDIRECT_URL + "?" + 
-            "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + PHP_ARG_DELIMITER + 
-            "project=" + project + PHP_ARG_DELIMITER + 
+        return PhetCommonConstants.SIM_WEBSITE_REDIRECT_URL + "?" +
+            "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + PHP_ARG_DELIMITER +
+            "project=" + project + PHP_ARG_DELIMITER +
             "sim=" + sim;
     }
 
@@ -108,10 +108,10 @@ public class HTMLUtils {
      * @return
      */
     public static String getSimJarURL( String project, String sim, Locale locale ) {
-        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" + 
-            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + PHP_ARG_DELIMITER + 
-            "project=" + project + PHP_ARG_DELIMITER + 
-            "sim=" + sim + PHP_ARG_DELIMITER + 
+        String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" +
+            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + PHP_ARG_DELIMITER +
+            "project=" + project + PHP_ARG_DELIMITER +
+            "sim=" + sim + PHP_ARG_DELIMITER +
             "language=" + locale.getLanguage();
         if ( !locale.getCountry().equals( "" ) ) {
             // add optional country code
@@ -128,18 +128,18 @@ public class HTMLUtils {
      */
     public static String getProjectJarURL( String project, String ampersand ) {
         return PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" +
-            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand + 
+            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand +
             "project=" + project;
     }
-        
+
     public static String createStyledHTMLFromFragment( String htmlFragment ) {
         return createStyledHTMLFromFragment( htmlFragment, DEFAULT_FONT, DEFAULT_CSS );
     }
-    
+
     public static String createStyledHTMLFromFragment( String htmlFragment, Font font ) {
         return createStyledHTMLFromFragment( htmlFragment, font, DEFAULT_CSS );
     }
-    
+
     /**
      * Creates an HTML fragment that contains a CSS that sets font properties.
      * @param htmlFragment
@@ -148,10 +148,10 @@ public class HTMLUtils {
      * @return
      */
     public static String createStyledHTMLFromFragment( String htmlFragment, Font font, String css ) {
-        String html = "<html>" + css + htmlFragment + "</html>";
+        String html = HTMLUtils.toHTMLString( css + htmlFragment );
         return setFontInStyledHTML( html, font );
     }
-    
+
     /**
      * Fills in font information in any HTML that contains CSS placeholders ala DEFAULT_CSS.
      * @param html
@@ -163,7 +163,7 @@ public class HTMLUtils {
         html = html.replaceAll( "@FONT_FAMILY@", font.getFamily() );
         return html;
     }
-    
+
     /**
      * An HTML editor pane.
      * This is the base class for other types of HTML editor panes.
@@ -176,7 +176,7 @@ public class HTMLUtils {
             setEditable( false );
         }
     }
-    
+
     /**
      * An HTML editor pane that opens a web browser for hyperlinks.
      */
@@ -192,11 +192,11 @@ public class HTMLUtils {
             } );
         }
     }
-    
+
     /**
-     * Combines an array of HTML strings, HTML fragments 
+     * Combines an array of HTML strings, HTML fragments
      * and plain text strings into a single HTML string.
-     * 
+     *
      * @param strings
      * @return
      */
@@ -214,7 +214,7 @@ public class HTMLUtils {
         buffer.append( "</html>" );
         return buffer.toString();
     }
-    
+
     /**
      * Creates an HMTL fragment is a specified color.
      * @param fragment
@@ -228,18 +228,18 @@ public class HTMLUtils {
         Object[] args = { rgb, fragment };
         return MessageFormat.format( pattern, args );
     }
-    
+
     /**
      * Converts a string to an HTML string.
      * If you have a plain-text string, this is a convenience method to add the \<html\> tag.
      * Sometimes we want to combine HTML strings, and we end up with too many \<html\> tags.
-     * This method ensures that we only have \<html\> and \</html\> at the beginning and 
+     * This method ensures that we only have \<html\> and \</html\> at the beginning and
      * end of the string.
      * <p>
      * Example: "hello world" becomes "\<html\>hello world\</html\>".
      * <p>
      * Example "\<html\>foo\</html\> \<html\>bar\</html\>" becomes "\<html\>foo bar\</html\>".
-     * 
+     *
      * @param string
      * @return
      */
@@ -247,12 +247,12 @@ public class HTMLUtils {
         String[] s = { string };
         return toHTMLString( s );
     }
-    
+
     /**
      * Replaces '<' and '>' with their escape entities.
      * Useful when HTML tags need to appear in a user-visible message
      * that is implemented using HTML.
-     * 
+     *
      * @param html
      * @return
      */
