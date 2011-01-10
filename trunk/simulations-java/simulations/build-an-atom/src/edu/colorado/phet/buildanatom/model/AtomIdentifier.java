@@ -10,7 +10,12 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 
 /**
  * This class identifies and classifies atoms based on their configuration of
- * protons, neturons, and electrons.
+ * protons, neturons, and electrons.  It is common functionality that is used
+ * by a number of different classes that represent atoms, which is why it was
+ * separated out.  The intent is that this be used by the atom classes
+ * themselves so that clients of the atom classes can get the needed
+ * information from directly from them, rather than using this class as a sort
+ * of "3rd party expert".
  *
  * @author John Blanco
  */
@@ -369,8 +374,8 @@ public class AtomIdentifier {
     }
 
     public static double getAtomicMass( IAtom atom ) {
-        // TODO Auto-generated method stub
-        return 0;
+        // TODO This needs to be filled in with a table of the atomic mass.
+        return 1;
     }
 
     private static class Isotope {
