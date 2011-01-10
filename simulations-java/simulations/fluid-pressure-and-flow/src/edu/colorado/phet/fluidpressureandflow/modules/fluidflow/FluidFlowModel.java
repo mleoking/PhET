@@ -133,7 +133,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     public Particle[] getParticles() {
-        return particles.toArray( new Particle[0] );
+        return particles.toArray( new Particle[particles.size()] );
     }
 
     public void addParticleAddedObserver( VoidFunction1<Particle> listener ) {
@@ -189,7 +189,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     public void addDrop() {
-        final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble(), pipe, 0.1 );
+        double min = 0.1;//Don’t show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
+        double max = 1 - min;
+        double range = max - min;
+        final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, pipe, 0.1 );
         particles.add( newParticle );
         for ( VoidFunction1<Particle> particleAddedObserver : particleAddedObservers ) {
             particleAddedObserver.apply( newParticle );

@@ -1,3 +1,4 @@
+Don’t show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
 Use new graphics for pressure sensor node
 Added 3 patch image node for pressure sensor
 replace incomplete "Reset All" node with ResetAllButtonNode
