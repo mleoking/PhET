@@ -17,16 +17,10 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class SensorNode<T> extends PNode {
 
-    public final Function0<String> getText;
+    protected final Property<String> textProperty;
 
-    /**
-     * @param transform
-     * @param sensor
-     * @param unitsProperty
-     */
     public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> unitsProperty ) {
-        getText = new Function0<String>() {//Function to get text to display
-
+        final Function0<String> getString = new Function0<String>() {
             public String apply() {
                 String pattern = "{0} {1}"; //TODO i18n
                 String value = "?"; //TODO i18n
@@ -37,6 +31,15 @@ public abstract class SensorNode<T> extends PNode {
                 return MessageFormat.format( pattern, value, units );
             }
         };
+        textProperty = new Property<String>( getString.apply() );
+        final SimpleObserver observer = new SimpleObserver() {
+            public void update() {
+                textProperty.setValue( getString.apply() );
+            }
+        };
+        sensor.addValueObserver( observer );
+        unitsProperty.addObserver( observer );
+
         addInputEventListener( new CursorHandler() );
 
         sensor.addLocationObserver( new SimpleObserver() {

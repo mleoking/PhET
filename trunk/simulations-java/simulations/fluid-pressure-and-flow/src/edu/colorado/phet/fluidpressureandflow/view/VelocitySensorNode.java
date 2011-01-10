@@ -27,7 +27,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
         super( transform, sensor, unitsProperty );
 
         // value display
-        final PText textNode = new PText( getText.apply() ) {{
+        final PText textNode = new PText( textProperty.getValue() ) {{
             setFont( new PhetFont( 18, true ) );
         }};
 
@@ -43,7 +43,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
         final SimpleObserver updateTextObserver = new SimpleObserver() {
             public void update() {
                 // update the text and center it
-                textNode.setText( getText.apply() );
+                textNode.setText( textProperty.getValue() );
                 final double textYSpacing = -10;
                 textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() + textYSpacing );
 
