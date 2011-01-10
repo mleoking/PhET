@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.buildanatom.model;
 
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**

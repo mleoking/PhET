@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.util.Function0;

@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function0;

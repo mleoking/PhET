@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;

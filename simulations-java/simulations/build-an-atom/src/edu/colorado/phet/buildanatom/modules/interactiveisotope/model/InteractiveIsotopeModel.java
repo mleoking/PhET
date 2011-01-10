@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
 import edu.colorado.phet.buildanatom.model.SubatomicParticleBucket;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 

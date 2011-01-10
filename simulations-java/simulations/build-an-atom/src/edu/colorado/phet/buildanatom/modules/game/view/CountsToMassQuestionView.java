@@ -5,7 +5,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 

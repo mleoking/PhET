@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;

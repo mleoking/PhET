@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.modules.game.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SymbolToCountsProblem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;

@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import edu.colorado.phet.buildanatom.model.AtomValue;
+
 //DOC
 /**
  * @author Sam Reid

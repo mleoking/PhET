@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 
 //DOC relationship to pool, AtomValue, etc.
