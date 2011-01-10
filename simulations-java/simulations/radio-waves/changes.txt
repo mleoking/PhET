@@ -1,3 +1,5 @@
+# 1.08.03 (47822) Jan 10, 2011
+1/10/11 #2624, demo for KSU with revised translation credits (email address removed)
 # 1.08.02 (47811) Jan 10, 2011
 1/10/11 #2642, demo for KSU with revised translation credits and logos
 # 1.08.01 (47676) Jan 5, 2011
