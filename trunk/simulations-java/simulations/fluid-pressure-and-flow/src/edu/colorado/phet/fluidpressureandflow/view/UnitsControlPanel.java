@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import javax.swing.BoxLayout;
-import javax.swing.JSeparator;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
