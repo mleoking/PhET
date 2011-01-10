@@ -8,7 +8,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
  * protons, neutrons, and electrons that comprise it) is defined at
  * construction and cannot be changed.  The atom does not create instances of
  * the subatomic particles that comprise it - it only maintains numerical
- * values for the quantity of each particle that exists.
+ * values for the quantity of each type of constituent particle.
  *
  * @author Sam Reid
  * @author John Blanco
