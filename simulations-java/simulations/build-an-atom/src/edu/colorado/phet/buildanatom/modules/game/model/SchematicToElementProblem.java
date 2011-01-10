@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToElementView;
 import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
@@ -11,7 +11,7 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
  * @author Sam Reid
  */
 public class SchematicToElementProblem extends ToElementProblem {
-    public SchematicToElementProblem( BuildAnAtomGameModel model, AtomValue atomValue ) {
+    public SchematicToElementProblem( BuildAnAtomGameModel model, ImmutableAtom atomValue ) {
         super( model, atomValue );
     }
 

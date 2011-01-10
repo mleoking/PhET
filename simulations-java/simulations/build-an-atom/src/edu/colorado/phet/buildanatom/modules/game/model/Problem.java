@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 
 /**
  * Represents one of the Problems in the game, formerly called Challenge.
@@ -14,21 +14,21 @@ import edu.colorado.phet.buildanatom.model.AtomValue;
  */
 public abstract class Problem extends State {
 
-    private final AtomValue atom;
+    private final ImmutableAtom atom;
     private int numGuesses = 0;
     private int score = 0;
     private boolean solvedCorrectly =false;
 
-    public Problem( BuildAnAtomGameModel model, AtomValue atom ) {
+    public Problem( BuildAnAtomGameModel model, ImmutableAtom atom ) {
         super( model );
         this.atom = atom;
     }
 
-    public boolean isGuessCorrect( AtomValue guess ) {
+    public boolean isGuessCorrect( ImmutableAtom guess ) {
         return atom.equals( guess );
     }
 
-    public void processGuess(AtomValue guess) {
+    public void processGuess(ImmutableAtom guess) {
         numGuesses++;
         if ( isGuessCorrect(guess ) ) {
             solvedCorrectly = true;
@@ -53,7 +53,7 @@ public abstract class Problem extends State {
         return score;
     }
 
-    public AtomValue getAnswer(){
+    public ImmutableAtom getAnswer(){
         return atom;
     }
 }

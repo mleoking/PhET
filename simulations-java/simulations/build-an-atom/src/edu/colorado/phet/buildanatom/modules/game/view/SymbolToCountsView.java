@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SymbolToCountsProblem;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
@@ -75,11 +75,11 @@ public class SymbolToCountsView extends ProblemView {
             electronEntryPanel.setOffset( neutronEntryPanel.getFullBounds().getX(), neutronEntryPanel.getFullBounds().getMaxY() + verticalSpacing );
         }
 
-        public AtomValue getGuess() {
-            return new AtomValue( protonGuess.getValue(), neutronGuess.getValue(), electronGuess.getValue() );
+        public ImmutableAtom getGuess() {
+            return new ImmutableAtom( protonGuess.getValue(), neutronGuess.getValue(), electronGuess.getValue() );
         }
 
-        public void displayAnswer( AtomValue answer ) {
+        public void displayAnswer( ImmutableAtom answer ) {
             protonGuess.setValue( answer.getNumProtons() );
             electronGuess.setValue( answer.getNumElectrons() );
             neutronGuess.setValue( answer.getNumNeutrons() );
@@ -101,12 +101,12 @@ public class SymbolToCountsView extends ProblemView {
     }
 
     @Override
-    protected AtomValue getGuess() {
+    protected ImmutableAtom getGuess() {
         return multiEntryPanel.getGuess();
     }
 
     @Override
-    protected void displayAnswer( AtomValue answer ) {
+    protected void displayAnswer( ImmutableAtom answer ) {
         multiEntryPanel.displayAnswer(answer);
     }
 

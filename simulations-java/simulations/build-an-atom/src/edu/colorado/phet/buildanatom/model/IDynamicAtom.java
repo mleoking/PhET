@@ -25,5 +25,5 @@ public interface IDynamicAtom extends IAtom {
      *
      * @return
      */
-    AtomValue toImmutableAtom();
+    ImmutableAtom toImmutableAtom();
 }

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.model;
 
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 
 
 /**
@@ -29,7 +29,7 @@ public abstract class ToSymbolProblem extends Problem {
     private final boolean configurableMass;
     private final boolean configurableCharge;
 
-    public ToSymbolProblem( BuildAnAtomGameModel model, AtomValue atomValue, boolean configurableProtonCount,
+    public ToSymbolProblem( BuildAnAtomGameModel model, ImmutableAtom atomValue, boolean configurableProtonCount,
             boolean configurableMass, boolean configurableCharge ){
         super( model, atomValue );
         this.configurableProtonCount = configurableProtonCount;

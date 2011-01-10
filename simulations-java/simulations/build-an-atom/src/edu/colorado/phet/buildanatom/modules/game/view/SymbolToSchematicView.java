@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SymbolToSchematicProblem;
@@ -47,12 +47,12 @@ public class SymbolToSchematicView extends ProblemView {
     }
 
     @Override
-    protected AtomValue getGuess() {
+    protected ImmutableAtom getGuess() {
         return interactiveSchematicAtomNode.getAtomValue();
     }
 
     @Override
-    protected void displayAnswer( AtomValue answer ) {
+    protected void displayAnswer( ImmutableAtom answer ) {
         interactiveSchematicAtomNode.setAtomValue(answer);
     }
 

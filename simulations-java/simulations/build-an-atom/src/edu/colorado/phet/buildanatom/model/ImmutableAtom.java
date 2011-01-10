@@ -4,18 +4,22 @@ package edu.colorado.phet.buildanatom.model;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 
 /**
- * Represents one row from the table defined in the design doc (see pools for level 1-3)
+ * This class represents an atom whose configuration (i.e. the number of
+ * protons, neutrons, and electrons that comprise it) is defined at
+ * construction and cannot be changed.  The atom does not create instances of
+ * the subatomic particles that comprise it - it only maintains numerical
+ * values for the quantity of each particle that exists.
  *
  * @author Sam Reid
  * @author John Blanco
  */
-public class AtomValue implements IAtom {
+public class ImmutableAtom implements IAtom {
 
     private final int protons;
     private final int neutrons;
     private final int electrons;
 
-    public AtomValue( int protons, int neutrons, int electrons ) {
+    public ImmutableAtom( int protons, int neutrons, int electrons ) {
         this.protons = protons;
         this.neutrons = neutrons;
         this.electrons = electrons;
@@ -39,7 +43,7 @@ public class AtomValue implements IAtom {
             return false;
         }
 
-        AtomValue atomValue = (AtomValue) o;
+        ImmutableAtom atomValue = (ImmutableAtom) o;
 
         if ( electrons != atomValue.electrons ) {
             return false;

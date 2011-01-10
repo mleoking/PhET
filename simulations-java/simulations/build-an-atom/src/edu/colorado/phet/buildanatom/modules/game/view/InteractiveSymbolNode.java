@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function0;
@@ -53,7 +53,7 @@ public class InteractiveSymbolNode extends PNode {
      * @param interactiveMass
      * @param interactiveCharge
      */
-    public InteractiveSymbolNode( AtomValue atomValue, boolean interactiveProtonCount, boolean interactiveMass, boolean interactiveCharge ) {
+    public InteractiveSymbolNode( ImmutableAtom atomValue, boolean interactiveProtonCount, boolean interactiveMass, boolean interactiveCharge ) {
 
         interactiveProtonCountProperty = new Property<Boolean>( interactiveProtonCount );
         interactiveMassProperty = new Property<Boolean>( interactiveMass );
@@ -143,14 +143,14 @@ public class InteractiveSymbolNode extends PNode {
      * Determines the particle counts given the proton count, mass number and charge.
      * @return the guess
      */
-    public AtomValue getGuess() {
+    public ImmutableAtom getGuess() {
         final int protons = protonCountProperty.getValue();
         final int massNumber = massProperty.getValue();
         final int charge = chargeProperty.getValue();
-        return new AtomValue( protons, massNumber - protons, protons - charge );
+        return new ImmutableAtom( protons, massNumber - protons, protons - charge );
     }
 
-    public void displayAnswer( AtomValue answer ) {
+    public void displayAnswer( ImmutableAtom answer ) {
         interactiveProtonCountProperty.setValue( false );
         interactiveMassProperty.setValue( false );
         interactiveChargeProperty.setValue( false );

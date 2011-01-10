@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
@@ -134,9 +134,9 @@ public abstract class ProblemView extends StateView {
      *
      * @return the gussed value
      */
-    protected abstract AtomValue getGuess();
+    protected abstract ImmutableAtom getGuess();
 
-    protected abstract void displayAnswer( AtomValue answer );
+    protected abstract void displayAnswer( ImmutableAtom answer );
 
     //disable controls during feedback stages
     abstract protected void setGuessEditable( boolean guessEditable );
