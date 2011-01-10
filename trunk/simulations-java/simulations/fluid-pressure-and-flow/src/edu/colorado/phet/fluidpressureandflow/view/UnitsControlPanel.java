@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
@@ -16,8 +17,6 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
 
     public UnitsControlPanel( FluidPressureAndFlowModule<T> module ) {
         super( "Units" );
-        setBackground( FluidPressureControlPanel.BACKGROUND );
-        setForeground( FluidPressureControlPanel.FOREGROUND );
 
         final T model = module.getFluidPressureAndFlowModel();
         add( new PropertyRadioButton<Units.Unit>( "atmospheres (atm)", model.getPressureUnitProperty(), Units.ATMOSPHERE ) );
@@ -27,5 +26,8 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
         add( new PropertyRadioButton<Units.Unit>( "feet (ft)", model.getDistanceUnitProperty(), Units.FEET ) );
         add( new PropertyRadioButton<Units.Unit>( "meters (m)", model.getDistanceUnitProperty(), Units.METERS ) );
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+        SwingUtils.setBackgroundDeep( this, FluidPressureControlPanel.BACKGROUND );
+        SwingUtils.setForegroundDeep( this, FluidPressureControlPanel.FOREGROUND );
     }
 }
