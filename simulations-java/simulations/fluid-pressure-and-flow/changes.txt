@@ -1,3 +1,4 @@
+Use new graphics for pressure sensor node
 Added 3 patch image node for pressure sensor
 replace incomplete "Reset All" node with ResetAllButtonNode
 Use PropertyRadioButton in UnitsControlPanel
