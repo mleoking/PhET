@@ -1,4 +1,5 @@
 // Copyright 2002-2011, University of Colorado
+
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
@@ -8,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * An atom that simply tracks the quantities of the various subatomic
- * particles, but doesn't actually create them.  This can be used in many
- * cases where no subatomic particles are needed.
+ * particles, but doesn't actually create modeled instances of them.  This can
+ * be used in many cases where no subatomic particles are needed.
  *
  * @author Sam Reid
  * @author John Blanco
