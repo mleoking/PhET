@@ -1,3 +1,5 @@
+# 1.08.02 (47811) Jan 10, 2011
+1/10/11 #2642, demo for KSU with revised translation credits and logos
 # 1.08.01 (47676) Jan 5, 2011
 1/5/11 #2642, add KSU credits to radio-waves-strings_ar.properties, to demo for KSU
 Switched from Vector2D.Float to Vector2D.Double, see #2467
