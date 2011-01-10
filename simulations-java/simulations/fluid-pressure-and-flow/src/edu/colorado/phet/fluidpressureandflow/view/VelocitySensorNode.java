@@ -2,15 +2,21 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * @author Sam Reid
@@ -19,6 +25,49 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
 
     public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor sensor, final Property<Units.Unit> unitsProperty ) {
         super( transform, sensor, unitsProperty );
+
+        // value display
+        final PText textNode = new PText( getText.apply() ) {{
+            setFont( new PhetFont( 18, true ) );
+        }};
+
+        // background box
+        final PhetPPath backgroundNode = new PhetPPath( Color.white, new BasicStroke( 1f ), Color.darkGray );
+
+        // rendering order
+        addChild( backgroundNode );
+        addChild( textNode );
+//        final double hotSpotRadius = 3;
+//        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.RED ) );
+
+        final SimpleObserver updateTextObserver = new SimpleObserver() {
+            public void update() {
+                // update the text and center it
+                textNode.setText( getText.apply() );
+                final double textYSpacing = -10;
+                textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() + textYSpacing );
+
+                // update the background to enclose the textNode
+                final double cornerRadius = 10;
+                final double margin = 3;
+                final double width = textNode.getFullBoundsReference().getWidth() + ( 2 * margin );
+                final double height = textNode.getFullBoundsReference().getHeight() + ( 2 * margin );
+                Shape backgroundShape = new RoundRectangle2D.Double( textNode.getFullBoundsReference().getMinX() - margin, textNode.getFullBoundsReference().getMinY() - margin, width, height, cornerRadius, cornerRadius );
+
+                Area area = new Area();
+                area.add( new Area( backgroundShape ) );
+                area.add( new Area( new DoubleGeneralPath( 0, 0 + textYSpacing ) {{
+                    lineTo( 10, 0 + textYSpacing );
+                    lineTo( 0, 10 + textYSpacing );
+                    lineTo( -10, 0 + textYSpacing );
+                    lineTo( 0, 0 + textYSpacing );
+                }}.getGeneralPath() ) );
+                backgroundNode.setPathTo( area );
+            }
+        };
+        sensor.addValueObserver( updateTextObserver );
+        unitsProperty.addObserver( updateTextObserver );
+
 
         // vector arrow
         final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(), new Point2D.Double( 0, 1 ), 10, 10, 5, 0.5, true ) {{
