@@ -17,7 +17,6 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
 
     public UnitsControlPanel( FluidPressureAndFlowModule<T> module ) {
         super( "Units" );
-        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         setBackground( FluidPressureControlPanel.BACKGROUND );
         setForeground( FluidPressureControlPanel.FOREGROUND );
 
@@ -28,5 +27,6 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
         add( new JSeparator() );
         add( new PropertyRadioButton<Units.Unit>( "feet (ft)", model.getDistanceUnitProperty(), Units.FEET ) );
         add( new PropertyRadioButton<Units.Unit>( "meters (m)", model.getDistanceUnitProperty(), Units.METERS ) );
+        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
     }
 }
