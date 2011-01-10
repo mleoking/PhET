@@ -40,8 +40,6 @@ public class PressureSensorNode extends SensorNode<Double> {
                 text.setValue( getText.apply() );
             }
         };
-        textNode.setVisible( false );
-        backgroundNode.setVisible( false );
         sensor.addValueObserver( updateText );
         unitsProperty.addObserver( updateText );
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty(), new Function1<Point2D, Point2D>() {
