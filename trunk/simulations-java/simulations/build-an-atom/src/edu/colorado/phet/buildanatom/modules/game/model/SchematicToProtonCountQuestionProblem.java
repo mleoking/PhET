@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicToProtonCountQuestionView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;

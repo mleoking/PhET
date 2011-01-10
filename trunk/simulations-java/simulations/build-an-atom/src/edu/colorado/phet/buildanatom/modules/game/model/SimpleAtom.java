@@ -2,6 +2,7 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
+import edu.colorado.phet.buildanatom.model.AtomValue;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 

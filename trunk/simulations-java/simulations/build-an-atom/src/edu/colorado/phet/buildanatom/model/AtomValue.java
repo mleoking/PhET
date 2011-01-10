@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildanatom.modules.game.model;
+package edu.colorado.phet.buildanatom.model;
 
-import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.model.IAtom;
+import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 
 /**
  * Represents one row from the table defined in the design doc (see pools for level 1-3)

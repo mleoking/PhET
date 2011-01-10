@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import edu.colorado.phet.buildanatom.model.AtomValue;
+
 /**
  * Represents one of the Problems in the game, formerly called Challenge.
  * The problems are generally ones where the user needs to venture a guess
