@@ -25,13 +25,17 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public abstract class SensorNode<T> extends PNode {
 
+    public final Function0<String> getText;
+    protected final PText textNode;
+    protected final PPath backgroundNode;
+
     /**
      * @param transform
      * @param sensor
      * @param unitsProperty
      */
     public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> unitsProperty ) {
-        final Function0<String> getText = new Function0<String>() {//Function to get text to display
+        getText = new Function0<String>() {//Function to get text to display
 
             public String apply() {
                 String pattern = "{0} {1}"; //TODO i18n
@@ -44,12 +48,12 @@ public abstract class SensorNode<T> extends PNode {
             }
         };
         // value display
-        final PText textNode = new PText( getText.apply() ) {{
+        textNode = new PText( getText.apply() ) {{
             setFont( new PhetFont( 18, true ) );
         }};
 
         // background box
-        final PPath backgroundNode = new PhetPPath( Color.white, new BasicStroke( 1f ), Color.darkGray );
+        backgroundNode = new PhetPPath( Color.white, new BasicStroke( 1f ), Color.darkGray );
 
         // rendering order
         addChild( backgroundNode );
