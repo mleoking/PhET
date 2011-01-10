@@ -1,5 +1,6 @@
-1/7/2011 change KSU credits logo from PNG to medium JPG compression, decreases file size to 18K, still looks good
-1/7/2011 change request: reduce size of KSU credits logo by 25%
+1/7/2011 #2624, new credits logo from KSU 
+1/7/2011 #2624, change KSU credits logo from PNG to medium JPG compression, decreases file size to 18K, still looks good
+1/7/2011 #2624, change request: reduce size of KSU credits logo by 25%
 1/7/2011 Updated copyright text and dates for phetcommon, see #2630
 1/7/2011 ModelViewTransform: added viewToModel(Shape) and factored out transform inversion code
 1/4/2011 added double buffering for the AWT splash screen, see #2617
