@@ -26,7 +26,7 @@ class edu.colorado.phet.flashcommon.AboutDialog extends edu.colorado.phet.flashc
 		// construct the string of text to show
 		var str : String = "";
 		str += "<b>PhET Interactive Simulations</b>\n";
-		str += "Copyright \u00A9 2004-2010 University of Colorado.\n";
+		str += "Copyright \u00A9 2004-2011 University of Colorado.\n";
 		str += "Some rights reserved.\n";
 		str += "Visit <a href='asfunction:_level0.common.openExternalLink,http://" + FlashCommon.getMainServer() + "'>http://" + FlashCommon.getMainServer() + "</a>\n\n";
 
