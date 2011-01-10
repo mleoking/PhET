@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
+import edu.colorado.phet.buildanatom.model.IAtom;
 
 /**
  * Represents one row from the table defined in the design doc (see pools for level 1-3)
@@ -9,7 +11,8 @@ import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
  * @author Sam Reid
  * @author John Blanco
  */
-public class AtomValue {
+public class AtomValue implements IAtom {
+
     private final int protons;
     private final int neutrons;
     private final int electrons;
@@ -52,13 +55,13 @@ public class AtomValue {
         return true;
     }
 
-    public SimpleAtom toAtom(BuildAnAtomClock clock) {
+    public SimpleAtom toAtom( BuildAnAtomClock clock ) {
         assert protons >= 0 && neutrons >= 0 && electrons >= 0;
         return new SimpleAtom( protons, neutrons, electrons );
     }
 
     public int getMassNumber() {
-        return protons+neutrons;
+        return protons + neutrons;
     }
 
     public int getCharge() {
@@ -72,5 +75,45 @@ public class AtomValue {
     @Override
     public String toString (){
         return new String( "protons: " + protons + ", neutrons: " + neutrons + ", electrons: " + electrons + ", charge: " + getCharge() );
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getFormattedCharge()
+     */
+    public String getFormattedCharge() {
+        if (getCharge() <= 0){
+            return "" + getCharge();
+        }
+        else{
+            return "+" + getCharge();
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getName()
+     */
+    public String getName() {
+        return AtomIdentifier.getName( this );
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getSymbol()
+     */
+    public String getSymbol() {
+        return AtomIdentifier.getSymbol( this );
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#isStable()
+     */
+    public boolean isStable() {
+        return AtomIdentifier.isStable( this );
+    }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getAtomicMass()
+     */
+    public double getAtomicMass() {
+        return AtomIdentifier.getAtomicMass( this );
     }
 }
