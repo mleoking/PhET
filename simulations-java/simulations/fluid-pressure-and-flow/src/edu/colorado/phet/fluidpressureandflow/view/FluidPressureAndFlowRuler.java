@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.view;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
@@ -30,7 +29,7 @@ public class FluidPressureAndFlowRuler extends PNode {
                 setVisible( visible.getValue() );
             }
         } );
-        final RulerNode rulerNode = new RulerNode( length,50, majorTicks, units, 4, 15 ){{
+        final RulerNode rulerNode = new RulerNode( length, 50, majorTicks, units, 4, 15 ) {{
             setInsetWidth( 0 );//so 0 is exactly at edge of ruler
         }};
         rulerNode.rotate( -Math.PI / 2 );
