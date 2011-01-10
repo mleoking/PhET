@@ -6,7 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
@@ -77,11 +77,11 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         }
     }
 
-    public AtomValue getAtomValue() {
+    public ImmutableAtom getAtomValue() {
         return model.getAtom().toImmutableAtom();
     }
 
-    public void setAtomValue( AtomValue answer ) {
+    public void setAtomValue( ImmutableAtom answer ) {
         model.setState( answer, false );
     }
 

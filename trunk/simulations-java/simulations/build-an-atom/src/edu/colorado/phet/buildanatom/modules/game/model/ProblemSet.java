@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 
 //DOC relationship to pool, AtomValue, etc.
@@ -209,7 +209,7 @@ public class ProblemSet {
             requireCharged = RAND.nextBoolean();
         }
 
-        AtomValue atomValue = availableAtomValues.getRandomAtomValue( minProtonCount, maxProtonCount, requireCharged );
+        ImmutableAtom atomValue = availableAtomValues.getRandomAtomValue( minProtonCount, maxProtonCount, requireCharged );
         availableAtomValues.markAtomAsUsed( atomValue );
         return createProblem( model, problemType, atomValue );
     }
@@ -218,7 +218,7 @@ public class ProblemSet {
      * Create a single problem given a problem type (e.g. Schematic to
      * Element) and an atom value that defines that atom configuration.
      */
-    private Problem createProblem( BuildAnAtomGameModel model, ProblemType problemType, AtomValue atomValue ) {
+    private Problem createProblem( BuildAnAtomGameModel model, ProblemType problemType, ImmutableAtom atomValue ) {
         Problem problem = null;
         switch ( problemType ) {
         case COUNTS_TO_ELEMENT:
@@ -322,11 +322,11 @@ public class ProblemSet {
      */
     private static class AtomValuePool {
         private static final Random AVP_RAND = new Random();
-        private final ArrayList<AtomValue> remainingAtomValues;
-        private final ArrayList<AtomValue> usedAtomValues = new ArrayList<AtomValue>();
+        private final ArrayList<ImmutableAtom> remainingAtomValues;
+        private final ArrayList<ImmutableAtom> usedAtomValues = new ArrayList<ImmutableAtom>();
 
         public AtomValuePool(BuildAnAtomGameModel model) {
-            remainingAtomValues = new ArrayList<AtomValue>( model.getLevelPool() );
+            remainingAtomValues = new ArrayList<ImmutableAtom>( model.getLevelPool() );
         }
 
         /**
@@ -335,7 +335,7 @@ public class ProblemSet {
          * @param atomValueToRemove
          * @return true if value found, false if not.
          */
-        public boolean markAtomAsUsed( AtomValue atomValueToRemove ){
+        public boolean markAtomAsUsed( ImmutableAtom atomValueToRemove ){
             if ( remainingAtomValues.remove( atomValueToRemove ) ){
                 usedAtomValues.add( atomValueToRemove );
                 return true;
@@ -343,10 +343,10 @@ public class ProblemSet {
             return false; // Didn't find the value on the list.
         }
 
-        public AtomValue getRandomAtomValue( final int minProtonCount, final int maxProtonCount, final boolean requireCharged ){
-            return getRandomAtomValue( new Function1<AtomValue, Boolean>() {
+        public ImmutableAtom getRandomAtomValue( final int minProtonCount, final int maxProtonCount, final boolean requireCharged ){
+            return getRandomAtomValue( new Function1<ImmutableAtom, Boolean>() {
                 // Define the function that will decide if a given atom is acceptable.
-                public Boolean apply( AtomValue av ) {
+                public Boolean apply( ImmutableAtom av ) {
                     if ( av.getNumProtons() >= minProtonCount && av.getNumProtons() <= maxProtonCount ) {
                         if ( requireCharged ) {
                             if ( !av.isNeutral() ) {
@@ -369,11 +369,11 @@ public class ProblemSet {
          * by the passed-in function.  If there are no matches in the unused
          * atom values, it will search through the used atom values.
          */
-        private AtomValue getRandomAtomValue( Function1<AtomValue, Boolean> atomValueCriteria ) {
+        private ImmutableAtom getRandomAtomValue( Function1<ImmutableAtom, Boolean> atomValueCriteria ) {
 
             // Make a list of the atoms that are small enough.
-            ArrayList<AtomValue> allowableAtomValues = new ArrayList<AtomValue>();
-            for ( AtomValue av : remainingAtomValues ){
+            ArrayList<ImmutableAtom> allowableAtomValues = new ArrayList<ImmutableAtom>();
+            for ( ImmutableAtom av : remainingAtomValues ){
                 if (atomValueCriteria.apply( av)){
                     allowableAtomValues.add( av );
                 }
@@ -382,7 +382,7 @@ public class ProblemSet {
                 // There were none available on the list of unused atoms, so
                 // add them from the list of used atoms instead.
                 System.err.println( getClass().getName() + " - Warning: No remaining atoms values that meet the criteria." );
-                for ( AtomValue av : usedAtomValues ){
+                for ( ImmutableAtom av : usedAtomValues ){
                     if (atomValueCriteria.apply( av)){
                         allowableAtomValues.add( av );
                     }
@@ -390,7 +390,7 @@ public class ProblemSet {
             }
 
             // Choose a value from the list.
-            AtomValue atomValue = null;
+            ImmutableAtom atomValue = null;
             if ( allowableAtomValues.size() > 0 ){
                 atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
             }

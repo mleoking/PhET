@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.Neutron;
@@ -52,7 +52,7 @@ public class InteractiveIsotopeModel implements Resettable {
     protected static final double NUCLEUS_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_1_RADIUS;
 
     // Default atom configuration.
-    private static final AtomValue DEFAULT_ATOM_CONFIG = new AtomValue( 1, 0, 1 ); // Hydrogen.
+    private static final ImmutableAtom DEFAULT_ATOM_CONFIG = new ImmutableAtom( 1, 0, 1 ); // Hydrogen.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -156,7 +156,7 @@ public class InteractiveIsotopeModel implements Resettable {
         return atom;
     }
 
-    public void setAtomConfiguration( AtomValue atomConfiguration ){
+    public void setAtomConfiguration( ImmutableAtom atomConfiguration ){
 
         if ( !atom.equals( atomConfiguration )){
             // Clear the atom.

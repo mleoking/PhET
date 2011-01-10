@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.util.Function0;
@@ -34,24 +34,24 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
     }
 
     @Override
-    protected void displayAnswer( AtomValue answer ) {
+    protected void displayAnswer( ImmutableAtom answer ) {
         getGuessProperty().setValue( answer.getNumProtons() );
         getQuestion().setEditable( false );
     }
 
     @Override
-    protected AtomValue getGuess() {
+    protected ImmutableAtom getGuess() {
         // For the particular case of this problem type, the guess is a little
         // tricky, because this is supposed to return the configuration of the
         // atom that was guessed, but the user has only input a proton count
         // and nothing else.  So basically, if the mass value is correct, we
         // return the matching atom, and if not, we return a null atom.
-        AtomValue answer = null;
+        ImmutableAtom answer = null;
         if ( getProblem().getAnswer().getNumProtons() == getGuessProperty().getValue() ){
             answer = getProblem().getAnswer();
         }
         else{
-            answer = new AtomValue( 0, 0, 0 );
+            answer = new ImmutableAtom( 0, 0, 0 );
         }
         return answer;
     }

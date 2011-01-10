@@ -12,7 +12,7 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
@@ -69,16 +69,16 @@ public abstract class ToElementView extends ProblemView {
     }
 
     @Override
-    protected AtomValue getGuess() {
+    protected ImmutableAtom getGuess() {
         boolean userGuessMatchesAnswerNeutrality = gamePeriodicTable.doesAtomChargeMatchGuess( getProblem().getAnswer() );
-        return new AtomValue( gamePeriodicTable.getGuessedNumberProtons(),
+        return new ImmutableAtom( gamePeriodicTable.getGuessedNumberProtons(),
                               getProblem().getAnswer().getNumNeutrons(),
                               userGuessMatchesAnswerNeutrality ? getProblem().getAnswer().getNumElectrons() ://if they guessed the right neutrality, assume they got the number of electrons right
                               getProblem().getAnswer().getNumElectrons() + 1 );//If they guessed the incorrect neutrality, then just return a number that differs from the correct # electrons
     }
 
     @Override
-    protected void displayAnswer( AtomValue answer ) {
+    protected void displayAnswer( ImmutableAtom answer ) {
         gamePeriodicTable.displayNumProtons( answer.getNumProtons() );
         gamePeriodicTable.setGuessNeutral( answer.isNeutral() );
     }
@@ -190,7 +190,7 @@ public abstract class ToElementView extends ProblemView {
             atom.setNumProtons( protons );
         }
 
-        public boolean doesAtomChargeMatchGuess( AtomValue atomValue ) {
+        public boolean doesAtomChargeMatchGuess( ImmutableAtom atomValue ) {
             if ( chargeGuessProperty.getValue() == ChargeGuess.UNANSWERED ) {
                 return false;
             }

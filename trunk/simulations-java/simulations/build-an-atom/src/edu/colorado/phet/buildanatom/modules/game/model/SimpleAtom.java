@@ -3,7 +3,7 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
@@ -103,8 +103,8 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
         return getMassNumber()+getNumElectrons();
     }
 
-    public AtomValue toAtomValue() {
-        return new AtomValue(getNumProtons(), getNumNeutrons(),getNumElectrons() );
+    public ImmutableAtom toAtomValue() {
+        return new ImmutableAtom(getNumProtons(), getNumNeutrons(),getNumElectrons() );
     }
 
     public void reset(){
@@ -123,8 +123,8 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     /* (non-Javadoc)
      * @see edu.colorado.phet.buildanatom.model.IDynamicAtom#toImmutableAtom()
      */
-    public AtomValue toImmutableAtom() {
-        return new AtomValue( getNumProtons(), getNumNeutrons(), getNumElectrons());
+    public ImmutableAtom toImmutableAtom() {
+        return new ImmutableAtom( getNumProtons(), getNumNeutrons(), getNumElectrons());
     }
 
     public double getAtomicMass(){

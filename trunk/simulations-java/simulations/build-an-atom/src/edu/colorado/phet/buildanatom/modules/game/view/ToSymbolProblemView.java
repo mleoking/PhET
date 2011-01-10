@@ -7,7 +7,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 
@@ -80,12 +80,12 @@ public class ToSymbolProblemView extends ProblemView {
     }
 
     @Override
-    protected AtomValue getGuess() {
+    protected ImmutableAtom getGuess() {
         return interactiveSymbolNode.getGuess();
     }
 
     @Override
-    protected void displayAnswer( AtomValue answer ) {
+    protected void displayAnswer( ImmutableAtom answer ) {
         interactiveSymbolNode.displayAnswer(answer);
     }
 

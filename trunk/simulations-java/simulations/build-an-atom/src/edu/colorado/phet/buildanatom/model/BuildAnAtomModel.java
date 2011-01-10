@@ -70,13 +70,13 @@ public class BuildAnAtomModel implements Resettable {
     //----------------------------------------------------------------------------
 
     public BuildAnAtomModel( BuildAnAtomClock clock ) {
-        this( clock, new AtomValue( DEFAULT_NUM_PROTONS, DEFAULT_NUM_NEUTRONS, DEFAULT_NUM_ELECTRONS ) );
+        this( clock, new ImmutableAtom( DEFAULT_NUM_PROTONS, DEFAULT_NUM_NEUTRONS, DEFAULT_NUM_ELECTRONS ) );
     }
 
     /**
      * Construct the model based on the atom description.
      */
-    public BuildAnAtomModel( BuildAnAtomClock clock, AtomValue atomValue, boolean moveImmediately ) {
+    public BuildAnAtomModel( BuildAnAtomClock clock, ImmutableAtom atomValue, boolean moveImmediately ) {
         this( clock, atomValue );
         setState( atomValue, moveImmediately );
     }
@@ -84,7 +84,7 @@ public class BuildAnAtomModel implements Resettable {
     /**
      * Construct the model with the atoms initially in the bucket.
      */
-    public BuildAnAtomModel( BuildAnAtomClock clock, AtomValue atomValue ) {
+    public BuildAnAtomModel( BuildAnAtomClock clock, ImmutableAtom atomValue ) {
         super();
 
         this.clock = clock;
@@ -273,7 +273,7 @@ public class BuildAnAtomModel implements Resettable {
         return null;
     }
 
-    public void setState( AtomValue answer, boolean moveImmediately ) {
+    public void setState( ImmutableAtom answer, boolean moveImmediately ) {
         ArrayList<SubatomicParticle> removedParticles = getAtom().setState( answer, this, moveImmediately );
         for ( SubatomicParticle particle : removedParticles ) {
             if ( particle instanceof Proton ) {

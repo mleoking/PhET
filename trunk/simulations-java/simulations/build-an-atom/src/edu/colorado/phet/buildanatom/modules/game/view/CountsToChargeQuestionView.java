@@ -3,7 +3,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomValue;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
@@ -35,24 +35,24 @@ public class CountsToChargeQuestionView extends CountsToQuestionView {
     }
 
     @Override
-    protected void displayAnswer( AtomValue answer ) {
+    protected void displayAnswer( ImmutableAtom answer ) {
         getGuessProperty().setValue( answer.getCharge() );
         getQuestion().setEditable( false );
     }
 
     @Override
-    protected AtomValue getGuess() {
+    protected ImmutableAtom getGuess() {
         // For the particular case of this problem type, the guess is a little
         // tricky, because this is supposed to return the configuration of the
         // atom that was guessed, but the user has only input a charge value and
         // nothing else.  So basically, if the charge value is correct, we
         // return the matching atom, and if not, we return a null atom.
-        AtomValue answer = null;
+        ImmutableAtom answer = null;
         if ( getProblem().getAnswer().getCharge() == getGuessProperty().getValue() ){
             answer = getProblem().getAnswer();
         }
         else{
-            answer = new AtomValue( 0, 0, 0 );
+            answer = new ImmutableAtom( 0, 0, 0 );
         }
         return answer;
     }

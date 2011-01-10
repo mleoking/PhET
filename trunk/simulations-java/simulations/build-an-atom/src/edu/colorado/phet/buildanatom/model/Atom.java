@@ -101,7 +101,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
      * specified in the supplied atom configuration.  Creates subatomic
      * particles as needed.
      */
-    public Atom( Point2D position, BuildAnAtomClock clock, AtomValue initialConfiguration ) {
+    public Atom( Point2D position, BuildAnAtomClock clock, ImmutableAtom initialConfiguration ) {
         this( position, clock );
         for ( int i = 0; i < initialConfiguration.getNumElectrons(); i++ ) {
             addElectron( new Electron( clock ), true );
@@ -313,7 +313,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
      * @return
      */
     //DOC change name to configurationMatches
-    public boolean equals( AtomValue atomValue ){
+    public boolean equals( ImmutableAtom atomValue ){
         return protons.size() == atomValue.getNumProtons() &&
                neutrons.size() == atomValue.getNumNeutrons() &&
                electronShell1.getNumElectrons() + electronShell2.getNumElectrons() == atomValue.getNumElectrons();
@@ -516,7 +516,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     }
 
     //For the game mode
-    public ArrayList<SubatomicParticle> setState( AtomValue answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
+    public ArrayList<SubatomicParticle> setState( ImmutableAtom answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
         ArrayList<SubatomicParticle> removedParticles = new ArrayList<SubatomicParticle>();
         while ( getNumProtons() > answer.getNumProtons() ) {
             removedParticles.add( removeProton() );
@@ -566,8 +566,8 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     /* (non-Javadoc)
      * @see edu.colorado.phet.buildanatom.model.IDynamicAtom#toImmutableAtom()
      */
-    public AtomValue toImmutableAtom() {
-        return new AtomValue( getNumProtons(), getNumNeutrons(), getNumElectrons() );
+    public ImmutableAtom toImmutableAtom() {
+        return new ImmutableAtom( getNumProtons(), getNumNeutrons(), getNumElectrons() );
     }
 
     /* (non-Javadoc)
