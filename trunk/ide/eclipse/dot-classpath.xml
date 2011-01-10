@@ -100,6 +100,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/advanced-acid-base-solutions/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/balloons/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/balloons/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/balancing-chemical-equations/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/balancing-chemical-equations/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/battery-resistor-circuit/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/battery-resistor-circuit/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/battery-voltage/src"/>
