@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This class defines a motion strategy that causes an element to appear as

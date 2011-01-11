@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Motion strategy that moves seeks to look like something that was injected,
