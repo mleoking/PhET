@@ -5,7 +5,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - complete all features of the "Balance Equation" module
-- add smiley face in "Balance Equation" module when equation is balanced
 
 MEDIUM PRIORITY
 - "Game" module
