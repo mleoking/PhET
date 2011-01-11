@@ -1,2 +1,4 @@
+1/10/11 create model for "Balance Equation" tab
+1/10/11 create stubs for canvases
 1/10/11 create English strings file based on design doc
 1/10/11 created balancing-chemical-equations project skeleton

@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.balancingchemicalequations.BCEModule;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * The "Game" module.
@@ -18,6 +17,6 @@ public class GameModule extends BCEModule {
 
     public GameModule( Frame parentFrame ) {
         super( parentFrame, BCEStrings.GAME, new BCEClock(), true /* startsPaused */ );
-        setSimulationPanel( new PhetPCanvas() );//XXX
+        setSimulationPanel( new GameCanvas() );
     }
 }

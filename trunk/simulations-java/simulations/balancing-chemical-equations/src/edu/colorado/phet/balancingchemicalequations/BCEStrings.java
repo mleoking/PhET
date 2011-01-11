@@ -20,6 +20,7 @@ public class BCEStrings {
     public static final String CHART = getString( "chart" );
     public static final String GAME = getString( "game" );
     public static final String METHANE = getString( "methane" );
+    public static final String WATER = getString( "water" );
 
     private static final String getString( String key ) {
         return BCEResources.getString( key );
