@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
 
 /**
  * @author Sam Reid
@@ -29,5 +30,13 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
 
         SwingUtils.setBackgroundDeep( this, FluidPressureControlPanel.BACKGROUND );
         SwingUtils.setForegroundDeep( this, FluidPressureControlPanel.FOREGROUND );
+    }
+
+    public static void main( String[] args ) {
+        new JFrame() {{
+            setContentPane( new UnitsControlPanel( new FluidFlowModule() ) );
+            setDefaultCloseOperation( EXIT_ON_CLOSE );
+            pack();
+        }}.setVisible( true );
     }
 }
