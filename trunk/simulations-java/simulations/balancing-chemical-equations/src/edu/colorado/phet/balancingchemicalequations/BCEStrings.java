@@ -13,8 +13,13 @@ public class BCEStrings {
     /* not intended for instantiation */
     private BCEStrings() {}
 
-    public static final String TITLE_BALANCE_EQUATION = getString( "title.balanceEquation" );
-    public static final String TITLE_GAME = getString( "title.game" );
+    public static final String AMMONIA = getString( "ammonia" );
+    public static final String BALANCE = getString( "balance" );
+    public static final String BALANCE_EQUATION = getString( "balanceEquation" );
+    public static final String BALANCE_THE_EQUATION = getString( "balanceTheEquation" );
+    public static final String CHART = getString( "chart" );
+    public static final String GAME = getString( "game" );
+    public static final String METHANE = getString( "methane" );
 
     private static final String getString( String key ) {
         return BCEResources.getString( key );
