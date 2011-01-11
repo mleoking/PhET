@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.balancingchemicalequations.BCEModule;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * The "Balance Equation" module.
@@ -18,6 +17,6 @@ public class BalanceEquationModule extends BCEModule {
 
     public BalanceEquationModule( Frame parentFrame ) {
         super( parentFrame, BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
-        setSimulationPanel( new PhetPCanvas() );//XXX
+        setSimulationPanel( new BalanceEquationCanvas() );
     }
 }
