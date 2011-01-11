@@ -18,7 +18,7 @@ public class BalanceEquationFaceNode extends FaceNode {
     private Equation equation;
 
     public BalanceEquationFaceNode( final Property<Equation> currentEquationProperty ) {
-        super( 150 );
+        super( 125 );
         smile();
 
         this.equation = currentEquationProperty.getValue();
