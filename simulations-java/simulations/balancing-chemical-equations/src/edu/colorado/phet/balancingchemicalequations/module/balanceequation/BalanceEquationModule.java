@@ -15,8 +15,16 @@ import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
  */
 public class BalanceEquationModule extends BCEModule {
 
+    private final BalanceEquationModel model;
+
     public BalanceEquationModule( Frame parentFrame ) {
         super( parentFrame, BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
-        setSimulationPanel( new BalanceEquationCanvas() );
+        model = new BalanceEquationModel();
+        setSimulationPanel( new BalanceEquationCanvas( parentFrame, this, model ) );
+    }
+
+    @Override
+    public void reset() {
+        model.reset();
     }
 }

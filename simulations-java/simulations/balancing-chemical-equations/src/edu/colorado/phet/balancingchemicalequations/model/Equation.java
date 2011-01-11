@@ -16,12 +16,12 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.O2;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ChemicalEquation {
+public abstract class Equation {
 
     public final String name;
     public final EquationTerm[] reactants, products;
 
-    public ChemicalEquation( String name, EquationTerm[] reactants, EquationTerm[] products ) {
+    public Equation( String name, EquationTerm[] reactants, EquationTerm[] products ) {
 
         // check arguments
         if ( reactants.length < 2 ) {
@@ -61,7 +61,7 @@ public abstract class ChemicalEquation {
     // One-product equations
     //------------------------------------------------------------------------
 
-    private static abstract class OneProductEquations extends ChemicalEquation {
+    private static abstract class OneProductEquations extends Equation {
 
         public OneProductEquations( String name, EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
             super( name, new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1 } );
@@ -88,7 +88,7 @@ public abstract class ChemicalEquation {
     // Two-product equations
     //------------------------------------------------------------------------
 
-    private static abstract class TwoProductEquations extends ChemicalEquation {
+    private static abstract class TwoProductEquations extends Equation {
 
         public TwoProductEquations( String name, EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1, EquationTerm product2 ) {
             super( name, new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1, product2 } );

@@ -1,3 +1,5 @@
+1/10/11 add Reset All button, wired up to model
+1/10/11 add control for selecting equation
 1/10/11 create model for "Balance Equation" tab
 1/10/11 create stubs for canvases
 1/10/11 create English strings file based on design doc
