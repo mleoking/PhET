@@ -8,10 +8,10 @@ package edu.colorado.phet.genenetwork;
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class GeneNetworkStrings {
-    
+
     /* not intended for instantiation */
     private GeneNetworkStrings() {}
-    
+
     public static final String TITLE_LACTOSE_REGULATION = GeneNetworkResources.getString( "ModuleTitle.LactoseRegulation" );
     public static final String TITLE_LACTOSE_TRANSPORT = GeneNetworkResources.getString( "ModuleTitle.LactoseTransport" );
 
@@ -20,12 +20,12 @@ public class GeneNetworkStrings {
     public static final String LAC_I_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacIGene" );
     public static final String LAC_Y_GENE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.LacYGene" );
     public static final String CELL_MEMBRANE_LABEL = GeneNetworkResources.getString( "ModelElementLabel.CellMembrane" );
-    
+
     // Captions for items in the DNA segment tool box.
     public static final String LAC_PROMOTER_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacPromoter" );
     public static final String LAC_I_PROMOTER_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacIPromoter" );
     public static final String LACI_BINDING_REGION_TOOL_BOX_CAPTION = GeneNetworkResources.getString( "Toolbox.LacIBindingRegion" );
-    
+
     // Captions for items in the legend.
     public static final String MACRO_MOLECULE_LEGEND_TITLE = GeneNetworkResources.getString( "Legend.Title" );
     public static final String POLYMERASE_LEGEND_CAPTION = GeneNetworkResources.getString( "Legend.Polymerase" );
@@ -44,4 +44,5 @@ public class GeneNetworkStrings {
     public static final String LACTOSE_INJECTOR_LABEL = GeneNetworkResources.getString("LactoseInjectorLabel");
     public static final String MANUAL_LACTOSE_INJECTION_LABEL = GeneNetworkResources.getString("ManualLactoseInjection");
     public static final String AUTO_LACTOSE_INJECTION_LABEL = GeneNetworkResources.getString("AutoLactoseInjection");
+    public static final String OFF_CHART = GeneNetworkResources.getString("OffChart");
 }
