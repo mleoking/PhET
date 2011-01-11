@@ -22,8 +22,8 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
 
         // modules
         Frame parentFrame = getPhetFrame();
-        addModule( new BalanceEquationModule( parentFrame ) );
-        addModule( new GameModule( parentFrame ) );
+        addModule( new BalanceEquationModule( parentFrame, config.isDev() ) );
+        addModule( new GameModule( parentFrame, config.isDev() ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

@@ -6,7 +6,7 @@ import java.awt.Dimension;
 
 /**
  * A collection of constants that configure global properties.
- * If you change something here, it will change *everywhere* in this simulation.
+ * If you change something here, it will change *everywhere* in this project.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

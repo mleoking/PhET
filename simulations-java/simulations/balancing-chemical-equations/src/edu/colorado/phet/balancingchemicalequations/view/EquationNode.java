@@ -25,6 +25,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Displays a chemical equation.
+ * Reactants are on the left-hand size, products are on the right-hand side.
+ * When coefficients are editable, they are displayed as editable spinners.
+ * When coefficients are not editable, they are displayed as PText.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

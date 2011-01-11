@@ -9,7 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Debug node for indicating whether an equation is balanaced.
+ * Debug node for indicating whether an equation is balanced,
+ * and if so, whether it's balanced with lowest coefficients.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

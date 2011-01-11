@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Base class for all chemical equations.
+ * A chemical equation has 2 sets of terms, reactants and products.
+ * During the chemical reaction represented by the equation, reactants are transformed into products.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -25,6 +27,12 @@ public abstract class Equation {
     public final Property<Boolean> balancedProperty;
     public final Property<Boolean> balancedWithLowestCoefficientsProperty;
 
+    /**
+     * Constructor.
+     * @param name user-visible name for the equation
+     * @param reactants
+     * @param products
+     */
     public Equation( String name, final EquationTerm[] reactants, final EquationTerm[] products ) {
 
         // check arguments

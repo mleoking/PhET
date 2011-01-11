@@ -15,8 +15,19 @@ import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
  */
 public class GameModule extends BCEModule {
 
-    public GameModule( Frame parentFrame ) {
+    private final GameModel model;
+    private final GameCanvas canvas;
+
+    public GameModule( Frame parentFrame, boolean dev ) {
         super( parentFrame, BCEStrings.GAME, new BCEClock(), true /* startsPaused */ );
-        setSimulationPanel( new GameCanvas() );
+        model = new GameModel();
+        canvas = new GameCanvas( model );
+        setSimulationPanel( canvas );
+    }
+
+    @Override
+    public void reset() {
+        model.reset();
+        canvas.reset();
     }
 }
