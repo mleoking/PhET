@@ -70,10 +70,6 @@ public class EquationNode extends PhetPNode  {
         return editable;
     }
 
-    public void cleanup() {
-        //XXX
-    }
-
     /*
      * Note:
      * This layout algorithm depends on the fact that all terms contain at least 1 uppercase letter.
