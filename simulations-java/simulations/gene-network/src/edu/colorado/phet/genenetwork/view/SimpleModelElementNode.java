@@ -5,7 +5,6 @@ package edu.colorado.phet.genenetwork.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
