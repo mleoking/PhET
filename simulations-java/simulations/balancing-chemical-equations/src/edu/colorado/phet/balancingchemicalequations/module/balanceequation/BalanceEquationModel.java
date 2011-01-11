@@ -9,6 +9,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Equation.AmmoniaEquati
 import edu.colorado.phet.balancingchemicalequations.model.Equation.MethaneEquation;
 import edu.colorado.phet.balancingchemicalequations.model.Equation.WaterEquation;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
 
@@ -19,6 +20,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalanceEquationModel extends RPALModel {
+
+    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 );
 
     private final ArrayList<Equation> equations;
     private Property<Equation> currentEquationProperty;
@@ -44,6 +47,10 @@ public class BalanceEquationModel extends RPALModel {
             equation.reset();
         }
         currentEquationProperty.reset();
+    }
+
+    public IntegerRange getCoefficientsRange() {
+        return COEFFICENTS_RANGE;
     }
 
     public ArrayList<Equation> getEquations() {
