@@ -4,9 +4,9 @@ package edu.colorado.phet.reactantsproductsandleftovers;
 
 
 /**
- * Collection of localized strings used by this project. 
+ * Collection of localized strings used by this project.
  * Statically loaded so we can easily see if any are missing.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RPALStrings {
@@ -25,7 +25,7 @@ public class RPALStrings {
     public static final String LABEL_LEFTOVERS = RPALResources.getString( "label.leftovers" );
     public static final String LABEL_REACTION_NUMBER = RPALResources.getString( "label.reactionNumber" );
     public static final String LABEL_HIDE = RPALResources.getString( "label.hide" );
-    
+
     // buttons
     public static final String BUTTON_CHECK = RPALResources.getString( "button.check" );
     public static final String BUTTON_NEXT = RPALResources.getString( "button.next" );
@@ -41,16 +41,15 @@ public class RPALStrings {
     public static final String RADIO_BUTTON_NUMBERS = RPALResources.getString( "radioButton.numbers" );
     public static final String RADIO_BUTTON_CHEESE_SANDWICH = RPALResources.getString( "radioButton.cheeseSandwich" );
     public static final String RADIO_BUTTON_MEAT_CHEESE_SANDWICH = RPALResources.getString( "radioButton.meatCheeseSandwich" );
-    
-    // messages 
-    public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
+
+    // messages
     public static final String MESSAGE_MOLECULES_HIDDEN = RPALResources.getString( "message.moleculesHidden" );
     public static final String MESSAGE_NUMBERS_HIDDEN = RPALResources.getString( "message.numbersHidden" );
-    
+
     // questions
     public static final String QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS = RPALResources.getString( "question.howManyProductsAndLeftovers" );
     public static final String QUESTION_HOW_MANY_REACTANTS = RPALResources.getString( "question.howManyReactants" );
-    
+
     // titles
     public static final String TITLE_SANDWICH_SHOP = RPALResources.getString( "title.sandwichShop" );
     public static final String TITLE_REAL_REACTION = RPALResources.getString( "title.realReaction" );
