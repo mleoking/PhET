@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.reactantsproductsandleftovers.controls;
+package edu.colorado.phet.common.phetcommon.view.controls;
 
 import java.awt.Toolkit;
 import java.awt.event.*;
