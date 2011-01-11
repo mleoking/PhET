@@ -33,14 +33,23 @@ public class AtomScaleNode extends PNode {
         // Draw the top of the scale, where the atom will sit.  This is drawn
         // as a trapazoid that is smaller on the top, which is meant to look
         // like the scale viewed at an angle.
-        DoubleGeneralPath scaleTopShape = new DoubleGeneralPath();
-        scaleTopShape.moveTo( SIZE.getWidth() * 0.25, 0 );
-        scaleTopShape.lineTo( SIZE.getWidth() * 0.75, 0 );
-        scaleTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.25 );
-        scaleTopShape.lineTo( 0, SIZE.getHeight() * 0.25 );
-        scaleTopShape.closePath();
+        DoubleGeneralPath weighPlateTopShape = new DoubleGeneralPath();
+        weighPlateTopShape.moveTo( SIZE.getWidth() * 0.25, 0 );
+        weighPlateTopShape.lineTo( SIZE.getWidth() * 0.75, 0 );
+        weighPlateTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.25 );
+        weighPlateTopShape.lineTo( 0, SIZE.getHeight() * 0.25 );
+        weighPlateTopShape.closePath();
 
-        PNode scaleTop = new PhetPPath( scaleTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
+        PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
         addChild( scaleTop );
+
+        // Add the rectangle the sits just below the top of the scale.
+        Rectangle2D bottomOfWeighPlate = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.25, SIZE.getWidth(), SIZE.getHeight() * 0.1 );
+        addChild( new PhetPPath( bottomOfWeighPlate, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
+
+        // Add the top portion of the scale body.  This is meant to look like
+        // a tilted rectangle.
+
+
     }
 }
