@@ -11,7 +11,6 @@ import edu.colorado.phet.balancingchemicalequations.model.Equation.WaterEquation
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
 
 /**
  * Model for the "Balance Equation" module.
@@ -19,7 +18,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceEquationModel extends RPALModel {
+public class BalanceEquationModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 );
 
