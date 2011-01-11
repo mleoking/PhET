@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Panel of radio buttons for a set of Equation choices.
+ * Panel of radio buttons for selecting an equation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

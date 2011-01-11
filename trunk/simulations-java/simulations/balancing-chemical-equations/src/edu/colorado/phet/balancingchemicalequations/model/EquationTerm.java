@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * A term in a chemical equation.
+ * The "balanced coefficient" is the lowest coefficient value that will balance the equation.
+ * The "actual coefficient" is the coefficient set by the user.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

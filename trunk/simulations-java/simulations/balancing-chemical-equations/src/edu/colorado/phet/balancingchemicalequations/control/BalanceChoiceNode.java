@@ -13,12 +13,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Panel of radio buttons for selecting the visual representation for "balanced".
+ * "Balanced" is represented as either a bar chart, or a balance scale.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalanceChoiceNode extends PhetPNode {
 
-    public static enum BalanceChoice { CHART, BALANCE_SCALE };
+    public static enum BalanceChoice { BAR_CHART, BALANCE_SCALE };
 
     public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty ) ) );
@@ -33,7 +34,7 @@ public class BalanceChoiceNode extends PhetPNode {
             setAnchor( Anchor.WEST );
             setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
             setGridY( 0 ); // horizontal layout
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.CHART, balanceChoiceProperty, BalanceChoice.CHART ) );
+            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHART, balanceChoiceProperty, BalanceChoice.BAR_CHART ) );
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALE, balanceChoiceProperty, BalanceChoice.BALANCE_SCALE ) );
         }
     }

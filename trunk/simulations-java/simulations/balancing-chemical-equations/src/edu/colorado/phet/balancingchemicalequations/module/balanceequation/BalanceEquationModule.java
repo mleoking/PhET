@@ -18,10 +18,10 @@ public class BalanceEquationModule extends BCEModule {
     private final BalanceEquationModel model;
     private final BalanceEquationCanvas canvas;
 
-    public BalanceEquationModule( Frame parentFrame ) {
+    public BalanceEquationModule( Frame parentFrame, boolean dev ) {
         super( parentFrame, BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
         model = new BalanceEquationModel();
-        canvas = new BalanceEquationCanvas( parentFrame, this, model );
+        canvas = new BalanceEquationCanvas( parentFrame, this, model, dev );
         setSimulationPanel( canvas );
     }
 

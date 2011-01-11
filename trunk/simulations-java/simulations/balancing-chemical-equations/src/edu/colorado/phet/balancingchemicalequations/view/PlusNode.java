@@ -4,7 +4,6 @@ package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
@@ -17,19 +16,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class PlusNode extends PPath {
 
-    private static final Stroke STROKE = new BasicStroke( 1f );
-    private static final Color STROKE_PAINT = Color.BLACK;
-    private static final Color FILL_PAINT = BCEColors.PLUS_SIGN_COLOR;
-
     public PlusNode() {
         this( 20, 20, 6 );
     }
 
     private PlusNode( double width, double height, double thickness ) {
         super();
-        setStroke( STROKE );
-        setStrokePaint( STROKE_PAINT );
-        setPaint( FILL_PAINT );
+        setStroke( new BasicStroke( 1f ) );
+        setStrokePaint( Color.BLACK );
+        setPaint( BCEColors.PLUS_SIGN_COLOR );
 
         // coordinate, clockwise from upper left
         float x1 = 0f;
