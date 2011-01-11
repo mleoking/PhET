@@ -23,6 +23,7 @@ public abstract class Equation {
     public final String name;
     public final EquationTerm[] reactants, products;
     public final Property<Boolean> balancedProperty;
+    public final Property<Boolean> balancedWithLowestCoefficientsProperty;
 
     public Equation( String name, final EquationTerm[] reactants, final EquationTerm[] products ) {
 
@@ -38,26 +39,44 @@ public abstract class Equation {
         this.reactants = reactants;
         this.products = products;
         this.balancedProperty = new Property<Boolean>( false );
+        this.balancedWithLowestCoefficientsProperty = new Property<Boolean>( false );
 
         // equation is balanced if all terms are balanced.
         SimpleObserver o = new SimpleObserver() {
             public void update() {
-                boolean balanced = true;
-                for ( int i = 0; i < reactants.length && balanced; i++ ) {
-                    balanced = reactants[i].isBalanced();
-                }
-                for ( int i = 0; i < products.length && balanced; i++ ) {
-                    balanced = products[i].isBalanced();
-                }
-                balancedProperty.setValue( balanced );
+                updateBalancedProperties();
             }
         };
         for ( EquationTerm term : reactants ) {
-            term.getBalancedProperty().addObserver( o );
+            term.getActualCoefficientProperty().addObserver( o );
         }
         for ( EquationTerm term : products ) {
-            term.getBalancedProperty().addObserver( o );
+            term.getActualCoefficientProperty().addObserver( o );
         }
+    }
+
+    /*
+     * An equation is balanced if all of its terms have a coefficient that is the
+     * same integer multiple of the term's balanced coefficient.  If the integer
+     * multiple is 1, then the term is balanced with lowest possible coefficients.
+     */
+    private void updateBalancedProperties() {
+
+        // Get integer multiplier from the first reactant term.
+        final int multiplier = (int)( reactants[0].getActualCoefficient() / reactants[0].getBalancedCoefficient() );
+
+        boolean balanced = ( multiplier > 0 );
+
+        // Check each term to see if the actual coefficient is the same integer multiple of the balanced coefficient.
+        for ( EquationTerm reactant : reactants ) {
+            balanced = balanced && ( reactant.getActualCoefficient() == multiplier * reactant.getBalancedCoefficient() );
+        }
+        for ( EquationTerm product : products ) {
+            balanced = balanced && ( product.getActualCoefficient() == multiplier * product.getBalancedCoefficient() );
+        }
+
+        balancedWithLowestCoefficientsProperty.setValue( balanced && ( multiplier == 1 ) ); // set the more specific property first
+        balancedProperty.setValue( balanced );
     }
 
     public String getName() {
@@ -80,6 +99,14 @@ public abstract class Equation {
         return balancedProperty;
     }
 
+    public boolean isBalancedWithLowestCoefficients() {
+        return balancedWithLowestCoefficientsProperty.getValue();
+    }
+
+    public Property<Boolean> getBalancedWithLowestCoefficientsProperty() {
+        return balancedWithLowestCoefficientsProperty;
+    }
+
     public void reset() {
         for ( EquationTerm term : reactants ) {
             term.reset();
@@ -87,6 +114,7 @@ public abstract class Equation {
         for ( EquationTerm term : products ) {
             term.reset();
         }
+        // balanced properties are automatically reset when terms are reset
     }
 
     //------------------------------------------------------------------------
