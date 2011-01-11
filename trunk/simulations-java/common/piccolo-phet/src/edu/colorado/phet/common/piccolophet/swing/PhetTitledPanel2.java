@@ -15,7 +15,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
- * Feasibility test for PhetTitlePanel
+ * Feasibility test for PhetTitlePanel, we will probably use something more like PhetTitledPanel3 since this implementation
+ * restricts the layout to be that of a VerticalLayoutPanel and will silently fail if the layout is changed.
  *
  * @author Sam Reid
  */
