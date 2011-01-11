@@ -71,6 +71,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Add the node that contains both the atom and the neutron bucket.
         rootNode.addChild( new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) ));
 
+        // Add the weigh scale that sits beneath the atom.  This has to be
+        // positioned essentially "by hand".
+        PNode scaleNode = new AtomScaleNode();
+        scaleNode.setOffset( mvt.modelToViewXDouble( 0 ) - scaleNode.getFullBoundsReference().width / 2,
+                mvt.modelToViewYDouble( -90 ) );
+        rootNode.addChild( scaleNode );
+
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
         // Position the stability indicator under the nucleus
