@@ -9,7 +9,10 @@ import java.awt.Frame;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
-import edu.colorado.phet.balancingchemicalequations.view.*;
+import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.balancingchemicalequations.view.BalanceEquationFaceNode;
+import edu.colorado.phet.balancingchemicalequations.view.BoxesNode;
+import edu.colorado.phet.balancingchemicalequations.view.EquationNode;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -53,21 +56,9 @@ public class BalanceEquationCanvas extends BCECanvas {
         resetAllButtonNode.setConfirmationEnabled( false );
         addChild( resetAllButtonNode );
 
-        // dev node to indicate whether the equation is balanced
-        final BalancedIndicatorNode balancedIndicatorNode = new BalancedIndicatorNode( model.getCurrentEquation() );
-        if ( dev ) {
-            addChild( balancedIndicatorNode );
-        }
-        model.getCurrentEquationProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                balancedIndicatorNode.setEquation( model.getCurrentEquation() );
-            }
-        } );
-
         // layout
         double x = 0;
         double y = 0;
-        final double xSpacing = 20;
         final double ySpacing = 15;
         equationChoiceNode.setOffset( x, y );
         y = equationChoiceNode.getFullBoundsReference().getMaxY() + ySpacing;
@@ -79,12 +70,9 @@ public class BalanceEquationCanvas extends BCECanvas {
         x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
         y = boxesNode.getFullBoundsReference().getMaxY() + ySpacing;
         faceNode.setOffset( x, y );
-        x = boxesNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth();
-        y = boxesNode.getFullBoundsReference().getMaxY() + 120;//XXX
+        x = boxesNode.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 );
+        y = faceNode.getFullBoundsReference().getMaxY() + ySpacing;
         resetAllButtonNode.setOffset( x, y );
-        x = balanceChoiceNode.getFullBoundsReference().getMaxX() + xSpacing;
-        y = balanceChoiceNode.getFullBoundsReference().getCenterY() - ( balancedIndicatorNode.getFullBoundsReference().getHeight() / 2 );
-        balancedIndicatorNode.setOffset( x, y );
 
         // observers
         balanceChoiceProperty.addObserver( new SimpleObserver() {
