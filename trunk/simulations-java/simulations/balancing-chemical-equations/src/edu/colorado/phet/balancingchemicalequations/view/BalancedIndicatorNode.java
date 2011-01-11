@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -17,10 +19,12 @@ public class BalancedIndicatorNode extends PText {
     private final SimpleObserver observer;
 
     public BalancedIndicatorNode( Equation equation ) {
+        setTextPaint( Color.RED );
         this.equation = equation;
         observer = new SimpleObserver() {
             public void update() {
-                setText( getEquation().getBalancedProperty().getValue() ? "Balanced" : "Unbalanced" );
+                setText( getEquation().isBalanced() ? "Balanced" : "Unbalanced" );
+                setTextPaint( getEquation().isBalanced() ? new Color( 37, 185, 24 ) : Color.RED );
             }
         };
         equation.getBalancedProperty().addObserver( observer );
