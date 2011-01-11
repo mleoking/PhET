@@ -23,7 +23,8 @@ public class BalancedIndicatorNode extends PText {
         this.equation = equation;
         observer = new SimpleObserver() {
             public void update() {
-                String text = getEquation().isBalanced() ? "Balanced" : "Unbalanced";
+                String text = "dev: ";
+                text += ( getEquation().isBalanced() ? "Balanced" : "Unbalanced" );
                 text += getEquation().isBalancedWithLowestCoefficients() ? " (Lowest!)" : "";
                 setText( text );
                 setTextPaint( getEquation().isBalanced() ? new Color( 37, 185, 24 ) : Color.RED );
