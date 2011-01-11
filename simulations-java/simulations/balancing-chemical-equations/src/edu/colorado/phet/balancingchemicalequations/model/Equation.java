@@ -10,6 +10,8 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.H2O;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.N2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.NH3;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.O2;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Base class for all chemical equations.
@@ -20,8 +22,9 @@ public abstract class Equation {
 
     public final String name;
     public final EquationTerm[] reactants, products;
+    public final Property<Boolean> balancedProperty;
 
-    public Equation( String name, EquationTerm[] reactants, EquationTerm[] products ) {
+    public Equation( String name, final EquationTerm[] reactants, final EquationTerm[] products ) {
 
         // check arguments
         if ( reactants.length < 2 ) {
@@ -34,6 +37,27 @@ public abstract class Equation {
         this.name = name;
         this.reactants = reactants;
         this.products = products;
+        this.balancedProperty = new Property<Boolean>( false );
+
+        // equation is balanced if all terms are balanced.
+        SimpleObserver o = new SimpleObserver() {
+            public void update() {
+                boolean balanced = true;
+                for ( int i = 0; i < reactants.length && balanced; i++ ) {
+                    balanced = reactants[i].isBalanced();
+                }
+                for ( int i = 0; i < products.length && balanced; i++ ) {
+                    balanced = products[i].isBalanced();
+                }
+                balancedProperty.setValue( balanced );
+            }
+        };
+        for ( EquationTerm term : reactants ) {
+            term.getBalancedProperty().addObserver( o );
+        }
+        for ( EquationTerm term : products ) {
+            term.getBalancedProperty().addObserver( o );
+        }
     }
 
     public String getName() {
@@ -46,6 +70,14 @@ public abstract class Equation {
 
     public EquationTerm[] getProducts() {
         return products;
+    }
+
+    public boolean isBalanced() {
+        return balancedProperty.getValue();
+    }
+
+    public Property<Boolean> getBalancedProperty() {
+        return balancedProperty;
     }
 
     public void reset() {

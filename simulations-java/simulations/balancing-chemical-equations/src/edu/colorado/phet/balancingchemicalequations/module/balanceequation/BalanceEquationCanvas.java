@@ -7,8 +7,11 @@ import java.awt.Frame;
 
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.balancingchemicalequations.view.BalancedIndicatorNode;
 import edu.colorado.phet.balancingchemicalequations.view.EquationNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
 /**
@@ -18,15 +21,24 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
  */
 public class BalanceEquationCanvas extends BCECanvas {
 
-    public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, BalanceEquationModel model ) {
+    public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, final BalanceEquationModel model ) {
 
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty() );
         addChild( equationChoiceNode );
-        equationChoiceNode.setOffset( 50, 50 );//XXX
+        equationChoiceNode.setOffset( 5, 50 );//XXX
 
-        EquationNode equationNode = new EquationNode( model.getCurrentEquation() );
+        final EquationNode equationNode = new EquationNode( model.getCurrentEquationProperty(), new IntegerRange( 0, 3 ), true );
         addChild( equationNode );
         equationNode.setOffset( equationChoiceNode.getXOffset(), equationChoiceNode.getFullBoundsReference().getMaxY() + 10 );
+
+        final BalancedIndicatorNode balancedIndicatorNode = new BalancedIndicatorNode( model.getCurrentEquation() );
+        addChild( balancedIndicatorNode );
+        balancedIndicatorNode.setOffset( 5, 200 );//XXX
+        model.getCurrentEquationProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                balancedIndicatorNode.setEquation( model.getCurrentEquation() );
+            }
+        } );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, parentFrame, 12, Color.BLACK, Color.WHITE );
         resetAllButtonNode.setConfirmationEnabled( false );
