@@ -81,31 +81,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         } );
         rootNode.addChild( stabilityIndicator );
 
-        // Add the interactive periodic table that allows the user to select
-        // the initial element.
-        // TODO: Turn this into a class rather than having this big override here.
-//        final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
-//            @Override
-//            protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
-//                if ( elementCell.getAtomicNumber() <= 10 ){
-//                    elementCell.addInputEventListener( new CursorHandler() );
-//                    elementCell.addInputEventListener( new PBasicInputEventHandler() {
-//                        @Override
-//                        public void mousePressed( PInputEvent event ) {
-//                            int numProtons = elementCell.getAtomicNumber();
-//                            int numNeutrons = elementCell.getAtomicNumber();
-//                            int numElectrons = elementCell.getAtomicNumber();
-//                            ImmutableAtom atomConfig = new ImmutableAtom(numProtons, numNeutrons, numElectrons);
-//
-//                            model.setAtomConfiguration( atomConfig );
-//                        }
-//                    } );
-//                }
-//                else{
-////                    elementCell.setDisabledLooking( true );
-//                }
-//            }
-//        };
         final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
             @Override
             protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
@@ -133,13 +108,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         };
         periodicTableNode.setScale( 1.4 );
         periodicTableNode.setOffset( 20, 20 );
-        addScreenChild( periodicTableNode );
+        rootNode.addChild( periodicTableNode );
 
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
         particleCountLegend.setScale( 1.25 );
         particleCountLegend.setOffset( 575, 20 );
-        addScreenChild( particleCountLegend );
+        rootNode.addChild( particleCountLegend );
     }
 
     //----------------------------------------------------------------------------
