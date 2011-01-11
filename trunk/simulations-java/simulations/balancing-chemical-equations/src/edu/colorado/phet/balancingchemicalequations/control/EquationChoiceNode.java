@@ -26,7 +26,6 @@ public class EquationChoiceNode extends PhetPNode {
      */
     public EquationChoiceNode( ArrayList<Equation> equations, Property<Equation> currentEquationProperty ) {
         addChild( new PSwing( new EquationChoicePanel( equations, currentEquationProperty ) ) );
-        scale( 1.0 ); // scale, because changing font size of radio buttons doesn't change button size on Mac
     }
 
     /*

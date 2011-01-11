@@ -14,8 +14,8 @@ public class BCEStrings {
     private BCEStrings() {}
 
     public static final String AMMONIA = getString( "ammonia" );
-    public static final String BALANCE = getString( "balance" );
     public static final String BALANCE_EQUATION = getString( "balanceEquation" );
+    public static final String BALANCE_SCALE = getString( "balanceScale" );
     public static final String BALANCE_THE_EQUATION = getString( "balanceTheEquation" );
     public static final String CHART = getString( "chart" );
     public static final String GAME = getString( "game" );
