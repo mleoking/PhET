@@ -4,10 +4,10 @@ package edu.colorado.phet.balancingchemicalequations.module.balanceequation;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.balancingchemicalequations.model.ChemicalEquation;
-import edu.colorado.phet.balancingchemicalequations.model.ChemicalEquation.AmmoniaEquation;
-import edu.colorado.phet.balancingchemicalequations.model.ChemicalEquation.MethaneEquation;
-import edu.colorado.phet.balancingchemicalequations.model.ChemicalEquation.WaterEquation;
+import edu.colorado.phet.balancingchemicalequations.model.Equation;
+import edu.colorado.phet.balancingchemicalequations.model.Equation.AmmoniaEquation;
+import edu.colorado.phet.balancingchemicalequations.model.Equation.MethaneEquation;
+import edu.colorado.phet.balancingchemicalequations.model.Equation.WaterEquation;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
@@ -20,38 +20,42 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
  */
 public class BalanceEquationModel extends RPALModel {
 
-    private final ArrayList<ChemicalEquation> equations;
-    private Property<ChemicalEquation> currentEquationProperty;
+    private final ArrayList<Equation> equations;
+    private Property<Equation> currentEquationProperty;
 
     public BalanceEquationModel() {
-        equations = new ArrayList<ChemicalEquation>() {{
+        equations = new ArrayList<Equation>() {{
             add( new WaterEquation() );
             add( new AmmoniaEquation() );
             add( new MethaneEquation() );
         }};
-        currentEquationProperty = new Property<ChemicalEquation>( equations.get( 0 ) );
+        currentEquationProperty = new Property<Equation>( equations.get( 0 ) );
     }
 
     public void reset() {
-        for ( ChemicalEquation equation : equations ) {
+        for ( Equation equation : equations ) {
             equation.reset();
         }
         currentEquationProperty.reset();
     }
 
-    public ArrayList<ChemicalEquation> getEquations() {
+    public ArrayList<Equation> getEquations() {
         return equations;
     }
 
-    public void setCurrentEquation( ChemicalEquation equation ) {
+    public void setCurrentEquation( Equation equation ) {
         if ( !equations.contains( equation ) ) {
             throw new IllegalArgumentException( "equation is not part of this model: " + equation );
         }
         currentEquationProperty.setValue( equation );
     }
 
-    public ChemicalEquation getCurrentEquation() {
+    public Equation getCurrentEquation() {
         return currentEquationProperty.getValue();
+    }
+
+    public Property<Equation> getCurrentEquationProperty() {
+        return currentEquationProperty;
     }
 
     public void addCurrentEquationObserver( SimpleObserver o ) {

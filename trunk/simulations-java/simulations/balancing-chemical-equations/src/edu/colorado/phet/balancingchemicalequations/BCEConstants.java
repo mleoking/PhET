@@ -18,5 +18,5 @@ public class BCEConstants {
     public static final String PROJECT_NAME = "balancing-chemical-equations";
     public static final String FLAVOR_BCE = "balancing-chemical-equations";
 
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 700, 500 );
 }
