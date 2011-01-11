@@ -30,26 +30,37 @@ public class AtomScaleNode extends PNode {
     public AtomScaleNode() {
         addChild(new PhetPPath( new Rectangle2D.Double(0, 0, SIZE.getWidth(), SIZE.getHeight()), Color.PINK ));
 
-        // Draw the top of the scale, where the atom will sit.  This is drawn
-        // as a trapazoid that is smaller on the top, which is meant to look
-        // like the scale viewed at an angle.
+        // Add the top portion of the scale body.  This is meant to look like
+        // a tilted rectangle.  Because, hey, it's all a matter of
+        // perspective.
+        DoubleGeneralPath scaleBaseTopShape = new DoubleGeneralPath();
+        scaleBaseTopShape.moveTo( SIZE.getWidth() * 0.25, SIZE.getHeight() * 0.125 );
+        scaleBaseTopShape.lineTo( SIZE.getWidth() * 0.75, SIZE.getHeight() * 0.125 );
+        scaleBaseTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.6 );
+        scaleBaseTopShape.lineTo( 0, SIZE.getHeight() * 0.6 );
+        scaleBaseTopShape.closePath();
+
+        PNode scaleBaseTop = new PhetPPath( scaleBaseTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
+        addChild( scaleBaseTop );
+
+        // Add the front of the scale base.
+        // TODO: Need to add readouts here.
+        Rectangle2D frontOfBaseShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.6, SIZE.getWidth(), SIZE.getHeight() * 0.4 );
+        addChild( new PhetPPath( frontOfBaseShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
+
+        // Draw the top of the scale, where the atom will sit.  This is meant
+        // to look like a tilted rectangle.
         DoubleGeneralPath weighPlateTopShape = new DoubleGeneralPath();
         weighPlateTopShape.moveTo( SIZE.getWidth() * 0.25, 0 );
         weighPlateTopShape.lineTo( SIZE.getWidth() * 0.75, 0 );
         weighPlateTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.25 );
         weighPlateTopShape.lineTo( 0, SIZE.getHeight() * 0.25 );
         weighPlateTopShape.closePath();
-
         PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
         addChild( scaleTop );
 
         // Add the rectangle the sits just below the top of the scale.
-        Rectangle2D bottomOfWeighPlate = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.25, SIZE.getWidth(), SIZE.getHeight() * 0.1 );
-        addChild( new PhetPPath( bottomOfWeighPlate, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
-
-        // Add the top portion of the scale body.  This is meant to look like
-        // a tilted rectangle.
-
-
+        Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.25, SIZE.getWidth(), SIZE.getHeight() * 0.1 );
+        addChild( new PhetPPath( frontOfWeighPlateShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
     }
 }
