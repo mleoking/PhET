@@ -3,6 +3,7 @@
 package edu.colorado.phet.balancingchemicalequations.module.balanceequation;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
@@ -39,7 +40,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        BoxesNode boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange() );
+        BoxesNode boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), new Dimension( 300, 180 ) /* boxSize */ );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
@@ -65,14 +66,16 @@ public class BalanceEquationCanvas extends BCECanvas {
         // layout
         double x = 0;
         double y = 0;
+        final double xSpacing = 20;
+        final double ySpacing = 15;
         equationChoiceNode.setOffset( x, y );
-        y = equationChoiceNode.getFullBoundsReference().getMaxY() + 20;
+        y = equationChoiceNode.getFullBoundsReference().getMaxY() + ySpacing;
         equationNode.setOffset( x, y );
-        y = equationNode.getFullBoundsReference().getMaxY() + 20;
+        y = equationNode.getFullBoundsReference().getMaxY() + ySpacing;
         boxesNode.setOffset( x, y );
-        y = boxesNode.getFullBoundsReference().getMaxY() + 20;
+        y = boxesNode.getFullBoundsReference().getMaxY() + ySpacing;
         balanceChoiceNode.setOffset( x, y );
-        x = balanceChoiceNode.getFullBoundsReference().getMaxX() + 20;
+        x = balanceChoiceNode.getFullBoundsReference().getMaxX() + xSpacing;
         y = balanceChoiceNode.getFullBoundsReference().getCenterY() - ( balancedIndicatorNode.getFullBoundsReference().getHeight() / 2 );
         balancedIndicatorNode.setOffset( x, y );
         x = boxesNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth();

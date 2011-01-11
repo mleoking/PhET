@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
@@ -15,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -26,12 +26,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BoxesNode extends PComposite {
 
-    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange ) {
+    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, Dimension boxSize ) {
 
         // boxes
-        final BoxOfMoleculesNode beforeBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getReactants(), coefficientRange );
+        final BoxOfMoleculesNode beforeBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getReactants(), coefficientRange, boxSize );
         addChild( beforeBoxNode );
-        final BoxOfMoleculesNode afterBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getProducts(), coefficientRange );
+        final BoxOfMoleculesNode afterBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getProducts(), coefficientRange, boxSize );
         addChild( afterBoxNode );
 
         // right-pointing arrow
@@ -67,19 +67,19 @@ public class BoxesNode extends PComposite {
      */
     private static class BoxOfMoleculesNode extends PComposite {
 
-        private static final PDimension BOX_SIZE = new PDimension( 300, 200 );
-
         private EquationTerm[] terms;
         private final IntegerRange coefficientRange;
+        private final Dimension boxSize;
         private final SimpleObserver coefficentObserver;
         private final PComposite moleculesParentNode;
 
-        public BoxOfMoleculesNode( EquationTerm[] terms, IntegerRange coefficientRange ) {
+        public BoxOfMoleculesNode( EquationTerm[] terms, IntegerRange coefficientRange, Dimension boxSize ) {
 
             this.terms = terms;
             this.coefficientRange = coefficientRange;
+            this.boxSize = new Dimension( boxSize );
 
-            PPath boxNode = new PPath( new Rectangle2D.Double( 0, 0, BOX_SIZE.getWidth(), BOX_SIZE.getHeight() ) );
+            PPath boxNode = new PPath( new Rectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight() ) );
             boxNode.setPaint( BCEColors.BEFORE_AFTER_BOX_COLOR );
             boxNode.setStrokePaint( Color.BLACK );
             boxNode.setStroke( new BasicStroke( 1f ) );
@@ -109,8 +109,8 @@ public class BoxesNode extends PComposite {
             moleculesParentNode.removeAllChildren();
 
             final int numberOfTerms = terms.length;
-            final double dx = BOX_SIZE.getWidth() / ( numberOfTerms + 1 );
-            final double dy = BOX_SIZE.getHeight() / ( coefficientRange.getMax() + 1 );
+            final double dx = boxSize.getWidth() / ( numberOfTerms + 1 );
+            final double dy = boxSize.getHeight() / ( coefficientRange.getMax() + 1 );
             double x = dx;
             for ( EquationTerm term : terms ) {
                 int numberOfMolecules = term.getActualCoefficient();
