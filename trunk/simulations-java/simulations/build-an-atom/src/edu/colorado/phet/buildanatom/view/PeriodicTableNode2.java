@@ -40,7 +40,7 @@ public class PeriodicTableNode2 extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    public static int CELL_DIMENSION = 20; // Cells are square.
+    public static int CELL_DIMENSION = 20; // Cells are square, this is both width and height.
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -237,17 +237,31 @@ public class PeriodicTableNode2 extends PNode {
         public ButtonElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             this.atomicNumber = atomicNumber;
             button = new JButton(){{
-                setPreferredSize( new Dimension( CELL_DIMENSION, CELL_DIMENSION) );
+                setPreferredSize( new Dimension( CELL_DIMENSION, CELL_DIMENSION ) );
             }};
             PNode buttonNode = new PSwing( button );
             addChild( buttonNode );
 
             text = new PText( AtomIdentifier.getSymbol( atomicNumber ) );
-            text.centerBoundsOnPoint( CELL_DIMENSION / 2, CELL_DIMENSION / 2 );
+            double buttonDimension = buttonNode.getFullBoundsReference().width;
+            text.centerBoundsOnPoint( buttonDimension / 2, buttonDimension / 2 );
             text.setPickable( false ); // Don't pick up mouse events intended for the button.
+            if ( text.getFullBoundsReference().width >= buttonDimension || text.getFullBoundsReference().height >= buttonDimension ){
+                // Scale the text to fit in the cell.
+                double scaleFactor = Math.min( buttonDimension / text.getFullBoundsReference().width,
+                        buttonDimension / text.getFullBoundsReference().height );
+                text.setScale( scaleFactor );
+            }
             addChild( text );
 
             atom.addObserver( new SimpleObserver() {
+                // TODO: Consider changing the construction of the table as a
+                // whole such that cells that are permanently disabled don't
+                // have this updater, since it causes unnecessary work.
+                // TODO: Also, it should be checked that the text actually
+                // fits in the cell, and if not, it should be scaled.  This
+                // will make sure the table looks okay in places where the
+                // default text size is different (e.g. on Macs).
                 public void update() {
                     boolean match = atom.getNumProtons() == atomicNumber;
                     text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
