@@ -13,6 +13,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode2;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -79,9 +80,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Add the interactive periodic table that allows the user to select
         // the initial element.
         // TODO: Turn this into a class rather than having this big override here.
-        final PeriodicTableNode periodicTableNode = new PeriodicTableNode( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
+        final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
             @Override
-            protected void elementCellCreated( final PeriodicTableNode.ElementCell elementCell ) {
+            protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
                 if ( elementCell.getAtomicNumber() <= 10 ){
                     elementCell.addInputEventListener( new CursorHandler() );
                     elementCell.addInputEventListener( new PBasicInputEventHandler() {
@@ -97,7 +98,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     } );
                 }
                 else{
-                    elementCell.setDisabledLooking( true );
+//                    elementCell.setDisabledLooking( true );
                 }
             }
         };
