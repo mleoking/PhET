@@ -2,7 +2,11 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -80,25 +84,50 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Add the interactive periodic table that allows the user to select
         // the initial element.
         // TODO: Turn this into a class rather than having this big override here.
+//        final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
+//            @Override
+//            protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
+//                if ( elementCell.getAtomicNumber() <= 10 ){
+//                    elementCell.addInputEventListener( new CursorHandler() );
+//                    elementCell.addInputEventListener( new PBasicInputEventHandler() {
+//                        @Override
+//                        public void mousePressed( PInputEvent event ) {
+//                            int numProtons = elementCell.getAtomicNumber();
+//                            int numNeutrons = elementCell.getAtomicNumber();
+//                            int numElectrons = elementCell.getAtomicNumber();
+//                            ImmutableAtom atomConfig = new ImmutableAtom(numProtons, numNeutrons, numElectrons);
+//
+//                            model.setAtomConfiguration( atomConfig );
+//                        }
+//                    } );
+//                }
+//                else{
+////                    elementCell.setDisabledLooking( true );
+//                }
+//            }
+//        };
         final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
             @Override
             protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
                 if ( elementCell.getAtomicNumber() <= 10 ){
-                    elementCell.addInputEventListener( new CursorHandler() );
-                    elementCell.addInputEventListener( new PBasicInputEventHandler() {
-                        @Override
-                        public void mousePressed( PInputEvent event ) {
+                    elementCell.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+                    elementCell.addActionListener( new ActionListener() {
+
+                        public void actionPerformed( ActionEvent e ) {
+                            // TODO: Consider having the element cell provide an immutable atom.
                             int numProtons = elementCell.getAtomicNumber();
                             int numNeutrons = elementCell.getAtomicNumber();
                             int numElectrons = elementCell.getAtomicNumber();
                             ImmutableAtom atomConfig = new ImmutableAtom(numProtons, numNeutrons, numElectrons);
 
                             model.setAtomConfiguration( atomConfig );
+
                         }
-                    } );
+                    });
                 }
                 else{
-//                    elementCell.setDisabledLooking( true );
+                    elementCell.setButtonEnabled( false );
+                    elementCell.setTextColor( Color.GRAY );
                 }
             }
         };
