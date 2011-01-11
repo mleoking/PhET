@@ -15,19 +15,34 @@ public class EquationTerm {
     private final Molecule molecule;
     private final int balancedCoefficient;
     private final Property<Integer> actualCoefficientProperty;
+    private final Property<Boolean> balancedProperty;
 
     public EquationTerm( int balancedCoefficient, Molecule molecule ) {
         this( balancedCoefficient, molecule, 0 );
     }
 
-    private EquationTerm(  int balancedCoefficient, Molecule molecule, int actualCoefficient ) {
+    private EquationTerm( int balancedCoefficient, Molecule molecule, int actualCoefficient ) {
         this.molecule = molecule;
         this.balancedCoefficient = balancedCoefficient;
         this.actualCoefficientProperty =  new Property<Integer>( actualCoefficient );
+        this.balancedProperty = new Property<Boolean>( balancedCoefficient == actualCoefficient );
+        this.actualCoefficientProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                balancedProperty.setValue( getBalancedCoefficient() == getActualCoefficient() );
+            }
+        } );
     }
 
     public void reset() {
         actualCoefficientProperty.reset();
+    }
+
+    public boolean isBalanced() {
+        return balancedProperty.getValue();
+    }
+
+    public Property<Boolean> getBalancedProperty() {
+        return balancedProperty;
     }
 
     public Molecule getMolecule() {
@@ -46,11 +61,7 @@ public class EquationTerm {
         return actualCoefficientProperty.getValue();
     }
 
-    public void addActualCoefficientObserver( SimpleObserver o ) {
-        actualCoefficientProperty.addObserver( o );
-    }
-
-    public void removeActualCoefficientObserver( SimpleObserver o ) {
-        actualCoefficientProperty.removeObserver( o );
+    public Property<Integer> getActualCoefficientProperty() {
+        return actualCoefficientProperty;
     }
 }

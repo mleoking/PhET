@@ -30,6 +30,13 @@ public class BalanceEquationModel extends RPALModel {
             add( new MethaneEquation() );
         }};
         currentEquationProperty = new Property<Equation>( equations.get( 0 ) );
+
+        // when the current equation changes, reset it
+        currentEquationProperty.addObserver( new SimpleObserver() {
+            public void update() {
+               getCurrentEquation().reset();
+            }
+        } );
     }
 
     public void reset() {
