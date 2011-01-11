@@ -7,6 +7,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.balancingchemicalequations.view.EquationNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
@@ -22,6 +23,10 @@ public class BalanceEquationCanvas extends BCECanvas {
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty() );
         addChild( equationChoiceNode );
         equationChoiceNode.setOffset( 50, 50 );//XXX
+
+        EquationNode equationNode = new EquationNode( model.getCurrentEquation() );
+        addChild( equationNode );
+        equationNode.setOffset( equationChoiceNode.getXOffset(), equationChoiceNode.getFullBoundsReference().getMaxY() + 10 );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, parentFrame, 12, Color.BLACK, Color.WHITE );
         resetAllButtonNode.setConfirmationEnabled( false );

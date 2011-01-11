@@ -14,7 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinner;
+import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 
 
 public class TestSpinnerEvents extends JFrame {
