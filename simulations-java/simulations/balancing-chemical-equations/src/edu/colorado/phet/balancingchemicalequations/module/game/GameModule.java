@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 public class GameModule extends BCEModule {
 
     public GameModule( Frame parentFrame ) {
-        super( parentFrame, BCEStrings.TITLE_GAME, new BCEClock(), true /* startsPaused */ );
+        super( parentFrame, BCEStrings.GAME, new BCEClock(), true /* startsPaused */ );
         setSimulationPanel( new PhetPCanvas() );//XXX
     }
 }

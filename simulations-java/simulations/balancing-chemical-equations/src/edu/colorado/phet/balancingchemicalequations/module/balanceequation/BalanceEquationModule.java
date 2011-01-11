@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 public class BalanceEquationModule extends BCEModule {
 
     public BalanceEquationModule( Frame parentFrame ) {
-        super( parentFrame, BCEStrings.TITLE_BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
+        super( parentFrame, BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
         setSimulationPanel( new PhetPCanvas() );//XXX
     }
 }

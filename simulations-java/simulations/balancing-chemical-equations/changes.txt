@@ -1,1 +1,2 @@
+1/10/11 create English strings file based on design doc
 1/10/11 created balancing-chemical-equations project skeleton
