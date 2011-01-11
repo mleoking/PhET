@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
@@ -262,6 +263,18 @@ public class PeriodicTableNode2 extends PNode {
 
         public int getAtomicNumber() {
             return atomicNumber;
+        }
+
+        public void setButtonEnabled(boolean enabled){
+            button.setEnabled( enabled );
+        }
+
+        public void addActionListener( ActionListener actionListener ){
+            button.addActionListener( actionListener );
+        }
+
+        public void setTextColor( Color color ){
+            text.setTextPaint( color );
         }
     }
 }
