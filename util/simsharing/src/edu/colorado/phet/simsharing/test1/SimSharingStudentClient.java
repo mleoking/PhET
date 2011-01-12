@@ -15,6 +15,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.simsharing.Config;
 
 /**
  * @author Sam Reid
@@ -25,9 +26,9 @@ public class SimSharingStudentClient {
     private final GravityAndOrbitsApplication application;
     protected ActorRef server;
 
-    public SimSharingStudentClient( final GravityAndOrbitsApplication application, final JFrame parentFrame ) throws AWTException, IOException {
+    public SimSharingStudentClient( final GravityAndOrbitsApplication application ) throws AWTException, IOException {
         this.application = application;
-        server = Actors.remote().actorFor( "server", "localhost", 2552 );
+        server = Actors.remote().actorFor( "server", "localhost", Config.SERVER_PORT );
 
         application.getGravityAndOrbitsModule().addModelSteppedListener( new SimpleObserver() {
             public void update() {
