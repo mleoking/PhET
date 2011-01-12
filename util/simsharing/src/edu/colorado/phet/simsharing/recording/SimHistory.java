@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.simsharing.test1;
+package edu.colorado.phet.simsharing.recording;
 
 import java.io.*;
 import java.util.ArrayList;

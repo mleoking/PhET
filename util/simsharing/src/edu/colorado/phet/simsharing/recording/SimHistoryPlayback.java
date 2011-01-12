@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.simsharing.test1;
+package edu.colorado.phet.simsharing.recording;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +13,7 @@ import javax.swing.*;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
 
-import static edu.colorado.phet.simsharing.test1.SimHistory.loadHistory;
+import static edu.colorado.phet.simsharing.recording.SimHistory.loadHistory;
 
 /**
  * main code used for this mode
