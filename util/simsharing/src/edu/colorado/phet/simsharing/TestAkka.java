@@ -22,26 +22,18 @@ public class TestAkka {
     protected static int SERVER_PORT = 2552;
     protected static int TEACHER_PORT = 2553;
 
-    public static class MyActor extends UntypedActor {
-        public void onReceive( Object o ) {
-            System.out.println( "o = " + o );
-            getContext().replySafe( "reply" );
-        }
-    }
-
     public static class ServerActor extends UntypedActor {
         protected ActorRef teacherActor;
 
         public ServerActor() {
-
             teacherActor = Actors.remote().actorFor( "teacher", "localhost", TEACHER_PORT );
         }
 
         public void onReceive( Object o ) {
-            GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) o;
-            System.out.println( "Server received state: " + state );
-            getContext().replySafe( "received state from student" );
-            teacherActor.sendOneWay( state );
+//            GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) o;
+//            System.out.println( "Server received state: " + state );
+//            getContext().replySafe( "received state from student" );
+            teacherActor.sendOneWay( o );
         }
     }
 
@@ -71,26 +63,13 @@ public class TestAkka {
                     return new UntypedActor() {
                         public void onReceive( Object o ) {
                             GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) o;
-                            System.out.println( "Teacher received state from server: " + state );
-                            System.out.println( "state = " + state );
+//                            System.out.println( "Teacher received state from server: " + state );
+//                            System.out.println( "state = " + state );
                             state.apply( application );
                         }
                     };
                 }
             } ) );
-        }
-    }
-
-    public static class Client {
-        public static void main( String[] args ) throws InterruptedException {
-            ActorRef actor = Actors.remote().actorFor( "hello-service", "128.138.145.107", SERVER_PORT );
-            while ( true ) {
-//                actor.sendOneWay( "Hello from "+System.currentTimeMillis() );
-                final long start = System.currentTimeMillis();
-                Object response = actor.sendRequestReply( "Hello from " + start );
-                System.out.println( "response = " + response + ", round trip = " + ( System.currentTimeMillis() - start ) );
-                Thread.sleep( 1000 );
-            }
         }
     }
 }
