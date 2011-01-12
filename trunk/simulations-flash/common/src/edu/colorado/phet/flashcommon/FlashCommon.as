@@ -22,6 +22,8 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 	// handles internationalization for common strings
 	public var strings : CommonStrings;
 
+    public var simStrings: SimStrings;
+
 	// handles preferences the user selects, such as
 	// enabling/disabling updates and statistics messages. also
 	// stores how many times the particular sim has
@@ -127,6 +129,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		// load internationalization strings for common code
 		strings = new CommonStrings();
 
+        // load internationalization strings for simulation strings (used here for translation/ksu credits)
+        simStrings = new SimStrings();
+
 		// initializes the TabHandler
 		//tabHandler = new TabHandler();
 		keyboardHandler = new KeyboardHandler();
@@ -142,7 +147,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 			inspector = new Inspector();
 		}
 
-        displayKSULogo();
+        if( simStrings.stringExists( "ksu.credits" ) ) {
+            displayKSULogo();
+        }
 	}
 
     public function displayKSULogo():Void {

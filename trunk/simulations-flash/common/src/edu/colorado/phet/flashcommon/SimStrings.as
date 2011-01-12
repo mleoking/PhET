@@ -121,6 +121,10 @@ class edu.colorado.phet.flashcommon.SimStrings
     }
     return value;
   }
+
+    public function stringExists( key:String ):Boolean {
+        return !(this.get( key ) == "keyNotFound");
+    }
    
   /** 
    * Gets the locale that is currently being used.
