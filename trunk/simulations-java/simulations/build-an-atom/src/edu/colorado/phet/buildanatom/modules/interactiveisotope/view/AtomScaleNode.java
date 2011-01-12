@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
@@ -51,8 +52,15 @@ public class AtomScaleNode extends PNode {
         scaleBaseTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.55 );
         scaleBaseTopShape.lineTo( 0, SIZE.getHeight() * 0.55 );
         scaleBaseTopShape.closePath();
-
-        PNode scaleBaseTop = new PhetPPath( scaleBaseTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
+        Rectangle2D scaleBaseTopShapeBounds = scaleBaseTopShape.getGeneralPath().getBounds2D();
+        GradientPaint scaleBaseTopPaint = new GradientPaint(
+                (float) scaleBaseTopShapeBounds.getCenterX(),
+                (float) scaleBaseTopShapeBounds.getMaxY(),
+                Color.LIGHT_GRAY,
+                (float) scaleBaseTopShapeBounds.getCenterX(),
+                (float) scaleBaseTopShapeBounds.getMinY(),
+                Color.DARK_GRAY );
+        PNode scaleBaseTop = new PhetPPath( scaleBaseTopShape.getGeneralPath(), scaleBaseTopPaint, STROKE, STROKE_PAINT );
         addChild( scaleBaseTop );
 
         // Add the shaft that connects the base to the weigh plate.
@@ -64,7 +72,15 @@ public class AtomScaleNode extends PNode {
         connectingShaftShape.lineTo( centerX - connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
         connectingShaftShape.quadTo( centerX, connectingShaftDistanceFromTop + connectingShaftHeight * 1.2, SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
         connectingShaftShape.lineTo( centerX + connectingShaftWidth / 2, connectingShaftDistanceFromTop );
-        PNode connectingShaft = new PhetPPath( connectingShaftShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
+        Rectangle2D connectingShaftShapeBounds = connectingShaftShape.getGeneralPath().getBounds2D();
+        GradientPaint connectingShaftPaint = new GradientPaint(
+                (float) connectingShaftShapeBounds.getMinX(),
+                (float) connectingShaftShapeBounds.getCenterY(),
+                Color.LIGHT_GRAY,
+                (float) connectingShaftShapeBounds.getMaxX(),
+                (float) connectingShaftShapeBounds.getCenterY(),
+                Color.DARK_GRAY );
+        PNode connectingShaft = new PhetPPath( connectingShaftShape.getGeneralPath(), connectingShaftPaint, STROKE, STROKE_PAINT );
         addChild( connectingShaft );
 
         // Draw the top of the weigh plate.  This is meant to look like a
@@ -75,7 +91,15 @@ public class AtomScaleNode extends PNode {
         weighPlateTopShape.lineTo( centerX + WIEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
         weighPlateTopShape.lineTo( centerX - WIEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
         weighPlateTopShape.closePath();
-        PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
+        Rectangle2D weighPlateTopShapeBounds = weighPlateTopShape.getGeneralPath().getBounds2D();
+        GradientPaint weighPlateTopPaint = new GradientPaint(
+                (float) weighPlateTopShapeBounds.getCenterX(),
+                (float) weighPlateTopShapeBounds.getMaxY(),
+                Color.LIGHT_GRAY,
+                (float) weighPlateTopShapeBounds.getCenterX(),
+                (float) weighPlateTopShapeBounds.getMinY(),
+                Color.DARK_GRAY );
+        PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), weighPlateTopPaint, STROKE, STROKE_PAINT );
         addChild( scaleTop );
 
         // Add the front of the weigh plate.
