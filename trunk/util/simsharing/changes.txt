@@ -1,2 +1,3 @@
+Added the ability to view and choose between connected students
 Converted to single server model, in which the teacher connects to the server and sends requests for the latest data.  This is a polling model, since server to client push doesn't seem to be supported by Akka
 Converted to akka for networking

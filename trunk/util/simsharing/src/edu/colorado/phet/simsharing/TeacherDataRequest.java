@@ -8,7 +8,13 @@ import java.io.Serializable;
  */
 public class TeacherDataRequest implements Serializable {
 
-    public TeacherDataRequest() {
+    private final StudentID selected;
+
+    public TeacherDataRequest( StudentID selected ) {
+        this.selected = selected;
     }
 
+    public StudentID getStudentID() {
+        return selected;
+    }
 }
