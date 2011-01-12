@@ -35,5 +35,10 @@ public class SimStrings {
         //Uncomment this and comment the above for simple long string testing
 //        return defaultString+"x"+defaultString;
     }
+
+    public static function stringExists( key:String ):Boolean {
+        var defaultValue:String = "THIS IS A DEFAULT VALUE - IGNORE IT";
+        return SimStrings.get( key, defaultValue ) != defaultValue
+    }
 }
 }

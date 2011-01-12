@@ -16,6 +16,7 @@ public class FlashCommonCS4 extends FlashCommon {
         this.playAreaHeight = playAreaHeight;
 
         CommonStrings.init( root.loaderInfo );
+        SimStrings.init( root.loaderInfo );
     }
 
     override public function initialize( root:Sprite ):void {
@@ -24,7 +25,7 @@ public class FlashCommonCS4 extends FlashCommon {
         root.stage.scaleMode=StageScaleMode.SHOW_ALL;
         root.stage.align = "";
     }
-    
+
     public static function getInstance( root:DisplayObjectContainer, playAreaWidth:Number, playAreaHeight:Number):FlashCommonCS4 {
         if ( flashInstance == null ) {
             flashInstance = new FlashCommonCS4( root,playAreaWidth, playAreaHeight);
@@ -39,7 +40,7 @@ public class FlashCommonCS4 extends FlashCommon {
     public override function getPlayAreaWidth():Number {
         return playAreaWidth;
     }
-    
+
     public override function getPlayAreaHeight():Number{
         return playAreaHeight;
     }
