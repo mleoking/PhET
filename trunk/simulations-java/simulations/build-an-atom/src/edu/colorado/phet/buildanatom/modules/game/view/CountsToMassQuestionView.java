@@ -11,7 +11,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 
 /**
  * View for the problem that presents a list of an atom's constituent
- * particles and asks the user about the atomic mass.
+ * particles and asks the user about the atom's mass.
  *
  * @author John Blanco
  */
