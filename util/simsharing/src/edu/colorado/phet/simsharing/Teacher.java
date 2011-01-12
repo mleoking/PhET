@@ -1,50 +1,63 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing;
 
-import akka.actor.Actor;
-import akka.actor.UntypedActor;
-import akka.japi.Creator;
+import akka.actor.ActorRef;
+import akka.actor.Actors;
 
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
 
-import static akka.actor.Actors.actorOf;
-import static akka.actor.Actors.remote;
-
 /**
+ * This implementation of Teacher connects to the server and sends requests for the latest data.  This is a polling model, since server to client push doesn't seem to be supported by Akka:
+ * see http://groups.google.com/group/akka-user/browse_thread/thread/3ed4cc09c36c19e0
+ *
  * @author Sam Reid
  */
 public class Teacher {
 
+    private final String[] args;
+
+    public Teacher( String[] args ) {
+        this.args = args;
+    }
+
     public static void main( String[] args ) {
-        final GravityAndOrbitsApplication[] launchedApp = new GravityAndOrbitsApplication[1];
-        new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsApplication.PROJECT_NAME, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                launchedApp[0] = new GravityAndOrbitsApplication( config );
-                return launchedApp[0];
-            }
-        } );
-        final GravityAndOrbitsApplication application = launchedApp[0];
-        PhetFrame frame = application.getPhetFrame();
-        frame.setTitle( frame.getTitle() + ": Teacher Edition" ); //simsharing, append command line args to title
+        new Teacher( args ).start();
+    }
+
+    private void start() {
+        final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
+        application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" ); //simsharing, append command line args to title
         application.getGravityAndOrbitsModule().setTeacherMode( true );
 
-        remote().start( Config.teacherIP, Config.TEACHER_PORT ).register( "teacher", actorOf( new Creator<Actor>() {
-            public Actor create() {
-                return new UntypedActor() {
-                    public void onReceive( Object o ) {
-                        GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) o;
-//                            System.out.println( "Teacher received state from server: " + state );
-//                            System.out.println( "state = " + state );
-                        state.apply( application );
+        final ActorRef server = Actors.remote().actorFor( "server", Config.serverIP, Config.SERVER_PORT );
+
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                while ( true ) {
+                    final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest() );
+                    if ( response != null ) {
+                        try {
+                            SwingUtilities.invokeAndWait( new Runnable() {
+                                public void run() {
+                                    response.apply( application );
+                                }
+                            } );
+                        }
+                        catch ( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                        catch ( InvocationTargetException e ) {
+                            e.printStackTrace();
+                        }
                     }
-                };
+                }
             }
-        } ) );
+        } );
+        t.start();
     }
 }
