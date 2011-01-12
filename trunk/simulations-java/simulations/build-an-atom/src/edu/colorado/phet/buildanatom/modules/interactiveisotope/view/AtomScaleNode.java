@@ -48,6 +48,18 @@ public class AtomScaleNode extends PNode {
         Rectangle2D frontOfBaseShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.6, SIZE.getWidth(), SIZE.getHeight() * 0.4 );
         addChild( new PhetPPath( frontOfBaseShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
 
+        // Add the shaft that connects the base to the weigh plate.
+        DoubleGeneralPath connectingShaftShape = new DoubleGeneralPath();
+        double connectingShaftDistanceFromTop = SIZE.getHeight() * 0.15;
+        double connectingShaftWidth = 20;
+        double connectingShaftHeight = 30;
+        connectingShaftShape.moveTo( SIZE.getWidth() / 2 - connectingShaftWidth / 2, connectingShaftDistanceFromTop );
+        connectingShaftShape.lineTo( SIZE.getWidth() / 2 - connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
+        connectingShaftShape.quadTo( SIZE.getWidth() / 2, connectingShaftDistanceFromTop + connectingShaftHeight * 1.2, SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
+        connectingShaftShape.lineTo( SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop );
+        PNode connectingShaft = new PhetPPath( connectingShaftShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
+        addChild( connectingShaft );
+
         // Draw the top of the scale, where the atom will sit.  This is meant
         // to look like a tilted rectangle.
         DoubleGeneralPath weighPlateTopShape = new DoubleGeneralPath();
