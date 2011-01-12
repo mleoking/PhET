@@ -4,17 +4,30 @@ package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.GridLayout;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.JPanel;
+
+import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Piccolo node that represents a scale on which an atom can be weighed.  This
@@ -25,26 +38,54 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class AtomScaleNode extends PNode {
 
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
+    private enum DisplayMode { MASS_NUMBER, ATOMIC_MASS };
+
     private static final Color COLOR = new Color( 228, 194, 167 );
     private static final Dimension2D SIZE = new PDimension( 300, 125 );
     private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
     private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Paint STROKE_PAINT = Color.BLACK;
 
-    public AtomScaleNode() {
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
+
+    private final Property<DisplayMode> displayModeProperty = new Property<DisplayMode>( DisplayMode.MASS_NUMBER );
+
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
+
+    public AtomScaleNode( IDynamicAtom atom ) {
 
         // Set up some helper variables.
         double centerX = SIZE.getWidth() / 2;
 
-        // The scale shapes are generated from the bottom up, since adding
-        // them in this order creates the correct layering effect.
+        // NOTE: The scale shapes are generated from the bottom up, since
+        // adding them in this order creates the correct layering effect.
 
         // Add the front of the scale base.
-        // TODO: Need to add readouts here.
         Rectangle2D frontOfBaseShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.55, SIZE.getWidth(), SIZE.getHeight() * 0.5 );
-        addChild( new PhetPPath( frontOfBaseShape, COLOR, STROKE, STROKE_PAINT ) );
+        final PNode frontOfBaseNode = new PhetPPath( frontOfBaseShape, COLOR, STROKE, STROKE_PAINT );
+        addChild( frontOfBaseNode );
 
-        // Add the top portion of the scale body.  This is meant to look like
+        // Add the readout to the scale base.
+        final PNode scaleReadoutNode = new ScaleReadoutNode( atom, displayModeProperty ){{
+            setOffset( SIZE.getWidth() * 0.05, frontOfBaseNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
+        }};
+        addChild( scaleReadoutNode );
+
+        // Add the display mode selector to the scale base.
+        addChild( new DisplayModeSelectionNode( displayModeProperty ){{
+            setOffset( scaleReadoutNode.getFullBoundsReference().getMaxX() + 5,
+                    frontOfBaseNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
+        }} );
+
+        // Add the top portion of the scale base.  This is meant to look like
         // a tilted rectangle.  Because, hey, it's all a matter of
         // perspective.
         DoubleGeneralPath scaleBaseTopShape = new DoubleGeneralPath();
@@ -108,5 +149,113 @@ public class AtomScaleNode extends PNode {
         Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WIEIGH_PLATE_WIDTH / 2,
                 SIZE.getHeight() * 0.125, WIEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
         addChild( new PhetPPath( frontOfWeighPlateShape, COLOR, STROKE, STROKE_PAINT ) );
+    }
+
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    /**
+     * Class that defines the readout on the front of the scale.  This readout
+     * can display an atom's mass as either the mass number, which is an
+     * integer number representing the total number of nucleons, or as the
+     * atomic mass, which is the relative actual mass of the atom.
+     *
+     * @author John Blanco
+     */
+    private static class ScaleReadoutNode extends PNode {
+
+        PText readoutText = new PText(){{
+            setFont( new PhetFont( 24 ) );
+        }};
+        Property<DisplayMode> displayModeProperty;
+        IDynamicAtom atom;
+        private final PPath readoutBackground;
+
+        public ScaleReadoutNode( IDynamicAtom atom, Property<DisplayMode> displayModeProperty ){
+
+            this.atom = atom;
+            this.displayModeProperty = displayModeProperty;
+
+            readoutBackground = new PhetPPath(
+                    new RoundRectangle2D.Double( 0, 0, SIZE.getWidth() * 0.4, SIZE.getHeight() * 0.33, 5, 5 ),
+                    Color.WHITE,
+                    new BasicStroke( 2 ),
+                    Color.BLACK );
+            addChild( readoutBackground );
+
+            // Add the text that will appear in the readout.
+            addChild( readoutText );
+
+            // Watch the property that represents the display mode and update
+            // the readout when it changes.
+            displayModeProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateReadout();
+                }
+            } );
+
+            // Watch the atom and update the readout whenever it changes.
+            atom.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateReadout();
+                }
+            } );
+        }
+
+        private void updateReadout(){
+            if ( displayModeProperty.getValue() == DisplayMode.MASS_NUMBER ){
+                readoutText.setText( Integer.toString( atom.getMassNumber() ) );
+            }
+            else{
+                readoutText.setText( "2.3075" );
+            }
+            // Make sure that the text fits in the display.
+            readoutText.setScale( 1 );
+            if ( readoutText.getFullBoundsReference().width > readoutBackground.getFullBoundsReference().width ||
+                 readoutText.getFullBoundsReference().height > readoutBackground.getFullBoundsReference().height ){
+                double scaleFactor = Math.min(
+                        readoutBackground.getFullBoundsReference().width / readoutText.getFullBoundsReference().width,
+                        readoutBackground.getFullBoundsReference().height / readoutText.getFullBoundsReference().height );
+                readoutText.setScale( scaleFactor );
+            }
+            // Center the text in the display.
+            readoutText.centerFullBoundsOnPoint( readoutBackground.getFullBoundsReference().getCenterX(),
+                    readoutBackground.getFullBoundsReference().getCenterY() );
+        }
+    }
+
+    /**
+     * This class represents a Piccolo node that contains the radio buttons
+     * that allows the user to select the display mode for the scale.
+     *
+     * @author John Blanco
+     */
+    public static class DisplayModeSelectionNode extends PNode {
+
+        private static final Font LABEL_FONT = new PhetFont( 16 );
+
+        public DisplayModeSelectionNode( Property<DisplayMode> displayModeProperty ) {
+            JPanel buttonPanel = new JPanel( new GridLayout( 2, 1 ) ){{
+                setBackground( COLOR );
+            }};
+            // TODO: i18n
+            PropertyRadioButton<DisplayMode> massNumberButton = new PropertyRadioButton<DisplayMode>( "Mass Number", displayModeProperty, DisplayMode.MASS_NUMBER ){{
+                setBackground( COLOR );
+                setFont( LABEL_FONT );
+            }};
+            buttonPanel.add( massNumberButton );
+            // TODO: i18n
+            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( "Atomic Mass", displayModeProperty, DisplayMode.ATOMIC_MASS ){{
+                setBackground( COLOR );
+                setFont( LABEL_FONT );
+            }};
+            buttonPanel.add( atomicMassButton );
+            addChild( new PSwing( buttonPanel ) );
+        }
     }
 }
