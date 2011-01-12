@@ -10,6 +10,7 @@ import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -24,6 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class AtomScaleNode extends PNode {
 
+    private static final Color COLOR = new Color( 228, 194, 167 );
     private static final Dimension2D SIZE = new PDimension( 300, 125 );
     private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
     private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
@@ -40,7 +42,7 @@ public class AtomScaleNode extends PNode {
         // Add the front of the scale base.
         // TODO: Need to add readouts here.
         Rectangle2D frontOfBaseShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.55, SIZE.getWidth(), SIZE.getHeight() * 0.5 );
-        addChild( new PhetPPath( frontOfBaseShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
+        addChild( new PhetPPath( frontOfBaseShape, COLOR, STROKE, STROKE_PAINT ) );
 
         // Add the top portion of the scale body.  This is meant to look like
         // a tilted rectangle.  Because, hey, it's all a matter of
@@ -55,18 +57,19 @@ public class AtomScaleNode extends PNode {
         GradientPaint scaleBaseTopPaint = new GradientPaint(
                 (float) scaleBaseTopShapeBounds.getCenterX(),
                 (float) scaleBaseTopShapeBounds.getMaxY(),
-                Color.LIGHT_GRAY,
+                ColorUtils.brighterColor( COLOR, 0.5 ),
                 (float) scaleBaseTopShapeBounds.getCenterX(),
                 (float) scaleBaseTopShapeBounds.getMinY(),
-                Color.DARK_GRAY );
+                ColorUtils.darkerColor( COLOR, 0.5 )
+        );
         PNode scaleBaseTop = new PhetPPath( scaleBaseTopShape.getGeneralPath(), scaleBaseTopPaint, STROKE, STROKE_PAINT );
         addChild( scaleBaseTop );
 
         // Add the shaft that connects the base to the weigh plate.
         DoubleGeneralPath connectingShaftShape = new DoubleGeneralPath();
         double connectingShaftDistanceFromTop = SIZE.getHeight() * 0.15;
-        double connectingShaftWidth = 30;
-        double connectingShaftHeight = 30;
+        double connectingShaftWidth = SIZE.getWidth() * 0.1;
+        double connectingShaftHeight = SIZE.getHeight() * 0.30;
         connectingShaftShape.moveTo( centerX - connectingShaftWidth / 2, connectingShaftDistanceFromTop );
         connectingShaftShape.lineTo( centerX - connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
         connectingShaftShape.quadTo( centerX, connectingShaftDistanceFromTop + connectingShaftHeight * 1.2, SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
@@ -75,10 +78,10 @@ public class AtomScaleNode extends PNode {
         GradientPaint connectingShaftPaint = new GradientPaint(
                 (float) connectingShaftShapeBounds.getMinX(),
                 (float) connectingShaftShapeBounds.getCenterY(),
-                Color.LIGHT_GRAY,
+                ColorUtils.brighterColor( COLOR, 0.5 ),
                 (float) connectingShaftShapeBounds.getMaxX(),
                 (float) connectingShaftShapeBounds.getCenterY(),
-                Color.DARK_GRAY );
+                ColorUtils.darkerColor( COLOR, 0.5 ) );
         PNode connectingShaft = new PhetPPath( connectingShaftShape.getGeneralPath(), connectingShaftPaint, STROKE, STROKE_PAINT );
         addChild( connectingShaft );
 
@@ -94,16 +97,16 @@ public class AtomScaleNode extends PNode {
         GradientPaint weighPlateTopPaint = new GradientPaint(
                 (float) weighPlateTopShapeBounds.getCenterX(),
                 (float) weighPlateTopShapeBounds.getMaxY(),
-                Color.LIGHT_GRAY,
+                ColorUtils.brighterColor( COLOR, 0.5 ),
                 (float) weighPlateTopShapeBounds.getCenterX(),
                 (float) weighPlateTopShapeBounds.getMinY(),
-                Color.DARK_GRAY );
+                ColorUtils.darkerColor( COLOR, 0.2 ) );
         PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), weighPlateTopPaint, STROKE, STROKE_PAINT );
         addChild( scaleTop );
 
         // Add the front of the weigh plate.
         Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WIEIGH_PLATE_WIDTH / 2,
                 SIZE.getHeight() * 0.125, WIEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
-        addChild( new PhetPPath( frontOfWeighPlateShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
+        addChild( new PhetPPath( frontOfWeighPlateShape, COLOR, STROKE, STROKE_PAINT ) );
     }
 }
