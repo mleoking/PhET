@@ -16,7 +16,6 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
-import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode2;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -25,8 +24,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -58,8 +55,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.50 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.60 ) ),
-                1.75,
+                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.50 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.55 ) ),
+                1.6, // "Zoom factor" - smaller zooms out, larger zooms in.
                 true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
@@ -68,22 +65,28 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        // Add the node that contains both the atom and the neutron bucket.
-        rootNode.addChild( new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) ));
+        // Create the node that contains both the atom and the neutron bucket.
+        final PNode atomAndBucketNode = new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) );
 
-        // Add the weigh scale that sits beneath the atom.  This has to be
-        // positioned essentially "by hand".
-        PNode scaleNode = new AtomScaleNode();
-        scaleNode.setOffset( mvt.modelToViewXDouble( 0 ) - scaleNode.getFullBoundsReference().width / 2,
-                mvt.modelToViewYDouble( -90 ) );
+        // Create the weigh scale that sits beneath the atom.
+        PNode scaleNode = new AtomScaleNode(){{
+            // The scale needs to sit just below the atom, and there are some
+            // "tweak factors" needed to get it looking right.
+            setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2,
+                    atomAndBucketNode.getFullBoundsReference().getMaxY() - 40 );
+        }};
+
+        // Add the scale followed by the atom so that the layering effect is
+        // correct.
+        rootNode.addChild( atomAndBucketNode );
         rootNode.addChild( scaleNode );
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
-        // Position the stability indicator under the nucleus
         model.getAtom().addObserver( new SimpleObserver() {
             public void update() {
-                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
+                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2,
+                        mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
             }
         } );
         rootNode.addChild( stabilityIndicator );
