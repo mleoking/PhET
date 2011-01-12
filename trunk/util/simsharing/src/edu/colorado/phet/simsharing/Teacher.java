@@ -34,7 +34,7 @@ public class Teacher {
         frame.setTitle( frame.getTitle() + ": Teacher Edition" ); //simsharing, append command line args to title
         application.getGravityAndOrbitsModule().setTeacherMode( true );
 
-        remote().start( "localhost", TestAkka.TEACHER_PORT ).register( "teacher", actorOf( new Creator<Actor>() {
+        remote().start( "localhost", Config.TEACHER_PORT ).register( "teacher", actorOf( new Creator<Actor>() {
             public Actor create() {
                 return new UntypedActor() {
                     public void onReceive( Object o ) {

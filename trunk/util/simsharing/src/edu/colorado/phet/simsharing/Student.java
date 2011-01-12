@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing.test1;
+package edu.colorado.phet.simsharing;
 
 import java.awt.*;
 import java.io.IOException;
@@ -10,15 +10,16 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
+import edu.colorado.phet.simsharing.test1.SimSharingStudentClient;
 
 /**
  * @author Sam Reid
  */
-public class LaunchStudentClient {
+public class Student {
     public static void main( GravityAndOrbitsApplication application ) throws IOException, AWTException {
         PhetFrame frame = application.getPhetFrame();
         frame.setTitle( frame.getTitle() + ": Student Edition" );
-        new SimSharingStudentClient( application, frame ).start();
+        new SimSharingStudentClient( application ).start();
     }
 
     public static void main( final String[] args ) throws IOException, AWTException {
