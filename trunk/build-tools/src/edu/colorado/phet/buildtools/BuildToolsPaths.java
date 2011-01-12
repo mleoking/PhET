@@ -91,6 +91,7 @@ public class BuildToolsPaths {
 
     public static final String PHET_UPDATER = UTIL + "/phet-updater";
     public static final String TRANSLATION_UTILITY = UTIL + "/translation-utility";
+    public static final String SIM_SHARING = UTIL + "/simsharing";
     public static final String TIMESHEET = UTIL + "/timesheet";
 
 
@@ -104,6 +105,7 @@ public class BuildToolsPaths {
     public static final String BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH = "/files/build-tools";
     public static final String PHET_UPDATER_PROD_SERVER_DEPLOY_PATH = "/files/phet-updater";
     public static final String TRANSLATION_UTILITY_PROD_SERVER_DEPLOY_PATH = "/files/translation-utility";
+    public static final String SIM_SHARING_PROD_SERVER_DEPLOY_PATH = "/files/sim-sharing";
     public static final String TIMESHEET_PROD_SERVER_DEPLOY_PATH = "/files/timesheet";
 
 
