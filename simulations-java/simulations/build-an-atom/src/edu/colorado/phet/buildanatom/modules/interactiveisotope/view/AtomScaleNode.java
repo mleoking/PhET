@@ -25,7 +25,7 @@ public class AtomScaleNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 250, 100 );
     private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
-    private static final Stroke STROKE = new BasicStroke( 2 );
+    private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Paint STROKE_PAINT = Color.BLACK;
 
     public AtomScaleNode() {
