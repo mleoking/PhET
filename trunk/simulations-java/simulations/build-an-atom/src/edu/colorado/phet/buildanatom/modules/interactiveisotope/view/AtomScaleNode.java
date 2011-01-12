@@ -12,6 +12,7 @@ import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
@@ -169,6 +170,7 @@ public class AtomScaleNode extends PNode {
      */
     private static class ScaleReadoutNode extends PNode {
 
+        private static final DecimalFormat atomicMassNumberFormatter = new DecimalFormat("#0.00000");
         PText readoutText = new PText(){{
             setFont( new PhetFont( 24 ) );
         }};
@@ -212,7 +214,8 @@ public class AtomScaleNode extends PNode {
                 readoutText.setText( Integer.toString( atom.getMassNumber() ) );
             }
             else{
-                readoutText.setText( "2.3075" );
+                double atomicMass = atom.getAtomicMass();
+                readoutText.setText( atomicMass > 0 ? atomicMassNumberFormatter.format( atomicMass ) : "--" );
             }
             // Make sure that the text fits in the display.
             readoutText.setScale( 1 );
