@@ -24,13 +24,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class AtomScaleNode extends PNode {
 
-    private static final Dimension2D SIZE = new PDimension( 250, 100 );
+    private static final Dimension2D SIZE = new PDimension( 300, 125 );
     private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
     private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Paint STROKE_PAINT = Color.BLACK;
 
     public AtomScaleNode() {
-        addChild(new PhetPPath( new Rectangle2D.Double(0, 0, SIZE.getWidth(), SIZE.getHeight()), Color.PINK ));
 
         // Set up some helper variables.
         double centerX = SIZE.getWidth() / 2;
