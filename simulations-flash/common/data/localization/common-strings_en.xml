@@ -82,4 +82,5 @@
   <string key="StatisticsField-user_preference_file_creation_time" value="Preferences file creation time:" />
   <string key="StatisticsField-user_total_sessions" value="Total number of times all simulations have been run:" />
   <string key="StatisticsField-user_installation_timestamp" value="PhET installation timestamp:" />
+  <string key="TranslatedBy" value="Translated by" />
 </SimStrings>
