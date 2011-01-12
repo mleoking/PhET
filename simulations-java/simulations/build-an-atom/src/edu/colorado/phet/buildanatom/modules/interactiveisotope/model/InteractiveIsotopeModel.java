@@ -46,7 +46,7 @@ public class InteractiveIsotopeModel implements Resettable {
 
     // Constants that define the size, position, and appearance of the neutron bucket.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
-    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( -150, -100 );
+    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( -150, -154 );
 
     // Distance at which nucleons are captured by the nucleus.
     protected static final double NUCLEUS_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_1_RADIUS;
