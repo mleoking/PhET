@@ -3,7 +3,9 @@
 package edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 
 /**
@@ -12,25 +14,22 @@ import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 public class GravityAndOrbitsModelState implements Serializable {
     private boolean paused;
     private double simulationTime;
-    private PersistentBodyState sunState;
-    private PersistentBodyState planetState;
-    private PersistentBodyState moonState;
+    private ArrayList<PersistentBodyState> persistentBodyStates;
 
     public GravityAndOrbitsModelState( GravityAndOrbitsModel gravityAndOrbitsModel ) {
         simulationTime = gravityAndOrbitsModel.getClock().getSimulationTime();
         paused = gravityAndOrbitsModel.getClock().isPaused();
-        //TODO: enable multi-mode for sim-sharing
-//        sunState = new PersistentBodyState( gravityAndOrbitsModel.getSun() );
-//        planetState = new PersistentBodyState( gravityAndOrbitsModel.getPlanet() );
-//        moonState = new PersistentBodyState( gravityAndOrbitsModel.getMoon() );
+        persistentBodyStates = new ArrayList<PersistentBodyState>();
+        for ( Body body : gravityAndOrbitsModel.getBodies() ) {
+            persistentBodyStates.add( new PersistentBodyState( body ) );
+        }
     }
 
     public void apply( GravityAndOrbitsModel gravityAndOrbitsModel ) {
         gravityAndOrbitsModel.getClock().setSimulationTime( simulationTime );
         gravityAndOrbitsModel.getClock().setPaused( paused );
-
-//        sunState.apply( gravityAndOrbitsModel.getSun() );
-//        planetState.apply( gravityAndOrbitsModel.getPlanet() );
-//        moonState.apply( gravityAndOrbitsModel.getMoon() );
+        for ( int i = 0; i < persistentBodyStates.size(); i++ ) {
+            persistentBodyStates.get( i ).apply( gravityAndOrbitsModel.getBodies().get( i ) );
+        }
     }
 }
