@@ -1,9 +1,11 @@
 package edu.colorado.phet.flashcommon {
 
+import flash.display.Bitmap;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
+import flash.events.TimerEvent;
 import flash.geom.ColorTransform;
 import flash.net.LocalConnection;
 import flash.net.URLRequest;
@@ -14,6 +16,8 @@ import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
+
+import flash.utils.Timer;
 
 import org.aswing.ASColor;
 import org.aswing.AsWingManager;
@@ -66,6 +70,9 @@ public class FlashCommon {
     public var highContrastFunction: Function = defaultHighContrastFunction;
 
     private var loadListeners: Array = new Array();
+
+    [Embed(source="../../../../../data/common-as3/images/ECSME-KSU-logos.jpg")]
+    private static var ksuLogoClass: Class;
 
     /////////////////////////
 
@@ -173,6 +180,60 @@ public class FlashCommon {
         if ( getDev() ) {
             //            inspector = new Inspector();
         }
+
+        // TODO: move this to here
+        if ( SimStrings.stringExists( "ksu.credits" ) ) {
+            displayKSULogo();
+        }
+    }
+
+    protected function displayKSULogo(): void {
+        var logoHolder = new Sprite();
+        root.addChild( logoHolder );
+
+        var logo: Bitmap = new ksuLogoClass();
+        logoHolder.addChild( logo );
+        logo.x = (getPlayAreaWidth() - logo.width) / 2;
+        logo.y = (getPlayAreaHeight() - logo.height) / 2;
+
+        var textHeight: Number = 28;
+
+        // "Translated By" text
+        var textField: TextField = new TextField();
+        logoHolder.addChild( textField );
+        textField.x = (getPlayAreaWidth() - logo.width) / 2;
+        textField.y = (getPlayAreaHeight() - logo.height) / 2 - textHeight;
+        textField.width = logo.width;
+        textField.height = textHeight;
+        textField.text = CommonStrings.get( "TranslatedBy", "Translated by" );
+        var format: TextFormat = new TextFormat();
+        format.size = 20;
+        format.font = "Arial";
+        textField.setTextFormat( format );
+        textField.selectable = false;
+
+        // background
+        logoHolder.graphics.beginFill( 0xEEEEEE );
+        var top: Number = getPlayAreaHeight() / 2 - logo.height / 2 - textHeight;
+        var bottom: Number = getPlayAreaHeight() / 2 + logo.height / 2;
+        var left: Number = getPlayAreaWidth() / 2 - logo.width / 2;
+        var right: Number = getPlayAreaWidth() / 2 + logo.width / 2;
+        var padding: Number = 15;
+        logoHolder.graphics.moveTo( left - padding, top - padding );
+        logoHolder.graphics.lineTo( right + padding, top - padding );
+        logoHolder.graphics.lineTo( right + padding, bottom + padding );
+        logoHolder.graphics.lineTo( left - padding, bottom + padding );
+        logoHolder.graphics.endFill();
+
+        logoHolder.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
+            logoHolder.visible = false;
+        } );
+
+        var timer: Timer = new Timer( 4000, 1 );
+        timer.addEventListener( TimerEvent.TIMER_COMPLETE, function( e: TimerEvent ): void {
+            logoHolder.visible = false;
+        } );
+        timer.start();
     }
 
     private function debugToWindow( str: String ): void {
@@ -696,7 +757,8 @@ public class FlashCommon {
         barrierSprite.graphics.endFill();
 
         barrierSprite.useHandCursor = false;
-        barrierSprite.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {} );
+        barrierSprite.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
+        } );
     }
 
     // hides the barrier. see above
