@@ -11,10 +11,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
@@ -25,7 +21,7 @@ import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAnd
  */
 public class Student {
     private final String[] args;
-    private int count = 0;
+    private int count = 0;//Only send messages every count%N frames
 
     public Student( String[] args ) {
         this.args = args;
@@ -36,14 +32,7 @@ public class Student {
     }
 
     private void start() {
-        final GravityAndOrbitsApplication[] launchedApp = new GravityAndOrbitsApplication[1];
-        new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsApplication.PROJECT_NAME, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                launchedApp[0] = new GravityAndOrbitsApplication( config );
-                return launchedApp[0];
-            }
-        } );
-        final GravityAndOrbitsApplication application = launchedApp[0];
+        final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
         final int N = 1;
         final ActorRef server = Actors.remote().actorFor( "server", Config.serverIP, Config.SERVER_PORT );
