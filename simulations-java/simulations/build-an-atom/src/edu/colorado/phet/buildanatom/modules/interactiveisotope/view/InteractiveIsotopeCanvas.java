@@ -73,13 +73,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
             // The scale needs to sit just below the atom, and there are some
             // "tweak factors" needed to get it looking right.
             setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2,
-                    atomAndBucketNode.getFullBoundsReference().getMaxY() - 40 );
+                    atomAndBucketNode.getFullBoundsReference().getMaxY() - 42 );
         }};
 
         // Add the scale followed by the atom so that the layering effect is
         // correct.
-        rootNode.addChild( atomAndBucketNode );
         rootNode.addChild( scaleNode );
+        rootNode.addChild( atomAndBucketNode );
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
