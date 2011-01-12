@@ -35,7 +35,7 @@ public class Student {
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
         final int N = 1;
-        final ActorRef server = Actors.remote().actorFor( "server", Config.serverIP, Config.SERVER_PORT );
+        final ActorRef server = Actors.remote().actorFor( "server", Server.IP_ADDRESS, Server.PORT );
 
         final VoidFunction0 updateSharing = new VoidFunction0() {
             public void apply() {
