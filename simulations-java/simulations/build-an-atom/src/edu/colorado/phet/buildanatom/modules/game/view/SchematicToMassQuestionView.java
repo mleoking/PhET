@@ -11,7 +11,7 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 
 /**
  * View for the problem that presents a schematic view of an atom and asks
- * the user about the atomic mass.
+ * the user about the atom's mass.
  *
  * @author John Blanco
  */
