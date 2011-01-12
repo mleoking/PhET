@@ -69,7 +69,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         final PNode atomAndBucketNode = new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) );
 
         // Create the weigh scale that sits beneath the atom.
-        PNode scaleNode = new AtomScaleNode(){{
+        PNode scaleNode = new AtomScaleNode( model.getAtom() ){{
             // The scale needs to sit just below the atom, and there are some
             // "tweak factors" needed to get it looking right.
             setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2,
