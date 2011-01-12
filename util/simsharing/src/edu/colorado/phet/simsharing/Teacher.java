@@ -34,7 +34,7 @@ public class Teacher {
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" ); //simsharing, append command line args to title
         application.getGravityAndOrbitsModule().setTeacherMode( true );
 
-        final ActorRef server = Actors.remote().actorFor( "server", Config.serverIP, Config.SERVER_PORT );
+        final ActorRef server = Actors.remote().actorFor( "server", Server.IP_ADDRESS, Server.PORT );
 
         Thread t = new Thread( new Runnable() {
             public void run() {

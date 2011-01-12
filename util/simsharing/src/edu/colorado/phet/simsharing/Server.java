@@ -12,6 +12,9 @@ import static akka.actor.Actors.remote;
  * @author Sam Reid
  */
 public class Server {
+    public static int PORT = 2552;
+    public static String IP_ADDRESS = "128.138.145.107";
+
     private Object dataSample;
 
     public static void main( String[] args ) {
@@ -19,7 +22,7 @@ public class Server {
     }
 
     private void start() {
-        remote().start( Config.serverIP, Config.SERVER_PORT ).register( "server", actorOf( new Creator<Actor>() {
+        remote().start( IP_ADDRESS, PORT ).register( "server", actorOf( new Creator<Actor>() {
             public Actor create() {
                 return new UntypedActor() {
                     public void onReceive( Object o ) {
