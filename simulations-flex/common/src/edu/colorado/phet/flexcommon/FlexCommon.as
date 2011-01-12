@@ -3,9 +3,15 @@ import edu.colorado.phet.flashcommon.CommonStrings;
 import edu.colorado.phet.flashcommon.FlashCommon;
 import edu.colorado.phet.flashcommon.SimStrings;
 
+import flash.display.DisplayObject;
+
 import mx.core.Application;
 
 public class FlexCommon extends FlashCommon {
+
+    [Embed(source="../../../../../data/flexcommon/images/ECSME-KSU-logos.jpg")]
+    private static var ksuLogoClass: Class;
+
     public function FlexCommon() {
         trace( "FlexCommon starting up" );
 
@@ -18,6 +24,10 @@ public class FlexCommon extends FlashCommon {
             SimStrings.initDocument( new XML( internationalization ) );
         }
         aswingPadding = false;
+    }
+
+    override public function createKSULogo(): DisplayObject {
+        return new ksuLogoClass();
     }
 
     private static var flexInstance: FlexCommon = null;

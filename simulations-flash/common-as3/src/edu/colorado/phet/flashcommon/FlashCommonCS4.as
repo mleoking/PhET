@@ -1,9 +1,9 @@
 package edu.colorado.phet.flashcommon {
+import flash.display.Bitmap;
+import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
-import flash.display.StageAlign;
 import flash.display.StageScaleMode;
-import flash.geom.Point;
 
 public class FlashCommonCS4 extends FlashCommon {
     private static var flashInstance:FlashCommonCS4 = null;
@@ -24,6 +24,10 @@ public class FlashCommonCS4 extends FlashCommon {
         //Override the values set in AsWingManager
         root.stage.scaleMode=StageScaleMode.SHOW_ALL;
         root.stage.align = "";
+    }
+
+    override public function createKSULogo(): DisplayObject {
+        return new Bitmap( new ECSMELogo() );
     }
 
     public static function getInstance( root:DisplayObjectContainer, playAreaWidth:Number, playAreaHeight:Number):FlashCommonCS4 {
