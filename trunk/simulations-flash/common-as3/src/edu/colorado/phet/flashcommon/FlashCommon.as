@@ -1,6 +1,7 @@
 package edu.colorado.phet.flashcommon {
 
 import flash.display.Bitmap;
+import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
@@ -70,9 +71,6 @@ public class FlashCommon {
     public var highContrastFunction: Function = defaultHighContrastFunction;
 
     private var loadListeners: Array = new Array();
-
-    [Embed(source="../../../../../data/common-as3/images/ECSME-KSU-logos.jpg")]
-    private static var ksuLogoClass: Class;
 
     /////////////////////////
 
@@ -187,11 +185,15 @@ public class FlashCommon {
         }
     }
 
+    public function createKSULogo(): DisplayObject {
+        throw new Error( "abstract crateKSULogo" );
+    }
+
     protected function displayKSULogo(): void {
         var logoHolder = new Sprite();
         root.addChild( logoHolder );
 
-        var logo: Bitmap = new ksuLogoClass();
+        var logo: DisplayObject = createKSULogo();
         logoHolder.addChild( logo );
         logo.x = (getPlayAreaWidth() - logo.width) / 2;
         logo.y = (getPlayAreaHeight() - logo.height) / 2;
