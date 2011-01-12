@@ -16,6 +16,13 @@ import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAnd
 import static edu.colorado.phet.simsharing.test1.SimHistory.loadHistory;
 
 /**
+ * main code used for this mode
+ * if ( Arrays.asList( commandLineArgs ).contains( "-history" ) ) {//load and play back history
+ * int index = Arrays.asList( commandLineArgs ).indexOf( "-history" );
+ * String historyFile = commandLineArgs[index + 1];
+ * SimHistoryPlayback.playHistory( application, new File( historyFile ) );
+ * }
+ *
  * @author Sam Reid
  */
 public class SimHistoryPlayback {

@@ -2,13 +2,13 @@
 
 package edu.colorado.phet.simsharing.test1;
 
+import akka.actor.ActorRef;
+import akka.actor.Actors;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 import javax.swing.*;
 
@@ -22,18 +22,12 @@ import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAnd
 public class SimSharingStudentClient {
     int N = 1;
     int count = 0;
-    //    private final BufferedWriter bufferedWriter;
-    private ObjectOutputStream objectOutputStream;
     private final GravityAndOrbitsApplication application;
+    protected ActorRef server;
 
     public SimSharingStudentClient( final GravityAndOrbitsApplication application, final JFrame parentFrame ) throws AWTException, IOException {
         this.application = application;
-        final JFrame displayFrame = new JFrame();
-        final JLabel contentPane = new JLabel();
-        displayFrame.setContentPane( contentPane );
-        Socket socket = new Socket( SimSharingServer.HOST, SimSharingServer.STUDENT_PORT );
-        objectOutputStream = new ObjectOutputStream( new BufferedOutputStream( socket.getOutputStream() ) );
-//        bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ) );
+        server = Actors.remote().actorFor( "server", "localhost", 2552 );
 
         application.getGravityAndOrbitsModule().addModelSteppedListener( new SimpleObserver() {
             public void update() {
@@ -50,44 +44,16 @@ public class SimSharingStudentClient {
     }
 
     private void updateSharing() {
-        //                System.out.println( "In update" );
         if ( count % N == 0 ) {
-//                    System.out.println( "mod = true" );
-//                    new Thread( new Runnable() {
-//                        public void run() {
-//                            BufferedImage bufferedImage = robot.createScreenCapture( parentFrame.getBounds() );
-//                            System.out.println( "robot received image: " + bufferedImage );
-//                            contentPane.setIcon( new ImageIcon( bufferedImage ) );
-//                            if ( firstTime[0] ) {
-//                                displayFrame.pack();
-//                                displayFrame.setVisible( true );
-//                                firstTime[0] = false;
-//                            }
             GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application );
-//            System.out.println( "got app state" );
             sendToServer( state );
-//                        }
-//                    } ).start();
         }
         count++;
     }
 
-    String mymonitor = "hello";
-
     private void sendToServer( GravityAndOrbitsApplicationState state ) {
-//        System.out.println( "About to deliver message: " + state );
-        synchronized ( mymonitor ) {
-            try {
-                objectOutputStream.writeObject( state );
-                objectOutputStream.flush();
-//                System.out.println( "delivered message: " + state );
-//            bufferedWriter.write( bodyState.toString() + "\n" );
-//            bufferedWriter.flush();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-        }
+        server.sendOneWay( state );
+//        System.out.println( "response = " + response + ", round trip = " + ( System.currentTimeMillis() - start ) );
     }
 
     public void start() {

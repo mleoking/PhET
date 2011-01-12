@@ -23,4 +23,12 @@ public class GravityAndOrbitsApplicationState implements Serializable {
         System.out.println( "round trip time: " + ( System.currentTimeMillis() - timestamp ) );
         moduleState.apply( application.getGravityAndOrbitsModule() );
     }
+
+    @Override
+    public String toString() {
+        return "GravityAndOrbitsApplicationState{" +
+               "moduleState=" + moduleState +
+               ", timestamp=" + timestamp +
+               '}';
+    }
 }
