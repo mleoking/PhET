@@ -15,8 +15,8 @@ import static akka.actor.Actors.remote;
  */
 public class Server {
     public static void main( String[] args ) {
-        final ActorRef teacherActor = Actors.remote().actorFor( "teacher", "localhost", Config.TEACHER_PORT );
-        remote().start( "localhost", Config.SERVER_PORT ).register( "server", actorOf( new Creator<Actor>() {
+        final ActorRef teacherActor = Actors.remote().actorFor( "teacher", Config.teacherIP, Config.TEACHER_PORT );
+        remote().start( Config.serverIP, Config.SERVER_PORT ).register( "server", actorOf( new Creator<Actor>() {
             public Actor create() {
                 return new UntypedActor() {
                     public void onReceive( Object o ) {

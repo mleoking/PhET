@@ -28,7 +28,7 @@ public class SimSharingStudentClient {
 
     public SimSharingStudentClient( final GravityAndOrbitsApplication application ) throws AWTException, IOException {
         this.application = application;
-        server = Actors.remote().actorFor( "server", "localhost", Config.SERVER_PORT );
+        server = Actors.remote().actorFor( "server", Config.serverIP, Config.SERVER_PORT );
 
         application.getGravityAndOrbitsModule().addModelSteppedListener( new SimpleObserver() {
             public void update() {
