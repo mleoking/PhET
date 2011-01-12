@@ -23,56 +23,64 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class AtomScaleNode extends PNode {
 
-    private static final Dimension2D SIZE = new PDimension( 200, 100 );
+    private static final Dimension2D SIZE = new PDimension( 250, 100 );
+    private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
     private static final Stroke STROKE = new BasicStroke( 2 );
     private static final Paint STROKE_PAINT = Color.BLACK;
 
     public AtomScaleNode() {
         addChild(new PhetPPath( new Rectangle2D.Double(0, 0, SIZE.getWidth(), SIZE.getHeight()), Color.PINK ));
 
+        // Set up some helper variables.
+        double centerX = SIZE.getWidth() / 2;
+
+        // The scale shapes are generated from the bottom up, since adding
+        // them in this order creates the correct layering effect.
+
+        // Add the front of the scale base.
+        // TODO: Need to add readouts here.
+        Rectangle2D frontOfBaseShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.55, SIZE.getWidth(), SIZE.getHeight() * 0.5 );
+        addChild( new PhetPPath( frontOfBaseShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
+
         // Add the top portion of the scale body.  This is meant to look like
         // a tilted rectangle.  Because, hey, it's all a matter of
         // perspective.
         DoubleGeneralPath scaleBaseTopShape = new DoubleGeneralPath();
-        scaleBaseTopShape.moveTo( SIZE.getWidth() * 0.25, SIZE.getHeight() * 0.125 );
-        scaleBaseTopShape.lineTo( SIZE.getWidth() * 0.75, SIZE.getHeight() * 0.125 );
-        scaleBaseTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.6 );
-        scaleBaseTopShape.lineTo( 0, SIZE.getHeight() * 0.6 );
+        scaleBaseTopShape.moveTo( SIZE.getWidth() * 0.15, SIZE.getHeight() * 0.375 );
+        scaleBaseTopShape.lineTo( SIZE.getWidth() * 0.85, SIZE.getHeight() * 0.375 );
+        scaleBaseTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.55 );
+        scaleBaseTopShape.lineTo( 0, SIZE.getHeight() * 0.55 );
         scaleBaseTopShape.closePath();
 
         PNode scaleBaseTop = new PhetPPath( scaleBaseTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
         addChild( scaleBaseTop );
 
-        // Add the front of the scale base.
-        // TODO: Need to add readouts here.
-        Rectangle2D frontOfBaseShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.6, SIZE.getWidth(), SIZE.getHeight() * 0.4 );
-        addChild( new PhetPPath( frontOfBaseShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
-
         // Add the shaft that connects the base to the weigh plate.
         DoubleGeneralPath connectingShaftShape = new DoubleGeneralPath();
         double connectingShaftDistanceFromTop = SIZE.getHeight() * 0.15;
-        double connectingShaftWidth = 20;
+        double connectingShaftWidth = 30;
         double connectingShaftHeight = 30;
-        connectingShaftShape.moveTo( SIZE.getWidth() / 2 - connectingShaftWidth / 2, connectingShaftDistanceFromTop );
-        connectingShaftShape.lineTo( SIZE.getWidth() / 2 - connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
-        connectingShaftShape.quadTo( SIZE.getWidth() / 2, connectingShaftDistanceFromTop + connectingShaftHeight * 1.2, SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
-        connectingShaftShape.lineTo( SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop );
+        connectingShaftShape.moveTo( centerX - connectingShaftWidth / 2, connectingShaftDistanceFromTop );
+        connectingShaftShape.lineTo( centerX - connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
+        connectingShaftShape.quadTo( centerX, connectingShaftDistanceFromTop + connectingShaftHeight * 1.2, SIZE.getWidth() / 2 + connectingShaftWidth / 2, connectingShaftDistanceFromTop + connectingShaftHeight );
+        connectingShaftShape.lineTo( centerX + connectingShaftWidth / 2, connectingShaftDistanceFromTop );
         PNode connectingShaft = new PhetPPath( connectingShaftShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
         addChild( connectingShaft );
 
-        // Draw the top of the scale, where the atom will sit.  This is meant
-        // to look like a tilted rectangle.
+        // Draw the top of the weigh plate.  This is meant to look like a
+        // tilted rectangle.
         DoubleGeneralPath weighPlateTopShape = new DoubleGeneralPath();
-        weighPlateTopShape.moveTo( SIZE.getWidth() * 0.25, 0 );
-        weighPlateTopShape.lineTo( SIZE.getWidth() * 0.75, 0 );
-        weighPlateTopShape.lineTo( SIZE.getWidth(), SIZE.getHeight() * 0.25 );
-        weighPlateTopShape.lineTo( 0, SIZE.getHeight() * 0.25 );
+        weighPlateTopShape.moveTo( centerX - WIEIGH_PLATE_WIDTH * 0.35, 0 );
+        weighPlateTopShape.lineTo( centerX + WIEIGH_PLATE_WIDTH * 0.35, 0 );
+        weighPlateTopShape.lineTo( centerX + WIEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
+        weighPlateTopShape.lineTo( centerX - WIEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
         weighPlateTopShape.closePath();
         PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), Color.LIGHT_GRAY, STROKE, STROKE_PAINT );
         addChild( scaleTop );
 
-        // Add the rectangle the sits just below the top of the scale.
-        Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( 0, SIZE.getHeight() * 0.25, SIZE.getWidth(), SIZE.getHeight() * 0.1 );
+        // Add the front of the weigh plate.
+        Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WIEIGH_PLATE_WIDTH / 2,
+                SIZE.getHeight() * 0.125, WIEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
         addChild( new PhetPPath( frontOfWeighPlateShape, Color.LIGHT_GRAY, STROKE, STROKE_PAINT ) );
     }
 }
