@@ -2,11 +2,6 @@
 
 package edu.colorado.phet.gravityandorbits;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -14,9 +9,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.simsharing.SimHistoryPlayback;
-import edu.colorado.phet.gravityandorbits.simsharing.SimSharingStudentClient;
-import edu.colorado.phet.gravityandorbits.simsharing.SimSharingTeacherClient;
 
 /**
  * The main application for Gravity and Orbits.
@@ -33,39 +25,6 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() );
         addModule( gravityAndOrbitsModule );
         initMenubar();
-        if ( config.getCommandLineArgs().length > 0 ) {
-            getPhetFrame().setTitle( getPhetFrame().getTitle() + ": " + Arrays.toString( config.getCommandLineArgs() ) ); //simsharing, append command line args to title
-        }
-
-        String[] commandLineArgs = config.getCommandLineArgs();
-        if ( Arrays.asList( commandLineArgs ).contains( "-teacher" ) ) {
-            gravityAndOrbitsModule.setTeacherMode( true );
-            try {
-                new SimSharingTeacherClient( this, getPhetFrame() ).start();
-            }
-            catch ( AWTException e ) {
-                e.printStackTrace();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            if ( Arrays.asList( commandLineArgs ).contains( "-history" ) ) {//load and play back history
-                int index = Arrays.asList( commandLineArgs ).indexOf( "-history" );
-                String historyFile = commandLineArgs[index + 1];
-                SimHistoryPlayback.playHistory( this, new File( historyFile ) );
-            }
-        }
-        else if ( Arrays.asList( commandLineArgs ).contains( "-student" ) ) {
-            try {
-                new SimSharingStudentClient( this, getPhetFrame() ).start();
-            }
-            catch ( AWTException e ) {
-                e.printStackTrace();
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public GravityAndOrbitsModule getGravityAndOrbitsModule() {

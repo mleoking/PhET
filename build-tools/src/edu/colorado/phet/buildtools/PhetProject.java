@@ -541,6 +541,7 @@ public abstract class PhetProject {
 
         try {
             projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
+            projects.add( new SimSharingProject( new File( trunk, BuildToolsPaths.SIM_SHARING ) ) );
             projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
