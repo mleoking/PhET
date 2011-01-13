@@ -41,13 +41,25 @@ public class PhotonNode extends PNode implements Observer {
         put( GreenhouseConfig.uvWavelength, "photon-100.png");
     }};
 
-    // For debug and testing.
+    // For debug and testing.  TODO: Remove this if ultimately not used.
     private static final boolean USE_PHOTON_FACTORY = false;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
+    /**
+     * Construct a photon node given only a wavelength.  This is intended for
+     * use in places like control panels in the play area, where the node is
+     * needed but doesn't really correspond to anything in the model.
+     */
+    public PhotonNode( double wavelength ){
+        this( new Photon(wavelength, null), new ModelViewTransform2D());
+    }
+
+    /**
+     * Primary constructor.
+     */
     public PhotonNode( Photon photon, ModelViewTransform2D mvt ) {
 
         this.photon = photon;
