@@ -50,7 +50,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 //    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
     // TODO: Temporarily reduced size to accommodate reduced content, see other
     // to do markers in this file.
-    private static final Dimension PANEL_SIZE = new Dimension( 800, 80 );
+    private static final Dimension PANEL_SIZE = new Dimension( 800, 120 );
     private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
     private static final double EDGE_TO_ARROW_DISTANCE_Y = 4;
 
@@ -103,9 +103,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
         ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
-        wavelengthSelectorPanelNode.setOffset(
-                0,
-                backgroundNode.getFullBoundsReference().getCenterY() - wavelengthSelectorPanelNode.getFullBoundsReference().height / 2 );
+        wavelengthSelectorPanelNode.setOffset( 0, 15 );
 
         /*
          * TODO: 1/13/2011 - Kelly L has suggested removing the spectrum due
@@ -134,6 +132,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         title.setOffset( PANEL_SIZE.getWidth() / 2 - title.getFullBoundsReference().width / 2,
                 PANEL_SIZE.getHeight() - title.getFullBoundsReference().height - 15 );
         backgroundNode.addChild( title );
+         */
 
         // Add the arrows on the right and left sides.
         EnergyArrow leftArrowNode = new EnergyArrow(
@@ -155,7 +154,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
         backgroundNode.addChild( rightArrowNode );
-        */
 
         // Add everything in the needed order.
         addChild( backgroundNode );
