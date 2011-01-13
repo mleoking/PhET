@@ -6,6 +6,7 @@ import akka.actor.Actors;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
@@ -31,7 +32,8 @@ public class Teacher {
         this.args = args;
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
+        SimSharing.init();
         new Teacher( args ).start();
     }
 

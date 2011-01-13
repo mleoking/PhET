@@ -5,6 +5,7 @@ import akka.actor.Actor;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,15 +17,16 @@ import static akka.actor.Actors.remote;
  */
 public class Server {
     public static int PORT = 2552;
-    public static String IP_ADDRESS = "localhost";
-//    public static String IP_ADDRESS = "128.138.145.107";
+    //    public static String IP_ADDRESS = "localhost";
+    public static String IP_ADDRESS = "128.138.145.107";
 
     private HashMap<StudentID, Object> dataPoints = new HashMap<StudentID, Object>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private int connectionCount = 0;
     private ArrayList<StudentID> students = new ArrayList<StudentID>();
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
+        SimSharing.init();
         new Server().start();
     }
 
