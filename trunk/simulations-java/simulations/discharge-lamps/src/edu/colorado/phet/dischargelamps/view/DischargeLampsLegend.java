@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.DischargeLampsResources;
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.view.AbstractLegend;
 
 /**
@@ -13,9 +14,10 @@ import edu.colorado.phet.lasers.view.AbstractLegend;
  */
 public class DischargeLampsLegend extends AbstractLegend {
     public DischargeLampsLegend() {
-        addForKey( getAtomImage(), "Legend.atom" );
-        addForKey( getElectronImage(), "Legend.electron" );
-        add3PhotonLegendItems();
+        super( LasersResources.getString( "Legend.title" ) );
+        addLegendItem( getAtomImage(), LasersResources.getString( "Legend.atom" ) );
+        addLegendItem( getElectronImage(), LasersResources.getString( "Legend.electron" ) );
+        addLegendItem( createPhotonLegendImage(), LasersResources.getString( "Legend.photon" ) );
     }
 
     protected BufferedImage getElectronImage() {

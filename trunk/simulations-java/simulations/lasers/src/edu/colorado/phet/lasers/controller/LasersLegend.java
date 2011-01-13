@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lasers.controller;
 
+import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.view.AbstractLegend;
 
 /**
@@ -9,8 +10,8 @@ import edu.colorado.phet.lasers.view.AbstractLegend;
  */
 public class LasersLegend extends AbstractLegend {
     public LasersLegend() {
-        addForKey( getAtomImage(), "Legend.atom" );
-//        add( getElectronImage(), "Legend.electron" );
-        super.add3PhotonLegendItems();
+        super( LasersResources.getString( "Legend.title" ) );
+        addLegendItem( getAtomImage(), LasersResources.getString( "Legend.atom" ) );
+        addLegendItem( createPhotonLegendImage(), LasersResources.getString( "Legend.photon" ) );
     }
 }
