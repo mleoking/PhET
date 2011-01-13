@@ -1,5 +1,7 @@
 package edu.colorado.phet.resonance {
 
+import edu.colorado.phet.flexcommon.model.NumericProperty;
+
 import flash.display.*;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -29,11 +31,13 @@ public class ControlPanel extends Canvas {
 
     private var gravity_lbl: Label;
     private var resonatorNbr_lbl: Label;
-    private var mSlider: HSlider;
+    private var mSlider: NumericSlider;
     private var kSlider: HSlider;
     private var freq_lbl: Label;
     private var resetAllButton: Button;
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
+
+    private var massProperty: NumericProperty
 
     //internationalized strings
     public var numberOfResonators_str: String;
@@ -167,16 +171,20 @@ public class ControlPanel extends Canvas {
         }
 
 
-        this.mSlider = new HSlider();
+        massProperty = new NumericProperty("mass", "kg", 1);
+        this.mSlider = new NumericSlider(massProperty);
         //this.mSlider.percentWidth = 100;
-        this.formatSlider( this.mSlider );
-        with ( this.mSlider ) {
-            minimum = 0.1;
-            maximum = 5.0;
-            labels = ["", this.mass_str, ""];
-            // This doesn't work: setStyle("labelPlacement", "bottom");
-        }
-        this.mSlider.addEventListener( Event.CHANGE, onChangeM );
+        //this.formatSlider( this.mSlider );
+//        with ( this.mSlider ) {
+//            minimum = 0.1;
+//            maximum = 5.0;
+//            labels = ["", this.mass_str, ""];
+//            // This doesn't work: setStyle("labelPlacement", "bottom");
+//        }
+        //this.mSlider.addEventListener( Event.CHANGE, onChangeM );
+        massProperty.addListener( function():void{
+            setMass();
+        });
 
         this.kSlider = new HSlider();
         this.formatSlider( this.kSlider );
@@ -260,7 +268,8 @@ public class ControlPanel extends Canvas {
         this.resonatorNbr_lbl.text = this.resonator_str + " " + rNbr_str;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
-        this.mSlider.value = m;
+        massProperty.value = m;
+        //this.mSlider.value = m;
         var k: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getK();
         //trace("ControlPanel.setResonatorIndex. k = "+k);
         this.kSlider.value = k;
@@ -337,13 +346,9 @@ public class ControlPanel extends Canvas {
         this.myMainView.setNbrResonators( nbrR );
     }
 
-    private function onChangeM( evt: Event ): void {
-        this.setMass();
-    }
-
     public function setMass(): void {
         var indx: int = this.selectedResonatorNbr - 1;
-        var m: Number = this.mSlider.value;
+        var m: Number = massProperty.value;
         this.shakerModel.resonatorModel_arr[indx].setM( m );
         this.setFreqLabel();
         //trace("ControlPanel.setMass() mass = "+ m);
