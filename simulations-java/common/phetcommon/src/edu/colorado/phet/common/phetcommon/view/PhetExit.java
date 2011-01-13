@@ -16,7 +16,7 @@ public class PhetExit {
     private static ArrayList<VoidFunction0> exitListeners = new ArrayList<VoidFunction0>();//Listeners that are notified just before the PhetApplication exits
 
     /**
-     * Add a listener to be notified just before the PhetApplication exits.
+     * Add a listener that will be notified just before the PhetApplication exits.
      *
      * @param listener the listener to notify just before the PhetApplication exits
      */
