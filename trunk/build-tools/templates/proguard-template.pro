@@ -16,6 +16,37 @@
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
 
+##########
+# SimSharing features that use Akka
+# TODO: move this to simsharing build file somehow
+
+-keep public class akka.remote.**{
+    <fields>;
+    <methods>;
+}
+
+-keep public class akka.serialization.**{
+    <fields>;
+    <methods>;
+}
+
+-keep class com.google.protobuf.**{
+    <fields>;
+    <methods>;
+}
+
+-keep class akka.actor.**{
+    <fields>;
+    <methods>;
+}
+
+-keep class edu.colorado.phet.simsharing.**{
+    <fields>;
+    <methods>;
+}
+#
+##############
+
 #JMonkeyengine dependencies
 #TODO: factor out to project properties files
 -keep class com.jmex.awt.input.AWTKeyInput

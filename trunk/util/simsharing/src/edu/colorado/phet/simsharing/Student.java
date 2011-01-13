@@ -30,6 +30,7 @@ public class Student {
     }
 
     public static void main( final String[] args ) throws IOException, AWTException {
+        SimSharing.init();
         new Student( args ).start();
     }
 
