@@ -47,7 +47,7 @@ public class PhotonAbsorptionModel {
     // This value is essentially arbitrary, and needs to be set such that the
     // photons only disappear after they have traveled beyond the bounds of
     // the play area.
-    private static final double MAX_PHOTON_DISTANCE = 3500;
+    private static final double MAX_PHOTON_DISTANCE = 4500;
 
     // Constants that define the size of the containment area, which is the
     // rectangle that surrounds the molecule(s).
