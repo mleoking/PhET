@@ -91,7 +91,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
-                (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.3 ) ),
+                (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.4 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         true );
 
@@ -142,7 +142,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
         // Create the control panel for photon emission frequency.
         PNode photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel );
-        photonEmissionControlPanel.setOffset( 0, 400 );
+        photonEmissionControlPanel.setOffset( 0, 500 );
 
         // Create the photon emitter.
         PNode photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, mvt, photonAbsorptionModel );

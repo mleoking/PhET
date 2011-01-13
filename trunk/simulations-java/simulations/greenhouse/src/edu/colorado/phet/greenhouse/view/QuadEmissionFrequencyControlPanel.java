@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
@@ -46,7 +47,10 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     // ------------------------------------------------------------------------
 
     private static final Color BACKGROUND_COLOR = new Color( 205, 198, 115 );
-    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
+//    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
+    // TODO: Temporarily reduced size to accommodate reduced content, see other
+    // to do markers in this file.
+    private static final Dimension PANEL_SIZE = new Dimension( 800, 80 );
     private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
     private static final double EDGE_TO_ARROW_DISTANCE_Y = 4;
 
@@ -99,8 +103,14 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
         ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
-        wavelengthSelectorPanelNode.setOffset( 0, 4 );
+        wavelengthSelectorPanelNode.setOffset(
+                0,
+                backgroundNode.getFullBoundsReference().getCenterY() - wavelengthSelectorPanelNode.getFullBoundsReference().height / 2 );
 
+        /*
+         * TODO: 1/13/2011 - Kelly L has suggested removing the spectrum due
+         * to confusion shown by interviewees - they interpreted it as the
+         * emission spectrum of
         // Create a data structure that maps the wavelengths to the x
         // positions of their selectors.  This is needed by the spectrum node
         // in order to create a visual connection between the selection button
@@ -145,11 +155,12 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
         backgroundNode.addChild( rightArrowNode );
+        */
 
         // Add everything in the needed order.
         addChild( backgroundNode );
         backgroundNode.addChild( wavelengthSelectorPanelNode );
-        addChild( spectrumNode );
+//        addChild( spectrumNode );
     }
 
     // ------------------------------------------------------------------------
@@ -197,7 +208,53 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 setScale( 1.5 );
             }};
             addChild( buttonNode );
+
+            // Add an image of a photon.
+            PhotonNode photonNode = new PhotonNode( wavelength );
+            photonNode.setOffset(
+                    buttonNode.getFullBoundsReference().getMaxX() + photonNode.getFullBoundsReference().width / 2,
+                    buttonNode.getFullBoundsReference().getCenterY() );
+            addChild( photonNode );
         }
+
+        /*
+        public WavelengthSelectButtonNode( final String text, String imageFileName, final PhotonAbsorptionModel photonAbsorptionModel, final double wavelength ){
+            button = new JRadioButton(){{
+                setFont( LABEL_FONT );
+                setText( text );
+                setBackground( BACKGROUND_COLOR );
+                setOpaque( false );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        photonAbsorptionModel.setEmittedPhotonWavelength( wavelength );
+                    }
+                });
+                photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
+                    @Override
+                    public void emittedPhotonWavelengthChanged() {
+                        setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
+                    }
+                } );
+                // Set initial state.
+                setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
+            }};
+            // TODO: We received some feedback that the buttons were a little
+            // small, so the following scaling operation makes them bigger
+            // relative to the font.  Keep or discard once reviewed.  Note
+            // that the scaling factor combined with the font size control
+            // the relative size of the button.
+            PSwing buttonNode = new PSwing( button ){{
+                setScale( 1.5 );
+            }};
+            addChild( buttonNode );
+            if ( imageFileName != null ){
+                PImage photonImage = new PImage( GreenhouseResources.getImage( imageFileName ) );
+                photonImage.setScale( buttonNode.getFullBoundsReference().height / photonImage.getFullBoundsReference().height );
+                photonImage.setOffset( buttonNode.getFullBoundsReference().width,
+                        buttonNode.getFullBoundsReference().getCenterY() - photonImage.getFullBoundsReference().height / 2  );
+            }
+        }
+        */
 
         public JRadioButton getButton(){
             return button;
@@ -352,15 +409,20 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 setStroke( new BasicStroke( 3 ) );
             }};
 
-            // ArrowNodes, by default, are set up such that the left center of
-            // the arrow is at (0, 0).  This makes it hard to position this
-            // node in this particular application, so here it is shifted such
-            // that the upper left corner of its full bounds becomes the (0,0)
-            // point for this composite node.
+            // ArrowNodes, by default, are set up such that the horizontal
+            // left and vertical center of the arrow is at (0, 0).  This makes
+            // it tricky in this particular application to position the
+            // overall node where we want it, so the following line shifts the
+            // arrow such that the (0, 0) position for this entire node is its
+            // upper left corner (which is fairly typical amongst PNodes
+            // anyway).
             arrowNode.setOffset( arrowXPos, arrowNode.getHeight() / 2 );
 
             // Add the arrow node as a child.
             addChild( arrowNode );
+
+            // Add a cursor handler.
+            addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
             // Add a listener that allows the user to click on the arrow and
             // cause the frequency to go up or down.  This also and to
