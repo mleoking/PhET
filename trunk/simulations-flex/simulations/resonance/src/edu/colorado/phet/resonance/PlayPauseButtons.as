@@ -15,10 +15,14 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
-public class PlayPauseButtons extends Sprite {
+import mx.controls.HSlider;
+import mx.core.UIComponent;
+
+public class PlayPauseButtons extends UIComponent {
     //private var canvas:Sprite;
     private var myMainView: MainView;
     private var myShakerModel: ShakerModel;
+    private var timeRateSlider:HSlider;
     private var playPauseButton: Sprite;
     private var stepButton: Sprite;
     private var playIcon: Sprite;                //overlayed on playPauseButton
@@ -44,6 +48,7 @@ public class PlayPauseButtons extends Sprite {
 
         this.myMainView = myMainView;
         this.myShakerModel = myShakerModel;
+        this.timeRateSlider = new HSlider();
         this.playPauseButton = new Sprite();
         this.stepButton = new Sprite();
         this.playIcon = new Sprite();
@@ -56,12 +61,15 @@ public class PlayPauseButtons extends Sprite {
 
         this.drawGraphics();
         this.initializeTextFields();
+        this.formatSlider(this.timeRateSlider);
         this.positionFields();
         this.initializeButton();
+
 
         //this.addChild(this.canvas);
         this.playPauseButton.addChild( this.playIcon );
         this.playPauseButton.addChild( this.pauseIcon );
+        this.addChild(this.timeRateSlider);
         this.addChild( this.playPauseButton );
         this.addChild( this.playPause_txt );
         this.addChild( this.stepButton );
@@ -243,7 +251,24 @@ public class PlayPauseButtons extends Sprite {
         }
     }
 
+    private function formatSlider( mySlider: HSlider ): void {
+        mySlider.minimum = 0.1;
+        mySlider.maximum = 1;
+        mySlider.buttonMode = true;
+        mySlider.liveDragging = true;
+        //mySlider.percentWidth = 100;
+        mySlider.width = 100;
+        mySlider.height = 20;
+        mySlider.showDataTip = false;
+        //mySlider.setStyle( "labelOffset", 25 );
+        mySlider.setStyle( "invertThumbDirection", true );
+        //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
+        mySlider.setStyle( "fontFamily", "Arial" );
+    }
+
     private function positionFields(): void {
+        this.timeRateSlider.x = -1.5*this.timeRateSlider.width;
+        this.timeRateSlider.y = 0;
         this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
