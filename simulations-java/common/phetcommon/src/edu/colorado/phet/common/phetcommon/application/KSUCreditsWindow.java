@@ -2,14 +2,18 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -35,9 +39,10 @@ public class KSUCreditsWindow extends JWindow {
         JLabel logo =  new JLabel( new ImageIcon( PhetCommonResources.getImage( ( "logos/ECSME-KSU-logos.jpg" ) ) ) );
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
-        int margin = 18;
-        panel.setBorder( new EmptyBorder( margin, margin, margin, margin ) );
+        int margin = 12;
+        panel.setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( margin, margin, margin, margin ) ) );
         panel.add( label );
+        panel.add( Box.createVerticalStrut( 5 ) );
         panel.add( logo );
 
         setContentPane( panel );
