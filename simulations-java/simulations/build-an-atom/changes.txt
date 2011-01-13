@@ -1,3 +1,5 @@
+# 2.00.02 (47929) Jan 13, 2011
+1/13/11 Deploying to dev to correct an issue with launching of Isotopes.
 # 2.00.01 (47918) Jan 12, 2011
 1/12/11 Publishing to dev for review of some UI compenents
 Added the scale for Isotopes.
