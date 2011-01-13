@@ -1,3 +1,5 @@
+Added the scale for Isotopes.
+Converted the periodic table to use buttons.
 Added animation developer control to Isotopes.
 Changed the title for the first tab of Isotopes.
 Added the bulk for functionality for the first tab of Isotopes and Atomic Mass.
