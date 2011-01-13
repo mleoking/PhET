@@ -1,3 +1,5 @@
+# 2.00.01 (47918) Jan 12, 2011
+1/12/11 Publishing to dev for review of some UI compenents
 Added the scale for Isotopes.
 Converted the periodic table to use buttons.
 Added animation developer control to Isotopes.
