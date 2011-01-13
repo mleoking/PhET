@@ -45,9 +45,9 @@ public class AbstractLegend extends JPanel {
                                                                   new Insets( 0, 0, 5, 10 ),
                                                                   0, 0 );
 
-    public AbstractLegend() {
+    public AbstractLegend( String title ) {
         super( new GridBagLayout() );
-        setBorder( new TitledBorder( LasersResources.getString( "Legend.title" ) ) );
+        setBorder( new TitledBorder( title ) );
     }
 
     protected BufferedImage getPhotonImage( double wavelength ) {
@@ -55,22 +55,16 @@ public class AbstractLegend extends JPanel {
         return PhotonGraphic.getInstance( this, photon ).getImage();
     }
 
-    public void addForKey( Image image, String key ) {
-        String text = LasersResources.getString( key );
-        addLegendItem( image, text );
-    }
-
     public void addLegendItem( Image image, String text ) {
         add( new JLabel( new ImageIcon( image ) ), iconGbc );
         add( new JLabel( text ), labelGbc );
     }
 
-    public void add3PhotonLegendItems() {
-//        addLegendItem( getPhotonImage( 680 ), LasersResources.getString( "Legend.photon" ) + " (" + LasersResources.getString( "Color.red" ) + ")" );
-//        addLegendItem( getPhotonImage( 470 ), LasersResources.getString( "Legend.photon" ) + " (" + LasersResources.getString( "Color.blue" ) + ")" );
-//        addLegendItem( getPhotonImage( 800 ), LasersResources.getString( "Legend.photon" ) + " (" + LasersResources.getString( "Color.ir" ) + ")" );
-
-        addLegendItem( append( new BufferedImage[]{getPhotonImage( 680 ), getPhotonImage( 470 ), getPhotonImage( 800 )} ), LasersResources.getString( "Legend.photon" ) );
+    /*
+     * Gets a legend image for photon.
+     */
+    protected BufferedImage createPhotonLegendImage() {
+        return append( new BufferedImage[] { getPhotonImage( 680 ), getPhotonImage( 470 ), getPhotonImage( 800 ) } );
     }
 
     private BufferedImage append( BufferedImage[] images ) {
