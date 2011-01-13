@@ -202,7 +202,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
             g2.setColor( Color.yellow );
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
             int strLocY = readoutLocation.y + fontMetrics.getAscent() / 2;
-            String pressureStr = "P = " + pressureFormatter.format( pressure ) + " Atm";
+            String pressureStr = "P = " + pressureFormatter.format( pressure ) + " " + IdealGasResources.getString( "pressure-gauge.units");
             g2.setColor( Color.black );
             strLocY += borderThickness;
             g2.drawString( pressureStr, readoutLocation.x + 5, strLocY );
