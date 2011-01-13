@@ -574,7 +574,7 @@ public class IdealGasModule extends PhetGraphicsModule {
                 }
             } );
 
-            JButton setTimeBtn = new JButton( "Set" );
+            JButton setTimeBtn = new JButton( IdealGasResources.getString( "IdealGasControlPanel.SetButton" ) );
             setTimeBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     double realAveTime = Double.parseDouble( aveTimeTF.getText() ) * 1000;
