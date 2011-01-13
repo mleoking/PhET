@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
@@ -31,7 +32,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -50,7 +50,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 //    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
     // TODO: Temporarily reduced size to accommodate reduced content, see other
     // to do markers in this file.
-    private static final Dimension PANEL_SIZE = new Dimension( 800, 120 );
+    private static final Dimension PANEL_SIZE = new Dimension( 800, 125 );
     private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
     private static final double EDGE_TO_ARROW_DISTANCE_Y = 4;
 
@@ -347,8 +347,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         public enum Direction { POINTS_LEFT, POINTS_RIGHT };
 
         public EnergyArrow( String captionText, final Direction direction, final PhotonAbsorptionModel model ){
-
-            PText caption = new PText( captionText );
+            HTMLNode caption = new HTMLNode( captionText );
             caption.setFont( new PhetFont( 18, true ) );
             addChild( caption );
 
@@ -358,15 +357,15 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 // Arrow points to the left.
                 headPoint = new Point2D.Double(0, 0);
                 tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
-                caption.setOffset( ARROW_HEAD_HEIGHT + 10, ARROW_TAIL_WIDTH * 2 + ARROW_HEAD_HEIGHT / 3 );
+                caption.setOffset( ARROW_LENGTH + 5, ARROW_HEAD_WIDTH / 2 - caption.getFullBoundsReference().height / 2 );
                 arrowXPos = 0;
             }
             else{
-                // Must point to the right.
+                // Arrow points to the right.
                 headPoint = new Point2D.Double(ARROW_LENGTH, 0);
                 tailPoint = new Point2D.Double(0, 0);
-                caption.setOffset( 0, ARROW_TAIL_WIDTH * 2 + ARROW_HEAD_HEIGHT / 3 );
-                arrowXPos = caption.getFullBoundsReference().width - ARROW_LENGTH + ARROW_HEAD_HEIGHT + 10;
+                caption.setOffset( 0, ARROW_HEAD_WIDTH / 2 - caption.getFullBoundsReference().height / 2 );
+                arrowXPos = caption.getFullBoundsReference().width + 5;
             }
 
             final ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
