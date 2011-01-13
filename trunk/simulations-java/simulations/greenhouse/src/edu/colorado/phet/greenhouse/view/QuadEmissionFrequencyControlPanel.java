@@ -214,47 +214,14 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             photonNode.setOffset(
                     buttonNode.getFullBoundsReference().getMaxX() + photonNode.getFullBoundsReference().width / 2,
                     buttonNode.getFullBoundsReference().getCenterY() );
+            photonNode.addInputEventListener( new PBasicInputEventHandler(){
+                @Override
+                public void mouseClicked( PInputEvent event ) {
+                    photonAbsorptionModel.setEmittedPhotonWavelength( wavelength );
+                }
+            });
             addChild( photonNode );
         }
-
-        /*
-        public WavelengthSelectButtonNode( final String text, String imageFileName, final PhotonAbsorptionModel photonAbsorptionModel, final double wavelength ){
-            button = new JRadioButton(){{
-                setFont( LABEL_FONT );
-                setText( text );
-                setBackground( BACKGROUND_COLOR );
-                setOpaque( false );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        photonAbsorptionModel.setEmittedPhotonWavelength( wavelength );
-                    }
-                });
-                photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
-                    @Override
-                    public void emittedPhotonWavelengthChanged() {
-                        setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
-                    }
-                } );
-                // Set initial state.
-                setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
-            }};
-            // TODO: We received some feedback that the buttons were a little
-            // small, so the following scaling operation makes them bigger
-            // relative to the font.  Keep or discard once reviewed.  Note
-            // that the scaling factor combined with the font size control
-            // the relative size of the button.
-            PSwing buttonNode = new PSwing( button ){{
-                setScale( 1.5 );
-            }};
-            addChild( buttonNode );
-            if ( imageFileName != null ){
-                PImage photonImage = new PImage( GreenhouseResources.getImage( imageFileName ) );
-                photonImage.setScale( buttonNode.getFullBoundsReference().height / photonImage.getFullBoundsReference().height );
-                photonImage.setOffset( buttonNode.getFullBoundsReference().width,
-                        buttonNode.getFullBoundsReference().getCenterY() - photonImage.getFullBoundsReference().height / 2  );
-            }
-        }
-        */
 
         public JRadioButton getButton(){
             return button;
