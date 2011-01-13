@@ -1,5 +1,4 @@
-package edu.colorado.phet.densityandbuoyancy.model {
-import edu.colorado.phet.densityandbuoyancy.components.*;
+package edu.colorado.phet.flexcommon.model {
 
 /**
  * An observable boolean property. Used when we want a mutable observable boolean value.

@@ -1,5 +1,5 @@
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.display.Sprite;
 import flash.text.TextField;

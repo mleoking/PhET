@@ -9,6 +9,8 @@ import Box2D.Dynamics.b2World;
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.view.DebugText;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 public class DensityModel {
     private var densityObjects: Array;

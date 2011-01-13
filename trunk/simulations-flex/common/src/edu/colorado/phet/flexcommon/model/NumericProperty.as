@@ -1,5 +1,4 @@
-package edu.colorado.phet.densityandbuoyancy.model {
-import edu.colorado.phet.densityandbuoyancy.components.*;
+package edu.colorado.phet.flexcommon.model {
 
 public class NumericProperty extends Observable {
     private var _name: String;

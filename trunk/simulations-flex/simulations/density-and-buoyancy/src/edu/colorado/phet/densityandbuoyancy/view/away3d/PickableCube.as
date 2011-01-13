@@ -3,7 +3,7 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.primitives.Cube;
 
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 /**
  * A cube that is possibly movable

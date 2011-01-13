@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import Box2D.Dynamics.b2Body;
 
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 /**
  * An object that is movable by the mouse in the scene

@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.events.Event;
 

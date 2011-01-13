@@ -3,7 +3,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.components.FluidDensityEditor;
 import edu.colorado.phet.densityandbuoyancy.components.Unbounded;
-import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 
 import mx.containers.Grid;
