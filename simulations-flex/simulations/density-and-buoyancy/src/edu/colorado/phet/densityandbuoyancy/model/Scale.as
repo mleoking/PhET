@@ -7,6 +7,7 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 /**
  * This class represents the model object for a scale.

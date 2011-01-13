@@ -1,4 +1,4 @@
-package edu.colorado.phet.densityandbuoyancy.components {
+package edu.colorado.phet.flexcommon.model {
 
 public class Observable {
     private const listeners: Array = new Array();

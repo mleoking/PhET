@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.FlexSimStrings;

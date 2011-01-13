@@ -1,10 +1,10 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;

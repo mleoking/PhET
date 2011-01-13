@@ -1,6 +1,6 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 
 public class FluidDensityEditor extends PropertyEditor {

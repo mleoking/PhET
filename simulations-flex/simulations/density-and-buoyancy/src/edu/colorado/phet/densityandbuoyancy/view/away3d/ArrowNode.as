@@ -4,10 +4,10 @@ import away3d.core.base.Vertex;
 import away3d.materials.ColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
-import edu.colorado.phet.densityandbuoyancy.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.densityandbuoyancy.model.NumericProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
 import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
 
