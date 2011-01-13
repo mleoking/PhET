@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 
@@ -205,7 +204,7 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
      */
     private void addKSUCredits( Properties properties ) {
         String translationCredits = properties.getProperty( CreditsDialog.TRANSLATION_CREDITS_KEY );
-        if ( translationCredits != null && translationCredits.equals( "KSU" ) ) {
+        if ( translationCredits != null && translationCredits.trim().equals( "KSU" ) ) {
             properties.put( CreditsDialog.KSU_CREDITS_KEY, TUStrings.KSU_CREDITS );
         }
     }
