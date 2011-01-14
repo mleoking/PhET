@@ -1,3 +1,4 @@
+Added first attempt at a dialog for showing the EM spectrum and a button on the M&L canvas for bringing it up. 
 Modified photons and the control panel background in order to make the photons more visible.
 Fixed an issue where the edges of the UV photon were being cut off.
 # 3.01.11 (47962) Jan 14, 2011

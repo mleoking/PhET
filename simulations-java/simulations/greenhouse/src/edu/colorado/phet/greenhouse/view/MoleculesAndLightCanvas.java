@@ -3,6 +3,7 @@
 package edu.colorado.phet.greenhouse.view;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
@@ -69,16 +71,19 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         }
     };
 
+    // Button for displaying EM specturm.
+    private final ButtonNode showSpectrumButton = new ButtonNode( "Show Light Spectrum", 24, new Color( 185, 178, 95 ) );
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     /**
      * Constructor.
-     *
+     * @param parentFrame TODO
      * @param photonAbsorptionModel - Model that is being portrayed on this canvas.
      */
-    public MoleculesAndLightCanvas( final PhotonAbsorptionModel photonAbsorptionModel ) {
+    public MoleculesAndLightCanvas( final Frame parentFrame, final PhotonAbsorptionModel photonAbsorptionModel ) {
 
         this.photonAbsorptionModel = photonAbsorptionModel;
 
@@ -177,6 +182,21 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         for ( Molecule molecule : photonAbsorptionModel.getMolecules() ) {
             addMolecule( molecule );
         }
+
+        // Add the button for displaying the EM spectrum.
+        myWorldNode.addChild( showSpectrumButton );
+        showSpectrumButton.setOffset( 0, 700 );
+        showSpectrumButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                // Show the image dialog.
+                SpectrumDialog reactorCorePictureDlg = new SpectrumDialog( parentFrame );
+                if ( reactorCorePictureDlg != null ) {
+                    SwingUtils.centerDialogInParent( reactorCorePictureDlg );
+                }
+                reactorCorePictureDlg.setVisible( true );
+            }
+        });
+
 
         // Update the layout.
         updateLayout();
