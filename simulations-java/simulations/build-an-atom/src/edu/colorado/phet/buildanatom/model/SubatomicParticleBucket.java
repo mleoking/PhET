@@ -192,17 +192,20 @@ public class SubatomicParticleBucket {
         return containedParticles;
     }
 
-    //DOC
+    /*
+     * Returns the first location in a bucket that a particle could be placed without overlapping another particle.
+     * Locations may be above (+y) other particles, in order to create a stacking effect.
+     */
     private Point2D getFirstOpenLocation() {
         Point2D openLocation = new Point2D.Double();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
         double offsetFromBucketEdge = (holeShape.getBounds2D().getWidth() - placeableWidth) / 2 + particleRadius;
         int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
-        int layer = 0;
+        int row = 0;
         int positionInLayer = 0;
         boolean found = false;
         while ( !found ) {
-            double yPos = getYPositionForLayer( layer );
+            double yPos = getYPositionForRow( row );
             double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
             if ( isPositionOpen( xPos, yPos ) ) {
                 // We found a location that is open.
@@ -214,7 +217,7 @@ public class SubatomicParticleBucket {
                 positionInLayer++;
                 if ( positionInLayer >= numParticlesInLayer ) {
                     // Move to the next layer.
-                    layer++;
+                    row++;
                     positionInLayer = 0;
                     numParticlesInLayer--;
                     offsetFromBucketEdge += particleRadius;
@@ -235,10 +238,13 @@ public class SubatomicParticleBucket {
         return openLocation;
     }
 
-    //DOC what is a layer?
-    private double getYPositionForLayer( int layer ) {
-        double yPos = getPosition().getY() + layer * particleRadius * 2 * 0.866 + yOffset;
-        return yPos;
+    /**
+     *
+     * @param row 0 for the y=0 row, 1 for the next row, etc.
+     * @return
+     */
+    private double getYPositionForRow( int row ) {
+        return getPosition().getY() + row * particleRadius * 2 * 0.866 + yOffset;
     }
 
     private void relayoutBucketParticles() {
@@ -252,10 +258,13 @@ public class SubatomicParticleBucket {
         }
     }
 
-    //DOC
-    private boolean isDangling( SubatomicParticle containedParticle ) {
-        boolean upperLayer = containedParticle.getDestination().getY() > getYPositionForLayer( 0 );
-        return upperLayer && countSupportingParticles(containedParticle)<2;
+    /**
+     * Determine whether a particle is 'dangling', i.e. hanging above an open space in the stack of particles.
+     * Dangling particles should fall.
+     */
+    private boolean isDangling( SubatomicParticle particle ) {
+        boolean rowAbove = particle.getDestination().getY() > getYPositionForRow( 0 );
+        return rowAbove && countSupportingParticles( particle ) < 2;
     }
 
     private int countSupportingParticles( SubatomicParticle p ) {

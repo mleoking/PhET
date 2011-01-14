@@ -8,9 +8,10 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-//DOC
 /**
+ * Physical model for an Electron shell, which describes the radius, and tracks electrons (one for each available position).
  * @author John Blanco
+ * @author Sam Reid
  */
 public class ElectronShell extends SimpleObservable {
 

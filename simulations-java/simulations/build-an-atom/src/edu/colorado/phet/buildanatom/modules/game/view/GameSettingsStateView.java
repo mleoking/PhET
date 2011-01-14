@@ -8,10 +8,12 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-//DOC
 /**
-* @author Sam Reid
-*/
+ * Piccolo dialog for changing the game level, whether the timer and sound are enabled, and for the starting the game.
+ *
+ * @author Sam Reid
+ * @author John Blanco
+ */
 public class GameSettingsStateView extends StateView {
     private final GameSettingsPanel panel;
     private final PNode gameSettingsNode;

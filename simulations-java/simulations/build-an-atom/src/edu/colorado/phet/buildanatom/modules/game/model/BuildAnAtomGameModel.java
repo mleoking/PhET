@@ -12,7 +12,6 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
-//DOC "pool" is mentioned many times, what is it?
 /**
  * The primary model for the Build an Atom game.  This class sequences the
  * game and sends out events when the game state changes.
@@ -72,6 +71,7 @@ public class BuildAnAtomGameModel {
     private final Property<Integer> levelProperty = new Property<Integer>( 1 );
 
     // Level pools from the design doc.  These define the pools of problems for a given level.
+    // A pool is the set of atoms that can be selected for creating problem sets at a given game level.
     private final HashMap<Integer, ArrayList<ImmutableAtom>> levelPools = new HashMap<Integer, ArrayList<ImmutableAtom>>() {{
         put( 1, new ArrayList<ImmutableAtom>() {{
             add( new ImmutableAtom( 1, 0, 0 ) );

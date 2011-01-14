@@ -69,7 +69,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
     // Used for animating the unstable nuclei.
     private int animationCount = 0;
-    private boolean isAway = false; //DOC
+    private boolean isAway = false; //true when the nucleus is away from the center of the atom (used during animation for unstable nuclei)
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -90,7 +90,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                stepInTime( clockEvent.getSimulationTimeChange() );
+                stepInTime();
             }
 
         } );
@@ -118,10 +118,14 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     // Methods
     // ------------------------------------------------------------------------
 
-    private void stepInTime( double simulationTimeChange ) {
+    private void stepInTime() {
         animationCount++;
-        //DOC this expression
-        if ( DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.getValue() && !isStable() && !isAway && animationCount % 2 == 0 ) {
+
+        final boolean jumpAway = DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.getValue() &&//only jump away if the animation feature is unabled
+                                 !isStable() &&//only jump away if the atom is unstable
+                                 !isAway && // only jump away if it wasn't already animated as away
+                                 animationCount % 2 == 0; // only jump away every other animation step
+        if ( jumpAway ) {
             // Jump away from the current location.
             unstableNucleusJitterVector = Vector2D.parseAngleAndMagnitude( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
             jumpAway();
@@ -305,18 +309,17 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
     /**
      * Compare this atom's configuration with the supplied atom value and
-     * return true if they match and false if not.  Note that the
+     * return true if they are equal and false if not.  Note that the
      * configuration means only the quantity of the various subatomic
      * particles.
      *
-     * @param atomValue
+     * @param atom
      * @return
      */
-    //DOC change name to configurationMatches
-    public boolean equals( ImmutableAtom atomValue ){
-        return protons.size() == atomValue.getNumProtons() &&
-               neutrons.size() == atomValue.getNumNeutrons() &&
-               electronShell1.getNumElectrons() + electronShell2.getNumElectrons() == atomValue.getNumElectrons();
+    public boolean configurationEquals( IAtom atom ){
+        return protons.size() == atom.getNumProtons() &&
+               neutrons.size() == atom.getNumNeutrons() &&
+               electronShell1.getNumElectrons() + electronShell2.getNumElectrons() == atom.getNumElectrons();
     }
 
     public void addProton( final Proton proton, boolean moveImmediately ) {

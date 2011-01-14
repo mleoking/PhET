@@ -10,14 +10,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.Proton;
-import edu.colorado.phet.buildanatom.model.SubatomicParticle;
-import edu.colorado.phet.buildanatom.model.SubatomicParticleBucket;
+import edu.colorado.phet.buildanatom.model.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -156,29 +149,28 @@ public class InteractiveIsotopeModel implements Resettable {
         return atom;
     }
 
-    public void setAtomConfiguration( ImmutableAtom atomConfiguration ){
-
-        if ( !atom.equals( atomConfiguration )){
+    public void setAtomConfiguration( IAtom atom ){
+        if ( !this.atom.configurationEquals( atom )){
             // Clear the atom.
             clearAtom();
 
             // Add the particles.
-            for ( int i = 0; i < atomConfiguration.getNumElectrons(); i++ ){
+            for ( int i = 0; i < atom.getNumElectrons(); i++ ){
                 Electron electron = new Electron( clock );
-                atom.addElectron( electron, true );
+                this.atom.addElectron( electron, true );
                 electrons.add( electron );
                 notifyParticleAdded( electron );
             }
-            for ( int i = 0; i < atomConfiguration.getNumProtons(); i++ ){
+            for ( int i = 0; i < atom.getNumProtons(); i++ ){
                 Proton proton = new Proton( clock );
-                atom.addProton( proton, true );
+                this.atom.addProton( proton, true );
                 protons.add( proton );
                 notifyParticleAdded( proton );
             }
-            for ( int i = 0; i < atomConfiguration.getNumNeutrons(); i++ ){
+            for ( int i = 0; i < atom.getNumNeutrons(); i++ ){
                 Neutron neutron = new Neutron( clock );
                 neutron.addListener( neutronDropListener );
-                atom.addNeutron( neutron, true );
+                this.atom.addNeutron( neutron, true );
                 neutrons.add( neutron );
                 notifyParticleAdded( neutron );
             }
@@ -193,7 +185,7 @@ public class InteractiveIsotopeModel implements Resettable {
      * Configure the neutron bucket to have the specified number of particles
      * in it.
      *
-     * @param numNeutrons
+     * @param targetNumNeutrons
      */
     private void setNeutronBucketCount( int targetNumNeutrons ) {
 
