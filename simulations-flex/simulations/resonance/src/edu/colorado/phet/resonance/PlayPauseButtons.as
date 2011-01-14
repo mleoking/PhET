@@ -10,6 +10,7 @@ package edu.colorado.phet.resonance {
 import flash.display.Graphics;
 import flash.display.LineScaleMode;
 import flash.display.Sprite;
+import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -18,7 +19,7 @@ import flash.text.TextFormat;
 import mx.controls.HSlider;
 import mx.core.UIComponent;
 
-public class PlayPauseButtons extends UIComponent {
+public class PlayPauseButtons extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     //private var canvas:Sprite;
     private var myMainView: MainView;
     private var myShakerModel: ShakerModel;
@@ -28,6 +29,9 @@ public class PlayPauseButtons extends UIComponent {
     private var playIcon: Sprite;                //overlayed on playPauseButton
     private var pauseIcon: Sprite;              //overlayed on playPauseButton
     //private var stepIcon:Sprite;                //overlayed on stepButton
+    private var timeRate_txt:TextField;
+    private var slow_txt:TextField;
+    private var normal_txt:TextField;
     private var playPause_txt: TextField;
     private var singleStep_txt: TextField;
     private var paused_txt: TextField
@@ -36,6 +40,9 @@ public class PlayPauseButtons extends UIComponent {
     private var paused: Boolean;
 
     //public var playSlashPause_str: String;
+    public var timeRate_str:String;
+    public var slow_str:String;
+    public var normal_str:String;
     public var play_str: String;
     public var pause_str: String;    //Note well: pause_str and paused_str are two differerent strings
     public var paused_str: String;
@@ -53,6 +60,9 @@ public class PlayPauseButtons extends UIComponent {
         this.stepButton = new Sprite();
         this.playIcon = new Sprite();
         this.pauseIcon = new Sprite();
+        this.timeRate_txt = new TextField();
+        this.slow_txt = new TextField();
+        this.normal_txt = new TextField();
         this.playPause_txt = new TextField();
         this.paused_txt = new TextField();
         this.singleStep_txt = new TextField();
@@ -63,12 +73,15 @@ public class PlayPauseButtons extends UIComponent {
         this.initializeTextFields();
         this.formatSlider(this.timeRateSlider);
         this.positionFields();
-        this.initializeButton();
+        this.initializeControls();
 
 
         //this.addChild(this.canvas);
         this.playPauseButton.addChild( this.playIcon );
         this.playPauseButton.addChild( this.pauseIcon );
+        this.addChild(this.timeRate_txt);
+        this.addChild(this.slow_txt);
+        this.addChild(this.normal_txt);
         this.addChild(this.timeRateSlider);
         this.addChild( this.playPauseButton );
         this.addChild( this.playPause_txt );
@@ -80,6 +93,9 @@ public class PlayPauseButtons extends UIComponent {
 
     public function initializeStrings(): void {
         //this.playSlashPause_str = "play/pause";
+        this.timeRate_str = "Time Rate";
+        this.slow_str = "slow";
+        this.normal_str = "normal";
         this.play_str = "play";
         this.pause_str = "pause";
         this.paused_str = "PAUSED";
@@ -142,7 +158,7 @@ public class PlayPauseButtons extends UIComponent {
     } //end drawGraphics()
 
 
-    private function initializeButton(): void {
+    private function initializeControls(): void {
         this.playPauseButton.buttonMode = true;
         this.stepButton.buttonMode = true;
         this.playPauseButton.mouseChildren = false;
@@ -152,12 +168,18 @@ public class PlayPauseButtons extends UIComponent {
         this.pauseIcon.visible = true;
         var thisObject: PlayPauseButtons = this;
         //this.playPauseButton
+        this.timeRateSlider.addEventListener(Event.CHANGE, onChangeTimeRate );
         this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
         this.playPauseButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
         this.playPauseButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_DOWN, singleStep );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
+
+        function onChangeTimeRate(evt:Event):void{
+             var rate:Number = evt.target.value;
+            trace("PlayPauseButtons.onChangeTimeRate = " + rate);
+        }
 
         function onMouseClick( evt: MouseEvent ): void {
             if ( thisObject.paused ) {   //unpause sim
@@ -218,9 +240,15 @@ public class PlayPauseButtons extends UIComponent {
     }
 
     private function initializeTextFields(): void {
+        this.setTextField( this.timeRate_txt);
+        this.setTextField(this.slow_txt);
+        this.setTextField(this.normal_txt);
         this.setTextField( this.playPause_txt );
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
+        this.timeRate_txt.text = this.timeRate_str;
+        this.slow_txt.text = this.slow_str;
+        this.normal_txt.text = this.normal_str;
         this.playPause_txt.text = this.pause_str;
         this.singleStep_txt.text = this.singleStep_str;
         this.paused_txt.text = this.paused_str;
@@ -267,8 +295,13 @@ public class PlayPauseButtons extends UIComponent {
     }
 
     private function positionFields(): void {
+
         this.timeRateSlider.x = -1.5*this.timeRateSlider.width;
-        this.timeRateSlider.y = 0;
+        this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
+        this.timeRate_txt.x = -this.timeRateSlider.width - 0.5*this.timeRate_txt.width;
+        this.slow_txt.x =  this.timeRateSlider.x;
+        this.normal_txt.x = 0.5*this.timeRateSlider.x;
+        this.timeRate_txt.y = this.timeRateSlider.y - 0.5*this.timeRate_txt.height;
         this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
