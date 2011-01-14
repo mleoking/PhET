@@ -63,7 +63,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
         model = new PhotonAbsorptionModel( (ConstantDtClock) getClock(), PhotonAbsorptionModel.PhotonTarget.SINGLE_CO_MOLECULE );
 
         // Canvas
-        canvas = new MoleculesAndLightCanvas( model );
+        canvas = new MoleculesAndLightCanvas( parentFrame, model );
         setSimulationPanel( canvas );
 
         // Control panel.
