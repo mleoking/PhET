@@ -46,7 +46,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final Color BACKGROUND_COLOR = new Color( 205, 198, 115 );
+    private static final Color BACKGROUND_COLOR = new Color( 185, 178, 95 );
 //    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
     // TODO: Temporarily reduced size to accommodate reduced content, see other
     // to do markers in this file.

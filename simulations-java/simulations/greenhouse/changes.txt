@@ -1,3 +1,4 @@
+Modified photons and the control panel background in order to make the photons more visible.
 Fixed an issue where the edges of the UV photon were being cut off.
 # 3.01.11 (47962) Jan 14, 2011
 1/14/11 Deploying to dev with slower photon emssion rate for interview testing.
