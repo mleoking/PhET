@@ -1,5 +1,4 @@
-# 3.01.10 (47959) Jan 13, 2011
-1/13/11 Deploying to dev for some interview testing.
+Slowed down the max photon emission rate to about half of what it had been.
 Removed spectrum from M&L control panel, did other layout changes.
 # 3.02.00 (47704) Jan 5, 2011
 # 3.01.10 (47703) Jan 5, 2011
