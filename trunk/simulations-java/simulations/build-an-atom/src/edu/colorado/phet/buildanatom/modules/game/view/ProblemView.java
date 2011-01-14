@@ -22,8 +22,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-//DOC
 /**
+ * Abstract base class for Piccolo node that depicts a problem for a specific game Problem.
  * @author Sam Reid
  */
 public abstract class ProblemView extends StateView {

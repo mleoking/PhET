@@ -31,7 +31,7 @@ public abstract class SubatomicParticle {
 
     private final double radius;
     private final Property<Point2D.Double> position;
-    private final Property<Boolean> userControlled=new Property<Boolean>( false );//Just used internally to send messages through the inner Listener interface
+    private final Property<Boolean> userControlled=new Property<Boolean>( false );//True if the particle is being dragged by the user
     private final HashSet<Listener> listeners =new HashSet<Listener>( );
     private final Point2D destination = new Point2D.Double();
 
@@ -145,7 +145,6 @@ public abstract class SubatomicParticle {
         return radius;
     }
 
-    //DOC better doc for is/set methods or userControlled
     public boolean isUserControlled() {
         return userControlled.getValue();
     }

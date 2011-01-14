@@ -5,7 +5,7 @@ import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
- * A state that the GameModel can be in.
+ * A state that the GameModel can be in, such as the GameOverState, or a specific Problem state.
  *
  * @author Sam Reid
  */

@@ -8,10 +8,13 @@ import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 
-//DOC
 /**
-* @author Sam Reid
-*/
+ * This displays a piccolo dialog on the screen after a game is complete, indicating the score, elapsed time, whether
+ * the time is the best time, etc.
+ *
+ * @author Sam Reid
+ * @author John Blanco
+ */
 public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
     private final GameAudioPlayer gameAudioPlayer;

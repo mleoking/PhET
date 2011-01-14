@@ -8,11 +8,16 @@ import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
+import edu.colorado.phet.buildanatom.modules.game.view.CountsToElementView;
+import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 
-//DOC relationship to pool, AtomValue, etc.
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level.
+ * A ProblemSet contains Problems that are then used in the game mode.  In each problem, the user must predict
+ * which AtomValue is represented.  The AtomValues used to construct the problems are selected from pools which
+ * correspond to each game level.
  *
  * @author John Blanco
  * @author Sam Reid

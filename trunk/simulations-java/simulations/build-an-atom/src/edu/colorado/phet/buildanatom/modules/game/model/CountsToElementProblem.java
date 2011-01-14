@@ -6,8 +6,8 @@ import edu.colorado.phet.buildanatom.modules.game.view.CountsToElementView;
 import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
-//DOC
 /**
+ * Game problem where the user is shown the neutron/proton/electron counts and is asked to predict the element.
  * @author Sam Reid
  */
 public class CountsToElementProblem extends ToElementProblem{
