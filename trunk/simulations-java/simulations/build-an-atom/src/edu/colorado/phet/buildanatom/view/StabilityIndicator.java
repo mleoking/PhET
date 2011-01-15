@@ -11,8 +11,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-//DOC
 /**
+ * This Piccolo node shows a textual label to indicate whether the atom is stable or unstable.
+ *
  * @author Sam Reid
  */
 public class StabilityIndicator extends PNode {
