@@ -33,19 +33,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class MaximizeControlNode extends PhetPNode {
-
-    private static final int X_SPACING = 6;
     private static final int X_MARGIN = 15;
     private static final int Y_MARGIN = 6;
 
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Color BACKGROUND_FILL_COLOR = null;
-//    private static final Color BACKGROUND_FILL_COLOR = new Color( 245, 245, 220 ); // Beige, although looks gray.
-//    private static final Color BACKGROUND_FILL_COLOR = new Color( 239, 239, 132 ); // Lightened Goldenrod
-//    private static final Color BACKGROUND_FILL_COLOR = new Color( 183, 228, 183 ); // Pale green
-//    private static final Color BACKGROUND_FILL_COLOR = new Color( 219, 219, 112 ); // Goldenrod
-//    private static final Color BACKGROUND_FILL_COLOR = new Color( 235, 199, 158 ); // Tan
     private static final Color LABEL_PAINT = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( 18, true );
 
@@ -56,6 +49,7 @@ public class MaximizeControlNode extends PhetPNode {
     private final ArrayList<ChangeListener> listeners;
     private boolean isMaximized;
 
+    //TODO: consider rewriting with Property<Boolean> parameter
     public MaximizeControlNode( String label, PDimension maximizedSize, PNode managedNode, boolean isMaximized ) {
         super();
 

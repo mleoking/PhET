@@ -15,9 +15,10 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
-//DOC and move to phetcommon?
 /**
- * Adapted from RoundGradientPaint in phetcommon
+ * Gradient paint in which the color depends on the angle but not the radius from the center.
+ * This was originally created for the face of the charge meter in Build an Atom, but may be useful elsewhere.
+ * Adapted from RoundGradientPaint in phetcommon.
  * <p/>
  * NOTE! This paint is relatively expensive.
  *

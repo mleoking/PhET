@@ -15,8 +15,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-//DOC
 /**
+ * This Piccolo control allows the user to toggle between viewing the electron structure of the atom by showing the
+ * orbitals or by showing an electron cloud.
+ *
  * @author Sam Reid
  */
 public class OrbitalViewControl extends PNode {
