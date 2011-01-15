@@ -6,8 +6,8 @@ import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.SymbolToCountsView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
-//TODO
 /**
+ * Game problem in which the user is shown the symbol view of an atom and is asked to fill in the proton/neutron/electron counts.
  * @author Sam Reid
  */
 public class SymbolToCountsProblem extends Problem {

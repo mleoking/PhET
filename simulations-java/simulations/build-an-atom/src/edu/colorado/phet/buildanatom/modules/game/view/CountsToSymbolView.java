@@ -5,16 +5,15 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 
-//DOC
 /**
+ * Piccolo view for Game problem in which the user is shown the neutron/proton/electron counts and is asked to fill in the symbol.
+ *
  * @author Sam Reid
  * @author John Blanco
  */
 public class CountsToSymbolView extends ToSymbolProblemView {
     private final ParticleCountNode particleCountNode;
-    /**
-     * Constructor.
-     */
+
     public CountsToSymbolView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, ToSymbolProblem problem ) {
         super( model, canvas, problem );
         particleCountNode = new ParticleCountNode( problem.getAnswer().getNumProtons(),

@@ -15,10 +15,12 @@ import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
-//DOC
 /**
-* @author Sam Reid
-*/
+ * Piccolo view for the game problem in which the user is shown the symbol view of an atom and is asked to create the
+ * corresponding schematic representation.
+ *
+ * @author Sam Reid
+ */
 public class SymbolToSchematicView extends ProblemView {
     private final ProblemDescriptionNode description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_MODEL );
     private final SymbolIndicatorNode symbolIndicatorNode;

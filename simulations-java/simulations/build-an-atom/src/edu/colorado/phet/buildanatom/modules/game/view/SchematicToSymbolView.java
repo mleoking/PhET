@@ -7,8 +7,9 @@ import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SchematicToSymbolProblem;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 
-//DOC
 /**
+ * Piccolo view for game problem where the user is shown the schematic view of an atom and is asked to fill in the symbol.
+ *
  * @author Sam Reid
  * @author John Blanco
  */
