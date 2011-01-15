@@ -10,8 +10,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-//DOC
 /**
+ * This Piccolo node depicts the name of the atom.
+ *
  * @author Sam Reid
  * @author John Blanco
  */
