@@ -11,11 +11,12 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.ToSymbolProblem;
 
-//DOC
 /**
-* @author Sam Reid
-* @author John Blanco
-*/
+ * Base class for Piccolo ProblemViews that require the user to predict the Symbol for a corresponding input.
+ *
+ * @author Sam Reid
+ * @author John Blanco
+ */
 public class ToSymbolProblemView extends ProblemView {
 
     private final ProblemDescriptionNode description;

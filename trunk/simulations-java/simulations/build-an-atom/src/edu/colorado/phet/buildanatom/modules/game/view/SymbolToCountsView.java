@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 
-//DOC
 /**
+ * Game problem in which the user is shown the symbol view of an atom and is asked to fill in the proton/neutron/electron counts.
  * @author Sam Reid
  */
 public class SymbolToCountsView extends ProblemView {
