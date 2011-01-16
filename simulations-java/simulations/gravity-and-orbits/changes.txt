@@ -1,3 +1,4 @@
+Save and restore scale property
 Save and restore "show grid" property
 Save and restore selected mode
 Modified the cartoon offset scales for Earth/Satellite mode so that inter-body distance remains the same in cartoon as in real scales
