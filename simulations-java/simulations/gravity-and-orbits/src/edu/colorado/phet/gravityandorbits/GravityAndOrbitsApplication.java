@@ -5,8 +5,6 @@ package edu.colorado.phet.gravityandorbits;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
@@ -24,25 +22,10 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         super( config );
         gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() );
         addModule( gravityAndOrbitsModule );
-        initMenubar();
     }
 
     public GravityAndOrbitsModule getGravityAndOrbitsModule() {
         return gravityAndOrbitsModule;
-    }
-
-    private void initMenubar() {
-
-        // File->Save/Load
-        final PhetFrame frame = getPhetFrame();
-        frame.addFileSaveLoadMenuItems();
-
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        // add menu items here, or in a subclass on OptionsMenu
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
-        }
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
