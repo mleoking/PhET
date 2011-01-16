@@ -79,6 +79,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         reset();
     }
 
+    public int getModeIndex() {
+        return modes.indexOf( getMode() );
+    }
+
     private GravityAndOrbitsMode getMode() {
         return modeProperty.getValue();
     }
@@ -161,5 +165,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     public Property<Boolean> getGravityEnabledProperty() {
         return gravityEnabledProperty;
+    }
+
+    public void setModeIndex( int selectedMode ) {
+        modeProperty.setValue( modes.get( selectedMode ) );
     }
 }
