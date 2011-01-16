@@ -70,7 +70,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
             setMajorTickSpacing( (int) ( modelToView.evaluate( labelValue ) - MIN ) );
             setPaintLabels( true );
             setPaintTicks( true );
-            setLabelTable( new Hashtable() {{
+            setLabelTable( new Hashtable<Object, Object>() {{
                 put( MIN, new JLabel( minLabel ) {{
                     setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
