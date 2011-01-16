@@ -17,10 +17,10 @@ import static akka.actor.Actors.remote;
  */
 public class Server {
     public static int PORT = 2552;
-    //    public static String IP_ADDRESS = "localhost";
-    public static String IP_ADDRESS = "128.138.145.107";
+    public static String IP_ADDRESS = "localhost";
+//    public static String IP_ADDRESS = "128.138.145.107";
 
-    private HashMap<StudentID, Object> dataPoints = new HashMap<StudentID, Object>();
+    private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private int connectionCount = 0;
     private ArrayList<StudentID> students = new ArrayList<StudentID>();
@@ -37,7 +37,13 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof TeacherDataRequest ) {
                             TeacherDataRequest request = (TeacherDataRequest) o;
-                            getContext().replySafe( dataPoints.get( request.getStudentID() ) );
+                            final ArrayList<Object> objects = dataPoints.get( request.getStudentID() );
+                            if ( objects != null && objects.size() > 0 ) {
+                                getContext().replySafe( objects.get( objects.size() - 1 ) );
+                            }
+                            else {
+                                getContext().replySafe( null );
+                            }
                         }
                         else if ( o instanceof GetStudentID ) {
                             final StudentID studentID = new StudentID( connectionCount, names[connectionCount % names.length] );
@@ -54,7 +60,10 @@ public class Server {
                         }
                         else if ( o instanceof StudentDataSample ) {
                             StudentDataSample studentDataSample = (StudentDataSample) o;
-                            dataPoints.put( studentDataSample.getStudentID(), studentDataSample.getData() );
+                            if ( !dataPoints.containsKey( studentDataSample.getStudentID() ) ) {
+                                dataPoints.put( studentDataSample.getStudentID(), new ArrayList<Object>() );
+                            }
+                            dataPoints.get( studentDataSample.getStudentID() ).add( studentDataSample.getData() );//TODO: storing everything in system memory will surely result in memory problems
                         }
                     }
                 };
