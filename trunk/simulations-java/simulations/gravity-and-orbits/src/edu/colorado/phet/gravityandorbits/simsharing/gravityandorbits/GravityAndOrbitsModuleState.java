@@ -17,6 +17,7 @@ public class GravityAndOrbitsModuleState implements Serializable {
     private final boolean showPaths;
     private final boolean showVelocity;
     private final boolean showMass;
+    private final boolean showGrid;
     private final boolean gravityEnabled;
     private final ArrayList<GravityAndOrbitsModeState> modeStates;
     private final int selectedMode;
@@ -32,6 +33,7 @@ public class GravityAndOrbitsModuleState implements Serializable {
             modeStates.add( new GravityAndOrbitsModeState( mode ) );
         }
         selectedMode = module.getModeIndex();
+        showGrid = module.getShowGridProperty().getValue();
     }
 
     public void apply( GravityAndOrbitsModule gravityAndOrbitsModule ) {
@@ -44,6 +46,7 @@ public class GravityAndOrbitsModuleState implements Serializable {
             modeStates.get( i ).apply( gravityAndOrbitsModule.getModes().get( i ) );
         }
         gravityAndOrbitsModule.setModeIndex( selectedMode );
+        gravityAndOrbitsModule.getShowGridProperty().setValue( showGrid );
     }
 
     @Override

@@ -69,10 +69,12 @@ public class Teacher {
                            new ActionListener() {
                                public void actionPerformed( ActionEvent e ) {
                                    final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
-                                   System.out.println( "Got thumbnail response: response" );
-                                   final BufferedImage fullImage = thumbnailGenerator.generateThumbnail( response );
-                                   final BufferedImage scaled = BufferedImageUtils.multiScaleToHeight( fullImage, imageHeight );
-                                   setImage( scaled );
+                                   if ( response != null ) {
+                                       System.out.println( "Got thumbnail response: response" );
+                                       final BufferedImage fullImage = thumbnailGenerator.generateThumbnail( response );
+                                       final BufferedImage scaled = BufferedImageUtils.multiScaleToHeight( fullImage, imageHeight );
+                                       setImage( scaled );
+                                   }
                                }
                            } ).start();
             }} );
