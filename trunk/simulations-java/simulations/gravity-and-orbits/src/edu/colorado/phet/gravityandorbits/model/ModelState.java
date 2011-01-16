@@ -15,7 +15,7 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  * @author Sam Reid
  */
 public class ModelState {
-    ArrayList<BodyState> bodyStates;
+    private ArrayList<BodyState> bodyStates;
 
     public ModelState( ArrayList<BodyState> bodyStates ) {
         this.bodyStates = bodyStates;
