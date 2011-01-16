@@ -281,7 +281,7 @@ public class Body implements IBodyColors {
         return velocityProperty;
     }
 
-    public Property<Double> getMassProperty() {
+    public ClockRewindProperty<Double> getMassProperty() {
         return massProperty;
     }
 

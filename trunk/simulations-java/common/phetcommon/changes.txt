@@ -1,3 +1,5 @@
+1/16/2011 Made Property.getInitialValue protected to keep the API for Property as simple as possible for typical usage,
+    but possible to override for applications which require knowledge about the initial value such as Gravity and Orbits
 1/12/2011 Added the capability to send out notifications before PhetApplication exits, see PhetExit
 1/7/2011 #2624, new credits logo from KSU
 1/7/2011 #2624, change KSU credits logo from PNG to medium JPG compression, decreases file size to 18K, still looks good

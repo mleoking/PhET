@@ -34,8 +34,13 @@ public class Property<T> extends SettableProperty<T> {
         }
     }
 
-    public T getInitialValue() {
+    /**
+     * Getter for the initial value, protected to keep the API for Property as simple as possible for typical usage, but
+     * possible to override for applications which require knowledge about the initial value such as Gravity and Orbits.
+     *
+     * @return the initial value
+     */
+    protected T getInitialValue() {
         return initialValue;
     }
-
 }

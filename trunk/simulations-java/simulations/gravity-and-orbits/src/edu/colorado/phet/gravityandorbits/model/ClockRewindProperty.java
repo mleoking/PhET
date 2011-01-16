@@ -48,4 +48,13 @@ public class ClockRewindProperty<T> extends Property<T> {
         return rewindValue;
     }
 
+    /**
+     * Makes this public for use in gravity and orbits.
+     *
+     * @return
+     */
+    @Override
+    public T getInitialValue() {
+        return super.getInitialValue();
+    }
 }
