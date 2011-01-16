@@ -15,6 +15,7 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
@@ -44,12 +45,10 @@ public class Teacher {
         new Teacher( args ).start();
     }
 
-    private StudentID selected = null;
-
-    public static class StudentComponent extends PNode {
+    public class StudentComponent extends PNode {
         private StudentID studentID;
 
-        public StudentComponent( StudentID studentID, final VoidFunction0 watch ) {
+        public StudentComponent( final StudentID studentID, final VoidFunction0 watch, final ThumbnailGenerator thumbnailGenerator ) {
             addChild( new PText( studentID.getName() ) );
             final ButtonNode buttonNode = new ButtonNode( "Watch" ) {{
                 setOffset( 100, 0 );
@@ -62,13 +61,22 @@ public class Teacher {
             addChild( buttonNode );
             int width = 200;
             double aspectRatio = 1024.0 / 768;
-            addChild( new PImage( new BufferedImage( width, (int) ( width / aspectRatio ), BufferedImage.TYPE_INT_ARGB_PRE ) {{
+            final int imageHeight = (int) ( width / aspectRatio );
+            addChild( new PImage( new BufferedImage( width, imageHeight, BufferedImage.TYPE_INT_ARGB_PRE ) {{
                 Graphics2D g2 = createGraphics();
                 g2.setPaint( Color.black );
                 g2.fill( new Rectangle( 0, 0, getWidth(), getHeight() ) );
                 g2.dispose();
             }} ) {{
                 setOffset( buttonNode.getFullBounds().getMaxX() + 10, 0 );
+                new Timer( 1000, new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
+                        System.out.println("Got thumbnail response: response");
+                        final BufferedImage fullImage = thumbnailGenerator.generateThumbnail( response );
+                        setImage( BufferedImageUtils.multiScaleToHeight( fullImage, imageHeight ) );
+                    }
+                } ).start();
             }} );
         }
     }
@@ -76,6 +84,7 @@ public class Teacher {
     private void start() {
         server = Actors.remote().actorFor( "server", Server.IP_ADDRESS, Server.PORT );
         JFrame studentListFrame = new JFrame( "Students" );
+        final ThumbnailGenerator thumbnailGenerator = new ThumbnailGenerator();
         studentListFrame.setContentPane( new PSwingCanvas() {{
             getLayer().addChild( new PNode() {{
                 new Timer( 1000, new ActionListener() {
@@ -88,7 +97,7 @@ public class Teacher {
                                 public void apply() {
                                     watch( studentID );
                                 }
-                            } );
+                            }, thumbnailGenerator );
                             child.setOffset( 0, y + 2 );
                             y = child.getFullBounds().getMaxY();
                             addChild( child );
