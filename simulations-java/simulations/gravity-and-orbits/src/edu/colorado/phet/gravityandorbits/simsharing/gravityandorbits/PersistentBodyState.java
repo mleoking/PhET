@@ -15,9 +15,9 @@ public class PersistentBodyState implements Serializable {
     private ImmutableVector2D velocity;
     private ImmutableVector2D acceleration;
     private ImmutableVector2D force;
-    double mass;
-    double diameter;
-    boolean userControlled;
+    private double mass;
+    private double diameter;
+    private boolean userControlled;
 
     public PersistentBodyState( Body body ) {
         this.position = body.getPosition();
