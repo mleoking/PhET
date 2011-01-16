@@ -1,3 +1,4 @@
+Added the ability to watch multiple students in different windows
 # null.null.00 (47924) Jan 12, 2011
 Made simsharing build and deploy as a Java simulation project
 Added the ability to view and choose between connected students
