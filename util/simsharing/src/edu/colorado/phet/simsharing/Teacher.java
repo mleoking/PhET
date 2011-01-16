@@ -49,6 +49,7 @@ public class Teacher {
         private StudentID studentID;
 
         public StudentComponent( final StudentID studentID, final VoidFunction0 watch, final ThumbnailGenerator thumbnailGenerator ) {
+            this.studentID = studentID;
             addChild( new PText( studentID.getName() ) );
             final ButtonNode buttonNode = new ButtonNode( "Watch" ) {{
                 setOffset( 100, 0 );
@@ -59,25 +60,31 @@ public class Teacher {
                 } );
             }};
             addChild( buttonNode );
-            int width = 200;
+            final int width = 300;
             double aspectRatio = 1024.0 / 768;
             final int imageHeight = (int) ( width / aspectRatio );
-            addChild( new PImage( new BufferedImage( width, imageHeight, BufferedImage.TYPE_INT_ARGB_PRE ) {{
+            addChild( new PImage( createImage( width, imageHeight, Color.black ) ) {{
+                setOffset( buttonNode.getFullBounds().getMaxX() + 10, 0 );
+                new Timer( 100,//Grab a new screenshot every second//TODO: could be batched together
+                           new ActionListener() {
+                               public void actionPerformed( ActionEvent e ) {
+                                   final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
+                                   System.out.println( "Got thumbnail response: response" );
+                                   final BufferedImage fullImage = thumbnailGenerator.generateThumbnail( response );
+                                   final BufferedImage scaled = BufferedImageUtils.multiScaleToHeight( fullImage, imageHeight );
+                                   setImage( scaled );
+                               }
+                           } ).start();
+            }} );
+        }
+
+        private BufferedImage createImage( final int width, final int imageHeight, final Color color ) {
+            return new BufferedImage( width, imageHeight, BufferedImage.TYPE_INT_ARGB_PRE ) {{
                 Graphics2D g2 = createGraphics();
-                g2.setPaint( Color.black );
+                g2.setPaint( color );
                 g2.fill( new Rectangle( 0, 0, getWidth(), getHeight() ) );
                 g2.dispose();
-            }} ) {{
-                setOffset( buttonNode.getFullBounds().getMaxX() + 10, 0 );
-                new Timer( 1000, new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
-                        System.out.println("Got thumbnail response: response");
-                        final BufferedImage fullImage = thumbnailGenerator.generateThumbnail( response );
-                        setImage( BufferedImageUtils.multiScaleToHeight( fullImage, imageHeight ) );
-                    }
-                } ).start();
-            }} );
+            }};
         }
     }
 
@@ -87,23 +94,38 @@ public class Teacher {
         final ThumbnailGenerator thumbnailGenerator = new ThumbnailGenerator();
         studentListFrame.setContentPane( new PSwingCanvas() {{
             getLayer().addChild( new PNode() {{
-                new Timer( 1000, new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        double y = 0;
-                        final StudentID[] newData = ( (StudentList) server.sendRequestReply( new GetStudentList() ) ).toArray();
-                        removeAllChildren();
-                        for ( final StudentID studentID : newData ) {
-                            final StudentComponent child = new StudentComponent( studentID, new VoidFunction0() {
-                                public void apply() {
-                                    watch( studentID );
-                                }
-                            }, thumbnailGenerator );
-                            child.setOffset( 0, y + 2 );
-                            y = child.getFullBounds().getMaxY();
-                            addChild( child );
-                        }
-                    }
-                } ).start();
+                new Timer( 1000,//Look for new students every second
+                           new ActionListener() {
+                               public void actionPerformed( ActionEvent e ) {
+                                   double y = 0;
+                                   final StudentID[] newData = ( (StudentList) server.sendRequestReply( new GetStudentList() ) ).toArray();
+                                   for ( final StudentID studentID : newData ) {
+                                       StudentComponent component = getComponent( studentID );
+                                       if ( component == null ) {
+                                           component = new StudentComponent( studentID, new VoidFunction0() {
+                                               public void apply() {
+                                                   watch( studentID );
+                                               }
+                                           }, thumbnailGenerator );
+                                           addChild( component );
+                                       }
+                                       component.setOffset( 0, y + 2 );
+                                       y = component.getFullBounds().getMaxY();
+                                   }
+                               }
+
+                               private StudentComponent getComponent( StudentID studentID ) {
+                                   for ( int i = 0; i < getChildrenCount(); i++ ) {
+                                       PNode child = getChild( i );
+                                       if ( child instanceof StudentComponent && ( (StudentComponent) child ).studentID.equals( studentID ) ) {
+                                           return (StudentComponent) child;
+                                       }
+                                   }
+                                   return null;
+                               }
+                           } ) {{
+                    setInitialDelay( 0 );
+                }}.start();
             }} );
         }} );
         studentListFrame.setSize( 800, 600 );
