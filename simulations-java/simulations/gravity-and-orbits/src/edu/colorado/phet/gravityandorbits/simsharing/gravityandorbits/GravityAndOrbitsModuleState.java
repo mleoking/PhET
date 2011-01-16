@@ -13,12 +13,13 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
  */
 public class GravityAndOrbitsModuleState implements Serializable {
 
-    private boolean showGravityForce = false;
-    private boolean showPaths = false;
-    private boolean showVelocity = false;
-    private boolean showMass = false;
-    private boolean gravityEnabled = false;
-    private ArrayList<GravityAndOrbitsModeState> modeStates;
+    private final boolean showGravityForce;
+    private final boolean showPaths;
+    private final boolean showVelocity;
+    private final boolean showMass;
+    private final boolean gravityEnabled;
+    private final ArrayList<GravityAndOrbitsModeState> modeStates;
+    private final int selectedMode;
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
         showGravityForce = module.getShowGravityForceProperty().getValue();
@@ -30,6 +31,7 @@ public class GravityAndOrbitsModuleState implements Serializable {
         for ( GravityAndOrbitsMode mode : module.getModes() ) {
             modeStates.add( new GravityAndOrbitsModeState( mode ) );
         }
+        selectedMode = module.getModeIndex();
     }
 
     public void apply( GravityAndOrbitsModule gravityAndOrbitsModule ) {
@@ -41,6 +43,7 @@ public class GravityAndOrbitsModuleState implements Serializable {
         for ( int i = 0; i < modeStates.size(); i++ ) {
             modeStates.get( i ).apply( gravityAndOrbitsModule.getModes().get( i ) );
         }
+        gravityAndOrbitsModule.setModeIndex( selectedMode );
     }
 
     @Override

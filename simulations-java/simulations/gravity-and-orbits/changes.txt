@@ -1,3 +1,4 @@
+Save and restore selected mode
 Modified the cartoon offset scales for Earth/Satellite mode so that inter-body distance remains the same in cartoon as in real scales
 # 0.0.14 (47788) Jan 8, 2011
 Fixed: dragging an object through a collision still leaves a path drawn, solved by stopping the path after collision
