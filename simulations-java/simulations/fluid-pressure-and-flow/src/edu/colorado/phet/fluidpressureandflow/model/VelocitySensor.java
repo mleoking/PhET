@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * Sensor that reads out the velocity at the specified location.
+ *
  * @author Sam Reid
  */
 public class VelocitySensor extends Sensor<ImmutableVector2D> {

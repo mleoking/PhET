@@ -6,7 +6,11 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * Abstract base class for different types of sensor that read a value at their (x,y) location.
+ *
  * @author Sam Reid
+ * @see PressureSensor
+ * @see VelocitySensor
  */
 public abstract class Sensor<T> {
 

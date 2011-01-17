@@ -70,12 +70,12 @@ public class PipeFrontNode extends PNode {
             } );
         }} );
 
-        for ( CrossSection crossSection : pipe.getControlPoints() ) {
+        for ( CrossSection crossSection : pipe.getControlCrossSections() ) {
             addChild( new PipeCrossSectionControl( transform, crossSection ) );
         }
         double offsetX = 0.6;
-        addChild( new PipeOffsetControl( transform, pipe.getControlPoints().get( 0 ), -offsetX ) );
-        addChild( new PipeOffsetControl( transform, pipe.getControlPoints().get( pipe.getControlPoints().size() - 1 ), offsetX ) );
+        addChild( new PipeOffsetControl( transform, pipe.getControlCrossSections().get( 0 ), -offsetX ) );
+        addChild( new PipeOffsetControl( transform, pipe.getControlCrossSections().get( pipe.getControlCrossSections().size() - 1 ), offsetX ) );
     }
 
     public double getPipeRightViewHeight() {

@@ -21,22 +21,22 @@ import edu.colorado.phet.common.spline.CubicSpline2D;
  * @author Sam Reid
  */
 public class Pipe {
-    private ArrayList<CrossSection> controlPoints = new ArrayList<CrossSection>();
-    private ArrayList<CrossSection> spline;
+    private ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
+    private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
     private boolean dirty = true;//Flag to improve performance
 
     /**
      * Creates a pipe with a default shape.
      */
     public Pipe() {
-        controlPoints.add( new CrossSection( -6, -3, -1 ) );
-        controlPoints.add( new CrossSection( -4, -3, -1 ) );
-        controlPoints.add( new CrossSection( -2, -3, -1 ) );
-        controlPoints.add( new CrossSection( 0, -3, -1 ) );
-        controlPoints.add( new CrossSection( 2, -3, -1 ) );
-        controlPoints.add( new CrossSection( 4, -3, -1 ) );
-        controlPoints.add( new CrossSection( 6, -3, -1 ) );
-        for ( CrossSection controlPoint : controlPoints ) {
+        controlCrossSections.add( new CrossSection( -6, -3, -1 ) );
+        controlCrossSections.add( new CrossSection( -4, -3, -1 ) );
+        controlCrossSections.add( new CrossSection( -2, -3, -1 ) );
+        controlCrossSections.add( new CrossSection( 0, -3, -1 ) );
+        controlCrossSections.add( new CrossSection( 2, -3, -1 ) );
+        controlCrossSections.add( new CrossSection( 4, -3, -1 ) );
+        controlCrossSections.add( new CrossSection( 6, -3, -1 ) );
+        for ( CrossSection controlPoint : controlCrossSections ) {
             controlPoint.addObserver( new SimpleObserver() {
                 public void update() {
                     dirty = true;
@@ -45,47 +45,43 @@ public class Pipe {
         }
     }
 
-    public ArrayList<CrossSection> getControlPoints() {
-        return new ArrayList<CrossSection>( controlPoints );
+    public ArrayList<CrossSection> getControlCrossSections() {
+        return new ArrayList<CrossSection>( controlCrossSections );
     }
 
     public void addShapeChangeListener( SimpleObserver simpleObserver ) {
-        for ( CrossSection pipePosition : controlPoints ) {
+        for ( CrossSection pipePosition : controlCrossSections ) {
             pipePosition.addObserver( simpleObserver );
         }
     }
 
     public Shape getShape() {
-//        return getShape( getAugmentedPipePositionArray() ); //non spline version
-        return getShape( getAugmentedSplinePipePositionArray() );
+        return getShape( getSplineCrossSections() );
     }
 
-    private ArrayList<CrossSection> getAugmentedPipePositionArray() {
-        ArrayList<CrossSection> pipePositions = new ArrayList<CrossSection>();
-        double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
-        pipePositions.add( new CrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
-        pipePositions.addAll( this.controlPoints );
-        pipePositions.add( new CrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
-        return pipePositions;
-    }
-
-    public ArrayList<CrossSection> getAugmentedSplinePipePositionArray() {
+    public ArrayList<CrossSection> getSplineCrossSections() {
         if ( dirty ) {
-            spline = createSpline();
+            splineCrossSections = createSpline();
             dirty = false;
         }
-        return spline;
+        return splineCrossSections;
     }
 
+    /*
+     * Creates the set of interpolated cross section samples from the control cross sections.
+     */
     private ArrayList<CrossSection> createSpline() {
         ArrayList<CrossSection> pipePositions = new ArrayList<CrossSection>();
         double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
         pipePositions.add( new CrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
-        pipePositions.addAll( this.controlPoints );
+        pipePositions.addAll( this.controlCrossSections );
         pipePositions.add( new CrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
         return spline( pipePositions );
     }
 
+    /*
+     * Interpolates the specified control points to obtain a smooth set of cross sections
+     */
     private ArrayList<CrossSection> spline( ArrayList<CrossSection> controlPoints ) {
         ArrayList<CrossSection> spline = new ArrayList<CrossSection>();
         SerializablePoint2D[] top = new SerializablePoint2D[controlPoints.size()];
@@ -116,13 +112,16 @@ public class Pipe {
         return spline;
     }
 
-    public Shape getShape( ArrayList<CrossSection> pipePositions ) {
-        DoubleGeneralPath path = new DoubleGeneralPath( pipePositions.get( 0 ).getTop() );
-        for ( CrossSection pipePosition : pipePositions.subList( 1, pipePositions.size() ) ) {
+    /*
+     * Converts a list of CrossSections to a Shape, this is used with the interpolated cross sections.
+     */
+    public Shape getShape( ArrayList<CrossSection> controlSections ) {
+        DoubleGeneralPath path = new DoubleGeneralPath( controlSections.get( 0 ).getTop() );
+        for ( CrossSection pipePosition : controlSections.subList( 1, controlSections.size() ) ) {
             path.lineTo( pipePosition.getTop() );
         }
 
-        final ArrayList<CrossSection> rev = new ArrayList<CrossSection>( pipePositions ) {{
+        final ArrayList<CrossSection> rev = new ArrayList<CrossSection>( controlSections ) {{
             Collections.reverse( this );
         }};
         for ( CrossSection pipePosition : rev ) {
@@ -132,7 +131,7 @@ public class Pipe {
     }
 
     public Shape getPath( Function1<CrossSection, Point2D> getter ) {
-        ArrayList<CrossSection> pipePositions = getAugmentedSplinePipePositionArray();
+        ArrayList<CrossSection> pipePositions = getSplineCrossSections();
         DoubleGeneralPath path = new DoubleGeneralPath();
         for ( int i = 0; i < pipePositions.size(); i++ ) {
             CrossSection pipePosition = pipePositions.get( i );
@@ -162,18 +161,18 @@ public class Pipe {
         } );
     }
 
-    /**
+    /*
      * Given a global y-position, determine the fraction to the top (point at bottom = 0, point halfway up = 0.5, etc.)
-     *
-     * @param y
-     * @return
      */
     public double getFractionToTop( double x, double y ) {
-        CrossSection position = getPipePosition( x );
+        CrossSection position = getCrossSection( x );
         return new Function.LinearFunction( position.getBottom().getY(), position.getTop().getY(), 0, 1 ).evaluate( y );
     }
 
-    public CrossSection getPipePosition( double x ) {
+    /*
+     * Determines the cross section for a given x-coordinate by linear interpolation between the nearest nonlinear samples.
+     */
+    public CrossSection getCrossSection( double x ) {
         CrossSection previous = getPipePositionBefore( x );
         CrossSection next = getPipePositionAfter( x );
         double top = new Function.LinearFunction( previous.getTop(), next.getTop() ).evaluate( x );
@@ -182,7 +181,7 @@ public class Pipe {
     }
 
     public double fractionToLocation( double x, double fraction ) {
-        CrossSection position = getPipePosition( x );
+        CrossSection position = getCrossSection( x );
         return new Function.LinearFunction( 0, 1, position.getBottom().getY(), position.getTop().getY() ).evaluate( fraction );
     }
 
@@ -206,7 +205,7 @@ public class Pipe {
     }
 
     private Iterable<? extends CrossSection> getCrossSections() {
-        return getAugmentedSplinePipePositionArray();
+        return getSplineCrossSections();
     }
 
     private CrossSection getPipePositionAfter( final double x ) {
@@ -229,14 +228,14 @@ public class Pipe {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
         double k = 5.0;
-        return k / getPipePosition( x ).getHeight();
+        return k / getCrossSection( x ).getHeight();
     }
 
     public ImmutableVector2D getVelocity( double x, double y ) {
         double speed = getSpeed( x );
         double fraction = getFractionToTop( x, y );
-        CrossSection pre = getPipePosition( x - 1E-7 );
-        CrossSection post = getPipePosition( x + 1E-7 );
+        CrossSection pre = getCrossSection( x - 1E-7 );
+        CrossSection post = getCrossSection( x + 1E-7 );
 
         double x0 = pre.getX();
         double y0 = new Function.LinearFunction( 0, 1, pre.getBottom().getY(), pre.getTop().getY() ).evaluate( fraction );
@@ -258,7 +257,7 @@ public class Pipe {
     }
 
     private ArrayList<CrossSection> getPipePositionsSortedByX() {
-        return new ArrayList<CrossSection>( controlPoints ) {{
+        return new ArrayList<CrossSection>( controlCrossSections ) {{
             Collections.sort( this, new Comparator<CrossSection>() {
                 public int compare( CrossSection o1, CrossSection o2 ) {
                     return Double.compare( o1.getX(), o2.getX() );
@@ -272,23 +271,23 @@ public class Pipe {
     }
 
     public Point2D getTopLeft() {
-        return new Point2D.Double( getMinX(), getControlPoints().get( 0 ).getTop().getY() );
+        return new Point2D.Double( getMinX(), getControlCrossSections().get( 0 ).getTop().getY() );
     }
 
     public Point2D getBottomLeft() {
-        return new Point2D.Double( getMinX(), getControlPoints().get( 0 ).getBottom().getY() );
+        return new Point2D.Double( getMinX(), getControlCrossSections().get( 0 ).getBottom().getY() );
     }
 
     public Point2D getTopRight() {
-        return new Point2D.Double( getMaxX(), getControlPoints().get( getControlPoints().size() - 1 ).getTop().getY() );
+        return new Point2D.Double( getMaxX(), getControlCrossSections().get( getControlCrossSections().size() - 1 ).getTop().getY() );
     }
 
     public Point2D getBottomRight() {
-        return new Point2D.Double( getMaxX(), getControlPoints().get( getControlPoints().size() - 1 ).getBottom().getY() );
+        return new Point2D.Double( getMaxX(), getControlCrossSections().get( getControlCrossSections().size() - 1 ).getBottom().getY() );
     }
 
     public void reset() {
-        for ( CrossSection pipePosition : controlPoints ) {
+        for ( CrossSection pipePosition : controlCrossSections ) {
             pipePosition.reset();
         }
     }
@@ -296,8 +295,6 @@ public class Pipe {
     /*
      * Gets the x velocity of a particle, incorporating vertical effects.  If this effect is ignored, then when there is a large
      * slope in the pipe, particles closer to the edge move much faster (which is physically incorrect).
-     *
-     * @return the x velocity
      */
     public double getTweakedVx( double x, double y ) {
         ImmutableVector2D velocity = getVelocity( x, y );

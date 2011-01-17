@@ -6,12 +6,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
+ * The pool is the region of water in which the sensors can be submerged.
+ *
  * @author Sam Reid
  */
 public class Pool {
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );//10 foot deep pool, a customary depth for the deep end
-    double height = DEFAULT_HEIGHT;
-    double width = 4;
+    private final double height = DEFAULT_HEIGHT;
+    private final double width = 4;
 
     public Pool() {
     }
