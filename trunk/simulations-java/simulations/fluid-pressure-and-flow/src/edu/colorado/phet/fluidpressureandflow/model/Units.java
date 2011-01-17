@@ -7,6 +7,8 @@ import java.text.FieldPosition;
 import edu.colorado.phet.common.phetcommon.math.Function;
 
 /**
+ * The units for the Fluid Pressure and Flow model are SI, and Units converts them to and from different units systems.
+ *
  * @author Sam Reid
  */
 public class Units {

@@ -4,6 +4,8 @@ package edu.colorado.phet.fluidpressureandflow.model;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * Model instance that can determine the pressure at its location.
+ *
  * @author Sam Reid
  */
 public class PressureSensor extends Sensor<Double> {
