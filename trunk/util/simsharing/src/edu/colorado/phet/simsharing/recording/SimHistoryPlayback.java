@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
-import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 
 import static edu.colorado.phet.simsharing.recording.SimHistory.loadHistory;
 

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
-import edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 
 /**
  * @author Sam Reid
