@@ -60,7 +60,7 @@ public class Teacher {
                 } );
             }};
             addChild( buttonNode );
-            final int width = 300;
+            final int width = 200;
             double aspectRatio = 1024.0 / 768;
             final int imageHeight = (int) ( width / aspectRatio );
             addChild( new PImage( createImage( width, imageHeight, Color.black ) ) {{
