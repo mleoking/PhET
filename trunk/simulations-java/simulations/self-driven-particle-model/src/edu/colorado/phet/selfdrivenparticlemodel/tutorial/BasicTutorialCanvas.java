@@ -49,6 +49,13 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
             double height = Math.max( getComponent().getPreferredSize().height, 150 );
             setBounds( 0, 0, getComponent().getPreferredSize().width, height );
         }
+
+        /**
+         * This no-op override is a workaround for the problem described in #2675.  I think the doReshape() call above
+         * is still getting the layout right.
+         */
+        public void updateBounds() {
+        }
     }
 
     public BasicTutorialCanvas( SelfDrivenParticleModelApplication tutorialApplication, AbstractUnit unit ) {
