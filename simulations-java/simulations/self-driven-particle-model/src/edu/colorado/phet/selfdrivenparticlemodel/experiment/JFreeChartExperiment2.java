@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.experiment;
 
-import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
-import edu.colorado.phet.selfdrivenparticlemodel.view.ParticleApplication;
-import edu.umd.cs.piccolo.activities.PActivity;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -12,8 +13,9 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
-import java.util.ArrayList;
+import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
+import edu.colorado.phet.selfdrivenparticlemodel.view.ParticleApplication;
+import edu.umd.cs.piccolo.activities.PActivity;
 
 public class JFreeChartExperiment2 {
     private long lastTime = 0;
@@ -96,7 +98,7 @@ public class JFreeChartExperiment2 {
         listener = new ParticleModel.Adapter() {
             public void steppedInTime() {
 //                super.steppedInTime();
-                if( passedTransient() ) {
+                if ( passedTransient() ) {
                     sum += getOrderParameter();
                     num++;
                 }
@@ -108,7 +110,7 @@ public class JFreeChartExperiment2 {
 
     private boolean passedTransient() {
         long dtMS = System.currentTimeMillis() - lastTimeStep;
-        if( dtMS > experimentTime / 2 ) {
+        if ( dtMS > experimentTime / 2 ) {
             return true;
         }
         return false;
@@ -122,7 +124,7 @@ public class JFreeChartExperiment2 {
 
     private void step( long elapsedTime ) {
         this.lastTimeStep = System.currentTimeMillis();
-        if( firstTime ) {
+        if ( firstTime ) {
 //            setupExperiment( elapsedTime );
             particleApplication.getParticleModel().setRandomness( 0.0 );
             particleApplication.getParticleModel().randomize();
@@ -149,10 +151,10 @@ public class JFreeChartExperiment2 {
 //        System.out.println( "recording @va = " + va + ", randomness=" + randomness );
         readings.add( new Double( va ) );
         rawSeries.add( randomness, va );
-        if( readings.size() >= numRuns ) {
+        if ( readings.size() >= numRuns ) {
             double sum = 0;
-            for( int i = 0; i < readings.size(); i++ ) {
-                Double aDouble = (Double)readings.get( i );
+            for ( int i = 0; i < readings.size(); i++ ) {
+                Double aDouble = (Double) readings.get( i );
                 sum += aDouble.doubleValue();
             }
             double avg = sum / readings.size();
@@ -178,11 +180,11 @@ public class JFreeChartExperiment2 {
     private void nextExperiment( long elapsedTime ) {
         double randomness = particleApplication.getParticleModel().getRandomness();
         double newRandomness = randomness;
-        if( readings.size() >= numRuns ) {
+        if ( readings.size() >= numRuns ) {
             newRandomness = randomness + Math.PI / 12;
             readings.clear();
         }
-        if( newRandomness > Math.PI * 2 ) {
+        if ( newRandomness > Math.PI * 2 ) {
             terminate();
         }
         else {

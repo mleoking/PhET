@@ -2,7 +2,10 @@
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.*;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.AbstractUnit;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.PageMaker;
 
 public class Unit1 implements AbstractUnit {
     private PageMaker[] pageMakers;
@@ -22,7 +25,7 @@ public class Unit1 implements AbstractUnit {
 
     private void finishInit( final BasicTutorialCanvas page ) {
 
-        this.pageMakers = new PageMaker[]{
+        this.pageMakers = new PageMaker[] {
                 new PageMaker() {
                     public Page createPage() {
                         return new InitSection00( page );

@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,16 +10,13 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
@@ -91,7 +85,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
 
         listener = new ParticleModel.Adapter() {
             public void steppedInTime() {
-                if( getParticleModel().getTime() % MOD == 0 ) {
+                if ( getParticleModel().getTime() % MOD == 0 ) {
                     super.steppedInTime();
                     sampleBetaData();
                 }
@@ -125,8 +119,8 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         Point2D sample = null;
         try {
             sample = sampleBetaDataValue();
-            if( Double.isNaN( sample.getX() ) || Double.isNaN( sample.getY() ) || Double.isInfinite( sample.getX() ) || Double.isInfinite( sample.getY() ) ) {
-                Graphics2D g2 = (Graphics2D)g;
+            if ( Double.isNaN( sample.getX() ) || Double.isNaN( sample.getY() ) || Double.isInfinite( sample.getX() ) || Double.isInfinite( sample.getY() ) ) {
+                Graphics2D g2 = (Graphics2D) g;
                 g2.setFont( errorFont );
                 g2.setColor( Color.red );
                 g2.drawString( "Out of range, randomness (on the slider), ", 70, 100 );
@@ -134,9 +128,9 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
                 g2.drawString( "for the logarithm to be defined.", 70, 140 );
             }
         }
-        catch( NoEtaCriticalException e ) {
+        catch ( NoEtaCriticalException e ) {
 //            e.printStackTrace();
-            Graphics2D g2 = (Graphics2D)g;
+            Graphics2D g2 = (Graphics2D) g;
             g2.setFont( errorFont );
             g2.setColor( Color.red );
             g2.drawString( "Illegal Critical Randomness input: " + jTextField.getText(), 100, 150 );
@@ -154,7 +148,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
     private void doBestFit() {
         XYSeries dataset = betaChart.getMeanDataSet();
         final ArrayList dataCopy = new ArrayList();
-        for( int i = 0; i < dataset.getItemCount(); i++ ) {
+        for ( int i = 0; i < dataset.getItemCount(); i++ ) {
             XYDataItem x = dataset.getDataItem( i );
             dataCopy.add( new Point2D.Double( x.getX().doubleValue(), x.getY().doubleValue() ) );
         }
@@ -164,7 +158,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             }
 
             public Point2D readPoint() {
-                return (Point2D)dataCopy.remove( 0 );
+                return (Point2D) dataCopy.remove( 0 );
             }
         } );
         System.out.println( "result = " + result );
@@ -183,9 +177,9 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
 
     private double getMaxX( XYSeries dataset ) {
         double max = Double.NEGATIVE_INFINITY;
-        for( int i = 0; i < dataset.getItemCount(); i++ ) {
+        for ( int i = 0; i < dataset.getItemCount(); i++ ) {
             double x = dataset.getDataItem( i ).getX().doubleValue();
-            if( x > max ) {
+            if ( x > max ) {
                 max = x;
             }
         }
@@ -194,9 +188,9 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
 
     private double getMinX( XYSeries dataset ) {
         double min = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < dataset.getItemCount(); i++ ) {
+        for ( int i = 0; i < dataset.getItemCount(); i++ ) {
             double x = dataset.getDataItem( i ).getX().doubleValue();
-            if( x < min ) {
+            if ( x < min ) {
                 min = x;
             }
         }
@@ -228,7 +222,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             double val = Double.parseDouble( jTextField.getText() );
             return val;
         }
-        catch( NumberFormatException numberFormatException ) {
+        catch ( NumberFormatException numberFormatException ) {
 //            PhetOptionPane.showMessageDialog( jTextField, "Couldn't understand Critical Exponent (in Red Box): " + jTextField.getText() );
             throw new NoEtaCriticalException();
 //            return 3;
@@ -239,7 +233,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         Point2D sample = null;
         try {
             sample = sampleBetaDataValue();
-            if( Double.isNaN( sample.getX() ) || Double.isNaN( sample.getY() ) || Double.isInfinite( sample.getX() ) || Double.isInfinite( sample.getY() ) ) {
+            if ( Double.isNaN( sample.getX() ) || Double.isNaN( sample.getY() ) || Double.isInfinite( sample.getX() ) || Double.isInfinite( sample.getY() ) ) {
                 chartDialog.getContentPane().repaint();
             }
             else {
@@ -248,7 +242,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
 //            error = false;
             }
         }
-        catch( NoEtaCriticalException e ) {
+        catch ( NoEtaCriticalException e ) {
 //            e.printStackTrace();
         }
 
@@ -266,7 +260,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
     boolean firstTime = true;
 
     private void dataEntered() {
-        if( firstTime ) {
+        if ( firstTime ) {
             firstTime = false;
             playHarp();
             append( "  Good!  Now you can determine the critical exponent.  " +
@@ -290,7 +284,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         super.init();
         textComponent.setOffset( getLocationBeneath( getBottomComponent() ) );
         addChild( textComponent );
-        if( !firstTime ) {
+        if ( !firstTime ) {
             showBetaStuff();
         }
     }

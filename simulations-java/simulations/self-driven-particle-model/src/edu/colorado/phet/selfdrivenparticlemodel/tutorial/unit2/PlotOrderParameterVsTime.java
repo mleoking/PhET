@@ -1,15 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.PButton;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 
 public class PlotOrderParameterVsTime extends OrderParameter90 {
     private PButton plotButton;
@@ -31,11 +31,11 @@ public class PlotOrderParameterVsTime extends OrderParameter90 {
             }
 
         } );
-        orderParameterVsTimeChart = new OrderParameterVsTimeChart( (int)( 500 / MOD ) );
+        orderParameterVsTimeChart = new OrderParameterVsTimeChart( (int) ( 500 / MOD ) );
         tutorialChartFrame = new TutorialChartFrame( "Plot", orderParameterVsTimeChart.getChart(), getBasePage().getTutorialApplication().getTutorialFrame() );
         listener = new ParticleModel.Adapter() {
             public void steppedInTime() {
-                if( getParticleModel().getTime() % MOD == 0 ) {
+                if ( getParticleModel().getTime() % MOD == 0 ) {
                     super.steppedInTime();
                     sampleData();
                 }

@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.PButton;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class InitSection00 extends Page {
     private boolean showedNextButtonForAudioTest = false;
@@ -25,7 +25,7 @@ public class InitSection00 extends Page {
         testAudioGraphic.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 basicPage.playHarp();
-                if( !showedNextButtonForAudioTest ) {
+                if ( !showedNextButtonForAudioTest ) {
                     showedNextButtonForAudioTest = true;
                     basicPage.showNextButton();
                 }

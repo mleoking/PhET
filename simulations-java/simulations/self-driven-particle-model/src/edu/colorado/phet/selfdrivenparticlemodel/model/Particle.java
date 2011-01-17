@@ -36,7 +36,7 @@ public class Particle {
     }
 
     public void setLocation( double x, double y ) {
-        if( this.x != x || this.y != y ) {
+        if ( this.x != x || this.y != y ) {
             this.x = x;
             this.y = y;
             notifyLocationChanged();
@@ -44,8 +44,8 @@ public class Particle {
     }
 
     private void notifyLocationChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.locationChanged();
         }
     }

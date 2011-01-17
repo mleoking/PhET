@@ -16,12 +16,12 @@ public class AddRemoveParticles60 extends Page {
                  "  It will be quite impressive" +
                  " when we reduce the randomness with this many particles." );
 
-        NumberSliderPanel numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 5, new int[]{0, 10, 20, 30, 40, 50} );
+        NumberSliderPanel numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 5, new int[] { 0, 10, 20, 30, 40, 50 } );
         getParticleModel().addListener( new ParticleModel.Adapter() {
             public void particleCountChanged() {
                 int number = getParticleModel().numParticles();
                 System.out.println( "number = " + number );
-                if( number >= 30 ) {
+                if ( number >= 30 ) {
                     advance();
                 }
             }

@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class ParticleInfluenceGraphic extends PNode {
     private Particle p;

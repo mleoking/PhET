@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
+import java.awt.*;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
-import java.awt.*;
 
 public class OrderParameterVsTimeChart {
     private XYSeries meanSeries;
@@ -62,7 +62,7 @@ public class OrderParameterVsTimeChart {
 
     public void addDataPoint( double t, double orderParameter ) {
         meanSeries.add( t, orderParameter );
-        while( meanSeries.getItemCount() > maxItemCount ) {
+        while ( meanSeries.getItemCount() > maxItemCount ) {
             changeToScrolling();
             meanSeries.remove( 0 );
 
@@ -71,7 +71,7 @@ public class OrderParameterVsTimeChart {
     }
 
     private void changeToScrolling() {
-        if( !changedToScrolling ) {
+        if ( !changedToScrolling ) {
             changedToScrolling = true;
             domainAxis.setAutoRange( true );
             domainAxis.setAutoRangeIncludesZero( false );

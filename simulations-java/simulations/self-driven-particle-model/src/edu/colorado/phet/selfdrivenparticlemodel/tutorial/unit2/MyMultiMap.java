@@ -10,7 +10,7 @@ public class MyMultiMap {
     HashMap map = new HashMap();
 
     public void add( Number x, Number y ) {
-        if( !map.containsKey( x ) ) {
+        if ( !map.containsKey( x ) ) {
             map.put( x, new ArrayList() );
         }
 
@@ -27,6 +27,6 @@ public class MyMultiMap {
     }
 
     public List getList( Number key ) {
-        return (List)map.get( key );
+        return (List) map.get( key );
     }
 }

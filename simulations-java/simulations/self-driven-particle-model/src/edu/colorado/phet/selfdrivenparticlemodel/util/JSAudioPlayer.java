@@ -3,9 +3,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.selfdrivenparticlemodel.util;
 
-import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.sound.sampled.*;
 
 public class JSAudioPlayer {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
@@ -13,7 +14,7 @@ public class JSAudioPlayer {
     public static double getLength( URL url ) throws IOException, UnsupportedAudioFileException {
         AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
         AudioFormat audioFormat = aff.getFormat();
-        double sec = ( aff.getFrameLength() / (double)audioFormat.getFrameRate() );
+        double sec = ( aff.getFrameLength() / (double) audioFormat.getFrameRate() );
         System.out.println( "sec = " + sec );
         return sec;
     }
@@ -21,14 +22,14 @@ public class JSAudioPlayer {
     public static void loop( final URL url ) {
         Runnable r = new Runnable() {
             public void run() {
-                while( true ) {
+                while ( true ) {
                     try {
                         play( url );
                     }
-                    catch( IOException e ) {
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
-                    catch( UnsupportedAudioFileException e ) {
+                    catch ( UnsupportedAudioFileException e ) {
                         e.printStackTrace();
                     }
                 }
@@ -51,7 +52,7 @@ public class JSAudioPlayer {
         DataLine.Info info = new DataLine.Info( SourceDataLine.class,
                                                 audioFormat );
         try {
-            line = (SourceDataLine)AudioSystem.getLine( info );
+            line = (SourceDataLine) AudioSystem.getLine( info );
 
             /*
               The line is there, but it is not yet ready to
@@ -59,11 +60,11 @@ public class JSAudioPlayer {
             */
             line.open( audioFormat );
         }
-        catch( LineUnavailableException e ) {
+        catch ( LineUnavailableException e ) {
             e.printStackTrace();
             System.exit( 1 );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
             System.exit( 1 );
         }
@@ -89,14 +90,14 @@ public class JSAudioPlayer {
         int nBytesRead = 0;
 
         byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
-        while( nBytesRead != -1 ) {
+        while ( nBytesRead != -1 ) {
             try {
                 nBytesRead = audioInputStream.read( abData, 0, abData.length );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
-            if( nBytesRead >= 0 ) {
+            if ( nBytesRead >= 0 ) {
                 int nBytesWritten = line.write( abData, 0, nBytesRead );
             }
         }
@@ -110,10 +111,10 @@ public class JSAudioPlayer {
                 try {
                     play( preyURL );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( UnsupportedAudioFileException e ) {
+                catch ( UnsupportedAudioFileException e ) {
                     e.printStackTrace();
                 }
             }

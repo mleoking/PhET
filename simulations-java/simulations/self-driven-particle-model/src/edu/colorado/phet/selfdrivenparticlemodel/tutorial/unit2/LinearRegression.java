@@ -41,7 +41,7 @@ public class LinearRegression {
 
         // first pass: read in data, compute xbar and ybar
         double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
-        while( !StdIn.isEmpty() ) {
+        while ( !StdIn.isEmpty() ) {
             Point2D pt = StdIn.readPoint();
             x[n] = pt.getX();
             y[n] = pt.getY();
@@ -55,7 +55,7 @@ public class LinearRegression {
 
         // second pass: compute summary statistics
         double xxbar = 0.0, yybar = 0.0, xybar = 0.0;
-        for( int i = 0; i < n; i++ ) {
+        for ( int i = 0; i < n; i++ ) {
             xxbar += ( x[i] - xbar ) * ( x[i] - xbar );
             yybar += ( y[i] - ybar ) * ( y[i] - ybar );
             xybar += ( x[i] - xbar ) * ( y[i] - ybar );
@@ -70,7 +70,7 @@ public class LinearRegression {
         int df = n - 2;
         double rss = 0.0;      // residual sum of squares
         double ssr = 0.0;      // regression sum of squares
-        for( int i = 0; i < n; i++ ) {
+        for ( int i = 0; i < n; i++ ) {
             double fit = beta1 * x[i] + beta0;
             rss += ( fit - y[i] ) * ( fit - y[i] );
             ssr += ( fit - ybar ) * ( fit - ybar );

@@ -20,7 +20,7 @@ public class Unit3 implements AbstractUnit {
     }
 
     private void finishInit( final BasicTutorialCanvas page ) {
-        this.pageMakers = new PageMaker[]{
+        this.pageMakers = new PageMaker[] {
                 new PageMaker() {
                     public Page createPage() {
                         return new IntroFinalUnit300( page );

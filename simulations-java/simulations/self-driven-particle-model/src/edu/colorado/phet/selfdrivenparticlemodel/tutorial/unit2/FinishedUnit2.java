@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.PButton;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FinishedUnit2 extends Page {
     private PButton nextUnit;
