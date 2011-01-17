@@ -24,7 +24,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     private Random random = new Random();
     private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
     private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
-    //    private Property<Boolean> dropperOnProperty = new Property<Boolean>( false );
     private Property<Double> dropperRateProperty = new Property<Double>( 10.0 );//percent probability to drop in each frame
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 

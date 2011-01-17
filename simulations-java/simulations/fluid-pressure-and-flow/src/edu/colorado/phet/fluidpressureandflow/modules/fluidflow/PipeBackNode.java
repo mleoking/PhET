@@ -112,7 +112,7 @@ public class PipeBackNode extends PNode {
     }
 
     public static class GrabHandle extends PNode {
-        public GrabHandle( final ModelViewTransform transform, final ControlPoint controlPoint, final Function1<Point2D, Point2D> constraint ) {
+        public GrabHandle( final ModelViewTransform transform, final PipeControlPoint controlPoint, final Function1<Point2D, Point2D> constraint ) {
             double arrowLength = 20;
             addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
                 setPaint( Color.green );

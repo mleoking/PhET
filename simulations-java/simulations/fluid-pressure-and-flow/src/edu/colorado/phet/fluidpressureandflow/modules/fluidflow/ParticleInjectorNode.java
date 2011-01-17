@@ -50,9 +50,6 @@ public class ParticleInjectorNode extends PNode {
     private final PImage buttonImageNode;
     private final BufferedImage unpressedButtonImage;
     private final BufferedImage pressedButtonImage;
-    private final ModelViewTransform mvt;
-    private Dimension2D injectionPointOffset = new PDimension();
-    private Point2D injectionPointInModelCoords = new Point2D.Double();
 
     // Count is incremented every time the simulation clock ticks, so that we can inject particles every ITERATIONS_BETWEEN_INJECTION steps
     private int count;
@@ -77,7 +74,6 @@ public class ParticleInjectorNode extends PNode {
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
     public ParticleInjectorNode( final ModelViewTransform mvt, double rotationAngle, final Pipe pipe, final SimpleObserver squirt ) {
-        this.mvt = mvt;
 
         double NOMINAL_ION_INJECTION_VELOCITY = 30;
         Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
@@ -116,6 +112,7 @@ public class ParticleInjectorNode extends PNode {
         // image is changed.
         final double distanceCenterToTip = 0.7 * INJECTOR_HEIGHT;
         final double centerOffsetX = 0.4 * INJECTOR_HEIGHT;
+        Dimension2D injectionPointOffset = new PDimension();
         injectionPointOffset.setSize( distanceCenterToTip * Math.cos( rotationAngle ) + centerOffsetX,
                                       distanceCenterToTip * Math.sin( -rotationAngle ) );
 

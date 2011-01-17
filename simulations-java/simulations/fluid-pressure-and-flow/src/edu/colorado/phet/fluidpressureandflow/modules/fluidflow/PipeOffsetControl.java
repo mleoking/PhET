@@ -36,7 +36,7 @@ public class PipeOffsetControl extends PNode {
         };
         pipePosition.getTopProperty().addObserver( updateCenter );
         pipePosition.getBottomProperty().addObserver( updateCenter );
-        addChild( new PipeBackNode.GrabHandle( transform, new ControlPoint(
+        addChild( new PipeBackNode.GrabHandle( transform, new PipeControlPoint(
                 point, true ), new Function1.Identity<Point2D>() ) );
     }
 }

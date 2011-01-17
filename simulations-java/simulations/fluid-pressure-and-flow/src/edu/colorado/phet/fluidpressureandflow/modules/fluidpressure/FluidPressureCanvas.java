@@ -27,7 +27,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
         addChild( new PhetPPath( transform.modelToView( module.getFluidPressureAndFlowModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
-//        addChild( new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getLiquidDensityProperty() ) );//so transparency works out
         addChild( new SidePoolHeightReadoutNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().getDistanceUnitProperty() ) );
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty(), module.getFluidPressureAndFlowModel().getPool() ) );
