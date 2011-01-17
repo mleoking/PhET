@@ -55,18 +55,13 @@ public class SelfDrivenParticleModelApplication {
     public class TutorialKeyHandler implements KeyListener {
 
         public void keyPressed( KeyEvent e ) {
-
-            System.out.println( "e = " + e );
             if ( e.getKeyCode() == KeyEvent.VK_2 || e.getKeyCode() == KeyEvent.VK_NUMPAD2 ) {
-                System.out.println( "e = 2" + e );
                 setUnit( 1 );
             }
             if ( e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_NUMPAD1 ) {
-                System.out.println( "e = 1" + e );
                 setUnit( 0 );
             }
             if ( e.getKeyCode() == KeyEvent.VK_3 || e.getKeyCode() == KeyEvent.VK_NUMPAD3 ) {
-                System.out.println( "e = 3" + e );
                 setUnit( 2 );
             }
             if ( e.getKeyCode() == KeyEvent.VK_RIGHT ) {

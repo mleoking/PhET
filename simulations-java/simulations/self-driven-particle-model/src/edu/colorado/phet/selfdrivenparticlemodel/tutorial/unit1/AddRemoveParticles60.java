@@ -20,7 +20,6 @@ public class AddRemoveParticles60 extends Page {
         getParticleModel().addListener( new ParticleModel.Adapter() {
             public void particleCountChanged() {
                 int number = getParticleModel().numParticles();
-                System.out.println( "number = " + number );
                 if ( number >= 30 ) {
                     advance();
                 }
