@@ -1,10 +1,11 @@
-Restore bodies after collision
+simsharing: Don't run physics on teacher machine, fixes stuttering
+simsharing: Restore bodies after collision
 Reset grid visibility on reset all
 Reset measuring tape on reset all
-Save and restore measuring tape visibility and location
-Save and restore scale property
-Save and restore "show grid" property
-Save and restore selected mode
+simsharing: Save and restore measuring tape visibility and location
+simsharing: Save and restore scale property
+simsharing: Save and restore "show grid" property
+simsharing: Save and restore selected mode
 Modified the cartoon offset scales for Earth/Satellite mode so that inter-body distance remains the same in cartoon as in real scales
 # 0.0.14 (47788) Jan 8, 2011
 Fixed: dragging an object through a collision still leaves a path drawn, solved by stopping the path after collision

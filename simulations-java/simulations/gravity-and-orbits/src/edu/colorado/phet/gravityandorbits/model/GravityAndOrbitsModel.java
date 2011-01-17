@@ -73,7 +73,9 @@ public class GravityAndOrbitsModel {
         //Wire up the physics update to the clock and send out appropriate notifications afterwards.
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-//                if (teacherMode) return;
+                if ( teacherMode ) {
+                    return;//Do not run the clock in teacher mode, we should be getting updates from the student state
+                }
                 final double dt = clockEvent.getSimulationTimeChange();
                 stepModel.apply( dt );
                 for ( SimpleObserver modelStepListener : modelStepListeners ) {
