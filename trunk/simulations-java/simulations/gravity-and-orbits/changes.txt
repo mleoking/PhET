@@ -1,3 +1,4 @@
+Reset grid visibility on reset all
 Reset measuring tape on reset all
 Save and restore measuring tape visibility and location
 Save and restore scale property
