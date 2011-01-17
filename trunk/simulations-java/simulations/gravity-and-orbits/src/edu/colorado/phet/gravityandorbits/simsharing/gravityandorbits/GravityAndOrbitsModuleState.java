@@ -23,6 +23,7 @@ public class GravityAndOrbitsModuleState implements Serializable {
     private final ArrayList<GravityAndOrbitsModeState> modeStates;
     private final int selectedMode;
     private final boolean cartoonScale;
+    private final boolean showMeasuringTape;
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
         showGravityForce = module.getShowGravityForceProperty().getValue();
@@ -37,20 +38,22 @@ public class GravityAndOrbitsModuleState implements Serializable {
         selectedMode = module.getModeIndex();
         showGrid = module.getShowGridProperty().getValue();
         cartoonScale = module.getScaleProperty().getValue() == Scale.CARTOON;
+        showMeasuringTape = module.getMeasuringTapeVisibleProperty().getValue();
     }
 
-    public void apply( GravityAndOrbitsModule gravityAndOrbitsModule ) {
-        gravityAndOrbitsModule.getShowGravityForceProperty().setValue( showGravityForce );
-        gravityAndOrbitsModule.getShowPathProperty().setValue( showPaths );
-        gravityAndOrbitsModule.getShowVelocityProperty().setValue( showVelocity );
-        gravityAndOrbitsModule.getShowMassProperty().setValue( showMass );
-        gravityAndOrbitsModule.getGravityEnabledProperty().setValue( gravityEnabled );
+    public void apply( GravityAndOrbitsModule m ) {
+        m.getShowGravityForceProperty().setValue( showGravityForce );
+        m.getShowPathProperty().setValue( showPaths );
+        m.getShowVelocityProperty().setValue( showVelocity );
+        m.getShowMassProperty().setValue( showMass );
+        m.getGravityEnabledProperty().setValue( gravityEnabled );
         for ( int i = 0; i < modeStates.size(); i++ ) {
-            modeStates.get( i ).apply( gravityAndOrbitsModule.getModes().get( i ) );
+            modeStates.get( i ).apply( m.getModes().get( i ) );
         }
-        gravityAndOrbitsModule.setModeIndex( selectedMode );
-        gravityAndOrbitsModule.getShowGridProperty().setValue( showGrid );
-        gravityAndOrbitsModule.getScaleProperty().setValue( cartoonScale ? Scale.CARTOON : Scale.REAL );
+        m.setModeIndex( selectedMode );
+        m.getShowGridProperty().setValue( showGrid );
+        m.getScaleProperty().setValue( cartoonScale ? Scale.CARTOON : Scale.REAL );
+        m.getMeasuringTapeVisibleProperty().setValue( showMeasuringTape );
     }
 
     @Override

@@ -176,8 +176,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }} );
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), module.getMeasuringTapeVisibleProperty() ),
-                                     new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP1() ) ),
-                                     new Property<ImmutableVector2D>( new ImmutableVector2D( mode.getInitialMeasuringTapeLocation().getP2() ) ), modelViewTransformProperty ) {{
+                                     mode.getMeasuringTapeStartPoint(),
+                                     mode.getMeasuringTapeEndPoint(), modelViewTransformProperty ) {{
         }} );
 
         // shows the bounds of the "stage", which is different from the canvas
