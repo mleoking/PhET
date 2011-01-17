@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,11 +26,11 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 public class ThreePatchImageNode extends PNode {
     public ThreePatchImageNode( final Property<String> text ) {
-        final PImage leftPatch = new PImage( FluidPressureAndFlowResources.RESOURCES.getImage( "pressure_meter_left.png" ) );
+        final PImage leftPatch = new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_left.png" ) );
         addChild( leftPatch );
-        final PImage centerPatch = new PImage( FluidPressureAndFlowResources.RESOURCES.getImage( "pressure_meter_center.png" ) );
+        final PImage centerPatch = new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_center.png" ) );
         addChild( centerPatch );
-        final PImage rightPatch = new PImage( FluidPressureAndFlowResources.RESOURCES.getImage( "pressure_meter_right.png" ) );
+        final PImage rightPatch = new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_right.png" ) );
         addChild( rightPatch );
         final PText textNode = new PText( text.getValue() ) {{
             setFont( new PhetFont( 20, true ) );

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.model.CrossSection;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
@@ -46,7 +46,7 @@ public class PipeFrontNode extends PNode {
             } );
         }} );
 
-        final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-left-front.png" );
+        final BufferedImage pipeLeftFrontImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "pipe-left-front.png" );
         addChild( new PImage( pipeLeftFrontImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
@@ -58,7 +58,7 @@ public class PipeFrontNode extends PNode {
             } );
         }} );
 
-        final BufferedImage pipeRightImage = FluidPressureAndFlowResources.RESOURCES.getImage( "pipe-right.png" );
+        final BufferedImage pipeRightImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "pipe-right.png" );
         addChild( new PImage( pipeRightImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {

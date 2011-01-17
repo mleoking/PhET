@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -85,13 +85,13 @@ public class ParticleInjectorNode extends PNode {
 
         // Load the graphic images for this device.  These are offset in order
         // to make the center of rotation be the center of the bulb.
-        BufferedImage injectorBodyImage = FluidPressureAndFlowResources.RESOURCES.getImage( "squeezer_background.png" );
+        BufferedImage injectorBodyImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "squeezer_background.png" );
         PNode injectorBodyImageNode = new PImage( injectorBodyImage );
         Rectangle2D originalBodyBounds = injectorBodyImageNode.getFullBounds();
         injectorBodyImageNode.setOffset( -originalBodyBounds.getWidth() / 2, -originalBodyBounds.getHeight() / 2 );
         injectorNode.addChild( injectorBodyImageNode );
-        pressedButtonImage = FluidPressureAndFlowResources.RESOURCES.getImage( "button_pressed.png" );
-        unpressedButtonImage = FluidPressureAndFlowResources.RESOURCES.getImage( "button_unpressed.png" );
+        pressedButtonImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "button_pressed.png" );
+        unpressedButtonImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "button_unpressed.png" );
         buttonImageNode = new PImage( unpressedButtonImage );
         buttonImageNode.setOffset( BUTTON_OFFSET );
         injectorNode.addChild( buttonImageNode );
