@@ -1,14 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel;
 
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.*;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1.IntroductionUnit;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.*;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1.IntroductionUnit;
 
 public class SelfDrivenParticleModelApplication {
     TutorialFrame tutorialFrame;
@@ -21,7 +22,7 @@ public class SelfDrivenParticleModelApplication {
     public SelfDrivenParticleModelApplication() {
         tutorialFrame = new TutorialFrame( this );
         keyHandler = new TutorialKeyHandler();
-        if( isLowResolution() ) {
+        if ( isLowResolution() ) {
             tutorialFrame.setSize( 800, 680 );
         }
         else {
@@ -56,22 +57,22 @@ public class SelfDrivenParticleModelApplication {
         public void keyPressed( KeyEvent e ) {
 
             System.out.println( "e = " + e );
-            if( e.getKeyCode() == KeyEvent.VK_2 || e.getKeyCode() == KeyEvent.VK_NUMPAD2 ) {
+            if ( e.getKeyCode() == KeyEvent.VK_2 || e.getKeyCode() == KeyEvent.VK_NUMPAD2 ) {
                 System.out.println( "e = 2" + e );
                 setUnit( 1 );
             }
-            if( e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_NUMPAD1 ) {
+            if ( e.getKeyCode() == KeyEvent.VK_1 || e.getKeyCode() == KeyEvent.VK_NUMPAD1 ) {
                 System.out.println( "e = 1" + e );
                 setUnit( 0 );
             }
-            if( e.getKeyCode() == KeyEvent.VK_3 || e.getKeyCode() == KeyEvent.VK_NUMPAD3 ) {
+            if ( e.getKeyCode() == KeyEvent.VK_3 || e.getKeyCode() == KeyEvent.VK_NUMPAD3 ) {
                 System.out.println( "e = 3" + e );
                 setUnit( 2 );
             }
-            if( e.getKeyCode() == KeyEvent.VK_RIGHT ) {
+            if ( e.getKeyCode() == KeyEvent.VK_RIGHT ) {
                 moveRight();
             }
-            else if( e.getKeyCode() == KeyEvent.VK_LEFT ) {
+            else if ( e.getKeyCode() == KeyEvent.VK_LEFT ) {
                 moveLeft();
             }
         }
@@ -85,13 +86,13 @@ public class SelfDrivenParticleModelApplication {
 
 
     private void moveLeft() {
-        if( currentUnit != null ) {
+        if ( currentUnit != null ) {
             currentUnit.moveLeft();
         }
     }
 
     private void moveRight() {
-        if( currentUnit != null ) {
+        if ( currentUnit != null ) {
             currentUnit.moveRight();
         }
     }
@@ -99,7 +100,7 @@ public class SelfDrivenParticleModelApplication {
     public static void centerWindowOnScreen( Window window ) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
-        window.setLocation( (int)( screenSize.getWidth() / 2 - window.getWidth() / 2 ), 0 );
+        window.setLocation( (int) ( screenSize.getWidth() / 2 - window.getWidth() / 2 ), 0 );
     }
 
     public static boolean isLowResolution() {
@@ -107,8 +108,11 @@ public class SelfDrivenParticleModelApplication {
     }
 
     public static void main( String[] args ) {
-        SelfDrivenParticleModelApplication tutorialApplication = new SelfDrivenParticleModelApplication();
-        tutorialApplication.start();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new SelfDrivenParticleModelApplication().start();
+            }
+        } );
     }
 
     private void start() {
@@ -123,7 +127,7 @@ public class SelfDrivenParticleModelApplication {
 
     private void setUnit( int i ) {
         this.currentUnitIndex = i;
-        if( currentUnit != null ) {
+        if ( currentUnit != null ) {
             currentUnit.teardown( this );
         }
         unitAt( i ).start( this );
@@ -131,7 +135,7 @@ public class SelfDrivenParticleModelApplication {
     }
 
     private Unit unitAt( int i ) {
-        return (Unit)units.get( i );
+        return (Unit) units.get( i );
     }
 
     public void setContentPane( JComponent jc ) {
@@ -156,7 +160,7 @@ public class SelfDrivenParticleModelApplication {
     }
 
     public void previousUnit() {
-        if( currentUnitIndex == 0 ) {
+        if ( currentUnitIndex == 0 ) {
             return;
         }
         else {
