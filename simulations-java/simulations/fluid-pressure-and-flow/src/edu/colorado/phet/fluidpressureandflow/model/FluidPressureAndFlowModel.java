@@ -10,30 +10,34 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * Main model class for FluidPressureAndFlow.  Units for this sim are by default in MKS, and conversions through class
+ * Units are used to convert to different units systems.
+ *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowModel implements PressureSensor.Context {
     private static final double EARTH_AIR_PRESSURE = 101325;//Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
     private static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
 
-    public static double GASOLINE_DENSITY = 700;
-    public static double WATER_DENSITY = 1000;
-    public static double HONEY_DENSITY = 1420;
+    public static final double GASOLINE_DENSITY = 700;
+    public static final double WATER_DENSITY = 1000;
+    public static final double HONEY_DENSITY = 1420;
 
-    private Property<Double> gravityProperty = new Property<Double>( EARTH_GRAVITY );
-    private Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
-    private Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-    private ConstantDtClock clock = new ConstantDtClock( 30 );
     public static final Double EARTH_GRAVITY = 9.8;
-    public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0;
+    public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0; //TODO: not currently used, but should be used in future version
     public static final Double JUPITER_GRAVITY = EARTH_GRAVITY * 2.364;
-    public final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
-    public final Property<Units.Unit> velocityUnitProperty = new Property<Units.Unit>( Units.METERS_PER_SECOND );
-    public final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
-    private ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
-    private ArrayList<Balloon> balloons = new ArrayList<Balloon>();
-    private ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
-    private Property<Double> liquidDensityProperty = new Property<Double>( 1000.0 );//SI
+
+    private final Property<Double> gravityProperty = new Property<Double>( EARTH_GRAVITY );
+    private final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
+    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+    private final ConstantDtClock clock = new ConstantDtClock( 30 );
+    private final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
+    private final Property<Units.Unit> velocityUnitProperty = new Property<Units.Unit>( Units.METERS_PER_SECOND );
+    private final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
+    private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
+    private final ArrayList<Balloon> balloons = new ArrayList<Balloon>();
+    private final ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
+    private final Property<Double> liquidDensityProperty = new Property<Double>( 1000.0 );//SI
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );
@@ -51,8 +55,10 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
         return clock;
     }
 
-    //Return pressure of the air
-
+    /**
+     * Gets the pressure the specified location, overriden in subclasses to account for other water structures, etc.
+     * The implementation here just returns the air pressure, or Double.NaN if the sample point is under y=0.
+     */
     public double getPressure( double x, double y ) {
         if ( y >= 0 ) {
             return getPressureFunction().evaluate( y );
@@ -66,10 +72,8 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
         return getPressure( position.getX(), position.getY() );
     }
 
-    /**
+    /*
      * Add a listener to identify when the fluid has changed, for purposes of updating pressure sensors.
-     *
-     * @param updatePressure the listener to add
      */
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
         gravityProperty.addObserver( updatePressure );
