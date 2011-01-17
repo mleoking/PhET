@@ -39,15 +39,10 @@ public class RandomnessSlider extends ModelSlider {
         return particleModel;
     }
 
-    //    final ModelSlider randomnessSlider = new ModelSlider( "Randomness", "radians", 0, Math.PI * 2, model.getAngleRandomness(), new DecimalFormat( "0.00" ) );
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
-//        JPanel contentPane = new JPanel();
-//        PhetPCanvas pane = new PhetPCanvas();
         SelfDrivenParticleModelApplication tutorialApplication = new SelfDrivenParticleModelApplication();
-//        PhetPCanvas pane = new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) );
         BasicTutorialCanvas pane = new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) );
-//        TutorialCanvas pane = new TutorialCanvas( );
         pane.setZoomEventHandler( new PZoomEventHandler() );
         pane.addChild( new PSwing( pane, new RandomnessSlider( new ParticleModel( 400, 400 ) ) ) );
         frame.setContentPane( pane );

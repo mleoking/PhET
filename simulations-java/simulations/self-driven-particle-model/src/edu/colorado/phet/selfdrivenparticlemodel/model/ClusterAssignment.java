@@ -11,12 +11,10 @@ public class ClusterAssignment {
             result[i] = -1;//unseen
         }
         for ( int i = 0; i < result.length; i++ ) {
-
             //find all in same cluster
             if ( result[i] == -1 ) {
                 Particle particle = model.particleAt( i );
                 Particle[] cluster = getCluster( model, particle );
-//                System.out.println( "cluster [" + i + "].length= " + cluster.length );
                 for ( int j = 0; j < cluster.length; j++ ) {
                     Particle particle1 = cluster[j];
                     result[model.indexOf( particle1 )] = clusterIndex;

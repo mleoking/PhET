@@ -95,12 +95,6 @@ public class Unit2 implements AbstractUnit {
                         return new FinishedUnit2( page, tutorialApplication );
                     }
                 }
-//                ,
-//                new PageMaker() {
-//                    public Page createPage() {
-//                        return new ThisPageForRent( page );
-//                    }
-//                }
         };
     }
 }

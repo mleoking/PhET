@@ -40,11 +40,6 @@ public class UniverseGraphic extends PNode {
     public void addParticleGraphic( ParticleGraphicWithTail particleGraphicWithTail ) {
         particleLayer.addChild( particleGraphicWithTail );
     }
-//    public void fullPaint( PPaintContext paintContext ) {
-//        Shape origClip = paintContext.getLocalClip();
-//
-//        super.fullPaint( paintContext );
-//    }
 
     public void removeParticleGraphic( ParticleGraphicWithTail particleGraphicWithTail ) {
         particleLayer.removeChild( particleGraphicWithTail );

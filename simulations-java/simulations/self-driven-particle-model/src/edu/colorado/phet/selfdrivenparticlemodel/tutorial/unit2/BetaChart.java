@@ -44,21 +44,11 @@ public class BetaChart {
         int RAW_DATA_SERIES = 0;
         int LINE_SERIES = 1;
         int BEST_FIT_SERIES = 2;
-//        renderer.setSeriesStroke( SERIES, new BasicStroke( 2 ) );
         renderer.setSeriesShape( RAW_DATA_SERIES, new Ellipse2D.Double( -3, -3, 6, 6 ) );
         renderer.setSeriesShape( LINE_SERIES, new Rectangle( -4, -4, 8, 8 ) );
-//        int RAW_SERIES = 0;
-//        renderer.setSeriesLinesVisible( RAW_SERIES, false );
         renderer.setSeriesLinesVisible( RAW_DATA_SERIES, false );
         renderer.setSeriesShapesVisible( RAW_DATA_SERIES, true );
         Color blue = new Color( 0, 0, 255, 14 );
-//        renderer.setSeriesFillPaint( SERIES, paint );
-//        renderer.setBaseFillPaint( paint );
-
-//        renderer.setBasePaint( blue );
-//        renderer.setBaseItemLabelPaint( blue );
-//        renderer.setBaseOutlinePaint( blue );
-//        renderer.setOutlinePaint( blue );
         renderer.setSeriesPaint( RAW_DATA_SERIES, blue );
         renderer.setSeriesItemLabelPaint( RAW_DATA_SERIES, blue );
         renderer.setSeriesOutlinePaint( RAW_DATA_SERIES, blue );
@@ -71,39 +61,24 @@ public class BetaChart {
         renderer.setSeriesShapesVisible( BEST_FIT_SERIES, false );
         renderer.setSeriesStroke( BEST_FIT_SERIES, new BasicStroke( 2 ) );
         renderer.setSeriesPaint( BEST_FIT_SERIES, Color.green );
-//        renderer.setBaseStroke( );
-//        renderer.setSeriesStroke(0, null);
-
-//        renderer.set
-//        renderer.setSeriesShapesVisible( SERIES, false );
-
         xyPlot = new XYPlot( xySeriesCollection,
                              domainAxis,
                              rangeAxis, renderer );
         chart = new JFreeChart( "Critical Exponent Log Plot", xyPlot );
         rangeAxis.setAutoRange( true );
-
-//        rangeAxis.setRange( -0.01, 1.01 );
         rangeAxis.setAutoRangeIncludesZero( false );
 
         domainAxis.setAutoRange( true );
-//        domainAxis.setRange( 0 - 0.01, Math.PI * 2 + 0.01 );
         domainAxis.setAutoRangeIncludesZero( false );
-
-//        domainAxis.setRange( -0.01, Math.PI * 2 + 0.01 );
-
-
     }
 
     public JFreeChart getChart() {
         return chart;
     }
 
-
     public void addDataPoint( double eta, double orderParameter ) {
         meanSeries.add( eta, orderParameter );
         while ( meanSeries.getItemCount() > maxItemCount ) {
-//            changeToScrolling();
             meanSeries.remove( 0 );
         }
         domainAxis.configure();
@@ -143,14 +118,6 @@ public class BetaChart {
         }
         return sum / list.size();
     }
-
-//    private void changeToScrolling() {
-//        if( !changedToScrolling ) {
-//            changedToScrolling = true;
-//            domainAxis.setAutoRange( true );
-//            domainAxis.setAutoRangeIncludesZero( false );
-//        }
-//    }
 
     public void reset() {
         lineSeries.clear();

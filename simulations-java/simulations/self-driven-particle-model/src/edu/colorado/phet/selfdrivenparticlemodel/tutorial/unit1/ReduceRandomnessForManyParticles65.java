@@ -32,7 +32,6 @@ public class ReduceRandomnessForManyParticles65 extends Page {
 
     public void init() {
         super.init();
-//        node.setOffset( getUniverseGraphic().getFullBounds().getX(), getUniverseGraphic().getFullBounds().getMaxY() );
         node.setOffset( getUniverseGraphic().getFullBounds().getMaxX(),
                         getUniverseGraphic().getFullBounds().getCenterY() );
         addChild( node );

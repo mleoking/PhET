@@ -6,7 +6,7 @@ import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplicat
 public class FinalUnit extends Unit {
     public FinalUnit( SelfDrivenParticleModelApplication tutorialApplication ) {
         super();
-        TutorialCanvas[] pages = new TutorialCanvas[] { new BasicTutorialCanvas( tutorialApplication, new Unit3( tutorialApplication ) ) };
+        TutorialCanvas[] pages = new TutorialCanvas[] { new BasicTutorialCanvas( tutorialApplication, new Unit3() ) };
         setCanvases( pages );
     }
 }

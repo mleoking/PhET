@@ -25,9 +25,7 @@ public class AddingRandomness50 extends Page {
                 }
             }
         } );
-//        JSlider jSlider=new JSlider( );
         pSwing = new PSwing( getBasePage(), randomnessSlider );
-
     }
 
     public void init() {

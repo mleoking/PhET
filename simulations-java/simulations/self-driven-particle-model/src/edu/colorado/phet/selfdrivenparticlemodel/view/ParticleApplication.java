@@ -34,7 +34,6 @@ public class ParticleApplication implements IParticleApp {
         } );
 
         for ( int i = 0; i < 100; i++ ) {
-//        for( int i = 0; i < 3; i++ ) {
             addParticle();
         }
     }
@@ -50,11 +49,8 @@ public class ParticleApplication implements IParticleApp {
             public void run() {
                 ParticleApplication particleApplication = new ParticleApplication();
                 particleApplication.start();
-
-//                JFreeChartExperiment jFreeChartExperiment = new JFreeChartExperiment( particleApplication );
             }
         } );
-
     }
 
     private void start() {

@@ -17,7 +17,6 @@ public class ParticleInfluenceGraphic extends PNode {
 
     public ParticleInfluenceGraphic( ParticleModel particleModel, Particle p ) {
         count++;
-//        System.out.println( "number of created particle influence graphics: " + count );
         this.particleModel = particleModel;
         this.p = p;
 
@@ -42,7 +41,6 @@ public class ParticleInfluenceGraphic extends PNode {
     }
 
     private double getRadius() {
-//        double radius = particleModel.getRadius() / 2.0;
         double radius = particleModel.getRadius();
         return radius;
     }

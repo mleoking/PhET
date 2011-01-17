@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.selfdrivenparticlemodel.experiment.JFreeChartExperiment2;
+import edu.colorado.phet.selfdrivenparticlemodel.experiment.ChartExperiment;
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +22,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class ParticlePanel extends PhetPCanvas {
     private ParticleModel particleModel;
-    private ParticleApplication particleApplication;
     private boolean showInteractionRadius = true;
     private PNode influenceLayer;
     private PNode particleLayer;
@@ -32,7 +31,6 @@ public class ParticlePanel extends PhetPCanvas {
 
     public ParticlePanel( final ParticleModel model, final ParticleApplication particleApplication ) {
         this.particleModel = model;
-        this.particleApplication = particleApplication;
 
         UniverseGraphic universeGraphic = new UniverseGraphic( particleModel );
         addScreenChild( universeGraphic );
@@ -62,7 +60,6 @@ public class ParticlePanel extends PhetPCanvas {
         PSwing radiusGraphic = new PSwing( this, interactionRadiusControl );
         radiusGraphic.setOffset( universeGraphic.getFullBounds().getWidth(), randomnessGraphic.getFullBounds().getMaxY() );
         addScreenChild( radiusGraphic );
-//        getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
 
         final JCheckBox factorOut = new JCheckBox( "Factor Out Net Motion", model.isFactorOutNetMovement() );
         factorOut.addActionListener( new ActionListener() {
@@ -123,14 +120,12 @@ public class ParticlePanel extends PhetPCanvas {
             }
         } );
         addScreenChild( orderParamText );
-//
 
         final PText clusterCountText = new PText();
         getRoot().addActivity( new PActivity( -1 ) {
             protected void activityStep( long elapsedTime ) {
                 super.activityStep( elapsedTime );
                 clusterCountText.setText( "# Clusters= " + ( model.getNumClusters() ) );
-//                System.out.println( System.currentTimeMillis() + ", numClusters=" + model.getNumClusters() );
             }
         } );
         addScreenChild( clusterCountText );
@@ -139,8 +134,7 @@ public class ParticlePanel extends PhetPCanvas {
         JButton but = new JButton( "Experiment" );
         but.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                new JFreeChartExperiment( particleApplication ).start();
-                new JFreeChartExperiment2( particleApplication, "", "Randomness", "Order Parameter", "Order Parameter vs. Randomness" ).start();
+                new ChartExperiment( particleApplication, "", "Randomness", "Order Parameter", "Order Parameter vs. Randomness" ).start();
             }
         } );
         PSwing ps = new PSwing( this, but );
@@ -160,11 +154,7 @@ public class ParticlePanel extends PhetPCanvas {
     }
 
     private void addParticleGraphic( Particle p ) {
-//            ParticleGraphic particleGraphic = new ParticleGraphic( this, p );
-//            ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( this, p ,new double[]{8,6,3,2,1});
-//            ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( this, p ,new double[]{8,7,6,5,4,3,2});
         ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( p, new double[] { 8, 7, 6, 5, 4 }, 1 );
-//            ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( this, p ,new double[]{8,8,7,7,6,6,5,5},2);
         particleLayer.addChild( particleGraphic );
         particleGraphics.add( particleGraphic );
     }

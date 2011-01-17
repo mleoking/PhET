@@ -117,10 +117,6 @@ public class FullExperimentPage extends PlotBeta240 {
         getParticleModel().addListener( listener );
     }
 
-    private void stopTakingData() {
-        getParticleModel().removeListener( listener );
-    }
-
     protected void showNextButton() {
     }
 

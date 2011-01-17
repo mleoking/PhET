@@ -29,7 +29,6 @@ public class TutorialCanvas extends PSwingCanvas {
 
     public TutorialCanvas() {
         setPanEventHandler( null );
-//        setZoomEventHandler( null );
         backgroundNode = new PImage( backgroundImage );
         addChild( backgroundNode );
         addComponentListener( new ComponentListener() {
@@ -59,14 +58,12 @@ public class TutorialCanvas extends PSwingCanvas {
     }
 
     public void teardown( SelfDrivenParticleModelApplication tutorialApplication ) {
-//        tutorialApplication.setContentPane( null );
     }
 
     public void addChild( PNode pNode ) {
         if ( !getLayer().getChildrenReference().contains( pNode ) ) {
             getLayer().addChild( pNode );
         }
-//        System.out.println( "Page.addchild, layer=" + getLayer().getChildrenReference().size() + ", " + getLayer().getChildrenReference() );
     }
 
     public void playHarp() {
@@ -76,7 +73,6 @@ public class TutorialCanvas extends PSwingCanvas {
     public void removeChild( PNode child ) {
         if ( getLayer().getChildrenReference().contains( child ) ) {
             getLayer().removeChild( child );
-//        System.out.println( "Page.removechild, layer=" + getLayer().getChildrenReference().size() + ", " + getLayer().getChildrenReference() );
         }
     }
 

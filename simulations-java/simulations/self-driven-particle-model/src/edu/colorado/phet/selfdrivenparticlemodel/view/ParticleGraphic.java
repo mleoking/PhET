@@ -13,19 +13,11 @@ public class ParticleGraphic extends PNode {
     private Particle p;
     private PPath child;
 
-    public ParticleGraphic( Particle p ) {
-        this( p, 8.0, newRandomColor() );
-    }
-
     public ParticleGraphic( Particle p, double radius, Color color ) {
         this.p = p;
 
-//        Ellipse2D.Double shape = new Ellipse2D.Double( -5, -5, 10, 10 );
-//        int radius = 8;
         Ellipse2D.Double shape = new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 );
         child = new PPath( shape );
-//        child.setStroke( new BasicStroke( 1 ) );
-//        child.setStrokePaint( Color.black );
         child.setStroke( null );
         child.setStrokePaint( null );
         child.setPaint( color );

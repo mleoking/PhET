@@ -23,14 +23,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class TitleScreen extends PSwingCanvas {
-    private SelfDrivenParticleModelApplication tutorialApplication;
     private PSwing startButton;
     private PImage titleImage;
-    private static final String simName = "self-driven-particle-model";
     private PSwing aboutSwing;
 
     public TitleScreen( final SelfDrivenParticleModelApplication tutorialApplication ) {
-        this.tutorialApplication = tutorialApplication;
         setBackground( Color.lightGray );
         setPanEventHandler( null );
         setZoomEventHandler( null );
@@ -64,7 +61,6 @@ public class TitleScreen extends PSwingCanvas {
 
             aboutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), new PhetAboutDialog.SimpleDialogConfig("Self-Driven Particle Model", "",PhetApplicationConfig.getVersion( simName ).formatForAboutDialog(),PhetApplicationConfig.getCredits( simName )) ).show();
                     new PhetAboutDialogAdapter( tutorialApplication.getTutorialFrame(), new PhetApplicationConfig( new String[0], "self-driven-particle-model" ) ).show();
                 }
             } );
@@ -102,7 +98,6 @@ public class TitleScreen extends PSwingCanvas {
     }
 
     private void relayoutChildren() {
-//        startButton.setOffset( getWidth() - startButton.getWidth() - 5, getHeight() - startButton.getHeight() - 5 );
         startButton.setOffset( getWidth() - startButton.getWidth() - 5, getHeight() - startButton.getHeight() - 100 );
         aboutSwing.setOffset( this.startButton.getOffset().getX(), this.startButton.getOffset().getY() + this.startButton.getFullBounds().getHeight() + 2 );
         titleImage.setOffset( ( getWidth() - titleImage.getWidth() ) / 2, ( getHeight() - titleImage.getHeight() ) / 2 );

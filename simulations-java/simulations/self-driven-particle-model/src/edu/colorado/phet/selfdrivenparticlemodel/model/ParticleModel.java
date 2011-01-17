@@ -9,18 +9,15 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class ParticleModel {
-    private ArrayList particles = new ArrayList();
+    private ArrayList<Particle> particles = new ArrayList<Particle>();
     private double radius = 60.0;
     private Random random = new Random();
     private double speed = 5.0;
-    //    private double angleRandomness = 0;//zero to 2pi
-    //    private double angleRandomness = Math.PI * 2 / 10;//zero to 2pi
     private double randomness = Math.PI * 2;
     private double boxWidth;
     private double boxHeight;
     private boolean factorOutNetMovement = false;
-    private ArrayList listeners = new ArrayList();
-    private int[] clusterResult = null;
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private int maxClusterID;
     private long time;
     private boolean doCountClusters;
@@ -45,14 +42,11 @@ public class ParticleModel {
             int[] clusters = new ClusterAssignment().assignClusters( this );
 
             Arrays.sort( clusters );
-            this.clusterResult = clusters;
             maxClusterID = clusters.length > 0 ? clusters[clusters.length - 1] : -1;
         }
-//        System.out.println( "maxClusterID = " + maxClusterID );
-//        System.out.println( "clusters.length = " + clusters.length );
         time++;
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+            Listener listener = listeners.get( i );
             listener.steppedInTime();
         }
 
@@ -149,8 +143,6 @@ public class ParticleModel {
             //leave speed factored out.
         }
         double angle = Math.atan2( y, x );
-//        System.out.println( "Considered " + neighbors.length + " neighbors:" );
-//        System.out.println( "angle = " + angle );
         angle = addRandomness( angle );
         return angle;
     }
@@ -244,7 +236,6 @@ public class ParticleModel {
     }
 
     public int getNumClusters() {
-//        return -1;
         return maxClusterID + 1;
     }
 
