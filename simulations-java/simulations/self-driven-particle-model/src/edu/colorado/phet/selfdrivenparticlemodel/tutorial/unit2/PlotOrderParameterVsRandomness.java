@@ -30,7 +30,7 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
                  "the mean value is marked with a red square.  " +
                  "Take readings at several randomness values, and I'll connect the means." +
                  "" );
-        orderPlotPanel = new PSwing( page, new OrderPlotPanel() );
+        orderPlotPanel = new PSwing( new OrderPlotPanel() );
         orderParameterVsRandomnessChart = new OrderParameterVsRandomnessChart( (int) ( 100000 / MOD ) );
         tutorialChartFrame = new TutorialChartFrame( "Plot",
                                                      orderParameterVsRandomnessChart.getChart(),

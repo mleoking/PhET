@@ -25,7 +25,7 @@ public class AddingRandomness50 extends Page {
                 }
             }
         } );
-        pSwing = new PSwing( getBasePage(), randomnessSlider );
+        pSwing = new PSwing( randomnessSlider );
     }
 
     public void init() {

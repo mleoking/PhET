@@ -25,7 +25,7 @@ public class AddRemoveParticles60 extends Page {
                 }
             }
         } );
-        numberPanelGraphic = new PSwing( basicPage, numberSliderPanel );
+        numberPanelGraphic = new PSwing( numberSliderPanel );
     }
 
     public void init() {

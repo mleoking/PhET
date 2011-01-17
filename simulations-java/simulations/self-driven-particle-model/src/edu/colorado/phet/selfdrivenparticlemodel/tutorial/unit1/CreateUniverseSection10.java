@@ -29,7 +29,7 @@ public class CreateUniverseSection10 extends Page {
             }
         } );
 
-        newUniverseButton = new PSwing( basicPage, newUniverse );
+        newUniverseButton = new PSwing( newUniverse );
     }
 
     public void init() {

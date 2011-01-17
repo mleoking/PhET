@@ -22,7 +22,7 @@ public class PButton extends PNode {
                 super.paintComponent( g );
             }
         };
-        PSwing pSwing = new PSwing( pSwingCanvas, button );
+        PSwing pSwing = new PSwing( button );
         addChild( pSwing );
     }
 

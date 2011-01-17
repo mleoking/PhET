@@ -19,7 +19,7 @@ public class ReduceRandomnessForManyParticles65 extends Page {
                        "This sudden transition from randomness to " +
                        "settling on a global direction is called Spontaneous Symmetry Breaking." );
         randomnessSlider = new RandomnessSlider( getParticleModel() );
-        node = new PSwing( page, randomnessSlider );
+        node = new PSwing( randomnessSlider );
         getParticleModel().addListener( new ParticleModel.Adapter() {
             public void randomnessChanged() {
                 super.randomnessChanged();

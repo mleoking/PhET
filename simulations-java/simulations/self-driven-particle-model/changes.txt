@@ -1,3 +1,4 @@
+Switched to use non-deprecated PSwing constructor
 Removed unused code, removed commented out code, switched to use generics
 Moved main to SwingUtilities.invokeLater
 # 1.03.00 (38027) Jan 11, 2010

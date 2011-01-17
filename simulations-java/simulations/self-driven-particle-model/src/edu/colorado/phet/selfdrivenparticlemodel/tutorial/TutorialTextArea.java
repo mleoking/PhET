@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class TutorialTextArea extends JTextArea {
     public TutorialTextArea() {
-
         setWrapStyleWord( true );
         setBackground( new Color( 255, 255, 255, 75 ) );
         setOpaque( false );
