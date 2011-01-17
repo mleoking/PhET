@@ -52,7 +52,6 @@ public abstract class GravityAndOrbitsMode {
     private final double defaultOrbitalPeriod;
     private final double dt;
     private final double velocityScale;
-    private final Line2D.Double initialMeasuringTapeLocation;
     private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
     private final Property<Boolean> deviatedFromEarthValuesProperty = new Property<Boolean>( false );
     private double zoomScale;
@@ -65,6 +64,8 @@ public abstract class GravityAndOrbitsMode {
     private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
     private double gridSpacing;//in meters
     private Point2D.Double gridCenter;
+    private Property<ImmutableVector2D> measuringTapeStartPoint;
+    private Property<ImmutableVector2D> measuringTapeEndPoint;
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
                                  double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
@@ -78,7 +79,6 @@ public abstract class GravityAndOrbitsMode {
         this.iconImage = iconImage;
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
         this.velocityScale = velocityScale;
-        this.initialMeasuringTapeLocation = initialMeasuringTapeLocation;
         this.zoomScale = zoomScale;
         this.zoomOffset = zoomOffset;
         this.gridSpacing = gridSpacing;
@@ -112,6 +112,8 @@ public abstract class GravityAndOrbitsMode {
         };
         clockPaused.addObserver( updateClockRunning );
         this.active.addObserver( updateClockRunning );
+        measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
+        measuringTapeEndPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP2() ) );
     }
 
     public static ModelViewTransform createTransform( Rectangle2D modelRectangle ) {
@@ -166,6 +168,8 @@ public abstract class GravityAndOrbitsMode {
         model.getClock().resetSimulationTime();// reset the clock
         model.resetAll();
         deviatedFromEarthValuesProperty.reset();
+        measuringTapeStartPoint.reset();
+        measuringTapeEndPoint.reset();
     }
 
     public JComponent getCanvas() {
@@ -230,10 +234,6 @@ public abstract class GravityAndOrbitsMode {
         return deviatedFromEarthValuesProperty;
     }
 
-    public Line2D.Double getInitialMeasuringTapeLocation() {
-        return initialMeasuringTapeLocation;
-    }
-
     //Restore the last set of initial conditions that were set while the sim was paused.
     public void rewind() {
         getClock().setSimulationTime( rewindClockTime );
@@ -248,5 +248,13 @@ public abstract class GravityAndOrbitsMode {
 
     public Point2D.Double getGridCenter() {
         return gridCenter;
+    }
+
+    public Property<ImmutableVector2D> getMeasuringTapeStartPoint() {
+        return measuringTapeStartPoint;
+    }
+
+    public Property<ImmutableVector2D> getMeasuringTapeEndPoint() {
+        return measuringTapeEndPoint;
     }
 }
