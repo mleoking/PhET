@@ -64,7 +64,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         setLayout( null );
         textAreaPSwing = new MyPSwing( textArea );
         addChild( textAreaPSwing );
-        nextSwing = new PButton( this, "Next " );
+        nextSwing = new PButton( this, "Next" );
 
         nextSwing.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -190,10 +190,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public Point2D getNextButtonLocation() {
-        if ( textArea.getWidth() == 0 ) {
-            System.out.println( "0xtextArea = " + textArea );
-            System.out.println( "getWidth() = " + getWidth() );
-        }
         return new Point2D.Double( textAreaPSwing.getFullBounds().getWidth() - nextSwing.getFullBounds().getWidth() - 5, textAreaPSwing.getFullBounds().getHeight() + 5 );
     }
 
@@ -225,7 +221,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         viewingPageIndex--;
         sectionAt( viewingPageIndex ).init();
 
-        System.out.println( "viewingPageIndex = " + viewingPageIndex );
         synchronizeFullText();
         showNextButton();
         relayoutChildren();
@@ -277,8 +272,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
             showedPrevButton = true;
             showPrevButton();
         }
-        System.out.println( "viewingPageIndex = " + viewingPageIndex );
-        System.out.println( "advancedToPageIndex = " + advancedToPageIndex );
     }
 
     private void showPrevButton() {
@@ -372,11 +365,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
     public PButton getPreviousButton() {
         return prevSwing;
-    }
-
-    public void teardown( SelfDrivenParticleModelApplication tutorialApplication ) {
-        super.teardown( tutorialApplication );
-        System.out.println( "Stopped model in " + this );
     }
 
     public SelfDrivenParticleModelApplication getTutorialApplication() {

@@ -32,7 +32,6 @@ public abstract class Page {
     public void init() {
         basicPage.setText( text );
         if ( noActivity ) {
-            System.out.println( "No activity: showing next button immediately." );
             basicPage.showNextButton();
             artificialAdvance();
         }

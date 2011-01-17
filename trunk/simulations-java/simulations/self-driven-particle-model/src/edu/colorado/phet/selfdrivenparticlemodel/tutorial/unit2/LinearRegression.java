@@ -63,9 +63,6 @@ public class LinearRegression {
         double beta1 = xybar / xxbar;
         double beta0 = ybar - beta1 * xbar;
 
-        // print results
-        System.out.println( "y   = " + beta1 + " * x + " + beta0 );
-
         // analyze results
         int df = n - 2;
         double rss = 0.0;      // residual sum of squares

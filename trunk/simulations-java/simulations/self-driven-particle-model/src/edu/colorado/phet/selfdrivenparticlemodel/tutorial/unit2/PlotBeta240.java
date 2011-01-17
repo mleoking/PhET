@@ -159,7 +159,6 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
                 return (Point2D) dataCopy.remove( 0 );
             }
         } );
-        System.out.println( "result = " + result );
         double x0 = getMinX( dataset );
         double x1 = getMaxX( dataset );
         Point2D lhs = new Point2D.Double( x0, result.evaluate( x0 ) );
