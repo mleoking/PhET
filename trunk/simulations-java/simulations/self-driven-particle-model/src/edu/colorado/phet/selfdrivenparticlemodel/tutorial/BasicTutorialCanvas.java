@@ -1,6 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.*;
+
 import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
@@ -8,15 +17,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp {
 
@@ -59,7 +59,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         particleModel = new ParticleModel( 550, 550 );
         particleModel.setRandomness( 0.0 );
         universeGraphic = new UniverseGraphic( particleModel );
-        if( SelfDrivenParticleModelApplication.isLowResolution() ) {
+        if ( SelfDrivenParticleModelApplication.isLowResolution() ) {
             universeGraphic.scale( 0.82 );
         }
         textArea = new TutorialTextArea();
@@ -133,7 +133,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public void clearParticles() {
-        while( getParticleModel().numParticles() > 0 ) {
+        while ( getParticleModel().numParticles() > 0 ) {
             removeParticle( getParticleModel().lastParticle() );
         }
     }
@@ -146,11 +146,11 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
     public void setNumberParticles( int numParticles ) {
         boolean changed = false;
-        while( numParticles < particleModel.numParticles() ) {
+        while ( numParticles < particleModel.numParticles() ) {
             removeParticle( particleModel.lastParticle() );
             changed = true;
         }
-        while( numParticles > particleModel.numParticles() ) {
+        while ( numParticles > particleModel.numParticles() ) {
             Color color = ParticleGraphic.newRandomColor();
             addParticle( random.nextDouble() * getParticleModel().getBoxWidth(), random.nextDouble() * particleModel.getBoxHeight(), random.nextDouble() * 2 * Math.PI, color );
             changed = false;
@@ -158,17 +158,17 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     private void removeParticle( Particle particle ) {
-        for( int i = 0; i < particleGraphics.size(); i++ ) {
-            ParticleGraphicWithTail particleGraphicWithTail = (ParticleGraphicWithTail)particleGraphics.get( i );
-            if( particleGraphicWithTail.getParticle() == particle ) {
+        for ( int i = 0; i < particleGraphics.size(); i++ ) {
+            ParticleGraphicWithTail particleGraphicWithTail = (ParticleGraphicWithTail) particleGraphics.get( i );
+            if ( particleGraphicWithTail.getParticle() == particle ) {
                 getUniverseGraphic().removeParticleGraphic( particleGraphicWithTail );
                 particleGraphics.remove( particleGraphicWithTail );
                 i--;
             }
         }
-        for( int i = 0; i < influenceGraphics.size(); i++ ) {
-            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic)influenceGraphics.get( i );
-            if( particleInfluenceGraphic.getParticle() == particle ) {
+        for ( int i = 0; i < influenceGraphics.size(); i++ ) {
+            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic) influenceGraphics.get( i );
+            if ( particleInfluenceGraphic.getParticle() == particle ) {
                 getUniverseGraphic().removeInfluenceGraphic( particleInfluenceGraphic );
                 influenceGraphics.remove( particleInfluenceGraphic );
                 i--;
@@ -178,9 +178,9 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public void addHalos() {
-        for( int i = 0; i < particleGraphics.size(); i++ ) {
-            ParticleGraphicWithTail particleGraphicWithTail = (ParticleGraphicWithTail)particleGraphics.get( i );
-            if( !isHaloShowing( particleGraphicWithTail.getParticle() ) ) {
+        for ( int i = 0; i < particleGraphics.size(); i++ ) {
+            ParticleGraphicWithTail particleGraphicWithTail = (ParticleGraphicWithTail) particleGraphics.get( i );
+            if ( !isHaloShowing( particleGraphicWithTail.getParticle() ) ) {
                 ParticleInfluenceGraphic particleInfluenceGraphic = new ParticleInfluenceGraphic( getParticleModel(), particleGraphicWithTail.getParticle() );
                 universeGraphic.addInfluenceGraphic( particleInfluenceGraphic );
                 influenceGraphics.add( particleInfluenceGraphic );
@@ -189,9 +189,9 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     private boolean isHaloShowing( Particle particle ) {
-        for( int i = 0; i < influenceGraphics.size(); i++ ) {
-            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic)influenceGraphics.get( i );
-            if( particleInfluenceGraphic.getParticle() == particle ) {
+        for ( int i = 0; i < influenceGraphics.size(); i++ ) {
+            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic) influenceGraphics.get( i );
+            if ( particleInfluenceGraphic.getParticle() == particle ) {
                 return true;
             }
         }
@@ -199,7 +199,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public Point2D getNextButtonLocation() {
-        if( textArea.getWidth() == 0 ) {
+        if ( textArea.getWidth() == 0 ) {
             System.out.println( "0xtextArea = " + textArea );
             System.out.println( "getWidth() = " + getWidth() );
         }
@@ -207,7 +207,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public void showNextButton() {
-        if( !getLayer().getChildrenReference().contains( nextSwing ) ) {
+        if ( !getLayer().getChildrenReference().contains( nextSwing ) ) {
             addChild( nextSwing );
             nextSwing.setOffset( getNextButtonLocation() );
         }
@@ -215,17 +215,17 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public void hideNextButton() {
-        while( getLayer().getChildrenReference().contains( nextSwing ) ) {
+        while ( getLayer().getChildrenReference().contains( nextSwing ) ) {
             removeChild( nextSwing );
         }
         relayoutChildren();
     }
 
     private void previousSection() {
-        if( viewingPageIndex == 0 && tutorialApplication.isFirstUnit() ) {
+        if ( viewingPageIndex == 0 && tutorialApplication.isFirstUnit() ) {
             return;
         }
-        else if( viewingPageIndex == 0 ) {
+        else if ( viewingPageIndex == 0 ) {
             sectionAt( viewingPageIndex ).teardown();
             tutorialApplication.previousUnit();
             return;
@@ -250,23 +250,23 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     Page sectionAt( int i ) {
-        return (Page)pages.get( i );
+        return (Page) pages.get( i );
     }
 
     private void synchronizeLastPage() {
         String visibleText = sectionAt( viewingPageIndex ).getVisibleText();
         textArea.setText( visibleText );
-        if( sectionAt( viewingPageIndex ).getAdvanced() ) {
+        if ( sectionAt( viewingPageIndex ).getAdvanced() ) {
             showNextButton();
         }
     }
 
     private void nextSection() {
-        if( viewingPageIndex < advancedToPageIndex ) {
+        if ( viewingPageIndex < advancedToPageIndex ) {
             sectionAt( viewingPageIndex ).teardown();
             viewingPageIndex++;
             sectionAt( viewingPageIndex ).init();
-            if( viewingPageIndex == advancedToPageIndex ) {
+            if ( viewingPageIndex == advancedToPageIndex ) {
                 synchronizeLastPage();
             }
             else {
@@ -274,7 +274,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
             }
         }
         else {
-            if( advancedToPageIndex + 1 < pageMakers.length ) {
+            if ( advancedToPageIndex + 1 < pageMakers.length ) {
                 sectionAt( viewingPageIndex ).teardown();
                 //todo check for available in array
                 advancedToPageIndex++;
@@ -288,7 +288,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 //            currentPage = next;
 //            next.init();
         }
-        if( !showedPrevButton ) {
+        if ( !showedPrevButton ) {
             showedPrevButton = true;
             showPrevButton();
         }
@@ -297,7 +297,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     private void showPrevButton() {
-        if( !getLayer().getChildrenReference().contains( prevSwing ) ) {
+        if ( !getLayer().getChildrenReference().contains( prevSwing ) ) {
             addChild( prevSwing );
             relayoutChildren();
         }
@@ -311,7 +311,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         particle.setLocation( x, y );//redundant?
         universeGraphic.addParticleGraphic( particleGraphic );
         particleGraphics.add( particleGraphic );
-        if( halosVisible ) {
+        if ( halosVisible ) {
             addHalos();
         }
     }
@@ -333,7 +333,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     protected void relayoutChildren() {
 
         super.relayoutChildren();
-        if( textArea != null ) {
+        if ( textArea != null ) {
             textArea.setBounds( 0, 0, getWidth(), textBoundsHeight );
             textAreaPSwing.doReshape();
 //            textAreaPSwing.reshape();
@@ -346,14 +346,14 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         nextSwing.setOffset( getNextButtonLocation() );
         prevSwing.setOffset( 2 + universeGraphic.getFullBounds().getMaxX(), nextSwing.getFullBounds().getY() );
 
-        if( getCurrentPage() != null ) {
+        if ( getCurrentPage() != null ) {
 //        if( currentPage != null ) {
             getCurrentPage().relayoutChildren();
         }
     }
 
     private Page getCurrentPage() {
-        if( viewingPageIndex >= 0 && viewingPageIndex < pages.size() ) {
+        if ( viewingPageIndex >= 0 && viewingPageIndex < pages.size() ) {
             return sectionAt( viewingPageIndex );
         }
         else {
@@ -362,14 +362,14 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     private void testTopLeft( PNode node ) {
-        if( node != null ) {
+        if ( node != null ) {
             topLeft( node );
         }
     }
 
     public void setHalosVisible( boolean halosVisible ) {
         this.halosVisible = halosVisible;
-        if( halosVisible ) {
+        if ( halosVisible ) {
             addHalos();
         }
         else {
@@ -378,8 +378,8 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     private void removeHalos() {
-        for( int i = 0; i < influenceGraphics.size(); i++ ) {
-            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic)influenceGraphics.get( i );
+        for ( int i = 0; i < influenceGraphics.size(); i++ ) {
+            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic) influenceGraphics.get( i );
             influenceGraphics.remove( particleInfluenceGraphic );
             getUniverseGraphic().removeInfluenceGraphic( particleInfluenceGraphic );
             i--;

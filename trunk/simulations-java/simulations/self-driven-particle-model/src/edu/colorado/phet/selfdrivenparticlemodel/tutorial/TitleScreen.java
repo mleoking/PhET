@@ -1,6 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
@@ -11,17 +21,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class TitleScreen extends PSwingCanvas {
     private SelfDrivenParticleModelApplication tutorialApplication;
@@ -37,14 +36,14 @@ public class TitleScreen extends PSwingCanvas {
         setZoomEventHandler( null );
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "self-driven-particle-model/images/title-page3.jpg" );
-            if( SelfDrivenParticleModelApplication.isLowResolution() ) {
+            if ( SelfDrivenParticleModelApplication.isLowResolution() ) {
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, tutorialApplication.getTutorialFrame().getHeight() - 30 );
             }
             titleImage = new PImage( image );
             titleImage.setOffset( 100, 100 );
             addChild( titleImage );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -66,14 +65,14 @@ public class TitleScreen extends PSwingCanvas {
             aboutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 //                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), new PhetAboutDialog.SimpleDialogConfig("Self-Driven Particle Model", "",PhetApplicationConfig.getVersion( simName ).formatForAboutDialog(),PhetApplicationConfig.getCredits( simName )) ).show();
-                    new PhetAboutDialogAdapter( tutorialApplication.getTutorialFrame(), new PhetApplicationConfig( new String[0], "self-driven-particle-model") ).show();
+                    new PhetAboutDialogAdapter( tutorialApplication.getTutorialFrame(), new PhetApplicationConfig( new String[0], "self-driven-particle-model" ) ).show();
                 }
             } );
             aboutSwing = new PSwing( aboutButton );
 
             addChild( aboutSwing );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 

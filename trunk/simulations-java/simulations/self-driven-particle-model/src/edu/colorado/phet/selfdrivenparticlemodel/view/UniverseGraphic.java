@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PClip;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class UniverseGraphic extends PNode {
     private PClip particleLayer;

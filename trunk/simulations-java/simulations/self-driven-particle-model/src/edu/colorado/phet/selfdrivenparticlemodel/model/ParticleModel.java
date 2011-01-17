@@ -1,20 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class ParticleModel {
     private ArrayList particles = new ArrayList();
     private double radius = 60.0;
     private Random random = new Random();
     private double speed = 5.0;
-//    private double angleRandomness = 0;//zero to 2pi
+    //    private double angleRandomness = 0;//zero to 2pi
     //    private double angleRandomness = Math.PI * 2 / 10;//zero to 2pi
     private double randomness = Math.PI * 2;
     private double boxWidth;
@@ -39,10 +38,10 @@ public class ParticleModel {
     public void step( double dt ) {
         updateAngles();
         moveParticles( dt );
-        if( factorOutNetMovement ) {
+        if ( factorOutNetMovement ) {
             factorOutNetMovement();
         }
-        if( doCountClusters ) {
+        if ( doCountClusters ) {
             int[] clusters = new ClusterAssignment().assignClusters( this );
 
             Arrays.sort( clusters );
@@ -52,8 +51,8 @@ public class ParticleModel {
 //        System.out.println( "maxClusterID = " + maxClusterID );
 //        System.out.println( "clusters.length = " + clusters.length );
         time++;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.steppedInTime();
         }
 
@@ -62,8 +61,8 @@ public class ParticleModel {
     private void factorOutNetMovement() {
         double dx = 0;
         double dy = 0;
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             dx += speed * Math.cos( particle.getAngle() );
             dy += speed * Math.sin( particle.getAngle() );
         }
@@ -73,16 +72,16 @@ public class ParticleModel {
     }
 
     private void translateAll( double dx, double dy ) {
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             particle.translate( dx, dy );
 
         }
     }
 
     private void moveParticles( double dt ) {
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             double dx = speed * Math.cos( particle.getAngle() ) * dt;
             double dy = speed * Math.sin( particle.getAngle() ) * dt;
             particle.translate( dx, dy );
@@ -91,20 +90,20 @@ public class ParticleModel {
     }
 
     private void wrapParticles() {
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             double dx = 0;
             double dy = 0;
-            if( particle.getX() < 0 ) {
+            if ( particle.getX() < 0 ) {
                 dx += getBoxWidth();
             }
-            if( particle.getY() < 0 ) {
+            if ( particle.getY() < 0 ) {
                 dy += getBoxHeight();
             }
-            if( particle.getX() > getBoxWidth() ) {
+            if ( particle.getX() > getBoxWidth() ) {
                 dx -= getBoxWidth();
             }
-            if( particle.getY() > getBoxHeight() ) {
+            if ( particle.getY() > getBoxHeight() ) {
                 dy -= getBoxHeight();
             }
             particle.translate( dx, dy );
@@ -121,19 +120,19 @@ public class ParticleModel {
 
     private void updateAngles() {
         double[] newAngles = new double[particles.size()];
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             Particle[] neighbors = getNeighborsInRadius( particle );
             newAngles[i] = getNewAngle( particle, neighbors );
         }
-        for( int i = 0; i < newAngles.length; i++ ) {
+        for ( int i = 0; i < newAngles.length; i++ ) {
             double newAngle = newAngles[i];
             particleAt( i ).setAngle( newAngle );
         }
     }
 
     public Particle particleAt( int i ) {
-        return (Particle)particles.get( i );
+        return (Particle) particles.get( i );
     }
 
     public long getTime() {
@@ -143,7 +142,7 @@ public class ParticleModel {
     private double getNewAngle( Particle particle, Particle[] neighbors ) {
         double x = 0;
         double y = 0;
-        for( int i = 0; i < neighbors.length; i++ ) {
+        for ( int i = 0; i < neighbors.length; i++ ) {
             Particle neighbor = neighbors[i];
             x += Math.cos( neighbor.getAngle() );
             y += Math.sin( neighbor.getAngle() );
@@ -167,13 +166,13 @@ public class ParticleModel {
 
     private Particle[] getNeighborsInRadius( Particle particle, double radius ) {
         ArrayList all = new ArrayList();
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle1 = (Particle)particles.get( i );
-            if( particle1.distance( particle ) <= radius ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle1 = (Particle) particles.get( i );
+            if ( particle1.distance( particle ) <= radius ) {
                 all.add( particle1 );
             }
         }
-        return (Particle[])all.toArray( new Particle[0] );
+        return (Particle[]) all.toArray( new Particle[0] );
     }
 
     public int numParticles() {
@@ -185,10 +184,10 @@ public class ParticleModel {
     }
 
     public void setRandomness( double randomness ) {
-        if( this.randomness != randomness ) {
+        if ( this.randomness != randomness ) {
             this.randomness = randomness;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.randomnessChanged();
             }
         }
@@ -199,10 +198,10 @@ public class ParticleModel {
     }
 
     public void setRadius( double radius ) {
-        if( this.radius != radius ) {
+        if ( this.radius != radius ) {
             this.radius = radius;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.radiusChanged();
             }
         }
@@ -234,8 +233,8 @@ public class ParticleModel {
     }
 
     private void notifyCountChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.particleCountChanged();
         }
     }
@@ -250,15 +249,15 @@ public class ParticleModel {
     }
 
     public void randomize() {
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             particle.setAngle( random.nextDouble() * Math.PI * 2 );
             particle.setLocation( random.nextDouble() * boxWidth, random.nextDouble() * boxHeight );
         }
     }
 
     public void removeListener( Listener listener ) {
-        while( listeners.contains( listener ) ) {
+        while ( listeners.contains( listener ) ) {
             listeners.remove( listener );
         }
     }
@@ -298,15 +297,15 @@ public class ParticleModel {
     }
 
     public void addListener( Listener listener ) {
-        if( !listeners.contains( listener ) ) {
+        if ( !listeners.contains( listener ) ) {
             listeners.add( listener );
         }
     }
 
     public double getOrderParameter() {
         Vector2D sum = new Vector2D();
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             ImmutableVector2D velocityVector = getVelocity( particle );
             sum.add( velocityVector );
         }

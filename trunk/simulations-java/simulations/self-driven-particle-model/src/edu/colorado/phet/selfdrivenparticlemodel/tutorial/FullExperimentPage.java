@@ -1,17 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2.OrderParameterVsTimeChart;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2.PlotBeta240;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 
 public class FullExperimentPage extends PlotBeta240 {
     private PButton plotButton;
@@ -38,11 +39,11 @@ public class FullExperimentPage extends PlotBeta240 {
             }
 
         } );
-        orderParameterVsTimeChart = new OrderParameterVsTimeChart( (int)( 500 / MOD ) );
+        orderParameterVsTimeChart = new OrderParameterVsTimeChart( (int) ( 500 / MOD ) );
         tutorialChartFrame = new TutorialChartFrame( "Plot", orderParameterVsTimeChart.getChart(), getBasePage().getTutorialApplication().getTutorialFrame() );
         listener = new ParticleModel.Adapter() {
             public void steppedInTime() {
-                if( getParticleModel().getTime() % MOD == 0 ) {
+                if ( getParticleModel().getTime() % MOD == 0 ) {
                     super.steppedInTime();
                     sampleData();
                 }
@@ -52,7 +53,7 @@ public class FullExperimentPage extends PlotBeta240 {
         final JCheckBox jcb = new JCheckBox( "Show Cluster Count", false );
         jcb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( jcb.isSelected() ) {
+                if ( jcb.isSelected() ) {
                     getParticleModel().setComputeClusterCount( true );
                     addChild( clusterCountGraphic );
                     getBasePage().getRoot().addActivity( clusterCountActivity );
@@ -75,7 +76,7 @@ public class FullExperimentPage extends PlotBeta240 {
             }
         };
         getNumberSliderPanel().setMaxNumber( 200 );
-        getNumberSliderPanel().getModelSlider().setModelTicks( new double[]{0, 50, 100, 150, 200} );
+        getNumberSliderPanel().getModelSlider().setModelTicks( new double[] { 0, 50, 100, 150, 200 } );
 
         randomize = new PButton( page, "Randomize" );
         randomize.addActionListener( new ActionListener() {

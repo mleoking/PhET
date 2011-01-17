@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
+
+import javax.swing.*;
+
 import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.umd.cs.piccolo.activities.PActivity;
-
-import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Random;
 
 public class ParticleApplication implements IParticleApp {
     private JFrame frame;
@@ -32,7 +33,7 @@ public class ParticleApplication implements IParticleApp {
             }
         } );
 
-        for( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
 //        for( int i = 0; i < 3; i++ ) {
             addParticle();
         }
@@ -61,10 +62,10 @@ public class ParticleApplication implements IParticleApp {
     }
 
     public void setNumberParticles( int numParticles ) {
-        while( numParticles < particleModel.numParticles() ) {
+        while ( numParticles < particleModel.numParticles() ) {
             removeParticle( particleModel.lastParticle() );
         }
-        while( numParticles > particleModel.numParticles() ) {
+        while ( numParticles > particleModel.numParticles() ) {
             addParticle();
         }
     }

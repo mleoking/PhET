@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
 import edu.colorado.phet.selfdrivenparticlemodel.view.RandomnessSlider;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class AddingRandomness50 extends Page {
     private PSwing pSwing;
@@ -20,7 +20,7 @@ public class AddingRandomness50 extends Page {
         final RandomnessSlider randomnessSlider = new RandomnessSlider( getParticleModel() );
         randomnessSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if( randomnessSlider.getValue() == 6.28 ) {
+                if ( randomnessSlider.getValue() == 6.28 ) {
                     advance();
                 }
             }

@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
+import java.text.DecimalFormat;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 
 public class NumberSliderPanel extends HorizontalLayoutPanel {
     private ModelSlider modelSlider;
@@ -23,14 +24,14 @@ public class NumberSliderPanel extends HorizontalLayoutPanel {
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double value = modelSlider.getValue();
-                int val = (int)value;
+                int val = (int) value;
                 particleApp.setNumberParticles( val );
             }
         } );
         add( modelSlider );
-        if( ticks != null ) {
+        if ( ticks != null ) {
             double[] ticky = new double[ticks.length];
-            for( int i = 0; i < ticky.length; i++ ) {
+            for ( int i = 0; i < ticky.length; i++ ) {
                 ticky[i] = ticks[i];
 
             }

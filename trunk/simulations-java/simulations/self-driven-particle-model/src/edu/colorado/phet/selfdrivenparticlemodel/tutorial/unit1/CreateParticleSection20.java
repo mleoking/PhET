@@ -1,14 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class CreateParticleSection20 extends Page {
     private PSwing createParticle;

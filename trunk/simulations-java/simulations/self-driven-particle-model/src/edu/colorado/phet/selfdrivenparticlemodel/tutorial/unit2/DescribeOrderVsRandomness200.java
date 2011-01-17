@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.io.IOException;
 
 public class DescribeOrderVsRandomness200 extends Page {
     private PImage sample;
@@ -28,7 +28,7 @@ public class DescribeOrderVsRandomness200 extends Page {
             sample = new PImage( ImageLoader.loadBufferedImage( "self-driven-particle-model/images/plot-example.png" ) );
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

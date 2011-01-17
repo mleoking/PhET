@@ -1,17 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 
 public class PlotOrderParameterVsRandomness extends OrderParameter90 {
     //    private PButton plotButton;
@@ -44,13 +45,13 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
 //
 //
 //        } );
-        orderParameterVsRandomnessChart = new OrderParameterVsRandomnessChart( (int)( 100000 / MOD ) );
+        orderParameterVsRandomnessChart = new OrderParameterVsRandomnessChart( (int) ( 100000 / MOD ) );
         tutorialChartFrame = new TutorialChartFrame( "Plot",
                                                      orderParameterVsRandomnessChart.getChart(),
                                                      getBasePage().getTutorialApplication().getTutorialFrame() );
         listener = new ParticleModel.Adapter() {
             public void steppedInTime() {
-                if( getParticleModel().getTime() % MOD == 0 ) {
+                if ( getParticleModel().getTime() % MOD == 0 ) {
                     super.steppedInTime();
                     sampleData();
                 }
@@ -73,7 +74,7 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
                 public void actionPerformed( ActionEvent e ) {
                     showPlot();
                     startDataTaking();
-                    if( advanceWhenStartData() ) {
+                    if ( advanceWhenStartData() ) {
                         advance();
                     }
                 }
@@ -97,7 +98,7 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
 
     private void sampleData() {
         Point2D sample = sampleDataValue();
-        if( isLegal( sample ) ) {
+        if ( isLegal( sample ) ) {
             orderParameterVsRandomnessChart.addDataPoint( sample.getX(), sample.getY() );
         }
     }

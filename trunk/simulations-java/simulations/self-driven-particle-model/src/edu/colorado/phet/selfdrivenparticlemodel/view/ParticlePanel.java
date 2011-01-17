@@ -1,6 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.experiment.JFreeChartExperiment2;
@@ -10,14 +19,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class ParticlePanel extends PhetPCanvas {
     private ParticleModel particleModel;
@@ -41,13 +42,13 @@ public class ParticlePanel extends PhetPCanvas {
         addScreenChild( influenceLayer );
 
         particleLayer = new PNode();
-        for( int i = 0; i < model.numParticles(); i++ ) {
+        for ( int i = 0; i < model.numParticles(); i++ ) {
             Particle p = model.particleAt( i );
             addParticleGraphic( p );
         }
         addScreenChild( particleLayer );
 
-        for( int i = 0; i < model.numParticles(); i++ ) {
+        for ( int i = 0; i < model.numParticles(); i++ ) {
             Particle p = model.particleAt( i );
             addGraphic( p );
         }
@@ -99,7 +100,7 @@ public class ParticlePanel extends PhetPCanvas {
         final JSpinner speedSpinner = new JSpinner( new SpinnerNumberModel( model.getSpeed(), 0, 10, 0.1 ) );
         speedSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setSpeed( ( (Number)speedSpinner.getValue() ).doubleValue() );
+                model.setSpeed( ( (Number) speedSpinner.getValue() ).doubleValue() );
             }
         } );
         speedPanel.add( speedSpinner );
@@ -162,7 +163,7 @@ public class ParticlePanel extends PhetPCanvas {
 //            ParticleGraphic particleGraphic = new ParticleGraphic( this, p );
 //            ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( this, p ,new double[]{8,6,3,2,1});
 //            ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( this, p ,new double[]{8,7,6,5,4,3,2});
-        ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( p, new double[]{8, 7, 6, 5, 4}, 1 );
+        ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( p, new double[] { 8, 7, 6, 5, 4 }, 1 );
 //            ParticleGraphicWithTail particleGraphic = new ParticleGraphicWithTail( this, p ,new double[]{8,8,7,7,6,6,5,5},2);
         particleLayer.addChild( particleGraphic );
         particleGraphics.add( particleGraphic );
@@ -173,24 +174,24 @@ public class ParticlePanel extends PhetPCanvas {
     }
 
     private void setShowInteractionRadius( boolean selected ) {
-        if( showInteractionRadius != selected ) {
+        if ( showInteractionRadius != selected ) {
             this.showInteractionRadius = selected;
-            if( showInteractionRadius && !getLayer().isAncestorOf( influenceLayer ) ) {
+            if ( showInteractionRadius && !getLayer().isAncestorOf( influenceLayer ) ) {
                 addScreenChild( 0, influenceLayer );
             }
-            else if( !showInteractionRadius && getLayer().isAncestorOf( influenceLayer ) ) {
+            else if ( !showInteractionRadius && getLayer().isAncestorOf( influenceLayer ) ) {
                 removeScreenChild( influenceLayer );
             }
         }
     }
 
     private void setShowParticles( boolean selected ) {
-        if( showParticles != selected ) {
+        if ( showParticles != selected ) {
             this.showParticles = selected;
-            if( showParticles && !getLayer().isAncestorOf( particleLayer ) ) {
+            if ( showParticles && !getLayer().isAncestorOf( particleLayer ) ) {
                 addScreenChild( particleLayer );
             }
-            else if( !showParticles && getLayer().isAncestorOf( particleLayer ) ) {
+            else if ( !showParticles && getLayer().isAncestorOf( particleLayer ) ) {
                 removeScreenChild( particleLayer );
             }
         }
@@ -205,17 +206,17 @@ public class ParticlePanel extends PhetPCanvas {
     }
 
     public void removeParticle( Particle particle ) {
-        for( int i = 0; i < influenceGraphics.size(); i++ ) {
-            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic)influenceGraphics.get( i );
-            if( particleInfluenceGraphic.getParticle() == particle ) {
+        for ( int i = 0; i < influenceGraphics.size(); i++ ) {
+            ParticleInfluenceGraphic particleInfluenceGraphic = (ParticleInfluenceGraphic) influenceGraphics.get( i );
+            if ( particleInfluenceGraphic.getParticle() == particle ) {
                 influenceGraphics.remove( particleInfluenceGraphic );
                 influenceLayer.removeChild( particleInfluenceGraphic );
                 i--;
             }
         }
-        for( int i = 0; i < particleGraphics.size(); i++ ) {
-            ParticleGraphicWithTail particleGraphicWithTail = (ParticleGraphicWithTail)particleGraphics.get( i );
-            if( particleGraphicWithTail.getParticle() == particle ) {
+        for ( int i = 0; i < particleGraphics.size(); i++ ) {
+            ParticleGraphicWithTail particleGraphicWithTail = (ParticleGraphicWithTail) particleGraphics.get( i );
+            if ( particleGraphicWithTail.getParticle() == particle ) {
                 particleGraphics.remove( particleGraphicWithTail );
                 particleLayer.removeChild( particleGraphicWithTail );
                 i--;

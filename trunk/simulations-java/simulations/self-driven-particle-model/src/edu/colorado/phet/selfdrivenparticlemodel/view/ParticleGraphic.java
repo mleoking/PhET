@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.view;
 
-import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
+
+import edu.colorado.phet.selfdrivenparticlemodel.model.Particle;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 public class ParticleGraphic extends PNode {
     private Particle p;
@@ -44,7 +44,7 @@ public class ParticleGraphic extends PNode {
     public static Color newRandomColor() {
         float h = random.nextFloat();
         float s = random.nextFloat();
-        float b = (float)( (float)( random.nextFloat() * 0.8 ) + 0.07 );
+        float b = (float) ( (float) ( random.nextFloat() * 0.8 ) + 0.07 );
         Color color = Color.getHSBColor( h, s, b );
         return color;
     }

@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.experiment;
 
-import edu.colorado.phet.selfdrivenparticlemodel.view.ParticleApplication;
-import edu.umd.cs.piccolo.activities.PActivity;
+import javax.swing.*;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -12,7 +12,8 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
+import edu.colorado.phet.selfdrivenparticlemodel.view.ParticleApplication;
+import edu.umd.cs.piccolo.activities.PActivity;
 
 public class JFreeChartExperiment {
     private long lastTime = 0;
@@ -75,7 +76,7 @@ public class JFreeChartExperiment {
         double randomness = particleApplication.getParticleModel().getRandomness();
         particleApplication.getParticleModel().randomize();
         double angleRandomness = randomness - Math.PI / 12;
-        if( angleRandomness < 0 ) {
+        if ( angleRandomness < 0 ) {
             activity.terminate();
         }
         particleApplication.getParticleModel().setRandomness( angleRandomness );

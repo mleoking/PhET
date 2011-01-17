@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1.FullFeatureBaseClass;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.nodes.PText;
-
 import java.awt.*;
 import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
+import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1.FullFeatureBaseClass;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.nodes.PText;
 
 public class OrderParameter90 extends FullFeatureBaseClass {
     private PText orderParamText;
@@ -31,7 +31,7 @@ public class OrderParameter90 extends FullFeatureBaseClass {
             protected void activityStep( long elapsedTime ) {
                 super.activityStep( elapsedTime );
                 updateText();
-                if( isOrderParamaterAwesome() ) {
+                if ( isOrderParamaterAwesome() ) {
                     advance();
                 }
             }

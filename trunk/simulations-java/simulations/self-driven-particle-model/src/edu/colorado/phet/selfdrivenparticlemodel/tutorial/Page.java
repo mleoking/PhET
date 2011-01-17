@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.util.JSAudioPlayer;
 import edu.colorado.phet.selfdrivenparticlemodel.view.UniverseGraphic;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.geom.Point2D;
 
 public abstract class Page {
     //    private double dy = 1;
@@ -32,7 +32,7 @@ public abstract class Page {
 
     public void init() {
         basicPage.setText( text );
-        if( noActivity ) {
+        if ( noActivity ) {
             System.out.println( "No activity: showing next button immediately." );
             basicPage.showNextButton();
             artificialAdvance();
@@ -53,8 +53,8 @@ public abstract class Page {
     }
 
     protected void advance() {
-        if( !advanced ) {
-            if( getFinishText() != null ) {
+        if ( !advanced ) {
+            if ( getFinishText() != null ) {
                 showFinishText();
             }
             playHarp();
@@ -64,7 +64,7 @@ public abstract class Page {
     }
 
     protected void showFinishText() {
-        if( !didShowFinishText ) {
+        if ( !didShowFinishText ) {
             append( getFinishText() );
             didShowFinishText = true;
         }
@@ -86,13 +86,13 @@ public abstract class Page {
     }
 
     public void addChild( PNode node ) {
-        if( !getBasePage().getLayer().getChildrenReference().contains( node ) ) {
+        if ( !getBasePage().getLayer().getChildrenReference().contains( node ) ) {
             getBasePage().addChild( node );
         }
     }
 
     public void removeChild( PNode node ) {
-        while( getBasePage().getLayer().getChildrenReference().contains( node ) ) {
+        while ( getBasePage().getLayer().getChildrenReference().contains( node ) ) {
             getBasePage().removeChild( node );
         }
     }
@@ -126,7 +126,7 @@ public abstract class Page {
     }
 
     public String getVisibleText() {
-        if( advanced ) {
+        if ( advanced ) {
             return getFullText();
         }
         else {

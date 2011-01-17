@@ -43,7 +43,7 @@ public class FullFeatures80 extends FullFeatureBaseClass {
     }
 
     private void checkFinish() {
-        if( usedRandomness && usedNumber && usedRange ) {
+        if ( usedRandomness && usedNumber && usedRange ) {
             advance();
         }
     }

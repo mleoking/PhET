@@ -1,16 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Page;
 import edu.colorado.phet.selfdrivenparticlemodel.view.InteractionRadiusControl;
 import edu.colorado.phet.selfdrivenparticlemodel.view.NumberSliderPanel;
 import edu.colorado.phet.selfdrivenparticlemodel.view.RandomnessSlider;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FullFeatureBaseClass extends Page {
     protected PSwing checkBoxGraphic;
@@ -31,7 +32,7 @@ public class FullFeatureBaseClass extends Page {
         checkBoxGraphic = new PSwing( basicPage, showHalos );
         RandomnessSlider randomnessSlider = new RandomnessSlider( getParticleModel() );
         randomnessGraphic = new PSwing( basicPage, randomnessSlider );
-        numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 1, new int[]{0, 10, 20, 30, 40, 50} );
+        numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 1, new int[] { 0, 10, 20, 30, 40, 50 } );
         particleCountGraphic = new PSwing( basicPage, numberSliderPanel );
         InteractionRadiusControl interactionRadiusControl = new InteractionRadiusControl( getParticleModel() );
         radiusControlGraphic = new PSwing( basicPage, interactionRadiusControl );

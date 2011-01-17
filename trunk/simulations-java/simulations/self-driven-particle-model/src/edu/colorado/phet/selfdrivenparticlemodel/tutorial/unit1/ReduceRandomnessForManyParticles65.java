@@ -23,7 +23,7 @@ public class ReduceRandomnessForManyParticles65 extends Page {
         getParticleModel().addListener( new ParticleModel.Adapter() {
             public void randomnessChanged() {
                 super.randomnessChanged();
-                if( getParticleModel().getRandomness() <= 0.1 ) {
+                if ( getParticleModel().getRandomness() <= 0.1 ) {
                     advance();
                 }
             }

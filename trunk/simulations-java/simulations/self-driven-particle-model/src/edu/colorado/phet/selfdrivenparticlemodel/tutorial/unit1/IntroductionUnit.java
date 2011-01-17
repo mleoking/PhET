@@ -8,7 +8,7 @@ import edu.colorado.phet.selfdrivenparticlemodel.tutorial.Unit;
 
 public class IntroductionUnit extends Unit {
     public IntroductionUnit( SelfDrivenParticleModelApplication tutorialApplication ) {
-        TutorialCanvas[] pages = new TutorialCanvas[]{new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) )};
+        TutorialCanvas[] pages = new TutorialCanvas[] { new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) ) };
         setCanvases( pages );
     }
 }
