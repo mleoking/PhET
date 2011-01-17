@@ -2,6 +2,10 @@
 package edu.colorado.phet.fluidpressureandflow.model;
 
 /**
+ * This was a feasibility test for showing a balloon and its compression under different pressures.
+ * Currently not used since under real world scenarios the change in size of a balloon would be too small to see
+ * But we left this feature here in case we add support for it later.
+ *
  * @author Sam Reid
  */
 public class Balloon extends PressureSensor {

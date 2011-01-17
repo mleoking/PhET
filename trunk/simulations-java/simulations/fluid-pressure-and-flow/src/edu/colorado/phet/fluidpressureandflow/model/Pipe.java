@@ -23,8 +23,11 @@ import edu.colorado.phet.common.spline.CubicSpline2D;
 public class Pipe {
     private ArrayList<CrossSection> controlPoints = new ArrayList<CrossSection>();
     private ArrayList<CrossSection> spline;
-    private boolean dirty = true;
+    private boolean dirty = true;//Flag to improve performance
 
+    /**
+     * Creates a pipe with a default shape.
+     */
     public Pipe() {
         controlPoints.add( new CrossSection( -6, -3, -1 ) );
         controlPoints.add( new CrossSection( -4, -3, -1 ) );

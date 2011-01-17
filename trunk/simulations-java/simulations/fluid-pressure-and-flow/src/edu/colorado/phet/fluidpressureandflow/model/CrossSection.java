@@ -8,6 +8,10 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * The cross section of a pipe, representing a vertical slice and the top and bottom points,
+ * which can be moved by the user.  This class supports movement in x and y directions, but the user interface
+ * only permits movement in the vertical (y) direction.
+ *
  * @author Sam Reid
  */
 public class CrossSection {
