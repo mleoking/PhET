@@ -44,7 +44,7 @@ public class RandomnessSlider extends ModelSlider {
         SelfDrivenParticleModelApplication tutorialApplication = new SelfDrivenParticleModelApplication();
         BasicTutorialCanvas pane = new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) );
         pane.setZoomEventHandler( new PZoomEventHandler() );
-        pane.addChild( new PSwing( pane, new RandomnessSlider( new ParticleModel( 400, 400 ) ) ) );
+        pane.addChild( new PSwing( new RandomnessSlider( new ParticleModel( 400, 400 ) ) ) );
         frame.setContentPane( pane );
         frame.pack();
         frame.setSize( 400, 400 );

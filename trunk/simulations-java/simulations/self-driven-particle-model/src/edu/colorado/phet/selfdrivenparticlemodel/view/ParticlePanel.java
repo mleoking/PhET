@@ -52,12 +52,12 @@ public class ParticlePanel extends PhetPCanvas {
         }
 
         final RandomnessSlider randomnessSlider = new RandomnessSlider( particleApplication.getParticleModel() );
-        PSwing randomnessGraphic = new PSwing( this, randomnessSlider );
+        PSwing randomnessGraphic = new PSwing( randomnessSlider );
         randomnessGraphic.setOffset( universeGraphic.getFullBounds().getWidth(), 0 );
         addScreenChild( randomnessGraphic );
 
         InteractionRadiusControl interactionRadiusControl = new InteractionRadiusControl( model );
-        PSwing radiusGraphic = new PSwing( this, interactionRadiusControl );
+        PSwing radiusGraphic = new PSwing( interactionRadiusControl );
         radiusGraphic.setOffset( universeGraphic.getFullBounds().getWidth(), randomnessGraphic.getFullBounds().getMaxY() );
         addScreenChild( radiusGraphic );
 
@@ -67,7 +67,7 @@ public class ParticlePanel extends PhetPCanvas {
                 model.setFactorOutNetMovement( factorOut.isSelected() );
             }
         } );
-        PSwing boxSwing = new PSwing( this, factorOut );
+        PSwing boxSwing = new PSwing( factorOut );
         boxSwing.setOffset( radiusGraphic.getFullBounds().getX(), radiusGraphic.getFullBounds().getMaxY() );
         addScreenChild( boxSwing );
 
@@ -77,7 +77,7 @@ public class ParticlePanel extends PhetPCanvas {
                 setShowInteractionRadius( showInteractionRadius.isSelected() );
             }
         } );
-        PSwing interactionRadiusGraphic = new PSwing( this, showInteractionRadius );
+        PSwing interactionRadiusGraphic = new PSwing( showInteractionRadius );
         interactionRadiusGraphic.setOffset( boxSwing.getFullBounds().getX(), boxSwing.getFullBounds().getMaxY() );
         addScreenChild( interactionRadiusGraphic );
 
@@ -87,7 +87,7 @@ public class ParticlePanel extends PhetPCanvas {
                 setShowParticles( showParticles.isSelected() );
             }
         } );
-        PSwing showParticleGraphic = new PSwing( this, showParticles );
+        PSwing showParticleGraphic = new PSwing( showParticles );
         showParticleGraphic.setOffset( interactionRadiusGraphic.getFullBounds().getX(), interactionRadiusGraphic.getFullBounds().getMaxY() );
         addScreenChild( showParticleGraphic );
 
@@ -101,12 +101,12 @@ public class ParticlePanel extends PhetPCanvas {
             }
         } );
         speedPanel.add( speedSpinner );
-        PSwing speedGraphic = new PSwing( this, speedPanel );
+        PSwing speedGraphic = new PSwing( speedPanel );
         speedGraphic.setOffset( showParticleGraphic.getFullBounds().getX(), showParticleGraphic.getFullBounds().getMaxY() );
         addScreenChild( speedGraphic );
 
         NumberSliderPanel numberSliderPanel = new NumberSliderPanel( particleApplication );
-        PSwing numGraphic = new PSwing( this, numberSliderPanel );
+        PSwing numGraphic = new PSwing( numberSliderPanel );
         numGraphic.setOffset( speedGraphic.getFullBounds().getX(), speedGraphic.getFullBounds().getMaxY() );
         addScreenChild( numGraphic );
 
@@ -137,7 +137,7 @@ public class ParticlePanel extends PhetPCanvas {
                 new ChartExperiment( particleApplication, "", "Randomness", "Order Parameter", "Order Parameter vs. Randomness" ).start();
             }
         } );
-        PSwing ps = new PSwing( this, but );
+        PSwing ps = new PSwing( but );
         ps.setOffset( numGraphic.getFullBounds().x, numGraphic.getFullBounds().getMaxY() );
         addScreenChild( ps );
     }

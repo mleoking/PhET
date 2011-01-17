@@ -24,7 +24,7 @@ public class OptionalHalos70 extends Page {
                 advance();
             }
         } );
-        checkBox = new PSwing( basicPage, showHalos );
+        checkBox = new PSwing( showHalos );
 
     }
 

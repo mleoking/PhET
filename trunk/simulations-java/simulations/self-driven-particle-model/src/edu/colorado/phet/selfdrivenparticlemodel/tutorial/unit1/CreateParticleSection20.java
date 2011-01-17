@@ -27,7 +27,7 @@ public class CreateParticleSection20 extends Page {
                 advance();
             }
         } );
-        createParticle = new PSwing( basicPage, sdp );
+        createParticle = new PSwing( sdp );
     }
 
     public void init() {

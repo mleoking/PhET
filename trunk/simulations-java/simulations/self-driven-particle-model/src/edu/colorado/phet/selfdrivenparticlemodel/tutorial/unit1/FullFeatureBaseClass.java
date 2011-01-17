@@ -29,13 +29,13 @@ public class FullFeatureBaseClass extends Page {
                 basicPage.setHalosVisible( showHalos.isSelected() );
             }
         } );
-        checkBoxGraphic = new PSwing( basicPage, showHalos );
+        checkBoxGraphic = new PSwing( showHalos );
         RandomnessSlider randomnessSlider = new RandomnessSlider( getParticleModel() );
-        randomnessGraphic = new PSwing( basicPage, randomnessSlider );
+        randomnessGraphic = new PSwing( randomnessSlider );
         numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 1, new int[] { 0, 10, 20, 30, 40, 50 } );
-        particleCountGraphic = new PSwing( basicPage, numberSliderPanel );
+        particleCountGraphic = new PSwing( numberSliderPanel );
         InteractionRadiusControl interactionRadiusControl = new InteractionRadiusControl( getParticleModel() );
-        radiusControlGraphic = new PSwing( basicPage, interactionRadiusControl );
+        radiusControlGraphic = new PSwing( interactionRadiusControl );
     }
 
     public NumberSliderPanel getNumberSliderPanel() {

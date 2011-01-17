@@ -65,7 +65,7 @@ public class FullExperimentPage extends PlotBeta240 {
                 }
             }
         } );
-        clusterCheckbox = new PSwing( page, jcb );
+        clusterCheckbox = new PSwing( jcb );
         clusterCountGraphic = new PText( "" );
         clusterCountGraphic.setOffset( getUniverseGraphic().getFullBounds().getX() + 4, getUniverseGraphic().getFullBounds().getY() + 4 );
 

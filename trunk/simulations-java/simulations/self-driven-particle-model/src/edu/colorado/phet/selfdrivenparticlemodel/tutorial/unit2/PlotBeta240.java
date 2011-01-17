@@ -55,8 +55,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             }
         } );
         jTextField.setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.red ), "Critical Randomness" ) );
-        textComponent = new PSwing( page, jTextField );
-
+        textComponent = new PSwing( jTextField );
 
         showBetaPlot = new MyButton( page, "Show" );
         showBetaPlot.addActionListener( new ActionListener() {
@@ -109,7 +108,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         exponentPlotPanel.add( showBetaPlot );
         exponentPlotPanel.add( resetBetaPlot );
         exponentPlotPanel.add( bestFit );
-        exponentPlotPanelGraphic = new PSwing( page, exponentPlotPanel );
+        exponentPlotPanelGraphic = new PSwing( exponentPlotPanel );
     }
 
     Font errorFont = new PhetFont( 11, true );

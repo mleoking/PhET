@@ -53,7 +53,7 @@ public class TitleScreen extends PSwingCanvas {
                     tutorialApplication.startTutorial();
                 }
             } );
-            this.startButton = new PSwing( this, startButton );
+            this.startButton = new PSwing( startButton );
             addChild( this.startButton );
             this.startButton.setOffset( getWidth() - this.startButton.getWidth() - 5, getHeight() - this.startButton.getHeight() - 5 );
 
