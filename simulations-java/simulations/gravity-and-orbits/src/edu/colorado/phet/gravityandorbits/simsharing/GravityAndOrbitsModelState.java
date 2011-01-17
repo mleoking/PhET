@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.gravityandorbits.simsharing.gravityandorbits;
+package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
