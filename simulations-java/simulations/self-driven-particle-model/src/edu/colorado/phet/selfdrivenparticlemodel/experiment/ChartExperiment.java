@@ -13,6 +13,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.selfdrivenparticlemodel.SDPMStrings;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.view.ParticleApplication;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -43,7 +44,7 @@ public class ChartExperiment {
         this.particleApplication = particleApplication;
 
         meanSeries = new XYSeries( seriesName );
-        rawSeries = new XYSeries( "Data Points" );
+        rawSeries = new XYSeries( SDPMStrings.DATA_POINTS );
         xySeriesCollection = new XYSeriesCollection( rawSeries );
         xySeriesCollection.addSeries( meanSeries );
         domainAxis = new NumberAxis( domainName );
