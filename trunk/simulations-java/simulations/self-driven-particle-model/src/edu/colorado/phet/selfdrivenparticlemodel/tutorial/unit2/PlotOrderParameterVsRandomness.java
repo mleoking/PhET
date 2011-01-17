@@ -15,12 +15,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class PlotOrderParameterVsRandomness extends OrderParameter90 {
-    //    private PButton plotButton;
     private OrderParameterVsRandomnessChart orderParameterVsRandomnessChart;
     private TutorialChartFrame tutorialChartFrame;
     private ParticleModel.Adapter listener;
     public static final long MOD = 4;
-    //    private PButton resetPlotButton;
     private PNode orderPlotPanel;
 
     public PlotOrderParameterVsRandomness( BasicTutorialCanvas page ) {
@@ -33,18 +31,6 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
                  "Take readings at several randomness values, and I'll connect the means." +
                  "" );
         orderPlotPanel = new PSwing( page, new OrderPlotPanel() );
-//        plotButton = new PButton( page, "Show Plot" );
-//        plotButton.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                showPlot();
-//                startDataTaking();
-//                if( advanceWhenStartData() ) {
-//                    advance();
-//                }
-//            }
-//
-//
-//        } );
         orderParameterVsRandomnessChart = new OrderParameterVsRandomnessChart( (int) ( 100000 / MOD ) );
         tutorialChartFrame = new TutorialChartFrame( "Plot",
                                                      orderParameterVsRandomnessChart.getChart(),
@@ -57,13 +43,6 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
                 }
             }
         };
-
-//        resetPlotButton = new PButton( page, "Reset Plot" );
-//        resetPlotButton.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                orderParameterVsRandomnessChart.reset();
-//            }
-//        } );
     }
 
     class OrderPlotPanel extends HorizontalLayoutPanel {
@@ -127,29 +106,20 @@ public class PlotOrderParameterVsRandomness extends OrderParameter90 {
 
     public void init() {
         super.init();
-
         orderPlotPanel.setOffset( getLocationBeneath( getOrderParamText() ) );
         addChild( orderPlotPanel );
-//        plotButton.setOffset( getLocationBeneath( getOrderParamText() ) );
-//        resetPlotButton.setOffset( getLocationBeneath( plotButton ) );
-//        addChild( plotButton );
-//        addChild( resetPlotButton );
     }
 
     public void teardown() {
         super.teardown();
         removeChild( orderPlotPanel );
-//        removeChild( plotButton );
-//        removeChild( resetPlotButton );
         tutorialChartFrame.setVisible( false );
         stopTakingData();
-
     }
 
     private void showPlot() {
         tutorialChartFrame.setVisible( true );
     }
-
 
     protected boolean advanceWhenStartData() {
         return true;

@@ -22,9 +22,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
     private UniverseGraphic universeGraphic;
     private ParticleModel particleModel;
-    //    private JTextArea textArea;
     private TutorialTextArea textArea;
-    private int textBoundsHeight = 150;
     private PButton nextSwing;
     private PActivity modelActivity;
     private ArrayList particleGraphics = new ArrayList();
@@ -64,7 +62,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         }
         textArea = new TutorialTextArea();
         setLayout( null );
-//        add( textArea );
         textAreaPSwing = new MyPSwing( textArea );
         addChild( textAreaPSwing );
         nextSwing = new PButton( this, "Next " );
@@ -93,16 +90,11 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
         this.pageMakers = unit.getPageMakers();
         this.advancedToPageIndex = 0;
-//        this.advancedToPageIndex = pageMakers.length-2;
         Page currentPage = pageMakers[advancedToPageIndex].createPage();
         pages.add( currentPage );
         addKeyListener( tutorialApplication.getKeyHandler() );
         getKeyListeners();
         relayoutChildren();
-    }
-
-    public void setModelDT( double modelDT ) {
-        this.modelDT = modelDT;
     }
 
     public void setText( String text ) {
@@ -121,7 +113,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     }
 
     public void topLeft( PNode node ) {
-//        node.setOffset( ( getWidth() - node.getFullBounds().getWidth() ) / 2, text( getHeight() - node.getFullBounds().getHeight() ) / 2+textArea.getHeight()/2 );
         int inset = 2;
         node.setOffset( inset, textAreaPSwing.getFullBounds().getMaxY() + inset );
     }
@@ -232,12 +223,9 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         }
         sectionAt( viewingPageIndex ).teardown();
         viewingPageIndex--;
-//        currentPage.teardown();
         sectionAt( viewingPageIndex ).init();
 
         System.out.println( "viewingPageIndex = " + viewingPageIndex );
-//        advancedToPageIndex--;
-//        synchronizePage();
         synchronizeFullText();
         showNextButton();
         relayoutChildren();
@@ -284,9 +272,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
                 sectionAt( viewingPageIndex ).init();
             }
-//            currentPage.teardown();
-//            currentPage = next;
-//            next.init();
         }
         if ( !showedPrevButton ) {
             showedPrevButton = true;
@@ -327,19 +312,15 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     public void start( SelfDrivenParticleModelApplication tutorialApplication ) {
         super.start( tutorialApplication );
         sectionAt( viewingPageIndex ).init();
-//        currentPage.init();
     }
 
     protected void relayoutChildren() {
 
         super.relayoutChildren();
         if ( textArea != null ) {
+            int textBoundsHeight = 150;
             textArea.setBounds( 0, 0, getWidth(), textBoundsHeight );
             textAreaPSwing.doReshape();
-//            textAreaPSwing.reshape();
-//            textAreaPSwing.invalidateFullBounds();
-//            textAreaPSwing.re
-//            textArea.setBounds( 0, 0, 100, 100);
         }
         testTopLeft( universeGraphic );
 
@@ -347,7 +328,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         prevSwing.setOffset( 2 + universeGraphic.getFullBounds().getMaxX(), nextSwing.getFullBounds().getY() );
 
         if ( getCurrentPage() != null ) {
-//        if( currentPage != null ) {
             getCurrentPage().relayoutChildren();
         }
     }
@@ -396,7 +376,6 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
     public void teardown( SelfDrivenParticleModelApplication tutorialApplication ) {
         super.teardown( tutorialApplication );
-//        stopModel();
         System.out.println( "Stopped model in " + this );
     }
 

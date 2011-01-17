@@ -17,8 +17,7 @@ import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.view.ParticleApplication;
 import edu.umd.cs.piccolo.activities.PActivity;
 
-public class JFreeChartExperiment2 {
-    private long lastTime = 0;
+public class ChartExperiment {
     private ParticleApplication particleApplication;
     private XYSeriesCollection xySeriesCollection;
     private XYPlot xyPlot;
@@ -39,8 +38,8 @@ public class JFreeChartExperiment2 {
     private double sum = 0.0;
     private long lastTimeStep;
 
-    public JFreeChartExperiment2( ParticleApplication particleApplication, String seriesName,
-                                  String domainName, String rangeName, String title ) {
+    public ChartExperiment( ParticleApplication particleApplication, String seriesName,
+                            String domainName, String rangeName, String title ) {
         this.particleApplication = particleApplication;
 
         meanSeries = new XYSeries( seriesName );
@@ -57,16 +56,6 @@ public class JFreeChartExperiment2 {
         renderer.setSeriesShapesVisible( RAW_SERIES, true );
         renderer.setSeriesShapesVisible( MEAN_SERIES, false );
 
-//        renderer.setSeriesOutlinePaint( RAW_SERIES, null );
-//        renderer.setSeriesPaint( MEAN_SERIES, Color.red );
-//        renderer.setSeriesCreateEntities( RAW_SERIES, new Boolean( true ) );
-//        renderer.setSeriesFillPaint( RAW_SERIES, Color.green);
-//        renderer.setSeriesShapesFilled( RAW_SERIES, new Boolean( true ) );
-//        renderer.setSeriesShape( RAW_SERIES, new Rectangle(0,0,15,15));
-//        renderer.setSeriesPaint( RAW_SERIES, Color.blue );
-
-//        StandardXYItemRenderer standy = new StandardXYItemRenderer();
-
         xyPlot = new XYPlot( xySeriesCollection,
                              domainAxis,
                              rangeAxis, renderer );
@@ -76,19 +65,11 @@ public class JFreeChartExperiment2 {
         frame.setContentPane( chartPanel );
         frame.setSize( 800, 800 );
 
-//        rangeAxis.setAutoRange( true );
-//        rangeAxis.setAutoRangeIncludesZero( false );
-//        domainAxis.setAutoRange( true );
-//        domainAxis.setAutoRangeIncludesZero( false );
-
         rangeAxis.setAutoRange( false );
-//        rangeAxis.setAutoRangeIncludesZero( false );
         domainAxis.setAutoRange( false );
-//        domainAxis.setAutoRangeIncludesZero( false );
         rangeAxis.setRange( -0.01, 1.01 );
         domainAxis.setRange( -0.01, Math.PI * 2 + 0.01 );
 
-//        particleApplication.getParticlePanel().getRoot().addActivity( new PActivity( 5000, 500 ) {
         PActivity activity = new PActivity( -1, experimentTime ) {
             protected void activityStep( long elapsedTime ) {
                 step( elapsedTime );
@@ -97,14 +78,11 @@ public class JFreeChartExperiment2 {
         this.activity = activity;
         listener = new ParticleModel.Adapter() {
             public void steppedInTime() {
-//                super.steppedInTime();
                 if ( passedTransient() ) {
                     sum += getOrderParameter();
                     num++;
                 }
             }
-
-
         };
     }
 
@@ -125,7 +103,6 @@ public class JFreeChartExperiment2 {
     private void step( long elapsedTime ) {
         this.lastTimeStep = System.currentTimeMillis();
         if ( firstTime ) {
-//            setupExperiment( elapsedTime );
             particleApplication.getParticleModel().setRandomness( 0.0 );
             particleApplication.getParticleModel().randomize();
             firstTime = false;
@@ -136,19 +113,11 @@ public class JFreeChartExperiment2 {
         }
     }
 
-    static class Data {
-        ArrayList readings = new ArrayList();
-    }
-
-    ArrayList readings = new ArrayList();
+    private ArrayList readings = new ArrayList();
 
     private void recordData( long elapsedTime ) {
         double va = sum / num;
-//        System.out.println( "sum = " + sum+", num="+num+", va="+va );
-
-//        double va = getOrderParameter();
         double randomness = particleApplication.getParticleModel().getRandomness();
-//        System.out.println( "recording @va = " + va + ", randomness=" + randomness );
         readings.add( new Double( va ) );
         rawSeries.add( randomness, va );
         if ( readings.size() >= numRuns ) {
@@ -158,13 +127,8 @@ public class JFreeChartExperiment2 {
                 sum += aDouble.doubleValue();
             }
             double avg = sum / readings.size();
-//            System.out.println( "va=" + va + ", readings = " + readings + ": avg=" + avg );
             meanSeries.add( randomness, avg );
-//            readings.clear();
         }
-//        else {
-//            rawSeries.add( randomness, va );
-//        }
 
         rangeAxis.configure();
         domainAxis.configure();

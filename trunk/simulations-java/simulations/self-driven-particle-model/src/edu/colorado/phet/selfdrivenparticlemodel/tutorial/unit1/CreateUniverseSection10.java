@@ -20,7 +20,6 @@ public class CreateUniverseSection10 extends Page {
                            "and some of its emergent properties." +
                            "\nThis model takes place in a continuous square universe with periodic boundary conditions.";
         setText( initText2 );
-//        setFinishText( "  Wel." );
         JButton newUniverse = new JButton( "Initialize Universe" );
         newUniverse.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -35,7 +34,6 @@ public class CreateUniverseSection10 extends Page {
 
     public void init() {
         super.init();
-//        getBasePage().topLeft( newUniverseButton );
         newUniverseButton.setOffset( getBasePage().getWidth() / 2, getBasePage().getHeight() / 2 );
         getBasePage().addChild( newUniverseButton );
     }

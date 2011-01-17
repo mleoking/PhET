@@ -9,7 +9,6 @@ import edu.colorado.phet.selfdrivenparticlemodel.view.UniverseGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 public abstract class Page {
-    //    private double dy = 1;
     private double dy = 0;
     private String text = "";//includes activity
     private boolean noActivity = false;

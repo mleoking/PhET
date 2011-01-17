@@ -34,7 +34,6 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
     private MyButton bestFit;
     private PText betaText;
     private PSwing exponentPlotPanelGraphic;
-//    private boolean error = false;
 
     public PlotBeta240( BasicTutorialCanvas page ) {
         super( page );
@@ -129,7 +128,6 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             }
         }
         catch ( NoEtaCriticalException e ) {
-//            e.printStackTrace();
             Graphics2D g2 = (Graphics2D) g;
             g2.setFont( errorFont );
             g2.setColor( Color.red );
@@ -162,8 +160,6 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             }
         } );
         System.out.println( "result = " + result );
-//        double x0 = betaChart.getChart().getXYPlot().getDomainAxis().getLowerBound();
-//        double x1= betaChart.getChart().getXYPlot().getDomainAxis().getUpperBound();
         double x0 = getMinX( dataset );
         double x1 = getMaxX( dataset );
         Point2D lhs = new Point2D.Double( x0, result.evaluate( x0 ) );
@@ -223,9 +219,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
             return val;
         }
         catch ( NumberFormatException numberFormatException ) {
-//            PhetOptionPane.showMessageDialog( jTextField, "Couldn't understand Critical Exponent (in Red Box): " + jTextField.getText() );
             throw new NoEtaCriticalException();
-//            return 3;
         }
     }
 
@@ -237,15 +231,11 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
                 chartDialog.getContentPane().repaint();
             }
             else {
-//            System.out.println( "sample = " + sample );
                 betaChart.addDataPoint( sample.getX(), sample.getY() );
-//            error = false;
             }
         }
         catch ( NoEtaCriticalException e ) {
-//            e.printStackTrace();
         }
-
     }
 
     private void showBetaPlot() {
@@ -277,7 +267,6 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         addChild( exponentPlotPanelGraphic );
         betaText.setOffset( getLocationBeneath( exponentPlotPanelGraphic ) );
         addChild( betaText );
-//        showBetaPlot();
     }
 
     public void init() {
@@ -293,9 +282,6 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         super.teardown();
         removeChild( textComponent );
         removeChild( exponentPlotPanelGraphic );
-//        removeChild( bestFit );
-//        removeChild( showBetaPlot );
-//        removeChild( resetBetaPlot );
         removeChild( betaText );
         getParticleModel().removeListener( listener );
         chartDialog.setVisible( false );

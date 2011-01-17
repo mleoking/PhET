@@ -91,21 +91,6 @@ public class Unit1 implements AbstractUnit {
                         return new EndIntroduction( page, tutorialApplication );
                     }
                 },
-//                new PageMaker() {
-//                    public Page createPage() {
-//                        return new OrderParameter90( page );
-//                    }
-//                },
-//                new PageMaker() {
-//                    public Page createPage() {
-//                        return new OrderParameter100( page );
-//                    }
-//                },
-//                new PageMaker() {
-//                    public Page createPage() {
-//                        return new ThisPageForRent( page );
-//                    }
-//                }
         };
     }
 }

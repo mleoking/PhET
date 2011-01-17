@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.PNode;
 public class ParticleGraphicWithTail extends PNode {
     private ParticleGraphic[] particleGraphics;
     private Particle p;
-    private double[] segSizes;
     private ArrayList storedLocations = new ArrayList();
     private int mod;
 
@@ -22,7 +21,6 @@ public class ParticleGraphicWithTail extends PNode {
     public ParticleGraphicWithTail( Particle p, double[] segSizes, int mod ) {
         this.p = p;
         this.mod = mod;
-        this.segSizes = segSizes;
         particleGraphics = new ParticleGraphic[segSizes.length];
         Color color = ParticleGraphic.newRandomColor();
         for ( int i = 0; i < segSizes.length; i++ ) {

@@ -11,36 +11,7 @@ import javax.sound.sampled.*;
 public class JSAudioPlayer {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
 
-    public static double getLength( URL url ) throws IOException, UnsupportedAudioFileException {
-        AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
-        AudioFormat audioFormat = aff.getFormat();
-        double sec = ( aff.getFrameLength() / (double) audioFormat.getFrameRate() );
-        System.out.println( "sec = " + sec );
-        return sec;
-    }
-
-    public static void loop( final URL url ) {
-        Runnable r = new Runnable() {
-            public void run() {
-                while ( true ) {
-                    try {
-                        play( url );
-                    }
-                    catch ( IOException e ) {
-                        e.printStackTrace();
-                    }
-                    catch ( UnsupportedAudioFileException e ) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        Thread t = new Thread( r );
-        t.setPriority( Thread.MIN_PRIORITY );
-        t.start();
-    }
-
-    /**
+    /*
      * Blocks until finished.
      */
     public static void play( URL url ) throws IOException, UnsupportedAudioFileException {

@@ -63,10 +63,6 @@ public class FullFeatureBaseClass extends Page {
         removeChild( radiusControlGraphic );
     }
 
-    public PSwing getCheckBoxGraphic() {
-        return checkBoxGraphic;
-    }
-
     public PSwing getRandomnessGraphic() {
         return randomnessGraphic;
     }

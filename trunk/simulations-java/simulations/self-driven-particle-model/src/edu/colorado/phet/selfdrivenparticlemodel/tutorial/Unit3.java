@@ -1,14 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 
-import edu.colorado.phet.selfdrivenparticlemodel.SelfDrivenParticleModelApplication;
-
 public class Unit3 implements AbstractUnit {
     private PageMaker[] pageMakers;
-    private SelfDrivenParticleModelApplication tutorialApplication;
 
-    public Unit3( SelfDrivenParticleModelApplication tutorialApplication ) {
-        this.tutorialApplication = tutorialApplication;
+    public Unit3() {
     }
 
     public PageMaker[] getPageMakers() {
@@ -36,11 +32,6 @@ public class Unit3 implements AbstractUnit {
                         return new FullExperimentPage( page );
                     }
                 }
-//                new PageMaker() {
-//                    public Page createPage() {
-//                        return new ThisPageForRent( page );
-//                    }
-//                }
         };
     }
 

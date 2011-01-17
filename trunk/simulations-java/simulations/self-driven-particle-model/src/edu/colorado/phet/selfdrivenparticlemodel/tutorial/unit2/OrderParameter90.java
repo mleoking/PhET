@@ -22,7 +22,6 @@ public class OrderParameter90 extends FullFeatureBaseClass {
                  "This quantity is termed the 'order parameter'.  " +
                  "In this model, the order parameter reflects the similarity of particles' headings.  " +
                  "Try to get the order parameter above 0.9" );
-//        artificialAdvance();
         orderParamText = new PText();
         orderParamText.setTextPaint( Color.blue );
         orderParamText.setFont( new PhetFont( 16, true ) );
