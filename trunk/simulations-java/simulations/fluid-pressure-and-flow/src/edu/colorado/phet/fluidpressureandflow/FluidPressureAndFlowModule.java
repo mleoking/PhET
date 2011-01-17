@@ -10,6 +10,8 @@ import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
 
 /**
+ * Base class for the different modules for FluidPressureAndFlow, parameterized on its model type.
+ *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> extends Module {
