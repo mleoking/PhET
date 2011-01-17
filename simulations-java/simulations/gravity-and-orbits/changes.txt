@@ -1,3 +1,4 @@
+simsharing: Save and restore window size
 simsharing: Don't run physics on teacher machine, fixes stuttering
 simsharing: Restore bodies after collision
 Reset grid visibility on reset all
