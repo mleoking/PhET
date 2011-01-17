@@ -1,3 +1,4 @@
+Added Classroom.main that launches 30 students and improved threading for student startup
 Save and restore selected mode
 Added animated thumbnail
 Added the ability to watch multiple students in different windows

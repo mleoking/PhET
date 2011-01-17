@@ -75,8 +75,26 @@ public class Student {
             }
         } ).start();
 
-        //be careful, this part blocks:
-        studentID = (StudentID) server.sendRequestReply( new GetStudentID() );
-        application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + studentID );
+        new Thread( new Runnable() {
+            public void run() {
+                //be careful, this part blocks:
+                studentID = (StudentID) server.sendRequestReply( new GetStudentID() );
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + studentID );
+                    }
+                } );
+            }
+        } ).start();
+        application.getGravityAndOrbitsModule().getClockPausedProperty().setValue( false );
+    }
+
+    public static class Classroom {
+        public static void main( String[] args ) throws IOException, AWTException {
+            SimSharing.init();
+            for ( int i = 0; i < 30; i++ ) {
+                new Student( args ).start();
+            }
+        }
     }
 }
