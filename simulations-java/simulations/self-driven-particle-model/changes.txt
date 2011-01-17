@@ -1,3 +1,5 @@
+Overrode updateBounds with no-op as a workaround for the problem described in #2675
+Switched to PhetLookAndFeel
 Switched to use non-deprecated PSwing constructor
 Removed unused code, removed commented out code, switched to use generics
 Moved main to SwingUtilities.invokeLater

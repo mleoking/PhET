@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.*;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1.IntroductionUnit;
 
@@ -105,6 +106,7 @@ public class SelfDrivenParticleModelApplication {
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                new PhetLookAndFeel().initLookAndFeel();
                 new SelfDrivenParticleModelApplication().start();
             }
         } );
