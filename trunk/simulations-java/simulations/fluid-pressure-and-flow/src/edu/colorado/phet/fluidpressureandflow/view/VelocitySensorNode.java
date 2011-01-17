@@ -37,8 +37,6 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
         // rendering order
         addChild( backgroundNode );
         addChild( textNode );
-//        final double hotSpotRadius = 3;
-//        addChild( new PhetPPath( new Ellipse2D.Double( -hotSpotRadius, -hotSpotRadius, hotSpotRadius * 2, hotSpotRadius * 2 ), Color.RED ) );
 
         final SimpleObserver updateTextObserver = new SimpleObserver() {
             public void update() {

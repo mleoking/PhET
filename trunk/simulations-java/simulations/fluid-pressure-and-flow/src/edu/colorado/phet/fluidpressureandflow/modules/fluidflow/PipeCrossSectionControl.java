@@ -15,8 +15,8 @@ public class PipeCrossSectionControl extends PNode {
     private double DISTANCE_THRESHOLD = 0.5;
 
     public PipeCrossSectionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
-        final ControlPoint top = new ControlPoint( pipePosition.getTopProperty(), true );
-        final ControlPoint bottom = new ControlPoint( pipePosition.getBottomProperty(), false );
+        final PipeControlPoint top = new PipeControlPoint( pipePosition.getTopProperty(), true );
+        final PipeControlPoint bottom = new PipeControlPoint( pipePosition.getBottomProperty(), false );
 
         Function1<Point2D, Point2D> bottomConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D bottomLocation ) {
