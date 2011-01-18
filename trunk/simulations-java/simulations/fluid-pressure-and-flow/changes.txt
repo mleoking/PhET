@@ -1,3 +1,4 @@
+Made it so that the pipe control point can't be dragged offscreen vertically
 Show second pressure sensor at a y location that yields a different pressure value
 Hide the balloons
 Fixed: units control panel background is incorrect
