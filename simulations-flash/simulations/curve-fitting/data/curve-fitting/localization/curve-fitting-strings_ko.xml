@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--curve-fitting-strings_ko.xml created Sun Aug 08 10:31:34 KST 2010 using: curve-fitting 2.01.00 (37297), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<!--curve-fitting-strings_ko.xml created Thu Jan 06 15:01:33 KST 2011 using: curve-fitting 2.01.00 (37297), translation-utility 2.09.00 (44031) 9월 14, 2010-->
 <SimStrings>
 <string key="clearAll" value="모두 지우기"/>
 <string key="deviations" value="편차 보기"/>
@@ -26,3 +26,10 @@
 <string key="adjustableFit" value="Fit 조절기"/>
 <string key="linear" value="1차(선형)"/>
 </SimStrings>
+데이터 \n 점 그릇 "/>
+<string key="chiSqHelp4" value=": Fit가 잘 되었음 (녹색 지역)"/>
+<string key="chiSqHelp3" value=": Fit가 잘 안되었음 (적색 지역)"/>
+<string key="chiSqHelp2" value="N= 자료 점의 수. \n f= Fit의 파라미터 수. \n ( 3차 fit의 경우 f=4)"/>
+<string key="help" value="도움말"/>
+<string key="chiSqHelp1" value="카이스퀘어 통계"/>
+<string key="adjustabl
