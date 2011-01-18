@@ -1,3 +1,5 @@
+Show second pressure sensor at a y location that yields a different pressure value
+Hide the balloons
 Fixed: units control panel background is incorrect
 Don't show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
 Use new graphics for pressure sensor node
