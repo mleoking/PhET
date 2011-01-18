@@ -126,6 +126,27 @@ public class Body implements IBodyColors {
                 }
             }
         } );
+
+        //If any of the rewind properties changes while the clock is paused, set a rewind point for all of them.
+
+        //Relates to this problem reported by NP:
+        //NP: odd behavior with rewind: Open sim and press play, let the planet move to directly left of the sun.
+        //  Pause, then move the planet closer to sun. Press play, planet will move CCW. Then pause and hit rewind.
+        //  Press play again, the planet will start to move in the opposite direction (CW).
+        //SR: reproduced this in 0.0.14, perhaps the velocity is not being reset?
+
+        final VoidFunction0 rewindValueChangeListener = new VoidFunction0() {
+            public void apply() {
+                positionProperty.storeRewindValueNoNotify();
+                velocityProperty.storeRewindValueNoNotify();
+                massProperty.storeRewindValueNoNotify();
+                collidedProperty.storeRewindValueNoNotify();
+            }
+        };
+        positionProperty.addRewindValueChangeListener( rewindValueChangeListener );
+        velocityProperty.addRewindValueChangeListener( rewindValueChangeListener );
+        massProperty.addRewindValueChangeListener( rewindValueChangeListener );
+        collidedProperty.addRewindValueChangeListener( rewindValueChangeListener );
     }
 
     public Property<Integer> getClockTicksSinceExplosion() {
