@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_ko.xml created Sat Aug 07 17:16:27 KST 2010 using: calculus-grapher 2.03.00 (42751), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<!--calculus-grapher-strings_ko.xml created Thu Jan 06 14:48:04 KST 2011 using: calculus-grapher 2.03.00 (42751), translation-utility 2.09.00 (44031) 9월 14, 2010-->
 <SimStrings>
 <string key="grid" value="그리드"/>
 <string key="smooth" value="부드럽게"/>
@@ -7,7 +7,7 @@
 <string key="sine" value="사인"/>
 <string key="derivative" value="미분"/>
 <string key="offset" value="상쇄하기"/>
-<string key="simTitle" value="미적분 그래프 표시기"/>
+<string key="simTitle" value="미적분 그래프 작성기"/>
 <string key="hill" value="언덕"/>
 <string key="pedestal" value="받침대"/>
 <string key="zero" value="모두 지우기"/>
@@ -19,3 +19,5 @@
 <string key="tilt" value="기울이기"/>
 <string key="line" value="선"/>
 </SimStrings>
+기"/>
+<string key="simTitle" 
