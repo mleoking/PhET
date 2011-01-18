@@ -4,12 +4,16 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fluidpressureandflow.model.CrossSection;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.fluidpressureandflow.modules.fluidflow.PipeCrossSectionControl.MAX_DRAG_Y;
+import static edu.colorado.phet.fluidpressureandflow.modules.fluidflow.PipeCrossSectionControl.MIN_DRAG_Y;
 
 /**
  * Translate a pipe cross section
@@ -19,7 +23,8 @@ import edu.umd.cs.piccolo.PNode;
 public class PipeOffsetControl extends PNode {
 
     public PipeOffsetControl( final ModelViewTransform transform, final CrossSection pipePosition, final double offsetX ) {
-        final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( pipePosition.getX() + offsetX, pipePosition.getCenterY() ) );
+        final double x = pipePosition.getX() + offsetX;
+        final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
         point.addObserver( new SimpleObserver() {
             public void update() {
                 double pipeCenter = pipePosition.getCenterY();
@@ -31,12 +36,16 @@ public class PipeOffsetControl extends PNode {
         } );
         final SimpleObserver updateCenter = new SimpleObserver() {
             public void update() {
-                point.setValue( new ImmutableVector2D( pipePosition.getX() + offsetX, pipePosition.getCenterY() ) );
+                point.setValue( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
             }
         };
         pipePosition.getTopProperty().addObserver( updateCenter );
         pipePosition.getBottomProperty().addObserver( updateCenter );
         addChild( new PipeBackNode.GrabHandle( transform, new PipeControlPoint(
-                point, true ), new Function1.Identity<Point2D>() ) );
+                point, true ), new Function1<Point2D, Point2D>() {
+            public Point2D apply( Point2D proposedDragPoint ) {
+                return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y, proposedDragPoint.getY(), MAX_DRAG_Y ) );
+            }
+        } ) );
     }
 }
