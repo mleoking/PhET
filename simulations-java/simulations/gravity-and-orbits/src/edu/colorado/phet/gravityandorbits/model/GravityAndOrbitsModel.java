@@ -83,6 +83,12 @@ public class GravityAndOrbitsModel {
                 }
             }
         } );
+        //Have to update force vectors when gravity gets toggled on and off, otherwise displayed value won't update
+        gravityEnabledProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                updateForceVectors();
+            }
+        } );
     }
 
     //Used for determining initial velocities so the total momentum is zero

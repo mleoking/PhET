@@ -1,3 +1,4 @@
+Update force vectors when gravity gets toggled on and off, otherwise displayed value won't update
 If any of the rewind properties changes while the clock is paused, set a rewind point for all of them
 simsharing: Save and restore window size
 simsharing: Don't run physics on teacher machine, fixes stuttering
