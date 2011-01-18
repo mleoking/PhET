@@ -24,18 +24,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BalloonNode extends PNode {
 
-    /**
-     * @param transform
-     * @param sensor
-     * @param unitsProperty
-     */
     public BalloonNode( final ModelViewTransform transform, final Balloon sensor, final Property<Units.Unit> unitsProperty, final Pool pool ) {
         addInputEventListener( new CursorHandler() );
         addChild( new PhetPPath( Color.blue, new BasicStroke( 1 ), Color.lightGray ) {{
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {
                     double radius = transform.modelToViewDeltaX( sensor.getRadius() );
-//                    System.out.println( "radius = " + radius );
                     setPathTo( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
                 }
             };

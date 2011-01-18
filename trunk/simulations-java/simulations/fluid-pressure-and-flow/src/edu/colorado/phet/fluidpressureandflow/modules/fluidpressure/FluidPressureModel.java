@@ -14,7 +14,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     public FluidPressureModel() {
         addPressureSensor( new PressureSensor( this, 1, 0 ) );
-        addPressureSensor( new PressureSensor( this, -4, 1 ) );
+        addPressureSensor( new PressureSensor( this, -4, 2 ) );//Show second pressure sensor at a y location that yields a different pressure value
         addBalloon( new Balloon( this, 3, 2 ) );
     }
 

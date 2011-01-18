@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.fluidpressureandflow.model.Balloon;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
@@ -16,13 +15,11 @@ import edu.colorado.phet.fluidpressureandflow.view.*;
  * @author Sam Reid
  */
 public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
-    private FluidPressureModule module;
 
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
 
     public FluidPressureCanvas( final FluidPressureModule module ) {
         super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ) );
-        this.module = module;
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
@@ -31,9 +28,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty(), module.getFluidPressureAndFlowModel().getPool() ) );
         }
-        for ( Balloon pressureSensor : module.getFluidPressureAndFlowModel().getBalloons() ) {
-            addChild( new BalloonNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty(), module.getFluidPressureAndFlowModel().getPool() ) );
-        }
+
+        //Balloons not shown while we evaluate whether they will be used at all
+//        for ( Balloon pressureSensor : module.getFluidPressureAndFlowModel().getBalloons() ) {
+//            addChild( new BalloonNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty(), module.getFluidPressureAndFlowModel().getPool() ) );
+//        }
+
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( module.getFluidPressureAndFlowModel().getPool().getMinX(), module.getFluidPressureAndFlowModel().getPool().getMinY() );
         addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), module.getRulerVisibleProperty(), rulerModelOrigin ) );
