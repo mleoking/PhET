@@ -20,9 +20,10 @@ public class PipeCrossSectionControl extends PNode {
 
         Function1<Point2D, Point2D> bottomConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D bottomLocation ) {
-                final boolean tooClose = bottomLocation.getY() > top.getPoint().getY() - DISTANCE_THRESHOLD;
+                final double limit = top.getPoint().getY() - DISTANCE_THRESHOLD;
+                final boolean tooClose = bottomLocation.getY() > limit;
                 double bottomY = tooClose ?
-                                 top.getPoint().getY() - DISTANCE_THRESHOLD :
+                                 limit :
                                  bottomLocation.getY();
                 return new Point2D.Double( bottom.getPoint().getX(), bottomY );
             }
@@ -30,9 +31,10 @@ public class PipeCrossSectionControl extends PNode {
 
         Function1<Point2D, Point2D> topConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D topLocation ) {
-                final boolean tooClose = topLocation.getY() < bottom.getPoint().getY() + DISTANCE_THRESHOLD;
+                final double limit = bottom.getPoint().getY() + DISTANCE_THRESHOLD;
+                final boolean tooClose = topLocation.getY() < limit;
                 double topY = tooClose ?
-                              bottom.getPoint().getY() + DISTANCE_THRESHOLD :
+                              limit :
                               topLocation.getY();
                 return new Point2D.Double( top.getPoint().getX(), topY );
             }
