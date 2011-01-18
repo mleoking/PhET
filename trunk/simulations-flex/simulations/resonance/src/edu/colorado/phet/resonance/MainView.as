@@ -70,6 +70,7 @@ public class MainView extends Canvas {
         this.myControlPanel.setDampingExternally( 1 );   //max is 5
         this.myShakerView.initializeShakerControls();
         this.myPlayPauseButtons.unPauseExternally();
+        this.myPlayPauseButtons.setSliderExternally(1);
         //this.setNbrResonators(2);
     }
 
