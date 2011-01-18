@@ -147,6 +147,8 @@ import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListene
             if ( key.equals( CreditsDialog.TRANSLATION_CREDITS_KEY ) ) {
                 // put a Help button next to translation credits
                 targetTextPanel.setHelpText( TUStrings.HELP_TRANSLATION_CREDITS );
+                // add a preview button, for previewing HTML
+                targetTextPanel.setPreviewIconVisible( true );
             }
 
             findTextAreas.add( sourceTextArea );

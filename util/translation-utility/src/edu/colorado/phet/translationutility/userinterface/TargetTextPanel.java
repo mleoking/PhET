@@ -122,6 +122,16 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
         helpIcon.setVisible( helpText != null );
     }
 
+    /**
+     * Visibility of the preview icon is typically set automatically by the constructor,
+     * based on the format of the source text string. This setter is provided for
+     * situations where we take control of the preview icon visibility.
+     * @param visible
+     */
+    public void setPreviewIconVisible( boolean visible ) {
+        previewIcon.setVisible( visible );
+    }
+
     private void clearError() {
         isValidValue = true;
         errorMessage = null;

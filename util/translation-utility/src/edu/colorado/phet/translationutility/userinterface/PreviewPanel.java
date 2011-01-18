@@ -25,26 +25,26 @@ import edu.colorado.phet.translationutility.TUStrings;
  * Panel that shows a preview of an HTML translation.
  * It shows both the source and target strings.
  * It also checks for potential layout problems and (if detected) warns the user.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ class PreviewPanel extends JPanel {
-    
+
     private static final int MARGIN = 10;
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( MARGIN, MARGIN, MARGIN, MARGIN ) );
     private static final double WIDTH_WARNING_THRESHOLD = 1.15;
     private static final double HEIGHT_WARNING_THRESHOLD = 1.15;
-    
+
     public PreviewPanel( String source, Locale sourceLocale, Font sourceFont, String target, Locale targetLocale, Font targetFont ) {
         super();
-        
+
         JLabel sourceTitle = new JLabel( PhetLocales.getInstance().getName( sourceLocale ) );
         JLabel translationTitle = new JLabel( PhetLocales.getInstance().getName( targetLocale ) );
-        
+
         JLabel sourceLabel = new JLabel( HTMLUtils.toHTMLString( source ) );
         sourceLabel.setFont( sourceFont );
         sourceLabel.setBorder( BORDER );
-        
+
         // if there is no target, show that the source will be used
         String t = target;
         if ( t == null || t.length() == 0 ) {
@@ -53,12 +53,21 @@ import edu.colorado.phet.translationutility.TUStrings;
         JLabel targetLabel = new JLabel( HTMLUtils.toHTMLString( t ) );
         targetLabel.setFont( targetFont );
         targetLabel.setBorder( BORDER );
-        
+
         JLabel arrowLabel = new JLabel( "-->" );
-        
-        // warnings related to dimensions
-        JLabel widthWarningLabel = getWidthWarningLabel( sourceLabel, targetLabel );
-        JLabel heightWarningLabel = getHeightWarningLabel( sourceLabel, targetLabel );
+
+        /*
+         * Warnings related to dimensions.
+         * This is relevant only if an English string exists.
+         * Some strings (most notably translation.credits) have no corresponding English
+         * string, and we want to be able to provide a preview without warnings.
+         */
+        JLabel widthWarningLabel = null;
+        JLabel heightWarningLabel = null;
+        if ( source != null && source.length() > 0 ) {
+            widthWarningLabel = getWidthWarningLabel( sourceLabel, targetLabel );
+            heightWarningLabel = getHeightWarningLabel( sourceLabel, targetLabel );
+        }
 
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -85,7 +94,7 @@ import edu.colorado.phet.translationutility.TUStrings;
             layout.addComponent( new JLabel( TUStrings.LAYOUT_PROBLEM_MESSAGE ), row++, column, 4, 1 );
         }
     }
-    
+
     private JLabel getWidthWarningLabel( JLabel sourceLabel, JLabel targetLabel ) {
         JLabel label = null;
         if ( targetLabel.getPreferredSize().width >= ( WIDTH_WARNING_THRESHOLD * sourceLabel.getPreferredSize().width ) ) {
@@ -97,7 +106,7 @@ import edu.colorado.phet.translationutility.TUStrings;
         }
         return label;
     }
-    
+
     private JLabel getHeightWarningLabel( JLabel sourceLabel, JLabel targetLabel ) {
         JLabel label = null;
         if ( targetLabel.getPreferredSize().height >= ( HEIGHT_WARNING_THRESHOLD * sourceLabel.getPreferredSize().height ) ) {
