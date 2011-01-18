@@ -159,6 +159,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
 
     private function initializeControls(): void {
+        this.timeRateSlider.value = 1;
         this.playPauseButton.buttonMode = true;
         this.stepButton.buttonMode = true;
         this.playPauseButton.mouseChildren = false;
@@ -178,7 +179,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
         function onChangeTimeRate(evt:Event):void{
              var rate:Number = evt.target.value;
-            trace("PlayPauseButtons.onChangeTimeRate = " + rate);
+             thisObject.myShakerModel.setTRate(rate);
+            //trace("PlayPauseButtons.onChangeTimeRate = " + rate);
         }
 
         function onMouseClick( evt: MouseEvent ): void {
@@ -237,6 +239,11 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
             this.paused_txt.visible = false;
             this.myShakerModel.unPauseSim();
         }
+    }
+
+    public function setSliderExternally(rate:Number):void{
+        this.timeRateSlider.value = rate;
+        this.myShakerModel.setTRate(rate);
     }
 
     private function initializeTextFields(): void {

@@ -41,6 +41,7 @@ public class ShakerModel {
         this.y0 = 0;
         this.t = 0;
         this.dt = 0.01; //0.0055;
+        this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         this.createResonatorArray();
@@ -127,6 +128,13 @@ public class ShakerModel {
             this.resonatorModel_arr[i].setB( b );
         }
     }//end setDampingConstant()
+
+    public function setTRate(rate:Number):void{
+        this.tRate = rate;
+        for ( var i: int; i < this.maxNbrResonators; i++ ) {
+            this.resonatorModel_arr[i].setTRate( rate );
+        }
+    }
 
     public function getMaxNbrResonators(): int {
         return this.maxNbrResonators;
@@ -267,10 +275,10 @@ public class ShakerModel {
         var realDt: Number = currentTime - this.lastTime;
         this.lastTime = currentTime;
         if ( realDt < 0.04 ) {
-            this.dt = realDt;
+            this.dt = this.tRate * realDt;
         }
         else {
-            this.dt = 0.04;
+            this.dt = this.tRate * 0.04;
         }
         this.t += this.dt;
         //trace("ShakerModel.singleStep called. realDt = "+realDt);
@@ -285,7 +293,7 @@ public class ShakerModel {
     }
 
     public function singleStepWhenPaused(): void {
-        this.dt = 0.02;
+        this.dt = this.tRate * 0.02;
         this.t += this.dt;
         //trace("ShakerModel.singleStep called. realDt = "+realDt);
         //this.y0 = this.A*Math.sin(2*Math.PI*f*t + this.phase);

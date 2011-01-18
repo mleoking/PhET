@@ -41,6 +41,7 @@ public class MassSpringModel {
         //trace("MassSpringModel constructor. f = "+f+  "   fR = "+ fR +"   k = "+ this.k + "   this.m = "+this.m);
         this.dt = this.shakerModel.getDt();		//default time step in seconds
         this.lastTime = 0;
+        this.tRate = 1;
         this.initialize();
     }//end of constructor
 
@@ -49,7 +50,7 @@ public class MassSpringModel {
         this.y0 = 0;
         this.y = y0 + L0 - (m * g / k);  //start with mass hanging in equilibrium position
         this.v = 0;
-        this.t = 0;
+        this.t = 0;    //currently unused
         this.msTimer = new Timer( this.dt * 1000 );
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         this.stopMotion();
@@ -123,6 +124,15 @@ public class MassSpringModel {
         return f0;
     }
 
+    public function setTRate(rate:Number):void{
+        this.tRate = rate;
+        if(rate > 1 || tRate < 0){
+            trace("ERROR: tRate is out-of-bounds.") ;
+        }else{
+          
+        }
+    }
+
     public function stepForward( evt: TimerEvent ): void {
         var currentTime = getTimer() / 1000;
         var realDt: Number = currentTime - this.lastTime;
@@ -130,13 +140,14 @@ public class MassSpringModel {
         if ( realDt > 0.04 ) {
             realDt = 0.04;
         }
+        var dt:Number = this.tRate*realDt;
         //need function without event argument
-        this.singleStep( realDt );
+        this.singleStep( dt );
         evt.updateAfterEvent();
     }//stepForward
 
-    public function singleStep( realDt: Number ): void {
-        var dtr: Number = realDt; //dt in seconds
+    public function singleStep( dt: Number ): void {
+        var dtr: Number = dt; //dt in seconds
         //Verlet algorithm, same as used in Mass Spring Lab
 
         var a: Number = -g - (k / m) * (y - y0 - L0) - (b / m) * v;
