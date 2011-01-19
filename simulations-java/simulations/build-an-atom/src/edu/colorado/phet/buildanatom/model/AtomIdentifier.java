@@ -3,6 +3,8 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -1582,5 +1584,28 @@ public class AtomIdentifier {
             double abundance = dataElements.length >= 5 ? Double.parseDouble( dataElements[ 4 ] ) : 0;
             System.out.println("   add( new Isotope2( " + currentAtomicNumber + ", " + numNeutrons + ", " + atomicWeight + ", " + abundance + " ) );" );
         }
+    }
+
+    /**
+     * Get the configuration of the most abundant isotope of the element with
+     * with given atomic number.  The returned atom will be neutral.
+     *
+     * @param atomicNumber
+     */
+    public static ImmutableAtom getMostCommonIsotope( int atomicNumber ) {
+        ArrayList<Isotope2> isotopeList = new ArrayList<Isotope2>( ISOTOPE_INFORMATION_TABLE.get( atomicNumber ) );
+        if ( isotopeList.size() == 0 ){
+            System.err.println("Error - No isotope information found for atomic number " + atomicNumber);
+            return new ImmutableAtom( 0, 0, 0 );
+        }
+        else{
+            Collections.sort( isotopeList, new Comparator<Isotope2>() {
+                public int compare( Isotope2 o1, Isotope2 o2 ) {
+                    return new Double(o2.abundance).compareTo( o1.abundance );
+                }
+            } );
+        }
+        Isotope2 isotope = isotopeList.get( 0 );
+        return new ImmutableAtom( isotope.protonCount, isotope.neutronCount, isotope.protonCount );
     }
 }
