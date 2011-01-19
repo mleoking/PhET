@@ -15,12 +15,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author John Blanco
  */
 public class GameSettingsStateView extends StateView {
-    private final GameSettingsPanel panel;
     private final PNode gameSettingsNode;
 
     public GameSettingsStateView( BuildAnAtomGameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameSettingsState(), gameCanvas );
-        panel = new GameSettingsPanel( new IntegerRange( 1, BuildAnAtomGameModel.MAX_LEVELS ) ) {
+        final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, BuildAnAtomGameModel.MAX_LEVELS ) ) {
             {
                 setTimerOn( model.getTimerEnabledProperty().getValue() );
                 setSoundOn( model.getSoundEnabledProperty().getValue() );
@@ -28,13 +27,16 @@ public class GameSettingsStateView extends StateView {
                 addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
                     @Override
                     public void startButtonPressed() {
-                        model.startGame( panel.getLevel(), panel.isTimerOn(), panel.isSoundOn() );
+                        model.startGame( getLevel(), isTimerOn(), isSoundOn() );
                     }
                 } );
             }
         };
-        gameSettingsNode = new PSwing( panel );
-        gameSettingsNode.scale( 1.5 );
+        gameSettingsNode = new PSwing( panel ) {
+            {
+                scale( 1.5 );
+            }
+        };
     }
 
     @Override
