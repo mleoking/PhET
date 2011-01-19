@@ -9,7 +9,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Physical model for an Electron shell, which describes the radius, and tracks electrons (one for each available position).
+ * Physical model for an Electron shell, which describes the radius, and
+ * tracks electrons (one for each available position).  The locations where
+ * the electrons can reside are evenly spaced around the radius of the shell.
+ *
  * @author John Blanco
  * @author Sam Reid
  */
@@ -61,8 +64,12 @@ public class ElectronShell extends SimpleObservable {
     }
 
     /**
+     * Get the electron that is closest, based on its location within the
+     * electron shell, to the supplied point.
+     *
      * @param point2d
-     * @return
+     * @return - A reference to the closest electron, null if there are no
+     * electrons in the shell.
      */
     public Electron getClosestElectron( Point2D point2d ) {
         Electron closestElectron = null;
@@ -81,7 +88,11 @@ public class ElectronShell extends SimpleObservable {
     }
 
     /**
-     * @return
+     * Get a list of the open shell locations, i.e. locations that are able
+     * to hold an electron but currently do not contain one.
+     *
+     * @return - List of open locations, which will be empty if the shell is
+     * completely full.
      */
     public ArrayList<Point2D> getOpenShellLocations() {
         ArrayList<Point2D> list = new ArrayList<Point2D>();
@@ -117,10 +128,14 @@ public class ElectronShell extends SimpleObservable {
         return getOpenShellLocations().size() == shellLocations.size();
     }
 
+    /**
+     * Remove all electrons from this shell.
+     */
     protected void reset() {
         if (getNumElectrons() > 0){
             for ( Electron electron : shellLocations.values() ) {
                 if ( electron != null ) {
+                    // This prevents memory leaks and incorrect notifications.
                     electron.removeListener( particleRemovalListener );
                 }
             }
@@ -131,6 +146,14 @@ public class ElectronShell extends SimpleObservable {
         }
     }
 
+    /**
+     * Add the supplied electron to this electron shell.
+     *
+     * @param electronToAdd - Reference to the newly added electron.
+     * @param moveImmediately - Flag that indicates whether to move the
+     * electron right away, or to start moving the electron continuously to
+     * the target location, which results in an animation effect.
+     */
     protected void addElectron( final Electron electronToAdd, boolean moveImmediately ) {
         Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition() );
         if (shellLocation == null){
@@ -148,17 +171,24 @@ public class ElectronShell extends SimpleObservable {
         notifyObservers();
     }
 
+    /**
+     * Remove the specified electron from the shell.
+     *
+     * @param electronToRemove
+     * @return - Returns the removed electron if found, null if not.
+     */
     public Electron removeElectron( Electron electronToRemove ) {
         assert shellLocations.containsValue( electronToRemove );
         assert electronToRemove != null;
-        Electron removedElectron = null;
         if ( shellLocations.containsValue( electronToRemove ) ){
             shellLocations.put( getKey( electronToRemove ), null );
             electronToRemove.removeListener( particleRemovalListener );
-            removedElectron = electronToRemove;
             notifyObservers();
+            return electronToRemove;
         }
-        return removedElectron;
+        else{
+            return null;
+        }
     }
 
     /**
@@ -167,8 +197,8 @@ public class ElectronShell extends SimpleObservable {
     public Electron removeElectron() {
         assert getNumElectrons() > 0;
         // Gets the first electron in the map and removes it.
-        for (Electron electron : shellLocations.values()){
-            if (electron != null){
+        for ( Electron electron : shellLocations.values() ) {
+            if ( electron != null ) {
                 return removeElectron( electron );
             }
         }
@@ -205,6 +235,9 @@ public class ElectronShell extends SimpleObservable {
         observer.update();
     }
 
+    /**
+     * Get a list of all the electrons that currently reside in this shell.
+     */
     public ArrayList<Electron> getElectrons() {
         ArrayList<Electron> electrons = new ArrayList<Electron>();
         for ( Electron electron : shellLocations.values() ) {
