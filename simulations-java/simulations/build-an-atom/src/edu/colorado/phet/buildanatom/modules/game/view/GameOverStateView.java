@@ -19,13 +19,16 @@ public class GameOverStateView extends StateView {
     private final GameOverNode gameOverNode;
     private final GameAudioPlayer gameAudioPlayer;
 
+    /**
+     * Constructor.
+     */
     public GameOverStateView( BuildAnAtomGameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameOverState(), gameCanvas );
-        gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
+        gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() ); // Assumes that the game over state is recreated at the end of each game.
         gameOverNode = new GameOverNode( model.getLevelProperty().getValue(), model.getScore(),
                 model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), model.getBestTime( model.getCurrentLevel() ),
                 model.isNewBestTime(), model.getTimerEnabledProperty().getValue() );
-        gameOverNode.setScale( 1.5 );
+        gameOverNode.setScale( 1.5 ); // Scale arbitrarily chosen to look good.
         gameOverNode.addGameOverListener( new GameOverNode.GameOverListener() {
             public void newGamePressed() {
                 model.newGame();
@@ -33,6 +36,11 @@ public class GameOverStateView extends StateView {
         } );
     }
 
+    /**
+     * Adds the node that conveys that the game is over and also plays the
+     * appropriate audio based on how the user did and whether the sound is
+     * enabled.
+     */
     @Override
     public void init() {
         gameOverNode.setOffset(
