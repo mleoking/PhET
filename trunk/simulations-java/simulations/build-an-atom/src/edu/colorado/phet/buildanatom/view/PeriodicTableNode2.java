@@ -12,6 +12,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  *
  * TODO: This class is a prototype that should be integrated with the other
- * periodic table node(s).
+ * periodic table node(s) once its behavior is somewhat finalized.
  *
  * This class defines a node that represents a periodic table of the elements.
  * It is not interactive by default, but provides overrides that can be used
@@ -277,6 +278,17 @@ public class PeriodicTableNode2 extends PNode {
 
         public int getAtomicNumber() {
             return atomicNumber;
+        }
+
+        /**
+         * Get the atom configuration associated with this cell on the
+         * periodic table.  The atom returned is a neutral version of the
+         * most common isotope of the atom found presently on earth.
+         *
+         * @return
+         */
+        public ImmutableAtom getAtomConfiguration(){
+            return AtomIdentifier.getMostCommonIsotope( atomicNumber );
         }
 
         public void setButtonEnabled(boolean enabled){

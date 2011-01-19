@@ -98,14 +98,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     elementCell.addActionListener( new ActionListener() {
 
                         public void actionPerformed( ActionEvent e ) {
-                            // TODO: Consider having the element cell provide an immutable atom.
-                            int numProtons = elementCell.getAtomicNumber();
-                            int numNeutrons = elementCell.getAtomicNumber();
-                            int numElectrons = elementCell.getAtomicNumber();
-                            ImmutableAtom atomConfig = new ImmutableAtom(numProtons, numNeutrons, numElectrons);
-
-                            model.setAtomConfiguration( atomConfig );
-
+                            model.setAtomConfiguration( elementCell.getAtomConfiguration() );
                         }
                     });
                 }
