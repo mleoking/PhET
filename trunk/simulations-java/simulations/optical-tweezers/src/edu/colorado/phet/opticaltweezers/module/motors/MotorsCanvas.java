@@ -38,7 +38,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
 
     // Model
     private MotorsModel _model;
-    
+
     // View
     private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
@@ -55,19 +55,19 @@ public class MotorsCanvas extends OTAbstractCanvas {
     private DNAForceNode _dnaForceNode;
     private EnzymeANode _enzymeANode;
     private EnzymeBNode _enzymeBNode;
-    
+
     // Control
     private PSwing _resetDNAButtonWrapper;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public MotorsCanvas( MotorsModel model ) {
         super( MotorsDefaults.VIEW_SIZE );
-        
+
         _model = model;
-        
+
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
@@ -77,9 +77,9 @@ public class MotorsCanvas extends OTAbstractCanvas {
         EnzymeA enzymeA = model.getEnzymeA();
         EnzymeB enzymeB = model.getEnzymeB();
         OTModelViewTransform modelViewTransform = model.getModelViewTransform();
-        
+
         setBackground( OTConstants.CANVAS_BACKGROUND );
-        
+
         // When the canvas is resized...
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -89,32 +89,32 @@ public class MotorsCanvas extends OTAbstractCanvas {
 
         // Microscope slide
         _microscopeSlideNode = new MicroscopeSlideNode( microscopeSlide, fluid, modelViewTransform, MotorsDefaults.FLUID_SPEED_RANGE.getMax() );
-        
+
         // Laser
         _laserDragBoundsNode = new PPath();
         _laserDragBoundsNode.setStroke( null );
         _laserNode = new LaserNode( laser, modelViewTransform, _laserDragBoundsNode );
         _laserNode.setElectricFieldVisible( false );
-        
+
         // DNA Strands
         _dnaStrandBeadNode = new DNAStrandNode( dnaStrandBead, modelViewTransform );
         _dnaStrandFreeNode = new DNAStrandNode( dnaStrandFree, modelViewTransform );
         _dnaStrandFreeNode.setStrandColor( MotorsDefaults.DNA_FREE_STRAND_COLOR );
-        
+
         // Enzymes
         _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
         _enzymeBNode = new EnzymeBNode( enzymeB, modelViewTransform );
-        
+
         // Pushpin
         PushpinNode pushpinNode = new PushpinNode();
         Point2D dnaPosition = modelViewTransform.modelToView( dnaStrandBead.getPosition() );
         pushpinNode.setOffset( dnaPosition );
-        
+
         // Bead
         _beadDragBoundsNode = new PPath();
         _beadDragBoundsNode.setStroke( null );
         _beadNode = new BeadNode( bead, modelViewTransform, _beadDragBoundsNode );
-        
+
         // Force vectors, use same reference values so that scale is the same!
         {
             final double modelReferenceMagnitude = laser.getMaxTrapForce().getMagnitude();
@@ -123,7 +123,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
             _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dnaForceNode = new DNAForceNode( bead, dnaStrandBead, fluid, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
-        
+
         // Ruler
         _rulerDragBoundsNode = new PPath();
         _rulerDragBoundsNode.setStroke( null );
@@ -131,10 +131,10 @@ public class MotorsCanvas extends OTAbstractCanvas {
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         _rulerNode.setOffset( 0, modelViewTransform.modelToView( MotorsDefaults.RULER_Y_POSITION ) );
         _rulerNode.setXOffsetFudgeFactor( 4 );
-        
+
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, MotorsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
-        
+
         // "Reset DNA" button
         JButton resetDNAButton = new JButton( OTResources.getString( "button.resetDNA" ) );
         Font font = new PhetFont( Font.BOLD, 18 );
@@ -150,7 +150,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         PBounds eBounds = _enzymeANode.getFullBoundsReference();
         _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ),
                 eBounds.getMaxY() - 150 );
-        
+
         // Layering order of nodes on the canvas
         addNode( _microscopeSlideNode );
         addNode( _laserNode );
@@ -170,59 +170,59 @@ public class MotorsCanvas extends OTAbstractCanvas {
         addNode( _rulerDragBoundsNode );
         addNode( _resetDNAButtonWrapper );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public BeadNode getBeadNode() {
         return _beadNode;
     }
-    
+
     public MicroscopeSlideNode getMicroscopeSlideNode() {
         return _microscopeSlideNode;
     }
-    
+
     public PPath getLaserDragBoundsNode() {
         return _laserDragBoundsNode;
     }
-    
+
     public LaserNode getLaserNode() {
         return _laserNode;
     }
-    
+
     public PotentialEnergyChartNode getPotentialEnergyChartNode() {
         return _potentialEnergyChartNode;
     }
-    
+
     public OTRulerNode getRulerNode() {
         return _rulerNode;
     }
-    
+
     public TrapForceNode getTrapForceNode() {
         return _trapForceNode;
     }
-    
+
     public FluidDragForceNode getFluidDragForceNode() {
         return _dragForceNode;
     }
-    
+
     public DNAForceNode getDNAForceNode() {
         return _dnaForceNode;
     }
-    
+
     public DNAStrandNode getDNAStrandBeadNode() {
         return _dnaStrandBeadNode;
     }
-    
+
     public DNAStrandNode getDNAStrandFreeNode() {
         return _dnaStrandFreeNode;
     }
-    
+
     public EnzymeANode getEnzymeANode() {
         return _enzymeANode;
     }
-    
+
     public EnzymeBNode getEnzymeBNode() {
         return _enzymeBNode;
     }
@@ -230,7 +230,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
-    
+
     /*
      * Updates the layout of stuff on the canvas.
      */
@@ -240,7 +240,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         double y = 0;
         double w = 0;
         double h = 0;
-        
+
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
@@ -249,7 +249,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         else if ( OTConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "MotorsCanvas.updateLayout worldSize=" + worldSize );
         }
-        
+
         // Adjust width of things that must fill the canvas width
         {
             _microscopeSlideNode.setWorldSize( worldSize );
@@ -261,7 +261,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         {
             // This percentage of the bead must remain visible
             final double m = 0.15;
-            
+
             Rectangle2D sb = _microscopeSlideNode.getCenterGlobalBounds();
             Rectangle2D bb = _beadNode.getGlobalFullBounds();
             x = sb.getX() - ( ( 1 - m ) * bb.getWidth() );
@@ -272,12 +272,12 @@ public class MotorsCanvas extends OTAbstractCanvas {
             Rectangle2D localDragBounds = _beadDragBoundsNode.globalToLocal( globalDragBounds );
             _beadDragBoundsNode.setPathTo( localDragBounds );
         }
-        
+
         // Adjust drag bounds of laser, so it stays in canvas
         {
             // This percentage of the laser must remain visible
             final double m = 0.15;
-            
+
             Rectangle2D sb = _microscopeSlideNode.getCenterGlobalBounds();
             Rectangle2D lb = _laserNode.getGlobalFullBounds();
             double xAdjust = ( 1 - m ) * lb.getWidth();
@@ -288,7 +288,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
             Rectangle2D globalDragBounds = new Rectangle2D.Double( x, y, w, h );
             Rectangle2D localDragBounds = _laserDragBoundsNode.globalToLocal( globalDragBounds );
             _laserDragBoundsNode.setPathTo( localDragBounds );
-            
+
             // If laser is not visible, move it to center of canvas
             Laser laser = _model.getLaser();
             Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
@@ -301,7 +301,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
             }
         }
     }
-    
+
     /**
      * Resets the DNA.
      */
