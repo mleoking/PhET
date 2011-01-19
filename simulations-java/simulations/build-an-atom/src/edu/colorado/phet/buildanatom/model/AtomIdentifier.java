@@ -1548,9 +1548,6 @@ public class AtomIdentifier {
         }
     }
 
-
-//    private static final ArrayList<Isotope2>[] ISOTOPE_TABLE = new ArrayList<Isotope2>[3];
-
     /**
      * Generate a data structure from the Isotope table that is in string
      * format.  Rename to "main" to use.
