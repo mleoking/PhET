@@ -8,16 +8,15 @@ import java.text.ParsePosition;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
-//DOC move this to phetcommon?
 /**
- * In Build an Atom, we need to always show the sign for positive and negative numbers (for the charge indication)
- * But never for zero, some examples: -2, -1, 0, +1, +2, etc.
+ * Display an integer with the sign always shown, even for positive numbers,
+ * and with no sign for zero.  Examples: -2, -1, 0, +1, +2, etc.
  *
  * @author Sam Reid
  * @author John Blanco
  */
 public class SignedIntegerFormat extends DecimalFormat {
-    private NumberFormat decimalFormat;
+    private final NumberFormat decimalFormat;
 
     public SignedIntegerFormat() {
         this.decimalFormat = ( DecimalFormat.getNumberInstance( PhetResources.readLocale() ) );
@@ -26,6 +25,7 @@ public class SignedIntegerFormat extends DecimalFormat {
         }
     }
 
+    @Override
     public StringBuffer format( long number, StringBuffer result, FieldPosition fieldPosition ) {
         fieldPosition.setBeginIndex( 0 );
         fieldPosition.setEndIndex( 0 );
@@ -55,5 +55,4 @@ public class SignedIntegerFormat extends DecimalFormat {
             System.out.println( "new SignedIntegerFormat().format(" + i + ") = " + new SignedIntegerFormat().format( i ) );
         }
     }
-
 }
