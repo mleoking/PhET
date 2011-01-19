@@ -1,3 +1,4 @@
+1/18/11 #2608, fix play area ruler, not horizontally aligned with laser origin
 # 2.03.00 (38019) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
 # 2.02.01 (37369) Dec 11, 2009
