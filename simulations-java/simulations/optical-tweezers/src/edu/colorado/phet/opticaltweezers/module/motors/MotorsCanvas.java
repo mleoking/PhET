@@ -130,7 +130,6 @@ public class MotorsCanvas extends OTAbstractCanvas {
         _rulerNode = new OTRulerNode( MotorsDefaults.RULER_MAJOR_TICK_INTERVAL, MotorsDefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         _rulerNode.setOffset( 0, modelViewTransform.modelToView( MotorsDefaults.RULER_Y_POSITION ) );
-        _rulerNode.setXOffsetFudgeFactor( 4 );
 
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, MotorsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );

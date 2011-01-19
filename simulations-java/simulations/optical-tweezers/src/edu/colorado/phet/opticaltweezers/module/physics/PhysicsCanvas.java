@@ -122,7 +122,6 @@ public class PhysicsCanvas extends OTAbstractCanvas {
         _rulerNode = new OTRulerNode( PhysicsDefaults.RULER_MAJOR_TICK_INTERVAL, PhysicsDefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         _rulerNode.setOffset( 0, modelViewTransform.modelToView( PhysicsDefaults.RULER_Y_POSITION ) );
-        _rulerNode.setXOffsetFudgeFactor( 4 );
 
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, PhysicsDefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
