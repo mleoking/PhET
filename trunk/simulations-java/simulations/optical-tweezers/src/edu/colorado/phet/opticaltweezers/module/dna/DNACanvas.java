@@ -130,7 +130,6 @@ public class DNACanvas extends OTAbstractCanvas {
         _rulerNode = new OTRulerNode( DNADefaults.RULER_MAJOR_TICK_INTERVAL, DNADefaults.RULER_MINOR_TICKS_BETWEEN_MAJORS,
                 laser, model.getModelViewTransform(), _rulerDragBoundsNode );
         _rulerNode.setOffset( 0, modelViewTransform.modelToView( DNADefaults.RULER_Y_POSITION ) );
-        _rulerNode.setXOffsetFudgeFactor( 4 );
 
         // Potential Energy chart
         _potentialEnergyChartNode = new PotentialEnergyChartNode( bead, laser, modelViewTransform, DNADefaults.POTENTIAL_ENERGY_SAMPLE_WIDTH );
