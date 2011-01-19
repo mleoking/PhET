@@ -190,7 +190,12 @@ public class OTRulerNode extends RulerNode implements Observer {
 
         // horizontally align the ruler's center with the laser
         final double xModel = _laser.getPositionReference().getX();
-        // #2608, use getWidth here because improper use of setWidth in RulerNode.setDistanceBetweenFirstAndLastTick makes getFullBounds().getWidth() return the wrong value
+        /*
+         * #2608, use getWidth here because of improper use of setBounds in RulerNode constructor,
+         * and setWidth in RulerNode.setDistanceBetweenFirstAndLastTick.  We should be using
+         * getFullBounds().getWidth here, but because the superclass is messing with the bounds
+         * directly, it causes getFullBounds().getWidth() to return the wrong value.
+         */
         final double xView = _modelViewTransform.modelToView( xModel ) - ( getWidth() / 2 );
         final double yView = getOffset().getY();
         setOffset( xView, yView );
