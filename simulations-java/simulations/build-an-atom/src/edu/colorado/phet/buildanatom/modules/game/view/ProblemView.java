@@ -75,7 +75,7 @@ public abstract class ProblemView extends StateView {
                 if ( problem.isSolvedCorrectly() ) {
                     setGuessEditable( false );
                     faceNode.smile();
-                    addChild( new PText( "+" + problem.getScore() ) {
+                    faceNode.addChild( new PText( "+" + problem.getScore() ) {
                         {
                             setOffset( faceNode.getFullBounds().getWidth() / 2, faceNode.getFullBounds().getHeight() );
                             setFont( new PhetFont( 24, true ) );
