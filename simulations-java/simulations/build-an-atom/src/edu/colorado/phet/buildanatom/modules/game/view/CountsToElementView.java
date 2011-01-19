@@ -1,4 +1,5 @@
 // Copyright 2002-2011, University of Colorado
+
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -6,11 +7,13 @@ import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 
 /**
- * View of a game problem where the user is shown the neutron/proton/electron counts and is asked to predict the element.
+ * View of a game problem where the user is shown the neutron/proton/electron
+ * counts and is asked to predict the element.
+ *
  * @author Sam Reid
  */
 public class CountsToElementView extends ToElementView{
-    private ParticleCountNode atomConfigurationText;
+    private final ParticleCountNode atomConfigurationText;
 
     public CountsToElementView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
