@@ -10,9 +10,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function0;
+import edu.colorado.phet.common.phetcommon.util.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

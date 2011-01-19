@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildanatom.view;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;

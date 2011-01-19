@@ -6,7 +6,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
-import edu.colorado.phet.buildanatom.view.SignedIntegerFormat;
+import edu.colorado.phet.common.phetcommon.util.SignedIntegerFormat;
 
 /**
  * View for the problem that presents a schematic view of an atom and asks
