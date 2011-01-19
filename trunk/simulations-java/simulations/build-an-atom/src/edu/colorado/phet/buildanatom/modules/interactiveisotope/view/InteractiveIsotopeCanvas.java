@@ -13,11 +13,11 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode2;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
+import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -91,6 +91,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode.addChild( stabilityIndicator );
 
         final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
+            {
+                setScale( 1.4 );
+                setOffset( 20, 20 );
+            }
             @Override
             protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
                 if ( elementCell.getAtomicNumber() <= 10 ){
@@ -108,9 +112,18 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 }
             }
         };
-        periodicTableNode.setScale( 1.4 );
-        periodicTableNode.setOffset( 20, 20 );
         rootNode.addChild( periodicTableNode );
+
+        // Add the symbol node that provides more detailed information about
+        // the currently selected element.
+        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true ) {
+            {
+                // Set location and scale.  These are empirically determined, tweak as needed.
+                setScale( 1.4 );
+                setOffset( 120, 320 );
+            }
+        };
+        rootNode.addChild( symbolNode );
 
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
