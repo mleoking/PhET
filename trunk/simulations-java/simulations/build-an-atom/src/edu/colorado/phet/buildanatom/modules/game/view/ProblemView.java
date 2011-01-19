@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -66,11 +67,18 @@ public abstract class ProblemView extends StateView {
         };
         problemNumberDisplay.setOffset( 30, 30 );
         checkButton = new GameButtonNode( BuildAnAtomStrings.GAME_CHECK, BUTTON_OFFSET, new ActionListener() {
+            // Process the user's guess.
             public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess( getGuess() );
                 final FaceNode faceNode = new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) );
+                faceNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth() / 2 - faceNode.getFullBounds().getWidth() / 2,
+                        BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - faceNode.getFullBounds().getHeight() / 2 );
                 resultNode.addChild( faceNode );
+
                 if ( problem.isSolvedCorrectly() ) {
+                    // The user answered correctly, so show the happy face and
+                    // score change, play sound (if enabled) and get set up for
+                    // the next problem.
                     setGuessEditable( false );
                     faceNode.smile();
                     faceNode.addChild( new PText( "+" + problem.getScore() ) {{
@@ -87,10 +95,13 @@ public abstract class ProblemView extends StateView {
                     resultNode.addChild( nextProblemButton );
                 }
                 else {
+                    // The user answered incorrectly.  Show the frowny face
+                    // and play the unhappy sound (if enabled).
                     faceNode.frown();
                     gameAudioPlayer.wrongAnswer();
                     setGuessEditable( false );
                     if ( problem.getNumGuesses() == 1 ) {
+                        // Give the user another chance.
                         GameButtonNode tryAgainButton = new GameButtonNode( BuildAnAtomStrings.GAME_TRY_AGAIN, BUTTON_OFFSET, new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
                                 resultNode.removeAllChildren();
@@ -102,6 +113,8 @@ public abstract class ProblemView extends StateView {
                         checkButton.setVisible( false );
                     }
                     else if ( problem.getNumGuesses() == 2 ) {
+                        // The user has exhausted their guesses, so give them
+                        // the opportunity to show the correct answer.
                         GameButtonNode showAnswerButton = new GameButtonNode( BuildAnAtomStrings.GAME_SHOW_ANSWER, BUTTON_OFFSET, new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
                                 displayAnswer( problem.getAnswer() );
@@ -119,8 +132,6 @@ public abstract class ProblemView extends StateView {
                         checkButton.setVisible( false );
                     }
                 }
-                faceNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth() / 2 - faceNode.getFullBounds().getWidth() / 2,
-                                    BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - faceNode.getFullBounds().getHeight() / 2 );
                 resultNode.moveToFront();
             }
         } );
