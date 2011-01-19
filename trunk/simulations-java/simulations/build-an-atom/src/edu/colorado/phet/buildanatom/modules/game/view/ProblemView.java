@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -10,15 +9,15 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -67,26 +66,23 @@ public abstract class ProblemView extends StateView {
         };
         problemNumberDisplay.setOffset( 30, 30 );
         checkButton = new GameButtonNode( BuildAnAtomStrings.GAME_CHECK, BUTTON_OFFSET, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
+            public void actionPerformed( ActionEvent e ) {
                 getModel().processGuess( getGuess() );
                 final FaceNode faceNode = new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) );
                 resultNode.addChild( faceNode );
-
                 if ( problem.isSolvedCorrectly() ) {
                     setGuessEditable( false );
                     faceNode.smile();
-                    faceNode.addChild( new PText( "+" + problem.getScore() ) {
-                        {
-                            setOffset( faceNode.getFullBounds().getWidth() / 2, faceNode.getFullBounds().getHeight() );
-                            setFont( new PhetFont( 24, true ) );
-                        }
-                    } );
+                    faceNode.addChild( new PText( "+" + problem.getScore() ) {{
+                        setOffset( faceNode.getFullBounds().getWidth() / 2, faceNode.getFullBounds().getHeight() );
+                        setFont( new PhetFont( 24, true ) );
+                    }} );
                     gameAudioPlayer.correctAnswer();
                     GameButtonNode nextProblemButton = new GameButtonNode( BuildAnAtomStrings.GAME_NEXT, BUTTON_OFFSET, new ActionListener() {
-                            public void actionPerformed( ActionEvent e ) {
+                        public void actionPerformed( ActionEvent e ) {
                             getModel().next();
-                            }
-                            } );
+                        }
+                    } );
                     checkButton.setVisible( false );
                     resultNode.addChild( nextProblemButton );
                 }
@@ -96,38 +92,38 @@ public abstract class ProblemView extends StateView {
                     setGuessEditable( false );
                     if ( problem.getNumGuesses() == 1 ) {
                         GameButtonNode tryAgainButton = new GameButtonNode( BuildAnAtomStrings.GAME_TRY_AGAIN, BUTTON_OFFSET, new ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
+                            public void actionPerformed( ActionEvent e ) {
                                 resultNode.removeAllChildren();
                                 checkButton.setVisible( true );
                                 setGuessEditable( true );
-                                }
-                                } );
+                            }
+                        } );
                         resultNode.addChild( tryAgainButton );
                         checkButton.setVisible( false );
                     }
                     else if ( problem.getNumGuesses() == 2 ) {
                         GameButtonNode showAnswerButton = new GameButtonNode( BuildAnAtomStrings.GAME_SHOW_ANSWER, BUTTON_OFFSET, new ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
+                            public void actionPerformed( ActionEvent e ) {
                                 displayAnswer( problem.getAnswer() );
                                 setGuessEditable( false );
                                 resultNode.removeAllChildren();
                                 GameButtonNode nextProblemButton = new GameButtonNode( BuildAnAtomStrings.GAME_NEXT, BUTTON_OFFSET, new ActionListener() {
-                                        public void actionPerformed( ActionEvent e ) {
+                                    public void actionPerformed( ActionEvent e ) {
                                         getModel().next();
-                                        }
-                                        } );
-                                resultNode.addChild( nextProblemButton );
-                                }
+                                    }
                                 } );
+                                resultNode.addChild( nextProblemButton );
+                            }
+                        } );
                         resultNode.addChild( showAnswerButton );
                         checkButton.setVisible( false );
                     }
                 }
                 faceNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth() / 2 - faceNode.getFullBounds().getWidth() / 2,
-                        BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - faceNode.getFullBounds().getHeight() / 2 );
+                                    BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - faceNode.getFullBounds().getHeight() / 2 );
                 resultNode.moveToFront();
-                }
-                } );
+            }
+        } );
         checkButton.setEnabled( false );
     }
 
