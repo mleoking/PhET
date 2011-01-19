@@ -11,17 +11,15 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This Piccolo node depicts the name of the atom.
+ * This Piccolo node depicts the name, e.g. "Helium", of an atom.
  *
  * @author Sam Reid
  * @author John Blanco
  */
 public class ElementNameIndicator extends PNode {
-    private final IDynamicAtom atom;
     private final PText elementName;
 
     public ElementNameIndicator( final IDynamicAtom atom, final BooleanProperty showLabels ) {
-        this.atom = atom;
         elementName = new PText() {
             {
                 setFont( new PhetFont( 18, true ) );
