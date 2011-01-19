@@ -23,10 +23,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-//DOC why is this needed instead of using piccolo-phet MinimizeMaximizeNode?
 /**
  * Node that contains other PNodes and that can be minimized/maximized to
- * hide/show the PNodes contained within it.
+ * hide/show the PNodes contained within it.  Note that there is a class in
+ * phetcommon that is similar to this, but that didn't serve the purposes
+ * needed.  If you need similar functionality, this should be moved to
+ * phetcommon.
  *
  * @author Chris Malley
  * @author John Blanco
