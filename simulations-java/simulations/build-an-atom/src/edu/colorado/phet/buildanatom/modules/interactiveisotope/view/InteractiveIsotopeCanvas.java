@@ -103,6 +103,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         } );
         rootNode.addChild( stabilityIndicator );
 
+        // Add the interactive periodic table that allows the user to select
+        // the current element.
         final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
             {
                 setScale( 1.4 );
@@ -138,7 +140,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         };
         rootNode.addChild( symbolNode );
 
-        // Add controls that allow the user to show/hide the chemical symbol.
+        // Add the control that allows the user to show/hide the chemical symbol.
         BooleanProperty symbolVisibility = new BooleanProperty( true ){{
             addObserver( new SimpleObserver() {
                 public void update() {
@@ -159,11 +161,30 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode.addChild( symbolVisibilityCheckBoxNode );
 
         // Add the node that indicates the percentage abundance.
-        rootNode.addChild( new AbundanceIndicator( model.getAtom() ){{
+        final PNode abundanceIndicator = new AbundanceIndicator( model.getAtom() ){{
             setOffset( 730, 350 );
-        }} );
+        }};
+        rootNode.addChild( abundanceIndicator );
 
-//        setOffset( symbolVisibilityCheckBoxNode.getFullBoundsReference().getMinX(), symbolVisibilityCheckBoxNode.getFullBoundsReference().getMaxY() + 10 );
+        // Add the control that allows the user to show/hide the abundance indicator.
+        BooleanProperty abundanceVisibility = new BooleanProperty( false ){{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    abundanceIndicator.setVisible( getValue() );
+                }
+            });
+        }};
+        // TODO: i18n
+        PropertyCheckBox abundanceIndicatorVisibilityPropertyCheckBox = new PropertyCheckBox( "Show Abundance", abundanceVisibility ) {
+            {
+                setFont( LABEL_FONT );
+                setOpaque( false );
+            }
+        };
+        final PNode abundanceVisibilityCheckBoxNode = new PSwing( abundanceIndicatorVisibilityPropertyCheckBox ){{
+            setOffset( symbolVisibilityCheckBoxNode.getFullBoundsReference().getMinX(), symbolVisibilityCheckBoxNode.getFullBoundsReference().getMaxY() );
+        }};
+        rootNode.addChild( abundanceVisibilityCheckBoxNode );
 
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
