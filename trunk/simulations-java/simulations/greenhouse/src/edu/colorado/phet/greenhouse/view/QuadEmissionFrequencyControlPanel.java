@@ -108,7 +108,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         /*
          * TODO: 1/13/2011 - Kelly L has suggested removing the spectrum due
          * to confusion shown by interviewees - they interpreted it as the
-         * emission spectrum of
+         * emission spectrum of hydrogen.  Remove permanently if and when this
+         * decision is finalized.
         // Create a data structure that maps the wavelengths to the x
         // positions of their selectors.  This is needed by the spectrum node
         // in order to create a visual connection between the selection button
