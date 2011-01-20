@@ -3,6 +3,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 import flash.events.Event;
 
+import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.HSlider;
 import mx.controls.Label;
@@ -15,12 +16,18 @@ private var slider:HSlider;
     public function NumericSlider( property:NumericProperty ) {
         super();
 
-        var label: Label = new Label(  );
-        label.text = property.name;
-        addChild( label );
+        var hbox: HBox = new HBox();
+        addChild( hbox );
+
+        var nameLabel: PhetText = new PhetText( property.name );
+        hbox.addChild( nameLabel );
 
         var textField:TextInput = new TextInput();
-        this.addChild(textField);
+        textField.width = 50;
+        hbox.addChild(textField);
+
+        var unitsLabel: PhetText = new PhetText( property.units );
+        hbox.addChild( unitsLabel );
 
         this.slider = new HSlider();
         this.formatSlider(this.slider);

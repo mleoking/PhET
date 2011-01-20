@@ -75,8 +75,8 @@ public class ControlPanel extends Canvas {
 
         this.background = new VBox();
         this.background.setStyle( "backgroundColor", 0x66ff66 );
-        this.background.percentWidth = 100;
-        this.background.percentHeight = 100;
+        //this.background.percentWidth = 100;
+        //this.background.percentHeight = 100;
         this.background.setStyle( "borderStyle", "solid" )
         this.background.setStyle( "borderColor", 0x009900 );
         this.background.setStyle( "cornerRadius", 15 );
@@ -93,8 +93,8 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
             setStyle( "backgroundColor", 0xdddd00 );
-            percentWidth = 100;
-            percentHeight = 100;
+            //percentWidth = 100;
+            //percentHeight = 100;
             setStyle( "borderStyle", "solid" );
             setStyle( "borderColor", 0x0000ff );
             setStyle( "cornerRadius", 8 );
