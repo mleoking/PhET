@@ -385,6 +385,18 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             // Add the arrow node as a child.
             addChild( arrowNode );
 
+            /*
+             * TODO: In early January 2011, it was suggested that the energy
+             * arrows be made interactive based on some preliminary interviews
+             * that Kelly L did with her family.  She found that they pressed
+             * the arrows and expected something to happen.  As a result, the
+             * code below that adds interactivity was added.  However,
+             * subsequent interviews with students found that they clicked
+             * the arrows a lot and didn't get much out of it.  So the
+             * interactivity is being removed on Jan 20, 2011.  It should be
+             * kept around until this decision is finalized, then if it is not
+             * used it should be permanently deleted.
+             *
             // Add a cursor handler.
             addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
@@ -414,7 +426,9 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                     arrowNode.setPaint( NORMAL_COLOR );
                 }
             } );
+             */
         }
+
 
         /**
          * Increase the current wavelength setting of the model.  Note that
