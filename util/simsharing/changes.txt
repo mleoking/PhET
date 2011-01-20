@@ -1,3 +1,4 @@
+# 00.00.02 (48120) Jan 20, 2011
 # 00.00.01 (48118) Jan 20, 2011
 Added Classroom.main that launches 30 students and improved threading for student startup
 Save and restore selected mode
