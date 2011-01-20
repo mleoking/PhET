@@ -17,8 +17,8 @@ import static akka.actor.Actors.remote;
  */
 public class Server {
     public static int PORT = 2552;
-    public static String IP_ADDRESS = "localhost";
-//    public static String IP_ADDRESS = "128.138.145.107";
+    //    public static String IP_ADDRESS = "localhost";
+    public static String IP_ADDRESS = "128.138.145.107";
 
     private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
