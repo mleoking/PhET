@@ -606,4 +606,11 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
             return "+" + getCharge();
         }
     }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getNaturalAbundance()
+     */
+    public double getNaturalAbundance() {
+        return AtomIdentifier.getNaturalAbundance( this );
+    }
 }

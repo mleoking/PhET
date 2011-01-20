@@ -4,15 +4,18 @@ package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode2;
@@ -20,10 +23,14 @@ import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -31,7 +38,13 @@ import edu.umd.cs.piccolo.PNode;
 public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
+    //----------------------------------------------------------------------------
+
+    private final static Font LABEL_FONT = new PhetFont( 20 );
+
+    //----------------------------------------------------------------------------
+    // Instance Data
     //----------------------------------------------------------------------------
 
     // View
@@ -69,7 +82,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         final PNode atomAndBucketNode = new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) );
 
         // Create the weigh scale that sits beneath the atom.
-        PNode scaleNode = new AtomScaleNode( model.getAtom() ){{
+        final PNode scaleNode = new AtomScaleNode( model.getAtom() ){{
             // The scale needs to sit just below the atom, and there are some
             // "tweak factors" needed to get it looking right.
             setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2, 530 );
@@ -116,7 +129,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the symbol node that provides more detailed information about
         // the currently selected element.
-        SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true ) {
+        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true ) {
             {
                 // Set location and scale.  These are empirically determined, tweak as needed.
                 setScale( 1.4 );
@@ -125,10 +138,37 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         };
         rootNode.addChild( symbolNode );
 
+        // Add controls that allow the user to show/hide the chemical symbol.
+        BooleanProperty symbolVisibility = new BooleanProperty( true ){{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    symbolNode.setVisible( getValue() );
+                }
+            });
+        }};
+        // TODO: i18n
+        PropertyCheckBox symbolVisibilityPropertyCheckBox = new PropertyCheckBox( "Show Symbol", symbolVisibility ) {
+            {
+                setFont( LABEL_FONT );
+                setOpaque( false );
+            }
+        };
+        final PNode symbolVisibilityCheckBoxNode = new PSwing( symbolVisibilityPropertyCheckBox ){{
+            setOffset( scaleNode.getFullBoundsReference().getMaxX() + 40, 590 );
+        }};
+        rootNode.addChild( symbolVisibilityCheckBoxNode );
+
+        // Add the node that indicates the percentage abundance.
+        rootNode.addChild( new AbundanceIndicator( model.getAtom() ){{
+            setOffset( 730, 350 );
+        }} );
+
+//        setOffset( symbolVisibilityCheckBoxNode.getFullBoundsReference().getMinX(), symbolVisibilityCheckBoxNode.getFullBoundsReference().getMaxY() + 10 );
+
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
         particleCountLegend.setScale( 1.25 );
-        particleCountLegend.setOffset( 575, 20 );
+        particleCountLegend.setOffset( 575, 50 );
         rootNode.addChild( particleCountLegend );
     }
 
@@ -152,5 +192,26 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         }
 
         //XXX lay out nodes
+    }
+
+    // ------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    private static class AbundanceIndicator extends PNode {
+
+        private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
+
+        public AbundanceIndicator( final IDynamicAtom atom ){
+            final HTMLNode text = new HTMLNode(){{
+                setFont( new PhetFont( 20 ) );
+            }};
+            addChild( text );
+            atom.addObserver( new SimpleObserver() {
+                public void update() {
+                    text.setHTML( "<html>Abundance = " + ABUNDANCE_FORMATTER.format( atom.getNaturalAbundance() * 100 ) + " %</html>" );
+                }
+            });
+        }
     }
 }

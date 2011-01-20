@@ -130,4 +130,11 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     public double getAtomicMass(){
         return AtomIdentifier.getAtomicMass( this );
     }
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.buildanatom.model.IAtom#getNaturalAbundance()
+     */
+    public double getNaturalAbundance() {
+        return AtomIdentifier.getNaturalAbundance( this );
+    }
 }

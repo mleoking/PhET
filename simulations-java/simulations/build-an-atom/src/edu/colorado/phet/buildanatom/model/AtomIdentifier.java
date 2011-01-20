@@ -1451,6 +1451,27 @@ public class AtomIdentifier {
         return atomicMass;
     }
 
+    /**
+     * Get the proportion of this particular isotope on present-day earth
+     * versus all isotopes for this element.
+     *
+     * @return - A value from 0 to 1 representing the natural abundance.
+     */
+    public static double getNaturalAbundance( IAtom atom ) {
+        double naturalAbundance = 0;
+        ArrayList<Isotope2> isotopeList = ISOTOPE_INFORMATION_TABLE.get( atom.getNumProtons() );
+        if ( isotopeList != null ){
+            for ( Isotope2 isotope : isotopeList ) {
+                if ( atom.getNumNeutrons() == isotope.neutronCount ) {
+                    // Found the matching isotope.
+                    naturalAbundance = isotope.abundance;
+                    break;
+                }
+            }
+        }
+        return naturalAbundance;
+    }
+
     private static class Isotope {
         public final int massNumber;
         public final int neutronNumber;
