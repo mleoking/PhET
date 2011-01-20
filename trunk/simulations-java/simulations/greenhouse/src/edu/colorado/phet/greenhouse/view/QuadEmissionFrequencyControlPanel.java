@@ -51,7 +51,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     // todo markers in this file.
     private static final Dimension PANEL_SIZE = new Dimension( 850, 150 );
     private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
-    private static final double EDGE_TO_ARROW_DISTANCE_Y = 4;
+    private static final double EDGE_TO_ARROW_DISTANCE_Y = 0;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -102,7 +102,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
         ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
-        wavelengthSelectorPanelNode.setOffset( 0, 5 );
+        wavelengthSelectorPanelNode.setOffset( 0, 10 );
 
         /*
          * TODO: 1/13/2011 - Kelly L has suggested removing the spectrum due
@@ -147,9 +147,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 GreenhouseResources.getString( "QuadWavelengthSelector.Higher" ),
                 EnergyArrow.Direction.POINTS_RIGHT,
                 model );
-        rightArrowNode.setOffset(
-                backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
-                PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height );
         rightArrowNode.setOffset(
                 backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
                 PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
@@ -344,10 +341,10 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     private static class EnergyArrow extends PNode {
 
         private static final double ARROW_LENGTH = 60;
-        private static final double ARROW_HEAD_HEIGHT = 15;
-        private static final double ARROW_HEAD_WIDTH = 30;
-        private static final double ARROW_TAIL_WIDTH = 10;
-        private static final Color NORMAL_COLOR = Color.WHITE;
+        private static final double ARROW_HEAD_HEIGHT = 10;
+        private static final double ARROW_HEAD_WIDTH = 12;
+        private static final double ARROW_TAIL_WIDTH = 1;
+        private static final Color NORMAL_COLOR = Color.BLACK;
         private static final Color HILITE_COLOR = Color.YELLOW;
 
         public enum Direction { POINTS_LEFT, POINTS_RIGHT };
@@ -363,7 +360,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 // Arrow points to the left.
                 headPoint = new Point2D.Double(0, 0);
                 tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
-                caption.setOffset( ARROW_LENGTH + 5, ARROW_HEAD_WIDTH / 2 - caption.getFullBoundsReference().height / 2 );
+                caption.setOffset( ARROW_LENGTH + 10, ARROW_HEAD_WIDTH / 2 - caption.getFullBoundsReference().height / 2 );
                 arrowXPos = 0;
             }
             else{
