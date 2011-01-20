@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_ko.xml created Thu Jan 06 14:48:04 KST 2011 using: calculus-grapher 2.03.00 (42751), translation-utility 2.09.00 (44031) 9월 14, 2010-->
+<!--calculus-grapher-strings_ko.xml created Fri Jan 14 15:11:04 KST 2011 using: calculus-grapher 2.03.00 (42751), translation-utility 2.09.00 (44031) 9월 14, 2010-->
 <SimStrings>
 <string key="grid" value="그리드"/>
 <string key="smooth" value="부드럽게"/>
@@ -19,5 +19,3 @@
 <string key="tilt" value="기울이기"/>
 <string key="line" value="선"/>
 </SimStrings>
-기"/>
-<string key="simTitle" 
