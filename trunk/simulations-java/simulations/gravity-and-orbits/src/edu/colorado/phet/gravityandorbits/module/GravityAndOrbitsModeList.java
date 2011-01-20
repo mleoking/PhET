@@ -30,6 +30,8 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
     public static final double SECONDS_PER_MINUTE = 60;
     private Property<Scale> scaleProperty;
     private Property<Boolean> clockPausedProperty;
+    private final Property<Boolean> stepping;
+    private final Property<Boolean> rewinding;
 
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
@@ -97,9 +99,11 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
     public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
     private final Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -EARTH_PERIHELION / 6, EARTH_PERIHELION, -EARTH_PERIHELION / 6 );
 
-    public GravityAndOrbitsModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty ) {
+    public GravityAndOrbitsModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding ) {
         this.scaleProperty = scaleProperty;
         this.clockPausedProperty = clockPausedProperty;
+        this.stepping = stepping;
+        this.rewinding = rewinding;
         Function2<BodyNode, Property<Boolean>, PNode> readoutInEarthMasses = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
                 return new EarthMassReadoutNode( bodyNode, visible );
@@ -111,7 +115,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ) ) {
+                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ), stepping, rewinding ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -121,7 +125,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ) ) {
+                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ), stepping, rewinding ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -140,7 +144,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                                        createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
                                        new Line2D.Double( EARTH_PERIHELION, -MOON_PERIGEE / 4, EARTH_PERIHELION + MOON_PERIGEE, -MOON_PERIGEE / 4 ), 400,
                                        new ImmutableVector2D( EARTH_PERIHELION, 0 ),
-                                       gravityEnabledProperty, MOON_PERIGEE / 2, new Point2D.Double( EARTH_PERIHELION, 0 ) ) {
+                                       gravityEnabledProperty, MOON_PERIGEE / 2, new Point2D.Double( EARTH_PERIHELION, 0 ), stepping, rewinding ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -167,7 +171,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                                        SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
                                        new Line2D.Double( EARTH_PERIHELION, -EARTH_RADIUS / 6, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, -EARTH_RADIUS / 6 ),
                                        400 * 54, new ImmutableVector2D( EARTH_PERIHELION, 0 ),
-                                       gravityEnabledProperty, SPACE_STATION_PERIGEE * 15, new Point2D.Double( EARTH_PERIHELION, 0 ) ) {
+                                       gravityEnabledProperty, SPACE_STATION_PERIGEE * 15, new Point2D.Double( EARTH_PERIHELION, 0 ), stepping, rewinding ) {
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), planetCartoonDiameterScale * 1.5 * 1.5 / 54 );
 
             {
@@ -201,7 +205,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         return new Body( earth, GAOStrings.SATELLITE, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
                          SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1,
                          getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true,
-                         SPACE_STATION_MASS, GAOStrings.SPACE_STATION, clockPausedProperty );
+                         SPACE_STATION_MASS, GAOStrings.SPACE_STATION, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale,
@@ -209,18 +213,18 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
         return new Body( earth, GAOStrings.MOON, MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white,
                          cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
-                         cartoonForceVectorScale, massReadoutBelow, MOON_MASS, GAOStrings.OUR_MOON, clockPausedProperty );
+                         cartoonForceVectorScale, massReadoutBelow, MOON_MASS, GAOStrings.OUR_MOON, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
         return new Body( sun, GAOStrings.PLANET, EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray,
                          cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", EARTH_MASS ), scaleProperty, -Math.PI / 4, true,
-                         maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPausedProperty );
+                         maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createSun( int maxPathLength ) {
         return new Body( null, GAOStrings.SUN, 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1,
-                         SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty );
+                         SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty, stepping, rewinding );
     }
 
 }

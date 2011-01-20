@@ -67,7 +67,7 @@ public class Body implements IBodyColors {
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPausedProperty ) {
+                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding ) {
         this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
@@ -84,13 +84,13 @@ public class Body implements IBodyColors {
         this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
-        positionProperty = new ClockRewindProperty<ImmutableVector2D>( clockPausedProperty, new ImmutableVector2D( x, y ) );
-        velocityProperty = new ClockRewindProperty<ImmutableVector2D>( clockPausedProperty, new ImmutableVector2D( vx, vy ) );
+        positionProperty = new ClockRewindProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( x, y ) );
+        velocityProperty = new ClockRewindProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        massProperty = new ClockRewindProperty<Double>( clockPausedProperty, mass );
+        massProperty = new ClockRewindProperty<Double>( clockPaused, stepping, rewinding, mass );
         diameterProperty = new Property<Double>( diameter );
-        collidedProperty = new ClockRewindProperty<Boolean>( clockPausedProperty, false );
+        collidedProperty = new ClockRewindProperty<Boolean>( clockPaused, stepping, rewinding, false );
         density = mass / getVolume();
         scaledPositionProperty = new Property<ImmutableVector2D>( getPosition() );
 

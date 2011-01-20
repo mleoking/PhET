@@ -15,13 +15,20 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
  */
 public class ClockRewindProperty<T> extends Property<T> {
     private final Property<Boolean> clockPaused;
+    private final Property<Boolean> stepping;//if the clock is paused and the user pressed 'step', do not store a rewind point
+    private final Property<Boolean> rewinding;//if the clock is paused and the user pressed 'rewind', do not store a rewind point
     private T rewindValue;
     private Property<Boolean> different; // true when the rewind point value is different than the property's value
     private ArrayList<VoidFunction0> rewindValueChangedListeners = new ArrayList<VoidFunction0>();
 
-    public ClockRewindProperty( Property<Boolean> clockPaused, T value ) {
+    public ClockRewindProperty( Property<Boolean> clockPaused,
+                                Property<Boolean> isStepping,
+                                Property<Boolean> isRewinding,
+                                T value ) {
         super( value );
         this.clockPaused = clockPaused;
+        stepping = isStepping;
+        rewinding = isRewinding;
         this.rewindValue = value;
 
         different = new Property<Boolean>( !equalsRewindPoint() );
@@ -30,7 +37,7 @@ public class ClockRewindProperty<T> extends Property<T> {
     @Override
     public void setValue( T value ) {
         super.setValue( value );
-        if ( clockPaused.getValue() ) {
+        if ( clockPaused.getValue() && !stepping.getValue() && !rewinding.getValue() ) {
             storeRewindValueNoNotify();
             for ( VoidFunction0 rewindValueChangedListener : rewindValueChangedListeners ) {
                 rewindValueChangedListener.apply();
@@ -57,10 +64,6 @@ public class ClockRewindProperty<T> extends Property<T> {
 
     public Property<Boolean> different() {
         return different;
-    }
-
-    public T getRewindValue() {
-        return rewindValue;
     }
 
     /**

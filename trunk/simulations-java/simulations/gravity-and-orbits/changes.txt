@@ -1,3 +1,4 @@
+Fixed: stored 'rewind' values get reset during step and rewind
 # 0.0.15 (48082) Jan 18, 2011
 Update force vectors when gravity gets toggled on and off, otherwise displayed value won't update
 If any of the rewind properties changes while the clock is paused, set a rewind point for all of them

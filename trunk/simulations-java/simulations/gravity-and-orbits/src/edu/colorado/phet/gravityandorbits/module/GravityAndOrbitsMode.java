@@ -54,8 +54,6 @@ public abstract class GravityAndOrbitsMode {
     private final double velocityScale;
     private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;
     private final Property<Boolean> deviatedFromEarthValuesProperty = new Property<Boolean>( false );
-    private double zoomScale;
-    private ImmutableVector2D zoomOffset;
     private double rewindClockTime;
     private Property<ModelViewTransform> modelViewTransformProperty;
 
@@ -64,6 +62,7 @@ public abstract class GravityAndOrbitsMode {
     private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
     private double gridSpacing;//in meters
     private Point2D.Double gridCenter;
+    private final Property<Boolean> rewinding;
     private Property<ImmutableVector2D> measuringTapeStartPoint;
     private Property<ImmutableVector2D> measuringTapeEndPoint;
 
@@ -72,17 +71,16 @@ public abstract class GravityAndOrbitsMode {
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
-                                 Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter ) {
+                                 Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter, Property<Boolean> stepping, Property<Boolean> rewinding ) {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
         this.iconImage = iconImage;
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
         this.velocityScale = velocityScale;
-        this.zoomScale = zoomScale;
-        this.zoomOffset = zoomOffset;
         this.gridSpacing = gridSpacing;
         this.gridCenter = gridCenter;
+        this.rewinding = rewinding;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -94,7 +92,7 @@ public abstract class GravityAndOrbitsMode {
         final double h = targetRectangle.getMaxY() - y;
         modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( new Rectangle2D.Double( x, y, w, h ) ) );
 
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt ), gravityEnabledProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, stepping ), gravityEnabledProperty );
 
         this.rewindClockTime = 0;
         getClock().addClockListener( new ClockAdapter() {
@@ -236,10 +234,12 @@ public abstract class GravityAndOrbitsMode {
 
     //Restore the last set of initial conditions that were set while the sim was paused.
     public void rewind() {
+        rewinding.setValue( true );
         getClock().setSimulationTime( rewindClockTime );
         for ( Body body : model.getBodies() ) {
             body.rewind();
         }
+        rewinding.setValue( false );
     }
 
     public double getGridSpacing() {
