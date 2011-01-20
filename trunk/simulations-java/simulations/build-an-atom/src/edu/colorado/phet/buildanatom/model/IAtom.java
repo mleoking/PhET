@@ -19,6 +19,7 @@ public interface IAtom {
     String getSymbol();
     String getName();
     String getFormattedCharge();
+    double getNaturalAbundance();
     boolean isStable();
 
 }
