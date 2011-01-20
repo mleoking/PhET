@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -49,8 +48,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     private static final Color BACKGROUND_COLOR = new Color( 185, 178, 95 );
 //    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
     // TODO: Temporarily reduced size to accommodate reduced content, see other
-    // to do markers in this file.
-    private static final Dimension PANEL_SIZE = new Dimension( 800, 125 );
+    // todo markers in this file.
+    private static final Dimension PANEL_SIZE = new Dimension( 850, 150 );
     private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
     private static final double EDGE_TO_ARROW_DISTANCE_Y = 4;
 
@@ -68,7 +67,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         final PNode backgroundNode = new PhetPPath( new RoundRectangle2D.Double(0, 0, PANEL_SIZE.getWidth(),
                 PANEL_SIZE.getHeight(), 20, 20), BACKGROUND_COLOR );
 
-        // Add the radio buttons that set the emission frequency.
+        // Add the radio buttons that set the emission wavelength.
         final WavelengthSelectButtonNode microwaveSelectorNode =
             new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Microwave" ), model, GreenhouseConfig.microWavelength );
         final WavelengthSelectButtonNode infraredSelectorNode =
@@ -88,7 +87,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         buttonGroup.add( ultravioletSelectorNode.getButton() );
 
         // Create a "panel" sort of node that contains all the selector
-        // buttons, then position it at the center bottom of the main node.
+        // buttons, then position it on the main node.
         final PNode wavelengthSelectorPanelNode = new PNode();
         double interSelectorSpacing = ( PANEL_SIZE.getWidth() - microwaveSelectorNode.getFullBoundsReference().width -
                 infraredSelectorNode.getFullBoundsReference().width -
@@ -103,7 +102,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         wavelengthSelectorPanelNode.addChild( visibleLightSelectorNode );
         ultravioletSelectorNode.setOffset( visibleLightSelectorNode.getFullBoundsReference().getMaxX() + interSelectorSpacing, 0 );
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
-        wavelengthSelectorPanelNode.setOffset( 0, 15 );
+        wavelengthSelectorPanelNode.setOffset( 0, 5 );
 
         /*
          * TODO: 1/13/2011 - Kelly L has suggested removing the spectrum due
@@ -179,6 +178,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         JRadioButton button;
 
         public WavelengthSelectButtonNode( final String text, final PhotonAbsorptionModel photonAbsorptionModel, final double wavelength ){
+
+            // Add the radio button.
             button = new JRadioButton(){{
                 setFont( LABEL_FONT );
                 setText( text );
@@ -198,6 +199,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 // Set initial state.
                 setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
             }};
+
             // TODO: We received some feedback that the buttons were a little
             // small, so the following scaling operation makes them bigger
             // relative to the font.  Keep or discard once reviewed.  Note
@@ -210,9 +212,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
             // Add an image of a photon.
             PhotonNode photonNode = new PhotonNode( wavelength );
-            photonNode.setOffset(
-                    buttonNode.getFullBoundsReference().getMaxX() + photonNode.getFullBoundsReference().width / 2,
-                    buttonNode.getFullBoundsReference().getCenterY() );
             photonNode.addInputEventListener( new PBasicInputEventHandler(){
                 @Override
                 public void mouseClicked( PInputEvent event ) {
@@ -220,6 +219,13 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 }
             });
             addChild( photonNode );
+
+            // Do the layout.  The photon is above the radio button, centered.
+            photonNode.setOffset(
+                    buttonNode.getFullBoundsReference().width / 2,
+                    photonNode.getFullBoundsReference().height / 2 );
+            buttonNode.setOffset( 0, photonNode.getFullBoundsReference().height * 0.6 );
+
         }
 
         public JRadioButton getButton(){
@@ -262,7 +268,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
          * @param mapWavelengthToXPos
          */
         public SpectrumNode( int width, int height, PhotonAbsorptionModel model, HashMap<Double, Double> mapWavelengthToXPos ){
-
             this.model = model;
             this.height = height;
             this.mapWavelengthToXPos = mapWavelengthToXPos;
