@@ -339,7 +339,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 //        private static final Paint NORMAL_COLOR = new GradientPaint( 0, (float) ( -ARROW_HEAD_HEIGHT / 2 ),
 //                new Color( 180, 82, 205 ), 0, (float) ( ARROW_HEAD_HEIGHT / 2 ), Color.WHITE );
         private static final Paint NORMAL_COLOR = new GradientPaint( 0, (float) ( -ARROW_HEAD_HEIGHT / 2 ),
-                new Color( 180, 82, 205 ), 0, (float)(ARROW_HEAD_HEIGHT * 0.25), Color.WHITE );
+                new Color( 97, 92, 169 ), 0, (float)(ARROW_HEAD_HEIGHT * 0.25), Color.WHITE );
 
         public EnergyArrow( String captionText, final PhotonAbsorptionModel model ){
             // Create and add the arrow.  The arrow points to the right.
