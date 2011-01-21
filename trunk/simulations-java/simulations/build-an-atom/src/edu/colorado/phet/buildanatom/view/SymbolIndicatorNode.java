@@ -26,7 +26,7 @@ public class SymbolIndicatorNode extends PNode {
 
     public static final Font SYMBOL_FONT = new PhetFont( 28, true );
     public static final Font NUMBER_FONT = new PhetFont( 20, true );
-    public static final Font ELEMENT_NAME_FONT = new PhetFont( 12, true );
+    public static final Font DEFAULT_ELEMENT_NAME_FONT = new PhetFont( 12, true );//This default font is used predominantly in Build an Atom
 
     private final IDynamicAtom atom;
     private final PText symbol;
@@ -35,8 +35,19 @@ public class SymbolIndicatorNode extends PNode {
     private final PText massNumberNode;
     private final PText chargeNode;
     private final PText elementName;
+    private final PNode textContent;//keep the text in a separate PNode so it can be repositioned; this is used in
+    // Interactive Isotopes when the charge value isn't displayed to center the text in the white box.
 
-    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName) {
+    /**
+     * Creates a SymbolIndicatorNode with the default font.
+     * @param atom
+     * @param showElementName
+     */
+    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName ) {
+        this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT,true );
+    }
+
+    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, Font elementNameFont,boolean showCharge) {
         //has to be big enough to hold Ne with 2 digit numbers on both sides
         double width = 83;
         double height = 83;
@@ -52,31 +63,36 @@ public class SymbolIndicatorNode extends PNode {
                 new BasicStroke( 1 ), Color.black );
         addChild( boundingBox );
 
+        textContent = new PNode();
+        addChild( textContent );
+
         // Textual symbol.
         symbol = new PText();
         symbol.setFont( SYMBOL_FONT );
-        addChild( symbol );
+        textContent.addChild( symbol );
 
         // Proton number.
         protonCount = new PText();
         protonCount.setFont( NUMBER_FONT );
         protonCount.setTextPaint( Color.RED );
-        addChild( protonCount );
+        textContent.addChild( protonCount );
 
         // Mass number.
         massNumberNode = new PText();
         massNumberNode.setFont( NUMBER_FONT );
         massNumberNode.setTextPaint( Color.BLACK );
-        addChild( massNumberNode );
+        textContent.addChild( massNumberNode );
 
         // Charge value indicator.
         chargeNode = new PText();
         chargeNode.setFont(NUMBER_FONT);
-        addChild( chargeNode );
+        if (showCharge){
+            textContent.addChild( chargeNode );
+        }
 
         // Element name.
         elementName = new PText();
-        elementName.setFont( ELEMENT_NAME_FONT );
+        elementName.setFont( elementNameFont );
         elementName.setTextPaint( Color.RED );
         if ( showElementName ){
             addChild( elementName );
@@ -140,5 +156,7 @@ public class SymbolIndicatorNode extends PNode {
         elementName.setOffset(
                 boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
                 boundingBox.getFullBoundsReference().getMaxY() );
+
+        textContent.centerFullBoundsOnPoint( boundingBox.getFullBoundsReference().getCenterX(), boundingBox.getFullBoundsReference().getCenterY() );
     }
 }

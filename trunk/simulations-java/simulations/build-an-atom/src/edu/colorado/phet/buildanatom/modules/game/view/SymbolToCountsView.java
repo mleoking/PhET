@@ -28,7 +28,7 @@ public class SymbolToCountsView extends ProblemView {
 
     public SymbolToCountsView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, SymbolToCountsProblem howManyParticlesProblem ) {
         super( model, canvas, howManyParticlesProblem );
-        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom(getClock()), true );
+        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom(getClock()), true);
         symbolIndicatorNode.scale( 2.25 );
         symbolIndicatorNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width / 4 - symbolIndicatorNode.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
