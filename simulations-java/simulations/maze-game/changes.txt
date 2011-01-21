@@ -1,3 +1,4 @@
+# 1.06.01 (48144) Jan 21, 2011
 > Fixed audio bug
 Minor refactoring
 Removed unused audio clips
