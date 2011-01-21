@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
+import java.util.HashMap;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModeList;
 
@@ -14,6 +16,7 @@ import static java.lang.Math.exp;
  */
 public class CartoonPositionMap {
     private double cartoonOffsetScale;
+    public static boolean alphaLocked = false;
 
     public CartoonPositionMap( double cartoonOffsetScale ) {
         this.cartoonOffsetScale = cartoonOffsetScale;
@@ -21,15 +24,49 @@ public class CartoonPositionMap {
 
     final double DEFAULT_DIST = 3.9137E8;
     final int K = 10;
+    static final HashMap<Key, Double> map = new HashMap<Key, Double>();
+
+    public static class Key {
+        Body a;
+        Body b;
+
+        public Key( Body body, Body parent ) {
+            this.a = body;
+            b = parent;
+        }
+
+        @Override
+        public boolean equals( Object o ) {
+            if ( this == o ) { return true; }
+            if ( o == null || getClass() != o.getClass() ) { return false; }
+
+            Key key = (Key) o;
+
+            return key.a == a && key.b == b;
+        }
+
+        @Override
+        public int hashCode() {
+            return 0;
+        }
+    }
 
     /*
-     * Convert real coordinates to cartoon by using interpolating between the real coordinate and a scaled offset from the parent.
-     */
-    public ImmutableVector2D toCartoon( String name, ImmutableVector2D xR, ImmutableVector2D parentPosition ) {
+    * Convert real coordinates to cartoon by using interpolating between the real coordinate and a scaled offset from the parent.
+    */
+    public ImmutableVector2D toCartoon( String name, ImmutableVector2D xR, ImmutableVector2D parentPosition, Body body, Body parent ) {
 
         double distance = xR.getDistance( parentPosition );
+        final boolean containsKey = map.containsKey( new Key( body, parent ) );
+//        System.out.println( "a = "+body.getName()+", b = "+parent.getName()+", alphaLocked = " + alphaLocked+", contains key = "+containsKey );
+        if ( !alphaLocked || !containsKey ) {
+            map.put( new Key( body, parent ), 1 - Math.exp( -distance / DEFAULT_DIST / K ) );
+        }
 
-        double alpha = 1 - Math.exp( -distance / DEFAULT_DIST / K );
+        double alpha = map.get( new Key( body, parent ) );
+//        if (body.getName().equals( "Moon" )){
+//            System.out.println("moon alpha = "+alpha);
+//        }
 
         //When nearby to the parent position, use this linear function: cartoonx = parent.x+(x - parent.x) * scale
         final ImmutableVector2D xC = parentPosition.plus( xR.minus( parentPosition ).times( cartoonOffsetScale ) );
