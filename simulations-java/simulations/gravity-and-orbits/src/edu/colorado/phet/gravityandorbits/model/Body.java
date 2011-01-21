@@ -360,7 +360,7 @@ public class Body implements IBodyColors {
 
     public ImmutableVector2D getCartoonPosition() {
         if ( getParent() != null ) {
-            return new CartoonPositionMap( cartoonOffsetScale ).toCartoon( getName(), getPosition(), getParent().getPosition() );
+            return new CartoonPositionMap( cartoonOffsetScale ).toCartoon( getName(), getPosition(), getParent().getPosition(), this, getParent() );
         }
         else {
             return getPosition();//those without parents have a cartoon position equal to their physical position
