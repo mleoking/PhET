@@ -32,7 +32,7 @@ public abstract class Molecule {
     private static final Random RAND = new Random();
 
     static final double VIBRATION_FREQUENCY = 5;  // Cycles per second of sim time.
-    private static final double ROTATION_RATE = 1.75;  // Revolutions per second of sim time.
+    private static final double ROTATION_RATE = 1.1;  // Revolutions per second of sim time.
     private static final double ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
 
     // Scaler quantity representing the speed at which the constituent particles
