@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
@@ -231,7 +232,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         public AbundanceIndicator( final IDynamicAtom atom ) {
             final HTMLNode title = new HTMLNode() {{
                 setFont( new PhetFont( 20 ) );
-                setHTML( "Abundance:" );
+                setHTML( BuildAnAtomStrings.ABUNDANCE );
             }};
             final HTMLNode value = new HTMLNode() {{
                 setFont( new PhetFont( 20 ) );
@@ -245,7 +246,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 public void update() {
                     //Show the abundance value
                     final double abundance = atom.getNaturalAbundance();
-                    String v = abundance < 0.01 && abundance > 0 ? "very small" : ABUNDANCE_FORMATTER.format( abundance * 100 ) + "%";
+                    String v = abundance < 0.01 && abundance > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundance * 100 ) + "%";
                     value.setHTML( v );
 
                     //Expand the white background to contain the text value

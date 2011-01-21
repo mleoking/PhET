@@ -198,4 +198,6 @@ public class BuildAnAtomStrings {
     public static final String TITLE_ISOTOPE_ABUNDANCE_MODULE = getString( "title.abundance" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
+    public static final String ABUNDANCE = getString( "abundance" );
+    public static final String VERY_SMALL = getString( "verySmall" );
 }
