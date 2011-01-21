@@ -107,26 +107,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
-        final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model.getAtom(), BuildAnAtomConstants.CANVAS_BACKGROUND ){
+        final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model, BuildAnAtomConstants.CANVAS_BACKGROUND ){
             {
                 setScale( 1.4 );
                 setOffset( 20, 20 );
-            }
-            @Override
-            protected void elementCellCreated( final PeriodicTableNode2.ButtonElementCell elementCell ) {
-                if ( elementCell.getAtomicNumber() <= 10 ){
-                    elementCell.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-                    elementCell.addActionListener( new ActionListener() {
-
-                        public void actionPerformed( ActionEvent e ) {
-                            model.setAtomConfiguration( elementCell.getAtomConfiguration() );
-                        }
-                    });
-                }
-                else{
-                    elementCell.setButtonEnabled( false );
-                    elementCell.setTextColor( Color.GRAY );
-                }
             }
         };
         rootNode.addChild( periodicTableNode );
