@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  */
 public class BuildAnAtomStrings {
 
+    public static final String ATOM_ISOTOPE_NAME_PATTERN = getString( "pattern.0element.1massNumber" );
+
     /* not intended for instantiation */
     private BuildAnAtomStrings() {}
 
