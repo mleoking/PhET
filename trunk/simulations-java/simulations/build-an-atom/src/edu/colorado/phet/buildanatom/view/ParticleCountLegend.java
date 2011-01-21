@@ -39,7 +39,24 @@ public class ParticleCountLegend extends PNode {
     //Another way to solve this would be to factor out a parent class from NeutronNode that just does rendering (i.e. doesn't need a reference to a Neutron)
     private static final ConstantDtClock NO_CLOCK = new ConstantDtClock( 1000, 1 );
 
+    /**
+     * Constructor that uses default transparent background color.
+     */
     public ParticleCountLegend( final IDynamicAtom atom ) {
+        this( atom, new Color( 0, 0, 0, 0 ));
+    }
+
+    /**
+     * Primary constructor.
+     */
+    public ParticleCountLegend( final IDynamicAtom atom, Color backgroundColor ) {
+        // Set up the layers.
+        PNode backgroundLayer = new PNode();
+        addChild( backgroundLayer );
+        PNode foregroundLayer = new PNode();
+        addChild( foregroundLayer );
+
+        // Create the particle rows.
         final ReadoutLegendItem protonItem = new ReadoutLegendItem( BuildAnAtomStrings.PROTONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumProtons();
@@ -68,9 +85,9 @@ public class ParticleCountLegend extends PNode {
             }
         } );
 
-        addChild( protonItem );
-        addChild( neutronItem );
-        addChild( electronItem );
+        foregroundLayer.addChild( protonItem );
+        foregroundLayer.addChild( neutronItem );
+        foregroundLayer.addChild( electronItem );
 
         //Layout the components
         protonItem.setOffset( 0, OFFSET_Y );
@@ -81,9 +98,9 @@ public class ParticleCountLegend extends PNode {
         neutronItem.setIconXOffset( iconX );
         electronItem.setIconXOffset( iconX );
 
-        //Show a border around all rows
-        final PhetPPath boundsNode = new PhetPPath( new BasicStroke( 1 ), Color.black );
-        addChild( boundsNode );
+        // Show a border/background around all rows
+        final PhetPPath boundsNode = new PhetPPath( backgroundColor, new BasicStroke( 1 ), Color.black );
+        backgroundLayer.addChild( boundsNode );
         PropertyChangeListener updateBounds = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 Rectangle2D bounds = RectangleUtils.union( new Rectangle2D[] { protonItem.getFullBounds(), neutronItem.getFullBounds(), electronItem.getFullBounds() } );

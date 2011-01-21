@@ -187,7 +187,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode.addChild( abundanceVisibilityCheckBoxNode );
 
         // Add the legend/particle count indicator.
-        ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
+        ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), Color.WHITE );
         particleCountLegend.setScale( 1.25 );
         particleCountLegend.setOffset( 575, 50 );
         rootNode.addChild( particleCountLegend );
