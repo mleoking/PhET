@@ -1,3 +1,5 @@
+# 3.01.12 (48153) Jan 21, 2011
+1/21/11 Deploying to dev for review of changes to M&L simulation
 Replaced the energy arrows with a single arrow that looks like the one on the sketch of the spectrum node.
 Slowed the rotation rate of the molecules so that microwaves don't appear to impart more energy than IR or other photons.
 Replaced EM spectrum drawing with new, home-grown version.  This is intended for obtaining feedback, and will be replaced by translatable version once agreed upon.
