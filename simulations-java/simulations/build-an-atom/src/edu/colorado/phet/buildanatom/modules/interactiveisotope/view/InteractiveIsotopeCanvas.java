@@ -228,6 +228,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     private static class AbundanceIndicator extends PNode {
 
         private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
+        public static final double MIN_ABUNDANCE_TO_SHOW = 0.00001;//Should match the resolution of the ABUNDANCE_FORMATTER
+        protected final int RECTANGLE_INSET_X = 6;
 
         public AbundanceIndicator( final IDynamicAtom atom ) {
             final HTMLNode title = new HTMLNode() {{
@@ -236,22 +238,21 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
             }};
             final HTMLNode value = new HTMLNode() {{
                 setFont( new PhetFont( 20 ) );
-                setOffset( title.getFullBounds().getWidth() + 12, 0 );
+                setOffset( title.getFullBounds().getWidth() + RECTANGLE_INSET_X + 10, 0 );
             }};
-            final PhetPPath background = new PhetPPath( Color.white, new BasicStroke( 1 ), Color.darkGray );
+            final PhetPPath valueBackground = new PhetPPath( Color.white, new BasicStroke( 1 ), Color.darkGray );
             addChild( title );
-            addChild( background );
+            addChild( valueBackground );
             addChild( value );
             atom.addObserver( new SimpleObserver() {
                 public void update() {
                     //Show the abundance value
-                    final double abundance = atom.getNaturalAbundance();
-                    String v = abundance < 0.01 && abundance > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundance * 100 ) + "%";
-                    value.setHTML( v );
+                    final double abundancePercent = atom.getNaturalAbundance() * 100;
+                    value.setHTML( abundancePercent < MIN_ABUNDANCE_TO_SHOW && abundancePercent > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundancePercent ) + "%" );
 
                     //Expand the white background to contain the text value
-                    final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), 6, 3 );
-                    background.setPathTo( new RoundRectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight(), 10, 10 ) );
+                    final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), RECTANGLE_INSET_X, 3 );
+                    valueBackground.setPathTo( new RoundRectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight(), 10, 10 ) );
                 }
             } );
         }

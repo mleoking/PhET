@@ -1,3 +1,4 @@
+improved layout and tolerance for displaying values in AbundanceIndicator
 Internationalized AbundanceIndicator
 Improved AbundanceIndicator to say that C14 has a "very small" amount instead of 0
 Added white background for AbundanceIndicator
