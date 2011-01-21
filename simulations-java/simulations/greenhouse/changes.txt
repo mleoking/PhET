@@ -1,3 +1,4 @@
+Replaced the energy arrows with a single arrow that looks like the one on the sketch of the spectrum node.
 Slowed the rotation rate of the molecules so that microwaves don't appear to impart more energy than IR or other photons.
 Replaced EM spectrum drawing with new, home-grown version.  This is intended for obtaining feedback, and will be replaced by translatable version once agreed upon.
 Added first attempt at a dialog for showing the EM spectrum and a button on the M&L canvas for bringing it up. 
