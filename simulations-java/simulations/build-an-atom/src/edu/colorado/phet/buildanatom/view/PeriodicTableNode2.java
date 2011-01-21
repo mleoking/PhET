@@ -3,8 +3,10 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
@@ -13,8 +15,10 @@ import javax.swing.JButton;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,6 +52,7 @@ public class PeriodicTableNode2 extends PNode {
     // ------------------------------------------------------------------------
 
     public Color backgroundColor = null;
+    private final InteractiveIsotopeModel model;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -57,8 +62,10 @@ public class PeriodicTableNode2 extends PNode {
      * Constructor.
      * @param backgroundColor
      */
-    public PeriodicTableNode2( final IDynamicAtom atom, Color backgroundColor ) {
+    public PeriodicTableNode2( final InteractiveIsotopeModel model, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
+        this.model = model;
+        IDynamicAtom atom = model.getAtom();
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
@@ -83,23 +90,27 @@ public class PeriodicTableNode2 extends PNode {
     // ------------------------------------------------------------------------
 
     private void addElement( final IDynamicAtom atom, final PNode table, int atomicNumber ) {
-        ButtonElementCell elementCell = new ButtonElementCell( atom, atomicNumber, backgroundColor );
+        PNode elementCell;
+        if ( atomicNumber <= 10 ){
+            // Add an interactive element cell.
+            final ButtonElementCell buttonElementCell = new ButtonElementCell( atom, atomicNumber, backgroundColor );
+            buttonElementCell.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+            buttonElementCell.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent e ) {
+                    model.setAtomConfiguration( buttonElementCell.getAtomConfiguration() );
+                }
+            });
+            elementCell = buttonElementCell;
+        }
+        else{
+            elementCell = new BasicElementCell( atom, atomicNumber, backgroundColor );
+        }
         final Point gridPoint = getGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
         elementCell.setOffset( x, y );
         table.addChild( elementCell );
-        elementCellCreated( elementCell );
-    }
-
-    /**
-     * Listener callback, override when needing notification of the creation
-     * of element cells.  This is useful when creating an interactive chart,
-     * since it is a good opportunity to hook up event listeners to the cell.
-     *
-     * @param elementCell
-     */
-    protected void elementCellCreated( ButtonElementCell elementCell ) {
     }
 
     /**
