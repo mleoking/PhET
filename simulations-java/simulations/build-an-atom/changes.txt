@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Made the neutron bucket a bit larger and added more neutrons in an attempt to make it more noticeable.
 isotopes-and-atomic-mass: added isotope name under the symbol node, and internationalized
 isotopes-and-atomic-mass: Increased the font size for element names in the symbol node in isotopes sim
 isotopes-and-atomic-mass: Hide the charge indicator node in the isotopes sim

@@ -35,11 +35,11 @@ public class InteractiveIsotopeModel implements Resettable {
             400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     // Constant that defines the default number of neutrons in the bucket.
-    private static final int DEFAULT_NUM_NEUTRONS_IN_BUCKET = 8;
+    private static final int DEFAULT_NUM_NEUTRONS_IN_BUCKET = 10;
 
     // Constants that define the size, position, and appearance of the neutron bucket.
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
-    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( -150, -154 );
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 70, 45 );
+    private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( -160, -142 );
 
     // Distance at which nucleons are captured by the nucleus.
     protected static final double NUCLEUS_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_1_RADIUS;
