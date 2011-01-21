@@ -6,11 +6,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.translationutility.util.MessageFormatValidator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -36,6 +39,7 @@ public class SymbolIndicatorNode extends PNode {
     private final PText chargeNode;
     private final PText elementName;
     private final PNode textContent;//keep the text in a separate PNode so it can be repositioned; this is used in
+    private final boolean showIsotopeNumberInElementName;
     // Interactive Isotopes when the charge value isn't displayed to center the text in the white box.
 
     /**
@@ -44,10 +48,12 @@ public class SymbolIndicatorNode extends PNode {
      * @param showElementName
      */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName ) {
-        this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT,true );
+        this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT, true, false );
     }
 
-    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, Font elementNameFont,boolean showCharge) {
+    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, Font elementNameFont,
+                                boolean showCharge, boolean showIsotopeNumberInElementName ) {
+        this.showIsotopeNumberInElementName = showIsotopeNumberInElementName;
         //has to be big enough to hold Ne with 2 digit numbers on both sides
         double width = 83;
         double height = 83;
@@ -142,11 +148,12 @@ public class SymbolIndicatorNode extends PNode {
         }
 
         elementName.setScale( 1 );
-        if ( atom.getNumProtons() > 0 ){
-            elementName.setText( atom.getName() );
+        if ( showIsotopeNumberInElementName ) {
+            final String format = MessageFormat.format( BuildAnAtomStrings.ATOM_ISOTOPE_NAME_PATTERN, atom.getName(), new Integer(atom.getMassNumber()) );
+            elementName.setText( format );
         }
-        else{
-            elementName.setText( "" );
+        else {
+            elementName.setText( atom.getName() );
         }
         if (elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
             // Make sure the caption is not wider than the bounding box and,

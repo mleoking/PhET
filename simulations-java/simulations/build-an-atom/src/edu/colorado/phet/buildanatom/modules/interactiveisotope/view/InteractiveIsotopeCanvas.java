@@ -133,7 +133,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the symbol node that provides more detailed information about
         // the currently selected element.
-        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true, new PhetFont( 18, true ),false ) {{
+        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true, new PhetFont( 18, true ), false, true ) {{
             // Set location and scale.  These are empirically determined, tweak as needed.
             setScale( 1.4 );
             setOffset( 120, 320 );
