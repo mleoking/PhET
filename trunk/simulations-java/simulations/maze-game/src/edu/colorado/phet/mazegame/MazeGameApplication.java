@@ -18,12 +18,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class MazeGameApplication extends PiccoloPhetApplication {
 
-    private MazeGameModule module;
-
     public MazeGameApplication( PhetApplicationConfig config ) {
         super( config );
-        module = new MazeGameModule( config );
-        addModule( module );
+        addModule( new MazeGameModule( config ) );
     }
 
     public static class MazeGameApplicationConfig extends PhetApplicationConfig {
@@ -46,8 +43,7 @@ public class MazeGameApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        MazeGameApplicationConfig applicationConfig = new MazeGameApplicationConfig( args );
-        new PhetApplicationLauncher().launchSim( applicationConfig, new ApplicationConstructor() {
+        new PhetApplicationLauncher().launchSim( new MazeGameApplicationConfig( args ), new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new MazeGameApplication( config );
             }
