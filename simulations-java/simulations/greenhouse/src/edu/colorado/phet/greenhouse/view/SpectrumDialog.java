@@ -50,7 +50,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         setResizable( false );
 
         // picture
-        BufferedImage image = GreenhouseResources.getImage( "electromagnetic-spectrum.jpg" );
+        BufferedImage image = GreenhouseResources.getImage( "spectrum-sketch-for-molecules-and-light.png" );
         JLabel picture = new JLabel( new ImageIcon( image ) );
         picture.setSize( image.getWidth(), image.getHeight() );
 

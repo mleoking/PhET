@@ -1,3 +1,4 @@
+Replaced EM spectrum drawing with new, home-grown version.  This is intended for obtaining feedback, and will be replaced by translatable version once agreed upon.
 Added first attempt at a dialog for showing the EM spectrum and a button on the M&L canvas for bringing it up. 
 Modified photons and the control panel background in order to make the photons more visible.
 Fixed an issue where the edges of the UV photon were being cut off.
