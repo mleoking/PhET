@@ -1,3 +1,5 @@
+Improved AbundanceIndicator to say that C14 has a "very small" amount instead of 0
+Added white background for AbundanceIndicator
 Added trace amount of Carbon-14 to the isotope table.
 Added title for 2nd tab of Isotopes sim.
 # 2.00.02 (47929) Jan 13, 2011

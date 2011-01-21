@@ -2,14 +2,13 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
@@ -26,9 +25,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -219,20 +220,39 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
+
+    /**
+     * Shows the abundance readout for a user-selected isotope.
+     */
     private static class AbundanceIndicator extends PNode {
 
         private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
 
-        public AbundanceIndicator( final IDynamicAtom atom ){
-            final HTMLNode text = new HTMLNode(){{
+        public AbundanceIndicator( final IDynamicAtom atom ) {
+            final HTMLNode title = new HTMLNode() {{
                 setFont( new PhetFont( 20 ) );
+                setHTML( "Abundance:" );
             }};
-            addChild( text );
+            final HTMLNode value = new HTMLNode() {{
+                setFont( new PhetFont( 20 ) );
+                setOffset( title.getFullBounds().getWidth() + 12, 0 );
+            }};
+            final PhetPPath background = new PhetPPath( Color.white, new BasicStroke( 1 ), Color.darkGray );
+            addChild( title );
+            addChild( background );
+            addChild( value );
             atom.addObserver( new SimpleObserver() {
                 public void update() {
-                    text.setHTML( "<html>Abundance = " + ABUNDANCE_FORMATTER.format( atom.getNaturalAbundance() * 100 ) + " %</html>" );
+                    //Show the abundance value
+                    final double abundance = atom.getNaturalAbundance();
+                    String v = abundance < 0.01 && abundance > 0 ? "very small" : ABUNDANCE_FORMATTER.format( abundance * 100 ) + "%";
+                    value.setHTML( v );
+
+                    //Expand the white background to contain the text value
+                    final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), 6, 3 );
+                    background.setPathTo( new RoundRectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight(), 10, 10 ) );
                 }
-            });
+            } );
         }
     }
 }
