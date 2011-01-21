@@ -29,9 +29,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * TODO: This class is a prototype that should be integrated with the other
  * periodic table node(s) once its behavior is somewhat finalized.
  *
- * This class defines a node that represents a periodic table of the elements.
- * It is not interactive by default, but provides overrides that can be used
- * to add interactivity.
+ * This class defines a node that represents a periodic table of the elements
+ * that contains some cells that are interactive and can be used to set the
+ * configuration of the atom in a model.
  *
  * This makes some assumptions about which portions of the table to display,
  * and may not work for all situations.
@@ -39,7 +39,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  * @author John Blanco
  */
-public class PeriodicTableNode2 extends PNode {
+public class PeriodicTableControlNode extends PNode {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -62,7 +62,7 @@ public class PeriodicTableNode2 extends PNode {
      * Constructor.
      * @param backgroundColor
      */
-    public PeriodicTableNode2( final InteractiveIsotopeModel model, Color backgroundColor ) {
+    public PeriodicTableControlNode( final InteractiveIsotopeModel model, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
         this.model = model;
         IDynamicAtom atom = model.getAtom();

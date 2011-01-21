@@ -18,7 +18,7 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
-import edu.colorado.phet.buildanatom.view.PeriodicTableNode2;
+import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -107,7 +107,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
-        final PeriodicTableNode2 periodicTableNode = new PeriodicTableNode2( model, BuildAnAtomConstants.CANVAS_BACKGROUND ){
+        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model, BuildAnAtomConstants.CANVAS_BACKGROUND ){
             {
                 setScale( 1.4 );
                 setOffset( 20, 20 );
