@@ -46,8 +46,8 @@ public class MazeGameSimulationPanel extends JPanel {
         splat = MazeGameResources.loadBufferedImage( "RedBang.gif" );
         ballImage = MazeGameResources.loadBufferedImage( "ballsmall2.gif" );
 
-        cork = MazeGameResources.getAudioClip( "cork.au" );
-        figaro = MazeGameResources.getAudioClip( "figaro.au" );
+        cork = MazeGameResources.getAudioClip( "cork.wav" );
+        figaro = MazeGameResources.getAudioClip( "figaro.wav" );
 
         pArena.start();
     }
