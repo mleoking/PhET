@@ -6,8 +6,8 @@ import static edu.colorado.phet.buildanatom.BuildAnAtomResources.getString;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
- * A collection of localized strings used by this simulations.
- * We load all strings as statics so that we will be warned at startup time of any missing strings.
+ * A collection of localized strings used by this simulation.  We load all
+ * strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class BuildAnAtomStrings {
 
@@ -195,6 +195,7 @@ public class BuildAnAtomStrings {
     public static final String TITLE_BUILD_ATOM_MODULE = getString( "title.buildAtomModule" );
     public static final String TITLE_GAME_MODULE = getString( "title.gameModule" );
     public static final String TITLE_INTERACTIVE_ISOTOPE_MODULE = getString( "title.interactiveIsotopeModule" );
+    public static final String TITLE_ISOTOPE_ABUNDANCE_MODULE = getString( "title.abundance" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
 }
