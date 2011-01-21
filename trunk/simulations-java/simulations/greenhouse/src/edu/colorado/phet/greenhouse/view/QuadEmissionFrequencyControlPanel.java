@@ -134,23 +134,13 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         backgroundNode.addChild( title );
          */
 
-        // Add the arrows on the right and left sides.
-        EnergyArrow leftArrowNode = new EnergyArrow(
-                GreenhouseResources.getString( "QuadWavelengthSelector.Lower" ),
-                EnergyArrow.Direction.POINTS_LEFT,
-                model );
-        leftArrowNode.setOffset(
-                EDGE_TO_ARROW_DISTANCE_X,
-                PANEL_SIZE.getHeight() - leftArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
-        backgroundNode.addChild( leftArrowNode );
-        EnergyArrow rightArrowNode = new EnergyArrow(
-                GreenhouseResources.getString( "QuadWavelengthSelector.Higher" ),
-                EnergyArrow.Direction.POINTS_RIGHT,
-                model );
-        rightArrowNode.setOffset(
-                backgroundNode.getFullBoundsReference().width - rightArrowNode.getFullBoundsReference().getWidth() - EDGE_TO_ARROW_DISTANCE_X,
-                PANEL_SIZE.getHeight() - rightArrowNode.getFullBoundsReference().height - EDGE_TO_ARROW_DISTANCE_Y );
-        backgroundNode.addChild( rightArrowNode );
+        // Add the energy arrow.
+        // TODO: i18n
+        EnergyArrow energyArrow = new EnergyArrow( "Increasing frequency and energy", model ){{
+            centerFullBoundsOnPoint( backgroundNode.getFullBoundsReference().getCenterX(),
+                    PANEL_SIZE.getHeight() - getFullBoundsReference().height / 2 - 10 );
+        }};
+        backgroundNode.addChild( energyArrow );
 
         // Add everything in the needed order.
         addChild( backgroundNode );
@@ -333,12 +323,87 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     }
 
     /**
-     * Class that defines the "energy arrow", which is an arrow on each side
-     * of the chart that indicates increasing or decreasing energy amounts.
+     * Class that defines the "energy arrow", which is an arrow that depicts
+     * the direction of increasing energy.
      *
      * @author John Blanco
      */
     private static class EnergyArrow extends PNode {
+
+        private static final double ARROW_LENGTH = 700;
+        private static final double ARROW_HEAD_HEIGHT = 60;
+        private static final double ARROW_HEAD_WIDTH = 60;
+        private static final double ARROW_TAIL_WIDTH = 30;
+        private static final Color NORMAL_COLOR = Color.WHITE;
+
+        public EnergyArrow( String captionText, final PhotonAbsorptionModel model ){
+            // Create and add the arrow.  The arrow points to the right.
+            Point2D headPoint, tailPoint;
+            headPoint = new Point2D.Double(ARROW_LENGTH, 0);
+            tailPoint = new Point2D.Double(0, 0);
+            final ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
+                setPaint( NORMAL_COLOR );
+                setStroke( new BasicStroke( 3 ) );
+            }};
+            addChild( arrowNode );
+
+            // Create and add the caption.
+            HTMLNode caption = new HTMLNode( captionText );
+            caption.setFont( new PhetFont( 20, true ) );
+            caption.centerFullBoundsOnPoint( arrowNode.getFullBoundsReference().getCenterX(), arrowNode.getFullBoundsReference().getCenterY() );
+            addChild( caption );
+        }
+
+        /**
+         * Increase the current wavelength setting of the model.  Note that
+         * the implementation is less than ideal because it requires knowledge
+         * of the available wavelengths.  It may be desirable to make this
+         * more general some day.
+         */
+        private void increaseWavelength( PhotonAbsorptionModel model ){
+            if (model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.microWavelength );
+            }
+        }
+
+        /**
+         * Decrease the current wavelength setting of the model.  Note that
+         * the implementation is less than ideal because it requires knowledge
+         * of the available wavelengths.  It may be desirable to make this
+         * more general some day.
+         */
+        private void decreaseWavelength( PhotonAbsorptionModel model ){
+            if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
+            }
+            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
+            }
+            else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
+                model.setEmittedPhotonWavelength( GreenhouseConfig.uvWavelength );
+            }
+        }
+    }
+
+
+    /**
+     * Class that defines the "energy arrow", which is an arrow on each side
+     * of the chart that indicates increasing or decreasing energy amounts.
+     *
+     * TODO: This is an older version of the energy arrow class that was used
+     * initially, when it was specified that there be two energy arrows on the
+     * control panel.  Get rid of this once we decide for certain to replace
+     * it with a single arrow.
+     *
+     * @author John Blanco
+     */
+    private static class EnergyArrow2 extends PNode {
 
         private static final double ARROW_LENGTH = 60;
         private static final double ARROW_HEAD_HEIGHT = 10;
@@ -349,7 +414,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         public enum Direction { POINTS_LEFT, POINTS_RIGHT };
 
-        public EnergyArrow( String captionText, final Direction direction, final PhotonAbsorptionModel model ){
+        public EnergyArrow2( String captionText, final Direction direction, final PhotonAbsorptionModel model ){
             HTMLNode caption = new HTMLNode( captionText );
             caption.setFont( new PhetFont( 18, true ) );
             addChild( caption );
@@ -387,49 +452,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
             // Add the arrow node as a child.
             addChild( arrowNode );
-
-            /*
-             * TODO: In early January 2011, it was suggested that the energy
-             * arrows be made interactive based on some preliminary interviews
-             * that Kelly L did with her family.  She found that they pressed
-             * the arrows and expected something to happen.  As a result, the
-             * code below that adds interactivity was added.  However,
-             * subsequent interviews with students found that they clicked
-             * the arrows a lot and didn't get much out of it.  So the
-             * interactivity is being removed on Jan 20, 2011.  It should be
-             * kept around until this decision is finalized, then if it is not
-             * used it should be permanently deleted.
-             *
-            // Add a cursor handler.
-            addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
-
-            // Add a listener that allows the user to click on the arrow and
-            // cause the frequency to go up or down.  This also and to
-            // highlights the arrow when the mouse is over it.
-            addInputEventListener( new PBasicInputEventHandler(){
-                @Override
-                public void mouseClicked( PInputEvent event ) {
-                    if ( direction == Direction.POINTS_RIGHT ){
-                        // Increase the energy (which translates to decreased wavelength).
-                        decreaseWavelength( model );
-                    }
-                    else{
-                        // Decrease the energy (which translates to increased wavelength).
-                        increaseWavelength( model );
-                    }
-                }
-
-                @Override
-                public void mouseEntered( PInputEvent event ) {
-                    arrowNode.setPaint( HILITE_COLOR );
-                }
-
-                @Override
-                public void mouseExited( PInputEvent event ) {
-                    arrowNode.setPaint( NORMAL_COLOR );
-                }
-            } );
-             */
         }
 
 
