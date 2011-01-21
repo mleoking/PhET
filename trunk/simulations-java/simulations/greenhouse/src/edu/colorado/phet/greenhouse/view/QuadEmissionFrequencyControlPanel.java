@@ -6,6 +6,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -334,7 +336,10 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         private static final double ARROW_HEAD_HEIGHT = 60;
         private static final double ARROW_HEAD_WIDTH = 60;
         private static final double ARROW_TAIL_WIDTH = 30;
-        private static final Color NORMAL_COLOR = Color.WHITE;
+//        private static final Paint NORMAL_COLOR = new GradientPaint( 0, (float) ( -ARROW_HEAD_HEIGHT / 2 ),
+//                new Color( 180, 82, 205 ), 0, (float) ( ARROW_HEAD_HEIGHT / 2 ), Color.WHITE );
+        private static final Paint NORMAL_COLOR = new GradientPaint( 0, (float) ( -ARROW_HEAD_HEIGHT / 2 ),
+                new Color( 180, 82, 205 ), 0, (float)(ARROW_HEAD_HEIGHT * 0.25), Color.WHITE );
 
         public EnergyArrow( String captionText, final PhotonAbsorptionModel model ){
             // Create and add the arrow.  The arrow points to the right.
