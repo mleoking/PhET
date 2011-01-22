@@ -1,3 +1,5 @@
+isotopes-and-atomic-mass: Created 2nd tab, put a temporary sketch on the tab.
+isotopes-and-atomic-mass: Made the non-interactive portion of the periodic table contain simple squares instead of disabled buttons.
 isotopes-and-atomic-mass: Made the neutron bucket a bit larger and added more neutrons in an attempt to make it more noticeable.
 isotopes-and-atomic-mass: added isotope name under the symbol node, and internationalized
 isotopes-and-atomic-mass: Increased the font size for element names in the symbol node in isotopes sim
@@ -12,7 +14,7 @@ Added title for 2nd tab of Isotopes sim.
 # 2.00.02 (47929) Jan 13, 2011
 1/13/11 Deploying to dev to correct an issue with launching of Isotopes.
 # 2.00.01 (47918) Jan 12, 2011
-1/12/11 Publishing to dev for review of some UI compenents
+1/12/11 Publishing to dev for review of some UI components
 Added the scale for Isotopes.
 Converted the periodic table to use buttons.
 Added animation developer control to Isotopes.
