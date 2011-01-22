@@ -50,6 +50,9 @@ public class SymbolIndicatorNode extends PNode {
         this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT, true, false );
     }
 
+    /*
+     * This constructor is used in isotopes to change some of the default behavior used in Build an Atom
+     */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, Font elementNameFont,
                                 boolean showCharge, boolean showIsotopeNumberInElementName ) {
         this.showIsotopeNumberInElementName = showIsotopeNumberInElementName;
