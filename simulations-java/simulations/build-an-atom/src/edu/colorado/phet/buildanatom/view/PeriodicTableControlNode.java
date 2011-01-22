@@ -215,12 +215,14 @@ public class PeriodicTableControlNode extends PNode {
                         cellBoundary.setStrokePaint( Color.RED );
                         cellBoundary.setPaint( Color.white );
                         BasicElementCell.this.moveToFront();
+                        text.setTextPaint( Color.darkGray );
                     }
                     else {
                         if ( !disabledLooking ){
                             cellBoundary.setStroke( new BasicStroke( 1 ) );
-                            cellBoundary.setStrokePaint( Color.BLACK );
+                            cellBoundary.setStrokePaint(Color.lightGray);
                             cellBoundary.setPaint( backgroundColor );
+                            text.setTextPaint( new Color(140,140,140));
                         }
                         else{
                             text.setTextPaint( Color.LIGHT_GRAY );
