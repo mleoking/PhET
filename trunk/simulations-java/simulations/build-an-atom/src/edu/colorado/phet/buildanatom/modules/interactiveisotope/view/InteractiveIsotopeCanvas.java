@@ -107,7 +107,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
-        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model, BuildAnAtomConstants.CANVAS_BACKGROUND ){
+        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model, new Color( 246,246,246) ){
             {
                 setScale( 1.4 );
                 setOffset( 20, 20 );
