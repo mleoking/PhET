@@ -999,4 +999,12 @@ public abstract class PhetProject {
         return JavaBuildCommand.toClasspathString( getAllJarFiles() );
     }
 
+    /**
+     * Only simulation projects should return true
+     * @return
+     */
+    public boolean isSimulationProject() {
+        return false;
+    }
+
 }

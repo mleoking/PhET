@@ -654,4 +654,9 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             return BuildToolsConstants.FLASH_LAUNCHER_JAVA_VERSION;
         }
     }
+
+    @Override
+    public boolean isSimulationProject() {
+        return true;
+    }
 }
