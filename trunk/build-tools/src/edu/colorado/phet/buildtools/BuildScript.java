@@ -3,7 +3,10 @@ package edu.colorado.phet.buildtools;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -123,7 +126,7 @@ public class BuildScript {
     public void deploy( Task preDeployTask, OldPhetServer server,
                         AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement, Task postDeployTask ) {
         boolean success = prepareForDeployment( versionIncrement, server.isDevelopmentServer() );
-        if( !success ) {
+        if ( !success ) {
             return;
         }
 
@@ -134,7 +137,7 @@ public class BuildScript {
         }
 
         String codeBase = server.getCodebase( project );
-        deployPreparedToServer(server, authenticationInfo);
+        deployPreparedToServer( server, authenticationInfo );
 
         postDeployTask.invoke();
 
@@ -201,7 +204,7 @@ public class BuildScript {
         String codebase = productionWebsite.getProjectBaseUrl( project );
         deployPreparedToServer( productionWebsite, false );
         if ( generateOfflineJARs ) {
-            generateOfflineJars( project, productionWebsite.getOldProductionServer(), productionWebsite.getServerAuthenticationInfo(buildLocalProperties ));
+            generateOfflineJars( project, productionWebsite.getOldProductionServer(), productionWebsite.getServerAuthenticationInfo( buildLocalProperties ) );
         }
         System.out.println( "Opening Browser to " + codebase );
         PhetWebsite.openBrowser( codebase );
@@ -236,7 +239,7 @@ public class BuildScript {
             success = uploadProject(
                     website.getServerAuthenticationInfo( buildLocalProperties ),
                     website.getProjectBasePath( project ),
-                    website.getServerHost());
+                    website.getServerHost() );
             if ( !success ) {
                 notifyError( project, "SCP Failure" );
             }
@@ -249,7 +252,7 @@ public class BuildScript {
      * nothing that would prevent a deployment.
      *
      * @param versionIncrement How to increment the version number
-     * @param dev Whether this is mainly a production or development deployment. Will generate different header
+     * @param dev              Whether this is mainly a production or development deployment. Will generate different header
      * @return Success
      */
     private boolean prepareForDeployment( VersionIncrement versionIncrement, Boolean dev ) {
@@ -460,8 +463,8 @@ public class BuildScript {
         }
     }
 
-    private HashMap<String,String> createHeaderFilterMap( boolean dev ) {
-        HashMap<String,String> map = new HashMap<String,String>();
+    private HashMap<String, String> createHeaderFilterMap( boolean dev ) {
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put( "project-name", project.getName() );
         map.put( "version", project.getFullVersionString() );
         map.put( "sim-list", getSimListHTML( project, dev ) );
@@ -559,9 +562,11 @@ public class BuildScript {
 
                         boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
                         SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
-                        // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
-                        String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
-                        SshUtils.executeCommand( productionSite, deployCommand );
+                        if ( project.isSimulationProject() ) {
+                            // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
+                            String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
+                            SshUtils.executeCommand( productionSite, deployCommand );
+                        }
 
                         return true;
                     }

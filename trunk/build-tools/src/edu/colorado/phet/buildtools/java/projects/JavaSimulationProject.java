@@ -48,4 +48,9 @@ public class JavaSimulationProject extends JavaProject {
     public boolean getSignJar() {
         return true;
     }
+
+    @Override
+    public boolean isSimulationProject() {
+        return true;
+    }
 }
