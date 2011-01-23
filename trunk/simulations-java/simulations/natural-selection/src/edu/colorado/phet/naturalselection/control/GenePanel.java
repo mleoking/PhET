@@ -241,6 +241,7 @@ public class GenePanel extends JPanel {
 
         primaryRecessive.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
+                changeDominance( gene, false );
                 if ( !secondaryDominant.isSelected() ) {
                     secondaryDominant.setSelected( true );
                 }
@@ -258,6 +259,7 @@ public class GenePanel extends JPanel {
 
         secondaryRecessive.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
+                changeDominance( gene, true );
                 if ( !primaryDominant.isSelected() ) {
                     primaryDominant.setSelected( true );
                 }
