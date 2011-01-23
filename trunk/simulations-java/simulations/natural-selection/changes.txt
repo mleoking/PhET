@@ -1,3 +1,5 @@
+# 1.01.01 (48170) Jan 22, 2011
+1/22/11 > Fixed: Clicking on recessive radio button did not change dominance
 # 1.01.00 (38016) Jan 10, 2010
 1/10/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.00.00 (37742) Dec 28, 2009
