@@ -84,7 +84,6 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         _slider.setValue( DEFAULT_MIN );
         _slider.setPreferredSize( size );
         _slider.addChangeListener( this );
-        _slider.setUI( new BasicSliderUI( _slider ) );
 
         // Layout
         this.add( _containerPanel );
