@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_ar_SA.xml created Sat Jan 22 23:09:02 EST 2011 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) Sep 13, 2010-->
+<SimStrings>
+<string key="showYEq" value="إظهار y ="/>
+<string key="erase" value="أمسح"/>
+<string key="save" value="حفظ"/>
+<string key="zero" value="تصفير"/>
+<string key="simTitle" value="راسم المعادلات"/>
+</SimStrings>
