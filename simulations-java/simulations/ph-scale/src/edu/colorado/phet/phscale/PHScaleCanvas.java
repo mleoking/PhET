@@ -26,48 +26,48 @@ public class PHScaleCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
-    
+
+    private static final Dimension RENDERING_SIZE = new Dimension( 1080, 768 );
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    // View 
+    // View
     private final PNode _rootNode;
     private final BeakerControlNode _beakerControlNode;
     private final PHControlNode _pHControlNode;
     private final GraphControlNode _graphControlNode;
     private final PHScaleResetAllButton _resetAllButton;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public PHScaleCanvas( PHScaleModel model, Resettable resettable ) {
         super();
         setWorldTransformStrategy( new RenderingSizeStrategy( this, RENDERING_SIZE ) );
         setBackground( PHScaleConstants.CANVAS_BACKGROUND );
-        
+
         Liquid liquid = model.getLiquid();
-        
+
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
-        
+
         // Nodes
         _beakerControlNode = new BeakerControlNode( liquid, this );
         _pHControlNode = new PHControlNode( liquid, PHScaleConstants.LOG_TICKS_Y_SPACING );
         _graphControlNode = new GraphControlNode( liquid, PHScaleConstants.LOG_TICKS_Y_SPACING );
         _resetAllButton = new PHScaleResetAllButton( resettable, this );
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
-        
+
         // Rendering order
         _rootNode.addChild( _beakerControlNode );
         _rootNode.addChild( _pHControlNode );
         _rootNode.addChild( _graphControlNode );
         _rootNode.addChild( resetAllButtonWrapper );
-        
+
         // Layout
         // beaker at left
         _beakerControlNode.setOffset( 25, 15 );
@@ -83,33 +83,33 @@ public class PHScaleCanvas extends PhetPCanvas {
         x = _pHControlNode.getFullBoundsReference().getMaxX() + 120;
         y = 10;
         _graphControlNode.setOffset( x, y );
-        
+
         // Tweak the layout to align the pH slider ticks and bar graph log ticks
         Point2D sliderOffset = _rootNode.globalToLocal( _pHControlNode.getTickAlignmentGlobalOffset() );
         Point2D graphOffset = _rootNode.globalToLocal( _graphControlNode.getTickAlignmentGlobalOffset() );
         _pHControlNode.setOffset( _pHControlNode.getXOffset(), _pHControlNode.getYOffset() + ( graphOffset.getY() - sliderOffset.getY() ) );
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     public BeakerControlNode getBeakerControlNode() {
         return _beakerControlNode;
     }
-    
+
     public PHControlNode getPHControlNode() {
         return _pHControlNode;
     }
-    
+
     public GraphControlNode getGraphControlNode() {
         return _graphControlNode;
     }
-    
+
     public PHScaleResetAllButton getResetAllButton() {
         return _resetAllButton;
     }
-    
+
     // for attaching developer control panel
     public ParticlesNode dev_getParticlesNode() {
         return _beakerControlNode.dev_getParticlesNode();

@@ -1,3 +1,4 @@
+1/24/11 #2690, increase canvas rendering width so that Concentration graph isn't clipped when resizing main frame
 8/23/10 migrate PrecisionDecimal to phetcommon
 5/4/10 replace BarDragNode.HighlightHandler with piccolo-phet's PaintHighlightHandler 
 # 1.02.01 (38274) Jan 27, 2010
