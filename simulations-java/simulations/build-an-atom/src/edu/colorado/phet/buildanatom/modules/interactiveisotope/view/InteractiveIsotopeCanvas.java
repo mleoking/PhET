@@ -2,9 +2,10 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,7 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -117,7 +117,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the symbol node that provides more detailed information about
         // the currently selected element.
-        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true, new PhetFont( 18, true ), false, true ) {{
+        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true, new PhetFont( 18, true ), false, true, false ) {{
             // Set location and scale.  These are empirically determined, tweak as needed.
             setScale( 1.4 );
             setOffset( 120, 320 );
