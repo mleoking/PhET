@@ -1,4 +1,3 @@
-# 1.10.01 (48172) Jan 23, 2011
 1/13/11 #2645, make strings translatable in Legend panel
 # 1.10.00 (37987) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
