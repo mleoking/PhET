@@ -17,7 +17,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.solublesalts.control.OptionsMenu;
+import edu.colorado.phet.solublesalts.control.DeveloperMenuSetup;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
 import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
@@ -30,7 +30,6 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
  * @version $Revision$
  */
 public class SolubleSaltsApplication extends PiccoloPhetApplication {
-    private boolean showOptions = true;
 
     public SolubleSaltsApplication( PhetApplicationConfig config) {
         super( config );
@@ -40,8 +39,10 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
         Module moduleC = new SodiumChlorideModule( new SolubleSaltsClock() );
 
         setModules( new Module[]{moduleC, moduleA, moduleB} );
-        if ( showOptions ) {
-            setUpOptionsMenu();
+
+        // developer options, a bit non-standard
+        if ( isDeveloperControlsEnabled() ) {
+            DeveloperMenuSetup.setup( getPhetFrame().getDeveloperMenu(), getPhetFrame() );
         }
     }
 
@@ -49,10 +50,6 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
         public SolubleSaltsClock() {
             super( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         }
-    }
-
-    private void setUpOptionsMenu() {
-        this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ) );
     }
 
     public static void main( final String[] args ) {
