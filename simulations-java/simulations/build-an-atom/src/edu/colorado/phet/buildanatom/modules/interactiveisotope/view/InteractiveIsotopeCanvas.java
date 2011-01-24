@@ -100,7 +100,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         model.getAtom().addObserver( new SimpleObserver() {
             public void update() {
                 stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2,
-                        mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
+                        mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS ) + 5 );
             }
         } );
         rootNode.addChild( stabilityIndicator );
