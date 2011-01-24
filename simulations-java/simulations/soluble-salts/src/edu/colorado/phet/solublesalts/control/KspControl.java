@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -81,7 +82,7 @@ public class KspControl extends JPanel {
         setKsp();
 
 
-        setBorder( new TitledBorder( "Ksp" ) );
+        setBorder( new TitledBorder( SolubleSaltResources.getString( "ControlLabels.ksp" ) ) );
         setLayout( new GridBagLayout() );
 
         final GridBagConstraints gbc = new DefaultGridBagConstraints();
