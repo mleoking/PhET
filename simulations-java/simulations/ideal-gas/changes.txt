@@ -1,3 +1,4 @@
+# 3.12.01 (48178) Jan 23, 2011
 1/13/11 #2666, localize "Atm" and "Set"
 10/7/10 #2537, localize "height" and add pt_BR translation 
 # 3.12.00 (38433) Feb 5, 2010
