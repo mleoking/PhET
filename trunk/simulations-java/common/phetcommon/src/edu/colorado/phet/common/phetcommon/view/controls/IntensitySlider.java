@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 
 /*
- * CVS Info - 
+ * CVS Info -
  * Filename : $Source$
- * Branch : $Name$ 
- * Modified by : $Author$ 
+ * Branch : $Name$
+ * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
  */
@@ -19,6 +19,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
  * IntensitySlider is a slider used to control intensity.
@@ -83,6 +84,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         _slider.setValue( DEFAULT_MIN );
         _slider.setPreferredSize( size );
         _slider.addChangeListener( this );
+        _slider.setUI( new BasicSliderUI( _slider ) );
 
         // Layout
         this.add( _containerPanel );
