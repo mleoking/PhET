@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Moved the stable/unstable label down a bit so it wouldn't overlap the heavier nuclei.
 isotopes-and-atomic-mass: made the font size consistent for element name shown under the symbol.
 # 2.00.03 (48196) Jan 24, 2011
 1/24/11 Publishing for internal review
