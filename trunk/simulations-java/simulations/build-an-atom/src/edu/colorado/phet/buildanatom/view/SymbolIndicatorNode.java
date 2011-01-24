@@ -39,24 +39,50 @@ public class SymbolIndicatorNode extends PNode {
     private final PText elementName;
     private final PNode textContent;//keep the text in a separate PNode so it can be repositioned; this is used in
     private final boolean showIsotopeNumberInElementName;
+    private final boolean scaleElementName;
     // Interactive Isotopes when the charge value isn't displayed to center the text in the white box.
 
     /**
      * Creates a SymbolIndicatorNode with the default font.
-     * @param atom
-     * @param showElementName
+     *
+     * @param atom - The atom whose attributes are being depicted in the
+     * symbol.
+     * @param showElementName - A flag that determines whether the name of
+     * the element (e.g. Hydrogen) is shown beneath the symbol.
      */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName ) {
-        this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT, true, false );
+        this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT, true, false, true );
     }
 
-    /*
-     * This constructor is used in isotopes to change some of the default behavior used in Build an Atom
+    /**
+     * Primary constructor.  This contains several flags that control various
+     * aspects of the symbol's appearance and behavior.
+     *
+     * @param atom - The atom whose attributes are being depicted in the
+     * symbol.
+     * @param showElementName - A flag that determines whether the name of
+     * the element (e.g. Hydrogen) is shown beneath the symbol.
+     * @param elementNameFont - Font for depicting the element name.  Use a
+     * non-default value if you need to make the name larger or smaller
+     * relative to the symbol.
+     * @param showCharge - A flag the determines whether the charge number is
+     * depicted. This is often used in cases where the symbol will always be
+     * neutral.
+     * @param showIsotopeNumberInElementName - A flag that determines whether
+     * the element number is shown in the element name, for example, Lithium-7
+     * versus plain old Lithium.
+     * @param scaleElementName - A flag that controls whether the name of the
+     * element, e.g. Hydrogen, should be scaled if it is larger than the width
+     * of the bounding box for the symbol.  Not scaling it can lead to issues
+     * with the symbol having a consistent size, scaling it can lead to
+     * variations in the appearance of the name.
      */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, Font elementNameFont,
-                                boolean showCharge, boolean showIsotopeNumberInElementName ) {
+            boolean showCharge, boolean showIsotopeNumberInElementName, boolean scaleElementName ) {
         this.showIsotopeNumberInElementName = showIsotopeNumberInElementName;
-        //has to be big enough to hold Ne with 2 digit numbers on both sides
+        this.scaleElementName = scaleElementName;
+
+        // Must be big enough to hold Ne with 2 digit numbers on both sides.
         double width = 83;
         double height = 83;
 
@@ -157,7 +183,7 @@ public class SymbolIndicatorNode extends PNode {
         else {
             elementName.setText( atom.getName() );
         }
-        if (elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
+        if (scaleElementName && elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
             // Make sure the caption is not wider than the bounding box and,
             // if it is, scale it to fit.
             elementName.setScale( boundingBox.getFullBoundsReference().width / elementName.getFullBoundsReference().width );
