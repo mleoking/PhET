@@ -24,12 +24,13 @@ import edu.colorado.phet.unfuddle.process.ThreadProcess;
  * Feb 21, 2008 at 7:30:51 AM
  */
 public class UnfuddleEmailNotifier {
+    private static final boolean SHOW_JFRAME = false;
 
     private final ProgramArgs args;
     private final UnfuddleAccount unfuddleAccount;
     private final UnfuddleCurl unfuddleCurl;
     private final Timer timer;
-    private final JFrame running;
+    private JFrame jframe;
     private final JTextField minutes;
     private final boolean sendMail;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
@@ -58,9 +59,7 @@ public class UnfuddleEmailNotifier {
         MyProcess myProcess = new ThreadProcess( new BasicProcess(), 1000 * 60 * 3 );
         unfuddleCurl = new UnfuddleCurl( myProcess, args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args.getSvnTrunk() );
 
-        running = new JFrame( "Process Unfuddle Changes" );
-        running.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        JPanel contentPanel = new JPanel();
+        final JPanel contentPanel = new JPanel();
 
         final JCheckBox jCheckBox = new JCheckBox( "running", true );
         contentPanel.add( jCheckBox );
@@ -83,7 +82,13 @@ public class UnfuddleEmailNotifier {
                 processChangesDisplayExceptions( sendMail );
             }
         } );
-        running.setContentPane( contentPanel );
+        if ( SHOW_JFRAME ) {
+            jframe = new JFrame( "Process Unfuddle Changes" ) {{
+                setDefaultCloseOperation( EXIT_ON_CLOSE );
+                setContentPane( contentPanel );
+                pack();
+            }};
+        }
 
         timer = new Timer( getTimerDelay(), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -94,7 +99,6 @@ public class UnfuddleEmailNotifier {
         } );
 
         timer.setInitialDelay( 0 );
-        running.pack();
     }
 
     private int getTimerDelay() {
@@ -105,7 +109,7 @@ public class UnfuddleEmailNotifier {
 
     private void start() {
         timer.start();
-        running.setVisible( true );
+        if ( jframe != null ) { jframe.setVisible( true ); }
     }
 
     private void processChangesDisplayExceptions( boolean sendMail ) {
