@@ -1,3 +1,5 @@
+# 2.00.03 (48196) Jan 24, 2011
+1/24/11 Publishing for internal review
 isotopes-and-atomic-mass: improved the look of the disabled part of the periodic table
 isotopes-and-atomic-mass: Created 2nd tab, put a temporary sketch on the tab.
 isotopes-and-atomic-mass: Made the non-interactive portion of the periodic table contain simple squares instead of disabled buttons.
