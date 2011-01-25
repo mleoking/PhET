@@ -1,3 +1,4 @@
+Removed unused references to RulerNode, see #2678
 1/28/10 clean up ScaleNode to investigate #2141
 # 1.03.00 (37990) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"

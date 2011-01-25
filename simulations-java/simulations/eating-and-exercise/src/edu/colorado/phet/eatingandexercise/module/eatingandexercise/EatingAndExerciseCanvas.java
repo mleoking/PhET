@@ -46,8 +46,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     // View
     private PNode _rootNode;
 
-    // Translation factors, used to set origin of canvas area.
-    private RulerNode rulerNode;
     private PSwing humanControlPanelPSwing;
     private HumanNode humanAreaNode;
     private BMIHelpButtonNode heartHealthButtonNode;
@@ -111,9 +109,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
                 updateHeartHealthButtonNodeLayout();
             }
         } );
-
-        rulerNode = createRulerNode();
-//        addWorldChild( rulerNode );
 
         humanControlPanel = new HumanControlPanel( this, model, model.getHuman() );
         humanControlPanel.addListener( new HumanControlPanel.Listener() {
@@ -179,20 +174,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         pt.setLocation( pt.getX() + humanAreaNode.getHeartNode().getGlobalFullBounds().getWidth(), pt.getY() + 5 );
         bmiReadout.setOffset( pt );
         heartHealthButtonNode.setOffset( bmiReadout.getFullBounds().getX(), bmiReadout.getFullBounds().getMaxY() );
-    }
-
-    private RulerNode createRulerNode() {
-        final RulerNode rulerNode = new RulerNode( 1, 0.1, 0.1, new String[]{"0.0", "0.25", "0.5", "0.75", "1.0"}, new PhetFont(), "m", new PhetFont(), 4, 0.03, 0.01 );
-        rulerNode.rotate( Math.PI * 3 / 2 );
-        rulerNode.addInputEventListener( new PDragEventHandler() );
-
-        rulerNode.addInputEventListener( new CursorHandler() );
-        rulerNode.setBackgroundStroke( new BasicStroke( 0.005f ) );
-        rulerNode.setFontScale( 0.005 );
-        rulerNode.setUnitsSpacing( 0.001 );
-        rulerNode.setTickStroke( new BasicStroke( 0.005f ) );
-        rulerNode.setOffset( -0.6653250773993821, 0.1145510835913312 );
-        return rulerNode;
     }
 
     public HumanNode getHumanAreaNode() {
