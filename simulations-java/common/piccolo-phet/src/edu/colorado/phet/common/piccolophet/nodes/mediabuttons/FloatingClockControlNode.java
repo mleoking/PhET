@@ -156,7 +156,9 @@ public class FloatingClockControlNode extends PNode {
          * or the left edge of the play button.
          */
         public FloatingTimeSpeedSlider( final ConstantDtClock clock, double maxPosX ) {
-            timeSpeedSlider = new TimeSpeedSlider( clock.getDt() / 10, clock.getDt() * 2, "0", clock,
+            final double min = clock.getDt() / 10;
+            final double max = clock.getDt() * 2;
+            timeSpeedSlider = new TimeSpeedSlider( min, max, "0", clock,
                     PhetCommonResources.getString( "Common.sim.speed" ), Color.WHITE );
             timeSpeedSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -175,6 +177,18 @@ public class FloatingClockControlNode extends PNode {
          */
         public void setBackgroundColor( Color backgroundColor ){
             SwingUtils.setBackgroundDeep( timeSpeedSlider, new Color(0, 0, 0, 0) );
+        }
+
+        public double getMin() {
+            return timeSpeedSlider.getMin();
+        }
+
+        public double getMax() {
+            return timeSpeedSlider.getMax();
+        }
+
+        public void setValue( double v ) {
+            timeSpeedSlider.setValue( v );
         }
     }
 }

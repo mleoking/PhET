@@ -1,3 +1,4 @@
+1/24/2011 Added getters and setters to Time Speed Slider classes
 1-4-2011: rounded the corners of the measuring tape image
 1-4-2011: fixed ButtonNode padding to be constant instead of dependent on the size of text
 12-15-2010: measuring tape: Made image resource name public and minor change to usage of constructor arg
