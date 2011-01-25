@@ -1,3 +1,4 @@
+1/24/2011 #2678, fix RulerNode so that it's not doing odd things to its bounds
 1/24/2011 Added getters and setters to Time Speed Slider classes
 1-4-2011: rounded the corners of the measuring tape image
 1-4-2011: fixed ButtonNode padding to be constant instead of dependent on the size of text
