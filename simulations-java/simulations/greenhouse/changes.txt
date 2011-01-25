@@ -1,3 +1,5 @@
+# 3.01.13 (48236) Jan 25, 2011
+1/25/11 Publishing to dev with mods that were requested for interviews
 molecules-and-light: Made the spectrum diagram wider (so the word "Ultraviolet" will fit) and shorter.
 molecules-and-light: Modified the energy arrow to be solid, smaller, and have the caption beneath it.
 # 3.01.12 (48153) Jan 21, 2011
