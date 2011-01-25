@@ -63,6 +63,7 @@ public abstract class GravityAndOrbitsMode {
     private double gridSpacing;//in meters
     private Point2D.Double gridCenter;
     private final Property<Boolean> rewinding;
+    private final Property<Double> timeSpeedScaleProperty;
     private Property<ImmutableVector2D> measuringTapeStartPoint;
     private Property<ImmutableVector2D> measuringTapeEndPoint;
 
@@ -71,7 +72,8 @@ public abstract class GravityAndOrbitsMode {
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
-                                 Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter, Property<Boolean> stepping, Property<Boolean> rewinding ) {
+                                 Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter, Property<Boolean> stepping, Property<Boolean> rewinding,
+                                 Property<Double> timeSpeedScaleProperty ) {
         this.dt = dt;
         this.name = name;
         this.forceScale = forceScale;
@@ -81,6 +83,7 @@ public abstract class GravityAndOrbitsMode {
         this.gridSpacing = gridSpacing;
         this.gridCenter = gridCenter;
         this.rewinding = rewinding;
+        this.timeSpeedScaleProperty = timeSpeedScaleProperty;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -92,7 +95,7 @@ public abstract class GravityAndOrbitsMode {
         final double h = targetRectangle.getMaxY() - y;
         modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( new Rectangle2D.Double( x, y, w, h ) ) );
 
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, stepping ), gravityEnabledProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, stepping, timeSpeedScaleProperty ), gravityEnabledProperty );
 
         this.rewindClockTime = 0;
         getClock().addClockListener( new ClockAdapter() {
@@ -256,5 +259,9 @@ public abstract class GravityAndOrbitsMode {
 
     public Property<ImmutableVector2D> getMeasuringTapeEndPoint() {
         return measuringTapeEndPoint;
+    }
+
+    public Property<Double> getTimeSpeedScaleProperty() {
+        return timeSpeedScaleProperty;
     }
 }

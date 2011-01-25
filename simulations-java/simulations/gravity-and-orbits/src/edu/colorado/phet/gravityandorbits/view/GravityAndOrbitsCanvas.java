@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
+import edu.colorado.phet.gravityandorbits.controlpanel.GAOTimeSlider;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -168,12 +169,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }};
             addChild( rewindButton );
 
+            assert mode.getTimeSpeedScaleProperty() != null;
             // Add the speed control slider.
-            final FloatingTimeSpeedSlider floatingTimeSpeedSlider = new FloatingTimeSpeedSlider( model.getClock(),
-                                                                                                 rewindButton.getFullBoundsReference().getMinX() );
-            floatingTimeSpeedSlider.setValue( ( floatingTimeSpeedSlider.getMin() + floatingTimeSpeedSlider.getMax() ) / 4 );//Start at 25% up the time speed slider
-            floatingTimeSpeedSlider.setBackgroundColor( new Color( 0, 0, 0, 0 ) );
-            addChild( floatingTimeSpeedSlider );
+            addChild( new GAOTimeSlider( mode.getTimeSpeedScaleProperty(), rewindButton.getFullBoundsReference().getMinX() ) );
         }} );
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), module.getMeasuringTapeVisibleProperty() ),

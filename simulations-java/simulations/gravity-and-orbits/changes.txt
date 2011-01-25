@@ -1,3 +1,4 @@
+Made time speed slider work across modes
 Start time speed slider at 25% instead of 50%
 Lock in alpha values for cartoon mapping when gravity is disabled, this preserves linear motion
 # 0.0.16 (48116) Jan 19, 2011
