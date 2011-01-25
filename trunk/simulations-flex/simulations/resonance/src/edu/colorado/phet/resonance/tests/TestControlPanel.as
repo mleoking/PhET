@@ -3,8 +3,6 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.resonance.*;
 
 import flash.display.*;
-import flash.events.Event;
-import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
 import mx.containers.HBox;
@@ -15,7 +13,6 @@ import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
-import mx.events.ListEvent;
 
 public class TestControlPanel extends Canvas {
 
@@ -115,8 +112,6 @@ public class TestControlPanel extends Canvas {
             //labels = ["", this.damping_str, ""];
         }
 
-        this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
-
         this.nbrResonatorsSlider = new HSlider();
         this.formatSlider( this.nbrResonatorsSlider );
         with ( this.nbrResonatorsSlider ) {
@@ -127,11 +122,8 @@ public class TestControlPanel extends Canvas {
             tickInterval = 1;
         }
 
-        this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
-
         this.presets_cbx = new ComboBox();
         this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
-        this.presets_cbx.addEventListener( ListEvent.CHANGE, selectPreset );
 
         this.radioButtonBox = new HBox();
 
@@ -155,8 +147,6 @@ public class TestControlPanel extends Canvas {
         rb1.setStyle( "horizontalGap", 0 );
         rb2.setStyle( "horizontalGap", 0 );
 
-        this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
-
         this.resonatorNbr_lbl = new Label();
 
         with ( this.resonatorNbr_lbl ) {
@@ -168,21 +158,8 @@ public class TestControlPanel extends Canvas {
             setStyle( "textAlign", "center" );
         }
 
-
         massProperty = new NumericProperty( "mass", "kg", 1 );
         this.mSlider = new NumericSlider( massProperty );
-        //this.mSlider.percentWidth = 100;
-        //this.formatSlider( this.mSlider );
-//        with ( this.mSlider ) {
-//            minimum = 0.1;
-//            maximum = 5.0;
-//            labels = ["", this.mass_str, ""];
-//            // This doesn't work: setStyle("labelPlacement", "bottom");
-//        }
-        //this.mSlider.addEventListener( Event.CHANGE, onChangeM );
-        massProperty.addListener( function(): void {
-            setMass();
-        } );
 
         this.kSlider = new HSlider();
         this.formatSlider( this.kSlider );
@@ -191,8 +168,6 @@ public class TestControlPanel extends Canvas {
             maximum = 1200;
             labels = ["", this.springConstant_str, ""];
         }
-
-        this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
         this.freq_lbl = new Label();
         with ( this.freq_lbl ) {
@@ -209,8 +184,6 @@ public class TestControlPanel extends Canvas {
             label = this.resetAll_str;
             buttonMode = true;
         }
-        this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
-
         this.addChild( this.background );
         this.background.addChild( dampingSlider );
 
@@ -254,59 +227,8 @@ public class TestControlPanel extends Canvas {
         mySlider.liveDragging = true;
         mySlider.percentWidth = 100;
         mySlider.showDataTip = false;
-        //mySlider.setStyle( "labelOffset", 25 );
         setStyle( "invertThumbDirection", true );
-        //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
         setStyle( "fontFamily", "Arial" );
-    }
-
-    public function setResonatorIndex( rNbr: int ): void {
-    }
-
-    private function setFreqLabel(): void {
-    }
-
-    public function setDamping( evt: Event ): void {
-    }
-
-    public function setDampingExternally( b: Number ) {
-    }
-
-    public function setPresetComboBoxExternally( idx: int ): void {
-    }
-
-    private function onChangeNbrResonators( evt: Event ): void {
-    }
-
-    private function selectPreset( evt: Event ) {
-    }
-
-    public function setNbrResonatorsExternally( nbrR: int ): void {
-    }
-
-    private function clickGravity( evt: Event ): void {
-    }
-
-    public function setGravityExternally( onOrOff: Boolean ): void {
-    }
-
-    //who is calling this?  I want to delete it.
-    public function setNbrResonators( nbrR: int ): void {
-    }
-
-    public function setMass(): void {
-    }
-
-    private function onChangeK( evt: Event ): void {
-    }
-
-    public function setK(): void {
-    }
-
-    private function resetResonators( evt: MouseEvent ): void {
-    }
-
-    private function resetAll( evt: MouseEvent ): void {
     }
 
 }//end of class
