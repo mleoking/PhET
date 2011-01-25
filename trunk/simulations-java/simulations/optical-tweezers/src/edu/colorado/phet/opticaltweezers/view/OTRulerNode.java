@@ -66,6 +66,13 @@ public class OTRulerNode extends RulerNode implements Observer {
         setUnitsAssociatedMajorTickLabel( "0" ); // attach units to the tick mark labeled "0"
         setBackgroundPaint( OTConstants.RULER_COLOR );
 
+        /*
+         * Use a large inset width, or the left and right tick mark labels may fall
+         * off the edges of the ruler and mess up the calculation that aligns the
+         * ruler's zero tick mark with the laser's position.
+         */
+        setInsetWidth( 100 );
+
         _majorTickInterval = majorTickInterval;
 
         _laser = laser;
@@ -190,13 +197,7 @@ public class OTRulerNode extends RulerNode implements Observer {
 
         // horizontally align the ruler's center with the laser
         final double xModel = _laser.getPositionReference().getX();
-        /*
-         * #2608, use getWidth here because of improper use of setBounds in RulerNode constructor,
-         * and setWidth in RulerNode.setDistanceBetweenFirstAndLastTick.  We should be using
-         * getFullBounds().getWidth here, but because the superclass is messing with the bounds
-         * directly, it causes getFullBounds().getWidth() to return the wrong value.
-         */
-        final double xView = _modelViewTransform.modelToView( xModel ) - ( getWidth() / 2 );
+        final double xView = _modelViewTransform.modelToView( xModel ) - ( getFullBoundsReference().getWidth() / 2 );
         final double yView = getOffset().getY();
         setOffset( xView, yView );
 

@@ -45,7 +45,10 @@ public class RulerNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
 
+    private double distanceBetweenFirstAndLastTick;
     private double insetWidth;
+    private double height;
+
     private String[] majorTickLabels;
     private Font majorTickFont;
     private String units;
@@ -125,9 +128,10 @@ public class RulerNode extends PhetPNode {
             double majorTickHeight,
             double minorTickHeight ) {
 
-        setChildrenPickable( false );
-
+        this.distanceBetweenFirstAndLastTick = distanceBetweenFirstAndLastTick;
         this.insetWidth = insetWidth;
+        this.height=height;
+
         this.majorTickLabels = majorTickLabels;
         this.majorTickFont = majorTickFont;
         this.units = units;
@@ -145,8 +149,6 @@ public class RulerNode extends PhetPNode {
         backgroundNode.setStroke( BACKGROUND_STROKE );
         parentNode.addChild( backgroundNode );
 
-        double totalWidth = distanceBetweenFirstAndLastTick + ( 2 * insetWidth );
-        setBounds( 0, 0, totalWidth, height );
         update();
     }
 
@@ -161,7 +163,7 @@ public class RulerNode extends PhetPNode {
      *
      */
     public void setDistanceBetweenFirstAndLastTick( double distanceBetweenFirstAndLastTick ) {
-        setWidth( distanceBetweenFirstAndLastTick + ( 2 * insetWidth ) );
+        this.distanceBetweenFirstAndLastTick = distanceBetweenFirstAndLastTick;
         update();
     }
 
@@ -258,30 +260,15 @@ public class RulerNode extends PhetPNode {
     }
 
     //----------------------------------------------------------------------------
-    // PNode overrides
-    //----------------------------------------------------------------------------
-
-    protected void internalUpdateBounds( double x, double y, double width, double height ) {
-        super.internalUpdateBounds( x, y, width, height );
-        doUpdate( x, y, width, height );
-    }
-
-    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
 
     protected void update() {
-        doUpdate( getX(), getY(), getWidth(), getHeight() );
-    }
-
-    /*
-     * The ruler is constructed here.
-     */
-    private void doUpdate( double x, double y, double width, double height ) {
 
         parentNode.removeAllChildren();
 
-        backgroundNode.setPathToRectangle( (float) x, (float) y, (float) width, (float) height );
+        double width = distanceBetweenFirstAndLastTick + ( 2 * insetWidth );
+        backgroundNode.setPathToRectangle( 0,0, (float) width, (float) height );
         parentNode.addChild( backgroundNode );
 
         if ( majorTickLabels != null && majorTickLabels.length > 0 ) {
@@ -324,7 +311,7 @@ public class RulerNode extends PhetPNode {
                     }
                 }
 
-                /* 
+                /*
                  * Units label.
                  * If an associated major tick mark has been specified for the units label,
                  * put the units to the right of that tick mark.
