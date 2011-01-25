@@ -2,6 +2,8 @@
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
@@ -12,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -42,12 +46,25 @@ public class FloatingClockControlNode extends PNode {
             public void apply() {
                 clock.stepClockWhilePaused();
             }
-        } );
+        }, new VoidFunction0() {
+            public void apply() {
+                clock.setSimulationTime( 0.0 );
+            }
+        },
+              new Property<Double>( clock.getSimulationTime() ) {{
+                  clock.addClockListener( new ClockAdapter() {
+                      public void simulationTimeChanged( ClockEvent clockEvent ) {
+                          setValue( clock.getSimulationTime() );
+                      }
+                  } );
+              }} );
     }
 
     public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
-                                     final VoidFunction0 step ) {//steps the clock when 'step' is pressed which the sim is paused
+                                     final VoidFunction0 step,//steps the clock when 'step' is pressed which the sim is paused
+                                     final VoidFunction0 resetTime,
+                                     final Property<Double> simulationTime ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
             setPlaying( clockRunning.getValue() );
             final Listener updatePlayPauseButtons = new Listener() {
@@ -95,13 +112,27 @@ public class FloatingClockControlNode extends PNode {
         addChild( playPauseButton );
         addChild( stepButton );
 
-        addChild( new PText() {{
+        final PText readoutNode = new PText() {{
             setFont( new PhetFont( 24, true ) );
             setTextPaint( Color.white );
             timeReadout.addObserver( new SimpleObserver() {
                 public void update() {
                     setText( timeReadout.getValue() );
                     setOffset( stepButton.getFullBounds().getMaxX() + 5, stepButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                }
+            } );
+        }};
+        addChild( readoutNode );
+        addChild( new ButtonNode( GAOStrings.RESET ) {{
+            setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    resetTime.apply();
+                }
+            } );
+            simulationTime.addObserver( new SimpleObserver() {
+                public void update() {
+                    setEnabled( simulationTime.getValue() > 0 );
                 }
             } );
         }} );
