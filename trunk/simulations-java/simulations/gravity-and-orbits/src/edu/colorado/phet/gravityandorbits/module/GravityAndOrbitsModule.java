@@ -40,6 +40,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
     private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
     private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
+    private final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
     private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
     private final Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
     private final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true ) {{
@@ -51,7 +52,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }};
     private final Property<Boolean> stepping = new Property<Boolean>( false );
     private final Property<Boolean> rewinding = new Property<Boolean>( false );
-    private final ArrayList<GravityAndOrbitsMode> modes = new GravityAndOrbitsModeList( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding );
+    private final ArrayList<GravityAndOrbitsMode> modes = new GravityAndOrbitsModeList( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty );
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
@@ -118,6 +119,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         clockPausedProperty.reset();
         gravityEnabledProperty.reset();
         showGridProperty.reset();
+        timeSpeedScaleProperty.reset();
     }
 
     public Property<Boolean> getShowGravityForceProperty() {

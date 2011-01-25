@@ -4,6 +4,7 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * The clock for this simulation.
@@ -17,9 +18,15 @@ public class GravityAndOrbitsClock extends ConstantDtClock {
     public static final double DEFAULT_DT = DAYS_PER_TICK * SECONDS_PER_DAY;
     private final Property<Boolean> stepping;
 
-    public GravityAndOrbitsClock( double dt, Property<Boolean> stepping ) {
-        super( 1000 / CLOCK_FRAME_RATE, dt );
+    public GravityAndOrbitsClock( final double baseDTValue,//multiplied by scale to obtain true dt
+                                  Property<Boolean> stepping, final Property<Double> timeSpeedScaleProperty ) {
+        super( 1000 / CLOCK_FRAME_RATE, baseDTValue * timeSpeedScaleProperty.getValue() );
         this.stepping = stepping;
+        timeSpeedScaleProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setDt( baseDTValue * timeSpeedScaleProperty.getValue() );
+            }
+        } );
     }
 
     @Override
