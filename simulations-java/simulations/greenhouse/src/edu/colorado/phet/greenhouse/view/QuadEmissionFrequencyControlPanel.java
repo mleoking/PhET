@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -138,7 +137,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add the energy arrow.
         // TODO: i18n
-        EnergyArrow energyArrow = new EnergyArrow( "Increasing frequency and energy", model ){{
+        EnergyArrow energyArrow = new EnergyArrow( "Higher Energy", model ){{
             centerFullBoundsOnPoint( backgroundNode.getFullBoundsReference().getCenterX(),
                     PANEL_SIZE.getHeight() - getFullBoundsReference().height / 2 - 10 );
         }};
@@ -332,14 +331,11 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
      */
     private static class EnergyArrow extends PNode {
 
-        private static final double ARROW_LENGTH = 700;
-        private static final double ARROW_HEAD_HEIGHT = 60;
-        private static final double ARROW_HEAD_WIDTH = 60;
-        private static final double ARROW_TAIL_WIDTH = 30;
-//        private static final Paint NORMAL_COLOR = new GradientPaint( 0, (float) ( -ARROW_HEAD_HEIGHT / 2 ),
-//                new Color( 180, 82, 205 ), 0, (float) ( ARROW_HEAD_HEIGHT / 2 ), Color.WHITE );
-        private static final Paint NORMAL_COLOR = new GradientPaint( 0, (float) ( -ARROW_HEAD_HEIGHT / 2 ),
-                new Color( 97, 92, 169 ), 0, (float)(ARROW_HEAD_HEIGHT * 0.25), Color.WHITE );
+        private static final double ARROW_LENGTH = 250;
+        private static final double ARROW_HEAD_HEIGHT = 15;
+        private static final double ARROW_HEAD_WIDTH = 15;
+        private static final double ARROW_TAIL_WIDTH = 2;
+        private static final Paint ARROW_COLOR = Color.BLACK;
 
         public EnergyArrow( String captionText, final PhotonAbsorptionModel model ){
             // Create and add the arrow.  The arrow points to the right.
@@ -347,7 +343,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             headPoint = new Point2D.Double(ARROW_LENGTH, 0);
             tailPoint = new Point2D.Double(0, 0);
             final ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
-                setPaint( NORMAL_COLOR );
+                setPaint( ARROW_COLOR );
                 setStroke( new BasicStroke( 3 ) );
             }};
             addChild( arrowNode );
@@ -355,7 +351,9 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             // Create and add the caption.
             HTMLNode caption = new HTMLNode( captionText );
             caption.setFont( new PhetFont( 20, true ) );
-            caption.centerFullBoundsOnPoint( arrowNode.getFullBoundsReference().getCenterX(), arrowNode.getFullBoundsReference().getCenterY() );
+            caption.setOffset(
+                    arrowNode.getFullBoundsReference().getCenterX() - caption.getFullBoundsReference().width / 2,
+                    arrowNode.getFullBoundsReference().getMaxY());
             addChild( caption );
         }
 

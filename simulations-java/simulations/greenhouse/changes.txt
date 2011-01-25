@@ -1,3 +1,4 @@
+molecules-and-light: Modified the energy arrow to be solid, smaller, and have the caption beneath it.
 # 3.01.12 (48153) Jan 21, 2011
 1/21/11 Deploying to dev for review of changes to M&L simulation
 Replaced the energy arrows with a single arrow that looks like the one on the sketch of the spectrum node.
