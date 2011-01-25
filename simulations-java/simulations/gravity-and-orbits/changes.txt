@@ -1,3 +1,4 @@
+# 0.0.17 (48239) Jan 25, 2011
 Added a reset button underneath the simulation time readout
 Made time speed slider work across modes
 Start time speed slider at 25% instead of 50%
