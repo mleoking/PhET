@@ -1,1 +1,0 @@
-see http://www.afodor.net/HHModel.htm

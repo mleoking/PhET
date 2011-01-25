@@ -1,2 +1,0 @@
-away3d license=Apache 2.0 licensefile=fp9/away3d/away3d-license.txt name=away3d
-

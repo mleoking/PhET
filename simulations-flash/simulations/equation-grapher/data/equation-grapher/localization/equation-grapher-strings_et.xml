@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_et.xml created Sun Dec 20 16:32:42 EET 2009 using: equation-grapher 2.01.00 (37298), translation-utility 2.03.00 (36202) Okt 29, 2009-->
-<SimStrings>
-<string key="showYEq" value="Näita y ="/>
-<string key="erase" value="Kustuta"/>
-<string key="save" value="Salvesta"/>
-<string key="zero" value="Nulli"/>
-<string key="simTitle" value="Võrrandi graafiline kujutis"/>
-</SimStrings>

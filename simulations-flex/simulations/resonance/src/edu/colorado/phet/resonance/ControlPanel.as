@@ -139,7 +139,7 @@ public class ControlPanel extends Canvas {
 
         this.gravity_lbl = new Label();
         this.gravity_lbl.text = this.gravity_str;
-        this.gravity_lbl.setStyle( "fontSize", 14 );
+//        this.gravity_lbl.setStyle( "fontSize", 12 );
 
         this.gravityOnOff_rbg = new RadioButtonGroup();
         var rb1: RadioButton = new RadioButton();
@@ -152,8 +152,8 @@ public class ControlPanel extends Canvas {
         rb2.value = 0;
         rb1.selected = false;
         rb2.selected = true;
-        rb1.setStyle( "fontSize", 14 );
-        rb2.setStyle( "fontSize", 14 );
+//        rb1.setStyle( "fontSize", 14 );
+//        rb2.setStyle( "fontSize", 14 );
         rb1.setStyle( "horizontalGap", 0 );
         rb2.setStyle( "horizontalGap", 0 );
 
@@ -164,7 +164,7 @@ public class ControlPanel extends Canvas {
         with ( this.resonatorNbr_lbl ) {
             text = this.resonator_str;
             setStyle( "fontFamily", "Arial" );
-            setStyle( "fontSize", 14 );
+//            setStyle( "fontSize", 14 );
             setStyle( "color", 0x000000 );
             percentWidth = 90;
             setStyle( "textAlign", "center" );
@@ -198,10 +198,10 @@ public class ControlPanel extends Canvas {
 
         this.freq_lbl = new Label();
         with ( this.freq_lbl ) {
-            text = this.frequencyEquals_str;
-            setStyle( "fontFamily", "Arial" );
-            setStyle( "fontSize", 14 );
-            percentWidth = 90;
+            text = this.frequencyEquals_str+" asntoehu";
+//            setStyle( "fontFamily", "Arial" );
+//            setStyle( "fontSize", 14 );
+//            percentWidth = 90;
             setStyle( "textAlign", "center" );
         }
 
@@ -259,7 +259,7 @@ public class ControlPanel extends Canvas {
         //mySlider.setStyle( "labelOffset", 25 );
         setStyle( "invertThumbDirection", true );
         //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
-        setStyle( "fontFamily", "Arial" );
+//        setStyle( "fontFamily", "Arial" );
     }
 
     public function setResonatorIndex( rNbr: int ): void {

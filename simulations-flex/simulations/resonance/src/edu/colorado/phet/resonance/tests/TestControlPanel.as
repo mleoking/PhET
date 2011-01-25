@@ -101,82 +101,82 @@ public class TestControlPanel extends Canvas {
             setStyle( "verticalGap", 0 );
             setStyle( "horizontalAlign", "center" );
         }
-
-
-        //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
-        this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
-        this.formatSlider( this.dampingSlider );
-        with ( this.dampingSlider ) {
-            minimum = 0.05;
-            maximum = 5;
-            //labels = ["", this.damping_str, ""];
-        }
-
-        this.nbrResonatorsSlider = new HSlider();
-        this.formatSlider( this.nbrResonatorsSlider );
-        with ( this.nbrResonatorsSlider ) {
-            minimum = 1;
-            maximum = 10;
-            //labels = ["", this.numberOfResonators_str, ""];
-            snapInterval = 1;
-            tickInterval = 1;
-        }
-
-        this.presets_cbx = new ComboBox();
-        this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
-
-        this.radioButtonBox = new HBox();
-
-        this.gravity_lbl = new Label();
-        this.gravity_lbl.text = this.gravity_str;
-        this.gravity_lbl.setStyle( "fontSize", 14 );
-
-        this.gravityOnOff_rbg = new RadioButtonGroup();
-        var rb1: RadioButton = new RadioButton();
-        var rb2: RadioButton = new RadioButton();
-        rb1.group = gravityOnOff_rbg;
-        rb2.group = gravityOnOff_rbg;
-        rb1.label = this.on_str;
-        rb2.label = this.off_str;
-        rb1.value = 1;
-        rb2.value = 0;
-        rb1.selected = false;
-        rb2.selected = true;
-        rb1.setStyle( "fontSize", 14 );
-        rb2.setStyle( "fontSize", 14 );
-        rb1.setStyle( "horizontalGap", 0 );
-        rb2.setStyle( "horizontalGap", 0 );
-
-        this.resonatorNbr_lbl = new Label();
-
-        with ( this.resonatorNbr_lbl ) {
-            text = this.resonator_str;
-            setStyle( "fontFamily", "Arial" );
-            setStyle( "fontSize", 14 );
-            setStyle( "color", 0x000000 );
-            percentWidth = 90;
-            setStyle( "textAlign", "center" );
-        }
-
+//
+//
+//        //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
+//        this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
+//        this.formatSlider( this.dampingSlider );
+//        with ( this.dampingSlider ) {
+//            minimum = 0.05;
+//            maximum = 5;
+//            //labels = ["", this.damping_str, ""];
+//        }
+//
+//        this.nbrResonatorsSlider = new HSlider();
+//        this.formatSlider( this.nbrResonatorsSlider );
+//        with ( this.nbrResonatorsSlider ) {
+//            minimum = 1;
+//            maximum = 10;
+//            //labels = ["", this.numberOfResonators_str, ""];
+//            snapInterval = 1;
+//            tickInterval = 1;
+//        }
+//
+//        this.presets_cbx = new ComboBox();
+//        this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
+//
+//        this.radioButtonBox = new HBox();
+//
+//        this.gravity_lbl = new Label();
+//        this.gravity_lbl.text = this.gravity_str;
+//        this.gravity_lbl.setStyle( "fontSize", 14 );
+//
+//        this.gravityOnOff_rbg = new RadioButtonGroup();
+//        var rb1: RadioButton = new RadioButton();
+//        var rb2: RadioButton = new RadioButton();
+//        rb1.group = gravityOnOff_rbg;
+//        rb2.group = gravityOnOff_rbg;
+//        rb1.label = this.on_str;
+//        rb2.label = this.off_str;
+//        rb1.value = 1;
+//        rb2.value = 0;
+//        rb1.selected = false;
+//        rb2.selected = true;
+//        rb1.setStyle( "fontSize", 14 );
+//        rb2.setStyle( "fontSize", 14 );
+//        rb1.setStyle( "horizontalGap", 0 );
+//        rb2.setStyle( "horizontalGap", 0 );
+//
+//        this.resonatorNbr_lbl = new Label();
+//
+//        with ( this.resonatorNbr_lbl ) {
+//            text = this.resonator_str;
+//            setStyle( "fontFamily", "Arial" );
+//            setStyle( "fontSize", 14 );
+//            setStyle( "color", 0x000000 );
+//            percentWidth = 90;
+//            setStyle( "textAlign", "center" );
+//        }
+//
         massProperty = new NumericProperty( "mass", "kg", 1 );
         this.mSlider = new NumericSlider( massProperty );
-
+//
         this.kSlider = new HSlider();
         this.formatSlider( this.kSlider );
-        with ( this.kSlider ) {
-            minimum = 10;
-            maximum = 1200;
-            labels = ["", this.springConstant_str, ""];
-        }
-
-        this.freq_lbl = new Label();
-        with ( this.freq_lbl ) {
-            text = this.frequencyEquals_str;
-            setStyle( "fontFamily", "Arial" );
-            setStyle( "fontSize", 14 );
-            percentWidth = 90;
-            setStyle( "textAlign", "center" );
-        }
+//        with ( this.kSlider ) {
+//            minimum = 10;
+//            maximum = 1200;
+////            labels = ["", this.springConstant_str, ""];
+//        }
+//
+//        this.freq_lbl = new Label();
+//        with ( this.freq_lbl ) {
+//            text = this.frequencyEquals_str;
+//            setStyle( "fontFamily", "Arial" );
+//            setStyle( "fontSize", 14 );
+//            percentWidth = 90;
+//            setStyle( "textAlign", "center" );
+//        }
 
 
         this.resetAllButton = new Button();
@@ -185,20 +185,23 @@ public class TestControlPanel extends Canvas {
             buttonMode = true;
         }
         this.addChild( this.background );
-        this.background.addChild( dampingSlider );
+//        this.background.addChild( dampingSlider );
+//
+//        this.background.addChild( presets_cbx );
+//        this.background.addChild( nbrResonatorsSlider );
 
-        this.background.addChild( presets_cbx );
-        this.background.addChild( nbrResonatorsSlider );
-
-        this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
+//        this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
         this.innerBckgrnd.addChild( this.mSlider );
-        this.innerBckgrnd.addChild( this.kSlider );
-        this.innerBckgrnd.addChild( this.freq_lbl );
+//        var ksliderLabel: Label = new Label();
+//        ksliderLabel.text=springConstant_str;
+//        this.innerBckgrnd.addChild(ksliderLabel);
+//        this.innerBckgrnd.addChild( this.kSlider );
+//        this.innerBckgrnd.addChild( this.freq_lbl );
         this.background.addChild( innerBckgrnd );
-        this.background.addChild( radioButtonBox );
-        this.radioButtonBox.addChild( gravity_lbl );
-        this.radioButtonBox.addChild( rb1 );
-        this.radioButtonBox.addChild( rb2 );
+//        this.background.addChild( radioButtonBox );
+//        this.radioButtonBox.addChild( gravity_lbl );
+//        this.radioButtonBox.addChild( rb1 );
+//        this.radioButtonBox.addChild( rb2 );
         this.background.addChild( this.resetAllButton );
 
     } //end of init()
@@ -228,7 +231,7 @@ public class TestControlPanel extends Canvas {
         mySlider.percentWidth = 100;
         mySlider.showDataTip = false;
         setStyle( "invertThumbDirection", true );
-        setStyle( "fontFamily", "Arial" );
+//        setStyle( "fontFamily", "Arial" );
     }
 
 }//end of class

@@ -165,7 +165,7 @@ public class MassSpringView extends Sprite {
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         this.label_txt.text = this.model.getRNbr().toString();
         this.tFormat1 = new TextFormat();	//format of label
-        this.tFormat1.font = "Arial";
+//        this.tFormat1.font = "Arial";
         this.tFormat1.color = this.labelColor;
         this.tFormat1.bold  = true;
         this.tFormat1.size = 22;

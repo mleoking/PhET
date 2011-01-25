@@ -264,10 +264,10 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //this.paused_txt.selectable = false;
         //this.playPause_txt.autoSize = TextFieldAutoSize.CENTER;
         //this.paused_txt.autoSize = TextFieldAutoSize.CENTER;
-        this.tFormat1.font = "Arial";
+//        this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
         this.tFormat1.size = 15;
-        this.tFormat2.font = "Arial";
+//        this.tFormat2.font = "Arial";
         this.tFormat2.bold = true;
         this.tFormat2.color = 0xffcc33;   //background is 0xffff99
         this.tFormat2.size = 95;
@@ -298,7 +298,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //mySlider.setStyle( "labelOffset", 25 );
         mySlider.setStyle( "invertThumbDirection", true );
         //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
-        mySlider.setStyle( "fontFamily", "Arial" );
+//        mySlider.setStyle( "fontFamily", "Arial" );
     }
 
     private function positionFields(): void {

@@ -1,1 +1,0 @@
-Added a compile time flag to disable the JFrame, see #2688

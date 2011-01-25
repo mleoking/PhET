@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_fr.xml created Wed Oct 21 10:19:08 CEST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.02.00 (34911) sept. 9, 2009-->
-<SimStrings>
-<string key="showYEq" value="Montrer y="/>
-<string key="erase" value="Supprimer"/>
-<string key="save" value="Sauvegarder"/>
-<string key="zero" value="zéro"/>
-<string key="simTitle" value="Traceur d'équation"/>
-</SimStrings>

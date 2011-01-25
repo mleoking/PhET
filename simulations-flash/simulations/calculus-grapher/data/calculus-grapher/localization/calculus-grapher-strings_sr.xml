@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--calculus-grapher-strings_sr.xml created Sat Sep 19 17:38:47 CEST 2009 using: calculus-grapher 2.02.00 (34696), translation-utility 2.01.00 (31673) May 14, 2009-->
-<SimStrings>
-<string key="simDescription" value="То не да црта изводе и интеграле произвољно направљених кривих, тестерастих, оваквих, онаквих ... Немам речи!"/>
-<string key="smooth" value="Мекше"/>
-<string key="undo" value="Обриши"/>
-<string key="zero" value="На нулу"/>
-<string key="simTitle" value="ФУНКЦИЈЕ, ИЗВОДИ, ИНТЕГРАЛИ -ГРАФИЧКИ"/>
-</SimStrings>

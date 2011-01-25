@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_sk.xml created Sun Nov 01 23:32:04 CET 2009 using: friction 2.00.00 (30671), translation-utility 2.03.00 (36202) okt 29, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Šúchajte žlté častice \npo zelených"/>
-<string key="physics" value="Fyzika"/>
-<string key="reset" value="Obnoviť"/>
-<string key="simTitle" value="Trenie"/>
-<string key="chemistry" value="Chémia"/>
-</SimStrings>

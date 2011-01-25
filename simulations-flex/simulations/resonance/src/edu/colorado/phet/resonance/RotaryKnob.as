@@ -109,7 +109,7 @@ public class RotaryKnob extends Sprite {
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         this.label_txt.text = "Holder";
         this.tFormat1 = new TextFormat();	//format of label
-        this.tFormat1.font = "Arial";
+//        this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
         this.tFormat1.size = 15;
         this.label_txt.setTextFormat( this.tFormat1 );
@@ -140,7 +140,7 @@ public class RotaryKnob extends Sprite {
         this.readout_txt.restrict = "0-9.";
 
         this.tFormat2 = new TextFormat();	//format of label
-        this.tFormat2.font = "Arial";
+//        this.tFormat2.font = "Arial";
         this.tFormat2.color = 0x000000;
         this.tFormat2.size = 14;
         this.readout_txt.defaultTextFormat = this.tFormat2;

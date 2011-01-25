@@ -19,6 +19,8 @@ private var slider:HSlider;
         var hbox: HBox = new HBox();
         addChild( hbox );
 
+        hbox.horizontalScrollPolicy="off";
+
         var nameLabel: PhetText = new PhetText( property.name );
         hbox.addChild( nameLabel );
 

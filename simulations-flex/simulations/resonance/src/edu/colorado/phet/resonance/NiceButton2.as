@@ -58,7 +58,7 @@ public class NiceButton2 extends Sprite {
 
     public function setTFormat(): void {
         this.tFormat.align = TextFormatAlign.CENTER;
-        this.tFormat.font = "Arial";
+//        this.tFormat.font = "Arial";
         this.tFormat.size = 15;
         this.label_txt.setTextFormat( this.tFormat );
     }

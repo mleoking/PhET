@@ -116,7 +116,7 @@ public class ShakerView extends Sprite {
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         this.label_txt.text = driver_str;
         this.label_fmt = new TextFormat();	//format of label
-        this.label_fmt.font = "Arial";
+//        this.label_fmt.font = "Arial";
         this.label_fmt.color = 0xffffff;
         this.label_fmt.size = 18;
         this.label_txt.setTextFormat( this.label_fmt );

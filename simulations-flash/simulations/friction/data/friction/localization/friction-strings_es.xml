@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--friction-strings_es.xml created Wed Feb 24 12:33:44 COT 2010 using: friction 2.02.00 (37305), translation-utility 2.06.00 (37959) ene 8, 2010-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Frota los átomos amarillos \ncontra los verdes."/>
-<string key="physics" value="Física"/>
-<string key="reset" value="Reset"/>
-<string key="simTitle" value="Fricción"/>
-<string key="chemistry" value="Química"/>
-</SimStrings>

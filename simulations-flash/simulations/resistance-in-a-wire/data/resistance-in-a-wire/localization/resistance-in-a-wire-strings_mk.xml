@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_mk.xml created Wed Feb 10 18:41:09 CET 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.06.00 (37959) јан. 8, 2010-->
-<SimStrings>
-<string key="resistanceEq" value="Отпорност"/>
-<string key="ohm" value="оми"/>
-<string key="simTitle" value="Отпорност на жица"/>
-</SimStrings>
