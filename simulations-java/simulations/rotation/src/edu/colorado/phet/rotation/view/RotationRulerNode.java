@@ -6,7 +6,9 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Author: Sam Reid
@@ -22,7 +24,12 @@ public class RotationRulerNode extends RulerNode {
         setFontScale( RotationPlayAreaNode.SCALE );
 
         addInputEventListener( new CursorHandler() );
-//        addInputEventListener( new BoundedDragHandler( this, null ) );
-        addInputEventListener( new PDragEventHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                PDimension delta = event.getDeltaRelativeTo( getParent() );
+                translate( delta.width,
+                           -delta.height );//Y-axis is inverted
+            }
+        } );
     }
 }
