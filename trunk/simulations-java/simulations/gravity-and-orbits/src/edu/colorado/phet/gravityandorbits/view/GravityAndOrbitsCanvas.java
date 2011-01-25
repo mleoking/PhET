@@ -171,6 +171,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             // Add the speed control slider.
             final FloatingTimeSpeedSlider floatingTimeSpeedSlider = new FloatingTimeSpeedSlider( model.getClock(),
                                                                                                  rewindButton.getFullBoundsReference().getMinX() );
+            floatingTimeSpeedSlider.setValue( ( floatingTimeSpeedSlider.getMin() + floatingTimeSpeedSlider.getMax() ) / 4 );//Start at 25% up the time speed slider
             floatingTimeSpeedSlider.setBackgroundColor( new Color( 0, 0, 0, 0 ) );
             addChild( floatingTimeSpeedSlider );
         }} );

@@ -67,6 +67,14 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
         return linearSlider.getValue();
     }
 
+    public double getMin(){
+        return linearSlider.getMinimum();
+    }
+
+    public double getMax(){
+        return linearSlider.getMaximum();
+    }
+
     public void setValue( double dt ) {
         linearSlider.setValue( dt );
     }
