@@ -51,10 +51,10 @@ public class IntensitySlider extends JPanel implements ChangeListener {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private JPanel _containerPanel;
-    private JSlider _slider;
+    private final JPanel _containerPanel;
+    private final JSlider _slider;
     private Color _color;
-    private EventListenerList _listenerList;
+    private final EventListenerList _listenerList;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,6 +84,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         _slider.setValue( DEFAULT_MIN );
         _slider.setPreferredSize( size );
         _slider.addChangeListener( this );
+        _slider.setPaintTicks( true ); // Workaround for issue with slider knob, see #2682.
 
         // Layout
         this.add( _containerPanel );
@@ -109,6 +110,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      * @param x the X coordinate
      * @param y the Y coordinate
      */
+    @Override
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
         super.setBounds( x, y, super.getPreferredSize().width, super.getPreferredSize().height );
@@ -222,6 +224,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      *
      * @param g the graphics context
      */
+    @Override
     public void paintComponent( Graphics g ) {
 
         if ( super.isVisible() ) {

@@ -1,3 +1,4 @@
+1/25/2011 Set the slider in IntensitySlider to paint ticks, see #2682 for motivation and details.
 1/24/2011 Added getters and setters to Time Speed Slider classes
 1/16/2011 Made Property.getInitialValue protected to keep the API for Property as simple as possible for typical usage,
     but possible to override for applications which require knowledge about the initial value such as Gravity and Orbits
