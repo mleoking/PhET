@@ -61,9 +61,9 @@ public class UnfuddleCurl {
     }
 
     public String execV1Command( String v1Command ) throws IOException, InterruptedException {
-        String curl = "C:\\Users\\Sam\\Downloads\\curl-7.21.0-win64-ssl-sspi\\curl.exe";
+//        String curl = "C:\\Users\\Sam\\Downloads\\curl-7.21.0-win64-ssl-sspi\\curl.exe";
 //        String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
-//        String curl="curl";
+        String curl="curl";
 
         String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/"+v1Command;
         System.out.println( "cmd = " + cmd );
