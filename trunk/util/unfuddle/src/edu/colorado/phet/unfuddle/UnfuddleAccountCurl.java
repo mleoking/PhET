@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.unfuddle.process.BasicProcess;
@@ -72,14 +71,7 @@ public class UnfuddleAccountCurl implements IUnfuddleAccount {
         }
         System.out.println( "No cached username: " + username + ", loading all people..." );
         try {
-            String people = curl.execV1Command( "people" );
-            XMLObject xmlObject = new XMLObject( people );
-            int count = xmlObject.getListCount( "people" );
-            for ( int i = 0; i < count; i++ ) {
-                Node person = xmlObject.getListElement( "people", i );
-                UnfuddlePerson p = new UnfuddlePerson( person );
-                this.people.put( p.getID(), p );
-            }
+            readAllPeople();
         }
         catch ( Exception e ) {
             throw new RuntimeException( e );
@@ -88,6 +80,18 @@ public class UnfuddleAccountCurl implements IUnfuddleAccount {
         String lookup2 = lookupEmail( username );
         if ( lookup2 != null ) { return lookup2; }
         throw new RuntimeException( "Couldn't find username in map after populating map.., username = " + username );
+    }
+
+    private void readAllPeople() throws IOException, InterruptedException, SAXException, ParserConfigurationException {
+        String people = curl.execV1Command( "people" );
+        XMLObject xmlObject = new XMLObject( people );
+        int count = xmlObject.getNodeCount( "person" );
+        for ( int i = 0; i < count; i++ ) {
+            XMLObject person = xmlObject.getNode( i, "person" );
+            UnfuddlePerson out = new UnfuddlePerson( person.getNode() );
+            System.out.println( "Loaded person from people list: name = " + out.getName() + ", email=" + out.getEmail() + ", id=" + out.getID() + ", username=" + out.getUsername() );
+            this.people.put( out.getID(), out );
+        }
     }
 
     private String lookupEmail( String username ) {
@@ -107,14 +111,20 @@ public class UnfuddleAccountCurl implements IUnfuddleAccount {
         final UnfuddleCurl curl = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk );
         UnfuddleAccountCurl lazyUnfuddleAccount = new UnfuddleAccountCurl( curl );
 
-        IUnfuddlePerson out = lazyUnfuddleAccount.getPersonForID( 43148 );
-        System.out.println( "out = " + out );
-        System.out.println( "name = " + out.getName() + ", email=" + out.getEmail() + ", id=" + out.getID() + ", username=" + out.getUsername() );
+//        IUnfuddlePerson out = lazyUnfuddleAccount.getPersonForID( 43148 );
+//        System.out.println( "out = " + out );
+//        System.out.println( "name = " + out.getName() + ", email=" + out.getEmail() + ", id=" + out.getID() + ", username=" + out.getUsername() );
+//
+//        String component = lazyUnfuddleAccount.getComponentForID( 47074 );
+//        System.out.println( "component = " + component );
+//
+//        String email = lazyUnfuddleAccount.getEmailAddress( "oliver" );
+//        System.out.println( "email = " + email );
 
-        String component = lazyUnfuddleAccount.getComponentForID( 47074 );
-        System.out.println( "component = " + component );
+        String e2 = lazyUnfuddleAccount.getEmailAddress( "samreid" );
+        System.out.println( "e2 = " + e2 );
 
-        String email = lazyUnfuddleAccount.getEmailAddress( "oliver" );
-        System.out.println( "email = " + email );
+        String e3 = lazyUnfuddleAccount.getEmailAddress( "emoore" );
+        System.out.println( "e3 = " + e3 );
     }
 }
