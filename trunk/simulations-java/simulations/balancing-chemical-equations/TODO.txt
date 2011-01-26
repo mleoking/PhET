@@ -18,3 +18,5 @@ MEDIUM PRIORITY
 - OK to overlap molecules on balance scale (range is 0-60)
 - limit bar charts to some height (15?), label each bar, show up-arrow for bars off scale (range is 0-60)
 
+LOW PRIORITY
+- generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs
