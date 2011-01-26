@@ -1,0 +1,5 @@
+C.png author=PhET notes=using ChemDraw
+H.png author=PhET notes=using ChemDraw
+N.png author=PhET notes=using ChemDraw
+O.png author=PhET notes=using ChemDraw
+S.png author=PhET notes=using ChemDraw

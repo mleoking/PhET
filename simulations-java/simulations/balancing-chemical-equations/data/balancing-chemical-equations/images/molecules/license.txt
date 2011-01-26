@@ -1,7 +1,7 @@
-CH4.png author=PhET
-CO2.png author=PhET
-H2.png author=PhET
-H2O.png author=PhET
-N2.png author=PhET
-NH3.png author=PhET
-O2.png author=PhET
+CH4.png author=PhET notes=using ChemDraw
+CO2.png author=PhET notes=using ChemDraw
+H2.png author=PhET notes=using ChemDraw
+H2O.png author=PhET notes=using ChemDraw
+N2.png author=PhET notes=using ChemDraw
+NH3.png author=PhET notes=using ChemDraw
+O2.png author=PhET notes=using ChemDraw
