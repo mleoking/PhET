@@ -23,7 +23,7 @@ public class CountRecentEvents {
         UnfuddleCurl unfuddleCurl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
         System.out.println( "limit\tevents" );
         for ( int limit = 1; limit < 50; limit++ ) {
-            XMLObject events = new XMLObject( unfuddleCurl.readString( "activity.xml?limit=" + limit ) );
+            XMLObject events = new XMLObject( unfuddleCurl.execProjectCommand( "activity.xml?limit=" + limit ) );
             int e = events.getNodeCount( "event" );
             System.out.println( limit + "\t" + e );
         }

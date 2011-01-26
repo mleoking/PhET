@@ -7,9 +7,9 @@ package edu.colorado.phet.unfuddle;
 //TODO: bad inheritance here, presumably for convenience. Move shared stuff into a base class.
 public class TicketResolvedMessage extends TicketNewMessage {
     private int recordID;
-    private UnfuddlePerson resolvedPerson;
+    private IUnfuddlePerson resolvedPerson;
 
-    public TicketResolvedMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount, UnfuddlePerson resolvedPerson, int recordID ) {
+    public TicketResolvedMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount, IUnfuddlePerson resolvedPerson, int recordID ) {
         super( ticket, unfuddleAccount );
         this.resolvedPerson = resolvedPerson;
         this.recordID = recordID;

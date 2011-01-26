@@ -16,12 +16,16 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 17, 2008 at 4:13:56 PM
  */
-public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
+public class UnfuddleAccountDump extends XMLObject implements IUnfuddleAccount {
 
     private final String PROJECTS = "projects";
 
-    public UnfuddleAccount( File xmlDump ) throws IOException, SAXException, ParserConfigurationException {
+    public UnfuddleAccountDump( File xmlDump ) throws IOException, SAXException, ParserConfigurationException {
         this( toNode( xmlDump ) );
+    }
+
+    private UnfuddleAccountDump( Node node ) {
+        super( node );
     }
 
     private static Element toNode( File xmlDump ) throws ParserConfigurationException, IOException, SAXException {
@@ -29,10 +33,6 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document s = documentBuilder.parse( xmlDump );
         return s.getDocumentElement();
-    }
-
-    public UnfuddleAccount( Node node ) {
-        super( node );
     }
 
     public String toString() {
@@ -50,7 +50,7 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         return null;
     }
 
-    public UnfuddlePerson getPersonForID( int id ) {
+    public IUnfuddlePerson getPersonForID( int id ) {
         int numPeople = numPeople();
         for ( int i = 0; i < numPeople; i++ ) {
             UnfuddlePerson p = new UnfuddlePerson( getListElement( "people", "person", i ) );
@@ -79,7 +79,7 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         return getListCount( PROJECTS );
     }
 
-    public UnfuddleProject getProject( int i ) {
+    private UnfuddleProject getProject( int i ) {
         return new UnfuddleProject( getNode( PROJECTS ).getNode( i, "project" ).getNode(), this );
     }
 
@@ -189,7 +189,7 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         }
     }
 
-    public String getUpdatedAt() {
+    private String getUpdatedAt() {
         return getTextContent( "updated-at" );
     }
 
@@ -198,7 +198,7 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document s = documentBuilder.parse( file );
         Element root = s.getDocumentElement();
-        UnfuddleAccount unfuddleProject = new UnfuddleAccount( root );
+        UnfuddleAccountDump unfuddleProject = new UnfuddleAccountDump( root );
         System.out.println( "unfuddleProject = " + unfuddleProject );
         final UnfuddleProject phetProject = unfuddleProject.getProject( 0 );
         for ( int i = 0; i < phetProject.getComponentCount(); i++ ) {

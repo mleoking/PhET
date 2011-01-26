@@ -2,7 +2,7 @@ package edu.colorado.phet.unfuddle;
 
 import org.w3c.dom.Node;
 
-public class UnfuddlePerson extends XMLObject {
+public class UnfuddlePerson extends XMLObject implements IUnfuddlePerson{
 
     public UnfuddlePerson( Node node ) {
         super( node );

@@ -1,2 +1,3 @@
+Created IUnfuddleAccount, which provides information lookup based on using Curl dynamically, it is provided as an alternative to the previous version which relied on a dump.xml
 Return the ID and a message if the team member name cannot be found, see #2695
 Added a compile time flag to disable the JFrame, see #2688

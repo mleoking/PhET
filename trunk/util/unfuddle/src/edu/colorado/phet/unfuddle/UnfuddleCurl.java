@@ -49,23 +49,28 @@ public class UnfuddleCurl {
         }
     }
 
-    private static Element parseXML( File ticketFile ) throws ParserConfigurationException, SAXException, IOException {
+    public static Element parseXML( File ticketFile ) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document s = documentBuilder.parse( ticketFile );
         return s.getDocumentElement();
     }
 
     //fails for dump (timeout)
-    public String readString( String readARG ) throws IOException, InterruptedException {
+    public String execProjectCommand( String readARG ) throws IOException, InterruptedException {
+        return execV1Command( "projects/" + accountID + "/" + readARG);
+    }
+
+    public String execV1Command( String v1Command ) throws IOException, InterruptedException {
+        String curl = "C:\\Users\\Sam\\Downloads\\curl-7.21.0-win64-ssl-sspi\\curl.exe";
 //        String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
-        String curl="curl";
-        String cmdArg = accountID + "/" + readARG;
-        String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
+//        String curl="curl";
+
+        String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/"+v1Command;
         System.out.println( "cmd = " + cmd );
         return execCommand( cmd );
     }
 
-    protected String execCommand( String cmd ) throws IOException, InterruptedException {
+    public String execCommand( String cmd ) throws IOException, InterruptedException {
     	System.out.println(getClass().getName() + " - DBG: Entering execCommand method, about to execute command:");
     	System.out.println("    " + cmd);
     	String retVal = null;
@@ -104,8 +109,8 @@ public class UnfuddleCurl {
             String password = args[1];
             String svnTrunk = args[2];
             MyProcess myProcess = new BasicProcess();
-            String tickets = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets" );
-            String ticketComments = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets/comments" );
+            String tickets = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).execProjectCommand( "tickets" );
+            String ticketComments = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).execProjectCommand( "tickets/comments" );
             FileUtils.writeString( ticketFile, tickets );
             FileUtils.writeString( ticketCommentFile, ticketComments );
         }

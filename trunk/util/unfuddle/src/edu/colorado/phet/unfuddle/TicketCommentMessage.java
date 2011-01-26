@@ -33,7 +33,7 @@ public class TicketCommentMessage implements IMessage {
         if ( ticketXML == null ) {
             int parentID = comment.getTextContentAsInt( "parent-id" );
             try {
-                ticketXML = new XMLObject( curl.readString( "tickets/" + parentID ) );
+                ticketXML = new XMLObject( curl.execProjectCommand( "tickets/" + parentID ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -80,7 +80,7 @@ public class TicketCommentMessage implements IMessage {
         return getAuthor().getName();
     }
 
-    private UnfuddlePerson getAuthor() {
+    private IUnfuddlePerson getAuthor() {
         return unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) );
     }
 
