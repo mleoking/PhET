@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -30,12 +29,8 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
-    public PlayPauseButton getPlayPauseButton() {
-        return playPauseButton;
-    }
-
-    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock ) {
-        this( clockRunning, new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
+    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock, final String resetString ) {
+        this( clockRunning, timeReadout == null ? null : new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
@@ -57,14 +52,14 @@ public class FloatingClockControlNode extends PNode {
                           setValue( clock.getSimulationTime() );
                       }
                   } );
-              }} );
+              }}, resetString );
     }
 
     public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
                                      final VoidFunction0 step,//steps the clock when 'step' is pressed which the sim is paused
                                      final VoidFunction0 resetTime,
-                                     final Property<Double> simulationTime ) {
+                                     final Property<Double> simulationTime, final String resetString ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
             setPlaying( clockRunning.getValue() );
             final Listener updatePlayPauseButtons = new Listener() {
@@ -112,30 +107,36 @@ public class FloatingClockControlNode extends PNode {
         addChild( playPauseButton );
         addChild( stepButton );
 
-        final PText readoutNode = new PText() {{
-            setFont( new PhetFont( 24, true ) );
-            setTextPaint( Color.white );
-            timeReadout.addObserver( new SimpleObserver() {
-                public void update() {
-                    setText( timeReadout.getValue() );
-                    setOffset( stepButton.getFullBounds().getMaxX() + 5, stepButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-                }
-            } );
-        }};
-        addChild( readoutNode );
-        addChild( new ButtonNode( GAOStrings.RESET ) {{
-            setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    resetTime.apply();
-                }
-            } );
-            simulationTime.addObserver( new SimpleObserver() {
-                public void update() {
-                    setEnabled( simulationTime.getValue() > 0 );
-                }
-            } );
-        }} );
+        if ( timeReadout != null ) {
+            final PText readoutNode = new PText() {{
+                setFont( new PhetFont( 24, true ) );
+                setTextPaint( Color.white );
+                timeReadout.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setText( timeReadout.getValue() );
+                        setOffset( stepButton.getFullBounds().getMaxX() + 5, stepButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                    }
+                } );
+            }};
+            addChild( readoutNode );
+            addChild( new ButtonNode( resetString ) {{
+                setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        resetTime.apply();
+                    }
+                } );
+                simulationTime.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setEnabled( simulationTime.getValue() > 0 );
+                    }
+                } );
+            }} );
+        }
+    }
+
+    public PlayPauseButton getPlayPauseButton() {
+        return playPauseButton;
     }
 
     /**

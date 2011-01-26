@@ -1,14 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.workenergy.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -21,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.workenergy.controlpanel.WorkEnergyControlPanel;
 import edu.colorado.phet.workenergy.model.WorkEnergyModel;
 import edu.colorado.phet.workenergy.module.WorkEnergyModule;
@@ -73,7 +72,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
         }} );
 
-        final Property<Boolean> clockRunning = new Property<Boolean>( true ){{
+        final Property<Boolean> clockRunning = new Property<Boolean>( true ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     model.getClock().setRunning( getValue() );
@@ -87,7 +86,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             public String apply( Double aDouble ) {
                 return decimalFormat.format( aDouble ) + " seconds";
             }
-        },model.getClock() ) {{
+        }, model.getClock(), GAOStrings.RESET ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
             final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, "0.00", model.getClock() ) {{
                 makeTransparent( this );

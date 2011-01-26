@@ -1,3 +1,5 @@
+Fixed: Gravity and Orbits string appears in FloatingClockControlNode
+Made the time readout and reset button optional in FloatingClockControlNode
 1/24/2011 #2678, fix RulerNode so that it's not doing odd things to its bounds
 1/24/2011 Added getters and setters to Time Speed Slider classes
 1-4-2011: rounded the corners of the measuring tape image

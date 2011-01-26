@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -15,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockCont
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
+import edu.colorado.phet.gravityandorbits.GAOStrings;
 
 /**
  * @author Sam Reid
@@ -92,12 +92,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
                 }
             } );
         }};
-        addChild( new FloatingClockControlNode( clockRunning, new Function1<Double, String>() {
-            public String apply( Double time ) {
-//                return (int) ( time / 1.00 ) + " sec";
-                return "";
-            }
-        }, module.getClock() ) {{
+        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), GAOStrings.RESET ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
     }
