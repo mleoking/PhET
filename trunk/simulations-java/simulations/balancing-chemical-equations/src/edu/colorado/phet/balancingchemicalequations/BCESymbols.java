@@ -15,6 +15,14 @@ public class BCESymbols {
     /* not intended for instantiation */
     private BCESymbols() {}
 
+    // atoms
+    public static final String C = "C";
+    public static final String H = "H";
+    public static final String N = "N";
+    public static final String O = "O";
+    public static final String S = "S";
+
+    // molecules
     public static final String CH4 = toSubscript( "CH4" );
     public static final String CO2 = toSubscript( "CO2" );
     public static final String H2 = toSubscript( "H2" );
