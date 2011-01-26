@@ -1,3 +1,4 @@
+1/26/11 add atoms to model
 1/26/11 add image files for atoms
 1/25/11 check in images of individual atoms to assets directory, provided by KL 
 1/11/11 show smiley face in "Balance Equation" module when equation is balanced
