@@ -16,22 +16,22 @@ public class BCEImages {
     private BCEImages() {}
 
     // molecules
-    public static final BufferedImage CH4 = getMoleculeImage( "CH4.png" );
-    public static final BufferedImage CO2 = getMoleculeImage( "CO2.png" );
-    public static final BufferedImage H2 = getMoleculeImage( "H2.png" );
-    public static final BufferedImage H2O = getMoleculeImage( "H2O.png" );
-    public static final BufferedImage N2 = getMoleculeImage( "N2.png" );
-    public static final BufferedImage NH3 = getMoleculeImage( "NH3.png" );
-    public static final BufferedImage O2 = getMoleculeImage( "O2.png" );
+    public static final BufferedImage CH4 = getImage( "molecules/CH4.png" );
+    public static final BufferedImage CO2 = getImage( "molecules/CO2.png" );
+    public static final BufferedImage H2 = getImage( "molecules/H2.png" );
+    public static final BufferedImage H2O = getImage( "molecules/H2O.png" );
+    public static final BufferedImage N2 = getImage( "molecules/N2.png" );
+    public static final BufferedImage NH3 = getImage( "molecules/NH3.png" );
+    public static final BufferedImage O2 = getImage( "molecules/O2.png" );
 
     // atoms
-    public static final BufferedImage C = getMoleculeImage( "C.png" );
-    public static final BufferedImage H = getMoleculeImage( "H.png" );
-    public static final BufferedImage N = getMoleculeImage( "N.png" );
-    public static final BufferedImage O = getMoleculeImage( "O.png" );
-    public static final BufferedImage S = getMoleculeImage( "O.png" );
+    public static final BufferedImage C = getImage( "atoms/C.png" );
+    public static final BufferedImage H = getImage( "atoms/H.png" );
+    public static final BufferedImage N = getImage( "atoms/N.png" );
+    public static final BufferedImage O = getImage( "atoms/O.png" );
+    public static final BufferedImage S = getImage( "atoms/O.png" );
 
-    private static final BufferedImage getMoleculeImage( String name ) {
-        return BCEResources.getImage( "molecules/" + name );
+    private static final BufferedImage getImage( String name ) {
+        return BCEResources.getImage( name );
     }
 }
