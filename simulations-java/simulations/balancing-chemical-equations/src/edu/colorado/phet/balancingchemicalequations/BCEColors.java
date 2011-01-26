@@ -18,4 +18,11 @@ public class BCEColors {
     public static final Color BEFORE_AFTER_BOX_COLOR = new Color( 46, 107, 178 );
     public static final Color PLUS_SIGN_COLOR = BEFORE_AFTER_BOX_COLOR;
     public static final Color ARROW_COLOR = BEFORE_AFTER_BOX_COLOR;
+
+    // atom color
+    public static final Color C = new Color( 178, 178, 178 );
+    public static final Color H = Color.WHITE;
+    public static final Color N = Color.BLUE;
+    public static final Color O = Color.RED;
+    public static final Color S = new Color( 212, 181, 59 );
 }
