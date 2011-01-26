@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import edu.colorado.phet.unfuddle.process.BasicProcess;
@@ -65,12 +66,37 @@ public class UnfuddleAccountCurl implements IUnfuddleAccount {
     }
 
     public String getEmailAddress( String username ) {
+        String hashtableLookup = lookupEmail( username );
+        if ( hashtableLookup != null ) {
+            return hashtableLookup;
+        }
+        System.out.println( "No cached username: " + username + ", loading all people..." );
+        try {
+            String people = curl.execV1Command( "people" );
+            XMLObject xmlObject = new XMLObject( people );
+            int count = xmlObject.getListCount( "people" );
+            for ( int i = 0; i < count; i++ ) {
+                Node person = xmlObject.getListElement( "people", i );
+                UnfuddlePerson p = new UnfuddlePerson( person );
+                this.people.put( p.getID(), p );
+            }
+        }
+        catch ( Exception e ) {
+            throw new RuntimeException( e );
+        }
+
+        String lookup2 = lookupEmail( username );
+        if ( lookup2 != null ) { return lookup2; }
+        throw new RuntimeException( "Couldn't find username in map after populating map.., username = " + username );
+    }
+
+    private String lookupEmail( String username ) {
         for ( IUnfuddlePerson iUnfuddlePerson : people.values() ) {
             if ( iUnfuddlePerson.getUsername().equals( username ) ) {
                 return iUnfuddlePerson.getEmail();
             }
         }
-        throw new RuntimeException( "No username in database: " + username + ".  This means we tried to look up an email address for a username before looking up the username from an id (which probably shouldn't have happened)." );
+        return null;
     }
 
     public static void main( String[] args ) throws IOException, ParserConfigurationException, SAXException, InterruptedException {
