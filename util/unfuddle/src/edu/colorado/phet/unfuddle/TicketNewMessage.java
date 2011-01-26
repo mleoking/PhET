@@ -116,7 +116,14 @@ public class TicketNewMessage implements IMessage {
             return "<not-assigned>";
         }
         else {
-            return unfuddleAccount.getPersonForID( Integer.parseInt( s ) ).getName();
+            if (unfuddleAccount==null){
+                throw new RuntimeException( "Unfuddle account was null" );
+            }
+            final int id = Integer.parseInt( s );
+            if (unfuddleAccount.getPersonForID( id) ==null){
+                throw new RuntimeException( "Null person for ID: "+id );
+            }
+            return unfuddleAccount.getPersonForID( id ).getName();
         }
     }
 
