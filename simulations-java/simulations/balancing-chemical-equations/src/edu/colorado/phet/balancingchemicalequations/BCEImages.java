@@ -24,6 +24,13 @@ public class BCEImages {
     public static final BufferedImage NH3 = getMoleculeImage( "NH3.png" );
     public static final BufferedImage O2 = getMoleculeImage( "O2.png" );
 
+    // atoms
+    public static final BufferedImage C = getMoleculeImage( "C.png" );
+    public static final BufferedImage H = getMoleculeImage( "H.png" );
+    public static final BufferedImage N = getMoleculeImage( "N.png" );
+    public static final BufferedImage O = getMoleculeImage( "O.png" );
+    public static final BufferedImage S = getMoleculeImage( "O.png" );
+
     private static final BufferedImage getMoleculeImage( String name ) {
         return BCEResources.getImage( "molecules/" + name );
     }
