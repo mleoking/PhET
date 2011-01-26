@@ -20,7 +20,8 @@
         contrib/javamail/imap.jar:
         contrib/javamail/mailapi.jar:
         contrib/javamail/pop3.jar:
-        contrib/javamail/smtp.jar" destdir="${classes}" />
+        contrib/javamail/smtp.jar" destdir="${classes}" 
+	debug="true" debuglevel="lines,vars,source"/>
     </target>
 
     <target name="dist" depends="compile"
