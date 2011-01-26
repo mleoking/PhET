@@ -5,6 +5,7 @@ package edu.colorado.phet.balancingchemicalequations.model;
 import java.awt.Image;
 
 import edu.colorado.phet.balancingchemicalequations.BCEImages;
+import edu.colorado.phet.balancingchemicalequations.BCESymbols;
 
 /**
  * Base class for atoms.
@@ -32,31 +33,31 @@ public abstract class Atom {
 
     public static class C extends Atom {
         public C() {
-           super( "C", BCEImages.C );
+           super( BCESymbols.C, BCEImages.C );
         }
     }
 
     public static class H extends Atom {
         public H() {
-           super( "H", BCEImages.H );
+           super( BCESymbols.H, BCEImages.H );
         }
     }
 
     public static class N extends Atom {
         public N() {
-           super( "N", BCEImages.N );
+           super( BCESymbols.N, BCEImages.N );
         }
     }
 
     public static class O extends Atom {
         public O() {
-           super( "O", BCEImages.O );
+           super( BCESymbols.O, BCEImages.O );
         }
     }
 
     public static class S extends Atom {
         public S() {
-           super( "S", BCEImages.S );
+           super( BCESymbols.S, BCEImages.S );
         }
     }
 }
