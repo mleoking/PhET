@@ -148,7 +148,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyDifferent() );
         }
-        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock() ) {{
+        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
