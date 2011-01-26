@@ -121,7 +121,8 @@ public class TicketNewMessage implements IMessage {
             }
             final int id = Integer.parseInt( s );
             if (unfuddleAccount.getPersonForID( id) ==null){
-                throw new RuntimeException( "Null person for ID: "+id );
+                System.err.println("Person not found for ID: "+id+", perhaps the dump.xml needs to be updated?");
+                return "<PhET Team Member ID:"+id+" (name not found, perhaps dump.xml needs to be updated?)>";//Return the ID and a message if the team member name cannot be found
             }
             return unfuddleAccount.getPersonForID( id ).getName();
         }
