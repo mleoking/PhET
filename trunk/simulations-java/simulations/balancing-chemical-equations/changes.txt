@@ -1,3 +1,5 @@
+1/26/11 bar that displays atom count
+1/26/11 add atom colors
 1/26/11 add atoms to model
 1/26/11 add image files for atoms
 1/25/11 check in images of individual atoms to assets directory, provided by KL 
