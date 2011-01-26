@@ -39,7 +39,7 @@ public class TicketNewMessage implements IMessage {
         return ticket.getTextContent( "description" );
     }
 
-    protected UnfuddlePerson getReporter() {
+    protected IUnfuddlePerson getReporter() {
         return unfuddleAccount.getPersonForID( Integer.parseInt( ticket.getTextContent( "reporter-id" ) ) );
     }
 

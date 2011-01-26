@@ -22,7 +22,7 @@ public class UnfuddleDump {
         }
         UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
 //        String dump = curl.readString( "tickets" );
-        String dump = curl.readString( "dump" );
+        String dump = curl.execProjectCommand( "dump" );
         System.out.println( "dump.length = " + dump.length() );
     }
 }

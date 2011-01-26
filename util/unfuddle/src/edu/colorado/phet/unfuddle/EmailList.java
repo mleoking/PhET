@@ -16,16 +16,16 @@ import edu.colorado.phet.unfuddle.process.BasicProcess;
  * Feb 21, 2008 at 3:01:06 PM
  */
 public class EmailList {
-    private UnfuddleAccount account;
+    private IUnfuddleAccount account;
     private UnfuddleCurl curl;
 
-    public EmailList( UnfuddleAccount account, UnfuddleCurl curl ) {
+    public EmailList( IUnfuddleAccount account, UnfuddleCurl curl ) {
         this.account = account;
         this.curl = curl;
     }
 
     public String[] getEmailsForComponent( String component ) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
-        String s = curl.readString( "notebooks/7161/pages/23056/latest" );
+        String s = curl.execProjectCommand( "notebooks/7161/pages/23056/latest" );
         XMLObject xml = new XMLObject( s );
         String body = xml.getTextContent( "body" );
 
@@ -59,7 +59,7 @@ public class EmailList {
             System.exit( 1 );
         }
         UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
-        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( args[2] + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
+        UnfuddleAccountDump unfuddleAccount = new UnfuddleAccountDump( new File( args[2] + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
         EmailList readEmailList = new EmailList( unfuddleAccount, curl );
         String[] s = readEmailList.getEmailsForComponent( "charts" );
         System.out.println( "Arrays.asList( = " + Arrays.asList( s ) );

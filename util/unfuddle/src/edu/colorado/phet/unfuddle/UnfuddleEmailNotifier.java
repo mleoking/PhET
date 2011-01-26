@@ -27,7 +27,7 @@ public class UnfuddleEmailNotifier {
     private static final boolean SHOW_JFRAME = false;
 
     private final ProgramArgs args;
-    private final UnfuddleAccount unfuddleAccount;
+    private final IUnfuddleAccount unfuddleAccount;
     private final UnfuddleCurl unfuddleCurl;
     private final Timer timer;
     private JFrame jframe;
@@ -55,9 +55,11 @@ public class UnfuddleEmailNotifier {
         this.args = args;
         this.sendMail = args.isSendMailEnabled(); // must be final for use in callbacks
 
-        unfuddleAccount = new UnfuddleAccount( new File( args.getXmlDumpPath() ) );
         MyProcess myProcess = new ThreadProcess( new BasicProcess(), 1000 * 60 * 3 );
         unfuddleCurl = new UnfuddleCurl( myProcess, args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args.getSvnTrunk() );
+
+//        unfuddleAccount = new UnfuddleAccountDump( new File( args.getXmlDumpPath() ) );
+        unfuddleAccount = new UnfuddleAccountCurl( unfuddleCurl );
 
         final JPanel contentPanel = new JPanel();
 
@@ -134,7 +136,7 @@ public class UnfuddleEmailNotifier {
         Thread t = new Thread( new Runnable() {
             public void run() {
                 try {
-                    recent[0] = unfuddleCurl.readString( "activity.xml?limit=" + limit );
+                    recent[0] = unfuddleCurl.execProjectCommand( "activity.xml?limit=" + limit );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -205,7 +207,7 @@ public class UnfuddleEmailNotifier {
                 XMLObject ticket = record.getNode( "ticket" );
                 if ( ticket != null ) {
                     try {
-                        UnfuddlePerson resolvedPerson = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
+                        IUnfuddlePerson resolvedPerson = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
                         int recordID = auditTrail.getTextContentAsInt( "record-id" );
                         String result = mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedPerson, recordID ) );
                         results.add( result );
