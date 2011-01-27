@@ -193,7 +193,6 @@ public class PeriodicTableControlNode extends PNode {
         private final int atomicNumber;
         private final PText text;
         private final PhetPPath cellBoundary;
-        private final boolean disabledLooking = false;
 
         public BasicElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             this.atomicNumber = atomicNumber;
@@ -206,31 +205,8 @@ public class PeriodicTableControlNode extends PNode {
             text.setOffset( cellBoundary.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
                     cellBoundary.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
-            atom.addObserver( new SimpleObserver() {
-                public void update() {
-                    boolean match = atom.getNumProtons() == atomicNumber;
-                    text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
-                    if ( match ) {
-                        cellBoundary.setStroke( new BasicStroke( 2 ) );
-                        cellBoundary.setStrokePaint( Color.RED );
-                        cellBoundary.setPaint( Color.white );
-                        BasicElementCell.this.moveToFront();
-                        text.setTextPaint( Color.darkGray );
-                    }
-                    else {
-                        if ( !disabledLooking ){
-                            cellBoundary.setStroke( new BasicStroke( 1 ) );
-                            cellBoundary.setStrokePaint(Color.lightGray);
-                            cellBoundary.setPaint( backgroundColor );
-                            text.setTextPaint( new Color(140,140,140));
-                        }
-                        else{
-                            text.setTextPaint( Color.LIGHT_GRAY );
-                            cellBoundary.setStrokePaint( Color.LIGHT_GRAY );
-                        }
-                    }
-                }
-            } );
+            cellBoundary.setStroke( new BasicStroke( 1 ) );
+            cellBoundary.setPaint( backgroundColor );
         }
 
         public int getAtomicNumber() {
