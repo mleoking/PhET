@@ -1,3 +1,5 @@
+> localization fixes
+1/27/11 #2710, i18n of "# of levels"
 # 1.11.00 (48268) Jan 26, 2011
 > localization fixes
 # 1.10.01 (48177) Jan 23, 2011
