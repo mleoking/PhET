@@ -19,6 +19,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
+import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
@@ -33,6 +34,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -55,6 +57,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
     // Transform.
     private final ModelViewTransform2D mvt;
+
+    private final MaximizeControlNode symbolWindow;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -117,15 +121,25 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         };
         rootNode.addChild( periodicTableNode );
 
+        // Define vars that control the position and alignment of the min/max
+        // windows.
+        final PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
+        final double verticalSpacingBetweenWindows = 12;
+        int indicatorWindowPosX = 600;
+
         // Add the symbol node that provides more detailed information about
         // the currently selected element.
-        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true, new PhetFont( 18, true ), false, true, false ) {{
+        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), false, false ) {{
             // Set location and scale.  These are empirically determined, tweak as needed.
-            setScale( 1.4 );
+            setScale( 1 );
             setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20,
                     periodicTableNode.getFullBoundsReference().getMaxY() + 20 );
         }};
-        rootNode.addChild( symbolNode );
+        symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
+        final double insetX = 20;
+        symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
+        symbolWindow.setOffset( indicatorWindowPosX, 250 );
+        rootNode.addChild( symbolWindow );
 
         // Add the control that allows the user to show/hide the chemical symbol.
         BooleanProperty symbolVisibility = new BooleanProperty( true ){{

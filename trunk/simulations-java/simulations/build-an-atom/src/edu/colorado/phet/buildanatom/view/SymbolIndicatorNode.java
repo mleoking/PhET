@@ -6,9 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -38,8 +36,6 @@ public class SymbolIndicatorNode extends PNode {
     private final PText chargeNode;
     private final PText elementName;
     private final PNode textContent;//keep the text in a separate PNode so it can be repositioned; this is used in
-    private final boolean showIsotopeNumberInElementName;
-    private final boolean scaleElementName;
     // Interactive Isotopes when the charge value isn't displayed to center the text in the white box.
 
     /**
@@ -51,7 +47,7 @@ public class SymbolIndicatorNode extends PNode {
      * the element (e.g. Hydrogen) is shown beneath the symbol.
      */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName ) {
-        this( atom, showElementName, DEFAULT_ELEMENT_NAME_FONT, true, false, true );
+        this( atom, showElementName, true );
     }
 
     /**
@@ -62,25 +58,11 @@ public class SymbolIndicatorNode extends PNode {
      * symbol.
      * @param showElementName - A flag that determines whether the name of
      * the element (e.g. Hydrogen) is shown beneath the symbol.
-     * @param elementNameFont - Font for depicting the element name.  Use a
-     * non-default value if you need to make the name larger or smaller
-     * relative to the symbol.
      * @param showCharge - A flag the determines whether the charge number is
      * depicted. This is often used in cases where the symbol will always be
      * neutral.
-     * @param showIsotopeNumberInElementName - A flag that determines whether
-     * the element number is shown in the element name, for example, Lithium-7
-     * versus plain old Lithium.
-     * @param scaleElementName - A flag that controls whether the name of the
-     * element, e.g. Hydrogen, should be scaled if it is larger than the width
-     * of the bounding box for the symbol.  Not scaling it can lead to issues
-     * with the symbol having a consistent size, scaling it can lead to
-     * variations in the appearance of the name.
      */
-    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, Font elementNameFont,
-            boolean showCharge, boolean showIsotopeNumberInElementName, boolean scaleElementName ) {
-        this.showIsotopeNumberInElementName = showIsotopeNumberInElementName;
-        this.scaleElementName = scaleElementName;
+    public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, boolean showCharge ) {
 
         // Must be big enough to hold Ne with 2 digit numbers on both sides.
         double width = 83;
@@ -126,7 +108,7 @@ public class SymbolIndicatorNode extends PNode {
 
         // Element name.
         elementName = new PText();
-        elementName.setFont( elementNameFont );
+        elementName.setFont( DEFAULT_ELEMENT_NAME_FONT );
         elementName.setTextPaint( Color.RED );
         if ( showElementName ){
             addChild( elementName );
@@ -175,15 +157,8 @@ public class SymbolIndicatorNode extends PNode {
             chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth()-TEXT_INSET,chargeNode.getOffset().getY() );
         }
 
-        elementName.setScale( 1 );
-        if ( showIsotopeNumberInElementName ) {
-            final String format = MessageFormat.format( BuildAnAtomStrings.ATOM_ISOTOPE_NAME_PATTERN, atom.getName(), new Integer(atom.getMassNumber()) );
-            elementName.setText( format );
-        }
-        else {
-            elementName.setText( atom.getName() );
-        }
-        if (scaleElementName && elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
+        elementName.setText( atom.getName() );
+        if (elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
             // Make sure the caption is not wider than the bounding box and,
             // if it is, scale it to fit.
             elementName.setScale( boundingBox.getFullBoundsReference().width / elementName.getFullBoundsReference().width );
