@@ -8,6 +8,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -26,16 +27,16 @@ import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -135,8 +136,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the node that indicates the percentage abundance.
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
-        // TODO: i18n
-        abundanceWindow = new MaximizeControlNode( "Abundance", new PDimension( 400, 200 ), abundanceIndicatorNode, true );
+        abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE, new PDimension( 400, 200 ), abundanceIndicatorNode, true );
         abundanceIndicatorNode.setOffset( 20, abundanceWindow.getFullBoundsReference().height / 2 - abundanceIndicatorNode.getFullBounds().getHeight() / 2 );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
         rootNode.addChild( abundanceWindow );
@@ -181,31 +181,48 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     private static class AbundanceIndicatorNode extends PNode {
 
         private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
-        public static final double MIN_ABUNDANCE_TO_SHOW = 0.00001;//Should match the resolution of the ABUNDANCE_FORMATTER
+        private static final double MIN_ABUNDANCE_TO_SHOW = 0.00001; // Should match the resolution of the ABUNDANCE_FORMATTER
+        private static final Font READOUT_FONT = new PhetFont( 20 );
+        private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
+
+
         protected final int RECTANGLE_INSET_X = 6;
+        private final PieValue[] pieValues = new PieValue[]{
+            new PieValue(100, Color.PINK),
+            new PieValue(0, new Color(0, 0, 0, 0))
+        };
 
         public AbundanceIndicatorNode( final IDynamicAtom atom ) {
-            final HTMLNode title = new HTMLNode() {{
-                setFont( new PhetFont( 20 ) );
-                setHTML( BuildAnAtomStrings.ABUNDANCE );
-            }};
+
+            // Add the numerical value readout.
             final HTMLNode value = new HTMLNode() {{
-                setFont( new PhetFont( 20 ) );
-                setOffset( title.getFullBounds().getWidth() + RECTANGLE_INSET_X + 10, 0 );
+                setFont( READOUT_FONT );
             }};
             final PhetPPath valueBackground = new PhetPPath( Color.white, new BasicStroke( 1 ), Color.darkGray );
-            addChild( title );
             addChild( valueBackground );
             addChild( value );
+
+            // Add the pie chart.
+            final PieChartNode pieChart = new PieChartNode( pieValues, new Rectangle(0, 0, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER) );
+            addChild( pieChart );
+
+            // Watch the atom for changes and update the abundance information accordingly.
             atom.addObserver( new SimpleObserver() {
                 public void update() {
-                    //Show the abundance value
+                    // Show the abundance value
                     final double abundancePercent = atom.getNaturalAbundance() * 100;
                     value.setHTML( abundancePercent < MIN_ABUNDANCE_TO_SHOW && abundancePercent > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundancePercent ) + "%" );
+                    value.setOffset( 0, PIE_CHART_DIAMETER / 2 - value.getFullBoundsReference().height / 2 );
 
-                    //Expand the white background to contain the text value
+                    // Expand the white background to contain the text value
                     final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), RECTANGLE_INSET_X, 3 );
                     valueBackground.setPathTo( new RoundRectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight(), 10, 10 ) );
+
+                    // Update the pie chart.
+                    pieValues[0].setValue( atom.getNaturalAbundance() * 100 );
+                    pieValues[1].setValue( 100 - ( atom.getNaturalAbundance() * 100 ) );
+                    pieChart.setPieValues( pieValues );
+                    pieChart.setOffset( valueBackground.getFullBoundsReference().getMaxX() + 20, 0 );
                 }
             } );
         }
