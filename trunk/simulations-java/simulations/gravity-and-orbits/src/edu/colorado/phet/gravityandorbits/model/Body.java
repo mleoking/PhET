@@ -410,10 +410,18 @@ public class Body implements IBodyColors {
     }
 
     public boolean collidesWidth( Body body ) {
-        final ImmutableVector2D myPosition = getPosition( scaleProperty.getValue() );
-        final ImmutableVector2D yourPosition = body.getPosition( body.scaleProperty.getValue() );
+        //The following commented out lines handle collisions in real or cartoon scales
+//        final Scale myScale = scaleProperty.getValue();
+//        final Scale otherScale = body.scaleProperty.getValue();
+
+        //Perform collisions only in real scale, i.e. only if the physical bodies collide, not if the cartoons collide.
+        final Scale myScale = Scale.REAL;
+        final Scale otherScale = Scale.REAL;
+
+        final ImmutableVector2D myPosition = getPosition( myScale );
+        final ImmutableVector2D yourPosition = body.getPosition( otherScale );
         double distance = myPosition.getSubtractedInstance( yourPosition ).getMagnitude();
-        double radiiSum = getDiameter( scaleProperty.getValue() ) / 2 + body.getDiameter( body.scaleProperty.getValue() ) / 2;
+        double radiiSum = getDiameter( myScale ) / 2 + body.getDiameter( otherScale ) / 2;
         return distance < radiiSum;
     }
 
