@@ -1,3 +1,4 @@
+# 3.13.00 (48272) Jan 26, 2011
 > localization fixes
 # 3.12.01 (48197) Jan 24, 2011
 1/13/11 #2666, localize "Atm" and "Set"
