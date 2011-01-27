@@ -1,7 +1,5 @@
 package edu.colorado.phet.flexcommon {
 
-import edu.colorado.phet.flashcommon.ApplicationLifecycle;
-
 import flash.events.Event;
 
 import mx.containers.TabNavigator;
@@ -22,6 +20,8 @@ public class PhetTabNavigator extends TabNavigator {
         super();
         this.modules = modules;
         setStyle( "fontSize", 20 );
+        setStyle( "backgroundColor", 0xb4cdff );
+
         percentWidth = 100;
         percentHeight = 100;
         for each ( var module:Module in modules ) {
@@ -32,9 +32,11 @@ public class PhetTabNavigator extends TabNavigator {
             runModule( selectedIndex );
             updateTabColors();
         } );
-        ApplicationLifecycle.addApplicationCompleteListener( function():void {
-            updateTabColors();
-        } );
+    }
+
+    override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
+        super.updateDisplayList( unscaledWidth, unscaledHeight );
+        updateTabColors();
     }
 
     public function updateTabColors():void {
