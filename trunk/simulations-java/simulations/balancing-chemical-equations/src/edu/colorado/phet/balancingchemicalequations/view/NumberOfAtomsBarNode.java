@@ -7,24 +7,25 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * A bar that displays some number of atoms for a specified atom.
@@ -75,25 +76,24 @@ public class NumberOfAtomsBarNode extends PComposite {
         barNode.setStroke( STROKE );
         barNode.setStrokePaint( STROKE_COLOR );
         barNode.setPaint( atom.getColor() );
-        if ( numberOfAtoms == 0 ) {
-            // horizontal line to show fully-collapsed bar
-            barNode.setPathTo( new Line2D.Double( -MAX_BAR_SIZE.getWidth() / 2, 0, MAX_BAR_SIZE.getWidth(), 0 ) );
-        }
-        else if ( numberOfAtoms <= MAX_NUMBER_OF_ATOMS ) {
+        if ( numberOfAtoms <= MAX_NUMBER_OF_ATOMS ) {
             // standard bar
             double height = MAX_BAR_SIZE.getHeight() * ( (double) numberOfAtoms / MAX_NUMBER_OF_ATOMS );
+            if ( height == 0 ) {
+                height = 0.001 * MAX_BAR_SIZE.getHeight();
+            }
             barNode.setPathTo( new Rectangle2D.Double( -MAX_BAR_SIZE.getWidth() / 2, -height, MAX_BAR_SIZE.getWidth(), height ) );
         }
         else {
             // bar with upward-pointing arrow, path is specified clockwise from arrow tip.
             GeneralPath arrowPath = new GeneralPath();
-            arrowPath.moveTo( 0f, (float) -MAX_BAR_SIZE.getHeight() );
-            arrowPath.lineTo( (float) ARROW_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
-            arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
+            arrowPath.moveTo( 0f, (float) -( MAX_BAR_SIZE.getHeight() + ARROW_SIZE.getHeight() ) );
+            arrowPath.lineTo( (float) ARROW_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
+            arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
             arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, 0f );
             arrowPath.lineTo( (float) -MAX_BAR_SIZE.getWidth() / 2, 0f );
-            arrowPath.lineTo( (float) -MAX_BAR_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
-            arrowPath.lineTo( (float) -ARROW_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
+            arrowPath.lineTo( (float) -MAX_BAR_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
+            arrowPath.lineTo( (float) -ARROW_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
             arrowPath.closePath();
             barNode.setPathTo( arrowPath );
         }
@@ -130,27 +130,32 @@ public class NumberOfAtomsBarNode extends PComposite {
     // Test cases
     public static void main( String[] args ) {
 
-        // value between 0 and max
-        NumberOfAtomsBarNode barNode1 = new NumberOfAtomsBarNode( new O() );
-        barNode1.setNumberOfAtoms( 16 );
-        barNode1.setOffset( 100, 300 );
+        final int numberOfAtoms = 0;
 
-        // value exceeds max, displays arrow
-        NumberOfAtomsBarNode barNode2 = new NumberOfAtomsBarNode( new N() );
-        barNode2.setNumberOfAtoms( 20 );
-        barNode2.setOffset( 200, 300 );
+        // bar
+        final NumberOfAtomsBarNode barNode = new NumberOfAtomsBarNode( new N() );
+        barNode.setNumberOfAtoms( numberOfAtoms );
+        barNode.setOffset( 100, 200 );
 
-        // zero
-        NumberOfAtomsBarNode barNode3 = new NumberOfAtomsBarNode( new H() );
-        barNode3.setNumberOfAtoms( 0 );
-        barNode3.setOffset( 300, 300 );
+        // control
+        final JSlider slider = new JSlider( 0, 20, numberOfAtoms );
+        slider.setMajorTickSpacing( 10 );
+        slider.setMinorTickSpacing( 1 );
+        slider.setPaintTicks( true );
+        slider.setPaintLabels( true );
+        slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                barNode.setNumberOfAtoms( slider.getValue() );
+            }
+        } );
+        PSwing sliderNode = new PSwing( slider );
+        sliderNode.setOffset( 100, 250 );
 
         // canvas
-        PCanvas canvas = new PCanvas();
-        canvas.setPreferredSize( new Dimension( 600, 600 ) );
-        canvas.getLayer().addChild( barNode1 );
-        canvas.getLayer().addChild( barNode2 );
-        canvas.getLayer().addChild( barNode3 );
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 350, 400 ) );
+        canvas.getLayer().addChild( barNode );
+        canvas.getLayer().addChild( sliderNode );
 
         // frame
         JFrame frame = new JFrame( NumberOfAtomsBarNode.class.getName() );
