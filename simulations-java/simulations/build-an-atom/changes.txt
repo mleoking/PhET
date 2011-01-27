@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Reduced number of neutrons in the bucket to 4 and adjusted the size and position of the bucket to compensate. 
 isotopes-and-atomic-mass: Relocated the atom, neuron bucket, and symbol.  Part of new layout of this tab.
 isotopes-and-atomic-mass: Relocated the legend and the periodic table on the canvas.
 isotopes-and-atomic-mass: Made the lower portion of the periodic table look transparent, made the letters & boundaries darker.
