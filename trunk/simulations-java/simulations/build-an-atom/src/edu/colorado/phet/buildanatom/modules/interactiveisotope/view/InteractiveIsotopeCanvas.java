@@ -59,6 +59,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     private final ModelViewTransform2D mvt;
 
     private final MaximizeControlNode symbolWindow;
+    private final MaximizeControlNode abundanceWindow;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -121,71 +122,24 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         };
         rootNode.addChild( periodicTableNode );
 
-        // Define vars that control the position and alignment of the min/max
-        // windows.
-        final PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
-        final double verticalSpacingBetweenWindows = 12;
+        // Set the x position of the indicators.
         int indicatorWindowPosX = 600;
 
-        // Add the symbol node that provides more detailed information about
-        // the currently selected element.
-        final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), false, false ) {{
-            // Set location and scale.  These are empirically determined, tweak as needed.
-            setScale( 1 );
-            setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20,
-                    periodicTableNode.getFullBoundsReference().getMaxY() + 20 );
-        }};
-        symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
-        final double insetX = 20;
-        symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
+        // Add the symbol indicator node that provides more detailed
+        // information about the currently selected element.
+        final SymbolIndicatorNode symbolIndicatorNode = new SymbolIndicatorNode( model.getAtom(), false, false );
+        symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, new PDimension( 400, 100 ), symbolIndicatorNode, true );
+        symbolIndicatorNode.setOffset( 20, symbolWindow.getFullBoundsReference().height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( indicatorWindowPosX, 250 );
         rootNode.addChild( symbolWindow );
 
-        // Add the control that allows the user to show/hide the chemical symbol.
-        BooleanProperty symbolVisibility = new BooleanProperty( true ){{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    symbolNode.setVisible( getValue() );
-                }
-            });
-        }};
-        // TODO: i18n
-        PropertyCheckBox symbolVisibilityPropertyCheckBox = new PropertyCheckBox( "Show Symbol", symbolVisibility ) {
-            {
-                setFont( LABEL_FONT );
-                setOpaque( false );
-            }
-        };
-        final PNode symbolVisibilityCheckBoxNode = new PSwing( symbolVisibilityPropertyCheckBox ){{
-            setOffset( scaleNode.getFullBoundsReference().getMaxX() + 40, 590 );
-        }};
-        rootNode.addChild( symbolVisibilityCheckBoxNode );
-
         // Add the node that indicates the percentage abundance.
-        final PNode abundanceIndicator = new AbundanceIndicator( model.getAtom() ){{
-            setOffset( 730, 350 );
-        }};
-        rootNode.addChild( abundanceIndicator );
-
-        // Add the control that allows the user to show/hide the abundance indicator.
-        BooleanProperty abundanceVisibility = new BooleanProperty( false ){{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    abundanceIndicator.setVisible( getValue() );
-                }
-            });
-        }};
+        final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
         // TODO: i18n
-        PropertyCheckBox abundanceIndicatorVisibilityPropertyCheckBox = new PropertyCheckBox( "Show Abundance", abundanceVisibility ) {
-            {
-                setFont( LABEL_FONT );
-                setOpaque( false );
-            }
-        };
-        final PNode abundanceVisibilityCheckBoxNode = new PSwing( abundanceIndicatorVisibilityPropertyCheckBox ){{
-            setOffset( symbolVisibilityCheckBoxNode.getFullBoundsReference().getMinX(), symbolVisibilityCheckBoxNode.getFullBoundsReference().getMaxY() );
-        }};
-        rootNode.addChild( abundanceVisibilityCheckBoxNode );
+        abundanceWindow = new MaximizeControlNode( "Abundance", new PDimension( 400, 200 ), abundanceIndicatorNode, true );
+        abundanceIndicatorNode.setOffset( 20, abundanceWindow.getFullBoundsReference().height / 2 - abundanceIndicatorNode.getFullBounds().getHeight() / 2 );
+        abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
+        rootNode.addChild( abundanceWindow );
 
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), Color.WHITE );
@@ -224,13 +178,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     /**
      * Shows the abundance readout for a user-selected isotope.
      */
-    private static class AbundanceIndicator extends PNode {
+    private static class AbundanceIndicatorNode extends PNode {
 
         private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
         public static final double MIN_ABUNDANCE_TO_SHOW = 0.00001;//Should match the resolution of the ABUNDANCE_FORMATTER
         protected final int RECTANGLE_INSET_X = 6;
 
-        public AbundanceIndicator( final IDynamicAtom atom ) {
+        public AbundanceIndicatorNode( final IDynamicAtom atom ) {
             final HTMLNode title = new HTMLNode() {{
                 setFont( new PhetFont( 20 ) );
                 setHTML( BuildAnAtomStrings.ABUNDANCE );
