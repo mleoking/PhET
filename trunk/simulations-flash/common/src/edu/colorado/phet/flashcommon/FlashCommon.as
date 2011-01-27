@@ -176,6 +176,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 
         // fill in a background behind the logo and text
         logoHolder.beginFill( 0xEEEEEE );
+        logoHolder.lineStyle( 1, 0x000000 );
         var top = Stage.height / 2 - logo._height / 2 - textHeight;
         var bottom = Stage.height / 2 + logo._height / 2;
         var left = Stage.width / 2 - logo._width / 2;
