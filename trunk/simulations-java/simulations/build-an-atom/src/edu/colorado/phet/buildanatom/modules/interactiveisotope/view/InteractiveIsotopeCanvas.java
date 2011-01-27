@@ -71,8 +71,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.width * 0.50 ), (int) Math.round( STAGE_SIZE.height * 0.55 ) ),
-                1.6, // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( STAGE_SIZE.width * 0.32 ), (int) Math.round( STAGE_SIZE.height * 0.49 ) ),
+                2.0, // "Zoom factor" - smaller zooms out, larger zooms in.
                 true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
@@ -122,7 +122,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         final SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), true, new PhetFont( 18, true ), false, true, false ) {{
             // Set location and scale.  These are empirically determined, tweak as needed.
             setScale( 1.4 );
-            setOffset( 120, 320 );
+            setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20,
+                    periodicTableNode.getFullBoundsReference().getMaxY() + 20 );
         }};
         rootNode.addChild( symbolNode );
 
