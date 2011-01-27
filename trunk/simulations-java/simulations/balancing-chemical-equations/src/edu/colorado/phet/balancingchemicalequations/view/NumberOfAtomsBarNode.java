@@ -138,7 +138,8 @@ public class NumberOfAtomsBarNode extends PComposite {
         barNode.setOffset( 100, 200 );
 
         // control
-        final JSlider slider = new JSlider( 0, 20, numberOfAtoms );
+        final JSlider slider = new JSlider( 0, 30, numberOfAtoms );
+        slider.setOrientation( JSlider.VERTICAL );
         slider.setMajorTickSpacing( 10 );
         slider.setMinorTickSpacing( 1 );
         slider.setPaintTicks( true );
@@ -149,7 +150,7 @@ public class NumberOfAtomsBarNode extends PComposite {
             }
         } );
         PSwing sliderNode = new PSwing( slider );
-        sliderNode.setOffset( 100, 250 );
+        sliderNode.setOffset( 200, 50 );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
