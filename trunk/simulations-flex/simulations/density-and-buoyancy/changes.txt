@@ -1,3 +1,7 @@
+# 1.04.03 (48276) Jan 26, 2011
+1/26/11 Tab color improvements
+# 1.04.02 (48275) Jan 26, 2011
+1/26/11 Adding KSU credits
 # 1.04.01 (48267) Jan 26, 2011
 1/26/11 Tab color changes
 # 1.04.00 (47280) Dec 16, 2010
