@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsResources;
 import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
@@ -105,7 +106,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         } );
 
         spinnerPanel = new JPanel( new GridBagLayout() );
-        JLabel spinnerLabel = new JLabel( "# of levels" );
+        JLabel spinnerLabel = new JLabel( DischargeLampsResources.getString( "Controls.NumberOfLevels" ) );
         GridBagConstraints gbc2 = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                           GridBagConstraints.CENTER,
                                                           GridBagConstraints.NONE,
