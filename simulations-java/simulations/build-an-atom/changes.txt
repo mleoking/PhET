@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Relocated the atom, neuron bucket, and symbol.  Part of new layout of this tab.
 isotopes-and-atomic-mass: Relocated the legend and the periodic table on the canvas.
 isotopes-and-atomic-mass: Made the lower portion of the periodic table look transparent, made the letters & boundaries darker.
 isotopes-and-atomic-mass: Moved the stable/unstable label down a bit so it wouldn't overlap the heavier nuclei.
