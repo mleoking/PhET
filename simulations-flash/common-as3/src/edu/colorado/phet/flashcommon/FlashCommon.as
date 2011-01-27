@@ -215,6 +215,7 @@ public class FlashCommon {
         textField.selectable = false;
 
         // background
+        logoHolder.graphics.lineStyle(1,0x000000);
         logoHolder.graphics.beginFill( 0xEEEEEE );
         var top: Number = getPlayAreaHeight() / 2 - logo.height / 2 - textHeight;
         var bottom: Number = getPlayAreaHeight() / 2 + logo.height / 2;
