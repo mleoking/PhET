@@ -20,6 +20,7 @@ public class PhetTabNavigator extends TabNavigator {
         super();
         this.modules = modules;
         setStyle( "fontSize", 20 );
+        setStyle( "paddingTop", 10 );
         setStyle( "backgroundColor", 0xb4cdff );
 
         percentWidth = 100;
