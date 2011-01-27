@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
+import static edu.colorado.phet.buildanatom.BuildAnAtomDefaults.STAGE_SIZE;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,7 +15,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
@@ -62,7 +63,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     public InteractiveIsotopeCanvas( final InteractiveIsotopeModel model ) {
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
         // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
         // factors for the point in the view can be adjusted to shift the
@@ -70,7 +71,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.50 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.55 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.width * 0.50 ), (int) Math.round( STAGE_SIZE.height * 0.55 ) ),
                 1.6, // "Zoom factor" - smaller zooms out, larger zooms in.
                 true );
 
@@ -107,10 +108,11 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
-        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model, new Color( 246,246,246) ){
+        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model,
+                BuildAnAtomConstants.CANVAS_BACKGROUND ){
             {
-                setScale( 1.4 );
-                setOffset( 20, 20 );
+                setScale( 1.2 );
+                setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
             }
         };
         rootNode.addChild( periodicTableNode );
@@ -173,7 +175,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), Color.WHITE );
         particleCountLegend.setScale( 1.25 );
-        particleCountLegend.setOffset( 575, 50 );
+        particleCountLegend.setOffset( 20, 10 );
         rootNode.addChild( particleCountLegend );
     }
 
