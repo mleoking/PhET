@@ -31,6 +31,7 @@ import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -248,7 +249,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     private static class TwoItemPieChartNode extends PNode {
 
         private static final Color LEFT_SLICE_COLOR = new Color( 134, 102, 172 );
-        private static final Color RIGHT_SLICE_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
+        private static final Color RIGHT_SLICE_COLOR = ColorUtils.darkerColor( BuildAnAtomConstants.CANVAS_BACKGROUND, 0.3 );
 
         private final PieValue[] pieSlices = new PieValue[] {
                 new PieValue( 100, LEFT_SLICE_COLOR ),
