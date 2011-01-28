@@ -29,7 +29,7 @@ public class BalanceEquationCanvas extends BCECanvas {
 
     public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, final BalanceEquationModel model, boolean dev ) {
 
-        balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.BAR_CHART );
+        balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.BAR_CHARTS );
 
         // control for choosing an equation
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty() );
