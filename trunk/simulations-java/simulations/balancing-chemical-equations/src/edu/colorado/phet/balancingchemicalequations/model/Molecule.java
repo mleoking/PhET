@@ -21,7 +21,7 @@ public abstract class Molecule {
 
     private final String symbol;
     private final Image image;
-    private final Atom[] atoms;
+    private final Atom[] atoms; // order of the atoms determines their display order
 
     public Molecule( String symbol, Image image, Atom[] atoms ) {
         this.symbol = symbol;
