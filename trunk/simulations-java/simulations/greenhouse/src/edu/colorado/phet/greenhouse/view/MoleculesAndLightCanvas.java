@@ -189,7 +189,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         showSpectrumButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 // Show the image dialog.
-                SpectrumDialog reactorCorePictureDlg = new SpectrumDialog( parentFrame );
+                SpectrumDialog2 reactorCorePictureDlg = new SpectrumDialog2( parentFrame );
                 if ( reactorCorePictureDlg != null ) {
                     SwingUtils.centerDialogInParent( reactorCorePictureDlg );
                 }
