@@ -128,13 +128,6 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                     module.getModeProperty().getValue().resetBodies();//also clears the deviated enable flag
                 }
             } );
-
-            //Gray out this button until the user changes something significant to the system dynamics
-            mode.getDeviatedFromEarthValuesProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setEnabled( mode.getDeviatedFromEarthValuesProperty().getValue() );
-                }
-            } );
         }};
         addChild( earthValuesButton );
 
