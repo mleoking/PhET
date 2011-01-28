@@ -1455,7 +1455,8 @@ public class AtomIdentifier {
      * Get the proportion of this particular isotope on present-day earth
      * versus all isotopes for this element.
      *
-     * @return - A value from 0 to 1 representing the natural abundance.
+     * @return - A value from 0 to 1 representing the natural abundance
+     * proportion.
      */
     public static double getNaturalAbundance( IAtom atom ) {
         double naturalAbundance = 0;
