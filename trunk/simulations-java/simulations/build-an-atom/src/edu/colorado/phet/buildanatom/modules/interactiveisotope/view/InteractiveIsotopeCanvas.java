@@ -205,7 +205,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
             addChild( value );
 
             // Add the pie chart.
-            final RotatedTwoItemPieChartNode pieChart = new RotatedTwoItemPieChartNode( PIE_CHART_DIAMETER,
+            final TwoItemPieChartNode pieChart = new TwoItemPieChartNode( PIE_CHART_DIAMETER,
                     atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
             addChild( pieChart );
 
@@ -245,7 +245,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
      * of Jan 28, 2011.  Changes to the way the PieChartNode is drawn may
      * impact this class.
      */
-    private static class RotatedTwoItemPieChartNode extends PNode {
+    private static class TwoItemPieChartNode extends PNode {
 
         private static final Color LEFT_SLICE_COLOR = new Color( 134, 102, 172 );
         private static final Color RIGHT_SLICE_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
@@ -258,7 +258,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         /**
          * Constructor.
          */
-        public RotatedTwoItemPieChartNode( int pieChartDiameter, double initialLeftSliceValue, double initialRightSliceValue ) {
+        public TwoItemPieChartNode( int pieChartDiameter, double initialLeftSliceValue, double initialRightSliceValue ) {
 
             pieChart = new PieChartNode(
                     pieSlices,
