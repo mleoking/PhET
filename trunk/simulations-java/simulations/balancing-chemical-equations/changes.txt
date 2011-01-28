@@ -1,3 +1,4 @@
+1/27/11 add enum of atoms
 1/26/11 bar that displays atom count
 1/26/11 add atom colors
 1/26/11 add atoms to model
