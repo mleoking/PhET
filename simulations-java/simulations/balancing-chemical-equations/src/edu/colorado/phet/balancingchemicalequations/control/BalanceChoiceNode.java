@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BalanceChoiceNode extends PhetPNode {
 
-    public static enum BalanceChoice { BAR_CHART, BALANCE_SCALE };
+    public static enum BalanceChoice { BAR_CHARTS, BALANCE_SCALES };
 
     public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty ) ) );
@@ -34,8 +34,8 @@ public class BalanceChoiceNode extends PhetPNode {
             setAnchor( Anchor.WEST );
             setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
             setGridY( 0 ); // horizontal layout
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHART, balanceChoiceProperty, BalanceChoice.BAR_CHART ) );
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALE, balanceChoiceProperty, BalanceChoice.BALANCE_SCALE ) );
+            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalanceChoice.BAR_CHARTS ) );
+            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalanceChoice.BALANCE_SCALES ) );
         }
     }
 }
