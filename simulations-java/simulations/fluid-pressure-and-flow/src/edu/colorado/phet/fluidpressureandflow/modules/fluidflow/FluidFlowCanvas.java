@@ -21,12 +21,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.view.*;
-import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -161,7 +161,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             } );
         }};
         //No time readout
-        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), GAOStrings.RESET ) {{
+        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
     }
