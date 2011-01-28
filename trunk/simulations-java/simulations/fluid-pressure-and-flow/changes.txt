@@ -1,3 +1,4 @@
+# 0.00.08 (48319) Jan 28, 2011
 Made it so that the pipes can't be dragged offscreen vertically
 Made it so that the pipe control point can't be dragged offscreen vertically
 Show second pressure sensor at a y location that yields a different pressure value
