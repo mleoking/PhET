@@ -79,7 +79,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( STAGE_SIZE.width * 0.32 ), (int) Math.round( STAGE_SIZE.height * 0.49 ) ),
                 2.0, // "Zoom factor" - smaller zooms out, larger zooms in.
-                true );
+        true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
@@ -88,14 +88,16 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Create the node that contains both the atom and the neutron bucket.
-        final PNode atomAndBucketNode = new InteractiveIsotopeNode(model, mvt, new BooleanProperty( true ) );
+        final PNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, new BooleanProperty( true ) );
 
         // Create the weigh scale that sits beneath the atom.
-        final PNode scaleNode = new AtomScaleNode( model.getAtom() ){{
-            // The scale needs to sit just below the atom, and there are some
-            // "tweak factors" needed to get it looking right.
-            setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2, 530 );
-        }};
+        final PNode scaleNode = new AtomScaleNode( model.getAtom() ) {
+            {
+                // The scale needs to sit just below the atom, and there are some
+                // "tweak factors" needed to get it looking right.
+                setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2, 530 );
+            }
+        };
 
         // Add the scale followed by the atom so that the layering effect is
         // correct.
@@ -105,17 +107,17 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
         model.getAtom().addObserver( new SimpleObserver() {
-            public void update() {
+                public void update() {
                 stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2,
                         mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS ) + 5 );
-            }
-        } );
+                }
+                } );
         rootNode.addChild( stabilityIndicator );
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
         final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model,
-                BuildAnAtomConstants.CANVAS_BACKGROUND ){
+                BuildAnAtomConstants.CANVAS_BACKGROUND ) {
             {
                 setScale( 1.2 );
                 setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
@@ -187,23 +189,25 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
 
         protected final int RECTANGLE_INSET_X = 6;
-        private final PieValue[] pieValues = new PieValue[]{
-            new PieValue(100, Color.PINK),
-            new PieValue(0, new Color(0, 0, 0, 0))
-        };
+        private final PieValue[] pieValues = new PieValue[] {
+                new PieValue( 100, Color.BLUE ),
+                new PieValue( 0, Color.BLACK ) };
 
         public AbundanceIndicatorNode( final IDynamicAtom atom ) {
 
             // Add the numerical value readout.
-            final HTMLNode value = new HTMLNode() {{
-                setFont( READOUT_FONT );
-            }};
+            final HTMLNode value = new HTMLNode() {
+                {
+                    setFont( READOUT_FONT );
+                }
+            };
             final PhetPPath valueBackground = new PhetPPath( Color.white, new BasicStroke( 1 ), Color.darkGray );
             addChild( valueBackground );
             addChild( value );
 
             // Add the pie chart.
-            final PieChartNode pieChart = new PieChartNode( pieValues, new Rectangle(0, 0, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER) );
+            final RotatedTwoItemPieChartNode pieChart = new RotatedTwoItemPieChartNode( PIE_CHART_DIAMETER,
+                    atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
             addChild( pieChart );
 
             // Watch the atom for changes and update the abundance information accordingly.
@@ -219,12 +223,57 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     valueBackground.setPathTo( new RoundRectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight(), 10, 10 ) );
 
                     // Update the pie chart.
-                    pieValues[0].setValue( atom.getNaturalAbundance() * 100 );
-                    pieValues[1].setValue( 100 - ( atom.getNaturalAbundance() * 100 ) );
-                    pieChart.setPieValues( pieValues );
+                    pieChart.updateValues( atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
                     pieChart.setOffset( valueBackground.getFullBoundsReference().getMaxX() + 20, 0 );
                 }
             } );
+        }
+    }
+
+    /**
+     * This class represents a pie chart that has exactly two slices and is
+     * rotated in such a way that the first specified portion is always on
+     * the left side.  The intent is that the user can place a label on the
+     * left side of the chart that will represent the value.
+     *
+     * IMPORTANT: The behavior of this node has some important dependencies
+     * on the particular behaviors of the PieChartNode.  Specifically, the
+     * way this rotates depends on the way the PieChartNode draws itself as
+     * of Jan 28, 2011.  Changes to the way the PieChartNode is drawn may
+     * impact this class.
+     */
+    private static class RotatedTwoItemPieChartNode extends PNode {
+
+        private static final Color LEFT_SLICE_COLOR = Color.BLUE;
+        private static final Color RIGHT_SLICE_COLOR = Color.BLACK;
+
+        private final PieValue[] pieSlices = new PieValue[] {
+                new PieValue( 100, LEFT_SLICE_COLOR ),
+                new PieValue( 0, RIGHT_SLICE_COLOR ) };
+        private final PieChartNode pieChart;
+
+        /**
+         * Constructor.
+         */
+        public RotatedTwoItemPieChartNode( int pieChartDiameter, double initialLeftSliceValue, double initialRightSliceValue ) {
+
+            pieChart = new PieChartNode(
+                    pieSlices,
+                    new Rectangle( -pieChartDiameter / 2, -pieChartDiameter / 2, pieChartDiameter, pieChartDiameter ) );
+            pieChart.setOffset( pieChartDiameter / 2, pieChartDiameter / 2 );
+            addChild( pieChart );
+            updateValues( initialLeftSliceValue, initialRightSliceValue );
+        }
+
+        /**
+         * Update the pie chart and rotate it so that the left slice value is
+         * centered on the left side.
+         */
+        public void updateValues( double leftSliceValue, double rightSliceValue ) {
+            pieSlices[0].setValue( leftSliceValue );
+            pieSlices[1].setValue( rightSliceValue );
+            pieChart.setPieValues( pieSlices );
+            pieChart.setRotation( -Math.PI * 2 * rightSliceValue / ( rightSliceValue + leftSliceValue ) / 2 );
         }
     }
 }
