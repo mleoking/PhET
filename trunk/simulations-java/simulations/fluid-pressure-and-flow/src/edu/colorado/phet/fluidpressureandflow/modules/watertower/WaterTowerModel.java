@@ -22,6 +22,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private ArrayList<WaterDrop> particles = new ArrayList<WaterDrop>();
     private ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private Random random = new Random();
+    private FaucetFlowLevel faucetFlowLevel = new FaucetFlowLevel();
 
     public WaterTowerModel() {
         addPressureSensor( new PressureSensor( this, 0, 0 ) );
@@ -60,5 +61,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
     public WaterTower getWaterTower() {
         return waterTower;
+    }
+
+    public FaucetFlowLevel getFaucetFlowLevel() {
+        return faucetFlowLevel;
     }
 }

@@ -28,8 +28,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
-
         addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower() ) );
+        addChild( new FaucetNode( transform, module.getFluidPressureAndFlowModel().getFaucetFlowLevel() ) );
 
         module.getFluidPressureAndFlowModel().addDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
