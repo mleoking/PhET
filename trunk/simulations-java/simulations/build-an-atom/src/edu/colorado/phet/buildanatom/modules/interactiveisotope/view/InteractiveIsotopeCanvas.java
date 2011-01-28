@@ -9,10 +9,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
@@ -37,6 +40,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PLine;
+import edu.umd.cs.piccolox.util.LineShape;
+import edu.umd.cs.piccolox.util.XYArray;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -137,8 +143,17 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode.addChild( symbolWindow );
 
         // Add the node that indicates the percentage abundance.
+        final PDimension abundanceWindowSize = new PDimension( 400, 200 );
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
-        abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE, new PDimension( 400, 200 ), abundanceIndicatorNode, true );
+        abundanceIndicatorNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName() == "fullBounds" ){
+                    // Center the indicator in the min/max window.
+                    abundanceIndicatorNode.centerFullBoundsOnPoint( abundanceWindowSize.getWidth() / 2, abundanceWindowSize.getHeight() / 2 );
+                }
+            }
+        });
+        abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceIndicatorNode.setOffset( 20, abundanceWindow.getFullBoundsReference().height / 2 - abundanceIndicatorNode.getFullBounds().getHeight() / 2 );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
         rootNode.addChild( abundanceWindow );
@@ -186,14 +201,17 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         private static final double MIN_ABUNDANCE_TO_SHOW = 0.00001; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
-
-
-        protected final int RECTANGLE_INSET_X = 6;
-        private final PieValue[] pieValues = new PieValue[] {
-                new PieValue( 100, Color.BLUE ),
-                new PieValue( 0, Color.BLACK ) };
+        private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{2, 2}, 0);
+        private final int RECTANGLE_INSET_X = 6;
 
         public AbundanceIndicatorNode( final IDynamicAtom atom ) {
+
+            // Add the line that connects the indicator to the pie chart.
+            // This must be added first because it goes behind the other
+            // nodes.
+            LineShape lineShape = new LineShape( new XYArray( new double[]{0, 0, 0, 0} ) );
+            final PLine connectingLine = new PLine( lineShape, CONNECTING_LINE_STROKE );
+            addChild( connectingLine );
 
             // Add the numerical value readout.
             final HTMLNode value = new HTMLNode() {
@@ -225,6 +243,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     // Update the pie chart.
                     pieChart.updateValues( atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
                     pieChart.setOffset( valueBackground.getFullBoundsReference().getMaxX() + 20, 0 );
+
+                    // Update the connecting line.
+                    connectingLine.setPoint( 0, valueBackground.getFullBoundsReference().getMaxX(), valueBackground.getFullBoundsReference().getCenterY() );
+                    connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getMinX(), valueBackground.getFullBoundsReference().getCenterY()  );
                 }
             } );
         }
@@ -244,8 +266,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
      */
     private static class RotatedTwoItemPieChartNode extends PNode {
 
-        private static final Color LEFT_SLICE_COLOR = Color.BLUE;
-        private static final Color RIGHT_SLICE_COLOR = Color.BLACK;
+        private static final Color LEFT_SLICE_COLOR = new Color( 134, 102, 172 );
+        private static final Color RIGHT_SLICE_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
 
         private final PieValue[] pieSlices = new PieValue[] {
                 new PieValue( 100, LEFT_SLICE_COLOR ),
