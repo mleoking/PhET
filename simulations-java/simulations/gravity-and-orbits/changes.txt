@@ -1,3 +1,4 @@
+Made "Earth System" button always enabled
 # 0.0.18 (48312) Jan 27, 2011
 Tuned cartoon scaling to prevent more awkward nonlinear motion
 Perform collisions only in real scale, i.e. only if the physical bodies collide, not if the cartoons collide.
