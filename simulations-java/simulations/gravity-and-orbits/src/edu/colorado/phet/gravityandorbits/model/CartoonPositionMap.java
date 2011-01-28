@@ -23,7 +23,7 @@ public class CartoonPositionMap {
     }
 
     final double DEFAULT_DIST = 3.9137E8;
-    final int K = 10;
+    final double K = 0.5;
     static final HashMap<Key, Double> map = new HashMap<Key, Double>();
 
     public static class Key {
@@ -59,7 +59,8 @@ public class CartoonPositionMap {
         double distance = xR.getDistance( parentPosition );
         final boolean containsKey = map.containsKey( new Key( body, parent ) );
 //        System.out.println( "a = "+body.getName()+", b = "+parent.getName()+", alphaLocked = " + alphaLocked+", contains key = "+containsKey );
-        if ( !alphaLocked || !containsKey ) {
+        if ( !alphaLocked || !containsKey ||
+             true ) {//Shart circuit alpha locking so that alphas are never locked; can be removed if we go back to alpha locking
             map.put( new Key( body, parent ), 1 - Math.exp( -distance / DEFAULT_DIST / K ) );
         }
 

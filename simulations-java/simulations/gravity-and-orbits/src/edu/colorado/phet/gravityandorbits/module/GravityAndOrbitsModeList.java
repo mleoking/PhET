@@ -133,7 +133,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
                 addBody( earth );
                 final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                                               false,//no room for the slider
-                                              getMaxPathLength(), 17, cartoonDiameterScaleFactor, 25,
+                                              getMaxPathLength(), 17 * 9, cartoonDiameterScaleFactor, 25,
                                               false );//so it doesn't intersect with earth mass readout
                 addBody( moon );
             }
