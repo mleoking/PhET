@@ -1,3 +1,4 @@
+# 0.0.19 (48326) Jan 28, 2011
 Made "Earth System" button always enabled
 # 0.0.18 (48312) Jan 27, 2011
 Tuned cartoon scaling to prevent more awkward nonlinear motion
