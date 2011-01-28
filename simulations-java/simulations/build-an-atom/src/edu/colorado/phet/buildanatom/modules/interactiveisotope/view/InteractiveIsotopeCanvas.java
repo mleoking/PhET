@@ -169,28 +169,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     // Methods
     //----------------------------------------------------------------------------
 
-    /*
-     * Updates the layout of stuff on the canvas.
-     */
-    @Override
-    protected void updateLayout() {
-
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else if ( BuildAnAtomConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
-        }
-
-        //XXX lay out nodes
-    }
-
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
-
 
     /**
      * Shows the abundance readout for a user-selected isotope.
@@ -246,7 +227,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
                     // Update the connecting line.
                     connectingLine.setPoint( 0, valueBackground.getFullBoundsReference().getMaxX(), valueBackground.getFullBoundsReference().getCenterY() );
-                    connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getMinX(), valueBackground.getFullBoundsReference().getCenterY()  );
+                    connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getCenterX(), valueBackground.getFullBoundsReference().getCenterY()  );
                 }
             } );
         }
