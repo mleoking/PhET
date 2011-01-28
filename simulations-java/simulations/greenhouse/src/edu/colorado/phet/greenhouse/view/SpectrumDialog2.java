@@ -27,7 +27,7 @@ import edu.colorado.phet.greenhouse.GreenhouseResources;
  * electomagnetic spectrum.
  *
  */
-public class SpectrumDialog extends PaintImmediateDialog {
+public class SpectrumDialog2 extends PaintImmediateDialog {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -43,7 +43,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
      *
      * @param owner
      */
-    public SpectrumDialog( Frame parentFrame ) {
+    public SpectrumDialog2( Frame parentFrame ) {
 
         super( parentFrame, true );
 
@@ -59,7 +59,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         JButton closeButton = new JButton("Close");
         closeButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                SpectrumDialog.this.dispose();
+                SpectrumDialog2.this.dispose();
             }
         });
 
