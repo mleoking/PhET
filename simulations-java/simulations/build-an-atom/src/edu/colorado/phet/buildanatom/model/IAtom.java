@@ -19,7 +19,19 @@ public interface IAtom {
     String getSymbol();
     String getName();
     String getFormattedCharge();
-    double getNaturalAbundance();
-    boolean isStable();
 
+    /**
+     * Get the natural abundance for this particular isotope.
+     *
+     * @return - value from 0 to 1, inclusive, representing the proportion of
+     * this isotope that occurs in nature versus other isotopes with the same
+     * atomic number.
+     */
+    double getNaturalAbundance();
+
+    /**
+     * @return - True if the half life of this atom is greater than the age of the
+     * universe, false if not.
+     */
+    boolean isStable();
 }
