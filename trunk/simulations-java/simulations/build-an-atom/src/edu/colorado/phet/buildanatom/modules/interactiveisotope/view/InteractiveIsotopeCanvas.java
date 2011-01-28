@@ -144,18 +144,15 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode.addChild( symbolWindow );
 
         // Add the node that indicates the percentage abundance.
-        final PDimension abundanceWindowSize = new PDimension( 400, 200 );
+        final PDimension abundanceWindowSize = new PDimension( 400, 150 );
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
-        abundanceIndicatorNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName() == "fullBounds" ){
-                    // Center the indicator in the min/max window.
-                    abundanceIndicatorNode.centerFullBoundsOnPoint( abundanceWindowSize.getWidth() / 2, abundanceWindowSize.getHeight() / 2 );
-                }
-            }
-        });
+//        abundanceIndicatorNode.setOffset(
+//                abundanceWindowSize.getWidth() / 2 - abundanceIndicatorNode.getFullBoundsReference().width / 2,
+//                abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
+        abundanceIndicatorNode.setOffset(
+                abundanceWindowSize.getWidth() / 2  - abundanceIndicatorNode.getFullBoundsReference().width / 2,
+                abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE, abundanceWindowSize, abundanceIndicatorNode, true );
-        abundanceIndicatorNode.setOffset( 20, abundanceWindow.getFullBoundsReference().height / 2 - abundanceIndicatorNode.getFullBounds().getHeight() / 2 );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
         rootNode.addChild( abundanceWindow );
 
@@ -181,6 +178,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
         private static final double MIN_ABUNDANCE_TO_SHOW = 0.00001; // Should match the resolution of the ABUNDANCE_FORMATTER
+        private static final double WIDEST_ABUNDANCE_TO_SHOW = 99.99999; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
         private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{2, 2}, 0);
@@ -210,8 +208,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
             addChild( pieChart );
 
-            // Watch the atom for changes and update the abundance information accordingly.
-            atom.addObserver( new SimpleObserver() {
+            // Position the pie chart so that it is far enough away from the
+            // readout that they won't end up overlapping.  Values were
+            // empirically determined, tweak if needed.
+            pieChart.setOffset( 115, 0 );
+
+            // Create the observer for watching the atom and making updates.
+            SimpleObserver atomObserver = new SimpleObserver() {
                 public void update() {
                     // Show the abundance value
                     final double abundancePercent = atom.getNaturalAbundance() * 100;
@@ -224,13 +227,18 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
                     // Update the pie chart.
                     pieChart.updateValues( atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
-                    pieChart.setOffset( valueBackground.getFullBoundsReference().getMaxX() + 20, 0 );
 
                     // Update the connecting line.
                     connectingLine.setPoint( 0, valueBackground.getFullBoundsReference().getMaxX(), valueBackground.getFullBoundsReference().getCenterY() );
                     connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getCenterX(), valueBackground.getFullBoundsReference().getCenterY()  );
                 }
-            } );
+            };
+
+            // Watch the atom for changes and update the abundance information accordingly.
+            atom.addObserver( atomObserver );
+
+            // Do the initial update to establish the layout.
+            atomObserver.update();
         }
     }
 
