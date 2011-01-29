@@ -26,6 +26,10 @@ public class WaterTower {
         return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, TANK_HEIGHT );
     }
 
+    public Point2D getTankTopCenter() {
+        return new Point2D.Double( tankBottomCenter.getValue().getX(), tankBottomCenter.getValue().getY() + TANK_HEIGHT );
+    }
+
     public Property<ImmutableVector2D> getTankBottomCenter() {
         return tankBottomCenter;
     }
