@@ -1,3 +1,4 @@
+Improvements for water-tower module to look more like mock-up
 Added initial support for panel covering
 Added initial support for faucet in water-tower module
 # 0.00.08 (48319) Jan 28, 2011

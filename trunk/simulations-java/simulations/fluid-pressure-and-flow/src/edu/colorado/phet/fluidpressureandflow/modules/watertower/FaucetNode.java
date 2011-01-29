@@ -43,6 +43,6 @@ public class FaucetNode extends PNode {
                 setOffset( 110, 45 );
             }} );
         }} );
-        setOffset( 0, 10 );
+        setOffset( 20, 10 );
     }
 }

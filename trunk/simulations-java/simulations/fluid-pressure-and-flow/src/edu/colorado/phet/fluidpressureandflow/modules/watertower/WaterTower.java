@@ -14,9 +14,10 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class WaterTower {
-    private Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 20 ) );
+    public static final int MAX_Y = 18;
+    private Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, MAX_Y ) );
     private static double TANK_RADIUS = 5;
-    private static double TANK_HEIGHT = 15;
+    private static double TANK_HEIGHT = 10;
     private static final int LEG_EXTENSION = 3;
     private static double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
     private Property<Double> fluidVolumeProperty = new Property<Double>( tankVolume );//meters cubed

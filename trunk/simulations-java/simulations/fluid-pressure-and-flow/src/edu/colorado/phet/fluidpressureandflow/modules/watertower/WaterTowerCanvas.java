@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockCont
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 
 /**
@@ -54,7 +55,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
-        final ControlPanel controlPanelNode = new ControlPanel( new FluidFlowControlPanel<WaterTowerModel>( module ) ) {{
+        final ControlPanel controlPanelNode = new ControlPanel( new WaterTowerControlPanel<WaterTowerModel>( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
         }};
         addChild( controlPanelNode );

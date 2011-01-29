@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -28,10 +29,7 @@ public class WaterTowerNode extends PNode {
         addChild( new PhetPPath( new Rectangle( 200, 0, 100, 100 ), Color.yellow ) {{
             addInputEventListener( new RelativeDragHandler( this, transform, waterTower.getTankBottomCenter(), new Function1<Point2D, Point2D>() {
                 public Point2D apply( Point2D modelLocation ) {
-                    if ( modelLocation.getY() < 0 ) {
-                        return new Point2D.Double( waterTower.getTankBottomCenter().getValue().getX(), 0 );
-                    }
-                    return new Point2D.Double( waterTower.getTankBottomCenter().getValue().getX(), modelLocation.getY() );
+                    return new Point2D.Double( waterTower.getTankBottomCenter().getValue().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
                 }
             } ) );
             addInputEventListener( new CursorHandler() );
