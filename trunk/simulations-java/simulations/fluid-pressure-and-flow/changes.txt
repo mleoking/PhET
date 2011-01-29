@@ -1,3 +1,4 @@
+Improved covering panel
 Added a drag handle on top of the water tower to change its vertical location
 Improvements for water-tower module to look more like mock-up
 Added initial support for panel covering
