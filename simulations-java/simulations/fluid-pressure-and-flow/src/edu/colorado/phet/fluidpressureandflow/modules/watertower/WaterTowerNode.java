@@ -72,17 +72,25 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //Panel covering the hole
-        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "panel.png" ), 113 ) ) {{
+        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "panel.png" ), 50 ) ) {{
             final Rectangle2D towerBounds = waterTower.getTankShape().getBounds2D();
             final Point2D point = transform.modelToView( towerBounds.getMaxX(), towerBounds.getMinY() );
             setOffset( point.getX(), point.getY() - getFullBounds().getHeight() );
-            final Property<ImmutableVector2D> modelLocation = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+            final Property<ImmutableVector2D> modelLocation = new Property<ImmutableVector2D>( new ImmutableVector2D(
+                    waterTower.getTankBottomCenter().getValue().getX() + waterTower.getTankShape().getWidth() / 2,
+                    waterTower.getTankBottomCenter().getValue().getY() ) );
             modelLocation.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( point.getX() + modelLocation.getValue().getX(), point.getY() - getFullBounds().getHeight() + modelLocation.getValue().getY() );
+                    final Point2D.Double modelPoint = transform.modelToView( modelLocation.getValue() ).toPoint2D();
+                    setOffset( modelPoint.getX(), modelPoint.getY() - getFullBounds().getHeight() );
                 }
             } );
-            addInputEventListener( new RelativeDragHandler( this, transform, modelLocation ) );
+            addInputEventListener( new RelativeDragHandler( this, transform, modelLocation, new Function1<Point2D, Point2D>() {
+                public Point2D apply( Point2D point2D ) {
+                    final double y = MathUtil.clamp( waterTower.getTankBottomCenter().getValue().getY(), point2D.getY(), waterTower.getTankShape().getMaxY() );
+                    return new Point2D.Double( waterTower.getTankBottomCenter().getValue().getX() + waterTower.getTankShape().getWidth() / 2, y );
+                }
+            } ) );
             addInputEventListener( new CursorHandler() );
         }} );
     }
