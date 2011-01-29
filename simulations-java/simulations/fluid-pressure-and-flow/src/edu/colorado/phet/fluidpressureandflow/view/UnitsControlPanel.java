@@ -10,6 +10,7 @@ import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 
 /**
  * @author Sam Reid

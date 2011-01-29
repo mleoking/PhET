@@ -21,6 +21,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     private final Property<Boolean> rulerVisibleProperty = new Property<Boolean>( false );
     private final ObservableProperty<Boolean> meterStickVisibleProperty;
     private final ObservableProperty<Boolean> yardStickVisibleProperty;
+    private final Property<Boolean> hoseVisibleProperty = new Property<Boolean>( false );
 
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
@@ -61,5 +62,9 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
 
     public ObservableProperty<Boolean> getYardStickVisibleProperty() {
         return yardStickVisibleProperty;
+    }
+
+    public Property<Boolean> getHoseVisibleProperty() {
+        return hoseVisibleProperty;
     }
 }
