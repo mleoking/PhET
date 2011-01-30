@@ -25,6 +25,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private FaucetFlowLevel faucetFlowLevel = new FaucetFlowLevel();
     private double g = 9.8;
     private ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
+    private ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
 
     public WaterTowerModel() {
         addPressureSensor( new PressureSensor( this, 0, 0 ) );
@@ -70,6 +71,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                         waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
                     }
                 } );
+                for ( SimpleObserver velocityUpdateListener : velocityUpdateListeners ) {
+                    velocityUpdateListener.update();
+                }
             }
         } );
     }
@@ -94,11 +98,21 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     public ImmutableVector2D getVelocity( double x, double y ) {
+        for ( WaterDrop waterTowerDrop : waterTowerDrops ) {
+            if ( waterTowerDrop.contains( x, y ) ) {
+                return waterTowerDrop.velocity.getValue();
+            }
+        }
+        for ( WaterDrop waterTowerDrop : faucetDrops ) {
+            if ( waterTowerDrop.contains( x, y ) ) {
+                return waterTowerDrop.velocity.getValue();
+            }
+        }
         return new ImmutableVector2D();
     }
 
     public void addVelocityUpdateListener( SimpleObserver observer ) {
-
+        velocityUpdateListeners.add( observer );
     }
 
     public WaterTower getWaterTower() {

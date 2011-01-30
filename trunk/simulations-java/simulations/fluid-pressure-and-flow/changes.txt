@@ -1,3 +1,4 @@
+Fixed: Velocity sensor should read out water velocity
 Fixed: water drops should have size based on water volume, so low trickle is lots of drops.
 Fixed: water should look less particulate
 Fixed: water drops should be absorbed when they hit the ground
