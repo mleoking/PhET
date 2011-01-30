@@ -11,4 +11,14 @@ package edu.colorado.phet.common.phetcommon.util;
  */
 public interface VoidFunction1<T> {
     void apply( T t );
+
+    /**
+     * A VoidFunction which causes no side effects.
+     *
+     * @param <T>
+     */
+    public static class Null<T> implements VoidFunction1<T> {
+        public void apply( T o ) {
+        }
+    }
 }
