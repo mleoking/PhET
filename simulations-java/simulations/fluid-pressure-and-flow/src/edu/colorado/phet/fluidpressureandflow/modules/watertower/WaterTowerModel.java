@@ -48,9 +48,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 }
                 double newVolume = waterTower.fluidVolume.getValue();
                 //emit drops from faucet that will keep the tank at a constant volume (time averaged)
-                if ( faucetFlowLevel.automatic.getValue() ) {
-                    double changeInVolume = origFluidVolume - newVolume;
-                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( 4, WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), changeInVolume );
+
+                double faucetDropVolume = faucetFlowLevel.automatic.getValue() ?
+                                          origFluidVolume - newVolume :
+                                          faucetFlowLevel.flow.getValue();
+                if ( faucetDropVolume > 0 ) {
+                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( 4, WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
                     faucetDrops.add( faucetDrop );
                     for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
                         dropAddedListeners.get( i ).apply( faucetDrop );

@@ -1,3 +1,4 @@
+Wired up faucet manual slider to model
 Fixed: decrease in volume should be proportional to water velocity
 Improved water faucet model
 Wired up faucet buttons to model
