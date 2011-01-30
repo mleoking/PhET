@@ -4,8 +4,11 @@ package edu.colorado.phet.fluidpressureandflow.modules.watertower;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -34,10 +37,20 @@ public class FaucetNode extends PNode {
         addChild( new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "faucet.png" ) ) {{
             setScale( 0.75 );
             setOffset( -27, 0 );
-            addChild( new PSwing( new JSlider() {{
+            addChild( new PSwing( new JSlider( 0, 100 ) {{
                 setBackground( TRANSPARENT );
-                setPaintTicks( true );
+                setPaintTicks( true );//to make the slider thumb wider on Windows 7
                 setPreferredSize( new Dimension( 120, getPreferredSize().height ) );
+                addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        faucetFlowLevel.flow.setValue( getValue() / 100.0 );
+                    }
+                } );
+                faucetFlowLevel.flow.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setValue( (int) ( faucetFlowLevel.flow.getValue() * 100 ) );
+                    }
+                } );
             }} ) {{
                 translate( 186, 0 );
             }} );
