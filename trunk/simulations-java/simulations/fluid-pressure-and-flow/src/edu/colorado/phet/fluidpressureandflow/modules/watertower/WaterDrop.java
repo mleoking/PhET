@@ -44,4 +44,9 @@ public class WaterDrop {
             removalListener.update();
         }
     }
+
+    //v = 4/3 pi * r^3
+    public double getRadius() {
+        return Math.pow( getVolume() * 3.0 / 4.0 / Math.PI, 1.0 / 3.0 );
+    }
 }
