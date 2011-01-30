@@ -31,11 +31,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         addVelocitySensor( new VelocitySensor( this, 0, 0 ) );
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
+                double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );//Toricelli's theorem, one of the main learning goals of this tab
+                double waterVolumeExpelled = velocity / 10;//Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
                 double remainingVolume = waterTower.fluidVolume.getValue();
-                double dropVolume = remainingVolume > 1 ? 1 : remainingVolume;
+                double dropVolume = remainingVolume > waterVolumeExpelled ? waterVolumeExpelled : remainingVolume;
                 double origFluidVolume = waterTower.fluidVolume.getValue();
                 if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
-                    double velocity = Math.sqrt( 2 * g * waterTower.getWaterHeight() );//Toricelli's theorem, one of the main learning goals of this tab
                     final WaterDrop drop = new WaterDrop(
                             new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextDouble() * 0.1, waterTower.getHoleLocation().getY() + random.nextDouble() * 0.1 ),
                             new ImmutableVector2D( velocity, 0 ),
@@ -49,7 +50,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 //emit drops from faucet that will keep the tank at a constant volume (time averaged)
                 if ( faucetFlowLevel.automatic.getValue() ) {
                     double changeInVolume = origFluidVolume - newVolume;
-                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( 4, 20 ), new ImmutableVector2D( 0, 0 ), changeInVolume );
+                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( 4, WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), changeInVolume );
                     faucetDrops.add( faucetDrop );
                     for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
                         dropAddedListeners.get( i ).apply( faucetDrop );
