@@ -31,8 +31,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 double remainingVolume = waterTower.fluidVolume.getValue();
+                double dropVolume = remainingVolume > 1 ? 1 : remainingVolume;
+                double origFluidVolume = waterTower.fluidVolume.getValue();
                 if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
-                    double dropVolume = remainingVolume > 1 ? 1 : remainingVolume;
                     double velocity = Math.sqrt( 2 * g * waterTower.getWaterHeight() );//Toricelli's theorem, one of the main learning goals of this tab
                     final WaterDrop drop = new WaterDrop(
                             new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextDouble() * 0.1, waterTower.getHoleLocation().getY() + random.nextDouble() * 0.1 ),
@@ -42,6 +43,10 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                     for ( int i = 0; i < dropAddedListeners.size(); i++ ) {dropAddedListeners.get( i ).apply( drop );}
                     waterTower.setFluidVolume( waterTower.fluidVolume.getValue() - drop.getVolume() );
                 }
+                if ( faucetFlowLevel.automatic.getValue() ) {
+                    waterTower.setFluidVolume( origFluidVolume );//TODO: this should instead emit drops from faucet equal to dropVolumeAbove, if if block was activated
+                }
+
                 for ( int i = 0; i < particles.size(); i++ ) {
                     particles.get( i ).stepInTime( clockEvent.getSimulationTimeChange() );
                 }
