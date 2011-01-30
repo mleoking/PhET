@@ -16,6 +16,7 @@ import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.view.*;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
@@ -23,22 +24,24 @@ import edu.colorado.phet.fluidpressureandflow.view.*;
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelHeight = 50;
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
+    private PNode waterDropLayer = new PNode();
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
         super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ) );
 
-        addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
         addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower() ) );
+        addChild( waterDropLayer );
+        addChild( new GroundNode( transform ) );
         addChild( new FaucetNode( transform, module.getFluidPressureAndFlowModel().getFaucetFlowLevel() ) );
 
         module.getFluidPressureAndFlowModel().addDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
-                addChild( new WaterDropNode( transform, waterDrop ) {{
+                waterDropLayer.addChild( new WaterDropNode( transform, waterDrop ) {{
                     final WaterDropNode waterDropNode = this;
                     waterDrop.addRemovalListener( new SimpleObserver() {
                         public void update() {
-                            WaterTowerCanvas.this.removeChild( waterDropNode );
+                            waterDropLayer.removeChild( waterDropNode );
                         }
                     } );
                 }} );

@@ -38,4 +38,10 @@ public class WaterDrop {
     public double getVolume() {
         return volume;
     }
+
+    public void notifyRemoved() {
+        for ( SimpleObserver removalListener : removalListeners ) {
+            removalListener.update();
+        }
+    }
 }

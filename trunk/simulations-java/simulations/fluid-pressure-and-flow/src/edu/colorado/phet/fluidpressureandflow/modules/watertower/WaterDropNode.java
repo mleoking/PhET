@@ -13,8 +13,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class WaterDropNode extends PNode {
     public WaterDropNode( final ModelViewTransform transform, final WaterDrop waterDrop ) {
-        double r = 0.1;
-        addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) ) {{
+        double r = 10;
+        addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ), WaterTowerNode.WATER_COLOR ) {{
             waterDrop.position.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( waterDrop.position.getValue().toPoint2D() ) );
