@@ -16,8 +16,10 @@ public class WaterDrop {
     private final double mass = 1;
     private final double gravity = -9.8;
     private ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
+    private final double volume;
 
-    public WaterDrop( ImmutableVector2D position, ImmutableVector2D velocity ) {
+    public WaterDrop( ImmutableVector2D position, ImmutableVector2D velocity, double volume ) {
+        this.volume = volume;
         this.position = new Property<ImmutableVector2D>( position );
         this.velocity = new Property<ImmutableVector2D>( velocity );
     }
@@ -31,5 +33,9 @@ public class WaterDrop {
 
     public void addRemovalListener( SimpleObserver simpleObserver ) {
         removalListeners.add( simpleObserver );
+    }
+
+    public double getVolume() {
+        return volume;
     }
 }

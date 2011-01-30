@@ -23,29 +23,30 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
     private Random random = new Random();
     private FaucetFlowLevel faucetFlowLevel = new FaucetFlowLevel();
+    private double g = 9.8;
 
     public WaterTowerModel() {
         addPressureSensor( new PressureSensor( this, 0, 0 ) );
         addVelocitySensor( new VelocitySensor( this, 0, 0 ) );
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                if ( waterTower.isHoleOpen() ) {
-                    addDrop();
+                double remainingVolume = waterTower.fluidVolume.getValue();
+                if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
+                    double dropVolume = remainingVolume > 1 ? 1 : remainingVolume;
+                    double velocity = Math.sqrt( 2 * g * waterTower.getWaterHeight() );//Toricelli's theorem, one of the main learning goals of this tab
+                    final WaterDrop drop = new WaterDrop(
+                            new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextDouble() * 0.1, waterTower.getHoleLocation().getY() + random.nextDouble() * 0.1 ),
+                            new ImmutableVector2D( velocity, 0 ),
+                            dropVolume );
+                    particles.add( drop );
+                    for ( int i = 0; i < dropAddedListeners.size(); i++ ) {dropAddedListeners.get( i ).apply( drop );}
+                    waterTower.setFluidVolume( waterTower.fluidVolume.getValue() - drop.getVolume() );
                 }
                 for ( int i = 0; i < particles.size(); i++ ) {
-                    WaterDrop waterDrop = particles.get( i );
-                    waterDrop.stepInTime( clockEvent.getSimulationTimeChange() );
+                    particles.get( i ).stepInTime( clockEvent.getSimulationTimeChange() );
                 }
             }
         } );
-    }
-
-    private void addDrop() {
-        final WaterDrop drop = new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextDouble() * 0.1, waterTower.getHoleLocation().getY() + random.nextDouble() * 0.1 ), new ImmutableVector2D( 5 + random.nextDouble() * 0.1, 0 + random.nextDouble() * 0.1 ) );
-        particles.add( drop );
-        for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
-            dropAddedListeners.get( i ).apply( drop );
-        }
     }
 
     public void addDropAddedListener( VoidFunction1<WaterDrop> dropAddedListener ) {
