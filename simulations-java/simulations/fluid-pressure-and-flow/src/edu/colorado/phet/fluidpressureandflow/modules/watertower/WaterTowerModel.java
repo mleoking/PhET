@@ -60,21 +60,32 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                     }
                 }
 
-                for ( WaterDrop drop : waterTowerDrops ) {
-                    drop.stepInTime( clockEvent.getSimulationTimeChange() );
-                }
-                ArrayList<WaterDrop> toRemove = new ArrayList<WaterDrop>();
-                for ( WaterDrop drop : faucetDrops ) {
-                    drop.stepInTime( clockEvent.getSimulationTimeChange() );
-                    if ( drop.position.getValue().getY() < waterTower.getWaterShape().getBounds2D().getMaxY() ) {
-                        //absorb the water from the faucet and increase the water tower volume
-                        waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
-                        toRemove.add( drop );
+                final double dt = clockEvent.getSimulationTimeChange();
+                updateWaterDrops( 0, waterTowerDrops, dt, new VoidFunction1<WaterDrop>() {
+                    public void apply( WaterDrop waterDrop ) {
                     }
-                }
-                faucetDrops.removeAll( toRemove );//TODO: also remove graphics
+                } );
+                updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
+                    public void apply( WaterDrop drop ) {
+                        waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
+                    }
+                } );
             }
         } );
+    }
+
+    private void updateWaterDrops( double thresholdY, ArrayList<WaterDrop> waterDrops, double dt, VoidFunction1<WaterDrop> collision ) {
+        ArrayList<WaterDrop> toRemove = new ArrayList<WaterDrop>();
+        for ( WaterDrop drop : waterDrops ) {
+            drop.stepInTime( dt );
+
+            if ( drop.position.getValue().getY() < thresholdY ) {
+                //absorb the water from the faucet and increase the water tower volume
+                collision.apply( drop );
+                toRemove.add( drop );
+            }
+        }
+        waterDrops.removeAll( toRemove );//TODO: also remove graphics
     }
 
     public void addDropAddedListener( VoidFunction1<WaterDrop> dropAddedListener ) {
