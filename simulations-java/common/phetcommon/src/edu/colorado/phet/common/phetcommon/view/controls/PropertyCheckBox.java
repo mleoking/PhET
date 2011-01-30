@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class PropertyCheckBox extends JCheckBox {
 
-    public PropertyCheckBox( String text, final Property<Boolean> booleanProperty ) {
+    public PropertyCheckBox( String text, final SettableProperty<Boolean> booleanProperty ) {
         super( text );
         
         // update the model when the check box changes
