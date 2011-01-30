@@ -22,6 +22,8 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplica
  * @author Sam Reid
  */
 public class WaterTowerNode extends PNode {
+    public static final Color WATER_COLOR = Color.blue;
+
     public WaterTowerNode( final ModelViewTransform transform, final WaterTower waterTower ) {
 
         //Handle
@@ -58,7 +60,7 @@ public class WaterTowerNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( Color.blue ) {{
+        addChild( new PhetPPath( WATER_COLOR ) {{
             final SimpleObserver updateWaterLocation = new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( waterTower.getWaterShape() ) );

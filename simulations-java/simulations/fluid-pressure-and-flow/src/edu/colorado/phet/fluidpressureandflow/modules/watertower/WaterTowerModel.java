@@ -34,16 +34,16 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );//Toricelli's theorem, one of the main learning goals of this tab
                 double waterVolumeExpelled = velocity / 10;//Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
                 double remainingVolume = waterTower.fluidVolume.getValue();
+                //the decrease in volume of the water tower should be proportional to the velocity at the output hole
                 double dropVolume = remainingVolume > waterVolumeExpelled ? waterVolumeExpelled : remainingVolume;
                 double origFluidVolume = waterTower.fluidVolume.getValue();
                 if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
                     final WaterDrop drop = new WaterDrop(
-                            new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextDouble() * 0.1, waterTower.getHoleLocation().getY() + random.nextDouble() * 0.1 ),
+                            new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterTower.getHoleLocation().getY() + random.nextGaussian() * 0.04 ),
                             new ImmutableVector2D( velocity, 0 ),
                             dropVolume );
                     waterTowerDrops.add( drop );
                     for ( int i = 0; i < dropAddedListeners.size(); i++ ) {dropAddedListeners.get( i ).apply( drop );}
-                    //TODO: the decrease in volume of the water tower should be proportional to the velocity at the output hole
                     waterTower.setFluidVolume( waterTower.fluidVolume.getValue() - drop.getVolume() );
                 }
                 double newVolume = waterTower.fluidVolume.getValue();
@@ -53,7 +53,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                                           origFluidVolume - newVolume :
                                           faucetFlowLevel.flow.getValue();
                 if ( faucetDropVolume > 0 ) {
-                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( 4, WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
+                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3,//magic number picked based on graphics
+                                                                                 WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
                     faucetDrops.add( faucetDrop );
                     for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
                         dropAddedListeners.get( i ).apply( faucetDrop );
@@ -61,12 +62,11 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 }
 
                 final double dt = clockEvent.getSimulationTimeChange();
-                updateWaterDrops( 0, waterTowerDrops, dt, new VoidFunction1<WaterDrop>() {
-                    public void apply( WaterDrop waterDrop ) {
-                    }
-                } );
+                updateWaterDrops( -2,//graphics looked weird if we had them remove at y=0 since the water drops would flicker
+                                  waterTowerDrops, dt, new VoidFunction1.Null<WaterDrop>() );
                 updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
                     public void apply( WaterDrop drop ) {
+                        //absorb the water from the faucet and increase the water tower volume
                         waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
                     }
                 } );
@@ -78,14 +78,15 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         ArrayList<WaterDrop> toRemove = new ArrayList<WaterDrop>();
         for ( WaterDrop drop : waterDrops ) {
             drop.stepInTime( dt );
-
             if ( drop.position.getValue().getY() < thresholdY ) {
-                //absorb the water from the faucet and increase the water tower volume
                 collision.apply( drop );
                 toRemove.add( drop );
             }
         }
-        waterDrops.removeAll( toRemove );//TODO: also remove graphics
+        for ( WaterDrop waterDrop : toRemove ) {
+            waterDrop.notifyRemoved();
+        }
+        waterDrops.removeAll( toRemove );
     }
 
     public void addDropAddedListener( VoidFunction1<WaterDrop> dropAddedListener ) {

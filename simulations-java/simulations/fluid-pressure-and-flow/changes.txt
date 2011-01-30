@@ -1,3 +1,4 @@
+Fixed: water should look less particulate
 Fixed: water drops should be absorbed when they hit the ground
 Wired up faucet manual slider to model
 Fixed: decrease in volume should be proportional to water velocity
