@@ -39,8 +39,8 @@ public class PipeOffsetControl extends PNode {
                 point.setValue( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
             }
         };
-        pipePosition.getTopProperty().addObserver( updateCenter );
-        pipePosition.getBottomProperty().addObserver( updateCenter );
+        pipePosition.top.addObserver( updateCenter );
+        pipePosition.bottom.addObserver( updateCenter );
         addChild( new PipeBackNode.GrabHandle( transform, new PipeControlPoint(
                 point, true ), new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D proposedDragPoint ) {

@@ -16,23 +16,23 @@ import edu.colorado.phet.fluidpressureandflow.model.Units;
  */
 public class PressureSensorNode extends SensorNode<Double> {
 
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> unitsProperty ) {
-        this( transform, sensor, unitsProperty, null );
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> units ) {
+        this( transform, sensor, units, null );
     }
 
     /**
      * @param transform
      * @param sensor
-     * @param unitsProperty
-     * @param pool          the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
+     * @param units
+     * @param pool      the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
      */
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> unitsProperty, final Pool pool ) {
-        super( transform, sensor, unitsProperty );
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> units, final Pool pool ) {
+        super( transform, sensor, units );
 
-        addChild( new ThreePatchImageNode( textProperty ) {{
+        addChild( new ThreePatchImageNode( text ) {{
             translate( 0, -getFullBounds().getHeight() / 2 );//make its hot spot be its opening which is on its center left
         }} );
-        addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty(), new Function1<Point2D, Point2D>() {
+        addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
             //TODO: Factor pool to subclass or general constraint method
             public Point2D apply( Point2D point2D ) {
                 if ( pool != null ) {

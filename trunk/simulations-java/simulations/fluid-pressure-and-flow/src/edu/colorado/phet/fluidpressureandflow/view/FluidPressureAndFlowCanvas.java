@@ -74,18 +74,18 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
             this.module = module;
 
-            final SliderControl fluidDensityControl = new SliderControl( "Fluid Density", "kg/m^3", FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().getLiquidDensityProperty(), new HashMap<Double, TickLabel>() {{
+            final SliderControl fluidDensityControl = new SliderControl( "Fluid Density", "kg/m^3", FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().liquidDensity, new HashMap<Double, TickLabel>() {{
                 put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
                 put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
                 put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
             }} ) {{
-                module.getFluidDensityControlVisible().addObserver( new SimpleObserver() {
+                module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                     public void update() {
-                        setVisible( module.getFluidDensityControlVisible().getValue() );
+                        setVisible( module.fluidDensityControlVisible.getValue() );
                     }
                 } );
             }};
-            final ButtonExpander fluidDensityExpander = new ButtonExpander( "Fluid Density >", "Fluid Density <", module.getFluidDensityControlVisible() ) {{
+            final ButtonExpander fluidDensityExpander = new ButtonExpander( "Fluid Density >", "Fluid Density <", module.fluidDensityControlVisible ) {{
                 setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
             }};
 

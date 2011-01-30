@@ -21,12 +21,12 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
         super( "Units" );
 
         final T model = module.getFluidPressureAndFlowModel();
-        add( new PropertyRadioButton<Units.Unit>( "atmospheres (atm)", model.getPressureUnitProperty(), Units.ATMOSPHERE ) );
-        add( new PropertyRadioButton<Units.Unit>( "Pascals (Pa)", model.getPressureUnitProperty(), Units.PASCAL ) );
-        add( new PropertyRadioButton<Units.Unit>( "<html>pounds per<br>square inch (psi)</html>", model.getPressureUnitProperty(), Units.PSI ) );
+        add( new PropertyRadioButton<Units.Unit>( "atmospheres (atm)", model.getPressureUnit(), Units.ATMOSPHERE ) );
+        add( new PropertyRadioButton<Units.Unit>( "Pascals (Pa)", model.getPressureUnit(), Units.PASCAL ) );
+        add( new PropertyRadioButton<Units.Unit>( "<html>pounds per<br>square inch (psi)</html>", model.getPressureUnit(), Units.PSI ) );
         add( new JSeparator() );
-        add( new PropertyRadioButton<Units.Unit>( "feet (ft)", model.getDistanceUnitProperty(), Units.FEET ) );
-        add( new PropertyRadioButton<Units.Unit>( "meters (m)", model.getDistanceUnitProperty(), Units.METERS ) );
+        add( new PropertyRadioButton<Units.Unit>( "feet (ft)", model.distanceUnit, Units.FEET ) );
+        add( new PropertyRadioButton<Units.Unit>( "meters (m)", model.distanceUnit, Units.METERS ) );
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
         SwingUtils.setBackgroundDeep( this, FluidPressureControlPanel.BACKGROUND );

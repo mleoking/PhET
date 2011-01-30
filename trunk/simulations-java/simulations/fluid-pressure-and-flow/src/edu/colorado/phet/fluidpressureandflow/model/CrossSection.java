@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public class CrossSection {
-    private final Property<ImmutableVector2D> top;
-    private final Property<ImmutableVector2D> bottom;
+    public final Property<ImmutableVector2D> top;
+    public final Property<ImmutableVector2D> bottom;
 
     public CrossSection( double x, double yBottom, double yTop ) {
         top = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yTop ) );
@@ -40,10 +40,6 @@ public class CrossSection {
         top.setValue( new ImmutableVector2D( getTop().getX() + dx, getTop().getY() + dy ) );
     }
 
-    public void setTop( double x, double y ) {
-        top.setValue( new ImmutableVector2D( x, y ) );
-    }
-
     public void translateBottom( double dx, double dy ) {
         bottom.setValue( new ImmutableVector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
     }
@@ -59,18 +55,6 @@ public class CrossSection {
     public void reset() {
         top.reset();
         bottom.reset();
-    }
-
-    public void setBottom( double x, double y ) {
-        bottom.setValue( new ImmutableVector2D( x, y ) );
-    }
-
-    public Property<ImmutableVector2D> getTopProperty() {
-        return top;
-    }
-
-    public Property<ImmutableVector2D> getBottomProperty() {
-        return bottom;
     }
 
     public double getCenterY() {

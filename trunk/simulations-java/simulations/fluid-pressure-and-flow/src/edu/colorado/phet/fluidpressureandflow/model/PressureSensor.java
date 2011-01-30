@@ -17,7 +17,7 @@ public class PressureSensor extends Sensor<Double> {
                 setValue( context.getPressure( getLocation().getX(), getLocation().getY() ) );
             }
         };
-        addLocationObserver( updatePressure );
+        location.addObserver( updatePressure );
         context.addFluidChangeObserver( updatePressure );
     }
 

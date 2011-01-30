@@ -14,21 +14,21 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class Sensor<T> {
 
-    protected Property<ImmutableVector2D> locationProperty;
-    protected Property<T> valueProperty;
+    public final Property<ImmutableVector2D> location;
+    protected Property<T> value;
 
     public Sensor( double x, double y, T value ) {
-        locationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
-        valueProperty = new Property<T>( value );
+        location = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        this.value = new Property<T>( value );
     }
 
     public void reset() {
-        locationProperty.reset();
-        valueProperty.reset();
+        location.reset();
+        value.reset();
     }
 
     public ImmutableVector2D getLocation() {
-        return locationProperty.getValue();
+        return location.getValue();
     }
 
     public double getX() {
@@ -40,28 +40,20 @@ public abstract class Sensor<T> {
     }
 
     public void setLocation( double x, double y ) {
-        locationProperty.setValue( new ImmutableVector2D( x, y ) );
-    }
-
-    public void addLocationObserver( SimpleObserver observer ) {
-        locationProperty.addObserver( observer );
-    }
-
-    public Property<ImmutableVector2D> getLocationProperty() {
-        return locationProperty;
+        location.setValue( new ImmutableVector2D( x, y ) );
     }
 
     public T getValue() {
-        return valueProperty.getValue();
+        return value.getValue();
     }
 
     protected void setValue( T value ) {
-        valueProperty.setValue( value );
+        this.value.setValue( value );
     }
 
     public abstract double getScalarValue();
 
     public void addValueObserver( SimpleObserver observer ) {
-        valueProperty.addObserver( observer );
+        value.addObserver( observer );
     }
 }

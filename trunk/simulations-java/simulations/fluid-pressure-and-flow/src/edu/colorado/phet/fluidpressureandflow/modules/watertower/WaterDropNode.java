@@ -15,9 +15,9 @@ public class WaterDropNode extends PNode {
     public WaterDropNode( final ModelViewTransform transform, final WaterDrop waterDrop ) {
         double r = 0.1;
         addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) ) {{
-            waterDrop.getPositionProperty().addObserver( new SimpleObserver() {
+            waterDrop.position.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( transform.modelToView( waterDrop.getPositionProperty().getValue().toPoint2D() ) );
+                    setOffset( transform.modelToView( waterDrop.position.getValue().toPoint2D() ) );
                 }
             } );
         }} );

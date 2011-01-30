@@ -36,12 +36,12 @@ public class BalloonNode extends PNode {
             sensor.addValueObserver( update );
             unitsProperty.addObserver( update );
         }} );
-        sensor.addLocationObserver( new SimpleObserver() {
+        sensor.location.addObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }
         } );
-        addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty(), new Function1<Point2D, Point2D>() {
+        addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
             //TODO: Factor pool to subclass or general constraint method
             public Point2D apply( Point2D point2D ) {
                 if ( pool != null ) {
@@ -54,7 +54,7 @@ public class BalloonNode extends PNode {
                 else { return point2D; }
             }
         } ) );
-        sensor.addLocationObserver( new SimpleObserver() {
+        sensor.location.addObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }
