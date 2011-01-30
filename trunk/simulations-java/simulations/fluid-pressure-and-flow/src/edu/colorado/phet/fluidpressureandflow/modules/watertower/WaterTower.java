@@ -69,7 +69,7 @@ public class WaterTower {
         return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, getWaterHeight() );
     }
 
-    private double getWaterHeight() {
+    public double getWaterHeight() {
         return fluidVolume.getValue() / Math.PI / TANK_RADIUS / TANK_RADIUS;
     }
 
@@ -79,5 +79,9 @@ public class WaterTower {
 
     public boolean isHoleOpen() {
         return panelOffset.getValue().getY() > 0;
+    }
+
+    public void setFluidVolume( double v ) {
+        fluidVolume.setValue( v );
     }
 }
