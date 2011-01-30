@@ -1,3 +1,4 @@
+Wired up faucet buttons to model
 Made water velocity vary as v=sqrt(2*g*h)
 Made water only leak out when hole uncovered
 Refactored properties to be public final and removed 'property' from field names
