@@ -21,7 +21,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     @Override
     public double getPressure( double x, double y ) {
         if ( y < 0 ) {
-            return getStandardAirPressure() + getLiquidDensity() * getGravity() * Math.abs( 0 - y );
+            return getStandardAirPressure() + liquidDensity.getValue() * gravity.getValue() * Math.abs( 0 - y );
         }
         else {
             return super.getPressure( x, y );

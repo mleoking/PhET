@@ -24,14 +24,14 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     private Random random = new Random();
     private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
     private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
-    private Property<Double> dropperRateProperty = new Property<Double>( 10.0 );//percent probability to drop in each frame
+    public final Property<Double> dropperRate = new Property<Double>( 10.0 );//percent probability to drop in each frame
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
     public FluidFlowModel() {
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                double value = dropperRateProperty.getValue() / 100.0;
+                double value = dropperRate.getValue() / 100.0;
                 if ( random.nextDouble() < value ) {
                     addDrop();
                 }
@@ -98,7 +98,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         double vSquared = velocity.getMagnitudeSq();
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
         if ( pipe.getShape().contains( x, y ) ) {
-            double pressure = K - 0.5 * getLiquidDensity() * vSquared - getLiquidDensity() * getGravity() * y;
+            double pressure = K - 0.5 * liquidDensity.getValue() * vSquared - liquidDensity.getValue() * gravity.getValue() * y;
             return pressure;
         }
         else if ( y < 0 ) {
@@ -161,10 +161,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         pipe.addShapeChangeListener( updatePressure );
     }
 
-    public Property<Double> getDropperRateProperty() {
-        return dropperRateProperty;
-    }
-
     public void pourFoodColoring() {
         final FoodColoring foodColoring = new FoodColoring( pipe.getMinX() + 1E-6, 0.75, pipe );
         for ( VoidFunction1<FoodColoring> foodColoringObserver : foodColoringObservers ) {
@@ -183,7 +179,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         }
         super.reset();
         pipe.reset();
-        dropperRateProperty.reset();
+        dropperRate.reset();
         //TODO: remove particle and food coloring
     }
 

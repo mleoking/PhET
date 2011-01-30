@@ -16,7 +16,7 @@ public class FluidFlowControlPanel<T extends FluidPressureAndFlowModel> extends 
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<T> module ) {
         super();
 
-        addControlFullWidth( new CheckBox( "Ruler", module.getRulerVisibleProperty() ) );
+        addControlFullWidth( new CheckBox( "Ruler", module.rulerVisible ) );
         addControlFullWidth( new UnitsControlPanel<T>( module ) );
         setBackground( FluidPressureControlPanel.BACKGROUND );
     }

@@ -11,14 +11,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public class WaterDrop {
-    private Property<ImmutableVector2D> location;
+    public final Property<ImmutableVector2D> position;
     private Property<ImmutableVector2D> velocity;
     private final double mass = 1;
     private final double gravity = -9.8;
     private ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
 
-    public WaterDrop( ImmutableVector2D location, ImmutableVector2D velocity ) {
-        this.location = new Property<ImmutableVector2D>( location );
+    public WaterDrop( ImmutableVector2D position, ImmutableVector2D velocity ) {
+        this.position = new Property<ImmutableVector2D>( position );
         this.velocity = new Property<ImmutableVector2D>( velocity );
     }
 
@@ -26,11 +26,7 @@ public class WaterDrop {
         ImmutableVector2D force = new ImmutableVector2D( 0, mass * gravity );
         ImmutableVector2D acceleration = force.getScaledInstance( 1.0 / mass );
         velocity.setValue( acceleration.getScaledInstance( simulationTimeChange ).getAddedInstance( velocity.getValue() ) );
-        location.setValue( velocity.getValue().getScaledInstance( simulationTimeChange ).getAddedInstance( location.getValue() ) );
-    }
-
-    public Property<ImmutableVector2D> getPositionProperty() {
-        return location;
+        position.setValue( velocity.getValue().getScaledInstance( simulationTimeChange ).getAddedInstance( position.getValue() ) );
     }
 
     public void addRemovalListener( SimpleObserver simpleObserver ) {

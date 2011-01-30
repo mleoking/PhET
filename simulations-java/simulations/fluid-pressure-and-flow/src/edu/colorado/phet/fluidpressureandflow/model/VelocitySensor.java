@@ -18,7 +18,7 @@ public class VelocitySensor extends Sensor<ImmutableVector2D> {
                 setValue( context.getVelocity( getX(), getY() ) );
             }
         };
-        addLocationObserver( updateVelocity );
+        location.addObserver( updateVelocity );
         context.addVelocityUpdateListener( updateVelocity ); //pipe could change underneath the velocity sensor
     }
 

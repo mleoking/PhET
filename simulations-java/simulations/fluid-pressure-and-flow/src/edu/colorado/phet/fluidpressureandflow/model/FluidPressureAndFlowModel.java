@@ -27,17 +27,18 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
     public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0; //TODO: not currently used, but should be used in future version
     public static final Double JUPITER_GRAVITY = EARTH_GRAVITY * 2.364;
 
-    private final Property<Double> gravityProperty = new Property<Double>( EARTH_GRAVITY );
-    private final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
-    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private final ConstantDtClock clock = new ConstantDtClock( 30 );
-    private final Property<Units.Unit> pressureUnitProperty = new Property<Units.Unit>( Units.ATMOSPHERE );
-    private final Property<Units.Unit> velocityUnitProperty = new Property<Units.Unit>( Units.METERS_PER_SECOND );
-    private final Property<Units.Unit> distanceUnitProperty = new Property<Units.Unit>( Units.FEET );
     private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
     private final ArrayList<Balloon> balloons = new ArrayList<Balloon>();
     private final ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
-    private final Property<Double> liquidDensityProperty = new Property<Double>( 1000.0 );//SI
+    public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );
+    public final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
+    public final Property<Double> liquidDensity = new Property<Double>( 1000.0 );//SI
+    public final Property<Units.Unit> pressureUnit = new Property<Units.Unit>( Units.ATMOSPHERE );
+    public final Property<Units.Unit> velocityUnit = new Property<Units.Unit>( Units.METERS_PER_SECOND );
+    public final Property<Units.Unit> distanceUnit = new Property<Units.Unit>( Units.FEET );
+
+    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );
@@ -76,21 +77,17 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
      * Add a listener to identify when the fluid has changed, for purposes of updating pressure sensors.
      */
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
-        gravityProperty.addObserver( updatePressure );
+        gravity.addObserver( updatePressure );
         standardAirPressure.addObserver( updatePressure );
-        liquidDensityProperty.addObserver( updatePressure );
+        liquidDensity.addObserver( updatePressure );
     }
 
-    public Property<Double> getGravityProperty() {
-        return gravityProperty;
+    public Property<Units.Unit> getPressureUnit() {
+        return pressureUnit;
     }
 
-    public Property<Units.Unit> getPressureUnitProperty() {
-        return pressureUnitProperty;
-    }
-
-    public Property<Units.Unit> getVelocityUnitProperty() {
-        return velocityUnitProperty;
+    public Property<Units.Unit> getVelocityUnit() {
+        return velocityUnit;
     }
 
     public Function.LinearFunction getPressureFunction() {
@@ -101,49 +98,21 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
         return standardAirPressure.getValue();
     }
 
-    public double getGravity() {
-        return gravityProperty.getValue();
-    }
-
     public PressureSensor[] getPressureSensors() {
         return pressureSensors.toArray( new PressureSensor[0] );
-    }
-
-    public Balloon[] getBalloons() {
-        return balloons.toArray( new Balloon[0] );
     }
 
     public VelocitySensor[] getVelocitySensors() {
         return velocitySensors.toArray( new VelocitySensor[0] );
     }
 
-    public Property<Units.Unit> getDistanceUnitProperty() {
-        return distanceUnitProperty;
-    }
-
-    public void setLiquidDensity( double value ) {
-        liquidDensityProperty.setValue( value );
-    }
-
-    public void addDensityListener( SimpleObserver simpleObserver ) {
-        liquidDensityProperty.addObserver( simpleObserver );
-    }
-
-    public double getLiquidDensity() {
-        return liquidDensityProperty.getValue();
-    }
-
-    public Property<Double> getLiquidDensityProperty() {
-        return liquidDensityProperty;
-    }
-
     public void reset() {
-        gravityProperty.reset();
+        gravity.reset();
         standardAirPressure.reset();
-        pressureUnitProperty.reset();
-        velocityUnitProperty.reset();
-        distanceUnitProperty.reset();
-        liquidDensityProperty.reset();
+        pressureUnit.reset();
+        velocityUnit.reset();
+        distanceUnit.reset();
+        liquidDensity.reset();
         for ( VelocitySensor velocitySensor : velocitySensors ) {
             velocitySensor.reset();
         }

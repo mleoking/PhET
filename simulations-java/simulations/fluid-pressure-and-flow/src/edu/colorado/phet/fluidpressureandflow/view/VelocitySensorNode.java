@@ -23,11 +23,11 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
 
-    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor sensor, final Property<Units.Unit> unitsProperty ) {
-        super( transform, sensor, unitsProperty );
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor sensor, final Property<Units.Unit> units ) {
+        super( transform, sensor, units );
 
         // value display
-        final PText textNode = new PText( textProperty.getValue() ) {{
+        final PText textNode = new PText( text.getValue() ) {{
             setFont( new PhetFont( 18, true ) );
         }};
 
@@ -41,7 +41,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
         final SimpleObserver updateTextObserver = new SimpleObserver() {
             public void update() {
                 // update the text and center it
-                textNode.setText( textProperty.getValue() );
+                textNode.setText( text.getValue() );
                 final double textYSpacing = -10;
                 textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() + textYSpacing );
 
@@ -64,7 +64,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
             }
         };
         sensor.addValueObserver( updateTextObserver );
-        unitsProperty.addObserver( updateTextObserver );
+        units.addObserver( updateTextObserver );
 
 
         // vector arrow
@@ -75,7 +75,7 @@ public class VelocitySensorNode extends SensorNode<ImmutableVector2D> {
         }};
         addChild( 0, arrowNode );//put it behind other graphics so the hot spot triangle tip shows in front of the arrow
 
-        addInputEventListener( new RelativeDragHandler( this, transform, sensor.getLocationProperty() ) );
+        addInputEventListener( new RelativeDragHandler( this, transform, sensor.location ) );
 
         // adjust the vector arrow when the value changes
         sensor.addValueObserver( new SimpleObserver() {

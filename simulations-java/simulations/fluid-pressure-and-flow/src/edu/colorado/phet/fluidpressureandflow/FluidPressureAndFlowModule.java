@@ -16,25 +16,25 @@ import edu.colorado.phet.fluidpressureandflow.model.Units;
  */
 public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> extends Module {
     private final T model;
-    private final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
-    private final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
-    private final Property<Boolean> rulerVisibleProperty = new Property<Boolean>( false );
-    private final ObservableProperty<Boolean> meterStickVisibleProperty;
-    private final ObservableProperty<Boolean> yardStickVisibleProperty;
-    private final Property<Boolean> hoseVisibleProperty = new Property<Boolean>( false );
+    public final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
+    public final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
+    public final Property<Boolean> rulerVisible = new Property<Boolean>( false );
+    public final ObservableProperty<Boolean> meterStickVisible;
+    public final ObservableProperty<Boolean> yardStickVisible;
+    public final Property<Boolean> hoseVisible = new Property<Boolean>( false );
 
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
-        meterStickVisibleProperty = new And( rulerVisibleProperty, new ValueEquals<Units.Unit>( model.getDistanceUnitProperty(), Units.METERS ) );
-        yardStickVisibleProperty = new And( rulerVisibleProperty, new ValueEquals<Units.Unit>( model.getDistanceUnitProperty(), Units.FEET ) );
+        meterStickVisible = new And( rulerVisible, new ValueEquals<Units.Unit>( model.distanceUnit, Units.METERS ) );
+        yardStickVisible = new And( rulerVisible, new ValueEquals<Units.Unit>( model.distanceUnit, Units.FEET ) );
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );
     }
 
     public void reset() {
-        rulerVisibleProperty.reset();
+        rulerVisible.reset();
         fluidDensityControlVisible.reset();
         gravityControlVisible.reset();
         model.reset();
@@ -42,29 +42,5 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
 
     public T getFluidPressureAndFlowModel() {
         return model;
-    }
-
-    public Property<Boolean> getRulerVisibleProperty() {
-        return rulerVisibleProperty;
-    }
-
-    public Property<Boolean> getFluidDensityControlVisible() {
-        return fluidDensityControlVisible;
-    }
-
-    public Property<Boolean> getGravityControlVisible() {
-        return gravityControlVisible;
-    }
-
-    public ObservableProperty<Boolean> getMeterStickVisibleProperty() {
-        return meterStickVisibleProperty;
-    }
-
-    public ObservableProperty<Boolean> getYardStickVisibleProperty() {
-        return yardStickVisibleProperty;
-    }
-
-    public Property<Boolean> getHoseVisibleProperty() {
-        return hoseVisibleProperty;
     }
 }

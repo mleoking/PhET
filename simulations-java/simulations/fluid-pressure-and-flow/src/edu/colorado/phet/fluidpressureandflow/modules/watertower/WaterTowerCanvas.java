@@ -46,11 +46,11 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         } );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnit() ) );
         }
 
         for ( VelocitySensor velocitySensor : module.getFluidPressureAndFlowModel().getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, velocitySensor, module.getFluidPressureAndFlowModel().getVelocityUnitProperty() ) );
+            addChild( new VelocitySensorNode( transform, velocitySensor, module.getFluidPressureAndFlowModel().getVelocityUnit() ) );
         }
 
         //TODO: this is duplicated in FluidFlowCanvas
@@ -69,8 +69,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
-        addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), module.getRulerVisibleProperty(), rulerModelOrigin ) );
-        addChild( new EnglishRuler( transform, module.getYardStickVisibleProperty(), module.getRulerVisibleProperty(), rulerModelOrigin ) );
+        addChild( new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin ) );
+        addChild( new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin ) );
 
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
             module.addListener( new Module.Listener() {

@@ -17,32 +17,31 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class SensorNode<T> extends PNode {
 
-    protected final Property<String> textProperty;
+    protected final Property<String> text;
 
-    public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> unitsProperty ) {
+    public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> units ) {
         final Function0<String> getString = new Function0<String>() {
             public String apply() {
                 String pattern = "{0} {1}"; //TODO i18n
                 String value = "?"; //TODO i18n
                 if ( !Double.isNaN( sensor.getScalarValue() ) ) {
-                    value = unitsProperty.getValue().getDecimalFormat().format( unitsProperty.getValue().siToUnit( sensor.getScalarValue() ) );
+                    value = units.getValue().getDecimalFormat().format( units.getValue().siToUnit( sensor.getScalarValue() ) );
                 }
-                String units = unitsProperty.getValue().getAbbreviation();
-                return MessageFormat.format( pattern, value, units );
+                return MessageFormat.format( pattern, value, units.getValue().getAbbreviation() );
             }
         };
-        textProperty = new Property<String>( getString.apply() );
+        text = new Property<String>( getString.apply() );
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                textProperty.setValue( getString.apply() );
+                text.setValue( getString.apply() );
             }
         };
         sensor.addValueObserver( observer );
-        unitsProperty.addObserver( observer );
+        units.addObserver( observer );
 
         addInputEventListener( new CursorHandler() );
 
-        sensor.addLocationObserver( new SimpleObserver() {
+        sensor.location.addObserver( new SimpleObserver() {
             public void update() {
                 setOffset( transform.modelToView( sensor.getLocation().toPoint2D() ) );
             }

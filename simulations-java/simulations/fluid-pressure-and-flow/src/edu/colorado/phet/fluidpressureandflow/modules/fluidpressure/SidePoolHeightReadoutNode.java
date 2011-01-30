@@ -19,19 +19,19 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class SidePoolHeightReadoutNode extends PNode {
-    public SidePoolHeightReadoutNode( final ModelViewTransform transform, final Pool pool, final Property<Units.Unit> distanceUnitProperty ) {
+    public SidePoolHeightReadoutNode( final ModelViewTransform transform, final Pool pool, final Property<Units.Unit> distanceUnit ) {
         final PhetPPath bracket = new PhetPPath( new BasicStroke( 1 ), Color.black );
         final PText text = new PText() {{
             setFont( new PhetFont( 16, true ) );
         }};
 
-        distanceUnitProperty.addObserver( new SimpleObserver() {
+        distanceUnit.addObserver( new SimpleObserver() {
             public void update() {
                 DecimalFormat format = new DecimalFormat( "0.000" );
-                if ( distanceUnitProperty.getValue() == Units.FEET ) {
+                if ( distanceUnit.getValue() == Units.FEET ) {
                     format = new DecimalFormat( "0" );
                 }
-                text.setText( format.format( distanceUnitProperty.getValue().siToUnit( pool.getHeight() ) ) + " " + distanceUnitProperty.getValue().getAbbreviation() );
+                text.setText( format.format( distanceUnit.getValue().siToUnit( pool.getHeight() ) ) + " " + distanceUnit.getValue().getAbbreviation() );
                 bracket.setPathTo( new DoubleGeneralPath() {{
                     moveTo( transform.modelToView( pool.getTopRight() ) );
                     moveToRelative( 5, 0 );

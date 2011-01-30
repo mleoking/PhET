@@ -48,7 +48,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );
 
-        addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().getLiquidDensityProperty() ) );
+        addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().liquidDensity ) );
         particleLayer = new PNode();
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
@@ -63,10 +63,10 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             }
         } );
         for ( PressureSensor sensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty() ) );
+            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().getPressureUnit() ) );
         }
         for ( VelocitySensor sensor : module.getFluidFlowModel().getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, sensor, module.getFluidPressureAndFlowModel().getVelocityUnitProperty() ) );
+            addChild( new VelocitySensorNode( transform, sensor, module.getFluidPressureAndFlowModel().getVelocityUnit() ) );
         }
 
         final FluidFlowModel model = module.getFluidFlowModel();
@@ -95,12 +95,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                     }} );
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            model.getDropperRateProperty().setValue( (double) getValue() );
+                            model.dropperRate.setValue( (double) getValue() );
                         }
                     } );
-                    model.getDropperRateProperty().addObserver( new SimpleObserver() {
+                    model.dropperRate.addObserver( new SimpleObserver() {
                         public void update() {
-                            setValue( model.getDropperRateProperty().getValue().intValue() );
+                            setValue( model.dropperRate.getValue().intValue() );
                         }
                     } );
                 }}
@@ -137,8 +137,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
-        addChild( new MeterStick( transform, module.getMeterStickVisibleProperty(), module.getRulerVisibleProperty(), rulerModelOrigin ) );
-        addChild( new EnglishRuler( transform, module.getYardStickVisibleProperty(), module.getRulerVisibleProperty(), rulerModelOrigin ) );
+        addChild( new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin ) );
+        addChild( new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin ) );
 
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
             module.addListener( new Module.Listener() {

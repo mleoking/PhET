@@ -15,12 +15,13 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class WaterTower {
     public static final int MAX_Y = 18;
-    private Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, MAX_Y ) );
+    public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, MAX_Y ) );
     private static double TANK_RADIUS = 5;
     private static double TANK_HEIGHT = 10;
     private static final int LEG_EXTENSION = 3;
     private static double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
-    private Property<Double> fluidVolumeProperty = new Property<Double>( tankVolume );//meters cubed
+    public final Property<Double> fluidVolume = new Property<Double>( tankVolume );//meters cubed
+    public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( TANK_RADIUS, 0 ) );//The movable panel that can cover the hole.
 
     public Rectangle2D.Double getTankShape() {
         return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, TANK_HEIGHT );
@@ -28,10 +29,6 @@ public class WaterTower {
 
     public Point2D getTankTopCenter() {
         return new Point2D.Double( tankBottomCenter.getValue().getX(), tankBottomCenter.getValue().getY() + TANK_HEIGHT );
-    }
-
-    public Property<ImmutableVector2D> getTankBottomCenter() {
-        return tankBottomCenter;
     }
 
     public Shape getSupportShape() {
@@ -68,16 +65,12 @@ public class WaterTower {
         path.lineTo( b );
     }
 
-    public Property<Double> getFluidVolumeProperty() {
-        return fluidVolumeProperty;
-    }
-
     public Shape getWaterShape() {
         return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, getWaterHeight() );
     }
 
     private double getWaterHeight() {
-        return fluidVolumeProperty.getValue() / Math.PI / TANK_RADIUS / TANK_RADIUS;
+        return fluidVolume.getValue() / Math.PI / TANK_RADIUS / TANK_RADIUS;
     }
 
     public Point2D getHoleLocation() {
