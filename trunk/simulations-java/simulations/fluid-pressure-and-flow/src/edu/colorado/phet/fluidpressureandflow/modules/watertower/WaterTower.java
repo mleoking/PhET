@@ -19,7 +19,7 @@ public class WaterTower {
     private static double TANK_RADIUS = 5;
     private static double TANK_HEIGHT = 10;
     private static final int LEG_EXTENSION = 3;
-    private static double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
+    public static double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
     public final Property<Double> fluidVolume = new Property<Double>( tankVolume );//meters cubed
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( TANK_RADIUS, 0 ) );//The movable panel that can cover the hole.
 

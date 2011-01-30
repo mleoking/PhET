@@ -19,11 +19,12 @@ import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 public class WaterTowerModel extends FluidPressureAndFlowModel implements VelocitySensor.Context {
 
     private WaterTower waterTower = new WaterTower();
-    private ArrayList<WaterDrop> particles = new ArrayList<WaterDrop>();
-    private ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
+    private ArrayList<WaterDrop> waterTowerDrops = new ArrayList<WaterDrop>();
+    private ArrayList<WaterDrop> faucetDrops = new ArrayList<WaterDrop>();
     private Random random = new Random();
     private FaucetFlowLevel faucetFlowLevel = new FaucetFlowLevel();
     private double g = 9.8;
+    private ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
 
     public WaterTowerModel() {
         addPressureSensor( new PressureSensor( this, 0, 0 ) );
@@ -39,17 +40,35 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                             new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextDouble() * 0.1, waterTower.getHoleLocation().getY() + random.nextDouble() * 0.1 ),
                             new ImmutableVector2D( velocity, 0 ),
                             dropVolume );
-                    particles.add( drop );
+                    waterTowerDrops.add( drop );
                     for ( int i = 0; i < dropAddedListeners.size(); i++ ) {dropAddedListeners.get( i ).apply( drop );}
+                    //TODO: the decrease in volume of the water tower should be proportional to the velocity at the output hole
                     waterTower.setFluidVolume( waterTower.fluidVolume.getValue() - drop.getVolume() );
                 }
+                double newVolume = waterTower.fluidVolume.getValue();
+                //emit drops from faucet that will keep the tank at a constant volume (time averaged)
                 if ( faucetFlowLevel.automatic.getValue() ) {
-                    waterTower.setFluidVolume( origFluidVolume );//TODO: this should instead emit drops from faucet equal to dropVolumeAbove, if if block was activated
+                    double changeInVolume = origFluidVolume - newVolume;
+                    WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( 4, 20 ), new ImmutableVector2D( 0, 0 ), changeInVolume );
+                    faucetDrops.add( faucetDrop );
+                    for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
+                        dropAddedListeners.get( i ).apply( faucetDrop );
+                    }
                 }
 
-                for ( int i = 0; i < particles.size(); i++ ) {
-                    particles.get( i ).stepInTime( clockEvent.getSimulationTimeChange() );
+                for ( WaterDrop drop : waterTowerDrops ) {
+                    drop.stepInTime( clockEvent.getSimulationTimeChange() );
                 }
+                ArrayList<WaterDrop> toRemove = new ArrayList<WaterDrop>();
+                for ( WaterDrop drop : faucetDrops ) {
+                    drop.stepInTime( clockEvent.getSimulationTimeChange() );
+                    if ( drop.position.getValue().getY() < waterTower.getWaterShape().getBounds2D().getMaxY() ) {
+                        //absorb the water from the faucet and increase the water tower volume
+                        waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
+                        toRemove.add( drop );
+                    }
+                }
+                faucetDrops.removeAll( toRemove );//TODO: also remove graphics
             }
         } );
     }
