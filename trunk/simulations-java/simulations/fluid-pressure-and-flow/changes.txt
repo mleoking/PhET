@@ -1,3 +1,4 @@
+Made water only leak out when hole uncovered
 Refactored properties to be public final and removed 'property' from field names
 Improved covering panel
 Added a drag handle on top of the water tower to change its vertical location

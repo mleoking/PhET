@@ -29,8 +29,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         addVelocitySensor( new VelocitySensor( this, 0, 0 ) );
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                addDrop();
-
+                if ( waterTower.isHoleOpen() ) {
+                    addDrop();
+                }
                 for ( int i = 0; i < particles.size(); i++ ) {
                     WaterDrop waterDrop = particles.get( i );
                     waterDrop.stepInTime( clockEvent.getSimulationTimeChange() );
