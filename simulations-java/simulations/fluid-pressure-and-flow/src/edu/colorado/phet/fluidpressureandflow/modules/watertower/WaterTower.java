@@ -76,4 +76,8 @@ public class WaterTower {
     public Point2D getHoleLocation() {
         return new Point2D.Double( tankBottomCenter.getValue().getX() + TANK_RADIUS, tankBottomCenter.getValue().getY() );
     }
+
+    public boolean isHoleOpen() {
+        return panelOffset.getValue().getY() > 0;
+    }
 }
