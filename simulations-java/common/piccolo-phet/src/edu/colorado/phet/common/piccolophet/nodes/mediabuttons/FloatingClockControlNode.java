@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -29,7 +30,8 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
-    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock, final String resetString ) {
+    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock, final String resetString,
+                                     ObservableProperty<Color> timeReadoutColor ) {
         this( clockRunning, timeReadout == null ? null : new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {
                 @Override
@@ -52,14 +54,14 @@ public class FloatingClockControlNode extends PNode {
                           setValue( clock.getSimulationTime() );
                       }
                   } );
-              }}, resetString );
+              }}, resetString, timeReadoutColor );
     }
 
     public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
                                      final VoidFunction0 step,//steps the clock when 'step' is pressed which the sim is paused
                                      final VoidFunction0 resetTime,
-                                     final Property<Double> simulationTime, final String resetString ) {
+                                     final Property<Double> simulationTime, final String resetString, final ObservableProperty<Color> timeReadoutColor ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
             setPlaying( clockRunning.getValue() );
             final Listener updatePlayPauseButtons = new Listener() {
@@ -110,7 +112,11 @@ public class FloatingClockControlNode extends PNode {
         if ( timeReadout != null ) {
             final PText readoutNode = new PText() {{
                 setFont( new PhetFont( 24, true ) );
-                setTextPaint( Color.white );
+                timeReadoutColor.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setTextPaint( timeReadoutColor.getValue() );
+                    }
+                } );
                 timeReadout.addObserver( new SimpleObserver() {
                     public void update() {
                         setText( timeReadout.getValue() );
