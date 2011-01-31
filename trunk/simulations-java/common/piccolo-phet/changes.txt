@@ -1,3 +1,4 @@
+Made it possible to specify colors in FloatingClockControlNode
 Fixed: Gravity and Orbits string appears in FloatingClockControlNode
 Made the time readout and reset button optional in FloatingClockControlNode
 1/24/2011 #2678, fix RulerNode so that it's not doing odd things to its bounds
