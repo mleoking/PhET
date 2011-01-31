@@ -162,7 +162,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             } );
         }};
         //No time readout
-        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET ) {{
+        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
     }

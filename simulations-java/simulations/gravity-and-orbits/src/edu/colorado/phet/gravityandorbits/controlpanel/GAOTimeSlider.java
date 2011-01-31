@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
@@ -31,10 +32,10 @@ public class GAOTimeSlider extends PNode {
      *
      * @param maxPosX - The maximum x value within the floating clock control node, which may be the left edge of the rewind button (if present) or the left edge of the play button.
      */
-    public GAOTimeSlider( Property<Double> value, final double maxPosX ) {
+    public GAOTimeSlider( Property<Double> value, final double maxPosX, ObservableProperty<Color> labelColors ) {
         final double min = 1.0 / 10;
         final double max = 2;
-        addChild( new PSwing( new GAOInnerSlider( min, max, "0", value, PhetCommonResources.getString( "Common.sim.speed" ), Color.WHITE ) ) {{
+        addChild( new PSwing( new GAOInnerSlider( min, max, "0", value, PhetCommonResources.getString( "Common.sim.speed" ), labelColors ) ) {{
             setOffset( maxPosX - getFullBoundsReference().width, 0 );
         }} );
     }
@@ -43,14 +44,20 @@ public class GAOTimeSlider extends PNode {
         private final LinearValueControl linearSlider;
 
         public GAOInnerSlider( double min, double max, String textFieldPattern, final Property<Double> valueProperty,
-                               String title, final Color textColor ) {
+                               String title, final ObservableProperty<Color> labelColor ) {
             linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "" );
             linearSlider.setTextFieldVisible( false );
             Hashtable<Object, Object> table = new Hashtable<Object, Object>();
 
             Function1<String, JLabel> label = new Function1<String, JLabel>() {
                 public JLabel apply( String s ) {
-                    return new JLabel( s ) {{setForeground( textColor );}};
+                    return new JLabel( s ) {{
+                        labelColor.addObserver( new SimpleObserver() {
+                            public void update() {
+                                setForeground( labelColor.getValue() );
+                            }
+                        } );
+                    }};
                 }
             };
 
