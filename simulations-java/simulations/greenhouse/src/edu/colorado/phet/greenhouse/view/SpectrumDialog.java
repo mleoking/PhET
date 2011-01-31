@@ -100,7 +100,10 @@ public class SpectrumDialog extends PaintImmediateDialog {
 
     /**
      * Class that contains the diagram of the EM spectrum.  This is done as a
-     * PNode in order to be translatable.
+     * PNode in order to be translatable.  This class includes the arrows,
+     * the spectrum strip, the wavelength indicator, etc.  In other words, it
+     * is the top level node within which the constituent parts that make up
+     * the entire diagram are contained.
      */
     private static class SpectrumDiagram extends PNode {
 
@@ -198,8 +201,16 @@ public class SpectrumDialog extends PaintImmediateDialog {
      * @author John Blanco
      */
     private static class LabeledSpectrumNode extends PNode {
+
+        private static final double STRIP_HEIGHT = 65;
+
         public LabeledSpectrumNode( double width ){
-            addChild( new PhetPPath(new Rectangle2D.Double( 0, 0, width, width / 6 ), Color.BLUE ));
+            // Create the "strip", which is the solid background portions that
+            // contains the different bands and that has tick marks on the top
+            // and bottom.
+            PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(217, 223, 226),
+                    new BasicStroke( 2f ), Color.BLACK );
+            addChild( strip );
         }
     }
 
