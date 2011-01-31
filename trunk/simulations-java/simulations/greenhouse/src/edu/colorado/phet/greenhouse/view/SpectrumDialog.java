@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
@@ -100,30 +102,107 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final double VERTICAL_INSET = 20;
 
         public SpectrumDiagram(){
-            addChild( new PhetPPath(new Rectangle2D.Double(0, 0, 500, 200), Color.PINK) );
+
+            // Add the title.
             // TODO: i18n
-            addChild( new LabeledArrow( OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
-                    LabeledArrow.Orientation.POINTING_LEFT, "Yadda", Color.PINK ));
+            PText title = new PText("Light Spectrum");
+            title.setFont( new PhetFont( 30 ) );
+            title.setOffset( OVERALL_DIMENSIONS.getWidth() / 2 - title.getFullBoundsReference().width / 2, VERTICAL_INSET );
+            addChild( title );
+
+            // Add the frequency arrow.
+            // TODO: i18n
+            LabeledArrow frequencyArrow = new LabeledArrow( OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
+                    LabeledArrow.Orientation.POINTING_RIGHT, "Increasing frequency and energy", new Color( 98, 93, 169 ),
+                    Color.WHITE );
+            frequencyArrow.setOffset( HORIZONTAL_INSET, title.getFullBoundsReference().getMaxY() + 10 );
+            addChild( frequencyArrow );
+
+            // Add the spectrum portion.
+            LabeledSpectrumNode spectrum = new LabeledSpectrumNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
+            spectrum.setOffset( HORIZONTAL_INSET, frequencyArrow.getFullBoundsReference().getMaxY() + 20 );
+            addChild( spectrum );
+
+            // Add the wavelength arrow.
+            // TODO: i18n
+            LabeledArrow wavelengthArrow = new LabeledArrow( OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
+                    LabeledArrow.Orientation.POINTING_LEFT, "Increasing wavelength", Color.WHITE,
+                    new Color( 205, 99, 78 ) );
+            wavelengthArrow.setOffset( HORIZONTAL_INSET, spectrum.getFullBoundsReference().getMaxY() + 10 );
+            addChild( wavelengthArrow );
+
+            // Add the diagram that depicts the wave that gets shorter.
+            DecreasingWavelengthWaveNode decreasingWavelengthNode =
+                new DecreasingWavelengthWaveNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
+            decreasingWavelengthNode.setOffset( HORIZONTAL_INSET, wavelengthArrow.getFullBoundsReference().getMaxY() + 20 );
+            addChild( decreasingWavelengthNode );
         }
     }
 
+    /**
+     * Class that defines a labeled arrow node.
+     */
     private static class LabeledArrow extends PNode {
-        private static double ARROW_HEAD_HEIGHT = 40;
+        public static double ARROW_HEAD_HEIGHT = 40;
         private static double ARROW_HEAD_WIDTH = 40;
         private static double ARROW_TAIL_WIDTH = 20;
-        private static Font LABEL_FONT = new PhetFont( 20 );
-        private static Stroke STROKE = new BasicStroke( 3 );
+        private static Font LABEL_FONT = new PhetFont( 16 );
+        private static Stroke STROKE = new BasicStroke( 2 );
 
         public enum Orientation { POINTING_LEFT, POINTING_RIGHT };
 
-        public LabeledArrow ( double length, Orientation orientation, String captionText, Paint arrowBackgroundPaint ){
+        public LabeledArrow ( double length, Orientation orientation, String captionText, Color topColor, Color bottomColor ){
 
-            final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(0, 0), new Point2D.Double(length, 0),
-                    ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
-            arrowNode.setPaint( arrowBackgroundPaint );
+            // Create the paint that will be used to depict the arrow.  It is
+            // assumed that the arrow has a gradient that changes in the
+            // vertical direction.
+            Paint gradientPaint = new GradientPaint( 0, (float) -ARROW_HEAD_HEIGHT / 2, topColor, 0,
+                    (float) ARROW_HEAD_HEIGHT / 2, bottomColor );
+
+            // Create and add the arrow node.
+            ArrowNode arrowNode;
+            if ( orientation == Orientation.POINTING_RIGHT ) {
+                arrowNode = new ArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( length, 0 ),
+                        ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
+            }
+            else {
+                assert orientation == Orientation.POINTING_LEFT;
+                arrowNode = new ArrowNode( new Point2D.Double( length, 0 ), new Point2D.Double( 0, 0 ),
+                        ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
+            }
+            arrowNode.setPaint( gradientPaint );
             arrowNode.setStroke( STROKE );
             arrowNode.setOffset( 0, ARROW_HEAD_HEIGHT / 2 );
             addChild( arrowNode );
+
+            // Create and add the textual label.
+            PText label = new PText( captionText );
+            label.setFont( LABEL_FONT );
+            label.centerFullBoundsOnPoint( arrowNode.getFullBoundsReference().getCenterX(),
+                    arrowNode.getFullBoundsReference().getCenterY() );
+            addChild( label );
+        }
+    }
+
+    /**
+     * Class that depicts the frequencies and wavelengths of the EM spectrum
+     * and labels the subsections (e.g. "Infrared").
+     *
+     * @author John Blanco
+     */
+    private static class LabeledSpectrumNode extends PNode {
+        public LabeledSpectrumNode( double width ){
+            addChild( new PhetPPath(new Rectangle2D.Double( 0, 0, width, width / 6 ), Color.BLUE ));
+        }
+    }
+
+    /**
+     * Class that depicts a wave that gets progressively shorter in wavelength
+     * from left to right.
+     */
+    private static class DecreasingWavelengthWaveNode extends PNode {
+        public DecreasingWavelengthWaveNode( double width ){
+            addChild( new PhetPPath(new Rectangle2D.Double( 0, 0, width, width / 7 ), Color.GREEN));
         }
     }
 }
