@@ -9,4 +9,9 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 public class FaucetFlowLevel {
     public final Property<Double> flow = new Property<Double>( 0.0 );
     public final Property<Boolean> automatic = new Property<Boolean>( false );
+
+    public void reset() {
+        flow.reset();
+        automatic.reset();
+    }
 }
