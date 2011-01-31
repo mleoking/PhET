@@ -21,7 +21,7 @@ public class WaterTowerControlPanel<T extends FluidPressureAndFlowModel> extends
         super();
 
         addControlFullWidth( new CheckBox( "Ruler", module.rulerVisible ) );
-        addControlFullWidth( new CheckBox( "Measuring Tape", module.rulerVisible ) );
+        addControlFullWidth( new CheckBox( "Measuring Tape", module.measuringTapeVisible ) );
         addControlFullWidth( new UnitsControlPanel<T>( module ) );
         setBackground( FluidPressureControlPanel.BACKGROUND );
         addControlFullWidth( (JComponent) Box.createRigidArea( new Dimension( 40, 40 ) ) );
