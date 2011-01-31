@@ -14,4 +14,8 @@ public class MeterStick extends FluidPressureAndFlowRuler {
     public MeterStick( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin ) {
         super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( 5 ) ), new String[] { "0", "1", "2", "3", "4", "5" }, "m", rulerModelOrigin );
     }
+
+    public MeterStick( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, boolean flag ) {
+        super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( 30 ) ), new String[] { "0", "5", "10", "15", "20", "25", "30" }, "m", rulerModelOrigin );
+    }
 }

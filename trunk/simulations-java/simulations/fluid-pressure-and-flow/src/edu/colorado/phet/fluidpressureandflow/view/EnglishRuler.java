@@ -15,4 +15,8 @@ public class EnglishRuler extends FluidPressureAndFlowRuler {
     public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin ) {
         super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( Units.FEET.toSI( 10 ) ) ), new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, "ft", rulerModelOrigin );
     }
+
+    public EnglishRuler( ModelViewTransform transform, final ObservableProperty<Boolean> visible, final Property<Boolean> setVisible, Point2D.Double rulerModelOrigin, boolean flag ) {
+        super( transform, visible, setVisible, Math.abs( transform.modelToViewDeltaY( Units.FEET.toSI( 100 ) ) ), new String[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100" }, "ft", rulerModelOrigin );
+    }
 }
