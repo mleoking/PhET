@@ -1,3 +1,5 @@
+# 1.08.04 (48403) Jan 31, 2011
+1/31/11 dev version for KSU credits testing
 # 1.08.03 (47822) Jan 10, 2011
 1/10/11 #2624, demo for KSU with revised translation credits (email address removed)
 # 1.08.02 (47811) Jan 10, 2011
