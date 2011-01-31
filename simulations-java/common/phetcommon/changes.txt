@@ -1,3 +1,4 @@
+1/31/2011 Added PropertyCheckBoxMenuItem
 1/31/2011 Added IfElse<T>, an ObservableProperty that uses a Property<Boolean> condition to simulation an if/else block.
 1/30/2011 Added VoidFunction1.Null, a no-op implementation with no side effects
 1/30/2011 Rewrote PropertyCheckBox and PropertyRadioButton to use more general parameter type SettableProperty instead of concrete subclass Property
