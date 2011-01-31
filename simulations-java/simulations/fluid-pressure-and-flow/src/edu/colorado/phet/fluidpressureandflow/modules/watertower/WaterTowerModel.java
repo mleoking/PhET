@@ -87,6 +87,10 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 toRemove.add( drop );
             }
         }
+        removeDrops( waterDrops, toRemove );
+    }
+
+    private void removeDrops( ArrayList<WaterDrop> waterDrops, ArrayList<WaterDrop> toRemove ) {
         for ( WaterDrop waterDrop : toRemove ) {
             waterDrop.notifyRemoved();
         }
@@ -121,5 +125,15 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
     public FaucetFlowLevel getFaucetFlowLevel() {
         return faucetFlowLevel;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        waterTower.reset();
+        faucetFlowLevel.reset();
+        g = 9.8;
+        removeDrops( faucetDrops, faucetDrops );
+        removeDrops( waterTowerDrops, waterTowerDrops );
     }
 }
