@@ -1,3 +1,5 @@
+# 2.09.01 (48362) Jan 31, 2011
+1/31/11 dev version for testing KSU credits
 1/31/11 #2624,KSU credits: put problematic "parenthesis and text between them" on a separate line (3rd line)
 1/13/11 #2624, add target="_blank" to ksu.credits so that hyperlink opens in a new window/tab
 1/4/11 #2624, revise ksu.credits again, remove email address line
