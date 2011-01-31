@@ -1,3 +1,4 @@
+> add translation.credits field for specifying translation credits
 # 2.09.01 (48362) Jan 31, 2011
 1/31/11 dev version for testing KSU credits
 1/31/11 #2624,KSU credits: put problematic "parenthesis and text between them" on a separate line (3rd line)
