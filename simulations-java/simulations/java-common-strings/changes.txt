@@ -1,3 +1,5 @@
+# 1.19.00 (48409) Jan 31, 2011
+1/31/11 redeploy to make new Java common strings available
 # 1.18.00 (45200) Oct 19, 2010
 10/19/10 add strings for new "games" common project
 # 1.17.00 (38662) Feb 16, 2010
