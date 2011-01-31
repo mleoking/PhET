@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_ar.xml created Wed Jan 26 18:50:08 PST 2011 using: arithmetic 2.02.01 (47889), translation-utility 2.09.00 (44031) Sep 13, 2010-->
+<!--arithmetic-strings_ar.xml created Mon Jan 31 12:27:53 MST 2011 using: arithmetic 2.02.04 (48365), translation-utility 2.09.01 (48362) Jan 31, 2011-->
 <SimStrings>
 <string key="level" value="مستوى"/>
 <string key="typeAnswer" value="اكتب الإجابة"/>
@@ -21,7 +21,7 @@
 <string key="mustTypeNbr" value="يجب أن تكتب رقم"/>
 <string key="score" value="النتيجة"/>
 <string key="scorePer" value="النتيجة"/>
-<string key="ksu.credits" value="تم إعداد وتهيئة برمجيات المحاكاة والموقع الخاص بها باللغة العربية عن طريق&lt;br&gt;&lt;a href=&quot;http://ecsme.ksu.edu.sa&quot; target=&quot;_blank&quot;&gt;مركز التميز البحثي في تطوير تعليم العلوم والرياضيات&lt;/a&gt; (أفكر) &lt;br&gt;بجامعة الملك سعود، الرياض، المملكة العربية السعودية"/>
+<string key="ksu.credits" value="تم إعداد وتهيئة برمجيات المحاكاة والموقع الخاص بها باللغة العربية عن طريق&lt;br&gt;&lt;a href=&quot;http://ecsme.ksu.edu.sa&quot; target=&quot;_blank&quot;&gt;مركز التميز البحثي في تطوير تعليم العلوم والرياضيات&lt;/a&gt;&lt;br&gt;(أفكر)&lt;br&gt;بجامعة الملك سعود، الرياض، المملكة العربية السعودية"/>
 <string key="translation.credits" value="KSU"/>
 <string key="nbrWrong" value="الرقم خطأ"/>
 <string key="reset" value="تصفير"/>
