@@ -72,7 +72,7 @@ public class CreditsDialog extends CommonDialog {
         textArea.setBorder( new EmptyBorder( null, new Insets( 5, 5, 0, 5 ) ) );
 
         textScroll = new JScrollPane( textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED );
-        textScroll.setPreferredSize( new IntDimension( 400, 300 ) );
+        textScroll.setPreferredSize( new IntDimension( 450, 300 ) );
         textScroll.setBorder( new EmptyBorder( new LineBorder( null, ASColor.GRAY, 1, 0 ), new Insets( 5, 5, 5, 5 ) ) );
         window.getContentPane().append( textScroll );
 
