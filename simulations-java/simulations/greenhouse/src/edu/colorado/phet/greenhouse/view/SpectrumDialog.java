@@ -37,9 +37,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
     //----------------------------------------------------------------------------
 
     /**
-     * Sole constructor.
-     *
-     * @param owner
+     * Constructor.
      */
     public SpectrumDialog( Frame parentFrame ) {
         super( parentFrame, true );
@@ -47,18 +45,14 @@ public class SpectrumDialog extends PaintImmediateDialog {
         // Don't let the user resize this window.
         setResizable( false );
 
-        // Create the panel that will contain the canvas and close button.
+        // Create the panel that will contain the canvas and the "Close" button.
         JPanel mainPanel = new JPanel();
         mainPanel.setBorder( BorderFactory.createEmptyBorder( 15, 15, 15, 15 ) ); // top, left, bottom, right
-//        EasyGridBagLayout layout = new EasyGridBagLayout( mainPanel );
-//        layout.setInsets( new Insets( 10, 0, 10, 0 ) ); // top, left, bottom, right
-//        layout.setAnchor( GridBagConstraints.CENTER );
-//        mainPanel.setLayout( layout );
         mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );
 
         // Create the canvas and add it to the panel.
         PCanvas canvas = new PCanvas();
-        canvas.setBackground( Color.BLACK );
+        canvas.setBackground( new Color( 233, 236, 174 ) );
         canvas.setPreferredSize( new Dimension( 600, 400 ) );
         canvas.setBorder( BorderFactory.createEtchedBorder() ); // top, left, bottom, right
         mainPanel.add( canvas );
@@ -81,15 +75,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         mainPanel.add( closeButton );
 
         // Add to the dialog
-        getContentPane().add( mainPanel );
+        setContentPane( mainPanel );
         pack();
-    }
-
-    @Override
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        if ( visible ) {
-            pack(); // pack after making visible because this dialog contains a JTextArea
-        }
     }
 }
