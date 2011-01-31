@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -205,6 +206,8 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final double STRIP_HEIGHT = 65;
         private static final double MIN_FREQUENCY = 1E3;
         private static final double MAX_FREQUENCY = 1E21;
+        private static final Stroke TICK_MARK_STROKE = new BasicStroke( 2f );
+        private static final double TICK_MARK_HEIGHT = 8;
 
         private final double stripWidth;
 
@@ -216,6 +219,9 @@ public class SpectrumDialog extends PaintImmediateDialog {
             PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(217, 223, 226),
                     new BasicStroke( 2f ), Color.BLACK );
             addChild( strip );
+
+            // Tick marks
+            addFrequencyTickMark( 1E4 );
         }
 
         /**
@@ -237,6 +243,19 @@ public class SpectrumDialog extends PaintImmediateDialog {
          */
         private double getOffsetFromWavelength( double wavelength ){
             return getOffsetFromFrequency( 299792458 / wavelength );
+        }
+
+        /**
+         * Add a tick mark for the specified frequency.  Frequency tick marks
+         * go on top of the strip.
+         */
+        private void addFrequencyTickMark( double frequency ){
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( 0, 0 );
+            path.lineTo( 0, TICK_MARK_HEIGHT );
+            PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
+            tickMarkNode.setOffset( getOffsetFromFrequency( frequency ), -TICK_MARK_HEIGHT );
+            addChild( tickMarkNode );
         }
     }
 
