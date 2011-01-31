@@ -97,7 +97,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
      */
     private static class SpectrumDiagram extends PNode {
 
-        private static final Dimension OVERALL_DIMENSIONS = new Dimension( 600, 400 );
+        private static final Dimension OVERALL_DIMENSIONS = new Dimension( 670, 400 );
         private static final double HORIZONTAL_INSET = 20;
         private static final double VERTICAL_INSET = 20;
 
