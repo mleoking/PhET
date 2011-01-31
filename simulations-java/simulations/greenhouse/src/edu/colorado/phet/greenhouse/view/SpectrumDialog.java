@@ -28,6 +28,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PLine;
+import edu.umd.cs.piccolox.util.LineShape;
+import edu.umd.cs.piccolox.util.XYArray;
 
 
 /**
@@ -202,7 +205,23 @@ public class SpectrumDialog extends PaintImmediateDialog {
      */
     private static class DecreasingWavelengthWaveNode extends PNode {
         public DecreasingWavelengthWaveNode( double width ){
-            addChild( new PhetPPath(new Rectangle2D.Double( 0, 0, width, width / 7 ), Color.GREEN));
+            // Create and add the boundary and background.
+            double boundingBoxHeight = width * 0.1; // Arbitrary, adjust as needed.
+            PNode boundingBox = new PhetPPath(new Rectangle2D.Double( 0, 0, width, width * 0.1 ),
+                    new Color(217, 223, 226), new BasicStroke(2f), Color.black );
+            addChild( boundingBox );
+
+            // Create the line that represents the decreasing wavelength.
+            int numPointsOnLine = 100;
+            XYArray pointArray = new XYArray(new double[numPointsOnLine * 2]);
+            for ( int i = 0; i < numPointsOnLine; i++ ){
+                pointArray.setX( i, i * (width / (numPointsOnLine - 1 ) ) );
+                pointArray.setY( i, Math.sin( i * (Math.PI / 20) ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
+            }
+            LineShape lineShape = new LineShape( pointArray );
+            PLine squigglyLine = new PLine( lineShape );
+            squigglyLine.setStroke( new BasicStroke(2f) );
+            addChild( squigglyLine );
         }
     }
 }
