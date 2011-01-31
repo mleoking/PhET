@@ -12,10 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.And;
-import edu.colorado.phet.common.phetcommon.model.Not;
-import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.model.ValueEquals;
+import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -51,7 +48,11 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         super( new Dimension( 1500, 1500 ) );//view size
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        setBackground( Color.black );
+        module.getInvertColorsProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                setBackground( module.getInvertColorsProperty().getValue() ? Color.white : Color.black );
+            }
+        } );
 
         // Root of our scene graph
         _rootNode = new PNode();
@@ -141,7 +142,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyDifferent() );
         }
-        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET ) {{
+        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.getInvertColorsProperty(), Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
@@ -164,7 +165,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
             assert mode.getTimeSpeedScaleProperty() != null;
             // Add the speed control slider.
-            addChild( new GAOTimeSlider( mode.getTimeSpeedScaleProperty(), rewindButton.getFullBoundsReference().getMinX() ) );
+            addChild( new GAOTimeSlider( mode.getTimeSpeedScaleProperty(), rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.getInvertColorsProperty(), Color.black, Color.white ) ) );
         }} );
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), module.getMeasuringTapeVisibleProperty() ),

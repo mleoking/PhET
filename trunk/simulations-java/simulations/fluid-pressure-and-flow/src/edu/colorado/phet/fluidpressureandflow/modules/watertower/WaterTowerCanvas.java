@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.modules.watertower;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -98,7 +99,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
                 }
             } );
         }};
-        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET ) {{
+        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
     }
