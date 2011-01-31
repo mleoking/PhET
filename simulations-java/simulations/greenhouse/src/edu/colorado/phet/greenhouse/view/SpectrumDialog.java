@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+// Copyright 2002-2011, University of Colorado
 
 package edu.colorado.phet.greenhouse.view;
 
@@ -44,6 +44,10 @@ public class SpectrumDialog extends PaintImmediateDialog {
     // Class Data
     //----------------------------------------------------------------------------
 
+    // Make the spectrum diagram static so we don't have to regenerate it each
+    // time the dialog is shown, since it takes some computation to create it.
+    private static final SpectrumDiagram SPECTRUM_DIAGRAM = new SpectrumDiagram();
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -69,8 +73,8 @@ public class SpectrumDialog extends PaintImmediateDialog {
         canvas.setBorder( BorderFactory.createEtchedBorder() ); // top, left, bottom, right
         mainPanel.add( canvas );
 
-        // Create the spectrum diagram on the canvas.
-        canvas.addWorldChild( new SpectrumDiagram() );
+        // Add the spectrum diagram to the canvas.
+        canvas.addWorldChild( SPECTRUM_DIAGRAM );
 
         // Add an invisible panel that will create space between the diagram
         // and the close button.
@@ -218,10 +222,6 @@ public class SpectrumDialog extends PaintImmediateDialog {
                 double x = i * ( width / ( numPointsOnLine - 1 ) );
                 pointArray.setX( i, x );
                 double proportion = x / width;
-                System.out.println("Proportion = " + proportion);
-                System.out.println("f(p)/p = " + ((Math.pow( proportion, 10 ) * 60) + 3));
-//                pointArray.setY( i, Math.sin( proportion * proportion * Math.PI * 50 ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
-//                pointArray.setY( i, ( Math.sin( Math.pow( proportion, 10 ) * 20 * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
                 pointArray.setY( i, ( Math.sin( ((Math.pow( proportion, 4 ) * 25) + 3) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
             }
             LineShape lineShape = new LineShape( pointArray );
