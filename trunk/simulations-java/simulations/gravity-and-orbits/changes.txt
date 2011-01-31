@@ -1,3 +1,4 @@
+# 0.0.20 (48357) Jan 31, 2011
 Added "Options" menu with "Invert Colors" button, which inverts the colors in the play area but not the control panel
 # 0.0.19 (48326) Jan 28, 2011
 Made "Earth System" button always enabled
