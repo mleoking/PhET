@@ -75,6 +75,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         addChild( new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, true ) );
         addChild( new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, true ) );
 
+        addChild( new FPAFMeasuringTape( transform, module.measuringTapeVisible ) );
+
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
             module.addListener( new Module.Listener() {
                 public void activated() {
