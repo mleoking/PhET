@@ -1,3 +1,5 @@
+# 2.03.07 (48369) Jan 31, 2011
+1/31/11 dev version to test KSU credits
 # 2.03.06 (48366) Jan 31, 2011
 1/31/11 dev version to test KSU credits
 # 2.03.05 (48285) Jan 26, 2011
