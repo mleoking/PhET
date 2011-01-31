@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_ar_SA.xml created Wed Jan 26 18:52:36 PST 2011 using: density-and-buoyancy 1.04.01 (48267), translation-utility 2.09.00 (44031) Sep 13, 2010-->
+<!--density-and-buoyancy-strings_ar_SA.xml created Mon Jan 31 12:29:17 MST 2011 using: density-and-buoyancy 1.04.05 (48286), translation-utility 2.09.01 (48362) Jan 31, 2011-->
 <SimStrings>
 <string key="properties.massKilogram" value="كجم"/>
 <string key="properties.mass" value="الكتلة"/>
@@ -23,7 +23,7 @@
 <string key="mysteryObject.table.title" value="كثافة مواد مختلفة"/>
 <string key="mode.mysteryObjects.B" value="ب"/>
 <string key="mode.mysteryObjects.A" value="أ"/>
-<string key="ksu.credits" value="تم إعداد وتهيئة برمجيات المحاكاة والموقع الخاص بها باللغة العربية عن طريق&lt;br&gt;&lt;a href=&quot;http://ecsme.ksu.edu.sa&quot; target=&quot;_blank&quot;&gt;مركز التميز البحثي في تطوير تعليم العلوم والرياضيات&lt;/a&gt; (أفكر) &lt;br&gt;بجامعة الملك سعود، الرياض، المملكة العربية السعودية"/>
+<string key="ksu.credits" value="تم إعداد وتهيئة برمجيات المحاكاة والموقع الخاص بها باللغة العربية عن طريق&lt;br&gt;&lt;a href=&quot;http://ecsme.ksu.edu.sa&quot; target=&quot;_blank&quot;&gt;مركز التميز البحثي في تطوير تعليم العلوم والرياضيات&lt;/a&gt;&lt;br&gt;(أفكر)&lt;br&gt;بجامعة الملك سعود، الرياض، المملكة العربية السعودية"/>
 <string key="mode.two" value="اثنان"/>
 <string key="material.oil" value="الزيت"/>
 <string key="material.gasoline" value="البنزين"/>
