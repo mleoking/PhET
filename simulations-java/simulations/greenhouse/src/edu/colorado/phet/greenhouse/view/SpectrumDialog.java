@@ -203,14 +203,40 @@ public class SpectrumDialog extends PaintImmediateDialog {
     private static class LabeledSpectrumNode extends PNode {
 
         private static final double STRIP_HEIGHT = 65;
+        private static final double MIN_FREQUENCY = 1E3;
+        private static final double MAX_FREQUENCY = 1E21;
+
+        private final double stripWidth;
 
         public LabeledSpectrumNode( double width ){
+            stripWidth = width;
             // Create the "strip", which is the solid background portions that
             // contains the different bands and that has tick marks on the top
             // and bottom.
             PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(217, 223, 226),
                     new BasicStroke( 2f ), Color.BLACK );
             addChild( strip );
+        }
+
+        /**
+         * Convert the given frequency to an offset from the left edge of the
+         * spectrum strip.
+         * @param frequency - Frequency in Hz.
+         */
+        private double getOffsetFromFrequency( double frequency ){
+            assert frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY;
+            double logarithmicRange = Math.log10( MAX_FREQUENCY ) - Math.log10( MIN_FREQUENCY );
+            double logarithmicFrequency = Math.log10( frequency );
+            return ( logarithmicFrequency - Math.log10( MIN_FREQUENCY ) )/ logarithmicRange * stripWidth;
+        }
+
+        /**
+         * Convert the given wavelength to an offset from the left edge of the
+         * spectrum strip.
+         * @param wavelength - wavelength in meters
+         */
+        private double getOffsetFromWavelength( double wavelength ){
+            return getOffsetFromFrequency( 299792458 / wavelength );
         }
     }
 
