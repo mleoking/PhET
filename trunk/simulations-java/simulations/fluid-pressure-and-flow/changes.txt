@@ -1,3 +1,4 @@
+Fixed: Faucet slider should gray out when in "auto" mode
 Added measuring tape
 Fixed the size of the rulers in the water tower tab
 Fixed: Velocity sensor should read out water velocity
