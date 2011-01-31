@@ -212,15 +212,21 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addChild( boundingBox );
 
             // Create the line that represents the decreasing wavelength.
-            int numPointsOnLine = 100;
+            int numPointsOnLine = 2000;
             XYArray pointArray = new XYArray(new double[numPointsOnLine * 2]);
             for ( int i = 0; i < numPointsOnLine; i++ ){
-                pointArray.setX( i, i * (width / (numPointsOnLine - 1 ) ) );
-                pointArray.setY( i, Math.sin( i * (Math.PI / 20) ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
+                double x = i * ( width / ( numPointsOnLine - 1 ) );
+                pointArray.setX( i, x );
+                double proportion = x / width;
+                System.out.println("Proportion = " + proportion);
+                System.out.println("f(p)/p = " + ((Math.pow( proportion, 10 ) * 60) + 3));
+//                pointArray.setY( i, Math.sin( proportion * proportion * Math.PI * 50 ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
+//                pointArray.setY( i, ( Math.sin( Math.pow( proportion, 10 ) * 20 * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
+                pointArray.setY( i, ( Math.sin( ((Math.pow( proportion, 4 ) * 25) + 3) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
             }
             LineShape lineShape = new LineShape( pointArray );
             PLine squigglyLine = new PLine( lineShape );
-            squigglyLine.setStroke( new BasicStroke(2f) );
+            squigglyLine.setStroke( new BasicStroke( 2f ) );
             addChild( squigglyLine );
         }
     }
