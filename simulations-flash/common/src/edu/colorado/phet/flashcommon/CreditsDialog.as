@@ -66,7 +66,7 @@ class edu.colorado.phet.flashcommon.CreditsDialog extends edu.colorado.phet.flas
 		textArea.setBorder(new EmptyBorder(null, new Insets(5, 5, 0, 5)));
 				
 		textScroll = new JScrollPane(textArea, JScrollPane.SCROLLBAR_AS_NEEDED, JScrollPane.SCROLLBAR_AS_NEEDED);
-		textScroll.setPreferredSize(400, 300);
+		textScroll.setPreferredSize(450, 300);
 		textScroll.setBorder(new EmptyBorder(new LineBorder(null, ASColor.GRAY, 1, 0), new Insets(5, 5, 5, 5)));
 		window.getContentPane().append(textScroll);
 		
