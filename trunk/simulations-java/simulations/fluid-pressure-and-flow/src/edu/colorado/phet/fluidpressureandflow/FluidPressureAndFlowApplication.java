@@ -20,8 +20,8 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
 
     public FluidPressureAndFlowApplication( PhetApplicationConfig config ) {
         super( config );
-//        addModule( new FluidPressureModule() );
-//        addModule( new FluidFlowModule() );
+        addModule( new FluidPressureModule() );
+        addModule( new FluidFlowModule() );
         addModule( new WaterTowerModule() );
     }
 
