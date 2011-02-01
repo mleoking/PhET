@@ -1,3 +1,4 @@
+1/31/11 partial implementation of bar charts view
 1/27/11 add enum of atoms
 1/26/11 bar that displays atom count
 1/26/11 add atom colors
