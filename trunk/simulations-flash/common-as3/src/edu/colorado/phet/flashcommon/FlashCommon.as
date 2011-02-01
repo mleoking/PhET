@@ -91,7 +91,7 @@ public class FlashCommon {
     // and this page for their language codes
     //http://en.wikipedia.org/wiki/ISO_639-1_language_matrix
 
-    private const rtlLanguageList: Array = ["ar","iw","fa","ur","yi","jv","so"];
+    private const rtlLanguageList: Array = ["ar","iw","fa","ur","ji","jv","so","ks","ku","tk","ug","az","ms"];
 
     public static function getInstance(): FlashCommon {
         if ( instance == null ) {
