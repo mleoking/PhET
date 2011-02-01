@@ -4,10 +4,9 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- add atom counts to model
-- add bar chart view
 - add balance scale view
 - global Options menu item to show/hide molecules in both tabs
+- horizontal alignment of various views
 - complete all features of the "Balance Equation" module
 
 MEDIUM PRIORITY
@@ -16,7 +15,6 @@ MEDIUM PRIORITY
 - in "Game", two possible labels below frowny face: "X not balanced" or "Check Mark balanced\nX not simplified"
 - tilt of balance scale: compute N = left - right. Choose some N that hits the ground, have scale N angles.
 - OK to overlap molecules on balance scale (range is 0-60)
-- limit bar charts to some height (15?), label each bar, show up-arrow for bars off scale (range is 0-60)
 
 LOW PRIORITY
 - generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs
