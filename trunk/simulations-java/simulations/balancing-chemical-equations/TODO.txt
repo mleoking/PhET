@@ -8,6 +8,7 @@ HIGH PRIORITY
 - global Options menu item to show/hide molecules in both tabs
 - horizontal alignment of various views
 - publish dev version for discussion with all features of the "Balance Equation" module
+- create more balanced atom piles, add atoms along RTL diagonal
 
 MEDIUM PRIORITY
 - "Game" module
