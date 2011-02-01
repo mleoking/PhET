@@ -253,7 +253,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addBandLabel( 1E16, 1E19, "X-ray" );
             addBandDivider( 1E19 );
             // TODO: i18n
-            addBandLabel( 1E19, 1E21, "Gamma ray" );
+            addBandLabel( 1E19, 1E21, "<html><center>Gamma<br>ray</center></html>" );
         }
 
         /**
@@ -344,7 +344,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addChild( bandDividerNode );
         }
 
-        private void addBandLabel( double lowEndFrequency, double highEndFrequency, String labelText ){
+        private void addBandLabel( double lowEndFrequency, double highEndFrequency, String htmlLabelText ){
             // Argument validation.
             assert highEndFrequency >= lowEndFrequency;
 
@@ -355,7 +355,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             double centerX = leftBoundaryX + width / 2;
 
             // Create and add the label.
-            PText labelNode = new PText( labelText );
+            HTMLNode labelNode = new HTMLNode( htmlLabelText );
             labelNode.setFont( LABEL_FONT );
             if (labelNode.getFullBoundsReference().width > width){
                 // Scale the label to fit.
