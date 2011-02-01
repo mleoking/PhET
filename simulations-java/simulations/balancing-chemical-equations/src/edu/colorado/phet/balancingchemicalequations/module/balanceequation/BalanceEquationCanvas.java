@@ -62,6 +62,12 @@ public class BalanceEquationCanvas extends BCECanvas {
         resetAllButtonNode.setConfirmationEnabled( false );
         addChild( resetAllButtonNode );
 
+        // Dev, shows balanced coefficients
+        BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
+        if ( dev ) {
+            addChild( balancedEquationNode );
+        }
+
         // layout
         double x = 0;
         double y = 0;
@@ -85,6 +91,9 @@ public class BalanceEquationCanvas extends BCECanvas {
         x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
         y = boxesNode.getFullBoundsReference().getCenterY() - ( faceNode.getFullBoundsReference().getHeight() / 2 );
         faceNode.setOffset( x, y );
+        x = resetAllButtonNode.getFullBoundsReference().getMaxX() + 40;
+        y = resetAllButtonNode.getFullBoundsReference().getCenterY() - ( balancedEquationNode.getFullBoundsReference().getHeight() / 2 );
+        balancedEquationNode.setOffset( x, y );
 
         // observers
         balanceChoiceProperty.addObserver( new SimpleObserver() {
