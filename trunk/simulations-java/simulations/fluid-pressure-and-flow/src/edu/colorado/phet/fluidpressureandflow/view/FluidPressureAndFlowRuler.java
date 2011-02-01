@@ -43,7 +43,7 @@ public class FluidPressureAndFlowRuler extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 translate( delta.width, delta.height );
-            }
+                }
         } );
         addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             addInputEventListener( new PBasicInputEventHandler() {
@@ -54,4 +54,4 @@ public class FluidPressureAndFlowRuler extends PNode {
             setOffset( rulerNode.getFullBounds().getOrigin().getX(), rulerNode.getFullBounds().getOrigin().getY() - getFullBounds().getHeight() );
         }} );
     }
-}
+    }
