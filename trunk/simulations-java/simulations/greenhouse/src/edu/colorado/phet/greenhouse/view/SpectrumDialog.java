@@ -24,11 +24,13 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PLine;
 import edu.umd.cs.piccolox.util.LineShape;
@@ -254,6 +256,12 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addBandDivider( 1E19 );
             // TODO: i18n
             addBandLabel( 1E19, 1E21, "<html><center>Gamma<br>ray</center></html>" );
+
+            // Add the visible spectrum.
+            int visSpectrumWidth = (int)Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
+            PNode visibleSpectrum = new PImage( new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( visSpectrumWidth, (int)STRIP_HEIGHT ) );
+            visibleSpectrum.setOffset( getOffsetFromFrequency( 400E12 ), 0 );
+            addChild( visibleSpectrum );
         }
 
         /**
