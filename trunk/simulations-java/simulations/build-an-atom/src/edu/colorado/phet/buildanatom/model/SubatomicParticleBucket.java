@@ -222,13 +222,11 @@ public class SubatomicParticleBucket {
                     numParticlesInLayer--;
                     offsetFromBucketEdge += particleRadius;
                     if ( numParticlesInLayer == 0 ) {
-                        // This algorithm doesn't handle the situation
-                        // where more particles are added than can be
-                        // stacked into a pyramid of the needed size, but
-                        // so far it hasn't needed to.  If this
-                        // requirement changes, the algorithm will need to
-                        // change too.
-                        //                            assert false;
+                        // This algorithm doesn't handle the situation where
+                        // more particles are added than can be stacked into
+                        // a pyramid of the needed size, but so far it hasn't
+                        // needed to.  If this requirement changes, the
+                        // algorithm will need to change too.
                         numParticlesInLayer = 1;
                         offsetFromBucketEdge -= particleRadius;
                     }
