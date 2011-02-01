@@ -77,7 +77,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setBackground( new Color( 233, 236, 174 ) );
         canvas.setPreferredSize( SpectrumDiagram.OVERALL_DIMENSIONS );
-        canvas.setBorder( BorderFactory.createEtchedBorder() ); // top, left, bottom, right
+        canvas.setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
         mainPanel.add( canvas );
 
         // Add the spectrum diagram to the canvas.
