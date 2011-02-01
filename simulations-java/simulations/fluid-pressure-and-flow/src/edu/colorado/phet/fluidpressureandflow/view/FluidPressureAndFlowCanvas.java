@@ -71,11 +71,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     }
 
     public static class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {
-        private FluidPressureAndFlowModule<T> module;
-
         public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
-            this.module = module;
-
             final SliderControl fluidDensityControl = new SliderControl( "Fluid Density", "kg/m^3", FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().liquidDensity, new HashMap<Double, TickLabel>() {{
                 put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
                 put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
