@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -111,9 +112,8 @@ public class SpectrumDialog extends PaintImmediateDialog {
      */
     private static class SpectrumDiagram extends PNode {
 
-        private static final Dimension OVERALL_DIMENSIONS = new Dimension( 670, 400 );
+        private static final Dimension OVERALL_DIMENSIONS = new Dimension( 670, 420 );
         private static final double HORIZONTAL_INSET = 20;
-        private static final double VERTICAL_INSET = 20;
 
         public SpectrumDiagram(){
 
@@ -121,7 +121,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // TODO: i18n
             PText title = new PText("Light Spectrum");
             title.setFont( new PhetFont( 30 ) );
-            title.setOffset( OVERALL_DIMENSIONS.getWidth() / 2 - title.getFullBoundsReference().width / 2, VERTICAL_INSET );
+            title.setOffset( OVERALL_DIMENSIONS.getWidth() / 2 - title.getFullBoundsReference().width / 2, 10 );
             addChild( title );
 
             // Add the frequency arrow.
@@ -134,7 +134,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
 
             // Add the spectrum portion.
             LabeledSpectrumNode spectrum = new LabeledSpectrumNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
-            spectrum.setOffset( HORIZONTAL_INSET, frequencyArrow.getFullBoundsReference().getMaxY() + 20 );
+            spectrum.setOffset( HORIZONTAL_INSET, frequencyArrow.getFullBoundsReference().getMaxY() + 10 );
             addChild( spectrum );
 
             // Add the wavelength arrow.
@@ -217,15 +217,20 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final Font LABEL_FONT = new PhetFont( 16 );
 
         private final double stripWidth;
+        private final PNode spectrumRootNode;
 
         public LabeledSpectrumNode( double width ){
             stripWidth = width;
+
+            spectrumRootNode = new PNode();
+            addChild( spectrumRootNode );
+
             // Create the "strip", which is the solid background portions that
             // contains the different bands and that has tick marks on the top
             // and bottom.
             PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(217, 223, 226),
                     new BasicStroke( 2f ), Color.BLACK );
-            addChild( strip );
+            spectrumRootNode.addChild( strip );
 
             // Add the frequency tick marks to the top of the spectrum strip.
             for ( int i = 4; i <= 20; i++ ){
@@ -261,7 +266,34 @@ public class SpectrumDialog extends PaintImmediateDialog {
             int visSpectrumWidth = (int)Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
             PNode visibleSpectrum = new PImage( new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( visSpectrumWidth, (int)STRIP_HEIGHT ) );
             visibleSpectrum.setOffset( getOffsetFromFrequency( 400E12 ), 0 );
-            addChild( visibleSpectrum );
+            spectrumRootNode.addChild( visibleSpectrum );
+
+            // Add the label for the visible band.
+            // TODO: i18n
+            PText visibleBandLabel = new PText("Visible");
+            visibleBandLabel.setFont( LABEL_FONT );
+            double visibleBandCenterX = getOffsetFromFrequency( 600E12 );
+            visibleBandLabel.setOffset( visibleBandCenterX - visibleBandLabel.getFullBoundsReference().width / 2, -50 );
+            spectrumRootNode.addChild( visibleBandLabel );
+
+            // Add the arrow that connects the visible band label to the
+            // visible band itself.
+            ArrowNode visibleBandArrow = new ArrowNode(
+                    new Point2D.Double( visibleBandCenterX, visibleBandLabel.getFullBoundsReference().getMaxY()  ),
+                    new Point2D.Double( visibleBandCenterX, 0 ),
+                    7,
+                    7,
+                    2 );
+            visibleBandArrow.setPaint( Color.BLACK );
+            spectrumRootNode.addChild( visibleBandArrow );
+
+            // Set the offset of the root node to account for child nodes that
+            // ended up with negative offsets when the layout was complete.
+            System.out.println(spectrumRootNode.getFullBoundsReference().getMinX());
+            System.out.println(spectrumRootNode.getFullBoundsReference().getMinY());
+            spectrumRootNode.setOffset(
+                    Math.max( -spectrumRootNode.getFullBoundsReference().getMinX(), 0 ),
+                    Math.max( -spectrumRootNode.getFullBoundsReference().getMinY(), 0 ) );
         }
 
         /**
@@ -296,7 +328,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             path.lineTo( 0, -TICK_MARK_HEIGHT );
             PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
             tickMarkNode.setOffset( getOffsetFromFrequency( frequency ), 0 );
-            addChild( tickMarkNode );
+            spectrumRootNode.addChild( tickMarkNode );
 
             if ( addLabel ){
                 // Create and add the label.
@@ -304,7 +336,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
                 label.setOffset(
                         tickMarkNode.getFullBoundsReference().getCenterX() - label.getFullBoundsReference().width / 2,
                         tickMarkNode.getFullBoundsReference().getMinY() - label.getFullBoundsReference().height );
-                addChild( label );
+                spectrumRootNode.addChild( label );
             }
         }
 
@@ -319,7 +351,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             path.lineTo( 0, TICK_MARK_HEIGHT );
             PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
             tickMarkNode.setOffset( getOffsetFromWavelength( wavelength ), STRIP_HEIGHT );
-            addChild( tickMarkNode );
+            spectrumRootNode.addChild( tickMarkNode );
 
             if ( addLabel ){
                 // Create and add the label.
@@ -327,7 +359,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
                 label.setOffset(
                         tickMarkNode.getFullBoundsReference().getCenterX() - label.getFullBoundsReference().width / 2,
                         tickMarkNode.getFullBoundsReference().getMaxY() );
-                addChild( label );
+                spectrumRootNode.addChild( label );
             }
         }
 
@@ -349,7 +381,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             path.lineTo( 0, STRIP_HEIGHT );
             PNode bandDividerNode = new PhetPPath( path.getGeneralPath(), BAND_DIVIDER_STROKE, Color.BLACK );
             bandDividerNode.setOffset( getOffsetFromFrequency( frequency ), 0 );
-            addChild( bandDividerNode );
+            spectrumRootNode.addChild( bandDividerNode );
         }
 
         private void addBandLabel( double lowEndFrequency, double highEndFrequency, String htmlLabelText ){
@@ -372,7 +404,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             labelNode.setOffset(
                     centerX - labelNode.getFullBoundsReference().width / 2,
                     STRIP_HEIGHT / 2 - labelNode.getFullBoundsReference().height / 2 );
-            addChild( labelNode );
+            spectrumRootNode.addChild( labelNode );
         }
     }
 
