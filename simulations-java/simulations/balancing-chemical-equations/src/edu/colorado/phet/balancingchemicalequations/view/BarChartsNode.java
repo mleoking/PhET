@@ -43,7 +43,7 @@ public class BarChartsNode extends PComposite {
 
     private final PText equalitySignNode;
     private final PNode reactantsChartParent, productsChartParent;
-    private final SimpleObserver reactantCoefficientsObserver, productCoefficientsObserver;
+    private final SimpleObserver coefficientsObserver;
 
     private Equation equation;
 
@@ -59,13 +59,7 @@ public class BarChartsNode extends PComposite {
         equalitySignNode.setFont( new PhetFont( Font.BOLD, 60 ) );
         addChild( equalitySignNode );
 
-        reactantCoefficientsObserver = new SimpleObserver() {
-            public void update() {
-               updateAll();
-            }
-        };
-
-        productCoefficientsObserver = new SimpleObserver() {
+        coefficientsObserver = new SimpleObserver() {
             public void update() {
                updateAll();
             }
@@ -83,14 +77,14 @@ public class BarChartsNode extends PComposite {
 
             // disconnect observers from old equation
             if ( this.equation != null ) {
-                removeCoefficientObserver( this.equation.getReactants(), reactantCoefficientsObserver );
-                removeCoefficientObserver( this.equation.getProducts(), productCoefficientsObserver );
+                removeCoefficientObserver( this.equation.getReactants(), coefficientsObserver );
+                removeCoefficientObserver( this.equation.getProducts(), coefficientsObserver );
             }
 
             // add observers to new equation
             this.equation = equation;
-            addCoefficientObserver( this.equation.getReactants(), reactantCoefficientsObserver );
-            addCoefficientObserver( this.equation.getProducts(), productCoefficientsObserver );
+            addCoefficientObserver( this.equation.getReactants(), coefficientsObserver );
+            addCoefficientObserver( this.equation.getProducts(), coefficientsObserver );
 
             updateAll();
         }
