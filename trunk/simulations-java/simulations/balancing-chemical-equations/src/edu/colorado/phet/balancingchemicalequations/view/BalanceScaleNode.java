@@ -153,15 +153,10 @@ public class BalanceScaleNode extends PComposite {
      * Displays an atom count.
      */
     private static class CountNode extends PText {
-
         public CountNode( int count ) {
             setText( String.valueOf( count ) );
             setFont( new PhetFont( 14 ) );
             setTextPaint( Color.BLACK );
-        }
-
-        public void setCount( int count ) {
-            setText( String.valueOf( count ) );
         }
     }
 
