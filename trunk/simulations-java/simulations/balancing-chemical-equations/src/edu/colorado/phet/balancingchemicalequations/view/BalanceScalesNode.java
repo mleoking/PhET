@@ -103,7 +103,7 @@ public class BalanceScalesNode extends PComposite {
             BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.atom, atomCount.reactantsCount, atomCount.productsCount );
             scaleNode.setOffset( x, 0 );
             addChild( scaleNode );
-            x = scaleNode.getFullBoundsReference().getMaxX() + 100;
+            x = scaleNode.getFullBoundsReference().getMaxX() + 125;
         }
     }
 
