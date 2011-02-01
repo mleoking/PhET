@@ -217,7 +217,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final double TICK_MARK_HEIGHT = 8;
         private static final Font TICK_MARK_FONT = new PhetFont( 12 );
         private static final Stroke BAND_DIVIDER_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_BEVEL, 0, new float[]{3, 3}, 0);
+                BasicStroke.JOIN_BEVEL, 0, new float[]{4, 4}, 0);
         private static final Font LABEL_FONT = new PhetFont( 16 );
 
         private final double stripWidth;
@@ -254,7 +254,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addBandLabel( 1E9, 3E11, GreenhouseResources.getString( "SpectrumDialog.microwaveBandLabel" ) );
             addBandDivider( 3E11 );
             addBandLabel( 3E11, 1E14, GreenhouseResources.getString( "SpectrumDialog.infraredBandLabel" ) );
-            addBandLabel( 1E15, 1E16, GreenhouseResources.getString( "SpectrumDialog.ultravioletBandLabel" ) );
+            addBandLabel( 1E15, 8E15, GreenhouseResources.getString( "SpectrumDialog.ultravioletBandLabel" ) );
             addBandDivider( 1E16 );
             addBandLabel( 1E16, 1E19, GreenhouseResources.getString( "SpectrumDialog.xrayBandLabel" ) );
             addBandDivider( 1E19 );
