@@ -113,7 +113,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
     private static class SpectrumDiagram extends PNode {
 
         private static final Dimension OVERALL_DIMENSIONS = new Dimension( 670, 420 );
-        private static final double HORIZONTAL_INSET = 20;
+        private static final double HORIZONTAL_INSET = 30;
 
         public SpectrumDiagram(){
 
@@ -286,6 +286,18 @@ public class SpectrumDialog extends PaintImmediateDialog {
                     2 );
             visibleBandArrow.setPaint( Color.BLACK );
             spectrumRootNode.addChild( visibleBandArrow );
+
+            // Add the units.
+            // TODO: i18n
+            PText frequencyUnits = new PText("Hz");
+            frequencyUnits.setFont( LABEL_FONT );
+            frequencyUnits.setOffset( stripWidth, -TICK_MARK_HEIGHT - frequencyUnits.getFullBoundsReference().getHeight() );
+            spectrumRootNode.addChild( frequencyUnits );
+            // TODO: i18n
+            PText wavelengthUnits = new PText("m");
+            wavelengthUnits.setFont( LABEL_FONT );
+            wavelengthUnits.setOffset( stripWidth, STRIP_HEIGHT + TICK_MARK_HEIGHT + 5 );
+            spectrumRootNode.addChild( wavelengthUnits );
 
             // Set the offset of the root node to account for child nodes that
             // ended up with negative offsets when the layout was complete.
