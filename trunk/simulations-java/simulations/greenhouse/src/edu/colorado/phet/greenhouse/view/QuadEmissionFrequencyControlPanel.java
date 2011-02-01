@@ -36,7 +36,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This is a control panel that is intended for use in the play area and
- * that allows the setting of 4 different emission frequencies.
+ * that allows the setting of 4 different photon emission frequencies.
  *
  * @author John Blanco
  */
@@ -47,12 +47,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     // ------------------------------------------------------------------------
 
     private static final Color BACKGROUND_COLOR = new Color( 185, 178, 95 );
-//    private static final Dimension PANEL_SIZE = new Dimension( 800, 200 );
-    // TODO: Temporarily reduced size to accommodate reduced content, see other
-    // todo markers in this file.
     private static final Dimension PANEL_SIZE = new Dimension( 850, 150 );
-    private static final double EDGE_TO_ARROW_DISTANCE_X = 20;
-    private static final double EDGE_TO_ARROW_DISTANCE_Y = 0;
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -105,39 +100,9 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         wavelengthSelectorPanelNode.addChild( ultravioletSelectorNode );
         wavelengthSelectorPanelNode.setOffset( 0, 10 );
 
-        /*
-         * TODO: 1/13/2011 - Kelly L has suggested removing the spectrum due
-         * to confusion shown by interviewees - they interpreted it as the
-         * emission spectrum of hydrogen.  Remove permanently if and when this
-         * decision is finalized.
-        // Create a data structure that maps the wavelengths to the x
-        // positions of their selectors.  This is needed by the spectrum node
-        // in order to create a visual connection between the selection button
-        // and the selected range within the spectrum.
-        HashMap<Double, Double> mapWavelengthToXPos = new HashMap<Double, Double>(){{
-                put( GreenhouseConfig.microWavelength, wavelengthSelectorPanelNode.getXOffset() + microwaveSelectorNode.getFullBoundsReference().getCenterX() );
-                put( GreenhouseConfig.irWavelength, wavelengthSelectorPanelNode.getXOffset() + infraredSelectorNode.getFullBoundsReference().getCenterX() );
-                put( GreenhouseConfig.visibleWaveLength, wavelengthSelectorPanelNode.getXOffset() + visibleLightSelectorNode.getFullBoundsReference().getCenterX() );
-                put( GreenhouseConfig.uvWavelength, wavelengthSelectorPanelNode.getXOffset() + ultravioletSelectorNode.getFullBoundsReference().getCenterX() );
-        }};
-
-        // Create the node that represents the spectrum.
-        SpectrumNode spectrumNode = new SpectrumNode( (int) ( PANEL_SIZE.getWidth() * 0.9 ),
-                (int) ( PANEL_SIZE.getHeight() * 0.45 ), model, mapWavelengthToXPos );
-        spectrumNode.setOffset( PANEL_SIZE.getWidth() / 2 - spectrumNode.getFullBoundsReference().width / 2,
-                wavelengthSelectorPanelNode.getFullBoundsReference().getMaxY() );
-
-        // Add the caption.
-        PText title = new PText( GreenhouseResources.getString( "QuadWavelengthSelector.PhotonEnergy" ) );
-        title.setFont( new PhetFont( 28 ) );
-        title.setOffset( PANEL_SIZE.getWidth() / 2 - title.getFullBoundsReference().width / 2,
-                PANEL_SIZE.getHeight() - title.getFullBoundsReference().height - 15 );
-        backgroundNode.addChild( title );
-         */
 
         // Add the energy arrow.
-        // TODO: i18n
-        EnergyArrow energyArrow = new EnergyArrow( "Higher Energy", model ){{
+        EnergyArrow energyArrow = new EnergyArrow( GreenhouseResources.getString( "QuadWavelengthSelector.HigherEnergy" ), model ){{
             centerFullBoundsOnPoint( backgroundNode.getFullBoundsReference().getCenterX(),
                     PANEL_SIZE.getHeight() - getFullBoundsReference().height / 2 - 10 );
         }};
@@ -146,7 +111,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Add everything in the needed order.
         addChild( backgroundNode );
         backgroundNode.addChild( wavelengthSelectorPanelNode );
-//        addChild( spectrumNode );
     }
 
     // ------------------------------------------------------------------------
@@ -188,11 +152,9 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                 setSelected( photonAbsorptionModel.getEmittedPhotonWavelength() == wavelength );
             }};
 
-            // TODO: We received some feedback that the buttons were a little
-            // small, so the following scaling operation makes them bigger
-            // relative to the font.  Keep or discard once reviewed.  Note
-            // that the scaling factor combined with the font size control
-            // the relative size of the button.
+            // We received some feedback that the buttons were a little small,
+            // so the following scaling operation makes them bigger relative
+            // to the font.
             PSwing buttonNode = new PSwing( button ){{
                 setScale( 1.5 );
             }};
@@ -355,143 +317,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
                     arrowNode.getFullBoundsReference().getCenterX() - caption.getFullBoundsReference().width / 2,
                     arrowNode.getFullBoundsReference().getMaxY());
             addChild( caption );
-        }
-
-        /**
-         * Increase the current wavelength setting of the model.  Note that
-         * the implementation is less than ideal because it requires knowledge
-         * of the available wavelengths.  It may be desirable to make this
-         * more general some day.
-         */
-        private void increaseWavelength( PhotonAbsorptionModel model ){
-            if (model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
-            }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
-            }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.microWavelength );
-            }
-        }
-
-        /**
-         * Decrease the current wavelength setting of the model.  Note that
-         * the implementation is less than ideal because it requires knowledge
-         * of the available wavelengths.  It may be desirable to make this
-         * more general some day.
-         */
-        private void decreaseWavelength( PhotonAbsorptionModel model ){
-            if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
-            }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
-            }
-            else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.uvWavelength );
-            }
-        }
-    }
-
-
-    /**
-     * Class that defines the "energy arrow", which is an arrow on each side
-     * of the chart that indicates increasing or decreasing energy amounts.
-     *
-     * TODO: This is an older version of the energy arrow class that was used
-     * initially, when it was specified that there be two energy arrows on the
-     * control panel.  Get rid of this once we decide for certain to replace
-     * it with a single arrow.
-     *
-     * @author John Blanco
-     */
-    private static class EnergyArrow2 extends PNode {
-
-        private static final double ARROW_LENGTH = 60;
-        private static final double ARROW_HEAD_HEIGHT = 10;
-        private static final double ARROW_HEAD_WIDTH = 12;
-        private static final double ARROW_TAIL_WIDTH = 1;
-        private static final Color NORMAL_COLOR = Color.BLACK;
-        private static final Color HILITE_COLOR = Color.YELLOW;
-
-        public enum Direction { POINTS_LEFT, POINTS_RIGHT };
-
-        public EnergyArrow2( String captionText, final Direction direction, final PhotonAbsorptionModel model ){
-            HTMLNode caption = new HTMLNode( captionText );
-            caption.setFont( new PhetFont( 18, true ) );
-            addChild( caption );
-
-            Point2D headPoint, tailPoint;
-            double arrowXPos;
-            if ( direction == Direction.POINTS_LEFT ){
-                // Arrow points to the left.
-                headPoint = new Point2D.Double(0, 0);
-                tailPoint = new Point2D.Double(ARROW_LENGTH, 0);
-                caption.setOffset( ARROW_LENGTH + 10, ARROW_HEAD_WIDTH / 2 - caption.getFullBoundsReference().height / 2 );
-                arrowXPos = 0;
-            }
-            else{
-                // Arrow points to the right.
-                headPoint = new Point2D.Double(ARROW_LENGTH, 0);
-                tailPoint = new Point2D.Double(0, 0);
-                caption.setOffset( 0, ARROW_HEAD_WIDTH / 2 - caption.getFullBoundsReference().height / 2 );
-                arrowXPos = caption.getFullBoundsReference().width + 5;
-            }
-
-            final ArrowNode arrowNode = new ArrowNode( tailPoint, headPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ){{
-                setPaint( NORMAL_COLOR );
-                setStroke( new BasicStroke( 3 ) );
-            }};
-
-            // ArrowNodes, by default, are set up such that the horizontal
-            // left and vertical center of the arrow is at (0, 0).  This makes
-            // it tricky in this particular application to position the
-            // overall node where we want it, so the following line shifts the
-            // arrow such that the (0, 0) position for this entire node is its
-            // upper left corner (which is fairly typical amongst PNodes
-            // anyway).
-            arrowNode.setOffset( arrowXPos, arrowNode.getHeight() / 2 );
-
-            // Add the arrow node as a child.
-            addChild( arrowNode );
-        }
-
-
-        /**
-         * Increase the current wavelength setting of the model.  Note that
-         * the implementation is less than ideal because it requires knowledge
-         * of the available wavelengths.  It may be desirable to make this
-         * more general some day.
-         */
-        private void increaseWavelength( PhotonAbsorptionModel model ){
-            if (model.getEmittedPhotonWavelength() == GreenhouseConfig.uvWavelength){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
-            }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
-            }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.microWavelength );
-            }
-        }
-
-        /**
-         * Decrease the current wavelength setting of the model.  Note that
-         * the implementation is less than ideal because it requires knowledge
-         * of the available wavelengths.  It may be desirable to make this
-         * more general some day.
-         */
-        private void decreaseWavelength( PhotonAbsorptionModel model ){
-            if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.microWavelength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
-            }
-            else if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
-            }
-            else if (model.getEmittedPhotonWavelength() == GreenhouseConfig.visibleWaveLength ){
-                model.setEmittedPhotonWavelength( GreenhouseConfig.uvWavelength );
-            }
         }
     }
 }

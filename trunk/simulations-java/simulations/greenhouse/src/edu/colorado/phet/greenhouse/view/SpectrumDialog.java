@@ -20,7 +20,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -32,6 +31,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -90,8 +90,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         mainPanel.add( spacerPanel );
 
         // Add the close button.
-        // TODO: i18n
-        JButton closeButton = new JButton("Close");
+        JButton closeButton = new JButton( GreenhouseResources.getCommonString( "Common.choice.close" ));
         closeButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 SpectrumDialog.this.dispose();
@@ -120,16 +119,17 @@ public class SpectrumDialog extends PaintImmediateDialog {
         public SpectrumDiagram(){
 
             // Add the title.
-            // TODO: i18n
-            PText title = new PText("Light Spectrum");
+            PText title = new PText( GreenhouseResources.getString( "SpectrumDialog.title" ) );
             title.setFont( new PhetFont( 30 ) );
             title.setOffset( OVERALL_DIMENSIONS.getWidth() / 2 - title.getFullBoundsReference().width / 2, 10 );
             addChild( title );
 
             // Add the frequency arrow.
-            // TODO: i18n
-            LabeledArrow frequencyArrow = new LabeledArrow( OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
-                    LabeledArrow.Orientation.POINTING_RIGHT, "Increasing frequency and energy", new Color( 98, 93, 169 ),
+            LabeledArrow frequencyArrow = new LabeledArrow(
+                    OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
+                    LabeledArrow.Orientation.POINTING_RIGHT,
+                    GreenhouseResources.getString( "SpectrumDialog.frequencyArrowLabel" ),
+                    new Color( 98, 93, 169 ),
                     Color.WHITE );
             frequencyArrow.setOffset( HORIZONTAL_INSET, title.getFullBoundsReference().getMaxY() + 10 );
             addChild( frequencyArrow );
@@ -140,9 +140,11 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addChild( spectrum );
 
             // Add the wavelength arrow.
-            // TODO: i18n
-            LabeledArrow wavelengthArrow = new LabeledArrow( OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
-                    LabeledArrow.Orientation.POINTING_LEFT, "Increasing wavelength", Color.WHITE,
+            LabeledArrow wavelengthArrow = new LabeledArrow(
+                    OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
+                    LabeledArrow.Orientation.POINTING_LEFT,
+                    GreenhouseResources.getString( "SpectrumDialog.wavelengthArrowLabel" ),
+                    Color.WHITE,
                     new Color( 205, 99, 78 ) );
             wavelengthArrow.setOffset( HORIZONTAL_INSET, spectrum.getFullBoundsReference().getMaxY() + 10 );
             addChild( wavelengthArrow );
@@ -247,22 +249,16 @@ public class SpectrumDialog extends PaintImmediateDialog {
             }
 
             // Add the various bands.
-            // TODO: i18n
-            addBandLabel( 1E3, 1E9, "Radio" );
+            addBandLabel( 1E3, 1E9, GreenhouseResources.getString( "SpectrumDialog.radioBandLabel" ) );
             addBandDivider( 1E9 );
-            // TODO: i18n
-            addBandLabel( 1E9, 3E11, "Microwave" );
+            addBandLabel( 1E9, 3E11, GreenhouseResources.getString( "SpectrumDialog.microwaveBandLabel" ) );
             addBandDivider( 3E11 );
-            // TODO: i18n
-            addBandLabel( 3E11, 1E14, "Infrared" );
-            // TODO: i18n
-            addBandLabel( 1E15, 1E16, "<html><center>Ultra-<br>violet</html>" );
+            addBandLabel( 3E11, 1E14, GreenhouseResources.getString( "SpectrumDialog.infraredBandLabel" ) );
+            addBandLabel( 1E15, 1E16, GreenhouseResources.getString( "SpectrumDialog.ultravioletBandLabel" ) );
             addBandDivider( 1E16 );
-            // TODO: i18n
-            addBandLabel( 1E16, 1E19, "X-ray" );
+            addBandLabel( 1E16, 1E19, GreenhouseResources.getString( "SpectrumDialog.xrayBandLabel" ) );
             addBandDivider( 1E19 );
-            // TODO: i18n
-            addBandLabel( 1E19, 1E21, "<html><center>Gamma<br>ray</center></html>" );
+            addBandLabel( 1E19, 1E21, GreenhouseResources.getString( "SpectrumDialog.gammaRayBandLabel" ) );
 
             // Add the visible spectrum.
             int visSpectrumWidth = (int)Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
@@ -271,8 +267,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             spectrumRootNode.addChild( visibleSpectrum );
 
             // Add the label for the visible band.
-            // TODO: i18n
-            PText visibleBandLabel = new PText("Visible");
+            PText visibleBandLabel = new PText(GreenhouseResources.getString( "SpectrumDialog.visibleBandLabel" ));
             visibleBandLabel.setFont( LABEL_FONT );
             double visibleBandCenterX = getOffsetFromFrequency( 600E12 );
             visibleBandLabel.setOffset( visibleBandCenterX - visibleBandLabel.getFullBoundsReference().width / 2, -50 );
@@ -290,13 +285,11 @@ public class SpectrumDialog extends PaintImmediateDialog {
             spectrumRootNode.addChild( visibleBandArrow );
 
             // Add the units.
-            // TODO: i18n
-            PText frequencyUnits = new PText("Hz");
+            PText frequencyUnits = new PText( GreenhouseResources.getString( "SpectrumDialog.cyclesPerSecondUnits" ) );
             frequencyUnits.setFont( LABEL_FONT );
             frequencyUnits.setOffset( stripWidth, -TICK_MARK_HEIGHT - frequencyUnits.getFullBoundsReference().getHeight() );
             spectrumRootNode.addChild( frequencyUnits );
-            // TODO: i18n
-            PText wavelengthUnits = new PText("m");
+            PText wavelengthUnits = new PText( GreenhouseResources.getString( "SpectrumDialog.metersUnits" ) );
             wavelengthUnits.setFont( LABEL_FONT );
             wavelengthUnits.setOffset( stripWidth, STRIP_HEIGHT + TICK_MARK_HEIGHT + 5 );
             spectrumRootNode.addChild( wavelengthUnits );
