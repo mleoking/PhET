@@ -53,7 +53,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 double faucetDropVolume = faucetFlowLevel.automatic.getValue() ?
                                           origFluidVolume - newVolume :
                                           faucetFlowLevel.flow.getValue();
-                if ( faucetDropVolume > 0 ) {
+                if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
                     WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3,//magic number picked based on graphics
                                                                                  WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
                     faucetDrops.add( faucetDrop );

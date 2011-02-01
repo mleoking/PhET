@@ -90,4 +90,8 @@ public class WaterTower {
         fluidVolume.reset();
         panelOffset.reset();
     }
+
+    public boolean isFull() {
+        return fluidVolume.getValue() >= tankVolume;
+    }
 }
