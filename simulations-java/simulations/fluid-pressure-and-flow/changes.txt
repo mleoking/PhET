@@ -1,3 +1,4 @@
+Added english units to measuring tape
 Fixed: Faucet should shut off when tank full
 Fixed: Reset all broken
 Fixed: Faucet slider should gray out when in "auto" mode
