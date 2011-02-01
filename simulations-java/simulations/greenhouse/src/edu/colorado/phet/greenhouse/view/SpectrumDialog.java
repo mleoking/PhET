@@ -227,6 +227,9 @@ public class SpectrumDialog extends PaintImmediateDialog {
                 boolean includeLabel = i % 2 == 0;
                 addFrequencyTickMark( Math.pow( 10, i ), includeLabel );
             }
+
+            // Add the wavelength tick marks.
+            addWavelengthTickMark( 1E4, true );
         }
 
         /**
@@ -258,9 +261,9 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // Create and add the tick mark line.
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
-            path.lineTo( 0, TICK_MARK_HEIGHT );
+            path.lineTo( 0, -TICK_MARK_HEIGHT );
             PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
-            tickMarkNode.setOffset( getOffsetFromFrequency( frequency ), -TICK_MARK_HEIGHT );
+            tickMarkNode.setOffset( getOffsetFromFrequency( frequency ), 0 );
             addChild( tickMarkNode );
 
             if ( addLabel ){
@@ -269,6 +272,29 @@ public class SpectrumDialog extends PaintImmediateDialog {
                 label.setOffset(
                         tickMarkNode.getFullBoundsReference().getCenterX() - label.getFullBoundsReference().width / 2,
                         tickMarkNode.getFullBoundsReference().getMinY() - label.getFullBoundsReference().height );
+                addChild( label );
+            }
+        }
+
+        /**
+         * Add a tick mark for the specified frequency.  Frequency tick marks
+         * go on top of the strip.
+         */
+        private void addWavelengthTickMark( double wavelength, boolean addLabel ){
+            // Create and add the tick mark line.
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( 0, 0 );
+            path.lineTo( 0, TICK_MARK_HEIGHT );
+            PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
+            tickMarkNode.setOffset( getOffsetFromWavelength( wavelength ), STRIP_HEIGHT );
+            addChild( tickMarkNode );
+
+            if ( addLabel ){
+                // Create and add the label.
+                PNode label = createExponentialLabel( wavelength );
+                label.setOffset(
+                        tickMarkNode.getFullBoundsReference().getCenterX() - label.getFullBoundsReference().width / 2,
+                        tickMarkNode.getFullBoundsReference().getMaxY() );
                 addChild( label );
             }
         }
