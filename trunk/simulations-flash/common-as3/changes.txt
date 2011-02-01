@@ -1,3 +1,4 @@
+Added more RTL languages to the language list
 Fixed a problem that caused a nullpointerexception during startup from IDE + FP9
 Added extra padding for aswing text on CS4 sims
 Fixed a bug that caused common strings to not be loaded
