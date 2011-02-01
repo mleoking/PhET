@@ -89,7 +89,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         y = barChartsNode.getFullBoundsReference().getMaxY() + ySpacing;
         resetAllButtonNode.setOffset( x, y );
         x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxesNode.getFullBoundsReference().getCenterY() - ( faceNode.getFullBoundsReference().getHeight() / 2 );
+        y = boxesNode.getFullBoundsReference().getMaxY() - ( boxesNode.getFullBoundsReference().getHeight() / 4 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) ;
         faceNode.setOffset( x, y );
         x = resetAllButtonNode.getFullBoundsReference().getMaxX() + 40;
         y = resetAllButtonNode.getFullBoundsReference().getCenterY() - ( balancedEquationNode.getFullBoundsReference().getHeight() / 2 );

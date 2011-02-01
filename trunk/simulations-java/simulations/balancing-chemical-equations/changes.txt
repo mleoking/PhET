@@ -1,3 +1,4 @@
+1/31/11 make smiley face much smaller, change layout
 1/31/11 add dev node that shows the balanced equation
 1/31/11 partial implementation of balance scales view (fulcrums only)
 1/31/11 completed bar charts view with simplified horizontal alignment
