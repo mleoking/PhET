@@ -37,18 +37,18 @@ public class ReactorPictureDialog extends PaintImmediateDialog {
     //----------------------------------------------------------------------------
     private static final String IMAGE_FILE_NAME = "reactor_core.gif";
     private static final Font CAPTION_FONT = new PhetFont(12);
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     /**
      * Sole constructor.
-     * 
+     *
      * @param owner
      */
     public ReactorPictureDialog( Frame parentFrame ) {
-        
+
         super( parentFrame, true );
 
         setResizable( false );
@@ -56,25 +56,25 @@ public class ReactorPictureDialog extends PaintImmediateDialog {
         // picture
         BufferedImage image = NuclearPhysicsResources.getImage( IMAGE_FILE_NAME );
         JLabel picture = new JLabel( new ImageIcon( image ) );
-        picture.setSize( (int)image.getWidth(), (int)image.getHeight() );
-        
+        picture.setSize( image.getWidth(), image.getHeight() );
+
         // text
         JTextArea text = new JTextArea( NuclearPhysicsStrings.REACTOR_PICTURE_CAPTION );
         text.setFont( CAPTION_FONT );
         text.setColumns( 30 );
         text.setEditable( false );
         text.setOpaque( false );
-        
+
         // Workaround for issue where line wrapping doesn't seem to work
         // correctly for right-to-left languages, see Unfuddle #2448 for more
         // information.
-        if (ComponentOrientation.getOrientation(PhetResources.readLocale()).isLeftToRight()){ 
+        if (ComponentOrientation.getOrientation(PhetResources.readLocale()).isLeftToRight()){
             text.setLineWrap( true );
             text.setWrapStyleWord( true );
         }
-        
+
         // close button
-        JButton closeButton = new JButton("Close");
+        JButton closeButton = new JButton( NuclearPhysicsStrings.CLOSE_BUTTON_CAPTION );
         closeButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 ReactorPictureDialog.this.dispose();
@@ -96,7 +96,8 @@ public class ReactorPictureDialog extends PaintImmediateDialog {
         getContentPane().add( panel );
         pack();
     }
-    
+
+    @Override
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
