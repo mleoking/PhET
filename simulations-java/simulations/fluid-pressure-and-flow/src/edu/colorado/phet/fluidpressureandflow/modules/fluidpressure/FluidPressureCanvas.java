@@ -43,7 +43,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( englishRuler );
 
         final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().liquidDensity );
-
         addChild( poolNode );
 
         // Control Panel

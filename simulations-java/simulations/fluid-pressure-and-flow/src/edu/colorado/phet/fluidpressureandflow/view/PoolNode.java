@@ -63,7 +63,7 @@ public class PoolNode extends PNode {
     private static final double HONEY_DENSITY = 1360;
     private static final Color honeyColor = new Color( 255, 191, 0 );
     private static final Color gasColor = Color.gray;
-    private static final Property<Color> waterColor = new Property<Color>( new Color( 100, 214, 247 ) );
+    public static final Property<Color> waterColor = new Property<Color>( new Color( 100, 214, 247 ) );
 
     {
         if ( false ) {//debug color choice

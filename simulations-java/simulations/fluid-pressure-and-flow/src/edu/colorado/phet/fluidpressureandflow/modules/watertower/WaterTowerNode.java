@@ -6,12 +6,14 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.view.PoolNode;
 import edu.colorado.phet.fluidpressureandflow.view.RelativeDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -22,9 +24,9 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplica
  * @author Sam Reid
  */
 public class WaterTowerNode extends PNode {
-    public static final Color WATER_COLOR = Color.blue;
+//    public static final Color WATER_COLOR = Color.blue;
 
-    public WaterTowerNode( final ModelViewTransform transform, final WaterTower waterTower ) {
+    public WaterTowerNode( final ModelViewTransform transform, final WaterTower waterTower, final Property<Double> fluidDensity ) {
 
         //Handle
         addChild( new PImage( RESOURCES.getImage( "handle.png" ) ) {{
@@ -44,7 +46,15 @@ public class WaterTowerNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( Color.gray, new BasicStroke( 5 ), Color.darkGray ) {{ // tank
+        addChild( new PhetPPath( Color.gray, new BasicStroke( 8 ), Color.black ) {{ // tank outline
+            waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.modelToView( waterTower.getTankShape() ) );
+                }
+            } );
+        }} );
+
+        addChild( new PhetPPath( Color.gray ) {{ // chop off the inner part of the tank stroke from above
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( waterTower.getTankShape() ) );
@@ -60,7 +70,12 @@ public class WaterTowerNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( WATER_COLOR ) {{
+        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) ) {{
+            fluidDensity.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) );
+                }
+            } );
             final SimpleObserver updateWaterLocation = new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( waterTower.getWaterShape() ) );
