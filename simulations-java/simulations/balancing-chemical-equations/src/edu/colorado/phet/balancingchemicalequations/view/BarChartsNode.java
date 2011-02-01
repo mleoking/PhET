@@ -3,8 +3,10 @@
 package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.BCESymbols;
+import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -17,39 +19,55 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Visual representation of an equation as a pair of bar charts, for left and right side of equation.
  * An indicator between the charts (equals or not equals) indicates whether they are balanced.
+ * <p>
+ * This implementation is very brute force, just about everything is recreated each time
+ * a coefficient is changed in the equations.  But we have a small number of coefficients,
+ * and nothing else is happening in the sim.  So we're trading efficiency for simplcity of
+ * implementation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BarChartsNode extends PComposite {
 
-    private final PText equalityNode;
-    private final PNode reactantsParent, productsParent;
+    // Internal data structure for counting the number of each atom type.
+    private static class AtomCount {
+
+        public final Atom atom;
+        public int count;
+
+        public AtomCount( Atom atom, int count ) {
+            this.atom = atom;
+            this.count = count;
+        }
+    }
+
+    private final PText equalitySignNode;
+    private final PNode reactantsChartParent, productsChartParent;
     private final SimpleObserver reactantCoefficientsObserver, productCoefficientsObserver;
 
     private Equation equation;
 
     public BarChartsNode( final Property<Equation> equationProperty ) {
 
-        reactantsParent = new PComposite();
-        addChild( reactantsParent );
-        productsParent = new PComposite();
-        addChild( productsParent );
+        reactantsChartParent = new PComposite();
+        addChild( reactantsChartParent );
 
-        equalityNode = new PText();
-        equalityNode.setFont( new PhetFont( Font.BOLD, 60 ) );
-        addChild( equalityNode );
+        productsChartParent = new PComposite();
+        addChild( productsChartParent );
+
+        equalitySignNode = new PText();
+        equalitySignNode.setFont( new PhetFont( Font.BOLD, 60 ) );
+        addChild( equalitySignNode );
 
         reactantCoefficientsObserver = new SimpleObserver() {
             public void update() {
-               updateReactantsChart();
-               updateEquality();
+               updateAll();
             }
         };
 
         productCoefficientsObserver = new SimpleObserver() {
             public void update() {
-               updateProductsChart();
-               updateEquality();
+               updateAll();
             }
         };
 
@@ -63,51 +81,116 @@ public class BarChartsNode extends PComposite {
     private void setEquation( Equation equation ) {
         if ( equation != this.equation ) {
 
+            // disconnect observers from old equation
             if ( this.equation != null ) {
                 removeCoefficientObserver( this.equation.getReactants(), reactantCoefficientsObserver );
                 removeCoefficientObserver( this.equation.getProducts(), productCoefficientsObserver );
             }
+
+            // add observers to new equation
             this.equation = equation;
             addCoefficientObserver( this.equation.getReactants(), reactantCoefficientsObserver );
             addCoefficientObserver( this.equation.getProducts(), productCoefficientsObserver );
 
-            updateReactantsChart();
-            updateProductsChart();
-            updateEquality();
+            updateAll();
         }
     }
 
+    /*
+     * Adds an observer to all coefficients.
+     */
     private void addCoefficientObserver( EquationTerm[] terms, SimpleObserver observer ) {
         for ( EquationTerm term : terms ) {
             term.getActualCoefficientProperty().addObserver( observer );
         }
     }
 
+    /*
+     * Removes an observer from all coefficients.
+     */
     private void removeCoefficientObserver( EquationTerm[] terms, SimpleObserver observer ) {
         for ( EquationTerm term : terms ) {
             term.getActualCoefficientProperty().removeObserver( observer );
         }
     }
 
-    private void updateReactantsChart() {
-        updateChart( reactantsParent, equation.getReactants() );
+    /*
+     * Updates this node's entire geometry and layout
+     */
+    private void updateAll() {
+        updateChart( reactantsChartParent, equation.getReactants() );
+        updateChart( productsChartParent, equation.getProducts() );
+        updateEqualitySign();
+        updateLayout();
     }
 
-    private void updateProductsChart() {
-        updateChart( productsParent, equation.getProducts() );
-    }
-
-    private void updateChart( PNode parent, EquationTerm[] terms ) {
+    /*
+     * Creates a bar chart under a parent node.
+     */
+    private static void updateChart( PNode parent, EquationTerm[] terms ) {
         parent.removeAllChildren();
-        //XXX
+        double x = 0;
+        ArrayList<AtomCount> atomCounts = countAtoms( terms );
+        for ( AtomCount atomCount : atomCounts ) {
+            BarNode barNode = new BarNode( atomCount.atom, atomCount.count );
+            barNode.setOffset( x, 0 );
+            parent.addChild( barNode );
+            x = barNode.getFullBoundsReference().getMaxX() + 40;
+        }
     }
 
-    private void updateEquality() {
-        if ( equation.isBalanced() ) {
-            equalityNode.setText( BCESymbols.EQUALS );
+    /*
+     * Updates the equality sign.
+     */
+    private void updateEqualitySign() {
+        if ( equation.allCoefficientsZero() || equation.isBalanced() ) {
+            equalitySignNode.setText( BCESymbols.EQUALS );
         }
         else {
-            equalityNode.setText( BCESymbols.NOT_EQUALS );
+            equalitySignNode.setText( BCESymbols.NOT_EQUALS );
         }
+    }
+
+    /*
+     * Updates the layout.
+     */
+    //TODO implement horizontal alignment with equation terms
+    private void updateLayout() {
+        double x = 0;
+        double y = 0;
+        reactantsChartParent.setOffset( x, y );
+        x = reactantsChartParent.getFullBoundsReference().getMaxX() + 40;
+        y = -equalitySignNode.getFullBoundsReference().getHeight();
+        equalitySignNode.setOffset( x, y );
+        x = equalitySignNode.getFullBoundsReference().getMaxX() + 40;
+        y = reactantsChartParent.getYOffset();
+        productsChartParent.setOffset( x, y );
+    }
+
+    /*
+     * Given a set of terms, returns a count of each type of atom.
+     * This is a brute force algorithm, but our number of terms is always small,
+     * and this is easy to implement and understand.
+     */
+    private static ArrayList<AtomCount> countAtoms( EquationTerm[] terms ) {
+        ArrayList<AtomCount> atomCounts = new ArrayList<AtomCount>();
+        for ( EquationTerm term : terms ) {
+            for ( Atom atom : term.getMolecule().getAtoms() ) {
+                boolean found = false;
+                for ( AtomCount count : atomCounts ) {
+                    // add to an existing atom count
+                    if ( count.atom.getClass().equals( atom.getClass() ) ) {
+                        count.count += term.getActualCoefficient();
+                        found = true;
+                        break;
+                    }
+                }
+                // if not existing atom count was found, create one.
+                if ( !found ) {
+                    atomCounts.add( new AtomCount( atom, term.getActualCoefficient() ) );
+                }
+            }
+        }
+        return atomCounts;
     }
 }
