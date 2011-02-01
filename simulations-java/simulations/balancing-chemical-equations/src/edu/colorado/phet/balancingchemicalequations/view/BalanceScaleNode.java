@@ -29,7 +29,6 @@ public class BalanceScaleNode extends PComposite {
 
     private final Atom atom;
     private final ArrayList<AtomNode> atomNodes;
-    private BeamNode beamNode;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
 
     public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms ) {
@@ -42,6 +41,9 @@ public class BalanceScaleNode extends PComposite {
 
         FulcrumNode fulcrumNode = new FulcrumNode( atom );
         addChild( fulcrumNode );
+
+        BeamNode beamNode = new BeamNode();
+        addChild( beamNode );
 
         update();
     }
@@ -56,14 +58,9 @@ public class BalanceScaleNode extends PComposite {
 
     private void update() {
 
-        // beam, with appropriate tilt
-        if ( beamNode != null ) {
-            removeChild( beamNode );
-        }
-        beamNode = new BeamNode( leftNumberOfAtoms - rightNumberOfAtoms, FulcrumNode.SIZE.getHeight() );
-        addChild( beamNode );
+        //TODO put atoms on beam to match leftNumberOfAtoms and rightNumberOfAtoms
 
-        // update to match leftNumberOfAtoms and rightNumberOfAtoms
+        //TODO rotate beam and atoms on fulcrum
     }
 
     /*
@@ -77,18 +74,17 @@ public class BalanceScaleNode extends PComposite {
     }
 
     /*
-     * The beam is a horizontal lever, centered on the fulcrum, and pivoted
-     * to represent the relationship between quantities on either side of the fulcrum.
+     * The beam is a horizontal lever, centered on the fulcrum.
+     * It will be pivoted to represent the relationship between quantities on either side of the fulcrum.
      */
     private static class BeamNode extends PPath {
 
-        private static final int LENGTH = 200;
-        private static final int DIFFERENCE_FOR_MAX_TILT = 4;
+        private static final double LENGTH = 200;
 
-        public BeamNode( int difference, double fulcrumHeight ) {
+        public BeamNode() {
             Line2D line = new Line2D.Double( -LENGTH / 2, 0, LENGTH / 2, 0 );
             setPathTo( line );
-            setStroke( new BasicStroke( 1f ) );
+            setStroke( new BasicStroke( 2f ) );
             setStrokePaint( Color.BLACK );
         }
     }
