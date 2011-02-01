@@ -145,8 +145,12 @@ public class MeasuringTape extends PhetPNode {
         endGraphic.setOffset( viewDst.getX() - endGraphic.getShapeGraphic().getWidth() / 2, viewDst.getY() - endGraphic.getShapeGraphic().getHeight() / 2 );
 
         double modelDistance = new Vector2D( modelSrc, modelDst ).getMagnitude();
-        readoutGraphic.setDistance( modelDistance );
+        readoutGraphic.setDistance( modelDistanceToReadoutDistance( modelDistance ) );
         readoutGraphic.setOffset( viewSrc.x, (int) ( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
+    }
+
+    protected double modelDistanceToReadoutDistance( double modelDistance ) {
+        return modelDistance;
     }
 
     public void setTapePaint( Paint paint ) {
