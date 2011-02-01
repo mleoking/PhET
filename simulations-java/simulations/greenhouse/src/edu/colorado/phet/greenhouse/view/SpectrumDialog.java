@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -208,6 +209,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final double MAX_FREQUENCY = 1E21;
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( 2f );
         private static final double TICK_MARK_HEIGHT = 8;
+        private static final Font TICK_MARK_FONT = new PhetFont( 12 );
 
         private final double stripWidth;
 
@@ -220,8 +222,11 @@ public class SpectrumDialog extends PaintImmediateDialog {
                     new BasicStroke( 2f ), Color.BLACK );
             addChild( strip );
 
-            // Tick marks
-            addFrequencyTickMark( 1E4 );
+            // Add the frequency tick marks to the top of the spectrum strip.
+            for ( int i = 4; i <= 20; i++ ){
+                boolean includeLabel = i % 2 == 0;
+                addFrequencyTickMark( Math.pow( 10, i ), includeLabel );
+            }
         }
 
         /**
@@ -249,13 +254,30 @@ public class SpectrumDialog extends PaintImmediateDialog {
          * Add a tick mark for the specified frequency.  Frequency tick marks
          * go on top of the strip.
          */
-        private void addFrequencyTickMark( double frequency ){
+        private void addFrequencyTickMark( double frequency, boolean addLabel ){
+            // Create and add the tick mark line.
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
             path.lineTo( 0, TICK_MARK_HEIGHT );
             PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
             tickMarkNode.setOffset( getOffsetFromFrequency( frequency ), -TICK_MARK_HEIGHT );
             addChild( tickMarkNode );
+
+            if ( addLabel ){
+                // Create and add the label.
+                PNode label = createExponentialLabel( frequency );
+                label.setOffset(
+                        tickMarkNode.getFullBoundsReference().getCenterX() - label.getFullBoundsReference().width / 2,
+                        tickMarkNode.getFullBoundsReference().getMinY() - label.getFullBoundsReference().height );
+                addChild( label );
+            }
+        }
+
+        private PNode createExponentialLabel( double value ){
+            int superscript = (int)Math.round( Math.log10( value ) );
+            HTMLNode label = new HTMLNode( "<html>10<sup>" + superscript + "</sup></html>" );
+            label.setFont( TICK_MARK_FONT );
+            return label;
         }
     }
 
