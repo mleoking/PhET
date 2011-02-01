@@ -28,7 +28,7 @@ public class CO extends Molecule {
 
     private final CarbonAtom carbonAtom = new CarbonAtom();
     private final OxygenAtom oxygenAtom = new OxygenAtom();
-    private final AtomicBond carbonOxygenBond = new AtomicBond( carbonAtom, oxygenAtom, 2 );
+    private final AtomicBond carbonOxygenBond = new AtomicBond( carbonAtom, oxygenAtom, 3 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
