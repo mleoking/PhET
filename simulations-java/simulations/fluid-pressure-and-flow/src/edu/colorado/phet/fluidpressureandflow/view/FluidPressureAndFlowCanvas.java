@@ -3,6 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -92,6 +94,20 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
             addChild( fluidDensityControl );
             addChild( fluidDensityExpander );
         }
+    }
+
+    protected void synchronizeRulerLocations( final MeterStick meterStick, final EnglishRuler englishRuler ) {
+        //Make sure they remain at the same location so that toggling units won't move the ruler
+        englishRuler.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                meterStick.setOffset( englishRuler.getOffset() );
+            }
+        } );
+        meterStick.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                englishRuler.setOffset( meterStick.getOffset() );
+            }
+        } );
     }
 
 //    public static class GravityControl{

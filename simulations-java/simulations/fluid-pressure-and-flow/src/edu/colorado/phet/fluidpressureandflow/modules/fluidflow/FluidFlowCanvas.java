@@ -137,8 +137,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
-        addChild( new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin ) );
-        addChild( new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin ) );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin );
+        synchronizeRulerLocations( meterStick, englishRuler );
+        addChild( meterStick );
+        addChild( englishRuler );
 
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
             module.addListener( new Module.Listener() {
