@@ -83,7 +83,15 @@ public class FlashCommon {
     public static var LINK_STYLE_SHEET: StyleSheet;
     public static var CENTERED_LINK_STYLE_SHEET: StyleSheet;
     private var _aswingPadding: Boolean = true;
-    private const rtlLanguageList: Array = ["ar","iw"];
+
+    //See these pages for a list of RTL Languages:
+    //http://en.wikipedia.org/wiki/Right-to-left
+    // and
+    //http://www.i18nguy.com/temp/rtl.html
+    // and this page for their language codes
+    //http://en.wikipedia.org/wiki/ISO_639-1_language_matrix
+
+    private const rtlLanguageList: Array = ["ar","iw","fa","ur","yi","jv","so"];
 
     public static function getInstance(): FlashCommon {
         if ( instance == null ) {
