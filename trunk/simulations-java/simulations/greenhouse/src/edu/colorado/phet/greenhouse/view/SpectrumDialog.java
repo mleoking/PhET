@@ -210,6 +210,8 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( 2f );
         private static final double TICK_MARK_HEIGHT = 8;
         private static final Font TICK_MARK_FONT = new PhetFont( 12 );
+        private static final Stroke BAND_DIVIDER_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_BEVEL, 0, new float[]{3, 3}, 0);
 
         private final double stripWidth;
 
@@ -229,7 +231,16 @@ public class SpectrumDialog extends PaintImmediateDialog {
             }
 
             // Add the wavelength tick marks.
-            addWavelengthTickMark( 1E4, true );
+            for ( int i = -12; i <= 4; i++ ){
+                boolean includeLabel = i % 2 == 0;
+                addWavelengthTickMark( Math.pow( 10, i ), includeLabel );
+            }
+
+            // Add the various bands.
+            addBandDivider( 1E9 );
+            addBandDivider( 3E11 );
+            addBandDivider( 1E16 );
+            addBandDivider( 1E19 );
         }
 
         /**
@@ -304,6 +315,23 @@ public class SpectrumDialog extends PaintImmediateDialog {
             HTMLNode label = new HTMLNode( "<html>10<sup>" + superscript + "</sup></html>" );
             label.setFont( TICK_MARK_FONT );
             return label;
+        }
+
+        /**
+         * Add a "band divider" at the given frequency.  A band divider is            PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
+            tickMarkNode.setOffset( getOffsetFromWavelength( wavelength ), STRIP_HEIGHT );
+            addChild( tickMarkNode );
+
+         * a dotted line that spans the spectrum strip in the vertical
+         * direction.
+         */
+        private void addBandDivider( double frequency ){
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( 0, 0 );
+            path.lineTo( 0, STRIP_HEIGHT );
+            PNode bandDividerNode = new PhetPPath( path.getGeneralPath(), BAND_DIVIDER_STROKE, Color.BLACK );
+            bandDividerNode.setOffset( getOffsetFromFrequency( frequency ), 0 );
+            addChild( bandDividerNode );
         }
     }
 
