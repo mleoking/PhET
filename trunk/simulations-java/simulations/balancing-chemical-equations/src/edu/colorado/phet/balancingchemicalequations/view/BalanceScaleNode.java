@@ -9,8 +9,6 @@ import java.awt.Paint;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -32,7 +30,6 @@ public class BalanceScaleNode extends PComposite {
     private final Atom atom;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
     private final PNode atomPilesParentNode;
-    private final CountNode leftCountNode, rightCountNode;
 
     public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms ) {
 
@@ -45,32 +42,6 @@ public class BalanceScaleNode extends PComposite {
 
         BeamNode beamNode = new BeamNode();
         addChild( beamNode );
-
-        leftCountNode = new CountNode( leftNumberOfAtoms );
-        addChild( leftCountNode );
-        leftCountNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    // place to the left of the fulcrum
-                    double x = fulcrumNode.getFullBoundsReference().getMinX() - leftCountNode.getFullBoundsReference().getWidth() - 2;
-                    double y = fulcrumNode.getFullBoundsReference().getMaxY() - leftCountNode.getFullBoundsReference().getHeight();
-                    leftCountNode.setOffset( x, y );
-                }
-            }
-        } );
-
-        rightCountNode = new CountNode( rightNumberOfAtoms );
-        addChild( rightCountNode );
-        rightCountNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
-                    // place to the right of the fulcrum
-                    double x = fulcrumNode.getFullBoundsReference().getMaxX() + 2;
-                    double y = fulcrumNode.getFullBoundsReference().getMaxY() - rightCountNode.getFullBoundsReference().getHeight();
-                    rightCountNode.setOffset( x, y );
-                }
-            }
-        } );
 
         atomPilesParentNode = new PComposite();
         addChild( atomPilesParentNode );
@@ -95,19 +66,31 @@ public class BalanceScaleNode extends PComposite {
 
     private void updateNode() {
 
-        leftCountNode.setCount( leftNumberOfAtoms );
-        rightCountNode.setCount( rightNumberOfAtoms );
-
         atomPilesParentNode.removeAllChildren();
 
-        // create piles of atoms
+        // left pile of atoms, centered on left-half of beam
         PNode leftPileNode = createAtomPile( leftNumberOfAtoms, atom );
         leftPileNode.setOffset( -( 0.25 * BeamNode.LENGTH ) - ( leftPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         atomPilesParentNode.addChild( leftPileNode );
 
+        // right pile of atoms, centered on right-half of beam
         PNode rightPileNode = createAtomPile( rightNumberOfAtoms, atom );
         rightPileNode.setOffset( ( 0.25 * BeamNode.LENGTH ) - ( rightPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         atomPilesParentNode.addChild( rightPileNode );
+
+        // left count, centered above left pile
+        CountNode leftCountNode = new CountNode( leftNumberOfAtoms );
+        addChild( leftCountNode );
+        double x = leftPileNode.getXOffset() + ( leftPileNode.getFullBoundsReference().getWidth() / 2 ) - ( leftCountNode.getFullBoundsReference().getWidth() / 2 );
+        double y = leftPileNode.getFullBoundsReference().getMinY() - leftCountNode.getFullBoundsReference().getHeight() - 2;
+        leftCountNode.setOffset( x, y );
+
+        // right count, centered above right pile
+        CountNode rightCountNode = new CountNode( rightNumberOfAtoms );
+        addChild( rightCountNode );
+        x = rightPileNode.getXOffset() + ( rightPileNode.getFullBoundsReference().getWidth() / 2 ) - ( rightCountNode.getFullBoundsReference().getWidth() / 2 );
+        y = rightPileNode.getFullBoundsReference().getMinY() - rightCountNode.getFullBoundsReference().getHeight() - 2;
+        rightCountNode.setOffset( x, y );
 
         //TODO rotate beam and atoms on fulcrum
     }
@@ -130,7 +113,6 @@ public class BalanceScaleNode extends PComposite {
             parent.addChild( atomNode );
 
             atomNode.setOffset( x, y - atomNode.getFullBoundsReference().getHeight() );
-//            atomNode.setOffset( x - ( ( atomsInBase * atomNode.getFullBoundsReference().getWidth() ) / 2 ), y - atomNode.getFullBoundsReference().getHeight() );
 
             atomsInRow--;
             if ( atomsInRow > 0 ) {
