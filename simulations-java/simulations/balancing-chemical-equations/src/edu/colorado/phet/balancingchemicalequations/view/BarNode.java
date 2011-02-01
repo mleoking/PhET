@@ -39,8 +39,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BarNode extends PComposite {
 
-    private static final int MAX_NUMBER_OF_ATOMS = 16;
-    private static final PDimension MAX_BAR_SIZE = new PDimension( 30, 110 );
+    private static final int MAX_NUMBER_OF_ATOMS = 12;
+    private static final PDimension MAX_BAR_SIZE = new PDimension( 25, 80 );
     private static final PDimension ARROW_SIZE = new PDimension( 1.5 * MAX_BAR_SIZE.getWidth(), 10 );
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
@@ -91,13 +91,13 @@ public class BarNode extends PComposite {
         else {
             // bar with upward-pointing arrow, path is specified clockwise from arrow tip.
             GeneralPath arrowPath = new GeneralPath();
-            arrowPath.moveTo( 0f, (float) -( MAX_BAR_SIZE.getHeight() + ARROW_SIZE.getHeight() ) );
-            arrowPath.lineTo( (float) ARROW_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
-            arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
+            arrowPath.moveTo( 0f, (float) -MAX_BAR_SIZE.getHeight() );
+            arrowPath.lineTo( (float) ARROW_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
+            arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
             arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, 0f );
             arrowPath.lineTo( (float) -MAX_BAR_SIZE.getWidth() / 2, 0f );
-            arrowPath.lineTo( (float) -MAX_BAR_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
-            arrowPath.lineTo( (float) -ARROW_SIZE.getWidth() / 2, (float) -MAX_BAR_SIZE.getHeight() );
+            arrowPath.lineTo( (float) -MAX_BAR_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
+            arrowPath.lineTo( (float) -ARROW_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
             arrowPath.closePath();
             barNode.setPathTo( arrowPath );
         }

@@ -1,3 +1,4 @@
+2/1/11 reduce max limit of bars, don't add additional height for arrows, reduce size of bars
 1/31/11 add dev team credits
 1/31/11 make smiley face much smaller, change layout
 1/31/11 add dev node that shows the balanced equation
