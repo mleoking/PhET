@@ -115,6 +115,24 @@ public abstract class Equation {
         return balancedWithLowestCoefficientsProperty;
     }
 
+    public boolean allCoefficientsZero() {
+        boolean allZero = true;
+        for ( EquationTerm term : reactants ) {
+            if ( term.getActualCoefficient() > 0 ) {
+                allZero = false;
+                break;
+            }
+        }
+        if ( allZero ) {
+            for ( EquationTerm term : products ) {
+                if ( term.getActualCoefficient() > 0 ) {
+                    allZero = false;
+                }
+            }
+        }
+        return allZero;
+    }
+
     public void reset() {
         for ( EquationTerm term : reactants ) {
             term.reset();

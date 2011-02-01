@@ -37,10 +37,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NumberOfAtomsBarNode extends PComposite {
+public class BarNode extends PComposite {
 
     private static final int MAX_NUMBER_OF_ATOMS = 16;
-    private static final PDimension MAX_BAR_SIZE = new PDimension( 20, 70 );
+    private static final PDimension MAX_BAR_SIZE = new PDimension( 30, 110 );
     private static final PDimension ARROW_SIZE = new PDimension( 1.5 * MAX_BAR_SIZE.getWidth(), 10 );
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
@@ -48,9 +48,9 @@ public class NumberOfAtomsBarNode extends PComposite {
     private final Atom atom;
     private int numberOfAtoms;
 
-    public NumberOfAtomsBarNode( Atom atom ) {
+    public BarNode( Atom atom, int numberOfAtoms ) {
         this.atom = atom;
-        this.numberOfAtoms = 0;
+        this.numberOfAtoms = numberOfAtoms;
         update();
     }
 
@@ -137,8 +137,7 @@ public class NumberOfAtomsBarNode extends PComposite {
         final int numberOfAtoms = 0;
 
         // bar
-        final NumberOfAtomsBarNode barNode = new NumberOfAtomsBarNode( new N() );
-        barNode.setNumberOfAtoms( numberOfAtoms );
+        final BarNode barNode = new BarNode( new N(), numberOfAtoms );
         barNode.setOffset( 100, 200 );
 
         // control
@@ -163,7 +162,7 @@ public class NumberOfAtomsBarNode extends PComposite {
         canvas.getLayer().addChild( sliderNode );
 
         // frame
-        JFrame frame = new JFrame( NumberOfAtomsBarNode.class.getName() );
+        JFrame frame = new JFrame( BarNode.class.getName() );
         frame.setContentPane( canvas );
         frame.pack();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
