@@ -15,12 +15,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -446,5 +448,14 @@ public class SpectrumDialog extends PaintImmediateDialog {
             squigglyLine.setStroke( new BasicStroke( 2f ) );
             addChild( squigglyLine );
         }
+    }
+
+    public static void main( String[] args ) {
+
+        // Frame
+        JDialog dialog = new SpectrumDialog( null );
+        dialog.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        dialog.setLocation( 200, 100 );
+        dialog.setVisible( true );
     }
 }
