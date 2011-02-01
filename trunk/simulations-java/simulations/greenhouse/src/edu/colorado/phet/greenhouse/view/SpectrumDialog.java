@@ -129,7 +129,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
                     OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
                     LabeledArrow.Orientation.POINTING_RIGHT,
                     GreenhouseResources.getString( "SpectrumDialog.frequencyArrowLabel" ),
-                    new Color( 98, 93, 169 ),
+                    new Color( 225, 142, 255 ),
                     Color.WHITE );
             frequencyArrow.setOffset( HORIZONTAL_INSET, title.getFullBoundsReference().getMaxY() + 10 );
             addChild( frequencyArrow );
@@ -145,7 +145,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
                     LabeledArrow.Orientation.POINTING_LEFT,
                     GreenhouseResources.getString( "SpectrumDialog.wavelengthArrowLabel" ),
                     Color.WHITE,
-                    new Color( 205, 99, 78 ) );
+                    new Color( 235, 129, 98 ) );
             wavelengthArrow.setOffset( HORIZONTAL_INSET, spectrum.getFullBoundsReference().getMaxY() + 10 );
             addChild( wavelengthArrow );
 
@@ -232,7 +232,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // Create the "strip", which is the solid background portions that
             // contains the different bands and that has tick marks on the top
             // and bottom.
-            PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(217, 223, 226),
+            PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(237, 243, 246),
                     new BasicStroke( 2f ), Color.BLACK );
             spectrumRootNode.addChild( strip );
 
@@ -424,7 +424,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // Create and add the boundary and background.
             double boundingBoxHeight = width * 0.1; // Arbitrary, adjust as needed.
             PNode boundingBox = new PhetPPath(new Rectangle2D.Double( 0, 0, width, width * 0.1 ),
-                    new Color(217, 223, 226), new BasicStroke(2f), Color.black );
+                    new Color(237, 243, 246), new BasicStroke(2f), Color.black );
             addChild( boundingBox );
 
             // Create the line that represents the decreasing wavelength.
