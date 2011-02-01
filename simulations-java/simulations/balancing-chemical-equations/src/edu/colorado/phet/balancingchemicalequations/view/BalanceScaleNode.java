@@ -9,10 +9,12 @@ import java.awt.Paint;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -28,8 +30,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BalanceScaleNode extends PComposite {
 
     private final Atom atom;
-    private final ArrayList<AtomNode> atomNodes;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
+    private final PNode atomPilesParentNode;
+    private final CountNode leftCountNode, rightCountNode;
 
     public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms ) {
 
@@ -37,30 +40,121 @@ public class BalanceScaleNode extends PComposite {
         this.leftNumberOfAtoms = leftNumberOfAtoms;
         this.rightNumberOfAtoms = rightNumberOfAtoms;
 
-        this.atomNodes = new ArrayList<AtomNode>();
-
-        FulcrumNode fulcrumNode = new FulcrumNode( atom );
+        final FulcrumNode fulcrumNode = new FulcrumNode( atom );
         addChild( fulcrumNode );
 
         BeamNode beamNode = new BeamNode();
         addChild( beamNode );
 
-        update();
+        leftCountNode = new CountNode( leftNumberOfAtoms );
+        addChild( leftCountNode );
+        leftCountNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                    // place to the left of the fulcrum
+                    double x = fulcrumNode.getFullBoundsReference().getMinX() - leftCountNode.getFullBoundsReference().getWidth() - 2;
+                    double y = fulcrumNode.getFullBoundsReference().getMaxY() - leftCountNode.getFullBoundsReference().getHeight();
+                    leftCountNode.setOffset( x, y );
+                }
+            }
+        } );
+
+        rightCountNode = new CountNode( rightNumberOfAtoms );
+        addChild( rightCountNode );
+        rightCountNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                    // place to the right of the fulcrum
+                    double x = fulcrumNode.getFullBoundsReference().getMaxX() + 2;
+                    double y = fulcrumNode.getFullBoundsReference().getMaxY() - rightCountNode.getFullBoundsReference().getHeight();
+                    rightCountNode.setOffset( x, y );
+                }
+            }
+        } );
+
+        atomPilesParentNode = new PComposite();
+        addChild( atomPilesParentNode );
+
+        // layout
+        double x = 0;
+        double y = 0;
+        fulcrumNode.setOffset( x, y );
+        beamNode.setOffset( x, y );
+        atomPilesParentNode.setOffset( x, y );
+
+        updateNode();
     }
 
     public void setNumberOfAtoms( int leftNumberOfAtoms, int rightNumberOfAtoms ) {
         if ( leftNumberOfAtoms != this.leftNumberOfAtoms || rightNumberOfAtoms != this.rightNumberOfAtoms ) {
             this.leftNumberOfAtoms = leftNumberOfAtoms;
             this.rightNumberOfAtoms = rightNumberOfAtoms;
-            update();
+            updateNode();
         }
     }
 
-    private void update() {
+    private void updateNode() {
 
-        //TODO put atoms on beam to match leftNumberOfAtoms and rightNumberOfAtoms
+        leftCountNode.setCount( leftNumberOfAtoms );
+        rightCountNode.setCount( rightNumberOfAtoms );
+
+        atomPilesParentNode.removeAllChildren();
+
+        // create piles of atoms
+        PNode leftPileNode = createAtomPile( leftNumberOfAtoms, atom );
+        leftPileNode.setOffset( -( 0.25 * BeamNode.LENGTH ) - ( leftPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        atomPilesParentNode.addChild( leftPileNode );
+
+        PNode rightPileNode = createAtomPile( rightNumberOfAtoms, atom );
+        rightPileNode.setOffset( ( 0.25 * BeamNode.LENGTH ) - ( rightPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        atomPilesParentNode.addChild( rightPileNode );
 
         //TODO rotate beam and atoms on fulcrum
+    }
+
+    /*
+     * Creates a triangular pile of atoms.
+     * Origin is at the lower-left corner of the pile.
+     */
+    private static PNode createAtomPile( int numberOfAtoms, Atom atom ) {
+        PComposite parent = new PComposite();
+        final int atomsInBase = 5; // number of atoms along the base of each pile
+        int atomsInRow = atomsInBase;
+        int row = 0;
+        int pile = 0;
+        double x = 0;
+        double y = 0;
+        for ( int i = 0; i < numberOfAtoms; i++ ) {
+
+            AtomNode atomNode = new AtomNode( atom );
+            parent.addChild( atomNode );
+
+            atomNode.setOffset( x, y - atomNode.getFullBoundsReference().getHeight() );
+//            atomNode.setOffset( x - ( ( atomsInBase * atomNode.getFullBoundsReference().getWidth() ) / 2 ), y - atomNode.getFullBoundsReference().getHeight() );
+
+            atomsInRow--;
+            if ( atomsInRow > 0 ) {
+                x = atomNode.getFullBoundsReference().getMaxX();
+            }
+            else {
+                if ( row > atomsInBase ) {
+                    // start a new triangular pile, offset from the previous pile
+                    row = 0;
+                    pile++;
+                    atomsInRow = atomsInBase;
+                    x = (double) pile * ( atomNode.getFullBoundsReference().getWidth() / 2 );
+                    y = 0;
+                }
+                else {
+                    // move to next row in current triangular pile
+                    row++;
+                    atomsInRow = atomsInBase - row;
+                    x = (double) ( pile + row ) * ( atomNode.getFullBoundsReference().getWidth() / 2 );
+                    y = -( row * atomNode.getFullBoundsReference().getHeight() );
+                }
+            }
+        }
+        return parent;
     }
 
     /*
@@ -70,6 +164,23 @@ public class BalanceScaleNode extends PComposite {
     private static class AtomNode extends PImage {
         public AtomNode( Atom atom ) {
             setImage( atom.getImage() );
+            scale( 0.35 );
+        }
+    }
+
+    /*
+     * Displays an atom count.
+     */
+    private static class CountNode extends PText {
+
+        public CountNode( int count ) {
+            setText( String.valueOf( count ) );
+            setFont( new PhetFont( 14 ) );
+            setTextPaint( Color.BLACK );
+        }
+
+        public void setCount( int count ) {
+            setText( String.valueOf( count ) );
         }
     }
 
