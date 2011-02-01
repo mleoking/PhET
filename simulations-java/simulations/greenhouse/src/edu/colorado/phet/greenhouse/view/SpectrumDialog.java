@@ -113,7 +113,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
      */
     private static class SpectrumDiagram extends PNode {
 
-        private static final Dimension OVERALL_DIMENSIONS = new Dimension( 670, 420 );
+        private static final Dimension OVERALL_DIMENSIONS = new Dimension( 690, 440 );
         private static final double HORIZONTAL_INSET = 30;
 
         public SpectrumDiagram(){
@@ -131,7 +131,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
                     GreenhouseResources.getString( "SpectrumDialog.frequencyArrowLabel" ),
                     new Color( 225, 142, 255 ),
                     Color.WHITE );
-            frequencyArrow.setOffset( HORIZONTAL_INSET, title.getFullBoundsReference().getMaxY() + 10 );
+            frequencyArrow.setOffset( HORIZONTAL_INSET, title.getFullBoundsReference().getMaxY() + 25 );
             addChild( frequencyArrow );
 
             // Add the spectrum portion.
@@ -146,7 +146,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
                     GreenhouseResources.getString( "SpectrumDialog.wavelengthArrowLabel" ),
                     Color.WHITE,
                     new Color( 235, 129, 98 ) );
-            wavelengthArrow.setOffset( HORIZONTAL_INSET, spectrum.getFullBoundsReference().getMaxY() + 10 );
+            wavelengthArrow.setOffset( HORIZONTAL_INSET, spectrum.getFullBoundsReference().getMaxY() + 15 );
             addChild( wavelengthArrow );
 
             // Add the diagram that depicts the wave that gets shorter.
@@ -163,7 +163,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
     private static class LabeledArrow extends PNode {
         public static double ARROW_HEAD_HEIGHT = 40;
         private static double ARROW_HEAD_WIDTH = 40;
-        private static double ARROW_TAIL_WIDTH = 20;
+        private static double ARROW_TAIL_WIDTH = 25;
         private static Font LABEL_FONT = new PhetFont( 16 );
         private static Stroke STROKE = new BasicStroke( 2 );
 
