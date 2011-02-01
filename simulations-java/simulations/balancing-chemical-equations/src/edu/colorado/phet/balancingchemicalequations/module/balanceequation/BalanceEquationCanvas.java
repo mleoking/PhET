@@ -49,6 +49,10 @@ public class BalanceEquationCanvas extends BCECanvas {
         final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty() );
         addChild( barChartsNode );
 
+        // balance scales representation of "balanced"
+        final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.getCurrentEquationProperty() );
+        addChild( balanceScalesNode );
+
         // smiley face, for showing when equation is balanced
         BalanceEquationFaceNode faceNode = new BalanceEquationFaceNode( model.getCurrentEquationProperty() );
         addChild( faceNode );
@@ -72,6 +76,9 @@ public class BalanceEquationCanvas extends BCECanvas {
         x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( barChartsNode );
         y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 100;
         barChartsNode.setOffset( x, y );
+        x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( balanceScalesNode );
+        y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 100;
+        balanceScalesNode.setOffset( x, y );
         x = boxesNode.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 );
         y = barChartsNode.getFullBoundsReference().getMaxY() + ySpacing;
         resetAllButtonNode.setOffset( x, y );
@@ -83,7 +90,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         balanceChoiceProperty.addObserver( new SimpleObserver() {
             public void update() {
                 barChartsNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BAR_CHARTS ) );
-                //XXX show either chart or balance scale
+                balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BALANCE_SCALES ) );
             }
         } );
     }
