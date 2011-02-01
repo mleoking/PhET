@@ -212,6 +212,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final Font TICK_MARK_FONT = new PhetFont( 12 );
         private static final Stroke BAND_DIVIDER_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_BEVEL, 0, new float[]{3, 3}, 0);
+        private static final Font LABEL_FONT = new PhetFont( 16 );
 
         private final double stripWidth;
 
@@ -237,10 +238,22 @@ public class SpectrumDialog extends PaintImmediateDialog {
             }
 
             // Add the various bands.
+            // TODO: i18n
+            addBandLabel( 1E3, 1E9, "Radio" );
             addBandDivider( 1E9 );
+            // TODO: i18n
+            addBandLabel( 1E9, 3E11, "Microwave" );
             addBandDivider( 3E11 );
+            // TODO: i18n
+            addBandLabel( 3E11, 1E14, "Infrared" );
+            // TODO: i18n
+            addBandLabel( 3E14, 1E16, "Ultraviolet" );
             addBandDivider( 1E16 );
+            // TODO: i18n
+            addBandLabel( 1E16, 1E19, "X-ray" );
             addBandDivider( 1E19 );
+            // TODO: i18n
+            addBandLabel( 1E19, 1E21, "Gamma ray" );
         }
 
         /**
@@ -318,10 +331,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         }
 
         /**
-         * Add a "band divider" at the given frequency.  A band divider is            PNode tickMarkNode = new PhetPPath( path.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK );
-            tickMarkNode.setOffset( getOffsetFromWavelength( wavelength ), STRIP_HEIGHT );
-            addChild( tickMarkNode );
-
+         * Add a "band divider" at the given frequency.  A band divider is
          * a dotted line that spans the spectrum strip in the vertical
          * direction.
          */
@@ -332,6 +342,29 @@ public class SpectrumDialog extends PaintImmediateDialog {
             PNode bandDividerNode = new PhetPPath( path.getGeneralPath(), BAND_DIVIDER_STROKE, Color.BLACK );
             bandDividerNode.setOffset( getOffsetFromFrequency( frequency ), 0 );
             addChild( bandDividerNode );
+        }
+
+        private void addBandLabel( double lowEndFrequency, double highEndFrequency, String labelText ){
+            // Argument validation.
+            assert highEndFrequency >= lowEndFrequency;
+
+            // Set up values needed for calculations.
+            double leftBoundaryX = getOffsetFromFrequency( lowEndFrequency );
+            double rightBoundaryX = getOffsetFromFrequency( highEndFrequency );
+            double width = rightBoundaryX - leftBoundaryX;
+            double centerX = leftBoundaryX + width / 2;
+
+            // Create and add the label.
+            PText labelNode = new PText( labelText );
+            labelNode.setFont( LABEL_FONT );
+            if (labelNode.getFullBoundsReference().width > width){
+                // Scale the label to fit.
+                labelNode.setScale( width / labelNode.getFullBoundsReference().width );
+            }
+            labelNode.setOffset(
+                    centerX - labelNode.getFullBoundsReference().width / 2,
+                    STRIP_HEIGHT / 2 - labelNode.getFullBoundsReference().height / 2 );
+            addChild( labelNode );
         }
     }
 
