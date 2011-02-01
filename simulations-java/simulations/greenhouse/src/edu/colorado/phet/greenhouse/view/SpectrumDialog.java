@@ -249,7 +249,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // TODO: i18n
             addBandLabel( 3E11, 1E14, "Infrared" );
             // TODO: i18n
-            addBandLabel( 3E14, 1E16, "Ultraviolet" );
+            addBandLabel( 1E15, 1E16, "<html><center>Ultra-<br>violet</html>" );
             addBandDivider( 1E16 );
             // TODO: i18n
             addBandLabel( 1E16, 1E19, "X-ray" );
