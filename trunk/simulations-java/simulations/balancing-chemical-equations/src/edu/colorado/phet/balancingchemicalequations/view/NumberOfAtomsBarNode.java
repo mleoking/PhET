@@ -54,6 +54,10 @@ public class NumberOfAtomsBarNode extends PComposite {
         update();
     }
 
+    public Atom getAtom() {
+        return atom;
+    }
+
     public void setNumberOfAtoms( int numberOfAtoms ) {
         if ( numberOfAtoms < 0 ) {
             throw new IllegalArgumentException( "numberOfAtoms must be >= 0: " + numberOfAtoms );

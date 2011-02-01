@@ -9,10 +9,7 @@ import java.awt.Frame;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
-import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
-import edu.colorado.phet.balancingchemicalequations.view.BalanceEquationFaceNode;
-import edu.colorado.phet.balancingchemicalequations.view.BoxesNode;
-import edu.colorado.phet.balancingchemicalequations.view.EquationNode;
+import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -47,6 +44,10 @@ public class BalanceEquationCanvas extends BCECanvas {
         BalanceChoiceNode balanceChoiceNode = new BalanceChoiceNode( balanceChoiceProperty );
         addChild( balanceChoiceNode );
 
+        // bar charts representation of "balanced"
+        final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty() );
+        addChild( barChartsNode );
+
         // smiley face, for showing when equation is balanced
         BalanceEquationFaceNode faceNode = new BalanceEquationFaceNode( model.getCurrentEquationProperty() );
         addChild( faceNode );
@@ -67,6 +68,8 @@ public class BalanceEquationCanvas extends BCECanvas {
         boxesNode.setOffset( x, y );
         y = boxesNode.getFullBoundsReference().getMaxY() + ySpacing;
         balanceChoiceNode.setOffset( x, y );
+        y = balanceChoiceNode.getFullBoundsReference().getMaxY() + ySpacing;
+        barChartsNode.setOffset( x, y );
         x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
         y = boxesNode.getFullBoundsReference().getMaxY() + ySpacing;
         faceNode.setOffset( x, y );
@@ -77,6 +80,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         // observers
         balanceChoiceProperty.addObserver( new SimpleObserver() {
             public void update() {
+                barChartsNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BAR_CHARTS ) );
                 //XXX show either chart or balance scale
             }
         } );
