@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics;
 
 import static edu.colorado.phet.nuclearphysics.NuclearPhysicsResources.getString;
+import static edu.colorado.phet.nuclearphysics.NuclearPhysicsResources.getCommonString;
 
 /**
  * NuclearPhysicsStrings is the collection of localized strings used by this simulations.
@@ -11,10 +12,10 @@ import static edu.colorado.phet.nuclearphysics.NuclearPhysicsResources.getString
  * @author John Blanco
  */
 public class NuclearPhysicsStrings {
-    
+
     /* not intended for instantiation */
     private NuclearPhysicsStrings() {}
-    
+
     public static final String TITLE_SINGLE_ATOM_ALPHA_DECAY_MODULE = getString( "ModuleTitle.SingleAtomAlphaDecayModule" );
     public static final String TITLE_MULTI_ATOM_ALPHA_DECAY_MODULE = getString( "ModuleTitle.MultiAtomAlphaDecayModule" );
     public static final String TITLE_SINGLE_ATOM_BETA_DECAY_MODULE = getString( "ModuleTitle.SingleAtomBetaDecayModule" );
@@ -91,7 +92,7 @@ public class NuclearPhysicsStrings {
 
     public static final String RESET_ALL_NUCLEI = getString( "MultipleNucleiAlphaDecay.ResetAllNuclei" );
     public static final String ADD_TEN = getString( "MultipleNucleiAlphaDecay.AddTen" );
-    
+
     public static final String DAUGHTER_NUCLEI_LABEL = getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" );
 
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = getString( "DecayTimeChart.XAxisLabel" );
@@ -108,7 +109,7 @@ public class NuclearPhysicsStrings {
     public static final String RESET_NUCLEUS = getString( "SharedLabels.ResetNucleus" );
     public static final String RESET_NUCLEI = getString( "SharedLabels.ResetNuclei" );
     public static final String SOUND_ENABLED = getString( "SharedLabels.SoundEnabled" );
-    
+
     public static final String DECAY_ENERGY_PROFILE_X_AXIS_LABEL = getString( "DecayEnergyProfilePanel.XAxisLabel" );
     public static final String DECAY_ENERGY_PROFILE_Y_AXIS_LABEL = getString( "DecayEnergyProfilePanel.YAxisLabel" );
 
@@ -126,7 +127,7 @@ public class NuclearPhysicsStrings {
     public static final String POWER_GRAPH_UNITS = getString( "ControlledFissionControlPanel.PowerGraphUnits" );
     public static final String REACTOR_CONTROLS_BORDER = getString( "ControlledFissionControlPanel.ControlBorder" );
     public static final String ENERGY_GRAPHS_TITLE = getString( "ControlledFissionControlPanel.EnergyGraphs" );
-    
+
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_1 = getString( "PotentialProfilePanel.YAxisLabel1" );
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_2 = getString( "PotentialProfilePanel.YAxisLabel2" );
     public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_3 = getString( "PotentialProfilePanel.YAxisLabel3" );
@@ -135,7 +136,7 @@ public class NuclearPhysicsStrings {
     public static final String POTENTIAL_PROFILE_LEGEND_TITLE = getString( "PotentialProfilePanel.legend.title" );
     public static final String POTENTIAL_PROFILE_POTENTIAL_ENERGY = getString( "PotentialProfilePanel.legend.PotentialEnergy" );
     public static final String POTENTIAL_PROFILE_TOTAL_ENERGY = getString( "PotentialProfilePanel.legend.TotalEnergy" );
-    
+
     public static final String REACTOR_PICTURE_CAPTION = getString( "NuclearReactorCorePhoto.Caption" );
     public static final String SHOW_REACTOR_IMAGE = getString( "ControlledFissionControlPanel.ShowReactorImage" );
 
@@ -150,7 +151,7 @@ public class NuclearPhysicsStrings {
     public static final String READOUT_UNITS_DAYS= getString( "DecayTimeChart.Units.Days" );
     public static final String READOUT_UNITS_YEARS= getString( "DecayTimeChart.Units.Years" );
     public static final String READOUT_UNITS_YRS= getString( "DecayTimeChart.Units.Yrs" );
-    
+
     public static final String TIME_GRAPH_UNITS_MILLISECONDS= getString( "LogarithmicTimeLine.Units.Milliseconds" );
     public static final String TIME_GRAPH_UNITS_SECONDS= getString( "LogarithmicTimeLine.Units.Seconds" );
     public static final String TIME_GRAPH_UNITS_MINUTES= getString( "LogarithmicTimeLine.Units.Minutes" );
@@ -168,7 +169,7 @@ public class NuclearPhysicsStrings {
     public static final String KILL_TREE= getString( "RadiometericMeasurement.KillTree" );
     public static final String ERUPT_VOLCANO= getString( "RadiometericMeasurement.EruptVolcano" );
     public static final String COOL_ROCK= getString( "RadiometericMeasurement.CoolRock" );
-    
+
     public static final String SHOW_NUCLEUS_LABELS= getString( "ControlPanel.ShowNucleusLabels" );
 
     public static final String MEASURE_OBJECTS= getString( "RadiometricMeter.MeasureObjects" );
@@ -196,20 +197,20 @@ public class NuclearPhysicsStrings {
     public static final String DECAY_PROPORTIONS_Y_AXIS_LABEL_RATIO_C14_TO_C12= getString( "DecayProportionsChart.YAxisLabelRatioC14ToC12" );
     public static final String DECAY_PROPORTIONS_PERCENT_C14= getString( "DecayProportionsChart.PercentC14" );
     public static final String DECAY_PROPORTIONS_C14_C12_RATIO= getString( "DecayProportionsChart.C14C12Ratio" );
-    
+
     public static final String TIME_ABBREVIATION= getString( "TimeAbbreviation" );
-    
+
     public static final String GUESS_PROMPT=getString("DatingGame.Prompt");
     public static final String CHECK_GUESS=getString("DatingGame.CheckGuess");
     public static final String RESET_GUESSES = getString( "DatingGame.ResetGuesses" );
     public static final String GUESSES_CORRECT_TITLE = getString( "DatingGame.GuessesCorrectTitle" );
     public static final String GUESSES_CORRECT_MESSAGE = getString( "DatingGame.GuessesCorrectMessage" );
-    
+
     public static final String METER_PROBE_TYPE = getString( "Meter.ProbeType" );
     public static final String METER_MEASURE_AIR = getString( "Meter.MeasureAir" );
     public static final String METER_MEASURE_OBJECTS = getString( "Meter.MeasureObjects" );
     public static final String METER_HALF_LIFE_EQUALS = getString( "Meter.HalfLifeEquals" );
-    
+
     public static final String DATABLE_ITEM_HOUSE = getString( "DatableItem.House" );
     public static final String DATABLE_ITEM_TRILOBYTE = getString( "DatableItem.Trilobyte" );
     public static final String DATABLE_ITEM_ANIMAL_SKULL = getString( "DatableItem.AnimalSkull" );
@@ -231,4 +232,6 @@ public class NuclearPhysicsStrings {
     public static final String DATABLE_ITEM_HUMAN_SKULL = getString( "DatableItem.HumanSkull" );
     public static final String DATABLE_ITEM_WOODEN_CUP = getString( "DatableItem.WoodenCup" );
     public static final String DATABLE_ITEM_BONE = getString( "DatableItem.Bone" );
+
+    public static final String CLOSE_BUTTON_CAPTION = getCommonString( "Common.choice.close" );
 }
