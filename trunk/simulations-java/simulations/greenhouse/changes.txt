@@ -1,3 +1,4 @@
+molecules-and-light: Fix: Made carbon monoxide (CO) have three bonds instead of two.
 molecules-and-light: Finished initial cut of translatable spectrum dialog, including the needed strings.
 molecules-and-light: Added new version of SpectrumDialog with the infrastructure in place to create a Piccolo-based version of the spectrum node (so that it can be translated).
 # 3.01.13 (48236) Jan 25, 2011
