@@ -39,8 +39,13 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 double dropVolume = remainingVolume > waterVolumeExpelled ? waterVolumeExpelled : remainingVolume;
                 double origFluidVolume = waterTower.fluidVolume.getValue();
                 if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
+                    double radius = Math.pow( dropVolume * 3.0 / 4.0 / Math.PI, 1.0 / 3.0 );
+                    double waterDropY = waterTower.getHoleLocation().getY() + random.nextGaussian() * 0.04 + radius;
+                    if ( waterDropY + radius > waterTower.getWaterLevel() + waterTower.getTankShape().getY() ) {
+                        waterDropY = waterTower.getWaterLevel() + waterTower.getTankShape().getY() - radius;
+                    }
                     final WaterDrop drop = new WaterDrop(
-                            new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterTower.getHoleLocation().getY() + random.nextGaussian() * 0.04 ),
+                            new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ),
                             new ImmutableVector2D( velocity, 0 ),
                             dropVolume );
                     waterTowerDrops.add( drop );
