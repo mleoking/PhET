@@ -1,6 +1,5 @@
 package edu.colorado.phet.flashcommon {
 
-import flash.display.Bitmap;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
@@ -17,7 +16,6 @@ import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
-
 import flash.utils.Timer;
 
 import org.aswing.ASColor;
@@ -85,6 +83,7 @@ public class FlashCommon {
     public static var LINK_STYLE_SHEET: StyleSheet;
     public static var CENTERED_LINK_STYLE_SHEET: StyleSheet;
     private var _aswingPadding: Boolean = true;
+    private const rtlLanguageList: Array = ["ar","iw"];
 
     public static function getInstance(): FlashCommon {
         if ( instance == null ) {
@@ -215,7 +214,7 @@ public class FlashCommon {
         textField.selectable = false;
 
         // background
-        logoHolder.graphics.lineStyle(1,0x000000);
+        logoHolder.graphics.lineStyle( 1, 0x000000 );
         logoHolder.graphics.beginFill( 0xEEEEEE );
         var top: Number = getPlayAreaHeight() / 2 - logo.height / 2 - textHeight;
         var bottom: Number = getPlayAreaHeight() / 2 + logo.height / 2;
@@ -784,6 +783,19 @@ public class FlashCommon {
 
     public function get aswingPadding(): Boolean {
         return _aswingPadding;
+    }
+
+    public function isRTL(): Boolean {
+        return rtlLanguageList.indexOf( getLanguage() ) >= 0;
+    }
+
+    public function getRTLControlCode(): String {
+        if ( FlashCommon.getInstance().isRTL() ) {
+            return "\u200F";
+        }
+        else {
+            return "";
+        }
     }
 }
 }
