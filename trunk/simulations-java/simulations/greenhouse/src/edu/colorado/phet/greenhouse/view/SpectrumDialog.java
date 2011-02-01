@@ -86,16 +86,16 @@ public class SpectrumDialog extends PaintImmediateDialog {
         // Add an invisible panel that will create space between the diagram
         // and the close button.
         JPanel spacerPanel = new JPanel();
-        spacerPanel.setPreferredSize( new Dimension( 1, 15) );
+        spacerPanel.setPreferredSize( new Dimension( 1, 15 ) );
         mainPanel.add( spacerPanel );
 
         // Add the close button.
-        JButton closeButton = new JButton( GreenhouseResources.getCommonString( "Common.choice.close" ));
-        closeButton.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
+        JButton closeButton = new JButton( GreenhouseResources.getCommonString( "Common.choice.close" ) );
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
                 SpectrumDialog.this.dispose();
             }
-        });
+        } );
         closeButton.setAlignmentX( Component.CENTER_ALIGNMENT );
         mainPanel.add( closeButton );
 
@@ -116,7 +116,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final Dimension OVERALL_DIMENSIONS = new Dimension( 690, 440 );
         private static final double HORIZONTAL_INSET = 30;
 
-        public SpectrumDiagram(){
+        public SpectrumDiagram() {
 
             // Add the title.
             PText title = new PText( GreenhouseResources.getString( "SpectrumDialog.title" ) );
@@ -150,8 +150,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addChild( wavelengthArrow );
 
             // Add the diagram that depicts the wave that gets shorter.
-            DecreasingWavelengthWaveNode decreasingWavelengthNode =
-                new DecreasingWavelengthWaveNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
+            DecreasingWavelengthWaveNode decreasingWavelengthNode = new DecreasingWavelengthWaveNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
             decreasingWavelengthNode.setOffset( HORIZONTAL_INSET, wavelengthArrow.getFullBoundsReference().getMaxY() + 20 );
             addChild( decreasingWavelengthNode );
         }
@@ -167,9 +166,11 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static Font LABEL_FONT = new PhetFont( 16 );
         private static Stroke STROKE = new BasicStroke( 2 );
 
-        public enum Orientation { POINTING_LEFT, POINTING_RIGHT };
+        public enum Orientation {
+            POINTING_LEFT, POINTING_RIGHT
+        };
 
-        public LabeledArrow ( double length, Orientation orientation, String captionText, Color topColor, Color bottomColor ){
+        public LabeledArrow( double length, Orientation orientation, String captionText, Color topColor, Color bottomColor ) {
 
             // Create the paint that will be used to depict the arrow.  It is
             // assumed that the arrow has a gradient that changes in the
@@ -216,14 +217,14 @@ public class SpectrumDialog extends PaintImmediateDialog {
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( 2f );
         private static final double TICK_MARK_HEIGHT = 8;
         private static final Font TICK_MARK_FONT = new PhetFont( 12 );
-        private static final Stroke BAND_DIVIDER_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_BEVEL, 0, new float[]{4, 4}, 0);
+        private static final Stroke BAND_DIVIDER_STROKE = new BasicStroke( 2, BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_BEVEL, 0, new float[] { 4, 4 }, 0 );
         private static final Font LABEL_FONT = new PhetFont( 16 );
 
         private final double stripWidth;
         private final PNode spectrumRootNode;
 
-        public LabeledSpectrumNode( double width ){
+        public LabeledSpectrumNode( double width ) {
             stripWidth = width;
 
             spectrumRootNode = new PNode();
@@ -232,18 +233,18 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // Create the "strip", which is the solid background portions that
             // contains the different bands and that has tick marks on the top
             // and bottom.
-            PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color(237, 243, 246),
+            PNode strip = new PhetPPath( new Rectangle2D.Double( 0, 0, width, STRIP_HEIGHT ), new Color( 237, 243, 246 ),
                     new BasicStroke( 2f ), Color.BLACK );
             spectrumRootNode.addChild( strip );
 
             // Add the frequency tick marks to the top of the spectrum strip.
-            for ( int i = 4; i <= 20; i++ ){
+            for ( int i = 4; i <= 20; i++ ) {
                 boolean includeLabel = i % 2 == 0;
                 addFrequencyTickMark( Math.pow( 10, i ), includeLabel );
             }
 
             // Add the wavelength tick marks.
-            for ( int i = -12; i <= 4; i++ ){
+            for ( int i = -12; i <= 4; i++ ) {
                 boolean includeLabel = i % 2 == 0;
                 addWavelengthTickMark( Math.pow( 10, i ), includeLabel );
             }
@@ -261,13 +262,13 @@ public class SpectrumDialog extends PaintImmediateDialog {
             addBandLabel( 1E19, 1E21, GreenhouseResources.getString( "SpectrumDialog.gammaRayBandLabel" ) );
 
             // Add the visible spectrum.
-            int visSpectrumWidth = (int)Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
-            PNode visibleSpectrum = new PImage( new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( visSpectrumWidth, (int)STRIP_HEIGHT ) );
+            int visSpectrumWidth = (int) Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
+            PNode visibleSpectrum = new PImage( new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( visSpectrumWidth, (int) STRIP_HEIGHT ) );
             visibleSpectrum.setOffset( getOffsetFromFrequency( 400E12 ), 0 );
             spectrumRootNode.addChild( visibleSpectrum );
 
             // Add the label for the visible band.
-            PText visibleBandLabel = new PText(GreenhouseResources.getString( "SpectrumDialog.visibleBandLabel" ));
+            PText visibleBandLabel = new PText( GreenhouseResources.getString( "SpectrumDialog.visibleBandLabel" ) );
             visibleBandLabel.setFont( LABEL_FONT );
             double visibleBandCenterX = getOffsetFromFrequency( 600E12 );
             visibleBandLabel.setOffset( visibleBandCenterX - visibleBandLabel.getFullBoundsReference().width / 2, -50 );
@@ -276,7 +277,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // Add the arrow that connects the visible band label to the
             // visible band itself.
             ArrowNode visibleBandArrow = new ArrowNode(
-                    new Point2D.Double( visibleBandCenterX, visibleBandLabel.getFullBoundsReference().getMaxY()  ),
+                    new Point2D.Double( visibleBandCenterX, visibleBandLabel.getFullBoundsReference().getMaxY() ),
                     new Point2D.Double( visibleBandCenterX, 0 ),
                     7,
                     7,
@@ -296,8 +297,8 @@ public class SpectrumDialog extends PaintImmediateDialog {
 
             // Set the offset of the root node to account for child nodes that
             // ended up with negative offsets when the layout was complete.
-            System.out.println(spectrumRootNode.getFullBoundsReference().getMinX());
-            System.out.println(spectrumRootNode.getFullBoundsReference().getMinY());
+            System.out.println( spectrumRootNode.getFullBoundsReference().getMinX() );
+            System.out.println( spectrumRootNode.getFullBoundsReference().getMinY() );
             spectrumRootNode.setOffset(
                     Math.max( -spectrumRootNode.getFullBoundsReference().getMinX(), 0 ),
                     Math.max( -spectrumRootNode.getFullBoundsReference().getMinY(), 0 ) );
@@ -308,11 +309,11 @@ public class SpectrumDialog extends PaintImmediateDialog {
          * spectrum strip.
          * @param frequency - Frequency in Hz.
          */
-        private double getOffsetFromFrequency( double frequency ){
+        private double getOffsetFromFrequency( double frequency ) {
             assert frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY;
             double logarithmicRange = Math.log10( MAX_FREQUENCY ) - Math.log10( MIN_FREQUENCY );
             double logarithmicFrequency = Math.log10( frequency );
-            return ( logarithmicFrequency - Math.log10( MIN_FREQUENCY ) )/ logarithmicRange * stripWidth;
+            return ( logarithmicFrequency - Math.log10( MIN_FREQUENCY ) ) / logarithmicRange * stripWidth;
         }
 
         /**
@@ -320,7 +321,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
          * spectrum strip.
          * @param wavelength - wavelength in meters
          */
-        private double getOffsetFromWavelength( double wavelength ){
+        private double getOffsetFromWavelength( double wavelength ) {
             return getOffsetFromFrequency( 299792458 / wavelength );
         }
 
@@ -328,7 +329,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
          * Add a tick mark for the specified frequency.  Frequency tick marks
          * go on top of the strip.
          */
-        private void addFrequencyTickMark( double frequency, boolean addLabel ){
+        private void addFrequencyTickMark( double frequency, boolean addLabel ) {
             // Create and add the tick mark line.
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
@@ -337,7 +338,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             tickMarkNode.setOffset( getOffsetFromFrequency( frequency ), 0 );
             spectrumRootNode.addChild( tickMarkNode );
 
-            if ( addLabel ){
+            if ( addLabel ) {
                 // Create and add the label.
                 PNode label = createExponentialLabel( frequency );
                 label.setOffset(
@@ -351,7 +352,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
          * Add a tick mark for the specified frequency.  Frequency tick marks
          * go on top of the strip.
          */
-        private void addWavelengthTickMark( double wavelength, boolean addLabel ){
+        private void addWavelengthTickMark( double wavelength, boolean addLabel ) {
             // Create and add the tick mark line.
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
@@ -360,7 +361,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             tickMarkNode.setOffset( getOffsetFromWavelength( wavelength ), STRIP_HEIGHT );
             spectrumRootNode.addChild( tickMarkNode );
 
-            if ( addLabel ){
+            if ( addLabel ) {
                 // Create and add the label.
                 PNode label = createExponentialLabel( wavelength );
                 label.setOffset(
@@ -370,8 +371,8 @@ public class SpectrumDialog extends PaintImmediateDialog {
             }
         }
 
-        private PNode createExponentialLabel( double value ){
-            int superscript = (int)Math.round( Math.log10( value ) );
+        private PNode createExponentialLabel( double value ) {
+            int superscript = (int) Math.round( Math.log10( value ) );
             HTMLNode label = new HTMLNode( "<html>10<sup>" + superscript + "</sup></html>" );
             label.setFont( TICK_MARK_FONT );
             return label;
@@ -382,7 +383,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
          * a dotted line that spans the spectrum strip in the vertical
          * direction.
          */
-        private void addBandDivider( double frequency ){
+        private void addBandDivider( double frequency ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
             path.lineTo( 0, STRIP_HEIGHT );
@@ -391,7 +392,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             spectrumRootNode.addChild( bandDividerNode );
         }
 
-        private void addBandLabel( double lowEndFrequency, double highEndFrequency, String htmlLabelText ){
+        private void addBandLabel( double lowEndFrequency, double highEndFrequency, String htmlLabelText ) {
             // Argument validation.
             assert highEndFrequency >= lowEndFrequency;
 
@@ -404,7 +405,7 @@ public class SpectrumDialog extends PaintImmediateDialog {
             // Create and add the label.
             HTMLNode labelNode = new HTMLNode( htmlLabelText );
             labelNode.setFont( LABEL_FONT );
-            if (labelNode.getFullBoundsReference().width > width){
+            if ( labelNode.getFullBoundsReference().width > width ) {
                 // Scale the label to fit.
                 labelNode.setScale( width / labelNode.getFullBoundsReference().width );
             }
@@ -420,21 +421,21 @@ public class SpectrumDialog extends PaintImmediateDialog {
      * from left to right.
      */
     private static class DecreasingWavelengthWaveNode extends PNode {
-        public DecreasingWavelengthWaveNode( double width ){
+        public DecreasingWavelengthWaveNode( double width ) {
             // Create and add the boundary and background.
             double boundingBoxHeight = width * 0.1; // Arbitrary, adjust as needed.
-            PNode boundingBox = new PhetPPath(new Rectangle2D.Double( 0, 0, width, width * 0.1 ),
-                    new Color(237, 243, 246), new BasicStroke(2f), Color.black );
+            PNode boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, width, width * 0.1 ),
+                    new Color( 237, 243, 246 ), new BasicStroke( 2f ), Color.black );
             addChild( boundingBox );
 
             // Create the line that represents the decreasing wavelength.
             int numPointsOnLine = 2000;
-            XYArray pointArray = new XYArray(new double[numPointsOnLine * 2]);
-            for ( int i = 0; i < numPointsOnLine; i++ ){
+            XYArray pointArray = new XYArray( new double[numPointsOnLine * 2] );
+            for ( int i = 0; i < numPointsOnLine; i++ ) {
                 double x = i * ( width / ( numPointsOnLine - 1 ) );
                 pointArray.setX( i, x );
                 double proportion = x / width;
-                pointArray.setY( i, ( Math.sin( ((Math.pow( proportion, 4 ) * 25) + 3) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
+                pointArray.setY( i, ( Math.sin( ( ( Math.pow( proportion, 4 ) * 25 ) + 3 ) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
             }
             LineShape lineShape = new LineShape( pointArray );
             PLine squigglyLine = new PLine( lineShape );
