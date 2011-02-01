@@ -116,24 +116,23 @@ public class BalanceScaleNode extends PComposite {
 
             atomsInRow--;
             if ( atomsInRow > 0 ) {
+                // continue with current row
                 x = atomNode.getFullBoundsReference().getMaxX();
             }
+            else if ( row < atomsInBase - 1 ) {
+                // move to next row in current triangular pile
+                row++;
+                atomsInRow = atomsInBase - row;
+                x = (double) ( pile + row ) * ( atomNode.getFullBoundsReference().getWidth() / 2 );
+                y = -( row * atomNode.getFullBoundsReference().getHeight() );
+            }
             else {
-                if ( row > atomsInBase ) {
-                    // start a new triangular pile, offset from the previous pile
-                    row = 0;
-                    pile++;
-                    atomsInRow = atomsInBase;
-                    x = (double) pile * ( atomNode.getFullBoundsReference().getWidth() / 2 );
-                    y = 0;
-                }
-                else {
-                    // move to next row in current triangular pile
-                    row++;
-                    atomsInRow = atomsInBase - row;
-                    x = (double) ( pile + row ) * ( atomNode.getFullBoundsReference().getWidth() / 2 );
-                    y = -( row * atomNode.getFullBoundsReference().getHeight() );
-                }
+                // start a new pile, offset from the previous pile
+                row = 0;
+                pile++;
+                atomsInRow = atomsInBase;
+                x = (double) pile * ( atomNode.getFullBoundsReference().getWidth() / 2 );
+                y = 0;
             }
         }
         return parent;
