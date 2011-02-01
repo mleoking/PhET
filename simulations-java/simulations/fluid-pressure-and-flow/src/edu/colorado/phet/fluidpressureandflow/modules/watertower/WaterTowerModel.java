@@ -141,4 +141,24 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         removeDrops( faucetDrops, faucetDrops );
         removeDrops( waterTowerDrops, waterTowerDrops );
     }
+
+    @Override
+    public double getPressure( double x, double y ) {
+        if ( getWaterTower().getWaterShape().contains( x, y ) ) {
+            final double waterTopY = getWaterTower().getWaterShape().getBounds2D().getMaxY();
+            double distanceUnderwater = waterTopY - y;
+            double airPressureOnTop = super.getPressure( x, waterTopY );
+            return airPressureOnTop + liquidDensity.getValue() * gravity.getValue() * distanceUnderwater;
+        }
+        else {
+            return super.getPressure( x, y );
+        }
+    }
+
+    @Override
+    public void addFluidChangeObserver( SimpleObserver updatePressure ) {
+        super.addFluidChangeObserver( updatePressure );
+        getWaterTower().fluidVolume.addObserver( updatePressure );
+        getWaterTower().tankBottomCenter.addObserver( updatePressure );
+    }
 }

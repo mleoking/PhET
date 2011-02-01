@@ -1,3 +1,4 @@
+Added the ability to measure pressure in the water tank water
 Made fluid color a function of density in water tower tab
 Fixed: ruler changes location when changing units
 Added english units to measuring tape
