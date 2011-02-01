@@ -1,1 +1,1 @@
-phet-credits software-development=Ron LeMaster, John Blanco design-team=Wendy Adams, Kathy Perkins, Carl Wieman, Kelly Lancaster, Trish Loeblein, Robert Parsons interviews=Wendy Adams, Danielle Harlow, Kelly Lancaster
+phet-credits software-development=John Blanco, Ron LeMaster design-team=Wendy Adams, Kelly Lancaster, Trish Loeblein, Robert Parsons, Kathy Perkins, Carl Wieman interviews=Wendy Adams, Danielle Harlow, Kelly Lancaster
