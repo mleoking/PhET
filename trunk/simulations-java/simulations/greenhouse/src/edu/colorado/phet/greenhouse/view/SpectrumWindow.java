@@ -280,8 +280,6 @@ public class SpectrumWindow extends JFrame {
 
             // Set the offset of the root node to account for child nodes that
             // ended up with negative offsets when the layout was complete.
-            System.out.println( spectrumRootNode.getFullBoundsReference().getMinX() );
-            System.out.println( spectrumRootNode.getFullBoundsReference().getMinY() );
             spectrumRootNode.setOffset(
                     Math.max( -spectrumRootNode.getFullBoundsReference().getMinX(), 0 ),
                     Math.max( -spectrumRootNode.getFullBoundsReference().getMinY(), 0 ) );
@@ -431,8 +429,6 @@ public class SpectrumWindow extends JFrame {
      * Test harness.
      */
     public static void main( String[] args ) {
-
-        // Frame
         JFrame spectrumWindow = new SpectrumWindow();
         spectrumWindow.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         spectrumWindow.setLocation( 200, 100 );
