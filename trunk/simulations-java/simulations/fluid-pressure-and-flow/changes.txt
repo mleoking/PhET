@@ -1,3 +1,4 @@
+Use up-down cursor for tank and sider door
 Renamed "auto" to "match leakage"
 In "match leakage", hide the manual slider
 Added internationalization

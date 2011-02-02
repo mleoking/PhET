@@ -36,7 +36,7 @@ public class WaterTowerNode extends PNode {
                 }
             } ) );
             scale( 1.75 );
-            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) ) );
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
                 public void update() {
                     final Point2D tankTopCenter = waterTower.getTankTopCenter();
@@ -86,7 +86,7 @@ public class WaterTowerNode extends PNode {
             setPickable( false );
         }} );
 
-        //Panel covering the hole
+        //Slider panel covering the hole
         addChild( new PImage( BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "panel.png" ), 50 ) ) {{
             final SimpleObserver updatePanelLocation = new SimpleObserver() {
                 public void update() {
@@ -101,7 +101,7 @@ public class WaterTowerNode extends PNode {
                     return new Point2D.Double( waterTower.getTankShape().getWidth() / 2, MathUtil.clamp( 0, point2D.getY(), waterTower.getTankShape().getHeight() ) );
                 }
             } ) );
-            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) ) );
         }} );
     }
 }
