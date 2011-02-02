@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 
 /**
  * Face node used in the "Balance Equation" module to indicate when the equation is balanced.
- * The face is always a smiley, but is visible only when the equation is balanaced.
+ * The face is always a smiley, but is visible only when the equation is balanced.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

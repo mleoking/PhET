@@ -17,22 +17,14 @@ import edu.colorado.phet.balancingchemicalequations.BCESymbols;
  */
 public abstract class Atom {
 
-    public static enum AtomType { C, H, N, O, S };
-
-    private final AtomType atomType;
     private final String symbol;
     private final Color color;
     private final Image image;
 
-    public Atom( AtomType atomType, String symbol, Color color, Image image ) {
-        this.atomType = atomType;
+    public Atom( String symbol, Color color, Image image ) {
         this.symbol = symbol;
         this.color = color;
         this.image = image;
-    }
-
-    public AtomType getAtomType() {
-        return atomType;
     }
 
     public String getSymbol() {
@@ -49,31 +41,31 @@ public abstract class Atom {
 
     public static class C extends Atom {
         public C() {
-           super( AtomType.C, BCESymbols.C, BCEColors.C, BCEImages.C );
+           super( BCESymbols.C, BCEColors.C, BCEImages.C );
         }
     }
 
     public static class H extends Atom {
         public H() {
-           super( AtomType.H, BCESymbols.H, BCEColors.H, BCEImages.H );
+           super( BCESymbols.H, BCEColors.H, BCEImages.H );
         }
     }
 
     public static class N extends Atom {
         public N() {
-           super( AtomType.N, BCESymbols.N, BCEColors.N, BCEImages.N );
+           super( BCESymbols.N, BCEColors.N, BCEImages.N );
         }
     }
 
     public static class O extends Atom {
         public O() {
-           super( AtomType.O, BCESymbols.O, BCEColors.O, BCEImages.O );
+           super( BCESymbols.O, BCEColors.O, BCEImages.O );
         }
     }
 
     public static class S extends Atom {
         public S() {
-           super( AtomType.S, BCESymbols.S, BCEColors.S, BCEImages.S );
+           super( BCESymbols.S, BCEColors.S, BCEImages.S );
         }
     }
 }

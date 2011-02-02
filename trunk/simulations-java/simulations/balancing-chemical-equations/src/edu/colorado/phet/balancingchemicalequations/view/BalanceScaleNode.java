@@ -66,8 +66,14 @@ public class BalanceScaleNode extends PComposite {
         return BEAM_LENGTH;
     }
 
+    /*
+     * Places piles of atoms on the ends of the beam, with a count of the number of
+     * atoms above each pile.  Then rotates the beam and stuff on it to indicate the
+     * relative balance between the left and right piles.
+     */
     private void updateNode() {
 
+        // all dynamic stuff is above the beam, and is children of atomPilesParentNode
         atomPilesParentNode.removeAllChildren();
 
         // left pile of atoms, centered on left-half of beam
@@ -94,15 +100,17 @@ public class BalanceScaleNode extends PComposite {
         y = rightPileNode.getFullBoundsReference().getMinY() - rightCountNode.getFullBoundsReference().getHeight() - 2;
         rightCountNode.setOffset( x, y );
 
-        // rotate beam and atoms on fulcrum
+        // rotate beam and piles on fulcrum
         double maxAngle = ( Math.PI / 2 ) - Math.acos( FULCRUM_SIZE.getHeight() / ( BEAM_LENGTH / 2 ) );
         final double difference = rightNumberOfAtoms - leftNumberOfAtoms;
         double angle = 0;
-        if ( Math.abs( difference ) > NUMBER_OF_TILT_ANGLES ) {
+        if ( Math.abs( difference ) >= NUMBER_OF_TILT_ANGLES ) {
+            // max tilt
             int sign = (int)( Math.abs( difference ) / difference );
             angle = sign * maxAngle;
         }
         else {
+            // partial tilt
             angle = difference * ( maxAngle / NUMBER_OF_TILT_ANGLES );
         }
         beamNode.setRotation( angle );
@@ -111,6 +119,7 @@ public class BalanceScaleNode extends PComposite {
 
     /*
      * Creates a triangular pile of atoms.
+     * Atoms are populated one row at a time, starting from the base of the triangle and working up.
      * Origin is at the lower-left corner of the pile.
      */
     private static PNode createAtomPile( int numberOfAtoms, Atom atom ) {

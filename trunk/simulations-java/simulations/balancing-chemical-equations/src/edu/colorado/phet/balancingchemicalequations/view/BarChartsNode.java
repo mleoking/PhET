@@ -137,7 +137,7 @@ public class BarChartsNode extends PComposite {
      * Updates the equality sign.
      */
     private void updateEqualitySign() {
-        if ( equation.allCoefficientsZero() || equation.isBalanced() ) {
+        if ( equation.isAllCoefficientsZero() || equation.isBalanced() ) {
             equalitySignNode.setText( BCESymbols.EQUALS );
         }
         else {
