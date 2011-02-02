@@ -10,12 +10,9 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
@@ -23,6 +20,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
+import edu.colorado.phet.buildanatom.view.ElementNameIndicator;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
@@ -54,8 +52,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private final static Font LABEL_FONT = new PhetFont( 20 );
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -86,7 +82,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( STAGE_SIZE.width * 0.32 ), (int) Math.round( STAGE_SIZE.height * 0.49 ) ),
                 2.0, // "Zoom factor" - smaller zooms out, larger zooms in.
-        true );
+                true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
@@ -110,6 +106,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // correct.
         rootNode.addChild( scaleNode );
         rootNode.addChild( atomAndBucketNode );
+
+        // Add indicator that shows the name of the element.
+        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ) );
+        // Position the name indicator above the nucleus
+        elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
+        rootNode.addChild( elementNameIndicator );
+
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
@@ -146,11 +149,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Add the node that indicates the percentage abundance.
         final PDimension abundanceWindowSize = new PDimension( 400, 150 );
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
-//        abundanceIndicatorNode.setOffset(
-//                abundanceWindowSize.getWidth() / 2 - abundanceIndicatorNode.getFullBoundsReference().width / 2,
-//                abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
         abundanceIndicatorNode.setOffset(
-                abundanceWindowSize.getWidth() / 2  - abundanceIndicatorNode.getFullBoundsReference().width / 2,
+                65,
                 abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
@@ -181,6 +181,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         private static final double WIDEST_ABUNDANCE_TO_SHOW = 99.99999; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
+        private static final int CONNECTING_LINE_LEGNTH = 20; // In screen coords, which is close to pixels.
         private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{2, 2}, 0);
         private final int RECTANGLE_INSET_X = 6;
 
@@ -208,10 +209,20 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
             addChild( pieChart );
 
+            // Figure out what the max width of the readout will be so that
+            // things can be laid out in a way that will make the width of
+            // the indicator consistent.
+            value.setHTML( ABUNDANCE_FORMATTER.format( WIDEST_ABUNDANCE_TO_SHOW ) + "%" );
+            double maxReadoutWidthTemp = value.getFullBoundsReference().getWidth();
+            value.setHTML( BuildAnAtomStrings.VERY_SMALL );
+            maxReadoutWidthTemp = Math.max( value.getFullBoundsReference().width, maxReadoutWidthTemp );
+            maxReadoutWidthTemp += RECTANGLE_INSET_X * 2;
+            final double maxReadoutWidth = maxReadoutWidthTemp;
+
             // Position the pie chart so that it is far enough away from the
             // readout that they won't end up overlapping.  Values were
             // empirically determined, tweak if needed.
-            pieChart.setOffset( 115, 0 );
+            pieChart.setOffset( maxReadoutWidth + CONNECTING_LINE_LEGNTH, 0 );
 
             // Create the observer for watching the atom and making updates.
             SimpleObserver atomObserver = new SimpleObserver() {
@@ -219,7 +230,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
                     // Show the abundance value
                     final double abundancePercent = atom.getNaturalAbundance() * 100;
                     value.setHTML( abundancePercent < MIN_ABUNDANCE_TO_SHOW && abundancePercent > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundancePercent ) + "%" );
-                    value.setOffset( 0, PIE_CHART_DIAMETER / 2 - value.getFullBoundsReference().height / 2 );
+                    value.setOffset( maxReadoutWidth - value.getFullBoundsReference().width,
+                            PIE_CHART_DIAMETER / 2 - value.getFullBoundsReference().height / 2 );
 
                     // Expand the white background to contain the text value
                     final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), RECTANGLE_INSET_X, 3 );
