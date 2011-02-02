@@ -23,10 +23,15 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
  */
 public class BalanceEquationCanvas extends BCECanvas {
 
+    private static final Dimension BOX_SIZE = new Dimension( 300, 180 );
+    private static final double BOX_SEPARATION = 50;
+
     private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"
     private final BoxesNode boxesNode;
 
     public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, final BalanceEquationModel model, boolean dev ) {
+
+        HorizontalAligner horizontalAligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
         balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.BAR_CHARTS );
 
@@ -39,7 +44,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), new Dimension( 300, 180 ) /* boxSize */ );
+        boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), horizontalAligner );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
