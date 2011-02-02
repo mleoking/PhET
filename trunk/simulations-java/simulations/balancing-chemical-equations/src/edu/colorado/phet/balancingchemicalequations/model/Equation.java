@@ -155,8 +155,10 @@ public abstract class Equation {
 
     /**
      * Returns a count of each type of atom.
-     * This is a brute force algorithm, but our number of terms is always small,
-     * and this is easy to implement and understand.
+     * <p>
+     * The order of atoms will be the same order that they are encountered in the reactant terms.
+     * For example, if the left-hand side of the equation is CH4 + O2, then the order of atoms
+     * will be [C,H,O].
      */
     public ArrayList<AtomCount> getAtomCounts() {
         ArrayList<AtomCount> atomCounts = new ArrayList<AtomCount>();
@@ -167,6 +169,9 @@ public abstract class Equation {
 
     /*
      * Sets atom counts for on collection of terms (reactants or products).
+     * This is a brute force algorithm, but our number of terms is always small,
+     * and this is easy to implement and understand.
+     *
      * @param atomCounts
      * @param terms
      * @param isReactants true if the terms are the reactants, false if they are the products
