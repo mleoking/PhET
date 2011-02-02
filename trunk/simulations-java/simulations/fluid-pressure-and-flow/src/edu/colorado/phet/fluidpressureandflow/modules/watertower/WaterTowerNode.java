@@ -64,6 +64,8 @@ public class WaterTowerNode extends PNode {
                 public void update() {
                     final Area shape = new Area( new BasicStroke( 0.55f ).createStrokedShape( waterTower.getTankShape() ) );
                     shape.subtract( new Area( new Rectangle2D.Double( waterTower.getTankShape().getCenterX(), waterTower.getTankShape().getMinY(), 10, 1 ) ) );
+                    //These numbers were sampled based on the size of max water drops, may need to be fine tuned if other parts of the sim change
+                    shape.subtract( new Area( new Rectangle2D.Double( -3.6203504908994, waterTower.getTankShape().getCenterY(), 0.6203504908994 * 2, 10 ) ) );
                     shape.subtract( new Area( waterTower.getTankShape() ) );
                     setPathTo( transform.modelToView( shape ) );
                 }
