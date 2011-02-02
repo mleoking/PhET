@@ -1,3 +1,4 @@
+2/2/11 capitalize view choices
 2/2/11 fix: order of bars should be the same for reactants and products
 2/2/11 move atom counting to Equation model
 2/2/11 change request: make equality sign in bar charts the same color as equation arrows
