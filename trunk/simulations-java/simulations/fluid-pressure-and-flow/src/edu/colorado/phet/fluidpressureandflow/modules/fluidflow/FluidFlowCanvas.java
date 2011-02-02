@@ -63,10 +63,10 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             }
         } );
         for ( PressureSensor sensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().getPressureUnit() ) );
+            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().pressureUnit ) );
         }
         for ( VelocitySensor sensor : module.getFluidFlowModel().getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, sensor, module.getFluidPressureAndFlowModel().getVelocityUnit() ) );
+            addChild( new VelocitySensorNode( transform, sensor, module.getFluidPressureAndFlowModel().velocityUnit ) );
         }
 
         final FluidFlowModel model = module.getFluidFlowModel();
@@ -85,8 +85,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                     setPaintLabels( true );
                     setLabelTable( new Hashtable<Object, Object>() {{
                         final PhetFont tickFont = new PhetFont( 16, false );
-                        put( 0, new JLabel( "None" ) {{setFont( tickFont );}} );
-                        put( 100, new JLabel( "Lots", new ImageIcon( new PNode() {{
+                        put( 0, new JLabel( FPAFStrings.NONE ) {{setFont( tickFont );}} );
+                        put( 100, new JLabel( FPAFStrings.LOTS, new ImageIcon( new PNode() {{
                             final double w = 10;
                             addChild( new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), Color.red ) );
                         }}.toImage() ), LEADING ) {{

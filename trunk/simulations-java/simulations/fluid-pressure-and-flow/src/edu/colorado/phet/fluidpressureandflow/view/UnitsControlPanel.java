@@ -6,6 +6,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
@@ -18,15 +19,15 @@ import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressur
 public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends PhetTitledPanel {
 
     public UnitsControlPanel( FluidPressureAndFlowModule<T> module ) {
-        super( "Units" );
+        super( FPAFStrings.UNITS );
 
         final T model = module.getFluidPressureAndFlowModel();
-        add( new PropertyRadioButton<Units.Unit>( "atmospheres (atm)", model.getPressureUnit(), Units.ATMOSPHERE ) );
-        add( new PropertyRadioButton<Units.Unit>( "Pascals (Pa)", model.getPressureUnit(), Units.PASCAL ) );
-        add( new PropertyRadioButton<Units.Unit>( "<html>pounds per<br>square inch (psi)</html>", model.getPressureUnit(), Units.PSI ) );
+        add( new PropertyRadioButton<Units.Unit>( FPAFStrings.PRESSURE_ATM, model.pressureUnit, Units.ATMOSPHERE ) );
+        add( new PropertyRadioButton<Units.Unit>( FPAFStrings.PASCALS_PA, model.pressureUnit, Units.PASCAL ) );
+        add( new PropertyRadioButton<Units.Unit>( FPAFStrings.POUNDS_PER_SQUARE_INCH_PSI, model.pressureUnit, Units.PSI ) );
         add( new JSeparator() );
-        add( new PropertyRadioButton<Units.Unit>( "feet (ft)", model.distanceUnit, Units.FEET ) );
-        add( new PropertyRadioButton<Units.Unit>( "meters (m)", model.distanceUnit, Units.METERS ) );
+        add( new PropertyRadioButton<Units.Unit>( FPAFStrings.FEET_FT, model.distanceUnit, Units.FEET ) );
+        add( new PropertyRadioButton<Units.Unit>( FPAFStrings.METERS_M, model.distanceUnit, Units.METERS ) );
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
         SwingUtils.setBackgroundDeep( this, FluidPressureControlPanel.BACKGROUND );

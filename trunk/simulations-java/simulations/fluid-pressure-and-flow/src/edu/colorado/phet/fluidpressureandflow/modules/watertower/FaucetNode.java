@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -61,8 +62,8 @@ public class FaucetNode extends PNode {
                 translate( 186, 0 );
             }} );
             addChild( new PSwing( new JPanel() {{
-                add( new RadioButton( "Manual", not( faucetFlowLevel.automatic ) ) );
-                add( new RadioButton( "Auto", faucetFlowLevel.automatic ) );
+                add( new RadioButton( FPAFStrings.MANUAL, not( faucetFlowLevel.automatic ) ) );
+                add( new RadioButton( FPAFStrings.AUTO, faucetFlowLevel.automatic ) );
                 setBackground( TRANSPARENT );
             }} ) {{
                 setScale( 1.4 );
