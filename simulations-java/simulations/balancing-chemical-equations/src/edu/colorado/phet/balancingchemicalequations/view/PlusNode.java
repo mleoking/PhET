@@ -22,9 +22,8 @@ public class PlusNode extends PPath {
 
     private PlusNode( double width, double height, double thickness ) {
         super();
-        setStroke( new BasicStroke( 1f ) );
-        setStrokePaint( Color.BLACK );
-        setPaint( BCEColors.PLUS_SIGN_COLOR );
+        setStroke( null );
+        setPaint( Color.BLACK );
 
         // coordinate, clockwise from upper left
         float x1 = 0f;
