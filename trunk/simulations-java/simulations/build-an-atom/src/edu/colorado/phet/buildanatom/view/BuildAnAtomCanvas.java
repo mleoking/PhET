@@ -47,7 +47,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     // Reset button.
     private final ResetAllButtonNode resetButtonNode;
 
-    private final BooleanProperty viewOrbitals = new BooleanProperty( true );
+    private final OrbitalViewProperty orbitalViewProperty = new OrbitalViewProperty( OrbitalView.PARTICLES );
     private final BooleanProperty showName = new BooleanProperty( true );
     private final BooleanProperty showNeutralIon = new BooleanProperty( true );
     private final BooleanProperty showStableUnstable = new BooleanProperty( true );
@@ -81,7 +81,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        rootNode.addChild( new InteractiveSchematicAtomNode(model, mvt, viewOrbitals ));
+        rootNode.addChild( new InteractiveSchematicAtomNode(model, mvt, orbitalViewProperty ));
 
         // Show the name of the element.
         ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), showName );
@@ -127,7 +127,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( symbolWindow );
 
         // Mass indicator
-        massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS_NUMBER, windowSize, new MassIndicatorNode( model.getAtom() ,viewOrbitals){{
+        massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS_NUMBER, windowSize, new MassIndicatorNode( model.getAtom(), orbitalViewProperty){{
             setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
         }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
@@ -166,8 +166,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
                 (maxCheckboxX + (chargeWindow.getFullBounds().getMaxX() - maxCheckboxX) / 2) - resetButtonNode.getFullBoundsReference().width / 2,
                 showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
 
-        //Add the Selection control for how to view the orbitals
-        final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( viewOrbitals );
+        // Add the Selection control for how to view the orbitals
+        final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
         orbitalViewControl.setOffset( chargeWindow.getFullBounds().getMinX()-orbitalViewControl.getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
         rootNode.addChild( orbitalViewControl );
 
@@ -176,7 +176,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         ionIndicatorNode.setOffset( elementIndicatorWindow.getFullBounds().getMinX() - ionIndicatorNode.getFullBounds().getWidth() - 10, elementIndicatorWindow.getFullBounds().getCenterY() - ionIndicatorNode.getFullBounds().getHeight() / 2 );
         rootNode.addChild( ionIndicatorNode );
 
-        //Make the "orbits" button not focused by default, by focusing the canvas
+        // Make the "orbits" button not focused by default, by focusing on the canvas.
         setFocusable( true );
         requestFocus();
 
@@ -239,7 +239,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
 
     public void reset() {
         resetWindowMaximization();
-        viewOrbitals.reset();
+        orbitalViewProperty.reset();
         showName.reset();
         showNeutralIon.reset();
         showStableUnstable.reset();

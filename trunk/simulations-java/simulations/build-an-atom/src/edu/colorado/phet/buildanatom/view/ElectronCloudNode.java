@@ -13,7 +13,6 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -25,8 +24,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Node that represents the electron shell in an atom as a "cloud", which has
- * also been referred to as the "Schroedinger model" representation.
+ * Node that represents the electron shell in an atom as a "cloud" that grows
+ * and shrinks depending on the number of electrons that it contains.  This
+ * has also been referred to as the "Schroedinger model" representation.
  *
  * @author Sam Reid
  * @author John Blanco
@@ -44,7 +44,7 @@ public class ElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronCloudNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom ) {
+    public ElectronCloudNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
 
         // This representation only pays attention to the first two shells.
         // This may need to be changed if this is ever expanded to use more
@@ -79,28 +79,28 @@ public class ElectronCloudNode extends PNode {
         Paint initialPaint = new Color( 0, 0, 0, 0 );
         electronCloudNode = new PhetPPath( initialPaint ) {
             {
-                viewOrbitals.addObserver( new SimpleObserver() {
+                orbitalView.addObserver( new SimpleObserver() {
                     public void update() {
-                        setVisible( !viewOrbitals.getValue() );
+                        setVisible( orbitalView.getValue() == OrbitalView.RESIZING_CLOUD );
                     }
                 } );
-                //Make fuzzy electron shell graphic pickable if visible and if it contains any electrons
+                // Make fuzzy electron shell graphic pickable if visible and if it contains any electrons.
                 final SimpleObserver updatePickable = new SimpleObserver() {
                     public void update() {
-                        final boolean pickable = getElectronCount() > 0 && !viewOrbitals.getValue();
+                        final boolean pickable = getElectronCount() > 0 && orbitalView.getValue() == OrbitalView.RESIZING_CLOUD;
                         setPickable( pickable );
                         setChildrenPickable( pickable );
                     }
-
                 };
                 for ( ElectronShell electronShell : electronShells ) {
                     electronShell.addObserver( updatePickable );
                 }
-                viewOrbitals.addObserver( updatePickable );
+                orbitalView.addObserver( updatePickable );
 
                 addInputEventListener( new CursorHandler() );
 
-                //Make it possible to grab and manipulate electrons from the cloud representation, see related handling code in SubatomicParticleNode
+                // Make it possible to grab and manipulate electrons from the
+                // cloud representation, see related handling code in SubatomicParticleNode.
                 addInputEventListener( new PBasicInputEventHandler() {
                     Electron grabbedElectron = null;
 

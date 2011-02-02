@@ -4,11 +4,12 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -23,7 +24,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class OrbitalViewControl extends PNode {
-    public OrbitalViewControl( final BooleanProperty viewOrbitals ) {
+    public OrbitalViewControl( final OrbitalViewProperty orbitalViewProperty ) {
         final PText textTitle = new PText( BuildAnAtomStrings.ELECTRON_MODEL ) {
             {
                 setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
@@ -36,7 +37,7 @@ public class OrbitalViewControl extends PNode {
             {
                 setOpaque( false );
                 final ButtonGroup buttonGroup = new ButtonGroup();//Fixes the problem that clicking on a radio button twice causes it to become de-selected
-                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_ORBITS, viewOrbitals.getValue() ) {
+                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_ORBITS, orbitalViewProperty.getValue() == OrbitalView.PARTICLES ) {
                     {
                         setOpaque( false );
                         buttonGroup.add( this );
@@ -44,17 +45,17 @@ public class OrbitalViewControl extends PNode {
                         setFont( BuildAnAtomConstants.ITEM_FONT );
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
-                                viewOrbitals.setValue( true );
+                                orbitalViewProperty.setValue( OrbitalView.PARTICLES );
                             }
                         } );
-                        viewOrbitals.addObserver( new SimpleObserver() {
+                        orbitalViewProperty.addObserver( new SimpleObserver() {
                             public void update() {
-                                setSelected( viewOrbitals.getValue() );
+                                setSelected( orbitalViewProperty.getValue() == OrbitalView.PARTICLES );
                             }
                         } );
                     }
                 } );
-                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD, !viewOrbitals.getValue() ) {
+                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD, orbitalViewProperty.getValue() == OrbitalView.RESIZING_CLOUD) {
                     {
                         setOpaque( false );
                         buttonGroup.add( this );
@@ -62,12 +63,12 @@ public class OrbitalViewControl extends PNode {
                         setFont( BuildAnAtomConstants.ITEM_FONT );
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
-                                viewOrbitals.setValue( false );
+                                orbitalViewProperty.setValue( OrbitalView.RESIZING_CLOUD );
                             }
                         } );
-                        viewOrbitals.addObserver( new SimpleObserver() {
+                        orbitalViewProperty.addObserver( new SimpleObserver() {
                             public void update() {
-                                setSelected( !viewOrbitals.getValue() );
+                                setSelected( orbitalViewProperty.getValue() == OrbitalView.RESIZING_CLOUD );
                             }
                         } );
                     }

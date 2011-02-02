@@ -4,7 +4,8 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.buildanatom.view.OrbitalView;
+import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 
 /**
  * Piccolo view for game problem in which the user is shown the schematic view of an atom and is asked to select the element from the periodic table.
@@ -17,7 +18,8 @@ public class SchematicToElementView extends ToElementView {
         super( model, gameCanvas, problem );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
 
-        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), ProblemView.SCHEMATIC_PROBLEM_MVT, new BooleanProperty( true ) ){{
+        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), ProblemView.SCHEMATIC_PROBLEM_MVT,
+                new OrbitalViewProperty( OrbitalView.PARTICLES ) ){{
             setPickable( false );
             setChildrenPickable( false );
         }};
