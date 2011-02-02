@@ -111,16 +111,15 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
 
         // Add indicator that shows the name of the element.
         ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ) );
-        // Position the name indicator above the nucleus
-        elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
+        elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
         rootNode.addChild( elementNameIndicator );
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
         model.getAtom().addObserver( new SimpleObserver() {
                 public void update() {
-                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2,
-                        mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS ) + 5 );
+                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBoundsReference().width / 2,
+                        mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS ) - stabilityIndicator.getFullBoundsReference().height);
                 }
                 } );
         rootNode.addChild( stabilityIndicator );
