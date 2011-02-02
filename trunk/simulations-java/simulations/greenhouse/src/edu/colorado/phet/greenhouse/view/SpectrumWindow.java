@@ -32,9 +32,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PLine;
-import edu.umd.cs.piccolox.util.LineShape;
-import edu.umd.cs.piccolox.util.XYArray;
 
 /**
  * This class defines a separate window that shows a representation of the
@@ -410,18 +407,17 @@ public class SpectrumWindow extends JFrame {
             addChild( boundingBox );
 
             // Create the line that represents the decreasing wavelength.
+            DoubleGeneralPath squigglyLinePath = new DoubleGeneralPath(0, 0);
             int numPointsOnLine = 2000;
-            XYArray pointArray = new XYArray( new double[numPointsOnLine * 2] );
             for ( int i = 0; i < numPointsOnLine; i++ ) {
                 double x = i * ( width / ( numPointsOnLine - 1 ) );
-                pointArray.setX( i, x );
                 double proportion = x / width;
-                pointArray.setY( i, ( Math.sin( ( ( Math.pow( proportion, 4 ) * 25 ) + 3 ) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 ) );
+                double y = ( Math.sin( ( ( Math.pow( proportion, 4 ) * 25 ) + 3 ) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
+                squigglyLinePath.lineTo( x, y );
             }
-            LineShape lineShape = new LineShape( pointArray );
-            PLine squigglyLine = new PLine( lineShape );
-            squigglyLine.setStroke( new BasicStroke( 2f ) );
-            addChild( squigglyLine );
+            PNode squigglyLineNode = new PhetPPath( squigglyLinePath.getGeneralPath(),
+                    new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND ), Color.BLACK );
+            addChild( squigglyLineNode );
         }
     }
 
