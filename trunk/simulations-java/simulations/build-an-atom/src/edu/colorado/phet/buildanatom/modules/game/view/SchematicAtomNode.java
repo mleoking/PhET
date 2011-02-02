@@ -11,7 +11,7 @@ import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
-import edu.colorado.phet.buildanatom.view.ElectronCloudNode;
+import edu.colorado.phet.buildanatom.view.ResizingElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
 import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
 import edu.colorado.phet.buildanatom.view.NeutronNode;
@@ -116,7 +116,7 @@ public class SchematicAtomNode extends PNode {
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
             backLayer.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ) );
         }
-        backLayer.addChild( new ElectronCloudNode( mvt, orbitalViewProperty, atom ) );
+        backLayer.addChild( new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom ) );
 
         // Add the subatomic particles.
         for ( final Electron electron : atom.getElectrons() ){

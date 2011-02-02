@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  * @author John Blanco
  */
-public class ElectronCloudNode extends PNode {
+public class ResizingElectronCloudNode extends PNode {
 
     // Base color to use when drawing clouds.
     private static final Color CLOUD_BASE_COLOR = Color.BLUE;
@@ -44,7 +44,7 @@ public class ElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronCloudNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
+    public ResizingElectronCloudNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
 
         // This representation only pays attention to the first two shells.
         // This may need to be changed if this is ever expanded to use more
