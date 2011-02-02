@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Shape;

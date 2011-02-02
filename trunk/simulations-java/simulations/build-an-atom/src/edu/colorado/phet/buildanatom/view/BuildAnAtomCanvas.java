@@ -20,6 +20,7 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.view.InteractiveSchematicAtomNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -32,13 +33,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Canvas for the tab where the user builds an atom.
  */
-public class BuildAnAtomCanvas extends PhetPCanvas {
+public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    // View
+    // Model
+    private final BuildAnAtomModel model;
+
+    // Root node where all other nodes should be added.
     private final PNode rootNode;
 
     // Transform.
@@ -61,6 +65,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     public BuildAnAtomCanvas( final BuildAnAtomModel model ) {
+        this.model = model;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
@@ -154,7 +159,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         rootNode.addChild( showStableUnstableCheckBox );
 
         // "Reset All" button.
-        resetButtonNode = new ResetAllButtonNode( model, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         rootNode.addChild( resetButtonNode );
@@ -237,7 +242,16 @@ public class BuildAnAtomCanvas extends PhetPCanvas {
         //XXX lay out nodes
     }
 
+    /**
+     * Reset the canvas and the model.
+     */
     public void reset() {
+        // Reset the model.  Since the model is reset here, take care not to
+        // hook this to some reset notification from the model, or undesirable
+        // recursion will result.
+        model.reset();
+
+        // Reset the view.
         resetWindowMaximization();
         orbitalViewProperty.reset();
         showName.reset();
