@@ -1,3 +1,5 @@
+2/2/11 add "none" as a choice of visual representations
+2/2/11 set background for control panels in play area
 2/1/11 doc
 2/1/11 remove unused code
 # 0.00.01 (48489) Feb 1, 2011

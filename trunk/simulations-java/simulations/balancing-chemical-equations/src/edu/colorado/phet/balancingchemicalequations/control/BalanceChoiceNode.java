@@ -4,10 +4,12 @@ package edu.colorado.phet.balancingchemicalequations.control;
 
 import java.awt.GridBagConstraints;
 
+import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -19,7 +21,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BalanceChoiceNode extends PhetPNode {
 
-    public static enum BalanceChoice { BAR_CHARTS, BALANCE_SCALES };
+    public static enum BalanceChoice { BAR_CHARTS, BALANCE_SCALES, NONE };
 
     public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty ) ) );
@@ -36,6 +38,8 @@ public class BalanceChoiceNode extends PhetPNode {
             setGridY( 0 ); // horizontal layout
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalanceChoice.BAR_CHARTS ) );
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalanceChoice.BALANCE_SCALES ) );
+            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.NONE, balanceChoiceProperty, BalanceChoice.NONE ) );
+            SwingUtils.setBackgroundDeep( this, BCEColors.CANVAS_BACKGROUND );
         }
     }
 }
