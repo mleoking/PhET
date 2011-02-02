@@ -17,7 +17,7 @@ public class BCEColors {
     public static final Color CANVAS_BACKGROUND = new Color( 210, 210, 255 );
     public static final Color BEFORE_AFTER_BOX_COLOR = new Color( 46, 107, 178 );
 
-    // atom color
+    // atom colors
     public static final Color C = new Color( 178, 178, 178 );
     public static final Color H = Color.WHITE;
     public static final Color N = Color.BLUE;
