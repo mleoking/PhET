@@ -1,3 +1,4 @@
+2/1/11 wire up Options->Show molecules
 2/1/11 add skeleton for Options menu
 2/1/11 implement tilt of balance scale beam
 2/1/11 completed piles of atoms on balance scales

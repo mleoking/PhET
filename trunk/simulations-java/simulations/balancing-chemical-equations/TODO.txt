@@ -4,7 +4,6 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- global Options menu item to show/hide molecules in both tabs
 - horizontal alignment of various views
 - publish dev version for discussion with all features of the "Balance Equation" module
 - create more balanced atom piles, add atoms along RTL diagonal
@@ -17,4 +16,5 @@ MEDIUM PRIORITY
 - OK to overlap molecules on balance scale (range is 0-60)
 
 LOW PRIORITY
+- how to reset global settings? (eg, Options->Show molecules)
 - generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs

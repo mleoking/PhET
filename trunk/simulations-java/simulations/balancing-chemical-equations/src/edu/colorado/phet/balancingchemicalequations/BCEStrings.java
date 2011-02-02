@@ -19,8 +19,8 @@ public class BCEStrings {
     public static final String BALANCE_THE_EQUATION = getString( "balanceTheEquation" );
     public static final String BAR_CHARTS = getString( "barCharts" );
     public static final String GAME = getString( "game" );
-    public static final String HIDE_MOLECULES = getString( "hideMolecules" );
     public static final String METHANE = getString( "methane" );
+    public static final String SHOW_MOLECULES = getString( "showMolecules" );
     public static final String WATER = getString( "water" );
 
     private static final String getString( String key ) {

@@ -15,6 +15,10 @@ public class GameCanvas extends BCECanvas {
         //XXX
     }
 
+    public void setMoleculesVisible( boolean moleculesVisible ) {
+        //XXX
+    }
+
     public void reset() {
         //XXX
     }

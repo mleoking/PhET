@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BCEModule extends PiccoloModule {
+public abstract class BCEModule extends PiccoloModule {
 
     private final Frame parentFrame;
 
@@ -27,4 +27,7 @@ public class BCEModule extends PiccoloModule {
     protected Frame getParentFrame() {
         return parentFrame;
     }
+
+    public abstract void setMoleculesVisible( boolean moleculesVisible );
+
 }

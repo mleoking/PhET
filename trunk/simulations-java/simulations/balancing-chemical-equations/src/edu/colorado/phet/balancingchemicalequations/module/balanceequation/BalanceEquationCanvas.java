@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 public class BalanceEquationCanvas extends BCECanvas {
 
     private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"
+    private final BoxesNode boxesNode;
 
     public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, final BalanceEquationModel model, boolean dev ) {
 
@@ -38,7 +39,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        BoxesNode boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), new Dimension( 300, 180 ) /* boxSize */ );
+        boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), new Dimension( 300, 180 ) /* boxSize */ );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
@@ -102,6 +103,10 @@ public class BalanceEquationCanvas extends BCECanvas {
                 balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BALANCE_SCALES ) );
             }
         } );
+    }
+
+    public void setMoleculesVisible( boolean moleculesVisible ) {
+        boxesNode.setMoleculesVisible( moleculesVisible );
     }
 
     public void reset() {
