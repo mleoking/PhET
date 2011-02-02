@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
@@ -73,6 +72,9 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
     // Button for displaying EM specturm.
     private final ButtonNode showSpectrumButton = new ButtonNode( "Show Light Spectrum", 24, new Color( 185, 178, 95 ) );
+
+    // Window that displays the EM spectrum upon request.
+    private final SpectrumWindow spectrumWindow = new SpectrumWindow(){{ setVisible( false ); }};
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -188,15 +190,21 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         showSpectrumButton.setOffset( 0, 700 );
         showSpectrumButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                // Show the image dialog.
-                SpectrumDialog spectrumDialog = new SpectrumDialog( parentFrame );
-                if ( spectrumDialog != null ) {
-                    SwingUtils.centerInParent( spectrumDialog );
+                // If the spectrum window is currently invisible
+                // maximized, un-maximize it.
+                if ( !spectrumWindow.isVisible() && ( spectrumWindow.getExtendedState() & Frame.MAXIMIZED_BOTH ) == Frame.MAXIMIZED_BOTH ) {
+                    spectrumWindow.setExtendedState( spectrumWindow.getExtendedState() & ~Frame.MAXIMIZED_BOTH );
                 }
-                spectrumDialog.setVisible( true );
+                // If the spectrum window is currently minimized, restore it.
+                if ( spectrumWindow.getState() == Frame.ICONIFIED ){
+                    spectrumWindow.setState( Frame.NORMAL );
+                }
+
+                // Always set it visible.  This has the effect of bringing it
+                // to the front if it is behind the main sim window.
+                spectrumWindow.setVisible( true );
             }
         });
-
 
         // Update the layout.
         updateLayout();
