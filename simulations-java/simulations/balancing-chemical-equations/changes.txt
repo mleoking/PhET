@@ -1,3 +1,5 @@
+# 0.00.01 (48489) Feb 1, 2011
+2/1/11 dev version for discussion with KL, no horizontal alignment
 2/1/11 fix layout of balance scales so that fulcrums remain in fixed locations
 2/1/11 wire up Options->Show molecules
 2/1/11 add skeleton for Options menu
