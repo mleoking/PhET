@@ -96,14 +96,14 @@ public class BalanceScaleNode extends PComposite {
 
         // rotate beam and atoms on fulcrum
         double maxAngle = ( Math.PI / 2 ) - Math.acos( FULCRUM_SIZE.getHeight() / ( BEAM_LENGTH / 2 ) );
-        double deltaAngle = maxAngle / NUMBER_OF_TILT_ANGLES;
         final double difference = rightNumberOfAtoms - leftNumberOfAtoms;
         double angle = 0;
         if ( Math.abs( difference ) > NUMBER_OF_TILT_ANGLES ) {
-            angle = maxAngle * Math.abs( difference ) / difference;
+            int sign = (int)( Math.abs( difference ) / difference );
+            angle = sign * maxAngle;
         }
         else {
-            angle = difference * deltaAngle;
+            angle = difference * ( maxAngle / NUMBER_OF_TILT_ANGLES );
         }
         beamNode.setRotation( angle );
         atomPilesParentNode.setRotation( angle );
