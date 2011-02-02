@@ -6,14 +6,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
 import edu.colorado.phet.buildanatom.view.BucketNode;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -21,10 +21,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Piccolo Node that represents an atom in "schematic" (i.e. Bohr) form and
- * allows users to add or remove the various subatomic particles.  This
- * extension adds buckets for holding subatomic particles that can be moved
- * into the atom.
+ * Piccolo Node that adds interactivity to a node that represents and atom.
+ * The type of interactivity that it adds is the ability to grab and move
+ * the subatomic particles in and out of the atom.  This extension also add
+ * buckets for holding subatomic particles that are outside of the atom.
  *
  * @author Sam Reid
  * @author John Blanco
@@ -36,8 +36,8 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
     /**
      * Constructor.
      */
-    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
-        super( model.getAtom(), mvt, viewOrbitals );
+    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView ) {
+        super( model.getAtom(), mvt, orbitalView );
 
         this.model = model;
 

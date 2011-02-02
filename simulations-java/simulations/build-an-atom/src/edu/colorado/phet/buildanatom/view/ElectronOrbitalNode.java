@@ -10,7 +10,6 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -34,7 +33,8 @@ public class ElectronOrbitalNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronOrbitalNode( final ModelViewTransform2D mvt, final BooleanProperty viewOrbitals, final Atom atom, final ElectronShell electronShell, final boolean allowsUserInput ) {
+    public ElectronOrbitalNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalViewProperty,
+            final Atom atom, final ElectronShell electronShell, final boolean allowsUserInput ) {
 
         final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
                 -electronShell.getRadius(),
@@ -43,15 +43,16 @@ public class ElectronOrbitalNode extends PNode {
                 electronShell.getRadius() * 2 ) );
 
         // Create and add the node that will depict the shell as a circular
-        // orbit.
+        // orbit.  This is only visible when the electrons are being
+        // represented as individual particles.
         final PNode electronOrbitNode = new PhetPPath( electronShellShape, ELECTRON_SHELL_STROKE, ELECTRON_SHELL_STROKE_PAINT ) { {
                 setOffset( atom.getPosition() );
                 final SimpleObserver updateVisibility = new SimpleObserver() {
                     public void update() {
-                        setVisible( viewOrbitals.getValue() );
+                        setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES );
                     }
                 };
-                viewOrbitals.addObserver( updateVisibility );
+                orbitalViewProperty.addObserver( updateVisibility );
             } };
         addChild( electronOrbitNode );
     }

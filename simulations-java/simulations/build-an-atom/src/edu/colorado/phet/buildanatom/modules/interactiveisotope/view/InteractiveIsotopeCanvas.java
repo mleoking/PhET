@@ -91,7 +91,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Create the node that contains both the atom and the neutron bucket.
-        final PNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, new BooleanProperty( true ) );
+        final PNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt );
 
         // Create the weigh scale that sits beneath the atom.
         final PNode scaleNode = new AtomScaleNode( model.getAtom() ) {

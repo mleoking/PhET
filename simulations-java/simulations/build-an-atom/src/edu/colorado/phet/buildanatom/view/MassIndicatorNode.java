@@ -12,7 +12,6 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -30,7 +29,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class MassIndicatorNode extends PNode {
     private static final double WIDTH = 90; // The image will define the aspect ratio and therefore the height.
 
-    public MassIndicatorNode( final Atom atom, final BooleanProperty viewOrbitals ) {
+    public MassIndicatorNode( final Atom atom, final OrbitalViewProperty orbitalViewProperty ) {
 
         final PImage weighScaleImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_scale.png" ) );
         weighScaleImageNode.setScale( WIDTH / weighScaleImageNode.getFullBoundsReference().width );
@@ -59,10 +58,10 @@ public class MassIndicatorNode extends PNode {
         double scale = 1.0 / 5;
         ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale, scale ), false );
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
-            atomNode.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, atom, electronShell, false ) );
+            atomNode.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, false ) );
         }
 
-        atomNode.addChild( new ElectronCloudNode( mvt, viewOrbitals, atom ) );
+        atomNode.addChild( new ElectronCloudNode( mvt, orbitalViewProperty, atom ) );
 
         double nucleusWidth=1;
         atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
@@ -89,7 +88,7 @@ public class MassIndicatorNode extends PNode {
                 // upper left corner of the whole assembly.
                 double y = 0;
                 //This logic makes sure the atom is centered on the scale, whether it has orbital rings or 1 or 2 levels of fuzziness
-                if ( viewOrbitals.getValue() ) {
+                if ( orbitalViewProperty.getValue() != OrbitalView.RESIZING_CLOUD ) {
                     y = atomNode.getFullBoundsReference().height / 2;
                 }
                 else {
@@ -103,7 +102,7 @@ public class MassIndicatorNode extends PNode {
                 atomNode.setOffset( weighScaleImageNode.getFullBoundsReference().getCenterX(), y );
             }
         };
-        viewOrbitals.addObserver( updateAtomOffset );
+        orbitalViewProperty.addObserver( updateAtomOffset );
         atom.addObserver( updateAtomOffset );//update when number of e- changes in outer shell
 
         // There is a tweak factor here to set the vertical relationship between

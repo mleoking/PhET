@@ -15,9 +15,10 @@ import edu.colorado.phet.buildanatom.view.ElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
 import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
 import edu.colorado.phet.buildanatom.view.NeutronNode;
+import edu.colorado.phet.buildanatom.view.OrbitalView;
+import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.buildanatom.view.ProtonNode;
 import edu.colorado.phet.buildanatom.view.SubatomicParticleNode;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.umd.cs.piccolo.PNode;
@@ -42,7 +43,7 @@ public class SchematicAtomNode extends PNode {
 
     // Property that controls whether the electrons are depicted as particles
     // or as a cloud when they are a part of the atom.
-    private final BooleanProperty viewOrbitals;
+    private final OrbitalViewProperty orbitalViewProperty;
 
     // Particle layers.  These exist so that we can give the nucleus a faux
     // 3D sort of look, with the particles toward the center of the nucleus
@@ -66,12 +67,11 @@ public class SchematicAtomNode extends PNode {
      *
      * @param atom - The atom that is being represented by this node.
      * @param mvt - Transform for moving back and forth between model and view coordinates.
-     * @param viewOrbitals - A boolean property that controls whether the
-     * orbitals (i.e. the electron shells) are shown or whether the electrons
-     * in the atoms are depicted as a cloud.
+     * @param orbitalViewProperty - A property that controls how the electrons
+     * are represented.
      */
-    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals ) {
-        this( atom, mvt, viewOrbitals, true, true, true );
+    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final OrbitalViewProperty orbitalViewProperty ) {
+        this( atom, mvt, orbitalViewProperty, true, true, true );
     }
 
     /**
@@ -79,9 +79,8 @@ public class SchematicAtomNode extends PNode {
      *
      * @param atom - The atom that is being represented by this node.
      * @param mvt - Transform for moving back and forth between model and view coordinates.
-     * @param viewOrbitals - A boolean property that controls whether the
-     * orbitals (i.e. the electron shells) are shown or whether the electrons
-     * in the atoms are depicted as a cloud.
+     * @param orbitalViewProperty - A property that controls how the electrons
+     * are represented.
      * @param protonsAreInteractive - Flag that controls whether protons can
      * be picked up and moved.
      * @param neutronsAreInteractive - Flag that controls whether neutrons can
@@ -89,14 +88,14 @@ public class SchematicAtomNode extends PNode {
      * @param electronsAreInteractive - Flag that controls whether electrons can
      * be picked up and moved.
      */
-    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final BooleanProperty viewOrbitals,
+    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final OrbitalViewProperty orbitalViewProperty,
             boolean protonsAreInteractive, boolean neutronsAreInteractive, boolean electronsAreInteractive ) {
         this.protonsAreInteractive = protonsAreInteractive;
         this.electronsAreInteractive = electronsAreInteractive;
         this.neutronsAreInteractive = neutronsAreInteractive;
         this.atom = atom;
         this.mvt = mvt;
-        this.viewOrbitals = viewOrbitals;
+        this.orbitalViewProperty = orbitalViewProperty;
 
         // Create the layers and add them in the desired order.
         backLayer = new PNode( );
@@ -115,9 +114,9 @@ public class SchematicAtomNode extends PNode {
         // Add the atom's electron shells to the canvas.  There are two representations that are mutually
         // exclusive - the orbital view and the cloud view.
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
-            backLayer.addChild( new ElectronOrbitalNode( mvt, viewOrbitals, atom, electronShell, true ) );
+            backLayer.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ) );
         }
-        backLayer.addChild( new ElectronCloudNode( mvt, viewOrbitals, atom ) );
+        backLayer.addChild( new ElectronCloudNode( mvt, orbitalViewProperty, atom ) );
 
         // Add the subatomic particles.
         for ( final Electron electron : atom.getElectrons() ){
@@ -281,10 +280,10 @@ public class SchematicAtomNode extends PNode {
         final ElectronNode electronNode = new ElectronNode( mvt, electron ){{
             final SimpleObserver updateVisibility = new SimpleObserver() {
                 public void update() {
-                    setVisible( viewOrbitals.getValue() || !atom.containsElectron( electron ) );
+                    setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
                 }
             };
-            viewOrbitals.addObserver( updateVisibility );
+            orbitalViewProperty.addObserver( updateVisibility );
             atom.addObserver( updateVisibility );
             updateVisibility.update();
         }};
