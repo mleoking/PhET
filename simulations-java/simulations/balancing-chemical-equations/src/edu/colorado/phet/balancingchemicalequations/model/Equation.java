@@ -91,10 +91,18 @@ public abstract class Equation {
         return name;
     }
 
+    /**
+     * Gets the reactants, the terms on the left side of the equation.
+     * @return
+     */
     public EquationTerm[] getReactants() {
         return reactants;
     }
 
+    /**
+     * Gets the products, the terms on the left side of the equation.
+     * @return
+     */
     public EquationTerm[] getProducts() {
         return products;
     }
@@ -115,7 +123,7 @@ public abstract class Equation {
         return balancedWithLowestCoefficientsProperty;
     }
 
-    public boolean allCoefficientsZero() {
+    public boolean isAllCoefficientsZero() {
         boolean allZero = true;
         for ( EquationTerm term : reactants ) {
             if ( term.getActualCoefficient() > 0 ) {

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 
 /**
- * Shows the balanced equation, used for dev debugging.
+ * Debug node that shows the balanced equation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

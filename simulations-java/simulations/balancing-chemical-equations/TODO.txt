@@ -10,7 +10,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - horizontal alignment of various views
-- doc
 - publish dev version for discussion, with all features of the "Balance Equation" module
 
 MEDIUM PRIORITY
