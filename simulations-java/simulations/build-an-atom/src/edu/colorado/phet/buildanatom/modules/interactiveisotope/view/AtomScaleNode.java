@@ -82,6 +82,13 @@ public class AtomScaleNode extends PNode {
 
         // Add the display mode selector to the scale base.
         addChild( new DisplayModeSelectionNode( displayModeProperty ){{
+            // Scale the selector if necessary.  This is here primarily in
+            // support of translation.
+            double maxAllowableWidth = frontOfBaseNode.getFullBoundsReference().getMaxX() - scaleReadoutNode.getFullBoundsReference().getMaxX() - 10;
+            if ( getFullBoundsReference().getWidth() > maxAllowableWidth ){
+                setScale( maxAllowableWidth / getFullBoundsReference().width );
+            }
+            // Position the selector next to the readout.
             setOffset( scaleReadoutNode.getFullBoundsReference().getMaxX() + 5,
                     frontOfBaseNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
         }} );
