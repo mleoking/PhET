@@ -28,6 +28,7 @@ import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -48,7 +49,7 @@ import edu.umd.cs.piccolox.util.XYArray;
 /**
  * Canvas for the tab where the user builds an atom.
  */
-public class InteractiveIsotopeCanvas extends PhetPCanvas {
+public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -57,6 +58,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+
+    // Model
+    private final InteractiveIsotopeModel model;
 
     // View
     private final PNode rootNode;
@@ -67,11 +71,14 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     private final MaximizeControlNode symbolWindow;
     private final MaximizeControlNode abundanceWindow;
 
+    private final AtomScaleNode scaleNode;
+
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 
     public InteractiveIsotopeCanvas( final InteractiveIsotopeModel model ) {
+        this.model = model;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
@@ -95,8 +102,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         // Create the node that contains both the atom and the neutron bucket.
         final PNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt );
 
-        // Create the weigh scale that sits beneath the atom.
-        final PNode scaleNode = new AtomScaleNode( model.getAtom() ) {
+        scaleNode = new AtomScaleNode( model.getAtom() ) {
             {
                 // The scale needs to sit just below the atom, and there are some
                 // "tweak factors" needed to get it looking right.
@@ -129,7 +135,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model,
                 BuildAnAtomConstants.CANVAS_BACKGROUND ) {
             {
-                setScale( 1.2 );
+                setScale( 1.3 );
                 setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
             }
         };
@@ -143,7 +149,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         final SymbolIndicatorNode symbolIndicatorNode = new SymbolIndicatorNode( model.getAtom(), false, false );
         symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, new PDimension( 400, 100 ), symbolIndicatorNode, true );
         symbolIndicatorNode.setOffset( 20, symbolWindow.getFullBoundsReference().height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
-        symbolWindow.setOffset( indicatorWindowPosX, 250 );
+        symbolWindow.setOffset( indicatorWindowPosX, 270 );
         rootNode.addChild( symbolWindow );
 
         // Add the node that indicates the percentage abundance.
@@ -157,7 +163,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         rootNode.addChild( abundanceWindow );
 
         // Add the "Reset All" button.
-        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         rootNode.addChild( resetButtonNode );
@@ -176,6 +182,21 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
+
+    /* (non-Javadoc)
+     * @see edu.colorado.phet.common.phetcommon.model.Resettable#reset()
+     */
+    public void reset() {
+        // Note that this resets the model, so be careful about hooking this
+        // up to any reset coming from the model or you will end up in
+        // Nastyrecursionville.
+        model.reset();
+
+        // Reset the view componenets.
+        symbolWindow.setMaximized( true );
+        abundanceWindow.setMaximized( true );
+        scaleNode.reset();
+    }
 
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
