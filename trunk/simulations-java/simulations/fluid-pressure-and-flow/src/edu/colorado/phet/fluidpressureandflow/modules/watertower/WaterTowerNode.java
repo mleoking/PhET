@@ -2,7 +2,9 @@
 package edu.colorado.phet.fluidpressureandflow.modules.watertower;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -48,7 +50,7 @@ public class WaterTowerNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( Color.gray, new BasicStroke( 8 ), Color.black ) {{ // tank outline
+        addChild( new PhetPPath( Color.gray ) {{ // tank interior
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( waterTower.getTankShape() ) );
@@ -56,10 +58,14 @@ public class WaterTowerNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( Color.gray ) {{ // chop off the inner part of the tank stroke from above
+        //Tank border
+        addChild( new PhetPPath( Color.black ) {{
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( waterTower.getTankShape() ) );
+                    final Area shape = new Area( new BasicStroke( 0.55f ).createStrokedShape( waterTower.getTankShape() ) );
+                    shape.subtract( new Area( new Rectangle2D.Double( waterTower.getTankShape().getCenterX(), waterTower.getTankShape().getMinY(), 10, 1 ) ) );
+                    shape.subtract( new Area( waterTower.getTankShape() ) );
+                    setPathTo( transform.modelToView( shape ) );
                 }
             } );
         }} );
@@ -72,6 +78,7 @@ public class WaterTowerNode extends PNode {
             } );
         }} );
 
+        //water in the tower
         addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) ) {{
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
@@ -81,6 +88,25 @@ public class WaterTowerNode extends PNode {
             final SimpleObserver updateWaterLocation = new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( waterTower.getWaterShape() ) );
+                }
+            };
+            waterTower.tankBottomCenter.addObserver( updateWaterLocation );
+            waterTower.fluidVolume.addObserver( updateWaterLocation );
+            setPickable( false );
+        }} );
+
+        //water in the hole
+        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) ) {{
+            fluidDensity.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) );
+                }
+            } );
+            final SimpleObserver updateWaterLocation = new SimpleObserver() {
+                public void update() {
+                    final Rectangle2D waterBounds = waterTower.getWaterShape().getBounds2D();
+                    setPathTo( transform.modelToView( new Rectangle2D.Double( waterBounds.getMinX(), waterBounds.getMinY(),
+                                                                              waterBounds.getWidth() + 0.55 / 2, Math.min( 1, waterBounds.getHeight() ) ) ) );
                 }
             };
             waterTower.tankBottomCenter.addObserver( updateWaterLocation );
@@ -102,10 +128,10 @@ public class WaterTowerNode extends PNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     if ( event.getDeltaRelativeTo( getParent() ).getHeight() > 0 ) {
-                        waterTower.panelOffset.setValue( new ImmutableVector2D( WaterTower.TANK_RADIUS, 0 ) );
+                        waterTower.panelOffset.setValue( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 0 ) );
                     }
                     else if ( event.getDeltaRelativeTo( getParent() ).getHeight() < 0 ) {
-                        waterTower.panelOffset.setValue( new ImmutableVector2D( WaterTower.TANK_RADIUS, 2 ) );
+                        waterTower.panelOffset.setValue( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 2 ) );
                     }
                 }
             } );
