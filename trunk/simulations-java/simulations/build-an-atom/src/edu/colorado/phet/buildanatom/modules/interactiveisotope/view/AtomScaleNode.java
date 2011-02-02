@@ -46,7 +46,7 @@ public class AtomScaleNode extends PNode {
     private enum DisplayMode { MASS_NUMBER, ATOMIC_MASS };
 
     private static final Color COLOR = new Color( 228, 194, 167 );
-    private static final Dimension2D SIZE = new PDimension( 300, 125 );
+    private static final Dimension2D SIZE = new PDimension( 320, 125 );
     private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
     private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Paint STROKE_PAINT = Color.BLACK;
@@ -253,7 +253,7 @@ public class AtomScaleNode extends PNode {
             }};
             buttonPanel.add( massNumberButton );
             // TODO: i18n
-            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( "Atomic Mass", displayModeProperty, DisplayMode.ATOMIC_MASS ){{
+            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( "Atomic Mass (amu)", displayModeProperty, DisplayMode.ATOMIC_MASS ){{
                 setBackground( COLOR );
                 setFont( LABEL_FONT );
             }};
