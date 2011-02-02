@@ -1,5 +1,4 @@
-2/2/11 rewrite boxes view to use HorizontalAligner
-2/2/11 add HorizontalAligner to centralize alignment of multiple representations
+2/2/11 abandon HorizontalAligner approach to alignment of multiple representations
 2/2/11 capitalize view choices
 2/2/11 fix: order of bars should be the same for reactants and products
 2/2/11 move atom counting to Equation model
