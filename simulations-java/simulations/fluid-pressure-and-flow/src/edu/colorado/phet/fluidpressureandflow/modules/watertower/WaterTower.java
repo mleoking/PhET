@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class WaterTower {
     public static final int MAX_Y = 18;
-    private static double TANK_RADIUS = 5;
+    public static double TANK_RADIUS = 5;
     public static double TANK_HEIGHT = 10;
     private static final int LEG_EXTENSION = 3;
     public static double tankVolume = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
