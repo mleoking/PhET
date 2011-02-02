@@ -4,11 +4,14 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -42,8 +45,17 @@ public class FixedSizeElectronCloudNode extends PNode {
         Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double( atom.getPosition().getX() - radius,
                 atom.getPosition().getY() - radius, radius * 2, radius * 2) );
 
+        // Create the paint for depicting the electron cloud.  This is lighter
+        // in the center and darker as we move out so that the nucleus can be
+        // clearly seen.
+        final Paint shellGradientPaint = new RoundGradientPaint(
+                electronShellShape.getBounds2D().getCenterX(),
+                electronShellShape.getBounds2D().getCenterY(),
+                new Color( 0, 0, 0, 200 ),
+                new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
+                new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 50 ) );
         // Create and add the node that represents the electrons.
-        electronCloudNode = new PhetPPath( electronShellShape, Color.BLUE, new BasicStroke(2), Color.GREEN ){{
+        electronCloudNode = new PhetPPath( electronShellShape, shellGradientPaint ){{
             orbitalView.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( orbitalView.getValue() == OrbitalView.FIXED_SIZE_CLOUD );
