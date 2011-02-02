@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.ButtonExpander;
@@ -72,10 +73,10 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     public static class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {
         public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
-            final SliderControl fluidDensityControl = new SliderControl( "Fluid Density", "kg/m^3", FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().liquidDensity, new HashMap<Double, TickLabel>() {{
-                put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( "gasoline" ) );
-                put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( "water" ) );
-                put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( "honey" ) );
+            final SliderControl fluidDensityControl = new SliderControl( FPAFStrings.FLUID_DENSITY, FPAFStrings.KG_PER_M_3, FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().liquidDensity, new HashMap<Double, TickLabel>() {{
+                put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( FPAFStrings.GASOLINE ) );
+                put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( FPAFStrings.WATER ) );
+                put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( FPAFStrings.HONEY ) );
             }} ) {{
                 module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                     public void update() {
@@ -83,7 +84,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                     }
                 } );
             }};
-            final ButtonExpander fluidDensityExpander = new ButtonExpander( "Fluid Density >", "Fluid Density <", module.fluidDensityControlVisible ) {{
+            final ButtonExpander fluidDensityExpander = new ButtonExpander( FPAFStrings.FLUID_DENSITY_MORE, FPAFStrings.FLUID_DENSITY_LESS, module.fluidDensityControlVisible ) {{
                 setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
             }};
 

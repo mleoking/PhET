@@ -1,3 +1,4 @@
+Added internationalization
 # 0.00.09 (48472) Feb 1, 2011
 Improved the default locations for the pressure and velocity sensors in the water tower tab
 Added the ability to measure pressure in the water tank water

@@ -82,14 +82,6 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
         liquidDensity.addObserver( updatePressure );
     }
 
-    public Property<Units.Unit> getPressureUnit() {
-        return pressureUnit;
-    }
-
-    public Property<Units.Unit> getVelocityUnit() {
-        return velocityUnit;
-    }
-
     public Function.LinearFunction getPressureFunction() {
         return pressureFunction;
     }

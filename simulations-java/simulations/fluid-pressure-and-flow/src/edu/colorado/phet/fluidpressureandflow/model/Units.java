@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.FieldPosition;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 
 /**
  * The units for the Fluid Pressure and Flow model are SI, and Units converts them to and from different units systems.
@@ -12,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
  * @author Sam Reid
  */
 public class Units {
-    public static Unit ATMOSPHERE = new LinearUnit( "Atmospheres", "atm", 9.8692E-6, new DecimalFormat( "0.0000" ) {
+    public static Unit ATMOSPHERE = new LinearUnit( FPAFStrings.ATMOSPHERES, FPAFStrings.ATM, 9.8692E-6, new DecimalFormat( "0.0000" ) {
         @Override
         public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
             final StringBuffer answer = super.format( number, result, fieldPosition );
@@ -24,13 +25,13 @@ public class Units {
             }
         }
     } );//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
-    public static Unit PASCAL = new LinearUnit( "Pascal", "Pa", 1, new DecimalFormat( "0" ) );
-    public static Unit PSI = new LinearUnit( "Pounds per square inch", "psi", 145.04E-6, new DecimalFormat( "0.00" ) );
+    public static Unit PASCAL = new LinearUnit( FPAFStrings.PASCALS, FPAFStrings.PA, 1, new DecimalFormat( "0" ) );
+    public static Unit PSI = new LinearUnit( FPAFStrings.POUNDS_PER_SQUARE_INCH, FPAFStrings.PSI, 145.04E-6, new DecimalFormat( "0.00" ) );
 
-    public static Unit METERS = new LinearUnit( "Meters", "m", 1, new DecimalFormat( "0.0" ) );
-    public static Unit FEET = new LinearUnit( "Feet", "ft", 3.2808399, new DecimalFormat( "0.0" ) );
+    public static Unit METERS = new LinearUnit( FPAFStrings.METERS, FPAFStrings.M, 1, new DecimalFormat( "0.0" ) );
+    public static Unit FEET = new LinearUnit( FPAFStrings.FEET, FPAFStrings.FT, 3.2808399, new DecimalFormat( "0.0" ) );
 
-    public static Unit METERS_PER_SECOND = new LinearUnit( "Meters per second", "m/s", 1, new DecimalFormat( "0.0" ) );
+    public static Unit METERS_PER_SECOND = new LinearUnit( FPAFStrings.METERS_PER_SECOND, FPAFStrings.M_PER_S, 1, new DecimalFormat( "0.0" ) );
 
     public double feetToMeters( double feet ) {
         return feet * 0.3048;
