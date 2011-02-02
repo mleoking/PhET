@@ -11,13 +11,14 @@ import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SubatomicParticle;
-import edu.colorado.phet.buildanatom.view.ResizingElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
 import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
+import edu.colorado.phet.buildanatom.view.FixedSizeElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.NeutronNode;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.buildanatom.view.ProtonNode;
+import edu.colorado.phet.buildanatom.view.ResizingElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.SubatomicParticleNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -111,12 +112,13 @@ public class SchematicAtomNode extends PNode {
         frontLayer = new PNode( );
         addChild( frontLayer );
 
-        // Add the atom's electron shells to the canvas.  There are two representations that are mutually
-        // exclusive - the orbital view and the cloud view.
+        // Add the atom's electron shells to the canvas.  There are three representations that are mutually
+        // exclusive - the orbital view, the resizing cloud view, and the fixed-size cloud view.
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
             backLayer.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ) );
         }
         backLayer.addChild( new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom ) );
+        backLayer.addChild( new FixedSizeElectronCloudNode( mvt, orbitalViewProperty, atom ) );
 
         // Add the subatomic particles.
         for ( final Electron electron : atom.getElectrons() ){
@@ -128,7 +130,6 @@ public class SchematicAtomNode extends PNode {
         for ( final Neutron neutron : atom.getNeutrons()){
             addNeutron( neutron );
         }
-
     }
 
     /**

@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Added a fixed-size representation of the electron cloud to the 1st tab. 
 isotopes-and-atomic-mass: Added the element name indicator to the canvas just above the nucleus. 
 isotopes-and-atomic-mass: Reduced number of neutrons in the bucket to 4 and adjusted the size and position of the bucket to compensate. 
 isotopes-and-atomic-mass: Relocated the atom, neuron bucket, and symbol.  Part of new layout of this tab.
