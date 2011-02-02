@@ -61,7 +61,7 @@ public class MassIndicatorNode extends PNode {
             atomNode.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, false ) );
         }
 
-        atomNode.addChild( new ElectronCloudNode( mvt, orbitalViewProperty, atom ) );
+        atomNode.addChild( new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom ) );
 
         double nucleusWidth=1;
         atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
