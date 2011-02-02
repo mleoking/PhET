@@ -5,10 +5,12 @@ package edu.colorado.phet.balancingchemicalequations.control;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
+import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -40,6 +42,7 @@ public class EquationChoiceNode extends PhetPNode {
             for ( Equation equation : equations ) {
                 add( new PropertyRadioButton<Equation>( equation.getName(), currentEquationProperty, equation ) );
             }
+            SwingUtils.setBackgroundDeep( this, BCEColors.CANVAS_BACKGROUND );
         }
     }
 }
