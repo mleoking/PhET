@@ -14,7 +14,7 @@ public class FPAFStrings {
     public static final String FLOW = getString( "flow" );
     public static final String RULER = getString( "ruler" );
     public static final String MANUAL = getString( "manual" );
-    public static final String AUTO = getString( "auto" );
+    public static final String MATCH_LEAKAGE = getString( "matchLeakage" );
     public static final String MEASURING_TAPE = getString( "measuringTape" );
     public static final String HOSE = getString( "hose" );
     public static final String WATER_TOWER = getString( "waterTower" );
