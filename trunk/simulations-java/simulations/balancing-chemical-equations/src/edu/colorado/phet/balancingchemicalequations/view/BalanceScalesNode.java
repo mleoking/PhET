@@ -4,7 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom;
+import edu.colorado.phet.balancingchemicalequations.model.AtomCount;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -23,19 +23,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalanceScalesNode extends PComposite {
-
-    // Internal data structure for counting the number of each atom type.
-    private static class AtomCount {
-
-        public final Atom atom;
-        public int reactantsCount, productsCount;
-
-        public AtomCount( Atom atom, int reactantsCount, int productsCount ) {
-            this.atom = atom;
-            this.reactantsCount = reactantsCount;
-            this.productsCount = productsCount;
-        }
-    }
 
     private final SimpleObserver coefficientsObserver;
 
@@ -98,61 +85,12 @@ public class BalanceScalesNode extends PComposite {
     private void updateNode() {
         removeAllChildren();
         double x = 0;
-        ArrayList<AtomCount> atomCounts = countAtoms( equation.getReactants(), equation.getProducts() );
+        ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
         for ( AtomCount atomCount : atomCounts ) {
-            BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.atom, atomCount.reactantsCount, atomCount.productsCount );
+            BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.getAtom(), atomCount.getReactantsCount(), atomCount.getProductsCount() );
             scaleNode.setOffset( x, 0 );
             addChild( scaleNode );
             x += ( scaleNode.getBeamLength() + 25 );
         }
-    }
-
-    /*
-     * Given a set of terms, returns a count of each type of atom.
-     * This is a brute force algorithm, but our number of terms is always small,
-     * and this is easy to implement and understand.
-     */
-    private static ArrayList<AtomCount> countAtoms( EquationTerm[] reactantTerms, EquationTerm[] productTerms ) {
-        ArrayList<AtomCount> atomCounts = new ArrayList<AtomCount>();
-
-        // reactants
-        for ( EquationTerm term : reactantTerms ) {
-            for ( Atom atom : term.getMolecule().getAtoms() ) {
-                boolean found = false;
-                for ( AtomCount count : atomCounts ) {
-                    // add to an existing atom count
-                    if ( count.atom.getClass().equals( atom.getClass() ) ) {
-                        count.reactantsCount += term.getActualCoefficient();
-                        found = true;
-                        break;
-                    }
-                }
-                // if not existing atom count was found, create one.
-                if ( !found ) {
-                    atomCounts.add( new AtomCount( atom, term.getActualCoefficient(), 0 ) );
-                }
-            }
-        }
-
-        // products
-        for ( EquationTerm term : productTerms ) {
-            for ( Atom atom : term.getMolecule().getAtoms() ) {
-                boolean found = false;
-                for ( AtomCount count : atomCounts ) {
-                    // add to an existing atom count
-                    if ( count.atom.getClass().equals( atom.getClass() ) ) {
-                        count.productsCount += term.getActualCoefficient();
-                        found = true;
-                        break;
-                    }
-                }
-                // if not existing atom count was found, create one.
-                if ( !found ) {
-                    atomCounts.add( new AtomCount( atom, 0, term.getActualCoefficient() ) );
-                }
-            }
-        }
-
-        return atomCounts;
     }
 }
