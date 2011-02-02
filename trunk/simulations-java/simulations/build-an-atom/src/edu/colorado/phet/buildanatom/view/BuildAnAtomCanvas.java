@@ -48,9 +48,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
     // Transform.
     private final ModelViewTransform2D mvt;
 
-    // Reset button.
-    private final ResetAllButtonNode resetButtonNode;
-
+    // Variable needed to able to reset the canvas.
     private final OrbitalViewProperty orbitalViewProperty = new OrbitalViewProperty( OrbitalView.PARTICLES );
     private final BooleanProperty showName = new BooleanProperty( true );
     private final BooleanProperty showNeutralIon = new BooleanProperty( true );
@@ -159,7 +157,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( showStableUnstableCheckBox );
 
         // "Reset All" button.
-        resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         rootNode.addChild( resetButtonNode );
