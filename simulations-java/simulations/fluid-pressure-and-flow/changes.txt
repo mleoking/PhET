@@ -1,3 +1,4 @@
+# 0.00.10 (48517) Feb 2, 2011
 Added a hole in the water tank
 Made slider door act binary instead of continuous
 Use up-down cursor for tank and sider door
