@@ -29,6 +29,7 @@ public class BalanceScaleNode extends PComposite {
 
     private final Atom atom;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
+    private final BeamNode beamNode;
     private final PNode atomPilesParentNode;
 
     public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms ) {
@@ -40,18 +41,11 @@ public class BalanceScaleNode extends PComposite {
         final FulcrumNode fulcrumNode = new FulcrumNode( atom );
         addChild( fulcrumNode );
 
-        BeamNode beamNode = new BeamNode();
+        beamNode = new BeamNode();
         addChild( beamNode );
 
         atomPilesParentNode = new PComposite();
         addChild( atomPilesParentNode );
-
-        // layout
-        double x = 0;
-        double y = 0;
-        fulcrumNode.setOffset( x, y );
-        beamNode.setOffset( x, y );
-        atomPilesParentNode.setOffset( x, y );
 
         updateNode();
     }
@@ -80,19 +74,32 @@ public class BalanceScaleNode extends PComposite {
 
         // left count, centered above left pile
         CountNode leftCountNode = new CountNode( leftNumberOfAtoms );
-        addChild( leftCountNode );
+        atomPilesParentNode.addChild( leftCountNode );
         double x = leftPileNode.getXOffset() + ( leftPileNode.getFullBoundsReference().getWidth() / 2 ) - ( leftCountNode.getFullBoundsReference().getWidth() / 2 );
         double y = leftPileNode.getFullBoundsReference().getMinY() - leftCountNode.getFullBoundsReference().getHeight() - 2;
         leftCountNode.setOffset( x, y );
 
         // right count, centered above right pile
         CountNode rightCountNode = new CountNode( rightNumberOfAtoms );
-        addChild( rightCountNode );
+        atomPilesParentNode.addChild( rightCountNode );
         x = rightPileNode.getXOffset() + ( rightPileNode.getFullBoundsReference().getWidth() / 2 ) - ( rightCountNode.getFullBoundsReference().getWidth() / 2 );
         y = rightPileNode.getFullBoundsReference().getMinY() - rightCountNode.getFullBoundsReference().getHeight() - 2;
         rightCountNode.setOffset( x, y );
 
-        //TODO rotate beam and atoms on fulcrum
+        // rotate beam and atoms on fulcrum
+        final int NUMBER_OF_TILT_ANGLES = 6;
+        double maxAngle = ( Math.PI / 2 ) - Math.acos( FulcrumNode.SIZE.getHeight() / ( BeamNode.LENGTH / 2 ) );
+        double deltaAngle = maxAngle / NUMBER_OF_TILT_ANGLES;
+        final double difference = rightNumberOfAtoms - leftNumberOfAtoms;
+        double angle = 0;
+        if ( Math.abs( difference ) > NUMBER_OF_TILT_ANGLES ) {
+            angle = maxAngle * Math.abs( difference ) / difference;
+        }
+        else {
+            angle = difference * deltaAngle;
+        }
+        beamNode.setRotation( angle );
+        atomPilesParentNode.setRotation( angle );
     }
 
     /*

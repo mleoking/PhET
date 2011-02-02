@@ -1,3 +1,4 @@
+2/1/11 implement tilt of balance scale beam
 2/1/11 completed piles of atoms on balance scales
 2/1/11 first pass at piles of atoms on balance scale beam, has some problems
 2/1/11 reduce max limit of bars, don't add additional height for arrows, reduce size of bars
