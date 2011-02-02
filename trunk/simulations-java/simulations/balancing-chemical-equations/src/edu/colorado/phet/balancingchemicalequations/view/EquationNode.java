@@ -36,23 +36,30 @@ public class EquationNode extends PhetPNode  {
     private static final Font FONT = new PhetFont( 20 );
     private static final Color NAME_COLOR = Color.BLACK;
 
-    private static final double COEFFICIENT_X_SPACING = 10;
-    private static final double PLUS_X_SPACING = 30;
-    private static final double ARROW_X_SPACING = 20;
-
     private static final Color COEFFICIENT_COLOR = Color.BLACK;
 
     private Property<Equation> equationProperty;
     private final IntegerRange coefficientRange;
     private boolean editable;
+    private final double sideLength, separation;
     private ArrayList<ActualCoefficientNode> actualCoefficientNodes;
 
-    public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, boolean editable ) {
+    /**
+     * Constructor.
+     * @param equationProperty
+     * @param coefficientRange
+     * @param editable
+     * @param leftRightSideLength horizontal space alloted for each side of the equation
+     * @param leftRightSeparation separation between the left and right sides of the equation
+     */
+    public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, boolean editable, double leftRightSideLength, double leftRightSeparation ) {
         super();
 
         this.equationProperty = equationProperty;
         this.coefficientRange = coefficientRange;
         this.editable = editable;
+        this.sideLength = leftRightSideLength;
+        this.separation = leftRightSeparation;
         this.actualCoefficientNodes = new ArrayList<ActualCoefficientNode>();
 
         this.equationProperty.addObserver( new SimpleObserver() {
@@ -89,107 +96,73 @@ public class EquationNode extends PhetPNode  {
         // determine cap height of the font, using a char that has no descender
         final double capHeight = new SymbolNode( "T" ).getFullBounds().getHeight();
 
-        // left-hand side of the formula (reactants)
-        EquationTerm[] reactants = equationProperty.getValue().getReactants();
-        double x = 0;
-        double y = 0;
-        PNode previousNode = null;
-        for ( int i = 0; i < reactants.length; i++ ) {
-
-            // plus sign between terms
-            PlusNode plusNode = null;
-            if ( i > 0 ) {
-                plusNode = new PlusNode();
-                addChild( plusNode );
-                x = previousNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
-                y = ( capHeight / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 );
-                plusNode.setOffset( x, y );
-            }
-
-            // actual coefficient (editable)
-            ActualCoefficientNode actualCoefficientNode = new ActualCoefficientNode( coefficientRange, reactants[i].getActualCoefficientProperty() );
-            addChild( actualCoefficientNode );
-            if ( plusNode == null ) {
-                actualCoefficientNode.setOffset( 0, 0 );
-            }
-            else {
-                x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
-                y = 0;
-                actualCoefficientNode.setOffset( x, y );
-            }
-            actualCoefficientNode.setVisible( editable );
-
-            // balanced coefficient (not editable)
-            BalancedCoefficientNode balancedCoefficientNode = new BalancedCoefficientNode( reactants[i].getBalancedCoefficient() );
-            addChild( balancedCoefficientNode );
-            x = actualCoefficientNode.getFullBoundsReference().getMaxX() - balancedCoefficientNode.getFullBoundsReference().getWidth();
-            y = actualCoefficientNode.getYOffset();
-            balancedCoefficientNode.setOffset( x, y );
-            balancedCoefficientNode.setVisible( !editable );
-
-            // molecule symbol
-            SymbolNode symbolNode = new SymbolNode( reactants[i].getMolecule().getSymbol() );
-            addChild( symbolNode );
-            x = actualCoefficientNode.getFullBoundsReference().getMaxX() + COEFFICIENT_X_SPACING;
-            y = 0;
-            symbolNode.setOffset( x, y );
-
-            previousNode = symbolNode;
-        }
+        updateSideOfEquation( equationProperty.getValue().getReactants(), 0 /* xOffset */, capHeight );
+        updateSideOfEquation( equationProperty.getValue().getProducts(), sideLength + separation /* xOffset */, capHeight );
 
         // right-pointing arrow
-        RightArrowNode arrowNode = new RightArrowNode();
-        addChild( arrowNode );
-        x = previousNode.getFullBoundsReference().getMaxX() + ARROW_X_SPACING;
-        y = ( capHeight / 2 );
-        arrowNode.setOffset( x, y );
-        previousNode = arrowNode;
+        {
+            RightArrowNode arrowNode = new RightArrowNode();
+            addChild( arrowNode );
+            double x = sideLength + ( separation / 2 ) - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
+            double y = ( capHeight / 2 );
+            arrowNode.setOffset( x, y );
+        }
+    }
 
-        // right-hand side of the formula (products)
-        EquationTerm[] products = equationProperty.getValue().getProducts();
-        for ( int i = 0; i < products.length; i++ ) {
+    /*
+     * Updates one side of the equation.
+     */
+    private void updateSideOfEquation( EquationTerm[] terms, double xOffset, double capHeight ) {
+        final double columnWidth = sideLength / Math.max( 2, terms.length );
+        double x = xOffset + ( columnWidth / 2 );
+        for ( int i = 0; i < terms.length; i++ ) {
 
-            // plus sign between terms
-            PlusNode plusNode = null;
+            // term, centered in column
+            TermNode termNode = new TermNode( coefficientRange, terms[i], editable );
+            addChild( termNode );
+            termNode.setOffset( x - ( termNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+            x += columnWidth;
+
+            // plus sign, centered on column boundary
             if ( i > 0 ) {
-                plusNode = new PlusNode();
+                PlusNode plusNode = new PlusNode();
                 addChild( plusNode );
-                x = previousNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
-                y = ( capHeight / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 );
-                plusNode.setOffset( x, y );
+                plusNode.setOffset( xOffset + ( i * columnWidth ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ),
+                        ( capHeight / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 ) );
             }
+        }
+    }
 
-            // actual coefficient (editable)
-            ActualCoefficientNode actualCoefficientNode = new ActualCoefficientNode( coefficientRange, products[i].getActualCoefficientProperty() );
-            addChild( actualCoefficientNode );
-            if ( plusNode == null ) {
-                x = arrowNode.getFullBoundsReference().getMaxX() + ARROW_X_SPACING;
-                y = 0;
-                actualCoefficientNode.setOffset( x, y );
+    /*
+     * A term in the equation, includes the coefficient and symbol.
+     * The coefficient may or may not be editable.
+     */
+    private static class TermNode extends PhetPNode {
+
+        public TermNode( IntegerRange coefficientRange, EquationTerm term, boolean editable ) {
+
+            // coefficient
+            PNode coefficientNode = null;
+            if ( editable ) {
+                coefficientNode = new ActualCoefficientNode( coefficientRange, term.getActualCoefficientProperty() );
             }
             else {
-                x = plusNode.getFullBoundsReference().getMaxX() + PLUS_X_SPACING;
-                y = 0;
-                actualCoefficientNode.setOffset( x, y );
-            }
-            actualCoefficientNode.setVisible( editable );
+                coefficientNode = new BalancedCoefficientNode( term.getBalancedCoefficient() );
 
-            // balanced coefficient (not editable)
-            BalancedCoefficientNode balancedCoefficientNode = new BalancedCoefficientNode( reactants[i].getBalancedCoefficient() );
-            addChild( balancedCoefficientNode );
-            x = actualCoefficientNode.getFullBoundsReference().getMaxX() - balancedCoefficientNode.getFullBoundsReference().getWidth();
-            y = actualCoefficientNode.getYOffset();
-            balancedCoefficientNode.setOffset( x, y );
-            balancedCoefficientNode.setVisible( !editable );
+            }
+            addChild( coefficientNode );
 
             // molecule symbol
-            SymbolNode symbolNode = new SymbolNode( products[i].getMolecule().getSymbol() );
+            SymbolNode symbolNode = new SymbolNode( term.getMolecule().getSymbol() );
             addChild( symbolNode );
-            x = actualCoefficientNode.getFullBoundsReference().getMaxX() + COEFFICIENT_X_SPACING;
+
+            // layout
+            double x = 0;
+            double y = 0;
+            coefficientNode.setOffset( x, y );
+            x = coefficientNode.getFullBoundsReference().getMaxX() + 5;
             y = 0;
             symbolNode.setOffset( x, y );
-
-            previousNode = symbolNode;
         }
     }
 

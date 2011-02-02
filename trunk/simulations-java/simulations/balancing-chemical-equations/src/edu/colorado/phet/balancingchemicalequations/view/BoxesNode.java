@@ -120,9 +120,9 @@ public class BoxesNode extends PComposite {
             moleculesParentNode.removeAllChildren();
 
             final int numberOfTerms = terms.length;
-            final double dx = boxSize.getWidth() / Math.max( 3, numberOfTerms + 1 );
+            final double columnWidth = boxSize.getWidth() / Math.max( 2, numberOfTerms );
             final double dy = boxSize.getHeight() / ( coefficientRange.getMax() + 1 );
-            double x = dx;
+            double x = columnWidth / 2;
             for ( EquationTerm term : terms ) {
                 int numberOfMolecules = term.getActualCoefficient();
                 Image moleculeImage = term.getMolecule().getImage();
@@ -134,7 +134,7 @@ public class BoxesNode extends PComposite {
                     imageNode.setOffset( x - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
                     y += dy;
                 }
-                x += dx;
+                x += columnWidth;
             }
         }
 
