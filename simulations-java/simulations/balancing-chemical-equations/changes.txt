@@ -1,3 +1,4 @@
+2/2/11 change request: make equality sign in bar charts the same color as equation arrows
 2/2/11 change request: make '+' in equations black
 2/2/11 change request: do not reset coefficients when switching equations
 2/2/11 change request: add "none" as a choice of visual representations

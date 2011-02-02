@@ -5,6 +5,7 @@ package edu.colorado.phet.balancingchemicalequations.view;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.BCESymbols;
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
@@ -57,6 +58,7 @@ public class BarChartsNode extends PComposite {
 
         equalitySignNode = new PText();
         equalitySignNode.setFont( new PhetFont( Font.BOLD, 60 ) );
+        equalitySignNode.setTextPaint( BCEColors.BEFORE_AFTER_BOX_COLOR );
         addChild( equalitySignNode );
 
         coefficientsObserver = new SimpleObserver() {
