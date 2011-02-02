@@ -9,6 +9,7 @@ HIGH PRIORITY
 - publish dev version for discussion with all features of the "Balance Equation" module
 
 MEDIUM PRIORITY
+- switch from image files to Piccolo for rendering atoms and molecules
 - should boxes contain "molecules are hidden" when Options->Show molecules is deselected? (ala RPAL)
 - create more balanced atom piles, add atoms along RTL diagonal
 - "Game" module
