@@ -4,7 +4,6 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- tilt of balance scales
 - global Options menu item to show/hide molecules in both tabs
 - horizontal alignment of various views
 - publish dev version for discussion with all features of the "Balance Equation" module
