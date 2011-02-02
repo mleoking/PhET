@@ -1,3 +1,4 @@
+Added a hole in the top of the water tower
 # 0.00.10 (48517) Feb 2, 2011
 Added a hole in the water tank
 Made slider door act binary instead of continuous
