@@ -300,8 +300,6 @@ public class SpectrumDialog extends PaintImmediateDialog {
 
             // Set the offset of the root node to account for child nodes that
             // ended up with negative offsets when the layout was complete.
-            System.out.println( spectrumRootNode.getFullBoundsReference().getMinX() );
-            System.out.println( spectrumRootNode.getFullBoundsReference().getMinY() );
             spectrumRootNode.setOffset(
                     Math.max( -spectrumRootNode.getFullBoundsReference().getMinX(), 0 ),
                     Math.max( -spectrumRootNode.getFullBoundsReference().getMinY(), 0 ) );
