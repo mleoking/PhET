@@ -26,12 +26,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BoxesNode extends PComposite {
 
+    private final BoxOfMoleculesNode beforeBoxNode, afterBoxNode;
+
     public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, Dimension boxSize ) {
 
         // boxes
-        final BoxOfMoleculesNode beforeBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getReactants(), coefficientRange, boxSize );
+        beforeBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getReactants(), coefficientRange, boxSize );
         addChild( beforeBoxNode );
-        final BoxOfMoleculesNode afterBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getProducts(), coefficientRange, boxSize );
+        afterBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getProducts(), coefficientRange, boxSize );
         addChild( afterBoxNode );
 
         // right-pointing arrow
@@ -56,6 +58,11 @@ public class BoxesNode extends PComposite {
                 afterBoxNode.setEquationTerms( equationProperty.getValue().getProducts() );
             }
         } );
+    }
+
+    public void setMoleculesVisible( boolean moleculesVisible ) {
+        beforeBoxNode.setMoleculesVisible( moleculesVisible );
+        afterBoxNode.setMoleculesVisible( moleculesVisible );
     }
 
     /**
@@ -102,6 +109,10 @@ public class BoxesNode extends PComposite {
                 this.terms = terms;
                 addCoefficientObserver();
             }
+        }
+
+        public void setMoleculesVisible( boolean moleculesVisible ) {
+            moleculesParentNode.setVisible( moleculesVisible );
         }
 
         private void updateNumberOfMolecules() {

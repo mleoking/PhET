@@ -4,13 +4,14 @@ package edu.colorado.phet.balancingchemicalequations;
 
 import java.awt.Frame;
 
-import javax.swing.JCheckBoxMenuItem;
-
+import edu.colorado.phet.balancingchemicalequations.control.BCEOptionMenu;
 import edu.colorado.phet.balancingchemicalequations.module.balanceequation.BalanceEquationModule;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -20,6 +21,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class BalancingChemicalEquationsApplication extends PiccoloPhetApplication {
 
+    private final Property<Boolean> moleculesVisibleProperty = new Property<Boolean>( true );
+
     public BalancingChemicalEquationsApplication( PhetApplicationConfig config ) {
         super( config );
 
@@ -28,12 +31,19 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         addModule( new BalanceEquationModule( parentFrame, config.isDev() ) );
         addModule( new GameModule( parentFrame, config.isDev() ) );
 
-        // menus
-        OptionsMenu optionsMenu = new OptionsMenu();
-        JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES );
-        optionsMenu.add( hideMoleculesMenuItem );
-        //TODO wire up hideMoleculesMenuItem
-        getPhetFrame().addMenu( optionsMenu );
+        // Options menu
+        getPhetFrame().addMenu( new BCEOptionMenu( moleculesVisibleProperty ) );
+
+        // Global property observers
+        moleculesVisibleProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                for ( Module module : getModules() ) {
+                    if ( module instanceof BCEModule ) {
+                        ( (BCEModule) module ).setMoleculesVisible( moleculesVisibleProperty.getValue() );
+                    }
+                }
+            }
+        } );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

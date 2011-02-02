@@ -25,6 +25,10 @@ public class GameModule extends BCEModule {
         setSimulationPanel( canvas );
     }
 
+    public void setMoleculesVisible( boolean moleculesVisible ) {
+        canvas.setMoleculesVisible( moleculesVisible );
+    }
+
     @Override
     public void reset() {
         model.reset();
