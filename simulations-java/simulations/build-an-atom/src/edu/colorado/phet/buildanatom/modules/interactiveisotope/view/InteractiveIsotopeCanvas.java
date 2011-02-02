@@ -16,6 +16,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
+import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
@@ -36,6 +37,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -113,7 +115,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
         rootNode.addChild( elementNameIndicator );
 
-
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
         model.getAtom().addObserver( new SimpleObserver() {
@@ -155,6 +156,16 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas {
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
         rootNode.addChild( abundanceWindow );
+
+        // Add the "Reset All" button.
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        double desiredResetButtonWidth = 100;
+        resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
+        rootNode.addChild( resetButtonNode );
+
+        resetButtonNode.centerFullBoundsOnPoint(
+                abundanceWindow.getFullBoundsReference().getCenterX(),
+                BuildAnAtomDefaults.STAGE_SIZE.height - resetButtonNode.getFullBoundsReference().height );
 
         // Add the legend/particle count indicator.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), Color.WHITE );

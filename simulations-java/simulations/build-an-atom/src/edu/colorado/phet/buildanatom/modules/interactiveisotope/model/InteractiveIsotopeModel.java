@@ -264,24 +264,6 @@ public class InteractiveIsotopeModel implements Resettable {
      * default initial states.
      */
     public void reset(){
-
-        // Remove all particles from the this model.
-        ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
-        neutrons.clear();
-        for ( Neutron neutron : copyOfNeutrons ) {
-            neutron.removedFromModel();
-        }
-        ArrayList<Proton> copyOfProtons = new ArrayList<Proton>( protons );
-        protons.clear();
-        for ( Proton proton : copyOfProtons ) {
-            proton.removedFromModel();
-        }
-        ArrayList<Electron> copyOfElectrons = new ArrayList<Electron>( electrons );
-        electrons.clear();
-        for ( Electron electron : copyOfElectrons ) {
-            electron.removedFromModel();
-        }
-
         // Reset the atom.
         setAtomConfiguration( DEFAULT_ATOM_CONFIG );
 
