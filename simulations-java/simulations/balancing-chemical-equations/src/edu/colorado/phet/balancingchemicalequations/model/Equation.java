@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.CH4;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.CO2;
@@ -61,6 +63,16 @@ public abstract class Equation {
         for ( EquationTerm term : products ) {
             term.getActualCoefficientProperty().addObserver( o );
         }
+    }
+
+    public void reset() {
+        for ( EquationTerm term : reactants ) {
+            term.reset();
+        }
+        for ( EquationTerm term : products ) {
+            term.reset();
+        }
+        // balanced properties are automatically reset when terms are reset
     }
 
     /*
@@ -141,14 +153,53 @@ public abstract class Equation {
         return allZero;
     }
 
-    public void reset() {
+    /**
+     * Returns a count of each type of atom.
+     * This is a brute force algorithm, but our number of terms is always small,
+     * and this is easy to implement and understand.
+     */
+    public ArrayList<AtomCount> getAtomCounts() {
+        ArrayList<AtomCount> atomCounts = new ArrayList<AtomCount>();
+
+        // reactants
         for ( EquationTerm term : reactants ) {
-            term.reset();
+            for ( Atom atom : term.getMolecule().getAtoms() ) {
+                boolean found = false;
+                for ( AtomCount count : atomCounts ) {
+                    // add to an existing atom count
+                    if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
+                        count.setReactantsCount( count.getReactantsCount() + term.getActualCoefficient() );
+                        found = true;
+                        break;
+                    }
+                }
+                // if not existing atom count was found, create one.
+                if ( !found ) {
+                    atomCounts.add( new AtomCount( atom, term.getActualCoefficient(), 0 ) );
+                }
+            }
         }
+
+        // products
         for ( EquationTerm term : products ) {
-            term.reset();
+            for ( Atom atom : term.getMolecule().getAtoms() ) {
+                boolean found = false;
+                for ( AtomCount count : atomCounts ) {
+                    // add to an existing atom count
+                    if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
+                        count.setProductsCount( count.getProductsCount() + term.getActualCoefficient() );
+                        found = true;
+                        break;
+                    }
+                }
+                // if not existing atom count was found, create one.
+                if ( !found ) {
+                    atomCounts.add( new AtomCount( atom, 0, term.getActualCoefficient() ) );
+                }
+            }
         }
-        // balanced properties are automatically reset when terms are reset
+
+        return atomCounts;
     }
 
     //------------------------------------------------------------------------
