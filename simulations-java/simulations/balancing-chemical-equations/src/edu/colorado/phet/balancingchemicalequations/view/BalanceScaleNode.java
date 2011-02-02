@@ -27,6 +27,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BalanceScaleNode extends PComposite {
 
+    private static final PDimension FULCRUM_SIZE = new PDimension( 40, 30 );
+    private static final double BEAM_LENGTH = 200;
+    private static final int NUMBER_OF_TILT_ANGLES = 6;
+
     private final Atom atom;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
     private final BeamNode beamNode;
@@ -59,7 +63,7 @@ public class BalanceScaleNode extends PComposite {
     }
 
     public double getBeamLength() {
-        return BeamNode.LENGTH;
+        return BEAM_LENGTH;
     }
 
     private void updateNode() {
@@ -68,12 +72,12 @@ public class BalanceScaleNode extends PComposite {
 
         // left pile of atoms, centered on left-half of beam
         PNode leftPileNode = createAtomPile( leftNumberOfAtoms, atom );
-        leftPileNode.setOffset( -( 0.25 * BeamNode.LENGTH ) - ( leftPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        leftPileNode.setOffset( -( 0.25 * BEAM_LENGTH ) - ( leftPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         atomPilesParentNode.addChild( leftPileNode );
 
         // right pile of atoms, centered on right-half of beam
         PNode rightPileNode = createAtomPile( rightNumberOfAtoms, atom );
-        rightPileNode.setOffset( ( 0.25 * BeamNode.LENGTH ) - ( rightPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        rightPileNode.setOffset( ( 0.25 * BEAM_LENGTH ) - ( rightPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         atomPilesParentNode.addChild( rightPileNode );
 
         // left count, centered above left pile
@@ -91,8 +95,7 @@ public class BalanceScaleNode extends PComposite {
         rightCountNode.setOffset( x, y );
 
         // rotate beam and atoms on fulcrum
-        final int NUMBER_OF_TILT_ANGLES = 6;
-        double maxAngle = ( Math.PI / 2 ) - Math.acos( FulcrumNode.SIZE.getHeight() / ( BeamNode.LENGTH / 2 ) );
+        double maxAngle = ( Math.PI / 2 ) - Math.acos( FULCRUM_SIZE.getHeight() / ( BEAM_LENGTH / 2 ) );
         double deltaAngle = maxAngle / NUMBER_OF_TILT_ANGLES;
         final double difference = rightNumberOfAtoms - leftNumberOfAtoms;
         double angle = 0;
@@ -176,11 +179,8 @@ public class BalanceScaleNode extends PComposite {
      * It will be pivoted to represent the relationship between quantities on either side of the fulcrum.
      */
     private static class BeamNode extends PPath {
-
-        private static final double LENGTH = 200;
-
         public BeamNode() {
-            Line2D line = new Line2D.Double( -LENGTH / 2, 0, LENGTH / 2, 0 );
+            Line2D line = new Line2D.Double( -BEAM_LENGTH / 2, 0, BEAM_LENGTH / 2, 0 );
             setPathTo( line );
             setStroke( new BasicStroke( 2f ) );
             setStrokePaint( Color.BLACK );
@@ -194,15 +194,14 @@ public class BalanceScaleNode extends PComposite {
      */
     private static class FulcrumNode extends PComposite {
 
-        private static final PDimension SIZE = new PDimension( 40, 30 );
-        private static final Paint FILL_PAINT = new GradientPaint( new Point2D.Double( 0, 0 ), Color.WHITE, new Point2D.Double( 0, SIZE.getHeight() ), Color.LIGHT_GRAY );
+        private static final Paint FILL_PAINT = new GradientPaint( new Point2D.Double( 0, 0 ), Color.WHITE, new Point2D.Double( 0, FULCRUM_SIZE.getHeight() ), Color.LIGHT_GRAY );
 
         public FulcrumNode( Atom atom ) {
 
             GeneralPath path = new GeneralPath();
             path.moveTo( 0f, 0f );
-            path.lineTo( (float)(SIZE.getWidth()/2), (float)SIZE.getHeight() );
-            path.lineTo( (float)(-SIZE.getWidth()/2), (float)SIZE.getHeight() );
+            path.lineTo( (float) ( FULCRUM_SIZE.getWidth() / 2 ), (float) FULCRUM_SIZE.getHeight() );
+            path.lineTo( (float) ( -FULCRUM_SIZE.getWidth() / 2 ), (float) FULCRUM_SIZE.getHeight() );
             path.closePath();
             PPath pathNode = new PPath( path );
             pathNode.setPaint( FILL_PAINT );
