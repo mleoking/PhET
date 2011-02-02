@@ -39,12 +39,6 @@ public class FaucetNode extends PNode {
             setScale( 0.75 );
             setOffset( -27, 0 );
             addChild( new PSwing( new JSlider( 0, 100 ) {{
-                //Faucet slider should gray out when in "auto" mode
-                faucetFlowLevel.automatic.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setEnabled( !faucetFlowLevel.automatic.getValue() );
-                    }
-                } );
                 setBackground( TRANSPARENT );
                 setPaintTicks( true );//to make the slider thumb wider on Windows 7
                 setPreferredSize( new Dimension( 120, getPreferredSize().height ) );
@@ -60,14 +54,20 @@ public class FaucetNode extends PNode {
                 } );
             }} ) {{
                 translate( 186, 0 );
+                //Faucet slider should be invisible when in "auto" mode
+                faucetFlowLevel.automatic.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setVisible( !faucetFlowLevel.automatic.getValue() );
+                    }
+                } );
             }} );
             addChild( new PSwing( new JPanel() {{
+                add( new RadioButton( FPAFStrings.MATCH_LEAKAGE, faucetFlowLevel.automatic ) );
                 add( new RadioButton( FPAFStrings.MANUAL, not( faucetFlowLevel.automatic ) ) );
-                add( new RadioButton( FPAFStrings.AUTO, faucetFlowLevel.automatic ) );
                 setBackground( TRANSPARENT );
             }} ) {{
                 setScale( 1.4 );
-                setOffset( 110, 45 );
+                setOffset( 10, 45 );
             }} );
         }} );
         setOffset( 20, 10 );
