@@ -1,3 +1,4 @@
+2/2/11 adjust box size and separation
 2/2/11 abandon HorizontalAligner approach to alignment of multiple representations
 2/2/11 capitalize view choices
 2/2/11 fix: order of bars should be the same for reactants and products
