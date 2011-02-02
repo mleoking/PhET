@@ -58,6 +58,10 @@ public class BalanceScaleNode extends PComposite {
         }
     }
 
+    public double getBeamLength() {
+        return BeamNode.LENGTH;
+    }
+
     private void updateNode() {
 
         atomPilesParentNode.removeAllChildren();
