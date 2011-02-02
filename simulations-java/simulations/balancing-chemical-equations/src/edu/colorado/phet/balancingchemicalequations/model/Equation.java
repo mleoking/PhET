@@ -160,46 +160,45 @@ public abstract class Equation {
      */
     public ArrayList<AtomCount> getAtomCounts() {
         ArrayList<AtomCount> atomCounts = new ArrayList<AtomCount>();
-
-        // reactants
-        for ( EquationTerm term : reactants ) {
-            for ( Atom atom : term.getMolecule().getAtoms() ) {
-                boolean found = false;
-                for ( AtomCount count : atomCounts ) {
-                    // add to an existing atom count
-                    if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
-                        count.setReactantsCount( count.getReactantsCount() + term.getActualCoefficient() );
-                        found = true;
-                        break;
-                    }
-                }
-                // if not existing atom count was found, create one.
-                if ( !found ) {
-                    atomCounts.add( new AtomCount( atom, term.getActualCoefficient(), 0 ) );
-                }
-            }
-        }
-
-        // products
-        for ( EquationTerm term : products ) {
-            for ( Atom atom : term.getMolecule().getAtoms() ) {
-                boolean found = false;
-                for ( AtomCount count : atomCounts ) {
-                    // add to an existing atom count
-                    if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
-                        count.setProductsCount( count.getProductsCount() + term.getActualCoefficient() );
-                        found = true;
-                        break;
-                    }
-                }
-                // if not existing atom count was found, create one.
-                if ( !found ) {
-                    atomCounts.add( new AtomCount( atom, 0, term.getActualCoefficient() ) );
-                }
-            }
-        }
-
+        setAtomCounts( atomCounts, reactants, true /* isReactants */ );
+        setAtomCounts( atomCounts, products, false /* isReactants */ );
         return atomCounts;
+    }
+
+    /*
+     * Sets atom counts for on collection of terms (reactants or products).
+     * @param atomCounts
+     * @param terms
+     * @param isReactants true if the terms are the reactants, false if they are the products
+     */
+    private static void setAtomCounts(  ArrayList<AtomCount> atomCounts, EquationTerm[] terms, boolean isReactants ) {
+        for ( EquationTerm term : terms ) {
+            for ( Atom atom : term.getMolecule().getAtoms() ) {
+                boolean found = false;
+                for ( AtomCount count : atomCounts ) {
+                    // add to an existing count
+                    if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
+                        if ( isReactants ) {
+                            count.setReactantsCount( count.getReactantsCount() + term.getActualCoefficient() );
+                        }
+                        else {
+                            count.setProductsCount( count.getProductsCount() + term.getActualCoefficient() );
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                // if no existing count was found, create one.
+                if ( !found ) {
+                    if ( isReactants ) {
+                        atomCounts.add( new AtomCount( atom, term.getActualCoefficient(), 0 ) );
+                    }
+                    else {
+                        atomCounts.add( new AtomCount( atom, 0, term.getActualCoefficient() ) );
+                    }
+                }
+            }
+        }
     }
 
     //------------------------------------------------------------------------
