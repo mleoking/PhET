@@ -38,7 +38,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( equationChoiceNode );
 
         // equation, in formula format
-        final EquationNode equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true /* editable */);
+        final EquationNode equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true /* editable */, BOX_SIZE.getWidth(), BOX_SEPARATION );
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
