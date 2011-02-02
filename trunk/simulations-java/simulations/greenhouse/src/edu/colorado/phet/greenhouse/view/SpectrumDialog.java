@@ -44,6 +44,9 @@ import edu.umd.cs.piccolox.util.XYArray;
  * This class defines a dialog window that shows a representation of the
  * electromagnetic spectrum.
  *
+ * TODO: This has been replaced by a non-model window as of 2/1/2011.  If
+ * this change is permanent, this class should be permanently removed.
+ *
  */
 public class SpectrumDialog extends PaintImmediateDialog {
 
