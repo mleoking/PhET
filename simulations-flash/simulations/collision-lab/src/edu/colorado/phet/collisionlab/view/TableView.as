@@ -23,7 +23,14 @@ public class TableView extends Sprite {
     public var showingPaths: Boolean;                //true if paths are shown
     public var myMainView: MainView;			      //mediator and container of views
     public var canvas: Sprite;					      //background on which everything is placed
-    public var ballColor_arr: Array;			//array of uint for colors of balls
+    public var ballColor_arr:Array = new Array(
+            0xff0000, // red
+            0x009900, // green
+            0x0000ff, // blue
+            0xff00ff, // magenta
+            0xffff00, // yellow
+            0, 0, 0, 0, 0 // others that were already specified. shortening might break this?
+            );			//array of uint for colors of balls
 
     private var myModel: Model;
     private var border: Sprite;                       //reflecting border
@@ -65,7 +72,7 @@ public class TableView extends Sprite {
         //this.canvas.addChild(this.myTrajectories);
         this.border.addChild( this.myTrajectories );
         this.drawBorder();  //drawBorder() also calls positionLabels() and drawInvisibleBorder()
-        this.ballColor_arr = new Array( 10 );  //start with 10 colors
+        //this.ballColor_arr = new Array( 10 );  //start with 10 colors
         this.createBallColors();
         //this.createBallImages2();
         ballLayer = new Sprite();
