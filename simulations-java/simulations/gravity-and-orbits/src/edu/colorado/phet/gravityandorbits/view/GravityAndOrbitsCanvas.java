@@ -37,6 +37,7 @@ import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -210,22 +211,37 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             final double MIN = 0.5;
             final double DELTA_ZOOM = 0.1;
             final PhetFont zoomButtonFont = new PhetFont( 20, true );
-            PNode zoomInButton = new PSwing( new JButton( GAOStrings.ZOOM_IN ) {{
+            final PText inText = new PText( GAOStrings.ZOOM_IN ) {{setFont( zoomButtonFont );}};
+            final PText outText = new PText( GAOStrings.ZOOM_OUT ) {{setFont( zoomButtonFont );}};
+            PDimension size = new PDimension( Math.max( inText.getFullBounds().getWidth(), outText.getFullBounds().getWidth() ),
+                                              Math.max( inText.getFullBounds().getHeight(), outText.getFullBounds().getHeight() ) );
+            double dim = Math.max( size.getWidth(), size.getHeight() ) - 7;//bring in the insets a bit so there isn't so much padding
+            PNode zoomInButton = new ZoomButtonNode( inText, Color.black, Color.lightGray, dim, dim ) {{
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         mode.getZoomLevel().setValue( Math.min( MAX, mode.getZoomLevel().getValue() + DELTA_ZOOM ) );
                     }
                 } );
-            }} );
-            PNode zoomOutButton = new PSwing( new JButton( GAOStrings.ZOOM_OUT ) {{
+                mode.getZoomLevel().addObserver( new SimpleObserver() {
+                    public void update() {
+                        setEnabled( mode.getZoomLevel().getValue() != MAX );
+                    }
+                } );
+            }};
+            PNode zoomOutButton = new ZoomButtonNode( outText, Color.black, Color.lightGray, dim, dim ) {{
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         mode.getZoomLevel().setValue( Math.max( MIN, mode.getZoomLevel().getValue() - DELTA_ZOOM ) );
                     }
                 } );
-            }} );
+                mode.getZoomLevel().addObserver( new SimpleObserver() {
+                    public void update() {
+                        setEnabled( mode.getZoomLevel().getValue() != MIN );
+                    }
+                } );
+            }};
             PNode slider = new PSwing( new JSlider( JSlider.VERTICAL, 0, 100, 50 ) {{
                 setBackground( new Color( 0, 0, 0, 0 ) );
                 setPaintTicks( true );
@@ -243,8 +259,6 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 } );
             }} );
             slider.setScale( 0.7 );
-            zoomOutButton.setScale( 0.5 );
-            zoomInButton.setScale( 0.5 );
             slider.setOffset( 0, zoomInButton.getFullBounds().getMaxY() );
             zoomOutButton.setOffset( 0, slider.getFullBounds().getMaxY() );
             addChild( zoomInButton );
