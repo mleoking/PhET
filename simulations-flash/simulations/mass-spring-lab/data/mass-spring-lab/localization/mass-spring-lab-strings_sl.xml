@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_sl.xml created Sun Dec 28 14:41:43 CET 2008 using: mass-spring-lab 1.00.00 (22498), translation-utility 1.09.00 (26682)-->
+<!--mass-spring-lab-strings_sl.xml created Mon Dec 06 08:06:18 CET 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.09.00 (44031) sep 14, 2010-->
 <SimStrings>
-<string key="pause" value="STOP"/>
+<string key="pause" value="pavza"/>
 <string key="earth" value="ZEMLJA"/>
-<string key="dontBother" value="-"/>
+<string key="dontBother" value="Ne moti"/>
 <string key="16thTime" value="1/16"/>
-<string key="nothinOK" value="-"/>
+<string key="nothinOK" value="Brez. V redu?"/>
 <string key="mass1Label" value="50 gramov"/>
 <string key="mass3Label" value="250 gramov"/>
-<string key="planetX" value="X"/>
+<string key="planetX" value="PLanetX"/>
 <string key="showEnergyOf" value="ENERGIJA (W)"/>
 <string key="hangMe" value="OBESI UTEŽ"/>
 <string key="resetTimer" value="STOP"/>
-<string key="hard" value="-"/>
+<string key="hard" value="trdo"/>
 <string key="mass7Label" value="100 gramov"/>
 <string key="stopWatch" value="ČAS"/>
 <string key="none" value="-"/>
@@ -33,14 +33,16 @@
 <string key="sound" value="ZVOK"/>
 <string key="PEgrav" value="Wp-"/>
 <string key="mass2Label" value="100 gramov"/>
+<string key="thermal" value="Toplotna"/>
 <string key="quarterTime" value="1/4"/>
 <string key="KE" value="Wk"/>
 <string key="gEqZero" value="g=0"/>
-<string key="hideHelp" value="Skrij."/>
-<string key="noHelp" value="-"/>
-<string key="soft" value="+"/>
+<string key="hideHelp" value="Skrij pomoč"/>
+<string key="noHelp" value="Brez pomoči"/>
+<string key="soft" value="mehko"/>
 <string key="softness" value="ELASTIČNOST"/>
+<string key="simTitle" value="Uteži in vzmeti"/>
 <string key="totalE" value="Skupna W"/>
 <string key="noShow" value="NE PRIKAŽI"/>
-<string key="paused" value="STOP"/>
+<string key="paused" value="Ustavljeno"/>
 </SimStrings>
