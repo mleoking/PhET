@@ -6,6 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.balancingchemicalequations.BCEModule;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
+import edu.colorado.phet.balancingchemicalequations.BalancingChemicalEquationsApplication;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 
 /**
@@ -18,8 +19,8 @@ public class BalanceEquationModule extends BCEModule {
     private final BalanceEquationModel model;
     private final BalanceEquationCanvas canvas;
 
-    public BalanceEquationModule( Frame parentFrame, boolean dev ) {
-        super( parentFrame, BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
+    public BalanceEquationModule(  BalancingChemicalEquationsApplication app, Frame parentFrame, boolean dev ) {
+        super( app, parentFrame, BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
         model = new BalanceEquationModel();
         canvas = new BalanceEquationCanvas( parentFrame, this, model, dev );
         setSimulationPanel( canvas );
@@ -31,6 +32,7 @@ public class BalanceEquationModule extends BCEModule {
 
     @Override
     public void reset() {
+        super.reset();
         model.reset();
         canvas.reset();
     }

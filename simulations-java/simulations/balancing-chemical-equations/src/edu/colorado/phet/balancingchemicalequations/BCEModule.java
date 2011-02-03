@@ -14,10 +14,12 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  */
 public abstract class BCEModule extends PiccoloModule {
 
+    private final BalancingChemicalEquationsApplication app;
     private final Frame parentFrame;
 
-    public BCEModule( Frame parentFrame, String title, IClock clock, boolean startsPaused ) {
+    public BCEModule( BalancingChemicalEquationsApplication app, Frame parentFrame, String title, IClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
+        this.app = app;
         this.parentFrame = parentFrame;
         setLogoPanel( null ); // workaround for #2015
         setControlPanel( null );
@@ -26,6 +28,12 @@ public abstract class BCEModule extends PiccoloModule {
 
     protected Frame getParentFrame() {
         return parentFrame;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        app.resetGlobals();
     }
 
     public abstract void setMoleculesVisible( boolean moleculesVisible );

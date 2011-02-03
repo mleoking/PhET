@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 
 /**
@@ -25,6 +26,12 @@ public class BCEOptionMenu extends OptionsMenu {
         showMoleculesMenuItem.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 moleculesVisibleProperty.setValue( showMoleculesMenuItem.isSelected() );
+            }
+        } );
+
+        moleculesVisibleProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                showMoleculesMenuItem.setSelected( moleculesVisibleProperty.getValue() );
             }
         } );
     }
