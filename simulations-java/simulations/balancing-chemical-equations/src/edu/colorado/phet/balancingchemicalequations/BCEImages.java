@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations;
 
-import java.awt.image.BufferedImage;
+import java.awt.Image;
+
+import edu.colorado.phet.balancingchemicalequations.view.molecules.*;
 
 /**
  * Images used in this project.
@@ -16,22 +18,18 @@ public class BCEImages {
     private BCEImages() {}
 
     // molecules
-    public static final BufferedImage CH4 = getImage( "molecules/CH4.png" );
-    public static final BufferedImage CO2 = getImage( "molecules/CO2.png" );
-    public static final BufferedImage H2 = getImage( "molecules/H2.png" );
-    public static final BufferedImage H2O = getImage( "molecules/H2O.png" );
-    public static final BufferedImage N2 = getImage( "molecules/N2.png" );
-    public static final BufferedImage NH3 = getImage( "molecules/NH3.png" );
-    public static final BufferedImage O2 = getImage( "molecules/O2.png" );
+    public static final Image CH4 = new CH4Node().toImage();
+    public static final Image CO2 = new CO2Node().toImage();
+    public static final Image H2 = new H2Node().toImage();
+    public static final Image H2O = new H2ONode().toImage();
+    public static final Image N2 = new N2Node().toImage();
+    public static final Image NH3 = new NH3Node().toImage();
+    public static final Image O2 = new O2Node().toImage();
 
     // atoms
-    public static final BufferedImage C = getImage( "atoms/C.png" );
-    public static final BufferedImage H = getImage( "atoms/H.png" );
-    public static final BufferedImage N = getImage( "atoms/N.png" );
-    public static final BufferedImage O = getImage( "atoms/O.png" );
-    public static final BufferedImage S = getImage( "atoms/O.png" );
-
-    private static final BufferedImage getImage( String name ) {
-        return BCEResources.getImage( name );
-    }
+    public static final Image C = new AtomNode( BCEColors.C ).toImage();
+    public static final Image H = new AtomNode( BCEColors.H ).toImage();
+    public static final Image N = new AtomNode( BCEColors.N ).toImage();
+    public static final Image O = new AtomNode( BCEColors.O ).toImage();
+    public static final Image S = new AtomNode( BCEColors.S ).toImage();
 }

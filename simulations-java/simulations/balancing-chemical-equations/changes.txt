@@ -1,3 +1,4 @@
+2/2/11 replace atom and molecule image files with Piccolo code
 2/2/11 make Reset All in any tab perform a reset of global settings (eg, Options->Show molecules)
 2/2/11 move ResetAll button to upper left to free up vertical space (will be needed in Game)
 2/2/11 enable Reset All confirmation, for discussion

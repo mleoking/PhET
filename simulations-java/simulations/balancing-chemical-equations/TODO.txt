@@ -1,7 +1,6 @@
 TODO list of balancing-chemical-equations
 
 DESIGN ISSUES
-- switch from image files to Piccolo for rendering atoms and molecules?
 - should bar charts show "=" when all coefficients are zero?
 - should boxes contain "molecules are hidden" when Options->Show molecules is deselected? (ala RPAL)
 - create more balanced atom piles, add atoms along RTL diagonal?
