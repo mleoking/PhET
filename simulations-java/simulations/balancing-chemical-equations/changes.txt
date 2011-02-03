@@ -1,3 +1,4 @@
+2/3/11 encapsulation of global properties
 2/3/11 change request: move view radio buttons to bottom of play area
 2/3/11 change request: delete smiley face from 1st tab
 2/3/11 change request: set default view to "None"

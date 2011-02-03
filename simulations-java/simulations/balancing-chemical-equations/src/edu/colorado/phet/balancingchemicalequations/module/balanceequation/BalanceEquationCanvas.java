@@ -4,8 +4,8 @@ package edu.colorado.phet.balancingchemicalequations.module.balanceequation;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 
+import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
@@ -28,7 +28,8 @@ public class BalanceEquationCanvas extends BCECanvas {
     private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"
     private final BoxesNode boxesNode;
 
-    public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, final BalanceEquationModel model, boolean dev ) {
+    public BalanceEquationCanvas( final BalanceEquationModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
+        super( globalProperties.getCanvasColorProperty() );
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
@@ -59,12 +60,13 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( balanceScalesNode );
 
         // Reset All button
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, parentFrame, 12, Color.BLACK, Color.WHITE );
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
+        resetAllButtonNode.addResettable( globalProperties );
         addChild( resetAllButtonNode );
 
         // Dev, shows balanced coefficients
         BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
-        if ( dev ) {
+        if ( globalProperties.isDev() ) {
             addChild( balancedEquationNode );
         }
 
@@ -98,10 +100,13 @@ public class BalanceEquationCanvas extends BCECanvas {
                 balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BALANCE_SCALES ) );
             }
         } );
-    }
 
-    public void setMoleculesVisible( boolean moleculesVisible ) {
-        boxesNode.setMoleculesVisible( moleculesVisible );
+        globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                boxesNode.setMoleculesVisible( globalProperties.getMoleculesVisibleProperty().getValue() );
+            }
+        } );
+
     }
 
     public void reset() {
