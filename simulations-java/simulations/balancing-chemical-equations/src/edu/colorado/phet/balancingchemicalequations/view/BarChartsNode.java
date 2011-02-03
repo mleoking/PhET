@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -30,13 +32,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BarChartsNode extends PComposite {
 
+    private final HorizontalAligner aligner;
     private final PText equalitySignNode;
     private final PNode reactantsChartParent, productsChartParent;
     private final SimpleObserver coefficientsObserver;
 
     private Equation equation;
 
-    public BarChartsNode( final Property<Equation> equationProperty ) {
+    public BarChartsNode( final Property<Equation> equationProperty, Dimension boxSize, double boxSeparation ) {
+
+        aligner = new HorizontalAligner( boxSize.getWidth(), boxSeparation );
 
         reactantsChartParent = new PComposite();
         addChild( reactantsChartParent );
@@ -120,7 +125,7 @@ public class BarChartsNode extends PComposite {
             BarNode barNode = new BarNode( atomCount.getAtom(), count );
             barNode.setOffset( x, 0 );
             parent.addChild( barNode );
-            x = barNode.getFullBoundsReference().getMaxX() + 40;
+            x = barNode.getFullBoundsReference().getMaxX() + 60;
         }
     }
 
@@ -139,16 +144,23 @@ public class BarChartsNode extends PComposite {
     /*
      * Updates the layout.
      */
-    //TODO implement horizontal alignment with equation terms
     private void updateLayout() {
-        double x = 0;
-        double y = 0;
-        reactantsChartParent.setOffset( x, y );
-        x = reactantsChartParent.getFullBoundsReference().getMaxX() + 40;
-        y = -equalitySignNode.getFullBoundsReference().getHeight();
+
+        final double xSpacing = 80;
+
+        // equality sign at center
+        double x = aligner.getCenterXOffset() - ( equalitySignNode.getFullBoundsReference().getWidth() / 2 );
+        double y = -equalitySignNode.getFullBoundsReference().getHeight();
         equalitySignNode.setOffset( x, y );
-        x = equalitySignNode.getFullBoundsReference().getMaxX() + 40;
-        y = reactantsChartParent.getYOffset();
+
+        // reactants chart to the left
+        x = equalitySignNode.getFullBoundsReference().getMinX() - reactantsChartParent.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( reactantsChartParent ) - xSpacing;
+        y = 0;
+        reactantsChartParent.setOffset( x, y );
+
+        // products chart to the right
+        x = equalitySignNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( productsChartParent ) + xSpacing;
+        y = 0;
         productsChartParent.setOffset( x, y );
     }
 }

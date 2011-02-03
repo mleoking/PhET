@@ -50,7 +50,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( balanceChoiceNode );
 
         // bar charts
-        final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty() );
+        final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty(), BOX_SIZE, BOX_SEPARATION );
         addChild( barChartsNode );
 
         // balance scales
@@ -83,7 +83,6 @@ public class BalanceEquationCanvas extends BCECanvas {
         boxesNode.setOffset( x, y );
         y = boxesNode.getFullBoundsReference().getMaxY() + 25;
         balanceChoiceNode.setOffset( x, y );
-        x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( barChartsNode );
         y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 120;
         barChartsNode.setOffset( x, y );
         x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( balanceScalesNode );
