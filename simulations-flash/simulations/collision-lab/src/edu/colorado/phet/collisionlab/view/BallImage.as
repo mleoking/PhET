@@ -38,6 +38,7 @@ public class BallImage extends Sprite {
     public var tFieldBallNbr:TextField;		//label = ball number
     public var xEqString:String;				//"x = "  All text must be programmatically set for internationalization
     public var yEqString:String;				//"y = "
+    public var showValues: Boolean = false;
 
     public function BallImage( myModel:Model, indx:int, myTableView:TableView ) {
         this.myModel = myModel;
@@ -104,11 +105,15 @@ public class BallImage extends Sprite {
         setReadoutsVisible( false ); // don't show them initially
 
         this.addEventListener( MouseEvent.MOUSE_OVER, function(evt:MouseEvent):void{
-            setReadoutsVisible( true );
+            if( !showValues ) {
+                setReadoutsVisible( true );
+            }
         });
 
         this.addEventListener( MouseEvent.MOUSE_OUT, function(evt:MouseEvent):void{
-            setReadoutsVisible( false );
+            if( !showValues ) {
+                setReadoutsVisible( false );
+            }
         });
 
         this.tFieldBallNbr.defaultTextFormat = ballLabelTextFormat;
@@ -167,6 +172,11 @@ public class BallImage extends Sprite {
     public function setReadoutsVisible( visible:Boolean ):void {
         velocityReadoutText.visible = visible;
         momentumReadoutText.visible = visible;
+    }
+
+    public function setShowValues( showValues: Boolean ): void {
+        this.showValues = showValues;
+        setReadoutsVisible( showValues );
     }
 
     public function drawLayer1a():void {
