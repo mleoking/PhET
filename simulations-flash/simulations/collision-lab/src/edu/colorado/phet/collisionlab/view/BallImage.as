@@ -105,12 +105,15 @@ public class BallImage extends Sprite {
     public function drawLayer1(): void {
         var g: Graphics = this.ballBody.graphics;
         var currentColor: uint = this.myTableView.ballColor_arr[this.ballIndex];
-        var r: Number = this.myBall.getRadius();
+        var radius: Number = this.myBall.getRadius();
         g.clear();
         g.lineStyle( 1, 0x000000, 1, false );
         g.beginFill( currentColor );
-        g.drawCircle( 0, 0, r * CLConstants.PIXELS_PER_METER );
+        var viewRadius:Number = radius * CLConstants.PIXELS_PER_METER;
+        g.drawCircle( 0, 0, viewRadius );
         g.endFill();
+
+        // TODO: reposition readouts from here
     }
 
     public function drawLayer1a(): void {
