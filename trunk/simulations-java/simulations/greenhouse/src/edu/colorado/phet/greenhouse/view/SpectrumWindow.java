@@ -2,25 +2,18 @@
 
 package edu.colorado.phet.greenhouse.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Paint;
-import java.awt.Stroke;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.*;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -50,13 +43,9 @@ public class SpectrumWindow extends JFrame {
     public SpectrumWindow() {
         super( GreenhouseResources.getString( "SpectrumDialog.title" ) );
 
-        // Center this window.
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension screenSize = tk.getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        setSize(screenWidth / 2, screenHeight / 2);
-        setLocation(screenWidth / 4, screenHeight / 4);
+        // Size and center this window.
+        setSize( 800, 600 );
+        SwingUtils.centerWindowOnScreen( this );
 
         // Create the canvas and set up its transform.
         PhetPCanvas canvas = new PhetPCanvas();
@@ -243,14 +232,16 @@ public class SpectrumWindow extends JFrame {
 
             // Add the visible spectrum.
             int visSpectrumWidth = (int) Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
-            PNode visibleSpectrum = new PImage( new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( visSpectrumWidth, (int) STRIP_HEIGHT ) );
+            final Image horizontalSpectrum = new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( visSpectrumWidth, (int) STRIP_HEIGHT );
+            BufferedImage flipped = BufferedImageUtils.flipX( BufferedImageUtils.toBufferedImage( horizontalSpectrum ) );
+            PNode visibleSpectrum = new PImage( flipped );
             visibleSpectrum.setOffset( getOffsetFromFrequency( 400E12 ), 0 );
             spectrumRootNode.addChild( visibleSpectrum );
 
             // Add the label for the visible band.
             PText visibleBandLabel = new PText( GreenhouseResources.getString( "SpectrumDialog.visibleBandLabel" ) );
             visibleBandLabel.setFont( LABEL_FONT );
-            double visibleBandCenterX = getOffsetFromFrequency( 600E12 );
+            double visibleBandCenterX = visibleSpectrum.getFullBounds().getCenterX();
             visibleBandLabel.setOffset( visibleBandCenterX - visibleBandLabel.getFullBoundsReference().width / 2, -50 );
             spectrumRootNode.addChild( visibleBandLabel );
 

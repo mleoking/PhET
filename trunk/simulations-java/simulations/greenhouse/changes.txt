@@ -1,3 +1,6 @@
+molecules-and-light: Flipped the visible spectrum
+molecules-and-light: Made the default size of the spectrum window fixed
+molecules-and-light: Fixed the location of the arrow pointing to the visible spectrum
 # 3.01.14 (48478) Feb 1, 2011
 2/1/11 Deploying to dev for review
 Updated credits
