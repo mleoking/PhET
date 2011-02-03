@@ -1,3 +1,6 @@
+Made zoom controls smaller
+Made the grid zoom in and out
+Fixed the text on the zoom out button
 # 0.0.21 (48561) Feb 2, 2011
 Added zoom controls
 # 0.0.20 (48357) Jan 31, 2011
