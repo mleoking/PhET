@@ -81,10 +81,10 @@ public class BalanceEquationCanvas extends BCECanvas {
         equationNode.setOffset( x, y );
         y = equationNode.getFullBoundsReference().getMaxY() + ySpacing;
         boxesNode.setOffset( x, y );
-        y = boxesNode.getFullBoundsReference().getMaxY() + ySpacing;
+        y = boxesNode.getFullBoundsReference().getMaxY() + 25;
         balanceChoiceNode.setOffset( x, y );
         x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( barChartsNode );
-        y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 100;
+        y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 120;
         barChartsNode.setOffset( x, y );
         x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( balanceScalesNode );
         y = balanceChoiceNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( balanceScalesNode ) + 65;
