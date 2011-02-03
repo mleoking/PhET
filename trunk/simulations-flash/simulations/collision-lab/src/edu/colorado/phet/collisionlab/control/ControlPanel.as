@@ -143,6 +143,7 @@ public class ControlPanel extends Sprite {
 
     protected function resetAll(): void {
         this.myModel.resetAll();
+        this.myMainView.reset();
         this.myMainView.myTableView.reDrawBorder();
         this.myMainView.myDataTable.checkBallNbrLimits();
         this.myMainView.myTableView.playButtons.resetAllCalled();
