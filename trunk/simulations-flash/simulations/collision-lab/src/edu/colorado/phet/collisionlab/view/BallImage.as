@@ -22,23 +22,22 @@ import flash.geom.Point;
 import flash.text.*;
 
 public class BallImage extends Sprite {
-    var myModel: Model;
-    var myTableView: TableView;
-    var myBall: Ball;
-    var ballIndex: int;			//index labels ball 1, 2, 3,
-    var ballBody: Sprite;
-    var pArrowImage: Arrow;				//momentum arrow, not grabbable
-    var vArrowImage: Arrow;				//velocity arrow, not grabbable
-    var ballHandle: Sprite;
-    var arrowHeadIndicator: Sprite; 		//shows user where tip of arrow head is
-    var arrowHeadHandle: Sprite;			//user grabs this handle to set velocity with mouse
-    var arrowShown: Boolean;				//true if velocity arrow visible
-    var tFormat: TextFormat;				//format for ball label text
-    var tFormat2: TextFormat;			//format for ball position and velocity readouts
-    var tFieldBallNbr: TextField;		//label = ball number
-    var outline: GlowFilter;				//outline for ball number text for better visibility
-    var xEqString: String;				//"x = "  All text must be programmatically set for internationalization
-    var yEqString: String;				//"y = "
+    public var myModel: Model;
+    public var myTableView: TableView;
+    public var myBall: Ball;
+    public var ballIndex: int;			//index labels ball 1, 2, 3,
+    public var ballBody: Sprite;
+    public var pArrowImage: Arrow;				//momentum arrow, not grabbable
+    public var vArrowImage: Arrow;				//velocity arrow, not grabbable
+    public var ballHandle: Sprite;
+    public var arrowHeadIndicator: Sprite; 		//shows user where tip of arrow head is
+    public var arrowHeadHandle: Sprite;			//user grabs this handle to set velocity with mouse
+    public var arrowShown: Boolean;				//true if velocity arrow visible
+    public var tFormat: TextFormat;				//format for ball label text
+    public var tFormat2: TextFormat;			//format for ball position and velocity readouts
+    public var tFieldBallNbr: TextField;		//label = ball number
+    public var xEqString: String;				//"x = "  All text must be programmatically set for internationalization
+    public var yEqString: String;				//"y = "
 
 
     public function BallImage( myModel: Model, indx: int, myTableView: TableView ) {
@@ -60,8 +59,8 @@ public class BallImage extends Sprite {
         this.arrowHeadIndicator = new Sprite();
         this.arrowHeadHandle = new Sprite();
         this.tFieldBallNbr = new TextField();
-        this.outline = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
-        this.outline.quality = BitmapFilterQuality.MEDIUM;
+        var outline: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 ); //outline for ball number text for better visibility
+        outline.quality = BitmapFilterQuality.MEDIUM;
         var ballNbr: String = String( 1 + this.ballIndex );
         this.tFieldBallNbr.text = ballNbr;
         this.tFieldBallNbr.filters = [outline];
