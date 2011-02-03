@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -39,9 +38,9 @@ public class BarChartsNode extends PComposite {
 
     private Equation equation;
 
-    public BarChartsNode( final Property<Equation> equationProperty, Dimension boxSize, double boxSeparation ) {
+    public BarChartsNode( final Property<Equation> equationProperty, HorizontalAligner aligner ) {
 
-        aligner = new HorizontalAligner( boxSize.getWidth(), boxSeparation );
+        this.aligner = aligner;
 
         reactantsChartParent = new PComposite();
         addChild( reactantsChartParent );
