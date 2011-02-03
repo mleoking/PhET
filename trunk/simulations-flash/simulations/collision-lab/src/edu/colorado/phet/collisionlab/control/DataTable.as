@@ -17,6 +17,7 @@ import fl.events.*;
 import flash.display.*;
 import flash.events.*;
 import flash.text.*;
+import flash.filters.*;
 
 public class DataTable extends Sprite {
     var myModel: Model;
@@ -135,14 +136,30 @@ public class DataTable extends Sprite {
         for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             this.canvas.addChild( this.rowCanvas_arr[i] );
 
+            var ballBackground:Sprite = new Sprite();
             if ( i > 0 ) {
                 var k: int = i - 1;
                 this.rowCanvas_arr[i].addChild( this.massSlider_arr[k] );
                 this.massSlider_arr[k].x = 2.2 * this.colWidth;
                 this.massSlider_arr[k].y = 0.2 * this.rowHeight;
                 this.massSlider_arr[k].visible = false;
+
+                ballBackground.x = 0;
+                ballBackground.y = 0;
+                ballBackground.graphics.beginFill( this.myMainView.myTableView.ballColor_arr[i-1] );
+                ballBackground.graphics.lineStyle( 0, 0x000000 );
+                ballBackground.graphics.drawCircle( (this.colWidth - 5) / 2, (this.rowHeight - 5) / 2, 10 );
+                ballBackground.graphics.endFill();
+                this.rowCanvas_arr[i].addChild( ballBackground );
             }
+
             for ( var j: int = 0; j < this.nbrColumns; j++ ) {
+                if( i > 0 && j == 0 ) {
+                    var glow: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
+                    glow.quality = BitmapFilterQuality.MEDIUM;
+                    this.text_arr[i][j].textColor = 0xFFFFFF;
+                    this.text_arr[i][j].filters = [glow];
+                }
                 this.rowCanvas_arr[i].addChild( this.text_arr[i][j] );
                 this.rowCanvas_arr[i].y = i * this.rowHeight;
                 this.text_arr[i][j].x = j * this.colWidth;
