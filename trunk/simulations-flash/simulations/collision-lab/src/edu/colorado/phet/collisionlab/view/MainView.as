@@ -1,5 +1,6 @@
 //MainView contains all views, acts as mediator, communication hub for views
 package edu.colorado.phet.collisionlab.view {
+import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.collisionlab.CollisionLabModule;
 import edu.colorado.phet.collisionlab.control.ControlPanel;
 import edu.colorado.phet.collisionlab.control.DataTable;
@@ -10,6 +11,7 @@ import edu.colorado.phet.flashcommon.SimStrings;
 
 import flash.display.*;
 import flash.geom.Point;
+import flash.geom.Rectangle;
 
 public class MainView extends Sprite {
     var myModel: Model;
@@ -68,28 +70,29 @@ public class MainView extends Sprite {
 
     public function update(): void {
         // we need to handle detecting where the actual bounds are in our stage pixels
-        var idealWidth: Number = 950;
-        var idealHeight: Number = 700;
-        var idealRatio: Number = idealWidth / idealHeight;
-        var ratio: Number = stage.stageWidth / stage.stageHeight;
-        var leftBound: Number;
-        var rightBound: Number;
-        var topBound: Number;
-        var bottomBound: Number;
-        if ( ratio < idealRatio ) {
-            // width-constrained
-            leftBound = 0;
-            rightBound = idealWidth;
-            topBound = (idealHeight / 2) * (1 - idealRatio / ratio);
-            bottomBound = (idealHeight / 2) * (1 + idealRatio / ratio);
-        }
-        else {
-            // height-constrained
-            topBound = 0;
-            bottomBound = idealHeight;
-            leftBound = (idealWidth / 2) * (1 - ratio / idealRatio);
-            rightBound = (idealWidth / 2) * (1 + ratio / idealRatio);
-        }
+        var dimensions: Rectangle = CollisionLab.stageDimensions( this );
+//        var idealWidth: Number = 950;
+//        var idealHeight: Number = 700;
+//        var idealRatio: Number = idealWidth / idealHeight;
+//        var ratio: Number = stage.stageWidth / stage.stageHeight;
+        var leftBound: Number = dimensions.left;
+        var rightBound: Number = dimensions.right;
+        var topBound: Number = dimensions.top;
+        var bottomBound: Number = dimensions.bottom;
+//        if ( ratio < idealRatio ) {
+//            // width-constrained
+//            leftBound = 0;
+//            rightBound = idealWidth;
+//            topBound = (idealHeight / 2) * (1 - idealRatio / ratio);
+//            bottomBound = (idealHeight / 2) * (1 + idealRatio / ratio);
+//        }
+//        else {
+//            // height-constrained
+//            topBound = 0;
+//            bottomBound = idealHeight;
+//            leftBound = (idealWidth / 2) * (1 - ratio / idealRatio);
+//            rightBound = (idealWidth / 2) * (1 + ratio / idealRatio);
+//        }
 
         // then make sure at least one ball is inside the area
         var allOutside: Boolean = true;
