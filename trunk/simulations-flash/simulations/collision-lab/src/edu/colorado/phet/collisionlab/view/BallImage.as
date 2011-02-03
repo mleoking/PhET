@@ -62,19 +62,11 @@ public class BallImage extends Sprite {
         this.tFieldBallNbr = new TextField();
         this.outline = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
         this.outline.quality = BitmapFilterQuality.MEDIUM;
-        //this.tFieldPosition = new TextField();
-        //this.tFieldVelocity = new TextField();
         var ballNbr: String = String( 1 + this.ballIndex );
         this.tFieldBallNbr.text = ballNbr;
         this.tFieldBallNbr.filters = [outline];
         this.xEqString = "x = ";
         this.yEqString = "y = ";
-        //this.tFieldBallNbr.selectable = false;
-        //this.tFieldPosition.selectable = false;
-        //this.tFieldVelocity.selectable = false;
-        //this.tFieldPosition.visible = false;
-        //this.tFieldPosition.multiline = true;
-        //this.tFieldPosition.border = true;
         this.tFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.bold = true;
@@ -85,9 +77,7 @@ public class BallImage extends Sprite {
         tFormat2.font = "Arial";
         tFormat2.color = 0x000000;
         tFormat2.size = 14;
-        this.tFieldBallNbr.defaultTextFormat = tFormat; //setTextFormat(tFormat);
-        //this.tFieldPosition.defaultTextFormat = tFormat2;
-        //this.tFieldVelocity.defaultTextFormat = tFormat2;
+        this.tFieldBallNbr.defaultTextFormat = tFormat;
         this.setLayerDepths();
         this.drawLayer1();
         this.drawLayer1a();
@@ -99,12 +89,11 @@ public class BallImage extends Sprite {
         this.makeBallDraggable();
         this.makeArrowDraggable();
         this.arrowShown = true;
-    }//end of constructor
+    }
 
     private function setLayerDepths(): void {
         this.myTableView.canvas.addChild( this );
         this.addChild( this.ballBody );
-        //this.addChild(this.tFieldPosition);
         this.addChild( this.pArrowImage );
         this.addChild( this.vArrowImage );
         this.addChild( this.tFieldBallNbr );
@@ -122,19 +111,19 @@ public class BallImage extends Sprite {
         g.beginFill( currentColor );
         g.drawCircle( 0, 0, r * CLConstants.PIXELS_PER_METER );
         g.endFill();
-    }//end of drawLayer1()
+    }
 
     public function drawLayer1a(): void {
         this.pArrowImage.setArrow( this.myModel.ball_arr[this.ballIndex].momentum );
         //trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
         this.pArrowImage.setText( "" );
-    }//end of drawLayer1a()
+    }
 
     public function drawLayer2(): void {
         this.vArrowImage.setArrow( this.myModel.ball_arr[this.ballIndex].velocity );
         //trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
         this.vArrowImage.setText( "" );
-    }//end of drawLayer2()
+    }
 
     public function drawLayer2a(): void {
         var ballNbr: int = this.ballIndex + 1;
@@ -148,14 +137,12 @@ public class BallImage extends Sprite {
 
     public function drawLayer3(): void {
         var g: Graphics = this.arrowHeadIndicator.graphics;
-        //var currentColor:uint = 0xffff00;
-        //var alpha1:Number = 0;
         var rInPix: Number = 10;
         g.clear();
         g.lineStyle( 1, 0x000000 );
         g.drawCircle( 0, 0, rInPix );
         this.arrowHeadIndicator.visible = false;
-    }//end of drawLayer3();
+    }
 
     public function drawLayer4(): void {    //ballHandle
         var g: Graphics = this.ballHandle.graphics;
@@ -166,7 +153,7 @@ public class BallImage extends Sprite {
         g.beginFill( currentColor, alpha1 );
         g.drawCircle( 0, 0, r * CLConstants.PIXELS_PER_METER );
         g.endFill();
-    }//end of drawLayer4()
+    }
 
     public function drawLayer5(): void {  //arrowHeadHandle
         var g: Graphics = this.arrowHeadHandle.graphics;
@@ -180,7 +167,7 @@ public class BallImage extends Sprite {
         g.endFill();
         this.arrowHeadHandle.x = this.vArrowImage.getHeadCenterX();
         this.arrowHeadHandle.y = this.vArrowImage.getHeadCenterY();
-    }//end of drawLayer5()
+    }
 
 
     public function makeBallDraggable(): void {
@@ -225,17 +212,9 @@ public class BallImage extends Sprite {
                 //trace("before separateAllBalls(), index = "+indx+ "thisBallImage.x = "+thisBallImage.x);
                 thisBallImage.myModel.separateAllBalls();
                 //trace("after separateAllBalls(), index = "+indx+ "thisBallImage.x = "+thisBallImage.x);
-                //thisBallImage.x = theStage.mouseX - clickOffset.x;
-                //var ballX:Number = thisBallImage.x/pixelsPerMeter;
-                //var ballY:Number = H - thisBallImage.y/pixelsPerMeter;
-                //ballX = thisBallImage.x/pixelsPerMeter;
-                //ballY = H - thisBallImage.y/pixelsPerMeter;
-                //if(modelRef.atInitialConfig){
-                //modelRef.initPos[indx].setXY(ballX, ballY);
-                //}
-            }//end stopTargetDrag()
+            }
 
-        }//end stopTargetDrag()
+        }
 
         function dragTarget( evt: MouseEvent ): void {
             if ( clickOffset != null ) {  //if dragging
@@ -278,10 +257,9 @@ public class BallImage extends Sprite {
                     modelRef.initPos[indx].setXY( ballX, ballY );
                 }
                 modelRef.updateViews();
-                //thisBallImage.updateTFieldPosition();
                 evt.updateAfterEvent();
             }
-        }//end of dragTarget()
+        }
 
         //following produced dataTable = null  maybe due to startup order?
         //var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
@@ -305,7 +283,7 @@ public class BallImage extends Sprite {
         }
 
 
-    }//end makeBallDraggable()
+    }
 
 
     public function makeArrowDraggable(): void {
@@ -396,14 +374,12 @@ public class BallImage extends Sprite {
                 thisBallImage.vArrowImage.setArrow( modelRef.ball_arr[indx].velocity );
                 evt.updateAfterEvent();
             }
-        }//end of dragTarget()
+        }
 
 
         function showVelocity( evt: MouseEvent ): void {
             //trace("showVelocity rollover " +indx);
             var dataTable: DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][4].background = true;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][5].background = true;
             dataTable.text_arr[thisBallImage.ballIndex + 1][4].backgroundColor = 0xffff33;
             dataTable.text_arr[thisBallImage.ballIndex + 1][5].backgroundColor = 0xffff33;
         }
@@ -413,10 +389,8 @@ public class BallImage extends Sprite {
             var dataTable: DataTable = thisBallImage.myTableView.myMainView.myDataTable;
             dataTable.text_arr[thisBallImage.ballIndex + 1][4].backgroundColor = 0xffffff;
             dataTable.text_arr[thisBallImage.ballIndex + 1][5].backgroundColor = 0xffffff;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][4].background = false;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][5].background = false;
         }
-    }//end of makeArrowDraggable()
+    }
 
 
     public function setVisibilityOfArrowHeadIndicator(): void {
@@ -425,7 +399,7 @@ public class BallImage extends Sprite {
         //var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
         //trace("distInPix: "+distInPix+"   r:"+rInPix);
         this.arrowHeadIndicator.visible = velInPix < ballRadiusInPix && this.arrowShown;
-    }//end of setVisibilityOfArrowHeadIndicator
+    }
 
     public function showArrow( tOrF: Boolean ): void {
         if ( tOrF ) {  //if arrows shown
@@ -440,7 +414,7 @@ public class BallImage extends Sprite {
             this.arrowHeadIndicator.visible = false;
             this.arrowHeadHandle.visible = false;
         }
-    }//end showArrow()
+    }
 
     public function showPArrow( tOrF: Boolean ): void {
         if ( tOrF ) {  //if arrows shown
@@ -476,5 +450,5 @@ public class BallImage extends Sprite {
         this.setVisibilityOfArrowHeadIndicator();
     }
 
-}//end of class
-}//end of package
+}
+}
