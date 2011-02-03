@@ -134,7 +134,7 @@ public class BalanceScaleNode extends PComposite {
         double y = 0;
         for ( int i = 0; i < numberOfAtoms; i++ ) {
 
-            AtomNode atomNode = new AtomNode( atom );
+            PImage atomNode = new PImage( atom.getImage() );
             parent.addChild( atomNode );
 
             atomNode.setOffset( x, y - atomNode.getFullBoundsReference().getHeight() );
@@ -161,16 +161,6 @@ public class BalanceScaleNode extends PComposite {
             }
         }
         return parent;
-    }
-
-    /*
-     * Atoms that appear on the scale.
-     * Origin at upper left of bounding rectangle.
-     */
-    private static class AtomNode extends PImage {
-        public AtomNode( Atom atom ) {
-            setImage( atom.getImage() );
-        }
     }
 
     /*

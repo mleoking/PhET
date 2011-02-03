@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -101,10 +102,15 @@ public class BarNode extends PComposite {
             arrowPath.closePath();
             barNode.setPathTo( arrowPath );
         }
+        barNode.setVisible( numberOfAtoms > 0 );
+
+        // icon
+        PImage iconNode = new PImage( atom.getImage() );
+        addChild( iconNode );
 
         // symbol
         HTMLNode symbolNode = new HTMLNode( atom.getSymbol() );
-        symbolNode.setFont( new PhetFont() );
+        symbolNode.setFont( new PhetFont( 18 ) );
         addChild( symbolNode );
 
         // number
@@ -120,9 +126,14 @@ public class BarNode extends PComposite {
             barNode.setOffset( x, y );
 
             // symbol centered below bar
-            x = barNode.getFullBoundsReference().getCenterX() - ( symbolNode.getFullBoundsReference().getWidth() / 2 );
+            x = barNode.getFullBoundsReference().getCenterX();
             y = barNode.getFullBoundsReference().getMaxY() + 2;
             symbolNode.setOffset( x, y );
+
+            // icon to left of symbol
+            x = barNode.getFullBoundsReference().getCenterX() - iconNode.getFullBoundsReference().getWidth() - 2;
+            y = symbolNode.getFullBoundsReference().getCenterY() - ( iconNode.getFullBoundsReference().getHeight() / 2 );
+            iconNode.setOffset( x, y );
 
             // number about bar
             x = barNode.getFullBoundsReference().getCenterX() - ( numberNode.getFullBoundsReference().getWidth() / 2 );

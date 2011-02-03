@@ -1,3 +1,7 @@
+2/3/11 set default view to "None"
+2/3/11 hide zero-height bar in bar charts view
+2/3/11 add atom icons to bar charts view
+2/3/11 increase size of atom symbol in bar charts view
 # 0.00.02 (48563) Feb 2, 2011
 2/2/11 dev version for team discussion, all features implemented in 1st tab
 2/2/11 replace atom and molecule image files with Piccolo code
