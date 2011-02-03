@@ -29,8 +29,9 @@ public class MonthlyReportFilter {
         allList.addAll( categories );
         allList.addAll( sims );
         allList.add( "molecules-and-light" );
-        allList.add( "balloons-and-static-electricity");
-        allList.add( "licensing");
+        allList.add( "isotopes-and-atomic-mass" );
+        allList.add( "balloons-and-static-electricity" );
+        allList.add( "licensing" );
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
         allList.add( "leave:vacation" );
@@ -53,12 +54,14 @@ public class MonthlyReportFilter {
 //                "Flash Future\n" +
 //                "Flash_Flash Common\n" +
                 "Installer\n" +
-//                "Licensing\n" +
+                "Interviewing\n" +
+                "KSU Translation Credits\n" +
+                "Licensing\n" +
 //                "Look & Feel\n" +
 //                "Meetings\n" +
                 "Miscellaneous\n" +
                 "New Sim Investigations\n" +
-//                "New Web Frameworks\n" +
+                "OVSD\n" +
 //                "PhET Basic\n" +
 //                "PhET Help\n" +
 //                "Common Code\n" +
@@ -142,6 +145,10 @@ public class MonthlyReportFilter {
         if ( category.equals( "design-patterns" ) ) { return mapCategory( "Common Code" ); }
         if ( category.equals( "email" ) ) { return mapCategory( "Administrative/Documentation" ); }
         if ( category.equals( "meetings" ) ) { return mapCategory( "Administrative/Documentation" ); }
+        if ( category.equals( "ksu-translation-credits" ) ) { return mapCategory( "KSU Translation Credits" ); }
+        if ( category.equals( "piccolo-phet" ) ) { return mapCategory( "Common Code" ); }
+        if ( category.equals( "isotopes" ) ) { return mapCategory( "isotopes-and-atomic-mass" ); }
+        if ( category.equals( "phet-help" ) ) { return mapCategory( "Customer Support" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
