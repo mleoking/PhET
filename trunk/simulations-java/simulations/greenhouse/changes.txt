@@ -1,3 +1,4 @@
+molecules-and-light: Switch to exponential chirp
 molecules-and-light: Flipped the visible spectrum
 molecules-and-light: Made the default size of the spectrum window fixed
 molecules-and-light: Fixed the location of the arrow pointing to the visible spectrum

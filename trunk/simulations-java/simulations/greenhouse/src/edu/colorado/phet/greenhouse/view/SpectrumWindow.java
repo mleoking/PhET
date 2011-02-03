@@ -119,7 +119,7 @@ public class SpectrumWindow extends JFrame {
             addChild( wavelengthArrow );
 
             // Add the diagram that depicts the wave that gets shorter.
-            DecreasingWavelengthWaveNode decreasingWavelengthNode = new DecreasingWavelengthWaveNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
+            ChirpNode decreasingWavelengthNode = new ChirpNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
             decreasingWavelengthNode.setOffset( HORIZONTAL_INSET, wavelengthArrow.getFullBoundsReference().getMaxY() + 20 );
             addChild( decreasingWavelengthNode );
         }
@@ -386,11 +386,11 @@ public class SpectrumWindow extends JFrame {
     }
 
     /**
-     * Class that depicts a wave that gets progressively shorter in wavelength
-     * from left to right.
+     *  Class that depicts a wave that gets progressively shorter in wavelength
+     * from left to right, which is called a chirp.
      */
-    private static class DecreasingWavelengthWaveNode extends PNode {
-        public DecreasingWavelengthWaveNode( double width ) {
+    private static class ChirpNode extends PNode {
+        public ChirpNode( double width ) {
             // Create and add the boundary and background.
             double boundingBoxHeight = width * 0.1; // Arbitrary, adjust as needed.
             PNode boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, width, width * 0.1 ),
@@ -402,8 +402,16 @@ public class SpectrumWindow extends JFrame {
             int numPointsOnLine = 2000;
             for ( int i = 0; i < numPointsOnLine; i++ ) {
                 double x = i * ( width / ( numPointsOnLine - 1 ) );
-                double proportion = x / width;
-                double y = ( Math.sin( ( ( Math.pow( proportion, 4 ) * 25 ) + 3 ) * proportion * Math.PI ) * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
+                double t = x / width;
+
+                double f0 = 1;
+                double k = 2;
+                final double tScale = 4.5;
+                double exponentialSinTerm = Math.sin( 2 * Math.PI * f0 * ( Math.pow( k, t * tScale ) - 1 ) / Math.log( k ) );
+
+                double sinTerm = exponentialSinTerm;
+
+                double y = ( sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
                 squigglyLinePath.lineTo( x, y );
             }
             PNode squigglyLineNode = new PhetPPath( squigglyLinePath.getGeneralPath(),
