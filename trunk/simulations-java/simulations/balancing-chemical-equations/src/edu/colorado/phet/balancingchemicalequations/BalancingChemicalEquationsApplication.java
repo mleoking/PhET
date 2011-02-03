@@ -28,8 +28,8 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
 
         // modules
         Frame parentFrame = getPhetFrame();
-        addModule( new BalanceEquationModule( parentFrame, config.isDev() ) );
-        addModule( new GameModule( parentFrame, config.isDev() ) );
+        addModule( new BalanceEquationModule( this, parentFrame, config.isDev() ) );
+        addModule( new GameModule( this, parentFrame, config.isDev() ) );
 
         // Options menu
         getPhetFrame().addMenu( new BCEOptionMenu( moleculesVisibleProperty ) );
@@ -44,6 +44,10 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
                 }
             }
         } );
+    }
+
+    public void resetGlobals() {
+        moleculesVisibleProperty.reset();
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
