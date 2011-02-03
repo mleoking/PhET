@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -20,10 +22,15 @@ public abstract class BCECanvas extends PhetPCanvas {
 
     private PNode rootNode;
 
-    public BCECanvas() {
+    public BCECanvas( final Property<Color> canvasColorProperty ) {
         super( BCEConstants.CANVAS_RENDERING_SIZE );
 
-        setBackground( BCEColors.CANVAS_BACKGROUND );
+        // canvas color
+        canvasColorProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setBackground( canvasColorProperty.getValue() );
+            }
+        } );
 
         // Root of our scene graph
         rootNode = new PNode();

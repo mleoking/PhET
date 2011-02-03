@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import java.awt.Frame;
-
+import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEModule;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.balancingchemicalequations.BalancingChemicalEquationsApplication;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 
 /**
@@ -19,15 +17,11 @@ public class GameModule extends BCEModule {
     private final GameModel model;
     private final GameCanvas canvas;
 
-    public GameModule( BalancingChemicalEquationsApplication app, Frame parentFrame, boolean dev ) {
-        super( app, parentFrame, BCEStrings.GAME, new BCEClock(), true /* startsPaused */ );
+    public GameModule( BCEGlobalProperties globalProperties ) {
+        super( globalProperties.getFrame(), BCEStrings.GAME, new BCEClock(), true /* startsPaused */ );
         model = new GameModel();
-        canvas = new GameCanvas( model );
+        canvas = new GameCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );
-    }
-
-    public void setMoleculesVisible( boolean moleculesVisible ) {
-        canvas.setMoleculesVisible( moleculesVisible );
     }
 
     @Override
