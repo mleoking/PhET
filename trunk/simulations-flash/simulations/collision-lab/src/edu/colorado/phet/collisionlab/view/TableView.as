@@ -91,31 +91,35 @@ public class TableView extends Sprite {
         var g: Graphics = this.border.graphics;
         g.clear();
         if ( this.myModel.borderOn ) {
-            g.lineStyle( thickness, 0xFF0000 );
-        }
-        else {
-            g.lineStyle( thickness, 0xffcccc );
-        }
-        //        var x0: Number = 0;
-        //        var y0: Number = 0;
-        if ( this.myModel.isIntro ) {
-            const largeConst: Number = 5000;
-            g.beginFill( 0xccffcc );
-            g.moveTo( -largeConst, -del );
-            g.lineTo( W + largeConst, -del );
-            g.lineTo( W + largeConst, +H + del );
-            g.lineTo( -largeConst, +H + del );
-            g.lineTo( -largeConst, -del );
-            g.endFill();
-        }
-        else {
-            g.beginFill( 0xccffcc );
-            g.moveTo( -del, -del );
-            g.lineTo( W + del, -del );
-            g.lineTo( W + del, +H + del );
-            g.lineTo( -del, +H + del );
-            g.lineTo( -del, -del );
-            g.endFill();
+            // now we only draw the border if the border is "on".
+
+            if ( this.myModel.borderOn ) {
+                g.lineStyle( thickness, 0xFF0000 );
+            }
+            else {
+                g.lineStyle( thickness, 0xffcccc );
+            }
+            //        var x0: Number = 0;
+            //        var y0: Number = 0;
+            if ( this.myModel.isIntro ) {
+                const largeConst:Number = 5000;
+                g.beginFill( 0xccffcc );
+                g.moveTo( -largeConst, -del );
+                g.lineTo( W + largeConst, -del );
+                g.lineTo( W + largeConst, +H + del );
+                g.lineTo( -largeConst, +H + del );
+                g.lineTo( -largeConst, -del );
+                g.endFill();
+            }
+            else {
+                g.beginFill( 0xccffcc );
+                g.moveTo( -del, -del );
+                g.lineTo( W + del, -del );
+                g.lineTo( W + del, +H + del );
+                g.lineTo( -del, +H + del );
+                g.lineTo( -del, -del );
+                g.endFill();
+            }
         }
 
         //position playButtons
