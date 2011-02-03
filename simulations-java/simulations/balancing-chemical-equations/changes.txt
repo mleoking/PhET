@@ -1,3 +1,4 @@
+2/3/11 delete smiley face from 1st tab
 2/3/11 set default view to "None"
 2/3/11 hide zero-height bar in bar charts view
 2/3/11 add atom icons to bar charts view
