@@ -104,12 +104,10 @@ public class BallImage extends Sprite {
         setReadoutsVisible( false ); // don't show them initially
 
         this.addEventListener( MouseEvent.MOUSE_OVER, function(evt:MouseEvent):void{
-            trace( "over" );
             setReadoutsVisible( true );
         });
 
         this.addEventListener( MouseEvent.MOUSE_OUT, function(evt:MouseEvent):void{
-            trace( "out" );
             setReadoutsVisible( false );
         });
 
