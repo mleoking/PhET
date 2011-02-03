@@ -66,18 +66,19 @@ public abstract class GravityAndOrbitsMode {
     private final Property<Double> timeSpeedScaleProperty;
     private Property<ImmutableVector2D> measuringTapeStartPoint;
     private Property<ImmutableVector2D> measuringTapeEndPoint;
-    private Property<Double> zoomScale;
+    private double defaultZoomScale;
     private ImmutableVector2D zoomOffset;
+    private Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
                                  double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
                                  final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
-                                 Line2D.Double initialMeasuringTapeLocation, double zoomScale, ImmutableVector2D zoomOffset,
+                                 Line2D.Double initialMeasuringTapeLocation, double defaultZoomScale, ImmutableVector2D zoomOffset,
                                  Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter, Property<Boolean> stepping, Property<Boolean> rewinding,
                                  Property<Double> timeSpeedScaleProperty ) {
         this.dt = dt;
-        this.zoomScale = new Property<Double>( zoomScale );
+        this.defaultZoomScale = defaultZoomScale;
         this.zoomOffset = zoomOffset;
         this.name = name;
         this.forceScale = forceScale;
@@ -93,7 +94,7 @@ public abstract class GravityAndOrbitsMode {
         this.massReadoutFactory = massReadoutFactory;
 
         modelViewTransformProperty = new Property<ModelViewTransform>( createTransform() );
-        this.zoomScale.addObserver( new SimpleObserver() {
+        zoomLevel.addObserver( new SimpleObserver() {
             public void update() {
                 modelViewTransformProperty.setValue( createTransform() );
             }
@@ -175,7 +176,7 @@ public abstract class GravityAndOrbitsMode {
         deviatedFromEarthValuesProperty.reset();
         measuringTapeStartPoint.reset();
         measuringTapeEndPoint.reset();
-        zoomScale.reset();
+        zoomLevel.reset();
     }
 
     public JComponent getCanvas() {
@@ -270,8 +271,8 @@ public abstract class GravityAndOrbitsMode {
         return timeSpeedScaleProperty;
     }
 
-    public Property<Double> getZoomScale() {
-        return zoomScale;
+    public Property<Double> getZoomLevel() {
+        return zoomLevel;
     }
 
     public ImmutableVector2D getZoomOffset() {
@@ -279,7 +280,7 @@ public abstract class GravityAndOrbitsMode {
     }
 
     public ModelViewTransform createTransform() {
-        Rectangle2D.Double targetRectangle = GravityAndOrbitsMode.getTargetRectangle( zoomScale.getValue(), getZoomOffset() );
+        Rectangle2D.Double targetRectangle = GravityAndOrbitsMode.getTargetRectangle( defaultZoomScale * zoomLevel.getValue(), getZoomOffset() );
         final double x = targetRectangle.getMinX();
         final double y = targetRectangle.getMinY();
         final double w = targetRectangle.getMaxX() - x;
