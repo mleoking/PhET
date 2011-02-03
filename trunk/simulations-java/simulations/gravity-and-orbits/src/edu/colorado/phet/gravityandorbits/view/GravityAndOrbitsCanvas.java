@@ -11,11 +11,18 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -46,6 +53,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
         super( new Dimension( 1500, 1500 ) );//view size
+
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
         module.getInvertColorsProperty().addObserver( new SimpleObserver() {
@@ -69,7 +77,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        Property<ModelViewTransform> modelViewTransformProperty = mode.getModelViewTransformProperty();
+        final Property<ModelViewTransform> modelViewTransformProperty = mode.getModelViewTransformProperty();
 
         for ( Body body : model.getBodies() ) {
             addChild( new PathNode( body, modelViewTransformProperty, module.getShowPathProperty(), body.getColor(), module.getScaleProperty() ) );
@@ -195,6 +203,48 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 }
             } );
             setOffset( 100, 100 );
+        }} );
+
+        addChild( new PSwing( new VerticalLayoutPanel() {{
+            setBackground( new Color( 0, 0, 0, 0 ) );
+            setAnchor( GridBagConstraints.CENTER );
+            final double MAX = 1.5;
+            final double MIN = 0.5;
+            final double DELTA_ZOOM = 0.1;
+            add( new JButton( GAOStrings.ZOOM_IN ) {{
+                setFont( new PhetFont( 14, true ) );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        mode.getZoomScale().setValue( Math.min( MAX, mode.getZoomScale().getValue() + DELTA_ZOOM ) );
+                    }
+                } );
+            }} );
+            add( new JSlider( JSlider.VERTICAL, 0, 100, 50 ) {{
+                setBackground( new Color( 0, 0, 0, 0 ) );
+                setPaintTicks( true );
+                setMajorTickSpacing( 25 );
+                final Function.LinearFunction modelToView = new Function.LinearFunction( 0, 100, MIN, MAX );
+                addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        mode.getZoomScale().setValue( modelToView.evaluate( getValue() ) );
+                    }
+                } );
+                mode.getZoomScale().addObserver( new SimpleObserver() {
+                    public void update() {
+                        setValue( (int) modelToView.createInverse().evaluate( mode.getZoomScale().getValue() ) );
+                    }
+                } );
+            }} );
+            add( new JButton( GAOStrings.ZOOM_OUT ) {{
+                setFont( new PhetFont( 14, true ) );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        mode.getZoomScale().setValue( Math.max( MIN, mode.getZoomScale().getValue() - DELTA_ZOOM ) );
+                    }
+                } );
+            }} );
+        }} ) {{
+            setOffset( 10, 10 );
         }} );
     }
 
