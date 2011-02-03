@@ -9,5 +9,8 @@ public class CLConstants {
     public static const BORDER_HEIGHT_2D: Number = 2.0;
 
     public static const PIXELS_PER_METER: Number = 200;
+
+    public static const COLOR_VELOCITY_ARROW: int = 0x00ff00;
+    public static const COLOR_MOMENTUM_ARROW: int = 0xffff00;
 }
 }
