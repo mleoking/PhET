@@ -33,8 +33,6 @@ public class BallImage extends Sprite {
     public var arrowHeadIndicator: Sprite; 		//shows user where tip of arrow head is
     public var arrowHeadHandle: Sprite;			//user grabs this handle to set velocity with mouse
     public var arrowShown: Boolean;				//true if velocity arrow visible
-    public var tFormat: TextFormat;				//format for ball label text
-    public var tFormat2: TextFormat;			//format for ball position and velocity readouts
     public var tFieldBallNbr: TextField;		//label = ball number
     public var xEqString: String;				//"x = "  All text must be programmatically set for internationalization
     public var yEqString: String;				//"y = "
@@ -48,10 +46,10 @@ public class BallImage extends Sprite {
         this.ballBody = new Sprite();
         this.vArrowImage = new Arrow( indx );
         this.vArrowImage.setScale( 100 );  //normal scale is 50
-        this.vArrowImage.setColor( 0x00ff00 );
+        this.vArrowImage.setColor( CLConstants.COLOR_VELOCITY_ARROW );
         this.pArrowImage = new Arrow( indx );
         this.pArrowImage.setScale( 110 );
-        this.pArrowImage.setColor( 0xffff00 );
+        this.pArrowImage.setColor( CLConstants.COLOR_MOMENTUM_ARROW );
         this.pArrowImage.setShaftWidth( 13 );
         this.pArrowImage.setMaxHeadLength( 20 );
         this.showPArrow( false );
@@ -66,17 +64,20 @@ public class BallImage extends Sprite {
         this.tFieldBallNbr.filters = [outline];
         this.xEqString = "x = ";
         this.yEqString = "y = ";
-        this.tFormat = new TextFormat();
-        tFormat.font = "Arial";
-        tFormat.bold = true;
-        tFormat.color = 0xffffff;
-        tFormat.size = 20;
-        this.tFormat2 = new TextFormat();
-        tFormat2.bold = true;
-        tFormat2.font = "Arial";
-        tFormat2.color = 0x000000;
-        tFormat2.size = 14;
-        this.tFieldBallNbr.defaultTextFormat = tFormat;
+
+        var ballLabelTextFormat: TextFormat = new TextFormat();
+        ballLabelTextFormat.font = "Arial";
+        ballLabelTextFormat.bold = true;
+        ballLabelTextFormat.color = 0xffffff;
+        ballLabelTextFormat.size = 20;
+
+        var ballReadoutTextFormat: TextFormat = new TextFormat();
+        ballReadoutTextFormat.bold = true;
+        ballReadoutTextFormat.font = "Arial";
+        ballReadoutTextFormat.color = 0x000000;
+        ballReadoutTextFormat.size = 14;
+
+        this.tFieldBallNbr.defaultTextFormat = ballLabelTextFormat;
         this.setLayerDepths();
         this.drawLayer1();
         this.drawLayer1a();
