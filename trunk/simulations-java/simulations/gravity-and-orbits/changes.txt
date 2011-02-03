@@ -1,3 +1,4 @@
+Fixed: zoom was broken for last 2 modes
 # 0.0.22 (48566) Feb 2, 2011
 Made zoom controls smaller
 Made the grid zoom in and out

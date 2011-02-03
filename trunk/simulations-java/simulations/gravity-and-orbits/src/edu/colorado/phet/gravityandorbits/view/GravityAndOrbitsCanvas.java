@@ -204,6 +204,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( 100, 100 );
         }} );
 
+        //Zoom controls
         addChild( new PNode() {{
             final double MAX = 1.5;
             final double MIN = 0.5;
@@ -213,7 +214,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        mode.getZoomScale().setValue( Math.min( MAX, mode.getZoomScale().getValue() + DELTA_ZOOM ) );
+                        mode.getZoomLevel().setValue( Math.min( MAX, mode.getZoomLevel().getValue() + DELTA_ZOOM ) );
                     }
                 } );
             }} );
@@ -221,7 +222,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        mode.getZoomScale().setValue( Math.max( MIN, mode.getZoomScale().getValue() - DELTA_ZOOM ) );
+                        mode.getZoomLevel().setValue( Math.max( MIN, mode.getZoomLevel().getValue() - DELTA_ZOOM ) );
                     }
                 } );
             }} );
@@ -232,12 +233,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 final Function.LinearFunction modelToView = new Function.LinearFunction( 0, 100, MIN, MAX );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        mode.getZoomScale().setValue( modelToView.evaluate( getValue() ) );
+                        mode.getZoomLevel().setValue( modelToView.evaluate( getValue() ) );
                     }
                 } );
-                mode.getZoomScale().addObserver( new SimpleObserver() {
+                mode.getZoomLevel().addObserver( new SimpleObserver() {
                     public void update() {
-                        setValue( (int) modelToView.createInverse().evaluate( mode.getZoomScale().getValue() ) );
+                        setValue( (int) modelToView.createInverse().evaluate( mode.getZoomLevel().getValue() ) );
                     }
                 } );
             }} );
