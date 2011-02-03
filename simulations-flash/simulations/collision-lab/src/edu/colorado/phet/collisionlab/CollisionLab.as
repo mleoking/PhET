@@ -12,6 +12,7 @@ import edu.colorado.phet.flashcommon.SimStrings;
 
 import flash.display.*;
 import flash.events.Event;
+import flash.geom.Rectangle;
 
 public class CollisionLab extends Sprite {  //should the main class extend MovieClip or Sprite?
     private var stageW: Number;
@@ -19,13 +20,14 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
     private var introModule: IntroModule = new IntroModule();
     private var advancedModule: AdvancedModule = new AdvancedModule();
     private var common: FlashCommonCS4;
+    private var tabBar: TabBar;
 
     public function CollisionLab() {
         SimStrings.init( loaderInfo );
         //stage width and height hard-coded for now
         this.stageW = 950;//this.stage.stageWidth;
         this.stageH = 700;//this.stage.stageHeight;
-        var tabBar: TabBar = new TabBar();
+        tabBar = new TabBar();
 
         var introHolder: Sprite = new Sprite();
         addChild( introHolder );
@@ -70,17 +72,49 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         stage.addEventListener( Event.RESIZE, function( evt: Event ): void {
             positionButtons();
         } );
+        addEventListener(Event.ENTER_FRAME, function( evt: Event ): void {
+            positionButtons();
+        } );
         positionButtons();
     }
 
     protected function positionButtons(): void {
-        if ( common.commonButtons == null ) {
-            return;
+        if ( common.commonButtons != null ) {
+            var height:int = common.commonButtons.getPreferredHeight();
+            const x:Number = 5;
+            const y:Number = 700 - height - 5;
+            common.commonButtons.setLocationXY( x, y );
         }
-        var height: int = common.commonButtons.getPreferredHeight();
-        const x: Number = 5;
-        const y: Number = 700 - height - 5;
-        common.commonButtons.setLocationXY( x, y );
+        if( tabBar != null && stage != null ) {
+            var dimensions:Rectangle = stageDimensions( this );
+            tabBar.y = dimensions.top;
+        }
+    }
+
+    public static function stageDimensions( sprite: Sprite ): Rectangle {
+        var idealWidth: Number = 950;
+        var idealHeight: Number = 700;
+        var idealRatio: Number = idealWidth / idealHeight;
+        var ratio: Number = sprite.stage.stageWidth / sprite.stage.stageHeight;
+        var leftBound: Number;
+        var rightBound: Number;
+        var topBound: Number;
+        var bottomBound: Number;
+        if ( ratio < idealRatio ) {
+            // width-constrained
+            leftBound = 0;
+            rightBound = idealWidth;
+            topBound = (idealHeight / 2) * (1 - idealRatio / ratio);
+            bottomBound = (idealHeight / 2) * (1 + idealRatio / ratio);
+        }
+        else {
+            // height-constrained
+            topBound = 0;
+            bottomBound = idealHeight;
+            leftBound = (idealWidth / 2) * (1 - ratio / idealRatio);
+            rightBound = (idealWidth / 2) * (1 + ratio / idealRatio);
+        }
+        return new Rectangle( leftBound, topBound, rightBound - leftBound, bottomBound - topBound );
     }
 
 }//end of class
