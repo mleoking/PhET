@@ -27,8 +27,8 @@ public class BallImage extends Sprite {
     var myBall: Ball;
     var ballIndex: int;			//index labels ball 1, 2, 3,
     var ballBody: Sprite;
-    var pArrowImage: Arrow;				//momentum arrow, not grabable
-    var vArrowImage: Arrow;				//velocity arrow, not grabable
+    var pArrowImage: Arrow;				//momentum arrow, not grabbable
+    var vArrowImage: Arrow;				//velocity arrow, not grabbable
     var ballHandle: Sprite;
     var arrowHeadIndicator: Sprite; 		//shows user where tip of arrow head is
     var arrowHeadHandle: Sprite;			//user grabs this handle to set velocity with mouse
