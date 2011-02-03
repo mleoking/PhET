@@ -1,3 +1,4 @@
+# 0.0.21 (48561) Feb 2, 2011
 Added zoom controls
 # 0.0.20 (48357) Jan 31, 2011
 Added "Options" menu with "Invert Colors" button, which inverts the colors in the play area but not the control panel
