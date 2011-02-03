@@ -1,5 +1,11 @@
 package edu.colorado.phet.collisionlab.control {
+import edu.colorado.phet.flashcommon.MathUtil;
+
 import flash.display.Sprite;
+import flash.display.GradientType;
+import flash.geom.Matrix;
+import flash.display.SpreadMethod;
+import fl.motion.Color;
 
 public class TabBar extends Sprite {
     private const tabHolder: Sprite = new Sprite();
@@ -18,19 +24,36 @@ public class TabBar extends Sprite {
     }
 
     public function addTab( tab: Tab ): void {
-        var x: Number = tabHolder.width;
+        var offsetFromLeft: Number = 12;
+        var tabPadding: Number = -8;
+        var x: Number = tabHolder.width + offsetFromLeft + tabPadding * tabs.length;
         tabHolder.addChild( tab );
         tab.x = x;
+        tab.y = 2;
+        for each ( var otherTab:Tab in tabs ) {
+            tabHolder.swapChildren( tab, otherTab ); // this actually will cause the tabs to be in inverted order on startup
+        }
         tabs.push( tab );
         drawBackground();
     }
 
     public function drawBackground(): void {
+        var dividingLine: Number = tabs[0].getCalculatedHeight() + 1;
+        var separatorHeight: Number = 8;
+
         graphics.clear();
         //graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( backgroundColor );
         //graphics.drawRect( tabHolder.width, 0, 950, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
-        graphics.drawRect( -2000, 0, 5000, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
+        graphics.drawRect( -2000, 0, 5000, dividingLine ); // TODO: improve height calculation, make width based on stage. null ref!
+        graphics.endFill();
+        //graphics.beginFill( selectedColor );
+        var matrix:Matrix = new Matrix();
+        matrix.createGradientBox( separatorHeight, separatorHeight, Math.PI / 2, 0, dividingLine );
+        graphics.beginGradientFill( GradientType.LINEAR, [selectedColor, Color.interpolateColor(selectedColor, 0x000000,0.25)], [1,1], [0x00, 0xFF], matrix, SpreadMethod.REPEAT);
+//        graphics.drawRect( 0, 0, 500, 500 );
+        graphics.drawRect( -2000, dividingLine, 5000, separatorHeight);
+        graphics.endFill();
     }
 
     public function set selectedTab( tab: Tab ): void {
@@ -40,6 +63,9 @@ public class TabBar extends Sprite {
             }
         }
         tab.selected = true;
+        if( _selectedTab != null ) {
+            tabHolder.swapChildren( tab, _selectedTab );
+        }
         _selectedTab = tab;
         for each( var listener: Function in listeners ) {
             listener();

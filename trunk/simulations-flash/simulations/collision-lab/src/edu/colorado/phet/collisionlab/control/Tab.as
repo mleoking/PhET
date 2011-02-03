@@ -16,8 +16,9 @@ public class Tab extends Sprite {
         textField.autoSize = TextFieldAutoSize.LEFT;
         textField.text = " " + title + " "; // cheap and scalable way to pad it
         textField.selectable = false;
+        textField.x = 5;
         var textFormat: TextFormat = new TextFormat();
-        textFormat.size = 20;
+        textFormat.size = 16;
         textFormat.font = "Arial";
         textFormat.bold = true;
         textField.setTextFormat( textFormat );
@@ -53,13 +54,28 @@ public class Tab extends Sprite {
         //graphics.lineStyle( 1, 0x000000 );
         //graphics.moveTo( textField.width, 0 );
         //graphics.lineTo( textField.width, textField.height );
+        var tabColor: int;
         if ( selected ) {
-            textField.backgroundColor = tabBar.selectedColor;
+            tabColor = tabBar.selectedColor;
+            textField.textColor = 0x000000;
         }
         else {
-            textField.backgroundColor = tabBar.disabledColor;
+            tabColor = tabBar.disabledColor;
+            textField.textColor = 0x282828;
         }
-        textField.background = true;
+        //textField.background = true;
+
+        graphics.clear();
+        graphics.moveTo( 0, textField.height );
+        if( selected ) {
+            graphics.lineStyle( 1, 0x000000 );
+        }
+        graphics.beginFill( tabColor );
+        graphics.lineTo( 0, 0 );
+        graphics.lineTo( textField.width + textField.x, 0 );
+        graphics.lineTo( textField.width + textField.x + 15, textField.height );
+        graphics.lineStyle();
+        graphics.endFill();
     }
 }
 }
