@@ -6,12 +6,14 @@ public class TabBar extends Sprite {
     private var tabs: Array = new Array();
     public var selectedColor: int;
     public var disabledColor: int;
+    public var backgroundColor: int;
     private var listeners: Array = new Array();
     private var _selectedTab: Tab = null;
 
-    public function TabBar( selectedColor: int, disabledColor: int ) {
+    public function TabBar( selectedColor: int = 0xb4cdff, disabledColor: int = 0x647dff, backgroundColor: int = 0xf0f0f0 ) {
         this.selectedColor = selectedColor;
         this.disabledColor = disabledColor;
+        this.backgroundColor = backgroundColor;
         addChild( tabHolder );
     }
 
@@ -26,7 +28,7 @@ public class TabBar extends Sprite {
     public function drawBackground(): void {
         graphics.clear();
         //graphics.lineStyle( 1, 0x000000 );
-        graphics.beginFill( disabledColor );
+        graphics.beginFill( backgroundColor );
         //graphics.drawRect( tabHolder.width, 0, 950, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
         graphics.drawRect( -2000, 0, 5000, tabs[0].getCalculatedHeight() ); // TODO: improve height calculation, make width based on stage. null ref!
     }

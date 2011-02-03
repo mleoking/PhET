@@ -25,7 +25,7 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         //stage width and height hard-coded for now
         this.stageW = 950;//this.stage.stageWidth;
         this.stageH = 700;//this.stage.stageHeight;
-        var tabBar: TabBar = new TabBar( CLConstants.BACKGROUND_COLOR, 0xFFFFBB );
+        var tabBar: TabBar = new TabBar();
 
         var introHolder: Sprite = new Sprite();
         addChild( introHolder );
