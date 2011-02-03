@@ -33,7 +33,7 @@ public class IntroControlPanel extends ControlPanel {
         this.sub_showCM_cb.selected = false;
 
         this.sub_showValues_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.sub_showValues_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
+        this.sub_showValues_cb.addEventListener( MouseEvent.CLICK, showValues );
     }
 
 

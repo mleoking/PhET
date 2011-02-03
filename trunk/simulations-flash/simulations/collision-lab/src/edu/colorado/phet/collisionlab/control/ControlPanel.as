@@ -1,6 +1,7 @@
 package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
+import edu.colorado.phet.collisionlab.view.BallImage;
 import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -214,6 +215,12 @@ public class ControlPanel extends Sprite {
         }
         else {
             this.myMainView.myTableView.myTrajectories.pathsOff();
+        }
+    }
+
+    public function showValues( evt: MouseEvent ): void {
+        for each ( var ball:BallImage in this.myMainView.myTableView.ballImage_arr ) {
+            ball.setShowValues( evt.target.selected);
         }
     }
 
