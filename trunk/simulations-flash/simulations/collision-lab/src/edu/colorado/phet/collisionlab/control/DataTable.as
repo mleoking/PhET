@@ -501,18 +501,6 @@ public class DataTable extends Sprite {
         }
     }
 
-    //following function is obsolete
-    //		private function toggleButtonClick(evt:MouseEvent):void{
-    //			trace(evt.target.label);
-    //			if(evt.target.label == this.moreData_str){
-    //				evt.target.label = this.lessData_str;//TODO: JO: Also need to resize the button here?
-    //				this.displayPartialDataTable(false);
-    //			}else if(evt.target.label == this.lessData_str){
-    //				evt.target.label = this.moreData_str;
-    //				this.displayPartialDataTable(true);
-    //			}
-    //		}//toggleButtonClick
-
     private function toggleDataButton(): void {
         if ( this.moreDataButton_sp.visible ) {
             this.moreDataButton_sp.visible = false;
