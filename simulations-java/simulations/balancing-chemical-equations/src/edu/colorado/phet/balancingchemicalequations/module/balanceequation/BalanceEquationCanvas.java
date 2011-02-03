@@ -49,11 +49,11 @@ public class BalanceEquationCanvas extends BCECanvas {
         BalanceChoiceNode balanceChoiceNode = new BalanceChoiceNode( balanceChoiceProperty );
         addChild( balanceChoiceNode );
 
-        // bar charts representation of "balanced"
+        // bar charts
         final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty() );
         addChild( barChartsNode );
 
-        // balance scales representation of "balanced"
+        // balance scales
         final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.getCurrentEquationProperty() );
         addChild( balanceScalesNode );
 
