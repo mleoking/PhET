@@ -26,128 +26,117 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BoxesNode extends PComposite {
 
-    private final BoxOfMoleculesNode reactantsBoxNode, productsBoxNode;
+    private final IntegerRange coefficientRange;
+    private final Dimension boxSize;
+    private final HorizontalAligner horizontalAligner;
+    private final PComposite moleculesParentNode;
+    private final SimpleObserver coefficientsObserver;
+    private Equation equation;
 
     public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, Dimension boxSize, double boxSeparation ) {
 
+        this.coefficientRange = coefficientRange;
+        this.boxSize = new Dimension( boxSize );
+        this.horizontalAligner = new HorizontalAligner( boxSize.getWidth(), boxSeparation );
+
         // boxes
-        reactantsBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getReactants(), coefficientRange, boxSize );
+        BoxNode reactantsBoxNode = new BoxNode( boxSize );
         addChild( reactantsBoxNode );
-        productsBoxNode = new BoxOfMoleculesNode( equationProperty.getValue().getProducts(), coefficientRange, boxSize );
+        BoxNode productsBoxNode = new BoxNode( boxSize );
         addChild( productsBoxNode );
 
         // right-pointing arrow
         RightArrowNode arrowNode = new RightArrowNode();
         addChild( arrowNode );
 
+        // molecules
+        moleculesParentNode = new PComposite();
+        addChild( moleculesParentNode );
+
         // layout
         double x = 0;
         double y = 0;
         reactantsBoxNode.setOffset( x, y );
-        x = reactantsBoxNode.getFullBoundsReference().getMaxX() + ( boxSeparation / 2 ) - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
+        moleculesParentNode.setOffset( x, y );
+        x = horizontalAligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
         y = reactantsBoxNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 );
         arrowNode.setOffset( x, y );
         x = reactantsBoxNode.getFullBoundsReference().getMaxX() + boxSeparation;
         y = reactantsBoxNode.getYOffset();
         productsBoxNode.setOffset( x, y );
 
-        // update equation
+        this.equation = equationProperty.getValue();
+        // coefficient changes
+        coefficientsObserver = new SimpleObserver() {
+            public void update() {
+                updateMolecules();
+            }
+        };
+        // equation changes
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                reactantsBoxNode.setEquationTerms( equationProperty.getValue().getReactants() );
-                productsBoxNode.setEquationTerms( equationProperty.getValue().getProducts() );
+                removeCoefficientsObserver();
+                BoxesNode.this.equation = equationProperty.getValue();
+                addCoefficientsObserver();
             }
         } );
     }
 
     public void setMoleculesVisible( boolean moleculesVisible ) {
-        reactantsBoxNode.setMoleculesVisible( moleculesVisible );
-        productsBoxNode.setMoleculesVisible( moleculesVisible );
+        moleculesParentNode.setVisible( moleculesVisible );
+    }
+
+    private void updateMolecules() {
+        moleculesParentNode.removeAllChildren();
+        updateMolecules( equation.getReactants(), horizontalAligner.getReactantXOffsets( equation ) );
+        updateMolecules( equation.getProducts(), horizontalAligner.getProductXOffsets( equation ) );
+    }
+
+    private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {
+        assert( terms.length == xOffsets.length );
+        final double yMargin = 10;
+        final double rowHeight = ( boxSize.getHeight() - ( 2 * yMargin ) ) / ( coefficientRange.getMax() );
+        for ( int i = 0; i < terms.length; i++ ) {
+            int numberOfMolecules = terms[i].getActualCoefficient();
+            Image moleculeImage = terms[i].getMolecule().getImage();
+            double y = yMargin + ( rowHeight / 2 );
+            for ( int j = 0; j < numberOfMolecules; j++ ) {
+                PImage imageNode = new PImage( moleculeImage );
+                imageNode.scale( 0.75 );
+                moleculesParentNode.addChild( imageNode );
+                imageNode.setOffset( xOffsets[i] - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
+                y += rowHeight;
+            }
+        }
+    }
+
+    private void addCoefficientsObserver() {
+        for ( EquationTerm term : equation.getReactants() ) {
+            term.getActualCoefficientProperty().addObserver( coefficientsObserver );
+        }
+        for ( EquationTerm term : equation.getProducts() ) {
+            term.getActualCoefficientProperty().addObserver( coefficientsObserver );
+        }
+    }
+
+    private void removeCoefficientsObserver() {
+        for ( EquationTerm term : equation.getReactants() ) {
+            term.getActualCoefficientProperty().removeObserver( coefficientsObserver );
+        }
+        for ( EquationTerm term : equation.getProducts() ) {
+            term.getActualCoefficientProperty().removeObserver( coefficientsObserver );
+        }
     }
 
     /**
-     * A box that contains molecules.
-     * The number of molecules corresponds to the coefficients of one or more equation terms.
-     * Molecules for each term are arranged in columns.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
+     * A simple box.
      */
-    private static class BoxOfMoleculesNode extends PComposite {
-
-        private EquationTerm[] terms;
-        private final IntegerRange coefficientRange;
-        private final Dimension boxSize;
-        private final SimpleObserver coefficentObserver;
-        private final PComposite moleculesParentNode;
-
-        public BoxOfMoleculesNode( EquationTerm[] terms, IntegerRange coefficientRange, Dimension boxSize ) {
-
-            this.terms = terms;
-            this.coefficientRange = coefficientRange;
-            this.boxSize = new Dimension( boxSize );
-
-            PPath boxNode = new PPath( new Rectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight() ) );
-            boxNode.setPaint( BCEColors.BEFORE_AFTER_BOX_COLOR );
-            boxNode.setStrokePaint( Color.BLACK );
-            boxNode.setStroke( new BasicStroke( 1f ) );
-            addChild( boxNode );
-
-            moleculesParentNode = new PComposite();
-            addChild( moleculesParentNode );
-
-            coefficentObserver = new SimpleObserver() {
-                public void update() {
-                    updateNumberOfMolecules();
-                }
-            };
-            addCoefficientObserver();
-        }
-
-        public void setEquationTerms( EquationTerm[] terms ) {
-            if ( terms != this.terms ) {
-                removeCoefficientObserver();
-                this.terms = terms;
-                addCoefficientObserver();
-            }
-        }
-
-        public void setMoleculesVisible( boolean moleculesVisible ) {
-            moleculesParentNode.setVisible( moleculesVisible );
-        }
-
-        private void updateNumberOfMolecules() {
-
-            moleculesParentNode.removeAllChildren();
-
-            final int numberOfTerms = terms.length;
-            final double columnWidth = boxSize.getWidth() / Math.max( 2, numberOfTerms );
-            final double dy = boxSize.getHeight() / ( coefficientRange.getMax() + 1 );
-            double x = columnWidth / 2;
-            for ( EquationTerm term : terms ) {
-                int numberOfMolecules = term.getActualCoefficient();
-                Image moleculeImage = term.getMolecule().getImage();
-                double y = dy;
-                for ( int i = 0; i < numberOfMolecules; i++ ) {
-                    PImage imageNode = new PImage( moleculeImage );
-                    imageNode.scale( 0.75 );
-                    moleculesParentNode.addChild( imageNode );
-                    imageNode.setOffset( x - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
-                    y += dy;
-                }
-                x += columnWidth;
-            }
-        }
-
-        private void addCoefficientObserver() {
-            for ( EquationTerm term : this.terms ) {
-                term.getActualCoefficientProperty().addObserver( coefficentObserver );
-            }
-        }
-
-        private void removeCoefficientObserver() {
-            for ( EquationTerm term : this.terms ) {
-                term.getActualCoefficientProperty().removeObserver( coefficentObserver );
-            }
+    private static class BoxNode extends PPath {
+        public BoxNode( Dimension boxSize ) {
+            super( new Rectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight() ) );
+            setPaint( BCEColors.BEFORE_AFTER_BOX_COLOR );
+            setStrokePaint( Color.BLACK );
+            setStroke( new BasicStroke( 1f ) );
         }
     }
 }

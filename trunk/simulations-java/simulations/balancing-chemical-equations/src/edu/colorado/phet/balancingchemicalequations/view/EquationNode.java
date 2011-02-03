@@ -41,7 +41,7 @@ public class EquationNode extends PhetPNode  {
     private Property<Equation> equationProperty;
     private final IntegerRange coefficientRange;
     private boolean editable;
-    private final double sideLength, separation;
+    private final HorizontalAligner aligner;
     private ArrayList<ActualCoefficientNode> actualCoefficientNodes;
 
     /**
@@ -58,8 +58,7 @@ public class EquationNode extends PhetPNode  {
         this.equationProperty = equationProperty;
         this.coefficientRange = coefficientRange;
         this.editable = editable;
-        this.sideLength = leftRightSideLength;
-        this.separation = leftRightSeparation;
+        this.aligner = new HorizontalAligner( leftRightSideLength, leftRightSeparation );
         this.actualCoefficientNodes = new ArrayList<ActualCoefficientNode>();
 
         this.equationProperty.addObserver( new SimpleObserver() {
@@ -96,14 +95,14 @@ public class EquationNode extends PhetPNode  {
         // determine cap height of the font, using a char that has no descender
         final double capHeight = new SymbolNode( "T" ).getFullBounds().getHeight();
 
-        updateSideOfEquation( equationProperty.getValue().getReactants(), 0 /* xOffset */, capHeight );
-        updateSideOfEquation( equationProperty.getValue().getProducts(), sideLength + separation /* xOffset */, capHeight );
+        updateSideOfEquation( equationProperty.getValue().getReactants(), aligner.getReactantXOffsets( equationProperty.getValue() ), capHeight );
+        updateSideOfEquation( equationProperty.getValue().getProducts(), aligner.getProductXOffsets( equationProperty.getValue() ), capHeight );
 
         // right-pointing arrow
         {
             RightArrowNode arrowNode = new RightArrowNode();
             addChild( arrowNode );
-            double x = sideLength + ( separation / 2 ) - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
+            double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
             double y = ( capHeight / 2 );
             arrowNode.setOffset( x, y );
         }
@@ -112,23 +111,22 @@ public class EquationNode extends PhetPNode  {
     /*
      * Updates one side of the equation.
      */
-    private void updateSideOfEquation( EquationTerm[] terms, double xOffset, double capHeight ) {
-        final double columnWidth = sideLength / Math.max( 2, terms.length );
-        double x = xOffset + ( columnWidth / 2 );
+    private void updateSideOfEquation( EquationTerm[] terms, double[] xOffsets, double capHeight ) {
+        assert( terms.length == xOffsets.length );
         for ( int i = 0; i < terms.length; i++ ) {
 
-            // term, centered in column
+            // term
             TermNode termNode = new TermNode( coefficientRange, terms[i], editable );
             addChild( termNode );
-            termNode.setOffset( x - ( termNode.getFullBoundsReference().getWidth() / 2 ), 0 );
-            x += columnWidth;
+            termNode.setOffset( xOffsets[i] - ( termNode.getFullBoundsReference().getWidth() / 2 ), 0 );
 
-            // plus sign, centered on column boundary
+            // plus sign, centered between 2 terms
             if ( i > 0 ) {
                 PlusNode plusNode = new PlusNode();
                 addChild( plusNode );
-                plusNode.setOffset( xOffset + ( i * columnWidth ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ),
-                        ( capHeight / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 ) );
+                double x =  xOffsets[i] - ( ( xOffsets[i] - xOffsets[i-1] ) / 2 ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ); // centered between 2 offsets
+                double y = ( capHeight / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 );
+                plusNode.setOffset( x, y );
             }
         }
     }
