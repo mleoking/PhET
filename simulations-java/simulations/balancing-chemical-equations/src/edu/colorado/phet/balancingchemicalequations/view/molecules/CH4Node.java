@@ -3,7 +3,8 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
-import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -16,16 +17,12 @@ public class CH4Node extends PComposite {
 
     public CH4Node() {
 
-        // attributes
-        double diameterBig = 30;
-        double diameterSmall = 20;
-
         // atom nodes
-        ShadedSphereNode atomBig = new ShadedSphereNode( diameterBig, BCEColors.C );
-        ShadedSphereNode atomSmallTopLeft = new ShadedSphereNode( diameterSmall, BCEColors.H );
-        ShadedSphereNode atomSmallTopRight = new ShadedSphereNode( diameterSmall, BCEColors.H );
-        ShadedSphereNode atomSmallBottomLeft = new ShadedSphereNode( diameterSmall, BCEColors.H );
-        ShadedSphereNode atomSmallBottomRight = new ShadedSphereNode( diameterSmall, BCEColors.H );
+        AtomNode atomBig = new BigAtomNode( BCEColors.C );
+        AtomNode atomSmallTopLeft = new SmallAtomNode( BCEColors.H );
+        AtomNode atomSmallTopRight = new SmallAtomNode( BCEColors.H );
+        AtomNode atomSmallBottomLeft = new SmallAtomNode( BCEColors.H );
+        AtomNode atomSmallBottomRight = new SmallAtomNode( BCEColors.H );
 
         // rendering order
         PComposite parentNode = new PComposite();
@@ -37,7 +34,7 @@ public class CH4Node extends PComposite {
         parentNode.addChild( atomSmallBottomRight );
 
         // layout
-        final double offsetSmall = diameterSmall / 4;
+        final double offsetSmall = atomSmallTopLeft.getFullBoundsReference().getWidth() / 4;
         double x = 0;
         double y = 0;
         atomBig.setOffset( x, y );
