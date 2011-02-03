@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
  */
 public class BalanceEquationCanvas extends BCECanvas {
 
-    private static final Dimension BOX_SIZE = new Dimension( 300, 150 );
+    private static final Dimension BOX_SIZE = new Dimension( 300, 140 );
     private static final double BOX_SEPARATION = 60;
 
     private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"

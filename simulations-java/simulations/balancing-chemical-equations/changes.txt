@@ -1,3 +1,4 @@
+2/2/11 revert to HorizontalAligner for aligning equation and molecules 
 2/2/11 horizontally align equation terms and molecule columns
 2/2/11 adjust box size and separation
 2/2/11 abandon HorizontalAligner approach to alignment of multiple representations
