@@ -65,7 +65,6 @@ public class BalanceEquationCanvas extends BCECanvas {
 
         // Reset All button
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, parentFrame, 12, Color.BLACK, Color.WHITE );
-        resetAllButtonNode.setConfirmationEnabled( false );
         addChild( resetAllButtonNode );
 
         // Dev, shows balanced coefficients

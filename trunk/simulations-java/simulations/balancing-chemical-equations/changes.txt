@@ -1,3 +1,4 @@
+2/2/11 enable Reset All confirmation, for discussion
 2/2/11 center justification of balance scales
 2/2/11 share one instance of HorizontalAligner
 2/2/11 center justification of bar charts
