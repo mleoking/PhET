@@ -42,16 +42,7 @@ public class MainView extends Sprite {
         this.momentumView = new MomentumView( myModel, this );
         this.mySoundMaker = new SoundMaker( myModel, this );
         this.myModel.resetAll();
-        var paddingForTabs: Number = 10; // we need to add padding at the top for the new tab bar
-        this.myTableView.y += paddingForTabs;
-        this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
-        this.myDataTable.x = 330; // hardcoded for now, since we have different widths of play areas...
-        //this.controlPanel.sub_background.width = 170;
-        //this.controlPanel.sub_background.height = 330;
-        this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
-        this.controlPanel.y = 30 + paddingForTabs;
-        this.phetLogo.x = 0;
-        this.phetLogo.y = this.stageH - this.phetLogo.height - 35; // our flashcommon buttons now below logo.
+        resetPositions();
         this.momentumView.visible = false;
 
         returnBallsButtonSprite = new DataTableButtonBody();
@@ -66,6 +57,26 @@ public class MainView extends Sprite {
         returnBallsButtonSprite.y = myTableView.y + 230;
 
         myModel.registerView( this ); // get update() called
+    }
+
+    public function reset(): void {
+        resetPositions();
+    }
+
+    public function resetPositions(): void {
+        var paddingForTabs: Number = 10; // we need to add padding at the top for the new tab bar
+        this.myTableView.x = 0;
+        this.myTableView.y = paddingForTabs;
+        this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
+        this.myDataTable.x = 330; // hardcoded for now, since we have different widths of play areas...
+        //this.controlPanel.sub_background.width = 170;
+        //this.controlPanel.sub_background.height = 330;
+        this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
+        this.controlPanel.y = 30 + paddingForTabs;
+        this.phetLogo.x = 0;
+        this.phetLogo.y = this.stageH - this.phetLogo.height - 35; // our flashcommon buttons now below logo.
+        this.momentumView.x = 0;
+        this.momentumView.y = 0;
     }
 
     public function update(): void {
