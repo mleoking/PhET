@@ -89,15 +89,14 @@ public class BalanceEquationCanvas extends BCECanvas {
             barChartsNode.setOffset( 0, y );
             y = balanceChoiceNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( balanceScalesNode ) + 65;
             balanceScalesNode.setOffset( 0, y );
-            double x = boxesNode.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 );
-            y = barChartsNode.getFullBoundsReference().getMaxY() + 30;
+            double x = boxesNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth();
+            y = equationChoiceNode.getFullBoundsReference().getMinY();
             resetAllButtonNode.setOffset( x, y );
             x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
             y = boxesNode.getFullBoundsReference().getMaxY() - ( boxesNode.getFullBoundsReference().getHeight() / 4 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 );
             faceNode.setOffset( x, y );
-            x = resetAllButtonNode.getFullBoundsReference().getMaxX() + 40;
-            y = resetAllButtonNode.getFullBoundsReference().getCenterY() - ( balancedEquationNode.getFullBoundsReference().getHeight() / 2 );
-            balancedEquationNode.setOffset( x, y );
+            x = aligner.getCenterXOffset();
+            balancedEquationNode.setOffset( x, 0 );
         }
 
         // observers
