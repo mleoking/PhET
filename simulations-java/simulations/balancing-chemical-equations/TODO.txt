@@ -12,10 +12,10 @@ HIGH PRIORITY
 - publish dev version for discussion, with all features of the "Balance Equation" module
 
 MEDIUM PRIORITY
+- PNode.toImage looks lousy for atoms and molecules
 - "Game" module
 - pick a random representation for Game (bar chart, balance scale, molecules) then allow user to change via 3 radio buttons
 - in "Game", two possible labels below frowny face: "X not balanced" or "Check Mark balanced\nX not simplified"
 
 LOW PRIORITY
-- how to reset global settings? (eg, Options->Show molecules)
 - generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs
