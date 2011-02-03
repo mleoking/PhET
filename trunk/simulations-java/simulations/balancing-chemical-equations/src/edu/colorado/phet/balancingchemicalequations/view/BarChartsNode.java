@@ -149,7 +149,7 @@ public class BarChartsNode extends PComposite {
 
         // equality sign at center
         double x = aligner.getCenterXOffset() - ( equalitySignNode.getFullBoundsReference().getWidth() / 2 );
-        double y = -equalitySignNode.getFullBoundsReference().getHeight();
+        double y = -equalitySignNode.getFullBoundsReference().getHeight() / 2;
         equalitySignNode.setOffset( x, y );
 
         // reactants chart to the left
