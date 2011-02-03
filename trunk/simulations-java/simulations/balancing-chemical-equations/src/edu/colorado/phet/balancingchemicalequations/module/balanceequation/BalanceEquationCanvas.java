@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 
 /**
  * Canvas for the "Balance Equation" module.
@@ -79,12 +78,12 @@ public class BalanceEquationCanvas extends BCECanvas {
             equationNode.setOffset( 0, y );
             y = equationNode.getFullBoundsReference().getMaxY() + 15;
             boxesNode.setOffset( 0, y );
-            y = boxesNode.getFullBoundsReference().getMaxY() + 25;
-            balanceChoiceNode.setOffset( 0, y );
-            y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 120;
+            y = boxesNode.getFullBoundsReference().getMaxY() + 110;
             barChartsNode.setOffset( 0, y );
-            y = balanceChoiceNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( balanceScalesNode ) + 65;
+            y = barChartsNode.getYOffset() - 10;
             balanceScalesNode.setOffset( 0, y );
+            y = Math.max( barChartsNode.getFullBoundsReference().getMaxY(), balanceScalesNode.getFullBoundsReference().getMaxY() ) + 25;
+            balanceChoiceNode.setOffset( 0, y );
             double x = boxesNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth();
             y = equationChoiceNode.getFullBoundsReference().getMinY();
             resetAllButtonNode.setOffset( x, y );
