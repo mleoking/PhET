@@ -33,7 +33,7 @@ public class BalanceEquationCanvas extends BCECanvas {
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
-        balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.BAR_CHARTS );
+        balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.NONE );
 
         // control for choosing an equation
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty() );

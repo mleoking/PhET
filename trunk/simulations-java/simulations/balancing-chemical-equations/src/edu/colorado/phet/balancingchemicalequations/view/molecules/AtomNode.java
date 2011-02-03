@@ -25,7 +25,7 @@ public abstract class AtomNode extends ShadedSphereNode {
 
     public static class SmallAtomNode extends AtomNode {
         public SmallAtomNode( Color color ) {
-            super( 15, color );
+            super( 14, color );
         }
     }
 }
