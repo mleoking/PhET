@@ -11,13 +11,21 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AtomNode extends ShadedSphereNode {
-
-    public AtomNode( Color color ) {
-        this( 35, color );
-    }
+public abstract class AtomNode extends ShadedSphereNode {
 
     public AtomNode( double diameter, Color color ) {
         super( diameter, color );
+    }
+
+    public static class BigAtomNode extends AtomNode {
+        public BigAtomNode( Color color ) {
+            super( 22, color );
+        }
+    }
+
+    public static class SmallAtomNode extends AtomNode {
+        public SmallAtomNode( Color color ) {
+            super( 15, color );
+        }
     }
 }

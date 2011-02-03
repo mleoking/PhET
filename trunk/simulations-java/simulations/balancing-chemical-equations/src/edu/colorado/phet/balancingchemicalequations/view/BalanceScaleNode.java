@@ -170,7 +170,6 @@ public class BalanceScaleNode extends PComposite {
     private static class AtomNode extends PImage {
         public AtomNode( Atom atom ) {
             setImage( atom.getImage() );
-            scale( 0.35 );
         }
     }
 

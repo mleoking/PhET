@@ -100,7 +100,6 @@ public class BoxesNode extends PComposite {
             double y = yMargin + ( rowHeight / 2 );
             for ( int j = 0; j < numberOfMolecules; j++ ) {
                 PImage imageNode = new PImage( moleculeImage );
-                imageNode.scale( 0.75 );
                 moleculesParentNode.addChild( imageNode );
                 imageNode.setOffset( xOffsets[i] - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
                 y += rowHeight;

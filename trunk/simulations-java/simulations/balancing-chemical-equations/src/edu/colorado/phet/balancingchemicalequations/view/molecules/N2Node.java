@@ -3,7 +3,7 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
-import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -16,12 +16,9 @@ public class N2Node extends PComposite {
 
     public N2Node() {
 
-        // attributes
-        double diameter = 30;
-
         // atom nodes
-        ShadedSphereNode atomLeft = new ShadedSphereNode( diameter, BCEColors.N );
-        ShadedSphereNode atomRight = new ShadedSphereNode( diameter, BCEColors.N );
+        AtomNode atomLeft = new BigAtomNode( BCEColors.N );
+        AtomNode atomRight = new BigAtomNode( BCEColors.N );
 
         // rendering order
         PComposite parentNode = new PComposite();
