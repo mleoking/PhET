@@ -26,9 +26,12 @@ public class BalanceScalesNode extends PComposite {
 
     private final SimpleObserver coefficientsObserver;
 
+    private final HorizontalAligner aligner;
     private Equation equation;
 
-    public BalanceScalesNode( final Property<Equation> equationProperty ) {
+    public BalanceScalesNode( final Property<Equation> equationProperty, HorizontalAligner aligner ) {
+
+        this.aligner = aligner;
 
         coefficientsObserver = new SimpleObserver() {
             public void update() {
@@ -84,13 +87,15 @@ public class BalanceScalesNode extends PComposite {
      */
     private void updateNode() {
         removeAllChildren();
-        double x = 0;
         ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
+        final double xSpacing = 25;
+        final double dx = BalanceScaleNode.getBeamLength() + xSpacing;
+        double x = aligner.getCenterXOffset() - ( ( atomCounts.size() - 1 ) * BalanceScaleNode.getBeamLength() / 2 ) - ( ( atomCounts.size() - 1 ) * xSpacing / 2 );
         for ( AtomCount atomCount : atomCounts ) {
             BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.getAtom(), atomCount.getReactantsCount(), atomCount.getProductsCount() );
-            scaleNode.setOffset( x, 0 );
             addChild( scaleNode );
-            x += ( scaleNode.getBeamLength() + 25 );
+            scaleNode.setOffset( x, 0 );
+            x += dx;
         }
     }
 }

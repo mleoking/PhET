@@ -1,3 +1,4 @@
+2/2/11 center justification of balance scales
 2/2/11 share one instance of HorizontalAligner
 2/2/11 center justification of bar charts
 2/2/11 revert to HorizontalAligner for aligning equation and molecules 
