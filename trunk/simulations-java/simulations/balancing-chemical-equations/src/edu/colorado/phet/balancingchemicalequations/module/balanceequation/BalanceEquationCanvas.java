@@ -56,7 +56,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( barChartsNode );
 
         // balance scales
-        final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.getCurrentEquationProperty() );
+        final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.getCurrentEquationProperty(), aligner );
         addChild( balanceScalesNode );
 
         // smiley face, for showing when equation is balanced
