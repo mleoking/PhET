@@ -8,6 +8,7 @@ package edu.colorado.phet.gravityandorbits;
  */
 public class GAOStrings {
 
+
     /* not intended for instantiation */
     private GAOStrings() {
     }
@@ -59,6 +60,8 @@ public class GAOStrings {
 
     public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
+    public static final String ZOOM_IN = getString( "zoomIn" );
+    public static final String ZOOM_OUT = getString( "zoomOut" );
 
     private static String getString( String key ) {
         return GravityAndOrbitsApplication.RESOURCES.getLocalizedString( key );
