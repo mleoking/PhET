@@ -27,22 +27,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BoxesNode extends PComposite {
 
     private final IntegerRange coefficientRange;
-    private final Dimension boxSize;
-    private final HorizontalAligner horizontalAligner;
+    private final HorizontalAligner aligner;
     private final PComposite moleculesParentNode;
     private final SimpleObserver coefficientsObserver;
     private Equation equation;
 
-    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, Dimension boxSize, double boxSeparation ) {
+    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner ) {
 
         this.coefficientRange = coefficientRange;
-        this.boxSize = new Dimension( boxSize );
-        this.horizontalAligner = new HorizontalAligner( boxSize.getWidth(), boxSeparation );
+        this.aligner = aligner;
 
         // boxes
-        BoxNode reactantsBoxNode = new BoxNode( boxSize );
+        BoxNode reactantsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
         addChild( reactantsBoxNode );
-        BoxNode productsBoxNode = new BoxNode( boxSize );
+        BoxNode productsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
         addChild( productsBoxNode );
 
         // right-pointing arrow
@@ -58,10 +56,10 @@ public class BoxesNode extends PComposite {
         double y = 0;
         reactantsBoxNode.setOffset( x, y );
         moleculesParentNode.setOffset( x, y );
-        x = horizontalAligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
+        x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
         y = reactantsBoxNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 );
         arrowNode.setOffset( x, y );
-        x = reactantsBoxNode.getFullBoundsReference().getMaxX() + boxSeparation;
+        x = reactantsBoxNode.getFullBoundsReference().getMaxX() + aligner.getBoxSeparation();
         y = reactantsBoxNode.getYOffset();
         productsBoxNode.setOffset( x, y );
 
@@ -88,14 +86,14 @@ public class BoxesNode extends PComposite {
 
     private void updateMolecules() {
         moleculesParentNode.removeAllChildren();
-        updateMolecules( equation.getReactants(), horizontalAligner.getReactantXOffsets( equation ) );
-        updateMolecules( equation.getProducts(), horizontalAligner.getProductXOffsets( equation ) );
+        updateMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
+        updateMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
     }
 
     private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {
         assert( terms.length == xOffsets.length );
         final double yMargin = 10;
-        final double rowHeight = ( boxSize.getHeight() - ( 2 * yMargin ) ) / ( coefficientRange.getMax() );
+        final double rowHeight = ( aligner.getBoxSizeReference().getHeight() - ( 2 * yMargin ) ) / ( coefficientRange.getMax() );
         for ( int i = 0; i < terms.length; i++ ) {
             int numberOfMolecules = terms[i].getActualCoefficient();
             Image moleculeImage = terms[i].getMolecule().getImage();

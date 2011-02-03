@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
+import java.awt.Dimension;
+
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 
@@ -13,7 +15,7 @@ import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
  */
 public class HorizontalAligner {
 
-    private final double boxWidth;
+    private final Dimension boxSize;
     private final double boxSeparation;
 
     /**
@@ -21,9 +23,17 @@ public class HorizontalAligner {
      * @param boxWidth width of the box
      * @param boxSeparation horizontal separation between the left and right boxes
      */
-    public HorizontalAligner( double boxWidth, double boxSeparation ) {
-        this.boxWidth = boxWidth;
+    public HorizontalAligner( Dimension boxSize, double boxSeparation ) {
+        this.boxSize = new Dimension( boxSize );
         this.boxSeparation = boxSeparation;
+    }
+
+    public Dimension getBoxSizeReference() {
+        return boxSize;
+    }
+
+    public double getBoxSeparation() {
+        return boxSeparation;
     }
 
     /**
@@ -31,7 +41,7 @@ public class HorizontalAligner {
      * @return
      */
     public double getCenterXOffset() {
-        return boxWidth + ( boxSeparation / 2 );
+        return boxSize.getWidth() + ( boxSeparation / 2 );
     }
 
     /**
@@ -49,7 +59,7 @@ public class HorizontalAligner {
      * @return
      */
     public double[] getProductXOffsets( Equation equation ) {
-        return getXOffsets( equation.getProducts(), boxWidth + boxSeparation /* xAdjustment */ );
+        return getXOffsets( equation.getProducts(), boxSize.getWidth() + boxSeparation /* xAdjustment */ );
     }
 
     /*
@@ -58,7 +68,7 @@ public class HorizontalAligner {
      */
     private double[] getXOffsets( EquationTerm[] terms, double xAdjustment ) {
         final int numberOfTerms = terms.length;
-        final double columnWidth = boxWidth / Math.max( 2, numberOfTerms );
+        final double columnWidth = boxSize.getWidth() / Math.max( 2, numberOfTerms );
         double x = xAdjustment + columnWidth / 2;
         double[] xOffsets = new double[ numberOfTerms ];
         for ( int i = 0; i < numberOfTerms; i++ ) {

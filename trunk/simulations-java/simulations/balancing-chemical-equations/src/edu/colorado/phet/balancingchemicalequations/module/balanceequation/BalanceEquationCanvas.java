@@ -31,6 +31,8 @@ public class BalanceEquationCanvas extends BCECanvas {
 
     public BalanceEquationCanvas( Frame parentFrame, Resettable resettable, final BalanceEquationModel model, boolean dev ) {
 
+        HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
+
         balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.BAR_CHARTS );
 
         // control for choosing an equation
@@ -38,11 +40,11 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( equationChoiceNode );
 
         // equation, in formula format
-        final EquationNode equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true /* editable */, BOX_SIZE.getWidth(), BOX_SEPARATION );
+        final EquationNode equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true /* editable */, aligner );
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), BOX_SIZE, BOX_SEPARATION );
+        boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
@@ -50,7 +52,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( balanceChoiceNode );
 
         // bar charts
-        final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty(), BOX_SIZE, BOX_SEPARATION );
+        final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty(), aligner );
         addChild( barChartsNode );
 
         // balance scales
@@ -72,31 +74,32 @@ public class BalanceEquationCanvas extends BCECanvas {
             addChild( balancedEquationNode );
         }
 
-        // layout
-        double x = 0;
-        double y = 0;
-        final double ySpacing = 15;
-        equationChoiceNode.setOffset( x, y );
-        y = equationChoiceNode.getFullBoundsReference().getMaxY() + ySpacing;
-        equationNode.setOffset( x, y );
-        y = equationNode.getFullBoundsReference().getMaxY() + ySpacing;
-        boxesNode.setOffset( x, y );
-        y = boxesNode.getFullBoundsReference().getMaxY() + 25;
-        balanceChoiceNode.setOffset( x, y );
-        y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 120;
-        barChartsNode.setOffset( x, y );
-        x = equationChoiceNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( balanceScalesNode );
-        y = balanceChoiceNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( balanceScalesNode ) + 65;
-        balanceScalesNode.setOffset( x, y );
-        x = boxesNode.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 );
-        y = barChartsNode.getFullBoundsReference().getMaxY() + 30;
-        resetAllButtonNode.setOffset( x, y );
-        x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxesNode.getFullBoundsReference().getMaxY() - ( boxesNode.getFullBoundsReference().getHeight() / 4 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) ;
-        faceNode.setOffset( x, y );
-        x = resetAllButtonNode.getFullBoundsReference().getMaxX() + 40;
-        y = resetAllButtonNode.getFullBoundsReference().getCenterY() - ( balancedEquationNode.getFullBoundsReference().getHeight() / 2 );
-        balancedEquationNode.setOffset( x, y );
+        /*
+         * Layout - all of the major visual representations have x-offset=0,
+         * and handle their own horizontal alignment via HorizontalAligner.
+         */
+        {
+            equationChoiceNode.setOffset( 0, 0 );
+            double y = equationChoiceNode.getFullBoundsReference().getMaxY() + 15;
+            equationNode.setOffset( 0, y );
+            y = equationNode.getFullBoundsReference().getMaxY() + 15;
+            boxesNode.setOffset( 0, y );
+            y = boxesNode.getFullBoundsReference().getMaxY() + 25;
+            balanceChoiceNode.setOffset( 0, y );
+            y = balanceChoiceNode.getFullBoundsReference().getMaxY() + 120;
+            barChartsNode.setOffset( 0, y );
+            y = balanceChoiceNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( balanceScalesNode ) + 65;
+            balanceScalesNode.setOffset( 0, y );
+            double x = boxesNode.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 );
+            y = barChartsNode.getFullBoundsReference().getMaxY() + 30;
+            resetAllButtonNode.setOffset( x, y );
+            x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
+            y = boxesNode.getFullBoundsReference().getMaxY() - ( boxesNode.getFullBoundsReference().getHeight() / 4 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 );
+            faceNode.setOffset( x, y );
+            x = resetAllButtonNode.getFullBoundsReference().getMaxX() + 40;
+            y = resetAllButtonNode.getFullBoundsReference().getCenterY() - ( balancedEquationNode.getFullBoundsReference().getHeight() / 2 );
+            balancedEquationNode.setOffset( x, y );
+        }
 
         // observers
         balanceChoiceProperty.addObserver( new SimpleObserver() {

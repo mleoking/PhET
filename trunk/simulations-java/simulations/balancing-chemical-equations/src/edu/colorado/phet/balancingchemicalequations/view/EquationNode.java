@@ -52,13 +52,13 @@ public class EquationNode extends PhetPNode  {
      * @param leftRightSideLength horizontal space alloted for each side of the equation
      * @param leftRightSeparation separation between the left and right sides of the equation
      */
-    public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, boolean editable, double leftRightSideLength, double leftRightSeparation ) {
+    public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, boolean editable, HorizontalAligner aligner ) {
         super();
 
         this.equationProperty = equationProperty;
         this.coefficientRange = coefficientRange;
         this.editable = editable;
-        this.aligner = new HorizontalAligner( leftRightSideLength, leftRightSeparation );
+        this.aligner = aligner;
         this.actualCoefficientNodes = new ArrayList<ActualCoefficientNode>();
 
         this.equationProperty.addObserver( new SimpleObserver() {
