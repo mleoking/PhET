@@ -106,7 +106,7 @@ public class BarChartsNode extends PComposite {
         equalsSignNode.setVisible( equation.isAllCoefficientsZero() || equation.isBalanced() );
         notEqualsSignNode.setVisible( !equalsSignNode.getVisible() );
         // color
-        equalsSignNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
+        equalsSignNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
     }
 
     /*
@@ -181,7 +181,7 @@ public class BarChartsNode extends PComposite {
             super();
             setStroke( new BasicStroke( 1f ) );
             setStrokePaint( Color.BLACK );
-            setPaint( BCEColors.UNBALANCED_ARROW_COLOR );
+            setPaint( BCEColors.UNBALANCED_COLOR );
 
             Shape topBarShape = new Rectangle2D.Double( 0, 0, EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );
             Shape bottomBarShape = new Rectangle2D.Double( 0, EqualsSignNode.BAR_HEIGHT + EqualsSignNode.BAR_Y_SPACING, EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );

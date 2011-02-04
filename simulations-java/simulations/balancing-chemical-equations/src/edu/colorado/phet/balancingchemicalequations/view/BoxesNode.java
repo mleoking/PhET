@@ -96,7 +96,7 @@ public class BoxesNode extends PComposite {
         moleculesParentNode.removeAllChildren();
         updateMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
         updateMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
-        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
+        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
     }
 
     private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {

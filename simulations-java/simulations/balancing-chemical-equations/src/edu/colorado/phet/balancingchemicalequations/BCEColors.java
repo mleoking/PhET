@@ -16,8 +16,8 @@ public class BCEColors {
 
     public static final Color CANVAS_BACKGROUND = new Color( 210, 210, 255 );
     public static final Color BOX_COLOR = new Color( 176, 180, 210 );
-    public static final Color UNBALANCED_ARROW_COLOR = new Color( 46, 107, 178 );
-    public static final Color BALANCED_ARROW_COLOR = Color.YELLOW;
+    public static final Color UNBALANCED_COLOR = new Color( 46, 107, 178 );
+    public static final Color BALANCED_HIGHLIGHT_COLOR = Color.YELLOW;
 
     // atom colors
     public static final Color C = new Color( 178, 178, 178 );
