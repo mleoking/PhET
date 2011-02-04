@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.balancingchemicalequations;
 
+import javax.swing.JMenu;
+
 import edu.colorado.phet.balancingchemicalequations.control.BCEOptionMenu;
+import edu.colorado.phet.balancingchemicalequations.control.DeveloperColorsMenuItem;
 import edu.colorado.phet.balancingchemicalequations.module.balanceequation.BalanceEquationModule;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -27,7 +30,11 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         addModule( new GameModule( globalProperties ) );
 
         // Options menu
-        getPhetFrame().addMenu( new BCEOptionMenu( globalProperties.getMoleculesVisibleProperty() ) );
+        getPhetFrame().addMenu( new BCEOptionMenu( globalProperties ) );
+
+        // Developer menu
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
