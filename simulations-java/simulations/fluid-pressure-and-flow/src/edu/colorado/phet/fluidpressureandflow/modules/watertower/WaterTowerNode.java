@@ -28,7 +28,6 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplica
  * @author Sam Reid
  */
 public class WaterTowerNode extends PNode {
-//    public static final Color WATER_COLOR = Color.blue;
 
     public WaterTowerNode( final ModelViewTransform transform, final WaterTower waterTower, final Property<Double> fluidDensity ) {
 
@@ -39,7 +38,7 @@ public class WaterTowerNode extends PNode {
                     return new Point2D.Double( waterTower.tankBottomCenter.getValue().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
                 }
             } ) );
-            scale( 1.75 );
+            scale( 2.1875 );
             addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) ) );
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
                 public void update() {
