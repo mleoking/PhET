@@ -131,6 +131,14 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
             public void moleculeAdded( Molecule molecule ) {
                 addMolecule( molecule );
             }
+
+            @Override
+            public void modelReset() {
+                // Hide the spectrum window (if it is showing) and set it
+                // back to its default size.
+                spectrumWindow.setVisible( false );
+                spectrumWindow.setToDefaultSizeAndPosition();
+            }
         } );
 
         // Create the node that will be the root for all the world children on

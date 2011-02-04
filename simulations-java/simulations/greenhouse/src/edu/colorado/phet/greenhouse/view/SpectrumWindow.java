@@ -44,8 +44,7 @@ public class SpectrumWindow extends JFrame {
         super( GreenhouseResources.getString( "SpectrumDialog.title" ) );
 
         // Size and center this window.
-        setSize( 800, 600 );
-        SwingUtils.centerWindowOnScreen( this );
+        setToDefaultSizeAndPosition();
 
         // Create the canvas and set up its transform.
         PhetPCanvas canvas = new PhetPCanvas();
@@ -71,6 +70,11 @@ public class SpectrumWindow extends JFrame {
 
         // Set the canvas as the content pane.
         setContentPane( canvas );
+    }
+
+    public void setToDefaultSizeAndPosition() {
+        setSize( 800, 600 );
+        SwingUtils.centerWindowOnScreen( this );
     }
 
     /**
@@ -223,7 +227,7 @@ public class SpectrumWindow extends JFrame {
             addBandDivider( 1E9 );
             addBandLabel( 1E9, 3E11, GreenhouseResources.getString( "SpectrumDialog.microwaveBandLabel" ) );
             addBandDivider( 3E11 );
-            addBandLabel( 3E11, 1E14, GreenhouseResources.getString( "SpectrumDialog.infraredBandLabel" ) );
+            addBandLabel( 3E11, 6E14, GreenhouseResources.getString( "SpectrumDialog.infraredBandLabel" ) );
             addBandLabel( 1E15, 8E15, GreenhouseResources.getString( "SpectrumDialog.ultravioletBandLabel" ) );
             addBandDivider( 1E16 );
             addBandLabel( 1E16, 1E19, GreenhouseResources.getString( "SpectrumDialog.xrayBandLabel" ) );
