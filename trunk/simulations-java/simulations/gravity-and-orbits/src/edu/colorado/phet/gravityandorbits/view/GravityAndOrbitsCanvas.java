@@ -50,6 +50,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
     private final PNode _rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
+    public static final Color buttonBackgroundColor = new Color( 255, 250, 125 );
 
     public GravityAndOrbitsCanvas( final GravityAndOrbitsModel model, final GravityAndOrbitsModule module, final GravityAndOrbitsMode mode, final double forceScale ) {
         super( new Dimension( 1500, 1500 ) );//view size
@@ -129,7 +130,6 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         //Earth System button
         final Color buttonForegroundColor = Color.BLACK;
-        final Color buttonBackgroundColor = new Color( 255, 250, 125 );
         final ButtonNode earthValuesButton = new ButtonNode( GAOStrings.EARTH_VALUES, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
@@ -191,7 +191,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         final MultiwayOr anythingReturnable = new MultiwayOr( new ArrayList<Property<Boolean>>() {{
             for ( Body body : model.getBodies() ) {add( body.getReturnable() );}
         }} );
-        addChild( new ButtonNode( "Return Object" ) {{
+        addChild( new ButtonNode( "Return Object", buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.returnObjects();
@@ -216,7 +216,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             PDimension size = new PDimension( Math.max( inText.getFullBounds().getWidth(), outText.getFullBounds().getWidth() ),
                                               Math.max( inText.getFullBounds().getHeight(), outText.getFullBounds().getHeight() ) );
             double dim = Math.max( size.getWidth(), size.getHeight() ) - 7;//bring in the insets a bit so there isn't so much padding
-            PNode zoomInButton = new ZoomButtonNode( inText, Color.black, Color.lightGray, dim, dim ) {{
+            PNode zoomInButton = new ZoomButtonNode( inText, Color.black, buttonBackgroundColor, dim, dim ) {{
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -229,7 +229,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                     }
                 } );
             }};
-            PNode zoomOutButton = new ZoomButtonNode( outText, Color.black, Color.lightGray, dim, dim ) {{
+            PNode zoomOutButton = new ZoomButtonNode( outText, Color.black, buttonBackgroundColor, dim, dim ) {{
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
