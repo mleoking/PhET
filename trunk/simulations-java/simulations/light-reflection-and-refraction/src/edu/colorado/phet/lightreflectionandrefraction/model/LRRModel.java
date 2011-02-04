@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,8 +32,8 @@ public class LRRModel {
     public Point2D lastEmissionPoint = new Point2D.Double();
     private double lightSpeedScaleFactor = 1.0;
 
-    public LRRModel( final ConstantDtClock clock ) {
-        this.clock = clock;
+    public LRRModel() {
+        this.clock = new ConstantDtClock( 20, 1e-15 );
         final SimpleObserver rayMaker = new SimpleObserver() {
             public void update() {
                 if ( laserEmissionRay != null ) {
@@ -91,5 +92,9 @@ public class LRRModel {
 
     public void setLightSpeedScaleFactor( double scaleFactor ) {
         this.lightSpeedScaleFactor = scaleFactor;
+    }
+
+    public IClock getClock() {
+        return clock;
     }
 }
