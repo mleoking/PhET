@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -38,11 +39,14 @@ public class EquationNode extends PhetPNode  {
 
     private static final Color COEFFICIENT_COLOR = Color.BLACK;
 
-    private Property<Equation> equationProperty;
     private final IntegerRange coefficientRange;
     private boolean editable;
     private final HorizontalAligner aligner;
     private ArrayList<ActualCoefficientNode> actualCoefficientNodes;
+    private Equation equation;
+    private final SimpleObserver coefficientsObserver;
+    private final RightArrowNode arrowNode;
+    private final PNode termsParent;
 
     /**
      * Constructor.
@@ -55,15 +59,29 @@ public class EquationNode extends PhetPNode  {
     public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, boolean editable, HorizontalAligner aligner ) {
         super();
 
-        this.equationProperty = equationProperty;
         this.coefficientRange = coefficientRange;
         this.editable = editable;
         this.aligner = aligner;
         this.actualCoefficientNodes = new ArrayList<ActualCoefficientNode>();
 
-        this.equationProperty.addObserver( new SimpleObserver() {
+        arrowNode = new RightArrowNode();
+        addChild( arrowNode );
+
+        termsParent = new PhetPNode();
+        addChild( termsParent );
+
+        // coefficient changes
+        coefficientsObserver = new SimpleObserver() {
             public void update() {
                 updateNode();
+            }
+        };
+        this.equation = equationProperty.getValue();
+        equationProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                EquationNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
+                EquationNode.this.equation = equationProperty.getValue();
+                EquationNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
     }
@@ -86,7 +104,7 @@ public class EquationNode extends PhetPNode  {
      */
     private void updateNode() {
 
-        removeAllChildren();
+        termsParent.removeAllChildren();
         for ( ActualCoefficientNode node : actualCoefficientNodes ) {
             node.removeObserver();
         }
@@ -95,17 +113,14 @@ public class EquationNode extends PhetPNode  {
         // determine cap height of the font, using a char that has no descender
         final double capHeight = new SymbolNode( "T" ).getFullBounds().getHeight();
 
-        updateSideOfEquation( equationProperty.getValue().getReactants(), aligner.getReactantXOffsets( equationProperty.getValue() ), capHeight );
-        updateSideOfEquation( equationProperty.getValue().getProducts(), aligner.getProductXOffsets( equationProperty.getValue() ), capHeight );
+        updateSideOfEquation( equation.getReactants(), aligner.getReactantXOffsets( equation ), capHeight );
+        updateSideOfEquation( equation.getProducts(), aligner.getProductXOffsets( equation ), capHeight );
 
         // right-pointing arrow
-        {
-            RightArrowNode arrowNode = new RightArrowNode();
-            addChild( arrowNode );
-            double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
-            double y = ( capHeight / 2 );
-            arrowNode.setOffset( x, y );
-        }
+        double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
+        double y = ( capHeight / 2 );
+        arrowNode.setOffset( x, y );
+        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
     }
 
     /*
@@ -117,13 +132,13 @@ public class EquationNode extends PhetPNode  {
 
             // term
             TermNode termNode = new TermNode( coefficientRange, terms[i], editable );
-            addChild( termNode );
+            termsParent.addChild( termNode );
             termNode.setOffset( xOffsets[i] - ( termNode.getFullBoundsReference().getWidth() / 2 ), 0 );
 
             // plus sign, centered between 2 terms
             if ( i > 0 ) {
                 PlusNode plusNode = new PlusNode();
-                addChild( plusNode );
+                termsParent.addChild( plusNode );
                 double x =  xOffsets[i] - ( ( xOffsets[i] - xOffsets[i-1] ) / 2 ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ); // centered between 2 offsets
                 double y = ( capHeight / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 );
                 plusNode.setOffset( x, y );

@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -30,6 +31,7 @@ public class BoxesNode extends PComposite {
     private final PComposite moleculesParentNode;
     private final SimpleObserver coefficientsObserver;
     private Equation equation;
+    private final RightArrowNode arrowNode;
 
     public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner, final Property<Color> boxColorProperty ) {
 
@@ -43,7 +45,7 @@ public class BoxesNode extends PComposite {
         addChild( productsBoxNode );
 
         // right-pointing arrow
-        RightArrowNode arrowNode = new RightArrowNode();
+        arrowNode = new RightArrowNode();
         addChild( arrowNode );
 
         // molecules
@@ -62,19 +64,19 @@ public class BoxesNode extends PComposite {
         y = reactantsBoxNode.getYOffset();
         productsBoxNode.setOffset( x, y );
 
-        this.equation = equationProperty.getValue();
         // coefficient changes
         coefficientsObserver = new SimpleObserver() {
             public void update() {
-                updateMolecules();
+                updateNode();
             }
         };
         // equation changes
+        this.equation = equationProperty.getValue();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                removeCoefficientsObserver();
+                BoxesNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
                 BoxesNode.this.equation = equationProperty.getValue();
-                addCoefficientsObserver();
+                BoxesNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
         // box color changes
@@ -90,10 +92,11 @@ public class BoxesNode extends PComposite {
         moleculesParentNode.setVisible( moleculesVisible );
     }
 
-    private void updateMolecules() {
+    private void updateNode() {
         moleculesParentNode.removeAllChildren();
         updateMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
         updateMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
+        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
     }
 
     private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {
@@ -110,24 +113,6 @@ public class BoxesNode extends PComposite {
                 imageNode.setOffset( xOffsets[i] - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
                 y += rowHeight;
             }
-        }
-    }
-
-    private void addCoefficientsObserver() {
-        for ( EquationTerm term : equation.getReactants() ) {
-            term.getActualCoefficientProperty().addObserver( coefficientsObserver );
-        }
-        for ( EquationTerm term : equation.getProducts() ) {
-            term.getActualCoefficientProperty().addObserver( coefficientsObserver );
-        }
-    }
-
-    private void removeCoefficientsObserver() {
-        for ( EquationTerm term : equation.getReactants() ) {
-            term.getActualCoefficientProperty().removeObserver( coefficientsObserver );
-        }
-        for ( EquationTerm term : equation.getProducts() ) {
-            term.getActualCoefficientProperty().removeObserver( coefficientsObserver );
         }
     }
 

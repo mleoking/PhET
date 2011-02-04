@@ -1,3 +1,4 @@
+2/3/11 change request: make arrows and "=" light up when equation is balanced
 2/3/11 change request: use a lighter color for the boxes
 2/3/11 add developer controls for setting play area and box colors
 2/3/11 encapsulation of global properties
