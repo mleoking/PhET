@@ -52,6 +52,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 addChild( new LightRayNode( transform, lightRay ) );
             }
         } );
+
+        addChild( new LaserNode( transform, model.getLaser() ) );
     }
 
     protected void addChild( PNode node ) {
