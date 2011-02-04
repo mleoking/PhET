@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.umd.cs.piccolo.PNode;
@@ -20,7 +21,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private PNode rootNode;
 
-    public LightReflectionAndRefractionCanvas() {
+    public LightReflectionAndRefractionCanvas( LRRModel model ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -36,7 +37,10 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight ),
                 new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) );
 
-        LightRay ray = new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ), new Property<ImmutableVector2D>( new ImmutableVector2D( modelWidth, modelHeight ) ) );
+        Property<ImmutableVector2D> start = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        Property<ImmutableVector2D> tail = new Property<ImmutableVector2D>( new ImmutableVector2D( modelWidth / 4, modelHeight / 4 ) );
+        LightRay ray = new LightRay( start, tail, 1.0, redWavelength );
+        model.addRay( ray );
         LightRayNode rayNode = new LightRayNode( transform, ray );
         addChild( rayNode );
     }
