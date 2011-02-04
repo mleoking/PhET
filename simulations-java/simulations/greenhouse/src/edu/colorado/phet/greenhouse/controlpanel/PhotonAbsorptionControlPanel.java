@@ -126,9 +126,6 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
         atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
 
-
-        // Add buttons for selecting greenhouse gas.
-
         // Create and add a panel that will contain the sliders for
         // configuring the atmosphere.
         VerticalLayoutPanel atmosphereSliderPanel = new VerticalLayoutPanel();
