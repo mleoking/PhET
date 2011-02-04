@@ -1,3 +1,6 @@
+greenhouse: Fixed an issue where the control of O2 slider on the Build Atmoshere control on the Photon Absorption tab was not working correctly.
+molecules-and-light: Made the spectrum window disappear and go back to its original size and position when Reset All is pressed.
+molecules-and-light: Switch to exponential chirp
 molecules-and-light: Switch to exponential chirp
 molecules-and-light: Flipped the visible spectrum
 molecules-and-light: Made the default size of the spectrum window fixed

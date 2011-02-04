@@ -153,10 +153,10 @@ public abstract class Molecule {
             newMolecule = new N2O();
             break;
         case O:
-            newMolecule = new O2();
+            newMolecule = new O();
             break;
         case O2:
-            newMolecule = new O();
+            newMolecule = new O2();
             break;
         default:
             System.err.println("Molecule: " + " - Error: Unrecognized molecule type.");
