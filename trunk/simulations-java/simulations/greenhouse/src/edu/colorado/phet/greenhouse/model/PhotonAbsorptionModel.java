@@ -225,6 +225,9 @@ public class PhotonAbsorptionModel {
 
         // Reset the configurable atmosphere.
         resetConfigurableAtmosphere();
+
+        // Send out notification that the reset has occurred.
+        notifyModelReset();
     }
 
     public void stepInTime(double dt){
@@ -766,6 +769,12 @@ public class PhotonAbsorptionModel {
         }
     }
 
+    private void notifyModelReset() {
+        for (Listener listener : listeners.getListeners(Listener.class)){
+            listener.modelReset();
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
@@ -779,6 +788,14 @@ public class PhotonAbsorptionModel {
         void photonTargetChanged();
         void photonEmissionPeriodChanged();
         void configurableAtmosphereCompositionChanged();
+
+        /**
+         * Notification that the model was reset.  In general, this should
+         * ONLY be used to reset things in the view that do not have a direct
+         * representation in the model, such as the way some part of the view
+         * is configured.
+         */
+        void modelReset();
     }
 
     public static class Adapter implements Listener {
@@ -790,5 +807,6 @@ public class PhotonAbsorptionModel {
         public void moleculeRemoved( Molecule molecule ) {}
         public void configurableAtmosphereCompositionChanged() {}
         public void photonEmissionPeriodChanged() {}
+        public void modelReset() {}
     }
 }
