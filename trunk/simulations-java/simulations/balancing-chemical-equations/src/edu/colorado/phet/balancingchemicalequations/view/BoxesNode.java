@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -138,7 +137,6 @@ public class BoxesNode extends PComposite {
     private static class BoxNode extends PPath {
         public BoxNode( Dimension boxSize ) {
             super( new Rectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight() ) );
-            setPaint( BCEColors.BOX_COLOR );
             setStrokePaint( Color.BLACK );
             setStroke( new BasicStroke( 1f ) );
         }

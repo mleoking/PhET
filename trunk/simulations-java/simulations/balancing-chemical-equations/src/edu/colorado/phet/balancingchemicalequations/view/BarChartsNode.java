@@ -50,7 +50,7 @@ public class BarChartsNode extends PComposite {
 
         equalitySignNode = new PText();
         equalitySignNode.setFont( new PhetFont( Font.BOLD, 60 ) );
-        equalitySignNode.setTextPaint( BCEColors.BOX_COLOR );
+        equalitySignNode.setTextPaint( BCEColors.UNBALANCED_ARROW_COLOR );
         addChild( equalitySignNode );
 
         coefficientsObserver = new SimpleObserver() {

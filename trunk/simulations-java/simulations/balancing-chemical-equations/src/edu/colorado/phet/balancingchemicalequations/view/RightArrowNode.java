@@ -24,6 +24,6 @@ public class RightArrowNode extends ArrowNode {
     public RightArrowNode() {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );
         setStroke( null );
-        setPaint( BCEColors.BOX_COLOR );
+        setPaint( BCEColors.UNBALANCED_ARROW_COLOR );
     }
 }
