@@ -50,7 +50,7 @@ public class FixedSizeElectronCloudNode extends PNode {
         final Paint shellGradientPaint = new RoundGradientPaint(
                 electronShellShape.getBounds2D().getCenterX(),
                 electronShellShape.getBounds2D().getCenterY(),
-                new Color( 0, 0, 0, 200 ),
+                new Color( 0, 0, 150, 200 ),
                 new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                 new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 50 ) );
         // Create and add the node that represents the electrons.
