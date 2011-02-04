@@ -40,7 +40,7 @@ public class BalanceScaleNode extends PComposite {
     private final BeamNode beamNode;
     private final PNode atomPilesParentNode;
 
-    public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms ) {
+    public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms, boolean highlighted ) {
 
         this.atom = atom;
         this.leftNumberOfAtoms = leftNumberOfAtoms;
@@ -55,6 +55,7 @@ public class BalanceScaleNode extends PComposite {
         atomPilesParentNode = new PComposite();
         addChild( atomPilesParentNode );
 
+        setHighlighted( highlighted );
         updateNode();
     }
 
@@ -64,6 +65,10 @@ public class BalanceScaleNode extends PComposite {
             this.rightNumberOfAtoms = rightNumberOfAtoms;
             updateNode();
         }
+    }
+
+    public void setHighlighted( boolean highlighted ) {
+        beamNode.setHighlighted( highlighted );
     }
 
     public static double getBeamLength() {
@@ -119,11 +124,6 @@ public class BalanceScaleNode extends PComposite {
         }
         beamNode.setRotation( angle );
         atomPilesParentNode.setRotation( angle );
-
-        // beam lights up when it's balanced
-        boolean balanced = ( leftNumberOfAtoms == rightNumberOfAtoms ) && ( leftNumberOfAtoms != 0 );
-        beamNode.setPaint( balanced ? BCEColors.BALANCED_HIGHLIGHT_COLOR : Color.BLACK );
-        beamNode.setStroke( balanced ? new BasicStroke( 1f ) : null );
     }
 
     /*
@@ -190,6 +190,11 @@ public class BalanceScaleNode extends PComposite {
             Rectangle2D shape = new Rectangle2D.Double( -BEAM_LENGTH / 2, -BEAM_THICKNESS / 2, BEAM_LENGTH, BEAM_THICKNESS );
             setPathTo( shape );
             setStrokePaint( Color.BLACK );
+        }
+
+        public void setHighlighted( boolean highlighted ) {
+            setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : Color.BLACK );
+            setStroke( highlighted ? new BasicStroke( 1f ) : null );
         }
     }
 

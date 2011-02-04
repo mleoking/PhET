@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -64,7 +63,7 @@ public class EquationNode extends PhetPNode  {
         this.aligner = aligner;
         this.actualCoefficientNodes = new ArrayList<ActualCoefficientNode>();
 
-        arrowNode = new RightArrowNode();
+        arrowNode = new RightArrowNode( equationProperty.getValue().isBalanced() );
         addChild( arrowNode );
 
         termsParent = new PhetPNode();
@@ -120,7 +119,7 @@ public class EquationNode extends PhetPNode  {
         double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
         double y = ( capHeight / 2 );
         arrowNode.setOffset( x, y );
-        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
+        arrowNode.setHighlighted( equation.isBalanced() );
     }
 
     /*

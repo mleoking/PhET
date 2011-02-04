@@ -50,7 +50,7 @@ public class BarChartsNode extends PComposite {
         productsChartParent = new PComposite();
         addChild( productsChartParent );
 
-        equalsSignNode = new EqualsSignNode();
+        equalsSignNode = new EqualsSignNode( equationProperty.getValue().isBalanced() );
         addChild( equalsSignNode );
 
         notEqualsSignNode = new NotEqualsSignNode();
@@ -105,8 +105,8 @@ public class BarChartsNode extends PComposite {
         // visibility
         equalsSignNode.setVisible( equation.isAllCoefficientsZero() || equation.isBalanced() );
         notEqualsSignNode.setVisible( !equalsSignNode.getVisible() );
-        // color
-        equalsSignNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
+        // highlight
+        equalsSignNode.setHighlighted( equation.isBalanced() );
     }
 
     /*
@@ -145,7 +145,7 @@ public class BarChartsNode extends PComposite {
 
         private final PPath topBarNode, bottomBarNode;
 
-        public EqualsSignNode() {
+        public EqualsSignNode( boolean highlighted ) {
 
             Rectangle2D shape = new Rectangle2D.Double( 0, 0, BAR_WIDTH, BAR_HEIGHT );
             Stroke stroke = new BasicStroke( 1f );
@@ -164,12 +164,13 @@ public class BarChartsNode extends PComposite {
             // layout
             topBarNode.setOffset( 0, 0 );
             bottomBarNode.setOffset( 0, BAR_HEIGHT + BAR_Y_SPACING );
+
+            setHighlighted( highlighted );
         }
 
-        public void setPaint( Paint paint ) {
-            super.setPaint( paint );
-            topBarNode.setPaint( paint );
-            bottomBarNode.setPaint( paint );
+        public void setHighlighted( boolean highlighted ) {
+            topBarNode.setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
+            bottomBarNode.setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
         }
     }
 

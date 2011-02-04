@@ -23,10 +23,14 @@ public class RightArrowNode extends ArrowNode {
     private static final int HEAD_WIDTH = 18;
     private static final int TAIL_WIDTH = 7;
 
-    public RightArrowNode() {
+    public RightArrowNode( boolean highlighted ) {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
-        setPaint( BCEColors.UNBALANCED_COLOR );
+        setHighlighted( highlighted );
+    }
+
+    public void setHighlighted( boolean highlighted ) {
+        setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
     }
 }
