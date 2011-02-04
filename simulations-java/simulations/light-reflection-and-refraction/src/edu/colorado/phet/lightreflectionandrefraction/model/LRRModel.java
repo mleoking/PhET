@@ -29,6 +29,7 @@ public class LRRModel {
     private LightRay laserEmissionRay;
     private Laser laser = new Laser( modelWidth / 8 );
     public Point2D lastEmissionPoint = new Point2D.Double();
+    private double lightSpeedScaleFactor = 1.0;
 
     public LRRModel( final ConstantDtClock clock ) {
         this.clock = clock;
@@ -51,7 +52,7 @@ public class LRRModel {
                         final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
                         ImmutableVector2D diff = ImmutableVector2D.parseAngleAndMagnitude( 1E-12, laser.angle.getValue() ).getScaledInstance( -1 );
 
-                        laserEmissionRay = new LightRay( new Property<ImmutableVector2D>( tail ), new Property<ImmutableVector2D>( tail.getAddedInstance( diff ) ), 1.0, redWavelength );
+                        laserEmissionRay = new LightRay( new Property<ImmutableVector2D>( tail ), new Property<ImmutableVector2D>( tail.getAddedInstance( diff ) ), 1.0, redWavelength, lightSpeedScaleFactor );
                         for ( VoidFunction1<LightRay> rayAddedListener : rayAddedListeners ) {
                             rayAddedListener.apply( laserEmissionRay );
                         }
@@ -86,5 +87,9 @@ public class LRRModel {
 
     public Laser getLaser() {
         return laser;
+    }
+
+    public void setLightSpeedScaleFactor( double scaleFactor ) {
+        this.lightSpeedScaleFactor = scaleFactor;
     }
 }
