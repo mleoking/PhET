@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_sl.xml created Mon Dec 06 08:27:47 CET 2010 using: flash-common-strings 2.02.00 (38663), translation-utility 2.09.00 (44031) sep 14, 2010-->
+<SimStrings>
+<string key="About..." value="O..."/>
+<string key="SoftwareDevelopment" value="Razvoj programske opreme"/>
+<string key="Cancel" value="Prekliči"/>
+<string key="StatisticsField-host_flash_accessibility" value="Uporabljate dostopno napravo?"/>
+<string key="Privacy" value="Zasebno"/>
+<string key="Version" value="Verzija"/>
+<string key="NewVersionAvailable" value="Nova verzija jena voljo"/>
+<string key="SoftwareAgreement" value="Licenčna pogodba"/>
+<string key="PhETInstallation" value="Za prenos najnovejše namestitve z najnovejšimi simulacijami, obiščite &lt;a href='{0}'&gt;stran PhET Offline Website Installer &lt;/a&gt;."/>
+<string key="StatisticsField-sim_version_timestamp" value="Verzija simulacije (časovni žig):"/>
+<string key="StatisticsField-sim_dev_version" value="Verzija simulacije (dev):"/>
+<string key="AskLater" value="Vprašaj me pozneje"/>
+<string key="AcceptContinue" value="Se strinjam in nadaljuj"/>
+<string key="BuildDate" value="Datum izdelave"/>
+<string key="TellMore" value="Več..."/>
+<string key="FlashVersion" value="Verzija Flash-a"/>
+<string key="PhetSoftwareAgreement" value="PhET licenca za programsko opremo"/>
+<string key="NoUpdatesAvailable" value="Ni posodobitev"/>
+<string key="StatisticsField-message_type" value="Vrsta sporočila:"/>
+<string key="InstallationDated" value="PhET offline namestitveni program je z datuma {0}."/>
+<string key="CheckUpdates" value="Samodejno preveri za posodobitve"/>
+<string key="UpToDate" value="Najnovejše"/>
+<string key="StatisticsField-sim_major_version" value="Verzija simulacije (glavna):"/>
+<string key="StatisticsField-user_total_sessions" value="Celotno število zagonov vseh simulacij:"/>
+<string key="InstallationNewer" value="Novejša verzija je na voljo, z datuma {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Kolikokrat je bila simulacija zagnana od prejšnjega dela online:"/>
+<string key="StatisticsField-sim_distribution_tag" value="Verzija simulacije (distribucija):"/>
+<string key="Yes!" value="Da!"/>
+<string key="StatisticsField-host_flash_domain" value="Domena simulacije:"/>
+<string key="DesignTeam" value="Ekipa oblikovanja"/>
+<string key="PhETPreferences" value="PhET možnosti"/>
+<string key="Preferences" value="Nastavitve..."/>
+<string key="AllowMessages" value="Dovoli pošiljlanje podatkov v PhET"/>
+<string key="Updates" value="Posodobitve"/>
+<string key="StatisticsField-sim_revision" value="Verzija simulacije (revizija):"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Čas izdelave datotek nastavitev:"/>
+<string key="Interviews" value="Intervju"/>
+<string key="StatisticsField-host_flash_time_offset" value="Časovni pas:"/>
+<string key="MostCurrentVersion" value="Imate najnovejšo verzijo  ({0}) za {1}."/>
+<string key="StatisticsField-sim_deployment" value="Vrsta prenosa:"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; je popolnoma prosto dostopen preko licenc, ki nam nalagajo zbiranje minimalne količine anonimnih podatkov, ki nam pomagajo dokumentirati količino uporabe PhET simulacij in nam služijo tudi za nadaljnji razvoj simulacij in nadgradenj."/>
+<string key="StatisticsField-sim_type" value="Vrsta simulacije:"/>
+<string key="Close" value="Zapri"/>
+<string key="StatisticsField-sim_dev" value="Je to razvojna verzija?:"/>
+<string key="InstallerAsk" value="Ali želite naložiti PhET offline namestitveni sistem?"/>
+<string key="PrivacyMessage2" value="S klikom na &quot;Se strinjam in nadaljuj&quot;, se strinjate s PhET's licenčno pogodbo, ki vsebuje našo zasebnostno politiko za ta in vse PhET simulacije, ki jih poženete. (Za podrobnosti, &lt;a href='{0}'&gt;klikni tukaj&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Celotno število zagonov simulacije:"/>
+<string key="PrivacyMessage1" value="V vseh PhET simulacijah zbiramo minimalno količino anonimnih &lt;a href='{0}'&gt;podatkov&lt;/a&gt; vsakič, ko se simulacija požene (e.g., verzija simulacije, op.sistem). POšiljanje podatkov lahko kadarkoli onemogočite preko pritiska na gumb Nastavitve."/>
+<string key="StatisticsField-user_installation_timestamp" value="PhET namestitveni časovni žig:"/>
+<string key="StatisticsField-sim_name" value="Ime simulacije:"/>
+<string key="UpdateOptionsAvailable" value="Možnosti posodobitev so na voljo v  &lt;i&gt;Nastavitve&lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="PhET razvojna ekipa"/>
+<string key="InstallerInfo2" value="Če se odločite pridobiti najnovejšo verzijo, se bo odprl brskalnik s PhET speltno stranjo kjer si lahko prenesete offline namestitveni sistem."/>
+<string key="InstallerInfo1" value="Če vzdržujete svoj PhET offline namestitveni sistem v najnovejši obliki,  vam omogočauporabo najnovejših PhET simulacij in spremnih materialov."/>
+<string key="StatisticsField-sim_minor_version" value="Verzija simulacije (manjša):"/>
+<string key="Credits" value="Zasluge"/>
+<string key="StatisticsField-host_flash_version" value="Verzija Flash predvajalnika:"/>
+<string key="TryNow" value="Preskusi zdaj"/>
+<string key="PrivacySkip" value="Preskoči to verzijo"/>
+<string key="CheckInstallationUpdates" value="Preveri za PhET offline namestitveni sistem..."/>
+<string key="StatisticsField-sim_locale_language" value="Jezik:"/>
+<string key="Distribution" value="Razdelitev"/>
+<string key="LicenseLibraries" value="Licence za uporabljene knjižnice:"/>
+<string key="PrivacyDetails" value="Podrobnosti o zasebnosti"/>
+<string key="NotUpdateSim" value="Ta simulacija se ne da samodejno posodobiti."/>
+<string key="CurrentVersionIs" value="Trenutna verzija {0} je {1}."/>
+<string key="StatisticsField-host_flash_os" value="Operacijski sistem in ime:"/>
+<string key="OK" value="V redu"/>
+<string key="Error" value="Napaka"/>
+<string key="CheckSimUpdates" value="Preveri posodobitve simulacije..."/>
+<string key="StatisticsField-sim_project" value="Ime projekta:"/>
+<string key="NewerVersionIs" value="Novejša verzija {0}  jena voljo."/>
+<string key="SentInformation" value="Spodnje informacije bodo poslane na PhET, ko se požene simulacija."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="Podrobnosti"/>
+<string key="StatisticsField-message_version" value="Verzija sporočila:"/>
+<string key="LeadDesign" value="Glavno oblikovanje"/>
+<string key="StatisticsField-host_locale_language" value="Jezik:"/>
+<string key="AboutSim" value="O {0}"/>
+<string key="VersionError2" value="Prosimo, poskusite pozneje ali obiščite &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="Med pridobivanjem informacij o verziji je prišlo do napake."/>
+<string key="StatisticsField-sim_locale_country" value="Država:"/>
+</SimStrings>
