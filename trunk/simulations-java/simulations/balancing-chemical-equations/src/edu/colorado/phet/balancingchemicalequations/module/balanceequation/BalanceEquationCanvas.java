@@ -4,6 +4,8 @@ package edu.colorado.phet.balancingchemicalequations.module.balanceequation;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
@@ -14,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Canvas for the "Balance Equation" module.
@@ -60,12 +63,12 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( balanceScalesNode );
 
         // Reset All button
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
+        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
         resetAllButtonNode.addResettable( globalProperties );
         addChild( resetAllButtonNode );
 
         // Dev, shows balanced coefficients
-        BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
+        final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
         if ( globalProperties.isDev() ) {
             addChild( balancedEquationNode );
         }
@@ -75,22 +78,46 @@ public class BalanceEquationCanvas extends BCECanvas {
          * and handle their own horizontal alignment via HorizontalAligner.
          */
         {
-            equationChoiceNode.setOffset( 0, 0 );
+            // equation choices above equation, right justified
+            double x = boxesNode.getFullBoundsReference().getWidth() - equationChoiceNode.getFullBoundsReference().getWidth();
+            equationChoiceNode.setOffset( x, 0 );
+
+            // equation below choices
             double y = equationChoiceNode.getFullBoundsReference().getMaxY() + 15;
             equationNode.setOffset( 0, y );
+
+            // boxes below equation
             y = equationNode.getFullBoundsReference().getMaxY() + 15;
             boxesNode.setOffset( 0, y );
+
+            // bar charts and balance scales below boxes (centering is handle by nodes themselves)
             y = boxesNode.getFullBoundsReference().getMaxY() + 110;
             barChartsNode.setOffset( 0, y );
             y = barChartsNode.getYOffset() - 10;
             balanceScalesNode.setOffset( 0, y );
+
+            // balance choices below bar charts and balance scales, left justified
             y = Math.max( barChartsNode.getFullBoundsReference().getMaxY(), balanceScalesNode.getFullBoundsReference().getMaxY() ) + 25;
             balanceChoiceNode.setOffset( 0, y );
-            double x = boxesNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth();
-            y = equationChoiceNode.getFullBoundsReference().getMinY();
+
+            // Reset All button at bottom right
+            x = boxesNode.getFullBoundsReference().getMaxX() - resetAllButtonNode.getFullBoundsReference().getWidth();
+            y = balanceChoiceNode.getFullBoundsReference().getMinY();
             resetAllButtonNode.setOffset( x, y );
-            x = aligner.getCenterXOffset();
-            balancedEquationNode.setOffset( x, 0 );
+
+            // answer right-justified below Reset All button
+            x = resetAllButtonNode.getFullBoundsReference().getMaxX() - balancedEquationNode.getFullBoundsReference().getWidth();
+            y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 2;
+            balancedEquationNode.setOffset( x, y );
+            balancedEquationNode.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                        double x = resetAllButtonNode.getFullBoundsReference().getMaxX() - balancedEquationNode.getFullBoundsReference().getWidth();
+                        double y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 2;
+                        balancedEquationNode.setOffset( x, y );
+                    }
+                }
+            } );
         }
 
         // observers
