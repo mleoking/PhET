@@ -1,3 +1,4 @@
+2/3/11 convert "=" sign to a strokable path so that it can "light up" without disappearing on a light-colored background
 2/3/11 add colors for Cl,F,P
 2/3/11 add "Under Construction" notice to Game tab
 2/3/11 change request: make arrows and "=" light up when equation is balanced
