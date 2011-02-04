@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -45,7 +44,7 @@ public class BoxesNode extends PComposite {
         addChild( productsBoxNode );
 
         // right-pointing arrow
-        arrowNode = new RightArrowNode();
+        arrowNode = new RightArrowNode( equationProperty.getValue().isBalanced() );
         addChild( arrowNode );
 
         // molecules
@@ -96,7 +95,7 @@ public class BoxesNode extends PComposite {
         moleculesParentNode.removeAllChildren();
         updateMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
         updateMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
-        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
+        arrowNode.setHighlighted( equation.isBalanced() );
     }
 
     private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {

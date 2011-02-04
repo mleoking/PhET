@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.model.AtomCount;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -25,7 +24,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BalanceScalesNode extends PComposite {
 
     private final SimpleObserver coefficientsObserver;
-
     private final HorizontalAligner aligner;
     private Equation equation;
 
@@ -38,61 +36,29 @@ public class BalanceScalesNode extends PComposite {
                updateNode();
             }
         };
-
+        this.equation = equationProperty.getValue();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setEquation( equationProperty.getValue() );
+                BalanceScalesNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
+                BalanceScalesNode.this.equation = equationProperty.getValue();
+                BalanceScalesNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
-    }
-
-    private void setEquation( Equation equation ) {
-        if ( equation != this.equation ) {
-
-            // disconnect observers from old equation
-            if ( this.equation != null ) {
-                removeCoefficientObserver( this.equation.getReactants(), coefficientsObserver );
-                removeCoefficientObserver( this.equation.getProducts(), coefficientsObserver );
-            }
-
-            // add observers to new equation
-            this.equation = equation;
-            addCoefficientObserver( this.equation.getReactants(), coefficientsObserver );
-            addCoefficientObserver( this.equation.getProducts(), coefficientsObserver );
-
-            updateNode();
-        }
-    }
-
-    /*
-     * Adds an observer to all coefficients.
-     */
-    private void addCoefficientObserver( EquationTerm[] terms, SimpleObserver observer ) {
-        for ( EquationTerm term : terms ) {
-            term.getActualCoefficientProperty().addObserver( observer );
-        }
-    }
-
-    /*
-     * Removes an observer from all coefficients.
-     */
-    private void removeCoefficientObserver( EquationTerm[] terms, SimpleObserver observer ) {
-        for ( EquationTerm term : terms ) {
-            term.getActualCoefficientProperty().removeObserver( observer );
-        }
     }
 
     /*
      * Updates this node's entire geometry and layout
      */
     private void updateNode() {
+
         removeAllChildren();
+
         ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
         final double xSpacing = 25;
         final double dx = BalanceScaleNode.getBeamLength() + xSpacing;
         double x = aligner.getCenterXOffset() - ( ( atomCounts.size() - 1 ) * BalanceScaleNode.getBeamLength() / 2 ) - ( ( atomCounts.size() - 1 ) * xSpacing / 2 );
         for ( AtomCount atomCount : atomCounts ) {
-            BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.getAtom(), atomCount.getReactantsCount(), atomCount.getProductsCount() );
+            BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.getAtom(), atomCount.getReactantsCount(), atomCount.getProductsCount(), equation.isBalanced() );
             addChild( scaleNode );
             scaleNode.setOffset( x, 0 );
             x += dx;
