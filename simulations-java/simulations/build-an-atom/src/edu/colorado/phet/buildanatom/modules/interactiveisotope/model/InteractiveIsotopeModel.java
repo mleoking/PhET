@@ -289,6 +289,13 @@ public class InteractiveIsotopeModel implements Resettable {
     //------------------------------------------------------------------------
 
     public interface Listener {
+        /**
+         * Indicates that a particle was added to the model.  Note that
+         * notifications about particle removal are sent by the individual
+         * particles.
+         *
+         * @param subatomicParticle
+         */
         void particleAdded( SubatomicParticle subatomicParticle );
     }
 
