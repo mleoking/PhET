@@ -33,6 +33,7 @@ public class LaserNode extends PNode {
                         final AffineTransform t = new AffineTransform();
                         t.translate( emissionPoint.getX(), emissionPoint.getY() );
                         t.rotate( angle );
+                        t.translate( 0, -image.getHeight() / 2 );
 
                         setTransform( t );
                     }
