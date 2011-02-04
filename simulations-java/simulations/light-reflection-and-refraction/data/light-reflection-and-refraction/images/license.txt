@@ -1,0 +1,6 @@
+button_pressed.png author=phet notes=NP
+button_unpressed.png author=phet notes=NP
+intensity_meter_box.png author=phet notes=NP
+intensity_meter_probe.png author=phet notes=NP
+laser.png author=phet notes=NP
+protractor.png author=phet notes=NP
