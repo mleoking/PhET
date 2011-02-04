@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Changed the abundance of tritium to "trace" from zero. 
 isotopes-and-atomic-mass: Added a "Reset All" button to the first tab. 
 build-an-atom: Fixed an issue where the Reset All button wasn't resetting the view.
 isotopes-and-atomic-mass: Added a fixed-size representation of the electron cloud to the 1st tab. 
