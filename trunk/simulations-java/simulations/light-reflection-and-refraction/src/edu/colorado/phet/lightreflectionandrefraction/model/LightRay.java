@@ -14,7 +14,7 @@ public class LightRay {
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
 
-    public LightRay( Property<ImmutableVector2D> tip, Property<ImmutableVector2D> tail, double indexOfRefraction, double wavelength ) {
+    public LightRay( Property<ImmutableVector2D> tail, Property<ImmutableVector2D> tip, double indexOfRefraction, double wavelength ) {
         this.tip = tip;
         this.tail = tail;
         this.indexOfRefraction = indexOfRefraction;
@@ -31,9 +31,16 @@ public class LightRay {
     }
 
     public void propagate( double dt ) {
+        propagateTip( dt );
+        tail.setValue( tail.getValue().getAddedInstance( getDelta( dt ) ) );
+    }
+
+    public void propagateTip( double dt ) {
+        tip.setValue( tip.getValue().getAddedInstance( getDelta( dt ) ) );
+    }
+
+    private ImmutableVector2D getDelta( double dt ) {
         ImmutableVector2D unitDirection = tip.getValue().getSubtractedInstance( tail.getValue() ).getNormalizedInstance();
-        ImmutableVector2D delta = unitDirection.getScaledInstance( getSpeed() * dt );
-        tip.setValue( tip.getValue().getAddedInstance( delta ) );
-        tail.setValue( tail.getValue().getAddedInstance( delta ) );
+        return unitDirection.getScaledInstance( getSpeed() * dt );
     }
 }
