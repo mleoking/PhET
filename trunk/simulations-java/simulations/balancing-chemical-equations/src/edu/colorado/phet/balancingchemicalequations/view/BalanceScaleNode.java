@@ -7,9 +7,10 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
@@ -31,6 +32,7 @@ public class BalanceScaleNode extends PComposite {
 
     private static final PDimension FULCRUM_SIZE = new PDimension( 40, 30 );
     private static final double BEAM_LENGTH = 200;
+    private static final double BEAM_THICKNESS = 4;
     private static final int NUMBER_OF_TILT_ANGLES = 6;
 
     private final Atom atom;
@@ -117,6 +119,11 @@ public class BalanceScaleNode extends PComposite {
         }
         beamNode.setRotation( angle );
         atomPilesParentNode.setRotation( angle );
+
+        // beam lights up when it's balanced
+        boolean balanced = ( leftNumberOfAtoms == rightNumberOfAtoms ) && ( leftNumberOfAtoms != 0 );
+        beamNode.setPaint( balanced ? BCEColors.BALANCED_HIGHLIGHT_COLOR : Color.BLACK );
+        beamNode.setStroke( balanced ? new BasicStroke( 1f ) : null );
     }
 
     /*
@@ -180,9 +187,8 @@ public class BalanceScaleNode extends PComposite {
      */
     private static class BeamNode extends PPath {
         public BeamNode() {
-            Line2D line = new Line2D.Double( -BEAM_LENGTH / 2, 0, BEAM_LENGTH / 2, 0 );
-            setPathTo( line );
-            setStroke( new BasicStroke( 2f ) );
+            Rectangle2D shape = new Rectangle2D.Double( -BEAM_LENGTH / 2, -BEAM_THICKNESS / 2, BEAM_LENGTH, BEAM_THICKNESS );
+            setPathTo( shape );
             setStrokePaint( Color.BLACK );
         }
     }

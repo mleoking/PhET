@@ -120,7 +120,7 @@ public class EquationNode extends PhetPNode  {
         double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
         double y = ( capHeight / 2 );
         arrowNode.setOffset( x, y );
-        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
+        arrowNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
     }
 
     /*
