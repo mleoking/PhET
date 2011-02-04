@@ -1,3 +1,6 @@
+2/4/11 change request: move equation radio buttons to upper right
+2/4/11 change request: move Reset All button to lower right
+2/4/11 remove Reset All button from Game tab
 # 0.00.03 (48621) Feb 4, 2011
 2/4/11 dev version with team change requests for 1st tab
 2/3/11 make balance scales light up when equation is balanced

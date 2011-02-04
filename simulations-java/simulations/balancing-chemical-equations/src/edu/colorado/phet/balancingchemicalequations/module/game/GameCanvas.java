@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -10,7 +9,6 @@ import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -28,18 +26,8 @@ public class GameCanvas extends BCECanvas {
         underConstructionNode.setFont( new PhetFont( Font.BOLD, 20 ) );
         addChild( underConstructionNode );
 
-        // Reset All button
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
-        resetAllButtonNode.addResettable( globalProperties );
-        addChild( resetAllButtonNode );
-
         // layout
-        double x = 0;
-        double y = 0;
-        underConstructionNode.setOffset( x, y );
-        x = underConstructionNode.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 );
-        y = underConstructionNode.getFullBoundsReference().getMaxY() + 100;
-        resetAllButtonNode.setOffset( x, y );
+        underConstructionNode.setOffset( 0, 0 );
 
         // Observers
         globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
