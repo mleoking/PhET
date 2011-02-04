@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
-import java.awt.Font;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -32,7 +34,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BarChartsNode extends PComposite {
 
     private final HorizontalAligner aligner;
-    private final PText equalitySignNode;
+    private final EqualsSignNode equalsSignNode;
+    private final NotEqualsSignNode notEqualsSignNode;
     private final PNode reactantsChartParent, productsChartParent;
     private final SimpleObserver coefficientsObserver;
 
@@ -48,10 +51,11 @@ public class BarChartsNode extends PComposite {
         productsChartParent = new PComposite();
         addChild( productsChartParent );
 
-        equalitySignNode = new PText();
-        equalitySignNode.setFont( new PhetFont( Font.BOLD, 60 ) );
-        equalitySignNode.setTextPaint( BCEColors.UNBALANCED_ARROW_COLOR );
-        addChild( equalitySignNode );
+        equalsSignNode = new EqualsSignNode();
+        addChild( equalsSignNode );
+
+        notEqualsSignNode = new NotEqualsSignNode();
+        addChild( notEqualsSignNode );
 
         coefficientsObserver = new SimpleObserver() {
             public void update() {
@@ -99,15 +103,11 @@ public class BarChartsNode extends PComposite {
      * Updates the equality sign.
      */
     private void updateEqualitySign() {
-        // symbol
-        if ( equation.isAllCoefficientsZero() || equation.isBalanced() ) {
-            equalitySignNode.setText( BCESymbols.EQUALS );
-        }
-        else {
-            equalitySignNode.setText( BCESymbols.NOT_EQUALS );
-        }
+        // visibility
+        equalsSignNode.setVisible( equation.isAllCoefficientsZero() || equation.isBalanced() );
+        notEqualsSignNode.setVisible( !equalsSignNode.getVisible() );
         // color
-        equalitySignNode.setTextPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
+        equalsSignNode.setPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
     }
 
     /*
@@ -117,19 +117,64 @@ public class BarChartsNode extends PComposite {
 
         final double xSpacing = 80;
 
-        // equality sign at center
-        double x = aligner.getCenterXOffset() - ( equalitySignNode.getFullBoundsReference().getWidth() / 2 );
-        double y = -equalitySignNode.getFullBoundsReference().getHeight() / 2;
-        equalitySignNode.setOffset( x, y );
+        // equals sign at center
+        double x = aligner.getCenterXOffset() - ( equalsSignNode.getFullBoundsReference().getWidth() / 2 );
+        double y = -equalsSignNode.getFullBoundsReference().getHeight() / 2;
+        equalsSignNode.setOffset( x, y );
+
+        // not-equals sign at center
+        x = aligner.getCenterXOffset() - ( notEqualsSignNode.getFullBoundsReference().getWidth() / 2 );
+        y = -notEqualsSignNode.getFullBoundsReference().getHeight() / 2;
+        notEqualsSignNode.setOffset( x, y );
 
         // reactants chart to the left
-        x = equalitySignNode.getFullBoundsReference().getMinX() - reactantsChartParent.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( reactantsChartParent ) - xSpacing;
+        x = equalsSignNode.getFullBoundsReference().getMinX() - reactantsChartParent.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( reactantsChartParent ) - xSpacing;
         y = 0;
         reactantsChartParent.setOffset( x, y );
 
         // products chart to the right
-        x = equalitySignNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( productsChartParent ) + xSpacing;
+        x = equalsSignNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( productsChartParent ) + xSpacing;
         y = 0;
         productsChartParent.setOffset( x, y );
+    }
+
+    private static class EqualsSignNode extends PComposite {
+
+        private final PPath topNode, bottomNode;
+
+        public EqualsSignNode() {
+
+            Rectangle2D shape = new Rectangle2D.Double( 0, 0, 35, 6 );
+            Stroke stroke = new BasicStroke( 1f );
+            Color strokeColor = Color.BLACK;
+
+            topNode = new PPath( shape );
+            topNode.setStroke( stroke );
+            topNode.setStrokePaint( strokeColor );
+            addChild( topNode );
+
+            bottomNode = new PPath( shape );
+            bottomNode.setStroke( stroke );
+            bottomNode.setStrokePaint( strokeColor );
+            addChild( bottomNode );
+
+            // layout
+            topNode.setOffset( 0, 0 );
+            bottomNode.setOffset( 0, topNode.getFullBoundsReference().getHeight() + 6 );
+        }
+
+        public void setPaint( Paint paint ) {
+            super.setPaint( paint );
+            topNode.setPaint( paint );
+            bottomNode.setPaint( paint );
+        }
+    }
+
+    private static class NotEqualsSignNode extends PText {
+        public NotEqualsSignNode() {
+            super( BCESymbols.NOT_EQUALS );
+            setFont( new PhetFont( Font.BOLD, 60 ) );
+            setTextPaint( BCEColors.UNBALANCED_ARROW_COLOR );
+        }
     }
 }
