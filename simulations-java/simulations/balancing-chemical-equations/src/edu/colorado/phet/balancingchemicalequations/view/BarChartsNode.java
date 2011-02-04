@@ -55,57 +55,24 @@ public class BarChartsNode extends PComposite {
 
         coefficientsObserver = new SimpleObserver() {
             public void update() {
-               updateAll();
+                updateNode();
             }
         };
 
+        this.equation = equationProperty.getValue();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setEquation( equationProperty.getValue() );
+                BarChartsNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
+                BarChartsNode.this.equation = equationProperty.getValue();
+                BarChartsNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
-    }
-
-    private void setEquation( Equation equation ) {
-        if ( equation != this.equation ) {
-
-            // disconnect observers from old equation
-            if ( this.equation != null ) {
-                removeCoefficientObserver( this.equation.getReactants(), coefficientsObserver );
-                removeCoefficientObserver( this.equation.getProducts(), coefficientsObserver );
-            }
-
-            // add observers to new equation
-            this.equation = equation;
-            addCoefficientObserver( this.equation.getReactants(), coefficientsObserver );
-            addCoefficientObserver( this.equation.getProducts(), coefficientsObserver );
-
-            updateAll();
-        }
-    }
-
-    /*
-     * Adds an observer to all coefficients.
-     */
-    private void addCoefficientObserver( EquationTerm[] terms, SimpleObserver observer ) {
-        for ( EquationTerm term : terms ) {
-            term.getActualCoefficientProperty().addObserver( observer );
-        }
-    }
-
-    /*
-     * Removes an observer from all coefficients.
-     */
-    private void removeCoefficientObserver( EquationTerm[] terms, SimpleObserver observer ) {
-        for ( EquationTerm term : terms ) {
-            term.getActualCoefficientProperty().removeObserver( observer );
-        }
     }
 
     /*
      * Updates this node's entire geometry and layout
      */
-    private void updateAll() {
+    private void updateNode() {
         updateChart( reactantsChartParent, equation.getReactants(), true /* isReactants */ );
         updateChart( productsChartParent, equation.getProducts(), false /* isReactants */ );
         updateEqualitySign();
@@ -132,12 +99,15 @@ public class BarChartsNode extends PComposite {
      * Updates the equality sign.
      */
     private void updateEqualitySign() {
+        // symbol
         if ( equation.isAllCoefficientsZero() || equation.isBalanced() ) {
             equalitySignNode.setText( BCESymbols.EQUALS );
         }
         else {
             equalitySignNode.setText( BCESymbols.NOT_EQUALS );
         }
+        // color
+        equalitySignNode.setTextPaint( equation.isBalanced() ? BCEColors.BALANCED_ARROW_COLOR : BCEColors.UNBALANCED_ARROW_COLOR );
     }
 
     /*

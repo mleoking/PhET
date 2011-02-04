@@ -206,6 +206,30 @@ public abstract class Equation {
         }
     }
 
+    /**
+     * Convenience method for adding an observer to all coefficients.
+     */
+    public void addCoefficientsObserver( SimpleObserver observer ) {
+        for ( EquationTerm term : reactants ) {
+            term.getActualCoefficientProperty().addObserver( observer );
+        }
+        for ( EquationTerm term : products ) {
+            term.getActualCoefficientProperty().addObserver( observer );
+        }
+    }
+
+    /**
+     * Convenience method for removing an observer from all coefficients.
+     */
+    public void removeCoefficientsObserver( SimpleObserver observer ) {
+        for ( EquationTerm term : reactants ) {
+            term.getActualCoefficientProperty().removeObserver( observer );
+        }
+        for ( EquationTerm term : products ) {
+            term.getActualCoefficientProperty().removeObserver( observer );
+        }
+    }
+
     //------------------------------------------------------------------------
     // One-product equations
     //------------------------------------------------------------------------

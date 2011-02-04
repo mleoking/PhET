@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
@@ -23,7 +25,8 @@ public class RightArrowNode extends ArrowNode {
 
     public RightArrowNode() {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );
-        setStroke( null );
+        setStroke( new BasicStroke( 1f ) );
+        setStrokePaint( Color.BLACK );
         setPaint( BCEColors.UNBALANCED_ARROW_COLOR );
     }
 }
