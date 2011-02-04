@@ -21,8 +21,11 @@ public class BCEColors {
 
     // atom colors
     public static final Color C = new Color( 178, 178, 178 );
+    public static final Color Cl = new Color( 153, 242, 57 );
+    public static final Color F = new Color( 247, 255, 74 );
     public static final Color H = Color.WHITE;
     public static final Color N = Color.BLUE;
     public static final Color O = Color.RED;
+    public static final Color P = new Color( 255, 0, 255 );
     public static final Color S = new Color( 212, 181, 59 );
 }

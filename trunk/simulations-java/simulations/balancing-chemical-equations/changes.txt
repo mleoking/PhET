@@ -1,3 +1,4 @@
+2/3/11 add colors for Cl,F,P
 2/3/11 add "Under Construction" notice to Game tab
 2/3/11 change request: make arrows and "=" light up when equation is balanced
 2/3/11 change request: use a lighter color for the boxes
