@@ -1,3 +1,4 @@
+# 0.0.25 (48611) Feb 3, 2011
 # 0.0.24 (48598) Feb 3, 2011
 Improved zoom buttons
 Zoom buttons become disabled when at max of range
