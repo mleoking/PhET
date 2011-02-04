@@ -32,15 +32,15 @@ public class BoxesNode extends PComposite {
     private final SimpleObserver coefficientsObserver;
     private Equation equation;
 
-    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner ) {
+    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner, final Property<Color> boxColorProperty ) {
 
         this.coefficientRange = coefficientRange;
         this.aligner = aligner;
 
         // boxes
-        BoxNode reactantsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
+        final BoxNode reactantsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
         addChild( reactantsBoxNode );
-        BoxNode productsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
+        final BoxNode productsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
         addChild( productsBoxNode );
 
         // right-pointing arrow
@@ -76,6 +76,13 @@ public class BoxesNode extends PComposite {
                 removeCoefficientsObserver();
                 BoxesNode.this.equation = equationProperty.getValue();
                 addCoefficientsObserver();
+            }
+        } );
+        // box color changes
+        boxColorProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                reactantsBoxNode.setPaint( boxColorProperty.getValue() );
+                productsBoxNode.setPaint( boxColorProperty.getValue() );
             }
         } );
     }
@@ -131,7 +138,7 @@ public class BoxesNode extends PComposite {
     private static class BoxNode extends PPath {
         public BoxNode( Dimension boxSize ) {
             super( new Rectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight() ) );
-            setPaint( BCEColors.BEFORE_AFTER_BOX_COLOR );
+            setPaint( BCEColors.BOX_COLOR );
             setStrokePaint( Color.BLACK );
             setStroke( new BasicStroke( 1f ) );
         }

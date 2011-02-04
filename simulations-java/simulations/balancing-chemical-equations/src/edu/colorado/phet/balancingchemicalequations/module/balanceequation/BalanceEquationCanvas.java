@@ -44,7 +44,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode(  model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner );
+        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.getBoxColorProperty() );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
