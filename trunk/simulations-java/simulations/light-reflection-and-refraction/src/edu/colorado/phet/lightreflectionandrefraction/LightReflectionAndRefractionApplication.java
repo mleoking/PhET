@@ -3,6 +3,7 @@ package edu.colorado.phet.lightreflectionandrefraction;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntroModule;
 
@@ -11,6 +12,7 @@ import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntroModule;
  */
 public class LightReflectionAndRefractionApplication extends PiccoloPhetApplication {
     private static final String NAME = "light-reflection-and-refraction";
+    public static final PhetResources RESOURCES = new PhetResources( NAME );
 
     public LightReflectionAndRefractionApplication( PhetApplicationConfig config ) {
         super( config );
