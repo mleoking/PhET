@@ -131,6 +131,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/spline/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/balancing-chemical-equations/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/light-reflection-and-refraction/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1929,6 +1930,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/util/simsharing/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/light-reflection-and-refraction/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
