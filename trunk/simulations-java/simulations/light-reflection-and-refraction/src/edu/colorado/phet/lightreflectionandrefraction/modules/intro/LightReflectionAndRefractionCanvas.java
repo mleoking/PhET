@@ -4,9 +4,13 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -27,6 +31,16 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
+
+        final LinearValueControl linearValueControl = new LinearValueControl( 0.1, 10, 1, "Light Speed Scale", "0.00", "x" );
+        linearValueControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                model.setLightSpeedScaleFactor( linearValueControl.getValue() );
+            }
+        } );
+        addChild( new PSwing( linearValueControl ) {{
+            setOffset( 200, 0 );
+        }} );
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, LRRModel.STAGE_SIZE ) );
 

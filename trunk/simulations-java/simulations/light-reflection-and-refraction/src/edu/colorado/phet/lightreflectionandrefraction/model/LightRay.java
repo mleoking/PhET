@@ -13,12 +13,14 @@ public class LightRay {
     public final Property<ImmutableVector2D> tail;
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
+    private final double lightSpeedScaleFactor;
 
-    public LightRay( Property<ImmutableVector2D> tail, Property<ImmutableVector2D> tip, double indexOfRefraction, double wavelength ) {
+    public LightRay( Property<ImmutableVector2D> tail, Property<ImmutableVector2D> tip, double indexOfRefraction, double wavelength, double lightSpeedScaleFactor ) {
         this.tip = tip;
         this.tail = tail;
         this.indexOfRefraction = indexOfRefraction;
         this.wavelength = wavelength;
+        this.lightSpeedScaleFactor = lightSpeedScaleFactor;
     }
 
     public void addObserver( SimpleObserver simpleObserver ) {
@@ -27,7 +29,7 @@ public class LightRay {
     }
 
     public double getSpeed() {
-        return LRRModel.C / indexOfRefraction;
+        return LRRModel.C / indexOfRefraction * lightSpeedScaleFactor;
     }
 
     public void propagate( double dt ) {
