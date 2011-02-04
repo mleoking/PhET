@@ -354,7 +354,7 @@ public class AtomIdentifier {
     private static final String ISOTOPE_INFORMATION_TABLE_STR =
         "1,H,1,1.00782503207,0.999885\n" +
         ",D,2,2.0141017778,0.000115\n" +
-        ",T,3,3.0160492777,\n" +
+        ",T,3,3.0160492777,1E-12\n" +         // I (jblanco) made up the abundance, since Widipedia just says "trace".
         "2,He,3,3.0160293191,0.00000134\n" +
         ",,4,4.00260325415,0.99999866\n" +
         "3,Li,6,6.015122795,0.0759\n" +
@@ -712,7 +712,7 @@ public class AtomIdentifier {
         ArrayList<Isotope2> listForAtomicNumber1= new ArrayList<Isotope2>(){{
            add( new Isotope2( 1, 0, 1.00782503207, 0.999885 ) );
            add( new Isotope2( 1, 1, 2.0141017778, 1.15E-4 ) );
-           add( new Isotope2( 1, 2, 3.0160492777, 0.0 ) );
+           add( new Isotope2( 1, 2, 3.0160492777, 1E-12 ) );
         }};
         put( 1, listForAtomicNumber1 );
         ArrayList<Isotope2> listForAtomicNumber2= new ArrayList<Isotope2>(){{
