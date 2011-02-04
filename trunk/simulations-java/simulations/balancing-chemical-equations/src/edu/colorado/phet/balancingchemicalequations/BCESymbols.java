@@ -31,10 +31,6 @@ public class BCESymbols {
     public static final String NH3 = toSubscript( "NH3" );
     public static final String O2 = toSubscript( "O2" );
 
-    // math symbols
-    public static final String EQUALS = "\u003d";
-    public static final String NOT_EQUALS = "\u2260";
-
     /*
      * Handles HTML subscript formatting.
      * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.

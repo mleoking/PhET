@@ -3,21 +3,20 @@
 package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
-import edu.colorado.phet.balancingchemicalequations.BCESymbols;
 import edu.colorado.phet.balancingchemicalequations.model.AtomCount;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -121,10 +120,6 @@ public class BarChartsNode extends PComposite {
         double x = aligner.getCenterXOffset() - ( equalsSignNode.getFullBoundsReference().getWidth() / 2 );
         double y = -equalsSignNode.getFullBoundsReference().getHeight() / 2;
         equalsSignNode.setOffset( x, y );
-
-        // not-equals sign at center
-        x = aligner.getCenterXOffset() - ( notEqualsSignNode.getFullBoundsReference().getWidth() / 2 );
-        y = -notEqualsSignNode.getFullBoundsReference().getHeight() / 2;
         notEqualsSignNode.setOffset( x, y );
 
         // reactants chart to the left
@@ -138,43 +133,67 @@ public class BarChartsNode extends PComposite {
         productsChartParent.setOffset( x, y );
     }
 
+    /*
+     * Equals sign, drawn using Piccolo nodes so that we can put a stroke around it.
+     * This will prevent it from disappearing on light-colored background when it "lights up" to indicate "balanaced".
+     */
     private static class EqualsSignNode extends PComposite {
 
-        private final PPath topNode, bottomNode;
+        private static final double BAR_WIDTH = 35;
+        private static final double BAR_HEIGHT = 6;
+        private static final double BAR_Y_SPACING = 6;
+
+        private final PPath topBarNode, bottomBarNode;
 
         public EqualsSignNode() {
 
-            Rectangle2D shape = new Rectangle2D.Double( 0, 0, 35, 6 );
+            Rectangle2D shape = new Rectangle2D.Double( 0, 0, BAR_WIDTH, BAR_HEIGHT );
             Stroke stroke = new BasicStroke( 1f );
             Color strokeColor = Color.BLACK;
 
-            topNode = new PPath( shape );
-            topNode.setStroke( stroke );
-            topNode.setStrokePaint( strokeColor );
-            addChild( topNode );
+            topBarNode = new PPath( shape );
+            topBarNode.setStroke( stroke );
+            topBarNode.setStrokePaint( strokeColor );
+            addChild( topBarNode );
 
-            bottomNode = new PPath( shape );
-            bottomNode.setStroke( stroke );
-            bottomNode.setStrokePaint( strokeColor );
-            addChild( bottomNode );
+            bottomBarNode = new PPath( shape );
+            bottomBarNode.setStroke( stroke );
+            bottomBarNode.setStrokePaint( strokeColor );
+            addChild( bottomBarNode );
 
             // layout
-            topNode.setOffset( 0, 0 );
-            bottomNode.setOffset( 0, topNode.getFullBoundsReference().getHeight() + 6 );
+            topBarNode.setOffset( 0, 0 );
+            bottomBarNode.setOffset( 0, BAR_HEIGHT + BAR_Y_SPACING );
         }
 
         public void setPaint( Paint paint ) {
             super.setPaint( paint );
-            topNode.setPaint( paint );
-            bottomNode.setPaint( paint );
+            topBarNode.setPaint( paint );
+            bottomBarNode.setPaint( paint );
         }
     }
 
-    private static class NotEqualsSignNode extends PText {
+    /*
+     * Not-equals sign, drawn using constructive-area geometry so that we can put a stroke around it.
+     */
+    private static class NotEqualsSignNode extends PPath {
         public NotEqualsSignNode() {
-            super( BCESymbols.NOT_EQUALS );
-            setFont( new PhetFont( Font.BOLD, 60 ) );
-            setTextPaint( BCEColors.UNBALANCED_ARROW_COLOR );
+            super();
+            setStroke( new BasicStroke( 1f ) );
+            setStrokePaint( Color.BLACK );
+            setPaint( BCEColors.UNBALANCED_ARROW_COLOR );
+
+            Shape topBarShape = new Rectangle2D.Double( 0, 0, EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );
+            Shape bottomBarShape = new Rectangle2D.Double( 0, EqualsSignNode.BAR_HEIGHT + EqualsSignNode.BAR_Y_SPACING, EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );
+
+            Rectangle2D r = new Rectangle2D.Double( 0, EqualsSignNode.BAR_HEIGHT + ( ( EqualsSignNode.BAR_Y_SPACING - EqualsSignNode.BAR_HEIGHT ) / 2 ), EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );
+            AffineTransform t2 = AffineTransform.getRotateInstance( Math.toRadians( -75 ), EqualsSignNode.BAR_WIDTH / 2, EqualsSignNode.BAR_HEIGHT + ( EqualsSignNode.BAR_Y_SPACING / 2 ) );
+            Shape slashShape = t2.createTransformedShape( r );
+
+            Area area = new Area( topBarShape );
+            area.add( new Area( slashShape ) );
+            area.add( new Area( bottomBarShape ) );
+            setPathTo( area );
         }
     }
 }
