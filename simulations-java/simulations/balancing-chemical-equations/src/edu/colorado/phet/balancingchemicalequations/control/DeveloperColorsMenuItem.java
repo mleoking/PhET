@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -31,9 +33,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
 
     private final BCEGlobalProperties globalProperties;
-    private JDialog dialog;
+    private DeveloperColorsDialog dialog;
 
-    public DeveloperColorsMenuItem( BCEGlobalProperties globalProperties ) {
+    public DeveloperColorsMenuItem( final BCEGlobalProperties globalProperties ) {
         super( "Colors..." );
         this.globalProperties = globalProperties;
         addActionListener( new ActionListener() {
@@ -41,6 +43,22 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
                 handleColorsDialog();
             }
         });
+
+        globalProperties.getCanvasColorProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                if ( dialog != null ) {
+                    dialog.setCanvasColor( globalProperties.getCanvasColorProperty().getValue() );
+                }
+            }
+        } );
+
+        globalProperties.getBoxColorProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                if ( dialog != null ) {
+                    dialog.setBoxColor( globalProperties.getBoxColorProperty().getValue() );
+                }
+            }
+        } );
     }
 
     private void handleColorsDialog() {
@@ -67,6 +85,8 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
 
     private static class DeveloperColorsDialog extends PaintImmediateDialog {
 
+        private final ColorControl canvasColorControl, boxColorControl;
+
         public DeveloperColorsDialog( final BCEGlobalProperties globalProperties ) {
             super( globalProperties.getFrame() );
             super.setTitle( "Colors" );
@@ -74,7 +94,7 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             super.setResizable( false );
 
             // canvas (play area)
-            final ColorControl canvasColorControl = new ColorControl( globalProperties.getFrame(), "play area:", globalProperties.getCanvasColorProperty().getValue() );
+            canvasColorControl = new ColorControl( globalProperties.getFrame(), "play area:", globalProperties.getCanvasColorProperty().getValue() );
             canvasColorControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     globalProperties.getCanvasColorProperty().setValue( canvasColorControl.getColor() );
@@ -82,7 +102,7 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             } );
 
             // boxes
-            final ColorControl boxColorControl = new ColorControl( globalProperties.getFrame(), "boxes:", globalProperties.getBoxColorProperty().getValue() );
+            boxColorControl = new ColorControl( globalProperties.getFrame(), "boxes:", globalProperties.getBoxColorProperty().getValue() );
             boxColorControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     globalProperties.getBoxColorProperty().setValue( boxColorControl.getColor() );
@@ -104,6 +124,14 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             getContentPane().add( panel );
             pack();
             SwingUtils.centerInParent( this );
+        }
+
+        public void setCanvasColor( Color color ) {
+            canvasColorControl.setColor( color );
+        }
+
+        public void setBoxColor( Color color ) {
+            boxColorControl.setColor( color );
         }
     }
 }

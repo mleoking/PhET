@@ -2,12 +2,13 @@
 
 package edu.colorado.phet.balancingchemicalequations.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -26,23 +27,29 @@ public class EquationChoiceNode extends PhetPNode {
      * @param equations the set of Equation choices
      * @param currentEquationProperty the property that denotes the current equation selection
      */
-    public EquationChoiceNode( ArrayList<Equation> equations, Property<Equation> currentEquationProperty ) {
-        addChild( new PSwing( new EquationChoicePanel( equations, currentEquationProperty ) ) );
+    public EquationChoiceNode( ArrayList<Equation> equations, Property<Equation> currentEquationProperty, Property<Color> backgroundProperty ) {
+        addChild( new PSwing( new EquationChoicePanel( equations, currentEquationProperty, backgroundProperty ) ) );
     }
 
     /*
      * Swing component.
      */
     private static class EquationChoicePanel extends GridPanel {
-        public EquationChoicePanel( ArrayList<Equation> equations, Property<Equation> currentEquationProperty ) {
-            setOpaque( false );
+        public EquationChoicePanel( ArrayList<Equation> equations, Property<Equation> currentEquationProperty, final Property<Color> backgroundProperty ) {
             setAnchor( Anchor.WEST );
             setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
             setGridY( 0 ); // horizontal layout
+
             for ( Equation equation : equations ) {
                 add( new PropertyRadioButton<Equation>( equation.getName(), currentEquationProperty, equation ) );
             }
-            SwingUtils.setBackgroundDeep( this, BCEColors.CANVAS_BACKGROUND );
+
+            // #2710 workaround, must do this after adding all components!
+            backgroundProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    SwingUtils.setBackgroundDeep( EquationChoicePanel.this, backgroundProperty.getValue() );
+                }
+            } );
         }
     }
 }

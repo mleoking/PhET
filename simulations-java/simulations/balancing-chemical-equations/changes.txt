@@ -1,3 +1,4 @@
+2/4/11 workaround for #2710, change background color of all PSwing(JComponent) when canvas color changes
 2/4/11 change request: move equation radio buttons to upper right
 2/4/11 change request: move Reset All button to lower right
 2/4/11 remove Reset All button from Game tab
