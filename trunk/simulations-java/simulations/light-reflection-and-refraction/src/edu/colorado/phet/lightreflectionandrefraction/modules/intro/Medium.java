@@ -9,9 +9,12 @@ import java.awt.*;
 public class Medium {
     private final Shape shape;
     private double indexOfRefraction;
+    private final Color color;
 
-    public Medium( Shape shape ) {
+    public Medium( Shape shape, double indexOfRefraction, Color color ) {
         this.shape = shape;
+        this.indexOfRefraction = indexOfRefraction;
+        this.color = color;
     }
 
     public double getIndexOfRefraction() {
@@ -20,5 +23,9 @@ public class Medium {
 
     public Shape getShape() {
         return shape;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.model;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightReflectionAndRefractionCanvas;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.lang.Math.asin;
@@ -28,9 +31,8 @@ public class LRRModel {
     final double modelHeight = STAGE_SIZE.getHeight() / STAGE_SIZE.getWidth() * modelWidth;
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( modelWidth / 8 );
-
-    double n1 = 1;
-    double n2 = 1.2;
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), 1.0, LightReflectionAndRefractionCanvas.indexOfRefractionToColor( 1.0 ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), 1.2, LightReflectionAndRefractionCanvas.indexOfRefractionToColor( 1.2 ) ) );
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );
@@ -46,14 +48,25 @@ public class LRRModel {
 //                    ImmutableVector2D tip = ImmutableVector2D.parseAngleAndMagnitude( 1, laser.angle.getValue() ).getScaledInstance( -1 );
                     addRay( new LightRay( new Property<ImmutableVector2D>( tail ), new Property<ImmutableVector2D>( new ImmutableVector2D() ), 1.0, redWavelength ) );
 
-                    //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
-                    double theta2 = asin( n1 / n2 * sin( laser.angle.getValue() - Math.PI / 2 ) ) - Math.PI / 2;
-//                    System.out.println( "theta1 = "+laser.angle.getValue()+", theta2 = " + theta2 );
+                    //reflected
                     addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-                                          new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ) ), 1.0, redWavelength ) );
+                                          new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ) ), 1.0, redWavelength ) );
+
+                    //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
+                    double n1 = topMedium.getValue().getIndexOfRefraction();
+                    double n2 = bottomMedium.getValue().getIndexOfRefraction();
+                    double theta2 = asin( n1 / n2 * sin( laser.angle.getValue() - Math.PI / 2 ) ) - Math.PI / 2;
+                    if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
+                    else {
+//                    System.out.println( "theta1 = "+laser.angle.getValue()+", theta2 = " + theta2 );
+                        addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
+                                              new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ) ), 1.0, redWavelength ) );
+                    }
                 }
             }
         };
+        topMedium.addObserver( updateRays );
+        bottomMedium.addObserver( updateRays );
         laserOn.addObserver( updateRays );
         laser.angle.addObserver( updateRays );
         clock.start();
