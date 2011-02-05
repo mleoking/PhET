@@ -13,6 +13,8 @@ public class LRRModule<T extends LRRModel> extends Module {
     public LRRModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
+        setClockControlPanel( null );
+        getModulePanel().setLogoPanel( null );
     }
 
     public T getLRRModel() {
