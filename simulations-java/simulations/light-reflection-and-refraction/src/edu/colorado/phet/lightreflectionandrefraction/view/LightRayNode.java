@@ -22,5 +22,7 @@ public class LightRayNode extends PNode {
                 }
             } );
         }} );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }
