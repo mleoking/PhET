@@ -79,4 +79,8 @@ public class LightRay {
     public Line2D toLine2D() {
         return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
     }
+
+    public double getLength() {
+        return tip.getValue().getSubtractedInstance( tail.getValue() ).getMagnitude();
+    }
 }

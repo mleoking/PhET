@@ -2,12 +2,12 @@
 package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -25,10 +25,10 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class IntensityMeterNode extends PNode {
-    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter, final Property<Boolean> showIntensityMeter ) {
-        showIntensityMeter.addObserver( new SimpleObserver() {
+    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter ) {
+        intensityMeter.enabled.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( showIntensityMeter.getValue() );
+                setVisible( intensityMeter.enabled.getValue() );
             }
         } );
 
@@ -76,15 +76,21 @@ public class IntensityMeterNode extends PNode {
         }} );
 
         bodyNode.addChild( new PText( "-" ) {{
-            setFont( new PhetFont( 55 ) );
-            setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.3 );
+            setFont( new PhetFont( 30 ) );
+            intensityMeter.reading.addObserver( new SimpleObserver() {
+                public void update() {
+                    setTransform( new AffineTransform() );
+                    setText( intensityMeter.reading.getValue().getString() );
+                    setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.44 );
+                }
+            } );
         }} );
         bodyNode.addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             setOffset( bodyNode.getFullBounds().getWidth() - getFullBounds().getWidth() - 10, 10 );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    showIntensityMeter.setValue( false );
+                    intensityMeter.enabled.setValue( false );
                 }
             } );
         }} );
