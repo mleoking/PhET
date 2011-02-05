@@ -10,13 +10,12 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - #2715, JSpinners cause ClassCastException
-- publish dev version for discussion, with all features of the "Balance Equation" module
 
 MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules
-- "Game" module
-- pick a random representation for Game (bar chart, balance scale, molecules) then allow user to change via 3 radio buttons
+- "Game" module with 2/3/11 design meeting changes
 - in "Game", two possible labels below frowny face: "X not balanced" or "Check Mark balanced\nX not simplified"
+- after "Check" is pressed, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
 
 LOW PRIORITY
 - generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs
