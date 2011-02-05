@@ -1,3 +1,5 @@
+Added control panels
+Added "Show Normal"
 Added control panel for indices of refraction
 Added Snell's Law
 Constrained the laser angle
