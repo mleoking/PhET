@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -48,8 +49,14 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             SwingUtils.setBackgroundDeep( this, Color.black );
         }} ) );
         model.addRayAddedListener( new VoidFunction1<LightRay>() {
-            public void apply( LightRay lightRay ) {
-                addChild( new LightRayNode( transform, lightRay ) );
+            public void apply( final LightRay lightRay ) {
+                final LightRayNode node = new LightRayNode( transform, lightRay );
+                addChild( node );
+                lightRay.addRemovalListener( new VoidFunction0() {
+                    public void apply() {
+                        removeChild( node );
+                    }
+                } );
             }
         } );
 
