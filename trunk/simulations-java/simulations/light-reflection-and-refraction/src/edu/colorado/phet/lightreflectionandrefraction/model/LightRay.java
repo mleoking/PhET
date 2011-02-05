@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.model;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -19,9 +22,9 @@ public class LightRay {
     private final double powerFraction;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
 
-    public LightRay( Property<ImmutableVector2D> tail, Property<ImmutableVector2D> tip, double indexOfRefraction, double wavelength, double powerFraction ) {
-        this.tip = tip;
-        this.tail = tail;
+    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction ) {
+        this.tip = new Property<ImmutableVector2D>( tip );
+        this.tail = new Property<ImmutableVector2D>( tail );
         this.indexOfRefraction = indexOfRefraction;
         this.wavelength = wavelength;
         this.powerFraction = powerFraction;
@@ -65,5 +68,15 @@ public class LightRay {
 
     public double getPowerFraction() {
         return powerFraction;
+    }
+
+    public boolean intersects( Shape sensorShape ) {
+        return !new Area( sensorShape ) {{
+            intersect( new Area( new BasicStroke( 1E-10f ).createStrokedShape( toLine2D() ) ) );
+        }}.isEmpty();
+    }
+
+    public Line2D toLine2D() {
+        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
     }
 }

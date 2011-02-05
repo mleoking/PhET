@@ -1,12 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.model;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -45,39 +47,64 @@ public class LRRModel {
 
                 if ( laser.on.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
-//                    ImmutableVector2D tip = ImmutableVector2D.parseAngleAndMagnitude( 1, laser.angle.getValue() ).getScaledInstance( -1 );
                     final double sourcePower = 1.0;
-                    addRay( new LightRay( new Property<ImmutableVector2D>( tail ), new Property<ImmutableVector2D>( new ImmutableVector2D() ), 1.0, redWavelength, sourcePower ) );
+                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower );
+                    final boolean rayAbsorbed = handleAbsorb( ray );
+                    if ( !rayAbsorbed ) {
+                        double n1 = topMedium.getValue().getIndexOfRefraction();
+                        double n2 = bottomMedium.getValue().getIndexOfRefraction();
 
-                    double n1 = topMedium.getValue().getIndexOfRefraction();
-                    double n2 = bottomMedium.getValue().getIndexOfRefraction();
+                        //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
+                        final double theta1 = laser.angle.getValue() - Math.PI / 2;
+                        double theta2 = asin( n1 / n2 * sin( theta1 ) ) - Math.PI / 2;
 
-                    //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
-                    final double theta1 = laser.angle.getValue() - Math.PI / 2;
-                    double theta2 = asin( n1 / n2 * sin( theta1 ) ) - Math.PI / 2;
+                        //reflected
+                        //assuming perpendicular beam, compute percent power
+                        double reflectedPower = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
+                        handleAbsorb( new LightRay( new ImmutableVector2D(),
+                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPower * sourcePower ) );
 
-                    //reflected
-                    //assuming perpendicular beam, compute percent power
-                    double reflectedPower = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
-                    addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-                                          new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ) ), 1.0, redWavelength, reflectedPower * sourcePower ) );
-
-                    //Transmitted
-                    if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
-                    else {
-                        double transmittedPower = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
+                        //Transmitted
+                        if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
+                        else {
+                            double transmittedPower = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
 //                    System.out.println( "theta1 = "+laser.angle.getValue()+", theta2 = " + theta2 );
-                        addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-                                              new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ) ), 1.0, redWavelength, transmittedPower * sourcePower ) );
+                            handleAbsorb( new LightRay( new ImmutableVector2D(),
+                                                        ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ), 1.0, redWavelength, transmittedPower * sourcePower ) );
+                        }
                     }
                 }
             }
         };
+//        updateRays.listenTo(topMedium,bottomMedium,laser.on,laser.angle,intensityMeter.sensorPosition);
         topMedium.addObserver( updateRays );
         bottomMedium.addObserver( updateRays );
         laser.on.addObserver( updateRays );
         laser.angle.addObserver( updateRays );
+        intensityMeter.sensorPosition.addObserver( updateRays );
+        intensityMeter.enabled.addObserver( updateRays );
         clock.start();
+    }
+
+    /*
+     Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
+     If the intensity meter misses the ray, the original ray is added.
+     */
+    private boolean handleAbsorb( LightRay ray ) {
+        final boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
+        if ( rayAbsorbed ) {
+            Point2D[] intersects = MathUtil.getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );
+            if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
+                double x = intersects[0].getX() + intersects[1].getX();
+                double y = intersects[0].getY() + intersects[1].getY();
+                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, redWavelength, ray.getPowerFraction() );
+                addRay( interrupted );
+            }
+        }
+        else {
+            addRay( ray );
+        }
+        return rayAbsorbed;
     }
 
     private void addRay( LightRay ray ) {
