@@ -39,7 +39,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.NONE );
 
         // control for choosing an equation
-        EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty() );
+        EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty(), globalProperties.getCanvasColorProperty() );
         addChild( equationChoiceNode );
 
         // equation, in formula format
@@ -51,7 +51,7 @@ public class BalanceEquationCanvas extends BCECanvas {
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
-        BalanceChoiceNode balanceChoiceNode = new BalanceChoiceNode( balanceChoiceProperty );
+        BalanceChoiceNode balanceChoiceNode = new BalanceChoiceNode( balanceChoiceProperty, globalProperties.getCanvasColorProperty() );
         addChild( balanceChoiceNode );
 
         // bar charts

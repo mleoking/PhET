@@ -2,11 +2,12 @@
 
 package edu.colorado.phet.balancingchemicalequations.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -23,23 +24,29 @@ public class BalanceChoiceNode extends PhetPNode {
 
     public static enum BalanceChoice { BAR_CHARTS, BALANCE_SCALES, NONE };
 
-    public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty ) {
-        addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty ) ) );
+    public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty, Property<Color> backgroundProperty ) {
+        addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty, backgroundProperty ) ) );
     }
 
     /*
      * Swing component.
      */
     private static class BalanceChoicePanel extends GridPanel {
-        public BalanceChoicePanel( Property<BalanceChoice> balanceChoiceProperty ) {
-            setOpaque( false );
+        public BalanceChoicePanel( Property<BalanceChoice> balanceChoiceProperty, final Property<Color> backgroundProperty ) {
             setAnchor( Anchor.WEST );
             setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
             setGridY( 0 ); // horizontal layout
+
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalanceChoice.BAR_CHARTS ) );
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalanceChoice.BALANCE_SCALES ) );
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.NONE, balanceChoiceProperty, BalanceChoice.NONE ) );
-            SwingUtils.setBackgroundDeep( this, BCEColors.CANVAS_BACKGROUND );
+
+            // #2710 workaround, must do this after adding all components!
+            backgroundProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    SwingUtils.setBackgroundDeep( BalanceChoicePanel.this, backgroundProperty.getValue() );
+                }
+            } );
         }
     }
 }
