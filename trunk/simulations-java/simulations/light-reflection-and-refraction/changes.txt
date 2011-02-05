@@ -1,3 +1,4 @@
+# 0.00.03 (48667) Feb 5, 2011
 Added a close button to the intensity meter
 Added an intensity meter
 Added power button to the laser
