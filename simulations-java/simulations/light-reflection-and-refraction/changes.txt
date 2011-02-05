@@ -1,3 +1,4 @@
+Added control panel for indices of refraction
 Added Snell's Law
 Constrained the laser angle
 Fixed: centered light output on front of laser node
