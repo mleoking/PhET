@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.umd.cs.piccolo.PNode;
 
 /**
