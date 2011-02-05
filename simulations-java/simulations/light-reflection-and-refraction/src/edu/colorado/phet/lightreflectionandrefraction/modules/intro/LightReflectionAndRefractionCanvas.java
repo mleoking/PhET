@@ -2,24 +2,29 @@
 package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
@@ -31,6 +36,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
     private PNode rootNode;
+    final BooleanProperty showNormal = new BooleanProperty( true );
 
     public LightReflectionAndRefractionCanvas( final LRRModel model ) {
         // Root of our scene graph
@@ -85,7 +91,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
-                setBorder( BorderFactory.createTitledBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ), "Index of Refraction", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.TOP, new PhetFont( 18, true ) ) );
+                setBorder( new PhetTitledBorder( "Index of Refraction" ) );
                 add( new LinearValueControl( 1, 3, model.topMedium.getValue().getIndexOfRefraction(), "n1=", "0.00", "" ) {{
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
@@ -101,8 +107,32 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                     } );
                 }} );
             }} );
+            add( new VerticalLayoutPanel() {{
+                setBorder( new PhetTitledBorder( "View" ) );
+                final Property<Boolean> ray = new Property<Boolean>( true );
+                add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) );
+                add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) );
+            }} );
+            add( new VerticalLayoutPanel() {{
+                setBorder( new PhetTitledBorder( "Tools" ) );
+                add( new PropertyCheckBox( "Show Normal", showNormal ) );
+                add( new PropertyCheckBox( "Protractor", new BooleanProperty( false ) ) );
+                add( new PropertyCheckBox( "Intensity Meter", new BooleanProperty( false ) ) );
+            }} );
         }} ) {{
             setOffset( LRRModel.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
+        }} );
+
+
+        double x = transform.modelToViewX( 0 );
+        double y1 = transform.modelToViewY( 0 - model.getHeight() / 3 );
+        double y2 = transform.modelToViewY( 0 + model.getHeight() / 3 );
+        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10, 10 }, 0 ), Color.yellow ) {{
+            showNormal.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( showNormal.getValue() );
+                }
+            } );
         }} );
     }
 
