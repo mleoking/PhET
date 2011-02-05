@@ -64,22 +64,24 @@ public class EquationNode extends PhetPNode  {
         this.aligner = aligner;
         this.termNodes = new ArrayList<TermNode>();
 
+        // arrow node, in a fixed location
         arrowNode = new RightArrowNode( equationProperty.getValue().isBalanced() );
         addChild( arrowNode );
         double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
         double y = ( SymbolNode.getCapHeight() / 2 );
         arrowNode.setOffset( x, y );
 
+        // the parent for all equation terms and the "+" signs
         termsParent = new PhetPNode();
         addChild( termsParent );
 
-        // coefficient changes
+        // if the coefficient changes...
         coefficientsObserver = new SimpleObserver() {
             public void update() {
                 arrowNode.setHighlighted( equation.isBalanced() );
             }
         };
-        // equation changes
+        // if the equation changes...
         this.equation = equationProperty.getValue();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
@@ -179,7 +181,9 @@ public class EquationNode extends PhetPNode  {
     }
 
     /*
-     * Coefficient, can be read-only or editable
+     * Coefficient node, can be read-only or editable.
+     * Listens for changes to the coefficient property and updates accordingly.
+     * When editable, sets the coefficient property.
      */
     private static class CoefficientNode extends PhetPNode {
 
@@ -250,7 +254,9 @@ public class EquationNode extends PhetPNode  {
         }
 
         /**
-         * Gets the height of a capital letter.
+         * Gets the height of a capital letter, used for layout to align equation along a baseline
+         * that is assumed to be at the bottom of the capital letters. Assumes that every molecule
+         * symbol contains at least one capital letter (a very safe assumption).
          */
         public static double getCapHeight() {
             return new SymbolNode( "T" ).getFullBounds().getHeight();
