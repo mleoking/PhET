@@ -11,11 +11,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.greenhouse.MoleculesAndLightModule;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
@@ -85,9 +87,17 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
      * @param parentFrame TODO
      * @param photonAbsorptionModel - Model that is being portrayed on this canvas.
      */
-    public MoleculesAndLightCanvas( final Frame parentFrame, final PhotonAbsorptionModel photonAbsorptionModel ) {
+    public MoleculesAndLightCanvas( final Frame parentFrame, final MoleculesAndLightModule module, final PhotonAbsorptionModel photonAbsorptionModel ) {
 
         this.photonAbsorptionModel = photonAbsorptionModel;
+
+        // Monitor the property that the user can use (through the options
+        // menu) to force the background to be white.
+        module.getWhiteBackgroundProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                setBackground( module.getWhiteBackgroundProperty().getValue() ? Color.white : Color.black );
+            }
+        } );
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteringBoxStrategy( this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE ) );
@@ -102,7 +112,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         true );
 
-        setBackground( Color.BLACK );
+//        setBackground( Color.BLACK );
 
         // Listen to the model for notifications that we care about.
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
