@@ -23,7 +23,6 @@ public class LRRModel {
     private ConstantDtClock clock;
 
     public static final double C = 2.99792458e8;
-    public final Property<Boolean> laserOn = new Property<Boolean>( true );
     final double redWavelength = 650E-9;
     final double modelWidth = redWavelength * 50;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
@@ -42,7 +41,7 @@ public class LRRModel {
                 }
                 rays.clear();
 
-                if ( laserOn.getValue() ) {
+                if ( laser.on.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
 //                    ImmutableVector2D tip = ImmutableVector2D.parseAngleAndMagnitude( 1, laser.angle.getValue() ).getScaledInstance( -1 );
                     final double sourcePower = 1.0;
@@ -74,7 +73,7 @@ public class LRRModel {
         };
         topMedium.addObserver( updateRays );
         bottomMedium.addObserver( updateRays );
-        laserOn.addObserver( updateRays );
+        laser.on.addObserver( updateRays );
         laser.angle.addObserver( updateRays );
         clock.start();
     }

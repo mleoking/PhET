@@ -22,8 +22,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
@@ -71,18 +69,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         addChild( new MediumNode( transform, model.topMedium ) );
         addChild( new MediumNode( transform, model.bottomMedium ) );
-
-        addChild( new PSwing( new VerticalLayoutPanel() {{
-            add( new PropertyRadioButton<Boolean>( "On", model.laserOn, true ) {{
-                setForeground( Color.white );
-                setFont( new PhetFont( 18, true ) );
-            }} );
-            add( new PropertyRadioButton<Boolean>( "Off", model.laserOn, false ) {{
-                setForeground( Color.white );
-                setFont( new PhetFont( 18, true ) );
-            }} );
-            SwingUtils.setBackgroundDeep( this, Color.black );
-        }} ) );
 
         for ( LightRay lightRay : model.getRays() ) {
             addLightRayNode.apply( lightRay );
