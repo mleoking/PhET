@@ -1,3 +1,5 @@
+Added Snell's Law
+Constrained the laser angle
 Fixed: centered light output on front of laser node
 # 0.00.02 (48638) Feb 4, 2011
 # 0.00.01 (48635) Feb 4, 2011
