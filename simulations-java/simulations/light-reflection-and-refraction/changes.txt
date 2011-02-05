@@ -1,3 +1,4 @@
+Show intensity on intensity meter
 Added ray absorption by the intensity meter
 # 0.00.03 (48667) Feb 5, 2011
 Added a close button to the intensity meter

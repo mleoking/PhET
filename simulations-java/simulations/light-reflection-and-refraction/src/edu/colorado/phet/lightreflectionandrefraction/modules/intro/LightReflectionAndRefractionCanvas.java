@@ -128,7 +128,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new IntensityMeterNode( transform, model.getIntensityMeter(), model.getIntensityMeter().enabled ) );
+        addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) );
 
         for ( LightRay lightRay : model.getRays() ) {
             addLightRayNode.apply( lightRay );

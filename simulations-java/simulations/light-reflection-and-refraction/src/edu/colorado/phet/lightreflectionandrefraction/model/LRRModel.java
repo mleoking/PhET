@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMeter;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.lang.Math.*;
@@ -45,6 +46,7 @@ public class LRRModel {
                 }
                 rays.clear();
 
+                intensityMeter.clearRayReadings();
                 if ( laser.on.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
                     final double sourcePower = 1.0;
@@ -91,18 +93,30 @@ public class LRRModel {
      If the intensity meter misses the ray, the original ray is added.
      */
     private boolean handleAbsorb( LightRay ray ) {
-        final boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
+        boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
         if ( rayAbsorbed ) {
             Point2D[] intersects = MathUtil.getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
                 LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, redWavelength, ray.getPowerFraction() );
-                addRay( interrupted );
+                if ( interrupted.getLength() < ray.getLength() ) {
+                    addRay( interrupted );
+                }
+                else {
+                    addRay( ray );
+                    rayAbsorbed = false;
+                }
             }
         }
         else {
             addRay( ray );
+        }
+        if ( rayAbsorbed ) {
+            intensityMeter.addRayReading( new Reading( ray.getPowerFraction() ) );
+        }
+        else {
+            intensityMeter.addRayReading( Reading.MISS );
         }
         return rayAbsorbed;
     }
