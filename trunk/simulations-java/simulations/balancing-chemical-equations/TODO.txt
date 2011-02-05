@@ -9,7 +9,6 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- #2715, JSpinners cause ClassCastException
 
 MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules
