@@ -1,0 +1,83 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
+
+/**
+ * @author Sam Reid
+ */
+public class IntensityMeterNode extends PNode {
+    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter ) {
+        final PImage sensorNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
+            intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
+                public void update() {
+                    setOffset( transform.modelToView( intensityMeter.sensorPosition.getValue() ).toPoint2D() );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    intensityMeter.translateSensor( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                }
+            } );
+        }};
+
+        final PImage bodyNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
+            intensityMeter.bodyPosition.addObserver( new SimpleObserver() {
+                public void update() {
+                    setOffset( transform.modelToView( intensityMeter.bodyPosition.getValue() ).toPoint2D() );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    intensityMeter.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                }
+            } );
+        }};
+        bodyNode.addChild( new PText( "Intensity" ) {{
+            setFont( new PhetFont( 22 ) );
+            setTextPaint( Color.white );
+            setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.1 );
+        }} );
+
+        bodyNode.addChild( new PText( "-" ) {{
+            setFont( new PhetFont( 55 ) );
+            setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.3 );
+        }} );
+
+        addChild( new PhetPPath( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ), Color.gray ) {{
+            final PropertyChangeListener listener = new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    final GeneralPath path = new GeneralPath();
+                    path.moveTo( (float) sensorNode.getFullBounds().getCenterX(), (float) sensorNode.getFullBounds().getMaxY() );
+
+                    path.curveTo( (float) sensorNode.getFullBounds().getCenterX(), (float) sensorNode.getFullBounds().getMaxY() + 60,
+                                  (float) bodyNode.getFullBounds().getX() - 60, (float) bodyNode.getFullBounds().getCenterY(),
+                                  (float) bodyNode.getFullBounds().getX(), (float) bodyNode.getFullBounds().getCenterY() );
+
+                    setPathTo( path );
+                }
+            };
+            sensorNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
+            bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
+        }} );
+        addChild( sensorNode );
+        addChild( bodyNode );
+    }
+}

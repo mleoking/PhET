@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMeter;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,6 +32,7 @@ public class LRRModel {
     private Laser laser = new Laser( modelWidth / 8 * 2 );
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), 1.0, LightReflectionAndRefractionCanvas.indexOfRefractionToColor( 1.0 ) ) );
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), 1.2, LightReflectionAndRefractionCanvas.indexOfRefractionToColor( 1.2 ) ) );
+    private IntensityMeter intensityMeter = new IntensityMeter();
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );
@@ -172,5 +174,7 @@ public class LRRModel {
         }
     }
 
-
+    public IntensityMeter getIntensityMeter() {
+        return intensityMeter;
+    }
 }
