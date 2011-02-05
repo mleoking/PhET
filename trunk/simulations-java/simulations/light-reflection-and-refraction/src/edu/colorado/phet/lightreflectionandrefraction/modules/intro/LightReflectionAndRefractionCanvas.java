@@ -48,8 +48,9 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }} );
             SwingUtils.setBackgroundDeep( this, Color.black );
         }} ) );
-        model.addRayAddedListener( new VoidFunction1<LightRay>() {
-            public void apply( final LightRay lightRay ) {
+
+        final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
+            public void apply( LightRay lightRay ) {
                 final LightRayNode node = new LightRayNode( transform, lightRay );
                 addChild( node );
                 lightRay.addRemovalListener( new VoidFunction0() {
@@ -57,6 +58,17 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                         removeChild( node );
                     }
                 } );
+            }
+        };
+
+        addChild( new MediumNode( transform, new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ) ) ) );
+
+        for ( LightRay lightRay : model.getRays() ) {
+            addLightRayNode.apply( lightRay );
+        }
+        model.addRayAddedListener( new VoidFunction1<LightRay>() {
+            public void apply( final LightRay lightRay ) {
+                addLightRayNode.apply( lightRay );
             }
         } );
 

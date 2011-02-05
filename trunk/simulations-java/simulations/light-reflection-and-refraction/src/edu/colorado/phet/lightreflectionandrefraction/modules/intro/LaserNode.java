@@ -45,7 +45,11 @@ public class LaserNode extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 Point2D viewPt = event.getPositionRelativeTo( getParent() );
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( viewPt ) );
-                laser.angle.setValue( modelPoint.getAngle() );
+                final double angle = modelPoint.getAngle();
+                double after = angle;
+                if ( angle < -Math.PI / 2 ) { after = Math.PI; }
+                if ( angle < Math.PI / 2 && angle > 0 ) { after = Math.PI / 2; }
+                laser.angle.setValue( after );
             }
         } );
         addInputEventListener( new CursorHandler() );
