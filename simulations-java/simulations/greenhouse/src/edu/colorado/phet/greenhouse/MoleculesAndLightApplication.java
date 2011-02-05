@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -46,6 +47,13 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
         PhetFrame parentFrame = getPhetFrame();
         moleculesAndLightModule = new MoleculesAndLightModule(parentFrame);
         addModule( moleculesAndLightModule );
+
+        // Options
+        getPhetFrame().addMenu( new JMenu( GreenhouseResources.getCommonString( "Common.OptionsMenu" ) ) {{
+            // i18n
+            add( new PropertyCheckBoxMenuItem( "White Background", moleculesAndLightModule.getWhiteBackgroundProperty() ) );
+        }} );
+
 
         // Developer controls.
         JMenu developerMenu = parentFrame.getDeveloperMenu();

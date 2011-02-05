@@ -7,6 +7,7 @@ import java.awt.Frame;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -42,10 +43,16 @@ public class MoleculesAndLightModule extends PiccoloModule {
     // Instance Data
     //----------------------------------------------------------------------------
 
+    // The usual suspects.
     private final PhotonAbsorptionModel model;
     private final PhetPCanvas canvas;
     private final MoleculesAndLightControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
+
+    // The property controls whether the background should be white instead of
+    // the usual black.  This was requested to make it easier to photocopy
+    // activities that contain screens shots of this simulation.
+    private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
     // Developer controls
     private PhotonAbsorptionParamsDlg photonAbsorptionParamsDlg;
@@ -63,7 +70,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
         model = new PhotonAbsorptionModel( (ConstantDtClock) getClock(), PhotonAbsorptionModel.PhotonTarget.SINGLE_CO_MOLECULE );
 
         // Canvas
-        canvas = new MoleculesAndLightCanvas( parentFrame, model );
+        canvas = new MoleculesAndLightCanvas( parentFrame, this, model );
         setSimulationPanel( canvas );
 
         // Control panel.
@@ -121,5 +128,9 @@ public class MoleculesAndLightModule extends PiccoloModule {
         if ( isActive() && photonAbsorptionParamsDlg != null ) {
             photonAbsorptionParamsDlg.setVisible( visible );
         }
+    }
+
+    public Property<Boolean> getWhiteBackgroundProperty() {
+        return whiteBackgroundProperty;
     }
 }
