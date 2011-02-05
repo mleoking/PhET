@@ -1,3 +1,4 @@
+Added protractor based on image
 Added control panels
 Added "Show Normal"
 Added control panel for indices of refraction

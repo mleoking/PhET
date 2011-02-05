@@ -21,14 +21,17 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -36,7 +39,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
     private PNode rootNode;
-    final BooleanProperty showNormal = new BooleanProperty( true );
+    public final BooleanProperty showNormal = new BooleanProperty( true );
+    public final BooleanProperty showProtractor = new BooleanProperty( false );
 
     public LightReflectionAndRefractionCanvas( final LRRModel model ) {
         // Root of our scene graph
@@ -116,14 +120,14 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "Tools" ) );
                 add( new PropertyCheckBox( "Show Normal", showNormal ) );
-                add( new PropertyCheckBox( "Protractor", new BooleanProperty( false ) ) );
+                add( new PropertyCheckBox( "Protractor", showProtractor ) );
                 add( new PropertyCheckBox( "Intensity Meter", new BooleanProperty( false ) ) );
             }} );
         }} ) {{
             setOffset( LRRModel.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
         }} );
 
-
+        //Normal Line
         double x = transform.modelToViewX( 0 );
         double y1 = transform.modelToViewY( 0 - model.getHeight() / 3 );
         double y2 = transform.modelToViewY( 0 + model.getHeight() / 3 );
@@ -131,6 +135,16 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             showNormal.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showNormal.getValue() );
+                }
+            } );
+        }} );
+
+        //Protractor
+        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), 250 ) ) {{
+            setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
+            showProtractor.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( showProtractor.getValue() );
                 }
             } );
         }} );
