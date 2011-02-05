@@ -6,6 +6,8 @@ import java.awt.geom.GeneralPath;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -22,7 +24,13 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class IntensityMeterNode extends PNode {
-    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter ) {
+    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter, final BooleanProperty showIntensityMeter ) {
+        showIntensityMeter.addObserver( new SimpleObserver() {
+            public void update() {
+                setVisible( showIntensityMeter.getValue() );
+            }
+        } );
+
         final PImage sensorNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
             intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
                 public void update() {
@@ -59,6 +67,15 @@ public class IntensityMeterNode extends PNode {
         bodyNode.addChild( new PText( "-" ) {{
             setFont( new PhetFont( 55 ) );
             setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.3 );
+        }} );
+        bodyNode.addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
+            setOffset( bodyNode.getFullBounds().getWidth() - getFullBounds().getWidth() - 10, 10 );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    showIntensityMeter.setValue( false );
+                }
+            } );
         }} );
 
         addChild( new PhetPPath( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ), Color.gray ) {{

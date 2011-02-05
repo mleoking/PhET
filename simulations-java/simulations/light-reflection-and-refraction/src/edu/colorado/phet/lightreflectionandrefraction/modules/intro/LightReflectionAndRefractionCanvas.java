@@ -138,13 +138,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) {{
-            showIntensityMeter.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( showIntensityMeter.getValue() );
-                }
-            } );
-        }} );
+        addChild( new IntensityMeterNode( transform, model.getIntensityMeter(), showIntensityMeter ) );
     }
 
     public static Color indexOfRefractionToColor( double value ) {
