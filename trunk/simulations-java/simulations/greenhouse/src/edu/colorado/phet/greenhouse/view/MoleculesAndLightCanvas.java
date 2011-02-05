@@ -73,7 +73,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     };
 
     // Button for displaying EM specturm.
-    private final ButtonNode showSpectrumButton = new ButtonNode( "Show Light Spectrum", 24, new Color( 185, 178, 95 ) );
+    private final ButtonNode showSpectrumButton = new ButtonNode( GreenhouseResources.getString( "SpectrumWindow.buttonCaption" ), 24, new Color( 185, 178, 95 ) );
 
     // Window that displays the EM spectrum upon request.
     private final SpectrumWindow spectrumWindow = new SpectrumWindow(){{ setVisible( false ); }};

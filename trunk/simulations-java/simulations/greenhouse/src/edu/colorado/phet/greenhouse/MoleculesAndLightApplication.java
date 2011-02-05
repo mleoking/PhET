@@ -50,10 +50,8 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
 
         // Options
         getPhetFrame().addMenu( new JMenu( GreenhouseResources.getCommonString( "Common.OptionsMenu" ) ) {{
-            // i18n
-            add( new PropertyCheckBoxMenuItem( "White Background", moleculesAndLightModule.getWhiteBackgroundProperty() ) );
+            add( new PropertyCheckBoxMenuItem( GreenhouseResources.getString(  "OptionsMenu.whiteBackground" ), moleculesAndLightModule.getWhiteBackgroundProperty() ) );
         }} );
-
 
         // Developer controls.
         JMenu developerMenu = parentFrame.getDeveloperMenu();
