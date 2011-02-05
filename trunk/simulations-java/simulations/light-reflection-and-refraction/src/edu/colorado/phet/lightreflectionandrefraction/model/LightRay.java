@@ -16,13 +16,15 @@ public class LightRay {
     public final Property<ImmutableVector2D> tail;
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
+    private final double powerFraction;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
 
-    public LightRay( Property<ImmutableVector2D> tail, Property<ImmutableVector2D> tip, double indexOfRefraction, double wavelength ) {
+    public LightRay( Property<ImmutableVector2D> tail, Property<ImmutableVector2D> tip, double indexOfRefraction, double wavelength, double powerFraction ) {
         this.tip = tip;
         this.tail = tail;
         this.indexOfRefraction = indexOfRefraction;
         this.wavelength = wavelength;
+        this.powerFraction = powerFraction;
     }
 
     public void addRemovalListener( VoidFunction0 listener ) {
@@ -59,5 +61,9 @@ public class LightRay {
         tip.removeAllObservers();
         tail.removeAllObservers();
         removalListeners.clear();
+    }
+
+    public double getPowerFraction() {
+        return powerFraction;
     }
 }

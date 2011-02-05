@@ -16,8 +16,7 @@ import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightReflect
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static java.lang.Math.asin;
-import static java.lang.Math.sin;
+import static java.lang.Math.*;
 
 public class LRRModel {
     private List<LightRay> rays = new LinkedList<LightRay>();
@@ -46,21 +45,29 @@ public class LRRModel {
                 if ( laserOn.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
 //                    ImmutableVector2D tip = ImmutableVector2D.parseAngleAndMagnitude( 1, laser.angle.getValue() ).getScaledInstance( -1 );
-                    addRay( new LightRay( new Property<ImmutableVector2D>( tail ), new Property<ImmutableVector2D>( new ImmutableVector2D() ), 1.0, redWavelength ) );
+                    final double sourcePower = 1.0;
+                    addRay( new LightRay( new Property<ImmutableVector2D>( tail ), new Property<ImmutableVector2D>( new ImmutableVector2D() ), 1.0, redWavelength, sourcePower ) );
 
-                    //reflected
-                    addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-                                          new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ) ), 1.0, redWavelength ) );
-
-                    //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
                     double n1 = topMedium.getValue().getIndexOfRefraction();
                     double n2 = bottomMedium.getValue().getIndexOfRefraction();
-                    double theta2 = asin( n1 / n2 * sin( laser.angle.getValue() - Math.PI / 2 ) ) - Math.PI / 2;
+
+                    //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
+                    final double theta1 = laser.angle.getValue() - Math.PI / 2;
+                    double theta2 = asin( n1 / n2 * sin( theta1 ) ) - Math.PI / 2;
+
+                    //reflected
+                    //assuming perpendicular beam, compute percent power
+                    double reflectedPower = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
+                    addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
+                                          new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ) ), 1.0, redWavelength, reflectedPower * sourcePower ) );
+
+                    //Transmitted
                     if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                     else {
+                        double transmittedPower = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
 //                    System.out.println( "theta1 = "+laser.angle.getValue()+", theta2 = " + theta2 );
                         addRay( new LightRay( new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-                                              new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ) ), 1.0, redWavelength ) );
+                                              new Property<ImmutableVector2D>( ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ) ), 1.0, redWavelength, transmittedPower * sourcePower ) );
                     }
                 }
             }
