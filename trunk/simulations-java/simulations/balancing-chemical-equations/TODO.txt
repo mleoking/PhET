@@ -9,6 +9,7 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
+- #2715, JSpinners cause ClassCastException
 - publish dev version for discussion, with all features of the "Balance Equation" module
 
 MEDIUM PRIORITY
