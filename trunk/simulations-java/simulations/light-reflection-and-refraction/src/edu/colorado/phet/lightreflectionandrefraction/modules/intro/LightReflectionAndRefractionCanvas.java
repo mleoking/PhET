@@ -41,6 +41,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
     private PNode rootNode;
     public final BooleanProperty showNormal = new BooleanProperty( true );
     public final BooleanProperty showProtractor = new BooleanProperty( false );
+    public final BooleanProperty showIntensityMeter = new BooleanProperty( false );
 
     public LightReflectionAndRefractionCanvas( final LRRModel model ) {
         // Root of our scene graph
@@ -103,13 +104,13 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 setBorder( new PhetTitledBorder( "View" ) );
                 final Property<Boolean> ray = new Property<Boolean>( true );
                 add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) );
-                add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) );
+                add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) {{setEnabled( false );}} );
             }} );
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "Tools" ) );
                 add( new PropertyCheckBox( "Show Normal", showNormal ) );
                 add( new PropertyCheckBox( "Protractor", showProtractor ) );
-                add( new PropertyCheckBox( "Intensity Meter", new BooleanProperty( false ) ) );
+                add( new PropertyCheckBox( "Intensity Meter", showIntensityMeter ) );
             }} );
         }} ) {{
             setOffset( LRRModel.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
@@ -133,6 +134,14 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showProtractor.getValue() );
+                }
+            } );
+        }} );
+
+        addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) {{
+            showIntensityMeter.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( showIntensityMeter.getValue() );
                 }
             } );
         }} );
