@@ -1,3 +1,4 @@
+Added model for transmitted and reflected power
 Added protractor based on image
 Added control panels
 Added "Show Normal"
