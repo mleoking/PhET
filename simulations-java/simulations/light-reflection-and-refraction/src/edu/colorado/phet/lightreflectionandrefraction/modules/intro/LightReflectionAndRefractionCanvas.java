@@ -41,7 +41,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
     private PNode rootNode;
     public final BooleanProperty showNormal = new BooleanProperty( true );
     public final BooleanProperty showProtractor = new BooleanProperty( false );
-    public final BooleanProperty showIntensityMeter = new BooleanProperty( false );
 
     public LightReflectionAndRefractionCanvas( final LRRModel model ) {
         // Root of our scene graph
@@ -70,15 +69,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         addChild( new MediumNode( transform, model.topMedium ) );
         addChild( new MediumNode( transform, model.bottomMedium ) );
-
-        for ( LightRay lightRay : model.getRays() ) {
-            addLightRayNode.apply( lightRay );
-        }
-        model.addRayAddedListener( new VoidFunction1<LightRay>() {
-            public void apply( final LightRay lightRay ) {
-                addLightRayNode.apply( lightRay );
-            }
-        } );
 
         addChild( new LaserNode( transform, model.getLaser() ) );
 
@@ -110,7 +100,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 setBorder( new PhetTitledBorder( "Tools" ) );
                 add( new PropertyCheckBox( "Show Normal", showNormal ) );
                 add( new PropertyCheckBox( "Protractor", showProtractor ) );
-                add( new PropertyCheckBox( "Intensity Meter", showIntensityMeter ) );
+                add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
             setOffset( LRRModel.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
@@ -138,7 +128,16 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             } );
         }} );
 
-        addChild( new IntensityMeterNode( transform, model.getIntensityMeter(), showIntensityMeter ) );
+        addChild( new IntensityMeterNode( transform, model.getIntensityMeter(), model.getIntensityMeter().enabled ) );
+
+        for ( LightRay lightRay : model.getRays() ) {
+            addLightRayNode.apply( lightRay );
+        }
+        model.addRayAddedListener( new VoidFunction1<LightRay>() {
+            public void apply( final LightRay lightRay ) {
+                addLightRayNode.apply( lightRay );
+            }
+        } );
     }
 
     public static Color indexOfRefractionToColor( double value ) {

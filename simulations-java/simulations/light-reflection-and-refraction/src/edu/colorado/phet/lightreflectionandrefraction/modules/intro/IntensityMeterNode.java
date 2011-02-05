@@ -3,10 +3,11 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class IntensityMeterNode extends PNode {
-    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter, final BooleanProperty showIntensityMeter ) {
+    public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter, final Property<Boolean> showIntensityMeter ) {
         showIntensityMeter.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( showIntensityMeter.getValue() );
@@ -34,7 +35,8 @@ public class IntensityMeterNode extends PNode {
         final PImage sensorNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
             intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( transform.modelToView( intensityMeter.sensorPosition.getValue() ).toPoint2D() );
+                    final Point2D.Double sensorViewPoint = transform.modelToView( intensityMeter.sensorPosition.getValue() ).toPoint2D();
+                    setOffset( sensorViewPoint.getX() - getFullBounds().getWidth() / 2, sensorViewPoint.getY() - getFullBounds().getHeight() * 0.32 );
                 }
             } );
             addInputEventListener( new CursorHandler() );
@@ -43,6 +45,15 @@ public class IntensityMeterNode extends PNode {
                     intensityMeter.translateSensor( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                 }
             } );
+        }};
+        final PhetPPath sensorHotSpotDebugger = new PhetPPath( new BasicStroke( 1 ), Color.green ) {{
+            intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.modelToView( intensityMeter.getSensorShape() ) );
+                }
+            } );
+            setPickable( false );
+            setChildrenPickable( false );
         }};
 
         final PImage bodyNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
@@ -94,7 +105,9 @@ public class IntensityMeterNode extends PNode {
             sensorNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
             bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
         }} );
-        addChild( sensorNode );
+
         addChild( bodyNode );
+        addChild( sensorNode );
+        addChild( sensorHotSpotDebugger );
     }
 }
