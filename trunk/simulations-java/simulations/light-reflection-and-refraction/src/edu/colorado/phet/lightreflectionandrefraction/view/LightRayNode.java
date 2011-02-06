@@ -17,7 +17,7 @@ public class LightRayNode extends PNode {
     public LightRayNode( final ModelViewTransform transform, final LightRay lightRay ) {
         float powerFraction = (float) lightRay.getPowerFraction();
         Color color = lightRay.getColor();
-        addChild( new PhetPPath( new BasicStroke( 2 ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
+        addChild( new PhetPPath( new BasicStroke( 4 ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( new Line2D.Double( lightRay.tip.getValue().toPoint2D(), lightRay.tail.getValue().toPoint2D() ) ) );
