@@ -18,12 +18,15 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
+
 /**
  * @author Sam Reid
  */
 public class LaserNode extends PNode {
     public LaserNode( final ModelViewTransform transform, final Laser laser ) {
-        final BufferedImage image = BufferedImageUtils.flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) );
+        final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
         addChild( new PImage( image ) {{
             addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.NE_RESIZE_CURSOR ) ) );
             addInputEventListener( new PBasicInputEventHandler() {
