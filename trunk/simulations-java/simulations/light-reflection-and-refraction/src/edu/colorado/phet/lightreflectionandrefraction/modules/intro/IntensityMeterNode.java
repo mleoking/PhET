@@ -114,6 +114,6 @@ public class IntensityMeterNode extends PNode {
 
         addChild( bodyNode );
         addChild( sensorNode );
-        addChild( sensorHotSpotDebugger );
+//        addChild( sensorHotSpotDebugger );
     }
 }
