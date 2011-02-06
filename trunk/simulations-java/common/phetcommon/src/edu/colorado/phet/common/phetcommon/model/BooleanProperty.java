@@ -14,4 +14,8 @@ public class BooleanProperty extends Property<Boolean> {
     public And and( Property<Boolean> p ) {
         return new And( this, p );
     }
+
+    public Or or( Property<Boolean> p ) {
+        return new Or( this, p );
+    }
 }
