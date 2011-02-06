@@ -100,7 +100,8 @@ public class LRRModel {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
                 LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, redWavelength, ray.getPowerFraction() );
-                if ( interrupted.getLength() < ray.getLength() ) {
+                boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
+                if ( interrupted.getLength() < ray.getLength() && isForward ) {
                     addRay( interrupted );
                 }
                 else {
