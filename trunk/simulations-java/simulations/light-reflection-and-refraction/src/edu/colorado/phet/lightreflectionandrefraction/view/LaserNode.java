@@ -7,9 +7,11 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
 import edu.colorado.phet.lightreflectionandrefraction.model.Laser;
 import edu.umd.cs.piccolo.PNode;
@@ -23,11 +25,51 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*
  * @author Sam Reid
  */
 public class LaserNode extends PNode {
+
     public LaserNode( final ModelViewTransform transform, final Laser laser ) {
         final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
+
+        final PNode dragLines = new PNode() {{
+            addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 + 150 ), 20, 20, 10 ) {{
+                setPaint( Color.green );
+            }} );
+            addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
+                setPaint( Color.green );
+            }} );
+            setPickable( false );
+            setChildrenPickable( false );
+            setVisible( false );
+        }};
+
+        addChild( dragLines );
+        final BooleanProperty mouseOver = new BooleanProperty( false );
+        final BooleanProperty dragging = new BooleanProperty( false );
+
+        mouseOver.or( dragging ).addObserver( new SimpleObserver() {
+            public void update() {
+                dragLines.setVisible( mouseOver.or( dragging ).getValue() );
+            }
+        } );
+
         addChild( new PImage( image ) {{
-            addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.NE_RESIZE_CURSOR ) ) );
+            addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseEntered( PInputEvent event ) {
+                    mouseOver.setValue( true );
+                }
+
+                public void mouseExited( PInputEvent event ) {
+                    mouseOver.setValue( false );
+                }
+
+                public void mouseReleased( PInputEvent event ) {
+                    dragging.setValue( false );
+                }
+
+                public void mousePressed( PInputEvent event ) {
+                    dragging.setValue( true );
+                }
+
                 public void mouseDragged( PInputEvent event ) {
                     Point2D viewPt = event.getPositionRelativeTo( getParent().getParent() );
                     ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( viewPt ) );

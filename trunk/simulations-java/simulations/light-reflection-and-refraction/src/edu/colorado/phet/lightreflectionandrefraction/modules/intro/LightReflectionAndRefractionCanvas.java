@@ -116,7 +116,9 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         } );
 
         //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
-        addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) );
+        addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
+            setPickable( false );
+        }} );
     }
 
     public static class ControlPanel extends PNode {

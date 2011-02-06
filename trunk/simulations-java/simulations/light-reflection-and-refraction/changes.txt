@@ -1,3 +1,4 @@
+Added rotation path arrows on mouse hover for laser pointer
 Made the protractor draggable
 Moved the camera to the right so the origin is centered in the play area
 Moved the laser behind the medium
