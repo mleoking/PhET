@@ -60,22 +60,29 @@ public class LRRModel {
                         final double theta1 = laser.angle.getValue() - Math.PI / 2;
                         double theta2 = asin( n1 / n2 * sin( theta1 ) );
 
-//                        System.out.println( "theta1 = " + theta1 * 180 / Math.PI );
-//                        System.out.println( "theta2 = " + theta2 * 180 / Math.PI );
+                        double thetaOfTotalInternalReflection = asin( n2 / n1 );
+                        boolean hasTransmittedRay = Double.isNaN( thetaOfTotalInternalReflection ) || theta1 < thetaOfTotalInternalReflection;
 
                         //reflected
                         //assuming perpendicular beam, compute percent power
-                        double reflectedPower = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
-                        handleAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPower * sourcePower ) );
-
-                        //Transmitted
-                        if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
+                        double reflectedPowerRatio;
+                        if ( hasTransmittedRay ) {
+                            reflectedPowerRatio = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
+                        }
                         else {
-                            double transmittedPower = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
-//                    System.out.println( "theta1 = "+laser.angle.getValue()+", theta2 = " + theta2 );
-                            handleAbsorb( new LightRay( new ImmutableVector2D(),
-                                                        ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, redWavelength, transmittedPower * sourcePower ) );
+                            reflectedPowerRatio = 1.0;
+                        }
+                        handleAbsorb( new LightRay( new ImmutableVector2D(),
+                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower ) );
+
+                        if ( hasTransmittedRay ) {
+                            //Transmitted
+                            if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
+                            else {
+                                double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
+                                handleAbsorb( new LightRay( new ImmutableVector2D(),
+                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, redWavelength, transmittedPowerRatio * sourcePower ) );
+                            }
                         }
                     }
                 }
