@@ -1,3 +1,4 @@
+Moved the control panel layer in front of the horizontal line
 Moved the laser back to the top layer and made media opaque
 # 0.00.06 (48693) Feb 6, 2011
 Fixed: only show drag arrow in the direction the laser can be moved
