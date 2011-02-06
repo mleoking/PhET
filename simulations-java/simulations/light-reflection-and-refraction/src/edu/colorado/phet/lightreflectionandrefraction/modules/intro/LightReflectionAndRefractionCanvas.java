@@ -105,7 +105,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }} );
 
         //Protractor
-        addChild( new ProtractorNode( transform, showProtractor ) );
+        addChild( new ProtractorNode( transform, showProtractor, -model.getWidth() / 2, -model.getHeight() / 2 ) );
 
         addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) );
 
