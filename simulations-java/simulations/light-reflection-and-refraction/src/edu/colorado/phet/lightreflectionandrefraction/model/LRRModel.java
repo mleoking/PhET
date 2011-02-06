@@ -99,7 +99,7 @@ public class LRRModel {
                 if ( laser.on.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
                     final double sourcePower = 1.0;
-                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower );
+                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower, laser.color.getValue() );
                     final boolean rayAbsorbed = handleAbsorb( ray );
                     if ( !rayAbsorbed ) {
                         double n1 = topMedium.getValue().getIndexOfRefraction();
@@ -122,7 +122,7 @@ public class LRRModel {
                             reflectedPowerRatio = 1.0;
                         }
                         handleAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower ) );
+                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower, laser.color.getValue() ) );
 
                         if ( hasTransmittedRay ) {
                             //Transmitted
@@ -130,7 +130,7 @@ public class LRRModel {
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
                                 handleAbsorb( new LightRay( new ImmutableVector2D(),
-                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, redWavelength, transmittedPowerRatio * sourcePower ) );
+                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, redWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue() ) );
                             }
                         }
                     }
@@ -144,6 +144,7 @@ public class LRRModel {
         laser.angle.addObserver( updateRays );
         intensityMeter.sensorPosition.addObserver( updateRays );
         intensityMeter.enabled.addObserver( updateRays );
+        laser.color.addObserver( updateRays );
         clock.start();
     }
 
@@ -158,7 +159,7 @@ public class LRRModel {
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
-                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, redWavelength, ray.getPowerFraction() );
+                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, redWavelength, ray.getPowerFraction(), laser.color.getValue() );
                 boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
                 if ( interrupted.getLength() < ray.getLength() && isForward ) {
                     addRay( interrupted );

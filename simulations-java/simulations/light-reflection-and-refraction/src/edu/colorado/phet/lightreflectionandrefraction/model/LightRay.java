@@ -21,8 +21,10 @@ public class LightRay {
     public final double wavelength; // wavelength in meters
     private final double powerFraction;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
+    private Color color;
 
-    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction ) {
+    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction, Color color ) {
+        this.color = color;
         this.tip = new Property<ImmutableVector2D>( tip );
         this.tail = new Property<ImmutableVector2D>( tail );
         this.indexOfRefraction = indexOfRefraction;
@@ -86,5 +88,9 @@ public class LightRay {
 
     public ImmutableVector2D toVector2D() {
         return new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
