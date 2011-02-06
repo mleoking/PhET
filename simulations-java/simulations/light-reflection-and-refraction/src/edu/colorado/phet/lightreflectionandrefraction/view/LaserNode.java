@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
 import edu.colorado.phet.lightreflectionandrefraction.model.Laser;
@@ -18,8 +17,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*;
 
 /**
  * @author Sam Reid
@@ -55,12 +53,19 @@ public class LaserNode extends PNode {
             } );
         }} );
 
-        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) {{
+        final BufferedImage pressed = flipY( flipX( multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) );
+        final BufferedImage unpressed = flipY( flipX( multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "button_unpressed.png" ), 42 ) ) );
+        addChild( new PImage( pressed ) {{
             setOffset( -getFullBounds().getWidth() / 2 + image.getWidth() / 2, -getFullBounds().getHeight() / 2 + image.getHeight() / 2 );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     laser.on.setValue( !laser.on.getValue() );
+                }
+            } );
+            laser.on.addObserver( new SimpleObserver() {
+                public void update() {
+                    setImage( laser.on.getValue() ? pressed : unpressed );
                 }
             } );
         }} );
