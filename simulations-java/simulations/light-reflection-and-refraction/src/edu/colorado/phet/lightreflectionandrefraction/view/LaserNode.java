@@ -7,7 +7,10 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.Or;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -29,10 +32,15 @@ public class LaserNode extends PNode {
     public LaserNode( final ModelViewTransform transform, final Laser laser ) {
         final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
 
-        final PNode dragLines = new PNode() {{
+        final PNode counterClockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 + 150 ), 20, 20, 10 ) {{
                 setPaint( Color.green );
             }} );
+            setPickable( false );
+            setChildrenPickable( false );
+            setVisible( false );
+        }};
+        final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
                 setPaint( Color.green );
             }} );
@@ -41,13 +49,51 @@ public class LaserNode extends PNode {
             setVisible( false );
         }};
 
-        addChild( dragLines );
+        addChild( counterClockwiseDragArrow );
+        addChild( clockwiseDragArrow );
         final BooleanProperty mouseOver = new BooleanProperty( false );
         final BooleanProperty dragging = new BooleanProperty( false );
 
-        mouseOver.or( dragging ).addObserver( new SimpleObserver() {
+        final Or showArrow = mouseOver.or( dragging );
+
+        //This could be improved with a better Property DSL API, such as
+        //showCCWArrow = showArrow.and(laser.angle.lessThanOrEqualTo(Math.PI)
+        ObservableProperty<Boolean> notMaximized = new ObservableProperty<Boolean>() {
+            {
+                laser.angle.addObserver( new SimpleObserver() {
+                    public void update() {
+                        notifyObservers();
+                    }
+                } );
+            }
+
+            public Boolean getValue() {
+                return laser.angle.getValue() < Math.PI;
+            }
+        };
+        ObservableProperty<Boolean> notMinimized = new ObservableProperty<Boolean>() {
+            {
+                laser.angle.addObserver( new SimpleObserver() {
+                    public void update() {
+                        notifyObservers();
+                    }
+                } );
+            }
+
+            public Boolean getValue() {
+                return laser.angle.getValue() > Math.PI / 2;
+            }
+        };
+        final And showCCW = showArrow.and( notMinimized );
+        final And showCW = showArrow.and( notMaximized );
+        showCCW.addObserver( new SimpleObserver() {
             public void update() {
-                dragLines.setVisible( mouseOver.or( dragging ).getValue() );
+                counterClockwiseDragArrow.setVisible( showCCW.getValue() );
+            }
+        } );
+        showCW.addObserver( new SimpleObserver() {
+            public void update() {
+                clockwiseDragArrow.setVisible( showCW.getValue() );
             }
         } );
 
