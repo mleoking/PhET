@@ -83,4 +83,8 @@ public class LightRay {
     public double getLength() {
         return tip.getValue().getSubtractedInstance( tail.getValue() ).getMagnitude();
     }
+
+    public ImmutableVector2D toVector2D() {
+        return new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
+    }
 }
