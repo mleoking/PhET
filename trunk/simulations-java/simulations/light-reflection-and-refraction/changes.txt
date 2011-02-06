@@ -1,3 +1,4 @@
+Improved colors for large indices of refraction
 Added tick marks to the index of refraction sliders
 Fixed: sim should start with laser off
 Added a line that will show the border between the mediums even when both n's are the same

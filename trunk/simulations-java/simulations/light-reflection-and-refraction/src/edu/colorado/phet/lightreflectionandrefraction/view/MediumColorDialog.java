@@ -24,13 +24,13 @@ public class MediumColorDialog extends JDialog {
             final JColorChooser diamondChooser;
 
             {
-                airChooser = createChooser( Color.BLACK );
+                airChooser = createChooser( LRRModel.AIR_COLOR );
                 addTab( "Air", airChooser );
-                waterChooser = createChooser( new Color( 31, 40, 75 ) );
+                waterChooser = createChooser( LRRModel.WATER_COLOR );
                 addTab( "Water", waterChooser );
-                glassChooser = createChooser( new Color( 72, 72, 72 ) );
+                glassChooser = createChooser( LRRModel.GLASS_COLOR );
                 addTab( "Glass", glassChooser );
-                diamondChooser = createChooser( new Color( 144, 144, 123 ) );
+                diamondChooser = createChooser( LRRModel.DIAMOND_COLOR );
                 addTab( "Diamond", diamondChooser );
             }
 

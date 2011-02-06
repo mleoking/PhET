@@ -36,28 +36,21 @@ public class LRRModel {
 
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
-            final Color airColor = Color.BLACK;
-            final Color waterColor = new Color( 31, 40, 75 );
-            final Color glassColor = new Color( 72, 72, 72 );
-            final Color diamondColor = new Color( 144, 144, 123 );
             if ( value < LRRModel.N_WATER ) {
                 double ratio = new Function.LinearFunction( 1.0, LRRModel.N_WATER, 0, 1 ).evaluate( value );
-                return colorBlend( airColor, waterColor, ratio );
+                return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
             }
             else if ( value < LRRModel.N_GLASS ) {
                 double ratio = new Function.LinearFunction( LRRModel.N_WATER, LRRModel.N_GLASS, 0, 1 ).evaluate( value );
-                return colorBlend( waterColor, glassColor, ratio );
+                return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
             }
             else if ( value < LRRModel.N_DIAMOND ) {
                 double ratio = new Function.LinearFunction( LRRModel.N_GLASS, LRRModel.N_DIAMOND, 0, 1 ).evaluate( value );
-                return colorBlend( glassColor, diamondColor, ratio );
+                return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
             }
             else {
-                return diamondColor;
+                return DIAMOND_COLOR;
             }
-//            Function.LinearFunction linearFunction = new Function.LinearFunction( 1, 3, 0, 1 );
-//            Color color = new Color( (float) linearFunction.evaluate( value ) / 2, (float) linearFunction.evaluate( value ) / 2, (float) linearFunction.evaluate( value ) );
-//            return color;
         }
 
         public Color colorBlend( Color a, Color b, double ratio ) {
@@ -79,6 +72,10 @@ public class LRRModel {
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), N_AIR, colorMappingFunction.getValue().apply( N_AIR ) ) );
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), N_WATER, colorMappingFunction.getValue().apply( N_WATER ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter();
+    public static final Color AIR_COLOR = Color.black;
+    public static final Color WATER_COLOR = new Color( 31, 40, 75 );
+    public static final Color GLASS_COLOR = new Color( 108, 106, 154 );
+    public static final Color DIAMOND_COLOR = new Color( 49, 50, 119 );
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );
