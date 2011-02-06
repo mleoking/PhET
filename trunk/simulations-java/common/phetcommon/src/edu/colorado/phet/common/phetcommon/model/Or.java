@@ -20,6 +20,10 @@ public class Or extends BinaryBooleanProperty {
         } );
     }
 
+    public And and( ObservableProperty<Boolean> b ) {
+        return new And( this, b );
+    }
+
     public static Boolean or( List<Property<Boolean>> p ) {
         for ( Property<Boolean> booleanProperty : p ) {
             if ( booleanProperty.getValue() ) { return true; }
