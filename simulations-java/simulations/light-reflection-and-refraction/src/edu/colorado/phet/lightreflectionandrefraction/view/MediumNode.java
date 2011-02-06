@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -17,10 +19,12 @@ public class MediumNode extends PNode {
             medium.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( medium.getValue().getShape() ) );
-                    setPaint( medium.getValue().getColor() );
+                    final Color color = medium.getValue().getColor();
+                    setPaint( new Color( color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() ) );
                 }
             } );
         }} );
-
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }

@@ -57,7 +57,8 @@ public class LRRModel {
             return new Color(
                     (int) ( ( (float) a.getRed() ) * ( 1 - ratio ) + ( (float) b.getRed() ) * ratio ),
                     (int) ( ( (float) a.getGreen() ) * ( 1 - ratio ) + ( (float) b.getGreen() ) * ratio ),
-                    (int) ( ( (float) a.getBlue() ) * ( 1 - ratio ) + ( (float) b.getBlue() ) * ratio )
+                    (int) ( ( (float) a.getBlue() ) * ( 1 - ratio ) + ( (float) b.getBlue() ) * ratio ),
+                    (int) ( ( (float) a.getAlpha() ) * ( 1 - ratio ) + ( (float) b.getAlpha() ) * ratio )
             );
         }
     } );
@@ -72,10 +73,10 @@ public class LRRModel {
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), N_AIR, colorMappingFunction.getValue().apply( N_AIR ) ) );
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), N_WATER, colorMappingFunction.getValue().apply( N_WATER ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter();
-    public static final Color AIR_COLOR = Color.black;
-    public static final Color WATER_COLOR = new Color( 31, 40, 75 );
-    public static final Color GLASS_COLOR = new Color( 108, 106, 154 );
-    public static final Color DIAMOND_COLOR = new Color( 49, 50, 119 );
+    public static final Color AIR_COLOR = new Color( 0, 0, 0, 0 );
+    public static final Color WATER_COLOR = new Color( 31, 40, 75, 120 );
+    public static final Color GLASS_COLOR = new Color( 108, 106, 154, 140 );
+    public static final Color DIAMOND_COLOR = new Color( 49, 50, 119, 160 );
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );
