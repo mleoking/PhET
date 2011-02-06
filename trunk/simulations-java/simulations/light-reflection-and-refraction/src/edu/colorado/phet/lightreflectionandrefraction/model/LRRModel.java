@@ -58,7 +58,10 @@ public class LRRModel {
 
                         //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
                         final double theta1 = laser.angle.getValue() - Math.PI / 2;
-                        double theta2 = asin( n1 / n2 * sin( theta1 ) ) - Math.PI / 2;
+                        double theta2 = asin( n1 / n2 * sin( theta1 ) );
+
+//                        System.out.println( "theta1 = " + theta1 * 180 / Math.PI );
+//                        System.out.println( "theta2 = " + theta2 * 180 / Math.PI );
 
                         //reflected
                         //assuming perpendicular beam, compute percent power
@@ -72,7 +75,7 @@ public class LRRModel {
                             double transmittedPower = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
 //                    System.out.println( "theta1 = "+laser.angle.getValue()+", theta2 = " + theta2 );
                             handleAbsorb( new LightRay( new ImmutableVector2D(),
-                                                        ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 ), 1.0, redWavelength, transmittedPower * sourcePower ) );
+                                                        ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, redWavelength, transmittedPower * sourcePower ) );
                         }
                     }
                 }
