@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -110,7 +109,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         double x = transform.modelToViewX( 0 );
         double y1 = transform.modelToViewY( 0 - model.getHeight() / 3 );
         double y2 = transform.modelToViewY( 0 + model.getHeight() / 3 );
-        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 ), Color.yellow ) {{
+        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10, 10 }, 0 ), Color.yellow ) {{
             showNormal.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showNormal.getValue() );
@@ -138,12 +137,9 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 addLightRayNode.apply( lightRay );
             }
         } );
-    }
 
-    public static Color indexOfRefractionToColor( double value ) {
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 1, 3, 0, 1 );
-        Color color = new Color( (float) linearFunction.evaluate( value ) / 2, (float) linearFunction.evaluate( value ) / 2, (float) linearFunction.evaluate( value ) );
-        return color;
+        //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
+        addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) );
     }
 
     public static class ControlPanel extends PNode {
