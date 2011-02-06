@@ -1,3 +1,4 @@
+Moved the camera to the right so the origin is centered in the play area
 Moved the laser behind the medium
 Added transparency to the mediums
 Improved colors for large indices of refraction

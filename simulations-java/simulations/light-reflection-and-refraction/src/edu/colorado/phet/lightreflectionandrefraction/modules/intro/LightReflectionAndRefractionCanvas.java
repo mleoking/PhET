@@ -49,7 +49,9 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         final ModelViewTransform transform = ModelViewTransform.createRectangleInvertedYMapping(
                 new Rectangle2D.Double( -model.getWidth() / 2, -model.getHeight() / 2, model.getWidth(), model.getHeight() ),
-                new Rectangle2D.Double( 0, 0, LRRModel.STAGE_SIZE.width, LRRModel.STAGE_SIZE.height ) );
+                new Rectangle2D.Double( 0, 0, LRRModel.STAGE_SIZE.width *
+                                              0.85 //Account for the control panel
+                        , LRRModel.STAGE_SIZE.height ) );
 
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
