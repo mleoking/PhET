@@ -1,3 +1,5 @@
+Moved the laser behind the medium
+Added transparency to the mediums
 Improved colors for large indices of refraction
 Added tick marks to the index of refraction sliders
 Fixed: sim should start with laser off
