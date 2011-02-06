@@ -1,21 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.model;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMeter;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -26,6 +28,47 @@ public class LRRModel {
     private List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
 
+    public static final double N_VACUUM = 1.0;
+    public static final double N_AIR = 1.000293;
+    public static final double N_WATER = 1.333;
+    public static final double N_GLASS = 1.5;
+    public static final double N_DIAMOND = 2.419;
+
+    public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
+        public Color apply( Double value ) {
+            final Color airColor = Color.BLACK;
+            final Color waterColor = new Color( 31, 40, 75 );
+            final Color glassColor = new Color( 72, 72, 72 );
+            final Color diamondColor = new Color( 144, 144, 123 );
+            if ( value < LRRModel.N_WATER ) {
+                double ratio = new Function.LinearFunction( 1.0, LRRModel.N_WATER, 0, 1 ).evaluate( value );
+                return colorBlend( airColor, waterColor, ratio );
+            }
+            else if ( value < LRRModel.N_GLASS ) {
+                double ratio = new Function.LinearFunction( LRRModel.N_WATER, LRRModel.N_GLASS, 0, 1 ).evaluate( value );
+                return colorBlend( waterColor, glassColor, ratio );
+            }
+            else if ( value < LRRModel.N_DIAMOND ) {
+                double ratio = new Function.LinearFunction( LRRModel.N_GLASS, LRRModel.N_DIAMOND, 0, 1 ).evaluate( value );
+                return colorBlend( glassColor, diamondColor, ratio );
+            }
+            else {
+                return diamondColor;
+            }
+//            Function.LinearFunction linearFunction = new Function.LinearFunction( 1, 3, 0, 1 );
+//            Color color = new Color( (float) linearFunction.evaluate( value ) / 2, (float) linearFunction.evaluate( value ) / 2, (float) linearFunction.evaluate( value ) );
+//            return color;
+        }
+
+        public Color colorBlend( Color a, Color b, double ratio ) {
+            return new Color(
+                    (int) ( ( (float) a.getRed() ) * ( 1 - ratio ) + ( (float) b.getRed() ) * ratio ),
+                    (int) ( ( (float) a.getGreen() ) * ( 1 - ratio ) + ( (float) b.getGreen() ) * ratio ),
+                    (int) ( ( (float) a.getBlue() ) * ( 1 - ratio ) + ( (float) b.getBlue() ) * ratio )
+            );
+        }
+    } );
+
     public static final double C = 2.99792458e8;
     final double redWavelength = 650E-9;
     final double modelWidth = redWavelength * 50;
@@ -33,12 +76,18 @@ public class LRRModel {
     final double modelHeight = STAGE_SIZE.getHeight() / STAGE_SIZE.getWidth() * modelWidth;
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( modelWidth / 8 * 2 );
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), 1.0, LightReflectionAndRefractionCanvas.indexOfRefractionToColor( 1.0 ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), 1.2, LightReflectionAndRefractionCanvas.indexOfRefractionToColor( 1.2 ) ) );
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), 1.0, colorMappingFunction.getValue().apply( 1.0 ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), 1.2, colorMappingFunction.getValue().apply( 1.2 ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter();
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );
+        colorMappingFunction.addObserver( new SimpleObserver() {
+            public void update() {
+                topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getIndexOfRefraction(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
+                bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getIndexOfRefraction(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
+            }
+        } );
         final SimpleObserver updateRays = new SimpleObserver() {
             public void update() {
                 for ( LightRay ray : rays ) {

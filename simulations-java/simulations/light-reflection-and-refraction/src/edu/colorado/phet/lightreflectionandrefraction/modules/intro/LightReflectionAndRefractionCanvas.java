@@ -78,14 +78,14 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 add( new LinearValueControl( 1, 3, model.topMedium.getValue().getIndexOfRefraction(), "n1=", "0.00", "" ) {{
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            model.topMedium.setValue( new Medium( model.topMedium.getValue().getShape(), getValue(), indexOfRefractionToColor( getValue() ) ) );
+                            model.topMedium.setValue( new Medium( model.topMedium.getValue().getShape(), getValue(), model.colorMappingFunction.getValue().apply( getValue() ) ) );
                         }
                     } );
                 }} );
                 add( new LinearValueControl( 1, 3, model.bottomMedium.getValue().getIndexOfRefraction(), "n2=", "0.00", "" ) {{
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            model.bottomMedium.setValue( new Medium( model.bottomMedium.getValue().getShape(), getValue(), indexOfRefractionToColor( getValue() ) ) );
+                            model.bottomMedium.setValue( new Medium( model.bottomMedium.getValue().getShape(), getValue(), model.colorMappingFunction.getValue().apply( getValue() ) ) );
                         }
                     } );
                 }} );
@@ -110,7 +110,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         double x = transform.modelToViewX( 0 );
         double y1 = transform.modelToViewY( 0 - model.getHeight() / 3 );
         double y2 = transform.modelToViewY( 0 + model.getHeight() / 3 );
-        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10, 10 }, 0 ), Color.yellow ) {{
+        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 ), Color.yellow ) {{
             showNormal.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showNormal.getValue() );
