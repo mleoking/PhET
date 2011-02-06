@@ -17,17 +17,14 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -105,14 +102,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }} );
 
         //Protractor
-        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), 250 ) ) {{
-            setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
-            showProtractor.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( showProtractor.getValue() );
-                }
-            } );
-        }} );
+        addChild( new ProtractorNode( transform, showProtractor ) );
 
         addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) );
 
