@@ -20,7 +20,9 @@ public class MediumNode extends PNode {
                 public void update() {
                     setPathTo( transform.modelToView( medium.getValue().getShape() ) );
                     final Color color = medium.getValue().getColor();
-                    setPaint( new Color( color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() ) );
+                    setPaint( new Color( color.getRed(), color.getGreen(), color.getBlue()
+//                            , color.getAlpha()//ignoring alpha, but left in the code in case we go back to it.
+                    ) );
                 }
             } );
         }} );
