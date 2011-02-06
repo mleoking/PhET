@@ -4,9 +4,11 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ProtractorNode extends PNode {
-    public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor ) {
+    public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, double x, double y ) {
         final BufferedImage image = BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), 250 );
         addChild( new PImage( image ) {{
             setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
@@ -54,5 +56,7 @@ public class ProtractorNode extends PNode {
                 translate( delta.width, delta.height );
             }
         } );
+        final Point2D point2D = transform.modelToViewDelta( new ImmutableVector2D( x, y ) ).toPoint2D();
+        translate( point2D.getX() + getFullBounds().getWidth() / 2, point2D.getY() - getFullBounds().getHeight() / 2 );
     }
 }
