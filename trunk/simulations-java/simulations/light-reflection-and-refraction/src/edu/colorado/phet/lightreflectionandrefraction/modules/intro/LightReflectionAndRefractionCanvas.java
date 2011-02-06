@@ -6,8 +6,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -18,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -74,20 +71,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "Index of Refraction" ) );
-                add( new LinearValueControl( 1, 3, model.topMedium.getValue().getIndexOfRefraction(), "n1=", "0.00", "" ) {{
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            model.topMedium.setValue( new Medium( model.topMedium.getValue().getShape(), getValue(), model.colorMappingFunction.getValue().apply( getValue() ) ) );
-                        }
-                    } );
-                }} );
-                add( new LinearValueControl( 1, 3, model.bottomMedium.getValue().getIndexOfRefraction(), "n2=", "0.00", "" ) {{
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            model.bottomMedium.setValue( new Medium( model.bottomMedium.getValue().getShape(), getValue(), model.colorMappingFunction.getValue().apply( getValue() ) ) );
-                        }
-                    } );
-                }} );
+                add( new IndexOfRefractionSlider( model.topMedium, model.colorMappingFunction, "n1=" ) );
+                add( new IndexOfRefractionSlider( model.bottomMedium, model.colorMappingFunction, "n2=" ) );
             }} );
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "View" ) );

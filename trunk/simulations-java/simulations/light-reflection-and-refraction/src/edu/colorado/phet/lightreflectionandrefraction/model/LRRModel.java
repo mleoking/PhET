@@ -76,8 +76,8 @@ public class LRRModel {
     final double modelHeight = STAGE_SIZE.getHeight() / STAGE_SIZE.getWidth() * modelWidth;
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( modelWidth / 8 * 2 );
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), 1.0, colorMappingFunction.getValue().apply( 1.0 ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), 1.2, colorMappingFunction.getValue().apply( 1.2 ) ) );
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), N_AIR, colorMappingFunction.getValue().apply( N_AIR ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), N_WATER, colorMappingFunction.getValue().apply( N_WATER ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter();
 
     public LRRModel() {
