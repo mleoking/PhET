@@ -1,3 +1,4 @@
+Fixed: laser on/off button does not switch images right now
 Fixed: The laser beam could be a little thicker, maybe 2x what it is now?
 # 0.00.04 (48679) Feb 5, 2011
 Added developer controls for colors
