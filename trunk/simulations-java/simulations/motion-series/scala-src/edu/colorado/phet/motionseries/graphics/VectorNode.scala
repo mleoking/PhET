@@ -71,7 +71,7 @@ class VectorNode(val transform: ModelViewTransform2D,
       setVisible(vector.visible.booleanValue || alwaysVisible)
       //Update the arrow node itself
       arrowNode.setTipAndTailLocations(viewTip, viewTail)
-      arrowNode.setVisible(viewTip != viewTail)//Trying to draw an arrow with the tail = tip can sometimes cause rendering artifacts
+      arrowNode.setVisible(viewTip.distanceSq(viewTail)>1E-6)//Trying to draw an arrow with the tail = tip can sometimes cause rendering artifacts
 //      println("Updating "+vector.abbreviation+": tip = "+viewTip+", tail = "+viewTail)
 
       //Update the location of the text label
