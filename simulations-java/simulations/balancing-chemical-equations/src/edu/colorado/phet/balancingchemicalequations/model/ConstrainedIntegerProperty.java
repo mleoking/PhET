@@ -21,10 +21,21 @@ public class ConstrainedIntegerProperty extends ConstrainedProperty<Integer> {
         super( value );
         this.min = min;
         this.max = max;
+        if ( !isValid( value ) ) {
+            handleInvalidValue( value );
+        }
     }
 
     @Override
     protected boolean isValid( Integer value ) {
         return ( value >= min && value <= max );
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public int getMax() {
+        return max;
     }
 }
