@@ -1,3 +1,4 @@
+2/4/11 add strings for Game to English strings file
 2/4/11 display "molecules are hidden" in Boxes when molecules are hidden
 # 0.00.04 (48661) Feb 4, 2011
 2/4/11 dev version with change requests and fixes

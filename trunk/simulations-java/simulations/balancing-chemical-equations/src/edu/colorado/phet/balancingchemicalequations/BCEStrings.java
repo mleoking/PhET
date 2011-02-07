@@ -18,11 +18,16 @@ public class BCEStrings {
     public static final String BALANCE_SCALES = getString( "balanceScales" );
     public static final String BALANCE_THE_EQUATION = getString( "balanceTheEquation" );
     public static final String BAR_CHARTS = getString( "barCharts" );
+    public static final String CHECK = getString( "check" );
     public static final String GAME = getString( "game" );
     public static final String METHANE = getString( "methane" );
     public static final String MOLECULES_ARE_HIDDEN = getString( "moleculesAreHidden" );
+    public static final String NEXT = getString( "next" );
+    public static final String REACTION_0_OF_1 = getString( "reaction0of1" );
     public static final String NONE = getString( "none" );
+    public static final String SHOW_ANSWER = getString( "showAnswer" );
     public static final String SHOW_MOLECULES = getString( "showMolecules" );
+    public static final String TRY_AGAIN = getString( "tryAgain" );
     public static final String WATER = getString( "water" );
 
     private static final String getString( String key ) {
