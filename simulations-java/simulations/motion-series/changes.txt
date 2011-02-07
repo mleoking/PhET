@@ -1,3 +1,7 @@
+Proposed changes for usage in Dallas:
+- Remove gravity and normal force vectors
+- Spell out "Applied Force", "Friction Force", and "Total Force" for the F_f, F_a, and F_sum vector labels
+- Make the force vectors wider, as in the old Forces in 1D
 # 2.00.00 (45090) Oct 16, 2010
 Internationalized the help button
 # 1.03.83 (45046) Oct 13, 2010
