@@ -24,7 +24,7 @@ class VectorNode(val transform: ModelViewTransform2D,
                  val tailLocation: Vector2DModel,
                  maxLabelDistance: Double,
                  vectorLengthScale: Double) extends PNode {
-  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_TAIL_WIDTH, 0.5, true) {
+  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_HEAD_WIDTH, VECTOR_ARROW_TAIL_WIDTH, 0.5, false) {
     setPaint(vector.getPaint)
   }
 
