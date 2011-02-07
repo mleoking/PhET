@@ -1,3 +1,4 @@
+# 2.00.02 (48701) Feb 6, 2011
 Proposed changes for usage in Dallas:
 -Renamed "sum of forces" to "total force"
 -Increased arrow thickness
