@@ -1,3 +1,5 @@
+# 0.16.08 (48713) Feb 7, 2011
+2/7/11 Depoloying release candidate to dev.
 Added the "...sim speed..." caption to the speed control.
 # 0.16.07 (44115) Sep 16, 2010
 9/16/10 Publishing to dev for review & interviews.
