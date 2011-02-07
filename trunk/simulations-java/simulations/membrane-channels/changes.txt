@@ -1,3 +1,4 @@
+Added the "...sim speed..." caption to the speed control.
 # 0.16.07 (44115) Sep 16, 2010
 9/16/10 Publishing to dev for review & interviews.
 Made it possible to continuously inject particles by holding down the button on the injector

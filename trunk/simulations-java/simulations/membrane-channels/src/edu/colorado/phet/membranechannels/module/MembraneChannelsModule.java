@@ -28,23 +28,23 @@ public class MembraneChannelsModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-	private MembraneChannelsModel model;
-    private MembraneChannelsCanvas canvas;
-    private MembraneChannelsControlPanel controlPanel;
-    private PiccoloClockControlPanel clockControlPanel;
+	private final MembraneChannelsModel model;
+    private final MembraneChannelsCanvas canvas;
+    private final MembraneChannelsControlPanel controlPanel;
+    private final PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public MembraneChannelsModule( Frame parentFrame ) {
-        super( MembraneChannelsStrings.TITLE_MEMBRANE_CHANNELS_MODULE, 
+        super( MembraneChannelsStrings.TITLE_MEMBRANE_CHANNELS_MODULE,
                 new MembraneChannelsClock( MembraneChannelsDefaults.CLOCK_FRAME_RATE,
                         MembraneChannelsDefaults.DEFAULT_MEMBRANE_CHANNELS_CLOCK_DT ) );
         // Model
         MembraneChannelsClock clock = (MembraneChannelsClock) getClock();
         model = new MembraneChannelsModel(clock);
-        
+
         // Canvas
         canvas = new MembraneChannelsCanvas(model);
         setSimulationPanel( canvas );
@@ -52,11 +52,11 @@ public class MembraneChannelsModule extends PiccoloModule {
         // Control Panel
         controlPanel = new MembraneChannelsControlPanel( this, model );
         setControlPanel( controlPanel );
-        
+
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(MembraneChannelsDefaults.MIN_MEMBRANE_CHANNELS_CLOCK_DT, 
-    			MembraneChannelsDefaults.MAX_MEMBRANE_CHANNELS_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), null);
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(MembraneChannelsDefaults.MIN_MEMBRANE_CHANNELS_CLOCK_DT,
+    			MembraneChannelsDefaults.MAX_MEMBRANE_CHANNELS_CLOCK_DT, "0.00", (ConstantDtClock)getClock());
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
@@ -77,7 +77,7 @@ public class MembraneChannelsModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
@@ -85,9 +85,10 @@ public class MembraneChannelsModule extends PiccoloModule {
     /**
      * Resets the module.
      */
+    @Override
     public void reset() {
-    	
+
     	// Reset the model.
     	model.reset();
-    }    
+    }
 }
