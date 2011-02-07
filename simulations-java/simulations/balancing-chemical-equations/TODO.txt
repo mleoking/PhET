@@ -16,3 +16,7 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs
+
+MIGRATE TO COMMON
+- ConstrainedProperty, ConstrainedIntegerProperty, ConstrainedDoubleProperty
+- GameSettings

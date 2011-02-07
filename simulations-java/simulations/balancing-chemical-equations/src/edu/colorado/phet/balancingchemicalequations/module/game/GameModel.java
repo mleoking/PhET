@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
+import edu.colorado.phet.balancingchemicalequations.model.GameSettings;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+
 /**
  * Model for the "Game" module.
  *
@@ -9,11 +12,13 @@ package edu.colorado.phet.balancingchemicalequations.module.game;
  */
 public class GameModel {
 
+    private final GameSettings gameSettings;
+
     public GameModel() {
-        //XXX
+        gameSettings = new GameSettings( new IntegerRange( 1, 3, 1 ) /* level */, true /* sound */, true /* timer */ );
     }
 
     public void reset() {
-        //XXX
+        gameSettings.reset();
     }
 }
