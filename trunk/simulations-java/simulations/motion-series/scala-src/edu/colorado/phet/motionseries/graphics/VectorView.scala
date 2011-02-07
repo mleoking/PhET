@@ -14,8 +14,10 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                  fbdWidth: Int) {
   def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
-    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
+
+    //Commented out for Dallas
+//    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
+//    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
     addAllVectorsAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
