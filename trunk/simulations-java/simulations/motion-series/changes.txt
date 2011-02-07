@@ -1,3 +1,4 @@
+# 2.00.01 (48699) Feb 6, 2011
 Proposed changes for usage in Dallas:
 - Remove gravity and normal force vectors
 - Spell out "Applied Force", "Friction Force", and "Total Force" for the F_f, F_a, and F_sum vector labels
