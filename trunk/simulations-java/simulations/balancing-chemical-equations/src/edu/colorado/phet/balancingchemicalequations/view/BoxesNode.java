@@ -8,11 +8,14 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -31,6 +34,7 @@ public class BoxesNode extends PComposite {
     private final SimpleObserver coefficientsObserver;
     private Equation equation;
     private final RightArrowNode arrowNode;
+    private final HTMLNode moleculesHiddenHodeLeft, moleculesHiddenHodeRight;
 
     public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner, final Property<Color> boxColorProperty ) {
 
@@ -51,6 +55,14 @@ public class BoxesNode extends PComposite {
         moleculesParentNode = new PComposite();
         addChild( moleculesParentNode );
 
+        // "molecules are hidden" message
+        moleculesHiddenHodeLeft = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN );
+        moleculesHiddenHodeLeft.setFont( new PhetFont() );
+        addChild( moleculesHiddenHodeLeft );
+        moleculesHiddenHodeRight = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN );
+        moleculesHiddenHodeRight.setFont( new PhetFont() );
+        addChild( moleculesHiddenHodeRight );
+
         // layout
         double x = 0;
         double y = 0;
@@ -62,6 +74,12 @@ public class BoxesNode extends PComposite {
         x = reactantsBoxNode.getFullBoundsReference().getMaxX() + aligner.getBoxSeparation();
         y = reactantsBoxNode.getYOffset();
         productsBoxNode.setOffset( x, y );
+        x = reactantsBoxNode.getFullBoundsReference().getCenterX() - ( moleculesHiddenHodeLeft.getFullBoundsReference().getWidth() / 2 );
+        y = reactantsBoxNode.getFullBoundsReference().getCenterY() - ( moleculesHiddenHodeLeft.getFullBoundsReference().getHeight() / 2 );
+        moleculesHiddenHodeLeft.setOffset( x, y );
+        x = productsBoxNode.getFullBoundsReference().getCenterX() - ( moleculesHiddenHodeRight.getFullBoundsReference().getWidth() / 2 );
+        y = productsBoxNode.getFullBoundsReference().getCenterY() - ( moleculesHiddenHodeRight.getFullBoundsReference().getHeight() / 2 );
+        moleculesHiddenHodeRight.setOffset( x, y );
 
         // coefficient changes
         coefficientsObserver = new SimpleObserver() {
@@ -89,6 +107,8 @@ public class BoxesNode extends PComposite {
 
     public void setMoleculesVisible( boolean moleculesVisible ) {
         moleculesParentNode.setVisible( moleculesVisible );
+        moleculesHiddenHodeLeft.setVisible( !moleculesVisible );
+        moleculesHiddenHodeRight.setVisible( !moleculesVisible );
     }
 
     private void updateNode() {

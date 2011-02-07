@@ -1,11 +1,9 @@
-TODO list of balancing-chemical-equations
+TODO list for balancing-chemical-equations
 
 DESIGN ISSUES
-- should bar charts show "=" when all coefficients are zero?
 - should boxes contain "molecules are hidden" when Options->Show molecules is deselected? (ala RPAL)
 - create more balanced atom piles, add atoms along RTL diagonal?
 - should Reset All prompt for confirmation?
-- should Reset All in any tab reset Options->Show molecules?
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
