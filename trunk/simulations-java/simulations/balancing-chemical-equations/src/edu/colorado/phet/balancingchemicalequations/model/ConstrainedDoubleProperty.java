@@ -21,10 +21,21 @@ public class ConstrainedDoubleProperty extends ConstrainedProperty<Double> {
         super( value );
         this.min = min;
         this.max = max;
+        if ( !isValid( value ) ) {
+            handleInvalidValue( value );
+        }
     }
 
     @Override
     protected boolean isValid( Double value ) {
         return ( value >= min && value <= max );
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public double getMax() {
+        return max;
     }
 }
