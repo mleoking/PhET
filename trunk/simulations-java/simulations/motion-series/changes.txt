@@ -1,3 +1,7 @@
+Proposed changes for usage in Dallas:
+-Renamed "sum of forces" to "total force"
+-Increased arrow thickness
+-Made arrow thickness independent of arrow magnitude
 # 2.00.01 (48699) Feb 6, 2011
 Proposed changes for usage in Dallas:
 - Remove gravity and normal force vectors

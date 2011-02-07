@@ -159,8 +159,8 @@ object MotionSeriesDefaults {
 //  val VECTOR_ARROW_TAIL_WIDTH = 4
 //  val VECTOR_ARROW_HEAD_WIDTH = 10
 
-  val VECTOR_ARROW_TAIL_WIDTH = 4*7
-  val VECTOR_ARROW_HEAD_WIDTH = 10*6
+  val VECTOR_ARROW_TAIL_WIDTH = 4*3.5
+  val VECTOR_ARROW_HEAD_WIDTH = 10*3.5
 }
 
 trait StageContainerArea {
