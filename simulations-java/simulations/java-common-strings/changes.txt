@@ -1,3 +1,4 @@
+2/7/2011 redeploy to make new Java common strings available
 # 1.19.00 (48409) Jan 31, 2011
 1/31/11 redeploy to make new Java common strings available
 # 1.18.00 (45200) Oct 19, 2010
