@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
