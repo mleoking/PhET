@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.Function2;
  * @author Sam Reid
  */
 public class Or extends BinaryBooleanProperty {
-    public Or( Property<Boolean> a, Property<Boolean> b ) {
+    public Or( ObservableProperty<Boolean> a, ObservableProperty<Boolean> b ) {
         super( a, b, new Function2<Boolean, Boolean, Boolean>() {
             public Boolean apply( Boolean x, Boolean y ) {
                 return x || y;

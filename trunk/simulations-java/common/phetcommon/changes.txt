@@ -1,3 +1,4 @@
+2/8/2100 Generalized to parent types in BooleanProperty combinators and Or
 2/7/2011 Added string "White Background" to string file
 2/7/2011 Added a method to OptionsMenu that allows you to easily add a "White Background" menu item
 1/31/2011 Added PropertyCheckBoxMenuItem
