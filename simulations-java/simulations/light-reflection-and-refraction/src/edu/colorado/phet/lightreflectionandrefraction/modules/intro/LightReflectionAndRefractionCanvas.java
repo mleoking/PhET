@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
@@ -69,8 +70,18 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
             setPickable( false );
         }} );
-        addChild( new LaserNodeDragHandle( transform, model.getLaser() ) );
-        addChild( new LaserNode( transform, model.getLaser() ) );
+        final BooleanProperty showDragHandles = new BooleanProperty( false );
+        addChild( new LaserNodeDragHandle( transform, model.getLaser(), 10, showDragHandles, new Function1<Double, Boolean>() {
+            public Boolean apply( Double aDouble ) {
+                return aDouble < Math.PI;
+            }
+        } ) );
+        addChild( new LaserNodeDragHandle( transform, model.getLaser(), -10, showDragHandles, new Function1<Double, Boolean>() {
+            public Boolean apply( Double aDouble ) {
+                return aDouble > Math.PI / 2;
+            }
+        } ) );
+        addChild( new LaserNode( transform, model.getLaser(), showDragHandles ) );
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
@@ -91,7 +102,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
-            scale( 2 );
+            scale( 1.6 );
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 20, 20 );
         }} );
 
