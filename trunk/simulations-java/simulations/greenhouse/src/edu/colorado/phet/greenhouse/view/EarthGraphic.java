@@ -23,7 +23,7 @@ import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.Earth;
-import edu.colorado.phet.greenhouse.model.Photon;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.greenhouse.model.ReflectivityAssessor;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 

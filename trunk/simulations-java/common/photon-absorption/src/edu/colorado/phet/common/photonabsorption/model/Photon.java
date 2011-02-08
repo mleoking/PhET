@@ -6,11 +6,13 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.model.Disk;
+import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 
 public class Photon extends Disk {
 

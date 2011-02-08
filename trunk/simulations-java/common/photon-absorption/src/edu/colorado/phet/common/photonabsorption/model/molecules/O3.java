@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.*;
 
@@ -100,7 +101,7 @@ public class O3 extends Molecule {
     // ------------------------------------------------------------------------
 
     /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
+     * @see edu.colorado.phet.common.photonabsorption.model.Molecule#initializeCogOffsets()
      */
     @Override
     protected void initializeAtomOffsets() {
@@ -112,7 +113,7 @@ public class O3 extends Molecule {
     }
 
     @Override
-    protected void setVibration( double vibrationRadians ) {
+    public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
         double maxCenterOxygenDisplacement = 30;
@@ -129,7 +130,7 @@ public class O3 extends Molecule {
     }
 
     @Override
-    protected void breakApart() {
+    public void breakApart() {
 
         // Create the constituent molecules that result from breaking apart.
         Molecule diatomicOxygenMolecule = new O2();

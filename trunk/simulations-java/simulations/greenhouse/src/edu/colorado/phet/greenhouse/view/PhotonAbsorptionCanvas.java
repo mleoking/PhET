@@ -9,12 +9,16 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
+import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
+import edu.colorado.phet.common.photonabsorption.view.PhotonEmitterNode;
+import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
+import edu.colorado.phet.common.photonabsorption.view.VerticalRodNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
-import edu.colorado.phet.greenhouse.model.Molecule;
-import edu.colorado.phet.greenhouse.model.Photon;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.umd.cs.piccolo.PNode;
 
 /**

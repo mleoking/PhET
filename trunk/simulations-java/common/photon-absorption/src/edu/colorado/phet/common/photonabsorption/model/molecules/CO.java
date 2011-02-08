@@ -5,6 +5,7 @@ package edu.colorado.phet.common.photonabsorption.model.molecules;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.*;
 
@@ -62,7 +63,7 @@ public class CO extends Molecule {
     // ------------------------------------------------------------------------
 
     @Override
-    protected void setVibration( double vibrationRadians ) {
+    public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
         vibrationAtomOffsets.get( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
@@ -76,7 +77,7 @@ public class CO extends Molecule {
     }
 
     /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
+     * @see edu.colorado.phet.common.photonabsorption.model.Molecule#initializeCogOffsets()
      */
     @Override
     protected void initializeAtomOffsets() {

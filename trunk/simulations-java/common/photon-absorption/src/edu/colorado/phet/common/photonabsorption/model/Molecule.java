@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.molecules.*;
+import edu.colorado.phet.greenhouse.model.*;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
@@ -223,7 +224,7 @@ public abstract class Molecule {
         this.rotating = rotating;
     }
 
-    protected void setRotationDirectionClockwise( boolean rotationDirectionClockwise ) {
+    public void setRotationDirectionClockwise( boolean rotationDirectionClockwise ) {
         this.rotationDirectionClockwise = rotationDirectionClockwise;
     }
 
@@ -279,7 +280,7 @@ public abstract class Molecule {
      * Set the angle, in terms of radians from 0 to 2*PI, where this molecule
      * is in its vibration sequence.
      */
-    protected void setVibration( double vibrationRadians ) {
+    public void setVibration( double vibrationRadians ) {
         currentVibrationRadians = vibrationRadians;
         return; // Implements no vibration by default, override in descendant classes as needed.
     }
@@ -323,7 +324,7 @@ public abstract class Molecule {
      *
      * @param highElectronicEnergyState
      */
-    protected void setHighElectronicEnergyState( boolean highElectronicEnergyState ){
+    public void setHighElectronicEnergyState( boolean highElectronicEnergyState ){
         this.highElectronicEnergyState  = highElectronicEnergyState;
         notifyElectronicEnergyStateChanged();
     }
@@ -347,7 +348,7 @@ public abstract class Molecule {
     /**
      * Cause the molecule to dissociate, i.e. to break apart.
      */
-    protected void breakApart() {
+    public void breakApart() {
         System.err.println( getClass().getName() + " - Error: breakApart invoked on a molecule for which the action is not implemented." );
         assert false;
     }
@@ -429,7 +430,7 @@ public abstract class Molecule {
      *
      * @param wavelength
      */
-    protected void emitPhoton( double wavelength ){
+    public void emitPhoton( double wavelength ){
         emitPhoton( new Photon( wavelength, null ) );
     }
 
