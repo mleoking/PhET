@@ -1,3 +1,5 @@
+2/7/2011 Added string "White Background" to string file
+2/7/2011 Added a method to OptionsMenu that allows you to easily add a "White Background" menu item
 1/31/2011 Added PropertyCheckBoxMenuItem
 1/31/2011 Added IfElse<T>, an ObservableProperty that uses a Property<Boolean> condition to simulation an if/else block.
 1/30/2011 Added VoidFunction1.Null, a no-op implementation with no side effects
