@@ -268,14 +268,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                     final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), RECTANGLE_INSET_X, 3 );
                     valueBackground.setPathTo( new RoundRectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight(), 10, 10 ) );
 
-                    // Update the pie chart.  Don't display if the abundance is zero.
+                    // Update the pie chart.
                     pieChart.updateValues( atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
-                    pieChart.setVisible( atom.getNaturalAbundance() != 0 );
 
                     // Update the connecting line.  Don't display if pie chart isn't there.
                     connectingLine.setPoint( 0, valueBackground.getFullBoundsReference().getMaxX(), valueBackground.getFullBoundsReference().getCenterY() );
                     connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getCenterX(), valueBackground.getFullBoundsReference().getCenterY()  );
-                    connectingLine.setVisible( pieChart.getVisible() );
+                    connectingLine.setVisible( atom.getNaturalAbundance() > 0 );
                 }
             };
 
