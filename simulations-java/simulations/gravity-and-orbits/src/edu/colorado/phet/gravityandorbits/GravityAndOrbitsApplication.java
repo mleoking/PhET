@@ -2,12 +2,11 @@
 
 package edu.colorado.phet.gravityandorbits;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
+import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
@@ -25,9 +24,8 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         super( config );
         gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() );
         addModule( gravityAndOrbitsModule );
-        getPhetFrame().addMenu( new JMenu( GAOStrings.OPTIONS ) {{
-            add( new PropertyCheckBoxMenuItem( GAOStrings.INVERT_COLORS, gravityAndOrbitsModule.getInvertColorsProperty() ) );
-        }} );
+        final Property<Boolean> whiteBackgroundProperty = gravityAndOrbitsModule.getWhiteBackgroundProperty();
+        getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }
 
     public GravityAndOrbitsModule getGravityAndOrbitsModule() {

@@ -57,9 +57,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        module.getInvertColorsProperty().addObserver( new SimpleObserver() {
+        module.getWhiteBackgroundProperty().addObserver( new SimpleObserver() {
             public void update() {
-                setBackground( module.getInvertColorsProperty().getValue() ? Color.white : Color.black );
+                setBackground( module.getWhiteBackgroundProperty().getValue() ? Color.white : Color.black );
             }
         } );
 
@@ -150,7 +150,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyDifferent() );
         }
-        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.getInvertColorsProperty(), Color.black, Color.white ) ) {{
+        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.getWhiteBackgroundProperty(), Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
@@ -173,7 +173,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
             assert mode.getTimeSpeedScaleProperty() != null;
             // Add the speed control slider.
-            addChild( new GAOTimeSlider( mode.getTimeSpeedScaleProperty(), rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.getInvertColorsProperty(), Color.black, Color.white ) ) );
+            addChild( new GAOTimeSlider( mode.getTimeSpeedScaleProperty(), rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.getWhiteBackgroundProperty(), Color.black, Color.white ) ) );
         }} );
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), module.getMeasuringTapeVisibleProperty() ),

@@ -56,9 +56,6 @@ public class GAOStrings {
     public static final String PLANET_AND_MOON = getString( "planetAndMoon" );
     public static final String PLANET_AND_SPACE_STATION = getString( "planetAndSpaceStation" );
 
-    public static final String OPTIONS = getString( "options" );
-    public static final String INVERT_COLORS = getString( "invertColors" );
-
     public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String ZOOM_IN = getString( "zoomIn" );
