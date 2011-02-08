@@ -82,8 +82,8 @@ public abstract class OldPhetServer {
     );
 
     public static OldPhetServer JON_DEV = new PhetProdServer(
-            "192.168.1.64",
-            "192.168.1.64",
+            "127.0.0.1",
+            "127.0.0.1",
             "/var/phet/staging/sims",
             "/sims",
             null,
@@ -94,8 +94,8 @@ public abstract class OldPhetServer {
             "/var/phet"
     );
     public static OldPhetServer JON_DEV_DEV = new PhetDevServer(
-            "192.168.1.64", // Server host
-            "192.168.1.64",  // Web host
+            "127.0.0.1", // Server host
+            "127.0.0.1",  // Web host
             "/var/phet/dev", // Deploy path on server
             "/dev", // Deploy path on web host
             null, // Cache clear full URL
