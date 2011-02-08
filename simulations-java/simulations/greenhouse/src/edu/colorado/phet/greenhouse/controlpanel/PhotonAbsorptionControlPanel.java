@@ -26,17 +26,16 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.photonabsorption.model.molecules.*;
+import edu.colorado.phet.common.photonabsorption.view.MoleculeSelectorPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.CH4;
-import edu.colorado.phet.greenhouse.model.CO2;
-import edu.colorado.phet.greenhouse.model.H2O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.MoleculeID;
-import edu.colorado.phet.greenhouse.model.N2;
-import edu.colorado.phet.greenhouse.model.O2;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.greenhouse.view.MoleculeNode;
 
 /**

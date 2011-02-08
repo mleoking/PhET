@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.greenhouse.controlpanel;
+package edu.colorado.phet.common.photonabsorption.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
 
 /**
  * Class that defines a panel that allows the user to select a specific
@@ -15,7 +15,7 @@ import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
  *
  * @author John Blanco
  */
-class MoleculeSelectorPanel extends SelectionPanelWithImage {
+public class MoleculeSelectorPanel extends SelectionPanelWithImage {
 
     /**
      * Constructor.

@@ -1,43 +1,47 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.greenhouse.model.AtomicBond;
+import edu.colorado.phet.greenhouse.model.Molecule;
+import edu.colorado.phet.greenhouse.model.MoleculeID;
+import edu.colorado.phet.greenhouse.model.OxygenAtom;
 
 
 /**
- * Class that represents N2 (nitrogen) in the model.
+ * Class that represents O2 (oxygen) in the model.
  *
  * @author John Blanco
  */
-public class N2 extends Molecule {
+public class O2 extends Molecule {
 
     // ------------------------------------------------------------------------
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final double INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
+    private static final double INITIAL_OXYGEN_OXYGEN_DISTANCE = 170; // In picometers.
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private final NitrogenAtom nitrogenAtom1 = new NitrogenAtom();
-    private final NitrogenAtom nitrogenAtom2 = new NitrogenAtom();
-    private final AtomicBond nitrogenNitrogenBond = new AtomicBond( nitrogenAtom1, nitrogenAtom2, 3 );
+    private final OxygenAtom oxygenAtom1 = new OxygenAtom();
+    private final OxygenAtom oxygenAtom2 = new OxygenAtom();
+    private final AtomicBond oxygenOxygenBond = new AtomicBond( oxygenAtom1, oxygenAtom2, 2 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public N2(Point2D inititialCenterOfGravityPos){
+    public O2(Point2D inititialCenterOfGravityPos){
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
-        addAtom( nitrogenAtom1 );
-        addAtom( nitrogenAtom2 );
-        addAtomicBond( nitrogenNitrogenBond );
+        addAtom( oxygenAtom1 );
+        addAtom( oxygenAtom2 );
+        addAtomicBond( oxygenOxygenBond );
 
         // Set the initial offsets.
         initializeAtomOffsets();
@@ -46,7 +50,7 @@ public class N2 extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public N2(){
+    public O2(){
         this(new Point2D.Double(0, 0));
     }
 
@@ -59,14 +63,14 @@ public class N2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        initialAtomCogOffsets.put(nitrogenAtom1, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
-        initialAtomCogOffsets.put(nitrogenAtom2, new Vector2D(INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(oxygenAtom1, new Vector2D(-INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(oxygenAtom2, new Vector2D(INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0));
 
         updateAtomPositions();
     }
 
     @Override
     public MoleculeID getMoleculeID() {
-        return MoleculeID.N2;
+        return MoleculeID.O2;
     }
 }

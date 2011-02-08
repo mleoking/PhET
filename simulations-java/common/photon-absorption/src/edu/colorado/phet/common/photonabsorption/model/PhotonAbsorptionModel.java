@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +16,9 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.photonabsorption.model.molecules.*;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.model.*;
 
 /**
  * Primary model for the Photon Absorption tab.  This models photons being
@@ -79,7 +81,7 @@ public class PhotonAbsorptionModel {
 
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
-    static final HashMap< MoleculeID , Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
+    static final HashMap<MoleculeID, Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
         put(MoleculeID.N2, 0);
         put(MoleculeID.O2, 0);
         put(MoleculeID.CO2, 0);
