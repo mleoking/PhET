@@ -1,4 +1,5 @@
-Addeded string for module name
+Renamed from "invert colors" to "white background"
+Added string for module name
 # 0.0.25 (48611) Feb 3, 2011
 # 0.0.24 (48598) Feb 3, 2011
 Improved zoom buttons

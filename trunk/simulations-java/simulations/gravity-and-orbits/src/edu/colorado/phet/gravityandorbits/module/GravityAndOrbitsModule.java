@@ -54,7 +54,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> rewinding = new Property<Boolean>( false );
     private final ArrayList<GravityAndOrbitsMode> modes = new GravityAndOrbitsModeList( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty );
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
-    private final Property<Boolean> invertColorsProperty = new Property<Boolean>( false );
+    private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
         return new ArrayList<GravityAndOrbitsMode>( modes );
@@ -184,7 +184,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         modeProperty.setValue( modes.get( selectedMode ) );
     }
 
-    public Property<Boolean> getInvertColorsProperty() {
-        return invertColorsProperty;
+    public Property<Boolean> getWhiteBackgroundProperty() {
+        return whiteBackgroundProperty;
     }
 }
