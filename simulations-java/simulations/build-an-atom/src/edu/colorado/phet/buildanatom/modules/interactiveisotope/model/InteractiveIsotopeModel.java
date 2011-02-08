@@ -98,8 +98,6 @@ public class InteractiveIsotopeModel implements Resettable {
      * Construct the model with the atoms initially in the bucket.
      */
     public InteractiveIsotopeModel( BuildAnAtomClock clock ) {
-        super();
-
         this.clock = clock;
 
         // Create the atom.

@@ -11,7 +11,7 @@ import javax.swing.JMenu;
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.InteractiveIsotopeModule;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.IsotopeMixtureModule;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.IsotopeMixturesModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -53,7 +53,7 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
      */
     private void initModules() {
         addModule( new InteractiveIsotopeModule() );
-        addModule( new IsotopeMixtureModule() );
+        addModule( new IsotopeMixturesModule() );
     }
 
     /*
