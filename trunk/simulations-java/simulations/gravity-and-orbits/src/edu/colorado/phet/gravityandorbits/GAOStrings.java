@@ -13,6 +13,7 @@ public class GAOStrings {
     private GAOStrings() {
     }
 
+    public static final String GRAVITY_AND_ORBITS_NAME = getString( "gravity-and-orbits.name" );
     public static final String BILLION_BILLION_SPACE_STATION_MASSES = getString( "billionBillionSpaceStationMasses" );
     public static final String CARTOON = getString( "cartoon" );
     public static final String EARTH = getString( "earth" );
