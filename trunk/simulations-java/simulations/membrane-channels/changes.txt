@@ -1,3 +1,4 @@
+Fixed an issue with alignment of text on buttons.
 # 0.16.08 (48713) Feb 7, 2011
 2/7/11 Depoloying release candidate to dev.
 Added the "...sim speed..." caption to the speed control.
