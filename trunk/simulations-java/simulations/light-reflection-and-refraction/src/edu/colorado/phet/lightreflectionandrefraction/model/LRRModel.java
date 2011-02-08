@@ -74,10 +74,10 @@ public class LRRModel {
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), N_WATER, colorMappingFunction.getValue().apply( N_WATER ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
     //Alphas may be ignored, see MediumNode
-    public static final Color AIR_COLOR = new Color( 0, 0, 0, 0 );
-    public static final Color WATER_COLOR = new Color( 31, 40, 75, 120 );
-    public static final Color GLASS_COLOR = new Color( 108, 106, 154, 140 );
-    public static final Color DIAMOND_COLOR = new Color( 49, 50, 119, 160 );
+    public static final Color AIR_COLOR = Color.white;
+    public static final Color WATER_COLOR = new Color( 198, 226, 246 );
+    public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
+    public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );

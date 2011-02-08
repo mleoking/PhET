@@ -42,8 +42,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, LRRModel.STAGE_SIZE ) );
 
-        setBackground( Color.black );
-
         final ModelViewTransform transform = ModelViewTransform.createRectangleInvertedYMapping(
                 new Rectangle2D.Double( -model.getWidth() / 2, -model.getHeight() / 2, model.getWidth(), model.getHeight() ),
                 new Rectangle2D.Double( 0, 0, LRRModel.STAGE_SIZE.width *
@@ -96,7 +94,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         double x = transform.modelToViewX( 0 );
         double y1 = transform.modelToViewY( 0 - model.getHeight() / 3 );
         double y2 = transform.modelToViewY( 0 + model.getHeight() / 3 );
-        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10, 10 }, 0 ), Color.yellow ) {{
+        addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10, 10 }, 0 ), Color.black ) {{
             showNormal.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showNormal.getValue() );
