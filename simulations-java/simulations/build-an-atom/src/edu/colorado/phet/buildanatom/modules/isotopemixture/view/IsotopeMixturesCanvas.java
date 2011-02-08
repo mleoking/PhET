@@ -47,13 +47,17 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
 
-        // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
-        // factors for the point in the view can be adjusted to shift the
-        // center right or left, and the scale factor can be adjusted to zoom
-        // in or out (smaller numbers zoom out, larger ones zoom in).
+        // Set up the model-canvas transform.  The test chamber is centered
+        // at (0, 0) in model space, and this transform is set up to place
+        // the chamber where we want it on the canvas.
+        //
+        // IMPORTANT NOTES: The multiplier factors for the point in the view
+        // can be adjusted to shift the center right or left, and the scale
+        // factor can be adjusted to zoom in or out (smaller numbers zoom out,
+        // larger ones zoom in).
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.50 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.55 ) ),
+                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.33 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.37 ) ),
                 1.6, // "Zoom factor" - smaller zooms out, larger zooms in.
                 true );
 
