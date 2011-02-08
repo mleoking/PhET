@@ -3,6 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.*;
 
@@ -57,10 +58,20 @@ public class PieChartNode extends PNode {
                 arcAngle = 360 - startAngle;
             }
 
-            // Set the color and draw a filled arc
-            PPath path = new PPath( new Arc2D.Double( area.x, area.y, area.width, area.height, startAngle, arcAngle, Arc2D.Double.PIE ) );
-            path.setPaint( slices[i].color );
-            addChild( path );
+            // If the slice has a non-zero value, set the color and draw a filled arc.
+            if ( slices[i].getValue() > 0 ) {
+                PPath path;
+                if ( slices[i].getValue() == total ) {
+                    // This slice represents the entire pie, so just draw it as a circle.
+                    path = new PPath( new Ellipse2D.Double( area.x, area.y, area.width, area.height ) );
+                }
+                else {
+                    // Draw the pie slice as an arc.
+                    path = new PPath( new Arc2D.Double( area.x, area.y, area.width, area.height, startAngle, arcAngle, Arc2D.Double.PIE ) );
+                }
+                path.setPaint( slices[i].color );
+                addChild( path );
+            }
             curValue += slices[i].value;
         }
     }
