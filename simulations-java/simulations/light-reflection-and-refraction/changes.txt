@@ -1,3 +1,4 @@
+# 0.00.08 (48746) Feb 8, 2011
 Fixed protractor location
 # 0.00.07 (48744) Feb 8, 2011
 Rounded the corners of the control panel
