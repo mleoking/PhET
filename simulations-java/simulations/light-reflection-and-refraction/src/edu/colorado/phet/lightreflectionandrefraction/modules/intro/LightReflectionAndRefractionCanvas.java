@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
 
@@ -140,7 +141,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         public ControlPanel( JComponent controlPanel ) {
             final PSwing pswing = new PSwing( controlPanel );
             addChild( pswing );
-//            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, pswing.getFullBounds().getWidth(), pswing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 1 ), Color.blue ) );
+            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, pswing.getFullBounds().getWidth(), pswing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.white ) );
         }
     }
 
