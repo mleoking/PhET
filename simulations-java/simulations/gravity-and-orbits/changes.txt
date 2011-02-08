@@ -1,5 +1,5 @@
-# 1.00.00 (48730) Feb 7, 2011
-# 1.00.00 (48723) Feb 7, 2011
+Initial deploy of 1.00
+Added screenshot
 Renamed from "invert colors" to "white background"
 Added string for module name
 # 0.0.25 (48611) Feb 3, 2011
