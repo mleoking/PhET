@@ -41,13 +41,15 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        final int stageWidth = 800;
+        final int stageWidth = 1500;
         final PDimension STAGE_SIZE = new PDimension( stageWidth, stageWidth * model.getHeight() / model.getWidth() );
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
+        final double scale = STAGE_SIZE.getHeight() / model.getHeight();
         final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                        new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 ), STAGE_SIZE.getHeight() / model.getHeight() );
+                                                                                                        new Point2D.Double( STAGE_SIZE.getWidth() / 2 - 200, STAGE_SIZE.getHeight() / 2 ),
+                                                                                                        scale );
 
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
@@ -89,7 +91,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
+            scale( 2 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 20, 20 );
         }} );
 
         //Normal Line
@@ -118,6 +121,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }
         } );
 
+        //Debug for showing stage
+//        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
     }
 
     public static class ControlPanel extends PNode {
