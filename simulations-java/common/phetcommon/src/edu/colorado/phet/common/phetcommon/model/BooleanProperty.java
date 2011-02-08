@@ -11,11 +11,11 @@ public class BooleanProperty extends Property<Boolean> {
         super( value );
     }
 
-    public And and( Property<Boolean> p ) {
+    public And and( ObservableProperty<Boolean> p ) {
         return new And( this, p );
     }
 
-    public Or or( Property<Boolean> p ) {
+    public Or or( ObservableProperty<Boolean> p ) {
         return new Or( this, p );
     }
 }
