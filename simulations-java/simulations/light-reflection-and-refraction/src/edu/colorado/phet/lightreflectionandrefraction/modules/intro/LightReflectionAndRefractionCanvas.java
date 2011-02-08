@@ -3,7 +3,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -25,6 +25,7 @@ import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -40,13 +41,13 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, LRRModel.STAGE_SIZE ) );
+        final int stageWidth = 800;
+        final PDimension STAGE_SIZE = new PDimension( stageWidth, stageWidth * model.getHeight() / model.getWidth() );
 
-        final ModelViewTransform transform = ModelViewTransform.createRectangleInvertedYMapping(
-                new Rectangle2D.Double( -model.getWidth() / 2, -model.getHeight() / 2, model.getWidth(), model.getHeight() ),
-                new Rectangle2D.Double( 0, 0, LRRModel.STAGE_SIZE.width *
-                                              0.85 //Account for the control panel
-                        , LRRModel.STAGE_SIZE.height ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
+
+        final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                        new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 ), STAGE_SIZE.getHeight() / model.getHeight() );
 
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
@@ -66,6 +67,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
             setPickable( false );
         }} );
+        addChild( new LaserNodeDragHandle( transform, model.getLaser() ) );
         addChild( new LaserNode( transform, model.getLaser() ) );
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
@@ -87,7 +89,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
-            setOffset( LRRModel.STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth(), 0 );
         }} );
 
         //Normal Line

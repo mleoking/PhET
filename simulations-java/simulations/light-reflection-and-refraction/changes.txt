@@ -1,3 +1,4 @@
+Intermediate fixes for coordinate frames
 Changed air to be white instead of black
 Changed normal line to be black instead of yellow
 Improved medium colors to support air=white instead of air=black

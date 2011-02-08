@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMeter;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.lang.Math.*;
 
@@ -65,9 +64,10 @@ public class LRRModel {
 
     public static final double C = 2.99792458e8;
     final double redWavelength = 650E-9;
+
     final double modelWidth = redWavelength * 50;
-    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
-    final double modelHeight = STAGE_SIZE.getHeight() / STAGE_SIZE.getWidth() * modelWidth;
+    final double modelHeight = modelWidth * 1.5;
+
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( modelWidth / 8 * 2 );
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), N_AIR, colorMappingFunction.getValue().apply( N_AIR ) ) );

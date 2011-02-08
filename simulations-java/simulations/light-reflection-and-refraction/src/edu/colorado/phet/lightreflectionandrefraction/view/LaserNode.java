@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.view;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
 import edu.colorado.phet.lightreflectionandrefraction.model.Laser;
 import edu.umd.cs.piccolo.PNode;
@@ -32,14 +34,23 @@ public class LaserNode extends PNode {
     public LaserNode( final ModelViewTransform transform, final Laser laser ) {
         final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
 
-        final PNode counterClockwiseDragArrow = new PNode() {{
-            addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 + 150 ), 20, 20, 10 ) {{
-                setPaint( Color.green );
-            }} );
-            setPickable( false );
-            setChildrenPickable( false );
-            setVisible( false );
-        }};
+//        final PNode counterClockwiseDragArrow = new PNode() {{
+//            double dx = -20;
+//            double dy = 150.0 / 3;
+////            addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 + 150 ), 20, 20, 10 ) {{
+////                setPaint( Color.green );
+////            }} );
+//            final double distance = transform.modelToViewDeltaX( laser.distanceFromOrigin.getValue() ) + image.getHeight() / 2;
+//            Rectangle2D.Double circle = new Rectangle2D.Double( -distance, -distance, 2 * distance, 2 * distance );
+//            addChild( new PhetPPath( circle, new BasicStroke( 2 ), Color.green ) );
+////            addChild( new PhetPPath( new CubicCurve2D.Double( image.getWidth() / 2, image.getHeight() / 2,
+////                                                              image.getWidth() / 2 - dx, image.getHeight() + dy * 1,
+////                                                              image.getWidth() / 2 - dx, image.getHeight() + dy * 2,
+////                                                              image.getWidth() / 2, image.getHeight() / 2 + dy * 3 ), new BasicStroke( 10 ), Color.green ) );
+//            setPickable( false );
+//            setChildrenPickable( false );
+//            setVisible( false );
+//        }};
         final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
                 setPaint( Color.green );
@@ -49,7 +60,7 @@ public class LaserNode extends PNode {
             setVisible( false );
         }};
 
-        addChild( counterClockwiseDragArrow );
+//        addChild( counterClockwiseDragArrow );
         addChild( clockwiseDragArrow );
         final BooleanProperty mouseOver = new BooleanProperty( false );
         final BooleanProperty dragging = new BooleanProperty( false );
@@ -86,11 +97,11 @@ public class LaserNode extends PNode {
         };
         final And showCCW = showArrow.and( notMinimized );
         final And showCW = showArrow.and( notMaximized );
-        showCCW.addObserver( new SimpleObserver() {
-            public void update() {
-                counterClockwiseDragArrow.setVisible( showCCW.getValue() );
-            }
-        } );
+//        showCCW.addObserver( new SimpleObserver() {
+//            public void update() {
+//                counterClockwiseDragArrow.setVisible( showCCW.getValue() );
+//            }
+//        } );
         showCW.addObserver( new SimpleObserver() {
             public void update() {
                 clockwiseDragArrow.setVisible( showCW.getValue() );
