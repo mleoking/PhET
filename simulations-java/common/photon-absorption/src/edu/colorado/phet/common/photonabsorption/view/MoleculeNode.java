@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.view;
+package edu.colorado.phet.common.photonabsorption.view;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -9,10 +9,12 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.greenhouse.model.Atom;
 import edu.colorado.phet.greenhouse.model.AtomicBond;
-import edu.colorado.phet.greenhouse.model.Molecule;
+import edu.colorado.phet.greenhouse.view.AtomNode;
+import edu.colorado.phet.greenhouse.view.AtomicBondNode;
 import edu.umd.cs.piccolo.PNode;
 
 

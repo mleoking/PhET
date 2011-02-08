@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
 
 public abstract class AbstractPhotonAbsorber extends Observable implements ModelElement, PhotonAbsorber {
 

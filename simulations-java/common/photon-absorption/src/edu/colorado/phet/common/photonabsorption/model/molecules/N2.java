@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.model.AtomicBond;
-import edu.colorado.phet.greenhouse.model.Molecule;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.greenhouse.model.MoleculeID;
 import edu.colorado.phet.greenhouse.model.NitrogenAtom;
 
@@ -59,7 +59,7 @@ public class N2 extends Molecule {
     // ------------------------------------------------------------------------
 
     /* (non-Javadoc)
-     * @see edu.colorado.phet.greenhouse.model.Molecule#initializeCogOffsets()
+     * @see edu.colorado.phet.common.photonabsorption.model.Molecule#initializeCogOffsets()
      */
     @Override
     protected void initializeAtomOffsets() {

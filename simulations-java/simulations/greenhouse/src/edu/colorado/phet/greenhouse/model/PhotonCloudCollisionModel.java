@@ -14,6 +14,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;

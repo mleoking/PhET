@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.view;
+package edu.colorado.phet.moleculesandlight.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
+import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -41,7 +41,7 @@ public class SpectrumWindow extends JFrame {
      * Constructor.
      */
     public SpectrumWindow() {
-        super( GreenhouseResources.getString( "SpectrumWindow.title" ) );
+        super( MoleculesAndLightResources.getString( "SpectrumWindow.title" ) );
 
         // Size and center this window.
         setToDefaultSizeAndPosition();
@@ -58,7 +58,7 @@ public class SpectrumWindow extends JFrame {
         canvas.addWorldChild( spectrumDiagram );
 
         // Add the close button.
-        ButtonNode closeButton = new ButtonNode( GreenhouseResources.getCommonString( "Common.choice.close" ), Color.ORANGE );
+        ButtonNode closeButton = new ButtonNode( MoleculesAndLightResources.getCommonString( "Common.choice.close" ), Color.ORANGE );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 SpectrumWindow.this.setVisible( false );
@@ -92,7 +92,7 @@ public class SpectrumWindow extends JFrame {
         public SpectrumDiagram() {
 
             // Add the title.
-            PText title = new PText( GreenhouseResources.getString( "SpectrumWindow.title" ) );
+            PText title = new PText( MoleculesAndLightResources.getString( "SpectrumWindow.title" ) );
             title.setFont( new PhetFont( 30 ) );
             title.setOffset( OVERALL_DIMENSIONS.getWidth() / 2 - title.getFullBoundsReference().width / 2, 10 );
             addChild( title );
@@ -101,7 +101,7 @@ public class SpectrumWindow extends JFrame {
             LabeledArrow frequencyArrow = new LabeledArrow(
                     OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
                     LabeledArrow.Orientation.POINTING_RIGHT,
-                    GreenhouseResources.getString( "SpectrumWindow.frequencyArrowLabel" ),
+                    MoleculesAndLightResources.getString( "SpectrumWindow.frequencyArrowLabel" ),
                     new Color( 225, 142, 255 ),
                     Color.WHITE );
             frequencyArrow.setOffset( HORIZONTAL_INSET, title.getFullBoundsReference().getMaxY() + 25 );
@@ -116,7 +116,7 @@ public class SpectrumWindow extends JFrame {
             LabeledArrow wavelengthArrow = new LabeledArrow(
                     OVERALL_DIMENSIONS.getWidth() - HORIZONTAL_INSET * 2,
                     LabeledArrow.Orientation.POINTING_LEFT,
-                    GreenhouseResources.getString( "SpectrumWindow.wavelengthArrowLabel" ),
+                    MoleculesAndLightResources.getString( "SpectrumWindow.wavelengthArrowLabel" ),
                     Color.WHITE,
                     new Color( 235, 129, 98 ) );
             wavelengthArrow.setOffset( HORIZONTAL_INSET, spectrum.getFullBoundsReference().getMaxY() + 15 );
@@ -223,16 +223,16 @@ public class SpectrumWindow extends JFrame {
             }
 
             // Add the various bands.
-            addBandLabel( 1E3, 1E9, GreenhouseResources.getString( "SpectrumWindow.radioBandLabel" ) );
+            addBandLabel( 1E3, 1E9, MoleculesAndLightResources.getString( "SpectrumWindow.radioBandLabel" ) );
             addBandDivider( 1E9 );
-            addBandLabel( 1E9, 3E11, GreenhouseResources.getString( "SpectrumWindow.microwaveBandLabel" ) );
+            addBandLabel( 1E9, 3E11, MoleculesAndLightResources.getString( "SpectrumWindow.microwaveBandLabel" ) );
             addBandDivider( 3E11 );
-            addBandLabel( 3E11, 6E14, GreenhouseResources.getString( "SpectrumWindow.infraredBandLabel" ) );
-            addBandLabel( 1E15, 8E15, GreenhouseResources.getString( "SpectrumWindow.ultravioletBandLabel" ) );
+            addBandLabel( 3E11, 6E14, MoleculesAndLightResources.getString( "SpectrumWindow.infraredBandLabel" ) );
+            addBandLabel( 1E15, 8E15, MoleculesAndLightResources.getString( "SpectrumWindow.ultravioletBandLabel" ) );
             addBandDivider( 1E16 );
-            addBandLabel( 1E16, 1E19, GreenhouseResources.getString( "SpectrumWindow.xrayBandLabel" ) );
+            addBandLabel( 1E16, 1E19, MoleculesAndLightResources.getString( "SpectrumWindow.xrayBandLabel" ) );
             addBandDivider( 1E19 );
-            addBandLabel( 1E19, 1E21, GreenhouseResources.getString( "SpectrumWindow.gammaRayBandLabel" ) );
+            addBandLabel( 1E19, 1E21, MoleculesAndLightResources.getString( "SpectrumWindow.gammaRayBandLabel" ) );
 
             // Add the visible spectrum.
             int visSpectrumWidth = (int) Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
@@ -243,7 +243,7 @@ public class SpectrumWindow extends JFrame {
             spectrumRootNode.addChild( visibleSpectrum );
 
             // Add the label for the visible band.
-            PText visibleBandLabel = new PText( GreenhouseResources.getString( "SpectrumWindow.visibleBandLabel" ) );
+            PText visibleBandLabel = new PText( MoleculesAndLightResources.getString( "SpectrumWindow.visibleBandLabel" ) );
             visibleBandLabel.setFont( LABEL_FONT );
             double visibleBandCenterX = visibleSpectrum.getFullBounds().getCenterX();
             visibleBandLabel.setOffset( visibleBandCenterX - visibleBandLabel.getFullBoundsReference().width / 2, -50 );
@@ -261,11 +261,11 @@ public class SpectrumWindow extends JFrame {
             spectrumRootNode.addChild( visibleBandArrow );
 
             // Add the units.
-            PText frequencyUnits = new PText( GreenhouseResources.getString( "SpectrumWindow.cyclesPerSecondUnits" ) );
+            PText frequencyUnits = new PText( MoleculesAndLightResources.getString( "SpectrumWindow.cyclesPerSecondUnits" ) );
             frequencyUnits.setFont( LABEL_FONT );
             frequencyUnits.setOffset( stripWidth, -TICK_MARK_HEIGHT - frequencyUnits.getFullBoundsReference().getHeight() );
             spectrumRootNode.addChild( frequencyUnits );
-            PText wavelengthUnits = new PText( GreenhouseResources.getString( "SpectrumWindow.metersUnits" ) );
+            PText wavelengthUnits = new PText( MoleculesAndLightResources.getString( "SpectrumWindow.metersUnits" ) );
             wavelengthUnits.setFont( LABEL_FONT );
             wavelengthUnits.setOffset( stripWidth, STRIP_HEIGHT + TICK_MARK_HEIGHT + 5 );
             spectrumRootNode.addChild( wavelengthUnits );

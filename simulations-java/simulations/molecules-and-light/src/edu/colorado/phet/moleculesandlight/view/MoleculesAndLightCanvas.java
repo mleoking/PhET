@@ -13,17 +13,19 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
+import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
+import edu.colorado.phet.common.photonabsorption.view.PhotonEmitterNode;
+import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
+import edu.colorado.phet.common.photonabsorption.view.VerticalRodNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.greenhouse.GreenhouseDefaults;
-import edu.colorado.phet.greenhouse.view.*;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightModule;
-import edu.colorado.phet.greenhouse.model.Molecule;
-import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
-import edu.colorado.phet.moleculesandlight.view.QuadEmissionFrequencyControlPanel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas on which the interaction between molecules and light (photons) is
@@ -36,6 +38,9 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+
+    // Model-view transform for intermediate coordinates.
+    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 786, 786 );
 
     private static final double PHOTON_EMITTER_WIDTH = 300;
 
@@ -102,15 +107,15 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         } );
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new CenteringBoxStrategy( this, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE ) );
+        setWorldTransformStrategy( new CenteringBoxStrategy( this, INTERMEDIATE_RENDERING_SIZE ) );
 
         // Set up the model-canvas transform.  The multiplier values below can
         // be used to shift the center of the play area right or left, and the
         // scale factor can be used to essentially zoom in or out.
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
-                (int) Math.round( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height * 0.35 ) ),
+                new Point( (int) Math.round( INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
+                (int) Math.round( INTERMEDIATE_RENDERING_SIZE.height * 0.35 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         true );
 
@@ -186,7 +191,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
         // Add the button for restoring molecules that break apart.
         restoreMoleculeButtonNode = new ButtonNode( MoleculesAndLightResources.getString( "ButtonNode.ReturnMolecule" ), 24, new Color( 255, 144, 0 ) );
-        restoreMoleculeButtonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
+        restoreMoleculeButtonNode.setOffset( INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
         restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 photonAbsorptionModel.restorePhotonTarget();
@@ -260,7 +265,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
      */
     private void updateRestoreMolecueButtonVisibility() {
         boolean restoreButtonVisible = false;
-        Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width, GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.height );
+        Rectangle2D screenRect = new Rectangle2D.Double( 0, 0, INTERMEDIATE_RENDERING_SIZE.width, INTERMEDIATE_RENDERING_SIZE.height );
         for ( Molecule molecule : photonAbsorptionModel.getMolecules() ) {
             if ( !screenRect.contains( mvt.modelToView( molecule.getCenterOfGravityPos() ) ) ) {
                 restoreButtonVisible = true;

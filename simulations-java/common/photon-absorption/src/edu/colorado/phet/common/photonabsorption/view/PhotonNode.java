@@ -1,16 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.view;
+package edu.colorado.phet.common.photonabsorption.view;
 
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.Photon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

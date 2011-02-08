@@ -19,18 +19,18 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.model.molecules.*;
 import edu.colorado.phet.common.photonabsorption.view.MoleculeSelectorPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.photonabsorption.model.molecules.CO2;
-import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.molecules.N2;
 import edu.colorado.phet.common.photonabsorption.model.molecules.NO2;
 import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
 import edu.colorado.phet.common.photonabsorption.model.molecules.O3;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
-import edu.colorado.phet.greenhouse.view.MoleculeNode;
+import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 
 /**

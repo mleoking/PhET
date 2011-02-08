@@ -4,6 +4,9 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.util.Random;
 
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
+import edu.colorado.phet.common.photonabsorption.model.Photon;
+
 /**
  * This is the base class for the strategies that define how a molecule
  * reacts to a given photon.  It is responsible for the following:

@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.view;
+package edu.colorado.phet.common.photonabsorption.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
