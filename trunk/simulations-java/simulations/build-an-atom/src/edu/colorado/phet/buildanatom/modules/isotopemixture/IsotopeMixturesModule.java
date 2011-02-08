@@ -5,7 +5,7 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.view.IsotopeMixturesCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
@@ -18,7 +18,7 @@ public class IsotopeMixturesModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final InteractiveIsotopeModel model; // TODO: Wrong model, temp to get things working.
+    private final IsotopeMixturesModel model;
     private final IsotopeMixturesCanvas canvas;
 
     //----------------------------------------------------------------------------
@@ -31,7 +31,7 @@ public class IsotopeMixturesModule extends PiccoloModule {
 
         // Model
         BuildAnAtomClock clock = (BuildAnAtomClock) getClock();
-        model = new InteractiveIsotopeModel( clock );
+        model = new IsotopeMixturesModel( clock );
 
         // Canvas
         canvas = new IsotopeMixturesCanvas( model );
