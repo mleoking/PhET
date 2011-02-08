@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.greenhouse.controlpanel;
+package edu.colorado.phet.common.photonabsorption.view;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -61,7 +61,7 @@ class SelectionPanelWithImage extends JPanel {
         });
     }
 
-    protected JRadioButton getRadioButton() {
+    public JRadioButton getRadioButton() {
         return radioButton;
     }
 }

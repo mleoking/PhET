@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.view;
+package edu.colorado.phet.moleculesandlight.view;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -13,14 +13,16 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.greenhouse.GreenhouseDefaults;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.MoleculesAndLightModule;
+import edu.colorado.phet.greenhouse.view.*;
+import edu.colorado.phet.moleculesandlight.MoleculesAndLightModule;
 import edu.colorado.phet.greenhouse.model.Molecule;
 import edu.colorado.phet.greenhouse.model.Photon;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
+import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
+import edu.colorado.phet.moleculesandlight.view.QuadEmissionFrequencyControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -73,7 +75,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     };
 
     // Button for displaying EM specturm.
-    private final ButtonNode showSpectrumButton = new ButtonNode( GreenhouseResources.getString( "SpectrumWindow.buttonCaption" ), 24, new Color( 185, 178, 95 ) );
+    private final ButtonNode showSpectrumButton = new ButtonNode( MoleculesAndLightResources.getString( "SpectrumWindow.buttonCaption" ), 24, new Color( 185, 178, 95 ) );
 
     // Window that displays the EM spectrum upon request.
     private final SpectrumWindow spectrumWindow = new SpectrumWindow(){{ setVisible( false ); }};
@@ -183,7 +185,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
 
         // Add the button for restoring molecules that break apart.
-        restoreMoleculeButtonNode = new ButtonNode( GreenhouseResources.getString( "ButtonNode.ReturnMolecule" ), 24, new Color( 255, 144, 0 ) );
+        restoreMoleculeButtonNode = new ButtonNode( MoleculesAndLightResources.getString( "ButtonNode.ReturnMolecule" ), 24, new Color( 255, 144, 0 ) );
         restoreMoleculeButtonNode.setOffset( GreenhouseDefaults.INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
         restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

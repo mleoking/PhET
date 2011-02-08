@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.view;
+package edu.colorado.phet.moleculesandlight.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -21,12 +21,13 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
+import edu.colorado.phet.greenhouse.view.PhotonNode;
+import edu.colorado.phet.moleculesandlight.MoleculesAndLightConfig;
+import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -65,13 +66,13 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add the radio buttons that set the emission wavelength.
         final WavelengthSelectButtonNode microwaveSelectorNode =
-            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Microwave" ), model, GreenhouseConfig.microWavelength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Microwave" ), model, MoleculesAndLightConfig.microWavelength );
         final WavelengthSelectButtonNode infraredSelectorNode =
-            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Infrared" ), model, GreenhouseConfig.irWavelength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Infrared" ), model, MoleculesAndLightConfig.irWavelength );
         final WavelengthSelectButtonNode visibleLightSelectorNode =
-            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Visible" ), model, GreenhouseConfig.visibleWaveLength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Visible" ), model, MoleculesAndLightConfig.visibleWaveLength );
         final WavelengthSelectButtonNode ultravioletSelectorNode =
-            new WavelengthSelectButtonNode( GreenhouseResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, GreenhouseConfig.uvWavelength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, MoleculesAndLightConfig.uvWavelength );
 
         // Put all the buttons into a button group.  Without this, for some
         // reason, the individual buttons will toggle to the off state if
@@ -102,7 +103,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
 
         // Add the energy arrow.
-        EnergyArrow energyArrow = new EnergyArrow( GreenhouseResources.getString( "QuadWavelengthSelector.HigherEnergy" ), model ){{
+        EnergyArrow energyArrow = new EnergyArrow( MoleculesAndLightResources.getString( "QuadWavelengthSelector.HigherEnergy" ), model ){{
             centerFullBoundsOnPoint( backgroundNode.getFullBoundsReference().getCenterX(),
                     PANEL_SIZE.getHeight() - getFullBoundsReference().height / 2 - 10 );
         }};
@@ -201,10 +202,10 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Static data structure that maps the frequency values used in the
         // model to frequency ranges depicted on this spectrum.
         private static final HashMap<Double, DoubleRange> mapFreqToRange = new HashMap<Double, DoubleRange>(){{
-            put( GreenhouseConfig.microWavelength, new DoubleRange(1E-3, 1));
-            put( GreenhouseConfig.irWavelength, new DoubleRange(780E-9, 1E-3));
-            put( GreenhouseConfig.visibleWaveLength, new DoubleRange(380E-9, 780E-9));
-            put( GreenhouseConfig.uvWavelength, new DoubleRange(1E-9, 380E-9));
+            put( MoleculesAndLightConfig.microWavelength, new DoubleRange(1E-3, 1));
+            put( MoleculesAndLightConfig.irWavelength, new DoubleRange(780E-9, 1E-3));
+            put( MoleculesAndLightConfig.visibleWaveLength, new DoubleRange(380E-9, 780E-9));
+            put( MoleculesAndLightConfig.uvWavelength, new DoubleRange(1E-9, 380E-9));
         }};
 
         private final PhotonAbsorptionModel model;

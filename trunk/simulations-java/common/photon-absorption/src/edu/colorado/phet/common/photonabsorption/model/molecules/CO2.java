@@ -1,48 +1,58 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.model.*;
 
 
 /**
- * Class that represents carbon monoxide in the model.
+ * Class that represents carbon dioxide in the model.
  *
  * @author John Blanco
  */
-public class CO extends Molecule {
+public class CO2 extends Molecule {
 
     // ------------------------------------------------------------------------
     // Class Data
     // ------------------------------------------------------------------------
 
     private static final double INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
-    private static final double VIBRATION_MAGNITUDE = 20; // In picometers.
+
+    // Deflection amounts used for the vibration of the CO2 atoms.  These
+    // are calculated such that the actual center of gravity should remain
+    // constant.
+    private static final double CARBON_MAX_DEFLECTION = 40;
+    private static final double OXYGEN_MAX_DEFLECTION =
+        new CarbonAtom().getMass() * CARBON_MAX_DEFLECTION / (2 * new OxygenAtom().getMass());
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
     private final CarbonAtom carbonAtom = new CarbonAtom();
-    private final OxygenAtom oxygenAtom = new OxygenAtom();
-    private final AtomicBond carbonOxygenBond = new AtomicBond( carbonAtom, oxygenAtom, 3 );
+    private final OxygenAtom oxygenAtom1 = new OxygenAtom();
+    private final OxygenAtom oxygenAtom2 = new OxygenAtom();
+    private final AtomicBond carbonOxygenBond1 = new AtomicBond( carbonAtom, oxygenAtom1, 2 );
+    private final AtomicBond carbonOxygenBond2 = new AtomicBond( carbonAtom, oxygenAtom2, 2 );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public CO(Point2D inititialCenterOfGravityPos){
+    public CO2(Point2D inititialCenterOfGravityPos){
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( carbonAtom );
-        addAtom( oxygenAtom );
-        addAtomicBond( carbonOxygenBond );
+        addAtom( oxygenAtom1 );
+        addAtom( oxygenAtom2 );
+        addAtomicBond( carbonOxygenBond1 );
+        addAtomicBond( carbonOxygenBond2 );
 
         // Set up the photon wavelengths to absorb.
-        setPhotonAbsorptionStrategy( GreenhouseConfig.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
         setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
 
         // Set the initial offsets.
@@ -52,7 +62,7 @@ public class CO extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public CO(){
+    public CO2(){
         this(new Point2D.Double(0, 0));
     }
 
@@ -60,18 +70,20 @@ public class CO extends Molecule {
     // Methods
     // ------------------------------------------------------------------------
 
+
     @Override
-    protected void setVibration( double vibrationRadians ) {
+    protected void setVibration(double vibrationRadians){
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        vibrationAtomOffsets.get( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
-        vibrationAtomOffsets.get( oxygenAtom ).setComponents( -VIBRATION_MAGNITUDE * multFactor, 0 );
+        initialAtomCogOffsets.put(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
+        initialAtomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
+        initialAtomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
         updateAtomPositions();
     }
 
     @Override
     public MoleculeID getMoleculeID() {
-        return MoleculeID.CO;
+        return MoleculeID.CO2;
     }
 
     /* (non-Javadoc)
@@ -79,8 +91,10 @@ public class CO extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        initialAtomCogOffsets.put(carbonAtom, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
-        initialAtomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0));
+        initialAtomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
+        initialAtomCogOffsets.put(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        initialAtomCogOffsets.put(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+
         updateAtomPositions();
     }
 }

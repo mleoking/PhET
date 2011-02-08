@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse;
+package edu.colorado.phet.moleculesandlight;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -49,19 +49,9 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
         addModule( moleculesAndLightModule );
 
         // Options
-        getPhetFrame().addMenu( new JMenu( GreenhouseResources.getCommonString( "Common.OptionsMenu" ) ) {{
-            add( new PropertyCheckBoxMenuItem( GreenhouseResources.getString(  "OptionsMenu.whiteBackground" ), moleculesAndLightModule.getWhiteBackgroundProperty() ) );
+        getPhetFrame().addMenu( new JMenu( MoleculesAndLightResources.getCommonString( "Common.OptionsMenu" ) ) {{
+            add( new PropertyCheckBoxMenuItem( MoleculesAndLightResources.getString(  "OptionsMenu.whiteBackground" ), moleculesAndLightModule.getWhiteBackgroundProperty() ) );
         }} );
-
-        // Developer controls.
-        JMenu developerMenu = parentFrame.getDeveloperMenu();
-        final JCheckBoxMenuItem photonAbsorptionParamCheckBox = new JCheckBoxMenuItem( "Photon Absorption Controls" );
-        developerMenu.add( photonAbsorptionParamCheckBox );
-        photonAbsorptionParamCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                moleculesAndLightModule.setPhotonAbsorptionParamsDlgVisible( photonAbsorptionParamCheckBox.isSelected() );
-            }
-        } );
     }
 
     // ------------------------------------------------------------------------
@@ -77,8 +67,8 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
                 return new MoleculesAndLightApplication( config );
             }
         };
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, GreenhouseConfig.PROJECT_NAME,
-                GreenhouseConfig.FLAVOR_NAME_MOLECULES_AND_LIGHT );
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, MoleculesAndLightConfig.PROJECT_NAME,
+                MoleculesAndLightConfig.FLAVOR_NAME_MOLECULES_AND_LIGHT );
         appConfig.setLookAndFeel( new MoleculesAndLightLookAndFeel() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
@@ -89,7 +79,7 @@ public class MoleculesAndLightApplication extends PiccoloPhetApplication {
 
     private static class MoleculesAndLightLookAndFeel extends PhetLookAndFeel {
         public MoleculesAndLightLookAndFeel() {
-            setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
+            setBackgroundColor( MoleculesAndLightConfig.PANEL_BACKGROUND_COLOR );
             setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
         }
     }

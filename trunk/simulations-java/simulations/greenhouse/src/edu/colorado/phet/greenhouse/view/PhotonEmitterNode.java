@@ -11,10 +11,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.model.PhotonAbsorptionModel.PhotonTarget;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;

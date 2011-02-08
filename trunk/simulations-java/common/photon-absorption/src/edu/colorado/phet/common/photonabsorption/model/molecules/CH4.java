@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.greenhouse.model.*;
 
 
 /**
