@@ -66,7 +66,7 @@ public class LRRModel {
     final double redWavelength = 650E-9;
 
     final double modelWidth = redWavelength * 50;
-    final double modelHeight = modelWidth * 1.5;
+    final double modelHeight = modelWidth * 0.7;
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( modelWidth / 8 * 2 );
