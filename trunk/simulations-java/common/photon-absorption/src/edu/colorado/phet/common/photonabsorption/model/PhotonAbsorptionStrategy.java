@@ -4,7 +4,6 @@ package edu.colorado.phet.common.photonabsorption.model;
 
 import java.util.Random;
 
-import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.greenhouse.model.SingleMoleculePhotonAbsorptionProbability;
 
 /**

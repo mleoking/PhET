@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
 import edu.colorado.phet.common.photonabsorption.model.molecules.*;
-import edu.colorado.phet.greenhouse.model.Photon;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
@@ -445,7 +444,8 @@ public abstract class Molecule {
         double emissionAngle = RAND.nextDouble() * Math.PI * 2;
         photonToEmit.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
                 (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
-        photonToEmit.setLocation( getCenterOfGravityPosRef() );
+        final Point2D centerOfGravityPosRef = getCenterOfGravityPosRef();
+        photonToEmit.setLocation( centerOfGravityPosRef.getX(),centerOfGravityPosRef.getY() );
         notifyPhotonEmitted( photonToEmit );
         absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
     }
