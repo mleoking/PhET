@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BalanceChoiceNode extends PhetPNode {
 
-    public static enum BalanceChoice { BAR_CHARTS, BALANCE_SCALES, NONE };
+    public static enum BalanceChoice { NONE, BALANCE_SCALES, BAR_CHARTS };
 
     public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty, backgroundProperty ) ) );
@@ -37,9 +37,9 @@ public class BalanceChoiceNode extends PhetPNode {
             setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
             setGridY( 0 ); // horizontal layout
 
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalanceChoice.BAR_CHARTS ) );
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalanceChoice.BALANCE_SCALES ) );
             add( new PropertyRadioButton<BalanceChoice>( BCEStrings.NONE, balanceChoiceProperty, BalanceChoice.NONE ) );
+            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalanceChoice.BALANCE_SCALES ) );
+            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalanceChoice.BAR_CHARTS ) );
 
             // #2710 workaround, must do this after adding all components!
             backgroundProperty.addObserver( new SimpleObserver() {
