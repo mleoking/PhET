@@ -1,3 +1,4 @@
+2/4/11 restore the smiley face that appears for balanced equations
 2/4/11 move equation selection radio buttons to upper left
 2/4/11 change order of radio buttons to None, Balance Scales, Bar Charts
 2/4/11 game settings model, candidate for phetcommon

@@ -62,6 +62,10 @@ public class BalanceEquationCanvas extends BCECanvas {
         final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.getCurrentEquationProperty(), aligner );
         addChild( balanceScalesNode );
 
+        // smiley face
+        BalanceEquationFaceNode faceNode = new BalanceEquationFaceNode( model.getCurrentEquationProperty() );
+        addChild( faceNode );
+
         // Reset All button
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
         resetAllButtonNode.addResettable( globalProperties );
@@ -90,6 +94,11 @@ public class BalanceEquationCanvas extends BCECanvas {
             // boxes below equation
             y = equationNode.getFullBoundsReference().getMaxY() + 15;
             boxesNode.setOffset( 0, y );
+
+            // face node between boxes
+            x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
+            y = boxesNode.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight();
+            faceNode.setOffset( x, y );
 
             // bar charts and balance scales below boxes (centering is handle by nodes themselves)
             y = boxesNode.getFullBoundsReference().getMaxY() + 110;
