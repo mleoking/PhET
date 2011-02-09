@@ -1,3 +1,5 @@
+# 0.00.02 (48805) Feb 9, 2011
+2/9/11 Updated the credits.
 # 0.00.01 (48803) Feb 9, 2011
 2/9/11 First deploy to dev as separate project, see Greenhouse project versions 2.07.17 through 3.02.00 for previous history.
 Split molecules-and-light sim away from greenhouse project, see its change log for prior history
