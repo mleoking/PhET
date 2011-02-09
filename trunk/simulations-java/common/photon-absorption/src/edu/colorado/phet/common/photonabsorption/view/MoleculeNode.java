@@ -13,8 +13,6 @@ import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
-import edu.colorado.phet.greenhouse.view.AtomNode;
-import edu.colorado.phet.greenhouse.view.AtomicBondNode;
 import edu.umd.cs.piccolo.PNode;
 
 

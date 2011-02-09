@@ -2,7 +2,6 @@
 
 /**
  * Class: Photon
- * Package: edu.colorado.phet.greenhouse
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
