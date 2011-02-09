@@ -164,6 +164,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/membrane-channels/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/microwaves/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/microwaves/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/molecules-and-light/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/molecules-and-light/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/motion-2d/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/motion-2d/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/motion-series/src"/>
