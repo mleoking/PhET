@@ -1,3 +1,5 @@
+# 1.07.01 (48782) Feb 9, 2011
+2/9/11 Deploying in order to test KSU credits feature
 # 1.07.00 (38040) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.06.03 (37383) Dec 11, 2009
