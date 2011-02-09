@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.greenhouse.BaseGreenhouseModule;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 

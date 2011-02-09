@@ -11,8 +11,6 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.photonabsorption.model.Photon;
-
 
 public class BlackHole extends BasicPhotonAbsorber {
 

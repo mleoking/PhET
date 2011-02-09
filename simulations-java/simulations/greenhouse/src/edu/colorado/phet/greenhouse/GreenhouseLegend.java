@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
-import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.view.PhotonGraphic;
 

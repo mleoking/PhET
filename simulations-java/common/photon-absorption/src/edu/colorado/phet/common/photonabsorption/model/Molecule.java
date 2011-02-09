@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
 import edu.colorado.phet.common.photonabsorption.model.molecules.*;
+import edu.colorado.phet.greenhouse.model.Photon;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is

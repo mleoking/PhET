@@ -6,7 +6,7 @@
  * Author: Another Guy
  * Date: Oct 9, 2003
  */
-package edu.colorado.phet.common.photonabsorption.model;
+package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
