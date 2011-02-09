@@ -1,11 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.greenhouse.model.SingleMoleculePhotonAbsorptionProbability;
 
 /**
  * This is the base class for the strategies that define how a molecule
