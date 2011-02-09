@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.photonabsorption.model.molecules.*;
-import edu.colorado.phet.greenhouse.model.Photon;
 
 /**
  * Primary model for the Photon Absorption tab.  This models photons being
