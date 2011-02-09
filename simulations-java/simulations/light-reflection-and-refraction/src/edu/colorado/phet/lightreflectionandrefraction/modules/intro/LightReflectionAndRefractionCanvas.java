@@ -86,11 +86,11 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         addChild( new LaserNode( transform, model.getLaser(), showDragHandles ) );
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
-            add( new VerticalLayoutPanel() {{
-                setBorder( new PhetTitledBorder( "Index of Refraction" ) );
-                add( new IndexOfRefractionSlider( model.topMedium, model.colorMappingFunction, "n1=" ) );
-                add( new IndexOfRefractionSlider( model.bottomMedium, model.colorMappingFunction, "n2=" ) );
-            }} );
+//            add( new VerticalLayoutPanel() {{
+//                setBorder( new PhetTitledBorder( "Index of Refraction" ) );
+//                add( new IndexOfRefractionSlider( model.topMedium, model.colorMappingFunction, "n1=" ) );
+//                add( new IndexOfRefractionSlider( model.bottomMedium, model.colorMappingFunction, "n2=" ) );
+//            }} );
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "View" ) );
                 final Property<Boolean> ray = new Property<Boolean>( true );
@@ -133,6 +133,13 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 addLightRayNode.apply( lightRay );
             }
         } );
+
+        addChild( new MediumControlPanel( this ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 20, transform.modelToViewY( 0 ) - 20 - getFullBounds().getHeight() );
+        }} );
+        addChild( new MediumControlPanel( this ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 20, transform.modelToViewY( 0 ) + 20 );
+        }} );
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );

@@ -5,12 +5,15 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 /**
  * @author Sam Reid
  */
 public class TickLabel extends JLabel {
     public TickLabel( String text ) {
         super( text );
+        setFont( new PhetFont( 14 ) );
     }
 
     @Override
