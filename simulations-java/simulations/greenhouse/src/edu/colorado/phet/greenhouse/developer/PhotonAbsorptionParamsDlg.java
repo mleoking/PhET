@@ -13,7 +13,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.model.SingleMoleculePhotonAbsorptionProbability;
+import edu.colorado.phet.common.photonabsorption.model.SingleMoleculePhotonAbsorptionProbability;
 
 
 /**

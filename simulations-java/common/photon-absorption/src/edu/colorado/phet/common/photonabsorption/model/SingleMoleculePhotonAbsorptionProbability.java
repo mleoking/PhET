@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model;
 
 
 /**
  * This class is a singleton that is the place where individual molecules come
  * in order to determine their probability of absorbing a photon (assuming
  * that the wavelength of the photon is one that they will absorb).  This
- * exists to allow this probablity to be varied using developer controls, and
+ * exists to allow this probability to be varied using developer controls, and
  * at some point may be replaced by a simple constant.
  * 
  * @author John Blanco
