@@ -78,12 +78,13 @@ public class BalanceEquationCanvas extends BCECanvas {
          * and handle their own horizontal alignment via HorizontalAligner.
          */
         {
-            // equation choices above equation, right justified
-            double x = boxesNode.getFullBoundsReference().getWidth() - equationChoiceNode.getFullBoundsReference().getWidth();
-            equationChoiceNode.setOffset( x, 0 );
+            double x, y;
+
+            // equation choices above equation, left justified
+            equationChoiceNode.setOffset( 0, 0 );
 
             // equation below choices
-            double y = equationChoiceNode.getFullBoundsReference().getMaxY() + 25;
+            y = equationChoiceNode.getFullBoundsReference().getMaxY() + 25;
             equationNode.setOffset( 0, y );
 
             // boxes below equation
