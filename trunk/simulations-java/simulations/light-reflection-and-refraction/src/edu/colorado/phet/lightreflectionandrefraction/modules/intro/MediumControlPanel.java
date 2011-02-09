@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -24,7 +26,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class MediumControlPanel extends PNode {
 
-    public MediumControlPanel( final PhetPCanvas phetPCanvas ) {
+    public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction ) {
+        final double inset = 12;
         final PNode content = new PNode() {{
             final PhetFont labelFont = new PhetFont( 16 );
             final PText materialLabel = new PText( "Material:" ) {{
@@ -40,7 +43,7 @@ public class MediumControlPanel extends PNode {
             }};
             addChild( comboBoxPSwing );
 
-            final PSwing slider = new PSwing( new IndexOfRefractionSlider( null, null, "" ) {{
+            final PSwing slider = new PSwing( new IndexOfRefractionSlider( medium, colorMappingFunction, "" ) {{
                 SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
                 getTextField().setBackground( Color.white );
                 getTextField().setFont( labelFont );
@@ -54,17 +57,20 @@ public class MediumControlPanel extends PNode {
                 setOffset( 0, slider.getFullBounds().getMaxY() );
             }};
             addChild( indexOfRefractionLabel );
+            setOffset( inset, inset );
         }};
 
-        addChild( new PhetPPath( Color.lightGray, new BasicStroke( 2 ), Color.darkGray ) {{
-            content.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+        final PhetPPath background = new PhetPPath( Color.lightGray, new BasicStroke( 2 ), Color.darkGray ) {{
+            final PropertyChangeListener updateSize = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    double expand = 12;
                     final PBounds b = content.getFullBounds();
-                    setPathTo( new RoundRectangle2D.Double( b.getX() - expand, b.getY() - expand, b.getWidth() + expand * 2, b.getHeight() + expand * 2, 20, 20 ) );
+                    setPathTo( new RoundRectangle2D.Double( 0, 0, b.getWidth() + inset * 2, b.getHeight() + inset * 2, 20, 20 ) );
                 }
-            } );
-        }} );
+            };
+            content.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateSize );
+            updateSize.propertyChange( null );
+        }};
+        addChild( background );
         addChild( content );
     }
 
@@ -88,8 +94,9 @@ public class MediumControlPanel extends PNode {
                 }
                 new JFrame() {{
                     setContentPane( new PhetPCanvas() {{
-                        getLayer().addChild( new MediumControlPanel( this ) {{
-                            setOffset( 100, 100 );
+                        getLayer().addChild( new MediumControlPanel( this, null, null ) {{
+                            System.out.println( "getFullBounds() = " + getFullBounds() );
+//                            setOffset( 100, 100 );
 //                            scale( 2 );
                         }} );
                     }} );
