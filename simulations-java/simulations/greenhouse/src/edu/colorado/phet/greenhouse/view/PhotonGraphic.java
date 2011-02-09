@@ -18,6 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
@@ -41,8 +42,8 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     static {
         baseImage = GreenhouseResources.getImage( "photon-comet.png" );
         double photonScale = 0.8 * 0.7;
-        redImage = BufferedImageUtils.rescaleFractional( GreenhouseResources.getImage( "photon-660.png" ), photonScale, photonScale );
-        yellowImage = BufferedImageUtils.rescaleFractional( GreenhouseResources.getImage( "thin2.png" ), photonScale, photonScale );
+        redImage = BufferedImageUtils.rescaleFractional( PhotonAbsorptionResources.getImage( "photon-660.png" ), photonScale, photonScale );
+        yellowImage = BufferedImageUtils.rescaleFractional( PhotonAbsorptionResources.getImage( "thin2.png" ), photonScale, photonScale );
         AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.4, 0.4 );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         baseImage = scaleOp.filter( baseImage, null );

@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
@@ -69,7 +70,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
             }
         } );
         infraredButtonPanel.add( infraredPhotonRadioButton );
-        infraredButtonPanel.add( new JLabel( new ImageIcon( GreenhouseResources.getImage( "photon-660.png" ) ) ) );
+        infraredButtonPanel.add( new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "photon-660.png" ) ) ) );
 
         JPanel visibleButtonPanel = new JPanel();
         visiblePhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Visible" ) );
@@ -80,7 +81,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
             }
         } );
         visibleButtonPanel.add( visiblePhotonRadioButton );
-        visibleButtonPanel.add( new JLabel( new ImageIcon( GreenhouseResources.getImage( "thin2.png" ) ) ) );
+        visibleButtonPanel.add( new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "thin2.png" ) ) ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( infraredPhotonRadioButton );

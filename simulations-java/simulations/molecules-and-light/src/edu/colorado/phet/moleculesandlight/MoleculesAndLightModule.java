@@ -60,7 +60,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public MoleculesAndLightModule( Frame parentFrame ) {
-        super( MoleculesAndLightResources.getString( "ModuleTitle.PhotonAbsorptionModule" ),
+        super( MoleculesAndLightResources.getString( "ModuleTitle.MoleculesAndLightModule" ),
                 new ConstantDtClock( CLOCK_DELAY, CLOCK_DT ) );
 
         // Physical model

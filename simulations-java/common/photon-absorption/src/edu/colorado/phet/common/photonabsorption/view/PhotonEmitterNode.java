@@ -11,9 +11,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -136,17 +136,16 @@ public class PhotonEmitterNode extends PNode {
         // center right side of the image is the origin.  This assumes that
         // photons will be emitted horizontally to the right.
         if ( model.getEmittedPhotonWavelength() == WavelengthConstants.irWavelength ) {
-            photonEmitterImage = new PImage( GreenhouseResources.getImage( "heat-lamp.png" ) );
+            photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "heat-lamp.png" ) );
         }
         else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.visibleWaveLength ) {
-            photonEmitterImage = new PImage( GreenhouseResources.getImage( "flashlight2.png" ) );
+            photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "flashlight2.png" ) );
         }
         else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.uvWavelength){
-//            photonEmitterImage = new PImage(GreenhouseResources.getImage("uv-light.png"));
-            photonEmitterImage = new PImage(GreenhouseResources.getImage("uv_light_2.png"));
+            photonEmitterImage = new PImage(PhotonAbsorptionResources.getImage("uv_light_2.png"));
         }
         else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.microWavelength){
-            photonEmitterImage = new PImage(GreenhouseResources.getImage("microwave-transmitter.png"));
+            photonEmitterImage = new PImage(PhotonAbsorptionResources.getImage("microwave-transmitter.png"));
         }
 
         photonEmitterImage.scale( flashlightWidth / photonEmitterImage.getFullBoundsReference().width );
