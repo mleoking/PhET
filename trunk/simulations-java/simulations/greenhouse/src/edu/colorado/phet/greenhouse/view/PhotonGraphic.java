@@ -18,7 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;

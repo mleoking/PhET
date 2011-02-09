@@ -10,8 +10,6 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.photonabsorption.model.Photon;
-
 
 public class CircularPhotonEmitter extends AbstractPhotonEmitter {
 

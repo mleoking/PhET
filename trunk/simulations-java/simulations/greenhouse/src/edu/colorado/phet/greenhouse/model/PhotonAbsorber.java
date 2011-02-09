@@ -10,8 +10,6 @@
 package edu.colorado.phet.greenhouse.model;
 
 
-import edu.colorado.phet.common.photonabsorption.model.Photon;
-
 public interface PhotonAbsorber {
 
     void addListener( PhotonAbsorber.Listener listener );

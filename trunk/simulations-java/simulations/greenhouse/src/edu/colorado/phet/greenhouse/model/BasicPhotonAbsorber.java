@@ -10,8 +10,6 @@
 package edu.colorado.phet.greenhouse.model;
 
 
-import edu.colorado.phet.common.photonabsorption.model.Photon;
-
 public class BasicPhotonAbsorber extends AbstractPhotonAbsorber {
 
     public void stepInTime( double dt ) {

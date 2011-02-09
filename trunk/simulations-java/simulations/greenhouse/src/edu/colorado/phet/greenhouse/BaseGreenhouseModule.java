@@ -20,7 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;

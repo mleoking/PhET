@@ -7,7 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
