@@ -10,9 +10,8 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.colorado.phet.greenhouse.model.Disk;
-import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 
 public class Photon extends Disk {
 

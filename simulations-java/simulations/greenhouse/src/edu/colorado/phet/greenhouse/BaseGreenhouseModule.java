@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.model.Photon;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
@@ -32,7 +33,6 @@ import edu.colorado.phet.greenhouse.model.Earth;
 import edu.colorado.phet.greenhouse.model.GreenhouseClock;
 import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
-import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.model.ScatterEvent;
 import edu.colorado.phet.greenhouse.model.Star;
 import edu.colorado.phet.greenhouse.model.Thermometer;
@@ -319,7 +319,7 @@ public abstract class BaseGreenhouseModule extends Module {
     // Inner classes
     //----------------------------------------------------------------
 
-    protected class PhotonEmitterListener implements PhotonEmitter.Listener {
+    protected class PhotonEmitterListener implements PhotonEmitter.Listener<Photon> {
         // Used to tell if a photon is IR
         private final Filter1D irFilter = new IrFilter();
         private int n = 0;

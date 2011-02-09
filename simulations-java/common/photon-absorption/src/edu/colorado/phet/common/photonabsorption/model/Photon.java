@@ -9,10 +9,6 @@ package edu.colorado.phet.common.photonabsorption.model;
 
 import java.awt.geom.Point2D;
 import java.util.Observable;
-import java.util.Observer;
-
-import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
-import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 
 public class Photon extends Observable {
 
@@ -59,7 +55,7 @@ public class Photon extends Observable {
     }
 
     public void setLocation( double x,double y) {
-        this.location.setLocation( x,y);
+        this.location.setLocation( x, y );
         setChanged();
         notifyObservers();
     }

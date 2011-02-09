@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
