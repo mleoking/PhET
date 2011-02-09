@@ -65,11 +65,11 @@ public class LRRModel {
     public static final double C = 2.99792458e8;
     final double redWavelength = 650E-9;
 
-    final double modelWidth = redWavelength * 50;
+    final double modelWidth = redWavelength * 62;
     final double modelHeight = modelWidth * 0.7;
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
-    private Laser laser = new Laser( modelWidth / 8 * 2 );
+    private Laser laser = new Laser( 8.125E-6 );
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), N_AIR, colorMappingFunction.getValue().apply( N_AIR ) ) );
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), N_WATER, colorMappingFunction.getValue().apply( N_WATER ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
