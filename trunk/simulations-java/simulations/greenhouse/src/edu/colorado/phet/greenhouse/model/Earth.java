@@ -10,11 +10,12 @@ package edu.colorado.phet.greenhouse.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
-public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, PhotonAbsorber, PhotonEmitter.Listener {
+public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, PhotonAbsorber, PhotonEmitter.Listener<Photon> {
 
 	private static final double PHOTON_EMISSION_TIME = GreenhouseClock.DEFAULT_TIME_DELTA_PER_TICK;
     public static double radius = 6370;

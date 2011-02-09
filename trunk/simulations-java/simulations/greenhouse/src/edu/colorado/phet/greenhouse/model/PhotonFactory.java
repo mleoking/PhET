@@ -11,6 +11,8 @@ package edu.colorado.phet.greenhouse.model;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
+
 
 public class PhotonFactory implements PhotonEmitter, PhotonAbsorber {
 

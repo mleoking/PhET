@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 
-public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener, PhotonAbsorber.Listener {
+public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener<Photon>, PhotonAbsorber.Listener {
     private Star sun;
     private Earth earth;
     private Atmosphere atmosphere;

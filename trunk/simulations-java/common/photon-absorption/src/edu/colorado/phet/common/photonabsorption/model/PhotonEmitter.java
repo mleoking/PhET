@@ -2,14 +2,13 @@
 
 /**
  * Class: PhotonEmitter
- * Package: edu.colorado.phet.greenhouse
  * Author: Another Guy
  * Date: Oct 10, 2003
  */
-package edu.colorado.phet.greenhouse.model;
+package edu.colorado.phet.common.photonabsorption.model;
 
 
-public interface PhotonEmitter {
+public interface PhotonEmitter<T> {
 
     void addListener( Listener listener );
 
@@ -19,13 +18,13 @@ public interface PhotonEmitter {
 
     void setProductionRate( double productionRate );
 
-    Photon emitPhoton();
+    T emitPhoton();
 
     //
     // Inner classes
     //
-    public interface Listener {
-        void photonEmitted( Photon photon );
+    public interface Listener<T> {
+        void photonEmitted( T photon );
     }
 
 }
