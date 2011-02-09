@@ -16,7 +16,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -65,7 +65,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         infraredPhotonRadioButton.setFont( LABEL_FONT );
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setEmittedPhotonWavelength( GreenhouseConfig.irWavelength );
+                model.setEmittedPhotonWavelength( WavelengthConstants.irWavelength );
             }
         } );
         infraredButtonPanel.add( infraredPhotonRadioButton );
@@ -76,7 +76,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         visiblePhotonRadioButton.setFont( LABEL_FONT );
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setEmittedPhotonWavelength( GreenhouseConfig.visibleWaveLength );
+                model.setEmittedPhotonWavelength( WavelengthConstants.visibleWaveLength );
             }
         } );
         visibleButtonPanel.add( visiblePhotonRadioButton );
@@ -108,7 +108,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
     // ------------------------------------------------------------------------
 
     private void updateFrequencySelectButtons() {
-        if ( model.getEmittedPhotonWavelength() == GreenhouseConfig.irWavelength ) {
+        if ( model.getEmittedPhotonWavelength() == WavelengthConstants.irWavelength ) {
             if ( !infraredPhotonRadioButton.isSelected() ) {
                 infraredPhotonRadioButton.setSelected( true );
             }

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.view.PhotonGraphic;
 
 public class GreenhouseLegend extends PhetTitledPanel {
@@ -29,14 +30,14 @@ public class GreenhouseLegend extends PhetTitledPanel {
         // Draw an IR photon and a sunlight photon
         BufferedImage irPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = (Graphics2D) irPhotonBI.getGraphics();
-        Photon irPhoton = new Photon( GreenhouseConfig.irWavelength, null );
+        Photon irPhoton = new Photon( WavelengthConstants.irWavelength, null );
         PhotonGraphic irPhotonGraphic = new PhotonGraphic( irPhoton );
         irPhotonGraphic.paint( g2 );
         ImageIcon irPhotonIcon = new ImageIcon( irPhotonGraphic.getImage() );
 
         BufferedImage sunlightPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         g2 = (Graphics2D) sunlightPhotonBI.getGraphics();
-        Photon sunlightPhoton = new Photon( GreenhouseConfig.sunlightWavelength, null );
+        Photon sunlightPhoton = new Photon( WavelengthConstants.sunlightWavelength, null );
         PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( sunlightPhoton );
         sunlightPhotonGraphic.paint( g2 );
         ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonGraphic.getImage() );

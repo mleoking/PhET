@@ -8,7 +8,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.model.*;
 
 
@@ -77,10 +77,10 @@ public class NO2 extends Molecule {
         addAtomicBond( leftNitrogenOxygenBond );
 
         // Set up the photon wavelengths to absorb.
-        setPhotonAbsorptionStrategy( GreenhouseConfig.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
-        setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
-        setPhotonAbsorptionStrategy( GreenhouseConfig.visibleWaveLength, new PhotonAbsorptionStrategy.ExcitationStrategy( this ) );
-        setPhotonAbsorptionStrategy( GreenhouseConfig.uvWavelength, new PhotonAbsorptionStrategy.BreakApartStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.visibleWaveLength, new PhotonAbsorptionStrategy.ExcitationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.uvWavelength, new PhotonAbsorptionStrategy.BreakApartStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();

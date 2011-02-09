@@ -17,6 +17,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
@@ -248,7 +249,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         if ( isIceAge ) {
             if ( backdropGraphic != null
                  && photon.getVelocity().getY() < 0
-                 && photon.getWavelength() == GreenhouseConfig.sunlightWavelength) {
+                 && photon.getWavelength() == WavelengthConstants.sunlightWavelength) {
 
                 Point2D photonPosInView = apparatusPanel.modelToView( photon.getLocation() );
 

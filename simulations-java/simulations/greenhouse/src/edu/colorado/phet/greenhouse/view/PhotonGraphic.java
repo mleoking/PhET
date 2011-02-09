@@ -19,7 +19,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.greenhouse.common.graphics.CompositeGraphic;
 import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
@@ -50,9 +50,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     // Create an LUT for colors to correspond to wavelengths
     static {
-        colorLUT.put( new Double( GreenhouseConfig.sunlightWavelength ), new Color( 255, 255, 120 ) );
-        colorLUT.put( new Double( GreenhouseConfig.irWavelength ), Color.red );
-        colorLUT.put( new Double( GreenhouseConfig.debug_wavelength ), Color.green );
+        colorLUT.put( new Double( WavelengthConstants.sunlightWavelength ), new Color( 255, 255, 120 ) );
+        colorLUT.put( new Double( WavelengthConstants.irWavelength ), Color.red );
+        colorLUT.put( new Double( WavelengthConstants.debug_wavelength ), Color.green );
     }
 
     // A cache for phton graphic

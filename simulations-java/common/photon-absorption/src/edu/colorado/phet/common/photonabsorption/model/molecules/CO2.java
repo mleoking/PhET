@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.model.*;
 
 
@@ -54,7 +54,7 @@ public class CO2 extends Molecule {
         addAtomicBond( carbonOxygenBond2 );
 
         // Set up the photon wavelengths to absorb.
-        setPhotonAbsorptionStrategy( GreenhouseConfig.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();
