@@ -1,3 +1,4 @@
+# 2.10.00 (48775) Feb 8, 2011
 > add translation.credits field for specifying translation credits
 # 2.09.01 (48362) Jan 31, 2011
 1/31/11 dev version for testing KSU credits
