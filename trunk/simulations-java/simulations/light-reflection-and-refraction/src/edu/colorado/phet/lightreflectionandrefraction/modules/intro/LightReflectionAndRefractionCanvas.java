@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
@@ -43,14 +44,14 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        final int stageWidth = 1500;
+        final int stageWidth = 1008;
         final PDimension STAGE_SIZE = new PDimension( stageWidth, stageWidth * model.getHeight() / model.getWidth() );
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
         final double scale = STAGE_SIZE.getHeight() / model.getHeight();
         final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                        new Point2D.Double( STAGE_SIZE.getWidth() / 2 - 200, STAGE_SIZE.getHeight() / 2 ),
+                                                                                                        new Point2D.Double( STAGE_SIZE.getWidth() / 2 - 150, STAGE_SIZE.getHeight() / 2 ),
                                                                                                         scale );
 
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
@@ -103,7 +104,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
-            scale( 1.6 );
+//            scale(  );
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 20, 20 );
         }} );
 
@@ -134,7 +135,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         } );
 
         //Debug for showing stage
-//        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
     }
 
     public static class ControlPanel extends PNode {
