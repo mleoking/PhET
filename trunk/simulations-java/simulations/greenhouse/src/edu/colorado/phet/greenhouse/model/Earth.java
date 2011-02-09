@@ -11,6 +11,7 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.util.ModelViewTx1D;
 
@@ -35,7 +36,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     public Earth( Point2D.Double center, double alpha, double beta ) {
         super( center, radius );
-        photonSource = new CircularPhotonEmitter( center, radius, GreenhouseConfig.irWavelength, alpha, beta );
+        photonSource = new CircularPhotonEmitter( center, radius, WavelengthConstants.irWavelength, alpha, beta );
         photonSource.addListener( this );
         photonAbsorber = new BasicPhotonAbsorber();
         temperature = GreenhouseConfig.earthBaseTemperature;

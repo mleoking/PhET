@@ -8,8 +8,8 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -35,10 +35,10 @@ public class PhotonNode extends PNode implements Observer {
 
     // Map of photon wavelengths to visual images used for representing them.
     private static final HashMap<Double, String> mapWavelengthToImageName = new HashMap<Double, String>(){{
-        put( GreenhouseConfig.microWavelength, "microwave-photon.png");
-        put( GreenhouseConfig.irWavelength, "photon-660.png");
-        put( GreenhouseConfig.visibleWaveLength, "thin2.png");
-        put( GreenhouseConfig.uvWavelength, "photon-100.png");
+        put( WavelengthConstants.microWavelength, "microwave-photon.png");
+        put( WavelengthConstants.irWavelength, "photon-660.png");
+        put( WavelengthConstants.visibleWaveLength, "thin2.png");
+        put( WavelengthConstants.uvWavelength, "photon-100.png");
     }};
 
     // For debug and testing.  TODO: Remove this if ultimately not used.
@@ -67,7 +67,7 @@ public class PhotonNode extends PNode implements Observer {
         this.mvt = mvt;
 
         if ( USE_PHOTON_FACTORY ){
-            if ( photon.getWavelength() == GreenhouseConfig.microWavelength ) {
+            if ( photon.getWavelength() == WavelengthConstants.microWavelength ) {
                 // Special case for microwaves, since PhotonImageFactory makes all
                 // photons with a wavelength longer than visible light look the
                 // same.

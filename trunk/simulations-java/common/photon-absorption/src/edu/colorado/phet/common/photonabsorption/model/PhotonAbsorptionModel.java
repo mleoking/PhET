@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.photonabsorption.model.molecules.*;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.model.*;
 
 /**
@@ -76,7 +75,7 @@ public class PhotonAbsorptionModel {
 
     // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
-    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = GreenhouseConfig.irWavelength;
+    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.irWavelength;
     private static final double INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
 
     // Initial and max values for the numbers of molecules in the configurable
@@ -121,7 +120,7 @@ public class PhotonAbsorptionModel {
 
     private final EventListenerList listeners = new EventListenerList();
     private final ArrayList<Photon> photons = new ArrayList<Photon>();
-    private double photonWavelength = GreenhouseConfig.visibleWaveLength;
+    private double photonWavelength = WavelengthConstants.visibleWaveLength;
     private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
     private final PhotonTarget initialPhotonTarget;
     private PhotonTarget photonTarget = null;

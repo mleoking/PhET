@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.photonabsorption.model.Photon;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 
@@ -25,8 +26,8 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
     private double greenhouseGasConcentration = GreenhouseConfig.defaultGreenhouseGasConcentration;
     ArrayList listeners = new ArrayList();
 
-    private BandpassFilter greenhouseGasFilter = new BandpassFilter( GreenhouseConfig.irWavelength,
-                                                                     GreenhouseConfig.irWavelength );
+    private BandpassFilter greenhouseGasFilter = new BandpassFilter( WavelengthConstants.irWavelength,
+                                                                     WavelengthConstants.irWavelength );
 
     public Atmosphere( Earth earth ) {
         super( earth.getLocation(), Earth.radius * 2, ( Earth.radius + troposphereThickness + stratosphereThickness ) * 2 );
