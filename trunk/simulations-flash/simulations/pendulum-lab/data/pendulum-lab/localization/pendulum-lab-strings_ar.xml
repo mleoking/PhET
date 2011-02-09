@@ -42,4 +42,6 @@
 <string key="angleUnit" value="درجة"/>
 <string key="paused" value="متوقف مؤقتا"/>
 <string key="sixteenthTime" value="1/16 الزمن"/>
+<string key="ksu.credits" value="تم إعداد وتهيئة برمجيات المحاكاة والموقع الخاص بها باللغة العربية عن طريق&lt;br&gt;&lt;a href=&quot;http://ecsme.ksu.edu.sa&quot; target=&quot;_blank&quot;&gt;مركز التميز البحثي في تطوير تعليم العلوم والرياضيات&lt;/a&gt;&lt;br&gt;(أفكر)&lt;br&gt;بجامعة الملك سعود، الرياض، المملكة العربية السعودية"/>
+<string key="translation.credits" value="KSU"/>
 </SimStrings>
