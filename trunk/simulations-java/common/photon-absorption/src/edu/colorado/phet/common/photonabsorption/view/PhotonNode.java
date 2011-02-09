@@ -7,10 +7,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -72,7 +72,7 @@ public class PhotonNode extends PNode implements Observer {
                 // photons with a wavelength longer than visible light look the
                 // same.
                 // TODO: Do we want to change PhotonImageFactory to handle this case?
-                photonImage = new PImage( GreenhouseResources.getImage( "microwave-photon.png" ) );
+                photonImage = new PImage( PhotonAbsorptionResources.getImage( "microwave-photon.png" ) );
             }
             else {
                 photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
@@ -80,7 +80,7 @@ public class PhotonNode extends PNode implements Observer {
         }
         else{
             assert mapWavelengthToImageName.containsKey( photon.getWavelength() );
-            photonImage = new PImage( GreenhouseResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
+            photonImage = new PImage( PhotonAbsorptionResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
         }
         photonImage.setOffset( -photonImage.getFullBoundsReference().width / 2,
                 -photonImage.getFullBoundsReference().height / 2 );
