@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
+import edu.colorado.phet.lightreflectionandrefraction.model.MediumState;
 
 /**
  * @author Sam Reid
@@ -20,6 +21,7 @@ import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 public class IndexOfRefractionSlider extends LinearValueControl {
     public IndexOfRefractionSlider( final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, String text ) {
         super( 1, 1.6, medium.getValue().getIndexOfRefraction(), text, "0.00", "", new HorizontalLayoutStrategy() );
+        setSignifyOutOfBounds( false );
         setTickLabels( new Hashtable<Object, Object>() {{
             put( LRRModel.AIR.index, new TickLabel( "Air" ) );
             put( LRRModel.WATER.index, new TickLabel( "Water" ) );
@@ -30,7 +32,7 @@ public class IndexOfRefractionSlider extends LinearValueControl {
         getSlider().setMajorTickSpacing( 0 );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                medium.setValue( new Medium( medium.getValue().getShape(), getValue(), colorMappingFunction.getValue().apply( getValue() ) ) );
+                medium.setValue( new Medium( medium.getValue().getShape(), new MediumState( "Custom", getValue() ), colorMappingFunction.getValue().apply( getValue() ) ) );
             }
         } );
         medium.addObserver( new SimpleObserver() {

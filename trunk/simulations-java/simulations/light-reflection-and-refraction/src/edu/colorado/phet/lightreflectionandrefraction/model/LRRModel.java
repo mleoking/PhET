@@ -27,32 +27,22 @@ public class LRRModel {
     private List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
 
-    public static class MediumState {
-        public final String name;
-        public final double index;
-
-        public MediumState( String name, double index ) {
-            this.name = name;
-            this.index = index;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-
-        public boolean isCustom() {
-            return false;
-        }
-    }
-
     public static final MediumState VACUUM = new MediumState( "Vacuum", 1.0 );
     public static final MediumState AIR = new MediumState( "Air", 1.000293 );
     public static final MediumState WATER = new MediumState( "Water", 1.333 );
     public static final MediumState GLASS = new MediumState( "Glass", 1.5 );
     public static final MediumState DIAMOND = new MediumState( "Diamond", 2.419 );
-    public static final MediumState MYSTERY_A = DIAMOND;
-    public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4 );
+    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND.index ) {
+        public boolean isMystery() {
+            return true;
+        }
+    };
+    public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4 ) {
+        @Override
+        public boolean isMystery() {
+            return true;
+        }
+    };
 
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
@@ -91,8 +81,8 @@ public class LRRModel {
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( 8.125E-6 );
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR.index, colorMappingFunction.getValue().apply( AIR.index ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER.index, colorMappingFunction.getValue().apply( WATER.index ) ) );
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
     //Alphas may be ignored, see MediumNode
     public static final Color AIR_COLOR = Color.white;
@@ -104,8 +94,8 @@ public class LRRModel {
         this.clock = new ConstantDtClock( 20, 1e-15 );
         colorMappingFunction.addObserver( new SimpleObserver() {
             public void update() {
-                topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getIndexOfRefraction(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
-                bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getIndexOfRefraction(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
+                topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
+                bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
             }
         } );
         final SimpleObserver updateRays = new SimpleObserver() {

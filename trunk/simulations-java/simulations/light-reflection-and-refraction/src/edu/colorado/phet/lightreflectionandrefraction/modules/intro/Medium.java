@@ -3,22 +3,24 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
 
+import edu.colorado.phet.lightreflectionandrefraction.model.MediumState;
+
 /**
  * @author Sam Reid
  */
 public class Medium {
     private final Shape shape;
-    private double indexOfRefraction;
+    private MediumState mediumState;
     private final Color color;
 
-    public Medium( Shape shape, double indexOfRefraction, Color color ) {
+    public Medium( Shape shape, MediumState mediumState, Color color ) {
         this.shape = shape;
-        this.indexOfRefraction = indexOfRefraction;
+        this.mediumState = mediumState;
         this.color = color;
     }
 
     public double getIndexOfRefraction() {
-        return indexOfRefraction;
+        return mediumState.index;
     }
 
     public Shape getShape() {
@@ -27,5 +29,13 @@ public class Medium {
 
     public Color getColor() {
         return color;
+    }
+
+    public boolean isMystery() {
+        return mediumState.isMystery();
+    }
+
+    public MediumState getMediumState() {
+        return mediumState;
     }
 }
