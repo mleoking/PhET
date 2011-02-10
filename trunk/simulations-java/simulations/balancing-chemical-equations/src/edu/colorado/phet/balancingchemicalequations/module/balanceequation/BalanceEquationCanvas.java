@@ -97,7 +97,7 @@ public class BalanceEquationCanvas extends BCECanvas {
 
             // face node between boxes
             x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight();
+            y = boxesNode.getFullBoundsReference().getMaxY() + 10;
             faceNode.setOffset( x, y );
 
             // bar charts and balance scales below boxes (centering is handle by nodes themselves)
