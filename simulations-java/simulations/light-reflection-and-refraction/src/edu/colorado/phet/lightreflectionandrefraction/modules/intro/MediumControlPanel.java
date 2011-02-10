@@ -110,6 +110,17 @@ public class MediumControlPanel extends PNode {
             }};
             addChild( slider );
 
+            final PText unknown = new PText( "n=?" ) {{
+                setFont( labelFont );
+                centerFullBoundsOnPoint( slider.getFullBounds().getCenterX(), slider.getFullBounds().getCenterY() );
+                medium.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setVisible( medium.getValue().isMystery() );
+                    }
+                } );
+            }};
+            addChild( unknown );
+
             final PText indexOfRefractionLabel = new PText( "Index of Refraction (n)" ) {{
                 setFont( labelFont );
                 setOffset( 0, slider.getFullBounds().getMaxY() );

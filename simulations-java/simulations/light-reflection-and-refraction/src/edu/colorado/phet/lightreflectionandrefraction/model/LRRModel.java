@@ -38,7 +38,6 @@ public class LRRModel {
         }
     };
     public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4 ) {
-        @Override
         public boolean isMystery() {
             return true;
         }

@@ -1,3 +1,4 @@
+Show "n=?" for mystery objects
 Hide slider for mystery objects
 Split apart control panel into laser view and tools
 Fixed: protractor intercepts mouse events when invisible
