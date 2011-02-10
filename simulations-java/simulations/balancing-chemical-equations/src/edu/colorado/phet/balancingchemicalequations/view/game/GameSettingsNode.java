@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
-import edu.colorado.phet.balancingchemicalequations.model.ConstrainedIntegerProperty;
 import edu.colorado.phet.balancingchemicalequations.model.GameSettings;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.games.GameSettingsPanel.GameSettingsPanelListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -19,10 +19,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 //TODO most of the code here deals with providing an adapter between Listener and Observer paradigms, push this into phetcommon.games
 public class GameSettingsNode extends PhetPNode {
 
-    public GameSettingsNode( final GameSettings gameSettings ) { //TODO add a startFunction arg
+    public GameSettingsNode( final GameSettings gameSettings, final VoidFunction0 startFunction ) {
 
-        ConstrainedIntegerProperty levelProperty = gameSettings.getLevelProperty();
-        IntegerRange levelRange = new IntegerRange( levelProperty.getMin(), levelProperty.getMax(), levelProperty.getValue() );
+        IntegerRange levelRange = new IntegerRange( gameSettings.level.getMin(), gameSettings.level.getMax(), gameSettings.level.getValue() );
 
         final GameSettingsPanel panel = new GameSettingsPanel( levelRange ); //TODO this panel should take gameSettings and startFunction args
         addChild( new PSwing( panel ) );
@@ -31,36 +30,36 @@ public class GameSettingsNode extends PhetPNode {
         panel.addGameSettingsPanelListener( new GameSettingsPanelListener() {
 
             public void levelChanged() {
-                gameSettings.setLevel( panel.getLevel() );
+                gameSettings.level.setValue( panel.getLevel() );
             }
 
             public void timerChanged() {
-                gameSettings.setTimerEnabled( panel.isTimerOn() );
+                gameSettings.timerEnabled.setValue( panel.isTimerOn() );
             }
 
             public void soundChanged() {
-                gameSettings.setSoundEnabled( panel.isSoundOn() );
+                gameSettings.soundEnabled.setValue( panel.isSoundOn() );
             }
 
             public void startButtonPressed() {
-                //TODO call startFunction
+                startFunction.apply();
             }
         } );
 
         // changes to game settings are applied to controls
-        gameSettings.getLevelProperty().addObserver( new SimpleObserver() {
+        gameSettings.level.addObserver( new SimpleObserver() {
             public void update() {
-                panel.setLevel( gameSettings.getLevel() );
+                panel.setLevel( gameSettings.level.getValue() );
             }
         } );
-        gameSettings.getTimerEnabledProperty().addObserver( new SimpleObserver() {
+        gameSettings.timerEnabled.addObserver( new SimpleObserver() {
             public void update() {
-                panel.setTimerOn( gameSettings.isTimerEnabled() );
+                panel.setTimerOn( gameSettings.timerEnabled.getValue() );
             }
         } );
-        gameSettings.getSoundEnabledProperty().addObserver( new SimpleObserver() {
+        gameSettings.soundEnabled.addObserver( new SimpleObserver() {
             public void update() {
-                panel.setSoundOn( gameSettings.isSoundEnabled() );
+                panel.setSoundOn( gameSettings.soundEnabled.getValue() );
             }
         } );
     }

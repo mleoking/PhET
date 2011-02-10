@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import java.awt.Font;
-
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.balancingchemicalequations.view.game.GameSettingsNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 
 /**
  * Canvas for the "Game" module.
@@ -18,16 +16,20 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class GameCanvas extends BCECanvas {
 
-    public GameCanvas( GameModel model, BCEGlobalProperties globalProperties, Resettable resettable ) {
+    public GameCanvas( final GameModel model, BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
 
-        // Under Construction notice
-        PText underConstructionNode = new PText( "Under Construction" );
-        underConstructionNode.setFont( new PhetFont( Font.BOLD, 20 ) );
-        addChild( underConstructionNode );
+        // Game settings
+        VoidFunction0 startFunction = new VoidFunction0() {
+            public void apply() {
+                model.startGame();
+            }
+        };
+        GameSettingsNode gameSettingsNode = new GameSettingsNode( model.getGameSettings(), startFunction );
+        addChild( gameSettingsNode );
 
         // layout
-        underConstructionNode.setOffset( 0, 0 );
+        gameSettingsNode.setOffset( 0, 0 );
 
         // Observers
         globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
