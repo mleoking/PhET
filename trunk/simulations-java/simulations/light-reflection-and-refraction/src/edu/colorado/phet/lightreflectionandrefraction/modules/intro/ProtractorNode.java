@@ -50,12 +50,16 @@ public class ProtractorNode extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                translate( delta.width, delta.height );
+                doDrag( event );
             }
         } );
         final Point2D point2D = transform.modelToViewDelta( new ImmutableVector2D( x, y ) ).toPoint2D();
         translate( point2D.getX() + getFullBounds().getWidth() / 2, point2D.getY() - getFullBounds().getHeight() / 2 );
+    }
+
+    public void doDrag( PInputEvent event ) {
+        final PDimension delta = event.getDeltaRelativeTo( getParent() );
+        translate( delta.width, delta.height );
     }
 
     @Override
