@@ -73,7 +73,7 @@ public class LRRModel {
     } );
 
     public static final double C = 2.99792458e8;
-    final double redWavelength = 650E-9;
+    public static final double redWavelength = 650E-9;
 
     final double modelWidth = redWavelength * 62;
     final double modelHeight = modelWidth * 0.7;

@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -95,18 +94,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             setOffset( 20, 20 );
         }} );
 
-        final ControlPanel toolboxControlPanel = new ControlPanel( new VerticalLayoutPanel() {{
-            add( new VerticalLayoutPanel() {{
-                setBorder( new PhetTitledBorder( "Toolbox" ) );
-                add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
-            }} );
-        }} ) {{
-            setOffset( 20, STAGE_SIZE.height - getFullBounds().getHeight() - 20 );
-        }};
-        addChild( toolboxControlPanel );
-
-        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal ) ) {{
-            setOffset( toolboxControlPanel.getFullBounds().getMaxX(), STAGE_SIZE.height - getFullBounds().getHeight() - 20 );
+        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
+            setOffset( 10, STAGE_SIZE.height - getFullBounds().getHeight() - 10 );
         }} );
 
         //Normal Line
@@ -120,11 +109,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 }
             } );
         }} );
-
-        //Protractor
-//        addChild( new ProtractorNode( transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2 ) );
-
-        addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) );
 
         for ( LightRay lightRay : model.getRays() ) {
             addLightRayNode.apply( lightRay );
