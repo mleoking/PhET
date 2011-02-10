@@ -110,8 +110,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         //Normal Line
         double x = transform.modelToViewX( 0 );
-        double y1 = transform.modelToViewY( 0 - model.getHeight() / 3 );
-        double y2 = transform.modelToViewY( 0 + model.getHeight() / 3 );
+        double y1 = transform.modelToViewY( 0 - model.getHeight() / 4 );
+        double y2 = transform.modelToViewY( 0 + model.getHeight() / 4 );
         addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10, 10 }, 0 ), Color.black ) {{
             showNormal.addObserver( new SimpleObserver() {
                 public void update() {
