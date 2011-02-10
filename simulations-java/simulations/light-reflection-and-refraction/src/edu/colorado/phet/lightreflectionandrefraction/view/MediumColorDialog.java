@@ -51,16 +51,16 @@ public class MediumColorDialog extends JDialog {
                 final Color diamondColor = diamondChooser.getColor();
                 thisisMyModel.colorMappingFunction.setValue( new Function1<Double, Color>() {
                     public Color apply( Double value ) {
-                        if ( value < LRRModel.N_WATER ) {
-                            double ratio = new Function.LinearFunction( 1.0, LRRModel.N_WATER, 0, 1 ).evaluate( value );
+                        if ( value < LRRModel.WATER.index ) {
+                            double ratio = new Function.LinearFunction( 1.0, LRRModel.WATER.index, 0, 1 ).evaluate( value );
                             return colorBlend( airColor, waterColor, ratio );
                         }
-                        else if ( value < LRRModel.N_GLASS ) {
-                            double ratio = new Function.LinearFunction( LRRModel.N_WATER, LRRModel.N_GLASS, 0, 1 ).evaluate( value );
+                        else if ( value < LRRModel.GLASS.index ) {
+                            double ratio = new Function.LinearFunction( LRRModel.WATER.index, LRRModel.GLASS.index, 0, 1 ).evaluate( value );
                             return colorBlend( waterColor, glassColor, ratio );
                         }
-                        else if ( value < LRRModel.N_DIAMOND ) {
-                            double ratio = new Function.LinearFunction( LRRModel.N_GLASS, LRRModel.N_DIAMOND, 0, 1 ).evaluate( value );
+                        else if ( value < LRRModel.DIAMOND.index ) {
+                            double ratio = new Function.LinearFunction( LRRModel.GLASS.index, LRRModel.DIAMOND.index, 0, 1 ).evaluate( value );
                             return colorBlend( glassColor, diamondColor, ratio );
                         }
                         else {
