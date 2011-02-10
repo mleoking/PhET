@@ -65,10 +65,13 @@ public class GameSettingsPanel extends GridPanel {
     private final GridPanel inputPanel;
 
     private int inputRow; // next control added to the "input panel" will appear in this row
+    private VoidFunction0 cleanupFunction = new VoidFunction0.Null();
 
     /**
      * This constructor handles observes properties in GameSettings, and handles setting up the synchronization
      * between Property<T> observers and old-style GameSettingsPanelListener.
+     * Clients who use this constructor must remember to call cleanup before releasing all references,
+     * or a memory leak will occur.
      *
      * @param gameSettings
      * @param startFunction
@@ -96,24 +99,40 @@ public class GameSettingsPanel extends GridPanel {
             }
         } );
 
-        //TODO This is a memory leak when your GameSettingsPanel goes out of scope. Store these observers and add a cleanup method to remove them.
         // changes to game settings are applied to controls
-        gameSettings.level.addObserver( new SimpleObserver() {
+        final SimpleObserver levelObserver = new SimpleObserver() {
             public void update() {
                setLevel( gameSettings.level.getValue() );
             }
-        } );
-        gameSettings.timerEnabled.addObserver( new SimpleObserver() {
+        };
+        gameSettings.level.addObserver( levelObserver );
+        final SimpleObserver timerObserver = new SimpleObserver() {
             public void update() {
                setTimerOn( gameSettings.timerEnabled.getValue() );
             }
-        } );
-        gameSettings.soundEnabled.addObserver( new SimpleObserver() {
+        };
+        gameSettings.timerEnabled.addObserver( timerObserver );
+        final SimpleObserver soundObserver = new SimpleObserver() {
             public void update() {
                setSoundOn( gameSettings.soundEnabled.getValue() );
             }
-        } );
+        };
+        gameSettings.soundEnabled.addObserver( soundObserver );
+
+        // remove observers, requires client to call cleanup
+        cleanupFunction = new VoidFunction0() {
+            public void apply() {
+                gameSettings.level.removeObserver( levelObserver );
+                gameSettings.timerEnabled.removeObserver( timerObserver );
+                gameSettings.soundEnabled.removeObserver( soundObserver );
+            }
+        };
     }
+
+    public void cleanup() {
+        cleanupFunction.apply();
+    }
+
 
     public GameSettingsPanel( IntegerRange levelRange ) {
         this( levelRange, TITLE_FONT, LABEL_FONT, CONTROL_FONT );
