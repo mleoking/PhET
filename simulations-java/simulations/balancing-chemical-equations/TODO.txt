@@ -1,12 +1,10 @@
 TODO list for balancing-chemical-equations
 
 DESIGN ISSUES
-- should boxes contain "molecules are hidden" when Options->Show molecules is deselected? (ala RPAL)
-- create more balanced atom piles, add atoms along RTL diagonal?
-- should Reset All prompt for confirmation?
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
+- move equation radio buttons to upper right
 
 MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules

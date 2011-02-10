@@ -23,16 +23,16 @@ public class BCEOptionMenu extends OptionsMenu {
 
         // Show molecules (check box)
         final Property<Boolean> moleculesVisibleProperty = globalProperties.getMoleculesVisibleProperty();
-        final JCheckBoxMenuItem showMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.SHOW_MOLECULES, moleculesVisibleProperty.getValue() );
-        add( showMoleculesMenuItem );
-        showMoleculesMenuItem.addChangeListener( new ChangeListener() {
+        final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, moleculesVisibleProperty.getValue() );
+        add( hideMoleculesMenuItem );
+        hideMoleculesMenuItem.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                moleculesVisibleProperty.setValue( showMoleculesMenuItem.isSelected() );
+                moleculesVisibleProperty.setValue( !hideMoleculesMenuItem.isSelected() );
             }
         } );
         moleculesVisibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                showMoleculesMenuItem.setSelected( moleculesVisibleProperty.getValue() );
+                hideMoleculesMenuItem.setSelected( !moleculesVisibleProperty.getValue() );
             }
         } );
     }
