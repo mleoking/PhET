@@ -145,7 +145,7 @@ public class ToolboxNode extends PNode {
                     if ( intersect ) {
                         intensityMeter.enabled.setValue( false );
                         sensorThumbnailRef.setVisible( true );
-//                        node.removePropertyChangeListener( pcl );
+//                        node.removePropertyChangeListener( pcl );//TODO: what to do about this?
                         canvas.removeChild( node );
                         node = null;
                     }
@@ -156,9 +156,19 @@ public class ToolboxNode extends PNode {
         }};
         addChild( sensorThumbnail );
 
-        addChild( new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{setBackground( new Color( 0, 0, 0, 0 ) );}} ) {{
-            setOffset( sensorThumbnail.getFullBounds().getMaxX() + 10, sensorThumbnail.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
+        final PSwing showNormalCheckBox = new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
+            setFont( ControlPanelNode.labelFont );
+            setBackground( new Color( 0, 0, 0, 0 ) );
+        }} ) {{
+            setOffset( sensorThumbnail.getFullBounds().getMaxX() + 10, titleLabel.getFullBounds().getMaxY() );
+        }};
+        addChild( showNormalCheckBox );
+
+        NormalLine normalLine = new NormalLine( transform, modelHeight, 4 );
+        PImage normalLineThumbnail = new PImage( normalLine.toImage( 67, 67, new Color( 0, 0, 0, 0 ) ) ) {{
+            setOffset( showNormalCheckBox.getFullBounds().getCenterX(), showNormalCheckBox.getFullBounds().getMaxY() );
+        }};
+        addChild( normalLineThumbnail );
         titleLabel.setOffset( getFullBounds().getWidth() / 2 - titleLabel.getFullBounds().getWidth() / 2, 0 );
     }
 }
