@@ -1,3 +1,4 @@
+# 0.00.09 (48829) Feb 9, 2011
 Added an icon for the normal line in the toolbox
 Fixed: normal line overlaps with the toolbox
 Made it possible to drop intensity sensor back in the toolbox
