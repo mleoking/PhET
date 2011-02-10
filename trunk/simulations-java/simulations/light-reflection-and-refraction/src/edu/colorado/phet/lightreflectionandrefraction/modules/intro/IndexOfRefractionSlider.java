@@ -32,7 +32,9 @@ public class IndexOfRefractionSlider extends LinearValueControl {
         getSlider().setMajorTickSpacing( 0 );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                medium.setValue( new Medium( medium.getValue().getShape(), new MediumState( "Custom", getValue() ), colorMappingFunction.getValue().apply( getValue() ) ) );
+                if ( getSlider().isFocusOwner() || getTextField().isFocusOwner() || isFocusOwner() ) {//Only send events if caused by user, otherwise selecting "mystery b" causes buggy behavior
+                    medium.setValue( new Medium( medium.getValue().getShape(), new MediumState( "Custom", getValue() ), colorMappingFunction.getValue().apply( getValue() ) ) );
+                }
             }
         } );
         medium.addObserver( new SimpleObserver() {
