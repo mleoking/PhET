@@ -25,7 +25,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class IntensityMeterNode extends PNode {
+    private final ModelViewTransform transform;
+    private final IntensityMeter intensityMeter;
+
     public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter ) {
+        this.transform = transform;
+        this.intensityMeter = intensityMeter;
         intensityMeter.enabled.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( intensityMeter.enabled.getValue() );
@@ -115,5 +120,9 @@ public class IntensityMeterNode extends PNode {
         addChild( bodyNode );
         addChild( sensorNode );
 //        addChild( sensorHotSpotDebugger );
+    }
+
+    public void doDrag( PInputEvent event ) {
+        intensityMeter.translateAll( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
     }
 }

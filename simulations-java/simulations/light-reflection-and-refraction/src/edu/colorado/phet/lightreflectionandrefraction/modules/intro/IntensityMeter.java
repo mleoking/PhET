@@ -59,4 +59,9 @@ public class IntensityMeter {
             reading.setValue( Reading.MULTI );
         }
     }
+
+    public void translateAll( Dimension2D dimension2D ) {
+        translateBody( dimension2D );
+        translateSensor( dimension2D );
+    }
 }
