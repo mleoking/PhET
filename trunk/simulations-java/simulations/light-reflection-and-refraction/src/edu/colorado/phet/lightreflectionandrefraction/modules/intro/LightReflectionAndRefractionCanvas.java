@@ -23,7 +23,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
-import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -105,7 +104,15 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
-                final LightRayNode node = new LightRayNode( transform, lightRay );
+//                final LightRayNode node = new LightRayNode( transform, lightRay );
+//                addChild( node );
+//                lightRay.addRemovalListener( new VoidFunction0() {
+//                    public void apply() {
+//                        removeChild( node );
+//                    }
+//                } );
+
+                final LightWaveNode node = new LightWaveNode( transform, lightRay );
                 addChild( node );
                 lightRay.addRemovalListener( new VoidFunction0() {
                     public void apply() {
