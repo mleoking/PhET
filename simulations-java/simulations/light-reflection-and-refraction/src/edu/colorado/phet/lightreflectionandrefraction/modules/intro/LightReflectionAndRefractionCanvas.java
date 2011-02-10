@@ -4,7 +4,6 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
@@ -96,7 +95,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             setOffset( 20, 20 );
         }} );
 
-        addChild( new ControlPanel( new VerticalLayoutPanel() {{
+        final ControlPanel toolboxControlPanel = new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "Toolbox" ) );
                 add( new PropertyCheckBox( "Show Normal", showNormal ) );
@@ -105,6 +104,11 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }} );
         }} ) {{
             setOffset( 20, STAGE_SIZE.height - getFullBounds().getHeight() - 20 );
+        }};
+        addChild( toolboxControlPanel );
+
+        addChild( new ControlPanelNode( new ToolboxNode() ) {{
+            setOffset( toolboxControlPanel.getFullBounds().getMaxX(), STAGE_SIZE.height - getFullBounds().getHeight() - 20 );
         }} );
 
         //Normal Line
@@ -133,15 +137,15 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }
         } );
 
-        addChild( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) {{
+        addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        addChild( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction ) {{
+        addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
         //Debug for showing stage
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+//        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
     }
 
     public static class ControlPanel extends PNode {
