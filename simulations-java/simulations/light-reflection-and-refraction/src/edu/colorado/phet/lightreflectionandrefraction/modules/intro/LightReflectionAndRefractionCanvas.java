@@ -98,8 +98,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         final ControlPanel toolboxControlPanel = new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "Toolbox" ) );
-                add( new PropertyCheckBox( "Show Normal", showNormal ) );
-                add( new PropertyCheckBox( "Protractor", showProtractor ) );
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
@@ -107,7 +105,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }};
         addChild( toolboxControlPanel );
 
-        addChild( new ControlPanelNode( new ToolboxNode() ) {{
+        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal ) ) {{
             setOffset( toolboxControlPanel.getFullBounds().getMaxX(), STAGE_SIZE.height - getFullBounds().getHeight() - 20 );
         }} );
 
@@ -124,7 +122,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }} );
 
         //Protractor
-        addChild( new ProtractorNode( transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2 ) );
+//        addChild( new ProtractorNode( transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2 ) );
 
         addChild( new IntensityMeterNode( transform, model.getIntensityMeter() ) );
 
