@@ -87,7 +87,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
-                setBorder( new PhetTitledBorder( "View" ) );
+                setBorder( new PhetTitledBorder( "Laser View" ) );
                 final Property<Boolean> ray = new Property<Boolean>( true );
                 add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) );
                 add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) {{setEnabled( false );}} );
@@ -98,7 +98,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
-                setBorder( new PhetTitledBorder( "Tools" ) );
+                setBorder( new PhetTitledBorder( "Toolbox" ) );
                 add( new PropertyCheckBox( "Show Normal", showNormal ) );
                 add( new PropertyCheckBox( "Protractor", showProtractor ) );
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
@@ -133,9 +133,9 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }
         } );
 
-        addChild( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) {{
-            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
-        }} );
+//        addChild( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) {{
+//            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
+//        }} );
         addChild( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );

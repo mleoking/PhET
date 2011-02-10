@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
+import edu.colorado.phet.lightreflectionandrefraction.model.MediumState;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -30,35 +31,36 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class MediumControlPanel extends PNode {
 
+    MediumState CUSTOM = new MediumState( "Custom", LRRModel.MYSTERY_B.index + 1.2 ) {
+        public boolean isCustom() {
+            return true;
+        }
+    };
+
     public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction ) {
         final double inset = 12;
-        final double initialIndexOfRefraction = medium.getValue().getIndexOfRefraction();
+        final MediumState initialMediumState = medium.getValue().getMediumState();
         final PNode content = new PNode() {{
             final PhetFont labelFont = new PhetFont( 16 );
             final PText materialLabel = new PText( "Material:" ) {{
                 setFont( labelFont );
             }};
             addChild( materialLabel );
-            final PComboBox[] x = new PComboBox[1];
             final Object[] mediumStates = new Object[] {
                     LRRModel.AIR,
                     LRRModel.WATER,
                     LRRModel.GLASS,
                     LRRModel.MYSTERY_A,
                     LRRModel.MYSTERY_B,
-                    new LRRModel.MediumState( "Custom", LRRModel.MYSTERY_B.index + 1.2 ) {
-                        public boolean isCustom() {
-                            return true;
-                        }
-                    },
+                    CUSTOM,
             };
-            final PSwing comboBoxPSwing = new PSwing( x[0] = new PComboBox( mediumStates ) {
+            final PComboBox comboBox = new PComboBox( mediumStates ) {
                 {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            LRRModel.MediumState selected = (LRRModel.MediumState) getSelectedItem();
+                            MediumState selected = (MediumState) getSelectedItem();
                             if ( !selected.isCustom() ) {
-                                setIndexOfRefraction( selected.index, medium, colorMappingFunction );
+                                setMediumState( selected, medium, colorMappingFunction );
                             }
                         }
                     } );
@@ -69,13 +71,13 @@ public class MediumControlPanel extends PNode {
                         }
                     } );
                     setFont( labelFont );
-                    setIndexOfRefraction( initialIndexOfRefraction, medium, colorMappingFunction );
+                    setMediumState( initialMediumState, medium, colorMappingFunction );
                 }
 
                 private void updateComboBox() {
                     int selected = -1;
                     for ( int i = 0; i < mediumStates.length; i++ ) {
-                        LRRModel.MediumState mediumState = (LRRModel.MediumState) mediumStates[i];
+                        MediumState mediumState = (MediumState) mediumStates[i];
                         if ( mediumState.index == medium.getValue().getIndexOfRefraction() ) {
                             selected = i;
                         }
@@ -84,11 +86,12 @@ public class MediumControlPanel extends PNode {
                         setSelectedIndex( selected );
                     }
                     else {
-                        setSelectedIndex( 5 );
+                        setSelectedItem( CUSTOM );
                     }
                 }
-            } ) {{
-                x[0].setEnvironment( this, phetPCanvas );
+            };
+            final PSwing comboBoxPSwing = new PSwing( comboBox ) {{
+                comboBox.setEnvironment( this, phetPCanvas );
                 setOffset( materialLabel.getFullBounds().getMaxX() + 10, materialLabel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 + 1 );
             }};
             addChild( comboBoxPSwing );
@@ -98,6 +101,11 @@ public class MediumControlPanel extends PNode {
                 getTextField().setBackground( Color.white );
                 getTextField().setFont( labelFont );
             }} ) {{
+                medium.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setVisible( !medium.getValue().isMystery() );
+                    }
+                } );
                 setOffset( 0, materialLabel.getFullBounds().getMaxY() );
             }};
             addChild( slider );
@@ -124,8 +132,8 @@ public class MediumControlPanel extends PNode {
         addChild( content );
     }
 
-    private void setIndexOfRefraction( double indexOfRefraction, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
-        medium.setValue( new Medium( medium.getValue().getShape(), indexOfRefraction, colorMappingFunction.getValue().apply( indexOfRefraction ) ) );
+    private void setMediumState( MediumState mediumState, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
+        medium.setValue( new Medium( medium.getValue().getShape(), mediumState, colorMappingFunction.getValue().apply( mediumState.index ) ) );
     }
 
     public static void main( String[] args ) throws ClassNotFoundException, UnsupportedLookAndFeelException, IllegalAccessException, InstantiationException, InvocationTargetException, InterruptedException {
