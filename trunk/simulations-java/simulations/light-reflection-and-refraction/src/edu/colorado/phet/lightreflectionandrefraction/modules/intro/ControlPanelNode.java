@@ -18,7 +18,7 @@ public class ControlPanelNode extends PNode {
     public static final PhetFont labelFont = new PhetFont( 16 );
 
     public ControlPanelNode( final PNode content ) {
-        final double inset = 12;
+        final double inset = 9;
 
         final PhetPPath background = new PhetPPath( Color.lightGray, new BasicStroke( 2 ), Color.darkGray ) {{
             final PropertyChangeListener updateSize = new PropertyChangeListener() {

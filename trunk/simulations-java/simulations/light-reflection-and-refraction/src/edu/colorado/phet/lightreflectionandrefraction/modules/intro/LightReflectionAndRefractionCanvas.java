@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
@@ -26,8 +26,11 @@ import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.lightreflectionandrefraction.modules.intro.ControlPanelNode.labelFont;
 
 /**
  * @author Sam Reid
@@ -83,15 +86,23 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         } ) );
         addChild( new LaserNode( transform, model.getLaser(), showDragHandles ) );
 
-        addChild( new ControlPanel( new VerticalLayoutPanel() {{
-            add( new VerticalLayoutPanel() {{
-                setBorder( new PhetTitledBorder( "Laser View" ) );
+
+        addChild( new ControlPanelNode( new PNode() {{
+            final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
+            addChild( title );
+            addChild( new PSwing( new VerticalLayoutPanel() {{
                 final Property<Boolean> ray = new Property<Boolean>( true );
-                add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) );
-                add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) {{setEnabled( false );}} );
+                add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) {{
+                    setEnabled( false );
+                    setFont( labelFont );
+                }} );
+                SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
+            }} ) {{
+                setOffset( 0, title.getFullBounds().getMaxY() );
             }} );
         }} ) {{
-            setOffset( 20, 20 );
+            setOffset( 5, 5 );
         }} );
 
         addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
