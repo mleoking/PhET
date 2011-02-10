@@ -1,3 +1,5 @@
+# 1.00.00 (48832) Feb 9, 2011
+2/9/11 >Initial publication to production server.
 # 0.00.02 (48805) Feb 9, 2011
 2/9/11 Updated the credits.
 # 0.00.01 (48803) Feb 9, 2011
