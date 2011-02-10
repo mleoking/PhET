@@ -1,3 +1,4 @@
+Fixed: Intensity meter is in the wrong location when dragged out of the toolbox
 Added a toolbox with draggable icons
 Show "n=?" for mystery objects
 Hide slider for mystery objects
