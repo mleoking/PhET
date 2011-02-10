@@ -54,19 +54,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
                                                                                                         new Point2D.Double( STAGE_SIZE.getWidth() / 2 - 150, STAGE_SIZE.getHeight() / 2 ),
                                                                                                         scale );
-
-        final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
-            public void apply( LightRay lightRay ) {
-                final LightRayNode node = new LightRayNode( transform, lightRay );
-                addChild( node );
-                lightRay.addRemovalListener( new VoidFunction0() {
-                    public void apply() {
-                        removeChild( node );
-                    }
-                } );
-            }
-        };
-
         addChild( new MediumNode( transform, model.topMedium ) );
         addChild( new MediumNode( transform, model.bottomMedium ) );
         //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
@@ -116,6 +103,17 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             } );
         }} );
 
+        final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
+            public void apply( LightRay lightRay ) {
+                final LightRayNode node = new LightRayNode( transform, lightRay );
+                addChild( node );
+                lightRay.addRemovalListener( new VoidFunction0() {
+                    public void apply() {
+                        removeChild( node );
+                    }
+                } );
+            }
+        };
         for ( LightRay lightRay : model.getRays() ) {
             addLightRayNode.apply( lightRay );
         }
