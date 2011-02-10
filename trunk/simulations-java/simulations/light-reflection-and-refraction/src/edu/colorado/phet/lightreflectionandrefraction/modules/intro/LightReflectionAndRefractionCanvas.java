@@ -86,7 +86,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         } ) );
         addChild( new LaserNode( transform, model.getLaser(), showDragHandles ) );
 
-
         addChild( new ControlPanelNode( new PNode() {{
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -27,6 +28,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class IntensityMeterNode extends PNode {
     private final ModelViewTransform transform;
     private final IntensityMeter intensityMeter;
+    public PImage bodyNode;
+    public PImage sensorNode;
 
     public IntensityMeterNode( final ModelViewTransform transform, final IntensityMeter intensityMeter ) {
         this.transform = transform;
@@ -37,7 +40,7 @@ public class IntensityMeterNode extends PNode {
             }
         } );
 
-        final PImage sensorNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
+        sensorNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
             intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
                 public void update() {
                     final Point2D.Double sensorViewPoint = transform.modelToView( intensityMeter.sensorPosition.getValue() ).toPoint2D();
@@ -61,7 +64,7 @@ public class IntensityMeterNode extends PNode {
             setChildrenPickable( false );
         }};
 
-        final PImage bodyNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
+        bodyNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
             intensityMeter.bodyPosition.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( intensityMeter.bodyPosition.getValue() ).toPoint2D() );
@@ -124,5 +127,14 @@ public class IntensityMeterNode extends PNode {
 
     public void doDrag( PInputEvent event ) {
         intensityMeter.translateAll( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    }
+
+    public Rectangle2D getSensorGlobalFullBounds() {
+        return sensorNode.getGlobalFullBounds();
+
+    }
+
+    public Rectangle2D getBodyGlobalFullBounds() {
+        return bodyNode.getGlobalFullBounds();
     }
 }
