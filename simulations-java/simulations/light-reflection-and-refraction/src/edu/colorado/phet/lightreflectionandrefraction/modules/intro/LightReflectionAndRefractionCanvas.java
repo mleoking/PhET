@@ -86,17 +86,17 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         addChild( new LaserNode( transform, model.getLaser(), showDragHandles ) );
 
         addChild( new ControlPanel( new VerticalLayoutPanel() {{
-//            add( new VerticalLayoutPanel() {{
-//                setBorder( new PhetTitledBorder( "Index of Refraction" ) );
-//                add( new IndexOfRefractionSlider( model.topMedium, model.colorMappingFunction, "n1=" ) );
-//                add( new IndexOfRefractionSlider( model.bottomMedium, model.colorMappingFunction, "n2=" ) );
-//            }} );
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "View" ) );
                 final Property<Boolean> ray = new Property<Boolean>( true );
                 add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) );
                 add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) {{setEnabled( false );}} );
             }} );
+        }} ) {{
+            setOffset( 20, 20 );
+        }} );
+
+        addChild( new ControlPanel( new VerticalLayoutPanel() {{
             add( new VerticalLayoutPanel() {{
                 setBorder( new PhetTitledBorder( "Tools" ) );
                 add( new PropertyCheckBox( "Show Normal", showNormal ) );
@@ -104,8 +104,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 add( new PropertyCheckBox( "Intensity Meter", model.getIntensityMeter().enabled ) );
             }} );
         }} ) {{
-//            scale(  );
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 20, 20 );
+            setOffset( 20, STAGE_SIZE.height - getFullBounds().getHeight() - 20 );
         }} );
 
         //Normal Line
