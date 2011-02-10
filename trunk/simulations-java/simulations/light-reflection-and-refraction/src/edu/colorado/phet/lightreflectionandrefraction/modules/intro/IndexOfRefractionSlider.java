@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
@@ -30,6 +31,11 @@ public class IndexOfRefractionSlider extends LinearValueControl {
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 medium.setValue( new Medium( medium.getValue().getShape(), getValue(), colorMappingFunction.getValue().apply( getValue() ) ) );
+            }
+        } );
+        medium.addObserver( new SimpleObserver() {
+            public void update() {
+                setValue( medium.getValue().getIndexOfRefraction() );
             }
         } );
     }
