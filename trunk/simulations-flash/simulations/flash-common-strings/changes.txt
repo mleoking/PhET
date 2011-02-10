@@ -1,3 +1,5 @@
+# 2.03.00 (48823) Feb 9, 2011
+2/9/11 redeploy to make strings related to KSU Credits available
 # 2.02.00 (38663) Feb 16, 2010
 2/16/10 redeploy to make new flash common translations available
 # 2.01.00 (37304) Dec 10, 2009
