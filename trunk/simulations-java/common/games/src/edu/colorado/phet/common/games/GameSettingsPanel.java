@@ -96,6 +96,7 @@ public class GameSettingsPanel extends GridPanel {
             }
         } );
 
+        //TODO This is a memory leak when your GameSettingsPanel goes out of scope. Store these observers and add a cleanup method to remove them.
         // changes to game settings are applied to controls
         gameSettings.level.addObserver( new SimpleObserver() {
             public void update() {
