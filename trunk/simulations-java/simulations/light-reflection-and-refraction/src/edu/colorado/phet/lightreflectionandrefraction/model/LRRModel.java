@@ -27,25 +27,45 @@ public class LRRModel {
     private List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
 
-    public static final double N_VACUUM = 1.0;
-    public static final double N_AIR = 1.000293;
-    public static final double N_WATER = 1.333;
-    public static final double N_GLASS = 1.5;
-    public static final double N_DIAMOND = 2.419;
-    public static final double N_MYSTERY_B = ( N_WATER + N_GLASS ) / 2.0;
+    public static class MediumState {
+        public final String name;
+        public final double index;
+
+        public MediumState( String name, double index ) {
+            this.name = name;
+            this.index = index;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+        public boolean isCustom() {
+            return false;
+        }
+    }
+
+    public static final MediumState VACUUM = new MediumState( "Vacuum", 1.0 );
+    public static final MediumState AIR = new MediumState( "Air", 1.000293 );
+    public static final MediumState WATER = new MediumState( "Water", 1.333 );
+    public static final MediumState GLASS = new MediumState( "Glass", 1.5 );
+    public static final MediumState DIAMOND = new MediumState( "Diamond", 2.419 );
+    public static final MediumState MYSTERY_A = DIAMOND;
+    public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4 );
 
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
-            if ( value < LRRModel.N_WATER ) {
-                double ratio = new Function.LinearFunction( 1.0, LRRModel.N_WATER, 0, 1 ).evaluate( value );
+            if ( value < WATER.index ) {
+                double ratio = new Function.LinearFunction( 1.0, WATER.index, 0, 1 ).evaluate( value );
                 return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
             }
-            else if ( value < LRRModel.N_GLASS ) {
-                double ratio = new Function.LinearFunction( LRRModel.N_WATER, LRRModel.N_GLASS, 0, 1 ).evaluate( value );
+            else if ( value < GLASS.index ) {
+                double ratio = new Function.LinearFunction( WATER.index, GLASS.index, 0, 1 ).evaluate( value );
                 return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
             }
-            else if ( value < LRRModel.N_DIAMOND ) {
-                double ratio = new Function.LinearFunction( LRRModel.N_GLASS, LRRModel.N_DIAMOND, 0, 1 ).evaluate( value );
+            else if ( value < DIAMOND.index ) {
+                double ratio = new Function.LinearFunction( GLASS.index, DIAMOND.index, 0, 1 ).evaluate( value );
                 return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
             }
             else {
@@ -71,8 +91,8 @@ public class LRRModel {
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     private Laser laser = new Laser( 8.125E-6 );
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), N_AIR, colorMappingFunction.getValue().apply( N_AIR ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), N_WATER, colorMappingFunction.getValue().apply( N_WATER ) ) );
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR.index, colorMappingFunction.getValue().apply( AIR.index ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER.index, colorMappingFunction.getValue().apply( WATER.index ) ) );
     private IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
     //Alphas may be ignored, see MediumNode
     public static final Color AIR_COLOR = Color.white;

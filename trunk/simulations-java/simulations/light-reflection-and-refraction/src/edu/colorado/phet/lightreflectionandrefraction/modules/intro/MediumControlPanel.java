@@ -29,20 +29,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class MediumControlPanel extends PNode {
-    public static class MediumState {
-        String name;
-        double index;
-
-        public MediumState( String name, double index ) {
-            this.name = name;
-            this.index = index;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
 
     public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction ) {
         final double inset = 12;
@@ -55,22 +41,24 @@ public class MediumControlPanel extends PNode {
             addChild( materialLabel );
             final PComboBox[] x = new PComboBox[1];
             final Object[] mediumStates = new Object[] {
-                    new MediumState( "Air", LRRModel.N_AIR ),
-                    new MediumState( "Water", LRRModel.N_WATER ),
-                    new MediumState( "Glass", LRRModel.N_GLASS ),
-                    new MediumState( "Mystery A", LRRModel.N_DIAMOND ),
-                    new MediumState( "Mystery B", LRRModel.N_MYSTERY_B ),
-                    new MediumState( "Custom", LRRModel.N_MYSTERY_B + 1.2 ),
+                    LRRModel.AIR,
+                    LRRModel.WATER,
+                    LRRModel.GLASS,
+                    LRRModel.MYSTERY_A,
+                    LRRModel.MYSTERY_B,
+                    new LRRModel.MediumState( "Custom", LRRModel.MYSTERY_B.index + 1.2 ) {
+                        public boolean isCustom() {
+                            return true;
+                        }
+                    },
             };
             final PSwing comboBoxPSwing = new PSwing( x[0] = new PComboBox( mediumStates ) {
                 {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            MediumState selected = (MediumState) getSelectedItem();
-                            System.out.println( "selected = " + selected );
-                            if ( !selected.name.equals( "Custom" ) ) {
-                                final double indexOfRefraction = selected.index;
-                                setIndexOfRefraction( indexOfRefraction, medium, colorMappingFunction );
+                            LRRModel.MediumState selected = (LRRModel.MediumState) getSelectedItem();
+                            if ( !selected.isCustom() ) {
+                                setIndexOfRefraction( selected.index, medium, colorMappingFunction );
                             }
                         }
                     } );
@@ -87,7 +75,7 @@ public class MediumControlPanel extends PNode {
                 private void updateComboBox() {
                     int selected = -1;
                     for ( int i = 0; i < mediumStates.length; i++ ) {
-                        MediumState mediumState = (MediumState) mediumStates[i];
+                        LRRModel.MediumState mediumState = (LRRModel.MediumState) mediumStates[i];
                         if ( mediumState.index == medium.getValue().getIndexOfRefraction() ) {
                             selected = i;
                         }
