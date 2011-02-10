@@ -2,6 +2,8 @@
 package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,10 +13,12 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -25,9 +29,24 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class MediumControlPanel extends PNode {
+    public static class MediumState {
+        String name;
+        double index;
+
+        public MediumState( String name, double index ) {
+            this.name = name;
+            this.index = index;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction ) {
         final double inset = 12;
+        final double initialIndexOfRefraction = medium.getValue().getIndexOfRefraction();
         final PNode content = new PNode() {{
             final PhetFont labelFont = new PhetFont( 16 );
             final PText materialLabel = new PText( "Material:" ) {{
@@ -35,9 +54,52 @@ public class MediumControlPanel extends PNode {
             }};
             addChild( materialLabel );
             final PComboBox[] x = new PComboBox[1];
-            final PSwing comboBoxPSwing = new PSwing( x[0] = new PComboBox( new Object[] { "Air", "Water", "Glass", "Mystery A", "Mystery B" } ) {{
-                setFont( labelFont );
-            }} ) {{
+            final Object[] mediumStates = new Object[] {
+                    new MediumState( "Air", LRRModel.N_AIR ),
+                    new MediumState( "Water", LRRModel.N_WATER ),
+                    new MediumState( "Glass", LRRModel.N_GLASS ),
+                    new MediumState( "Mystery A", LRRModel.N_DIAMOND ),
+                    new MediumState( "Mystery B", LRRModel.N_MYSTERY_B ),
+                    new MediumState( "Custom", LRRModel.N_MYSTERY_B + 1.2 ),
+            };
+            final PSwing comboBoxPSwing = new PSwing( x[0] = new PComboBox( mediumStates ) {
+                {
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            MediumState selected = (MediumState) getSelectedItem();
+                            System.out.println( "selected = " + selected );
+                            if ( !selected.name.equals( "Custom" ) ) {
+                                final double indexOfRefraction = selected.index;
+                                setIndexOfRefraction( indexOfRefraction, medium, colorMappingFunction );
+                            }
+                        }
+                    } );
+                    updateComboBox();
+                    medium.addObserver( new SimpleObserver() {
+                        public void update() {
+                            updateComboBox();
+                        }
+                    } );
+                    setFont( labelFont );
+                    setIndexOfRefraction( initialIndexOfRefraction, medium, colorMappingFunction );
+                }
+
+                private void updateComboBox() {
+                    int selected = -1;
+                    for ( int i = 0; i < mediumStates.length; i++ ) {
+                        MediumState mediumState = (MediumState) mediumStates[i];
+                        if ( mediumState.index == medium.getValue().getIndexOfRefraction() ) {
+                            selected = i;
+                        }
+                    }
+                    if ( selected != -1 ) {
+                        setSelectedIndex( selected );
+                    }
+                    else {
+                        setSelectedIndex( 5 );
+                    }
+                }
+            } ) {{
                 x[0].setEnvironment( this, phetPCanvas );
                 setOffset( materialLabel.getFullBounds().getMaxX() + 10, materialLabel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 + 1 );
             }};
@@ -72,6 +134,10 @@ public class MediumControlPanel extends PNode {
         }};
         addChild( background );
         addChild( content );
+    }
+
+    private void setIndexOfRefraction( double indexOfRefraction, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
+        medium.setValue( new Medium( medium.getValue().getShape(), indexOfRefraction, colorMappingFunction.getValue().apply( indexOfRefraction ) ) );
     }
 
     public static void main( String[] args ) throws ClassNotFoundException, UnsupportedLookAndFeelException, IllegalAccessException, InstantiationException, InvocationTargetException, InterruptedException {

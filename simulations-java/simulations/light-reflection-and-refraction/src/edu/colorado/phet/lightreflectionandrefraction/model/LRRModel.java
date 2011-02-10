@@ -32,6 +32,7 @@ public class LRRModel {
     public static final double N_WATER = 1.333;
     public static final double N_GLASS = 1.5;
     public static final double N_DIAMOND = 2.419;
+    public static final double N_MYSTERY_B = ( N_WATER + N_GLASS ) / 2.0;
 
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
