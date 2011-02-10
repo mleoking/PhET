@@ -100,11 +100,14 @@ public class ToolboxNode extends PNode {
             final PImage sensorThumbnailRef = this;
             addInputEventListener( new PBasicInputEventHandler() {
                 IntensityMeterNode node = null;
+                boolean intersect = false;
 
                 public void mouseDragged( PInputEvent event ) {
                     intensityMeter.enabled.setValue( true );
                     if ( node == null ) {
                         node = new IntensityMeterNode( transform, intensityMeter );
+                        intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
+                        intensityMeter.bodyPosition.setValue( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
                         intensityMeter.enabled.addObserver( new SimpleObserver() {
                             public void update() {
                                 sensorThumbnailRef.setVisible( !intensityMeter.enabled.getValue() );
@@ -113,13 +116,39 @@ public class ToolboxNode extends PNode {
                         final ImmutableVector2D modelPt = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent().getParent() ) ) );
                         final ImmutableVector2D delta = modelPt.getSubtractedInstance( intensityMeter.sensorPosition.getValue() );
                         intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
+
+                        final PropertyChangeListener pcl = new PropertyChangeListener() {
+                            public void propertyChange( PropertyChangeEvent evt ) {
+                                intersect = ToolboxNode.this.getGlobalFullBounds().intersects( node.getSensorGlobalFullBounds() ) ||
+                                            ToolboxNode.this.getGlobalFullBounds().intersects( node.getBodyGlobalFullBounds() );
+                            }
+                        };
+                        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
+                        node.addInputEventListener( new PBasicInputEventHandler() {
+                            public void mouseReleased( PInputEvent event ) {
+                                if ( intersect ) {
+                                    intensityMeter.enabled.setValue( false );
+                                    sensorThumbnailRef.setVisible( true );
+                                    node.removePropertyChangeListener( pcl );
+                                    canvas.removeChild( node );
+                                    node = null;
+                                }
+                            }
+                        } );
+
                         canvas.addChild( node );
                     }
                     node.doDrag( event );
                 }
 
                 public void mouseReleased( PInputEvent event ) {
-                    node = null;
+                    if ( intersect ) {
+                        intensityMeter.enabled.setValue( false );
+                        sensorThumbnailRef.setVisible( true );
+//                        node.removePropertyChangeListener( pcl );
+                        canvas.removeChild( node );
+                        node = null;
+                    }
                 }
             } );
             addInputEventListener( new CursorHandler() );
