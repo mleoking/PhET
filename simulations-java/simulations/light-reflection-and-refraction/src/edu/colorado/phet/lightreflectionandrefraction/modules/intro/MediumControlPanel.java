@@ -103,6 +103,7 @@ public class MediumControlPanel extends PNode {
             }} ) {{
                 medium.addObserver( new SimpleObserver() {
                     public void update() {
+                        System.out.println( "medium.getValue().isMystery() = " + medium.getValue().isMystery() );
                         setVisible( !medium.getValue().isMystery() );
                     }
                 } );
