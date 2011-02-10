@@ -1,3 +1,4 @@
+2/10/11 migrate GameSettings to common.games
 2/10/11 add Game Settings panel
 2/10/11 change "Show molecules" to "Hide molecules" in Options menu
 # 0.00.05 (48801) Feb 9, 2011

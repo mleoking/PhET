@@ -4,10 +4,12 @@ package edu.colorado.phet.balancingchemicalequations.module.game;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
-import edu.colorado.phet.balancingchemicalequations.view.game.GameSettingsNode;
+import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "Game" module.
@@ -25,7 +27,7 @@ public class GameCanvas extends BCECanvas {
                 model.startGame();
             }
         };
-        GameSettingsNode gameSettingsNode = new GameSettingsNode( model.getGameSettings(), startFunction );
+        PNode gameSettingsNode = new PSwing( new GameSettingsPanel( model.getGameSettings(), startFunction ) );
         addChild( gameSettingsNode );
 
         // layout

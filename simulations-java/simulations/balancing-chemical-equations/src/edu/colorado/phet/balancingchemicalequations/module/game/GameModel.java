@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import edu.colorado.phet.balancingchemicalequations.model.GameSettings;
+import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
