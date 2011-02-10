@@ -32,11 +32,9 @@ public class ProtractorNode extends PNode {
             setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( showProtractor.getValue() );
+                    ProtractorNode.this.setVisible( showProtractor.getValue() );
                 }
             } );
-            setPickable( false );
-            setChildrenPickable( false );
         }} );
         final Ellipse2D.Double outerShape = new Ellipse2D.Double( 0, 0, image.getWidth(), image.getHeight() );
         Area draggableShape = new Area( outerShape ) {{
@@ -58,5 +56,12 @@ public class ProtractorNode extends PNode {
         } );
         final Point2D point2D = transform.modelToViewDelta( new ImmutableVector2D( x, y ) ).toPoint2D();
         translate( point2D.getX() + getFullBounds().getWidth() / 2, point2D.getY() - getFullBounds().getHeight() / 2 );
+    }
+
+    @Override
+    public void setVisible( boolean isVisible ) {
+        super.setVisible( isVisible );
+        setPickable( isVisible );
+        setChildrenPickable( isVisible );
     }
 }

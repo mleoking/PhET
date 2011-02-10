@@ -1,3 +1,4 @@
+Fixed: protractor intercepts mouse events when invisible
 Added MediumControlPanel
 Improved canvas and stage size
 Increased size of intensity meter and protractor
