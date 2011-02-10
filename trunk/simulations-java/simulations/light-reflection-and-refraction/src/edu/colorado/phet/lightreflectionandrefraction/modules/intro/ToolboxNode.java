@@ -4,6 +4,8 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -36,9 +38,11 @@ public class ToolboxNode extends PNode {
         final int ICON_HEIGHT = 100;
         final BufferedImage image = BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), ICON_HEIGHT );
         final PImage protractor = new PImage( image ) {{
+            final PImage protractorThumbRef = this;
             setOffset( 0, titleLabel.getFullBounds().getMaxY() );
             addInputEventListener( new PBasicInputEventHandler() {
                 ProtractorNode node = null;
+                boolean intersect = false;
 
                 public void mouseDragged( PInputEvent event ) {
                     showProtractor.setValue( true );
@@ -48,9 +52,38 @@ public class ToolboxNode extends PNode {
                         Point2D model = transform.viewToModel( positionRelativeTo );
                         node = new ProtractorNode( transform, showProtractor, model.getX(), model.getY() );
                         node.translate( -node.getFullBounds().getWidth() / 2, node.getFullBounds().getHeight() / 2 );//Center on the mouse
+                        final PropertyChangeListener pcl = new PropertyChangeListener() {
+                            public void propertyChange( PropertyChangeEvent evt ) {
+                                intersect = ToolboxNode.this.getGlobalFullBounds().intersects( node.getGlobalFullBounds() );
+                            }
+                        };
+                        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
+                        node.addInputEventListener( new PBasicInputEventHandler() {
+                            public void mouseReleased( PInputEvent event ) {
+                                if ( intersect ) {
+                                    showProtractor.setValue( false );
+                                    protractorThumbRef.setVisible( true );
+                                    node.removePropertyChangeListener( pcl );
+                                    canvas.removeChild( node );
+                                    node = null;
+                                }
+                            }
+                        } );
+
                         canvas.addChild( node );
                     }
                     node.doDrag( event );
+                }
+
+                //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
+                public void mouseReleased( PInputEvent event ) {
+                    if ( intersect ) {
+                        showProtractor.setValue( false );
+                        protractorThumbRef.setVisible( true );
+                        canvas.removeChild( node );
+                        node = null;
+                        //TODO: how to remove pcl?
+                    }
                 }
             } );
             addInputEventListener( new CursorHandler() );
