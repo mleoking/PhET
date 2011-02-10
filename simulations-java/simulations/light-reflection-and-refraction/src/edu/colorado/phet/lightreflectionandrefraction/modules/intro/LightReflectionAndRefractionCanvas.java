@@ -133,9 +133,9 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }
         } );
 
-//        addChild( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) {{
-//            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
-//        }} );
+        addChild( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
+        }} );
         addChild( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
