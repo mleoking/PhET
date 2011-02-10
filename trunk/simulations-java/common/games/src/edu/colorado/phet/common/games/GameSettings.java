@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.model;
+package edu.colorado.phet.common.games;
 
+import edu.colorado.phet.balancingchemicalequations.model.ConstrainedIntegerProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
