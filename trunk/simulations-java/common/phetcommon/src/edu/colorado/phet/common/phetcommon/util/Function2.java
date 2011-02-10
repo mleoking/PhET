@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 /**
- * A one-parameter function that takes an argument of type U and returns a value of type T.
+ * A two-parameter function that takes argument of types V and U, and returns a value of type T.
  *
  * @author Sam Reid
  */
