@@ -359,15 +359,29 @@ public class GameSettingsPanel extends GridPanel {
 
     public static void main( String[] args ) {
 
-        final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
-        panel.addControl( new JLabel( "myLabel1:" ), new JLabel( "myControl1" ) );
-        panel.addControl( new JLabel( "myLabel2:" ), new JLabel( "myControl2" ) );
-        panel.addGameSettingsPanelListener( new GameSettingsPanelAdapater() {
+        // old-style example using listeners
+        final GameSettingsPanel panel1 = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
+        panel1.addControl( new JLabel( "myLabel1:" ), new JLabel( "myControl1" ) );
+        panel1.addControl( new JLabel( "myLabel2:" ), new JLabel( "myControl2" ) );
+        panel1.addGameSettingsPanelListener( new GameSettingsPanelAdapater() {
             @Override
             public void startButtonPressed() {
-                System.out.println( "level=" + panel.getLevel() + " timerOn=" + panel.isTimerOn() + " soundOn=" + panel.isSoundOn() );
+                System.out.println( "level=" + panel1.getLevel() + " timerOn=" + panel1.isTimerOn() + " soundOn=" + panel1.isSoundOn() );
             }
         } );
+
+        // new-style example using GameSettings and observers
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1,5,3), false, false );
+        VoidFunction0 startFunction = new VoidFunction0() {
+            public void apply() {
+                System.out.println( "level=" + gameSettings.level.getValue() + " timerOn=" + gameSettings.timerEnabled.getValue() + " soundOn=" + gameSettings.soundEnabled.getValue() );
+            }
+        };
+        GameSettingsPanel panel2 = new GameSettingsPanel( gameSettings, startFunction );
+
+        JPanel panel = new JPanel();
+        panel.add( panel1 );
+        panel.add( panel2 );
 
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
