@@ -21,6 +21,7 @@ public class LightRay {
     public final double wavelength; // wavelength in meters
     private final double powerFraction;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
+    private ArrayList<VoidFunction0> moveToFrontListeners = new ArrayList<VoidFunction0>();
     private Color color;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction, Color color ) {
@@ -34,6 +35,10 @@ public class LightRay {
 
     public void addRemovalListener( VoidFunction0 listener ) {
         removalListeners.add( listener );
+    }
+
+    public void addMoveToFrontListener( VoidFunction0 listener ) {
+        moveToFrontListeners.add( listener );
     }
 
     public void addObserver( SimpleObserver simpleObserver ) {
@@ -96,5 +101,11 @@ public class LightRay {
 
     public double getWavelength() {
         return wavelength;
+    }
+
+    public void moveToFront() {
+        for ( VoidFunction0 moveToFrontListener : moveToFrontListeners ) {
+            moveToFrontListener.apply();
+        }
     }
 }
