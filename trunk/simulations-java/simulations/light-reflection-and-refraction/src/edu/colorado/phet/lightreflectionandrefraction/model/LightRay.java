@@ -24,9 +24,11 @@ public class LightRay {
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
     private ArrayList<VoidFunction0> moveToFrontListeners = new ArrayList<VoidFunction0>();
     private Color color;
+    private double waveWidth;
 
-    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction, Color color ) {
+    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction, Color color, double waveWidth ) {
         this.color = color;
+        this.waveWidth = waveWidth;
         this.tip = new Property<ImmutableVector2D>( tip );
         this.tail = new Property<ImmutableVector2D>( tail );
         this.indexOfRefraction = indexOfRefraction;
@@ -124,7 +126,7 @@ public class LightRay {
     }
 
     public Shape getWaveShape() {
-        final BasicStroke stroke = new BasicStroke( (float) ( LRRModel.redWavelength * 5 ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+        final BasicStroke stroke = new BasicStroke( (float) ( waveWidth ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
         final Shape strokedShape = stroke.createStrokedShape( getExtendedLine() );
         Area area = new Area( strokedShape ) {{
             subtract( new Area( getOppositeMedium() ) );
