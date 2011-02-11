@@ -2,6 +2,7 @@
 package edu.colorado.phet.lightreflectionandrefraction.model;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -106,10 +107,17 @@ public class LRRModel {
                 rays.clear();
 
                 intensityMeter.clearRayReadings();
+                final Rectangle bottom = new Rectangle( -10, -10, 20, 10 );
+                final Rectangle top = new Rectangle( -10, 0, 20, 10 );
                 if ( laser.on.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
                     final double sourcePower = 1.0;
-                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower, laser.color.getValue() );
+                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower, laser.color.getValue() ) {
+                        @Override
+                        public Shape getOppositeMedium() {
+                            return bottom;
+                        }
+                    };
                     final boolean rayAbsorbed = addAndAbsorb( ray );
                     if ( !rayAbsorbed ) {
                         double n1 = topMedium.getValue().getIndexOfRefraction();
@@ -132,7 +140,12 @@ public class LRRModel {
                             reflectedPowerRatio = 1.0;
                         }
                         addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower, laser.color.getValue() ) );
+                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower, laser.color.getValue() ) {
+                            @Override
+                            public Shape getOppositeMedium() {
+                                return bottom;
+                            }
+                        } );
 
                         if ( hasTransmittedRay ) {
                             //Transmitted
@@ -142,7 +155,17 @@ public class LRRModel {
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
                                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue() ) );
+                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue() ) {
+                                    @Override
+                                    public Line2D.Double getExtendedLine() {
+                                        return getExtendedLineBackwards();
+                                    }
+
+                                    @Override
+                                    public Shape getOppositeMedium() {
+                                        return top;
+                                    }
+                                } );
                             }
                         }
                     }

@@ -4,7 +4,6 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
@@ -24,11 +23,11 @@ public class LightWaveNode extends PNode {
     double phase = 0;
 
     public LightWaveNode( final ModelViewTransform transform, final LightRay lightRay ) {
-        addChild( new PhetPPath( new BasicStroke( 80, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ),
-                                 createPaint( transform, lightRay ) ) {{
+        addChild( new PhetPPath( createPaint( transform, lightRay ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( new Line2D.Double( lightRay.tail.getValue().toPoint2D(), lightRay.tip.getValue().toPoint2D() ) ) );
+                    final Shape shape = transform.modelToView( lightRay.getWaveShape() );
+                    setPathTo( shape );
                 }
             } );
             new Timer( 30, new ActionListener() {
@@ -37,7 +36,7 @@ public class LightWaveNode extends PNode {
                     double viewSpeed = speed / 2.99E8;
                     final double deltaPhase = viewSpeed * 3.5;
                     phase = phase + deltaPhase;
-                    setStrokePaint( createPaint( transform, lightRay ) );
+                    setPaint( createPaint( transform, lightRay ) );
                 }
             } ) {{
                 lightRay.addRemovalListener( new VoidFunction0() {

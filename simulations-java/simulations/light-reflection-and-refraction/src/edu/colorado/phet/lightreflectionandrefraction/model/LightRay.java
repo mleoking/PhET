@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.model;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -112,5 +113,32 @@ public class LightRay {
     @Override
     public String toString() {
         return "tail = " + tail + ", tip = " + tip;
+    }
+
+    public Shape getOppositeMedium() {
+        return new Rectangle2D.Double( 0, 0, 0, 0 );
+    }
+
+    public double getExtensionFactor() {
+        return 10;
+    }
+
+    public Shape getWaveShape() {
+        final BasicStroke stroke = new BasicStroke( (float) ( LRRModel.redWavelength * 5 ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+        final Shape strokedShape = stroke.createStrokedShape( getExtendedLine() );
+        Area area = new Area( strokedShape ) {{
+            subtract( new Area( getOppositeMedium() ) );
+        }};
+        return area;
+    }
+
+    public Line2D.Double getExtendedLine() {
+        ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
+        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().getAddedInstance( direction.getScaledInstance( getExtensionFactor() ) ).toPoint2D() );
+    }
+
+    public Line2D.Double getExtendedLineBackwards() {
+        ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
+        return new Line2D.Double( tail.getValue().getAddedInstance( direction.getScaledInstance( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
     }
 }
