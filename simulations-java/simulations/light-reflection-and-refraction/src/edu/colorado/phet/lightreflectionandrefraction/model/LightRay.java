@@ -141,4 +141,8 @@ public class LightRay {
         ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
         return new Line2D.Double( tail.getValue().getAddedInstance( direction.getScaledInstance( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
     }
+
+    public double getAngle() {
+        return toVector2D().getAngle();
+    }
 }
