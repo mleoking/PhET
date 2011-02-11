@@ -93,4 +93,8 @@ public class LightRay {
     public Color getColor() {
         return color;
     }
+
+    public double getWavelength() {
+        return wavelength;
+    }
 }
