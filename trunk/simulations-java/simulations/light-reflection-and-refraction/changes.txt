@@ -1,3 +1,4 @@
+Fixed: speed in wave view is angle dependent, even for incoming wave
 # 0.00.13 (48854) Feb 10, 2011
 Fixed: Wavelength in n2>n1 should be shorter, not longer
 # 0.00.12 (48852) Feb 10, 2011

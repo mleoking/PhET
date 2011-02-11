@@ -56,7 +56,11 @@ public class LightWaveNode extends PNode {
         final ImmutableVector2D vec = transform.modelToViewDelta( lightRay.toVector2D() ).getNormalizedInstance().getScaledInstance( viewWavelength );
         final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( powerFraction ) );
         final Color black = new Color( 0, 0, 0, (float) Math.sqrt( powerFraction ) );
-        return new GradientPaint( (float) phase, 0, red, (float) ( phase + (float) vec.getX() ), 0 + (float) vec.getY(), black, true );
+
+        ImmutableVector2D phaseOffset = vec.getNormalizedInstance().getScaledInstance( phase );
+        float dx = (float) phaseOffset.getX();
+        float dy = (float) phaseOffset.getY();
+        return new GradientPaint( dx, dy, red, dx + (float) vec.getX(), dy + (float) vec.getY(), black, true );
     }
 
     public static void main( String[] args ) {
