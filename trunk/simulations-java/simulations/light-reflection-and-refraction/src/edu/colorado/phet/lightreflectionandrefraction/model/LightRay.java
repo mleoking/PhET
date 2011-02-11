@@ -108,4 +108,9 @@ public class LightRay {
             moveToFrontListener.apply();
         }
     }
+
+    @Override
+    public String toString() {
+        return "tail = " + tail + ", tip = " + tip;
+    }
 }
