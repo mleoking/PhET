@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class LightWaveNode extends PNode {
-    int phase = 0;
+    double phase = 0;
 
     public LightWaveNode( final ModelViewTransform transform, final LightRay lightRay ) {
         addChild( new PhetPPath( new BasicStroke( 80, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ),
@@ -33,7 +33,10 @@ public class LightWaveNode extends PNode {
             } );
             new Timer( 30, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    phase = phase + 2;
+                    double speed = lightRay.getSpeed();
+                    double viewSpeed = speed / 2.99E8;
+                    final double deltaPhase = viewSpeed * 3.5;
+                    phase = phase + deltaPhase;
                     setStrokePaint( createPaint( transform, lightRay ) );
                 }
             } ) {{
@@ -52,7 +55,9 @@ public class LightWaveNode extends PNode {
         double powerFraction = lightRay.getPowerFraction();
         double viewWavelength = transform.modelToViewDeltaX( lightRay.getWavelength() );
         final ImmutableVector2D vec = transform.modelToView( lightRay.toVector2D() ).getNormalizedInstance().getScaledInstance( viewWavelength );
-        return new GradientPaint( phase, 0, new Color( 1f, 0, 0, (float) Math.sqrt( powerFraction ) ), phase + (float) vec.getX(), 0 + (float) vec.getY(), new Color( 0, 0, 0, (float) Math.sqrt( powerFraction ) ), true );
+        final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( powerFraction ) );
+        final Color black = new Color( 0, 0, 0, (float) Math.sqrt( powerFraction ) );
+        return new GradientPaint( (float) phase, 0, red, (float) ( phase + (float) vec.getX() ), 0 + (float) vec.getY(), black, true );
     }
 
     public static void main( String[] args ) {
