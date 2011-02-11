@@ -1,3 +1,4 @@
+# 0.00.14 (48857) Feb 11, 2011
 Adjust wave widths to constrain the incident cross sectional width the be fixed
 Fixed: speed in wave view is angle dependent, even for incoming wave
 # 0.00.13 (48854) Feb 10, 2011
