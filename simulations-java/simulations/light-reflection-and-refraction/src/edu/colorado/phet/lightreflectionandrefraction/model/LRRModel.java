@@ -110,7 +110,7 @@ public class LRRModel {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
                     final double sourcePower = 1.0;
                     final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower, laser.color.getValue() );
-                    final boolean rayAbsorbed = handleAbsorb( ray );
+                    final boolean rayAbsorbed = addAndAbsorb( ray );
                     if ( !rayAbsorbed ) {
                         double n1 = topMedium.getValue().getIndexOfRefraction();
                         double n2 = bottomMedium.getValue().getIndexOfRefraction();
@@ -131,7 +131,7 @@ public class LRRModel {
                         else {
                             reflectedPowerRatio = 1.0;
                         }
-                        handleAbsorb( new LightRay( new ImmutableVector2D(),
+                        addAndAbsorb( new LightRay( new ImmutableVector2D(),
                                                     ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower, laser.color.getValue() ) );
 
                         if ( hasTransmittedRay ) {
@@ -141,11 +141,12 @@ public class LRRModel {
                             if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
-                                handleAbsorb( new LightRay( new ImmutableVector2D(),
+                                addAndAbsorb( new LightRay( new ImmutableVector2D(),
                                                             ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue() ) );
                             }
                         }
                     }
+                    ray.moveToFront();//For wave view
                 }
             }
         };
@@ -164,7 +165,7 @@ public class LRRModel {
      Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      If the intensity meter misses the ray, the original ray is added.
      */
-    private boolean handleAbsorb( LightRay ray ) {
+    private boolean addAndAbsorb( LightRay ray ) {
         boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
         if ( rayAbsorbed ) {
             Point2D[] intersects = MathUtil.getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );

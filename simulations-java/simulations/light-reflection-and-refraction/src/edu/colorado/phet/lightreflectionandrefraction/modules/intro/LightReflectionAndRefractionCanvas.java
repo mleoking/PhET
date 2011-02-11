@@ -124,6 +124,11 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             public void apply( LightRay lightRay ) {
                 final PNode node = laserView.getValue().createNode( transform, lightRay );
                 addChild( node );
+                lightRay.addMoveToFrontListener( new VoidFunction0() {
+                    public void apply() {
+                        node.moveToFront();
+                    }
+                } );//TODO: memory leak
                 lightRay.addRemovalListener( new VoidFunction0() {
                     public void apply() {
                         removeChild( node );
