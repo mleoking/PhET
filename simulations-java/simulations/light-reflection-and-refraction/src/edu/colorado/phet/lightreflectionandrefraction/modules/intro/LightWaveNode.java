@@ -28,7 +28,7 @@ public class LightWaveNode extends PNode {
                                  createPaint( transform, lightRay ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( new Line2D.Double( lightRay.tip.getValue().toPoint2D(), lightRay.tail.getValue().toPoint2D() ) ) );
+                    setPathTo( transform.modelToView( new Line2D.Double( lightRay.tail.getValue().toPoint2D(), lightRay.tip.getValue().toPoint2D() ) ) );
                 }
             } );
             new Timer( 30, new ActionListener() {
@@ -54,7 +54,7 @@ public class LightWaveNode extends PNode {
     private GradientPaint createPaint( ModelViewTransform transform, LightRay lightRay ) {
         double powerFraction = lightRay.getPowerFraction();
         double viewWavelength = transform.modelToViewDeltaX( lightRay.getWavelength() );
-        final ImmutableVector2D vec = transform.modelToView( lightRay.toVector2D() ).getNormalizedInstance().getScaledInstance( viewWavelength );
+        final ImmutableVector2D vec = transform.modelToViewDelta( lightRay.toVector2D() ).getNormalizedInstance().getScaledInstance( viewWavelength );
         final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( powerFraction ) );
         final Color black = new Color( 0, 0, 0, (float) Math.sqrt( powerFraction ) );
         return new GradientPaint( (float) phase, 0, red, (float) ( phase + (float) vec.getX() ), 0 + (float) vec.getY(), black, true );
