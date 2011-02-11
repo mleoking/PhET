@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
+import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -38,6 +39,22 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
     private PNode rootNode;
     public final BooleanProperty showNormal = new BooleanProperty( true );
     public final BooleanProperty showProtractor = new BooleanProperty( false );
+    public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
+
+    public static abstract class LaserView {
+        public static final LaserView RAY = new LaserView() {
+            public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
+                return new LightRayNode( transform, lightRay );
+            }
+        };
+        public static final LaserView WAVE = new LaserView() {
+            public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
+                return new LightWaveNode( transform, lightRay );
+            }
+        };
+
+        public abstract PNode createNode( ModelViewTransform transform, LightRay lightRay );
+    }
 
     public LightReflectionAndRefractionCanvas( final LRRModel model ) {
         // Root of our scene graph
@@ -76,12 +93,8 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );
             addChild( new PSwing( new VerticalLayoutPanel() {{
-                final Property<Boolean> ray = new Property<Boolean>( true );
-                add( new PropertyRadioButton<Boolean>( "Ray", ray, true ) {{setFont( labelFont );}} );
-                add( new PropertyRadioButton<Boolean>( "Wave", ray, false ) {{
-                    setEnabled( false );
-                    setFont( labelFont );
-                }} );
+                add( new PropertyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
                 SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
             }} ) {{
                 setOffset( 0, title.getFullBounds().getMaxY() );
@@ -102,17 +115,14 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             } );
         }} );
 
+        laserView.addObserver( new SimpleObserver() {
+            public void update() {
+                model.regenerateRays();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
+            }
+        } );
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
-//                final LightRayNode node = new LightRayNode( transform, lightRay );
-//                addChild( node );
-//                lightRay.addRemovalListener( new VoidFunction0() {
-//                    public void apply() {
-//                        removeChild( node );
-//                    }
-//                } );
-
-                final LightWaveNode node = new LightWaveNode( transform, lightRay );
+                final PNode node = laserView.getValue().createNode( transform, lightRay );
                 addChild( node );
                 lightRay.addRemovalListener( new VoidFunction0() {
                     public void apply() {

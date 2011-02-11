@@ -1,3 +1,4 @@
+Started adding wave mode
 # 0.00.10 (48830) Feb 9, 2011
 # 0.00.09 (48829) Feb 9, 2011
 Added an icon for the normal line in the toolbox

@@ -88,6 +88,7 @@ public class LRRModel {
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
+    public SimpleObserver updateRays;
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 20, 1e-15 );
@@ -97,7 +98,7 @@ public class LRRModel {
                 bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
             }
         } );
-        final SimpleObserver updateRays = new SimpleObserver() {
+        updateRays = new SimpleObserver() {
             public void update() {
                 for ( LightRay ray : rays ) {
                     ray.remove();
@@ -135,11 +136,13 @@ public class LRRModel {
 
                         if ( hasTransmittedRay ) {
                             //Transmitted
+                            //n2/n1 = L1/L2 => L2 = L1*n2/n1
+                            double transmittedWavelength = redWavelength / n1 * n2;
                             if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
                                 handleAbsorb( new LightRay( new ImmutableVector2D(),
-                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, redWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue() ) );
+                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue() ) );
                             }
                         }
                     }
@@ -287,5 +290,9 @@ public class LRRModel {
 
     public IntensityMeter getIntensityMeter() {
         return intensityMeter;
+    }
+
+    public void regenerateRays() {
+        updateRays.update();
     }
 }
