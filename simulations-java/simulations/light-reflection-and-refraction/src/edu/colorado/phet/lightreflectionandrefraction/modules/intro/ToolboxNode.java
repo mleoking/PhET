@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.lightreflectionandrefraction.model.LRRModel.redWavelength;
+import static edu.colorado.phet.lightreflectionandrefraction.model.LRRModel.WAVELENGTH_RED;
 
 /**
  * @author Sam Reid
@@ -91,7 +91,7 @@ public class ToolboxNode extends PNode {
         addChild( protractor );
 
         //TODO: some constants copied from LRRModel
-        final double modelWidth = redWavelength * 62;
+        final double modelWidth = WAVELENGTH_RED * 62;
         final double modelHeight = modelWidth * 0.7;
         final IntensityMeterNode iconNode = new IntensityMeterNode( transform, new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 ) {{
             enabled.setValue( true );

@@ -76,9 +76,9 @@ public class LRRModel {
     } );
 
     public static final double SPEED_OF_LIGHT = 2.99792458e8;
-    public static final double redWavelength = 650E-9;
+    public static final double WAVELENGTH_RED = 650E-9;
 
-    final double modelWidth = redWavelength * 62;
+    final double modelWidth = WAVELENGTH_RED * 62;
     final double modelHeight = modelWidth * 0.7;
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
@@ -114,7 +114,6 @@ public class LRRModel {
                 if ( laser.on.getValue() ) {
                     final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
 
-
                     double n1 = topMedium.getValue().getIndexOfRefraction();
                     double n2 = bottomMedium.getValue().getIndexOfRefraction();
 
@@ -123,9 +122,9 @@ public class LRRModel {
                     double theta2 = asin( n1 / n2 * sin( theta1 ) );
 
                     final double sourcePower = 1.0;
-                    double a = LRRModel.redWavelength * 5;//cross section of incident light, used to compute wave widths
+                    double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
                     double sourceWaveWidth = a * Math.cos( theta1 );
-                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), 1.0, redWavelength, sourcePower, laser.color.getValue(), sourceWaveWidth ) {
+                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED, sourcePower, laser.color.getValue(), sourceWaveWidth, 0 ) {
                         @Override
                         public Shape getOppositeMedium() {
                             return bottom;
@@ -148,7 +147,7 @@ public class LRRModel {
                         }
                         double reflectedWaveWidth = sourceWaveWidth;
                         addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), 1.0, redWavelength, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth ) {
+                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, 0 ) {
                             @Override
                             public Shape getOppositeMedium() {
                                 return bottom;
@@ -158,14 +157,15 @@ public class LRRModel {
                         if ( hasTransmittedRay ) {
                             //Transmitted
                             //n2/n1 = L1/L2 => L2 = L1*n2/n1
-                            double transmittedWavelength = redWavelength / n2 * n1;
+                            double transmittedWavelength = WAVELENGTH_RED / n2 * n1;
                             if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
 //                                double transmittedWaveWidth = LRRModel.redWavelength * 5;
                                 double transmittedWaveWidth = a * Math.cos( theta2 );
+                                double transmittedPhase = 0;
                                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), 1.0, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth ) {
+                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, transmittedPhase ) {
                                     @Override
                                     public Line2D.Double getExtendedLine() {
                                         return getExtendedLineBackwards();
@@ -214,8 +214,8 @@ public class LRRModel {
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
-                double waveWidth = LRRModel.redWavelength * 5;
-                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, redWavelength, ray.getPowerFraction(), laser.color.getValue(), waveWidth );
+                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, WAVELENGTH_RED, ray.getPowerFraction(), laser.color.getValue(),
+                                                     ray.getWaveWidth(), ray.phase.getValue() );
                 boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
                 if ( interrupted.getLength() < ray.getLength() && isForward ) {
                     addRay( interrupted );
