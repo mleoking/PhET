@@ -26,6 +26,7 @@ public class LightRay {
     private ArrayList<VoidFunction0> moveToFrontListeners = new ArrayList<VoidFunction0>();
     private Color color;
     private double waveWidth;
+    public double myPhaseOffset;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
                      double powerFraction, Color color, double waveWidth, double phase ) {
@@ -163,5 +164,9 @@ public class LightRay {
 
     public double getPhaseAtOrigin() {//for syncing up phase between rays
         return phase.getValue() + getLength() / wavelength;
+    }
+
+    public double getNumberOfWavelengths() {
+        return getLength() / wavelength;
     }
 }
