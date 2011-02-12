@@ -24,6 +24,7 @@ import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMet
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static java.lang.Math.*;
 
 public class LRRModel {
@@ -124,13 +125,13 @@ public class LRRModel {
                     final double sourcePower = 1.0;
                     double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
                     double sourceWaveWidth = a * Math.cos( theta1 );
-                    final LightRay ray = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED, sourcePower, laser.color.getValue(), sourceWaveWidth, 0 ) {
+                    final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED, sourcePower, laser.color.getValue(), sourceWaveWidth, 0 ) {
                         @Override
                         public Shape getOppositeMedium() {
                             return bottom;
                         }
                     };
-                    final boolean rayAbsorbed = addAndAbsorb( ray );
+                    final boolean rayAbsorbed = addAndAbsorb( incidentRay );
                     if ( !rayAbsorbed ) {
 
                         double thetaOfTotalInternalReflection = asin( n2 / n1 );
@@ -147,7 +148,7 @@ public class LRRModel {
                         }
                         double reflectedWaveWidth = sourceWaveWidth;
                         addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    ImmutableVector2D.parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, 0 ) {
+                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, 0 ) {
                             @Override
                             public Shape getOppositeMedium() {
                                 return bottom;
@@ -161,11 +162,11 @@ public class LRRModel {
                             if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
-//                                double transmittedWaveWidth = LRRModel.redWavelength * 5;
                                 double transmittedWaveWidth = a * Math.cos( theta2 );
-                                double transmittedPhase = 0;
+//                                double transmittedPhase = 0;
+                                double transmittedPhase = incidentRay.getPhaseAtOrigin();
                                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                            ImmutableVector2D.parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, transmittedPhase ) {
+                                                            parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, transmittedPhase ) {
                                     @Override
                                     public Line2D.Double getExtendedLine() {
                                         return getExtendedLineBackwards();
@@ -179,7 +180,7 @@ public class LRRModel {
                             }
                         }
                     }
-                    ray.moveToFront();//For wave view
+                    incidentRay.moveToFront();//For wave view
                 }
             }
         };

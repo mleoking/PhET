@@ -125,7 +125,7 @@ public class LightRay {
     }
 
     public double getExtensionFactor() {
-        return 10;
+        return wavelength * 1E6;//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
     }
 
     public Shape getWaveShape() {
@@ -137,6 +137,7 @@ public class LightRay {
         return area;
     }
 
+    //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
     public Line2D.Double getExtendedLine() {
         ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
         return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().getAddedInstance( direction.getScaledInstance( getExtensionFactor() ) ).toPoint2D() );
@@ -158,5 +159,9 @@ public class LightRay {
 
     public double getWaveWidth() {
         return waveWidth;
+    }
+
+    public double getPhaseAtOrigin() {//for syncing up phase between rays
+        return phase.getValue() + getLength() / wavelength;
     }
 }
