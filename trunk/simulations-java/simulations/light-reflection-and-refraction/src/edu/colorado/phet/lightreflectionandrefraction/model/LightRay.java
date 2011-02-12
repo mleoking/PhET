@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 public class LightRay {
     public final Property<ImmutableVector2D> tip;
     public final Property<ImmutableVector2D> tail;
-    public final Property<Double> phase = new Property<Double>( 0.0 );
+    public final Property<Double> phase;
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
     private final double powerFraction;
@@ -27,7 +27,9 @@ public class LightRay {
     private Color color;
     private double waveWidth;
 
-    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength, double powerFraction, Color color, double waveWidth ) {
+    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
+                     double powerFraction, Color color, double waveWidth, double phase ) {
+        this.phase = new Property<Double>( phase );
         this.color = color;
         this.waveWidth = waveWidth;
         this.tip = new Property<ImmutableVector2D>( tip );
@@ -150,9 +152,11 @@ public class LightRay {
     }
 
     public void step( double dt ) {
-        double speed = getSpeed();
-        double viewSpeed = speed / LRRModel.SPEED_OF_LIGHT;
-        final double deltaPhase = viewSpeed * 100;
+        final double deltaPhase = getSpeed() / LRRModel.SPEED_OF_LIGHT * 100;
         phase.setValue( phase.getValue() + deltaPhase * dt );
+    }
+
+    public double getWaveWidth() {
+        return waveWidth;
     }
 }
