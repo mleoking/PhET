@@ -1,3 +1,5 @@
+Fixed: transmitted wavelength is incorrect
+Fixed: transmitted wave is out of phase with incoming wave
 # 0.00.14 (48857) Feb 11, 2011
 Adjust wave widths to constrain the incident cross sectional width the be fixed
 Fixed: speed in wave view is angle dependent, even for incoming wave

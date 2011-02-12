@@ -162,7 +162,7 @@ public class LRRModel {
                         if ( hasTransmittedRay ) {
                             //Transmitted
                             //n2/n1 = L1/L2 => L2 = L1*n2/n1
-                            double transmittedWavelength = WAVELENGTH_RED / n2 * n1;
+                            double transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
                             if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                             else {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
