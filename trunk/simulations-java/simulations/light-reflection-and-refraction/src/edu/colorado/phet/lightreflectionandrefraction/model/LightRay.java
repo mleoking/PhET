@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 public class LightRay {
     public final Property<ImmutableVector2D> tip;
     public final Property<ImmutableVector2D> tail;
+    public final Property<Double> phase = new Property<Double>( 0.0 );
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
     private final double powerFraction;
@@ -50,7 +51,7 @@ public class LightRay {
     }
 
     public double getSpeed() {
-        return LRRModel.C / indexOfRefraction;
+        return LRRModel.SPEED_OF_LIGHT / indexOfRefraction;
     }
 
     public void propagate( double dt ) {
@@ -146,5 +147,12 @@ public class LightRay {
 
     public double getAngle() {
         return toVector2D().getAngle();
+    }
+
+    public void step( double dt ) {
+        double speed = getSpeed();
+        double viewSpeed = speed / LRRModel.SPEED_OF_LIGHT;
+        final double deltaPhase = viewSpeed * 100;
+        phase.setValue( phase.getValue() + deltaPhase * dt );
     }
 }

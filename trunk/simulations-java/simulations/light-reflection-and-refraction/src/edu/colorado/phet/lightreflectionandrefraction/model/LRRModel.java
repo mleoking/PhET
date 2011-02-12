@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.Function1;
@@ -73,7 +75,7 @@ public class LRRModel {
         }
     } );
 
-    public static final double C = 2.99792458e8;
+    public static final double SPEED_OF_LIGHT = 2.99792458e8;
     public static final double redWavelength = 650E-9;
 
     final double modelWidth = redWavelength * 62;
@@ -92,7 +94,7 @@ public class LRRModel {
     public SimpleObserver updateRays;
 
     public LRRModel() {
-        this.clock = new ConstantDtClock( 20, 1e-15 );
+        this.clock = new ConstantDtClock( 30.0 );
         colorMappingFunction.addObserver( new SimpleObserver() {
             public void update() {
                 topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
@@ -189,6 +191,15 @@ public class LRRModel {
         intensityMeter.sensorPosition.addObserver( updateRays );
         intensityMeter.enabled.addObserver( updateRays );
         laser.color.addObserver( updateRays );
+
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                for ( LightRay ray : rays ) {
+                    ray.step( clockEvent.getSimulationTimeChange() );
+                }
+            }
+        } );
+
         clock.start();
     }
 
