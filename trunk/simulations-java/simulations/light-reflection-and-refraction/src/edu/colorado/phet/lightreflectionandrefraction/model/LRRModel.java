@@ -125,12 +125,16 @@ public class LRRModel {
                     final double sourcePower = 1.0;
                     double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
                     double sourceWaveWidth = a * Math.cos( theta1 );
-                    final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED, sourcePower, laser.color.getValue(), sourceWaveWidth, 0 ) {
+
+                    //According to http://en.wikipedia.org/wiki/Wavelength
+                    //lambda = lambda0 / n(lambda0)
+                    final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, 0 ) {
                         @Override
                         public Shape getOppositeMedium() {
                             return bottom;
                         }
                     };
+                    System.out.println( "incidentRay.getNumberOfWavelengths() = " + incidentRay.getNumberOfWavelengths() );
                     final boolean rayAbsorbed = addAndAbsorb( incidentRay );
                     if ( !rayAbsorbed ) {
 
@@ -148,7 +152,7 @@ public class LRRModel {
                         }
                         double reflectedWaveWidth = sourceWaveWidth;
                         addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, 0 ) {
+                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, 0 ) {
                             @Override
                             public Shape getOppositeMedium() {
                                 return bottom;
@@ -164,9 +168,10 @@ public class LRRModel {
                                 double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
                                 double transmittedWaveWidth = a * Math.cos( theta2 );
 //                                double transmittedPhase = 0;
-                                double transmittedPhase = incidentRay.getPhaseAtOrigin();
-                                addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                            parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, transmittedPhase ) {
+//                                double transmittedPhase = incidentRay.getPhaseAtOrigin();
+                                final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
+                                                                              parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
+                                                                              transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, 0 ) {
                                     @Override
                                     public Line2D.Double getExtendedLine() {
                                         return getExtendedLineBackwards();
@@ -176,7 +181,9 @@ public class LRRModel {
                                     public Shape getOppositeMedium() {
                                         return top;
                                     }
-                                } );
+                                };
+                                transmittedRay.myPhaseOffset = incidentRay.getNumberOfWavelengths();
+                                addAndAbsorb( transmittedRay );
                             }
                         }
                     }
