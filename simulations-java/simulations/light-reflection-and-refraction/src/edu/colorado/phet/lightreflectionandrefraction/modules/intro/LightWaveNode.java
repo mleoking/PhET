@@ -19,8 +19,7 @@ public class LightWaveNode extends PNode {
         addChild( new PhetPPath( createPaint( transform, lightRay ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Shape shape = transform.modelToView( lightRay.getWaveShape() );
-                    setPathTo( shape );
+                    setPathTo( transform.modelToView( lightRay.getWaveShape() ) );
                 }
             } );
             lightRay.phase.addObserver( new SimpleObserver() {
@@ -34,11 +33,10 @@ public class LightWaveNode extends PNode {
     }
 
     private GradientPaint createPaint( ModelViewTransform transform, LightRay lightRay ) {
-        double powerFraction = lightRay.getPowerFraction();
         double viewWavelength = transform.modelToViewDeltaX( lightRay.getWavelength() );
         final ImmutableVector2D vec = transform.modelToViewDelta( lightRay.toVector2D() ).getNormalizedInstance().getScaledInstance( viewWavelength );
-        final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( powerFraction ) );
-        final Color black = new Color( 0, 0, 0, (float) Math.sqrt( powerFraction ) );
+        final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( lightRay.getPowerFraction() ) );
+        final Color black = new Color( 0, 0, 0, (float) Math.sqrt( lightRay.getPowerFraction() ) );
 
         ImmutableVector2D phaseOffset = vec.getNormalizedInstance().getScaledInstance( lightRay.phase.getValue() );
         float dx = (float) phaseOffset.getX();
