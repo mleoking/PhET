@@ -46,13 +46,14 @@ public class ProtractorNode extends PNode {
         addChild( new PhetPPath( draggableShape, new Color( 0, 0, 0, 0 ) ) {{
 //        addChild( new PhetPPath( draggableShape, new Color( 255,0,0,128 ) ) {{//For debugging the drag hit area
             setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    doDrag( event );
+                }
+            } );
         }} );
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseDragged( PInputEvent event ) {
-                doDrag( event );
-            }
-        } );
+
         final Point2D point2D = transform.modelToViewDelta( new ImmutableVector2D( x, y ) ).toPoint2D();
         translate( point2D.getX() + getFullBounds().getWidth() / 2, point2D.getY() - getFullBounds().getHeight() / 2 );
     }
