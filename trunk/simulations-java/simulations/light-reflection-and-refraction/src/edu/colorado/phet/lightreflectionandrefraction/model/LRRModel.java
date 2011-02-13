@@ -92,7 +92,8 @@ public class LRRModel {
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
-    public SimpleObserver updateRays;
+    private SimpleObserver updateRays;
+    private double incomingRayPhase = 0.0;//Keep track of the phase across time steps so that we can maintain instead of resetting phase under angle or index of refraction changes
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 30.0 );
@@ -128,7 +129,13 @@ public class LRRModel {
 
                     //According to http://en.wikipedia.org/wiki/Wavelength
                     //lambda = lambda0 / n(lambda0)
-                    final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, 0, bottom );
+                    final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase );
+                    incidentRay.phase.addObserver( new SimpleObserver() {
+                        public void update() {
+//                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
+                            incomingRayPhase = 0.0;
+                        }
+                    } );
                     final boolean rayAbsorbed = addAndAbsorb( incidentRay );
                     if ( !rayAbsorbed ) {
 
@@ -146,7 +153,7 @@ public class LRRModel {
                         }
                         double reflectedWaveWidth = sourceWaveWidth;
                         addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom ) );
+                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0 ) );
 
                         if ( hasTransmittedRay ) {
                             //Transmitted
@@ -158,7 +165,7 @@ public class LRRModel {
                                 double transmittedWaveWidth = a * Math.cos( theta2 );
                                 final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                               parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
-                                                                              transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top ) {
+                                                                              transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0 ) {
                                     @Override
                                     public Line2D.Double getExtendedLine() {
                                         return getExtendedLineBackwards();
@@ -204,7 +211,7 @@ public class LRRModel {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
                 LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, WAVELENGTH_RED, ray.getPowerFraction(), laser.color.getValue(),
-                                                     ray.getWaveWidth(), ray.phase.getValue(), ray.getOppositeMedium() );
+                                                     ray.getWaveWidth(), ray.phase.getValue(), ray.getOppositeMedium(), ray.phase.getValue() );
                 boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
                 if ( interrupted.getLength() < ray.getLength() && isForward ) {
                     addRay( interrupted );

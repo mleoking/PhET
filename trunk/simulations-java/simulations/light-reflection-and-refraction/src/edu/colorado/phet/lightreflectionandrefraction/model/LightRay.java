@@ -25,14 +25,14 @@ public class LightRay {
     private ArrayList<VoidFunction0> moveToFrontListeners = new ArrayList<VoidFunction0>();
     private Color color;
     private double waveWidth;
-    private double myPhaseOffset;
+    private double numWavelengthsPhaseOffset;
     private final Shape oppositeMedium;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
-                     double powerFraction, Color color, double waveWidth, double myPhaseOffset, Shape oppositeMedium//for clipping
-    ) {
+                     double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset, Shape oppositeMedium//for clipping
+            , double initialPhase ) {
         this.oppositeMedium = oppositeMedium;
-        this.phase = new Property<Double>( 0.0 );
+        this.phase = new Property<Double>( initialPhase );
         this.color = color;
         this.waveWidth = waveWidth;
         this.tip = new Property<ImmutableVector2D>( tip );
@@ -40,7 +40,7 @@ public class LightRay {
         this.indexOfRefraction = indexOfRefraction;
         this.wavelength = wavelength;
         this.powerFraction = powerFraction;
-        this.myPhaseOffset = myPhaseOffset;
+        this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
     }
 
     public void addRemovalListener( VoidFunction0 listener ) {
@@ -161,16 +161,12 @@ public class LightRay {
         return waveWidth;
     }
 
-    public double getPhaseAtOrigin() {//for syncing up phase between rays
-        return phase.getValue() + getLength() / wavelength;
-    }
-
     public double getNumberOfWavelengths() {
         return getLength() / wavelength;
     }
 
-    public double getMyPhaseOffset() {
-        return myPhaseOffset;
+    public double getNumWavelengthsPhaseOffset() {
+        return numWavelengthsPhaseOffset;
     }
 
     public Shape getOppositeMedium() {
