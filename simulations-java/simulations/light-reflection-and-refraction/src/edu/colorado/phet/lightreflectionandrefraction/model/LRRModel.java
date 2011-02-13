@@ -151,7 +151,7 @@ public class LRRModel {
                         }
                         double reflectedWaveWidth = sourceWaveWidth;
                         addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, 0 ) {
+                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, incidentRay.getNumberOfWavelengths() ) {
                             @Override
                             public Shape getOppositeMedium() {
                                 return bottom;
@@ -170,7 +170,7 @@ public class LRRModel {
 //                                double transmittedPhase = incidentRay.getPhaseAtOrigin();
                                 final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                               parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
-                                                                              transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, 0 ) {
+                                                                              transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, incidentRay.getNumberOfWavelengths() ) {
                                     @Override
                                     public Line2D.Double getExtendedLine() {
                                         return getExtendedLineBackwards();
@@ -181,7 +181,6 @@ public class LRRModel {
                                         return top;
                                     }
                                 };
-                                transmittedRay.myPhaseOffset = incidentRay.getNumberOfWavelengths();
                                 addAndAbsorb( transmittedRay );
                             }
                         }

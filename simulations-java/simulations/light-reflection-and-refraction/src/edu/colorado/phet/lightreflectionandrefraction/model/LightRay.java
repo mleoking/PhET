@@ -26,11 +26,11 @@ public class LightRay {
     private ArrayList<VoidFunction0> moveToFrontListeners = new ArrayList<VoidFunction0>();
     private Color color;
     private double waveWidth;
-    public double myPhaseOffset;
+    private double myPhaseOffset;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
-                     double powerFraction, Color color, double waveWidth, double phase ) {
-        this.phase = new Property<Double>( phase );
+                     double powerFraction, Color color, double waveWidth, double myPhaseOffset ) {
+        this.phase = new Property<Double>( 0.0 );
         this.color = color;
         this.waveWidth = waveWidth;
         this.tip = new Property<ImmutableVector2D>( tip );
@@ -38,6 +38,7 @@ public class LightRay {
         this.indexOfRefraction = indexOfRefraction;
         this.wavelength = wavelength;
         this.powerFraction = powerFraction;
+        this.myPhaseOffset = myPhaseOffset;
     }
 
     public void addRemovalListener( VoidFunction0 listener ) {
@@ -168,5 +169,9 @@ public class LightRay {
 
     public double getNumberOfWavelengths() {
         return getLength() / wavelength;
+    }
+
+    public double getMyPhaseOffset() {
+        return myPhaseOffset;
     }
 }
