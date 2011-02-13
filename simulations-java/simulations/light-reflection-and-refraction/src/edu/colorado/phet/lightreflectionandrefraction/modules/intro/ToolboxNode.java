@@ -109,10 +109,22 @@ public class ToolboxNode extends PNode {
                         node = new IntensityMeterNode( transform, intensityMeter );
                         intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
                         intensityMeter.bodyPosition.setValue( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
+                        final PropertyChangeListener pcl = new PropertyChangeListener() {
+                            public void propertyChange( PropertyChangeEvent evt ) {
+                                if ( node != null ) {
+                                    intersect = ToolboxNode.this.getGlobalFullBounds().intersects( node.getSensorGlobalFullBounds() ) ||
+                                                ToolboxNode.this.getGlobalFullBounds().intersects( node.getBodyGlobalFullBounds() );
+                                }
+                            }
+                        };
                         intensityMeter.enabled.addObserver( new SimpleObserver() {
                             public void update() {
                                 sensorThumbnailRef.setVisible( !intensityMeter.enabled.getValue() );
-                                if ( !intensityMeter.enabled.getValue() ) {//user closed it with the red 'x' button on the sensor body (also called when dragged back to toolbox, but that's okay)
+                                if ( !intensityMeter.enabled.getValue() && node != null ) {//user closed it with the red 'x' button on the sensor body (also called when dragged back to toolbox, but that's okay)
+                                    node.removePropertyChangeListener( pcl );
+                                    intensityMeter.enabled.setValue( false );
+                                    sensorThumbnailRef.setVisible( true );
+                                    canvas.removeChild( node );
                                     node = null;//signify that we should create + init a new one on next drag so that it drags from the right location.
                                 }
                             }
@@ -120,21 +132,14 @@ public class ToolboxNode extends PNode {
                         final ImmutableVector2D modelPt = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent().getParent() ) ) );
                         final ImmutableVector2D delta = modelPt.getSubtractedInstance( intensityMeter.sensorPosition.getValue() );
                         intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
-
-                        final PropertyChangeListener pcl = new PropertyChangeListener() {
-                            public void propertyChange( PropertyChangeEvent evt ) {
-                                intersect = ToolboxNode.this.getGlobalFullBounds().intersects( node.getSensorGlobalFullBounds() ) ||
-                                            ToolboxNode.this.getGlobalFullBounds().intersects( node.getBodyGlobalFullBounds() );
-                            }
-                        };
                         node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
                         node.addInputEventListener( new PBasicInputEventHandler() {
                             public void mouseReleased( PInputEvent event ) {
-                                if ( intersect ) {
-                                    intensityMeter.enabled.setValue( false );
-                                    sensorThumbnailRef.setVisible( true );
+                                if ( intersect && node != null ) {
                                     node.removePropertyChangeListener( pcl );
                                     canvas.removeChild( node );
+                                    intensityMeter.enabled.setValue( false );
+                                    sensorThumbnailRef.setVisible( true );
                                     node = null;
                                 }
                             }
