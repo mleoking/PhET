@@ -1,3 +1,4 @@
+Fixed intensity meter for light wave representation
 Fixed: Protractor drag areas are incorrect, should only be able to mouse over on the solid part, not the bounding box
 Fixed: When dismissing the intensity sensor with the "x" button, when dragging it out again it starts in the wrong spot.
 # 0.00.15 (48867) Feb 12, 2011
