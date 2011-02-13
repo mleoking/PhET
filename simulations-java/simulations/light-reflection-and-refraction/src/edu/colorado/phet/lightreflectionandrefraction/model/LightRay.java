@@ -27,11 +27,16 @@ public class LightRay {
     private double waveWidth;
     private double numWavelengthsPhaseOffset;
     private final Shape oppositeMedium;
+    public final boolean extendBackwards;
+    private boolean extend;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
                      double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset, Shape oppositeMedium//for clipping
-            , double initialPhase ) {
+            , double initialPhase,
+                     boolean extend,//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
+                     boolean extendBackwards ) {
         this.oppositeMedium = oppositeMedium;
+        this.extendBackwards = extendBackwards;
         this.phase = new Property<Double>( initialPhase );
         this.color = color;
         this.waveWidth = waveWidth;
@@ -41,6 +46,7 @@ public class LightRay {
         this.wavelength = wavelength;
         this.powerFraction = powerFraction;
         this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
+        this.extend = extend;
     }
 
     public void addRemovalListener( VoidFunction0 listener ) {
@@ -125,12 +131,18 @@ public class LightRay {
     }
 
     public double getExtensionFactor() {
-        return wavelength * 1E6;//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
+        if ( extendBackwards ||//fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
+             extend ) {
+            return wavelength * 1E6;
+        }
+        else {
+            return 0;
+        }
     }
 
     public Shape getWaveShape() {
         final BasicStroke stroke = new BasicStroke( (float) ( waveWidth ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
-        final Shape strokedShape = stroke.createStrokedShape( getExtendedLine() );
+        final Shape strokedShape = stroke.createStrokedShape( extendBackwards ? getExtendedLineBackwards() : getExtendedLine() );
         Area area = new Area( strokedShape ) {{
             subtract( new Area( oppositeMedium ) );
         }};
@@ -138,15 +150,17 @@ public class LightRay {
     }
 
     //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
-    public Line2D.Double getExtendedLine() {
-        ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
-        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().getAddedInstance( direction.getScaledInstance( getExtensionFactor() ) ).toPoint2D() );
+    private Line2D.Double getExtendedLine() {
+        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().getAddedInstance( getUnitVector().getScaledInstance( getExtensionFactor() ) ).toPoint2D() );
     }
 
     //Use this one for the transmitted beam
-    public Line2D.Double getExtendedLineBackwards() {
-        ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
-        return new Line2D.Double( tail.getValue().getAddedInstance( direction.getScaledInstance( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
+    private Line2D.Double getExtendedLineBackwards() {
+        return new Line2D.Double( tail.getValue().getAddedInstance( getUnitVector().getScaledInstance( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
+    }
+
+    private ImmutableVector2D getUnitVector() {
+        return new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() ).getNormalizedInstance();
     }
 
     public double getAngle() {
