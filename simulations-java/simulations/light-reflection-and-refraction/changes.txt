@@ -1,3 +1,4 @@
+# 0.00.15 (48867) Feb 12, 2011
 Fixed: reflected wave is out of phase with incoming wave
 Added clock controls to the play area when "wave" mode is selected
 Fixed: transmitted wavelength is incorrect
