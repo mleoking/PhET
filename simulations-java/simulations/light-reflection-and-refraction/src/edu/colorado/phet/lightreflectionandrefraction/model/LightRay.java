@@ -4,7 +4,6 @@ package edu.colorado.phet.lightreflectionandrefraction.model;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -27,9 +26,12 @@ public class LightRay {
     private Color color;
     private double waveWidth;
     private double myPhaseOffset;
+    private final Shape oppositeMedium;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
-                     double powerFraction, Color color, double waveWidth, double myPhaseOffset ) {
+                     double powerFraction, Color color, double waveWidth, double myPhaseOffset, Shape oppositeMedium//for clipping
+    ) {
+        this.oppositeMedium = oppositeMedium;
         this.phase = new Property<Double>( 0.0 );
         this.color = color;
         this.waveWidth = waveWidth;
@@ -122,10 +124,6 @@ public class LightRay {
         return "tail = " + tail + ", tip = " + tip;
     }
 
-    public Shape getOppositeMedium() {
-        return new Rectangle2D.Double( 0, 0, 0, 0 );
-    }
-
     public double getExtensionFactor() {
         return wavelength * 1E6;//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
     }
@@ -134,7 +132,7 @@ public class LightRay {
         final BasicStroke stroke = new BasicStroke( (float) ( waveWidth ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
         final Shape strokedShape = stroke.createStrokedShape( getExtendedLine() );
         Area area = new Area( strokedShape ) {{
-            subtract( new Area( getOppositeMedium() ) );
+            subtract( new Area( oppositeMedium ) );
         }};
         return area;
     }
@@ -173,5 +171,9 @@ public class LightRay {
 
     public double getMyPhaseOffset() {
         return myPhaseOffset;
+    }
+
+    public Shape getOppositeMedium() {
+        return oppositeMedium;
     }
 }
