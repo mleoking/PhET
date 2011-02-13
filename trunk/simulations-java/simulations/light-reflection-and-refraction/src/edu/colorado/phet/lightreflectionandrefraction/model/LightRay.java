@@ -143,6 +143,7 @@ public class LightRay {
         return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().getAddedInstance( direction.getScaledInstance( getExtensionFactor() ) ).toPoint2D() );
     }
 
+    //Use this one for the transmitted beam
     public Line2D.Double getExtendedLineBackwards() {
         ImmutableVector2D direction = new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
         return new Line2D.Double( tail.getValue().getAddedInstance( direction.getScaledInstance( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
