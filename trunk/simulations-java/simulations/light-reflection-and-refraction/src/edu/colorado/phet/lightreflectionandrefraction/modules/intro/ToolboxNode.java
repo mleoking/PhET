@@ -91,6 +91,7 @@ public class ToolboxNode extends PNode {
         addChild( protractor );
 
         //TODO: some constants copied from LRRModel
+        //TODO: functionality and some code copied from protractor toolbox item above
         final double modelWidth = WAVELENGTH_RED * 62;
         final double modelHeight = modelWidth * 0.7;
         final IntensityMeterNode iconNode = new IntensityMeterNode( transform, new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 ) {{
@@ -111,6 +112,9 @@ public class ToolboxNode extends PNode {
                         intensityMeter.enabled.addObserver( new SimpleObserver() {
                             public void update() {
                                 sensorThumbnailRef.setVisible( !intensityMeter.enabled.getValue() );
+                                if ( !intensityMeter.enabled.getValue() ) {//user closed it with the red 'x' button on the sensor body (also called when dragged back to toolbox, but that's okay)
+                                    node = null;//signify that we should create + init a new one on next drag so that it drags from the right location.
+                                }
                             }
                         } );
                         final ImmutableVector2D modelPt = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent().getParent() ) ) );
