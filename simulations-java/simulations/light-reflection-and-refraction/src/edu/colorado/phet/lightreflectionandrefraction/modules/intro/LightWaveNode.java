@@ -47,7 +47,7 @@ public class LightWaveNode extends PNode {
 //        ImmutableVector2D phaseOffset = vec.getNormalizedInstance().getScaledInstance( 0);
 //        ImmutableVector2D phaseOffset = vec.getNormalizedInstance().getScaledInstance( transform.modelToViewX( lightRay.myPhaseOffset * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
 //        ImmutableVector2D phaseOffset = directionVector.getScaledInstance( transform.modelToViewDeltaX( -lightRay.myPhaseOffset * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
-        ImmutableVector2D phaseOffset = directionVector.getScaledInstance( transform.modelToViewDeltaX( -lightRay.getMyPhaseOffset() * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
+        ImmutableVector2D phaseOffset = directionVector.getScaledInstance( transform.modelToViewDeltaX( -lightRay.getNumWavelengthsPhaseOffset() * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
         float dx = (float) ( phaseOffset.getX() + transform.modelToViewX( lightRay.tail.getValue().getX() ) );//the rightmost term ensures that phase doesn't depend on angle of the beam.
         float dy = (float) ( phaseOffset.getY() + transform.modelToViewY( lightRay.tail.getValue().getY() ) );
         return new GradientPaint( dx, dy, red,
