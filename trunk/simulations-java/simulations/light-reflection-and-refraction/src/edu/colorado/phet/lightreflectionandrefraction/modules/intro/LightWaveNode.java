@@ -36,13 +36,18 @@ public class LightWaveNode extends PNode {
         double viewWavelength = transform.modelToViewDeltaX( lightRay.getWavelength() );
         final ImmutableVector2D directionVector = transform.modelToViewDelta( lightRay.toVector2D() ).getNormalizedInstance();
         final ImmutableVector2D waveVector = directionVector.getScaledInstance( viewWavelength );
+
         final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( lightRay.getPowerFraction() ) );
         final Color black = new Color( 0, 0, 0, (float) Math.sqrt( lightRay.getPowerFraction() ) );
+
+        //For debugging the phase of the transmitted wave
+//        final Color red = new Color( 1f, 0, 0, 0.5f );
+//        final Color black = new Color( 0, 0, 0, 0.5f );
 
 //        ImmutableVector2D phaseOffset = vec.getNormalizedInstance().getScaledInstance( 0);
 //        ImmutableVector2D phaseOffset = vec.getNormalizedInstance().getScaledInstance( transform.modelToViewX( lightRay.myPhaseOffset * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
 //        ImmutableVector2D phaseOffset = directionVector.getScaledInstance( transform.modelToViewDeltaX( -lightRay.myPhaseOffset * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
-        ImmutableVector2D phaseOffset = directionVector.getScaledInstance( transform.modelToViewDeltaX( -lightRay.myPhaseOffset * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
+        ImmutableVector2D phaseOffset = directionVector.getScaledInstance( transform.modelToViewDeltaX( -lightRay.getMyPhaseOffset() * lightRay.getWavelength() ) + lightRay.phase.getValue() );//ignore movement while we get phases lined up
         float dx = (float) ( phaseOffset.getX() + transform.modelToViewX( lightRay.tail.getValue().getX() ) );//the rightmost term ensures that phase doesn't depend on angle of the beam.
         float dy = (float) ( phaseOffset.getY() + transform.modelToViewY( lightRay.tail.getValue().getY() ) );
         return new GradientPaint( dx, dy, red,
