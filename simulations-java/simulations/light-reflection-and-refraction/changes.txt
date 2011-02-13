@@ -1,3 +1,4 @@
+Added clock controls to the play area when "wave" mode is selected
 Fixed: transmitted wavelength is incorrect
 Fixed: transmitted wave is out of phase with incoming wave
 # 0.00.14 (48857) Feb 11, 2011

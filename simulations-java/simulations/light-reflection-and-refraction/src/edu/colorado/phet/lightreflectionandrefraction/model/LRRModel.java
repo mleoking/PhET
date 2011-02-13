@@ -134,7 +134,6 @@ public class LRRModel {
                             return bottom;
                         }
                     };
-                    System.out.println( "incidentRay.getNumberOfWavelengths() = " + incidentRay.getNumberOfWavelengths() );
                     final boolean rayAbsorbed = addAndAbsorb( incidentRay );
                     if ( !rayAbsorbed ) {
 

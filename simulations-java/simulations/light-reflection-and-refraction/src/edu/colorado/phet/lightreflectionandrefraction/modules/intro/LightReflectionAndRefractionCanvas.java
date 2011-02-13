@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
@@ -150,6 +151,23 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }} );
         addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
+        }} );
+
+        //No time readout
+        addChild( new FloatingClockControlNode( new BooleanProperty( true ) {{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    if ( getValue() ) { model.getClock().start(); }
+                    else { model.getClock().pause(); }
+                }
+            } );
+        }}, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
+            setOffset( STAGE_SIZE.width * 3 / 4 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            laserView.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( laserView.getValue().equals( LaserView.WAVE ) );
+                }
+            } );
         }} );
 
         //Debug for showing stage
