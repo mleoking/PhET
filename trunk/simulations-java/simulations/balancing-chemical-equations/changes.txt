@@ -1,3 +1,4 @@
+2/14/11 create molecule symbols based on atom list
 2/14/11 move equation radio buttons to upper right
 2/14/11 moved strings, colors, etc. into atom and molecule constructors
 2/14/11 cleaned up relationship between Atom and AtomNode
