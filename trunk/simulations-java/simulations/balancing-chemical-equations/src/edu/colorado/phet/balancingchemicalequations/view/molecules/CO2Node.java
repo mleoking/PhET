@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -17,9 +18,9 @@ public class CO2Node extends PComposite {
     public CO2Node() {
 
         // atom nodes
-        AtomNode atomCenter = new BigAtomNode( BCEColors.C );
-        AtomNode atomLeft = new BigAtomNode( BCEColors.O );
-        AtomNode atomRight = new BigAtomNode( BCEColors.O );
+        AtomNode atomCenter = new BigAtomNode( new C() );
+        AtomNode atomLeft = new BigAtomNode( new O() );
+        AtomNode atomRight = new BigAtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();

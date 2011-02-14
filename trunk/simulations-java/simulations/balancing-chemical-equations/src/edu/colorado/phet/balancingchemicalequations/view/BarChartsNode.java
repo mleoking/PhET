@@ -2,13 +2,16 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.AtomCount;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
@@ -169,8 +172,8 @@ public class BarChartsNode extends PComposite {
         }
 
         public void setHighlighted( boolean highlighted ) {
-            topBarNode.setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
-            bottomBarNode.setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
+            topBarNode.setPaint( highlighted ? BCEConstants.BALANCED_HIGHLIGHT_COLOR : BCEConstants.UNBALANCED_COLOR );
+            bottomBarNode.setPaint( highlighted ? BCEConstants.BALANCED_HIGHLIGHT_COLOR : BCEConstants.UNBALANCED_COLOR );
         }
     }
 
@@ -182,7 +185,7 @@ public class BarChartsNode extends PComposite {
             super();
             setStroke( new BasicStroke( 1f ) );
             setStrokePaint( Color.BLACK );
-            setPaint( BCEColors.UNBALANCED_COLOR );
+            setPaint( BCEConstants.UNBALANCED_COLOR );
 
             Shape topBarShape = new Rectangle2D.Double( 0, 0, EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );
             Shape bottomBarShape = new Rectangle2D.Double( 0, EqualsSignNode.BAR_HEIGHT + EqualsSignNode.BAR_Y_SPACING, EqualsSignNode.BAR_WIDTH, EqualsSignNode.BAR_HEIGHT );

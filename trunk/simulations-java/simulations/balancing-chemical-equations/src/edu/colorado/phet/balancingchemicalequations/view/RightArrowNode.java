@@ -6,7 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 
 /**
@@ -31,6 +31,6 @@ public class RightArrowNode extends ArrowNode {
     }
 
     public void setHighlighted( boolean highlighted ) {
-        setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : BCEColors.UNBALANCED_COLOR );
+        setPaint( highlighted ? BCEConstants.BALANCED_HIGHLIGHT_COLOR : BCEConstants.UNBALANCED_COLOR );
     }
 }

@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -18,11 +19,11 @@ public class CH4Node extends PComposite {
     public CH4Node() {
 
         // atom nodes
-        AtomNode atomBig = new BigAtomNode( BCEColors.C );
-        AtomNode atomSmallTopLeft = new SmallAtomNode( BCEColors.H );
-        AtomNode atomSmallTopRight = new SmallAtomNode( BCEColors.H );
-        AtomNode atomSmallBottomLeft = new SmallAtomNode( BCEColors.H );
-        AtomNode atomSmallBottomRight = new SmallAtomNode( BCEColors.H );
+        AtomNode atomBig = new BigAtomNode( new C() );
+        AtomNode atomSmallTopLeft = new SmallAtomNode( new H() );
+        AtomNode atomSmallTopRight = new SmallAtomNode( new H() );
+        AtomNode atomSmallBottomLeft = new SmallAtomNode( new H() );
+        AtomNode atomSmallBottomRight = new SmallAtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();

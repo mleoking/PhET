@@ -3,11 +3,6 @@
 package edu.colorado.phet.balancingchemicalequations.model;
 
 import java.awt.Color;
-import java.awt.Image;
-
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
-import edu.colorado.phet.balancingchemicalequations.BCEImages;
-import edu.colorado.phet.balancingchemicalequations.BCESymbols;
 
 /**
  * Base class for atoms.
@@ -19,12 +14,10 @@ public abstract class Atom {
 
     private final String symbol;
     private final Color color;
-    private final Image image;
 
-    public Atom( String symbol, Color color, Image image ) {
+    public Atom( String symbol, Color color ) {
         this.symbol = symbol;
         this.color = color;
-        this.image = image;
     }
 
     public String getSymbol() {
@@ -35,55 +28,51 @@ public abstract class Atom {
         return color;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
     public static class C extends Atom {
         public C() {
-           super( BCESymbols.C, BCEColors.C, BCEImages.C );
+           super( "C", new Color( 178, 178, 178 ) );
         }
     }
 
     public static class Cl extends Atom {
         public Cl() {
-           super( BCESymbols.Cl, BCEColors.Cl, BCEImages.Cl );
+           super( "Cl", new Color( 153, 242, 57 ) );
         }
     }
 
     public static class F extends Atom {
         public F() {
-           super( BCESymbols.F, BCEColors.F, BCEImages.F );
+           super( "F", new Color( 247, 255, 74 ) );
         }
     }
 
     public static class H extends Atom {
         public H() {
-           super( BCESymbols.H, BCEColors.H, BCEImages.H );
+           super( "H", Color.WHITE );
         }
     }
 
     public static class N extends Atom {
         public N() {
-           super( BCESymbols.N, BCEColors.N, BCEImages.N );
+           super( "N", Color.BLUE );
         }
     }
 
     public static class O extends Atom {
         public O() {
-           super( BCESymbols.O, BCEColors.O, BCEImages.O );
+           super( "O", Color.RED );
         }
     }
 
     public static class P extends Atom {
         public P() {
-           super( BCESymbols.P, BCEColors.P, BCEImages.P );
+           super( "P", new Color( 255, 0, 255 ) );
         }
     }
 
     public static class S extends Atom {
         public S() {
-           super( BCESymbols.S, BCEColors.S, BCEImages.S );
+           super( "S", new Color( 212, 181, 59 ) );
         }
     }
 }

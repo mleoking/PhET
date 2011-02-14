@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 
 /**
  * HF molecule.
@@ -11,6 +12,6 @@ import edu.colorado.phet.balancingchemicalequations.BCEColors;
  */
 public class HFNode extends TwoAtomNode {
     public HFNode() {
-        super( BCEColors.H, BCEColors.F );
+        super( new H(), new F() );
     }
 }

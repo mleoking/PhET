@@ -17,11 +17,12 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -105,7 +106,7 @@ public class BarNode extends PComposite {
         barNode.setVisible( numberOfAtoms > 0 );
 
         // icon
-        PImage iconNode = new PImage( atom.getImage() );
+        PNode iconNode = new AtomNode( 14 /* diameter */, atom );
         addChild( iconNode );
 
         // symbol
@@ -131,8 +132,8 @@ public class BarNode extends PComposite {
             symbolNode.setOffset( x, y );
 
             // icon to left of symbol
-            x = barNode.getFullBoundsReference().getCenterX() - iconNode.getFullBoundsReference().getWidth() - 2;
-            y = symbolNode.getFullBoundsReference().getCenterY() - ( iconNode.getFullBoundsReference().getHeight() / 2 );
+            x = barNode.getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ) - 2;
+            y = symbolNode.getFullBoundsReference().getCenterY();
             iconNode.setOffset( x, y );
 
             // number about bar

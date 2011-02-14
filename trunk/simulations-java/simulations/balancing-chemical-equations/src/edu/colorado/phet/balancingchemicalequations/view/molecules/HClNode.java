@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -18,8 +19,8 @@ public class HClNode extends PComposite {
     public HClNode() {
 
         // atom nodes
-        AtomNode atomLeft = new SmallAtomNode( BCEColors.H );
-        AtomNode atomRight = new BigAtomNode( BCEColors.Cl );
+        AtomNode atomLeft = new SmallAtomNode( new H() );
+        AtomNode atomRight = new BigAtomNode( new Cl() );
 
         // rendering order
         PComposite parentNode = new PComposite();

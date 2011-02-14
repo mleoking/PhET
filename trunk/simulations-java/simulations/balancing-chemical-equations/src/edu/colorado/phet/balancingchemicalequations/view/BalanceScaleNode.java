@@ -10,11 +10,11 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -34,6 +34,8 @@ public class BalanceScaleNode extends PComposite {
     private static final double BEAM_LENGTH = 200;
     private static final double BEAM_THICKNESS = 4;
     private static final int NUMBER_OF_TILT_ANGLES = 6;
+    private static final double ATOM_DIAMETER = 14;
+    private static final int ATOMS_IN_PILE_BASE = 5; // number of atoms along the base of each pile
 
     private final Atom atom;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
@@ -133,28 +135,27 @@ public class BalanceScaleNode extends PComposite {
      */
     private static PNode createAtomPile( int numberOfAtoms, Atom atom ) {
         PComposite parent = new PComposite();
-        final int atomsInBase = 5; // number of atoms along the base of each pile
-        int atomsInRow = atomsInBase;
+        int atomsInRow = ATOMS_IN_PILE_BASE;
         int row = 0;
         int pile = 0;
         double x = 0;
         double y = 0;
         for ( int i = 0; i < numberOfAtoms; i++ ) {
 
-            PImage atomNode = new PImage( atom.getImage() );
+            PNode atomNode = new AtomNode( ATOM_DIAMETER, atom );
             parent.addChild( atomNode );
 
-            atomNode.setOffset( x, y - atomNode.getFullBoundsReference().getHeight() );
+            atomNode.setOffset( x + ( atomNode.getFullBoundsReference().getWidth() / 2 ), y - ( atomNode.getFullBoundsReference().getHeight() / 2 ) );
 
             atomsInRow--;
             if ( atomsInRow > 0 ) {
                 // continue with current row
                 x = atomNode.getFullBoundsReference().getMaxX();
             }
-            else if ( row < atomsInBase - 1 ) {
+            else if ( row < ATOMS_IN_PILE_BASE - 1 ) {
                 // move to next row in current triangular pile
                 row++;
-                atomsInRow = atomsInBase - row;
+                atomsInRow = ATOMS_IN_PILE_BASE - row;
                 x = (double) ( pile + row ) * ( atomNode.getFullBoundsReference().getWidth() / 2 );
                 y = -( row * atomNode.getFullBoundsReference().getHeight() );
             }
@@ -162,7 +163,7 @@ public class BalanceScaleNode extends PComposite {
                 // start a new pile, offset from the previous pile
                 row = 0;
                 pile++;
-                atomsInRow = atomsInBase;
+                atomsInRow = ATOMS_IN_PILE_BASE;
                 x = (double) pile * ( atomNode.getFullBoundsReference().getWidth() / 2 );
                 y = 0;
             }
@@ -193,7 +194,7 @@ public class BalanceScaleNode extends PComposite {
         }
 
         public void setHighlighted( boolean highlighted ) {
-            setPaint( highlighted ? BCEColors.BALANCED_HIGHLIGHT_COLOR : Color.BLACK );
+            setPaint( highlighted ? BCEConstants.BALANCED_HIGHLIGHT_COLOR : Color.BLACK );
             setStroke( highlighted ? new BasicStroke( 1f ) : null );
         }
     }
