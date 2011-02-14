@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.MediumState;
@@ -87,8 +86,8 @@ public class MediumControlPanel extends PNode {
         addChild( comboBoxPSwing );
 
         final PSwing slider = new PSwing( new IndexOfRefractionSlider( medium, colorMappingFunction, "" ) {{
-            SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
-            getTextField().setBackground( Color.white );
+//            SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
+//            getTextField().setBackground( Color.white );
             getTextField().setFont( labelFont );
         }} ) {{
             medium.addObserver( new SimpleObserver() {
