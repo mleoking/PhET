@@ -194,7 +194,6 @@ public abstract class GravityAndOrbitsMode {
     protected JComponent createRadioButtonWithIcons( final Property<GravityAndOrbitsMode> modeProperty ) {
         return new JPanel() {{
             setOpaque( false );//TODO: is this a mac problem?
-            setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
             setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
             add( new GAORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
             add( new JLabel( new ImageIcon( iconImage ) ) {{

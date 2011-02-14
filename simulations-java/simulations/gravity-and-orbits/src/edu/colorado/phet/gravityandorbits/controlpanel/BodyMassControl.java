@@ -23,7 +23,8 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
-import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.*;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.FOREGROUND;
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
 
 /**
@@ -46,24 +47,19 @@ public class BodyMassControl extends VerticalLayoutPanel {
         //Top component that shows the body's name and icon
         //TODO: move title label west, probably by not having the horizontal panel expand to take full width
         add( new JPanel() {{
-            setBackground( BACKGROUND );
             add( new JLabel( body.getName() ) {{
                 setFont( CONTROL_FONT );
                 setForeground( FOREGROUND );
-                setBackground( BACKGROUND );
             }} );
             final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ),
                                                                                                                                                        1//using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
             ) ),
                                                     new Property<Scale>( Scale.REAL ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4, null );
             final Image image = bodyNode.renderImage( 22 );
-            add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) {{
-                setBackground( BACKGROUND );
-            }} );
+            add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) );
         }} );
 
         setForeground( FOREGROUND );
-        setBackground( BACKGROUND );
 
         //Add the slider component.
         add( new JSlider( MIN, MAX ) {{
@@ -72,23 +68,19 @@ public class BodyMassControl extends VerticalLayoutPanel {
             setPaintTicks( true );
             setLabelTable( new Hashtable<Object, Object>() {{
                 put( MIN, new JLabel( minLabel ) {{
-                    setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
                     setFont( new PhetFont( 14, false ) );
                 }} );
                 //show the custom tick mark and label
                 put( (int) modelToView.evaluate( labelValue ), new JLabel( valueLabel ) {{
-                    setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
                     setFont( new PhetFont( 14, false ) );
                 }} );
                 put( MAX, new JLabel( maxLabel ) {{
-                    setBackground( BACKGROUND );
                     setForeground( FOREGROUND );
                     setFont( new PhetFont( 14, false ) );
                 }} );
             }} );
-            setBackground( BACKGROUND );
             setForeground( FOREGROUND );
             body.getMassProperty().addObserver( new SimpleObserver() {
                 public void update() {

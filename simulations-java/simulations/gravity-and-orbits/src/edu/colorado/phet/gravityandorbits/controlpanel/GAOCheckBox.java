@@ -15,7 +15,6 @@ public class GAOCheckBox extends PropertyCheckBox {
         super( title, property );
         setOpaque( false );
         setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
-        setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
     }
 }

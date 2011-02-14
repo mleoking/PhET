@@ -36,7 +36,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     public GravityAndOrbitsControlPanel( final GravityAndOrbitsModule module, GravityAndOrbitsModel model ) {
         super();
 
-        setBackground( BACKGROUND );
         setFillNone();
         setAnchor( GridBagConstraints.WEST );
 
@@ -48,7 +47,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
         // "Physics" subpanel
         add( new VerticalLayoutPanel() {{
-            setBackground( BACKGROUND );
             setOpaque( false );
             setAnchor( GridBagConstraints.WEST );
             setFill( GridBagConstraints.NONE );
@@ -59,7 +57,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
             // Gravity on/off control
             add( new HorizontalLayoutPanel() {{
-                setBackground( BACKGROUND );
                 add( new JLabel( MessageFormat.format( GAOStrings.PATTERN_LABEL, GAOStrings.GRAVITY ) ) {{
                     setFontsAndColors( this );
                 }} );
@@ -75,7 +72,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
         // "Show" subpanel
         add( new VerticalLayoutPanel() {{
-            setBackground( BACKGROUND );
             setOpaque( false );
             setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), GAOStrings.SHOW ) {{
                 setTitleColor( Color.white );
@@ -87,7 +83,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             //Checkboxes for Gravity force and Velocity vectors
             add( new JPanel( new GridLayout( 2, 2 ) ) {
                 {
-                    setBackground( BACKGROUND );
                     setOpaque( false );
 
                     add( new GAOCheckBox( GAOStrings.GRAVITY_FORCE, module.getShowGravityForceProperty() ) );
@@ -111,7 +106,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
         // "Scale" subpanel
         add( new VerticalLayoutPanel() {{
-            setBackground( BACKGROUND );
             setOpaque( false );
             setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), GAOStrings.SCALE ) {{
                 setTitleColor( Color.white );
@@ -125,7 +119,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
             //Panel with measuring tape.
             add( new JPanel() {{
-                setBackground( BACKGROUND );
                 setOpaque( false );
                 add( Box.createRigidArea( new Dimension( 25, 1 ) ) );
 
@@ -190,7 +183,6 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     private static void setFontsAndColors( JComponent component ) {
         component.setFont( CONTROL_FONT );
         component.setForeground( FOREGROUND );
-        component.setBackground( BACKGROUND );
     }
 
     public static BufferedImage toImage( Component component, Icon icon ) {
