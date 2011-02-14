@@ -4,7 +4,6 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- move equation radio buttons to upper right
 
 MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules

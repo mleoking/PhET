@@ -84,8 +84,9 @@ public class BalanceEquationCanvas extends BCECanvas {
         {
             double x, y;
 
-            // equation choices above equation, left justified
-            equationChoiceNode.setOffset( 0, 0 );
+            // equation choices above equation, right justified
+            x = boxesNode.getFullBoundsReference().getMaxX() - equationChoiceNode.getFullBoundsReference().getWidth();
+            equationChoiceNode.setOffset( x, 0 );
 
             // equation below choices
             y = equationChoiceNode.getFullBoundsReference().getMaxY() + 25;
