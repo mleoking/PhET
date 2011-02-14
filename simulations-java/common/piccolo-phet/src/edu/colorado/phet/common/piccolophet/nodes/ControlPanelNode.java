@@ -59,7 +59,10 @@ public class ControlPanelNode extends PNode {
         for ( int i = 0; i < node.getChildrenCount(); i++ ) {
             PNode child = node.getChild( i );
             if ( child instanceof PSwing ) {
-                SwingUtils.setBackgroundDeep( ( (PSwing) child ).getComponent(), new Color( 0, 0, 0, 0 ), new Class[] { JTextComponent.class, JTextField.class, JFormattedTextField.class }, false );
+                SwingUtils.setBackgroundDeep( ( (PSwing) child ).getComponent(), new Color( 0, 0, 0, 0 ),
+                                              new Class[] { JTextComponent.class,
+                                                      JComboBox.class//have to ignore this one or the drop down button color changes (usually for the worse)
+                                              }, false );
             }
             transparifySwing( child );
         }
