@@ -3,38 +3,15 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.BCEColors;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * N2 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class N2Node extends PComposite {
+public class N2Node extends TwoAtomNode {
 
     public N2Node() {
-
-        // atom nodes
-        AtomNode atomLeft = new BigAtomNode( BCEColors.N );
-        AtomNode atomRight = new BigAtomNode( BCEColors.N );
-
-        // rendering order
-        PComposite parentNode = new PComposite();
-        addChild( parentNode );
-        parentNode.addChild( atomRight );
-        parentNode.addChild( atomLeft );
-
-        // layout
-        double x = 0;
-        double y = 0;
-        atomLeft.setOffset( x, y );
-        x = atomLeft.getFullBoundsReference().getMaxX() + ( 0.25 * atomRight.getFullBoundsReference().getWidth() );
-        y = atomLeft.getYOffset();
-        atomRight.setOffset( x, y );
-
-        // move origin to geometric center
-        parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
+        super( BCEColors.N );
     }
 }

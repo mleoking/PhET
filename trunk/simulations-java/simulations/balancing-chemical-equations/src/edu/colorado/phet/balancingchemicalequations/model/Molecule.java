@@ -7,6 +7,7 @@ import java.awt.Image;
 import edu.colorado.phet.balancingchemicalequations.BCEImages;
 import edu.colorado.phet.balancingchemicalequations.BCESymbols;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
@@ -49,6 +50,13 @@ public abstract class Molecule {
         }
     }
 
+    public static class Cl2 extends Molecule {
+
+        public Cl2() {
+            super( BCESymbols.Cl2, BCEImages.Cl2, new Atom[] { new Cl(), new Cl() } );
+        }
+    }
+
     public static class CO2 extends Molecule {
 
         public CO2() {
@@ -74,6 +82,13 @@ public abstract class Molecule {
 
         public H2O() {
             super( BCESymbols.H2O, BCEImages.H2O, new Atom[] { new H(), new H(), new O() } );
+        }
+    }
+
+    public static class HCl extends Molecule {
+
+        public HCl() {
+            super( BCESymbols.HCl, BCEImages.HCl, new Atom[] { new H(), new Cl() } );
         }
     }
 
