@@ -58,22 +58,28 @@ public abstract class Molecule {
     }
 
     /*
-     * Creates an HTML symbol based on the list of atoms in the molecule.
+     * Creates a symbol (HTML fragment) based on the list of atoms in the molecule.
      * The atoms must be specified in order of appearance in the symbol.
-     * For example [C,C,H,H,H] becomes C2H4.
+     * Examples:
+     *    [C,C,H,H,H,H] becomes "C<sub>2</sub>H<sub>4</sub>"
+     *    [HHO] becomes "H<sub>2</sub>O"
      */
     private static final String createSymbol( Atom[] atoms ) {
         StringBuffer b = new StringBuffer();
         int atomCount = 1;
         for ( int i = 0; i < atoms.length; i++ ) {
             if ( i == 0 ) {
+                // first atom is treated differently
                 b.append( atoms[i].getSymbol() );
             }
             else if ( atoms[i].getClass().equals( atoms[i-1].getClass() ) ) {
+                // this atom is the same as the previous atom
                 atomCount++;
             }
             else {
+                // this atom is NOT the same
                 if ( atomCount > 1 ) {
+                    // create a subscript
                     b.append( String.valueOf( atomCount ) );
                 }
                 atomCount = 1;
@@ -81,6 +87,7 @@ public abstract class Molecule {
             }
         }
         if ( atomCount > 1 ) {
+            // create a subscript for the final atom
             b.append( String.valueOf( atomCount ) );
         }
         return toSubscript( b.toString() );
@@ -89,7 +96,7 @@ public abstract class Molecule {
     /*
      * Handles HTML subscript formatting of molecule symbols.
      * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.
-     * For example, "C2H4" is converted to "C<sub>2</sub>H<sub>4</sub>".
+     * For example, "C2H4" becomes "C<sub>2</sub>H<sub>4</sub>".
      */
     private static final String toSubscript( String inString ) {
         String outString = "";
@@ -108,7 +115,7 @@ public abstract class Molecule {
             }
             outString += c;
         }
-        // end the subscript tag if the string ends with a digit
+        // end the subscript tag if inString ends with a digit
         if ( sub ) {
             outString += "</sub>";
             sub = false;
