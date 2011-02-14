@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.lightreflectionandrefraction.LightReflectionAndRefractionApplication;
+import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
