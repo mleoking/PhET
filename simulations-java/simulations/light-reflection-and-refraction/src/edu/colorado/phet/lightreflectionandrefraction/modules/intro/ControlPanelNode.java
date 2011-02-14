@@ -50,7 +50,7 @@ public class ControlPanelNode extends PNode {
      */
     private void transparifySwing( PNode node ) {
         for ( int i = 0; i < node.getChildrenCount(); i++ ) {
-            PNode child = getChild( i );
+            PNode child = node.getChild( i );
             if ( child instanceof PSwing ) {
                 SwingUtils.setBackgroundDeep( ( (PSwing) child ).getComponent(), new Color( 0, 0, 0, 0 ), new Class[] { JTextComponent.class, JTextField.class, JFormattedTextField.class }, false );
             }
