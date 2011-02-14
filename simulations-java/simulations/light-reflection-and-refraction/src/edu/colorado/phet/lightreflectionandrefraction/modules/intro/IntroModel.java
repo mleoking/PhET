@@ -2,8 +2,10 @@
 package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
@@ -17,7 +19,23 @@ import static java.lang.Math.*;
 public class IntroModel extends LRRModel {
     private double incomingRayPhase = 0.0;//Keep track of the phase across time steps so that we can maintain instead of resetting phase under angle or index of refraction changes
 
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
+
     public IntroModel() {
+        colorMappingFunction.addObserver( new SimpleObserver() {
+            public void update() {
+                topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
+                bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
+            }
+        } );
+        SimpleObserver updateRays = new SimpleObserver() {
+            public void update() {
+                updateModel();
+            }
+        };
+        topMedium.addObserver( updateRays );
+        bottomMedium.addObserver( updateRays );
     }
 
     protected void addRays() {

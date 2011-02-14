@@ -3,7 +3,6 @@ package edu.colorado.phet.lightreflectionandrefraction.model;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMeter;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
 
 public class LRRModel {
@@ -43,6 +41,7 @@ public class LRRModel {
         }
     };
 
+    //TODO: some of this code is duplicated with the other instantiations of color mapping function
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
             if ( value < WATER.index ) {
@@ -80,8 +79,6 @@ public class LRRModel {
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     protected final Laser laser = new Laser( 8.125E-6 );
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
     protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
     //Alphas may be ignored, see MediumNode
     public static final Color AIR_COLOR = Color.white;
@@ -91,12 +88,6 @@ public class LRRModel {
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 30.0 );
-        colorMappingFunction.addObserver( new SimpleObserver() {
-            public void update() {
-                topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
-                bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
-            }
-        } );
 
         SimpleObserver updateRays = new SimpleObserver() {
             public void update() {
@@ -104,8 +95,6 @@ public class LRRModel {
             }
         };
 //        updateRays.observe(topMedium,bottomMedium,laser.on,laser.angle,intensityMeter.sensorPosition);
-        topMedium.addObserver( updateRays );
-        bottomMedium.addObserver( updateRays );
         laser.on.addObserver( updateRays );
         laser.angle.addObserver( updateRays );
         intensityMeter.sensorPosition.addObserver( updateRays );
@@ -120,7 +109,7 @@ public class LRRModel {
             }
         } );
 
-        clock.start();
+//        clock.start();
     }
 
     /*

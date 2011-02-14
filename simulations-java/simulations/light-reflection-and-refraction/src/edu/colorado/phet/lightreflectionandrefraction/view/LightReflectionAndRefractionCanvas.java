@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -23,9 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
-import edu.colorado.phet.lightreflectionandrefraction.view.LaserNode;
-import edu.colorado.phet.lightreflectionandrefraction.view.LightRayNode;
-import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -36,11 +34,15 @@ import static edu.colorado.phet.lightreflectionandrefraction.modules.intro.Contr
 /**
  * @author Sam Reid
  */
-public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
+public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends PhetPCanvas {
     private PNode rootNode;
     public final BooleanProperty showNormal = new BooleanProperty( true );
     public final BooleanProperty showProtractor = new BooleanProperty( false );
     public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
+    protected final PNode mediumNode;
+    protected final T model;
+    protected final ModelViewTransform transform;
+    protected final PDimension stageSize;
 
     public static abstract class LaserView {
         public static final LaserView RAY = new LaserView() {
@@ -57,22 +59,23 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         public abstract PNode createNode( ModelViewTransform transform, LightRay lightRay );
     }
 
-    public LightReflectionAndRefractionCanvas( final LRRModel model ) {
+    public LightReflectionAndRefractionCanvas( final T model ) {
+        this.model = model;
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
 
         final int stageWidth = 1008;
-        final PDimension STAGE_SIZE = new PDimension( stageWidth, stageWidth * model.getHeight() / model.getWidth() );
+        stageSize = new PDimension( stageWidth, stageWidth * model.getHeight() / model.getWidth() );
 
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, stageSize ) );
 
-        final double scale = STAGE_SIZE.getHeight() / model.getHeight();
-        final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                        new Point2D.Double( STAGE_SIZE.getWidth() / 2 - 150, STAGE_SIZE.getHeight() / 2 ),
-                                                                                                        scale );
-        addChild( new MediumNode( transform, model.topMedium ) );
-        addChild( new MediumNode( transform, model.bottomMedium ) );
+        final double scale = stageSize.getHeight() / model.getHeight();
+        transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                               new Point2D.Double( stageSize.getWidth() / 2 - 150, stageSize.getHeight() / 2 ),
+                                                                               scale );
+        mediumNode = new PNode();
+        addChild( mediumNode );
         //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
         addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
             setPickable( false );
@@ -105,7 +108,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }} );
 
         addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
-            setOffset( 10, STAGE_SIZE.height - getFullBounds().getHeight() - 10 );
+            setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }} );
 
         addChild( new NormalLine( transform, model.getHeight() ) {{
@@ -146,13 +149,6 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
             }
         } );
 
-        addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction ) ) {{
-            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
-        }} );
-        addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction ) ) {{
-            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
-        }} );
-
         //No time readout
         addChild( new FloatingClockControlNode( new BooleanProperty( true ) {{
             addObserver( new SimpleObserver() {
@@ -162,7 +158,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
                 }
             } );
         }}, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
-            setOffset( STAGE_SIZE.width * 3 / 4 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            setOffset( stageSize.width * 3 / 4 - getFullBounds().getWidth() / 2, stageSize.getHeight() - getFullBounds().getHeight() );
             laserView.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( laserView.getValue().equals( LaserView.WAVE ) );
@@ -182,11 +178,11 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
         }
     }
 
-    protected void addChild( PNode node ) {
+    public void addChild( PNode node ) {
         rootNode.addChild( node );
     }
 
-    protected void removeChild( PNode node ) {
+    public void removeChild( PNode node ) {
         rootNode.removeChild( node );
     }
 }
