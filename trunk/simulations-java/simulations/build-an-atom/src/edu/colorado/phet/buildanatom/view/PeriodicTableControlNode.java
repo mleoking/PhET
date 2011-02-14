@@ -13,9 +13,9 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JButton;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
+import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -52,7 +52,7 @@ public class PeriodicTableControlNode extends PNode {
     // ------------------------------------------------------------------------
 
     public Color backgroundColor = null;
-    private final InteractiveIsotopeModel model;
+    private final IConfigurableAtomModel model;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -62,7 +62,7 @@ public class PeriodicTableControlNode extends PNode {
      * Constructor.
      * @param backgroundColor
      */
-    public PeriodicTableControlNode( final InteractiveIsotopeModel model, Color backgroundColor ) {
+    public PeriodicTableControlNode( final IConfigurableAtomModel model, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
         this.model = model;
         IDynamicAtom atom = model.getAtom();

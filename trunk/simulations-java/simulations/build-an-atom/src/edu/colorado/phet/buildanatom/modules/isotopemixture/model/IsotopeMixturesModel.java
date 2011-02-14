@@ -7,8 +7,10 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.IAtom;
+import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -19,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class IsotopeMixturesModel {
+public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel {
 
     // -----------------------------------------------------------------------
     // Class Data
