@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntroModule;
+import edu.colorado.phet.lightreflectionandrefraction.modules.prisms.PrismsModule;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumColorDialog;
 
 /**
@@ -26,7 +27,7 @@ public class LightReflectionAndRefractionApplication extends PiccoloPhetApplicat
         super( config );
         final IntroModule introModule = new IntroModule();
         addModule( introModule );
-//        addModule( new PrismBreakModule() );
+        addModule( new PrismsModule() );
 //        addModule( new IntroModule() );
         getPhetFrame().addMenu( new JMenu( "Developer" ) {{
             add( new JMenuItem( "Medium colors" ) {{

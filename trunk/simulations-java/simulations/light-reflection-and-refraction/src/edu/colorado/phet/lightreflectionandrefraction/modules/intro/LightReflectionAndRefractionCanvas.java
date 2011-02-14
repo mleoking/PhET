@@ -118,7 +118,7 @@ public class LightReflectionAndRefractionCanvas extends PhetPCanvas {
 
         laserView.addObserver( new SimpleObserver() {
             public void update() {
-                model.regenerateRays();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
+                model.updateModel();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
             }
         } );
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {

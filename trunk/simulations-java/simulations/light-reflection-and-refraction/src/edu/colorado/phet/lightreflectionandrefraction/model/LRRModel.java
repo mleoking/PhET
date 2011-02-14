@@ -23,11 +23,8 @@ import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMet
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
-import static java.lang.Math.*;
-
 public class LRRModel {
-    private List<LightRay> rays = new LinkedList<LightRay>();
+    protected final List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
 
     public static final MediumState VACUUM = new MediumState( "Vacuum", 1.0 );
@@ -82,17 +79,15 @@ public class LRRModel {
     final double modelHeight = modelWidth * 0.7;
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
-    private Laser laser = new Laser( 8.125E-6 );
+    protected final Laser laser = new Laser( 8.125E-6 );
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
-    private IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
+    protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
     //Alphas may be ignored, see MediumNode
     public static final Color AIR_COLOR = Color.white;
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
-    private SimpleObserver updateRays;
-    private double incomingRayPhase = 0.0;//Keep track of the phase across time steps so that we can maintain instead of resetting phase under angle or index of refraction changes
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 30.0 );
@@ -102,80 +97,13 @@ public class LRRModel {
                 bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
             }
         } );
-        updateRays = new SimpleObserver() {
+
+        SimpleObserver updateRays = new SimpleObserver() {
             public void update() {
-                for ( LightRay ray : rays ) {
-                    ray.remove();
-                }
-                rays.clear();
-
-                intensityMeter.clearRayReadings();
-                final Rectangle bottom = new Rectangle( -10, -10, 20, 10 );
-                final Rectangle top = new Rectangle( -10, 0, 20, 10 );
-                if ( laser.on.getValue() ) {
-                    final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
-
-                    double n1 = topMedium.getValue().getIndexOfRefraction();
-                    double n2 = bottomMedium.getValue().getIndexOfRefraction();
-
-                    //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
-                    final double theta1 = laser.angle.getValue() - Math.PI / 2;
-                    double theta2 = asin( n1 / n2 * sin( theta1 ) );
-
-                    final double sourcePower = 1.0;
-                    double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
-                    double sourceWaveWidth = a * Math.cos( theta1 );
-
-                    //According to http://en.wikipedia.org/wiki/Wavelength
-                    //lambda = lambda0 / n(lambda0)
-                    final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
-                    incidentRay.phase.addObserver( new SimpleObserver() {
-                        public void update() {
-//                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
-                            incomingRayPhase = 0.0;
-                        }
-                    } );
-                    final boolean rayAbsorbed = addAndAbsorb( incidentRay );
-                    if ( !rayAbsorbed ) {
-
-                        double thetaOfTotalInternalReflection = asin( n2 / n1 );
-                        boolean hasTransmittedRay = Double.isNaN( thetaOfTotalInternalReflection ) || theta1 < thetaOfTotalInternalReflection;
-
-                        //reflected
-                        //assuming perpendicular beam, compute percent power
-                        double reflectedPowerRatio;
-                        if ( hasTransmittedRay ) {
-                            reflectedPowerRatio = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
-                        }
-                        else {
-                            reflectedPowerRatio = 1.0;
-                        }
-                        double reflectedWaveWidth = sourceWaveWidth;
-                        addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                                    parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
-
-                        if ( hasTransmittedRay ) {
-                            //Transmitted
-                            //n2/n1 = L1/L2 => L2 = L1*n2/n1
-                            double transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
-                            if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
-                            else {
-                                double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
-                                double transmittedWaveWidth = a * Math.cos( theta2 );
-                                final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
-                                                                              parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
-                                                                              transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true ) {
-
-                                };
-                                addAndAbsorb( transmittedRay );
-                            }
-                        }
-                    }
-                    incidentRay.moveToFront();//For wave view
-                }
+                updateModel();
             }
         };
-//        updateRays.listenTo(topMedium,bottomMedium,laser.on,laser.angle,intensityMeter.sensorPosition);
+//        updateRays.observe(topMedium,bottomMedium,laser.on,laser.angle,intensityMeter.sensorPosition);
         topMedium.addObserver( updateRays );
         bottomMedium.addObserver( updateRays );
         laser.on.addObserver( updateRays );
@@ -199,7 +127,7 @@ public class LRRModel {
      Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      If the intensity meter misses the ray, the original ray is added.
      */
-    private boolean addAndAbsorb( LightRay ray ) {
+    protected boolean addAndAbsorb( LightRay ray ) {
         boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
         if ( rayAbsorbed ) {
             Point2D[] intersects = MathUtil.getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );
@@ -328,7 +256,20 @@ public class LRRModel {
         return intensityMeter;
     }
 
-    public void regenerateRays() {
-        updateRays.update();
+    protected void clearRays() {
+        for ( LightRay ray : rays ) {
+            ray.remove();
+        }
+        rays.clear();
+        intensityMeter.clearRayReadings();
+    }
+
+    public void updateModel() {
+        clearRays();
+        addRays();
+    }
+
+    protected void addRays() {
+
     }
 }
