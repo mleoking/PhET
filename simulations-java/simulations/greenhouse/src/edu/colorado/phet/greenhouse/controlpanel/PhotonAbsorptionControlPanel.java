@@ -26,17 +26,19 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
-import edu.colorado.phet.common.photonabsorption.model.molecules.*;
-import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
-import edu.colorado.phet.common.photonabsorption.view.MoleculeSelectorPanel;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.greenhouse.GreenhouseResources;
-import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
+import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CH4;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CO2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.N2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
+import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
+import edu.colorado.phet.common.photonabsorption.view.MoleculeSelectorPanelWithToolTip;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 
 /**
  * Control panel for the Photon Absorption tab of this application.
@@ -72,7 +74,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
     // The following data structure defines each of the gas selectors
     // that will exist on this control panel.
-    private final ArrayList<MoleculeSelectorPanel> gasSelectors = new ArrayList<MoleculeSelectorPanel>();
+    private final ArrayList<MoleculeSelectorPanelWithToolTip> gasSelectors =
+        new ArrayList<MoleculeSelectorPanelWithToolTip>();
 
 
     // ------------------------------------------------------------------------
@@ -106,21 +109,20 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         GridBagConstraints constraints=new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         addControlFullWidth(atmosphericGasesPanel);
 
-        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.CH4"), createMoleculeImage( new CH4(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CH4_MOLECULE ));
-        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.CO2"), createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ));
-        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.H2O"), createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_H2O_MOLECULE ));
-        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.N2"), createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_N2_MOLECULE ));
-        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.O2"), createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ));
-        gasSelectors.add( new MoleculeSelectorPanel( GreenhouseResources.getString("ControlPanel.BuildAtmosphere"), BufferedImageUtils.multiScale( GreenhouseResources.getImage( "earth.png" ), PLANET_SCALING_FACTOR ), model, PhotonTarget.CONFIGURABLE_ATMOSPHERE ));
+        gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.CH4" ), GreenhouseResources.getString( "ControlPanel.Methane" ), createMoleculeImage( new CH4(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CH4_MOLECULE ) );
+        gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.CO2" ), GreenhouseResources.getString( "ControlPanel.CarbonDioxide" ), createMoleculeImage( new CO2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_CO2_MOLECULE ) );
+        gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.H2O" ), GreenhouseResources.getString( "ControlPanel.Water" ), createMoleculeImage( new H2O(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_H2O_MOLECULE ) );
+        gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.N2" ), GreenhouseResources.getString( "ControlPanel.Nitrogen" ), createMoleculeImage( new N2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_N2_MOLECULE ) );
+        gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.O2" ), GreenhouseResources.getString( "ControlPanel.Oxygen" ), createMoleculeImage( new O2(), MOLECULE_SCALING_FACTOR ), model, PhotonTarget.SINGLE_O2_MOLECULE ) );
+        gasSelectors.add( new MoleculeSelectorPanelWithToolTip( GreenhouseResources.getString( "ControlPanel.BuildAtmosphere" ), null, BufferedImageUtils.multiScale( GreenhouseResources.getImage( "earth.png" ), PLANET_SCALING_FACTOR ), model, PhotonTarget.CONFIGURABLE_ATMOSPHERE ) );
 
         // Add the molecule selection panels to the main panel.
         int interSelectorSpacing = 2;
         ButtonGroup buttonGroup = new ButtonGroup();
-        for ( MoleculeSelectorPanel moleculeSelector : gasSelectors ){
+        for ( MoleculeSelectorPanelWithToolTip moleculeSelector : gasSelectors ){
             atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
             atmosphericGasesPanel.add(  moleculeSelector, constraints );
             buttonGroup.add( moleculeSelector.getRadioButton() ); // This prevent toggling when clicking same button twice.
-
         }
 
         atmosphericGasesPanel.add(  createVerticalSpacingPanel( interSelectorSpacing ), constraints );
