@@ -35,10 +35,11 @@ class SelectionPanelWithImage extends JPanel {
     /**
      * Constructor.
      */
-    public SelectionPanelWithImage( String moleculeNameAndSymbol, BufferedImage image ){
+    public SelectionPanelWithImage( String moleculeNameAndSymbol, String toolTipText, BufferedImage image ){
         setLayout( new GridBagLayout() );
         radioButton.setText( moleculeNameAndSymbol );
         radioButton.setFont( LABEL_FONT );
+        radioButton.setToolTipText( toolTipText );
         add( radioButton, selectorButtonConstraints );
         ImageIcon imageIcon = new ImageIcon( image );
         JLabel icon = new JLabel( imageIcon );

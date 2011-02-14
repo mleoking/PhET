@@ -21,7 +21,7 @@ public class MoleculeSelectorPanel extends SelectionPanelWithImage {
      * Constructor.
      */
     public MoleculeSelectorPanel( String caption, BufferedImage image, final PhotonAbsorptionModel model, final PhotonTarget photonTarget ){
-        super( caption, image );
+        super( caption, null, image );
 
         // Listen to the button so that the specified value can be set in the
         // model when the button is pressed.
@@ -69,10 +69,10 @@ public class MoleculeSelectorPanel extends SelectionPanelWithImage {
     private static String createCaptionFromNameAndSymbol( String chemicalName, String chemicalSymbol ){
         // IMPORTANT NOTE: This function exists in order to avoid forcing the
         // translators to translate the symbol, the name, and then the
-        // combined symbol and name.  Since the symbols are assumed to be
-        // formatted with HTML (to enable subscripts) and the names are
-        // assumed to be plain text strings.  The assertions and exception
-        // throwing is designed to make sure this assumption remains valid.
+        // combined symbol and name.  The symbols are assumed to be formatted
+        // with HTML (to enable subscripts) and the names are assumed to be
+        // plain text strings.  The assertions and exception throwing is
+        // designed to make sure that this assumption remains valid.
         assert !chemicalName.contains( "<html>" );
         assert chemicalSymbol.contains( "<html>" );
         if (chemicalName.contains( "<html>" ) || !chemicalSymbol.contains( "<html>" )){
