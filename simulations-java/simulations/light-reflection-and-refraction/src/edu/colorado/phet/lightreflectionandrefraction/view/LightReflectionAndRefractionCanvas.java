@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
@@ -27,12 +28,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.lightreflectionandrefraction.modules.intro.ControlPanelNode.labelFont;
-
 /**
  * @author Sam Reid
  */
 public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends PhetPCanvas {
+    public static final PhetFont labelFont = new PhetFont( 16 );
     private PNode rootNode;
     public final BooleanProperty showNormal = new BooleanProperty( true );
     public final BooleanProperty showProtractor = new BooleanProperty( false );
