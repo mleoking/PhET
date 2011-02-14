@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -25,8 +26,6 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-
-    private final static Font LABEL_FONT = new PhetFont( 20 );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -64,8 +63,15 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
         // Add the test chamber where the isotopes can be placed.
-        PNode testChamberNode = new PhetPPath(mvt.createTransformedShape( model.getIsotopeTestChamberRect()), Color.BLACK );
+        final PNode testChamberNode = new PhetPPath(mvt.createTransformedShape( model.getIsotopeTestChamberRect()), Color.BLACK );
         addWorldChild( testChamberNode );
+
+        // Add the periodic table node that will allow the user to set the
+        // current isotope.
+        PNode periodicTableNode = new PeriodicTableControlNode( model, BuildAnAtomConstants.CANVAS_BACKGROUND ){{
+            setOffset( testChamberNode.getFullBoundsReference().getMaxX() + 10, testChamberNode.getFullBoundsReference().getMinY() );
+        }};
+        addWorldChild( periodicTableNode );
 
         // Root of our scene graph
         rootNode = new PNode();
