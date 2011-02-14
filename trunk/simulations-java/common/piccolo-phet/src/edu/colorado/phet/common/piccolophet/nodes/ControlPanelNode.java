@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -10,7 +10,6 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -44,7 +43,7 @@ public class ControlPanelNode extends PNode {
     }
 
     /**
-     * Make it so you can see through all the swing components, so the colors match up.
+     * Make it so you can see through all the swing components, so the panel background color shows through.
      *
      * @param node
      */

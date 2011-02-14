@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
