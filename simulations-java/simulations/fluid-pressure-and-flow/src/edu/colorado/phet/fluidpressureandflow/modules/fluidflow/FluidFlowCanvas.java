@@ -123,7 +123,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         } );
 
         // Control Panel
-        final ControlPanel controlPanelNode = new ControlPanel( new FluidFlowControlPanel<FluidFlowModel>( module ) ) {{
+        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidFlowControlPanel<FluidFlowModel>( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
         }};
         addChild( controlPanelNode );

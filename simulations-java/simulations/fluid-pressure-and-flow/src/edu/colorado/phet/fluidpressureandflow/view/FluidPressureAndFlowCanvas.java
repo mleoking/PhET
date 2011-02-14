@@ -2,7 +2,6 @@
 package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -13,14 +12,12 @@ import javax.swing.text.JTextComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.ButtonExpander;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
@@ -61,14 +58,6 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     protected void removeChild( PNode node ) {
         rootNode.removeChild( node );
-    }
-
-    public static class ControlPanel extends PNode {
-        public ControlPanel( JComponent controlPanel ) {
-            final PSwing pswing = new PSwing( controlPanel );
-            addChild( pswing );
-            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, pswing.getFullBounds().getWidth(), pswing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 1 ), Color.darkGray ) );
-        }
     }
 
     public static class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {

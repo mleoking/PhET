@@ -30,7 +30,6 @@ public class UnitsControlPanel<T extends FluidPressureAndFlowModel> extends Phet
         add( new PropertyRadioButton<Units.Unit>( FPAFStrings.METERS_M, model.distanceUnit, Units.METERS ) );
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
-        SwingUtils.setBackgroundDeep( this, FluidPressureControlPanel.BACKGROUND );
         SwingUtils.setForegroundDeep( this, FluidPressureControlPanel.FOREGROUND );
     }
 

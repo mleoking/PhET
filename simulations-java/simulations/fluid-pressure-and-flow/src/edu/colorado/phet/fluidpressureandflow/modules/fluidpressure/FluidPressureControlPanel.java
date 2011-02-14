@@ -25,7 +25,6 @@ public class FluidPressureControlPanel<T extends FluidPressureAndFlowModel> exte
         super();
         addControlFullWidth( new CheckBox( FPAFStrings.RULER, module.rulerVisible ) );
         addControlFullWidth( new UnitsControlPanel<T>( module ) );
-        setBackground( BACKGROUND );
     }
 
     private void addControlFullWidth( JComponent component ) {

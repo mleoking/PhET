@@ -1,3 +1,4 @@
+Converted control panels to use ControlPanelNode
 Made the handle on the top of the water tower 25% bigger
 # 0.00.11 (48549) Feb 2, 2011
 Added a hole in the top of the water tower
