@@ -16,7 +16,6 @@ import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressur
 public class CheckBox extends JCheckBox {
     public CheckBox( String label, final Property<Boolean> property ) {
         super( label, property.getValue() );
-        setBackground( FluidPressureControlPanel.BACKGROUND );
         setForeground( FluidPressureControlPanel.FOREGROUND );
         setFont( FluidPressureControlPanel.CONTROL_FONT );
         addActionListener( new ActionListener() {

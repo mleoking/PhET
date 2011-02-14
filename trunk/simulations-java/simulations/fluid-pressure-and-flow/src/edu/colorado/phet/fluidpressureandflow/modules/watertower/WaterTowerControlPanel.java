@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.view.UnitsControlPanel;
 
@@ -24,7 +23,6 @@ public class WaterTowerControlPanel<T extends FluidPressureAndFlowModel> extends
         addControlFullWidth( new CheckBox( FPAFStrings.RULER, module.rulerVisible ) );
         addControlFullWidth( new CheckBox( FPAFStrings.MEASURING_TAPE, module.measuringTapeVisible ) );
         addControlFullWidth( new UnitsControlPanel<T>( module ) );
-        setBackground( FluidPressureControlPanel.BACKGROUND );
         addControlFullWidth( (JComponent) Box.createRigidArea( new Dimension( 40, 40 ) ) );
         addControlFullWidth( new JSeparator() );
         addControlFullWidth( new CheckBox( FPAFStrings.HOSE, module.hoseVisible ) );

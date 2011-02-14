@@ -17,7 +17,6 @@ import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressur
 public class RadioButton extends JRadioButton {
     public RadioButton( String label, final Property<Boolean> property ) {
         super( label, property.getValue() );
-        setBackground( FluidPressureControlPanel.BACKGROUND );
         setForeground( FluidPressureControlPanel.FOREGROUND );
         setFont( new PhetFont( 16, true ) );
         final SimpleObserver updateSelected = new SimpleObserver() {
