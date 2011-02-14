@@ -86,8 +86,6 @@ public class MediumControlPanel extends PNode {
         addChild( comboBoxPSwing );
 
         final PSwing slider = new PSwing( new IndexOfRefractionSlider( medium, colorMappingFunction, "" ) {{
-//            SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
-//            getTextField().setBackground( Color.white );
             getTextField().setFont( labelFont );
         }} ) {{
             medium.addObserver( new SimpleObserver() {
