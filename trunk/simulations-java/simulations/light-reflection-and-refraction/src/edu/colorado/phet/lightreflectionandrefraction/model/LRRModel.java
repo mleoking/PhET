@@ -259,6 +259,5 @@ public class LRRModel {
     }
 
     protected void addRays() {
-
     }
 }

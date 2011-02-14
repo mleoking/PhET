@@ -144,7 +144,7 @@ public class LightRay {
         final BasicStroke stroke = new BasicStroke( (float) ( waveWidth ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
         final Shape strokedShape = stroke.createStrokedShape( extendBackwards ? getExtendedLineBackwards() : getExtendedLine() );
         Area area = new Area( strokedShape ) {{
-            subtract( new Area( oppositeMedium ) );
+            if ( oppositeMedium != null ) { subtract( new Area( oppositeMedium ) ); }
         }};
         return area;
     }

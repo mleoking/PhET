@@ -9,5 +9,8 @@ import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRef
 public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel> {
     public PrismsCanvas( PrismsModel model ) {
         super( model );
+        for ( Prism prism : model.getPrisms() ) {
+            addChild( new PrismNode( transform, prism ) );
+        }
     }
 }

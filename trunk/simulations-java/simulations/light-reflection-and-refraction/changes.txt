@@ -1,3 +1,4 @@
+Started adding prism model and view
 # 0.00.16 (48875) Feb 13, 2011
 Fixed intensity meter for light wave representation
 Fixed: Protractor drag areas are incorrect, should only be able to mouse over on the solid part, not the bounding box
