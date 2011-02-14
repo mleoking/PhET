@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * In this model, units are picometers (1E-12).
  */
-public class InteractiveIsotopeModel implements Resettable {
+public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomModel {
 
     //----------------------------------------------------------------------------
     // Class Data
