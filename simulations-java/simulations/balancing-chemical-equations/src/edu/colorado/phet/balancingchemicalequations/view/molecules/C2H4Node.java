@@ -18,43 +18,43 @@ public class C2H4Node extends PComposite {
 
     public C2H4Node() {
 
-        AtomNode atomBigLeft = new BigAtomNode( new C() );
-        AtomNode atomBigRight = new BigAtomNode( new C() );
-        AtomNode atomSmallTopLeft = new SmallAtomNode( new H() );
-        AtomNode atomSmallTopRight = new SmallAtomNode( new H() );
-        AtomNode atomSmallBottomLeft = new SmallAtomNode( new H() );
-        AtomNode atomSmallBottomRight = new SmallAtomNode( new H() );
+        AtomNode bigLeftNode = new BigAtomNode( new C() );
+        AtomNode bigRightNode = new BigAtomNode( new C() );
+        AtomNode smallTopLeftNode = new SmallAtomNode( new H() );
+        AtomNode smallTopRightNode = new SmallAtomNode( new H() );
+        AtomNode smallBottomLeftNode = new SmallAtomNode( new H() );
+        AtomNode smallBottomRightNode = new SmallAtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( atomSmallTopRight );
-        parentNode.addChild( atomSmallBottomLeft );
-        parentNode.addChild( atomBigRight );
-        parentNode.addChild( atomBigLeft );
-        parentNode.addChild( atomSmallTopLeft );
-        parentNode.addChild( atomSmallBottomRight );
+        parentNode.addChild( smallTopRightNode );
+        parentNode.addChild( smallBottomLeftNode );
+        parentNode.addChild( bigRightNode );
+        parentNode.addChild( bigLeftNode );
+        parentNode.addChild( smallTopLeftNode );
+        parentNode.addChild( smallBottomRightNode );
 
         // layout
-        final double offsetSmall = atomSmallTopLeft.getFullBoundsReference().getWidth() / 4;
+        final double offsetSmall = smallTopLeftNode.getFullBoundsReference().getWidth() / 4;
         double x = 0;
         double y = 0;
-        atomBigLeft.setOffset( x, y );
-        x = atomBigLeft.getFullBoundsReference().getMaxX() + ( 0.25 * atomBigRight.getFullBoundsReference().getWidth() );
-        y = atomBigLeft.getYOffset();
-        atomBigRight.setOffset( x, y );
-        x = atomBigLeft.getFullBoundsReference().getMinX() + offsetSmall;
-        y = atomBigLeft.getFullBoundsReference().getMinY() + offsetSmall;
-        atomSmallTopLeft.setOffset( x, y );
-        x = atomBigRight.getFullBoundsReference().getMaxX() - offsetSmall;
-        y = atomBigRight.getFullBoundsReference().getMinY() + offsetSmall;
-        atomSmallTopRight.setOffset( x, y );
-        x = atomBigLeft.getFullBoundsReference().getMinX() + offsetSmall;
-        y = atomBigLeft.getFullBoundsReference().getMaxY() - offsetSmall;
-        atomSmallBottomLeft.setOffset( x, y );
-        x = atomBigRight.getFullBoundsReference().getMaxX() - offsetSmall;
-        y = atomBigRight.getFullBoundsReference().getMaxY() - offsetSmall;
-        atomSmallBottomRight.setOffset( x, y );
+        bigLeftNode.setOffset( x, y );
+        x = bigLeftNode.getFullBoundsReference().getMaxX() + ( 0.25 * bigRightNode.getFullBoundsReference().getWidth() );
+        y = bigLeftNode.getYOffset();
+        bigRightNode.setOffset( x, y );
+        x = bigLeftNode.getFullBoundsReference().getMinX() + offsetSmall;
+        y = bigLeftNode.getFullBoundsReference().getMinY() + offsetSmall;
+        smallTopLeftNode.setOffset( x, y );
+        x = bigRightNode.getFullBoundsReference().getMaxX() - offsetSmall;
+        y = bigRightNode.getFullBoundsReference().getMinY() + offsetSmall;
+        smallTopRightNode.setOffset( x, y );
+        x = bigLeftNode.getFullBoundsReference().getMinX() + offsetSmall;
+        y = bigLeftNode.getFullBoundsReference().getMaxY() - offsetSmall;
+        smallBottomLeftNode.setOffset( x, y );
+        x = bigRightNode.getFullBoundsReference().getMaxX() - offsetSmall;
+        y = bigRightNode.getFullBoundsReference().getMaxY() - offsetSmall;
+        smallBottomRightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );

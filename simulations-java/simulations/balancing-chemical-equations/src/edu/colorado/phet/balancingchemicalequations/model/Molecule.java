@@ -10,6 +10,8 @@ import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.*;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.OneAtomMoleculeNode.CNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.CONode;
@@ -205,15 +207,39 @@ public abstract class Molecule {
         }
     }
 
+    public static class N2O extends Molecule {
+        public N2O() {
+            super( new Atom[] { new N(), new O(), new O() }, new N2ONode() );
+        }
+    }
+
     public static class NH3 extends Molecule {
         public NH3() {
             super( new Atom[] { new N(), new H(), new H(), new H() }, new NH3Node() );
         }
     }
 
+    public static class NO2 extends Molecule {
+        public NO2() {
+            super( new Atom[] { new N(), new O(), new O() }, new NO2Node() );
+        }
+    }
+
     public static class O2 extends Molecule {
         public O2() {
             super( new Atom[] { new O(), new O() }, new O2Node() );
+        }
+    }
+
+    public static class PH3 extends Molecule {
+        public PH3() {
+            super( new Atom[] { new P(), new H(), new H(), new H() }, new PH3Node() );
+        }
+    }
+
+    public static class SO2 extends Molecule {
+        public SO2() {
+            super( new Atom[] { new S(), new O(), new O() }, new SO2Node() );
         }
     }
 }

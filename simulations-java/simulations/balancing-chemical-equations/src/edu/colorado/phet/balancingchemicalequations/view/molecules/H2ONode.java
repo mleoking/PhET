@@ -19,27 +19,27 @@ public class H2ONode extends PComposite {
     public H2ONode() {
 
         // atom nodes
-        AtomNode atomSmallLeft = new SmallAtomNode( new H() );
-        AtomNode atomSmallRight = new SmallAtomNode( new H() );
-        AtomNode atomBig = new BigAtomNode( new O() );
+        AtomNode smallLeftNode = new SmallAtomNode( new H() );
+        AtomNode smallRightNode = new SmallAtomNode( new H() );
+        AtomNode bigNode = new BigAtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( atomBig );
-        parentNode.addChild( atomSmallLeft );
-        parentNode.addChild( atomSmallRight );
+        parentNode.addChild( bigNode );
+        parentNode.addChild( smallLeftNode );
+        parentNode.addChild( smallRightNode );
 
         // layout
         double x = 0;
         double y = 0;
-        atomBig.setOffset( x, y );
-        x = atomBig.getFullBoundsReference().getMinX();
-        y = atomBig.getFullBoundsReference().getMaxY() - ( 0.25 * atomBig.getFullBoundsReference().getHeight() );
-        atomSmallLeft.setOffset( x, y );
-        x = atomBig.getFullBoundsReference().getMaxX();
-        y = atomSmallLeft.getYOffset();
-        atomSmallRight.setOffset( x, y );
+        bigNode.setOffset( x, y );
+        x = bigNode.getFullBoundsReference().getMinX();
+        y = bigNode.getFullBoundsReference().getMaxY() - ( 0.25 * bigNode.getFullBoundsReference().getHeight() );
+        smallLeftNode.setOffset( x, y );
+        x = bigNode.getFullBoundsReference().getMaxX();
+        y = smallLeftNode.getYOffset();
+        smallRightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
