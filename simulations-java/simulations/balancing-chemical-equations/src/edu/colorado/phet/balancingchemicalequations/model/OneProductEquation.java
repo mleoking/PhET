@@ -3,9 +3,11 @@
 package edu.colorado.phet.balancingchemicalequations.model;
 
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
+import edu.colorado.phet.balancingchemicalequations.model.Molecule.Cl2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.F2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.H2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.H2O;
+import edu.colorado.phet.balancingchemicalequations.model.Molecule.HCl;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.HF;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.N2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.NH3;
@@ -21,6 +23,10 @@ public abstract class OneProductEquation extends Equation {
 
     public OneProductEquation( String name, EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
         super( name, new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1 } );
+    }
+
+    public OneProductEquation( EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
+        super( new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1 } );
     }
 
     // 1N2 + 3H2 -> 2NH3
@@ -40,11 +46,17 @@ public abstract class OneProductEquation extends Equation {
     // H2 + F2 -> 2 HF
     public static class Equation_H2_F2_2HF extends OneProductEquation {
         public Equation_H2_F2_2HF() {
-            super( BCEStrings.WATER, new EquationTerm( 1, new H2() ), new EquationTerm( 1, new F2() ), new EquationTerm( 2, new HF() ) );
+            super( new EquationTerm( 1, new H2() ), new EquationTerm( 1, new F2() ), new EquationTerm( 2, new HF() ) );
         }
     }
 
     // H2 + Cl2 -> 2 HCl
+    public static class Equation_H2_Cl2_2HCl extends OneProductEquation {
+        public Equation_H2_Cl2_2HCl() {
+            super( new EquationTerm( 1, new H2() ), new EquationTerm( 1, new Cl2() ), new EquationTerm( 2, new HCl() ) );
+        }
+    }
+
     // CO + 2 H2 -> CH3OH
     // CH2O + H2 -> CH3OH
     // C2H4 + H2 -> C2H6

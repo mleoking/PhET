@@ -21,6 +21,10 @@ public abstract class Equation {
     public final Property<Boolean> balancedProperty;
     public final Property<Boolean> balancedWithLowestCoefficientsProperty;
 
+    public Equation( final EquationTerm[] reactants, final EquationTerm[] products ) {
+        this( createName( reactants, products ), reactants, products );
+    }
+
     /**
      * Constructor.
      * @param name user-visible name for the equation
@@ -220,5 +224,27 @@ public abstract class Equation {
         for ( EquationTerm term : products ) {
             term.getActualCoefficientProperty().removeObserver( observer );
         }
+    }
+
+    /*
+     * Creates an HTML string that shows the equation formula.
+     * Used for equations that don't have a more general name (eg, "make water").
+     */
+    private static String createName( EquationTerm[] reactants, final EquationTerm[] products ) {
+        StringBuffer b = new StringBuffer();
+        for ( int i = 0; i < reactants.length; i++ ) {
+            b.append( reactants[i].getMolecule().getSymbol() );
+            if ( i <  reactants.length - 1 ) {
+                b.append( " + " );
+            }
+        }
+        b.append( " \u2192 " ); // right arrow
+        for ( int i = 0; i < products.length; i++ ) {
+            b.append( products[i].getMolecule().getSymbol() );
+            if ( i <  products.length - 1 ) {
+                b.append( " + " );
+            }
+        }
+        return b.toString();
     }
 }

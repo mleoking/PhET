@@ -45,6 +45,12 @@ public abstract class Atom {
         }
     }
 
+    public static class Cl extends Atom {
+        public Cl() {
+           super( BCESymbols.Cl, BCEColors.Cl, BCEImages.Cl );
+        }
+    }
+
     public static class F extends Atom {
         public F() {
            super( BCESymbols.F, BCEColors.F, BCEImages.F );
@@ -66,6 +72,12 @@ public abstract class Atom {
     public static class O extends Atom {
         public O() {
            super( BCESymbols.O, BCEColors.O, BCEImages.O );
+        }
+    }
+
+    public static class P extends Atom {
+        public P() {
+           super( BCESymbols.P, BCEColors.P, BCEImages.P );
         }
     }
 

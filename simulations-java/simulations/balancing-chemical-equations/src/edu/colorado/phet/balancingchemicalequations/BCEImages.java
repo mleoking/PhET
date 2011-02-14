@@ -30,10 +30,12 @@ public class BCEImages {
 
     // molecules
     public static final Image CH4 = new CH4Node().toImage();
+    public static final Image Cl2 = new Cl2Node().toImage();
     public static final Image CO2 = new CO2Node().toImage();
     public static final Image F2 = new F2Node().toImage();
     public static final Image H2 = new H2Node().toImage();
     public static final Image H2O = new H2ONode().toImage();
+    public static final Image HCl = new HClNode().toImage();
     public static final Image HF = new HFNode().toImage();
     public static final Image N2 = new N2Node().toImage();
     public static final Image NH3 = new NH3Node().toImage();

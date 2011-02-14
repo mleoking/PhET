@@ -20,9 +20,12 @@ public abstract class TwoProductEquation extends Equation {
         super( name, new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1, product2 } );
     }
 
+    public TwoProductEquation( EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1, EquationTerm product2 ) {
+        super( new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1, product2 } );
+    }
+
     // 1CH4 + 2O2 -> 1CO2 + 2H2O
     public static class MethaneEquation extends TwoProductEquation {
-
         public MethaneEquation() {
             super( BCEStrings.METHANE, new EquationTerm( 1, new CH4() ), new EquationTerm( 2, new O2() ), new EquationTerm( 1, new CO2() ), new EquationTerm( 2, new H2O() ) );
         }
