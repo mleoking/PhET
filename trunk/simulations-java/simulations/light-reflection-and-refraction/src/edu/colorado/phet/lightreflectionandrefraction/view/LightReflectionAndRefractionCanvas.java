@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
@@ -94,7 +93,6 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
             addChild( new PSwing( new VerticalLayoutPanel() {{
                 add( new PropertyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) {{setFont( labelFont );}} );
                 add( new PropertyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
-                SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
             }} ) {{
                 setOffset( 0, title.getFullBounds().getMaxY() );
             }} );
