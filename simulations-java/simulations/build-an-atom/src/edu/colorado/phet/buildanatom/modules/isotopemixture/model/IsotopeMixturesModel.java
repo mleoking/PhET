@@ -27,7 +27,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Class Data
     // -----------------------------------------------------------------------
 
-    private static final Dimension2D ISOTOPE_TEST_CHAMBER_SIZE = new PDimension( 400, 300 ); // In picometers.
+    private static final Dimension2D ISOTOPE_TEST_CHAMBER_SIZE = new PDimension( 350, 300 ); // In picometers.
 
     private static final Rectangle2D ISOTOPE_TEST_CHAMBER_RECT =
             new Rectangle2D.Double(
