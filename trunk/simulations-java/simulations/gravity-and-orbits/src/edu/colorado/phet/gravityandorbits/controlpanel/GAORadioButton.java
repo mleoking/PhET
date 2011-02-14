@@ -15,7 +15,6 @@ public class GAORadioButton<T> extends PropertyRadioButton<T> {
         super( title, property, value );
         setOpaque( false );//TODO: is this a mac problem?
         setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
-        setBackground( GravityAndOrbitsControlPanel.BACKGROUND );
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
     }
 }
