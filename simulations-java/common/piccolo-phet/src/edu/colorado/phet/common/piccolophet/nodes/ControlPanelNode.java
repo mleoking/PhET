@@ -20,10 +20,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ControlPanelNode extends PNode {
     public ControlPanelNode( final PNode content ) {
-        this( content, 9, Color.lightGray, new BasicStroke( 2 ), Color.darkGray, 20, true );
+        this( content, Color.lightGray, new BasicStroke( 2 ), Color.darkGray );
     }
 
-    public ControlPanelNode( final PNode content, final int inset, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int arc, boolean transparifySwing ) {
+    public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor ) {
+        this( content, backgroundColor, borderStroke, borderColor, 9 );
+    }
+
+    public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int inset ) {
+        this( content, backgroundColor, borderStroke, borderColor, inset, 20, true );
+    }
+
+    public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int inset, final int arc, boolean transparifySwing ) {
         //Make sure the background resizes when the content resizes
         final PhetPPath background = new PhetPPath( backgroundColor, borderStroke, borderColor ) {{
             final PropertyChangeListener updateSize = new PropertyChangeListener() {

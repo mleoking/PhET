@@ -1,3 +1,4 @@
+Switched to use ControlPanelNode
 # 1.00.00 (48733) Feb 7, 2011
 Initial deploy of 1.00
 Added screenshot
