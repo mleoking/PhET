@@ -11,6 +11,14 @@ import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.*;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.OneAtomMoleculeNode.CNode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.CONode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.Cl2Node;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.F2Node;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.H2Node;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.HFNode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.N2Node;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.O2Node;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -123,50 +131,62 @@ public abstract class Molecule {
         return outString;
     }
 
-    public static class CH4 extends Molecule {
+    // There is technically no such thing as a single-atom molecule, but this simplifies the Equation model.
+    public static class CMolecule extends Molecule {
+        public CMolecule() {
+            super( new Atom[] { new C() }, new CNode() );
+        }
+    }
 
+    public static class C2H4 extends Molecule {
+        public C2H4() {
+            super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H() }, new C2H4Node() );
+        }
+    }
+
+    public static class CH4 extends Molecule {
         public CH4() {
             super( new Atom[] { new C(), new H(), new H(), new H(), new H() }, new CH4Node() );
         }
     }
 
     public static class Cl2 extends Molecule {
-
         public Cl2() {
             super( new Atom[] { new Cl(), new Cl() }, new Cl2Node() );
         }
     }
 
-    public static class CO2 extends Molecule {
+    public static class CO extends Molecule {
+        public CO() {
+            super( new Atom[] { new C(), new O() }, new CONode() );
+        }
+    }
 
+    public static class CO2 extends Molecule {
         public CO2() {
             super( new Atom[] { new C(), new O(), new O() }, new CO2Node() );
         }
     }
 
     public static class F2 extends Molecule {
-
         public F2() {
             super( new Atom[] { new F(), new F() }, new F2Node() );
         }
     }
 
     public static class H2 extends Molecule {
-
         public H2() {
             super( new Atom[] { new H(), new H() }, new H2Node() );
         }
     }
 
     public static class H2O extends Molecule {
-
         public H2O() {
             super( new Atom[] { new H(), new H(), new O() }, new H2ONode() );
         }
     }
 
     public static class HCl extends Molecule {
-
         public HCl() {
             super( new Atom[] { new H(), new Cl() }, new HClNode() );
         }
@@ -180,21 +200,18 @@ public abstract class Molecule {
     }
 
     public static class N2 extends Molecule {
-
         public N2() {
             super( new Atom[] { new N(), new N() }, new N2Node() );
         }
     }
 
     public static class NH3 extends Molecule {
-
         public NH3() {
             super( new Atom[] { new N(), new H(), new H(), new H() }, new NH3Node() );
         }
     }
 
     public static class O2 extends Molecule {
-
         public O2() {
             super( new Atom[] { new O(), new O() }, new O2Node() );
         }
