@@ -2,8 +2,11 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
+import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,6 +32,10 @@ public class GameCanvas extends BCECanvas {
         };
         PNode gameSettingsNode = new PSwing( new GameSettingsPanel( model.getGameSettings(), startFunction ) );
         addChild( gameSettingsNode );
+
+        // Game results
+        GameOverNode gameOverNode = new GameOverNode( 1,1,1,new DecimalFormat("0"),1,1,false,false );//XXX
+        addChild( gameOverNode );
 
         // layout
         gameSettingsNode.setOffset( 0, 0 );

@@ -1,3 +1,4 @@
+2/14/11 add symbols for additional molecules and atoms
 2/10/11 migrate GameSettings to common.games
 2/10/11 add Game Settings panel
 2/10/11 change "Show molecules" to "Hide molecules" in Options menu

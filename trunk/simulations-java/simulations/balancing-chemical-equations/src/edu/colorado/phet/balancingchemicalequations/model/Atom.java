@@ -45,6 +45,12 @@ public abstract class Atom {
         }
     }
 
+    public static class F extends Atom {
+        public F() {
+           super( BCESymbols.F, BCEColors.F, BCEImages.F );
+        }
+    }
+
     public static class H extends Atom {
         public H() {
            super( BCESymbols.H, BCEColors.H, BCEImages.H );
