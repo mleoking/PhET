@@ -2,30 +2,30 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import java.awt.Color;
-
+import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 
 /**
  * Atoms look like shaded spheres.
+ * Origin is at geometric center of bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AtomNode extends ShadedSphereNode {
+public class AtomNode extends ShadedSphereNode {
 
-    public AtomNode( double diameter, Color color ) {
-        super( diameter, color );
+    public AtomNode( double diameter, Atom atom ) {
+        super( diameter, atom.getColor() );
     }
 
     public static class BigAtomNode extends AtomNode {
-        public BigAtomNode( Color color ) {
-            super( 22, color );
+        public BigAtomNode( Atom atom ) {
+            super( 22, atom );
         }
     }
 
     public static class SmallAtomNode extends AtomNode {
-        public SmallAtomNode( Color color ) {
-            super( 14, color );
+        public SmallAtomNode( Atom atom ) {
+            super( 14, atom );
         }
     }
 }

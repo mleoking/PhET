@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
 
 /**
  * CL2 molecule.
@@ -12,6 +12,6 @@ import edu.colorado.phet.balancingchemicalequations.BCEColors;
 public class Cl2Node extends TwoAtomNode {
 
     public Cl2Node() {
-        super( BCEColors.Cl );
+        super( new Cl(), new Cl() );
     }
 }

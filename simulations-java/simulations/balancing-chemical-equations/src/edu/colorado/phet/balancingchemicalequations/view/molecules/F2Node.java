@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
 
 /**
  * F2 molecule.
@@ -12,6 +12,6 @@ import edu.colorado.phet.balancingchemicalequations.BCEColors;
 public class F2Node extends TwoAtomNode {
 
     public F2Node() {
-        super( BCEColors.F );
+        super( new F(), new F() );
     }
 }

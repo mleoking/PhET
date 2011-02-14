@@ -2,37 +2,29 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import java.awt.Color;
-
+import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for molecules with 2 atoms of the same size.
+ * Origin is at geometric center of bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class TwoAtomNode extends PComposite {
 
     /**
-     * Use this constructor when the 2 atoms are the same.
-     * @param color
-     */
-    public TwoAtomNode( Color color ) {
-        this( color, color );
-    }
-
-    /**
      * Use this constructor when the 2 atoms are different.
-     * @param leftAtomColor
-     * @param rightAtomColor
+     * @param leftAtom
+     * @param rightAtom
      */
-    public TwoAtomNode( Color leftAtomColor, Color rightAtomColor ) {
+    public TwoAtomNode( Atom leftAtom, Atom rightAtom ) {
 
         // atom nodes
-        AtomNode atomLeft = new BigAtomNode( leftAtomColor );
-        AtomNode atomRight = new BigAtomNode( rightAtomColor );
+        AtomNode atomLeft = new BigAtomNode( leftAtom );
+        AtomNode atomRight = new BigAtomNode( rightAtom );
 
         // rendering order
         PComposite parentNode = new PComposite();

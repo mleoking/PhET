@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.BCEColors;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -18,9 +19,9 @@ public class H2ONode extends PComposite {
     public H2ONode() {
 
         // atom nodes
-        AtomNode atomBig = new BigAtomNode( BCEColors.O );
-        AtomNode atomSmallLeft = new SmallAtomNode( BCEColors.H );
-        AtomNode atomSmallRight = new SmallAtomNode( BCEColors.H );
+        AtomNode atomSmallLeft = new SmallAtomNode( new H() );
+        AtomNode atomSmallRight = new SmallAtomNode( new H() );
+        AtomNode atomBig = new BigAtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();

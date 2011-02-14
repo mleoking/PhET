@@ -21,8 +21,8 @@ public class BCEGlobalProperties implements Resettable {
 
     // developer controls
     private final boolean isDev;
-    private final Property<Color> canvasColorProperty = new Property<Color>( BCEColors.CANVAS_BACKGROUND );
-    private final Property<Color> boxColorProperty = new Property<Color>( BCEColors.BOX_COLOR );
+    private final Property<Color> canvasColorProperty = new Property<Color>( BCEConstants.CANVAS_BACKGROUND );
+    private final Property<Color> boxColorProperty = new Property<Color>( BCEConstants.BOX_COLOR );
 
     public BCEGlobalProperties( Frame frame, boolean isDev ) {
         this.frame = frame;
