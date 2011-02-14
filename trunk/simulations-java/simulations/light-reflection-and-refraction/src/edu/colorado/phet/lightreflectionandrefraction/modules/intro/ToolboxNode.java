@@ -33,7 +33,7 @@ public class ToolboxNode extends PNode {
     public ToolboxNode( final LightReflectionAndRefractionCanvas canvas, final ModelViewTransform transform,
                         final BooleanProperty showProtractor, final double x, final double y, BooleanProperty showNormal, final IntensityMeter intensityMeter ) {
         final PText titleLabel = new PText( "Toolbox" ) {{
-            setFont( ControlPanelNode.labelFont );
+            setFont( LightReflectionAndRefractionCanvas.labelFont );
         }};
         addChild( titleLabel );
         final int ICON_HEIGHT = 100;
@@ -167,7 +167,7 @@ public class ToolboxNode extends PNode {
         addChild( sensorThumbnail );
 
         final PSwing showNormalCheckBox = new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
-            setFont( ControlPanelNode.labelFont );
+            setFont( LightReflectionAndRefractionCanvas.labelFont );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }} ) {{
             setOffset( sensorThumbnail.getFullBounds().getMaxX() + 10, titleLabel.getFullBounds().getMaxY() );

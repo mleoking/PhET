@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.lightreflectionandrefraction.modules.intro.ControlPanelNode.labelFont;
+import static edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas.labelFont;
 
 /**
  * @author Sam Reid
