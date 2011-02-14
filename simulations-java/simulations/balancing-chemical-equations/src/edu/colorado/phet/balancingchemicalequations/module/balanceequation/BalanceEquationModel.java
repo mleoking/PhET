@@ -5,9 +5,9 @@ package edu.colorado.phet.balancingchemicalequations.module.balanceequation;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.Equation.AmmoniaEquation;
-import edu.colorado.phet.balancingchemicalequations.model.Equation.MethaneEquation;
-import edu.colorado.phet.balancingchemicalequations.model.Equation.WaterEquation;
+import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.AmmoniaEquation;
+import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
+import edu.colorado.phet.balancingchemicalequations.model.TwoProductEquation.MethaneEquation;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
