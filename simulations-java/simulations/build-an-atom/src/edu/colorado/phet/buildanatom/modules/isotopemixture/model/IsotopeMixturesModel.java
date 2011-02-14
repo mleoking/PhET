@@ -6,6 +6,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
+import edu.colorado.phet.buildanatom.model.IAtom;
+import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -34,7 +37,13 @@ public class IsotopeMixturesModel {
     // -----------------------------------------------------------------------
     // Instance Data
     // -----------------------------------------------------------------------
+
     private final BuildAnAtomClock clock;
+
+    // This atom is the "prototype isotope", meaning that it is set in order
+    // to set the atomic weight of the family of isotopes that are currently
+    // in use.
+    private final SimpleAtom prototypeIsotope = new SimpleAtom();
 
     // -----------------------------------------------------------------------
     // Constructor(s)
@@ -49,6 +58,16 @@ public class IsotopeMixturesModel {
 
     public BuildAnAtomClock getClock() {
         return clock;
+    }
+
+    public IDynamicAtom getAtom(){
+        return prototypeIsotope;
+    }
+
+    public void setAtomConfiguration( IAtom atom ) {
+        prototypeIsotope.setNumProtons( atom.getNumProtons() );
+        prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
+        prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
     }
 
     public Rectangle2D getIsotopeTestChamberRect(){

@@ -3,8 +3,9 @@
 package edu.colorado.phet.buildanatom.modules.game.model;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -68,8 +69,17 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     }
 
     public void setNumProtons( int numProtons ) {
-        if ( this.numProtons != numProtons ){
+        if ( this.numProtons != numProtons ) {
             this.numProtons = numProtons;
+            notifyObservers();
+        }
+    }
+
+    public void setConfiguration( IAtom atom ) {
+        if ( this.numProtons != atom.getNumProtons() || this.numNeutrons != atom.getNumNeutrons() || this.numElectrons != atom.getNumElectrons() ) {
+            this.numProtons = atom.getNumProtons();
+            this.numNeutrons = atom.getNumNeutrons();
+            this.numElectrons = atom.getNumElectrons();
             notifyObservers();
         }
     }
