@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.PCanvas;
  * <p>
  * This implementation uses SphericalNode via composition instead of subclassing,
  * because SphericalNode's interface uses Paint, and we're constrained to Color.
+ * <p>
+ * Origin is at the center of the sphere.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
