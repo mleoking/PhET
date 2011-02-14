@@ -19,38 +19,38 @@ public class CH4Node extends PComposite {
     public CH4Node() {
 
         // atom nodes
-        AtomNode atomBig = new BigAtomNode( new C() );
-        AtomNode atomSmallTopLeft = new SmallAtomNode( new H() );
-        AtomNode atomSmallTopRight = new SmallAtomNode( new H() );
-        AtomNode atomSmallBottomLeft = new SmallAtomNode( new H() );
-        AtomNode atomSmallBottomRight = new SmallAtomNode( new H() );
+        AtomNode bigNode = new BigAtomNode( new C() );
+        AtomNode smallTopLeftNode = new SmallAtomNode( new H() );
+        AtomNode smallTopRightNode = new SmallAtomNode( new H() );
+        AtomNode smallBottomLeftNode = new SmallAtomNode( new H() );
+        AtomNode smallBottomRightNode = new SmallAtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( atomSmallTopRight );
-        parentNode.addChild( atomSmallBottomLeft );
-        parentNode.addChild( atomBig );
-        parentNode.addChild( atomSmallTopLeft );
-        parentNode.addChild( atomSmallBottomRight );
+        parentNode.addChild( smallTopRightNode );
+        parentNode.addChild( smallBottomLeftNode );
+        parentNode.addChild( bigNode );
+        parentNode.addChild( smallTopLeftNode );
+        parentNode.addChild( smallBottomRightNode );
 
         // layout
-        final double offsetSmall = atomSmallTopLeft.getFullBoundsReference().getWidth() / 4;
+        final double offsetSmall = smallTopLeftNode.getFullBoundsReference().getWidth() / 4;
         double x = 0;
         double y = 0;
-        atomBig.setOffset( x, y );
-        x = atomBig.getFullBoundsReference().getMinX() + offsetSmall;
-        y = atomBig.getFullBoundsReference().getMinY() + offsetSmall;
-        atomSmallTopLeft.setOffset( x, y );
-        x = atomBig.getFullBoundsReference().getMaxX() - offsetSmall;
-        y = atomBig.getFullBoundsReference().getMinY() + offsetSmall;
-        atomSmallTopRight.setOffset( x, y );
-        x = atomBig.getFullBoundsReference().getMinX() + offsetSmall;
-        y = atomBig.getFullBoundsReference().getMaxY() - offsetSmall;
-        atomSmallBottomLeft.setOffset( x, y );
-        x = atomBig.getFullBoundsReference().getMaxX() - offsetSmall;
-        y = atomBig.getFullBoundsReference().getMaxY() - offsetSmall;
-        atomSmallBottomRight.setOffset( x, y );
+        bigNode.setOffset( x, y );
+        x = bigNode.getFullBoundsReference().getMinX() + offsetSmall;
+        y = bigNode.getFullBoundsReference().getMinY() + offsetSmall;
+        smallTopLeftNode.setOffset( x, y );
+        x = bigNode.getFullBoundsReference().getMaxX() - offsetSmall;
+        y = bigNode.getFullBoundsReference().getMinY() + offsetSmall;
+        smallTopRightNode.setOffset( x, y );
+        x = bigNode.getFullBoundsReference().getMinX() + offsetSmall;
+        y = bigNode.getFullBoundsReference().getMaxY() - offsetSmall;
+        smallBottomLeftNode.setOffset( x, y );
+        x = bigNode.getFullBoundsReference().getMaxX() - offsetSmall;
+        y = bigNode.getFullBoundsReference().getMaxY() - offsetSmall;
+        smallBottomRightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );

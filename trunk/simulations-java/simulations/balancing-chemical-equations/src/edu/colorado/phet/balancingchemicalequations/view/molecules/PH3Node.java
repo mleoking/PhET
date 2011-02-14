@@ -3,23 +3,23 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * NH3 molecule.
+ * PH3 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NH3Node extends PComposite {
+public class PH3Node extends PComposite {
 
-    public NH3Node() {
+    public PH3Node() {
 
         // atom nodes
-        AtomNode bigNode = new BigAtomNode( new N() );
+        AtomNode bigNode = new BigAtomNode( new P() );
         AtomNode smallLeftNode = new SmallAtomNode( new H() );
         AtomNode smallRightNode = new SmallAtomNode( new H() );
         AtomNode smallBottomNode = new SmallAtomNode( new H() );

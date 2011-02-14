@@ -21,30 +21,25 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class TwoAtomMoleculeNode extends PComposite {
 
-    /**
-     * Use this constructor when the 2 atoms are different.
-     * @param leftAtom
-     * @param rightAtom
-     */
     public TwoAtomMoleculeNode( Atom leftAtom, Atom rightAtom ) {
 
         // atom nodes
-        AtomNode atomLeft = new BigAtomNode( leftAtom );
-        AtomNode atomRight = new BigAtomNode( rightAtom );
+        AtomNode leftNode = new BigAtomNode( leftAtom );
+        AtomNode rightNode = new BigAtomNode( rightAtom );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( atomRight );
-        parentNode.addChild( atomLeft );
+        parentNode.addChild( leftNode );
+        parentNode.addChild( rightNode );
 
         // layout
         double x = 0;
         double y = 0;
-        atomLeft.setOffset( x, y );
-        x = atomLeft.getFullBoundsReference().getMaxX() + ( 0.25 * atomRight.getFullBoundsReference().getWidth() );
-        y = atomLeft.getYOffset();
-        atomRight.setOffset( x, y );
+        leftNode.setOffset( x, y );
+        x = leftNode.getFullBoundsReference().getMaxX() + ( 0.25 * rightNode.getFullBoundsReference().getWidth() );
+        y = leftNode.getYOffset();
+        rightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );

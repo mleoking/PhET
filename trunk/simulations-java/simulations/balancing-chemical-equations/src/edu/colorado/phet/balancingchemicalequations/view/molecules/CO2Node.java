@@ -18,25 +18,25 @@ public class CO2Node extends PComposite {
     public CO2Node() {
 
         // atom nodes
-        AtomNode atomCenter = new BigAtomNode( new C() );
-        AtomNode atomLeft = new BigAtomNode( new O() );
-        AtomNode atomRight = new BigAtomNode( new O() );
+        AtomNode centerNode = new BigAtomNode( new C() );
+        AtomNode leftNode = new BigAtomNode( new O() );
+        AtomNode rightNode = new BigAtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( atomLeft );
-        parentNode.addChild( atomCenter );
-        parentNode.addChild( atomRight );
+        parentNode.addChild( leftNode );
+        parentNode.addChild( centerNode );
+        parentNode.addChild( rightNode );
 
         // layout
         double x = 0;
         double y = 0;
-        atomCenter.setOffset( x, y );
-        x = atomCenter.getFullBoundsReference().getMinX();
-        atomLeft.setOffset( x, y );
-        x = atomCenter.getFullBoundsReference().getMaxX();
-        atomRight.setOffset( x, y );
+        centerNode.setOffset( x, y );
+        x = centerNode.getFullBoundsReference().getMinX();
+        leftNode.setOffset( x, y );
+        x = centerNode.getFullBoundsReference().getMaxX();
+        rightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
