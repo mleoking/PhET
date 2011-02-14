@@ -2,7 +2,6 @@
 package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -23,7 +22,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.*;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.ControlPanelNode;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LaserNodeDragHandle;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightWaveNode;
+import edu.colorado.phet.lightreflectionandrefraction.modules.intro.ToolboxNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -76,10 +78,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                                                                                scale );
         mediumNode = new PNode();
         addChild( mediumNode );
-        //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
-        addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
-            setPickable( false );
-        }} );
+
         final BooleanProperty showDragHandles = new BooleanProperty( false );
         addChild( new LaserNodeDragHandle( transform, model.getLaser(), 10, showDragHandles, new Function1<Double, Boolean>() {
             public Boolean apply( Double aDouble ) {
@@ -109,14 +108,6 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
 
         addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
-        }} );
-
-        addChild( new NormalLine( transform, model.getHeight() ) {{
-            showNormal.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( showNormal.getValue() );
-                }
-            } );
         }} );
 
         laserView.addObserver( new SimpleObserver() {
