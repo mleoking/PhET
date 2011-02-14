@@ -3,9 +3,6 @@ package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
-
-import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -18,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
@@ -159,14 +155,6 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
 
         //Debug for showing stage
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
-    }
-
-    public static class ControlPanel extends PNode {
-        public ControlPanel( JComponent controlPanel ) {
-            final PSwing pswing = new PSwing( controlPanel );
-            addChild( pswing );
-            addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, pswing.getFullBounds().getWidth(), pswing.getFullBounds().getHeight(), 10, 10 ), new BasicStroke( 3 ), Color.white ) );
-        }
     }
 
     public void addChild( PNode node ) {
