@@ -1,3 +1,4 @@
+Added JComboBox to the list of ignored types in ControlPanelNode.transparifySwing
 Added the ability to change units in the measuring tape
 Made it possible to specify colors in FloatingClockControlNode
 Fixed: Gravity and Orbits string appears in FloatingClockControlNode
