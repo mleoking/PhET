@@ -3,6 +3,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
@@ -10,6 +11,10 @@ import edu.colorado.phet.common.phetcommon.model.Property;
  */
 public class Prism {
     public final Property<Polygon> shape;
+
+    public Prism( ImmutableVector2D... vectors ) {
+        this( new Polygon( vectors ) );
+    }
 
     public Prism( Polygon polygon ) {
         this.shape = new Property<Polygon>( polygon );

@@ -25,18 +25,24 @@ public class PrismsModel extends LRRModel {
     public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
 
     public PrismsModel() {
-        prisms.add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-            add( new ImmutableVector2D() );
-            add( new ImmutableVector2D( 0, WAVELENGTH_RED * 10 ) );
-            add( new ImmutableVector2D( WAVELENGTH_RED * 10, WAVELENGTH_RED * 10 ) );
-            add( new ImmutableVector2D( WAVELENGTH_RED * 10, 0 ) );
-        }} ) ) {{
-            shape.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateModel();
-                }
-            } );
-        }} );
+        final double a = WAVELENGTH_RED * 10;//characteristic length scale
+        addPrism( new Prism( new ImmutableVector2D(),
+                             new ImmutableVector2D( 0, a ),
+                             new ImmutableVector2D( a, a ),
+                             new ImmutableVector2D( a, 0 ) ) );
+
+        addPrism( new Prism( new ImmutableVector2D(),
+                             new ImmutableVector2D( a, 0 ),
+                             new ImmutableVector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
+    }
+
+    private void addPrism( Prism prism ) {
+        prism.shape.addObserver( new SimpleObserver() {
+            public void update() {
+                updateModel();
+            }
+        } );
+        prisms.add( prism );
     }
 
     public Iterable<? extends Prism> getPrisms() {
@@ -69,6 +75,7 @@ public class PrismsModel extends LRRModel {
     }
 
     private void propagate( Ray incidentRay, int count ) {
+        double waveWidth = WAVELENGTH_RED * 5;
         if ( count > 100 || incidentRay.power < 0.01 ) {//binary recursion: 2^10 = 1024
             return;
         }
@@ -91,11 +98,11 @@ public class PrismsModel extends LRRModel {
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 
-            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue(), 1, 0, null, 0, true, false ) );
+            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue(), waveWidth, 0, null, 0, true, false ) );
         }
         else {
             addRay( new LightRay( incidentRay.tail, incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) )//1 meter long ray
-                    , n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue(), 1, 0, null, 0, true, false ) );
+                    , n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue(), waveWidth, 0, null, 0, true, false ) );
         }
     }
 
