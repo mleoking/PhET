@@ -27,4 +27,8 @@ public class Prism {
     public ArrayList<Intersection> getIntersections( Ray incidentRay ) {
         return shape.getValue().getIntersections( incidentRay );
     }
+
+    public boolean contains( ImmutableVector2D emissionPoint ) {
+        return shape.getValue().toShape().contains( emissionPoint.toPoint2D() );
+    }
 }
