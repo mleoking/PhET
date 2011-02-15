@@ -3,21 +3,21 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * C2H5Cl molecule.
+ * C2H5OH molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class C2H5ClNode extends PComposite {
+public class C2H5OHNode extends PComposite {
 
-    public C2H5ClNode() {
+    public C2H5OHNode() {
 
         // atom nodes
         AtomNode leftNode = new BigAtomNode( new C() );
@@ -27,7 +27,8 @@ public class C2H5ClNode extends PComposite {
         AtomNode smallLeftNode = new SmallAtomNode( new H() );
         AtomNode smallTopRightNode = new SmallAtomNode( new H() );
         AtomNode smallBottomRightNode = new SmallAtomNode( new H() );
-        AtomNode rightNode = new BigAtomNode( new Cl() );
+        AtomNode rightNode = new BigAtomNode( new O() );
+        AtomNode smallRightNode = new SmallAtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();
@@ -40,6 +41,7 @@ public class C2H5ClNode extends PComposite {
         parentNode.addChild( smallTopRightNode );
         parentNode.addChild( centerNode );
         parentNode.addChild( rightNode );
+        parentNode.addChild( smallRightNode );
 
         // layout
         double x = 0;
@@ -66,6 +68,9 @@ public class C2H5ClNode extends PComposite {
         x = centerNode.getFullBoundsReference().getMaxX();
         y = centerNode.getYOffset();
         rightNode.setOffset( x, y );
+        x = rightNode.getFullBoundsReference().getMaxX();
+        y = rightNode.getYOffset();
+        smallRightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );

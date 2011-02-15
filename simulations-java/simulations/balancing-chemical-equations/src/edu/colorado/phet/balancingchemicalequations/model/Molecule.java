@@ -154,6 +154,12 @@ public abstract class Molecule {
         }
     }
 
+    public static class C2H5OH extends Molecule {
+        public C2H5OH() {
+            super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H(), new H(), new O(), new H() }, new C2H5OHNode() );
+        }
+    }
+
     public static class C2H6 extends Molecule {
         public C2H6() {
             super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H(), new H(), new H() }, new C2H6Node() );
