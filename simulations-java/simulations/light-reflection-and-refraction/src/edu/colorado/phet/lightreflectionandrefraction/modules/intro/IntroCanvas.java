@@ -71,7 +71,7 @@ public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> 
             setOffset( 5, 5 );
         }} );
 
-        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
+        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, showNormal, model.getIntensityMeter() ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }} );
     }
