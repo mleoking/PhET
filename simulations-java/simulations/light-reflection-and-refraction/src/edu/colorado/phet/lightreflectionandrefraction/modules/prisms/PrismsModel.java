@@ -122,13 +122,13 @@ public class PrismsModel extends LRRModel {
 
     private void propagate( Ray incidentRay, int count ) {
         double waveWidth = WAVELENGTH_RED * 5;
-        if ( count > 20 || incidentRay.power < 0.001 ) {//binary recursion: 2^10 = 1024
+        if ( count > 50 || incidentRay.power < 0.001 ) {//binary recursion: 2^10 = 1024
             return;
         }
         Intersection intersection = getIntersection( incidentRay, prisms );
         ImmutableVector2D L = incidentRay.directionUnitVector;
-        final double n1 = outerMedium.getValue().getIndexOfRefraction();
-        final double n2 = prismMedium.getValue().getIndexOfRefraction();
+        final double n1 = incidentRay.indexOfRefraction;
+        final double n2 = incidentRay.oppositeIndexOfRefraction;
         if ( intersection != null ) {
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();
@@ -139,13 +139,14 @@ public class PrismsModel extends LRRModel {
 
 //            System.out.println( "cosTheta2 = " + cosTheta2 );
 //            System.out.println( "cosTheta2Radicand = " + cosTheta2Radicand );
+            boolean totalInternalReflection = cosTheta2Radicand < 0;
             ImmutableVector2D vReflect = L.getAddedInstance( n.getScaledInstance( 2 * cosTheta1 ) );
             ImmutableVector2D vRefract = cosTheta1 > 0 ?
                                          L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
                                          L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 + cosTheta2 ) );
 
-            final double reflectedPower = MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
-            final double transmittedPower = MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
+            final double reflectedPower = totalInternalReflection ? 1 : MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
+            final double transmittedPower = totalInternalReflection ? 0 : MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
 
             Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction );
             Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction );

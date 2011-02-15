@@ -1,3 +1,4 @@
+Added total internal reflection
 Added a trapezoid prism
 Added a hemi-circular prism
 Made it possible to drag the laser pointer to any angle in Prisms module
