@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
@@ -121,7 +122,7 @@ public class PrismsModel extends LRRModel {
 
     private void propagate( Ray incidentRay, int count ) {
         double waveWidth = WAVELENGTH_RED * 5;
-        if ( count > 100 || incidentRay.power < 0.01 ) {//binary recursion: 2^10 = 1024
+        if ( count > 20 || incidentRay.power < 0.001 ) {//binary recursion: 2^10 = 1024
             return;
         }
         Intersection intersection = getIntersection( incidentRay, prisms );
@@ -133,13 +134,21 @@ public class PrismsModel extends LRRModel {
             ImmutableVector2D n = intersection.getUnitNormal();
             //See http://en.wikipedia.org/wiki/Snell's_law#Vector_form
             double cosTheta1 = n.dot( L.getScaledInstance( -1 ) );
-            double cosTheta2 = sqrt( 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) ) );
+            final double cosTheta2Radicand = 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) );
+            double cosTheta2 = sqrt( cosTheta2Radicand );
+
+//            System.out.println( "cosTheta2 = " + cosTheta2 );
+//            System.out.println( "cosTheta2Radicand = " + cosTheta2Radicand );
             ImmutableVector2D vReflect = L.getAddedInstance( n.getScaledInstance( 2 * cosTheta1 ) );
             ImmutableVector2D vRefract = cosTheta1 > 0 ?
                                          L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
                                          L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 + cosTheta2 ) );
-            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power / 2, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction );
-            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power / 2, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction );
+
+            final double reflectedPower = MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
+            final double transmittedPower = MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
+
+            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction );
+            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction );
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 

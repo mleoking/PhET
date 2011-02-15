@@ -21,5 +21,6 @@ public class Ray {
         this.indexOfRefraction = indexOfRefraction;
         this.oppositeIndexOfRefraction = oppositeIndexOfRefraction;
         this.directionUnitVector = directionUnitVector.getNormalizedInstance();
+//        System.out.println( "power = " + power );
     }
 }

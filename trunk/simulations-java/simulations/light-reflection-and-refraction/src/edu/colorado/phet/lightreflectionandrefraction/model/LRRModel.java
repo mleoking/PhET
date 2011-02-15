@@ -19,6 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
+import static java.lang.Math.pow;
+
 public class LRRModel {
     protected final List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
@@ -257,5 +259,13 @@ public class LRRModel {
     }
 
     protected void addRays() {
+    }
+
+    public static double getTransmittedPower( double n1, double n2, double cosTheta1, double cosTheta2 ) {
+        return 4 * n1 * n2 * cosTheta1 * cosTheta2 / ( pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ) );
+    }
+
+    public static double getReflectedPower( double n1, double n2, double cosTheta1, double cosTheta2 ) {
+        return pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
     }
 }
