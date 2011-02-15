@@ -1,3 +1,4 @@
+2/14/11 completed implementation of all one-product equations
 2/14/11 add more molecule nodes (created using Piccolo to look like RPAL image files)
 2/14/11 add test app for viewing all molecule nodes
 2/14/11 add some level-2 game equations
