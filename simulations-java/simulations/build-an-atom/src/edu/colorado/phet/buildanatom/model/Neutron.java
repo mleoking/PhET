@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class Neutron extends SubatomicParticle {
+public class Neutron extends SphericalParticle {
     public static final double RADIUS = 5;
 
     public Neutron( ConstantDtClock clock, double x, double y ) {

@@ -3,7 +3,7 @@
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
 import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicAtomNode;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.BucketNode;
@@ -28,7 +28,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
 
         model.addListener( new InteractiveIsotopeModel.Adapter() {
             @Override
-            public void particleAdded( SubatomicParticle subatomicParticle ) {
+            public void particleAdded( SphericalParticle subatomicParticle ) {
                 addParticle( subatomicParticle );
             }
         });
@@ -38,7 +38,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
         neutronBucketNode.setOffset( mvt.modelToViewDouble( model.getNeutronBucket().getPosition() ) );
         backLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
-        for ( SubatomicParticle neutron : model.getNeutronBucket().getParticleList() ) {
+        for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.

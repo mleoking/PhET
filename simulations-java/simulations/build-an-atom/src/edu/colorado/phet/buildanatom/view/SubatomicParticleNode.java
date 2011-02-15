@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -27,12 +27,12 @@ public class SubatomicParticleNode extends PNode {
 
     private final ModelViewTransform2D mvt;
     private final SphericalNode sphericalNode;
-    private final SubatomicParticle subatomicParticle;
+    private final SphericalParticle subatomicParticle;
 
     /**
      * Constructor.
      */
-    public SubatomicParticleNode( final ModelViewTransform2D mvt, final SubatomicParticle subatomicParticle, final Color baseColor ) {
+    public SubatomicParticleNode( final ModelViewTransform2D mvt, final SphericalParticle subatomicParticle, final Color baseColor ) {
         this.mvt = mvt;
         this.subatomicParticle = subatomicParticle;
         double radius = subatomicParticle.getRadius();

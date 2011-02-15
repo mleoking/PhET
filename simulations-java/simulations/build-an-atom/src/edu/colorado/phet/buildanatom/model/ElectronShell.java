@@ -38,9 +38,9 @@ public class ElectronShell extends SimpleObservable {
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the shell.
-    private final SubatomicParticle.Adapter particleRemovalListener = new SubatomicParticle.Adapter() {
+    private final SphericalParticle.Adapter particleRemovalListener = new SphericalParticle.Adapter() {
         @Override
-        public void grabbedByUser( SubatomicParticle particle ) {
+        public void grabbedByUser( SphericalParticle particle ) {
             // The user has picked up this particle, so we assume
             // that they want to remove it.
             removeElectron( (Electron) particle );
@@ -53,7 +53,7 @@ public class ElectronShell extends SimpleObservable {
      * @param particle the particle value for which to look up the key
      * @return the first Point2D key associated with the specified particle, or null if no such value.
      */
-    private Point2D getKey( SubatomicParticle particle ) {
+    private Point2D getKey( SphericalParticle particle ) {
         assert particle != null;
         for ( Point2D point2D : shellLocations.keySet() ) {
             if ( shellLocations.get( point2D ) == particle ) {

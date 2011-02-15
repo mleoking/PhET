@@ -2,22 +2,14 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
- * Class that defines the shape and functionality of a "bucket", which is
- * (in this sim anyway) a container into which sub-atomic particles can be
- * placed.  It is defined such that it will have somewhat of a 3D look to
- * it, so it has two shapes, one that is the hole, and one that is the
- * outside of the bucket.
+ * Class that defines a model of a bucket that can hold particles.
  *
  * IMPORTANT NOTE: The shapes that are created and that comprise the
  * bucket are set up such that the point (0,0) is in the center of the
@@ -25,40 +17,21 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  *
  * @author John Blanco
  */
-public class SubatomicParticleBucket {
+public class ParticleBucket extends Bucket {
 
-    // Proportion of the total height which the ellipse that represents
-    // the hole occupies.  It is assumed that the width of the hole
-    // is the same as the width specified at construction.
-    private static final double HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
-
-    // The position is defined to be where the center of the hole is.
-    private final Point2D position = new Point2D.Double();
-
-    // The two shapes that define the overall shape of the bucket.
-    private final Shape holeShape;
-    private final Shape containerShape;
-
-    // Base color of the bucket.
-    private final Color baseColor;
-
-    // Caption to be shown on the bucket.
-    private final String captionText;
-
-    // Particles that are in this bucket.
-    private final ArrayList<SphericalParticle> containedParticles = new ArrayList<SphericalParticle>();
-
-    // Radius of particles that will be going into this bucket.  This is
-    // used for placing particles.
+    // Radius of the particles that will be held in this bucket.
     private final double particleRadius;
 
-    // Proportion of the width of the bucket to use for particle placement.
-    // A value of 1 means that the entire bucket should be used.
+    // Proportion of the width of the bucket where particles can be placed.
     private final double usableWidthProportion;
 
     // Offset, in picometers, of the particles in the y direction.  This helps
     // to avoid the appearance of particles floating in the bucket.
     private final double yOffset;
+
+    // List of particles that are in this bucket.
+    // TODO: Need to add class for these particles.
+    private final ArrayList<SphericalParticle> containedParticles = new ArrayList<SphericalParticle>();
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
@@ -86,74 +59,23 @@ public class SubatomicParticleBucket {
     /**
      * Constructor.
      */
-    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
-        this.position.setLocation( position );
-        this.baseColor = baseColor;
-        this.captionText = caption;
+    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
+        super( position, size, baseColor, caption );
         this.particleRadius = particleRadius;
         this.usableWidthProportion = usableWidthProportion;
         this.yOffset = yOffset;
-
-        // Create the shape of the bucket's hole.
-        holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
-                -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
-                size.getWidth(),
-                size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
-
-        // Create the shape of the container.  This code is a bit "tweaky",
-        // meaning that there are a lot of fractional multipliers in here
-        // to try to achieve the desired pseudo-3D look.  The intent is
-        // that the "tilt" of the bucket can be changed without needing to
-        // rework this code.  It may or may not work out that way, so
-        // adjust as necessary to get the look you need.
-        double containerHeight = size.getHeight() * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
-        DoubleGeneralPath containerPath = new DoubleGeneralPath();
-        containerPath.moveTo( -size.getWidth() * 0.5, 0 );
-        containerPath.lineTo( -size.getWidth() * 0.4, -containerHeight * 0.8 );
-        containerPath.curveTo(
-                -size.getWidth() * 0.3,
-                -containerHeight * 0.8 - size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                size.getWidth() * 0.3,
-                -containerHeight * 0.8 - size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                size.getWidth() * 0.4,
-                -containerHeight * 0.8 );
-        containerPath.lineTo( size.getWidth() * 0.5, 0 );
-        containerPath.closePath();
-        Area containerArea = new Area( containerPath.getGeneralPath() );
-        containerArea.subtract( new Area( holeShape ) );
-        containerShape = containerArea;
     }
 
     /**
      * Constructor that assumes that the entire width of the bucket should be
      * used for particle placement.
      */
-    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
+    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
         this(position, size, baseColor, caption, particleRadius, 1, 0);
     }
 
     public void reset() {
         containedParticles.clear();
-    }
-
-    public Point2D getPosition() {
-        return position;
-    }
-
-    public Shape getHoleShape() {
-        return holeShape;
-    }
-
-    public Shape getContainerShape() {
-        return containerShape;
-    }
-
-    public Color getBaseColor() {
-        return baseColor;
-    }
-
-    public String getCaptionText() {
-        return captionText;
     }
 
     public void removeParticle( SphericalParticle particle ) {

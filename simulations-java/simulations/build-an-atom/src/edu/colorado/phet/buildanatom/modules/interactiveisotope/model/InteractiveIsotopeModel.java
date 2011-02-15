@@ -73,9 +73,9 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
 
     // An event listener that watches for when the user releases a neutron and
     // decides whether it should go in the bucket or the atom's nucleus.
-    private final SubatomicParticle.Adapter neutronDropListener =  new SubatomicParticle.Adapter() {
+    private final SphericalParticle.Adapter neutronDropListener =  new SphericalParticle.Adapter() {
         @Override
-        public void droppedByUser( SubatomicParticle particle ) {
+        public void droppedByUser( SphericalParticle particle ) {
             assert particle instanceof Neutron; // Should always be a neutron.
             assert neutrons.contains( particle ); // Particle should always be contained by model.
             // The user just released this neutron.  If it is close
@@ -106,9 +106,9 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
         for ( int i = 0; i < DEFAULT_NUM_NEUTRONS_IN_BUCKET; i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
-            neutron.addListener( new SubatomicParticle.Adapter() {
+            neutron.addListener( new SphericalParticle.Adapter() {
                 @Override
-                public void droppedByUser( SubatomicParticle particle ) {
+                public void droppedByUser( SphericalParticle particle ) {
                     // The user just released this neutron.  If it is close
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
@@ -276,7 +276,7 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
         return neutronBucket;
     }
 
-    private void notifyParticleAdded( SubatomicParticle particle ){
+    private void notifyParticleAdded( SphericalParticle particle ){
         for ( Listener listener : listeners ){
             listener.particleAdded( particle );
         }
@@ -294,10 +294,10 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
          *
          * @param subatomicParticle
          */
-        void particleAdded( SubatomicParticle subatomicParticle );
+        void particleAdded( SphericalParticle subatomicParticle );
     }
 
     public static class Adapter implements Listener {
-        public void particleAdded( SubatomicParticle subatomicParticle ) { }
+        public void particleAdded( SphericalParticle subatomicParticle ) { }
     }
 }

@@ -11,7 +11,7 @@ import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
-import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -49,7 +49,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         electronBucketNode.setOffset( mvt.modelToViewDouble( model.getElectronBucket().getPosition() ) );
         backLayer.addChild( electronBucketNode.getHoleLayer() );
         frontLayer.addChild( electronBucketNode.getContainerLayer() );
-        for ( SubatomicParticle electron : model.getElectronBucket().getParticleList() ) {
+        for ( SphericalParticle electron : model.getElectronBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.
@@ -59,7 +59,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         protonBucketNode.setOffset( mvt.modelToViewDouble( model.getProtonBucket().getPosition() ) );
         backLayer.addChild( protonBucketNode.getHoleLayer() );
         frontLayer.addChild( protonBucketNode.getContainerLayer() );
-        for ( SubatomicParticle proton : model.getProtonBucket().getParticleList() ) {
+        for ( SphericalParticle proton : model.getProtonBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.
@@ -69,7 +69,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         neutronBucketNode.setOffset( mvt.modelToViewDouble( model.getNeutronBucket().getPosition() ) );
         backLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
-        for ( SubatomicParticle neutron : model.getNeutronBucket().getParticleList() ) {
+        for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.

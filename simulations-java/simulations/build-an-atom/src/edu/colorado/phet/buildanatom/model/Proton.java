@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author John Blanco
  */
-public class Proton extends SubatomicParticle {
+public class Proton extends SphericalParticle {
     public static final double RADIUS = 5;
 
     public Proton( ConstantDtClock clock, double x, double y ) {
