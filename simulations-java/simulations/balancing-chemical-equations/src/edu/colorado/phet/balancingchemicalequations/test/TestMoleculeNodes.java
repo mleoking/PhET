@@ -49,7 +49,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * Displays the visual representation of all molecules used in the "Balancing Chemical Equations" sim.
+ * This was used for development of the Piccolo code that draws the molecules,
+ * and for early colorblindness testing of the atom colors.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class TestMoleculeNodes extends JFrame {
 
     public TestMoleculeNodes() {
