@@ -21,6 +21,7 @@ import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMolecu
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.H2Node;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.HFNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.N2Node;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.NONode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.O2Node;
 import edu.umd.cs.piccolo.PNode;
 
@@ -153,6 +154,12 @@ public abstract class Molecule {
         }
     }
 
+    public static class CH2O extends Molecule {
+        public CH2O() {
+            super( new Atom[] { new C(), new H(), new H(), new O() }, new CH2ONode() );
+        }
+    }
+
     public static class CH4 extends Molecule {
         public CH4() {
             super( new Atom[] { new C(), new H(), new H(), new H(), new H() }, new CH4Node() );
@@ -177,6 +184,12 @@ public abstract class Molecule {
         }
     }
 
+    public static class CS2 extends Molecule {
+        public CS2() {
+            super( new Atom[] { new C(), new S(), new S() }, new CS2Node() );
+        }
+    }
+
     public static class F2 extends Molecule {
         public F2() {
             super( new Atom[] { new F(), new F() }, new F2Node() );
@@ -192,6 +205,12 @@ public abstract class Molecule {
     public static class H2O extends Molecule {
         public H2O() {
             super( new Atom[] { new H(), new H(), new O() }, new H2ONode() );
+        }
+    }
+
+    public static class H2S extends Molecule {
+        public H2S() {
+            super( new Atom[] { new H(), new H(), new S() }, new H2SNode() );
         }
     }
 
@@ -216,13 +235,19 @@ public abstract class Molecule {
 
     public static class N2O extends Molecule {
         public N2O() {
-            super( new Atom[] { new N(), new O(), new O() }, new N2ONode() );
+            super( new Atom[] { new N(), new N(), new O() }, new N2ONode() );
         }
     }
 
     public static class NH3 extends Molecule {
         public NH3() {
             super( new Atom[] { new N(), new H(), new H(), new H() }, new NH3Node() );
+        }
+    }
+
+    public static class NO extends Molecule {
+        public NO() {
+            super( new Atom[] { new N(), new O() }, new NONode() );
         }
     }
 
@@ -235,6 +260,12 @@ public abstract class Molecule {
     public static class O2 extends Molecule {
         public O2() {
             super( new Atom[] { new O(), new O() }, new O2Node() );
+        }
+    }
+
+    public static class OF2 extends Molecule {
+        public OF2() {
+            super( new Atom[] { new O(), new F(), new F() }, new OF2Node() );
         }
     }
 
