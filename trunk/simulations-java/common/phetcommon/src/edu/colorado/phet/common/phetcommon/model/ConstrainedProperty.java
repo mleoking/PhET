@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.model;
+package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * Base class for properties that have constraints on their values.
