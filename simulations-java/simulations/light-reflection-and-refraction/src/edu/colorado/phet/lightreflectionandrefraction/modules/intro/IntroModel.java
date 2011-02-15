@@ -72,10 +72,10 @@ public class IntroModel extends LRRModel {
                 boolean hasTransmittedRay = Double.isNaN( thetaOfTotalInternalReflection ) || theta1 < thetaOfTotalInternalReflection;
 
                 //reflected
-                //assuming perpendicular beam, compute percent power
+                //assuming perpendicular beam polarization, compute percent power
                 double reflectedPowerRatio;
                 if ( hasTransmittedRay ) {
-                    reflectedPowerRatio = pow( ( n1 * cos( theta1 ) - n2 * cos( theta2 ) ) / ( n1 * cos( theta1 ) + n2 * cos( theta2 ) ), 2 );
+                    reflectedPowerRatio = getReflectedPower( n1, n2, cos( theta1 ), cos( theta2 ) );
                 }
                 else {
                     reflectedPowerRatio = 1.0;
@@ -90,7 +90,7 @@ public class IntroModel extends LRRModel {
                     double transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
                     if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                     else {
-                        double transmittedPowerRatio = 4 * n1 * n2 * cos( theta1 ) * cos( theta2 ) / ( pow( n1 * cos( theta1 ) + n2 * cos( theta2 ), 2 ) );
+                        double transmittedPowerRatio = getTransmittedPower( n1, n2, cos( theta1 ), cos( theta2 ) );
                         double transmittedWaveWidth = a * Math.cos( theta2 );
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                       parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
