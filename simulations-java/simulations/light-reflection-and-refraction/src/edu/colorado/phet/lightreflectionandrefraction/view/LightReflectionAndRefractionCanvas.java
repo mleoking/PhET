@@ -54,7 +54,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         public abstract PNode createNode( ModelViewTransform transform, LightRay lightRay );
     }
 
-    public LightReflectionAndRefractionCanvas( final T model ) {
+    public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
         this.model = model;
         // Root of our scene graph
         rootNode = new PNode();
@@ -73,17 +73,9 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         addChild( mediumNode );
 
         final BooleanProperty showDragHandles = new BooleanProperty( false );
-        addChild( new LaserNodeDragHandle( transform, model.getLaser(), 10, showDragHandles, new Function1<Double, Boolean>() {
-            public Boolean apply( Double aDouble ) {
-                return aDouble < Math.PI;
-            }
-        } ) );
-        addChild( new LaserNodeDragHandle( transform, model.getLaser(), -10, showDragHandles, new Function1<Double, Boolean>() {
-            public Boolean apply( Double aDouble ) {
-                return aDouble > Math.PI / 2;
-            }
-        } ) );
-        addChild( new LaserNode( transform, model.getLaser(), showDragHandles ) );
+        addChild( new LaserNodeDragHandle( transform, model.getLaser(), 10, showDragHandles, clockwiseArrowNotAtMax ) );
+        addChild( new LaserNodeDragHandle( transform, model.getLaser(), -10, showDragHandles, ccwArrowNotAtMax ) );
+        addChild( new LaserNode( transform, model.getLaser(), showDragHandles, clampDragAngle ) );
 
         addChild( new ControlPanelNode( new PNode() {{
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};

@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -16,7 +17,21 @@ import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
  */
 public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> {
     public IntroCanvas( IntroModel model ) {
-        super( model );
+        super( model, new Function1<Double, Double>() {
+            public Double apply( Double angle ) {
+                if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
+                if ( angle < Math.PI / 2 && angle > 0 ) { angle = Math.PI / 2; }
+                return angle;
+            }
+        }, new Function1<Double, Boolean>() {
+            public Boolean apply( Double aDouble ) {
+                return aDouble < Math.PI;
+            }
+        }, new Function1<Double, Boolean>() {
+            public Boolean apply( Double aDouble ) {
+                return aDouble > Math.PI / 2;
+            }
+        } );
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 

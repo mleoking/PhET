@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Or;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -28,7 +29,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*
  */
 public class LaserNode extends PNode {
 
-    public LaserNode( final ModelViewTransform transform, final Laser laser, final Property<Boolean> showDragHandles ) {
+    public LaserNode( final ModelViewTransform transform, final Laser laser, final Property<Boolean> showDragHandles, final Function1<Double, Double> clampDragAngle ) {
         final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
         final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
@@ -74,9 +75,7 @@ public class LaserNode extends PNode {
                     Point2D viewPt = event.getPositionRelativeTo( getParent().getParent() );
                     ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( viewPt ) );
                     final double angle = modelPoint.getAngle();
-                    double after = angle;
-                    if ( angle < -Math.PI / 2 ) { after = Math.PI; }
-                    if ( angle < Math.PI / 2 && angle > 0 ) { after = Math.PI / 2; }
+                    double after = clampDragAngle.apply( angle );
                     laser.angle.setValue( after );
                 }
             } );
