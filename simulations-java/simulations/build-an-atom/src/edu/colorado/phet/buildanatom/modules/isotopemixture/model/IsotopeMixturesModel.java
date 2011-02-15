@@ -4,14 +4,16 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
+import java.util.ArrayList;
 
+import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -49,6 +51,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // in use.
     private final SimpleAtom prototypeIsotope = new SimpleAtom();
 
+    // This property contains the list of isotopes that exist in nature as
+    // variations of the current "prototype isotope".  In other words, this
+    // contains a list of all stable isotopes that match the atomic weight
+    // of the currently configured isotope.  There should be only one of each
+    // possible isotope.
+    private final Property< ArrayList<ImmutableAtom> > possibleIsotopesProperty =
+        new Property< ArrayList<ImmutableAtom> >(new ArrayList<ImmutableAtom>());
+
     // -----------------------------------------------------------------------
     // Constructor(s)
     // -----------------------------------------------------------------------
@@ -72,6 +82,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         prototypeIsotope.setNumProtons( atom.getNumProtons() );
         prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
         prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
+        possibleIsotopesProperty.setValue( AtomIdentifier.getAllIsotopes( atom.getNumProtons() ) );
     }
 
     public Rectangle2D getIsotopeTestChamberRect(){
@@ -85,7 +96,4 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
-
-
-    private static class IsotopeCount extends HashMap<ImmutableAtom, Integer>{};
 }
