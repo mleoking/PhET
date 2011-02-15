@@ -12,8 +12,6 @@ MEDIUM PRIORITY
 - after "Check" is pressed, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
 
 LOW PRIORITY
-- generate molecule symbols based on ordered list of atoms, or at least compare molecule symbol to atom list to catch bugs
 
 MIGRATE TO COMMON
 - ConstrainedProperty, ConstrainedIntegerProperty, ConstrainedDoubleProperty
-- GameSettings

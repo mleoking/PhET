@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.games;
 
-import edu.colorado.phet.balancingchemicalequations.model.ConstrainedIntegerProperty;
+import edu.colorado.phet.common.phetcommon.model.ConstrainedIntegerProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
