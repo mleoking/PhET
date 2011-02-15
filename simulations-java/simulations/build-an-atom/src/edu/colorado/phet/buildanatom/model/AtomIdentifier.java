@@ -1627,4 +1627,19 @@ public class AtomIdentifier {
         Isotope2 isotope = isotopeList.get( 0 );
         return new ImmutableAtom( isotope.protonCount, isotope.neutronCount, isotope.protonCount );
     }
+
+    /**
+     * Get a list of all stable isotopes for the given atomic weight.
+     *
+     * @param atomicNumber
+     * @return
+     */
+    public static ArrayList<ImmutableAtom> getAllIsotopes( int atomicNumber ){
+        ArrayList<ImmutableAtom> isotopeList = new ArrayList<ImmutableAtom>();
+        ArrayList<Isotope2> isotopeInfoList = new ArrayList<Isotope2>( ISOTOPE_INFORMATION_TABLE.get( atomicNumber ) );
+        for ( Isotope2 isotope : isotopeInfoList ) {
+            isotopeList.add( new ImmutableAtom( isotope.protonCount, isotope.neutronCount, isotope.protonCount ) );
+        }
+        return isotopeList;
+    }
 }
