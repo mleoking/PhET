@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * PCl3 molecule.
+ * PCl5 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
