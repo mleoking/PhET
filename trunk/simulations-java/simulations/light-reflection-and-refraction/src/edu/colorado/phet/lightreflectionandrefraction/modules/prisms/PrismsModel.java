@@ -15,13 +15,15 @@ import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
 
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 /**
  * @author Sam Reid
  */
 public class PrismsModel extends LRRModel {
     private ArrayList<Prism> prisms = new ArrayList<Prism>();
+    public final Property<Boolean> manyRays = new Property<Boolean>( false );//show multiple beams to help show how lenses work
     public final Property<Medium> outerMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
     public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
 
@@ -72,6 +74,7 @@ public class PrismsModel extends LRRModel {
 
         outerMedium.addObserver( updateModel );
         prismMedium.addObserver( updateModel );
+        manyRays.addObserver( updateModel );
     }
 
     private void addPrism( Prism prism ) {
@@ -96,20 +99,20 @@ public class PrismsModel extends LRRModel {
             double n1 = outerMedium.getValue().getIndexOfRefraction();
             double n2 = prismMedium.getValue().getIndexOfRefraction();
 
-            //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
-            final double theta1 = laser.angle.getValue() - Math.PI / 2;
-            double theta2 = asin( n1 / n2 * sin( theta1 ) );
-
-            double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
-            double sourceWaveWidth = a * Math.cos( theta1 );
-
-            //According to http://en.wikipedia.org/wiki/Wavelength
-            //lambda = lambda0 / n(lambda0)
-//            final LightRay incidentRay = new LightRay( tail, tail.getAddedInstance( unitVector.getScaledInstance( 1 ) )//1 meter long ray
-//                    , n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, 0, null, 0, true, false );
             final boolean laserInPrism = laserInPrism();
-            propagate( new Ray( tail, new ImmutableVector2D( tail.toPoint2D(), new Point2D.Double() ), 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2 ), 0 );
-//            addRay( incidentRay );
+            final ImmutableVector2D directionUnitVector = new ImmutableVector2D( tail.toPoint2D(), new Point2D.Double() ).getNormalizedInstance();
+
+            //This can be used to show the main central ray
+            if ( !manyRays.getValue() ) {
+                propagate( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2 ), 0 );
+            }
+            else {
+                //This is a test for showing multiple parallel rays for showing how focusing lenses work
+                for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
+                    ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).getScaledInstance( x );
+                    propagate( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2 ), 0 );
+                }
+            }
         }
     }
 

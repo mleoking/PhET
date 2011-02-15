@@ -6,11 +6,14 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
-import edu.colorado.phet.lightreflectionandrefraction.view.MediumControlPanel;
-import edu.colorado.phet.lightreflectionandrefraction.view.MediumNode;
+import edu.colorado.phet.lightreflectionandrefraction.view.*;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
@@ -53,6 +56,23 @@ public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> 
                     setVisible( showNormal.getValue() );
                 }
             } );
+        }} );
+
+        addChild( new ControlPanelNode( new PNode() {{
+            final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
+            addChild( title );
+            addChild( new PSwing( new VerticalLayoutPanel() {{
+                add( new PropertyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
+            }} ) {{
+                setOffset( 0, title.getFullBounds().getMaxY() );
+            }} );
+        }} ) {{
+            setOffset( 5, 5 );
+        }} );
+
+        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
+            setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }} );
     }
 }

@@ -1,3 +1,5 @@
+Added a laser control panel
+Added an option for multiple rays
 Added total internal reflection
 Added a trapezoid prism
 Added a hemi-circular prism

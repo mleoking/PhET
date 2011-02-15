@@ -29,5 +29,9 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
         addChild( new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
+
+        addChild( new LaserControlPanelNode( model.manyRays, laserView ) {{
+            setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
+        }} );
     }
 }
