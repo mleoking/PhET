@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -18,7 +20,11 @@ import static java.lang.Double.isNaN;
 public class Polygon {
     private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();
 
-    public Polygon( ArrayList<ImmutableVector2D> points ) {
+    public Polygon( ImmutableVector2D[] vectors ) {
+        this( Arrays.asList( vectors ) );
+    }
+
+    public Polygon( List<ImmutableVector2D> points ) {
         this.points = new ArrayList<ImmutableVector2D>( points );
     }
 
