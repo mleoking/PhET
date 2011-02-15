@@ -78,6 +78,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return prototypeIsotope;
     }
 
+    /**
+     * Set the element that is currently in use, and for which all stable
+     * isotopes will be available for movement in and out of the test chamber.
+     * In case you're wondering why this is done as an atom instead of just
+     * setting the atomic weight, it is so that this will play well with the
+     * existing controllers (such as the PeriodicTableControlNode) that
+     * already existed at the time this class was created.
+     */
     public void setAtomConfiguration( IAtom atom ) {
         prototypeIsotope.setNumProtons( atom.getNumProtons() );
         prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
