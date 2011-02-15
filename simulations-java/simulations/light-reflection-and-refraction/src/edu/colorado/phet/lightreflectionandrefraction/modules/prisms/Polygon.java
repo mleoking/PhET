@@ -49,10 +49,9 @@ public class Polygon {
         for ( Line2D.Double lineSegment : lineSegments ) {
             Point2D.Double intersection = MathUtil.getLineSegmentsIntersection( lineSegment, new Line2D.Double( incidentRay.tail.toPoint2D(),
                                                                                                                 incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) ).toPoint2D() ) );
-
-            //TODO: this unit vector should point toward the incoming ray, I presume, but it may not matter
-            ImmutableVector2D unitNormal = new ImmutableVector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( Math.PI ).getNormalizedInstance();
             if ( intersection != null && !isNaN( intersection.getX() ) && !isNaN( intersection.getY() ) ) {
+                //TODO: this unit vector should point toward the incoming ray (though maybe doesn't matter?), see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
+                ImmutableVector2D unitNormal = new ImmutableVector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( -Math.PI / 2 ).getNormalizedInstance();
                 intersections.add( new Intersection( unitNormal, new ImmutableVector2D( intersection ) ) );
             }
         }
