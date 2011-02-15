@@ -10,20 +10,14 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.LightWaveNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * @author Sam Reid
@@ -38,21 +32,6 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final T model;
     protected final ModelViewTransform transform;
     protected final PDimension stageSize;
-
-    public static abstract class LaserView {
-        public static final LaserView RAY = new LaserView() {
-            public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
-                return new LightRayNode( transform, lightRay );
-            }
-        };
-        public static final LaserView WAVE = new LaserView() {
-            public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
-                return new LightWaveNode( transform, lightRay );
-            }
-        };
-
-        public abstract PNode createNode( ModelViewTransform transform, LightRay lightRay );
-    }
 
     public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
         this.model = model;
@@ -76,23 +55,6 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         addChild( new LaserNodeDragHandle( transform, model.getLaser(), 10, showDragHandles, clockwiseArrowNotAtMax ) );
         addChild( new LaserNodeDragHandle( transform, model.getLaser(), -10, showDragHandles, ccwArrowNotAtMax ) );
         addChild( new LaserNode( transform, model.getLaser(), showDragHandles, clampDragAngle ) );
-
-        addChild( new ControlPanelNode( new PNode() {{
-            final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
-            addChild( title );
-            addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) {{setFont( labelFont );}} );
-                add( new PropertyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
-            }} ) {{
-                setOffset( 0, title.getFullBounds().getMaxY() );
-            }} );
-        }} ) {{
-            setOffset( 5, 5 );
-        }} );
-
-        addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, -model.getWidth() * 0.3, -model.getHeight() * 0.2, showNormal, model.getIntensityMeter() ) ) {{
-            setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
-        }} );
 
         laserView.addObserver( new SimpleObserver() {
             public void update() {
