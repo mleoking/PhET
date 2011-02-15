@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,5 +66,9 @@ public class Polygon {
             }
         }
         return intersections;
+    }
+
+    public Rectangle2D getBounds() {
+        return toShape().getBounds2D();
     }
 }

@@ -28,44 +28,6 @@ public class PrismsModel extends LRRModel {
     public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
 
     public PrismsModel() {
-        final double a = WAVELENGTH_RED * 10;//characteristic length scale
-        final double b = a / 4;//characteristic length scale
-
-        //Square
-        addPrism( new Prism( new ImmutableVector2D(),
-                             new ImmutableVector2D( 0, a ),
-                             new ImmutableVector2D( a, a ),
-                             new ImmutableVector2D( a, 0 ) ) );
-
-        //Triangle
-        addPrism( new Prism( new ImmutableVector2D(),
-                             new ImmutableVector2D( a, 0 ),
-                             new ImmutableVector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
-
-        //Trapezoid
-        addPrism( new Prism( new ImmutableVector2D(),
-                             new ImmutableVector2D( a, 0 ),
-                             new ImmutableVector2D( a / 2 + b, a * sqrt( 3 ) / 2.0 ),
-                             new ImmutableVector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
-        ) );
-
-        //Circle
-        addPrism( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-            int numSamples = 200;
-            for ( int i = 0; i < numSamples; i++ ) {
-                add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 ) );
-            }
-        }} ) ) );
-
-        //Semicircle
-        addPrism( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-            int numSamples = 200;
-            for ( int i = 0; i < numSamples / 2; i++ ) {
-                add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
-                                                                      Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
-            }
-        }} ) ) );
-
         final SimpleObserver updateModel = new SimpleObserver() {
             public void update() {
                 updateModel();
@@ -77,7 +39,48 @@ public class PrismsModel extends LRRModel {
         manyRays.addObserver( updateModel );
     }
 
-    private void addPrism( Prism prism ) {
+    public static ArrayList<Prism> getPrismPrototypes() {
+        return new ArrayList<Prism>() {{
+            final double a = WAVELENGTH_RED * 10;//characteristic length scale
+            final double b = a / 4;//characteristic length scale
+            //Square
+            add( new Prism( new ImmutableVector2D(),
+                            new ImmutableVector2D( 0, a ),
+                            new ImmutableVector2D( a, a ),
+                            new ImmutableVector2D( a, 0 ) ) );
+
+            //Triangle
+            add( new Prism( new ImmutableVector2D(),
+                            new ImmutableVector2D( a, 0 ),
+                            new ImmutableVector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
+
+            //Trapezoid
+            add( new Prism( new ImmutableVector2D(),
+                            new ImmutableVector2D( a, 0 ),
+                            new ImmutableVector2D( a / 2 + b, a * sqrt( 3 ) / 2.0 ),
+                            new ImmutableVector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
+            ) );
+
+            //Circle
+            add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
+                int numSamples = 200;
+                for ( int i = 0; i < numSamples; i++ ) {
+                    add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 ) );
+                }
+            }} ) ) );
+
+            //Semicircle
+            add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
+                int numSamples = 200;
+                for ( int i = 0; i < numSamples / 2; i++ ) {
+                    add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
+                                                                          Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
+                }
+            }} ) ) );
+        }};
+    }
+
+    public void addPrism( Prism prism ) {
         prism.shape.addObserver( new SimpleObserver() {
             public void update() {
                 updateModel();
@@ -176,5 +179,10 @@ public class PrismsModel extends LRRModel {
             }
         } );
         return allIntersections.size() == 0 ? null : allIntersections.get( 0 );
+    }
+
+    public void removePrism( Prism prism ) {
+        prisms.remove( prism );
+        updateModel();
     }
 }
