@@ -29,10 +29,10 @@ public class C2H4Node extends PComposite {
         PComposite parentNode = new PComposite();
         addChild( parentNode );
         parentNode.addChild( smallTopRightNode );
-        parentNode.addChild( smallBottomLeftNode );
-        parentNode.addChild( bigRightNode );
-        parentNode.addChild( bigLeftNode );
         parentNode.addChild( smallTopLeftNode );
+        parentNode.addChild( bigLeftNode );
+        parentNode.addChild( bigRightNode );
+        parentNode.addChild( smallBottomLeftNode );
         parentNode.addChild( smallBottomRightNode );
 
         // layout
