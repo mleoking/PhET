@@ -30,8 +30,13 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
-        addChild( new LaserControlPanelNode( model.manyRays, laserView ) {{
+        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
+        }};
+        addChild( laserControlPanelNode );
+
+        addChild( new ControlPanelNode( new PrismToolboxNode( this, transform, model ) ) {{
+            setOffset( laserControlPanelNode.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }} );
     }
 }

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -30,5 +31,13 @@ public class Prism {
 
     public boolean contains( ImmutableVector2D emissionPoint ) {
         return shape.getValue().toShape().contains( emissionPoint.toPoint2D() );
+    }
+
+    public Prism copy() {
+        return new Prism( shape.getValue() );
+    }
+
+    public Rectangle2D getBounds() {
+        return shape.getValue().getBounds();
     }
 }
