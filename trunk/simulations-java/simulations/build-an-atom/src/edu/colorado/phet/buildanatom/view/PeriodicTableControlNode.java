@@ -53,6 +53,7 @@ public class PeriodicTableControlNode extends PNode {
 
     public Color backgroundColor = null;
     private final IConfigurableAtomModel model;
+    private final int maxSettableAtomicNumber;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -60,10 +61,14 @@ public class PeriodicTableControlNode extends PNode {
 
     /**
      * Constructor.
+     * @param maxSettableAtomicNumber - The max atomic weight that will have a
+     * button on it, thus making it interactive (i.e. settable).  Elements
+     * with atomic weights greater than this number will not be interactive.
      * @param backgroundColor
      */
-    public PeriodicTableControlNode( final IConfigurableAtomModel model, Color backgroundColor ) {
+    public PeriodicTableControlNode( final IConfigurableAtomModel model, int maxSettableAtomicNumber, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
+        this.maxSettableAtomicNumber = maxSettableAtomicNumber;
         this.model = model;
         IDynamicAtom atom = model.getAtom();
         //See http://www.ptable.com/
@@ -91,7 +96,7 @@ public class PeriodicTableControlNode extends PNode {
 
     private void addElement( final IDynamicAtom atom, final PNode table, int atomicNumber ) {
         PNode elementCell;
-        if ( atomicNumber <= 10 ){
+        if ( atomicNumber <= maxSettableAtomicNumber ){
             // Add an interactive element cell.
             final ButtonElementCell buttonElementCell = new ButtonElementCell( atom, atomicNumber, backgroundColor );
             buttonElementCell.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );

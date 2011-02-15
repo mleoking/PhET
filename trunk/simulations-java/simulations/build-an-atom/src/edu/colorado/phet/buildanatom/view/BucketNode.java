@@ -20,6 +20,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * This Piccolo2D node represents a bucket.  It is set up to have a sort of
+ * "faux 3D" look, where it is tipped slightly so that the hole at the top
+ * can be seen and there is shading on the outer portion.
  *
  * @author John Blanco
  */
@@ -116,8 +119,6 @@ public class BucketNode extends PNode {
     public void setOffset( Point2D point ) {
         setOffset( point.getX(), point.getY() );
     }
-
-
 
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces

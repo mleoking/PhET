@@ -152,7 +152,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     }
 
     private void translateNucleons( ImmutableVector2D motionVector, boolean away ) {
-        for ( SubatomicParticle nucleon : getNucleons() ) {
+        for ( SphericalParticle nucleon : getNucleons() ) {
             nucleon.setPositionAndDestination( motionVector.getDestination( nucleon.getDestination() ) );
         }
         isAway = away;
@@ -162,7 +162,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
      * Remove the specified nucleon from the nucleus of the atom.  Returns the
      * removed particle if it is found in the nucleus, and null if not.
      */
-    public SubatomicParticle removeNucleon( SubatomicParticle particle ) {
+    public SphericalParticle removeNucleon( SphericalParticle particle ) {
         assert !( particle instanceof Electron ); // This method cannot be used to remove electrons.
         boolean particleFound = false;
         if ( particle instanceof Proton && protons.contains( particle ) ) {
@@ -177,7 +177,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     /**
      * Remove a specific proton.
      */
-    public SubatomicParticle removeProton( Proton proton ) {
+    public SphericalParticle removeProton( Proton proton ) {
         boolean found = protons.remove( proton );
         proton.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
@@ -188,7 +188,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     /**
      * Remove an arbitrary proton.
      */
-    public SubatomicParticle removeProton() {
+    public SphericalParticle removeProton() {
         assert protons.size() > 0;
         return removeProton( protons.get( 0  ) );
     }
@@ -196,7 +196,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     /**
      * Remove a specific neutron.
      */
-    public SubatomicParticle removeNeutron( Neutron neutron ){
+    public SphericalParticle removeNeutron( Neutron neutron ){
         boolean found = neutrons.remove( neutron );
         neutron.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
@@ -207,7 +207,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     /**
      * Remove an arbitrary neutron.
      */
-    public SubatomicParticle removeNeutron() {
+    public SphericalParticle removeNeutron() {
         assert neutrons.size() > 0;
         return removeNeutron( neutrons.get( 0 ) );
     }
@@ -385,7 +385,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         // Get all the nucleons onto one list.  Add them alternately so that
         // they don't get clustered together by type when distributed in the
         // nucleus.
-        final ArrayList<SubatomicParticle> nucleons = getNucleons();
+        final ArrayList<SphericalParticle> nucleons = getNucleons();
 
         if ( nucleons.size() == 0 ) {
             // Nothing to do.
@@ -460,14 +460,14 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
         //If the particles shouldn't be animating, they should immediately move to their destination
         if ( moveImmediately ) {
-            for ( SubatomicParticle nucleon : nucleons ) {
+            for ( SphericalParticle nucleon : nucleons ) {
                 nucleon.moveToDestination();
             }
         }
     }
 
-    private ArrayList<SubatomicParticle> getNucleons() {
-        final ArrayList<SubatomicParticle> nucleons = new ArrayList<SubatomicParticle>();
+    private ArrayList<SphericalParticle> getNucleons() {
+        final ArrayList<SphericalParticle> nucleons = new ArrayList<SphericalParticle>();
         for ( int i = 0; i < Math.max( protons.size(), neutrons.size() ); i++ ) {
             if ( i < protons.size() ) {
                 nucleons.add( protons.get( i ) );
@@ -519,8 +519,8 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     }
 
     //For the game mode
-    public ArrayList<SubatomicParticle> setState( ImmutableAtom answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
-        ArrayList<SubatomicParticle> removedParticles = new ArrayList<SubatomicParticle>();
+    public ArrayList<SphericalParticle> setState( ImmutableAtom answer, BuildAnAtomModel model, boolean moveImmediately ) {//provide the model to draw free particles from
+        ArrayList<SphericalParticle> removedParticles = new ArrayList<SphericalParticle>();
         while ( getNumProtons() > answer.getNumProtons() ) {
             removedParticles.add( removeProton() );
         }
@@ -557,9 +557,9 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    protected final SubatomicParticle.Adapter nucleonGrabbedListener = new SubatomicParticle.Adapter() {
+    protected final SphericalParticle.Adapter nucleonGrabbedListener = new SphericalParticle.Adapter() {
         @Override
-        public void grabbedByUser( SubatomicParticle particle ) {
+        public void grabbedByUser( SphericalParticle particle ) {
             // The user has picked up this particle, which instantly
             // removes it from the nucleus.
             removeNucleon( particle );

@@ -95,9 +95,9 @@ public class BuildAnAtomModel implements Resettable {
         for ( int i = 0; i < atomValue.getNumElectrons(); i++ ) {
             final Electron electron = new Electron( clock );
             electrons.add( electron );
-            electron.addListener( new SubatomicParticle.Adapter() {
+            electron.addListener( new SphericalParticle.Adapter() {
                 @Override
-                public void droppedByUser( SubatomicParticle particle ) {
+                public void droppedByUser( SphericalParticle particle ) {
                     // The user just released this electron.  If it is close
                     // enough to the shell, and there is room, send it there.
                     // Otherwise send it to its bucket.
@@ -114,9 +114,9 @@ public class BuildAnAtomModel implements Resettable {
         for ( int i = 0; i < atomValue.getNumProtons(); i++ ) {
             final Proton proton = new Proton( clock );
             protons.add( proton );
-            proton.addListener( new SubatomicParticle.Adapter() {
+            proton.addListener( new SphericalParticle.Adapter() {
                 @Override
-                public void droppedByUser( SubatomicParticle particle ) {
+                public void droppedByUser( SphericalParticle particle ) {
                     // The user just released this proton.  If it is close
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
@@ -133,9 +133,9 @@ public class BuildAnAtomModel implements Resettable {
         for ( int i = 0; i < atomValue.getNumNeutrons(); i++ ) {
             final Neutron neutron = new Neutron( clock );
             neutrons.add( neutron );
-            neutron.addListener( new SubatomicParticle.Adapter() {
+            neutron.addListener( new SphericalParticle.Adapter() {
                 @Override
-                public void droppedByUser( SubatomicParticle particle ) {
+                public void droppedByUser( SphericalParticle particle ) {
                     // The user just released this neutron.  If it is close
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
@@ -274,8 +274,8 @@ public class BuildAnAtomModel implements Resettable {
     }
 
     public void setState( ImmutableAtom answer, boolean moveImmediately ) {
-        ArrayList<SubatomicParticle> removedParticles = getAtom().setState( answer, this, moveImmediately );
-        for ( SubatomicParticle particle : removedParticles ) {
+        ArrayList<SphericalParticle> removedParticles = getAtom().setState( answer, this, moveImmediately );
+        for ( SphericalParticle particle : removedParticles ) {
             if ( particle instanceof Proton ) {
                 protonBucket.addParticle( particle, moveImmediately );
             }

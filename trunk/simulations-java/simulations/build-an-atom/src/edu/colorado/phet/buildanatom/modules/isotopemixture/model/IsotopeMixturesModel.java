@@ -4,11 +4,13 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -83,4 +85,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
+
+
+    private static class IsotopeCount extends HashMap<ImmutableAtom, Integer>{};
 }

@@ -10,7 +10,7 @@ import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
-import edu.colorado.phet.buildanatom.model.SubatomicParticle;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
 import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
 import edu.colorado.phet.buildanatom.view.FixedSizeElectronCloudNode;
@@ -140,7 +140,7 @@ public class SchematicAtomNode extends PNode {
      * @param nucleon
      * @return
      */
-    private int mapNucleonToLayerNumber( SubatomicParticle nucleon ){
+    private int mapNucleonToLayerNumber( SphericalParticle nucleon ){
         // Note: This algorithm for layering was made up to look reasonable,
         // and can be modified as needed to produce better looking nuclei.
         double maxNucleusRadius = Neutron.RADIUS * 6;
@@ -155,7 +155,7 @@ public class SchematicAtomNode extends PNode {
      * @param nucleon
      * @param nucleonNode
      */
-    private void updateNucleonLayer( SubatomicParticle nucleon, SubatomicParticleNode nucleonNode ){
+    private void updateNucleonLayer( SphericalParticle nucleon, SubatomicParticleNode nucleonNode ){
         int currentLayerNumber = getNucleusLayerIndex( nucleonNode );
         int targetLayerNumber = mapNucleonToLayerNumber( nucleon );
         if (currentLayerNumber != targetLayerNumber){
@@ -212,9 +212,9 @@ public class SchematicAtomNode extends PNode {
 
         // Set up the removal of this particle's representation when the
         // particle itself is removed.
-        proton.addListener( new SubatomicParticle.Adapter(){
+        proton.addListener( new SphericalParticle.Adapter(){
             @Override
-            public void removedFromModel( SubatomicParticle particle ) {
+            public void removedFromModel( SphericalParticle particle ) {
                 removeNucleonNodeFromLayers( protonNode );
                 proton.removeListener( this );
             }
@@ -250,9 +250,9 @@ public class SchematicAtomNode extends PNode {
 
         // Set up the removal of this particle's representation when the
         // particle itself is removed.
-        neutron.addListener( new SubatomicParticle.Adapter(){
+        neutron.addListener( new SphericalParticle.Adapter(){
             @Override
-            public void removedFromModel( SubatomicParticle particle ) {
+            public void removedFromModel( SphericalParticle particle ) {
                 removeNucleonNodeFromLayers( neutronNode );
                 neutron.removeListener( this );
             }
@@ -294,9 +294,9 @@ public class SchematicAtomNode extends PNode {
 
         // Set up automatic removal of the particle's representation when it
         // is removed from the model.
-        electron.addListener( new SubatomicParticle.Adapter() {
+        electron.addListener( new SphericalParticle.Adapter() {
             @Override
-            public void removedFromModel( SubatomicParticle particle ) {
+            public void removedFromModel( SphericalParticle particle ) {
                 electronLayer.removeChild( electronNode );
                 electron.removeListener( this );
             }
@@ -315,7 +315,7 @@ public class SchematicAtomNode extends PNode {
      *
      * @param particle
      */
-    protected void addParticle( SubatomicParticle particle ) {
+    protected void addParticle( SphericalParticle particle ) {
         if ( particle instanceof Neutron ) {
             addNeutron( (Neutron) particle );
         }

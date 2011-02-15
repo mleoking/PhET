@@ -12,12 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Abstract base class from which subatomic particles (e.g. electrons) extend.
+ * Abstract base class from which spherical particles, which can be anything
+ * from a proton to an atom (or a round rock, for that matter) extend.
  *
  * @author Sam Reid
  * @author John Blanco
  */
-public abstract class SubatomicParticle {
+public abstract class SphericalParticle {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -50,7 +51,7 @@ public abstract class SubatomicParticle {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public SubatomicParticle( ConstantDtClock clock, double radius, double x, double y ) {
+    public SphericalParticle( ConstantDtClock clock, double radius, double x, double y ) {
         this.clock = clock;
         this.radius = radius;
         position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
@@ -61,11 +62,11 @@ public abstract class SubatomicParticle {
                 ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
                 if (userControlled.getValue()){
                     for ( Listener listener : copy ) {
-                        listener.grabbedByUser( SubatomicParticle.this );
+                        listener.grabbedByUser( SphericalParticle.this );
                     }
                 }else{
                     for ( Listener listener : copy ) {
-                        listener.droppedByUser( SubatomicParticle.this );
+                        listener.droppedByUser( SphericalParticle.this );
                     }
                 }
             }
@@ -198,14 +199,14 @@ public abstract class SubatomicParticle {
     //------------------------------------------------------------------------
 
     public static interface Listener {
-        void grabbedByUser( SubatomicParticle particle );
-        void droppedByUser( SubatomicParticle particle );
-        void removedFromModel( SubatomicParticle particle );
+        void grabbedByUser( SphericalParticle particle );
+        void droppedByUser( SphericalParticle particle );
+        void removedFromModel( SphericalParticle particle );
     }
 
     public static class Adapter implements Listener{
-        public void grabbedByUser( SubatomicParticle particle ) {}
-        public void droppedByUser( SubatomicParticle particle ) {}
-        public void removedFromModel( SubatomicParticle particle ) {}
+        public void grabbedByUser( SphericalParticle particle ) {}
+        public void droppedByUser( SphericalParticle particle ) {}
+        public void removedFromModel( SphericalParticle particle ) {}
     }
 }

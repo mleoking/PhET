@@ -66,7 +66,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Add the periodic table node that will allow the user to set the
         // current isotope.
-        PNode periodicTableNode = new PeriodicTableControlNode( model, BuildAnAtomConstants.CANVAS_BACKGROUND ){{
+        PNode periodicTableNode = new PeriodicTableControlNode( model, 18, BuildAnAtomConstants.CANVAS_BACKGROUND ){{
             setOffset( testChamberNode.getFullBoundsReference().getMaxX() + 15, testChamberNode.getFullBoundsReference().getMinY() );
             setScale( 1.1 ); // Empirically determined.
         }};

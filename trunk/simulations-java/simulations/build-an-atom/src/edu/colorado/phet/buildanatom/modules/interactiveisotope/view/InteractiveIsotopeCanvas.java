@@ -133,7 +133,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         // Add the interactive periodic table that allows the user to select
         // the current element.
         final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model,
-                BuildAnAtomConstants.CANVAS_BACKGROUND ) {
+                10, BuildAnAtomConstants.CANVAS_BACKGROUND ) {
             {
                 setScale( 1.3 );
                 setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
