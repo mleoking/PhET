@@ -70,7 +70,8 @@ public class PrismsModel extends LRRModel {
     }
 
     private void propagate( Ray incidentRay, int count ) {
-        if ( count > 5 ) {//binary recursion: 2^10 = 1024
+        double fakeIntensity = 1.0 / Math.pow( 2, count );//temporarily dim everything, later should be replaced by actual intensity rules
+        if ( count > 10 ) {//binary recursion: 2^10 = 1024
             return;
         }
         Intersection intersection = getIntersection( incidentRay, prisms );
@@ -92,11 +93,11 @@ public class PrismsModel extends LRRModel {
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 
-            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, 1.0, laser.color.getValue(), 1, 0, null, 0, true, false ) );
+            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, fakeIntensity, laser.color.getValue(), 1, 0, null, 0, true, false ) );
         }
         else {
             addRay( new LightRay( incidentRay.tail, incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) )//1 meter long ray
-                    , n1, WAVELENGTH_RED / n1, 1.0, laser.color.getValue(), 1, 0, null, 0, true, false ) );
+                    , n1, WAVELENGTH_RED / n1, fakeIntensity, laser.color.getValue(), 1, 0, null, 0, true, false ) );
         }
     }
 
