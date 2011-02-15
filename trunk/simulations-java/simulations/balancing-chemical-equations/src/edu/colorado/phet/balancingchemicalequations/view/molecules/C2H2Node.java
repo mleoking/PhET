@@ -9,7 +9,11 @@ import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.Smal
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * C2H2 molecule
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class C2H2Node extends PComposite {
 
     public C2H2Node() {
