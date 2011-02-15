@@ -14,4 +14,3 @@ MEDIUM PRIORITY
 LOW PRIORITY
 
 MIGRATE TO COMMON
-- ConstrainedProperty, ConstrainedIntegerProperty, ConstrainedDoubleProperty
