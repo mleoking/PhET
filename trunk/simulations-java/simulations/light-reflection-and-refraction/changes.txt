@@ -1,3 +1,4 @@
+Made it possible to drag the laser pointer to any angle in Prisms module
 Fixed colors for prisms
 Fixed: index of refractions are incorrect for prism and exterior
 Added a circular prism

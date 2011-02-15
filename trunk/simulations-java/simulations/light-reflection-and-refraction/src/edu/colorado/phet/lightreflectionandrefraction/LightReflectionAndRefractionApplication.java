@@ -26,7 +26,7 @@ public class LightReflectionAndRefractionApplication extends PiccoloPhetApplicat
     public LightReflectionAndRefractionApplication( PhetApplicationConfig config ) {
         super( config );
         final IntroModule introModule = new IntroModule();
-//        addModule( introModule );
+        addModule( introModule );
         addModule( new PrismsModule() );
         getPhetFrame().addMenu( new JMenu( "Developer" ) {{
             add( new JMenuItem( "Medium colors" ) {{
