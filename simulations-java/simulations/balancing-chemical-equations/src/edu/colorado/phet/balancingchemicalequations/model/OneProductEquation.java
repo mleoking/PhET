@@ -41,22 +41,22 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO3;
  */
 public abstract class OneProductEquation extends Equation {
 
-    public OneProductEquation( String name, EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
+    protected OneProductEquation( String name, EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
         super( name, new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1 } );
     }
 
-    public OneProductEquation( EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
+    protected OneProductEquation( EquationTerm reactant1, EquationTerm reactant2, EquationTerm product1 ) {
         super( new EquationTerm[] { reactant1, reactant2 }, new EquationTerm[] { product1 } );
     }
 
-    // N2 + 3H2 -> 2NH3
+    // N2 + 3 H2 -> 2NH3
     public static class AmmoniaEquation extends OneProductEquation {
         public AmmoniaEquation() {
             super( BCEStrings.AMMONIA, new EquationTerm( 1, new N2() ), new EquationTerm( 3, new H2() ), new EquationTerm( 2, new NH3() ) );
         }
     }
 
-    // 2H2 + O2 -> 2H2O
+    // 2 H2 + O2 -> 2 H2O
     public static class WaterEquation extends OneProductEquation {
         public WaterEquation() {
             super( BCEStrings.WATER, new EquationTerm( 2, new H2() ), new EquationTerm( 1, new O2() ), new EquationTerm( 2, new H2O() ) );
