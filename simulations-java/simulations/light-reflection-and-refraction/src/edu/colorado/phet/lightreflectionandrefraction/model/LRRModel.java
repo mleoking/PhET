@@ -147,7 +147,7 @@ public class LRRModel {
         return rayAbsorbed;
     }
 
-    private void addRay( LightRay ray ) {
+    protected void addRay( LightRay ray ) {
         rays.add( ray );
         for ( VoidFunction1<LightRay> rayAddedListener : rayAddedListeners ) {
             rayAddedListener.apply( ray );

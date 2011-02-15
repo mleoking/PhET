@@ -20,7 +20,7 @@ public class PrismNode extends PNode {
         addChild( new PhetPPath( new Color( 60, 214, 214 ), new BasicStroke(), Color.darkGray ) {{
             prism.shape.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( prism.shape.getValue() ) );
+                    setPathTo( transform.modelToView( prism.shape.getValue().toShape() ) );
                 }
             } );
         }} );
