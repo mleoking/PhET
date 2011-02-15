@@ -32,7 +32,7 @@ import static edu.colorado.phet.lightreflectionandrefraction.model.LRRModel.WAVE
  */
 public class ToolboxNode extends PNode {
     public ToolboxNode( final LightReflectionAndRefractionCanvas canvas, final ModelViewTransform transform,
-                        final BooleanProperty showProtractor, final double x, final double y, BooleanProperty showNormal, final IntensityMeter intensityMeter ) {
+                        final BooleanProperty showProtractor, BooleanProperty showNormal, final IntensityMeter intensityMeter ) {
         final PText titleLabel = new PText( "Toolbox" ) {{
             setFont( LightReflectionAndRefractionCanvas.labelFont );
         }};
