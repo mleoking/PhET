@@ -76,9 +76,17 @@ public class PrismsModel extends LRRModel {
             //lambda = lambda0 / n(lambda0)
 //            final LightRay incidentRay = new LightRay( tail, tail.getAddedInstance( unitVector.getScaledInstance( 1 ) )//1 meter long ray
 //                    , n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, 0, null, 0, true, false );
-            propagate( new Ray( tail, new ImmutableVector2D( tail.toPoint2D(), new Point2D.Double() ), 1.0 ), 0 );
+            final boolean laserInPrism = laserInPrism();
+            propagate( new Ray( tail, new ImmutableVector2D( tail.toPoint2D(), new Point2D.Double() ), 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2 ), 0 );
 //            addRay( incidentRay );
         }
+    }
+
+    private boolean laserInPrism() {
+        for ( Prism prism : prisms ) {
+            if ( prism.contains( laser.getEmissionPoint() ) ) { return true; }
+        }
+        return false;
     }
 
     private void propagate( Ray incidentRay, int count ) {
@@ -100,8 +108,8 @@ public class PrismsModel extends LRRModel {
             ImmutableVector2D vRefract = cosTheta1 > 0 ?
                                          L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
                                          L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 + cosTheta2 ) );
-            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power / 2 );
-            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power / 2 );
+            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power / 2, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction );
+            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power / 2, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction );
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 

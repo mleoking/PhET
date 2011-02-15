@@ -1,3 +1,4 @@
+Fixed: index of refractions are incorrect for prism and exterior
 Added a circular prism
 Added a triangular prism
 Started adding prism model and view
