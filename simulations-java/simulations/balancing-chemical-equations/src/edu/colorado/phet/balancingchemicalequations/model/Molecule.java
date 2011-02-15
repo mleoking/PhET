@@ -14,6 +14,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.*;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.OneAtomMoleculeNode.CNode;
+import edu.colorado.phet.balancingchemicalequations.view.molecules.OneAtomMoleculeNode.SNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.CONode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.Cl2Node;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.F2Node;
@@ -140,6 +141,12 @@ public abstract class Molecule {
         }
     }
 
+    public static class C2H2 extends Molecule {
+        public C2H2() {
+            super( new Atom[] { new C(), new C(), new H(), new H() }, new C2H2Node() );
+        }
+    }
+
     public static class C2H4 extends Molecule {
         public C2H4() {
             super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H() }, new C2H4Node() );
@@ -231,15 +238,52 @@ public abstract class Molecule {
         }
     }
 
+    public static class P4 extends Molecule {
+        public P4() {
+            super( new Atom[] { new P(), new P(), new P(), new P() }, new P4Node() );
+        }
+    }
+
+    public static class PCl3 extends Molecule {
+        public PCl3() {
+            super( new Atom[] { new P(), new Cl(), new Cl(), new Cl() }, new PCl3Node() );
+        }
+    }
+
+    public static class PCl5 extends Molecule {
+        public PCl5() {
+            super( new Atom[] { new P(), new Cl(), new Cl(), new Cl(), new Cl(), new Cl() }, new PCl5Node() );
+        }
+    }
+
+    public static class PF3 extends Molecule {
+        public PF3() {
+            super( new Atom[] { new P(), new F(), new F(), new F() }, new PF3Node() );
+        }
+    }
+
     public static class PH3 extends Molecule {
         public PH3() {
             super( new Atom[] { new P(), new H(), new H(), new H() }, new PH3Node() );
         }
     }
 
+    // There is technically no such thing as a single-atom molecule, but this simplifies the Equation model.
+    public static class SMolecule extends Molecule {
+        public SMolecule() {
+            super( new Atom[] { new S() }, new SNode() );
+        }
+    }
+
     public static class SO2 extends Molecule {
         public SO2() {
             super( new Atom[] { new S(), new O(), new O() }, new SO2Node() );
+        }
+    }
+
+    public static class SO3 extends Molecule {
+        public SO3() {
+            super( new Atom[] { new S(), new O(), new O(), new O() }, new SO3Node() );
         }
     }
 }
