@@ -11,6 +11,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.*;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.C2H2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.C2H4;
+import edu.colorado.phet.balancingchemicalequations.model.Molecule.C2H6;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.CH2O;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.CH3OH;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.CH4;
@@ -62,6 +63,7 @@ public class TestMoleculeNodes extends JFrame {
         rootNode.addChild( new LabeledMoleculeNode( new CMolecule() ) );
         rootNode.addChild( new LabeledMoleculeNode( new C2H2() ) );
         rootNode.addChild( new LabeledMoleculeNode( new C2H4() ) );
+        rootNode.addChild( new LabeledMoleculeNode( new C2H6() ) );
         rootNode.addChild( new LabeledMoleculeNode( new CH2O() ) );
         rootNode.addChild( new LabeledMoleculeNode( new CH3OH() ) );
         rootNode.addChild( new LabeledMoleculeNode( new CH4() ) );
