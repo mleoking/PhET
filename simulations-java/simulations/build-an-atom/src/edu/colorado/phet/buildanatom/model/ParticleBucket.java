@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author John Blanco
  */
-public class SubatomicParticleBucket extends Bucket {
+public class ParticleBucket extends Bucket {
 
     // Particles that are in this bucket.
     private final ArrayList<SphericalParticle> containedParticles = new ArrayList<SphericalParticle>();
@@ -60,7 +60,7 @@ public class SubatomicParticleBucket extends Bucket {
     /**
      * Constructor.
      */
-    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
+    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
         super( position, size, baseColor, caption );
         this.particleRadius = particleRadius;
         this.usableWidthProportion = usableWidthProportion;
@@ -71,7 +71,7 @@ public class SubatomicParticleBucket extends Bucket {
      * Constructor that assumes that the entire width of the bucket should be
      * used for particle placement.
      */
-    public SubatomicParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
+    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
         this(position, size, baseColor, caption, particleRadius, 1, 0);
     }
 

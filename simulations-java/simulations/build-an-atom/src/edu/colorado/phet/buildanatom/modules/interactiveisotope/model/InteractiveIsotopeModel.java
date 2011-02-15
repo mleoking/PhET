@@ -65,7 +65,7 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
     private final ArrayList<Electron> electrons = new ArrayList<Electron>();
 
     // The buckets that holds the neutrons that are not in the atom.
-    private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION,
+    private final ParticleBucket neutronBucket = new ParticleBucket( NEUTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     // Listener support
@@ -272,7 +272,7 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
     /**
      * @return
      */
-    public SubatomicParticleBucket getNeutronBucket() {
+    public ParticleBucket getNeutronBucket() {
         return neutronBucket;
     }
 

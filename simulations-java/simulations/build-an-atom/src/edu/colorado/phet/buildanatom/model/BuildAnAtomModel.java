@@ -58,11 +58,11 @@ public class BuildAnAtomModel implements Resettable {
     private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
 
     // The buckets which can hold the subatomic particles.
-    private final SubatomicParticleBucket electronBucket = new SubatomicParticleBucket( ELECTRON_BUCKET_POSITION,
+    private final ParticleBucket electronBucket = new ParticleBucket( ELECTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
-    private final SubatomicParticleBucket protonBucket = new SubatomicParticleBucket( PROTON_BUCKET_POSITION,
+    private final ParticleBucket protonBucket = new ParticleBucket( PROTON_BUCKET_POSITION,
             BUCKET_SIZE, Color.red, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
-    private final SubatomicParticleBucket neutronBucket = new SubatomicParticleBucket( NEUTRON_BUCKET_POSITION,
+    private final ParticleBucket neutronBucket = new ParticleBucket( NEUTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
@@ -219,15 +219,15 @@ public class BuildAnAtomModel implements Resettable {
         return clock;
     }
 
-    public SubatomicParticleBucket getElectronBucket() {
+    public ParticleBucket getElectronBucket() {
         return electronBucket;
     }
 
-    public SubatomicParticleBucket getProtonBucket() {
+    public ParticleBucket getProtonBucket() {
         return protonBucket;
     }
 
-    public SubatomicParticleBucket getNeutronBucket() {
+    public ParticleBucket getNeutronBucket() {
         return neutronBucket;
     }
 
