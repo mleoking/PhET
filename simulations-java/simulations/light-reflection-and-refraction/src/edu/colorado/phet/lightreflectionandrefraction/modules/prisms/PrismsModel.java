@@ -34,6 +34,13 @@ public class PrismsModel extends LRRModel {
         addPrism( new Prism( new ImmutableVector2D(),
                              new ImmutableVector2D( a, 0 ),
                              new ImmutableVector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
+
+        addPrism( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
+            int numSamples = 200;
+            for ( int i = 0; i < numSamples; i++ ) {
+                add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 ) );
+            }
+        }} ) ) );
     }
 
     private void addPrism( Prism prism ) {
