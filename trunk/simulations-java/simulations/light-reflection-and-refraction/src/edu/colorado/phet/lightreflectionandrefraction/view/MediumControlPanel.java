@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
+import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.model.MediumState;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;

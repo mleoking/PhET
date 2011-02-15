@@ -18,8 +18,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.IntensityMeter;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Reading;
 
 public class LRRModel {
     protected final List<LightRay> rays = new LinkedList<LightRay>();
