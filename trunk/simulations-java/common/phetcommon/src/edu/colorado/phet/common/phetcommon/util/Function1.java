@@ -9,6 +9,18 @@ package edu.colorado.phet.common.phetcommon.util;
 public interface Function1<U, T> {
     T apply( U u );
 
+    public static class Constant<U, T> implements Function1<U, T> {
+        private final T value;
+
+        public Constant( T value ) {
+            this.value = value;
+        }
+
+        public T apply( U u ) {
+            return value;
+        }
+    }
+
     /**
      * Identity function that returns its input.
      *
