@@ -160,6 +160,12 @@ public abstract class Molecule {
         }
     }
 
+    public static class CH3OH extends Molecule {
+        public CH3OH() {
+            super( new Atom[] { new C(), new H(), new H(), new H(), new O(), new H() }, new CH3OHNode() );
+        }
+    }
+
     public static class CH4 extends Molecule {
         public CH4() {
             super( new Atom[] { new C(), new H(), new H(), new H(), new H() }, new CH4Node() );
