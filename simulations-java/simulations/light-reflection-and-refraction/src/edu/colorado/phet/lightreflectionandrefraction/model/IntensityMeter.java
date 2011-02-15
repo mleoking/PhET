@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+package edu.colorado.phet.lightreflectionandrefraction.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;

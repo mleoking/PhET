@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
+package edu.colorado.phet.lightreflectionandrefraction.model;
 
 import java.awt.*;
-
-import edu.colorado.phet.lightreflectionandrefraction.model.MediumState;
 
 /**
  * @author Sam Reid

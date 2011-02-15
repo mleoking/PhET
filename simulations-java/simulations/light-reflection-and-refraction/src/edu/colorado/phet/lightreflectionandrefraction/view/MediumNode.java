@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.lightreflectionandrefraction.modules.intro.Medium;
+import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
 import edu.umd.cs.piccolo.PNode;
 
 /**
