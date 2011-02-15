@@ -41,6 +41,14 @@ public class PrismsModel extends LRRModel {
                 add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 ) );
             }
         }} ) ) );
+
+        final SimpleObserver updateModel = new SimpleObserver() {
+            public void update() {
+                updateModel();
+            }
+        };
+        outerMedium.addObserver( updateModel );
+        prismMedium.addObserver( updateModel );
     }
 
     private void addPrism( Prism prism ) {
