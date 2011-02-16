@@ -14,7 +14,7 @@ public class Laser {
     public final Property<Double> distanceFromOrigin;
     public final Property<Double> angle = new Property<Double>( Math.PI * 3 / 4 );
     public final Property<Boolean> on = new Property<Boolean>( false );
-    public final Property<LaserColor> color = new Property<LaserColor>( LaserColor.ONE_COLOR );
+    public final Property<LaserColor> color = new Property<LaserColor>( new LaserColor.OneColor( LRRModel.WAVELENGTH_RED * 1E9 ) );
 
     public Laser( double distFromOrigin ) {
         this.distanceFromOrigin = new Property<Double>( distFromOrigin );

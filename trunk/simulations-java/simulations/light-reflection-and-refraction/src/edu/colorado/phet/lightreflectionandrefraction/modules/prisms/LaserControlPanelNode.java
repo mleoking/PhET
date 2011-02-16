@@ -1,16 +1,28 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2011, University o
+// f Colorado
 package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
+import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserView;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -25,7 +37,50 @@ public class LaserControlPanelNode extends ControlPanelNode {
                     setFont( LightReflectionAndRefractionCanvas.labelFont );
                 }
             }
-            add( new MyRadioButton<LaserColor>( "One Color", laserColor, LaserColor.ONE_COLOR ) );
+
+            //TODO: Wow, this is too messy.  It should be cleaned up
+            final Property<Double> wavelengthProperty = new Property<Double>( LRRModel.WAVELENGTH_RED );
+            wavelengthProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    laserColor.setValue( new LaserColor.OneColor( wavelengthProperty.getValue() ) );
+                }
+            } );
+            add( new JRadioButton( "One Color", laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
+                final SimpleObserver updateSelected = new SimpleObserver() {
+                    public void update() {
+                        setSelected( laserColor.getValue() != LaserColor.WHITE_LIGHT );
+                    }
+                };
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        laserColor.setValue( new LaserColor.OneColor( wavelengthProperty.getValue() ) );
+                        updateSelected.update();//make sure radio buttons don't toggle off, in case they're not in a button group
+                    }
+                } );
+                laserColor.addObserver( updateSelected );
+            }} );
+            add( new PhetPCanvas() {{
+                final WavelengthControl wavelengthControl = new WavelengthControl( 150, 27 ) {{
+                    laserColor.addObserver( new SimpleObserver() {
+                        public void update() {
+                            final boolean disabled = laserColor.getValue() == LaserColor.WHITE_LIGHT;
+                            setTransparency( disabled ? 0.3f : 1f );
+                            setPickable( !disabled );
+                            setChildrenPickable( !disabled );
+                        }
+                    } );
+                    addChangeListener( new ChangeListener() {
+                        public void stateChanged( ChangeEvent e ) {
+                            wavelengthProperty.setValue( getWavelength() / 1E9 );
+                        }
+                    } );
+                }};
+                PBounds bounds = wavelengthControl.getFullBounds();
+                wavelengthControl.translate( -bounds.getX() + 5, -bounds.getY() );
+                setPreferredSize( new Dimension( (int) ( bounds.getWidth() + 40 ), (int) bounds.getHeight() ) );
+                getLayer().addChild( wavelengthControl );
+                setBorder( null );
+            }} );
             add( new MyRadioButton<LaserColor>( "White Light", laserColor, LaserColor.WHITE_LIGHT ) );
             add( new JSeparator() );
             add( new MyRadioButton<Boolean>( "Single Ray", multipleRays, false ) );
