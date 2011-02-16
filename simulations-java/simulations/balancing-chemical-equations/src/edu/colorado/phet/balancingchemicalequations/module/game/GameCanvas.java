@@ -33,9 +33,9 @@ public class GameCanvas extends BCECanvas {
         PNode gameSettingsNode = new PSwing( new GameSettingsPanel( model.getGameSettings(), startFunction ) );
         addChild( gameSettingsNode );
 
-        // Game results
-        GameOverNode gameOverNode = new GameOverNode( 1,1,1,new DecimalFormat("0"),1,1,false,false );//XXX
-        addChild( gameOverNode );
+//        // Game results
+//        GameOverNode gameOverNode = new GameOverNode( 1,1,1,new DecimalFormat("0"),1,1,false,false );//XXX
+//        addChild( gameOverNode );
 
         // layout
         gameSettingsNode.setOffset( 0, 0 );
