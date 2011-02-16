@@ -3,22 +3,31 @@ package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+
 /**
  * @author Sam Reid
  */
 public abstract class LaserColor {
-    public static final LaserColor ONE_COLOR = new LaserColor() {
-        @Override
-        public Color getColor() {
-            return Color.red;
-        }
-    };
     public static final LaserColor WHITE_LIGHT = new LaserColor() {
         @Override
         public Color getColor() {
             return Color.gray;
         }
     };
+
+    public static class OneColor extends LaserColor {
+        private double wavelength;
+
+        public OneColor( double wavelength ) {
+            this.wavelength = wavelength;
+        }
+
+        @Override
+        public Color getColor() {
+            return new VisibleColor( wavelength * 1E9 ).toColor();
+        }
+    }
 
     public abstract Color getColor();
 }
