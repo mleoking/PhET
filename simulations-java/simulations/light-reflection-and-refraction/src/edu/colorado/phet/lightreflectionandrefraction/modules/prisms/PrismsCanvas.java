@@ -24,19 +24,22 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
         } );
 
         addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction ) ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
-        }} );
-        addChild( new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction ) ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
+            setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
-        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections ) {{
+        final ControlPanelNode prismToolbox = new ControlPanelNode( new PrismToolboxNode( this, transform, model ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
-        addChild( laserControlPanelNode );
+        addChild( prismToolbox );
 
-        addChild( new ControlPanelNode( new PrismToolboxNode( this, transform, model ) ) {{
-            setOffset( laserControlPanelNode.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
-        }} );
+        final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction ) ) {{
+            setOffset( prismToolbox.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
+        }};
+        addChild( prismMediumControlPanel );
+
+        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections ) {{
+            setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismMediumControlPanel.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
+        }};
+        addChild( laserControlPanelNode );
     }
 }
