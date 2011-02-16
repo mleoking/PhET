@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
+import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
@@ -101,16 +104,16 @@ public class PrismsModel extends LRRModel {
         if ( laser.on.getValue() ) {
             final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
 
+            final Function.LinearFunction dispersionFunction = new Function.LinearFunction( WAVELENGTH_RED, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
             Function1<Double, Double> n1 = new Function1<Double, Double>() {
                 public Double apply( Double wavelength ) {
-                    final double outerIndex = outerMedium.getValue().getIndexOfRefraction() - wavelength / WAVELENGTH_RED / 10;
-                    System.out.println( "outerIndex = " + outerIndex );
+                    final double outerIndex = outerMedium.getValue().getIndexOfRefraction() + dispersionFunction.evaluate( wavelength );
                     return outerIndex;
                 }
             };
             Function1<Double, Double> n2 = new Function1<Double, Double>() {
                 public Double apply( Double wavelength ) {
-                    return prismMedium.getValue().getIndexOfRefraction() - wavelength / WAVELENGTH_RED / 10;
+                    return prismMedium.getValue().getIndexOfRefraction() + dispersionFunction.evaluate( wavelength );
                 }
             };
 
@@ -121,15 +124,30 @@ public class PrismsModel extends LRRModel {
 
             //This can be used to show the main central ray
             if ( !manyRays.getValue() ) {
-                propagate( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2, wavelength ), 0 );
+                propagateColor( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2, wavelength ) );
             }
             else {
                 //Many parallel rays
                 for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
                     ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).getScaledInstance( x );
-                    propagate( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2, wavelength ), 0 );
+                    propagateColor( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2, wavelength ) );
                 }
             }
+        }
+    }
+
+    //Determines whether to use white light or single color light
+    private void propagateColor( Ray incidentRay ) {
+        if ( laser.color.getValue() == LaserColor.WHITE_LIGHT ) {
+            final double min = VisibleColor.MIN_WAVELENGTH / 1E9;
+            final double max = VisibleColor.MAX_WAVELENGTH / 1E9;
+            double dw = ( max - min ) / 20;
+            for ( double wavelength = min; wavelength <= max; wavelength += dw ) {
+                propagate( new Ray( incidentRay.tail, incidentRay.directionUnitVector, incidentRay.power, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction, wavelength ), 0 );
+            }
+        }
+        else {
+            propagate( incidentRay, 0 );
         }
     }
 
@@ -149,7 +167,6 @@ public class PrismsModel extends LRRModel {
         ImmutableVector2D L = incidentRay.directionUnitVector;
         final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength );
         final double n2 = incidentRay.oppositeIndexOfRefraction.apply( incidentRay.wavelength );
-        System.out.println( "n1 = " + n1 );
         if ( intersection != null ) {
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();
@@ -158,8 +175,6 @@ public class PrismsModel extends LRRModel {
             final double cosTheta2Radicand = 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) );
             double cosTheta2 = sqrt( cosTheta2Radicand );
 
-//            System.out.println( "cosTheta2 = " + cosTheta2 );
-//            System.out.println( "cosTheta2Radicand = " + cosTheta2Radicand );
             boolean totalInternalReflection = cosTheta2Radicand < 0;
             ImmutableVector2D vReflect = L.getAddedInstance( n.getScaledInstance( 2 * cosTheta1 ) );
             ImmutableVector2D vRefract = cosTheta1 > 0 ?
@@ -174,11 +189,11 @@ public class PrismsModel extends LRRModel {
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 
-            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue().getColor(), waveWidth, 0, null, 0, true, false ) );
+            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
         }
         else {
             addRay( new LightRay( incidentRay.tail, incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) )//1 meter long ray
-                    , n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue().getColor(), waveWidth, 0, null, 0, true, false ) );
+                    , n1, WAVELENGTH_RED / n1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
         }
     }
 

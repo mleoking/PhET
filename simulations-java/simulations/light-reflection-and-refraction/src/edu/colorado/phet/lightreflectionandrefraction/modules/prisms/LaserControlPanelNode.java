@@ -46,6 +46,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 }
             } );
             add( new JRadioButton( "One Color", laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
+                setFont( LightReflectionAndRefractionCanvas.labelFont );
                 final SimpleObserver updateSelected = new SimpleObserver() {
                     public void update() {
                         setSelected( laserColor.getValue() != LaserColor.WHITE_LIGHT );
