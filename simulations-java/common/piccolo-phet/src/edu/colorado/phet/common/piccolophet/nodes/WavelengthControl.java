@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.control;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

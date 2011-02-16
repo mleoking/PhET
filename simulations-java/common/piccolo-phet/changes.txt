@@ -1,3 +1,4 @@
+2/15/11 Moved WavelengthControl and TestWavelengthControl to piccolo-phet
 Added JComboBox to the list of ignored types in ControlPanelNode.transparifySwing
 Added the ability to change units in the measuring tape
 Made it possible to specify colors in FloatingClockControlNode
