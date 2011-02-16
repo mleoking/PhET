@@ -59,7 +59,6 @@ public class IntroModel extends LRRModel {
             //According to http://en.wikipedia.org/wiki/Wavelength
             //lambda = lambda0 / n(lambda0)
             final Color color = laser.color.getValue().getColor();
-            System.out.println( "color = " + color );
             final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, color, sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
             incidentRay.phase.addObserver( new SimpleObserver() {
                 public void update() {
