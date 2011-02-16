@@ -1,3 +1,4 @@
+2/16/11 factory for creating problem sets
 2/16/11 change box color to black
 2/16/11 change canvas color to RGB=(204,204,204)
 2/15/11 change HF to look like HCl
