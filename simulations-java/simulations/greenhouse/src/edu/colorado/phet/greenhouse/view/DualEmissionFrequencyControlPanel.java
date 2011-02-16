@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.greenhouse.view;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
@@ -61,7 +62,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         } );
 
         // Create and add the buttons.  Each one includes an image.
-        JPanel infraredButtonPanel = new JPanel();
+        JPanel infraredButtonPanel = new JPanel( new BorderLayout() );
         infraredPhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Infrared" ) );
         infraredPhotonRadioButton.setFont( LABEL_FONT );
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
@@ -69,10 +70,10 @@ public class DualEmissionFrequencyControlPanel extends PNode {
                 model.setEmittedPhotonWavelength( WavelengthConstants.irWavelength );
             }
         } );
-        infraredButtonPanel.add( infraredPhotonRadioButton );
-        infraredButtonPanel.add( new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "photon-660.png" ) ) ) );
+        infraredButtonPanel.add( infraredPhotonRadioButton, BorderLayout.WEST );
+        infraredButtonPanel.add( new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "photon-660.png" ) ) ), BorderLayout.EAST );
 
-        JPanel visibleButtonPanel = new JPanel();
+        JPanel visibleButtonPanel = new JPanel( new BorderLayout() );
         visiblePhotonRadioButton = new JRadioButton( GreenhouseResources.getString( "PhotonEmitterNode.Visible" ) );
         visiblePhotonRadioButton.setFont( LABEL_FONT );
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
@@ -80,17 +81,19 @@ public class DualEmissionFrequencyControlPanel extends PNode {
                 model.setEmittedPhotonWavelength( WavelengthConstants.visibleWaveLength );
             }
         } );
-        visibleButtonPanel.add( visiblePhotonRadioButton );
-        visibleButtonPanel.add( new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "thin2.png" ) ) ) );
+        visibleButtonPanel.add( visiblePhotonRadioButton, BorderLayout.WEST );
+        visibleButtonPanel.add( new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "thin2.png" ) ) ), BorderLayout.EAST );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( infraredPhotonRadioButton );
         buttonGroup.add( visiblePhotonRadioButton );
 
         // Put the buttons on to a vertical panel.
-        JPanel emissionTypeSelectionPanel = new JPanel();
+        VerticalLayoutPanel emissionTypeSelectionPanel = new VerticalLayoutPanel();
+        emissionTypeSelectionPanel.setFillHorizontal();
+//        JPanel emissionTypeSelectionPanel = new JPanel();
         emissionTypeSelectionPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
-        emissionTypeSelectionPanel.setLayout( new GridLayout( 2, 1 ) );
+//        emissionTypeSelectionPanel.setLayout( new GridLayout( 2, 1 ) );
         emissionTypeSelectionPanel.add( infraredButtonPanel );
         emissionTypeSelectionPanel.add( visibleButtonPanel );
 
