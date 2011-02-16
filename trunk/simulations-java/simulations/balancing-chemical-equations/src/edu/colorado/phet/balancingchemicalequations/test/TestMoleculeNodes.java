@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -62,7 +63,7 @@ public class TestMoleculeNodes extends JFrame {
         super( TestMoleculeNodes.class.getName() );
 
         PhetPCanvas canvas = new PhetPCanvas( BCEConstants.CANVAS_RENDERING_SIZE );
-        canvas.setBackground( BCEConstants.CANVAS_BACKGROUND );
+        canvas.setBackground( BCEConstants.BOX_COLOR );
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
 
         PNode rootNode = new PNode();

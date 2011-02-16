@@ -1,8 +1,10 @@
-2/14/11 completed implementation of all two-product equations
-2/14/11 completed implementation of all one-product equations
-2/14/11 completed implementation of all one-product equations
-2/14/11 add more molecule nodes (created using Piccolo to look like RPAL image files)
-2/14/11 add test app for viewing all molecule nodes
+2/16/11 change box color to black
+2/16/11 change canvas color to RGB=(204,204,204)
+2/15/11 change HF to look like HCl
+2/15/11 completed implementation of all two-product equations
+2/15/11 completed implementation of all one-product equations
+2/15/11 add more molecule nodes (created using Piccolo to look like RPAL image files)
+2/15/11 add test app for viewing all molecule nodes
 2/14/11 add some level-2 game equations
 2/14/11 create molecule symbols based on atom list
 2/14/11 move equation radio buttons to upper right
