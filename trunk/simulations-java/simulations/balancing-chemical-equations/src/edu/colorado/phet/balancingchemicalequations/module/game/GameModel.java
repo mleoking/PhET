@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
+import edu.colorado.phet.balancingchemicalequations.model.Equation;
+import edu.colorado.phet.balancingchemicalequations.model.GameProblemsFactory;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
@@ -12,10 +14,17 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  */
 public class GameModel {
 
+    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
+    private static final int PROBLEMS_PER_GAME = 5;
+
+    private final GameProblemsFactory problemsFactory;
     private final GameSettings gameSettings;
+    private Equation[] problemSet;
+    private int problemIndex;
 
     public GameModel() {
-        gameSettings = new GameSettings( new IntegerRange( 1, 3, 1 ) /* level */, true /* sound */, true /* timer */ );
+        problemsFactory = new GameProblemsFactory();
+        gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
     }
 
     public GameSettings getGameSettings() {
@@ -23,8 +32,16 @@ public class GameModel {
     }
 
     public void startGame() {
-        //TODO
-        System.out.println( "GameModel.startGame" );//XXX
+        problemSet = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
+        problemIndex = 0;
+
+        //XXX debug
+        {
+            System.out.println( "Problem set for level " + gameSettings.level.getValue() );
+            for ( Equation equation : problemSet ) {
+                System.out.println( equation.getName() );
+            }
+        }
     }
 
     public void reset() {

@@ -2,11 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import java.text.DecimalFormat;
-
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
-import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
