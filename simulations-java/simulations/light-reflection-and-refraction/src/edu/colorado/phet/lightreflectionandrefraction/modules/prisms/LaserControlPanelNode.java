@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
+import edu.colorado.phet.common.piccolophet.swing.PhetTitledPanel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserView;
@@ -29,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class LaserControlPanelNode extends ControlPanelNode {
-    public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserView> laserView, final Property<LaserColor> laserColor ) {
+    public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserView> laserView, final Property<LaserColor> laserColor, final Property<Boolean> showReflections ) {
         super( new PSwing( new VerticalLayoutPanel() {{
             class MyRadioButton<T> extends PropertyRadioButton<T> {
                 MyRadioButton( String text, SettableProperty<T> property, T value ) {
@@ -89,6 +90,11 @@ public class LaserControlPanelNode extends ControlPanelNode {
             add( new JSeparator() );
             add( new MyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) );
             add( new MyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) );
+            add( new JSeparator() );
+            add( new PhetTitledPanel( "Reflections" ) {{
+                add( new MyRadioButton<Boolean>( "Show", showReflections, true ) );
+                add( new MyRadioButton<Boolean>( "Hide", showReflections, false ) );
+            }} );
         }} ) );
     }
 }

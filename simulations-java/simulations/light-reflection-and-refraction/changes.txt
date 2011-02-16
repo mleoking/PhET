@@ -1,3 +1,4 @@
+Added a control to show/hide reflections
 Improved dispersion function
 Added dispersion
 Added a wavelength control
