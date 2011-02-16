@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+
 /**
  * @author Sam Reid
  */
@@ -19,6 +21,6 @@ public class Laser {
     }
 
     public ImmutableVector2D getEmissionPoint() {
-        return ImmutableVector2D.parseAngleAndMagnitude( distanceFromOrigin.getValue(), angle.getValue() );
+        return parseAngleAndMagnitude( distanceFromOrigin.getValue(), angle.getValue() );
     }
 }
