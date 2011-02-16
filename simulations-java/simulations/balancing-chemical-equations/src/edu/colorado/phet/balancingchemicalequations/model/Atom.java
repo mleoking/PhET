@@ -60,7 +60,7 @@ public abstract class Atom {
 
     public static class O extends Atom {
         public O() {
-           super( "O", Color.RED );
+           super( "O", new Color( 255, 85, 0 ) );
         }
     }
 
