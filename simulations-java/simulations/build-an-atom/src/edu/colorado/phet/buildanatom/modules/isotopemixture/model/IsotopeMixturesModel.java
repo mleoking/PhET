@@ -18,6 +18,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -62,11 +63,37 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // of the currently configured isotope.  There should be only one of each
     // possible isotope.
     private final Property<ArrayList<ImmutableAtom>> possibleIsotopesProperty =
-            new Property<ArrayList<ImmutableAtom>>( new ArrayList<ImmutableAtom>() );
+            new Property<ArrayList<ImmutableAtom>>( new ArrayList<ImmutableAtom>() ){{
+                // Wire up the bucket list to be updated whenever the list of
+                // possible isotopes is updated.
+                addObserver( new SimpleObserver() {
+                    public void update() {
+                        // Make a copy of the current bucket list so that we can send a
+                        // notification of their demise.
+                        ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketListProperty.getValue() );
+
+                        // Create a new list of buckets based on the new list
+                        // of stable isotopes.
+                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMaxY() + 20;
+                        double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / (getValue().size() + 1);
+                        ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
+                        for ( int i = 0; i < getValue().size(); i++ ){
+                            newBucketList.add( new Bucket(new Point2D.Double(interBucketDistanceX * (i + 1), bucketYOffset),
+                                    BUCKET_SIZE, Color.BLUE, AtomIdentifier.getName( getValue().get( i ) )) );
+                        }
+                        bucketListProperty.setValue( newBucketList );
+
+                        // Send notifications of removal for the old buckets.
+                        for ( Bucket bucket : oldBuckets ) {
+                            bucket.getPartOfModelProperty().setValue( false );
+                        }
+                    }
+                });
+            }};
 
     // This property contains the list of the buckets where isotopes that are
-    // not in the test chamber reside.  This changes whenever a new element is
-    // selected, since there is one bucket for each stable isotope
+    // not in the test chamber reside.  This needs to change whenever a new
+    // element is selected, since there is one bucket for each stable isotope
     // configuration for a given element.
     private final Property<ArrayList<Bucket>> bucketListProperty =
             new Property<ArrayList<Bucket>>( new ArrayList<Bucket>() );
@@ -112,9 +139,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
             // Update the list of possible isotopes for this atomic configuration.
             possibleIsotopesProperty.setValue( AtomIdentifier.getAllIsotopes( atom.getNumProtons() ) );
-
-            // Update the buckets for this atomic configuration.
-            updateBuckets();
         }
     }
 
@@ -125,35 +149,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     public void reset() {
         // Set the default element to be hydrogen.
         setAtomConfiguration( new ImmutableAtom( 1, 0, 1 ) );
-    }
-
-    /**
-     * Update the set of buckets based on the current atom configuration.
-     * This always removes and creates buckets, so for the sake of efficiency
-     * it shouldn't be called unless a change has occurred to the isotope
-     * configuration.
-     */
-    private void updateBuckets(){
-        // Make a copy of the current bucket list so that we can send a
-        // notification of their demise.
-        ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketListProperty.getValue() );
-
-        // Create a new list of buckets based on the stable isotopes of the
-        // currently configured element.
-        ArrayList< ImmutableAtom > isotopeList = AtomIdentifier.getAllIsotopes( prototypeIsotope.getNumProtons() );
-        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMaxY() + 20;
-        double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / (isotopeList.size() + 1);
-        ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
-        for ( int i = 0; i < isotopeList.size(); i++ ){
-            newBucketList.add( new Bucket(new Point2D.Double(interBucketDistanceX * (i + 1), bucketYOffset),
-                    BUCKET_SIZE, Color.BLUE, AtomIdentifier.getName( isotopeList.get( i ) )) );
-        }
-        bucketListProperty.setValue( newBucketList );
-
-        // Send notifications of removal for the old buckets.
-        for ( Bucket bucket : oldBuckets ) {
-            bucket.getPartOfModelProperty().setValue( false );
-        }
     }
 
     // -----------------------------------------------------------------------
