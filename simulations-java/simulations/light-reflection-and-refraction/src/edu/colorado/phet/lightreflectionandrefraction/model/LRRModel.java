@@ -182,7 +182,7 @@ public class LRRModel {
         return intensityMeter;
     }
 
-    protected void clearRays() {
+    protected void clearModel() {
         for ( LightRay ray : rays ) {
             ray.remove();
         }
@@ -191,11 +191,11 @@ public class LRRModel {
     }
 
     public void updateModel() {
-        clearRays();
-        addRays();
+        clearModel();
+        propagateRays();
     }
 
-    protected void addRays() {
+    protected void propagateRays() {
     }
 
     public static double getTransmittedPower( double n1, double n2, double cosTheta1, double cosTheta2 ) {
