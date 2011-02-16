@@ -30,6 +30,7 @@ public class PrismsModel extends LRRModel {
     public final Property<Boolean> manyRays = new Property<Boolean>( false );//show multiple beams to help show how lenses work
     public final Property<Medium> outerMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
     public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
+    public final Property<Boolean> showReflections = new Property<Boolean>( true );//If false, will hide non TIR reflections
 
     public PrismsModel() {
         final SimpleObserver updateModel = new SimpleObserver() {
@@ -42,6 +43,7 @@ public class PrismsModel extends LRRModel {
         prismMedium.addObserver( updateModel );
         manyRays.addObserver( updateModel );
         laser.color.addObserver( updateModel );
+        showReflections.addObserver( updateModel );
     }
 
     public static ArrayList<Prism> getPrismPrototypes() {
@@ -186,7 +188,9 @@ public class PrismsModel extends LRRModel {
 
             Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction, incidentRay.wavelength );
             Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction, incidentRay.wavelength );
-            propagate( reflected, count + 1 );
+            if ( showReflections.getValue() || totalInternalReflection ) {
+                propagate( reflected, count + 1 );
+            }
             propagate( refracted, count + 1 );
 
             addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
