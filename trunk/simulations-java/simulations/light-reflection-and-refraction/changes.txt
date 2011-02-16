@@ -1,3 +1,5 @@
+Fixed: initial ray is black
+Fixed: initial value of wavelength slider is incorrect
 Added normal lines
 Rearranged controls
 Added a control to show/hide reflections

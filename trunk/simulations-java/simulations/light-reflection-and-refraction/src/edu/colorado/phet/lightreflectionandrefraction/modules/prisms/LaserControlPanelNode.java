@@ -63,6 +63,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
             }} );
             add( new PhetPCanvas() {{
                 final WavelengthControl wavelengthControl = new WavelengthControl( 150, 27 ) {{
+                    setWavelength( wavelengthProperty.getValue() * 1E9 );
                     laserColor.addObserver( new SimpleObserver() {
                         public void update() {
                             final boolean disabled = laserColor.getValue() == LaserColor.WHITE_LIGHT;
