@@ -69,12 +69,6 @@ public abstract class TwoAtomMoleculeNode extends PComposite {
         }
     }
 
-    public static class HFNode extends TwoAtomMoleculeNode {
-        public HFNode() {
-            super( new H(), new F() );
-        }
-    }
-
     public static class N2Node extends TwoAtomMoleculeNode {
         public N2Node() {
             super( new N(), new N() );

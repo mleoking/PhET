@@ -19,7 +19,6 @@ import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMolecu
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.Cl2Node;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.F2Node;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.H2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.HFNode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.N2Node;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.NONode;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.TwoAtomMoleculeNode.O2Node;
