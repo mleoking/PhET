@@ -1,3 +1,4 @@
+Added dispersion
 Added a wavelength control
 # 0.00.17 (48938) Feb 15, 2011
 Added a toolbox for prisms

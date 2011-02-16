@@ -10,6 +10,7 @@ import java.util.Comparator;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
@@ -100,21 +101,33 @@ public class PrismsModel extends LRRModel {
         if ( laser.on.getValue() ) {
             final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
 
-            double n1 = outerMedium.getValue().getIndexOfRefraction();
-            double n2 = prismMedium.getValue().getIndexOfRefraction();
+            Function1<Double, Double> n1 = new Function1<Double, Double>() {
+                public Double apply( Double wavelength ) {
+                    final double outerIndex = outerMedium.getValue().getIndexOfRefraction() - wavelength / WAVELENGTH_RED / 10;
+                    System.out.println( "outerIndex = " + outerIndex );
+                    return outerIndex;
+                }
+            };
+            Function1<Double, Double> n2 = new Function1<Double, Double>() {
+                public Double apply( Double wavelength ) {
+                    return prismMedium.getValue().getIndexOfRefraction() - wavelength / WAVELENGTH_RED / 10;
+                }
+            };
 
             final boolean laserInPrism = laserInPrism();
             final ImmutableVector2D directionUnitVector = new ImmutableVector2D( tail.toPoint2D(), new Point2D.Double() ).getNormalizedInstance();
 
+            final double wavelength = laser.color.getValue().getWavelength();
+
             //This can be used to show the main central ray
             if ( !manyRays.getValue() ) {
-                propagate( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2 ), 0 );
+                propagate( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2, wavelength ), 0 );
             }
             else {
-                //This is a test for showing multiple parallel rays for showing how focusing lenses work
+                //Many parallel rays
                 for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
                     ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).getScaledInstance( x );
-                    propagate( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2 ), 0 );
+                    propagate( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? n2 : n1, laserInPrism ? n1 : n2, wavelength ), 0 );
                 }
             }
         }
@@ -134,8 +147,9 @@ public class PrismsModel extends LRRModel {
         }
         Intersection intersection = getIntersection( incidentRay, prisms );
         ImmutableVector2D L = incidentRay.directionUnitVector;
-        final double n1 = incidentRay.indexOfRefraction;
-        final double n2 = incidentRay.oppositeIndexOfRefraction;
+        final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength );
+        final double n2 = incidentRay.oppositeIndexOfRefraction.apply( incidentRay.wavelength );
+        System.out.println( "n1 = " + n1 );
         if ( intersection != null ) {
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();
@@ -155,8 +169,8 @@ public class PrismsModel extends LRRModel {
             final double reflectedPower = totalInternalReflection ? 1 : MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
             final double transmittedPower = totalInternalReflection ? 0 : MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
 
-            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction );
-            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction );
+            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction, incidentRay.wavelength );
+            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.oppositeIndexOfRefraction, incidentRay.indexOfRefraction, incidentRay.wavelength );
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 
