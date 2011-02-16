@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.hydrogenatom.test;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -23,7 +23,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.hydrogenatom.control.WavelengthControl;
 
 
 public class TestWavelengthControl extends JFrame {

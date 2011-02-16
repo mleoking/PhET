@@ -19,7 +19,7 @@ import java.awt.geom.Line2D;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.hydrogenatom.control.WavelengthControl;
+import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
