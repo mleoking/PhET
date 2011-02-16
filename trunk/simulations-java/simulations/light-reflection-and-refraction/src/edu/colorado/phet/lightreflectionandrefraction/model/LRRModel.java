@@ -178,69 +178,6 @@ public class LRRModel {
         return rays;
     }
 
-    public static Vector3d reflect( Vector3d incident, Vector3d normal ) {
-        assert ( Math.abs( incident.length() - 1 ) < Numbers.EPSILON );
-        assert ( Math.abs( normal.length() - 1 ) < Numbers.EPSILON );
-
-        double dot = incident.dot( normal );
-        if ( dot > -Numbers.EPSILON ) {
-            // TODO: change to assert?
-            throw new RuntimeException( "dot > -Numbers.EPSILON" );
-        }
-        Vector3d ret = new Vector3d( normal );
-        ret.scale( 2 * dot );
-        ret.sub( incident );
-        ret.negate();
-
-        assert ( Math.abs( ret.length() - 1 ) < Numbers.EPSILON );
-        return ret;
-    }
-
-    public static Vector3d transmit( Vector3d incident, Vector3d normal, double na, double nb ) {
-        assert ( Math.abs( incident.length() - 1 ) < Numbers.EPSILON );
-        assert ( Math.abs( normal.length() - 1 ) < Numbers.EPSILON );
-
-        // check for TIR
-        assert ( !isTotalInternalReflection( incident, normal, na, nb ) );
-
-        assert ( na >= 1 );
-        assert ( nb >= 1 );
-
-        double q = na / nb;
-        double dot = incident.dot( normal );
-        if ( dot > -Numbers.EPSILON ) {
-            // TODO: change to assert?
-            throw new RuntimeException( "dot > -Numbers.EPSILON" );
-        }
-        Vector3d t = new Vector3d( normal );
-        Vector3d ret = new Vector3d( incident );
-        t.scale( q * dot + ( Math.sqrt( 1 - q * q * ( 1 - dot * dot ) ) ) );
-        ret.scale( q );
-        ret.sub( t );
-
-        assert ( Math.abs( ret.length() - 1 ) < Numbers.EPSILON );
-        return ret;
-    }
-
-    public static boolean isTotalInternalReflection( Vector3d incident, Vector3d normal, double na, double nb ) {
-        if ( na <= nb ) {
-            return false;
-        }
-        double dot = -normal.dot( incident );
-
-        assert ( dot > Numbers.EPSILON );
-
-        double cosineTIRAngle = Math.sqrt( 1 - ( nb / na ) * ( nb / na ) );
-
-        // be conservative about TIR, so that if within epsilon we report TIR is true
-        if ( dot >= cosineTIRAngle + Numbers.EPSILON ) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
     public IntensityMeter getIntensityMeter() {
         return intensityMeter;
     }
