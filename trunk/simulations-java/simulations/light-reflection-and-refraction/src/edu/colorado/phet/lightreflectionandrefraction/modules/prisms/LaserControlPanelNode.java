@@ -1,5 +1,4 @@
-// Copyright 2002-2011, University o
-// f Colorado
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 
 import java.awt.*;
@@ -14,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class LaserControlPanelNode extends ControlPanelNode {
-    public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserView> laserView, final Property<LaserColor> laserColor, final Property<Boolean> showReflections ) {
+    public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserView> laserView, final Property<LaserColor> laserColor, final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal ) {
         super( new PSwing( new VerticalLayoutPanel() {{
             class MyRadioButton<T> extends PropertyRadioButton<T> {
                 MyRadioButton( String text, SettableProperty<T> property, T value ) {
@@ -95,6 +95,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 add( new MyRadioButton<Boolean>( "Show", showReflections, true ) );
                 add( new MyRadioButton<Boolean>( "Hide", showReflections, false ) );
             }} );
+            add( new PropertyCheckBox( "Show Normal", showNormal ) {{setFont( LightReflectionAndRefractionCanvas.labelFont );}} );
         }} ) );
     }
 }

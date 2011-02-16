@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
@@ -31,6 +32,8 @@ public class PrismsModel extends LRRModel {
     public final Property<Medium> outerMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
     public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
     public final Property<Boolean> showReflections = new Property<Boolean>( true );//If false, will hide non TIR reflections
+    public final ArrayList<Intersection> intersections = new ArrayList<Intersection>();
+    public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
 
     public PrismsModel() {
         final SimpleObserver updateModel = new SimpleObserver() {
@@ -101,8 +104,8 @@ public class PrismsModel extends LRRModel {
     }
 
     @Override
-    protected void addRays() {
-        super.addRays();
+    protected void propagateRays() {
+        super.propagateRays();
         if ( laser.on.getValue() ) {
             final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
 
@@ -172,6 +175,7 @@ public class PrismsModel extends LRRModel {
         if ( intersection != null ) {
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();
+            addIntersection( intersection );
             //See http://en.wikipedia.org/wiki/Snell's_law#Vector_form
             double cosTheta1 = n.dot( L.getScaledInstance( -1 ) );
             final double cosTheta2Radicand = 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) );
@@ -201,6 +205,17 @@ public class PrismsModel extends LRRModel {
         }
     }
 
+    private void addIntersection( Intersection intersection ) {
+        intersections.add( intersection );
+        for ( VoidFunction1<Intersection> intersectionListener : intersectionListeners ) {
+            intersectionListener.apply( intersection );
+        }
+    }
+
+    public void addIntersectionListener( VoidFunction1<Intersection> listener ) {
+        intersectionListeners.add( listener );
+    }
+
     private static Intersection getIntersection( final Ray incidentRay, ArrayList<Prism> prisms ) {
         ArrayList<Intersection> allIntersections = new ArrayList<Intersection>();
         for ( Prism prism : prisms ) {
@@ -218,5 +233,16 @@ public class PrismsModel extends LRRModel {
     public void removePrism( Prism prism ) {
         prisms.remove( prism );
         updateModel();
+    }
+
+    @Override
+    protected void clearModel() {
+        super.clearModel();
+        if ( intersections != null ) {
+            for ( Intersection intersection : intersections ) {
+                intersection.remove();
+            }
+            intersections.clear();
+        }
     }
 }

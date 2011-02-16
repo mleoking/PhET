@@ -39,7 +39,7 @@ public class IntroModel extends LRRModel {
         bottomMedium.addObserver( updateRays );
     }
 
-    protected void addRays() {
+    protected void propagateRays() {
         final Rectangle bottom = new Rectangle( -10, -10, 20, 10 );
         final Rectangle top = new Rectangle( -10, 0, 20, 10 );
         if ( laser.on.getValue() ) {
