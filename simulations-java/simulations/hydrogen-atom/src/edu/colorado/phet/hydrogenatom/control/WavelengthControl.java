@@ -34,10 +34,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -46,6 +43,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.LinearSpectrumImageFactory;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -848,5 +846,15 @@ public class WavelengthControl extends PhetPNode {
                 ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
             }
         }
+    }
+
+    public static void main( String[] args ) {
+        new JFrame() {{
+            setContentPane( new PhetPCanvas() {{
+                getLayer().addChild( new WavelengthControl( 200, 50 ){{setOffset( 100,100 );}} );
+            }} );
+            setDefaultCloseOperation( EXIT_ON_CLOSE );
+            setSize( 500,500 );
+        }}.setVisible( true );
     }
 }
