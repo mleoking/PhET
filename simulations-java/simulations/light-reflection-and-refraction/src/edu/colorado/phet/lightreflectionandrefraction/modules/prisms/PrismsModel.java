@@ -37,6 +37,7 @@ public class PrismsModel extends LRRModel {
         outerMedium.addObserver( updateModel );
         prismMedium.addObserver( updateModel );
         manyRays.addObserver( updateModel );
+        laser.color.addObserver( updateModel );
     }
 
     public static ArrayList<Prism> getPrismPrototypes() {
@@ -159,11 +160,11 @@ public class PrismsModel extends LRRModel {
             propagate( reflected, count + 1 );
             propagate( refracted, count + 1 );
 
-            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue(), waveWidth, 0, null, 0, true, false ) );
+            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue().getColor(), waveWidth, 0, null, 0, true, false ) );
         }
         else {
             addRay( new LightRay( incidentRay.tail, incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) )//1 meter long ray
-                    , n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue(), waveWidth, 0, null, 0, true, false ) );
+                    , n1, WAVELENGTH_RED / n1, incidentRay.power, laser.color.getValue().getColor(), waveWidth, 0, null, 0, true, false ) );
         }
     }
 

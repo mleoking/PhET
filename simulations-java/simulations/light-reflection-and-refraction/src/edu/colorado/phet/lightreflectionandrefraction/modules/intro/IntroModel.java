@@ -58,7 +58,7 @@ public class IntroModel extends LRRModel {
 
             //According to http://en.wikipedia.org/wiki/Wavelength
             //lambda = lambda0 / n(lambda0)
-            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue(), sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
+            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, laser.color.getValue().getColor(), sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
             incidentRay.phase.addObserver( new SimpleObserver() {
                 public void update() {
 //                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
@@ -82,7 +82,7 @@ public class IntroModel extends LRRModel {
                 }
                 double reflectedWaveWidth = sourceWaveWidth;
                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                            parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue(), reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
+                                            parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, laser.color.getValue().getColor(), reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
 
                 if ( hasTransmittedRay ) {
                     //Transmitted
@@ -94,7 +94,7 @@ public class IntroModel extends LRRModel {
                         double transmittedWaveWidth = a * Math.cos( theta2 );
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                       parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
-                                                                      transmittedPowerRatio * sourcePower, laser.color.getValue(), transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true ) {
+                                                                      transmittedPowerRatio * sourcePower, laser.color.getValue().getColor(), transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true ) {
 
                         };
                         addAndAbsorb( transmittedRay );

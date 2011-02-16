@@ -123,7 +123,7 @@ public class LRRModel {
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
-                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue(),
+                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
                                                      ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), ray.phase.getValue(), false, ray.extendBackwards );
                 boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
                 if ( interrupted.getLength() < ray.getLength() && isForward ) {
