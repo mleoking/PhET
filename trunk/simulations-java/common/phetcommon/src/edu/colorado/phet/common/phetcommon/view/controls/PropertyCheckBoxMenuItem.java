@@ -16,21 +16,31 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class PropertyCheckBoxMenuItem extends JCheckBoxMenuItem {
 
-    public PropertyCheckBoxMenuItem( String text, final SettableProperty<Boolean> booleanProperty ) {
+    private final SettableProperty<Boolean> property;
+    private final SimpleObserver propertyObserver;
+
+    public PropertyCheckBoxMenuItem( String text, final SettableProperty<Boolean> property ) {
         super( text );
 
-        // update the model when the check box changes
+        this.property = property;
+
+        // update the model when the menu item changes
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                booleanProperty.setValue( isSelected() );
+                property.setValue( isSelected() );
             }
         } );
 
-        // update the check box when the model changes
-        booleanProperty.addObserver( new SimpleObserver() {
+        // update the menu item when the model changes
+        propertyObserver = new SimpleObserver() {
             public void update() {
-                setSelected( booleanProperty.getValue() );
+                setSelected( property.getValue() );
             }
-        } );
+        };
+        property.addObserver( propertyObserver );
+    }
+
+    public void cleanup() {
+        property.removeObserver( propertyObserver );
     }
 }
