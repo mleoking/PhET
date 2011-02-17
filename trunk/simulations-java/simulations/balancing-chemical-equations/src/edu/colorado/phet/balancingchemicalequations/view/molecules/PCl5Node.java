@@ -19,41 +19,41 @@ public class PCl5Node extends PComposite {
 
         // atom nodes
         AtomNode centerNode = new BigAtomNode( new P() );
-        AtomNode bottomLeftNode = new BigAtomNode( new Cl() );
-        AtomNode bottomRightNode = new BigAtomNode( new Cl() );
-        AtomNode bottomCenterNode = new BigAtomNode( new Cl() );
+        AtomNode topNode = new BigAtomNode( new Cl() );
+        AtomNode bottomNode = new BigAtomNode( new Cl() );
+        AtomNode rightNode = new BigAtomNode( new Cl() );
         AtomNode topLeftNode = new BigAtomNode( new Cl() );
-        AtomNode topRightNode = new BigAtomNode( new Cl() );
+        AtomNode bottomLeftNode = new BigAtomNode( new Cl() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( bottomLeftNode );
-        parentNode.addChild( bottomRightNode );
-        parentNode.addChild( topRightNode );
-        parentNode.addChild( centerNode );
-        parentNode.addChild( bottomCenterNode );
+        parentNode.addChild( rightNode );
+        parentNode.addChild( bottomNode );
         parentNode.addChild( topLeftNode );
+        parentNode.addChild( centerNode );
+        parentNode.addChild( topNode );
+        parentNode.addChild( bottomLeftNode );
 
         // layout
         double x = 0;
         double y = 0;
         centerNode.setOffset( x, y );
-        x = centerNode.getFullBoundsReference().getMinX();
-        y = centerNode.getFullBoundsReference().getMaxY() - ( 0.25 * centerNode.getFullBoundsReference().getHeight() );
-        bottomLeftNode.setOffset( x, y );
-        x = centerNode.getFullBoundsReference().getMaxX();
-        y = bottomLeftNode.getYOffset();
-        bottomRightNode.setOffset( x, y );
-        x = centerNode.getXOffset();
-        y = centerNode.getFullBoundsReference().getMaxY();
-        bottomCenterNode.setOffset( x, y );
-        x = centerNode.getFullBoundsReference().getMinX();
-        y = centerNode.getFullBoundsReference().getCenterY() - ( 0.25 * centerNode.getFullBoundsReference().getHeight() );
-        topLeftNode.setOffset( x, y );
-        x = centerNode.getFullBoundsReference().getMaxX() - ( 0.25 * centerNode.getFullBoundsReference().getWidth() );
+        x = centerNode.getFullBoundsReference().getCenterX();
         y = centerNode.getFullBoundsReference().getMinY();
-        topRightNode.setOffset( x, y );
+        topNode.setOffset( x, y );
+        x = centerNode.getFullBoundsReference().getCenterX();
+        y = centerNode.getFullBoundsReference().getMaxY();
+        bottomNode.setOffset( x, y );
+        x = centerNode.getFullBoundsReference().getMaxX();
+        y = centerNode.getFullBoundsReference().getCenterY();
+        rightNode.setOffset( x, y );
+        x = centerNode.getFullBoundsReference().getMinX() + ( 0.25 * centerNode.getFullBoundsReference().getWidth() );
+        y = centerNode.getFullBoundsReference().getMinY() + ( 0.25 * centerNode.getFullBoundsReference().getHeight() );
+        topLeftNode.setOffset( x, y );
+        x = centerNode.getFullBoundsReference().getMinX() + ( 0.1 * centerNode.getFullBoundsReference().getWidth() );
+        y = centerNode.getFullBoundsReference().getMaxY() - ( 0.1 * centerNode.getFullBoundsReference().getHeight() );
+        bottomLeftNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
