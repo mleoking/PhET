@@ -15,10 +15,10 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
 /**
  * Level-of-difficulty is based on the number values that the user must solve for.
  * This was used for the first round of interviews on this sim.
- * Behavior is: 
+ * Behavior is:
  * <ul>
  * <li>Level 1: one or two products random, Before (2 variables)
- * <li>Level 2: one product random, After 
+ * <li>Level 2: one product random, After
  * <li>Level 3: two products random, After (4 variables)
  * </ul>
  * Additional requirements:
@@ -27,11 +27,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
  * <li>all reactant quantities will be > 0
  * <li>every game will contain exactly one zero-products challenge
  * </ul>
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory {
-    
+
     // level 2 is all the one-product reactions
     private static final ArrayList<Class <? extends ChemicalReaction>> LEVEL2_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
     static {
@@ -62,7 +62,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
     // level 3 is all the two-product reactions
     private static final ArrayList<Class <? extends ChemicalReaction>>LEVEL3_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
     static {
-        LEVEL3_LIST.add( Reaction_2C_2H2O__CH4_CO2.class ); 
+        LEVEL3_LIST.add( Reaction_2C_2H2O__CH4_CO2.class );
         LEVEL3_LIST.add( Reaction_CH4_H2O__3H2_CO.class );
         LEVEL3_LIST.add( MethaneReaction.class );
         LEVEL3_LIST.add( Reaction_2C2H6_7O2__4CO2_6H2O.class );
@@ -81,7 +81,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         LEVEL3_LIST.add( Reaction_2F2_H2O__OF2_2HF.class );
         LEVEL3_LIST.add( Reaction_OF2_H2O__O2_2HF.class );
     };
-    
+
     // level 1 is all the reactions
     private static final ArrayList<Class <? extends ChemicalReaction>>LEVEL1_LIST = new ArrayList<Class<? extends ChemicalReaction>>();
     static {
@@ -96,7 +96,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         REACTIONS.add( LEVEL2_LIST );
         REACTIONS.add( LEVEL3_LIST );
     };
-    
+
     /**
      * Default constructor.
      */
@@ -116,10 +116,10 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         if ( level < 1 || level > REACTIONS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
-        
+
         // determine which challenge will have zero products
         final int zeroProductsIndex = (int)( Math.random() * numberOfChallenges );
-        
+
         GameChallenge[] challenges = new GameChallenge[ numberOfChallenges ];
         ChemicalReaction previousReaction = null;
         for ( int i = 0; i < challenges.length; i++ ) {
@@ -135,7 +135,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             else /* level 3 */ {
                 challengeType = ChallengeType.AFTER;
             }
-            
+
             // reaction with quantities
             ChemicalReaction reaction = null;
             if ( i == zeroProductsIndex ) {
@@ -145,18 +145,18 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
                 reaction = createChallengeWithProducts( level, maxQuantity, previousReaction );
             }
             fixQuantityRangeViolation( reaction, maxQuantity ); // do this *before* creating the challenge, see #2156
-            
+
             challenges[i] = new GameChallenge( reaction, challengeType, challengeVisibility );
             previousReaction = reaction;
         }
         return challenges;
     }
-    
+
     /*
      * Creates a reaction with non-zero quantities of at least one product.
      */
     private ChemicalReaction createChallengeWithProducts( int level, int maxQuantity, ChemicalReaction previousReaction ) {
-        
+
         // reaction
         ChemicalReaction reaction = getRandomReaction( level, previousReaction );
 
@@ -164,14 +164,14 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         for ( Reactant reactant : reaction.getReactants() ) {
             reactant.setQuantity( getRandomQuantity( reactant.getCoefficient(), maxQuantity ) );
         }
-        
+
         return reaction;
     }
-    
+
     /*
      * Creates a reaction with zero quantities of all products.
      */
-    private ChemicalReaction createChallengeWithoutProducts( int level, int maxQuantity, ChemicalReaction previousReaction ) { 
+    private ChemicalReaction createChallengeWithoutProducts( int level, int maxQuantity, ChemicalReaction previousReaction ) {
         // reaction
         ChemicalReaction reaction = getRandomReactionThatCanHaveZeroProducts( level, previousReaction );
 
@@ -179,49 +179,49 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         for ( Reactant reactant : reaction.getReactants() ) {
             reactant.setQuantity( getRandomQuantity( Math.max( 1, reactant.getCoefficient() - 1 ) ) );
         }
-        
+
         return reaction;
     }
-    
+
     /*
      * Creates a random reaction for a specified level.
      */
     private ChemicalReaction getRandomReaction( int level, ChemicalReaction previousReaction ) {
-        
+
         // Select a random reaction from the array for the specified level.
         int reactionIndex = getRandomReactantIndex( level );
         Class<? extends ChemicalReaction> reactionClass = getReactionClass( level, reactionIndex );
-        
+
         // If same as the previous reaction, simply get the next reaction in the array.
         if ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) {
             reactionIndex = getNextReactantIndex( level, reactionIndex );
             reactionClass = getReactionClass( level, reactionIndex );
         }
-        
+
         return instantiateReaction( reactionClass );
     }
-    
+
     /*
      * Creates a random reaction that is capable of having having no products when
      * all reactant quantities are non-zero.
      */
     private ChemicalReaction getRandomReactionThatCanHaveZeroProducts( int level, ChemicalReaction previousReaction ) {
-        
+
         // Select a random reaction from the array for the specified level.
         int reactionIndex = getRandomReactantIndex( level );
         Class<? extends ChemicalReaction> reactionClass = getReactionClass( level, reactionIndex );
         ChemicalReaction reaction = instantiateReaction( reactionClass );
-        
+
         // If same as the previous reaction, or all reactant coefficients are 1, try the next reaction in the array.
         while ( ( previousReaction != null && reactionClass.equals( previousReaction.getClass() ) ) || reactantCoefficientsAllOne( reaction ) ) {
             reactionIndex = getNextReactantIndex( level, reactionIndex );
             reactionClass = getReactionClass( level, reactionIndex );
             reaction = instantiateReaction( reactionClass );
         }
-        
+
         return reaction;
     }
-    
+
     /*
      * Does this reaction have coefficent of 1 for all reactants?
      * This type of reaction cannot product zero products with non-zero quantities,
@@ -237,28 +237,28 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         }
         return allOne;
     }
-    
+
     /*
      * Gets a reaction class for a specified level and index.
      */
     private Class<? extends ChemicalReaction> getReactionClass( int level, int reactionIndex ) {
         return getReactionList( level ).get( reactionIndex );
     }
-    
+
     /*
      * Gets the number of reactions for a specified level.
      */
     private int getNumberOfReactions( int level ) {
         return getReactionList( level ).size();
     }
-    
+
     /*
      * Gets a random reaction index for a specified level.
      */
     private int getRandomReactantIndex( int level ) {
         return (int) ( Math.random() * getNumberOfReactions( level ) );
     }
-    
+
     /*
      * Gets the next reaction index for a specified level and current reaction index.
      */
@@ -269,7 +269,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         }
         return nextIndex;
     }
-    
+
     /*
      * Gets the list of reactions for a level.
      * Levels are numbered from 1-N, as in the model.
@@ -281,13 +281,13 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
     /**
      * Test for problems with reactions and algorithm.
      * This can be run from the Developer menu.
-     * 
+     *
      * @param args
      */
     public static void main( String[] args ) {
-        
+
         int maxQuantity = GameModel.getQuantityRange().getMax();
-        
+
         // Put all reactions in a container, removing duplicates.
         NumberOfVariablesChallengeFactory factory = new NumberOfVariablesChallengeFactory();
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
@@ -299,7 +299,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
                 }
             }
         }
-        
+
         // Look for reactions with coefficients > maxQuantity, we must have none of these.
         System.out.println();
         System.out.println( "LOOKING FOR COEFFICIENTS RANGE VIOLATIONS ..." );
@@ -314,7 +314,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
                 }
             }
         }
-        
+
         // Look for quantity range violations in all reactions. We expect these, but require that they can be fixed.
         System.out.println( "LOOKING FOR QUANTITY RANGE VIOLATIONS THAT CANNOT BE FIXED ..." );
         System.out.println();
@@ -327,21 +327,21 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
             // look for violations and try to fix them.
             fixQuantityRangeViolation( reaction, maxQuantity, true /* enableDebugOutput */ );
         }
-        
+
         // Generate many challenges for each level, and validate our expectations.
         System.out.println();
         System.out.println( "TESTING CHALLENGE GENERATION ..." );
         System.out.println();
         for ( int level = GameModel.getLevelRange().getMin(); level <= GameModel.getLevelRange().getMax(); level++ ) {
             for ( int i = 0; i < 100; i++ ) {
-                
+
                 // create challenges
                 GameChallenge[] challenges = factory.createChallenges( GameModel.getChallengesPerGame(), level, maxQuantity, ChallengeVisibility.BOTH );
-                
+
                 // validate
                 int numberWithZeroProducts = 0;
                 for ( GameChallenge challenge : challenges ) {
-                    
+
                     // verify that all reactant quantities are > 0
                     boolean zeroReactants = false;
                     for ( Reactant reactant : challenge.getReaction().getReactants() ) {
@@ -352,7 +352,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
                     if ( zeroReactants ) {
                         System.out.println( "ERROR: challenge has zero reactants, level=" + level + " : " +  challenge.getReaction().toString() );
                     }
-                    
+
                     // count how many challenges have zero products
                     int nonZeroProducts = 0;
                     for ( Product product : challenge.getReaction().getProducts() ) {
@@ -364,7 +364,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
                         numberWithZeroProducts++;
                     }
                 }
-                
+
                 // should have exactly one challenge with zero products
                 if ( numberWithZeroProducts != 1 ) {
                     System.out.println( "ERROR: more than one challenge with zero products, level=" + level + " challenges=" );
