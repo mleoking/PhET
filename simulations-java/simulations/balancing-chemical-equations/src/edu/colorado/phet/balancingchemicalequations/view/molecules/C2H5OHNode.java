@@ -12,6 +12,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * C2H5OH molecule.
+ * Structure is similar to C2H6, but with OH replacing one of the H's.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
