@@ -10,6 +10,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * PCl5 molecule.
+ * Structure has 2 H's on the vertical axis, and 3 H's arranged in a triangle in the horizontal plane.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
