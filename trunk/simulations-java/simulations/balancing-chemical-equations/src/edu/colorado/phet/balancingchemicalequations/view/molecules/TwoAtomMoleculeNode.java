@@ -9,7 +9,6 @@ import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -24,8 +23,8 @@ public abstract class TwoAtomMoleculeNode extends PComposite {
     public TwoAtomMoleculeNode( Atom leftAtom, Atom rightAtom ) {
 
         // atom nodes
-        AtomNode leftNode = new BigAtomNode( leftAtom );
-        AtomNode rightNode = new BigAtomNode( rightAtom );
+        AtomNode leftNode = new AtomNode( leftAtom );
+        AtomNode rightNode = new AtomNode( rightAtom );
 
         // rendering order
         PComposite parentNode = new PComposite();

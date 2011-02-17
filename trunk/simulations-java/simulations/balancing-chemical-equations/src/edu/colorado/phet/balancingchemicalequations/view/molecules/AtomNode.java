@@ -3,6 +3,7 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
+import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 
 /**
@@ -13,19 +14,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  */
 public class AtomNode extends ShadedSphereNode {
 
-    public AtomNode( double diameter, Atom atom ) {
-        super( diameter, atom.getColor() );
-    }
+    private static final double SCALE = 22 / new P().getDiameter(); // model-view scaling factor
 
-    public static class BigAtomNode extends AtomNode {
-        public BigAtomNode( Atom atom ) {
-            super( 22, atom );
-        }
-    }
-
-    public static class SmallAtomNode extends AtomNode {
-        public SmallAtomNode( Atom atom ) {
-            super( 14, atom );
-        }
+    public AtomNode( Atom atom ) {
+        super( SCALE * atom.getDiameter(), atom.getColor() );
     }
 }

@@ -5,7 +5,6 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -23,7 +22,7 @@ public abstract class OneAtomMoleculeNode extends PComposite {
     public OneAtomMoleculeNode( Atom atom ) {
 
         // atom nodes
-        AtomNode node = new BigAtomNode( atom );
+        AtomNode node = new AtomNode( atom );
 
         // rendering order
         PComposite parentNode = new PComposite();

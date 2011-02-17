@@ -3,7 +3,6 @@
 package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -18,10 +17,10 @@ public class P4Node extends PComposite {
     public P4Node() {
 
         // atom nodes
-        AtomNode topNode = new BigAtomNode( new P() );
-        AtomNode bottomLeftNode = new BigAtomNode( new P() );
-        AtomNode bottomRightNode = new BigAtomNode( new P() );
-        AtomNode bottomBackNode = new BigAtomNode( new P() );
+        AtomNode topNode = new AtomNode( new P() );
+        AtomNode bottomLeftNode = new AtomNode( new P() );
+        AtomNode bottomRightNode = new AtomNode( new P() );
+        AtomNode bottomBackNode = new AtomNode( new P() );
 
         // rendering order
         PComposite parentNode = new PComposite();

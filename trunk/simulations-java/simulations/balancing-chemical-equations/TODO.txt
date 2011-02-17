@@ -4,7 +4,6 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- add molecule sizes to model, display consistent sizes in view
 - "Game" module with 2/3/11 design meeting changes
 - in "Game", two possible labels below frowny face: "X not balanced" or "Check Mark balanced\nX not simplified"
 - after "Check" is pressed, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.

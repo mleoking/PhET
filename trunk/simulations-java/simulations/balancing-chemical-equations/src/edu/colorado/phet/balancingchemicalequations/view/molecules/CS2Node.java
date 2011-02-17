@@ -4,7 +4,6 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -18,9 +17,9 @@ public class CS2Node extends PComposite {
     public CS2Node() {
 
         // atom nodes
-        AtomNode centerNode = new BigAtomNode( new C() );
-        AtomNode leftNode = new BigAtomNode( new S() );
-        AtomNode rightNode = new BigAtomNode( new S() );
+        AtomNode centerNode = new AtomNode( new C() );
+        AtomNode leftNode = new AtomNode( new S() );
+        AtomNode rightNode = new AtomNode( new S() );
 
         // rendering order
         PComposite parentNode = new PComposite();

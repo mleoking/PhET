@@ -5,8 +5,6 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -20,12 +18,12 @@ public class CH3OHNode extends PComposite {
     public CH3OHNode() {
 
         // atom nodes
-        AtomNode leftNode = new BigAtomNode( new C() );
-        AtomNode smallTopNode = new SmallAtomNode( new H() );
-        AtomNode smallBottomNode = new SmallAtomNode( new H() );
-        AtomNode smallLeftNode = new SmallAtomNode( new H() );
-        AtomNode rightNode = new BigAtomNode( new O() );
-        AtomNode smallRightNode = new SmallAtomNode( new H() );
+        AtomNode leftNode = new AtomNode( new C() );
+        AtomNode smallTopNode = new AtomNode( new H() );
+        AtomNode smallBottomNode = new AtomNode( new H() );
+        AtomNode smallLeftNode = new AtomNode( new H() );
+        AtomNode rightNode = new AtomNode( new O() );
+        AtomNode smallRightNode = new AtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();
