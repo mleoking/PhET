@@ -17,19 +17,33 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Chris Malley
  */
 public class PropertyRadioButton<T> extends JRadioButton {
+
+    private final SettableProperty<T> property;
+    private final SimpleObserver propertyObserver;
+
     public PropertyRadioButton( String title, final SettableProperty<T> property, final T value ) {
         super( title );
-        final SimpleObserver updateSelected = new SimpleObserver() {
+
+        this.property = property;
+
+        // update the model when the check box changes
+        addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                property.setValue( value );
+                propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
+            }
+        } );
+
+        // update the check box when the model changes
+        propertyObserver = new SimpleObserver() {
             public void update() {
                 setSelected( property.getValue() == value );
             }
         };
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                property.setValue( value );
-                updateSelected.update();//make sure radio buttons don't toggle off, in case they're not in a button group
-            }
-        } );
-        property.addObserver( updateSelected );
+        property.addObserver( propertyObserver );
+    }
+
+    public void cleanup() {
+        property.removeObserver( propertyObserver );
     }
 }

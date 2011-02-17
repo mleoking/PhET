@@ -1,3 +1,4 @@
+2/16/11 #2739, add cleanup methods to Swing controls that observer Property<T>
 2/15/11 Added Function1.Constant
 2/10/11 add VoidFunction0.Null
 2/8/2100 Generalized to parent types in BooleanProperty combinators and Or
