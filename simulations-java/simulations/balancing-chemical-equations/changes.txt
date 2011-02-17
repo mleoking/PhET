@@ -1,3 +1,4 @@
+2/17/11 changed PCl5 structure so that 2 H's are on the vertical axis, and 3 H's are arranged in a triangle in the horizontal plane
 2/17/11 change structure of several molecules, based on meeting with KL
 2/16/11 factory for creating problem sets
 2/16/11 change box color to black
