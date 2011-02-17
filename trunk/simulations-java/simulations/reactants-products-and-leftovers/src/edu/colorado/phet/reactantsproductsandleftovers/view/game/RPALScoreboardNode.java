@@ -16,12 +16,12 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.Gam
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RPALScoreboardNode extends GameScoreboardNode {
-    
+
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
-    
+
     public RPALScoreboardNode( final GameModel model ) {
         super( GameModel.getLevelRange().getMax(), GameModel.getPerfectScore(), POINTS_FORMAT );
-        
+
         // when the model changes, update the scoreboard
         model.addGameListener( new GameAdapter() {
 
@@ -42,30 +42,30 @@ public class RPALScoreboardNode extends GameScoreboardNode {
                     setTime( model.getTime() );
                 }
             }
-            
+
             @Override
             public void timeChanged() {
                 setTime( model.getTime() );
             }
-            
+
             @Override
             public void gameStarted() {
                 setConfirmNewGame( true );
             }
-            
-            @Override 
+
+            @Override
             public void gameCompleted() {
                 setConfirmNewGame( false );
             }
         });
-        
+
         // when the "New Game" button is pressed, tell the model
         addGameScoreboardListener( new GameScoreboardListener() {
             public void newGamePressed() {
                 model.newGame();
             }
         });
-        
+
         // initial state
         setScore( model.getPoints() );
         setLevel( model.getLevel() );

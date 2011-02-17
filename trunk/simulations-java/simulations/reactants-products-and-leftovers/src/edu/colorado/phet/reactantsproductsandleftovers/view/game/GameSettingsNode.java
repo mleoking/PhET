@@ -25,15 +25,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameSettingsNode extends PhetPNode {
-    
+
     private static final Color BACKGROUND = new Color( 180, 205, 255 ); // light blue
-    
+
     private final GameSettingsPanel panel;
     private final JRadioButton hideNothingRadioButton, hideMoleculesRadioButton, hideNumbersRadioButton;
-    
+
     public GameSettingsNode( final GameModel model ) {
         super();
-        
+
         // Game settings panel
         panel = new GameSettingsPanel( GameModel.getLevelRange() );
         panel.setBackground( BACKGROUND );
@@ -43,7 +43,7 @@ public class GameSettingsNode extends PhetPNode {
                 model.startGame( panel.getLevel(), panel.isTimerOn(), panel.isSoundOn(), getChallengeVisibility() );
             }
         });
-        
+
         // customize the game settings by adding a "hide" control
         JLabel hideLabel = new JLabel( RPALStrings.LABEL_HIDE );
         hideNothingRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_NOTHING );
@@ -62,24 +62,24 @@ public class GameSettingsNode extends PhetPNode {
         hidePanel.add( hideMoleculesRadioButton );
         hidePanel.add( hideNumbersRadioButton );
         panel.addControl( hideLabel, hidePanel );
-        
+
         // PSwing wrapper
         PSwing pswing = new PSwing( panel );
         addChild( pswing );
-        
+
         // initial state
         panel.setLevel( model.getLevel() );
         panel.setTimerOn( model.isTimerVisible() );
         panel.setSoundOn( model.isSoundEnabled() );
         setChallengeVisibility( model.getChallengeVisibility() );
     }
-    
+
     private void setChallengeVisibility( ChallengeVisibility challengeVisibility ) {
         hideNothingRadioButton.setSelected( challengeVisibility == ChallengeVisibility.BOTH );
         hideMoleculesRadioButton.setSelected( challengeVisibility == ChallengeVisibility.NUMBERS );
         hideNumbersRadioButton.setSelected( challengeVisibility == ChallengeVisibility.MOLECULES );
     }
-    
+
     private ChallengeVisibility getChallengeVisibility() {
         ChallengeVisibility challengeVisibility = ChallengeVisibility.BOTH;
         if ( hideMoleculesRadioButton.isSelected() ) {
