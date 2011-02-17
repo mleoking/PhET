@@ -8,9 +8,6 @@ import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
-import edu.colorado.phet.buildanatom.modules.game.view.CountsToElementView;
-import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 
 /**
@@ -170,7 +167,7 @@ public class ProblemSet {
         if ( availableProblemTypes.size() == 0 ){
             // Reload the list of available problems with all possible problem
             // types for the current level.
-            availableProblemTypes.addAll( mapLevelToProbTypes.get( model.getLevelProperty().getValue() ) );
+            availableProblemTypes.addAll( mapLevelToProbTypes.get( model.getLevel() ) );
 
             // Filter the prob types based on the developer dialog setting.
             availableProblemTypes = filterProblemTypes( availableProblemTypes );
@@ -179,7 +176,7 @@ public class ProblemSet {
         if ( availableProblemTypes.size() == 0 ) {
             // There are no problem types enabled that match this level's
             // constraints.
-            System.err.println( getClass().getName() + " - Warning: No problem types enabled for level " + model.getLevelProperty().getValue() );
+            System.err.println( getClass().getName() + " - Warning: No problem types enabled for level " + model.getLevel() );
             return null;
         }
 

@@ -4,7 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.common.games.GameSettingsPanel;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -19,19 +19,12 @@ public class GameSettingsStateView extends StateView {
 
     public GameSettingsStateView( BuildAnAtomGameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameSettingsState(), gameCanvas );
-        final GameSettingsPanel panel = new GameSettingsPanel( new IntegerRange( 1, BuildAnAtomGameModel.MAX_LEVELS ) ) {
-            {
-                setTimerOn( model.getTimerEnabledProperty().getValue() );
-                setSoundOn( model.getSoundEnabledProperty().getValue() );
-                setLevel( model.getLevelProperty().getValue() );
-                addGameSettingsPanelListener( new GameSettingsPanel.GameSettingsPanelAdapater() {
-                    @Override
-                    public void startButtonPressed() {
-                        model.startGame( getLevel(), isTimerOn(), isSoundOn() );
-                    }
-                } );
+        VoidFunction0 startFunction = new VoidFunction0() {
+            public void apply() {
+                model.startGame();
             }
         };
+        final GameSettingsPanel panel = new GameSettingsPanel( model.getGameSettings(), startFunction );
         gameSettingsNode = new PSwing( panel ) {
             {
                 scale( 1.5 );

@@ -1,3 +1,4 @@
+2/16/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
 isotopes-and-atomic-mass: Changed the abundance of tritium to "trace" from zero. 
 isotopes-and-atomic-mass: Added a "Reset All" button to the first tab. 
 build-an-atom: Fixed an issue where the Reset All button wasn't resetting the view.

@@ -9,8 +9,10 @@ import edu.colorado.phet.buildanatom.modules.game.view.BuildAnAtomGameCanvas;
 import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
+import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * The primary model for the Build an Atom game.  This class sequences the
@@ -66,9 +68,7 @@ public class BuildAnAtomGameModel {
     private State currentState = nullState;
 
     private final Property<Integer> scoreProperty = new Property<Integer>( 0 );
-    private final Property<Boolean> timerEnabledProperty = new Property<Boolean>( true );
-    private final Property<Boolean> soundEnabledProperty = new Property<Boolean>( true );
-    private final Property<Integer> levelProperty = new Property<Integer>( 1 );
+    private final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, BuildAnAtomGameModel.MAX_LEVELS, 1 ), true, true );
 
     // Level pools from the design doc.  These define the pools of problems for a given level.
     // A pool is the set of atoms that can be selected for creating problem sets at a given game level.
@@ -303,10 +303,23 @@ public class BuildAnAtomGameModel {
         return currentState;
     }
 
-    public void startGame( int level, boolean timerOn, boolean soundOn ) {
-        levelProperty.setValue( level );
-        timerEnabledProperty.setValue( timerOn );
-        soundEnabledProperty.setValue( soundOn );
+    public GameSettings getGameSettings() {
+        return gameSettings;
+    }
+
+    public int getLevel() {
+        return gameSettings.level.getValue();
+    }
+
+    public boolean isTimerEnabled() {
+        return gameSettings.timerEnabled.getValue();
+    }
+
+    public boolean isSoundEnabled() {
+        return gameSettings.soundEnabled.getValue();
+    }
+
+    public void startGame() {
 
         problemSet = new ProblemSet( this, PROBLEMS_PER_SET );
         if ( problemSet.getTotalNumProblems() > 0 ){
@@ -326,9 +339,9 @@ public class BuildAnAtomGameModel {
         getGameClock().stop();
 
         // Update the best time value if appropriate.
-        if ( timerEnabledProperty.getValue() ){
-            if ( !mapLevelToBestTime.containsKey( getCurrentLevel() ) || getGameClock().getSimulationTime() < mapLevelToBestTime.get( getCurrentLevel() ) ){
-                mapLevelToBestTime.put( getCurrentLevel(), getGameClock().getSimulationTime() );
+        if ( isTimerEnabled() ){
+            if ( !mapLevelToBestTime.containsKey( getLevel() ) || getGameClock().getSimulationTime() < mapLevelToBestTime.get( getLevel() ) ){
+                mapLevelToBestTime.put( getLevel(), getGameClock().getSimulationTime() );
             }
         }
     }
@@ -358,31 +371,11 @@ public class BuildAnAtomGameModel {
         return scoreProperty;
     }
 
-    public Property<Boolean> getTimerEnabledProperty() {
-        return timerEnabledProperty;
-    }
-
-    public boolean isTimerEnabled(){
-        return timerEnabledProperty.getValue();
-    }
-
-    public Property<Integer> getLevelProperty() {
-        return levelProperty;
-    }
-
-    public int getCurrentLevel(){
-        return levelProperty.getValue();
-    }
-
-    public Property<Boolean> getSoundEnabledProperty() {
-        return soundEnabledProperty;
-    }
-
     /**
      * Get the pool of possible problems for the current level setting.
      */
     public ArrayList<ImmutableAtom> getLevelPool( ) {
-        return levelPools.get( levelProperty.getValue() );
+        return levelPools.get( getLevel() );
     }
 
     public int getProblemIndex( Problem problem ) {
@@ -442,7 +435,7 @@ public class BuildAnAtomGameModel {
     }
 
     public boolean isNewBestTime(){
-        return getTime() == getBestTime( getCurrentLevel() ) && timerEnabledProperty.getValue();
+        return getTime() == getBestTime( getLevel() ) && isTimerEnabled();
     }
 
     /**

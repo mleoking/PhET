@@ -57,7 +57,7 @@ public abstract class ProblemView extends StateView {
     ProblemView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, problem, gameCanvas );
         this.problem = problem;
-        gameAudioPlayer = new GameAudioPlayer( model.getSoundEnabledProperty().getValue() );
+        gameAudioPlayer = new GameAudioPlayer( model.isSoundEnabled() );
         final int problemIndex = model.getProblemIndex( problem ) + 1;
         final int maxProblems = model.getNumberProblems();
         problemNumberDisplay = new PText( MessageFormat.format( BuildAnAtomStrings.GAME_PROBLEM_INDEX_READOUT_PATTERN, problemIndex, maxProblems ) ) {
