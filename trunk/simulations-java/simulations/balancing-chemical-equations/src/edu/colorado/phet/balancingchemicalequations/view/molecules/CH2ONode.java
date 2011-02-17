@@ -28,10 +28,10 @@ public class CH2ONode extends PComposite {
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( smallBottomNode );
+        parentNode.addChild( smallTopNode );
         parentNode.addChild( leftNode );
         parentNode.addChild( rightNode );
-        parentNode.addChild( smallTopNode );
+        parentNode.addChild( smallBottomNode );
 
         // layout
         final double offsetSmall = smallTopNode.getFullBoundsReference().getWidth() / 4;

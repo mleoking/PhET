@@ -32,14 +32,14 @@ public class C2H5ClNode extends PComposite {
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( smallBottomLeftNode );
-        parentNode.addChild( smallTopLeftNode );
-        parentNode.addChild( leftNode );
-        parentNode.addChild( smallLeftNode );
         parentNode.addChild( smallBottomRightNode );
         parentNode.addChild( smallTopRightNode );
         parentNode.addChild( centerNode );
         parentNode.addChild( rightNode );
+        parentNode.addChild( smallLeftNode );
+        parentNode.addChild( leftNode );
+        parentNode.addChild( smallBottomLeftNode );
+        parentNode.addChild( smallTopLeftNode );
 
         // layout
         double x = 0;

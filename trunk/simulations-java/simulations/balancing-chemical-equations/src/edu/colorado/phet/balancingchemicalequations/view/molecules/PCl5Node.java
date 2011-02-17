@@ -5,7 +5,6 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -20,11 +19,11 @@ public class PCl5Node extends PComposite {
 
         // atom nodes
         AtomNode bigNode = new BigAtomNode( new P() );
-        AtomNode smallBottomLeftNode = new SmallAtomNode( new Cl() );
-        AtomNode smallBottomRightNode = new SmallAtomNode( new Cl() );
-        AtomNode smallBottomCenterNode = new SmallAtomNode( new Cl() );
-        AtomNode smallTopLeftNode = new SmallAtomNode( new Cl() );
-        AtomNode smallTopRightNode = new SmallAtomNode( new Cl() );
+        AtomNode smallBottomLeftNode = new BigAtomNode( new Cl() );
+        AtomNode smallBottomRightNode = new BigAtomNode( new Cl() );
+        AtomNode smallBottomCenterNode = new BigAtomNode( new Cl() );
+        AtomNode smallTopLeftNode = new BigAtomNode( new Cl() );
+        AtomNode smallTopRightNode = new BigAtomNode( new Cl() );
 
         // rendering order
         PComposite parentNode = new PComposite();
