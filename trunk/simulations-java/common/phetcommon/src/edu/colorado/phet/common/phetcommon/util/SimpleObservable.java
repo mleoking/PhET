@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
@@ -15,21 +7,20 @@ import java.util.ArrayList;
 /**
  * Simple implementation of the Observer pattern.
  *
- * @author ?
- * @version $Revision$
+ * @author Sam Reid
+ * @author John De Goes
+ * @author Ron LeMaster
  */
 public class SimpleObservable implements Cloneable {
-    private ArrayList observers = new ArrayList();
-    private SimpleObserver observerController = new SimpleObserverController( this );
+    private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
 
     public void addObserver( SimpleObserver so ) {
         observers.add( so );
     }
 
     public void notifyObservers() {
-        for ( int i = 0; i < observers.size(); i++ ) {
-            SimpleObserver simpleObserver = (SimpleObserver) observers.get( i );
-            simpleObserver.update();
+        for ( SimpleObserver observer : observers ) {
+            observer.update();
         }
     }
 
@@ -50,7 +41,7 @@ public class SimpleObservable implements Cloneable {
     }
 
     public SimpleObserver[] getObservers() {
-        return (SimpleObserver[]) observers.toArray( new SimpleObserver[0] );
+        return observers.toArray( new SimpleObserver[observers.size()] );
     }
 
     //////////////////////////////////////////////////
@@ -67,15 +58,11 @@ public class SimpleObservable implements Cloneable {
     public Object clone() {
         try {
             SimpleObservable clone = (SimpleObservable) super.clone();
-
-            clone.observers = new ArrayList( observers );
-            clone.observerController = new SimpleObserverController( clone );
-
+            clone.observers = new ArrayList<SimpleObserver>( observers );
             return clone;
         }
-        catch( CloneNotSupportedException e ) {
+        catch ( CloneNotSupportedException e ) {
             e.printStackTrace();
-
             return null;
         }
     }
@@ -85,7 +72,7 @@ public class SimpleObservable implements Cloneable {
      *
      * @param observers
      */
-    public void setObserverList( ArrayList observers ) {
+    public void setObserverList( ArrayList<SimpleObserver> observers ) {
         this.observers = observers;
     }
 
@@ -94,24 +81,7 @@ public class SimpleObservable implements Cloneable {
      *
      * @return a reference to the list of observers.
      */
-    public ArrayList getObserverList() {
+    public ArrayList<SimpleObserver> getObserverList() {
         return observers;
     }
-
-    public SimpleObserver getController() {
-        return observerController;
-    }
-
-    private static class SimpleObserverController implements SimpleObserver {
-        private final SimpleObservable observer;
-
-        SimpleObserverController( SimpleObservable o ) {
-            this.observer = o;
-        }
-
-        public void update() {
-            observer.notifyObservers();
-        }
-    }
 }
-

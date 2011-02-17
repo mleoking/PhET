@@ -17,10 +17,7 @@ public class ZSimpleObservableTester extends TestCase {
         MockObserver mockObserver = new MockObserver();
 
         observable.addObserver( mockObserver );
-
-        SimpleObserver controllingObserver = observable.getController();
-
-        controllingObserver.update();
+        observable.notifyObservers();
 
         assertEquals( 1, mockObserver.getUpdateCount() );
     }
