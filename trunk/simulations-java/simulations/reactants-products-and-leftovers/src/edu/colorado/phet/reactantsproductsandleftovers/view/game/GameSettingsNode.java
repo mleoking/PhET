@@ -5,17 +5,17 @@ package edu.colorado.phet.reactantsproductsandleftovers.view.game;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.games.GameSettingsPanel;
-import edu.colorado.phet.common.games.GameSettingsPanel.GameSettingsPanelAdapater;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
+import edu.colorado.phet.reactantsproductsandleftovers.module.game.RPALGameSettings;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -29,65 +29,61 @@ public class GameSettingsNode extends PhetPNode {
     private static final Color BACKGROUND = new Color( 180, 205, 255 ); // light blue
 
     private final GameSettingsPanel panel;
-    private final JRadioButton hideNothingRadioButton, hideMoleculesRadioButton, hideNumbersRadioButton;
 
     public GameSettingsNode( final GameModel model ) {
         super();
 
         // Game settings panel
-        panel = new GameSettingsPanel( GameModel.getLevelRange() );
-        panel.setBackground( BACKGROUND );
-        panel.addGameSettingsPanelListener( new GameSettingsPanelAdapater() {
-            @Override
-            public void startButtonPressed() {
-                model.startGame( panel.getLevel(), panel.isTimerOn(), panel.isSoundOn(), getChallengeVisibility() );
+        VoidFunction0 startFunction = new VoidFunction0() {
+            public void apply() {
+                model.startGame();
             }
-        });
-
-        // customize the game settings by adding a "hide" control
-        JLabel hideLabel = new JLabel( RPALStrings.LABEL_HIDE );
-        hideNothingRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_NOTHING );
-        hideNothingRadioButton.setOpaque( false );
-        hideMoleculesRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_MOLECULES );
-        hideMoleculesRadioButton.setOpaque( false );
-        hideNumbersRadioButton = new JRadioButton( RPALStrings.RADIO_BUTTON_NUMBERS );
-        hideNumbersRadioButton.setOpaque( false );
-        ButtonGroup hideButtonGroup = new ButtonGroup();
-        hideButtonGroup.add( hideNothingRadioButton );
-        hideButtonGroup.add( hideMoleculesRadioButton );
-        hideButtonGroup.add( hideNumbersRadioButton );
-        JPanel hidePanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        hidePanel.setOpaque( false );
-        hidePanel.add( hideNothingRadioButton );
-        hidePanel.add( hideMoleculesRadioButton );
-        hidePanel.add( hideNumbersRadioButton );
-        panel.addControl( hideLabel, hidePanel );
+        };
+        panel = new RPALGameSettingsPanel( model.getGameSettings(), startFunction );
+        panel.setBackground( BACKGROUND );
 
         // PSwing wrapper
         PSwing pswing = new PSwing( panel );
         addChild( pswing );
-
-        // initial state
-        panel.setLevel( model.getLevel() );
-        panel.setTimerOn( model.isTimerVisible() );
-        panel.setSoundOn( model.isSoundEnabled() );
-        setChallengeVisibility( model.getChallengeVisibility() );
     }
 
-    private void setChallengeVisibility( ChallengeVisibility challengeVisibility ) {
-        hideNothingRadioButton.setSelected( challengeVisibility == ChallengeVisibility.BOTH );
-        hideMoleculesRadioButton.setSelected( challengeVisibility == ChallengeVisibility.NUMBERS );
-        hideNumbersRadioButton.setSelected( challengeVisibility == ChallengeVisibility.MOLECULES );
-    }
+    /*
+     * Customized game settings panel, with a "Hide" control.
+     * Note that the semantics of the control are the opposite of the enum ChallengeVisibility.
+     */
+    private static class RPALGameSettingsPanel extends GameSettingsPanel {
 
-    private ChallengeVisibility getChallengeVisibility() {
-        ChallengeVisibility challengeVisibility = ChallengeVisibility.BOTH;
-        if ( hideMoleculesRadioButton.isSelected() ) {
-            challengeVisibility = ChallengeVisibility.NUMBERS;
+        private final PropertyRadioButton<ChallengeVisibility> hideNothingRadioButton, hideMoleculesRadioButton, hideNumbersRadioButton;
+
+        public RPALGameSettingsPanel( RPALGameSettings gameSettings, VoidFunction0 startFunction ) {
+            super( gameSettings, startFunction );
+
+            // customize the game settings by adding a "hide" control
+            JLabel hideLabel = new JLabel( RPALStrings.LABEL_HIDE );
+
+            hideNothingRadioButton = new PropertyRadioButton<ChallengeVisibility>( RPALStrings.RADIO_BUTTON_NOTHING, gameSettings.challengeVisibility,ChallengeVisibility.BOTH );
+            hideNothingRadioButton.setOpaque( false );
+
+            hideMoleculesRadioButton = new PropertyRadioButton<ChallengeVisibility>( RPALStrings.RADIO_BUTTON_MOLECULES, gameSettings.challengeVisibility,ChallengeVisibility.NUMBERS );
+            hideMoleculesRadioButton.setOpaque( false );
+
+            hideNumbersRadioButton = new PropertyRadioButton<ChallengeVisibility>( RPALStrings.RADIO_BUTTON_NUMBERS, gameSettings.challengeVisibility,ChallengeVisibility.MOLECULES );
+            hideNumbersRadioButton.setOpaque( false );
+
+            JPanel hidePanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+            hidePanel.setOpaque( false );
+            hidePanel.add( hideNothingRadioButton );
+            hidePanel.add( hideMoleculesRadioButton );
+            hidePanel.add( hideNumbersRadioButton );
+            addControl( hideLabel, hidePanel );
         }
-        else if ( hideNumbersRadioButton.isSelected() ) {
-            challengeVisibility = ChallengeVisibility.MOLECULES;
+
+        @Override
+        public void cleanup() {
+            super.cleanup();
+            hideNothingRadioButton.cleanup();
+            hideMoleculesRadioButton.cleanup();
+            hideNumbersRadioButton.cleanup();
         }
-        return challengeVisibility;
     }
 }

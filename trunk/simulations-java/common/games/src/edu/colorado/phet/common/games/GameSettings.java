@@ -23,6 +23,10 @@ public class GameSettings {
         this.timerEnabled = new Property<Boolean>( timerEnabled );
     }
 
+    public int getNumberOfLevels() {
+        return level.getMax() - level.getMin() + 1;
+    }
+
     public void reset() {
         level.reset();
         soundEnabled.reset();

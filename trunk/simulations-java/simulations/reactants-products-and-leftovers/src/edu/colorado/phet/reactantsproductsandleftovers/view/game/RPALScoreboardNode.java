@@ -20,7 +20,7 @@ public class RPALScoreboardNode extends GameScoreboardNode {
     private static final NumberFormat POINTS_FORMAT = new DecimalFormat( "0.#" );
 
     public RPALScoreboardNode( final GameModel model ) {
-        super( GameModel.getLevelRange().getMax(), GameModel.getPerfectScore(), POINTS_FORMAT );
+        super( model.getGameSettings().level.getMax(), GameModel.getPerfectScore(), POINTS_FORMAT );
 
         // when the model changes, update the scoreboard
         model.addGameListener( new GameAdapter() {

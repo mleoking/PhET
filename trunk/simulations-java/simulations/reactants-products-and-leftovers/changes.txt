@@ -1,3 +1,4 @@
+2/16/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
 1/10/11 move IntegerSpinner to phetcommon
 12/15/10 #2614, move license.txt files into image subdirectories
 # 1.02.01 (47115) Dec 13, 2010

@@ -9,17 +9,19 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.EventListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -29,6 +31,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * You can add additional controls via the addControl method.
  * <p>
  * This panel was generalized from the game in reactants-products-and-leftovers.
+ * <p>
+ * Note that this panel creates observers and attaches them to the GameSettings.
+ * Remember to call cleanup before disposing of this panel, or it will continue
+ * to be attached to the GameSettings, resulting in a memory leak.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -57,15 +63,9 @@ public class GameSettingsPanel extends GridPanel {
     private static final int X_SPACING = 5;
     private static final int Y_SPACING = 6;
 
-    private final IntegerRange levelRange;
-    private final EventListenerList listeners;
-    private final JRadioButton[] levelRadioButtons;
-    private final JRadioButton timerOnRadioButton, timerOffRadioButton;
-    private final JRadioButton soundOnRadioButton, soundOffRadioButton;
+    private final VoidFunction0 cleanupFunction;
     private final GridPanel inputPanel;
-
     private int inputRow; // next control added to the "input panel" will appear in this row
-    private VoidFunction0 cleanupFunction = new VoidFunction0.Null();
 
     /**
      * This constructor handles observes properties in GameSettings, and handles setting up the synchronization
@@ -76,74 +76,13 @@ public class GameSettingsPanel extends GridPanel {
      * @param gameSettings
      * @param startFunction
      */
-    public GameSettingsPanel( final GameSettings gameSettings, final VoidFunction0 startFunction ) {
-        this(  new IntegerRange( gameSettings.level.getMin(), gameSettings.level.getMax(), gameSettings.level.getValue() ) );
-
-        // changes to controls are applied to game settings
-        addGameSettingsPanelListener( new GameSettingsPanelListener() {
-
-            public void levelChanged() {
-                gameSettings.level.setValue( getLevel() );
-            }
-
-            public void timerChanged() {
-                gameSettings.timerEnabled.setValue(isTimerOn() );
-            }
-
-            public void soundChanged() {
-                gameSettings.soundEnabled.setValue(isSoundOn() );
-            }
-
-            public void startButtonPressed() {
-                startFunction.apply();
-            }
-        } );
-
-        // changes to game settings are applied to controls
-        final SimpleObserver levelObserver = new SimpleObserver() {
-            public void update() {
-               setLevel( gameSettings.level.getValue() );
-            }
-        };
-        gameSettings.level.addObserver( levelObserver );
-        final SimpleObserver timerObserver = new SimpleObserver() {
-            public void update() {
-               setTimerOn( gameSettings.timerEnabled.getValue() );
-            }
-        };
-        gameSettings.timerEnabled.addObserver( timerObserver );
-        final SimpleObserver soundObserver = new SimpleObserver() {
-            public void update() {
-               setSoundOn( gameSettings.soundEnabled.getValue() );
-            }
-        };
-        gameSettings.soundEnabled.addObserver( soundObserver );
-
-        // remove observers, requires client to call cleanup
-        cleanupFunction = new VoidFunction0() {
-            public void apply() {
-                gameSettings.level.removeObserver( levelObserver );
-                gameSettings.timerEnabled.removeObserver( timerObserver );
-                gameSettings.soundEnabled.removeObserver( soundObserver );
-            }
-        };
+    public GameSettingsPanel( GameSettings gameSettings, VoidFunction0 startFunction ) {
+        this( gameSettings, startFunction, TITLE_FONT, LABEL_FONT, CONTROL_FONT );
     }
 
-    public void cleanup() {
-        cleanupFunction.apply();
-    }
-
-
-    public GameSettingsPanel( IntegerRange levelRange ) {
-        this( levelRange, TITLE_FONT, LABEL_FONT, CONTROL_FONT );
-    }
-
-    public GameSettingsPanel( IntegerRange levelRange, PhetFont titleFont, PhetFont labelFont, PhetFont controlFont ) {
+    public GameSettingsPanel( final GameSettings gameSettings, final VoidFunction0 startFunction, PhetFont titleFont, PhetFont labelFont, PhetFont controlFont ) {
         setBorder( BORDER );
         setBackground( BACKGROUND_FILL_COLOR );
-
-        this.levelRange = new IntegerRange( levelRange );
-        this.listeners = new EventListenerList();
 
         // Title
         JLabel titleLabel = new JLabel( TITLE_GAME_SETTINGS );
@@ -153,68 +92,62 @@ public class GameSettingsPanel extends GridPanel {
         JSeparator titleSeparator = new JSeparator();
         titleSeparator.setForeground( Color.BLACK );
 
+        // Level control
+        JLabel levelLabel = new JLabel( LABEL_LEVEL_CONTROL );
+        levelLabel.setFont( LABEL_FONT );
+        JPanel levelPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        final ArrayList<PropertyRadioButton<Integer>> levelRadioButtons = new ArrayList<PropertyRadioButton<Integer>>();
+        levelPanel.setOpaque( false );
+        for ( int level = gameSettings.level.getMin(); level <= gameSettings.level.getMax(); level++ ) {
+            PropertyRadioButton<Integer> button = new PropertyRadioButton<Integer>( String.valueOf( level ), gameSettings.level, level );
+            button.setFont( CONTROL_FONT );
+            button.setOpaque( false );
+            levelRadioButtons.add( button );
+            levelPanel.add( button );
+        }
+
+        // Timer control
+        JLabel timerLabel = new JLabel( new ImageIcon( STOPWATCH_ICON ) );
+        timerLabel.setFont( LABEL_FONT );
+        final PropertyRadioButton<Boolean> timerOnRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_ON, gameSettings.timerEnabled, true );
+        timerOnRadioButton.setFont( CONTROL_FONT );
+        timerOnRadioButton.setOpaque( false );
+        final PropertyRadioButton<Boolean> timerOffRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_OFF, gameSettings.timerEnabled, false );
+        timerOffRadioButton.setFont( CONTROL_FONT );
+        timerOffRadioButton.setOpaque( false );
+        ButtonGroup timerButtonGroup = new ButtonGroup();
+        timerButtonGroup.add( timerOnRadioButton );
+        timerButtonGroup.add( timerOffRadioButton );
+        JPanel timerPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        timerPanel.setOpaque( false );
+        timerPanel.add( timerOnRadioButton );
+        timerPanel.add( timerOffRadioButton );
+
+        // Sound control
+        JLabel soundLabel = new JLabel( new ImageIcon( SOUND_ICON ) );
+        soundLabel.setFont( LABEL_FONT );
+        final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_ON, gameSettings.soundEnabled, true );
+        soundOnRadioButton.setFont( CONTROL_FONT );
+        soundOnRadioButton.setOpaque( false );
+        final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_OFF, gameSettings.soundEnabled, false );
+        soundOffRadioButton.setFont( CONTROL_FONT );
+        soundOffRadioButton.setOpaque( false );
+        ButtonGroup soundButtonGroup = new ButtonGroup();
+        soundButtonGroup.add( soundOnRadioButton );
+        soundButtonGroup.add( soundOffRadioButton );
+        JPanel soundPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        soundPanel.setOpaque( false );
+        soundPanel.add( soundOnRadioButton );
+        soundPanel.add( soundOffRadioButton );
+
         // input panel
         inputPanel = new GridPanel();
         inputPanel.setOpaque( false );
-        {
-            // Level control
-            JLabel levelLabel = new JLabel( LABEL_LEVEL_CONTROL );
-            levelLabel.setFont( LABEL_FONT );
-            JPanel levelPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-            levelRadioButtons = new JRadioButton[levelRange.getLength() + 1];
-            ButtonGroup levelButtonGroup = new ButtonGroup();
-            levelPanel.setOpaque( false );
-            for ( int i = 0; i < levelRadioButtons.length; i++ ) {
-                int level = levelRange.getMin() + i;
-                JRadioButton button = new JRadioButton( String.valueOf( level ) );
-                button.setFont( CONTROL_FONT );
-                button.setOpaque( false );
-                levelRadioButtons[i] = button;
-                levelPanel.add( button );
-                levelButtonGroup.add( button );
-            }
-
-            // Timer control
-            JLabel timerLabel = new JLabel( new ImageIcon( STOPWATCH_ICON ) );
-            timerLabel.setFont( LABEL_FONT );
-            timerOnRadioButton = new JRadioButton( RADIO_BUTTON_ON );
-            timerOnRadioButton.setFont( CONTROL_FONT );
-            timerOnRadioButton.setOpaque( false );
-            timerOffRadioButton = new JRadioButton( RADIO_BUTTON_OFF );
-            timerOffRadioButton.setFont( CONTROL_FONT );
-            timerOffRadioButton.setOpaque( false );
-            ButtonGroup timerButtonGroup = new ButtonGroup();
-            timerButtonGroup.add( timerOnRadioButton );
-            timerButtonGroup.add( timerOffRadioButton );
-            JPanel timerPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-            timerPanel.setOpaque( false );
-            timerPanel.add( timerOnRadioButton );
-            timerPanel.add( timerOffRadioButton );
-
-            // Sound control
-            JLabel soundLabel = new JLabel( new ImageIcon( SOUND_ICON ) );
-            soundLabel.setFont( LABEL_FONT );
-            soundOnRadioButton = new JRadioButton( RADIO_BUTTON_ON );
-            soundOnRadioButton.setFont( CONTROL_FONT );
-            soundOnRadioButton.setOpaque( false );
-            soundOffRadioButton = new JRadioButton( RADIO_BUTTON_OFF );
-            soundOffRadioButton.setFont( CONTROL_FONT );
-            soundOffRadioButton.setOpaque( false );
-            ButtonGroup soundButtonGroup = new ButtonGroup();
-            soundButtonGroup.add( soundOnRadioButton );
-            soundButtonGroup.add( soundOffRadioButton );
-            JPanel soundPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-            soundPanel.setOpaque( false );
-            soundPanel.add( soundOnRadioButton );
-            soundPanel.add( soundOffRadioButton );
-
-            // layout
-            inputPanel.setInsets( new Insets( Y_SPACING / 2, X_SPACING, Y_SPACING / 2, X_SPACING ) );
-            inputRow = 0;
-            addControl( levelLabel, levelPanel );
-            addControl( timerLabel, timerPanel );
-            addControl( soundLabel, soundPanel );
-        }
+        inputPanel.setInsets( new Insets( Y_SPACING / 2, X_SPACING, Y_SPACING / 2, X_SPACING ) );
+        inputRow = 0;
+        addControl( levelLabel, levelPanel );
+        addControl( timerLabel, timerPanel );
+        addControl( soundLabel, soundPanel );
 
         // panel separator
         JSeparator buttonSeparator = new JSeparator();
@@ -225,7 +158,7 @@ public class GameSettingsPanel extends GridPanel {
         startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                fireStartButtonPressed();
+                startFunction.apply();
             }
         } );
 
@@ -241,16 +174,35 @@ public class GameSettingsPanel extends GridPanel {
         setInsets( new Insets( Y_SPACING / 2, X_MARGIN, Y_SPACING, X_MARGIN ) );
         add( startButton, row++, column );
 
-        // default state
-        timerOnRadioButton.setSelected( true );
-        levelRadioButtons[0].setSelected( true );
-        soundOnRadioButton.setSelected( true );
+        // cleanup function
+        cleanupFunction = new VoidFunction0() {
+            public void apply() {
+                for ( PropertyRadioButton<Integer> radioButton : levelRadioButtons ) {
+                    radioButton.cleanup();
+                }
+                timerOnRadioButton.cleanup();
+                timerOffRadioButton.cleanup();
+                soundOnRadioButton.cleanup();
+                soundOffRadioButton.cleanup();
+            }
+        };
+    }
+
+    /**
+     * Remove observers from the GameSettings.
+     * If you forget to call this you'll have created a memory leak.
+     */
+    public void cleanup() {
+        cleanupFunction.apply();
     }
 
     /**
      * Adds a control to the input portion of the panel, below the last control,
      * and above the separator that appears above the Start button.
      * The label is anchored east, the control is anchored west.
+     * <p>
+     * Note: If you add controls that require cleanup, they must be cleaned up
+     * by the client; they will not be handled via the cleanup method.
      *
      * @param label
      * @param control
@@ -260,128 +212,48 @@ public class GameSettingsPanel extends GridPanel {
         inputPanel.add( control, inputRow++, 1, Anchor.WEST );
     }
 
-    public void setLevel( int level ) {
-        if ( level != getLevel() ) {
-            int index = level - levelRange.getMin();
-            levelRadioButtons[index].setSelected( true );
-            fireLevelChanged();
-        }
-    }
-
-    public int getLevel() {
-        int level = 0;
-        boolean found = false;
-        for ( int i = 0; i < levelRadioButtons.length; i++ ) {
-            if ( levelRadioButtons[i].isSelected() ) {
-                level = levelRange.getMin() + i;
-                found = true;
-                break;
-            }
-        }
-        assert( found == true );
-        return level;
-    }
-
-    public void setTimerOn( boolean b ) {
-        if ( b != isTimerOn() ) {
-            timerOnRadioButton.setSelected( b );
-            timerOffRadioButton.setSelected( !b );
-            fireTimerChanged();
-        }
-    }
-
-    public boolean isTimerOn() {
-        return timerOnRadioButton.isSelected();
-    }
-
-    public void setSoundOn( boolean b ) {
-        if ( b != isSoundOn() ) {
-            soundOnRadioButton.setSelected( b );
-            soundOffRadioButton.setSelected( !b );
-            fireSoundChanged();
-        }
-    }
-
-    public boolean isSoundOn() {
-        return soundOnRadioButton.isSelected();
-    }
-
-    /**
-     * Interface for notification of property changes and actions.
-     * In most cases, you'll only need to implement startButtonPressed,
-     * then get all of the property values to initialize your game.
+    /*
+     * Test
      */
-    public interface GameSettingsPanelListener extends EventListener {
-        public void levelChanged();
-        public void timerChanged();
-        public void soundChanged();
-        public void startButtonPressed();
-    }
-
-    public static class GameSettingsPanelAdapater implements GameSettingsPanelListener {
-        public void levelChanged() {}
-        public void timerChanged() {}
-        public void soundChanged() {}
-        public void startButtonPressed() {}
-    }
-
-    public void addGameSettingsPanelListener( GameSettingsPanelListener listener ) {
-        listeners.add(  GameSettingsPanelListener.class, listener );
-    }
-
-    public void removeGameSettingsPanelListener( GameSettingsPanelListener listener ) {
-        listeners.remove(  GameSettingsPanelListener.class, listener );
-    }
-
-    private void fireLevelChanged() {
-        for ( GameSettingsPanelListener listener : listeners.getListeners( GameSettingsPanelListener.class ) ) {
-            listener.levelChanged();
-        }
-    }
-
-    private void fireTimerChanged() {
-        for ( GameSettingsPanelListener listener : listeners.getListeners( GameSettingsPanelListener.class ) ) {
-            listener.timerChanged();
-        }
-    }
-
-    private void fireSoundChanged() {
-        for ( GameSettingsPanelListener listener : listeners.getListeners( GameSettingsPanelListener.class ) ) {
-            listener.soundChanged();
-        }
-    }
-
-    private void fireStartButtonPressed() {
-        for ( GameSettingsPanelListener listener : listeners.getListeners( GameSettingsPanelListener.class ) ) {
-            listener.startButtonPressed();
-        }
-    }
-
     public static void main( String[] args ) {
 
-        // old-style example using listeners
-        final GameSettingsPanel panel1 = new GameSettingsPanel( new IntegerRange( 1, 3 ) );
-        panel1.addControl( new JLabel( "myLabel1:" ), new JLabel( "myControl1" ) );
-        panel1.addControl( new JLabel( "myLabel2:" ), new JLabel( "myControl2" ) );
-        panel1.addGameSettingsPanelListener( new GameSettingsPanelAdapater() {
-            @Override
-            public void startButtonPressed() {
-                System.out.println( "level=" + panel1.getLevel() + " timerOn=" + panel1.isTimerOn() + " soundOn=" + panel1.isSoundOn() );
+        // An additional property
+        final Property<Boolean> powerEnabledProperty = new Property<Boolean>( true );
+        powerEnabledProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                System.out.println( "powerEnabledProperty " + powerEnabledProperty.getValue() );
             }
         } );
 
-        // new-style example using GameSettings and observers
+        // Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1,5,3), false, false );
+        gameSettings.level.addObserver( new SimpleObserver() {
+            public void update() {
+                System.out.println( "gameSettings.level " + gameSettings.level.getValue() );
+            }
+        } );
+        gameSettings.timerEnabled.addObserver( new SimpleObserver() {
+            public void update() {
+                System.out.println( "gameSettings.timerEnabled " + gameSettings.timerEnabled.getValue() );
+            }
+        } );
+        gameSettings.soundEnabled.addObserver( new SimpleObserver() {
+            public void update() {
+                System.out.println( "gameSettings.soundEnabled " + gameSettings.soundEnabled.getValue() );
+            }
+        } );
         VoidFunction0 startFunction = new VoidFunction0() {
             public void apply() {
-                System.out.println( "level=" + gameSettings.level.getValue() + " timerOn=" + gameSettings.timerEnabled.getValue() + " soundOn=" + gameSettings.soundEnabled.getValue() );
+                System.out.println( "START: level=" + gameSettings.level.getValue() +
+                        " timerEnabled=" + gameSettings.timerEnabled.getValue() +
+                        " soundEnabled=" + gameSettings.soundEnabled.getValue() +
+                        " powerEnabled=" + powerEnabledProperty.getValue() );
             }
         };
-        GameSettingsPanel panel2 = new GameSettingsPanel( gameSettings, startFunction );
 
-        JPanel panel = new JPanel();
-        panel.add( panel1 );
-        panel.add( panel2 );
+        // Game Settings panel, with added property
+        GameSettingsPanel panel = new GameSettingsPanel( gameSettings, startFunction );
+        panel.addControl( new JLabel( "power:" ), new PropertyCheckBox( "", powerEnabledProperty ) );
 
         JFrame frame = new JFrame();
         frame.setContentPane( panel );

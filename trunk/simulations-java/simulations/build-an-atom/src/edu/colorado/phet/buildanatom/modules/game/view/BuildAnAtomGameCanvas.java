@@ -32,9 +32,6 @@ public class BuildAnAtomGameCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    // Model
-    private final BuildAnAtomGameModel model;
-
     // View
     private final PNode rootNode;
 
@@ -47,14 +44,13 @@ public class BuildAnAtomGameCanvas extends PhetPCanvas {
 
     public BuildAnAtomGameCanvas( final BuildAnAtomGameModel model ) {
 
-        this.model = model;
         scoreboard = new GameScoreboardNode( BuildAnAtomGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
             setBackgroundWidth( BuildAnAtomDefaults.STAGE_SIZE.width * 0.85 );
             model.getGameClock().addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getCurrentLevel() ) ) {
-                        setTime( model.getTime(), model.getBestTime( model.getCurrentLevel() ) );
+                    if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getLevel() ) ) {
+                        setTime( model.getTime(), model.getBestTime( model.getLevel() ) );
                     }
                     else {
                         setTime( model.getTime() );
@@ -66,14 +62,14 @@ public class BuildAnAtomGameCanvas extends PhetPCanvas {
                     setScore( model.getScoreProperty().getValue() );
                 }
             } );
-            model.getTimerEnabledProperty().addObserver( new SimpleObserver() {
+            model.getGameSettings().timerEnabled.addObserver( new SimpleObserver() {
                 public void update() {
-                    setTimerVisible( model.getTimerEnabledProperty().getValue() );
+                    setTimerVisible( model.getGameSettings().timerEnabled.getValue() );
                 }
             } );
-            model.getLevelProperty().addObserver( new SimpleObserver() {
+            model.getGameSettings().level.addObserver( new SimpleObserver() {
                 public void update() {
-                    setLevel( model.getLevelProperty().getValue() );
+                    setLevel( model.getGameSettings().level.getValue() );
                 }
             } );
         }};

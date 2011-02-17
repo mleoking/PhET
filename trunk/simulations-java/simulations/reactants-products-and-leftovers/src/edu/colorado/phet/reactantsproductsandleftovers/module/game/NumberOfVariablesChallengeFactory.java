@@ -332,7 +332,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         System.out.println();
         System.out.println( "TESTING CHALLENGE GENERATION ..." );
         System.out.println();
-        for ( int level = GameModel.getLevelRange().getMin(); level <= GameModel.getLevelRange().getMax(); level++ ) {
+        for ( int level = GameModel.LEVEL_RANGE.getMin(); level <= GameModel.LEVEL_RANGE.getMax(); level++ ) {
             for ( int i = 0; i < 100; i++ ) {
 
                 // create challenges
