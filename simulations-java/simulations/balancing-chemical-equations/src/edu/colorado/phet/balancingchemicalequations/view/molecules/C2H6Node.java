@@ -4,8 +4,6 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -19,14 +17,14 @@ public class C2H6Node extends PComposite {
     public C2H6Node() {
 
         // atom nodes
-        AtomNode leftNode = new BigAtomNode( new C() );
-        AtomNode rightNode = new BigAtomNode( new C() );
-        AtomNode smallTopLeftNode = new SmallAtomNode( new H() );
-        AtomNode smallBottomLeftNode = new SmallAtomNode( new H() );
-        AtomNode smallLeftNode = new SmallAtomNode( new H() );
-        AtomNode smallTopRightNode = new SmallAtomNode( new H() );
-        AtomNode smallBottomRightNode = new SmallAtomNode( new H() );
-        AtomNode smallRightNode = new SmallAtomNode( new H() );
+        AtomNode leftNode = new AtomNode( new C() );
+        AtomNode rightNode = new AtomNode( new C() );
+        AtomNode smallTopLeftNode = new AtomNode( new H() );
+        AtomNode smallBottomLeftNode = new AtomNode( new H() );
+        AtomNode smallLeftNode = new AtomNode( new H() );
+        AtomNode smallTopRightNode = new AtomNode( new H() );
+        AtomNode smallBottomRightNode = new AtomNode( new H() );
+        AtomNode smallRightNode = new AtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();

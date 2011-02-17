@@ -34,7 +34,6 @@ public class BalanceScaleNode extends PComposite {
     private static final double BEAM_LENGTH = 200;
     private static final double BEAM_THICKNESS = 4;
     private static final int NUMBER_OF_TILT_ANGLES = 6;
-    private static final double ATOM_DIAMETER = 14;
     private static final int ATOMS_IN_PILE_BASE = 5; // number of atoms along the base of each pile
 
     private final Atom atom;
@@ -142,7 +141,7 @@ public class BalanceScaleNode extends PComposite {
         double y = 0;
         for ( int i = 0; i < numberOfAtoms; i++ ) {
 
-            PNode atomNode = new AtomNode( ATOM_DIAMETER, atom );
+            PNode atomNode = new AtomNode( atom );
             parent.addChild( atomNode );
 
             atomNode.setOffset( x + ( atomNode.getFullBoundsReference().getWidth() / 2 ), y - ( atomNode.getFullBoundsReference().getHeight() / 2 ) );

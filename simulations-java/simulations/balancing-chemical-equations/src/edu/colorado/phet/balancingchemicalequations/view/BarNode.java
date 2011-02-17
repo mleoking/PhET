@@ -106,7 +106,7 @@ public class BarNode extends PComposite {
         barNode.setVisible( numberOfAtoms > 0 );
 
         // icon
-        PNode iconNode = new AtomNode( 14 /* diameter */, atom );
+        PNode iconNode = new AtomNode( atom );
         addChild( iconNode );
 
         // symbol
