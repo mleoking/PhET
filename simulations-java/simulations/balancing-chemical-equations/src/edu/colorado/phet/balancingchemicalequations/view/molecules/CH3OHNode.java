@@ -30,12 +30,12 @@ public class CH3OHNode extends PComposite {
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( smallBottomNode );
         parentNode.addChild( smallLeftNode );
         parentNode.addChild( leftNode );
+        parentNode.addChild( smallBottomNode );
         parentNode.addChild( smallTopNode );
-        parentNode.addChild( rightNode );
         parentNode.addChild( smallRightNode );
+        parentNode.addChild( rightNode );
 
         // layout
         double x = 0;

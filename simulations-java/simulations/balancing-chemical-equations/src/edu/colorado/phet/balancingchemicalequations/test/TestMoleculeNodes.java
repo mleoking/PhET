@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -122,7 +123,8 @@ public class TestMoleculeNodes extends JFrame {
         public LabeledMoleculeNode( Molecule molecule ) {
             PNode moleculeNode = new PImage( molecule.getImage() );
             addChild( moleculeNode );
-            PNode labelNode = new HTMLNode( molecule.getSymbol() );
+            HTMLNode labelNode = new HTMLNode( molecule.getSymbol() );
+            labelNode.setHTMLColor( Color.WHITE );
             addChild( labelNode );
             double x = moleculeNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
             double y = moleculeNode.getFullBoundsReference().getMaxY() + 2;

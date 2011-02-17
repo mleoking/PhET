@@ -5,7 +5,6 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
 import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.BigAtomNode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode.SmallAtomNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -20,9 +19,9 @@ public class PF3Node extends PComposite {
 
         // atom nodes
         AtomNode bigNode = new BigAtomNode( new P() );
-        AtomNode smallLeftNode = new SmallAtomNode( new F() );
-        AtomNode smallRightNode = new SmallAtomNode( new F() );
-        AtomNode smallBottomNode = new SmallAtomNode( new F() );
+        AtomNode smallLeftNode = new BigAtomNode( new F() );
+        AtomNode smallRightNode = new BigAtomNode( new F() );
+        AtomNode smallBottomNode = new BigAtomNode( new F() );
 
         // rendering order
         PComposite parentNode = new PComposite();

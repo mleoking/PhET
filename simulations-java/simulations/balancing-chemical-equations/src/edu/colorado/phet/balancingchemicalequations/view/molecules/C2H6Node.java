@@ -31,14 +31,14 @@ public class C2H6Node extends PComposite {
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( smallBottomLeftNode );
+        parentNode.addChild( smallBottomRightNode );
+        parentNode.addChild( smallTopRightNode );
+        parentNode.addChild( rightNode );
+        parentNode.addChild( smallRightNode );
         parentNode.addChild( smallLeftNode );
         parentNode.addChild( leftNode );
+        parentNode.addChild( smallBottomLeftNode );
         parentNode.addChild( smallTopLeftNode );
-        parentNode.addChild( smallBottomRightNode );
-        parentNode.addChild( rightNode );
-        parentNode.addChild( smallTopRightNode );
-        parentNode.addChild( smallRightNode );
 
         // layout
         double x = 0;
