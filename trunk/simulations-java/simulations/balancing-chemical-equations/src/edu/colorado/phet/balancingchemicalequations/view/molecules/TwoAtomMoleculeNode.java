@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for molecules with 2 atoms of the same size.
+ * Base class for molecules with 2 atoms aligned on the horizontal axis.
  * Origin is at geometric center of bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
