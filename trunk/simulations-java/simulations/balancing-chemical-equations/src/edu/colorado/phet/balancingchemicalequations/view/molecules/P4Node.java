@@ -9,6 +9,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * P4 molecule.
+ * Structure is tetrahedral.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -17,32 +18,35 @@ public class P4Node extends PComposite {
     public P4Node() {
 
         // atom nodes
-        AtomNode topLeftNode = new BigAtomNode( new P() );
-        AtomNode topRightNode = new BigAtomNode( new P() );
+        AtomNode topNode = new BigAtomNode( new P() );
         AtomNode bottomLeftNode = new BigAtomNode( new P() );
         AtomNode bottomRightNode = new BigAtomNode( new P() );
+        AtomNode bottomBackNode = new BigAtomNode( new P() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
+        parentNode.addChild( bottomBackNode );
         parentNode.addChild( bottomRightNode );
-        parentNode.addChild( topRightNode );
         parentNode.addChild( bottomLeftNode );
-        parentNode.addChild( topLeftNode );
+        parentNode.addChild( topNode );
 
         // layout
         double x = 0;
         double y = 0;
-        topLeftNode.setOffset( x, y );
-        x = topLeftNode.getFullBoundsReference().getMaxX();
-        y = topLeftNode.getYOffset();
-        topRightNode.setOffset( x, y );
-        x = topLeftNode.getFullBoundsReference().getMaxX();
-        y = topLeftNode.getFullBoundsReference().getMaxY();
-        bottomRightNode.setOffset( x, y );
-        x = topLeftNode.getXOffset();
-        y = bottomRightNode.getYOffset();
+        topNode.setOffset( x, y );
+
+        x = topNode.getFullBoundsReference().getMinX() + ( 0.3 * topNode.getFullBoundsReference().getWidth() );
+        y = topNode.getFullBoundsReference().getMaxY() + ( 0.2 * topNode.getFullBoundsReference().getWidth() );
         bottomLeftNode.setOffset( x, y );
+
+        x = topNode.getFullBoundsReference().getMaxX();
+        y = topNode.getFullBoundsReference().getMaxY();
+        bottomRightNode.setOffset( x, y );
+
+        x = topNode.getFullBoundsReference().getMinX();
+        y = topNode.getFullBoundsReference().getCenterY() + ( 0.2 * topNode.getFullBoundsReference().getHeight() );
+        bottomBackNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
