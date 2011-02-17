@@ -12,10 +12,11 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  */
 public class SimpleObservable implements Cloneable {
+
     private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
 
-    public void addObserver( SimpleObserver so ) {
-        observers.add( so );
+    public void addObserver( SimpleObserver observer ) {
+        observers.add( observer );
     }
 
     public void notifyObservers() {
@@ -24,8 +25,8 @@ public class SimpleObservable implements Cloneable {
         }
     }
 
-    public void removeObserver( SimpleObserver obs ) {
-        observers.remove( obs );
+    public void removeObserver( SimpleObserver observer ) {
+        observers.remove( observer );
     }
 
     public void removeAllObservers() {
