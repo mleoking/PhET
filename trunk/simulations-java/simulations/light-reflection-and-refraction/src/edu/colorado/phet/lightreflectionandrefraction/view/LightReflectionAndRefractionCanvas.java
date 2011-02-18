@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.*;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -90,9 +91,50 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         super.paintComponent( canvasGraphics1D );
         Graphics2D canvasGraphics = (Graphics2D) canvasGraphics1D;
 
-        Graphics2D mainBufferGraphics = bufferedImage.createGraphics();
+        final Graphics2D mainBufferGraphics = bufferedImage.createGraphics();
         mainBufferGraphics.setBackground( new Color( 0, 0, 0, 0 ) );
         mainBufferGraphics.clearRect( 0, 0, 1000, 1000 );
+        mainBufferGraphics.setPaint( Color.blue );
+        final HashMap<Point, float[]> map = new HashMap<Point, float[]>();
+        for ( int i = 0; i < rayLayer.getChildrenCount(); i++ ) {
+            final LightRayNode child = (LightRayNode) rayLayer.getChild( i );
+            final TestBresenham testBresenham = new TestBresenham() {
+                public void setPixel( int x0, int y0 ) {
+                    Color color = child.getColor();
+                    final Point point = new Point( x0, y0 );
+                    if ( map.containsKey( point ) ) {
+                        float[] current = map.get( point );
+                        float[] newOne = color.getComponents( null );
+                        for ( int a = 0; a <= 3; a++ ) {
+                            current[a] = Math.min( 1, current[a] + newOne[a] );
+                        }
+                    }
+                    else {
+                        map.put( point, color.getComponents( null ) );
+                    }
+                }
+
+                @Override
+                public boolean isOutOfBounds( int x0, int y0 ) {
+                    return x0 < 0 || y0 < 0 || x0 > bufferedImage.getWidth() || y0 > bufferedImage.getHeight();
+                }
+            };
+            final int x1 = (int) child.getLine().x1;
+            final int y1 = (int) child.getLine().y1;
+            final int x2 = (int) child.getLine().x2;
+            final int y2 = (int) child.getLine().y2;
+            if ( testBresenham.isOutOfBounds( x1, y1 ) ) {
+                testBresenham.draw( x2, y2, x1, y1 );
+            }
+            else {
+                testBresenham.draw( x1, y1, x2, y2 );
+            }
+        }
+        for ( Point point : map.keySet() ) {
+            final float[] doubles = map.get( point );
+            mainBufferGraphics.setPaint( new Color( doubles[0], doubles[1], doubles[2], doubles[3] ) );
+            mainBufferGraphics.fillRect( point.x, point.y, 1, 1 );
+        }
 
 //        for ( int i = 0; i < rayLayer.getChildrenCount(); i++ ) {
 //            PNode child = rayLayer.getChild( i );
@@ -106,18 +148,18 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
 //            tmpGraphics.dispose();
 ////            images.add(im);
 //        }
-        mainBufferGraphics.setPaint( Color.red );
-        float[][] r = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
-        float[][] g = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
-        float[][] b = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
-        float[][] a = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
-        for ( int i = 0; i < bufferedImage.getWidth(); i++ ) {
-            for ( int k = 0; k < bufferedImage.getHeight(); k++ ) {
-                Color color = new Color( r[i][k], g[i][k], b[i][k], a[i][k] );
-                mainBufferGraphics.setPaint( color );
-                mainBufferGraphics.fillRect( i, k, 1, 1 );
-            }
-        }
+//        mainBufferGraphics.setPaint( Color.red );
+//        float[][] r = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+//        float[][] g = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+//        float[][] b = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+//        float[][] a = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+//        for ( int i = 0; i < bufferedImage.getWidth(); i++ ) {
+//            for ( int k = 0; k < bufferedImage.getHeight(); k++ ) {
+//                Color color = new Color( r[i][k], g[i][k], b[i][k], a[i][k] );
+//                mainBufferGraphics.setPaint( color );
+//                mainBufferGraphics.fillRect( i, k, 1, 1 );
+//            }
+//        }
 //        System.out.println( "rayLayer.getChildrenCount() = " + rayLayer.getChildrenCount() );
         mainBufferGraphics.dispose();
 
@@ -126,6 +168,11 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
 
     public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
         this.model = model;
+        model.addRayAddedListener( new VoidFunction1<LightRay>() {
+            public void apply( LightRay lightRay ) {
+                repaint();//redraw the rays with bresenham
+            }
+        } );
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
