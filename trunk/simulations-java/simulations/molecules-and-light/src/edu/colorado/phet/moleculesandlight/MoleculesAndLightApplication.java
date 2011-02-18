@@ -24,10 +24,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class MoleculesAndLightApplication extends PiccoloPhetApplication {
 
     // ------------------------------------------------------------------------
-    // Class Data
-    // ------------------------------------------------------------------------
-
-    // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
