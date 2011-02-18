@@ -34,7 +34,7 @@ import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 
 /**
- * Control panel for the Photon Absorption tab of this application.
+ * Control panel for the "Molecules and Light" sim.
  *
  * @author John Blanco
  */
