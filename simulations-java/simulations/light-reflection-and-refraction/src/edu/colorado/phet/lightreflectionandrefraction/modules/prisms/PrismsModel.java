@@ -146,7 +146,7 @@ public class PrismsModel extends LRRModel {
         if ( laser.color.getValue() == LaserColor.WHITE_LIGHT ) {
             final double min = VisibleColor.MIN_WAVELENGTH / 1E9;
             final double max = VisibleColor.MAX_WAVELENGTH / 1E9;
-            double dw = ( max - min ) / 100;
+            double dw = ( max - min ) / 15;
             for ( double wavelength = min; wavelength <= max; wavelength += dw ) {
                 propagate( new Ray( incidentRay.tail, incidentRay.directionUnitVector, incidentRay.power, incidentRay.indexOfRefraction, incidentRay.oppositeIndexOfRefraction, wavelength ), 0 );
             }

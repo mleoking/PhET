@@ -15,12 +15,14 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class RayLayer extends PImage {
-    private BufferedImage bufferedImage = new BufferedImage( 1000, 1000, BufferedImage.TYPE_4BYTE_ABGR_PRE );
+    private BufferedImage bufferedImage = new BufferedImage( 1000, 1000, BufferedImage.TYPE_INT_ARGB_PRE );
     private final PNode rayLayer;
 
     public RayLayer( PNode rayLayer ) {
         this.rayLayer = rayLayer;
         setImage( bufferedImage );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     public void updateImage() {
@@ -71,5 +73,6 @@ public class RayLayer extends PImage {
         mainBufferGraphics.dispose();
 
         setImage( bufferedImage );
+        moveToFront();
     }
 }

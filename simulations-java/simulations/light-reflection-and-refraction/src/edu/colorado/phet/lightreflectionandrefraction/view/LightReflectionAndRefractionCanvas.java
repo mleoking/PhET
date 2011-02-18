@@ -2,7 +2,11 @@
 package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -105,17 +109,27 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 }
             } );
         }} );
-        addChild( rayLayer );
-//        final RayLayer node = new RayLayer( rayLayer );
-//        addChild( node );
+//        addChild( rayLayer );
+        final RayLayer node = new RayLayer( rayLayer );
+        addChild( node );
 //
-//        //TODO: fix this workaround
-//        Timer timer = new Timer( 1000,new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                node.updateImage();
-//            }
-//        } );
-//        timer.start();
+        //Coalesce repeat updates
+        final boolean[] dirty = new boolean[] { true };
+        model.addModelUpdateListener( new VoidFunction0() {
+            public void apply() {
+                dirty[0] = true;
+            }
+        } );
+        //Update coalesced events every 30 ms
+        Timer timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( dirty[0] ) {
+                    node.updateImage();
+                    dirty[0] = false;
+                }
+            }
+        } );
+        timer.start();
         //Debug for showing stage
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
     }

@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
 import static java.lang.Math.pow;
@@ -85,6 +86,7 @@ public class LRRModel {
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
+    private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
 
     public LRRModel() {
         this.clock = new ConstantDtClock( 30.0 );
@@ -193,6 +195,9 @@ public class LRRModel {
     public void updateModel() {
         clearModel();
         propagateRays();
+        for ( VoidFunction0 modelUpdateListener : modelUpdateListeners ) {
+            modelUpdateListener.apply();
+        }
     }
 
     protected void propagateRays() {
@@ -204,5 +209,9 @@ public class LRRModel {
 
     public static double getReflectedPower( double n1, double n2, double cosTheta1, double cosTheta2 ) {
         return pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
+    }
+
+    public void addModelUpdateListener( VoidFunction0 listener ) {
+        modelUpdateListeners.add( listener );
     }
 }
