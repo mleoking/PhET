@@ -66,13 +66,13 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add the radio buttons that set the emission wavelength.
         final WavelengthSelectButtonNode microwaveSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Microwave" ), model, MoleculesAndLightConfig.microWavelength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Microwave" ), model, MoleculesAndLightConfig.MICRO_WAVELENGTH );
         final WavelengthSelectButtonNode infraredSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Infrared" ), model, MoleculesAndLightConfig.irWavelength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Infrared" ), model, MoleculesAndLightConfig.IR_WAVELENGTH );
         final WavelengthSelectButtonNode visibleLightSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Visible" ), model, MoleculesAndLightConfig.visibleWaveLength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Visible" ), model, MoleculesAndLightConfig.VISIBLE_WAVELENGTH );
         final WavelengthSelectButtonNode ultravioletSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, MoleculesAndLightConfig.uvWavelength );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, MoleculesAndLightConfig.UV_WAVELENGTH );
 
         // Put all the buttons into a button group.  Without this, for some
         // reason, the individual buttons will toggle to the off state if
@@ -202,10 +202,10 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         // Static data structure that maps the frequency values used in the
         // model to frequency ranges depicted on this spectrum.
         private static final HashMap<Double, DoubleRange> mapFreqToRange = new HashMap<Double, DoubleRange>(){{
-            put( MoleculesAndLightConfig.microWavelength, new DoubleRange(1E-3, 1));
-            put( MoleculesAndLightConfig.irWavelength, new DoubleRange(780E-9, 1E-3));
-            put( MoleculesAndLightConfig.visibleWaveLength, new DoubleRange(380E-9, 780E-9));
-            put( MoleculesAndLightConfig.uvWavelength, new DoubleRange(1E-9, 380E-9));
+            put( MoleculesAndLightConfig.MICRO_WAVELENGTH, new DoubleRange(1E-3, 1));
+            put( MoleculesAndLightConfig.IR_WAVELENGTH, new DoubleRange(780E-9, 1E-3));
+            put( MoleculesAndLightConfig.VISIBLE_WAVELENGTH, new DoubleRange(380E-9, 780E-9));
+            put( MoleculesAndLightConfig.UV_WAVELENGTH, new DoubleRange(1E-9, 380E-9));
         }};
 
         private final PhotonAbsorptionModel model;
