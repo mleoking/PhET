@@ -40,7 +40,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model-view transform for intermediate coordinates.
-    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 786, 786 );
+    private static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 786, 786 );
 
     private static final double PHOTON_EMITTER_WIDTH = 300;
 
@@ -118,8 +118,6 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 (int) Math.round( INTERMEDIATE_RENDERING_SIZE.height * 0.35 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         true );
-
-//        setBackground( Color.BLACK );
 
         // Listen to the model for notifications that we care about.
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
