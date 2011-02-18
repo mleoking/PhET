@@ -14,17 +14,29 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class LightRayNode extends PNode {
+    public final PhetPPath ppath;
+    public Shape shape;
+    private Shape ss;
+
     public LightRayNode( final ModelViewTransform transform, final LightRay lightRay ) {
         float powerFraction = (float) lightRay.getPowerFraction();
         Color color = lightRay.getColor();
-        addChild( new PhetPPath( new BasicStroke( 4 ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
+        ppath = new PhetPPath( new BasicStroke( 4 ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
             lightRay.addObserver( new SimpleObserver() {
+
                 public void update() {
-                    setPathTo( transform.modelToView( new Line2D.Double( lightRay.tip.getValue().toPoint2D(), lightRay.tail.getValue().toPoint2D() ) ) );
+                    shape = transform.modelToView( new Line2D.Double( lightRay.tip.getValue().toPoint2D(), lightRay.tail.getValue().toPoint2D() ) );
+                    ss = getStroke().createStrokedShape( shape );
+                    setPathTo( shape );
                 }
             } );
-        }} );
+        }};
+        addChild( ppath );
         setPickable( false );
         setChildrenPickable( false );
+    }
+
+    public boolean shapeContains( int x, int y ) {
+        return ss.contains( x, y );
     }
 }
