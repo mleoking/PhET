@@ -79,14 +79,14 @@ public class PhotonAbsorptionModel {
 
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
-    static final HashMap<MoleculeID, Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
+    private static final HashMap<MoleculeID, Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
         put(MoleculeID.N2, 0);
         put(MoleculeID.O2, 0);
         put(MoleculeID.CO2, 0);
         put(MoleculeID.CH4, 0);
         put(MoleculeID.H2O, 0);
     }};
-    static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
+    private static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
         put(MoleculeID.N2, 15);
         put(MoleculeID.O2, 15);
         put(MoleculeID.CO2, 15);
