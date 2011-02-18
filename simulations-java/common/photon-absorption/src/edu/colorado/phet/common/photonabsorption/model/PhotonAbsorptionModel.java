@@ -74,7 +74,7 @@ public class PhotonAbsorptionModel {
 
     // Default values for various parameters that weren't already covered.
     private static final PhotonTarget DEFAULT_PHOTON_TARGET = PhotonTarget.SINGLE_CH4_MOLECULE;
-    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.irWavelength;
+    private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
     private static final double INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
 
     // Initial and max values for the numbers of molecules in the configurable
@@ -119,7 +119,7 @@ public class PhotonAbsorptionModel {
 
     private final EventListenerList listeners = new EventListenerList();
     private final ArrayList<Photon> photons = new ArrayList<Photon>();
-    private double photonWavelength = WavelengthConstants.visibleWaveLength;
+    private double photonWavelength = WavelengthConstants.VISIBLE_WAVELENGTH;
     private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
     private final PhotonTarget initialPhotonTarget;
     private PhotonTarget photonTarget = null;

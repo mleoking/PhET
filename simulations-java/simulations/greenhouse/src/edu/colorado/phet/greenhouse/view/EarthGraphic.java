@@ -249,7 +249,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor {
         if ( isIceAge ) {
             if ( backdropGraphic != null
                  && photon.getVelocity().getY() < 0
-                 && photon.getWavelength() == WavelengthConstants.sunlightWavelength) {
+                 && photon.getWavelength() == WavelengthConstants.SUNLIGHT_WAVELENGTH) {
 
                 Point2D photonPosInView = apparatusPanel.modelToView( photon.getLocation() );
 

@@ -135,16 +135,16 @@ public class PhotonEmitterNode extends PNode {
         // Create the flashlight image node, setting the offset such that the
         // center right side of the image is the origin.  This assumes that
         // photons will be emitted horizontally to the right.
-        if ( model.getEmittedPhotonWavelength() == WavelengthConstants.irWavelength ) {
+        if ( model.getEmittedPhotonWavelength() == WavelengthConstants.IR_WAVELENGTH ) {
             photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "heat-lamp.png" ) );
         }
-        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.visibleWaveLength ) {
+        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.VISIBLE_WAVELENGTH ) {
             photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "flashlight2.png" ) );
         }
-        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.uvWavelength){
+        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.UV_WAVELENGTH){
             photonEmitterImage = new PImage(PhotonAbsorptionResources.getImage("uv_light_2.png"));
         }
-        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.microWavelength){
+        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.MICRO_WAVELENGTH){
             photonEmitterImage = new PImage(PhotonAbsorptionResources.getImage("microwave-transmitter.png"));
         }
 
@@ -230,16 +230,16 @@ public class PhotonEmitterNode extends PNode {
             emissionRateControlSlider.setValue( mappedFrequency );
 
             // Update the color of the slider.
-            if ( model.getEmittedPhotonWavelength() == WavelengthConstants.irWavelength ) {
+            if ( model.getEmittedPhotonWavelength() == WavelengthConstants.IR_WAVELENGTH ) {
                 emissionRateControlSlider.setColor( Color.RED );
             }
-            else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.visibleWaveLength ) {
+            else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.VISIBLE_WAVELENGTH ) {
                 emissionRateControlSlider.setColor( Color.YELLOW );
             }
-            else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.uvWavelength ) {
+            else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.UV_WAVELENGTH ) {
                 emissionRateControlSlider.setColor( new Color( 200, 0, 200) );
             }
-            else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.microWavelength ) {
+            else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.MICRO_WAVELENGTH ) {
                 emissionRateControlSlider.setColor( new Color( 200, 200, 200) );
             }
             else {

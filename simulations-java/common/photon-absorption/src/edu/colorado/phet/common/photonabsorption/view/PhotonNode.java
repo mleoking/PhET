@@ -35,10 +35,10 @@ public class PhotonNode extends PNode implements Observer {
 
     // Map of photon wavelengths to visual images used for representing them.
     private static final HashMap<Double, String> mapWavelengthToImageName = new HashMap<Double, String>(){{
-        put( WavelengthConstants.microWavelength, "microwave-photon.png");
-        put( WavelengthConstants.irWavelength, "photon-660.png");
-        put( WavelengthConstants.visibleWaveLength, "thin2.png");
-        put( WavelengthConstants.uvWavelength, "photon-100.png");
+        put( WavelengthConstants.MICRO_WAVELENGTH, "microwave-photon.png");
+        put( WavelengthConstants.IR_WAVELENGTH, "photon-660.png");
+        put( WavelengthConstants.VISIBLE_WAVELENGTH, "thin2.png");
+        put( WavelengthConstants.UV_WAVELENGTH, "photon-100.png");
     }};
 
     // For debug and testing.  TODO: Remove this if ultimately not used.
@@ -67,7 +67,7 @@ public class PhotonNode extends PNode implements Observer {
         this.mvt = mvt;
 
         if ( USE_PHOTON_FACTORY ){
-            if ( photon.getWavelength() == WavelengthConstants.microWavelength ) {
+            if ( photon.getWavelength() == WavelengthConstants.MICRO_WAVELENGTH ) {
                 // Special case for microwaves, since PhotonImageFactory makes all
                 // photons with a wavelength longer than visible light look the
                 // same.

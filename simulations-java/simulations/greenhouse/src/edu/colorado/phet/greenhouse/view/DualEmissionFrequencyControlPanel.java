@@ -75,7 +75,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         infraredPhotonRadioButton.setFont( LABEL_FONT );
         infraredPhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setEmittedPhotonWavelength( WavelengthConstants.irWavelength );
+                model.setEmittedPhotonWavelength( WavelengthConstants.IR_WAVELENGTH );
             }
         } );
         JPanel infraredButtonPanel = new BorderLayoutPanel( infraredPhotonRadioButton, new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "photon-660.png" ) ) ) );
@@ -84,7 +84,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
         visiblePhotonRadioButton.setFont( LABEL_FONT );
         visiblePhotonRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setEmittedPhotonWavelength( WavelengthConstants.visibleWaveLength );
+                model.setEmittedPhotonWavelength( WavelengthConstants.VISIBLE_WAVELENGTH );
             }
         } );
         JPanel visibleButtonPanel = new BorderLayoutPanel( visiblePhotonRadioButton, new JLabel( new ImageIcon( PhotonAbsorptionResources.getImage( "thin2.png" ) ) ) );
@@ -115,7 +115,7 @@ public class DualEmissionFrequencyControlPanel extends PNode {
     // ------------------------------------------------------------------------
 
     private void updateFrequencySelectButtons() {
-        if ( model.getEmittedPhotonWavelength() == WavelengthConstants.irWavelength ) {
+        if ( model.getEmittedPhotonWavelength() == WavelengthConstants.IR_WAVELENGTH ) {
             if ( !infraredPhotonRadioButton.isSelected() ) {
                 infraredPhotonRadioButton.setSelected( true );
             }
