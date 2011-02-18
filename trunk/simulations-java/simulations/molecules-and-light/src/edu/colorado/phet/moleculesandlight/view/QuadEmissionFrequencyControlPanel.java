@@ -51,10 +51,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     private static final Dimension PANEL_SIZE = new Dimension( 850, 150 );
 
     // ------------------------------------------------------------------------
-    // Instance Data
-    // ------------------------------------------------------------------------
-
-    // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
@@ -113,10 +109,6 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
         addChild( backgroundNode );
         backgroundNode.addChild( wavelengthSelectorPanelNode );
     }
-
-    // ------------------------------------------------------------------------
-    // Methods
-    // ------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
