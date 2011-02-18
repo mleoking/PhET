@@ -2,10 +2,10 @@
 package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.*;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -36,49 +36,93 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final T model;
     protected final ModelViewTransform transform;
     protected final PDimension stageSize;
+    BufferedImage bufferedImage = new BufferedImage( 1000, 1000, BufferedImage.TYPE_4BYTE_ABGR_PRE );
     protected final PNode rayLayer = new PNode() {
         @Override
         public void fullPaint( PPaintContext paintContext ) {
-            Composite c = paintContext.getGraphics().getComposite();
-            paintContext.getGraphics().setComposite( new Composite() {
-                public CompositeContext createContext( ColorModel srcColorModel, ColorModel dstColorModel, RenderingHints hints ) {
-                    return new CompositeContext() {
-                        public void dispose() {
-                        }
-
-                        //See http://www.java-gaming.org/index.php?topic=22467.0
-                        public void compose( Raster src, Raster dstIn, WritableRaster dstOut ) {
-                            int chan1 = src.getNumBands();
-                            int chan2 = dstIn.getNumBands();
-
-                            int minCh = Math.min( chan1, chan2 );
-
-                            int[] pxSrc = null;
-                            int[] pxDst = null;
-
-//                            System.out.println( "dstIn.getWidth() = " + dstIn.getWidth() + ", h = " + dstIn.getHeight() );
-                            //This bit is horribly inefficient,
-                            //getting individual pixels rather than all at once.
-                            for ( int x = 0; x < dstIn.getWidth(); x++ ) {
-                                for ( int y = 0; y < dstIn.getHeight(); y++ ) {
-
-                                    pxSrc = src.getPixel( x, y, pxSrc );
-                                    pxDst = dstIn.getPixel( x, y, pxDst );
-
-                                    for ( int i = 0; i < 3 && i < minCh; i++ ) {
-                                        pxDst[i] = Math.min( 255, pxSrc[i] + pxDst[i] );
-                                    }
-                                    dstOut.setPixel( x, y, pxDst );
-                                }
-                            }
-                        }
-                    };
-                }
-            } );
             super.fullPaint( paintContext );
-            paintContext.getGraphics().setComposite( c );
+
+//            Composite c = paintContext.getGraphics().getComposite();
+//            paintContext.getGraphics().setComposite( new Composite() {
+//                public CompositeContext createContext( ColorModel srcColorModel, ColorModel dstColorModel, RenderingHints hints ) {
+//                    return new CompositeContext() {
+//                        public void dispose() {
+//                        }
+//
+//                        //See http://www.java-gaming.org/index.php?topic=22467.0
+//                        public void compose( Raster src, Raster dstIn, WritableRaster dstOut ) {
+//                            int chan1 = src.getNumBands();
+//                            int chan2 = dstIn.getNumBands();
+//
+//                            int minCh = Math.min( chan1, chan2 );
+//
+//                            int[] pxSrc = null;
+//                            int[] pxDst = null;
+//
+////                            System.out.println( "dstIn.getWidth() = " + dstIn.getWidth() + ", h = " + dstIn.getHeight() );
+//                            //This bit is horribly inefficient,
+//                            //getting individual pixels rather than all at once.
+//                            for ( int x = 0; x < dstIn.getWidth(); x++ ) {
+//                                for ( int y = 0; y < dstIn.getHeight(); y++ ) {
+//
+//                                    pxSrc = src.getPixel( x, y, pxSrc );
+//                                    pxDst = dstIn.getPixel( x, y, pxDst );
+//
+//                                    for ( int i = 0; i < 3 && i < minCh; i++ ) {
+//                                        pxDst[i] = Math.min( 255, pxSrc[i] + pxDst[i] );
+//                                    }
+//                                    dstOut.setPixel( x, y, pxDst );
+//                                }
+//                            }
+//                        }
+//                    };
+//                }
+//            } );
+//            super.fullPaint( paintContext );
+//            paintContext.getGraphics().setComposite( c );
         }
     };
+
+//    BufferedImage tmpImage = new BufferedImage( 1000, 1000, BufferedImage.TYPE_4BYTE_ABGR_PRE );
+
+    @Override
+    public void paintComponent( Graphics canvasGraphics1D ) {
+        super.paintComponent( canvasGraphics1D );
+        Graphics2D canvasGraphics = (Graphics2D) canvasGraphics1D;
+
+        Graphics2D mainBufferGraphics = bufferedImage.createGraphics();
+        mainBufferGraphics.setBackground( new Color( 0, 0, 0, 0 ) );
+        mainBufferGraphics.clearRect( 0, 0, 1000, 1000 );
+
+//        for ( int i = 0; i < rayLayer.getChildrenCount(); i++ ) {
+//            PNode child = rayLayer.getChild( i );
+//            final Graphics2D tmpGraphics = tmpImage.createGraphics();
+//            tmpGraphics.setBackground( new Color( 0, 0, 0, 0 ) );
+//            tmpGraphics.clearRect( 0, 0, 1000, 1000 );
+//            child.fullPaint( new PPaintContext( tmpGraphics ) );
+//
+//            BufferedImageOp imageOp = new AdditiveOp( bufferedImage );
+//            bufferedImage = imageOp.filter( tmpImage, bufferedImage );
+//            tmpGraphics.dispose();
+////            images.add(im);
+//        }
+        mainBufferGraphics.setPaint( Color.red );
+        float[][] r = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+        float[][] g = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+        float[][] b = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+        float[][] a = new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
+        for ( int i = 0; i < bufferedImage.getWidth(); i++ ) {
+            for ( int k = 0; k < bufferedImage.getHeight(); k++ ) {
+                Color color = new Color( r[i][k], g[i][k], b[i][k], a[i][k] );
+                mainBufferGraphics.setPaint( color );
+                mainBufferGraphics.fillRect( i, k, 1, 1 );
+            }
+        }
+//        System.out.println( "rayLayer.getChildrenCount() = " + rayLayer.getChildrenCount() );
+        mainBufferGraphics.dispose();
+
+        canvasGraphics.drawRenderedImage( bufferedImage, new AffineTransform() );
+    }
 
     public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
         this.model = model;
@@ -151,7 +195,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 }
             } );
         }} );
-        addChild( rayLayer );
+//        addChild( rayLayer );
 
         //Debug for showing stage
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );
@@ -163,5 +207,58 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
 
     public void removeChild( PNode node ) {
         rootNode.removeChild( node );
+    }
+
+    private class AdditiveOp implements BufferedImageOp {
+        private BufferedImage other;
+
+        public AdditiveOp( BufferedImage other ) {
+            this.other = other;
+        }
+
+        public BufferedImage filter( BufferedImage src, BufferedImage dest ) {
+            Raster a = src.getData();
+            Raster b = other.getData();
+            int[] aPixels = a.getPixels( 0, 0, a.getWidth(), a.getHeight(), (int[]) null );
+            int[] bPixels = b.getPixels( 0, 0, a.getWidth(), a.getHeight(), (int[]) null );
+            WritableRaster c = dest.getRaster();
+            int[] cPixels = new int[aPixels.length];
+            for ( int i = 0; i < aPixels.length; i++ ) {
+                cPixels[i] = aPixels[i] + bPixels[i];
+            }
+            c.setPixels( 0, 0, c.getWidth(), c.getHeight(), cPixels );
+
+//            for ( int i = 0; i < src.getWidth(); i++ ) {
+//                for ( int k = 0; k < src.getHeight(); k++ ) {
+//                    int srcRGB = src.getRGB( i, k );
+//                    int otherRGB = other.getRGB( i, k );
+//                    Color x = new Color( srcRGB );
+//                    Color y = new Color( otherRGB );
+//                    Color z = new Color( Math.min( 255, x.getRed() + y.getRed() ), Math.min( 255, x.getGreen() + y.getGreen() ), Math.min( 255, x.getBlue() + y.getBlue() ), Math.min( 255, x.getAlpha() + y.getAlpha() ) );
+//                    dest.setRGB( i, k, z.getRGB() );
+//                }
+//            }
+            return dest;
+        }
+
+        public Rectangle2D getBounds2D( BufferedImage src ) {
+            return new Rectangle2D.Double( 0, 0, src.getWidth(), src.getHeight() );
+        }
+
+        public BufferedImage createCompatibleDestImage( BufferedImage src, ColorModel destCM ) {
+            return new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR ).createCompatibleDestImage( src, destCM );
+        }
+
+        public Point2D getPoint2D( Point2D srcPt, Point2D dstPt ) {
+            if ( dstPt == null ) {
+                dstPt = new Point2D.Double();
+            }
+            dstPt.setLocation( srcPt.getX(), srcPt.getY() );
+            return dstPt;
+        }
+
+        public RenderingHints getRenderingHints() {
+            return null;
+        }
     }
 }
