@@ -3,6 +3,9 @@ package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.ColorModel;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -18,6 +21,7 @@ import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * @author Sam Reid
@@ -32,6 +36,49 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final T model;
     protected final ModelViewTransform transform;
     protected final PDimension stageSize;
+    protected final PNode rayLayer = new PNode() {
+        @Override
+        public void fullPaint( PPaintContext paintContext ) {
+            Composite c = paintContext.getGraphics().getComposite();
+            paintContext.getGraphics().setComposite( new Composite() {
+                public CompositeContext createContext( ColorModel srcColorModel, ColorModel dstColorModel, RenderingHints hints ) {
+                    return new CompositeContext() {
+                        public void dispose() {
+                        }
+
+                        //See http://www.java-gaming.org/index.php?topic=22467.0
+                        public void compose( Raster src, Raster dstIn, WritableRaster dstOut ) {
+                            int chan1 = src.getNumBands();
+                            int chan2 = dstIn.getNumBands();
+
+                            int minCh = Math.min( chan1, chan2 );
+
+                            int[] pxSrc = null;
+                            int[] pxDst = null;
+
+//                            System.out.println( "dstIn.getWidth() = " + dstIn.getWidth() + ", h = " + dstIn.getHeight() );
+                            //This bit is horribly inefficient,
+                            //getting individual pixels rather than all at once.
+                            for ( int x = 0; x < dstIn.getWidth(); x++ ) {
+                                for ( int y = 0; y < dstIn.getHeight(); y++ ) {
+
+                                    pxSrc = src.getPixel( x, y, pxSrc );
+                                    pxDst = dstIn.getPixel( x, y, pxDst );
+
+                                    for ( int i = 0; i < 3 && i < minCh; i++ ) {
+                                        pxDst[i] = Math.min( 255, pxSrc[i] + pxDst[i] );
+                                    }
+                                    dstOut.setPixel( x, y, pxDst );
+                                }
+                            }
+                        }
+                    };
+                }
+            } );
+            super.fullPaint( paintContext );
+            paintContext.getGraphics().setComposite( c );
+        }
+    };
 
     public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
         this.model = model;
@@ -39,6 +86,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         rootNode = new PNode();
         addWorldChild( rootNode );
 
+        setBackground( Color.black );
         final int stageWidth = 1008;
         stageSize = new PDimension( stageWidth, stageWidth * model.getHeight() / model.getWidth() );
 
@@ -61,10 +109,11 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 model.updateModel();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
             }
         } );
+
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
                 final PNode node = laserView.getValue().createNode( transform, lightRay );
-                addChild( node );
+                rayLayer.addChild( node );
                 lightRay.addMoveToFrontListener( new VoidFunction0() {
                     public void apply() {
                         node.moveToFront();
@@ -72,7 +121,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 } );//TODO: memory leak
                 lightRay.addRemovalListener( new VoidFunction0() {
                     public void apply() {
-                        removeChild( node );
+                        rayLayer.removeChild( node );
                     }
                 } );
             }
@@ -102,6 +151,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 }
             } );
         }} );
+        addChild( rayLayer );
 
         //Debug for showing stage
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() ), new BasicStroke( 2 ), Color.red ) );

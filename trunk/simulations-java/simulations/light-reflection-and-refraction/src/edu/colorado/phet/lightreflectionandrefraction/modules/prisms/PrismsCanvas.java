@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
@@ -21,7 +23,9 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
 
         model.outerMedium.addObserver( new SimpleObserver() {
             public void update() {
-                setBackground( model.colorMappingFunction.getValue().apply( model.outerMedium.getValue().getIndexOfRefraction() ) );
+                final Color color = model.colorMappingFunction.getValue().apply( model.outerMedium.getValue().getIndexOfRefraction() );
+                setBackground( new Color( 255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue() ) );
+//                setBackground( Color.black );
             }
         } );
 
