@@ -35,7 +35,7 @@ public class MoleculesAndLightModule extends PiccoloModule {
     // expect the model to move things at speeds that appear reasonable to the
     // users.
 
-    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
+    private static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     private static final int CLOCK_DELAY = 1000 / CLOCK_FRAME_RATE;
     private static final double CLOCK_DT = 1000 / CLOCK_FRAME_RATE;
 
@@ -54,7 +54,6 @@ public class MoleculesAndLightModule extends PiccoloModule {
     // activities that contain screens shots of this simulation.
     private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
-    // Developer controls
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -73,11 +72,6 @@ public class MoleculesAndLightModule extends PiccoloModule {
         // Control panel.
         controlPanel = new MoleculesAndLightControlPanel( this, model );
         setControlPanel( controlPanel );
-
-        // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
 
         // Set initial state
         reset();
