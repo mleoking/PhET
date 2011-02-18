@@ -12,7 +12,7 @@ import java.util.Observable;
 
 public class Photon extends Observable {
 
-    private static final double speedOfLight = 2.99798458E8;
+    private static final double SPEED_OF_LIGHT = 2.99798458E8;
 
     private double wavelength;
     private PhotonEmitter source;
@@ -29,8 +29,8 @@ public class Photon extends Observable {
     }
 
     public void setDirection( double theta ) {
-        setVelocity( (float) ( speedOfLight * Math.cos( theta ) ),
-                     (float) ( speedOfLight * Math.sin( theta ) ) );
+        setVelocity( (float) ( SPEED_OF_LIGHT * Math.cos( theta ) ),
+                     (float) ( SPEED_OF_LIGHT * Math.sin( theta ) ) );
     }
 
     public void setVelocity( float vx, float vy ) {
