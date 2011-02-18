@@ -1,3 +1,4 @@
+# 0.00.19 (49047) Feb 17, 2011
 Added a test for additive color blending
 # 0.00.18 (49018) Feb 16, 2011
 Fixed: initial ray is black
