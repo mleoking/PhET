@@ -183,7 +183,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
      *
      * @author John Blanco
      */
-    public static class SpectrumNode extends PNode {
+    private static class SpectrumNode extends PNode {
 
         private static final double MIN_WAVELENGTH = 1E-10; // In meters.
         private static final double MAX_WAVELENGTH = 10; // In meters
