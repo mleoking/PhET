@@ -51,9 +51,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     // Create an LUT for colors to correspond to wavelengths
     static {
-        colorLUT.put( new Double( WavelengthConstants.sunlightWavelength ), new Color( 255, 255, 120 ) );
-        colorLUT.put( new Double( WavelengthConstants.irWavelength ), Color.red );
-        colorLUT.put( new Double( WavelengthConstants.debug_wavelength ), Color.green );
+        colorLUT.put( new Double( WavelengthConstants.SUNLIGHT_WAVELENGTH ), new Color( 255, 255, 120 ) );
+        colorLUT.put( new Double( WavelengthConstants.IR_WAVELENGTH ), Color.red );
+        colorLUT.put( new Double( WavelengthConstants.DEBUG_WAVELENGTH ), Color.green );
     }
 
     // A cache for phton graphic

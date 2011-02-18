@@ -62,8 +62,8 @@ public class H2O extends Molecule {
         addAtomicBond( oxygenHydrogenBond2 );
 
         // Set up the photon wavelengths to absorb.
-        setPhotonAbsorptionStrategy( WavelengthConstants.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
-        setPhotonAbsorptionStrategy( WavelengthConstants.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();

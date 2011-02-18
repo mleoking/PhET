@@ -81,10 +81,10 @@ public class NO2 extends Molecule {
         addAtomicBond( leftNitrogenOxygenBond );
 
         // Set up the photon wavelengths to absorb.
-        setPhotonAbsorptionStrategy( WavelengthConstants.microWavelength, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
-        setPhotonAbsorptionStrategy( WavelengthConstants.irWavelength, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
-        setPhotonAbsorptionStrategy( WavelengthConstants.visibleWaveLength, new PhotonAbsorptionStrategy.ExcitationStrategy( this ) );
-        setPhotonAbsorptionStrategy( WavelengthConstants.uvWavelength, new PhotonAbsorptionStrategy.BreakApartStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new PhotonAbsorptionStrategy.RotationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new PhotonAbsorptionStrategy.VibrationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.VISIBLE_WAVELENGTH, new PhotonAbsorptionStrategy.ExcitationStrategy( this ) );
+        setPhotonAbsorptionStrategy( WavelengthConstants.UV_WAVELENGTH, new PhotonAbsorptionStrategy.BreakApartStrategy( this ) );
 
         // Set the initial offsets.
         initializeAtomOffsets();

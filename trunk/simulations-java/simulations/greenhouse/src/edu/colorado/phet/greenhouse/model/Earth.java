@@ -36,7 +36,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     public Earth( Point2D.Double center, double alpha, double beta ) {
         super( center, radius );
-        photonSource = new CircularPhotonEmitter( center, radius, WavelengthConstants.irWavelength, alpha, beta );
+        photonSource = new CircularPhotonEmitter( center, radius, WavelengthConstants.IR_WAVELENGTH, alpha, beta );
         photonSource.addListener( this );
         photonAbsorber = new BasicPhotonAbsorber();
         temperature = GreenhouseConfig.earthBaseTemperature;

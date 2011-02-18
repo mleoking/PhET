@@ -30,14 +30,14 @@ public class GreenhouseLegend extends PhetTitledPanel {
         // Draw an IR photon and a sunlight photon
         BufferedImage irPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = (Graphics2D) irPhotonBI.getGraphics();
-        Photon irPhoton = new Photon( WavelengthConstants.irWavelength, null );
+        Photon irPhoton = new Photon( WavelengthConstants.IR_WAVELENGTH, null );
         PhotonGraphic irPhotonGraphic = new PhotonGraphic( irPhoton );
         irPhotonGraphic.paint( g2 );
         ImageIcon irPhotonIcon = new ImageIcon( irPhotonGraphic.getImage() );
 
         BufferedImage sunlightPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         g2 = (Graphics2D) sunlightPhotonBI.getGraphics();
-        Photon sunlightPhoton = new Photon( WavelengthConstants.sunlightWavelength, null );
+        Photon sunlightPhoton = new Photon( WavelengthConstants.SUNLIGHT_WAVELENGTH, null );
         PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( sunlightPhoton );
         sunlightPhotonGraphic.paint( g2 );
         ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonGraphic.getImage() );

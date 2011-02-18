@@ -26,8 +26,8 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
     private double greenhouseGasConcentration = GreenhouseConfig.defaultGreenhouseGasConcentration;
     ArrayList listeners = new ArrayList();
 
-    private BandpassFilter greenhouseGasFilter = new BandpassFilter( WavelengthConstants.irWavelength,
-                                                                     WavelengthConstants.irWavelength );
+    private BandpassFilter greenhouseGasFilter = new BandpassFilter( WavelengthConstants.IR_WAVELENGTH,
+                                                                     WavelengthConstants.IR_WAVELENGTH );
 
     public Atmosphere( Earth earth ) {
         super( earth.getLocation(), Earth.radius * 2, ( Earth.radius + troposphereThickness + stratosphereThickness ) * 2 );

@@ -19,7 +19,7 @@ public class Star extends HorizontalPhotonEmitter {
     private Point2D.Double location;
 
     public Star( double radius, Point2D.Double location, Rectangle2D.Double bounds ) {
-        super( bounds, WavelengthConstants.sunlightWavelength );
+        super( bounds, WavelengthConstants.SUNLIGHT_WAVELENGTH );
         this.radius = radius;
         this.location = location;
     }
