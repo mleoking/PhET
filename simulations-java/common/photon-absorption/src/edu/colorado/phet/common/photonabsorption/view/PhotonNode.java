@@ -22,10 +22,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class PhotonNode extends PNode implements Observer {
 
     // ------------------------------------------------------------------------
-    // Class Data
-    // ------------------------------------------------------------------------
-
-    // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
@@ -99,8 +95,4 @@ public class PhotonNode extends PNode implements Observer {
     private void updatePosition() {
         setOffset( mvt.modelToViewDouble( photon.getLocation() ) );
     }
-
-    // ------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
 }

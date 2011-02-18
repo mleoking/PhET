@@ -17,14 +17,10 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Class that represents an atom in the view.
- * 
+ *
  * @author John Blanco
  */
 public class AtomNode extends PNode {
-    
-    // ------------------------------------------------------------------------
-    // Class Data
-    // ------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -37,9 +33,9 @@ public class AtomNode extends PNode {
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
-    
+
     public AtomNode( Atom atom, ModelViewTransform2D mvt ){
-        
+
         this.atom = atom;
         this.mvt = mvt;
 
@@ -78,9 +74,6 @@ public class AtomNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
-    /**
-     * 
-     */
     private void updatePosition() {
         setOffset( mvt.modelToViewDouble( atom.getPositionRef() ) );
     }

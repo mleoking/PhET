@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 
 
 /**
+ * Visual representation of a molecule.
  *
  * @author John Blanco
  */
@@ -96,8 +97,4 @@ public class MoleculeNode extends PNode {
             return null;
         }
     }
-
-    //------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
 }
