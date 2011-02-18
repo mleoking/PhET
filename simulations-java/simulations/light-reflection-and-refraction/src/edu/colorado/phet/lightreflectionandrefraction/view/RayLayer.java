@@ -36,17 +36,11 @@ public class RayLayer extends PImage {
             final TestBresenham testBresenham = new TestBresenham() {
                 public void setPixel( int x0, int y0 ) {
                     Color color = child.getColor();
-                    final Point point = new Point( x0, y0 );
-                    if ( map.containsKey( point ) ) {
-                        float[] current = map.get( point );
-                        float[] newOne = color.getComponents( null );
-                        for ( int a = 0; a <= 3; a++ ) {
-                            current[a] = Math.min( 1, current[a] + newOne[a] );
-                        }
-                    }
-                    else {
-                        map.put( point, color.getComponents( null ) );
-                    }
+                    addToMap( x0, y0, color, map );
+
+                    //Some additional points makes it look a lot better (less sparse) without slowing it down too much
+                    addToMap( x0 + 1, y0, color, map );
+                    addToMap( x0, y0 + 1, color, map );
                 }
 
                 @Override
@@ -74,5 +68,19 @@ public class RayLayer extends PImage {
 
         setImage( bufferedImage );
         moveToFront();
+    }
+
+    private void addToMap( int x0, int y0, Color color, HashMap<Point, float[]> map ) {
+        final Point point = new Point( x0, y0 );
+        if ( map.containsKey( point ) ) {
+            float[] current = map.get( point );
+            float[] newOne = color.getComponents( null );
+            for ( int a = 0; a <= 3; a++ ) {
+                current[a] = Math.min( 1, current[a] + newOne[a] );
+            }
+        }
+        else {
+            map.put( point, color.getComponents( null ) );
+        }
     }
 }
