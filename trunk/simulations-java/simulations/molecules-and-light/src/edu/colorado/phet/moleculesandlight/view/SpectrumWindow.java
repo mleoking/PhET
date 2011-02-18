@@ -33,10 +33,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SpectrumWindow extends JFrame {
 
-    //----------------------------------------------------------------------------
-    // Constructor(s)
-    //----------------------------------------------------------------------------
-
     /**
      * Constructor.
      */
