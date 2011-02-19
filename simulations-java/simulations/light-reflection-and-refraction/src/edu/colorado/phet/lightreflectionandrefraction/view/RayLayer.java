@@ -15,7 +15,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class RayLayer extends PImage {
-    private BufferedImage bufferedImage = new BufferedImage( 1000, 1000, BufferedImage.TYPE_INT_ARGB_PRE );
+    //Sampled from actual stage: width=1008.0,height=705.5999999999999
+    private BufferedImage bufferedImage = new BufferedImage( 1008, 705, BufferedImage.TYPE_INT_ARGB_PRE );
     private final PNode rayLayer;
 
     public RayLayer( PNode rayLayer ) {
@@ -28,8 +29,7 @@ public class RayLayer extends PImage {
     public void updateImage() {
         final Graphics2D mainBufferGraphics = bufferedImage.createGraphics();
         mainBufferGraphics.setBackground( new Color( 0, 0, 0, 0 ) );
-        mainBufferGraphics.clearRect( 0, 0, 1000, 1000 );
-        mainBufferGraphics.setPaint( Color.blue );
+        mainBufferGraphics.clearRect( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() );
         final HashMap<Point, float[]> map = new HashMap<Point, float[]>();
         for ( int i = 0; i < rayLayer.getChildrenCount(); i++ ) {
             final LightRayNode child = (LightRayNode) rayLayer.getChild( i );
@@ -60,8 +60,9 @@ public class RayLayer extends PImage {
             }
         }
         for ( Point point : map.keySet() ) {
-            final float[] doubles = map.get( point );
-            mainBufferGraphics.setPaint( new Color( doubles[0], doubles[1], doubles[2], doubles[3] ) );
+            final float[] samples = map.get( point );
+            System.out.println( "samples = " + samples[3] );
+            mainBufferGraphics.setPaint( new Color( samples[0], samples[1], samples[2], samples[3] ) );
             mainBufferGraphics.fillRect( point.x, point.y, 1, 1 );
         }
         mainBufferGraphics.dispose();
@@ -75,12 +76,17 @@ public class RayLayer extends PImage {
         if ( map.containsKey( point ) ) {
             float[] current = map.get( point );
             float[] newOne = color.getComponents( null );
-            for ( int a = 0; a <= 3; a++ ) {
+//            System.out.println( "Got components: " + newOne.length );
+            for ( int a = 0; a <= 2; a++ ) {
                 current[a] = Math.min( 1, current[a] + newOne[a] );
             }
+//            current[3] = Math.max( 0, current[3] - newOne[3] );
+            current[3] = 0.1f;
         }
         else {
-            map.put( point, color.getComponents( null ) );
+            final float[] components = color.getComponents( null );
+            components[3] = 0.1f;
+            map.put( point, components );
         }
     }
 }
