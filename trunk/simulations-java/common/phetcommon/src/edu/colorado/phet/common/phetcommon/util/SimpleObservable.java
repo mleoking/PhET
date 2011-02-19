@@ -41,10 +41,6 @@ public class SimpleObservable implements Cloneable {
         return super.toString() + ", observers=" + observers;
     }
 
-    public SimpleObserver[] getObservers() {
-        return observers.toArray( new SimpleObserver[observers.size()] );
-    }
-
     //////////////////////////////////////////////////
     // Persistence support
     //

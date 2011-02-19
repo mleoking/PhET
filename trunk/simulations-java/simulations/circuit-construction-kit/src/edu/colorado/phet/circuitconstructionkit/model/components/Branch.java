@@ -145,9 +145,9 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void notifyObservers() {
-        SimpleObserver[] so = getObservers();
-        for (int i = 0; i < so.length; i++) {
-            SimpleObserver simpleObserver = so[i];
+        ArrayList<SimpleObserver> so = getObserverList();
+        for (int i = 0; i < so.size(); i++) {
+            SimpleObserver simpleObserver = so.get( i );
             if (simpleObserver instanceof Electron.Observer) {
                 Electron.Observer e = (Electron.Observer) simpleObserver;//todo: why need for casting?
                 if (e.isDeleted()) {

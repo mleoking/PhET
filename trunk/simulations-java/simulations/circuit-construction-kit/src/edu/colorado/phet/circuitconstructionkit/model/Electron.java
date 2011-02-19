@@ -134,7 +134,7 @@ public class Electron extends SimpleObservableDebug {
     }
 
     public String toString() {
-        return "Electron, deleted=" + deleted + ", observers= " + Arrays.asList(getObservers());
+        return "Electron, deleted=" + deleted + ", observers= " + Arrays.asList(getObserverList());
     }
 
     /**
