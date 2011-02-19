@@ -1,3 +1,4 @@
+# 0.00.20 (49059) Feb 18, 2011
 Added Bresenham algorithm for white light
 # 0.00.19 (49047) Feb 17, 2011
 Added a test for additive color blending
