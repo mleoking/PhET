@@ -1,3 +1,4 @@
+2/19/11 Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
 2/19/11 #2741 Removed unused method from SimpleObservable
 2/17/11 #2741 Hygiene issues for SimpleObservable: converted to use generics, converted to foreach loop, removed unused field, cleaned up docs, reformatted code
 2/16/11 #2739, add cleanup methods to Swing controls that observer Property<T>

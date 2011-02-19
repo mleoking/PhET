@@ -20,7 +20,8 @@ public class SimpleObservable implements Cloneable {
     }
 
     public void notifyObservers() {
-        for ( SimpleObserver observer : observers ) {
+        //Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+        for ( SimpleObserver observer : new ArrayList<SimpleObserver>( observers ) ) {
             observer.update();
         }
     }
