@@ -57,4 +57,8 @@ public class LightRayNode extends PNode {
     public Color getColor() {
         return lightRay.getColor();
     }
+
+    public LightRay getLightRay() {
+        return lightRay;
+    }
 }
