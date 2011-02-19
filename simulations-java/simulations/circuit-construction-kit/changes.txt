@@ -1,3 +1,4 @@
+Removed unused override, no functional change
 Switched to use PhetTitledBorder, see #2477
 Changed control panel fonts to default for consistency with other sims and to get rid of new vertical scroll bar
 Converted to checkboxes instead of buttons for show values
