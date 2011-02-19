@@ -109,9 +109,19 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 }
             } );
         }} );
-//        addChild( rayLayer );
-        final RayLayer node = new RayLayer( rayLayer );
-        addChild( node );
+        addChild( rayLayer );
+
+        final WhiteLightNode whiteLightNode = new WhiteLightNode( rayLayer );
+        addChild( whiteLightNode );
+
+        //Switch between light renderers for white vs nonwhite light
+        model.getLaser().color.addObserver( new SimpleObserver() {
+            public void update() {
+                boolean white = model.getLaser().color.getValue() == LaserColor.WHITE_LIGHT;
+                whiteLightNode.setVisible( white );
+                rayLayer.setVisible( !white );
+            }
+        } );
 //
         //Coalesce repeat updates
         final boolean[] dirty = new boolean[] { true };
@@ -124,7 +134,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dirty[0] ) {
-                    node.updateImage();
+                    whiteLightNode.updateImage();
                     dirty[0] = false;
                 }
             }
