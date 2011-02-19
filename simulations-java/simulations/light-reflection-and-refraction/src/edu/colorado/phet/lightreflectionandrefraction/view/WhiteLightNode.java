@@ -11,30 +11,37 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,
- * as is the default when drawing transparent colors on top of each other in Java)
+ * as is the default when drawing transparent colors on top of each other in Java).
+ * <p/>
+ * This class uses the Bresenham line drawing algorithm (with a stroke thickness of 2) to determine which pixels each ray inhabits.
+ * When multiple rays hit the same pixel, their RGB values are added.  If any of the RG or B values is greater than the maximum of 255,
+ * then RGB values are scaled down and the leftover part is put into the "intensity" value (which is the sum of the ray intensities).
+ * The intensity is converted to a transparency value according to alpha = sqrt(intensity/3), which is also clamped to be between 0 and 255.
  *
  * @author Sam Reid
  */
 public class WhiteLightNode extends PImage {
-    //Sampled from actual stage: width=1008.0,height=705.5999999999999
-    private BufferedImage bufferedImage = new BufferedImage( 1008, 705, BufferedImage.TYPE_INT_ARGB_PRE );
+    private BufferedImage image = new BufferedImage( 1008, 706, BufferedImage.TYPE_INT_ARGB_PRE );//Dimensions will need to change if the model aspect ratio changes or stage size changes
     private final PNode rayLayer;
 
     public WhiteLightNode( PNode rayLayer ) {
         this.rayLayer = rayLayer;
-        setImage( bufferedImage );
+        setImage( image );
         setPickable( false );
         setChildrenPickable( false );
     }
 
     public void updateImage() {
-        final Graphics2D mainBufferGraphics = bufferedImage.createGraphics();
-        mainBufferGraphics.setBackground( new Color( 0, 0, 0, 0 ) );
-        mainBufferGraphics.clearRect( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() );
+        //Prepare and clear the Graphics2D to render the rays
+        final Graphics2D graphics = image.createGraphics();
+        graphics.setBackground( new Color( 0, 0, 0, 0 ) );
+        graphics.clearRect( 0, 0, image.getWidth(), image.getHeight() );
+
+        //Store samples of RGB + Intensity in a sparse HashMap
         final HashMap<Point, float[]> map = new HashMap<Point, float[]>();
         for ( int i = 0; i < rayLayer.getChildrenCount(); i++ ) {
             final LightRayNode child = (LightRayNode) rayLayer.getChild( i );
-            final TestBresenham testBresenham = new TestBresenham() {
+            final BresenhamLineAlgorithm bresenhamLineAlgorithm = new BresenhamLineAlgorithm() {
                 public void setPixel( int x0, int y0 ) {
                     Color color = child.getColor();
                     final double intensity = child.getLightRay().getPowerFraction();
@@ -44,7 +51,7 @@ public class WhiteLightNode extends PImage {
                     addToMap( x0 + 1, y0, color, intensity, map );
                     addToMap( x0, y0 + 1, color, intensity, map );
 
-                    //This code makes a thicker ray
+                    //This code makes a thicker ray (stroke width of 3)
 //                    for ( int dx = -3; dx <= 3; dx++ ) {
 //                        for ( int dy = -3; dy <= 3; dy++ ) {
 //                            addToMap( x0 + dx, y0 + dy, color, map );
@@ -54,23 +61,25 @@ public class WhiteLightNode extends PImage {
 
                 @Override
                 public boolean isOutOfBounds( int x0, int y0 ) {
-                    return x0 < 0 || y0 < 0 || x0 > bufferedImage.getWidth() || y0 > bufferedImage.getHeight();
+                    return x0 < 0 || y0 < 0 || x0 > image.getWidth() || y0 > image.getHeight();
                 }
             };
             final int x1 = (int) child.getLine().x1;
             final int y1 = (int) child.getLine().y1;
             final int x2 = (int) child.getLine().x2;
             final int y2 = (int) child.getLine().y2;
-            if ( testBresenham.isOutOfBounds( x1, y1 ) ) {
-                testBresenham.draw( x2, y2, x1, y1 );
+            //Some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
+            if ( bresenhamLineAlgorithm.isOutOfBounds( x1, y1 ) ) {
+                bresenhamLineAlgorithm.draw( x2, y2, x1, y1 );
             }
             else {
-                testBresenham.draw( x1, y1, x2, y2 );
+                bresenhamLineAlgorithm.draw( x1, y1, x2, y2 );
             }
         }
+
+        //Iterate over the sample points and draw them in the BufferedImage
         for ( Point point : map.keySet() ) {
             final float[] samples = map.get( point );
-//            System.out.println( "samples = " + samples[3] );
             float intensity = samples[3];
 
             //move excess samples value into the intensity column
@@ -86,36 +95,35 @@ public class WhiteLightNode extends PImage {
             }
             float alpha = (float) Math.sqrt( intensity / 3 );
             alpha = (float) MathUtil.clamp( 0, alpha, 1 );
-            mainBufferGraphics.setPaint( new Color( samples[0], samples[1], samples[2], alpha ) );
-            mainBufferGraphics.fillRect( point.x, point.y, 1, 1 );
+            graphics.setPaint( new Color( samples[0], samples[1], samples[2], alpha ) );
+            graphics.fillRect( point.x, point.y, 1, 1 );
         }
-        mainBufferGraphics.dispose();
 
-        setImage( bufferedImage );
+        //Cleanup and show the image.
+        graphics.dispose();
+        setImage( image );
         moveToFront();
     }
 
+    //Add the specified point to the HashMap (creating a new entry if necessary, otherwise adding it to existing values.
+    //Take the intensity as the last component of the array
     private void addToMap( int x0, int y0, Color color, double intensity, HashMap<Point, float[]> map ) {
         float brightnessFactor = 0.2f;//so that rays don't start fully saturated
         final Point point = new Point( x0, y0 );
         if ( map.containsKey( point ) ) {
             float[] current = map.get( point );
             float[] newOne = color.getComponents( null );
-//            System.out.println( "Got components: " + newOne.length );
             for ( int a = 0; a <= 3; a++ ) {
                 current[a] = current[a] + newOne[a] * brightnessFactor;
             }
             //add intensities, then convert to alpha later
             current[3] = current[3] + (float) intensity;
-//            current[3] = Math.max( 0, current[3] - newOne[3] );
-//            current[3] = 1f;
         }
         else {
             final float[] components = color.getComponents( null );
             for ( int i = 0; i < components.length; i++ ) {
                 components[i] = components[i] * brightnessFactor;
             }
-//            components[3] = 1f;
             components[3] = (float) intensity;
             map.put( point, components );
         }
