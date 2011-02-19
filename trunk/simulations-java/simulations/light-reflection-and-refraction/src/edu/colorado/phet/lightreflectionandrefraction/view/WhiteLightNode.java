@@ -15,12 +15,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Sam Reid
  */
-public class RayLayer extends PImage {
+public class WhiteLightNode extends PImage {
     //Sampled from actual stage: width=1008.0,height=705.5999999999999
     private BufferedImage bufferedImage = new BufferedImage( 1008, 705, BufferedImage.TYPE_INT_ARGB_PRE );
     private final PNode rayLayer;
 
-    public RayLayer( PNode rayLayer ) {
+    public WhiteLightNode( PNode rayLayer ) {
         this.rayLayer = rayLayer;
         setImage( bufferedImage );
         setPickable( false );
