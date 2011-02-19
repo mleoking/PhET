@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lightreflectionandrefraction.view;
 
-public class TestBresenham {
+public class BresenhamLineAlgorithm {
     //See http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
     public void draw( int x0, int y0, int x1, int y1 ) {
 //        System.out.println( "drawing " + x0 + ", " + y0 + ", " + x1 + ", " + y1 );
@@ -36,6 +36,6 @@ public class TestBresenham {
     }
 
     public static void main( String[] args ) {
-        new TestBresenham().draw( 0, 0, 10, 5 );
+        new BresenhamLineAlgorithm().draw( 0, 0, 10, 5 );
     }
 }
