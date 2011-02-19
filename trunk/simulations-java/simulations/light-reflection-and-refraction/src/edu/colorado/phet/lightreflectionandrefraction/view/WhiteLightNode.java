@@ -78,12 +78,13 @@ public class WhiteLightNode extends PImage {
             if ( samples[1] > max ) { max = samples[1]; }
             if ( samples[2] > max ) { max = samples[2]; }
             if ( max > 1 ) {
-                samples[0] = samples[0] / max;
-                samples[1] = samples[1] / max;
-                samples[2] = samples[2] / max;
+                final float scale = 2f;//extra factor to make it white instead of cream/orange
+                samples[0] = Math.min( samples[0] / max * scale, 1 );
+                samples[1] = Math.min( samples[1] / max * scale, 1 );
+                samples[2] = Math.min( samples[2] / max * scale, 1 );
                 intensity = intensity * max;
             }
-            float alpha = (float) Math.sqrt( intensity / 2 );
+            float alpha = (float) Math.sqrt( intensity / 3 );
             alpha = (float) MathUtil.clamp( 0, alpha, 1 );
             mainBufferGraphics.setPaint( new Color( samples[0], samples[1], samples[2], alpha ) );
             mainBufferGraphics.fillRect( point.x, point.y, 1, 1 );
@@ -95,7 +96,7 @@ public class WhiteLightNode extends PImage {
     }
 
     private void addToMap( int x0, int y0, Color color, double intensity, HashMap<Point, float[]> map ) {
-        float brightnessFactor = 0.1f;//so that rays don't start fully saturated
+        float brightnessFactor = 0.2f;//so that rays don't start fully saturated
         final Point point = new Point( x0, y0 );
         if ( map.containsKey( point ) ) {
             float[] current = map.get( point );
