@@ -7,6 +7,7 @@ HIGH PRIORITY
 - "Game" module with 2/3/11 design meeting changes
 - in "Game", two possible labels below frowny face: "X not balanced" or "Check Mark balanced\nX not simplified"
 - after "Check" is pressed, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
+- largest molecule diameter is too large to fit on balance scales
 
 MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules
