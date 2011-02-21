@@ -7,6 +7,11 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.Bucket;
@@ -50,7 +55,15 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 ISOTOPE_TEST_CHAMBER_SIZE.getWidth(),
                 ISOTOPE_TEST_CHAMBER_SIZE.getHeight() );
 
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 50, 30 ); // In picometers.
+    // Size of the buckets that will hold the isotopes.
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 75, 40 ); // In picometers.
+
+    // List of colors which will be used to represent the various isotopes.
+//    private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
+//        new Color(255, 69, 0), new Color( 151, 105, 79 ) };
+    private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
+        new Color(255, 69, 0), new Color( 139, 90, 43 ) };
+    private static final Map< ImmutableAtom, Color > ISOTOPE_COLOR_MAP = new HashMap< ImmutableAtom, Color>();
 
     // -----------------------------------------------------------------------
     // Instance Data
@@ -68,14 +81,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // contains a list of all stable isotopes that match the atomic weight
     // of the currently configured isotope.  There should be only one of each
     // possible isotope.
-    private final Property<ArrayList<ImmutableAtom>> possibleIsotopesProperty =
-            new Property<ArrayList<ImmutableAtom>>( new ArrayList<ImmutableAtom>() ){{
-                // Wire up the bucket list to be updated whenever the list of
-                // possible isotopes is updated.
+    private final Property<List<ImmutableAtom>> possibleIsotopesProperty =
+            new Property<List<ImmutableAtom>>( new ArrayList<ImmutableAtom>() ){{
+                // Add an observer that will update the bucket list when the
+                // list of isotopes changes.
                 addObserver( new SimpleObserver() {
                     public void update() {
-                        // Make a copy of the current bucket list so that we can send a
-                        // notification of their demise.
+                        // Update the list of buckets that hold the isotopes.
                         ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketListProperty.getValue() );
 
                         // Create a new list of buckets based on the new list
@@ -85,9 +97,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX();
                         ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
                         for ( int i = 0; i < getValue().size(); i++ ){
+                            ImmutableAtom atom = getValue().get( i );
                             newBucketList.add( new Bucket(new Point2D.Double(
                                     bucketXOffset + interBucketDistanceX * (i + 1), bucketYOffset),
-                                    BUCKET_SIZE, Color.BLUE, AtomIdentifier.getName( getValue().get( i ) )) );
+                                    BUCKET_SIZE, ISOTOPE_COLOR_MAP.get( atom ), AtomIdentifier.getName( atom )) );
                         }
                         bucketListProperty.setValue( newBucketList );
 
@@ -103,8 +116,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // not in the test chamber reside.  This needs to change whenever a new
     // element is selected, since there is one bucket for each stable isotope
     // configuration for a given element.
-    private final Property<ArrayList<Bucket>> bucketListProperty =
-            new Property<ArrayList<Bucket>>( new ArrayList<Bucket>() );
+    private final Property<List<Bucket>> bucketListProperty =
+            new Property<List<Bucket>>( new ArrayList<Bucket>() );
 
     // -----------------------------------------------------------------------
     // Constructor(s)
@@ -145,8 +158,28 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
             prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
 
+            // Get the new isotope list.
+            ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getAllIsotopes( atom.getNumProtons() );
+
+            // Sort from lightest to heaviest.
+            Collections.sort( newIsotopeList, new Comparator<IAtom>(){
+                public int compare( IAtom atom2, IAtom atom1 ) {
+                    return new Double(atom2.getAtomicMass()).compareTo( atom1.getAtomicMass() );
+                }
+            });
+
+            // Update the structure that maps isotope to colors.  This must
+            // be done before update the isotope list so that anything that
+            // listens for changes to the list can get the correct colors.
+            ISOTOPE_COLOR_MAP.clear();
+            for ( ImmutableAtom isotope : newIsotopeList ) {
+                ISOTOPE_COLOR_MAP.put( isotope, ISOTOPE_COLORS[ISOTOPE_COLOR_MAP.size()] );
+            }
+
             // Update the list of possible isotopes for this atomic configuration.
-            possibleIsotopesProperty.setValue( AtomIdentifier.getAllIsotopes( atom.getNumProtons() ) );
+            possibleIsotopesProperty.setValue( newIsotopeList );
+
+            // Update the map of isotopes to color.
         }
     }
 
@@ -172,11 +205,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return new Point2D.Double( ISOTOPE_TEST_CHAMBER_RECT.getX(), ISOTOPE_TEST_CHAMBER_RECT.getY() );
     }
 
-    public Property<ArrayList<ImmutableAtom>> getPossibleIsotopesProperty() {
+    public Property<List<ImmutableAtom>> getPossibleIsotopesProperty() {
         return possibleIsotopesProperty;
     }
 
-    public Property<ArrayList<Bucket>> getBucketListProperty() {
+    public Property<List<Bucket>> getBucketListProperty() {
         return bucketListProperty;
     }
 
