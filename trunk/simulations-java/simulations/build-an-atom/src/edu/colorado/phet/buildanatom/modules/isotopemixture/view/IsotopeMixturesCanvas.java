@@ -6,7 +6,10 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -80,8 +83,16 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         PNode frontBucketLayer = new PNode();
         rootNode.addChild( frontBucketLayer );
 
-        // Add the test chamber where the isotopes can be placed.
-        final PNode testChamberNode = new PhetPPath(mvt.createTransformedShape( model.getIsotopeTestChamberRect()), Color.BLACK );
+        // Add the test chamber into and out of which the individual isotopes
+        // will be moved. As with all elements in this model, the shape and
+        // position are considered to be two separate things.
+        final PhetPPath testChamberNode = new PhetPPath( Color.BLACK ){{
+            setPathTo( new Rectangle2D.Double( 0, 0,
+                mvt.modelToViewDifferentialXDouble( model.getIsotopeTestChamberSize().getWidth() ),
+                mvt.modelToViewDifferentialYDouble( -model.getIsotopeTestChamberSize().getHeight() ) ) );
+            setOffset( mvt.modelToViewXDouble( model.getIsotopeTestChamberPosition().getX() ),
+                    mvt.modelToViewYDouble( -model.getIsotopeTestChamberPosition().getY() ) );
+        }};
         chamberLayer.addChild( testChamberNode );
 
         // Add the periodic table node that will allow the user to set the
@@ -101,14 +112,19 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                 int bucketCount = 0;
                 for ( Bucket bucket : model.getBucketListProperty().getValue() ) {
                     BucketNode bucketNode = new BucketNode( bucket, mvt );
+                    System.out.println("Adding bucket, count = " + bucketCount++);
                     System.out.println(bucket.getPosition());
                     System.out.println("T:" + mvt.modelToView( bucket.getPosition() ));
-                    bucketNode.setOffset( mvt.modelToView( new Point2D.Double(-50 + bucketCount * 10, -15) ) );
+                    bucketNode.setOffset( mvt.modelToView( bucket.getPosition() ).getX(), 0 );
+//                    bucketNode.setOffset( mvt.modelToView( new Point2D.Double(-50 + bucketCount * 10, -15) ) );
 //                    bucketNode.setOffset( 100, 250 );
                     backBucketLayer.addChild( bucketNode );
                 }
             }
         });
+
+        // TODO: For debug, put a marker at 0,0 in model space.
+        addWorldChild( new PhetPPath( mvt.createTransformedShape( new Ellipse2D.Double(-5, -5, 10, 10) ), Color.PINK ) );
 
         PieValue[] pieSlices = new PieValue[] {
                 new PieValue( 100, Color.BLUE ),
