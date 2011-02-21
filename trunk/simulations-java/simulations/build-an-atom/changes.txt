@@ -1,3 +1,5 @@
+# 2.01.00 (49070) Feb 21, 2011
+2/21/11 > Fixed an issue in Build an Atom where the game could crash if running with the timer turned off.
 build-an-atom: Fixed an issue where an exception would occur at the end of the game if played without the timer running.
 2/16/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
 isotopes-and-atomic-mass: Changed the abundance of tritium to "trace" from zero. 
