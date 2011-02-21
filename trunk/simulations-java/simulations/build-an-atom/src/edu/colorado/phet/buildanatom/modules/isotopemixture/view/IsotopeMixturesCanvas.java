@@ -5,7 +5,6 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -13,10 +12,10 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Bucket;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
-import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -25,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -125,13 +123,20 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // TODO: For debug, put a marker at 0,0 in model space.
         addWorldChild( new PhetPPath( mvt.createTransformedShape( new Ellipse2D.Double(-5, -5, 10, 10) ), Color.PINK ) );
 
-        PieValue[] pieSlices = new PieValue[] {
-                new PieValue( 100, Color.BLUE ),
-                new PieValue( 50, Color.RED ),
-                new PieValue( 100, Color.GREEN ) };
-
-        PieChartNode pieChart = new PieChartNode( pieSlices, new Rectangle(0, 0, 100, 100));
-        pieChart.setOffset( 720, 230 );
-        testChamberNode.addChild( pieChart );
+        // Add the pie chart to the canvas.
+        final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) }, new Rectangle(0, 0, 100, 100)){{
+            setOffset( 720, 230 );
+        }};
+        chamberLayer.addChild( pieChart );
+        model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
+                int isotopeCount = 0;
+                for ( ImmutableAtom atom : model.getPossibleIsotopesProperty().getValue() ){
+                    pieSlices[isotopeCount++] = new PieValue( 100, model.getColorForIsotope( atom ) );
+                }
+                pieChart.setPieValues( pieSlices );
+            }
+        });
     }
 }
