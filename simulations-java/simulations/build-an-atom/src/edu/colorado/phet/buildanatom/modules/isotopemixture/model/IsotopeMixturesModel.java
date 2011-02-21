@@ -35,10 +35,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Class Data
     // -----------------------------------------------------------------------
 
+    // Size of the "test chamber", which is the area in model space into which
+    // the isotopes can be dragged in order to contribute to the current
+    // average atomic weight.
     private static final Dimension2D ISOTOPE_TEST_CHAMBER_SIZE = new PDimension( 350, 300 ); // In picometers.
 
+    // Rectangle that defines the location of the test chamber.  This is
+    // set up so that the center of the test chamber is at (0, 0) in model
+    // space.
     private static final Rectangle2D ISOTOPE_TEST_CHAMBER_RECT =
-            new Rectangle2D.Double(
+        new Rectangle2D.Double(
                 -ISOTOPE_TEST_CHAMBER_SIZE.getWidth() / 2,
                 -ISOTOPE_TEST_CHAMBER_SIZE.getHeight() / 2,
                 ISOTOPE_TEST_CHAMBER_SIZE.getWidth(),
@@ -142,8 +148,26 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
-    public Rectangle2D getIsotopeTestChamberRect(){
-        return ISOTOPE_TEST_CHAMBER_RECT;
+    /**
+     * Get the size of the test chamber.  Note that this is just the size, and
+     * that the position is obtained separately.
+     *
+     * @return
+     */
+    public Dimension2D getIsotopeTestChamberSize() {
+        return ISOTOPE_TEST_CHAMBER_SIZE;
+    }
+
+    /**
+     * Get the position of the test chamber rectangle.  The position is
+     * defined such that the center of the chamber corresponds to (0,0) in
+     * model space.
+     *
+     * @return - The position of the upper left corner, in model space, of the
+     * isotope test chamber.
+     */
+    public Point2D getIsotopeTestChamberPosition() {
+        return new Point2D.Double( ISOTOPE_TEST_CHAMBER_RECT.getX(), ISOTOPE_TEST_CHAMBER_RECT.getY() );
     }
 
     public Property<ArrayList<ImmutableAtom>> getPossibleIsotopesProperty() {
