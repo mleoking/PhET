@@ -11,7 +11,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.model.ParticleBucket;
+import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -48,7 +48,7 @@ public class BucketNode extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public BucketNode( ParticleBucket bucket, ModelViewTransform2D mvt ) {
+    public BucketNode( Bucket bucket, ModelViewTransform2D mvt ) {
         // Add the layers.
         addChild( containerLayer );
         addChild( holeLayer );
