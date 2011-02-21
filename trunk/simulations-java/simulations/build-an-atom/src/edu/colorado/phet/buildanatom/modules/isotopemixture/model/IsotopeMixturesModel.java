@@ -88,7 +88,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                             bucket.getPartOfModelProperty().setValue( false );
                         }
                     }
-                });
+                }, false);
             }};
 
     // This property contains the list of the buckets where isotopes that are
@@ -144,6 +144,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public Rectangle2D getIsotopeTestChamberRect(){
         return ISOTOPE_TEST_CHAMBER_RECT;
+    }
+
+    public Property<ArrayList<ImmutableAtom>> getPossibleIsotopesProperty() {
+        return possibleIsotopesProperty;
+    }
+
+    public Property<ArrayList<Bucket>> getBucketListProperty() {
+        return bucketListProperty;
     }
 
     public void reset() {
