@@ -17,20 +17,18 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 
 /**
  * ColorControl is a control for setting a color.
- * Clicking on the "color chip" opens a color chooser dialog.
+ * Clicking on the control opens a color chooser dialog.
  * ChangeListeners are notified when the color is changed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ColorControl extends HorizontalLayoutPanel implements ColorChooserFactory.Listener {
+public class ColorControl extends HorizontalLayoutPanel {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
     private static final Dimension DEFAULT_CHIP_SIZE = new Dimension( 15, 15 );
-    private static final Stroke CHIP_STROKE = new BasicStroke( 1f );
-    private static final Color CHIP_STROKE_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,15 +68,12 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
 
         this.parentFrame = parentFrame;
         this.labelString = labelString;
-        this.color = color;
         this.chipSize = new Dimension( chipSize );
         listenerList = new EventListenerList();
 
         MouseInputListener mouseInputListener = new MouseInputAdapter() {
             public void mouseClicked( MouseEvent event ) {
-                if ( event.getSource() instanceof JLabel ) {
-                    openColorChooser();
-                }
+                openColorChooser();
             }
         };
 
@@ -87,11 +82,12 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
 
         colorChip = new JLabel();
         colorChip.addMouseListener( mouseInputListener );
-        setColor( color );
 
         add( label );
         add( Box.createHorizontalStrut( 5 ) );
         add( colorChip );
+
+        setColor( color );
     }
 
     //----------------------------------------------------------------------------
@@ -104,9 +100,11 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
      * @param color
      */
     public void setColor( Color color ) {
-        this.color = color;
-        updateColorChip( color );
-        fireChangeEvent( new ChangeEvent( this ) );
+        if ( !color.equals( this.color ) ) {
+            this.color = color;
+            updateColorChip( color );
+            fireChangeEvent( new ChangeEvent( this ) );
+        }
     }
 
     /**
@@ -127,8 +125,8 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
         Graphics2D g2 = image.createGraphics();
         g2.setColor( color );
         g2.fill( r );
-        g2.setStroke( CHIP_STROKE );
-        g2.setColor( CHIP_STROKE_COLOR );
+        g2.setStroke( new BasicStroke( 1f ) );
+        g2.setColor( Color.BLACK );
         g2.draw( r );
         colorChip.setIcon( new ImageIcon( image ) );
     }
@@ -140,10 +138,22 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
     /*
     * Opens the color chooser dialog.
     */
-
     private void openColorChooser() {
         closeColorChooser();
-        colorChooserDialog = ColorChooserFactory.createDialog( labelString, parentFrame, color, this );
+        ColorChooserFactory.Listener listener = new ColorChooserFactory.Listener() {
+            public void colorChanged( Color color ) {
+                setColor( color );
+            }
+
+            public void ok( Color color ) {
+                setColor( color );
+            }
+
+            public void cancelled( Color originalColor ) {
+                setColor( originalColor );
+            }
+        };
+        colorChooserDialog = ColorChooserFactory.createDialog( labelString, parentFrame, color, listener );
         colorChooserDialog.setVisible( true );
     }
 
@@ -154,31 +164,6 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
         if ( colorChooserDialog != null ) {
             colorChooserDialog.dispose();
         }
-    }
-
-    //----------------------------------------------------------------------------
-    // ColorChooserFactory.Listener implementation
-    //----------------------------------------------------------------------------
-
-    /**
-     * Called when the user selects a color.
-     */
-    public void colorChanged( Color color ) {
-        setColor( color );
-    }
-
-    /**
-     * Called when the user presses the OK button.
-     */
-    public void ok( Color color ) {
-        setColor( color );
-    }
-
-    /**
-     * Called when the user presses the Cancel button.
-     */
-    public void cancelled( Color originalColor ) {
-        setColor( originalColor );
     }
 
     //----------------------------------------------------------------------------
