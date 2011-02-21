@@ -4,16 +4,22 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -60,9 +66,23 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
+        // Root of our scene graph
+        rootNode = new PNode();
+        addWorldChild( rootNode );
+
+        // Add the nodes that will allow the canvas to be layered.
+        PNode chamberLayer = new PNode();
+        rootNode.addChild( chamberLayer );
+        final PNode backBucketLayer = new PNode();
+        rootNode.addChild( backBucketLayer );
+        PNode particleLayer = new PNode();
+        rootNode.addChild( particleLayer );
+        PNode frontBucketLayer = new PNode();
+        rootNode.addChild( frontBucketLayer );
+
         // Add the test chamber where the isotopes can be placed.
         final PNode testChamberNode = new PhetPPath(mvt.createTransformedShape( model.getIsotopeTestChamberRect()), Color.BLACK );
-        addWorldChild( testChamberNode );
+        chamberLayer.addChild( testChamberNode );
 
         // Add the periodic table node that will allow the user to set the
         // current isotope.
@@ -70,11 +90,34 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             setOffset( testChamberNode.getFullBoundsReference().getMaxX() + 15, testChamberNode.getFullBoundsReference().getMinY() );
             setScale( 1.1 ); // Empirically determined.
         }};
-        addWorldChild( periodicTableNode );
+        chamberLayer.addChild( periodicTableNode );
 
-        // Root of our scene graph
-        rootNode = new PNode();
-        addWorldChild( rootNode );
+        // Listen to the bucket list property in the model and update our
+        // buckets if and when the list changes.
+        model.getBucketListProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                // TODO: need to handle bucket layering.
+                backBucketLayer.removeAllChildren();
+                int bucketCount = 0;
+                for ( Bucket bucket : model.getBucketListProperty().getValue() ) {
+                    BucketNode bucketNode = new BucketNode( bucket, mvt );
+                    System.out.println(bucket.getPosition());
+                    System.out.println("T:" + mvt.modelToView( bucket.getPosition() ));
+                    bucketNode.setOffset( mvt.modelToView( new Point2D.Double(-50 + bucketCount * 10, -15) ) );
+//                    bucketNode.setOffset( 100, 250 );
+                    backBucketLayer.addChild( bucketNode );
+                }
+            }
+        });
+
+        PieValue[] pieSlices = new PieValue[] {
+                new PieValue( 100, Color.BLUE ),
+                new PieValue( 50, Color.RED ),
+                new PieValue( 100, Color.GREEN ) };
+
+        PieChartNode pieChart = new PieChartNode( pieSlices, new Rectangle(0, 0, 100, 100));
+        pieChart.setOffset( 720, 230 );
+        testChamberNode.addChild( pieChart );
     }
 
     //----------------------------------------------------------------------------
