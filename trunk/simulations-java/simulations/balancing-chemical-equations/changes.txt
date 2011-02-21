@@ -1,3 +1,4 @@
+# 0.00.06 (49080) Feb 21, 2011
 2/21/11 dev version to demonstrate atom color, atom diameters, and molecule structures
 2/21/11 add TestMoleculeNodes to build properties
 2/21/11 request: add "play area color" control to TestMoleculesNode
