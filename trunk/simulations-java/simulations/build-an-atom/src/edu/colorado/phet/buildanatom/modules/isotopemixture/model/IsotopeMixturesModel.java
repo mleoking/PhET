@@ -90,7 +90,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
                         // Create a new list of buckets based on the new list
                         // of stable isotopes.
-                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 20;
+                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 40;
                         double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / getValue().size();
                         double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
                         ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
