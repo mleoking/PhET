@@ -12,6 +12,7 @@ MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules
 
 LOW PRIORITY
+- delete TestMoleculeNodes from build properties before publishing 1.00
 
 MIGRATE TO COMMON
 - replace molecule image files in RPAL with Piccolo code from BCE
