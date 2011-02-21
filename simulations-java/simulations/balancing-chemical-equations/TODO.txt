@@ -14,3 +14,4 @@ MEDIUM PRIORITY
 LOW PRIORITY
 
 MIGRATE TO COMMON
+- replace molecule image files in RPAL with Piccolo code from BCE
