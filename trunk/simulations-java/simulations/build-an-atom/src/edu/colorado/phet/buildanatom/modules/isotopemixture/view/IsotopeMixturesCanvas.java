@@ -9,12 +9,13 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.view.BucketFrontNode;
+import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -24,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -76,12 +78,12 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // Add the nodes that will allow the canvas to be layered.
         PNode chamberLayer = new PNode();
         rootNode.addChild( chamberLayer );
-        final PNode backBucketLayer = new PNode();
-        rootNode.addChild( backBucketLayer );
+        final PNode bucketHoleLayer = new PNode();
+        rootNode.addChild( bucketHoleLayer );
         PNode particleLayer = new PNode();
         rootNode.addChild( particleLayer );
-        PNode frontBucketLayer = new PNode();
-        rootNode.addChild( frontBucketLayer );
+        final PNode bucketFrontLayer = new PNode();
+        rootNode.addChild( bucketFrontLayer );
 
         // Add the test chamber into and out of which the individual isotopes
         // will be moved. As with all elements in this model, the shape and
@@ -107,18 +109,15 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // buckets if and when the list changes.
         model.getBucketListProperty().addObserver( new SimpleObserver() {
             public void update() {
-                // TODO: need to handle bucket layering.
-                backBucketLayer.removeAllChildren();
-                int bucketCount = 0;
+                bucketHoleLayer.removeAllChildren();
+                bucketFrontLayer.removeAllChildren();
                 for ( Bucket bucket : model.getBucketListProperty().getValue() ) {
-                    BucketNode bucketNode = new BucketNode( bucket, mvt );
-                    System.out.println("Adding bucket, count = " + bucketCount++);
-                    System.out.println(bucket.getPosition());
-                    System.out.println("T:" + mvt.modelToView( bucket.getPosition() ));
-                    bucketNode.setOffset( mvt.modelToView( bucket.getPosition() ).getX(), 0 );
-//                    bucketNode.setOffset( mvt.modelToView( new Point2D.Double(-50 + bucketCount * 10, -15) ) );
-//                    bucketNode.setOffset( 100, 250 );
-                    backBucketLayer.addChild( bucketNode );
+                    BucketFrontNode bucketFrontNode = new BucketFrontNode( bucket, mvt );
+                    bucketFrontNode.setOffset( mvt.modelToViewDouble( bucket.getPosition() ) );
+                    BucketHoleNode bucketHoleNode = new BucketHoleNode( bucket, mvt );
+                    bucketHoleNode.setOffset( mvt.modelToViewDouble( bucket.getPosition() ) );
+                    bucketFrontLayer.addChild( bucketFrontNode );
+                    bucketHoleLayer.addChild( bucketHoleNode );
                 }
             }
         });
@@ -134,27 +133,5 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         PieChartNode pieChart = new PieChartNode( pieSlices, new Rectangle(0, 0, 100, 100));
         pieChart.setOffset( 720, 230 );
         testChamberNode.addChild( pieChart );
-    }
-
-    //----------------------------------------------------------------------------
-    // Methods
-    //----------------------------------------------------------------------------
-
-    /*
-     * Updates the layout of stuff on the canvas.
-     */
-    @Override
-    protected void updateLayout() {
-
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else if ( BuildAnAtomConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
-        }
-
-        //XXX lay out nodes
     }
 }

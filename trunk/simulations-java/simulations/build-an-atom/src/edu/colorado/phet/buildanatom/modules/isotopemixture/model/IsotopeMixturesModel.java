@@ -80,11 +80,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
                         // Create a new list of buckets based on the new list
                         // of stable isotopes.
-                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMaxY() + 20;
+                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 20;
                         double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / (getValue().size() + 1);
+                        double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX();
                         ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
                         for ( int i = 0; i < getValue().size(); i++ ){
-                            newBucketList.add( new Bucket(new Point2D.Double(interBucketDistanceX * (i + 1), bucketYOffset),
+                            newBucketList.add( new Bucket(new Point2D.Double(
+                                    bucketXOffset + interBucketDistanceX * (i + 1), bucketYOffset),
                                     BUCKET_SIZE, Color.BLUE, AtomIdentifier.getName( getValue().get( i ) )) );
                         }
                         bucketListProperty.setValue( newBucketList );
