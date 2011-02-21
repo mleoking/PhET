@@ -6,11 +6,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.MouseInputAdapter;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.event.*;
 
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
@@ -74,18 +74,20 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
         this.chipSize = new Dimension( chipSize );
         listenerList = new EventListenerList();
 
-        JLabel label = new JLabel( labelString );
-
-        colorChip = new JLabel();
-        setColor( color );
-
-        colorChip.addMouseListener( new MouseInputAdapter() {
+        MouseInputListener mouseInputListener = new MouseInputAdapter() {
             public void mouseClicked( MouseEvent event ) {
                 if ( event.getSource() instanceof JLabel ) {
                     openColorChooser();
                 }
             }
-        } );
+        };
+
+        JLabel label = new JLabel( labelString );
+        label.addMouseListener( mouseInputListener );
+
+        colorChip = new JLabel();
+        colorChip.addMouseListener( mouseInputListener );
+        setColor( color );
 
         add( label );
         add( Box.createHorizontalStrut( 5 ) );
@@ -142,7 +144,7 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
     private void openColorChooser() {
         closeColorChooser();
         colorChooserDialog = ColorChooserFactory.createDialog( labelString, parentFrame, color, this );
-        colorChooserDialog.show();
+        colorChooserDialog.setVisible( true );
     }
 
     /*
