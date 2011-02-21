@@ -1,3 +1,4 @@
+build-an-atom: Fixed an issue where an exception would occur at the end of the game if played without the timer running.
 2/16/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
 isotopes-and-atomic-mass: Changed the abundance of tritium to "trace" from zero. 
 isotopes-and-atomic-mass: Added a "Reset All" button to the first tab. 
