@@ -61,7 +61,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // List of colors which will be used to represent the various isotopes.
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
-    private static final Map< ImmutableAtom, Color > ISOTOPE_COLOR_MAP = new HashMap< ImmutableAtom, Color>();
 
     // -----------------------------------------------------------------------
     // Instance Data
@@ -98,7 +97,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                             ImmutableAtom atom = getValue().get( i );
                             newBucketList.add( new Bucket(new Point2D.Double(
                                     bucketXOffset + interBucketDistanceX * i, bucketYOffset),
-                                    BUCKET_SIZE, ISOTOPE_COLOR_MAP.get( atom ), AtomIdentifier.getName( atom )) );
+                                    BUCKET_SIZE, isotopeColorMap.get( atom ), AtomIdentifier.getName( atom )) );
                         }
                         bucketListProperty.setValue( newBucketList );
 
@@ -116,6 +115,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // configuration for a given element.
     private final Property<List<Bucket>> bucketListProperty =
             new Property<List<Bucket>>( new ArrayList<Bucket>() );
+
+    // Matches isotopes to colors used to portray them as well as the buckets
+    // in which they can reside, etc.
+    private final Map< ImmutableAtom, Color > isotopeColorMap = new HashMap< ImmutableAtom, Color>();
 
     // -----------------------------------------------------------------------
     // Constructor(s)
@@ -169,9 +172,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // Update the structure that maps isotope to colors.  This must
             // be done before update the isotope list so that anything that
             // listens for changes to the list can get the correct colors.
-            ISOTOPE_COLOR_MAP.clear();
+            isotopeColorMap.clear();
             for ( ImmutableAtom isotope : newIsotopeList ) {
-                ISOTOPE_COLOR_MAP.put( isotope, ISOTOPE_COLORS[ISOTOPE_COLOR_MAP.size()] );
+                isotopeColorMap.put( isotope, ISOTOPE_COLORS[isotopeColorMap.size()] );
             }
 
             // Update the list of possible isotopes for this atomic configuration.
@@ -209,6 +212,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public Property<List<Bucket>> getBucketListProperty() {
         return bucketListProperty;
+    }
+
+    public Color getColorForIsotope( ImmutableAtom isotope ) {
+        return isotopeColorMap.containsKey( isotope ) ? isotopeColorMap.get( isotope ) : Color.BLACK;
     }
 
     public void reset() {
