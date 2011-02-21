@@ -6,7 +6,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.*;
@@ -44,11 +49,15 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.PH3;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.SMolecule;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO2;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO3;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Displays the visual representation of all molecules used in the "Balancing Chemical Equations" sim.
@@ -66,54 +75,60 @@ public class TestMoleculeNodes extends JFrame {
         canvas.setBackground( BCEConstants.BOX_COLOR );
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
 
-        PNode rootNode = new PNode();
-        canvas.getLayer().addChild( rootNode );
+        // parent node of all molecule nodes
+        PNode parent = new PNode();
+        canvas.getLayer().addChild( parent );
 
-        rootNode.addChild( new LabeledMoleculeNode( new CMolecule() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new C2H2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new C2H4() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new C2H5Cl() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new C2H5OH() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new C2H6() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new CH2O() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new CH3OH() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new CH4() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new Cl2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new CO() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new CO2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new CS2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new F2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new H2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new H2O() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new H2S() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new HCl() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new HF() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new N2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new N2O() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new NH3() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new NO() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new NO2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new O2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new OF2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new P4() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new PCl3() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new PCl5() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new PF3() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new PH3() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new SMolecule() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new SO2() ) );
-        rootNode.addChild( new LabeledMoleculeNode( new SO3() ) );
+        parent.addChild( new LabeledMoleculeNode( new CMolecule() ) );
+        parent.addChild( new LabeledMoleculeNode( new C2H2() ) );
+        parent.addChild( new LabeledMoleculeNode( new C2H4() ) );
+        parent.addChild( new LabeledMoleculeNode( new C2H5Cl() ) );
+        parent.addChild( new LabeledMoleculeNode( new C2H5OH() ) );
+        parent.addChild( new LabeledMoleculeNode( new C2H6() ) );
+        parent.addChild( new LabeledMoleculeNode( new CH2O() ) );
+        parent.addChild( new LabeledMoleculeNode( new CH3OH() ) );
+        parent.addChild( new LabeledMoleculeNode( new CH4() ) );
+        parent.addChild( new LabeledMoleculeNode( new Cl2() ) );
+        parent.addChild( new LabeledMoleculeNode( new CO() ) );
+        parent.addChild( new LabeledMoleculeNode( new CO2() ) );
+        parent.addChild( new LabeledMoleculeNode( new CS2() ) );
+        parent.addChild( new LabeledMoleculeNode( new F2() ) );
+        parent.addChild( new LabeledMoleculeNode( new H2() ) );
+        parent.addChild( new LabeledMoleculeNode( new H2O() ) );
+        parent.addChild( new LabeledMoleculeNode( new H2S() ) );
+        parent.addChild( new LabeledMoleculeNode( new HCl() ) );
+        parent.addChild( new LabeledMoleculeNode( new HF() ) );
+        parent.addChild( new LabeledMoleculeNode( new N2() ) );
+        parent.addChild( new LabeledMoleculeNode( new N2O() ) );
+        parent.addChild( new LabeledMoleculeNode( new NH3() ) );
+        parent.addChild( new LabeledMoleculeNode( new NO() ) );
+        parent.addChild( new LabeledMoleculeNode( new NO2() ) );
+        parent.addChild( new LabeledMoleculeNode( new O2() ) );
+        parent.addChild( new LabeledMoleculeNode( new OF2() ) );
+        parent.addChild( new LabeledMoleculeNode( new P4() ) );
+        parent.addChild( new LabeledMoleculeNode( new PCl3() ) );
+        parent.addChild( new LabeledMoleculeNode( new PCl5() ) );
+        parent.addChild( new LabeledMoleculeNode( new PF3() ) );
+        parent.addChild( new LabeledMoleculeNode( new PH3() ) );
+        parent.addChild( new LabeledMoleculeNode( new SMolecule() ) );
+        parent.addChild( new LabeledMoleculeNode( new SO2() ) );
+        parent.addChild( new LabeledMoleculeNode( new SO3() ) );
+
+        // control for changing canvas color
+        PSwing pswing = new PSwing( new CanvasColorControl( this, canvas ) );
+        canvas.getLayer().addChild( pswing );
 
         // layout
         final int columns = 8;
         final int xSpacing = 100;
         final int ySpacing = 100;
-        for ( int i = 0; i < rootNode.getChildrenCount(); i++ ) {
-            PNode child = rootNode.getChild( i );
+        for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
+            PNode child = parent.getChild( i );
             double x = ( ( i % columns ) + 1 ) * xSpacing;
             double y = ( ( i / columns ) + 1 ) * ySpacing;
             child.setOffset( x, y );
         }
+        pswing.setOffset( xSpacing, parent.getFullBoundsReference().getMaxY() + ySpacing );
 
         setContentPane( canvas );
         pack();
@@ -129,6 +144,20 @@ public class TestMoleculeNodes extends JFrame {
             double x = moleculeNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
             double y = moleculeNode.getFullBoundsReference().getMaxY() + 2;
             labelNode.setOffset( x, y );
+        }
+    }
+
+    private static class CanvasColorControl extends JPanel {
+        public CanvasColorControl( JFrame parentFrame, final PCanvas canvas ) {
+            setBorder( new CompoundBorder( new LineBorder( Color.WHITE), new LineBorder( Color.BLACK ) ) );
+            final ColorControl colorControl = new ColorControl( parentFrame, "play area color:", canvas.getBackground() );
+            add( colorControl );
+            SwingUtils.setBackgroundDeep( this, Color.WHITE );
+            colorControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    canvas.setBackground( colorControl.getColor() );
+                }
+            } );
         }
     }
 
