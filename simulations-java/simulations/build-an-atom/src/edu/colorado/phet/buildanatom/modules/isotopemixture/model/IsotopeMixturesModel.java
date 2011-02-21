@@ -56,11 +56,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 ISOTOPE_TEST_CHAMBER_SIZE.getHeight() );
 
     // Size of the buckets that will hold the isotopes.
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 75, 40 ); // In picometers.
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 80, 40 ); // In picometers.
 
     // List of colors which will be used to represent the various isotopes.
-//    private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
-//        new Color(255, 69, 0), new Color( 151, 105, 79 ) };
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
     private static final Map< ImmutableAtom, Color > ISOTOPE_COLOR_MAP = new HashMap< ImmutableAtom, Color>();
@@ -93,13 +91,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         // Create a new list of buckets based on the new list
                         // of stable isotopes.
                         double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 20;
-                        double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / (getValue().size() + 1);
-                        double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX();
+                        double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / getValue().size();
+                        double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
                         ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
                         for ( int i = 0; i < getValue().size(); i++ ){
                             ImmutableAtom atom = getValue().get( i );
                             newBucketList.add( new Bucket(new Point2D.Double(
-                                    bucketXOffset + interBucketDistanceX * (i + 1), bucketYOffset),
+                                    bucketXOffset + interBucketDistanceX * i, bucketYOffset),
                                     BUCKET_SIZE, ISOTOPE_COLOR_MAP.get( atom ), AtomIdentifier.getName( atom )) );
                         }
                         bucketListProperty.setValue( newBucketList );
