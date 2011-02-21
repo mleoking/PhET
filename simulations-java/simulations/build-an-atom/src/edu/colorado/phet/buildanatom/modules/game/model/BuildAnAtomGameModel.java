@@ -431,7 +431,7 @@ public class BuildAnAtomGameModel {
      */
     public long getBestTime( int level ) {
         assert level > 0 && level <= MAX_LEVELS;
-        return (long) mapLevelToBestTime.get( level ).doubleValue();
+        return (long) (mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Long.MAX_VALUE );
     }
 
     public boolean isNewBestTime(){
