@@ -40,6 +40,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Class Data
     // -----------------------------------------------------------------------
 
+    // Within this model, the atoms come in two sizes, small and large, and
+    // atoms are either one size or another, and all atoms that are shown at
+    // a given time are all the same size.  The larger size is based somewhat
+    // on reality.  The smaller size is used when we want to show a lot of
+    // atoms at once.
+    private static final double LARGE_ATOM_RADIUS = 100; // in picometers.
+    private static final double SMALL_ATOM_RADIUS = 5; // in picometers.
+
     // Size of the "test chamber", which is the area in model space into which
     // the isotopes can be dragged in order to contribute to the current
     // average atomic weight.
@@ -116,9 +124,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private final Property<List<Bucket>> bucketListProperty =
             new Property<List<Bucket>>( new ArrayList<Bucket>() );
 
+    // List that contains the isotopes instances that the user can move
+    // between the buckets and the test chamber.
+    private final List<MobileAtom> interactiveIsotopes = new ArrayList<MobileAtom>();
+
     // Matches isotopes to colors used to portray them as well as the buckets
     // in which they can reside, etc.
     private final Map< ImmutableAtom, Color > isotopeColorMap = new HashMap< ImmutableAtom, Color>();
+
+    // Listener support.
+    private final List<Listener> listeners = new ArrayList<Listener>();
 
     // -----------------------------------------------------------------------
     // Constructor(s)
@@ -159,7 +174,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
             prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
 
-            // Get the new isotope list.
+            // Get as list of all stable isotopes at the current atomic number.
             ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getAllIsotopes( atom.getNumProtons() );
 
             // Sort from lightest to heaviest.
@@ -170,7 +185,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             });
 
             // Update the structure that maps isotope to colors.  This must
-            // be done before update the isotope list so that anything that
+            // be done before updating the isotope list so that anything that
             // listens for changes to the list can get the correct colors.
             isotopeColorMap.clear();
             for ( ImmutableAtom isotope : newIsotopeList ) {
@@ -180,7 +195,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // Update the list of possible isotopes for this atomic configuration.
             possibleIsotopesProperty.setValue( newIsotopeList );
 
-            // Update the map of isotopes to color.
+            // TODO: Temp - Add a single atom.
+            ImmutableAtom isotope = newIsotopeList.get( 0 );
+            MobileAtom tempAtom = new MobileAtom( isotope.getNumProtons(), isotope.getNumNeutrons(), LARGE_ATOM_RADIUS, new Point2D.Double(0, 0) );
+            notifyAtomAdded( tempAtom );
         }
     }
 
@@ -223,7 +241,29 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         setAtomConfiguration( new ImmutableAtom( 1, 0, 1 ) );
     }
 
+    public void addListener( Listener listener ){
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ){
+        listeners.remove( listener );
+    }
+
+    private void notifyAtomAdded( MobileAtom atom ){
+        for ( Listener listener : listeners ) {
+            listener.atomAdded( atom );
+        }
+    }
+
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
+
+    public interface Listener {
+        void atomAdded( MobileAtom atom );
+    }
+
+    public class Adapter implements Listener {
+        public void atomAdded( MobileAtom atom ) {}
+    }
 }
