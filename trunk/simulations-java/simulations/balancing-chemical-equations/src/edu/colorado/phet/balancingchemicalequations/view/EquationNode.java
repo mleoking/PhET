@@ -3,7 +3,6 @@
 package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -34,7 +34,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class EquationNode extends PhetPNode  {
 
-    private static final Font FONT = new PhetFont( 20 );
+    private static final PhetFont FONT = new PhetFont( 30 );
     private static final Color SYMBOL_COLOR = Color.BLACK;
 
     private static final Color COEFFICIENT_COLOR = Color.BLACK;
@@ -203,7 +203,6 @@ public class EquationNode extends PhetPNode  {
 
             // editable spinner
             final IntegerSpinner spinner = new IntegerSpinner( range );
-            spinner.setFont( FONT );
             spinner.setForeground( COEFFICIENT_COLOR );
             spinner.setValue( coefficientProperty.getValue() );
             spinner.addChangeListener( new ChangeListener() {
@@ -212,6 +211,7 @@ public class EquationNode extends PhetPNode  {
                 }
             } );
             spinnerNode = new PSwing( spinner );
+            spinnerNode.scale( BCEConstants.SWING_SCALE );
             addChild( spinnerNode );
             spinnerNode.setVisible( editable );
 

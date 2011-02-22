@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -30,6 +31,7 @@ public class EquationChoiceNode extends PhetPNode {
      */
     public EquationChoiceNode( ArrayList<Equation> equations, Property<Equation> currentEquationProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new EquationChoicePanel( equations, currentEquationProperty, backgroundProperty ) ) );
+        scale( BCEConstants.SWING_SCALE ); // scale this control, setting font size for radio buttons doesn't increase button size on Mac
     }
 
     /*

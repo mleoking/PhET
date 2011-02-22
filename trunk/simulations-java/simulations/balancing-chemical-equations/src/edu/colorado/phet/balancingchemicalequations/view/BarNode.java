@@ -42,8 +42,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class BarNode extends PComposite {
 
     private static final int MAX_NUMBER_OF_ATOMS = 12;
-    private static final PDimension MAX_BAR_SIZE = new PDimension( 25, 90 );
-    private static final PDimension ARROW_SIZE = new PDimension( 1.5 * MAX_BAR_SIZE.getWidth(), 10 );
+    private static final PDimension MAX_BAR_SIZE = new PDimension( 40, 135 );
+    private static final PDimension ARROW_SIZE = new PDimension( 1.5 * MAX_BAR_SIZE.getWidth(), 15 );
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
@@ -111,12 +111,12 @@ public class BarNode extends PComposite {
 
         // symbol
         HTMLNode symbolNode = new HTMLNode( atom.getSymbol() );
-        symbolNode.setFont( new PhetFont( 18 ) );
+        symbolNode.setFont( new PhetFont( 24 ) );
         addChild( symbolNode );
 
         // number
         PText numberNode = new PText( String.valueOf( numberOfAtoms ) );
-        numberNode.setFont( new PhetFont() );
+        numberNode.setFont( new PhetFont( 18 ) );
         addChild( numberNode );
 
         // layout
@@ -128,17 +128,22 @@ public class BarNode extends PComposite {
 
             // symbol centered below bar
             x = barNode.getFullBoundsReference().getCenterX();
-            y = barNode.getFullBoundsReference().getMaxY() + 2;
+            y = barNode.getFullBoundsReference().getMaxY() + 4;
             symbolNode.setOffset( x, y );
 
             // icon to left of symbol
-            x = barNode.getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ) - 2;
-            y = symbolNode.getFullBoundsReference().getCenterY();
+            x = barNode.getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ) - 4;
+            if ( iconNode.getFullBoundsReference().getHeight() < symbolNode.getFullBoundsReference().getHeight() ) {
+                y = symbolNode.getFullBoundsReference().getCenterY();
+            }
+            else {
+                y = symbolNode.getFullBoundsReference().getMinY() + ( iconNode.getFullBoundsReference().getHeight() / 2 );
+            }
             iconNode.setOffset( x, y );
 
-            // number about bar
+            // number above bar
             x = barNode.getFullBoundsReference().getCenterX() - ( numberNode.getFullBoundsReference().getWidth() / 2 );
-            y = barNode.getFullBoundsReference().getMinY() - 2 - ( numberNode.getFullBoundsReference().getHeight() );
+            y = barNode.getFullBoundsReference().getMinY() - 4 - ( numberNode.getFullBoundsReference().getHeight() );
             numberNode.setOffset( x, y );
         }
     }

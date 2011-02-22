@@ -1,3 +1,6 @@
+2/22/11 adjust model-view transform in AtomNode
+2/22/11 scale spinners and radio buttons because setFont doesn't work on Mac
+2/22/11 change scaling of everything in the view so that canvas transform is not scaling things up, this made molecules look fuzzy
 2/22/11 fix test app to use same canvas size as the sim
 2/22/11 tweak model-view transform so that 60 of largest atom fit on balance scale's beam
 2/22/11 add an equation containing P to dev version of first tab, for testing largest atom size

@@ -30,9 +30,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BalanceScaleNode extends PComposite {
 
-    private static final PDimension FULCRUM_SIZE = new PDimension( 40, 30 );
-    private static final double BEAM_LENGTH = 210;
-    private static final double BEAM_THICKNESS = 4;
+    private static final PDimension FULCRUM_SIZE = new PDimension( 60, 45 );
+    private static final double BEAM_LENGTH = 315;
+    private static final double BEAM_THICKNESS = 6;
+
     private static final int NUMBER_OF_TILT_ANGLES = 6;
     private static final int ATOMS_IN_PILE_BASE = 5; // number of atoms along the base of each pile
 
@@ -176,7 +177,7 @@ public class BalanceScaleNode extends PComposite {
     private static class CountNode extends PText {
         public CountNode( int count ) {
             setText( String.valueOf( count ) );
-            setFont( new PhetFont( 14 ) );
+            setFont( new PhetFont( 18 ) );
             setTextPaint( Color.BLACK );
         }
     }
@@ -221,7 +222,7 @@ public class BalanceScaleNode extends PComposite {
             addChild( pathNode );
 
             PText symbolNode = new PText( atom.getSymbol() );
-            symbolNode.setFont( new PhetFont( 14 ) );
+            symbolNode.setFont( new PhetFont( 22 ) );
             symbolNode.setTextPaint( Color.BLACK );
             addChild( symbolNode );
 

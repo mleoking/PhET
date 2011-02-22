@@ -54,7 +54,7 @@ public class BalanceScalesNode extends PComposite {
         removeAllChildren();
 
         ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
-        final double xSpacing = 25;
+        final double xSpacing = 32;
         final double dx = BalanceScaleNode.getBeamLength() + xSpacing;
         double x = aligner.getCenterXOffset() - ( ( atomCounts.size() - 1 ) * BalanceScaleNode.getBeamLength() / 2 ) - ( ( atomCounts.size() - 1 ) * xSpacing / 2 );
         for ( AtomCount atomCount : atomCounts ) {

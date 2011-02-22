@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 public class BalancedEquationNode extends HTMLNode {
 
     public BalancedEquationNode( final Property<Equation> equationProperty ) {
-        setFont( new PhetFont( 8 ) );
+        setFont( new PhetFont( 12 ) );
 
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {

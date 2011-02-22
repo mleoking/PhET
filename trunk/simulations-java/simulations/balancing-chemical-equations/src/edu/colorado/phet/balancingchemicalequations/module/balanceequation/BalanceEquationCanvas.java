@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
@@ -25,8 +26,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BalanceEquationCanvas extends BCECanvas {
 
-    private static final Dimension BOX_SIZE = new Dimension( 300, 140 );
-    private static final double BOX_SEPARATION = 60;
+    private static final Dimension BOX_SIZE = new Dimension( 450, 210 );
+    private static final double BOX_SEPARATION = 90;
 
     private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"
     private final BoxesNode boxesNode;
@@ -68,7 +69,7 @@ public class BalanceEquationCanvas extends BCECanvas {
 
         // Reset All button
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
-        resetAllButtonNode.addResettable( globalProperties );
+        resetAllButtonNode.scale( BCEConstants.SWING_SCALE );
         addChild( resetAllButtonNode );
 
         // Dev, shows balanced coefficients
@@ -89,26 +90,26 @@ public class BalanceEquationCanvas extends BCECanvas {
             equationChoiceNode.setOffset( x, 0 );
 
             // equation below choices
-            y = equationChoiceNode.getFullBoundsReference().getMaxY() + 25;
+            y = equationChoiceNode.getFullBoundsReference().getMaxY() + 38;
             equationNode.setOffset( 0, y );
 
             // boxes below equation
-            y = equationNode.getFullBoundsReference().getMaxY() + 15;
+            y = equationNode.getFullBoundsReference().getMaxY() + 22;
             boxesNode.setOffset( 0, y );
 
             // face node between boxes
             x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getMaxY() + 10;
+            y = boxesNode.getFullBoundsReference().getMaxY() + 15;
             faceNode.setOffset( x, y );
 
             // bar charts and balance scales below boxes (centering is handle by nodes themselves)
-            y = boxesNode.getFullBoundsReference().getMaxY() + 120;
+            y = boxesNode.getFullBoundsReference().getMaxY() + 180;
             barChartsNode.setOffset( 0, y );
             y = barChartsNode.getYOffset() - 10;
             balanceScalesNode.setOffset( 0, y );
 
             // balance choices below bar charts and balance scales, left justified
-            y = Math.max( barChartsNode.getFullBoundsReference().getMaxY(), balanceScalesNode.getFullBoundsReference().getMaxY() ) + 25;
+            y = Math.max( barChartsNode.getFullBoundsReference().getMaxY(), balanceScalesNode.getFullBoundsReference().getMaxY() ) + 28;
             balanceChoiceNode.setOffset( 0, y );
 
             // Reset All button at bottom right
@@ -118,13 +119,13 @@ public class BalanceEquationCanvas extends BCECanvas {
 
             // answer right-justified below Reset All button
             x = resetAllButtonNode.getFullBoundsReference().getMaxX() - balancedEquationNode.getFullBoundsReference().getWidth();
-            y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 2;
+            y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 4;
             balancedEquationNode.setOffset( x, y );
             balancedEquationNode.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
                         double x = resetAllButtonNode.getFullBoundsReference().getMaxX() - balancedEquationNode.getFullBoundsReference().getWidth();
-                        double y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 2;
+                        double y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 4;
                         balancedEquationNode.setOffset( x, y );
                     }
                 }
