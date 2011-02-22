@@ -5,6 +5,7 @@ package edu.colorado.phet.balancingchemicalequations.control;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -26,6 +27,7 @@ public class BalanceChoiceNode extends PhetPNode {
 
     public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty, backgroundProperty ) ) );
+        scale( BCEConstants.SWING_SCALE ); // scale this control, setting font size for radio buttons doesn't increase button size on Mac
     }
 
     /*

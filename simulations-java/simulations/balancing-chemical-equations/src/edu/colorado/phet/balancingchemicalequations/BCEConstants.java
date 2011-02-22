@@ -19,11 +19,14 @@ public class BCEConstants {
     public static final String PROJECT_NAME = "balancing-chemical-equations";
     public static final String FLAVOR_BCE = "balancing-chemical-equations";
 
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 700, 500 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
 
     // global colors
     public static final Color CANVAS_BACKGROUND = new Color( 204, 204, 204 );
     public static final Color BOX_COLOR = Color.BLACK;
     public static final Color UNBALANCED_COLOR = new Color( 46, 107, 178 );
     public static final Color BALANCED_HIGHLIGHT_COLOR = Color.YELLOW;
+
+    // scale
+    public static final double SWING_SCALE = 1.5; // spinners and radio buttons must be scaled on Mac
 }

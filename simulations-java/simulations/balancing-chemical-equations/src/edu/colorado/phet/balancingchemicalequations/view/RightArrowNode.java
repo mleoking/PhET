@@ -18,10 +18,10 @@ public class RightArrowNode extends ArrowNode {
 
     // using constants here because super constructor is hard to grok
     private static final Point2D TAIL_LOCATION = new Point2D.Double( 0, 0 );
-    private static final Point2D TIP_LOCATION = new Point2D.Double( 40, 0 );
-    private static final int HEAD_HEIGHT = 15;
-    private static final int HEAD_WIDTH = 18;
-    private static final int TAIL_WIDTH = 7;
+    private static final Point2D TIP_LOCATION = new Point2D.Double( 60, 0 );
+    private static final int HEAD_HEIGHT = 23;
+    private static final int HEAD_WIDTH = 27;
+    private static final int TAIL_WIDTH = 11;
 
     public RightArrowNode( boolean highlighted ) {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );

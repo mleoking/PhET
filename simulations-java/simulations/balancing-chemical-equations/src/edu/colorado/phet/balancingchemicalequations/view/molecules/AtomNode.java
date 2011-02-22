@@ -19,7 +19,7 @@ public class AtomNode extends ShadedSphereNode {
 
         private final double RATE_OF_CHANGE = 0.5; // >0 and <1, increase this to make small atoms appear smaller
         private final double maxRadius = new P().getRadius();
-        private final double MODEL_TO_VIEW_SCALE = 0.07;
+        private final double MODEL_TO_VIEW_SCALE = 0.11;
 
         public Double apply( Double radius ) {
             final double adjustedRadius = ( maxRadius - RATE_OF_CHANGE * ( maxRadius - radius ) );

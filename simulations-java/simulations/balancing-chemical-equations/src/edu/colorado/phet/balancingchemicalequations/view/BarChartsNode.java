@@ -142,9 +142,9 @@ public class BarChartsNode extends PComposite {
      */
     private static class EqualsSignNode extends PComposite {
 
-        private static final double BAR_WIDTH = 35;
-        private static final double BAR_HEIGHT = 6;
-        private static final double BAR_Y_SPACING = 6;
+        private static final double BAR_WIDTH = 50;
+        private static final double BAR_HEIGHT = 10;
+        private static final double BAR_Y_SPACING = 10;
 
         private final PPath topBarNode, bottomBarNode;
 
