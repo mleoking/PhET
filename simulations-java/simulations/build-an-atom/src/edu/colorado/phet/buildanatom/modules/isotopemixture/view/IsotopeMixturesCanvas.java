@@ -14,6 +14,8 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MobileAtom;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
@@ -74,14 +76,24 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // Add the nodes that will allow the canvas to be layered.
-        PNode chamberLayer = new PNode();
-        rootNode.addChild( chamberLayer );
         final PNode bucketHoleLayer = new PNode();
         rootNode.addChild( bucketHoleLayer );
-        PNode particleLayer = new PNode();
+        PNode chamberLayer = new PNode();
+        rootNode.addChild( chamberLayer );
+        final PNode particleLayer = new PNode();
         rootNode.addChild( particleLayer );
         final PNode bucketFrontLayer = new PNode();
         rootNode.addChild( bucketFrontLayer );
+
+        // Listen to the model for events that concern the canvas.
+        model.addListener( new Listener() {
+            public void atomAdded( MobileAtom atom ) {
+                // Add a representation of the new atom to the canvas.
+                particleLayer.removeAllChildren();
+                LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( mvt, atom, model.getColorForIsotope( atom.getAtomConfiguration() ) );
+                particleLayer.addChild( isotopeNode );
+            }
+        });
 
         // Add the test chamber into and out of which the individual isotopes
         // will be moved. As with all elements in this model, the shape and
