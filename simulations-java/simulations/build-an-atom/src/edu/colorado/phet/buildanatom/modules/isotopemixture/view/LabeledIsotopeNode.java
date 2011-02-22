@@ -10,8 +10,9 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MobileAtom;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -21,6 +22,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents an atom and that labels it with the chemical symbol
@@ -36,7 +40,7 @@ public class LabeledIsotopeNode extends PNode {
     /**
      * Constructor.
      */
-    public LabeledIsotopeNode( final ModelViewTransform2D mvt, final MobileAtom isotope, final Color baseColor ) {
+    public LabeledIsotopeNode( final ModelViewTransform2D mvt, final MovableAtom isotope, final Color baseColor ) {
 
         // Create a gradient that gives the particles a 3D look.  The numbers
         // used were empirically determined.
@@ -59,45 +63,41 @@ public class LabeledIsotopeNode extends PNode {
         }};
         sphericalNode.addChild( labelNode );
 
-        // TODO: Add the code for hooking the node's position to the model unit's position here.
-        sphericalNode.setOffset( mvt.modelToViewDouble( isotope.getPosition() ) );
+        // Add the code for moving this node when the model element's position
+        // changes.
+        isotope.addPositionListener( new SimpleObserver(){
+            public void update() {
+                sphericalNode.setOffset( mvt.modelToViewDouble( isotope.getPosition() ) );
+            }
+        });
 
         // Add a cursor handler to signal to the user that this is movable.
         addInputEventListener( new CursorHandler() );
 
-        /*
-         * TODO: variations on the following commented-out code will be needed to handle
-         * positioning and dragging.
-         *
-        subatomicParticle.addPositionListener( new SimpleObserver() {
-            public void update() {
-                updatePosition();
-            }
-        } );
-
+        // Add a drag listener that will move the model element when the user
+        // drags this node.
         addInputEventListener( new PDragEventHandler() {
 
             @Override
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
-                subatomicParticle.setUserControlled( true );
+                isotope.setUserControlled( true );
             }
 
             @Override
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 Point2D modelDelta = mvt.viewToModelDifferential( delta.width, delta.height );
-                subatomicParticle.setPositionAndDestination( subatomicParticle.getPosition().getX() + modelDelta.getX(),
-                        subatomicParticle.getPosition().getY() + modelDelta.getY() );
+                isotope.setPositionAndDestination( isotope.getPosition().getX() + modelDelta.getX(),
+                        isotope.getPosition().getY() + modelDelta.getY() );
             }
 
             @Override
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                subatomicParticle.setUserControlled( false );
+                isotope.setUserControlled( false );
             }
         } );
-         */
     }
 
     public static void main( String[] args ) {
@@ -108,7 +108,7 @@ public class LabeledIsotopeNode extends PNode {
 
         // Add the item being testing.
         LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( new ModelViewTransform2D(),
-                new MobileAtom(1, 0, 20, new Point2D.Double( 0, 0 ), new ConstantDtClock()), Color.RED );
+                new MovableAtom(1, 0, 20, new Point2D.Double( 0, 0 ), new ConstantDtClock()), Color.RED );
         isotopeNode.setOffset( 100, 100 );
         canvas.addWorldChild( isotopeNode );
 

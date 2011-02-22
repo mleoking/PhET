@@ -14,7 +14,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MobileAtom;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
@@ -87,7 +87,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Listen to the model for events that concern the canvas.
         model.addListener( new Listener() {
-            public void isotopeInstanceAdded( final MobileAtom atom ) {
+            public void isotopeInstanceAdded( final MovableAtom atom ) {
                 // Add a representation of the new atom to the canvas.
                 final LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( mvt, atom, model.getColorForIsotope( atom.getAtomConfiguration() ) );
                 particleLayer.addChild( isotopeNode );
