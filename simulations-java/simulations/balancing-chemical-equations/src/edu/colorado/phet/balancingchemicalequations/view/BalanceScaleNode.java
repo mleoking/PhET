@@ -31,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BalanceScaleNode extends PComposite {
 
     private static final PDimension FULCRUM_SIZE = new PDimension( 40, 30 );
-    private static final double BEAM_LENGTH = 200;
+    private static final double BEAM_LENGTH = 210;
     private static final double BEAM_THICKNESS = 4;
     private static final int NUMBER_OF_TILT_ANGLES = 6;
     private static final int ATOMS_IN_PILE_BASE = 5; // number of atoms along the base of each pile
