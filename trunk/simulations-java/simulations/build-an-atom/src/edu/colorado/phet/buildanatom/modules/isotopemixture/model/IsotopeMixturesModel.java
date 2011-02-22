@@ -51,7 +51,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Size of the "test chamber", which is the area in model space into which
     // the isotopes can be dragged in order to contribute to the current
     // average atomic weight.
-    private static final Dimension2D ISOTOPE_TEST_CHAMBER_SIZE = new PDimension( 350, 300 ); // In picometers.
+    private static final Dimension2D ISOTOPE_TEST_CHAMBER_SIZE = new PDimension( 3500, 3000 ); // In picometers.
 
     // Rectangle that defines the location of the test chamber.  This is
     // set up so that the center of the test chamber is at (0, 0) in model
@@ -64,7 +64,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 ISOTOPE_TEST_CHAMBER_SIZE.getHeight() );
 
     // Size of the buckets that will hold the isotopes.
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 80, 40 ); // In picometers.
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 800, 400 ); // In picometers.
 
     // List of colors which will be used to represent the various isotopes.
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
@@ -97,7 +97,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
                         // Create a new list of buckets based on the new list
                         // of stable isotopes.
-                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 40;
+                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 400;
                         double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / getValue().size();
                         double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
                         ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
