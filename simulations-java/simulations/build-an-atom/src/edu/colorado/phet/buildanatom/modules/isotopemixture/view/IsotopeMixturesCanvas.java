@@ -87,11 +87,16 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Listen to the model for events that concern the canvas.
         model.addListener( new Listener() {
-            public void atomAdded( MobileAtom atom ) {
+            public void isotopeInstanceAdded( final MobileAtom atom ) {
                 // Add a representation of the new atom to the canvas.
-                particleLayer.removeAllChildren();
-                LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( mvt, atom, model.getColorForIsotope( atom.getAtomConfiguration() ) );
+                final LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( mvt, atom, model.getColorForIsotope( atom.getAtomConfiguration() ) );
                 particleLayer.addChild( isotopeNode );
+                atom.getPartOfModelProperty().addObserver( new SimpleObserver(){
+                    public void update() {
+                        if ( !atom.getPartOfModelProperty().getValue() )
+                        particleLayer.removeChild( isotopeNode );
+                    }
+                }, false);
             }
         });
 

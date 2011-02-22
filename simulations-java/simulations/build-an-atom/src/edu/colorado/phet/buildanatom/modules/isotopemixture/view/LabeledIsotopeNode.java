@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MobileAtom;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -107,7 +108,7 @@ public class LabeledIsotopeNode extends PNode {
 
         // Add the item being testing.
         LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( new ModelViewTransform2D(),
-                new MobileAtom(1, 0, 20, new Point2D.Double( 0, 0 )), Color.RED );
+                new MobileAtom(1, 0, 20, new Point2D.Double( 0, 0 ), new ConstantDtClock()), Color.RED );
         isotopeNode.setOffset( 100, 100 );
         canvas.addWorldChild( isotopeNode );
 

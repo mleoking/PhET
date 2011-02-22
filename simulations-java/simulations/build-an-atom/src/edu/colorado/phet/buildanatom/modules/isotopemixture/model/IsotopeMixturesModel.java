@@ -20,6 +20,7 @@ import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -40,14 +41,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Class Data
     // -----------------------------------------------------------------------
 
-    // Within this model, the atoms come in two sizes, small and large, and
-    // atoms are either one size or another, and all atoms that are shown at
-    // a given time are all the same size.  The larger size is based somewhat
-    // on reality.  The smaller size is used when we want to show a lot of
-    // atoms at once.
-    private static final double LARGE_ATOM_RADIUS = 100; // in picometers.
-    private static final double SMALL_ATOM_RADIUS = 5; // in picometers.
-
     // Size of the "test chamber", which is the area in model space into which
     // the isotopes can be dragged in order to contribute to the current
     // average atomic weight.
@@ -65,6 +58,19 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     // Size of the buckets that will hold the isotopes.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 800, 400 ); // In picometers.
+
+    // Within this model, the isotopes come in two sizes, small and large, and
+    // atoms are either one size or another, and all atoms that are shown at
+    // a given time are all the same size.  The larger size is based somewhat
+    // on reality.  The smaller size is used when we want to show a lot of
+    // atoms at once.
+    private static final double LARGE_ISOTOPE_RADIUS = 100; // in picometers.
+    private static final double SMALL_ISOTOPE_RADIUS = 5; // in picometers.
+
+    // Numbers of isotopes that are placed into the buckets when a new atomic
+    // number is selected.
+    private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 1;
+    private static final int NUM_SMALL_ISOTOPES_PER_BUCKET = 1;
 
     // List of colors which will be used to represent the various isotopes.
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
@@ -87,43 +93,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // of the currently configured isotope.  There should be only one of each
     // possible isotope.
     private final Property<List<ImmutableAtom>> possibleIsotopesProperty =
-            new Property<List<ImmutableAtom>>( new ArrayList<ImmutableAtom>() ){{
-                // Add an observer that will update the bucket list when the
-                // list of isotopes changes.
-                addObserver( new SimpleObserver() {
-                    public void update() {
-                        // Update the list of buckets that hold the isotopes.
-                        ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketListProperty.getValue() );
-
-                        // Create a new list of buckets based on the new list
-                        // of stable isotopes.
-                        double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 400;
-                        double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / getValue().size();
-                        double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
-                        ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
-                        for ( int i = 0; i < getValue().size(); i++ ){
-                            ImmutableAtom atom = getValue().get( i );
-                            String bucketCaption = AtomIdentifier.getName( atom ) + "-" + atom.getMassNumber();
-                            newBucketList.add( new Bucket(new Point2D.Double(
-                                    bucketXOffset + interBucketDistanceX * i, bucketYOffset),
-                                    BUCKET_SIZE, isotopeColorMap.get( atom ), bucketCaption) );
-                        }
-                        bucketListProperty.setValue( newBucketList );
-
-                        // Send notifications of removal for the old buckets.
-                        for ( Bucket bucket : oldBuckets ) {
-                            bucket.getPartOfModelProperty().setValue( false );
-                        }
-                    }
-                }, false);
-            }};
+            new Property<List<ImmutableAtom>>( new ArrayList<ImmutableAtom>() );
 
     // This property contains the list of the buckets where isotopes that are
     // not in the test chamber reside.  This needs to change whenever a new
     // element is selected, since there is one bucket for each stable isotope
     // configuration for a given element.
-    private final Property<List<Bucket>> bucketListProperty =
-            new Property<List<Bucket>>( new ArrayList<Bucket>() );
+    private final Property<List<MonoIsotopeParticleBucket>> bucketListProperty =
+            new Property<List<MonoIsotopeParticleBucket>>( new ArrayList<MonoIsotopeParticleBucket>() );
 
     // List that contains the isotopes instances that the user can move
     // between the buckets and the test chamber.
@@ -166,16 +143,25 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     public void setAtomConfiguration( IAtom atom ) {
 
+        // Only make a change if the specified atom is different.
         if ( prototypeIsotope.getNumProtons() != atom.getNumProtons() ||
              prototypeIsotope.getNumNeutrons() != atom.getNumNeutrons() ||
              prototypeIsotope.getNumElectrons() != atom.getNumElectrons()){
+
+            // Remove all existing interactive isotope instances.
+            List<MobileAtom> interactiveIsotopesCopy = new ArrayList<MobileAtom>( interactiveIsotopes );
+            interactiveIsotopes.clear();
+            for ( MobileAtom isotope : interactiveIsotopesCopy ){
+                // Signal the isotope that it has been removed from the model.
+                isotope.removeFromModel();
+            }
 
             // Update the prototype atom (a.k.a. isotope) configuration.
             prototypeIsotope.setNumProtons( atom.getNumProtons() );
             prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
             prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
 
-            // Get as list of all stable isotopes at the current atomic number.
+            // Get a list of all stable isotopes for the current atomic number.
             ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getAllIsotopes( atom.getNumProtons() );
 
             // Sort from lightest to heaviest.
@@ -185,9 +171,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
             });
 
-            // Update the structure that maps isotope to colors.  This must
-            // be done before updating the isotope list so that anything that
-            // listens for changes to the list can get the correct colors.
+            // Update the structure that maps isotope to colors.
             isotopeColorMap.clear();
             for ( ImmutableAtom isotope : newIsotopeList ) {
                 isotopeColorMap.put( isotope, ISOTOPE_COLORS[isotopeColorMap.size()] );
@@ -196,10 +180,53 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // Update the list of possible isotopes for this atomic configuration.
             possibleIsotopesProperty.setValue( newIsotopeList );
 
-            // TODO: Temp - Add a single atom.
-            ImmutableAtom isotope = newIsotopeList.get( 0 );
-            MobileAtom tempAtom = new MobileAtom( isotope.getNumProtons(), isotope.getNumNeutrons(), LARGE_ATOM_RADIUS, new Point2D.Double(0, 0) );
-            notifyAtomAdded( tempAtom );
+            // Make a copy of the soon-to-be removed buckets - we'll need them
+            // later for removal notifications.
+            ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketListProperty.getValue() );
+
+            // Create a new list of buckets based on the new list of stable
+            // isotopes.
+            double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 400;
+            double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / newIsotopeList.size();
+            double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
+            ArrayList<MonoIsotopeParticleBucket> newBucketList = new ArrayList<MonoIsotopeParticleBucket>();
+            for ( int i = 0; i < newIsotopeList.size(); i++ ) {
+                ImmutableAtom isotope = newIsotopeList.get( i );
+                String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
+                newBucketList.add( new MonoIsotopeParticleBucket( new Point2D.Double(
+                        bucketXOffset + interBucketDistanceX * i, bucketYOffset ),
+                        BUCKET_SIZE, isotopeColorMap.get( isotope ), bucketCaption, LARGE_ISOTOPE_RADIUS,
+                        isotope.getNumProtons(), isotope.getNumNeutrons() ) );
+            }
+            bucketListProperty.setValue( newBucketList );
+
+            // Send notifications of removal for the old buckets, since they
+            // were effectively removed by setting a new list of buckets.
+            for ( Bucket bucket : oldBuckets ) {
+                bucket.getPartOfModelProperty().setValue( false );
+            }
+
+            // Add the instances of each isotope to the appropriate bucket.
+            for ( ImmutableAtom isotope : newIsotopeList ) {
+                // Figure out the bucket into which the instances of this
+                // isotope should be placed.
+                MonoIsotopeParticleBucket isotopeBucket = null;
+                for ( MonoIsotopeParticleBucket bucket : bucketListProperty.getValue() ){
+                    if (bucket.isIsotopeAllowed( isotope )){
+                        // Found it.
+                        isotopeBucket = bucket;
+                        break;
+                    }
+                }
+                assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
+                for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
+                    MobileAtom movableIsotope = new MobileAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
+                            LARGE_ISOTOPE_RADIUS, new Point2D.Double(0, 0), clock );
+                    isotopeBucket.addIsotopeInstance( movableIsotope );
+                    interactiveIsotopes.add( movableIsotope );
+                    notifyIsotopeInstanceAdded( movableIsotope );
+                }
+            }
         }
     }
 
@@ -229,7 +256,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return possibleIsotopesProperty;
     }
 
-    public Property<List<Bucket>> getBucketListProperty() {
+    public Property<List<MonoIsotopeParticleBucket>> getBucketListProperty() {
         return bucketListProperty;
     }
 
@@ -250,9 +277,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         listeners.remove( listener );
     }
 
-    private void notifyAtomAdded( MobileAtom atom ){
+    private void notifyIsotopeInstanceAdded( MobileAtom atom ){
         for ( Listener listener : listeners ) {
-            listener.atomAdded( atom );
+            listener.isotopeInstanceAdded( atom );
         }
     }
 
@@ -261,10 +288,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     //------------------------------------------------------------------------
 
     public interface Listener {
-        void atomAdded( MobileAtom atom );
+        void isotopeInstanceAdded( MobileAtom atom );
     }
 
     public class Adapter implements Listener {
-        public void atomAdded( MobileAtom atom ) {}
+        public void isotopeInstanceAdded( MobileAtom atom ) {}
     }
 }

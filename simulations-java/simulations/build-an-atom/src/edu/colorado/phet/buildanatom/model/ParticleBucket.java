@@ -72,7 +72,8 @@ public class ParticleBucket extends Bucket {
     /**
      * Constructor.
      */
-    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius, double usableWidthProportion, double yOffset ) {
+    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius,
+            double usableWidthProportion, double yOffset ) {
         super( position, size, baseColor, caption );
         this.particleRadius = particleRadius;
         this.usableWidthProportion = usableWidthProportion;
