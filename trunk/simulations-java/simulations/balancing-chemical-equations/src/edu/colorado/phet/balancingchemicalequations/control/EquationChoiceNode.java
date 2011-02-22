@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -41,7 +42,7 @@ public class EquationChoiceNode extends PhetPNode {
             setGridY( 0 ); // horizontal layout
 
             for ( Equation equation : equations ) {
-                add( new PropertyRadioButton<Equation>( equation.getName(), currentEquationProperty, equation ) );
+                add( new PropertyRadioButton<Equation>( HTMLUtils.toHTMLString( equation.getName() ), currentEquationProperty, equation ) );
             }
 
             // #2710 workaround, must do this after adding all components!

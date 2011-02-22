@@ -1,3 +1,6 @@
+2/22/11 tweak model-view transform so that 60 of largest atom fit on balance scale's beam
+2/22/11 add an equation containing P to dev version of first tab, for testing largest atom size
+2/22/11 make balance scale's beam 5% longer
 2/22/11 change model-view-transform for atom radius
 2/22/11 change diameter to radius in Atom model
 2/22/11 improve the look of atom piles on balance scales, make atoms sit directly on top of other atoms instead of floating above 

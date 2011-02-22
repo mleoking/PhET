@@ -19,7 +19,7 @@ public class BalanceEquationModule extends BCEModule {
 
     public BalanceEquationModule( BCEGlobalProperties globalProperties ) {
         super( globalProperties.getFrame(), BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
-        model = new BalanceEquationModel();
+        model = new BalanceEquationModel( globalProperties.isDev() );
         canvas = new BalanceEquationCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );
     }
