@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MobileAtom;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 
 /**
  * A particle bucket that can only contain one configuration of isotope,
@@ -29,7 +29,7 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
         this.numNeutrons = numNeutrons;
     }
 
-    public void addIsotopeInstance( MobileAtom isotope ){
+    public void addIsotopeInstance( MovableAtom isotope ){
         if ( isIsotopeAllowed( isotope.getAtomConfiguration() )){
             addParticle( isotope, true );
         }

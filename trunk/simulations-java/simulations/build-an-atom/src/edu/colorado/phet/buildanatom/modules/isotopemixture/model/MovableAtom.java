@@ -11,14 +11,15 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
  * This class represents an atom that can move around but is otherwise
- * immutable.  It was created due to a need to represent atoms as particles
- * (generally a sphere) that moves around in model space.  At the time of its
- * creation, this class is only used in the Isotopes flavor of this
- * simulation.
+ * immutable.  It was created due to a need to represent atoms as single
+ * entities rather than as a collection of particles.
+ *
+ * At the time of this writing, this class is used only in the Isotopes flavor
+ * of this simulation.
  *
  * @author John Blanco
  */
-public class MobileAtom extends SphericalParticle {
+public class MovableAtom extends SphericalParticle {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -40,7 +41,7 @@ public class MobileAtom extends SphericalParticle {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public MobileAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition, ConstantDtClock clock ){
+    public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition, ConstantDtClock clock ){
         super(clock, radius, initialPosition.getX(), initialPosition.getY());
         atomConfiguration = new ImmutableAtom( numProtons, numNeutrons, numProtons );
         this.radius = radius;

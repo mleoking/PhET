@@ -104,7 +104,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     // List that contains the isotopes instances that the user can move
     // between the buckets and the test chamber.
-    private final List<MobileAtom> interactiveIsotopes = new ArrayList<MobileAtom>();
+    private final List<MovableAtom> interactiveIsotopes = new ArrayList<MovableAtom>();
 
     // Matches isotopes to colors used to portray them as well as the buckets
     // in which they can reside, etc.
@@ -149,9 +149,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
              prototypeIsotope.getNumElectrons() != atom.getNumElectrons()){
 
             // Remove all existing interactive isotope instances.
-            List<MobileAtom> interactiveIsotopesCopy = new ArrayList<MobileAtom>( interactiveIsotopes );
+            List<MovableAtom> interactiveIsotopesCopy = new ArrayList<MovableAtom>( interactiveIsotopes );
             interactiveIsotopes.clear();
-            for ( MobileAtom isotope : interactiveIsotopesCopy ){
+            for ( MovableAtom isotope : interactiveIsotopesCopy ){
                 // Signal the isotope that it has been removed from the model.
                 isotope.removeFromModel();
             }
@@ -220,7 +220,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
                 for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
-                    MobileAtom movableIsotope = new MobileAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
+                    MovableAtom movableIsotope = new MovableAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
                             LARGE_ISOTOPE_RADIUS, new Point2D.Double(0, 0), clock );
                     isotopeBucket.addIsotopeInstance( movableIsotope );
                     interactiveIsotopes.add( movableIsotope );
@@ -277,7 +277,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         listeners.remove( listener );
     }
 
-    private void notifyIsotopeInstanceAdded( MobileAtom atom ){
+    private void notifyIsotopeInstanceAdded( MovableAtom atom ){
         for ( Listener listener : listeners ) {
             listener.isotopeInstanceAdded( atom );
         }
@@ -288,10 +288,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     //------------------------------------------------------------------------
 
     public interface Listener {
-        void isotopeInstanceAdded( MobileAtom atom );
+        void isotopeInstanceAdded( MovableAtom atom );
     }
 
     public class Adapter implements Listener {
-        public void isotopeInstanceAdded( MobileAtom atom ) {}
+        public void isotopeInstanceAdded( MovableAtom atom ) {}
     }
 }
