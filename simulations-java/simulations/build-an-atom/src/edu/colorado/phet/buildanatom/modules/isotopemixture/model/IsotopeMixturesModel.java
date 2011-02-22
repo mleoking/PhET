@@ -57,19 +57,19 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 ISOTOPE_TEST_CHAMBER_SIZE.getHeight() );
 
     // Size of the buckets that will hold the isotopes.
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 800, 400 ); // In picometers.
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 1000, 400 ); // In picometers.
 
     // Within this model, the isotopes come in two sizes, small and large, and
     // atoms are either one size or another, and all atoms that are shown at
     // a given time are all the same size.  The larger size is based somewhat
     // on reality.  The smaller size is used when we want to show a lot of
     // atoms at once.
-    private static final double LARGE_ISOTOPE_RADIUS = 100; // in picometers.
+    private static final double LARGE_ISOTOPE_RADIUS = 83; // in picometers.
     private static final double SMALL_ISOTOPE_RADIUS = 5; // in picometers.
 
     // Numbers of isotopes that are placed into the buckets when a new atomic
     // number is selected.
-    private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 1;
+    private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 9;
     private static final int NUM_SMALL_ISOTOPES_PER_BUCKET = 1;
 
     // List of colors which will be used to represent the various isotopes.
@@ -187,7 +187,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // Create a new list of buckets based on the new list of stable
             // isotopes.
             double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 400;
-            double interBucketDistanceX = ISOTOPE_TEST_CHAMBER_RECT.getWidth() / newIsotopeList.size();
+            double interBucketDistanceX = (ISOTOPE_TEST_CHAMBER_RECT.getWidth() * 1.2) / newIsotopeList.size();
             double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
             ArrayList<MonoIsotopeParticleBucket> newBucketList = new ArrayList<MonoIsotopeParticleBucket>();
             for ( int i = 0; i < newIsotopeList.size(); i++ ) {
