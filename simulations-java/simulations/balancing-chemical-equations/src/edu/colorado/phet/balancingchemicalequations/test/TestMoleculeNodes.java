@@ -77,7 +77,7 @@ public class TestMoleculeNodes extends JFrame {
 
         // parent node of all molecule nodes
         PNode parent = new PNode();
-        canvas.getLayer().addChild( parent );
+        canvas.addWorldChild( parent );
 
         parent.addChild( new LabeledMoleculeNode( new CMolecule() ) );
         parent.addChild( new LabeledMoleculeNode( new C2H2() ) );
@@ -116,13 +116,13 @@ public class TestMoleculeNodes extends JFrame {
 
         // control for changing canvas color
         PSwing pswing = new PSwing( new CanvasColorControl( this, canvas ) );
-        canvas.getLayer().addChild( pswing );
+        canvas.addWorldChild( pswing );
 
         // layout
         final int columns = 8;
-        final int xSpacing = 100;
-        final int ySpacing = 100;
-        final int margin = 50;
+        final int xSpacing = 75;
+        final int ySpacing = 75;
+        final int margin = 20;
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
             double x = margin + ( ( i % columns ) ) * xSpacing;
