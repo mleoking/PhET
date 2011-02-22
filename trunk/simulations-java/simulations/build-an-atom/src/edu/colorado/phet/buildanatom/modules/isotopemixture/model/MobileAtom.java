@@ -5,7 +5,9 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
  * This class represents an atom that can move around but is otherwise
@@ -16,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
  *
  * @author John Blanco
  */
-public class MobileAtom {
+public class MobileAtom extends SphericalParticle {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -24,7 +26,6 @@ public class MobileAtom {
 
     private final ImmutableAtom atomConfiguration;
     private final double radius;
-    private final Point2D position = new Point2D.Double();
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -39,10 +40,10 @@ public class MobileAtom {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public MobileAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition ){
+    public MobileAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition, ConstantDtClock clock ){
+        super(clock, radius, initialPosition.getX(), initialPosition.getY());
         atomConfiguration = new ImmutableAtom( numProtons, numNeutrons, numProtons );
         this.radius = radius;
-        position.setLocation( initialPosition );
     }
 
     // ------------------------------------------------------------------------
@@ -64,12 +65,9 @@ public class MobileAtom {
      * Get the radius of this atom.
      * @return
      */
+    @Override
     public double getRadius(){
         return radius;
-    }
-
-    public Point2D getPosition(){
-        return new Point2D.Double( position.getX(), position.getY() );
     }
 
     /**
