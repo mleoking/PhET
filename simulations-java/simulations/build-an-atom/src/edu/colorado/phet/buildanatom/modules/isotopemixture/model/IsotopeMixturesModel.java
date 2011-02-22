@@ -306,7 +306,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     protected final SphericalParticle.Adapter isotopeGrabbedListener = new SphericalParticle.Adapter() {
         @Override
         public void grabbedByUser( SphericalParticle particle ) {
-            System.out.println(particle + "Grabbed!");
             if ( isotopesInTestChamber.contains( particle ) ){
                 // The particle is considered removed as soon as it is grabbed.
                 isotopesInTestChamber.remove( particle );
@@ -318,14 +317,40 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     protected final SphericalParticle.Adapter isotopeDroppedListener = new SphericalParticle.Adapter() {
         @Override
         public void droppedByUser( SphericalParticle particle ) {
-            System.out.println(particle + "Dropped!");
             assert particle instanceof MovableAtom;
             MovableAtom isotope = (MovableAtom)particle;
             if ( ISOTOPE_TEST_CHAMBER_RECT.contains( particle.getPosition() ) ){
                 // Dropped inside the test chamber, so add it to the list of
                 // particles that are within it.
                 isotopesInTestChamber.add( isotope );
-                System.out.println("Isotope added, count = " + isotopesInTestChamber.size());
+
+                // Test if the edges of the isotope are outside the chamber
+                // (since we've only tested the center so far) and, if they
+                // are, move the particle to compensate.
+                double protrusion = isotope.getPosition().getX() + isotope.getRadius() - ISOTOPE_TEST_CHAMBER_RECT.getMaxX();
+                if (protrusion >= 0){
+                    isotope.setPositionAndDestination( isotope.getPosition().getX() - protrusion,
+                            isotope.getPosition().getY() );
+                }
+                else{
+                    protrusion =  ISOTOPE_TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
+                    if (protrusion >= 0){
+                        isotope.setPositionAndDestination( isotope.getPosition().getX() + protrusion,
+                                isotope.getPosition().getY() );
+                    }
+                }
+                protrusion = isotope.getPosition().getY() + isotope.getRadius() - ISOTOPE_TEST_CHAMBER_RECT.getMaxY();
+                if (protrusion >= 0){
+                    isotope.setPositionAndDestination( isotope.getPosition().getX(),
+                            isotope.getPosition().getY() - protrusion );
+                }
+                else{
+                    protrusion =  ISOTOPE_TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
+                    if (protrusion >= 0){
+                        isotope.setPositionAndDestination( isotope.getPosition().getX(),
+                                isotope.getPosition().getY() + protrusion );
+                    }
+                }
             }
             else{
                 // Particle was dropped outside of the test chamber, so return
