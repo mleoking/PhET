@@ -156,7 +156,7 @@ public class BalanceScaleNode extends PComposite {
                 row++;
                 atomsInRow = ATOMS_IN_PILE_BASE - row;
                 x = (double) ( pile + row ) * ( atomNode.getFullBoundsReference().getWidth() / 2 );
-                y = -( row * atomNode.getFullBoundsReference().getHeight() );
+                y = -( row * 0.85 * atomNode.getFullBoundsReference().getHeight() );
             }
             else {
                 // start a new pile, offset from the previous pile
