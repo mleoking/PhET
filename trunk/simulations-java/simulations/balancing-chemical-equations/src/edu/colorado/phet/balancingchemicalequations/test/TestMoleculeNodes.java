@@ -120,9 +120,9 @@ public class TestMoleculeNodes extends JFrame {
 
         // layout
         final int columns = 8;
-        final int xSpacing = 75;
-        final int ySpacing = 75;
-        final int margin = 20;
+        final int xSpacing = 100;
+        final int ySpacing = 100;
+        final int margin = 50;
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
             double x = margin + ( ( i % columns ) ) * xSpacing;
