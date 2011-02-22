@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 
 /**
@@ -14,9 +15,19 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  */
 public class AtomNode extends ShadedSphereNode {
 
-    private static final double SCALE = 22 / new P().getDiameter(); // model-view scaling factor
+    private static final Function1<Double, Double> RADIUS_SCALING_FUNCTION = new Function1<Double,Double>() {
+
+        private final double RATE_OF_CHANGE = 0.5; // >0 and <1, increase this to make small atoms appear smaller
+        private final double maxRadius = new P().getRadius();
+        private final double MODEL_TO_VIEW_SCALE = 0.1;
+
+        public Double apply( Double radius ) {
+            final double adjustedRadius = ( maxRadius - RATE_OF_CHANGE * ( maxRadius - radius ) );
+            return MODEL_TO_VIEW_SCALE * adjustedRadius;
+        }
+    };
 
     public AtomNode( Atom atom ) {
-        super( SCALE * atom.getDiameter(), atom.getColor() );
+        super( 2 * RADIUS_SCALING_FUNCTION.apply( atom.getRadius() ), atom.getColor() );
     }
 }
