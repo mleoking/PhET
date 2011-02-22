@@ -21,10 +21,10 @@ import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -153,6 +153,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             interactiveIsotopes.clear();
             for ( MovableAtom isotope : interactiveIsotopesCopy ){
                 // Signal the isotope that it has been removed from the model.
+                isotope.removeListener( isotopeGrabbedListener );
                 isotope.removeFromModel();
             }
 
@@ -218,10 +219,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         break;
                     }
                 }
+
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
+
+                // Create each isotope instance and add to appropriate bucket.
                 for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
                     MovableAtom movableIsotope = new MovableAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
                             LARGE_ISOTOPE_RADIUS, new Point2D.Double(0, 0), clock );
+                    movableIsotope.addListener( isotopeGrabbedListener );
                     isotopeBucket.addIsotopeInstance( movableIsotope );
                     interactiveIsotopes.add( movableIsotope );
                     notifyIsotopeInstanceAdded( movableIsotope );
@@ -286,6 +291,26 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    protected final SphericalParticle.Adapter isotopeGrabbedListener = new SphericalParticle.Adapter() {
+        @Override
+        public void grabbedByUser( SphericalParticle particle ) {
+            System.out.println(particle + "Grabbed!");
+            particle.addListener( isotopeDroppedListener );
+        }
+    };
+
+    protected final SphericalParticle.Adapter isotopeDroppedListener = new SphericalParticle.Adapter() {
+        @Override
+        public void droppedByUser( SphericalParticle particle ) {
+            System.out.println(particle + "Dropped!");
+            particle.removeListener( isotopeDroppedListener );
+        }
+    };
 
     public interface Listener {
         void isotopeInstanceAdded( MovableAtom atom );
