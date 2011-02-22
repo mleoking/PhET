@@ -122,13 +122,14 @@ public class TestMoleculeNodes extends JFrame {
         final int columns = 8;
         final int xSpacing = 100;
         final int ySpacing = 100;
+        final int margin = 50;
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode child = parent.getChild( i );
-            double x = ( ( i % columns ) + 1 ) * xSpacing;
-            double y = ( ( i / columns ) + 1 ) * ySpacing;
+            double x = margin + ( ( i % columns ) ) * xSpacing;
+            double y = margin + ( ( i / columns ) ) * ySpacing;
             child.setOffset( x, y );
         }
-        pswing.setOffset( xSpacing, parent.getFullBoundsReference().getMaxY() + ySpacing );
+        pswing.setOffset( margin, parent.getFullBoundsReference().getMaxY() + ySpacing );
 
         setContentPane( canvas );
         pack();
