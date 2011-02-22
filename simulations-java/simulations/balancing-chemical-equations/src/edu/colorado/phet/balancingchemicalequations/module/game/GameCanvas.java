@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
+import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.view.BCECanvas;
 import edu.colorado.phet.common.games.GameSettingsPanel;
@@ -28,6 +29,7 @@ public class GameCanvas extends BCECanvas {
             }
         };
         PNode gameSettingsNode = new PSwing( new GameSettingsPanel( model.getGameSettings(), startFunction ) );
+        gameSettingsNode.scale( BCEConstants.SWING_SCALE );
         addChild( gameSettingsNode );
 
 //        // Game results
