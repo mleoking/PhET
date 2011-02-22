@@ -57,6 +57,14 @@ public class ImmutableAtom implements IAtom {
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = protons;
+        hash = hash * 31 + neutrons;
+        hash = hash * 31 + electrons;
+        return hash;
+    }
+
     public SimpleAtom toAtom( BuildAnAtomClock clock ) {
         assert protons >= 0 && neutrons >= 0 && electrons >= 0;
         return new SimpleAtom( protons, neutrons, electrons );
