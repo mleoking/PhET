@@ -97,7 +97,7 @@ public class BarChartsNode extends PComposite {
             BarNode barNode = new BarNode( atomCount.getAtom(), count );
             barNode.setOffset( x, 0 );
             parent.addChild( barNode );
-            x = barNode.getFullBoundsReference().getMaxX() + 60;
+            x = barNode.getFullBoundsReference().getMaxX() + 90;
         }
     }
 
@@ -117,7 +117,7 @@ public class BarChartsNode extends PComposite {
      */
     private void updateLayout() {
 
-        final double xSpacing = 80;
+        final double xSpacing = 120;
 
         // equals sign at center
         double x = aligner.getCenterXOffset() - ( equalsSignNode.getFullBoundsReference().getWidth() / 2 );
@@ -151,7 +151,7 @@ public class BarChartsNode extends PComposite {
         public EqualsSignNode( boolean highlighted ) {
 
             Rectangle2D shape = new Rectangle2D.Double( 0, 0, BAR_WIDTH, BAR_HEIGHT );
-            Stroke stroke = new BasicStroke( 1f );
+            Stroke stroke = new BasicStroke( 2f );
             Color strokeColor = Color.BLACK;
 
             topBarNode = new PPath( shape );
