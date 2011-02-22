@@ -1,3 +1,5 @@
+# 0.00.07 (49107) Feb 22, 2011
+2/22/11 deve version to demonstrate rescaling of atoms
 2/22/11 adjust model-view transform in AtomNode
 2/22/11 scale spinners and radio buttons because setFont doesn't work on Mac
 2/22/11 change scaling of everything in the view so that canvas transform is not scaling things up, this made molecules look fuzzy
