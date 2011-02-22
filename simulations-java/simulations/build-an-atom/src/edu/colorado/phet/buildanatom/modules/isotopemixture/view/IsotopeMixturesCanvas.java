@@ -66,7 +66,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.37 ) ),
-                1.6, // "Zoom factor" - smaller zooms out, larger zooms in.
+                0.16, // "Zoom factor" - smaller zooms out, larger zooms in.
                 true );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
