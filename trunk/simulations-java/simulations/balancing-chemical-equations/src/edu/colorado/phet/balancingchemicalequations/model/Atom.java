@@ -13,12 +13,12 @@ import java.awt.Color;
 public abstract class Atom {
 
     private final String symbol;
-    private final double diameter; // picometers
+    private final double radius; // picometers
     private final Color color;
 
-    public Atom( String symbol, double diameter, Color color ) {
+    public Atom( String symbol, double radius, Color color ) {
         this.symbol = symbol;
-        this.diameter = diameter;
+        this.radius = radius;
         this.color = color;
     }
 
@@ -26,8 +26,8 @@ public abstract class Atom {
         return symbol;
     }
 
-    public double getDiameter() {
-        return diameter;
+    public double getRadius() {
+        return radius;
     }
 
     public Color getColor() {

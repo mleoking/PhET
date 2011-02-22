@@ -1,3 +1,5 @@
+2/22/11 change model-view-transform for atom radius
+2/22/11 change diameter to radius in Atom model
 2/22/11 improve the look of atom piles on balance scales, make atoms sit directly on top of other atoms instead of floating above 
 2/21/11 adjust vertical offset of balance scales so that it works for max situation (60 atoms with diameter of 110pm)
 2/21/11 make bars a bit taller
