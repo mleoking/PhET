@@ -102,9 +102,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private final Property<List<MonoIsotopeParticleBucket>> bucketListProperty =
             new Property<List<MonoIsotopeParticleBucket>>( new ArrayList<MonoIsotopeParticleBucket>() );
 
-    // List that contains the isotopes instances that the user can move
+    // List that contains the isotope instances that the user can move
     // between the buckets and the test chamber.
     private final List<MovableAtom> interactiveIsotopes = new ArrayList<MovableAtom>();
+
+    // List of isotopes that are currently in the test chamber.
+    private final List<MovableAtom> isotopesInTestChamber = new ArrayList<MovableAtom>();
 
     // Matches isotopes to colors used to portray them as well as the buckets
     // in which they can reside, etc.
@@ -209,17 +212,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
             // Add the instances of each isotope to the appropriate bucket.
             for ( ImmutableAtom isotope : newIsotopeList ) {
-                // Figure out the bucket into which the instances of this
-                // isotope should be placed.
-                MonoIsotopeParticleBucket isotopeBucket = null;
-                for ( MonoIsotopeParticleBucket bucket : bucketListProperty.getValue() ){
-                    if (bucket.isIsotopeAllowed( isotope )){
-                        // Found it.
-                        isotopeBucket = bucket;
-                        break;
-                    }
-                }
-
+                MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotope );
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
 
                 // Create each isotope instance and add to appropriate bucket.
@@ -233,6 +226,24 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
             }
         }
+    }
+
+    /**
+     * Get the bucket where the given isotope can be placed.
+     *
+     * @param isotope
+     * @return A bucket that can hold the isotope if one exists, null if not.
+     */
+    private MonoIsotopeParticleBucket getBucketForIsotope( ImmutableAtom isotope ) {
+        MonoIsotopeParticleBucket isotopeBucket = null;
+        for ( MonoIsotopeParticleBucket bucket : bucketListProperty.getValue() ){
+            if (bucket.isIsotopeAllowed( isotope )){
+                // Found it.
+                isotopeBucket = bucket;
+                break;
+            }
+        }
+        return isotopeBucket;
     }
 
     /**
@@ -288,10 +299,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
-    // -----------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
-
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
@@ -300,6 +307,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         @Override
         public void grabbedByUser( SphericalParticle particle ) {
             System.out.println(particle + "Grabbed!");
+            if ( isotopesInTestChamber.contains( particle ) ){
+                // The particle is considered removed as soon as it is grabbed.
+                isotopesInTestChamber.remove( particle );
+            }
             particle.addListener( isotopeDroppedListener );
         }
     };
@@ -308,6 +319,21 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         @Override
         public void droppedByUser( SphericalParticle particle ) {
             System.out.println(particle + "Dropped!");
+            assert particle instanceof MovableAtom;
+            MovableAtom isotope = (MovableAtom)particle;
+            if ( ISOTOPE_TEST_CHAMBER_RECT.contains( particle.getPosition() ) ){
+                // Dropped inside the test chamber, so add it to the list of
+                // particles that are within it.
+                isotopesInTestChamber.add( isotope );
+                System.out.println("Isotope added, count = " + isotopesInTestChamber.size());
+            }
+            else{
+                // Particle was dropped outside of the test chamber, so return
+                // it to the bucket.
+                MonoIsotopeParticleBucket bucket = getBucketForIsotope( isotope.getAtomConfiguration() );
+                assert bucket != null; // Should never have an isotope without a home.
+                bucket.addIsotopeInstance( isotope );
+            }
             particle.removeListener( isotopeDroppedListener );
         }
     };
